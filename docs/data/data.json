@@ -1424,9 +1424,9 @@
     {
       "id": "F-03",
       "type": "Configuration change",
-      "item": "GitHub Pages source is still main / (root). Changing it to /docs via the API returned HTTP 403 for this session's token. The site lives in docs/, and a root index.html redirects https://wingbangboozle1-lang.github.io/NBA3/ to docs/index.html.",
-      "action": "Owner: set Pages source to main /docs (Settings → Pages) to remove the redirect step, or keep the redirect.",
-      "source": "GitHub Pages API (gh api -X PUT repos/wingbangboozle1-lang/NBA3/pages → 403)"
+      "item": "Two dashboards now exist in the repo: the root research dashboard (index.html, from the other session's merged PRs) and this data site (docs/). The root index now links to docs/. GitHub Pages source is main / (set by the other session's workflow / existing setting). Changing it to /docs returned HTTP 403 for this session's token.",
+      "action": "Owner: confirm the intended public entry point (root or docs/). Both are reachable.",
+      "source": "GitHub Pages API (PUT → 403); index.html navigation"
     },
     {
       "id": "F-04",
@@ -1504,6 +1504,13 @@
       "item": "The 11/11 report capture has 77 rows (counted by script). Row-level accuracy still needs a check against the PDF.",
       "action": "Check against the PDF.",
       "source": "S1"
+    },
+    {
+      "id": "F-15",
+      "type": "Process irregularity",
+      "item": "Two sessions produced overlapping dashboards on main (root index.html 'NBA Edge Lab' and docs/ 'NBA3'). Both were kept; the root index links to docs/. Their board used a single file header and a six-byte README at the start.",
+      "action": "Owner to pick one canonical landing page or keep both.",
+      "source": "Git history of main (PRs #1, #2)"
     }
   ]
 }
