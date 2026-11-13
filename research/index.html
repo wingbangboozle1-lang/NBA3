@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard | NBA Edge Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">NBA Edge Lab</a>
+  <nav><a href="index.html" aria-current="page">Dashboard</a><a href="exec-summary.html">Executive summary</a><a href="slates.html">Slates</a><a href="picks.html">Picks</a><a href="injuries.html">Injuries</a><a href="gameflow.html">Game flow</a><a href="strategies.html">Strategies</a><a href="gates.html">Gates</a><a href="correlations.html">Correlations</a><a href="sources.html">Sources</a><a href="repo-review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for Review</a><a href="requirements.html">Requirements</a></nav>
+</header>
+<main>
+<h1>Dashboard</h1>
+<p class="intro">Research dashboard for NBA slates, injuries, strategies and validation, built from official sources.</p>
+
+<div class="banner"><strong>Status:</strong> No NBA lines, picks, or correlations are published. Every strategy is blocked by the validation gates because no authorised historical data or prices can be reached from this environment. Blank values are unverified and flagged.</div>
+<h2>Summary</h2>
+<div class="cards"><div class="card"><a href="slates.html">Slates</a><div class="n">31 games</div><p>Official schedule, Nov 13-16 (ET): 13 = 9, 14 = 5, 15 = 9, 16 = 8 games.</p></div><div class="card"><a href="picks.html">Picks</a><div class="n">0 published</div><p>No line exists to pick against yet, and legal opinion is pending.</p></div><div class="card"><a href="injuries.html">Injuries</a><div class="n">89 player rows</div><p>Official snapshot, 11/13 11:00 AM ET. 27 rows have no matchup cell; 14 have no team cell.</p></div><div class="card"><a href="strategies.html">Strategies</a><div class="n">11 defined</div><p>11 of 11 are BLOCKED by the validation gates. None has passed a gate.</p></div><div class="card"><a href="gates.html">Gates</a><div class="n">11 gates</div><p>Thresholds are proposals awaiting owner approval.</p></div><div class="card"><a href="correlations.html">Correlations</a><div class="n">0 measured</div><p>No correlation value has been measured; each value cell is blank.</p></div><div class="card"><a href="flagged.html">Flagged for Review</a><div class="n">25 flags</div><p>24 open. Flags do not block; each has a source link.</p></div><div class="card"><a href="questions.html">Questions</a><div class="n">18 items</div><p>Answered, partly answered and open, each with a discovery step.</p></div><div class="card"><a href="suggestions.html">Suggestions</a><div class="n">14 options</div><p>Site and process options. Each waits for an owner choice before any change.</p></div></div>
+<h2>Start here</h2>
+<ul class="findings">
+<li><a href="exec-summary.html">Executive summary</a>: what is verified, what is blocked, and the decisions needed.</li>
+<li><a href="flagged.html">Flagged for Review</a>: legal, data and repository irregularities, each with a source link.</li>
+<li><a href="suggestions.html">Suggestions</a>: site improvements awaiting owner choice. Nothing changes until one is chosen.</li>
+</ul>
+
+</main>
+<footer>
+  <p>Every table row links to its source. Blank values are unverified and flagged; nothing is inferred.
+  Content is research, not betting advice. Data as of 2026-11-13 (ET). Code and data:
+  <a href="https://github.com/wingbangboozle1-lang/NBA3">GitHub repository</a>.</p>
+</footer>
+</body>
+</html>

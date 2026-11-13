@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary · NBA Edge Lab</title>
+<meta name="description" content="Executive summary of NBA Edge Lab.">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="brand">NBA Edge Lab</div><div class="sub">Research dashboard · data as of 2026-11-13 · research only, not betting advice</div></header>
+<div class="layout">
+<nav class="side" aria-label="Site sections"><div class="navgroup"><div class="navlabel">Overview</div><a href="index.html">Home</a><a href="executive-summary.html" class="on" aria-current="page">Executive summary</a></div><div class="navgroup"><div class="navlabel">Data</div><a href="slate.html">3-day slate</a><a href="injuries.html">Injury tracker</a><a href="game-flow.html">Game flow</a></div><div class="navgroup"><div class="navlabel">Research</div><a href="strategies.html">Strategies</a><a href="validation.html">Validation &amp; correlation</a></div><div class="navgroup"><div class="navlabel">Decisions</div><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a></div><div class="navgroup"><div class="navlabel">Governance</div><a href="sources.html">Sources</a><a href="repo-review.html">Repo review</a><a href="flagged.html">Flagged for Review</a></div></nav>
+<main>
+
+<section class="card">
+<h1>Executive summary</h1>
+<p class="lede">Prepared 2026-11-13. Scope: repository review, official-source verification, the official 3-day slate, injury tracking, strategy design, validation gates, questions, and suggestions.</p>
+<div class="banner stop"><b>No lines, picks, or correlation values are published.</b> Blocking items: NBA Terms §9 (7C-F-01), Dutch licence requirement (7C-F-02), and no licensed odds data (7C-F-03). Everything shown is either sourced to an official link or flagged.</div>
+<h2>Bottom line</h2>
+<ul class="tight">
+<li><b>Picks for the next 3 days cannot yet be responsibly generated.</b> No licensed odds, no authorized statistics, and no validated model are in place. Picks would be unsupported.</li>
+<li><b>Two legal items must be resolved first.</b> (1) NBA Terms §9 bars using NBA Statistics for gambling. (2) Dutch online sports-betting offers require a Koa licence. Both are flagged as blockers; neither is a finding of unlawfulness.</li>
+<li><b>The official 3-day slate is confirmed:</b> 31 games across 4 dates (11/13–11/16/2026), from the official schedule. It is subject to change.</li>
+<li><b>Injury tracking is possible from official reports, but not minutes.</b> The 11/13 5:00 PM report yields 117 rows. 7 rows are 'NOT YET SUBMITTED'. The report does not quantify minutes or production.</li>
+<li><b>Correlation values and ROI are blank</b> by policy. Nothing has been measured.</li>
+</ul>
+<h2>What is verified (with links)</h2>
+<div class="table-wrap"><table class="tbl"><thead><tr><th>Fact</th><th>Source</th><th>Status</th></tr></thead><tbody>
+<tr><td>2026-27 schedule: 31 games 11/13–11/16 (Team 1 / Team 2 as printed)</td><td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">Schedule PDF</a></td><td><span class="chip chip-ok">Verified to source</span> subject to change</td></tr>
+<tr><td>11/13/26 5:00 PM injury report: 117 rows transcribed</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">Injury PDF</a></td><td><span class="chip chip-ok">Verified to source</span> 18 rows left blank</td></tr>
+<tr><td>Injury reporting deadlines</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">Injury report index</a></td><td><span class="chip chip-ok">Verified to source</span></td></tr>
+<tr><td>NBA Statistics restricted for gambling use (§9)</td><td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">Terms of Use</a></td><td><span class="chip chip-ok">Verified to source</span> read in part</td></tr>
+<tr><td>Online sports betting offers need a Koa licence</td><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">Ksa</a></td><td><span class="chip chip-ok">Verified to source</span> (Dutch)</td></tr>
+</tbody></table></div>
+<h2>What is not known (and why it blocks decisions)</h2>
+<ul class="tight">
+<li>Odds and prop prices, with timestamps, under a licence (7C-F-03).</li>
+<li>Authorized historical statistics and minutes (7C-F-01, 7C-F-04, 7C-F-05).</li>
+<li>Any measured correlation (7C-F-06) or any out-of-sample result.</li>
+<li>Your leaderboard metric, thresholds, and risk limits (Q-10, Q-11).</li>
+</ul>
+<h2>Decisions needed from you</h2>
+<p>See the <a href="suggestions.html">Suggestions</a> page. Each proposal has options (for example SG-01: legal path A, B, or C; SG-02: data-rights path A, B, or C). Nothing is implemented until you choose.</p>
+</section>
+
+</main>
+</div>
+<footer>Generated from <code>data/*.json</code> by <code>scripts/build_site.py</code>. Values with no official source are left blank and flagged (see <a href="flagged.html">Flagged for Review</a>). Source of this site: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">GitHub repository</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.</footer>
+<script src="assets/site.js"></script>
+</body></html>

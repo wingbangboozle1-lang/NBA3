@@ -1,0 +1,1516 @@
+{
+  "generated_on": "2026-11-13",
+  "timezone_note": "Times are shown exactly as printed in each official source (ET where labelled). No conversion was performed.",
+  "sources": {
+    "S1": {
+      "title": "NBA Injury Report, 11/11/26 07:00 PM (PDF, page 1 of 8 onward; this capture covers the first part of the document)",
+      "org": "NBA (ak-static.cms.nba.com)",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-11_07_00PM.pdf",
+      "method": "fetched text, transcribed row by row",
+      "verified_on": "2026-11-13",
+      "status": "verified (partial document)"
+    },
+    "S2": {
+      "title": "NBA announces schedule for 2026-27 regular season (press release, Aug 13, 2026)",
+      "org": "NBA Communications (pr.nba.com)",
+      "url": "https://pr.nba.com/2026-27-nba-regular-season-schedule/",
+      "method": "fetched text",
+      "verified_on": "2026-11-13",
+      "status": "verified"
+    },
+    "S3": {
+      "title": "2026-27 NBA Regular Season Schedule — By Date (PDF, 'as of August 13, 2026, subject to change')",
+      "org": "NBA (ak-static.cms.nba.com)",
+      "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/46/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+      "method": "fetched text (chunks 0, 1, 5, 6)",
+      "verified_on": "2026-11-13",
+      "status": "verified (11/13–11/15 complete in capture; 11/16 partial)"
+    },
+    "S4": {
+      "title": "2026-27 Official NBA Playing Rules (PDF)",
+      "org": "NBA (ak-static.cms.nba.com)",
+      "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf",
+      "method": "fetched text (chunks 0, 2–5)",
+      "verified_on": "2026-11-13",
+      "status": "verified"
+    },
+    "S5": {
+      "title": "NBA Injury Report, 11/13/26 04:15 PM (PDF) — located, NOT transcribed",
+      "org": "NBA (ak-static.cms.nba.com)",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_04_15PM.pdf",
+      "method": "search index excerpt only",
+      "verified_on": "2026-11-13",
+      "status": "located, not verified row by row"
+    },
+    "S6": {
+      "title": "NBA Official — Referee operations site (rulebook & officiating pages)",
+      "org": "NBA Official (official.nba.com)",
+      "url": "https://official.nba.com/",
+      "method": "fetched index page via search result",
+      "verified_on": "2026-11-13",
+      "status": "verified (landing page only)"
+    },
+    "S7": {
+      "title": "Ksa wijst aanbieders op grenzen vergunning voor sportweddenschappen (26 March 2026)",
+      "org": "Kansspelautoriteit (Dutch gambling regulator)",
+      "url": "https://kansspelautoriteit.nl/ksa-wijst-aanbieders-op-grenzen-vergunning-voor-sportweddenschappen",
+      "method": "search index excerpt (Dutch)",
+      "verified_on": "2026-11-13",
+      "status": "verified excerpt; full text not read"
+    },
+    "S8": {
+      "title": "NBA Stats — Players Traditional (nba.com/stats)",
+      "org": "NBA (nba.com)",
+      "url": "https://www.nba.com/stats/players/traditional",
+      "method": "fetched page: returned page shell only; data loads by script",
+      "verified_on": "2026-11-13",
+      "status": "NOT usable — no data retrieved"
+    },
+    "S9": {
+      "title": "NBA Stats API endpoint (stats.nba.com leaguedashplayerstats)",
+      "org": "NBA (stats.nba.com)",
+      "url": "https://stats.nba.com/stats/leaguedashplayerstats?Season=2025-26&SeasonType=Regular+Season&PerMode=PerGame",
+      "method": "fetch attempted",
+      "verified_on": "2026-11-13",
+      "status": "NOT usable — fetch failed"
+    }
+  },
+  "injury_report": {
+    "label": "NBA Injury Report — 11/11/26 07:00 PM (the most recent report transcribed in this capture)",
+    "source": "S1",
+    "columns": [
+      "Game",
+      "Game time (ET)",
+      "Team",
+      "Player",
+      "Status",
+      "Reason"
+    ],
+    "rows": [
+      [
+        "BOS@TOR",
+        "07:00",
+        "Boston Celtics",
+        "Carter, Devin",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Boston Celtics",
+        "George, Paul",
+        "Out",
+        "Injury/Illness - Illness",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Boston Celtics",
+        "Williams, Amari",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Barnes, Scottie",
+        "Out",
+        "Injury/Illness - Left Groin Strain",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Bittle, Nate",
+        "Out",
+        "Injury/Illness - Right Avulsion Fracture",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Jackson-Davis, Trayce",
+        "Out",
+        "Injury/Illness - Illness",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Leonard, Kawhi",
+        "Out",
+        "Injury/Illness - Left Knee Injury Management",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "McCullar Jr., Kevin",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Murray-Boyles, Collin",
+        "Available",
+        "Injury/Illness - Illness",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Quickley, Immanuel",
+        "Available",
+        "Injury/Illness - Right Hamstring Injury Management",
+        "S1"
+      ],
+      [
+        "BOS@TOR",
+        "07:00",
+        "Toronto Raptors",
+        "Smith, Malachi",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "Cleveland Cavaliers",
+        "Diop, Khalifa",
+        "Out",
+        "G League - On Assignment",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "Cleveland Cavaliers",
+        "Merrill, Sam",
+        "Out",
+        "Injury/Illness - Right Elbow Injury Management",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "Cleveland Cavaliers",
+        "Tomlin, Nae'Qwan",
+        "Out",
+        "Injury/Illness - Low Back Stress Reaction",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "Cleveland Cavaliers",
+        "Tyson, Jaylon",
+        "Available",
+        "Injury/Illness - Right Ankle Sprain",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "Cleveland Cavaliers",
+        "Udeh Jr., Ernest",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "New York Knicks",
+        "Hart, Josh",
+        "Available",
+        "Injury/Illness - Illness",
+        "S1"
+      ],
+      [
+        "CLE@NYK",
+        "07:00",
+        "New York Knicks",
+        "Towns, Karl-Anthony",
+        "Available",
+        "Injury/Illness - Left Sore Calf",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Washington Wizards",
+        "Beekman, Reece",
+        "Out",
+        "Injury/Illness - Right AC Joint Injury",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Washington Wizards",
+        "Champagne, Justin",
+        "Out",
+        "Injury/Illness - Right Foot Surgery",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Washington Wizards",
+        "Vukcevic, Tristan",
+        "Out",
+        "Injury/Illness - Left Hip Impingement",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Washington Wizards",
+        "Watkins, Jamir",
+        "Out",
+        "Injury/Illness - Left ACL Repair / Surgery",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Indiana Pacers",
+        "Furphy, Johnny",
+        "Out",
+        "Injury/Illness - Right ACL Repair / Surgery",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Indiana Pacers",
+        "Haliburton, Tyrese",
+        "Out",
+        "Injury/Illness - Left Hamstring Strain",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Indiana Pacers",
+        "McConnell, T.J.",
+        "Available",
+        "Injury/Illness - Right Hamstring Strain",
+        "S1"
+      ],
+      [
+        "WAS@IND",
+        "(not printed)",
+        "Indiana Pacers",
+        "Sheppard, Ben",
+        "Out",
+        "Injury/Illness - Left Meniscus Surgery",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "Brooklyn Nets",
+        "Bilodeau, Tyler",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "Brooklyn Nets",
+        "Brown Jr., Mikel",
+        "Out",
+        "Injury/Illness - Illness",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "Brooklyn Nets",
+        "Demin, Egor",
+        "Available",
+        "Injury/Illness - Right Bone Bruise",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "Brooklyn Nets",
+        "Jefferson, Joshua",
+        "Out",
+        "G League - On Assignment",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "Brooklyn Nets",
+        "Nelson, Grant",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "Brooklyn Nets",
+        "Saraf, Ben",
+        "Out",
+        "G League - On Assignment",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "UNCONFIRMED (team label printed on a later line; likely New Orleans Pelicans — NOT confirmed)",
+        "Traore, Nolan",
+        "Out",
+        "Injury/Illness - Right Calf Tightness / Soreness",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "New Orleans Pelicans",
+        "Dia, Malik",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "New Orleans Pelicans",
+        "Mathurin, Bennedict",
+        "Out",
+        "Injury/Illness - Right Thumb Sprain",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "New Orleans Pelicans",
+        "Missi, Yves",
+        "Out",
+        "Injury/Illness - Left Knee Contusion / Bone Bruise",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "New Orleans Pelicans",
+        "Murphy III, Trey",
+        "Out",
+        "Injury/Illness - Bilateral Patellar Tendinopathy",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "New Orleans Pelicans",
+        "Pierre Jr., Jaron",
+        "Available",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "BKN@NOP",
+        "08:00",
+        "New Orleans Pelicans",
+        "Watford, Trendon",
+        "Out",
+        "Injury/Illness - Right Ankle Sprain",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Denver Nuggets",
+        "Strawther, Julian",
+        "Out",
+        "Injury/Illness - Left Knee Sprain",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Memphis Grizzlies",
+        "Lopez, Karim",
+        "Available",
+        "G League - On Assignment",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Memphis Grizzlies",
+        "Mashack, Jahmai",
+        "Available",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Memphis Grizzlies",
+        "Pippen Jr., Scotty",
+        "Out",
+        "Injury/Illness - Lumbar Disc Herniation",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Memphis Grizzlies",
+        "Post, Quinten",
+        "Out",
+        "Injury/Illness - Concussion Protocol",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Memphis Grizzlies",
+        "Saunders, Richie",
+        "Out",
+        "Injury/Illness - Right Knee Surgery",
+        "S1"
+      ],
+      [
+        "DEN@MEM",
+        "(not printed)",
+        "Memphis Grizzlies",
+        "Stewart, Isaiah",
+        "Questionable",
+        "Injury/Illness - Right Knee Bone Bruise",
+        "S1"
+      ],
+      [
+        "LAL@MIL",
+        "(not printed)",
+        "Los Angeles Lakers",
+        "Grimes, Quentin",
+        "Out",
+        "Injury/Illness - Right Finger Sprain",
+        "S1"
+      ],
+      [
+        "LAL@MIL",
+        "(not printed)",
+        "Los Angeles Lakers",
+        "Kessler, Walker",
+        "Available",
+        "Injury/Illness - Left Finger Splint",
+        "S1"
+      ],
+      [
+        "LAL@MIL",
+        "(not printed)",
+        "Milwaukee Bucks",
+        "Herro, Tyler",
+        "Questionable",
+        "Injury/Illness - Right Knee Contusion",
+        "S1"
+      ],
+      [
+        "LAL@MIL",
+        "(not printed)",
+        "Milwaukee Bucks",
+        "Turner, Myles",
+        "Out",
+        "Rest",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "San Antonio Spurs",
+        "Brown, Maliq",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "San Antonio Spurs",
+        "Gillespie, Ja'Kobi",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "San Antonio Spurs",
+        "Harris, Tobias",
+        "Out",
+        "Injury/Illness - Left Calf Strain",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "San Antonio Spurs",
+        "Quaintance, Jayden",
+        "Out",
+        "Injury/Illness - Right Knee Surgery",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "San Antonio Spurs",
+        "Vassell, Devin",
+        "Out",
+        "Injury/Illness - Left Adductor Tightness",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "Chicago Bulls",
+        "Awaka, Tobe",
+        "Out",
+        "Injury/Illness - Low Back Tightness",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "Chicago Bulls",
+        "Collins, Zach",
+        "Questionable",
+        "Injury/Illness - Respiratory Illness",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "Chicago Bulls",
+        "Powell, Norman",
+        "Questionable",
+        "Injury/Illness - Low Back Spasms",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "Chicago Bulls",
+        "Sellers, Jaylin",
+        "Out",
+        "G League - On Assignment",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "Chicago Bulls",
+        "Swain, Dailyn",
+        "Questionable",
+        "Injury/Illness - Right Disc Irritation",
+        "S1"
+      ],
+      [
+        "SAS@CHI",
+        "(not printed)",
+        "Chicago Bulls",
+        "Wilson, Caleb",
+        "Questionable",
+        "Injury/Illness - Right Hip Soreness / Tightness",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Orlando Magic",
+        "Banchero, Paolo",
+        "Out",
+        "Injury/Illness - Right High Ankle Sprain",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Orlando Magic",
+        "Cain, Jamal",
+        "Questionable",
+        "Injury/Illness - Left Shoulder Contusion",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Orlando Magic",
+        "da Silva, Tristan",
+        "Questionable",
+        "Injury/Illness - Left Calf Strain",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Orlando Magic",
+        "Isaac, Jonathan",
+        "Out",
+        "Injury/Illness - Left Knee Injury",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Utah Jazz",
+        "Alexander, Trey",
+        "Out",
+        "G League - Two-Way",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Utah Jazz",
+        "George, Keyonte",
+        "Questionable",
+        "Injury/Illness - Right Ankle Sprain",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Utah Jazz",
+        "Jackson Jr., Jaren",
+        "Out",
+        "Injury/Illness - Right MCL Tear",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Utah Jazz",
+        "Markkanen, Lauri",
+        "Out",
+        "Injury/Illness - Right Hand Fracture",
+        "S1"
+      ],
+      [
+        "ORL@UTA",
+        "09:00",
+        "Utah Jazz",
+        "Nurkic, Jusuf",
+        "Out",
+        "Injury/Illness - Right 2nd Plantar Plate Tear",
+        "S1"
+      ],
+      [
+        "UNCONFIRMED",
+        "(not printed)",
+        "UNCONFIRMED (team cell blank in capture)",
+        "Nelson, Izaiyah",
+        "Out",
+        "Injury/Illness - Left Ankle Injury Recovery",
+        "S1"
+      ],
+      [
+        "UNCONFIRMED",
+        "(not printed)",
+        "UNCONFIRMED (team cell blank in capture)",
+        "Penda, Noah",
+        "Out",
+        "Injury/Illness - Right Partially Torn Hamstring",
+        "S1"
+      ],
+      [
+        "UNCONFIRMED",
+        "(not printed)",
+        "UNCONFIRMED (team cell blank in capture)",
+        "Suggs, Jalen",
+        "Out",
+        "Injury/Illness - Right Knee Contusion / Bone Bruise",
+        "S1"
+      ],
+      [
+        "GSW@HOU",
+        "09:30",
+        "Golden State Warriors",
+        "Butler III, Jimmy",
+        "Out",
+        "Injury/Illness - Right ACL Repair / Surgery",
+        "S1"
+      ],
+      [
+        "GSW@HOU",
+        "09:30",
+        "Golden State Warriors",
+        "Moody, Moses",
+        "Out",
+        "Injury/Illness - Left Patellar Tendon Repair / Surgery",
+        "S1"
+      ],
+      [
+        "GSW@HOU",
+        "09:30",
+        "Golden State Warriors",
+        "Payton II, Gary",
+        "Out",
+        "Injury/Illness - Left Knee Inflammation",
+        "S1"
+      ],
+      [
+        "GSW@HOU",
+        "09:30",
+        "Golden State Warriors",
+        "Porzingis, Kristaps",
+        "Out",
+        "Not With Team",
+        "S1"
+      ]
+    ],
+    "not_captured": "Rows after 'Porzingis, Kristaps' (GSW@HOU) in the 11/11 report were not captured. Newer reports for 11/13/26 exist (01:00 PM, 01:15 PM, 04:15 PM — see S5) and are NOT transcribed."
+  },
+  "slate": {
+    "label": "Upcoming slate — the 3-day window from today (Fri 11/13/26) through Mon 11/16/26",
+    "source": "S3",
+    "columns": [
+      "Date",
+      "Local time",
+      "ET",
+      "Team 1 (as printed)",
+      "Separator",
+      "Team 2 (as printed)",
+      "National TV",
+      "Schedule marker",
+      "Source"
+    ],
+    "note": "Column order in the PDF is 'Team 1 | at/vs | Team 2' with local then ET times. The 'at' separator is missing from the extracted text for these rows, so home/away is NOT confirmed. Markers (C, R, D, E) are printed without a legend in the capture and are not interpreted.",
+    "rows": [
+      [
+        "Fri 11/13/26",
+        "7:00 PM",
+        "7:00 PM",
+        "New York",
+        "(not printed)",
+        "Indiana",
+        "Prime",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "7:00 PM",
+        "7:00 PM",
+        "Milwaukee",
+        "(not printed)",
+        "Orlando",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "8:00 PM",
+        "8:00 PM",
+        "Cleveland",
+        "(not printed)",
+        "Miami",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "7:00 PM",
+        "8:00 PM",
+        "Atlanta",
+        "(not printed)",
+        "Chicago",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "7:00 PM",
+        "8:00 PM",
+        "Memphis",
+        "(not printed)",
+        "New Orleans",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "7:30 PM",
+        "8:30 PM",
+        "Utah",
+        "(not printed)",
+        "Houston",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "8:30 PM",
+        "9:30 PM",
+        "Golden State",
+        "(not printed)",
+        "San Antonio",
+        "Prime",
+        "R, C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "7:00 PM",
+        "10:00 PM",
+        "Portland",
+        "(not printed)",
+        "Sacramento",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Fri 11/13/26",
+        "7:30 PM",
+        "10:30 PM",
+        "Oklahoma City",
+        "(not printed)",
+        "LA Clippers",
+        "",
+        "C",
+        "S3"
+      ],
+      [
+        "Sat 11/14/26",
+        "6:00 PM",
+        "7:00 PM",
+        "Denver",
+        "(not printed)",
+        "New Orleans",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sat 11/14/26",
+        "7:30 PM",
+        "7:30 PM",
+        "Dallas",
+        "(not printed)",
+        "Cleveland",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sat 11/14/26",
+        "8:00 PM",
+        "8:00 PM",
+        "Detroit",
+        "(not printed)",
+        "Miami",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sat 11/14/26",
+        "7:00 PM",
+        "8:00 PM",
+        "Brooklyn",
+        "(not printed)",
+        "Memphis",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sat 11/14/26",
+        "7:00 PM",
+        "8:00 PM",
+        "Chicago",
+        "(not printed)",
+        "Minnesota",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "1:00 PM",
+        "1:00 PM",
+        "Indiana",
+        "(not printed)",
+        "Philadelphia",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "2:00 PM",
+        "4:00 PM",
+        "LA Lakers",
+        "(not printed)",
+        "Phoenix",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "1:30 PM",
+        "4:30 PM",
+        "Charlotte",
+        "(not printed)",
+        "LA Clippers",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "3:00 PM",
+        "5:00 PM",
+        "San Antonio",
+        "(not printed)",
+        "Utah",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "6:00 PM",
+        "6:00 PM",
+        "Dallas",
+        "(not printed)",
+        "Boston",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "6:00 PM",
+        "6:00 PM",
+        "New York",
+        "(not printed)",
+        "Toronto",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "7:00 PM",
+        "7:00 PM",
+        "Houston",
+        "(not printed)",
+        "Washington",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "7:00 PM",
+        "8:00 PM",
+        "Atlanta",
+        "(not printed)",
+        "Milwaukee",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Sun 11/15/26",
+        "6:00 PM",
+        "9:00 PM",
+        "Oklahoma City",
+        "(not printed)",
+        "Sacramento",
+        "",
+        "",
+        "S3"
+      ],
+      [
+        "Mon 11/16/26",
+        "7:00 PM",
+        "7:00 PM",
+        "Orlando",
+        "(not printed)",
+        "Boston",
+        "PCK/NBCSN",
+        "",
+        "S3"
+      ]
+    ],
+    "not_captured": "Games for Mon 11/16/26 after the first listed game were not captured (PDF chunk ends mid-day). Game-level betting lines: NOT available from any verified official source — left blank by design."
+  },
+  "rules": {
+    "label": "2026-27 Official NBA Playing Rules — values used by the models",
+    "source": "S4",
+    "columns": [
+      "Rule reference",
+      "Rule text (as printed, condensed only where marked)",
+      "Source"
+    ],
+    "rows": [
+      [
+        "Rule 5, Section II(a)",
+        "All periods of regulation play in the NBA will be twelve minutes.",
+        "S4"
+      ],
+      [
+        "Rule 5, Section II(b)",
+        "All overtime periods of play will be five minutes.",
+        "S4"
+      ],
+      [
+        "Rule 5, Section II(c)",
+        "Fifteen minutes will be permitted between halves of all games.",
+        "S4"
+      ],
+      [
+        "Rule 5, Section II(d)",
+        "2:30 will be permitted between the first and second periods, the third and fourth periods, and before any overtime period during local games. For national TV games 3:30 will be permitted between the first and second periods, and between the third and fourth periods and 2:30 before any overtime period.",
+        "S4"
+      ],
+      [
+        "Rule 5, Section II(e)",
+        "A team is permitted a total of 30 seconds to replace a disqualified player.",
+        "S4"
+      ],
+      [
+        "Rule 5, Section II(f)",
+        "The game is considered to be in the two-minute part when the game clock shows 2:00 or less time remaining in the period.",
+        "S4"
+      ],
+      [
+        "Rule 3, Section I(a)",
+        "Each team shall consist of five players. A player is disqualified from the game when he receives his sixth personal foul.",
+        "S4"
+      ],
+      [
+        "Rule 3, Section V(j)",
+        "No substitutes may enter the game after a successful field goal by either team, unless the ball is dead due to a personal foul, technical foul, timeout, infection control or violation.",
+        "S4"
+      ],
+      [
+        "Rule 3, Section V(k) and Rule 4, Section XIV (exceptions)",
+        "Seriously-injured player: player must be removed and opponent is permitted one substitution.",
+        "S4"
+      ],
+      [
+        "Rule 4, Section IV(h)",
+        "An away-from-the-play foul is illegal contact by the defense (1) in the last two minutes of each period and of any overtime, deliberately away from the immediate area of offensive action, or (2) prior to the ball being released on a throw-in at any point during the entire game.",
+        "S4"
+      ]
+    ]
+  },
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "Is there a verified source of sportsbook or market odds that we can use as a benchmark for originated lines?",
+      "status": "Unknown",
+      "answer": "No. No verified odds source was found in this capture. Nothing has been filled in.",
+      "needed": "Decide on a data licence (paid odds feed) or accept no market benchmark. Benchmark-free validation is much weaker.",
+      "sources": "S8, S9 (NBA data only; odds are not published by the NBA)"
+    },
+    {
+      "id": "Q02",
+      "question": "Can the project create and publish its own betting lines in the Netherlands?",
+      "status": "Partially verified",
+      "answer": "The Dutch regulator (Ksa) states that licence holders for sports betting may only offer bets on sports events or their results, and that licence holders remain responsible for the offering even when using external sportsbook providers (26 March 2026 notice).",
+      "needed": "Get legal advice on whether publishing internal 'lines' or picks is an offer of betting under the Dutch Remote Gambling Act (Wet kansspelen op afstand). This repo does not provide legal advice.",
+      "sources": "S7"
+    },
+    {
+      "id": "Q03",
+      "question": "Where can historical player box scores and minutes be obtained from an accessible official source?",
+      "status": "Unknown",
+      "answer": "The NBA stats page loads its data by script; the capture returned no statistics. The stats.nba.com endpoint could not be reached.",
+      "needed": "Choose an accessible and permitted data path (official export, licensed feed, or documented API with terms reviewed). Check terms of use first.",
+      "sources": "S8, S9"
+    },
+    {
+      "id": "Q04",
+      "question": "How often are NBA injury reports published, and what is their timing?",
+      "status": "Partially verified",
+      "answer": "Multiple versions exist on the same day: e.g. 11/13/26 at 01:00 PM, 01:15 PM and 04:15 PM (located via search index).",
+      "needed": "Confirm the publication schedule from an official NBA page. Decide how to store report versions over time.",
+      "sources": "S5 (located, not transcribed)"
+    },
+    {
+      "id": "Q05",
+      "question": "How does an injury change rotation minutes and production?",
+      "status": "Unknown",
+      "answer": "Not answerable from current data. No verified minutes or production history was retrieved, so no effect size has been estimated.",
+      "needed": "Historical minutes and box-score data linked to injury status (see Q03). The model must be validated out-of-sample before use.",
+      "sources": "S1, S4 (rules only)"
+    },
+    {
+      "id": "Q06",
+      "question": "What is the 2026-27 regular-season structure?",
+      "status": "Verified",
+      "answer": "Tip-off Tuesday 20 October 2026; regular season ends Sunday 11 April 2027; 80 of 82 games per team are assigned dates; the other 2 are set from NBA Cup Group Play results (Dec 4–10).",
+      "needed": "None for this item.",
+      "sources": "S2"
+    },
+    {
+      "id": "Q07",
+      "question": "What games are in the next 3 days?",
+      "status": "Partially verified",
+      "answer": "Fri 11/13 (9 games), Sat 11/14 (5 games) and Sun 11/15 (9 games) are fully captured — 23 games in total. Mon 11/16 is partially captured (1 game).",
+      "needed": "Capture the remaining 11/16 games, and confirm the home/away order, which is not printed in the extracted text.",
+      "sources": "S3"
+    },
+    {
+      "id": "Q08",
+      "question": "What do the schedule markers C, R, D and E mean?",
+      "status": "Unknown",
+      "answer": "The PDF prints the markers, but no legend was captured. They are not interpreted.",
+      "needed": "Find the legend in the schedule PDF or a related official NBA page.",
+      "sources": "S3"
+    },
+    {
+      "id": "Q09",
+      "question": "Which time zone should the site show?",
+      "status": "Open decision",
+      "answer": "The source prints local and ET times. The user is in Naaldwijk (NL). No conversion was performed.",
+      "needed": "Decide whether to show ET (as printed) or Europe/Amsterdam. Conversion must be checked against an official source.",
+      "sources": "S3"
+    },
+    {
+      "id": "Q10",
+      "question": "What statistical thresholds should a strategy pass?",
+      "status": "Open decision",
+      "answer": "Thresholds on the Strategies page are PROPOSED defaults, not agreed.",
+      "needed": "User approval of minimum sample, significance level and stability rules.",
+      "sources": "Internal (see tools/validate_gates.py)"
+    },
+    {
+      "id": "Q11",
+      "question": "What is the correlation between legs of parlays and between props for the same player?",
+      "status": "Unknown",
+      "answer": "Not computed. This needs joint historical outcomes, which are not available.",
+      "needed": "Historical outcome data (Q03) plus a decision on how to measure dependence.",
+      "sources": "None"
+    },
+    {
+      "id": "Q12",
+      "question": "Does the repository need a licence?",
+      "status": "Open decision",
+      "answer": "No licence file exists in the repo.",
+      "needed": "Owner to choose a licence or keep all rights reserved.",
+      "sources": "Repository state (README.md only)"
+    }
+  ],
+  "gates": [
+    {
+      "id": "G0",
+      "gate": "Source integrity",
+      "rule": "Every data row has a source ID resolving to an official or licensed URL.",
+      "threshold": "100% of rows",
+      "status": "Implemented in tools/check_site.py",
+      "note": "Blank + flagged when a value cannot be confirmed."
+    },
+    {
+      "id": "G1",
+      "gate": "Minimum sample",
+      "rule": "A strategy must have a minimum number of settled bets before it is judged.",
+      "threshold": "PROPOSED: 300 settled bets",
+      "status": "Proposed — needs approval",
+      "note": "No strategies exist yet."
+    },
+    {
+      "id": "G2",
+      "gate": "Out-of-sample test",
+      "rule": "Rules are fixed on a training period and scored on a later holdout period only.",
+      "threshold": "PROPOSED: most recent season held out",
+      "status": "Proposed — needs approval",
+      "note": "No historical data loaded."
+    },
+    {
+      "id": "G3",
+      "gate": "Beats no-skill baseline",
+      "rule": "One-sided exact binomial test against 50% (or the implied probability), with multiple-testing correction (Benjamini–Hochberg).",
+      "threshold": "PROPOSED: adjusted p < 0.05",
+      "status": "Implemented (tools/validate_gates.py)",
+      "note": "Needs settled bet results."
+    },
+    {
+      "id": "G4",
+      "gate": "Luck control",
+      "rule": "Win-rate confidence interval (Wilson) lower bound must exceed the break-even rate.",
+      "threshold": "PROPOSED: 95% Wilson lower bound > break-even",
+      "status": "Implemented (tools/validate_gates.py)",
+      "note": "Break-even depends on the odds, which are not yet sourced."
+    },
+    {
+      "id": "G5",
+      "gate": "Market benchmark",
+      "rule": "Closing-line value compared with a verified odds source.",
+      "threshold": "PROPOSED: mean CLV ≥ 0",
+      "status": "BLOCKED — no verified odds source (Q01)",
+      "note": "Cannot be evaluated."
+    },
+    {
+      "id": "G6",
+      "gate": "Stability",
+      "rule": "Edge must hold across separate time blocks, not just in aggregate.",
+      "threshold": "PROPOSED: positive in at least 3 of 4 blocks",
+      "status": "Proposed — needs approval",
+      "note": "Needs historical data."
+    },
+    {
+      "id": "G7",
+      "gate": "Parlay dependence",
+      "rule": "Joint hit rate of legs is compared with the product of their marginal rates (dependence ratio).",
+      "threshold": "PROPOSED: report ratio with interval; parlays only priced on the joint rate",
+      "status": "Implemented formula (tools/validate_gates.py); BLOCKED for data",
+      "note": "No joint outcomes available."
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "SG01",
+      "area": "Data: injuries",
+      "current": "One report transcribed by hand from the PDF.",
+      "suggestion": "Automate capture of each official injury report version with its timestamp, stored as raw files with checksums.",
+      "options": [
+        "A. Manual capture each session (current)",
+        "B. Scheduled job (e.g. GitHub Actions) that downloads official PDFs and extracts rows",
+        "C. Do nothing"
+      ],
+      "recommendation": "B, after confirming the NBA PDF terms allow it.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG02",
+      "area": "Data: market odds",
+      "current": "No verified odds source.",
+      "suggestion": "Choose how market odds will be obtained, since originated lines cannot be benchmarked without them.",
+      "options": [
+        "A. Licensed odds feed (paid)",
+        "B. Public sportsbook pages (check terms first)",
+        "C. No market benchmark (weaker validation)"
+      ],
+      "recommendation": "A, if the project goes ahead.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG03",
+      "area": "Data: player stats",
+      "current": "NBA stats page loads by script; stats endpoint not reachable from the sandbox.",
+      "suggestion": "Pick an accessible, permitted source for box scores and minutes.",
+      "options": [
+        "A. Official NBA export or documented API (terms reviewed)",
+        "B. Licensed statistics provider",
+        "C. Third-party open datasets (licence to verify)"
+      ],
+      "recommendation": "Decide after reviewing terms for each option.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG04",
+      "area": "Validation thresholds",
+      "current": "Thresholds are proposals.",
+      "suggestion": "Approve or change the gate thresholds before any strategy is scored.",
+      "options": [
+        "A. Strict (as proposed, 300+ bets, adjusted p < 0.05)",
+        "B. Moderate (150+ bets, p < 0.10)",
+        "C. Exploratory (report only, no gate)"
+      ],
+      "recommendation": "A for any real decision; C for early learning.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG05",
+      "area": "Legal review",
+      "current": "Ksa notice verified; project's legal position not reviewed.",
+      "suggestion": "Obtain a legal review before publishing any lines or picks.",
+      "options": [
+        "A. Legal review first (recommended)",
+        "B. Keep the project internal only (no publication)"
+      ],
+      "recommendation": "A.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG06",
+      "area": "Site: decision support",
+      "current": "Static tables with source links.",
+      "suggestion": "Add a 'last verified' date per row and a filter for Unknown / Blank values.",
+      "options": [
+        "A. Add now",
+        "B. Later, after data is loaded"
+      ],
+      "recommendation": "A — low cost, improves review.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG07",
+      "area": "Quality control",
+      "current": "tools/check_site.py run manually.",
+      "suggestion": "Run the link and source checker automatically on every pull request.",
+      "options": [
+        "A. GitHub Actions workflow",
+        "B. Manual only"
+      ],
+      "recommendation": "A.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG08",
+      "area": "Responsible play",
+      "current": "No responsible-gambling content.",
+      "suggestion": "Add a responsible-gambling section, with resource links taken from the Ksa website (to be verified first).",
+      "options": [
+        "A. Add after verifying Ksa links",
+        "B. Skip"
+      ],
+      "recommendation": "A, if any betting-related content is published.",
+      "status": "Awaiting your choice — not implemented"
+    },
+    {
+      "id": "SG09",
+      "area": "Repository",
+      "current": "No licence; README has only a title.",
+      "suggestion": "Add a README describing the project, data sources and how to run the checks, and choose a licence.",
+      "options": [
+        "A. Add README + licence",
+        "B. README only",
+        "C. Leave as is"
+      ],
+      "recommendation": "A.",
+      "status": "Awaiting your choice — not implemented"
+    }
+  ],
+  "flags": [
+    {
+      "id": "F-01",
+      "type": "Repository irregularity",
+      "item": "README.md contains only the title '# NBA3'. No code, data, licence or description.",
+      "action": "Owner to confirm intended scope.",
+      "source": "Repository state (local git, commit 6c3004d)"
+    },
+    {
+      "id": "F-02",
+      "type": "Process irregularity",
+      "item": "COORDINATION.md did not exist. Created in this session.",
+      "action": "None — for review.",
+      "source": "Repository state"
+    },
+    {
+      "id": "F-03",
+      "type": "Configuration change",
+      "item": "Two dashboards now exist in the repo: the root research dashboard (index.html, from the other session's merged PRs) and this data site (docs/). The root index now links to docs/. GitHub Pages source is main / (set by the other session's workflow / existing setting). Changing it to /docs returned HTTP 403 for this session's token.",
+      "action": "Owner: confirm the intended public entry point (root or docs/). Both are reachable.",
+      "source": "GitHub Pages API (PUT → 403); index.html navigation"
+    },
+    {
+      "id": "F-04",
+      "type": "Process irregularity",
+      "item": "Task text asked for session-<id>/<task> branches; the session rules allow only one branch (arena/f879620b-nba3). Followed the session rule.",
+      "action": "Owner to confirm the branch approach.",
+      "source": "Session branch note"
+    },
+    {
+      "id": "F-05",
+      "type": "Source inconsistency",
+      "item": "Two extracts of the 11/11/26 injury report spell the Washington player as 'Champagnie, Justin' in one and 'Champagne, Justin' in the other. The capture used 'Champagne, Justin'.",
+      "action": "Check the PDF directly.",
+      "source": "S1"
+    },
+    {
+      "id": "F-06",
+      "type": "Unverified team",
+      "item": "Traore, Nolan (11/11 report): the team label appears on a later line. Recorded as UNCONFIRMED.",
+      "action": "Check the PDF page layout.",
+      "source": "S1"
+    },
+    {
+      "id": "F-07",
+      "type": "Unverified team",
+      "item": "Nelson, Izaiyah; Penda, Noah; Suggs, Jalen (11/11 report): team cell blank in capture. Recorded as UNCONFIRMED.",
+      "action": "Check the PDF page layout.",
+      "source": "S1"
+    },
+    {
+      "id": "F-08",
+      "type": "Unverified time",
+      "item": "Some matchups in the 11/11 report (WAS@IND, DEN@MEM, LAL@MIL, SAS@CHI) show no game time in the capture. Recorded as '(not printed)'.",
+      "action": "Check the PDF.",
+      "source": "S1"
+    },
+    {
+      "id": "F-09",
+      "type": "Schedule extraction",
+      "item": "The 'at' separator is missing from the extracted 11/13–11/16 rows, so home/away is not confirmed. Markers C, R, D, E have no legend in the capture.",
+      "action": "Check the PDF visually or the NBA schedule page.",
+      "source": "S3"
+    },
+    {
+      "id": "F-10",
+      "type": "Incomplete capture",
+      "item": "11/16/26 slate partially captured (1 of N games). 11/11 injury report partially captured. 11/13 injury reports located but not transcribed.",
+      "action": "Capture remaining pages in a follow-up session.",
+      "source": "S3, S1, S5"
+    },
+    {
+      "id": "F-11",
+      "type": "Unverified (no source)",
+      "item": "Betting lines, odds, props and player statistics: no verified official source retrieved. Left blank.",
+      "action": "Decide on data source (SG02, SG03).",
+      "source": "S8, S9"
+    },
+    {
+      "id": "F-12",
+      "type": "Access failure",
+      "item": "stats.nba.com endpoint failed to load; nba.com/stats loads by script with no data in the capture.",
+      "action": "Investigate an accessible data path.",
+      "source": "S8, S9"
+    },
+    {
+      "id": "F-13",
+      "type": "Legal",
+      "item": "Ksa notice (26 Mar 2026) on sports betting licence limits. Applicability to this project not assessed.",
+      "action": "Legal review (SG05).",
+      "source": "S7"
+    },
+    {
+      "id": "F-14",
+      "type": "Injury row count",
+      "item": "The 11/11 report capture has 77 rows (counted by script). Row-level accuracy still needs a check against the PDF.",
+      "action": "Check against the PDF.",
+      "source": "S1"
+    },
+    {
+      "id": "F-15",
+      "type": "Process irregularity",
+      "item": "Two sessions produced overlapping dashboards on main (root index.html 'NBA Edge Lab' and docs/ 'NBA3'). Both were kept; the root index links to docs/. Their board used a single file header and a six-byte README at the start.",
+      "action": "Owner to pick one canonical landing page or keep both.",
+      "source": "Git history of main (PRs #1, #2)"
+    }
+  ]
+}

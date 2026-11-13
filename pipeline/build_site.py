@@ -1,8 +1,8 @@
 """Build the static GitHub Pages site from data/*.csv (standard library only).
 
-Output: the generated pages at the repository root (index.html, *.html, style.css).
-The Pages source is the legacy branch build from main / (this session cannot change it),
-so the generated pages are committed. CI rebuilds them and fails if the committed files differ.
+Output: research/ (index.html, *.html, style.css). It sits beside the other sites on main
+(root dashboard, docs/, site/), and is published under /research/. The generated pages are committed,
+and CI rebuilds them and fails if the committed files differ.
 
 Rules enforced here and checked by pipeline/verify.py:
 - Every table row carries a source link taken from the data file.
@@ -19,7 +19,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
-OUT = ROOT
+OUT = ROOT / "research"
 
 
 def read_csv(name: str) -> list[dict]:
@@ -145,6 +145,7 @@ a { color:var(--accent); }
 
 
 def build() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "style.css").write_text(CSS, encoding="utf-8")
 
     slates = read_csv("slates.csv")

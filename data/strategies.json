@@ -1,0 +1,101 @@
+[
+ {
+  "id": "ST-01",
+  "cat": "Single bet",
+  "name": "Game moneyline (team win probability)",
+  "hyp": "Team strength model gives a probability; compared with a no-vig market price.",
+  "inputs": "Historical results; schedule; licensed odds (none).",
+  "official": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+  "status": "Blocked (G0: 7C-F-01, 7C-F-02, 7C-F-03)"
+ },
+ {
+  "id": "ST-02",
+  "cat": "Single bet",
+  "name": "Point spread / margin",
+  "hyp": "Expected margin model; compare with a priced line.",
+  "inputs": "Historical box scores (restricted, 7C-F-01); licensed odds (none).",
+  "official": "",
+  "status": "Blocked (G0)"
+ },
+ {
+  "id": "ST-03",
+  "cat": "Single bet",
+  "name": "Game total points",
+  "hyp": "Pace and efficiency model for total points.",
+  "inputs": "Possessions, pace, efficiency (restricted); licensed odds (none).",
+  "official": "",
+  "status": "Blocked (G0)"
+ },
+ {
+  "id": "ST-04",
+  "cat": "Player prop",
+  "name": "Player points over/under",
+  "hyp": "Player scoring distribution given expected minutes.",
+  "inputs": "Game logs (restricted, 7C-F-04); minutes forecast (none, 7C-F-05); prop prices (none).",
+  "official": "",
+  "status": "Blocked (G0, minutes data)"
+ },
+ {
+  "id": "ST-05",
+  "cat": "Player prop",
+  "name": "Player rebounds / assists over/under",
+  "hyp": "As ST-04 for rebounds and assists.",
+  "inputs": "As ST-04.",
+  "official": "",
+  "status": "Blocked (G0, minutes data)"
+ },
+ {
+  "id": "ST-06",
+  "cat": "Combo",
+  "name": "Same-game parlay (team side + player prop)",
+  "hyp": "Joint probability from a fitted dependence model, not the product of legs.",
+  "inputs": "Joint outcome data (none). Correlation unmeasured (7C-F-06).",
+  "official": "",
+  "status": "Blocked (G7)"
+ },
+ {
+  "id": "ST-07",
+  "cat": "Parlay",
+  "name": "Cross-game 2-leg parlay",
+  "hyp": "Independence assumed as a hypothesis to test, not as a fact.",
+  "inputs": "Leg outcomes and prices (none).",
+  "official": "",
+  "status": "Blocked (G7)"
+ },
+ {
+  "id": "ST-08",
+  "cat": "Injury",
+  "name": "Injury-adjusted rotation (minutes redistribution)",
+  "hyp": "When a player is out, minutes move to listed teammates.",
+  "inputs": "Official status (verified: S04); minutes history (none).",
+  "official": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+  "status": "Blocked (minutes data, 7C-F-05)"
+ },
+ {
+  "id": "ST-09",
+  "cat": "Injury",
+  "name": "Injury-adjusted team production",
+  "hyp": "Team scoring and efficiency change with the rotation.",
+  "inputs": "As ST-08 plus production history (restricted).",
+  "official": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "status": "Blocked (G0, 7C-F-05)"
+ },
+ {
+  "id": "ST-10",
+  "cat": "Context",
+  "name": "Rest and schedule density",
+  "hyp": "Back-to-back and short-rest effects on performance.",
+  "inputs": "Schedule dates (verified: S05); venue distances (none verified); results (restricted).",
+  "official": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+  "status": "Blocked (G0; distance data missing)"
+ },
+ {
+  "id": "ST-11",
+  "cat": "Benchmark",
+  "name": "No-vig market consensus (benchmark, not a strategy)",
+  "hyp": "Used as the baseline all strategies must beat.",
+  "inputs": "Licensed odds with timestamps (none).",
+  "official": "",
+  "status": "Blocked (G0, 7C-F-03)"
+ }
+]
