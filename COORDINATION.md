@@ -61,7 +61,7 @@ Session ID for this log: `f879620b` (session-owner: Arena Agent Mode session on 
 | T7 | Injury → rotation minutes / production model | blocked | — | needs historical minutes/box-score data (see Questions page) |
 | T8 | Picks generation for 3-day slates using originated lines | blocked | — | needs T6 and T7 |
 | T9 | Improvement suggestions (decision page) | done | f879620b | `docs/suggestions.html` (suggestions only; nothing implemented) |
-| T10 | Integration: merge, re-verify, build check, PR to `main`, merge, Pages deploy check | in progress (Pages source change refused with 403; root redirect used — see F-03) | f879620b | `docs/`, `COORDINATION.md`, `README.md` |
+| T10 | Integration: merge, re-verify, build check, PR to `main`, merge, Pages deploy check | done (PR #3 merged; deploy success — see T10 log) | f879620b | `docs/`, `COORDINATION.md`, `README.md` |
 
 ## Task logs
 
@@ -90,9 +90,11 @@ Session ID for this log: `f879620b` (session-owner: Arena Agent Mode session on 
 - Suggestions only. No changes implemented. Each has status **Awaiting your choice**.
 
 ### T10 — Integration (pending)
-- PR: _to be recorded after creation_
-- Merge result: _to be recorded_
-- Pages deploy: _to be recorded_
+- PR: [#3](https://github.com/wingbangboozle1-lang/NBA3/pull/3) `arena/f879620b-nba3` → `main`
+- Merge: merge commit `c0cf8bdbfa6ef8fa4fc48bb5f965fc36b283b855`, merged 2026-11-13T22:32:18Z (`gh pr merge 3 --merge`; first attempt blocked by a conflict with `main`, resolved by merging `origin/main` and keeping both sides).
+- Checks: `Deploy static dashboard to GitHub Pages` workflow run 43520084766 → success (includes the NBA3 unit tests and `tools/check_site.py`). Pages build run 43520084415 → success. Pages status: `built`.
+- Live: root dashboard https://wingbangboozle1-lang.github.io/NBA3/ · data site https://wingbangboozle1-lang.github.io/NBA3/docs/ (checked with fetch: landing, data.json and docs/index.html all served).
+- Not done (blocked, unchanged): T6 strategy research and correlation values, T7 injury→rotation model, T8 picks. Each needs a verified odds source and historical player data (Questions Q01, Q03).
 
 ## Handoff / conflicts log
 - No merge conflicts in this session (single branch).
