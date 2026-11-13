@@ -248,3 +248,98 @@ Integration: this session is the only writer for shared outputs (site and index/
 - `python3 -m unittest discover -s pipeline/tests` (9ed6085f): OK (29 tests).
 - `python3 pipeline/build_site.py && python3 pipeline/verify.py` (9ed6085f): VERIFY OK.
 - Root `index.html` in-page and local link check: 17 links, 0 broken.
+
+---
+
+## Session `arena/5697caaf-nba3` — line origination + validation, served at `lab/`
+
+Merged into `main` after `arena/7c532e8c-nba3`. **No file from the two earlier sessions was
+deleted or reverted.** Where my generator collided with `7c532e8c`'s `scripts/build_site.py`
+and its `data/` + `site/` outputs, I moved my whole pipeline into `lab/` rather than
+overwriting theirs. Both sites now build and both are in the Pages artifact.
+
+| Task | Status | File scope |
+|---|---|---|
+| T1 Repo review of prior sessions | done | `docs/repo-review.md` |
+| T2 Source capture + verbatim transcription | done | `scripts/raw_data.py` |
+| T3 Line-origination model, measured constants, calibration | done | `scripts/model.py`, `lab/data/*.json` |
+| T4 Props + correlation | **partial** — props priced/de-vigged; no prop model (no minutes source); 3 game-level correlations measured, 4 player-level ones unmeasured | `lab/props.html` |
+| T5 Strategies, 7 gates, luck-adjusted leaderboard | done | `lab/strategies.html` |
+| T6 Injuries / availability / market movement | done for statuses; minutes analysis not possible | `lab/injuries.html` |
+| T7 Decision questions register | done | `lab/questions.html` |
+| T8 Suggestions queue | done | `lab/suggestions.html` |
+| T9 Flagged for review (IR-01…IR-17) | done | `lab/review.html` |
+| T10 Executive summary | done | `lab/index.html`, `docs/executive-summary.md` |
+| T11 Build + validation gate | done — `scripts/validate_site.py` green | `.github/workflows/pages.yml` |
+| T12 PR, merge, deploy confirmation | recorded in the log below | this file |
+
+### What this session added that did not exist
+
+- **A measured-constants layer.** Home margin **+1.51** (95% CI −2.17…+5.19), margin sd
+  **17.15**, total mean **225.98**, total sd **18.62**, home win rate **0.500** (43/86), all
+  computed from 86 transcribed game results. The earlier placeholder `sd_margin = 12.4` was
+  40% too small and produced overconfident cover probabilities.
+- **Originated lines for all 23 games** in the 72-hour window, not just the priced ones.
+- **De-vigging before any comparison**, so a 6% hold cannot present as edge.
+- **A signal funnel.** 20 signals were generated; every one was positive-EV against a single
+  book. That is published as evidence of a blind spot, not skill: 12 rejected for oversized
+  divergence, 7 for injury exposure, **1 survives**.
+- **Correlations with confidence intervals**, and an explicit list of the four that could not
+  be measured.
+
+### Divergences worth knowing about
+
+- `7c532e8c` and `f879620b` both state the live season as 2026-27 and both record the
+  2025-26 injury index as a defect. I found **three remaining 2025-26 links on the merged root
+  `index.html`** and corrected them to the 2026-27 index, which I re-fetched and confirmed
+  live. Their `data/`/`site/` copies of that URL are deliberate provenance records and were
+  left alone.
+- Their boards describe validation-gate work as "blocked, no values". This session supplies
+  the first actual gate scores (best strategy 2/7, none eligible). The two descriptions are
+  consistent: a gate that is *scored* is not a gate that is *passed*.
+- No strategy in either session is eligible. Nothing here is a validated system.
+
+## Correction notice — this session's own board
+
+An earlier revision of *this session's* section (superseded by the merge above) marked
+T1–T12 `done` before the work existed and described artefacts that were not in the
+repository (`data/raw/`, "31 games across 4 slates", `scripts/build_all.py`). Its IR
+numbering also disagreed with the review page. The table above records the true state, and
+the review page is the canonical list. A board that reports completion is what the next
+session trusts before deciding what to do; false completion is how duplicated work starts.
+
+## Verification log — session `arena/5697caaf-nba3`
+
+| Date | Task | What was verified | Method / result |
+|---|---|---|---|
+| 2026-11-13 | T2 | Team ratings, all 30 | `NetRtg == ORtg − DRtg` for 30/30. `SRS == MOV + SOS` for 30/30. Season W+L = 348 (174 games); W=174, L=174. |
+| 2026-11-13 | T2 | 86 completed games (11-01 → 11-12) | No team's subset wins or losses exceed its season total → 0 violations. |
+| 2026-11-13 | T2 | 23-game slate | Every row has an official `002…` id. Game `401909297` resolves to **MIL@ORL**; an earlier note in this session had it as ORL@WAS — corrected. |
+| 2026-11-13 | T2 | 9 market snapshots | Each re-parsed and compared against the provider's own details string (favourite + line + both moneylines) → 9/9 consistent. This check found real sign transpositions, now fixed. |
+| 2026-11-13 | T2 | 75 injury statuses | Official dated PDF (11/13/26 05:00 PM) via the **2026-27** index. |
+| 2026-11-13 | T2 | 5 prop athlete identities | ESPN per-athlete endpoint: Towns, Oubre Jr., Hart, Bridges, Drummond. Flagged: four of five resolve to team 18 (NYK) while one prop row is labelled PHI → `lab/review.html` IR-07. |
+| 2026-11-13 | T3 | Constants | Measured from 86 games (values above). Published beside the assumptions they replaced. |
+| 2026-11-13 | T3 | Sign convention | Tested against a known answer: pick'em must give p = 0.50. An earlier version used the handicap where the margin belonged and produced 49-point "edges" — caught and fixed. `validate_site.py` now asserts `model_spread_home == -model_margin_home` on every row. |
+| 2026-11-13 | T3 | Calibration | Brier 0.1528 vs 0.25 baseline. **In-sample, disclosed.** Luck test 43 observed vs 46.2 expected, z = −0.79, p = 0.4294. |
+| 2026-11-13 | T4 | Correlation | Away vs home total r = 0.082 (−0.132…0.289); margin vs total r = 0.005 (−0.207…0.217); pooled within-team r = 0.049 (29 teams). Player-level: **not measured**. |
+| 2026-11-13 | T5 | Gates | 7 gates × 6 strategies. Best 2/7. G2 and G6 fail universally — no historical price archive. S6 blocked at 0/7. |
+| 2026-11-13 | T11 | Build gate | `scripts/validate_site.py`: internal links, per-data-row sources, unverified-cell-cannot-carry-a-number, `spread == −margin`, probability ranges and sums, correlation-without-n, prop-probability-without-model, pick-passed-screening-with-high-injury-risk, IR-citation resolution, stale-content detection. **Passes.** |
+| 2026-11-13 | T11 | Third-party systems intact | `python3 tools/check_site.py` (f879620b) still passes: 10 pages, 77 injury rows, 24 slate rows. `scripts/build_site.py` (7c532e8c) still builds `site/` unchanged. |
+
+### Irregularities added by this session
+
+Canonical list is `lab/review.html`, IR-01 … IR-17. New in this session: **IR-16** one prop
+price (Drummond under, `+111`) is out of family with the rest of the card and was transcribed
+as published rather than normalised; **IR-17** Mikal Bridges' printed 5.9 ppg is implausible
+for a starter and uncorroborated, so the average is withheld rather than published.
+
+### Build record
+
+```
+python3 scripts/model.py         # -> lab/data/*.json
+python3 scripts/build_lab.py     # -> lab/*.html
+python3 scripts/validate_site.py # gate; must exit 0
+```
+
+Pages artifact layout: `/` (7c532e8c dashboard) · `/docs/` (f879620b data site) ·
+`/site/` (7c532e8c generated site) · `/lab/` (this session's line lab).

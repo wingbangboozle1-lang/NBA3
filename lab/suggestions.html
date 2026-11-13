@@ -1,0 +1,229 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suggestions queue — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html" class="on">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Suggestions queue — choose a path before anything is implemented</h2>
+<p class="lead">Ten proposals for improving decision quality on this site, each with the
+dependency that has to be satisfied first and the reason it is ranked where it is. Nothing
+here has been implemented. The dropdowns record your decision locally in this browser so
+you can review the set before committing to any of it.</p>
+
+<div class="note"><b>Nothing is auto-applied.</b> Selecting a decision stores it in this
+browser only and highlights the row. Export the set when you are ready, so a change never
+happens as a side effect of reading the page.</div>
+
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>ID</th><th>Suggestion</th><th>Priority</th><th>Why it matters</th>
+<th>Dependency to satisfy first</th><th>Expected effect</th><th>Audit</th><th>Your decision</th></tr></thead>
+<tbody><tr><td><b>S-01</b></td><td><b>Obtain a historical closing-line archive</b></td>
+<td><span class="chip c-bad">critical</span></td>
+<td class="tiny">Nothing in this build can show profit without it. Five of six strategies are unscored purely for this reason.</td><td class="tiny">Cost of a licensed export; redistribution rights.</td>
+<td class="tiny">Highest impact change available. Everything else is secondary.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-01">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-02</b></td><td><b>Add a minutes model, then reopen props</b></td>
+<td><span class="chip c-bad">critical</span></td>
+<td class="tiny">Prop combos are the most requested market and the least defensible without minutes. S6 currently passes zero gates.</td><td class="tiny">Per-player game logs, lineup and substitution data.</td>
+<td class="tiny">Unblocks the whole prop programme and the same-game correlation measurements.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-02">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-03</b></td><td><b>Ingest rest and travel into the rating</b></td>
+<td><span class="chip c-warn">high</span></td>
+<td class="tiny">Back-to-backs and travel are already visible in the official schedule, so this is cheap and currently missing.</td><td class="tiny">Nothing beyond the schedule already stored.</td>
+<td class="tiny">Likely the fastest genuine signal improvement, because the data is in hand.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-03">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-04</b></td><td><b>Move from one book to a market consensus</b></td>
+<td><span class="chip c-warn">high</span></td>
+<td class="tiny">Every &#x27;edge&#x27; here is against a single provider at a single minute. That is not the market.</td><td class="tiny">A second and third price feed.</td>
+<td class="tiny">Turns edge from &#x27;versus this book&#x27; into &#x27;versus the market&#x27;, which is the claim worth making.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-04">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-05</b></td><td><b>Automate the refresh and version every snapshot</b></td>
+<td><span class="chip c-warn">high</span></td>
+<td class="tiny">The injury feed moves every 15 minutes near tip. A manual snapshot cannot stay honest.</td><td class="tiny">Scheduler and immutable snapshot storage.</td>
+<td class="tiny">Makes staleness measurable instead of assumed.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-05">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-06</b></td><td><b>Pre-register the leaderboard metric and freeze it</b></td>
+<td><span class="chip c-info">medium</span></td>
+<td class="tiny">A metric chosen after seeing results is a metric that flatters the result.</td><td class="tiny">A decision on what success means (Q5).</td>
+<td class="tiny">Protects the leaderboard from being quietly redefined.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-06">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-07</b></td><td><b>Publish a running p-value beside every score</b></td>
+<td><span class="chip c-info">medium</span></td>
+<td class="tiny">A leaderboard without uncertainty invites the reader to over-read a hot streak.</td><td class="tiny">Nothing; the code already computes it.</td>
+<td class="tiny">Cheap credibility gain.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-07">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-08</b></td><td><b>Add closing-line value as the primary skill metric</b></td>
+<td><span class="chip c-info">medium</span></td>
+<td class="tiny">CLV measures whether the number was better than the market&#x27;s final opinion, which is far less noisy than win-loss.</td><td class="tiny">Needs S-01 first.</td>
+<td class="tiny">The single best luck-reduction tool in sports betting analytics.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-08">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-09</b></td><td><b>Separate the site into research and operational sections</b></td>
+<td><span class="chip c-neutral">low</span></td>
+<td class="tiny">Research figures and live picks carry different obligations and different staleness rules.</td><td class="tiny">None.</td>
+<td class="tiny">Reduces the chance a research number is mistaken for a recommendation.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-09">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr><tr><td><b>S-10</b></td><td><b>Add a sources-health dashboard</b></td>
+<td><span class="chip c-neutral">low</span></td>
+<td class="tiny">When a feed breaks, the site should say so rather than serve a stale number.</td><td class="tiny">S-05 gives the timestamps needed.</td>
+<td class="tiny">Makes degradation visible.</td>
+<td class="src"><a href="review.html">review log</a></td>
+<td><select class="decision" data-id="S-10">
+<option value="">— choose —</option>
+<option>Approve</option><option>Approve with changes</option>
+<option>Defer</option><option>Reject</option></select></td></tr></tbody></table></div></div>
+
+<div class="grid g2">
+<div class="card">
+<h3 style="margin-top:0">Suggested order of work</h3>
+<ol class="tight">
+<li><b>S-01</b> closing-line archive — unblocks measurement of everything else.</li>
+<li><b>S-05</b> automated refresh — makes the snapshot honest before it moves faster.</li>
+<li><b>S-03</b> rest and travel — cheapest real model improvement, data already in hand.</li>
+<li><b>S-04</b> market consensus — turns "edge against one book" into a defensible claim.</li>
+<li><b>S-02</b> minutes model — reopens props, the largest market.</li>
+<li>Then S-06, S-07, S-08, S-09, S-10 as governance and polish.</li>
+</ol>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Decision record</h3>
+<p class="tiny">Your selections for this session:</p>
+<pre id="decisionLog" class="formula" style="min-height:90px">(none yet)</pre>
+<button id="copyBtn" style="margin-top:8px;padding:7px 12px;border-radius:7px;
+border:1px solid var(--line);background:#fff;cursor:pointer">Copy decision set</button>
+</div>
+</div>
+
+<script>
+(function(){
+  var KEY='nbalab.suggestions.v1';
+  var state=JSON.parse(localStorage.getItem(KEY)||'{}');
+  function render(){
+    var lines=Object.keys(state).sort().map(function(k){return k+': '+state[k];});
+    document.getElementById('decisionLog').textContent =
+      lines.length?lines.join('\n'):'(none yet)';
+    document.querySelectorAll('select.decision').forEach(function(s){
+      if(state[s.dataset.id]) s.value=state[s.dataset.id];
+      s.closest('tr').style.background = s.value ? '#f2fbf6' : '';
+    });
+  }
+  document.querySelectorAll('select.decision').forEach(function(s){
+    s.addEventListener('change',function(){
+      if(s.value) state[s.dataset.id]=s.value; else delete state[s.dataset.id];
+      localStorage.setItem(KEY,JSON.stringify(state));
+      render();
+    });
+  });
+  document.getElementById('copyBtn').addEventListener('click',function(){
+    var txt=Object.keys(state).sort().map(function(k){return k+': '+state[k];}).join('\n');
+    navigator.clipboard.writeText(txt||'no decisions recorded');
+  });
+  render();
+})();
+</script>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

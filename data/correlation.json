@@ -1,0 +1,85 @@
+[
+  {
+    "leg_a": "Away team total points",
+    "leg_b": "Home team total points",
+    "n": 86,
+    "r": 0.082,
+    "ci95": [
+      -0.132,
+      0.289
+    ],
+    "interpretation": "Positive: both teams' scoring is driven by a shared possession count, so opposing totals move together. This is the mechanism behind same-game total correlation.",
+    "basis": "MEASURED",
+    "source": "bbr_schedule",
+    "note": "Pearson r on 86 completed games."
+  },
+  {
+    "leg_a": "Game margin (home-away)",
+    "leg_b": "Game total",
+    "n": 86,
+    "r": 0.005,
+    "ci95": [
+      -0.207,
+      0.217
+    ],
+    "interpretation": "Near zero means spread and total legs in the same game are close to independent, so a spread+total parlay can be multiplied with little error.",
+    "basis": "MEASURED",
+    "source": "bbr_schedule",
+    "note": "Pearson r on 86 completed games."
+  },
+  {
+    "leg_a": "Team own points",
+    "leg_b": "Opponent points (pooled within team)",
+    "n": 29,
+    "r": 0.049,
+    "ci95": null,
+    "interpretation": "Average within-team correlation across 29 teams with >=5 games. Catches pace-driven teams that inflate both sides.",
+    "basis": "MEASURED",
+    "source": "bbr_schedule",
+    "note": "Mean of per-team Pearson r. Not a population CI."
+  },
+  {
+    "leg_a": "Player points",
+    "leg_b": "Player rebounds (same player)",
+    "n": null,
+    "r": null,
+    "ci95": null,
+    "interpretation": "Not measured.",
+    "basis": "UNVERIFIED",
+    "source": null,
+    "note": "Requires needs per-player game logs, which was not collected. Left blank by rule."
+  },
+  {
+    "leg_a": "Player points",
+    "leg_b": "Same-team teammate points",
+    "n": null,
+    "r": null,
+    "ci95": null,
+    "interpretation": "Not measured.",
+    "basis": "UNVERIFIED",
+    "source": null,
+    "note": "Requires needs per-player game logs, which was not collected. Left blank by rule."
+  },
+  {
+    "leg_a": "Player points over",
+    "leg_b": "Team total over",
+    "n": null,
+    "r": null,
+    "ci95": null,
+    "interpretation": "Not measured.",
+    "basis": "UNVERIFIED",
+    "source": null,
+    "note": "Requires needs matched player+team game logs, which was not collected. Left blank by rule."
+  },
+  {
+    "leg_a": "Player minutes",
+    "leg_b": "Any prop",
+    "n": null,
+    "r": null,
+    "ci95": null,
+    "interpretation": "Not measured.",
+    "basis": "UNVERIFIED",
+    "source": null,
+    "note": "Requires no minutes source retrieved this session, which was not collected. Left blank by rule."
+  }
+]
