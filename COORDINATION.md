@@ -22,4 +22,6 @@ This checkout contained only a six-byte README and no app, data, package configu
 
 ## Deployment / PR status
 
-Not opened or merged in this session. The current Arena branch is the only permitted working branch; no separate integration branch or other sessions are available in this checkout. A PR and Pages activation require repository-owner workflow/Pages settings and the permitted integration path. Do not report the site live until deployment has been confirmed.
+- PR [#1](https://github.com/wingbangboozle1-lang/NBA3/pull/1) was merged to `main` with merge commit `ce3273eded5dc8083e0523d44666b92d7bee8f9e` on 2026-11-13.
+- GitHub Actions run [43519089153](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43519089153) completed successfully: both static validation/build and Pages deployment jobs passed. A separate Pages deployment run also showed success. Deployment confirmed by workflow; site URL is the repository GitHub Pages URL (repository custom Pages URL is not inferred here).
+- Workflow emitted non-fatal platform notices: Node.js 20 action runtime deprecation and forthcoming `ubuntu-latest` image migration. No check failed.
