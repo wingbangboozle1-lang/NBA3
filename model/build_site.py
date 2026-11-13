@@ -6,7 +6,7 @@ NBA page the number came from. Values that could not be confirmed against an
 official source render as a blank cell with an "UNVERIFIED" badge and are also
 listed on the Flagged for Review page.
 
-Run:  python3 site/build_site.py
+Run:  python3 model/build_site.py
 """
 from __future__ import annotations
 
@@ -1534,7 +1534,7 @@ layer.</b> That is a real achievement, and it is not yet a betting system.</p>
 
 
 # =========================================================================== render
-CSS = open(os.path.join(ROOT, "site", "assets", "style.css"), encoding="utf-8").read()
+CSS = open(os.path.join(ROOT, "model", "site_style.css"), encoding="utf-8").read()
 
 
 def main():
