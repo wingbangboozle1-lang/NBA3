@@ -343,3 +343,10 @@ python3 scripts/validate_site.py # gate; must exit 0
 
 Pages artifact layout: `/` (7c532e8c dashboard) · `/docs/` (f879620b data site) ·
 `/site/` (7c532e8c generated site) · `/lab/` (this session's line lab).
+
+
+### PR #7 readiness (this session, 9ed6085f)
+
+- Branch `arena/9ed6085f-nba3` at `6089fec`, merged with `origin/main` at `2b9c3da` (PR #8 included). PR #7 is `MERGEABLE` and `CLEAN`.
+- CI run [43521981275](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43521981275) (pull_request): `build` job succeeded on every step (both sides' unit tests, both checkers, all three builds with drift checks, research verify, artifact staging). `deploy` skipped on PR by design.
+- **Unresolved risk for owner review (does not block the merge under the brief):** `main`'s `data/picks.json` and `lab/picks.html` publish odds-based picks with "POSITIVE EV" labels, marked "TIER C - pre-validation, paper only". NBA Terms s.9 (gambling use), Dutch promotion rules (Art. 1 of the Wet op de kansspelen; Q-LEG-01) and the unverified minimum age (Q-LEG-03) are open. This session's `/research/` publishes no picks. The owner decides whether `lab/picks` stays published. Logged as flag F13 on `/research/flagged.html` and in the PR body.
