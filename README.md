@@ -1,15 +1,32 @@
 # NBA Edge Lab
 
-A research-first static dashboard for NBA line-origination strategy design, model validation, injury/rotation workflow, decision questions, and items flagged for review.
+Research dashboard for NBA slates, injury snapshots, strategy hypotheses and validation gates. Built from official sources. Blank values are unverified and flagged. Nothing is inferred.
 
-## View
+**Status:** No originated lines, picks, or correlation values are published. Every strategy is blocked by the validation gates because no authorised historical data or prices are reachable from this environment.
 
-Open [`index.html`](index.html) locally, or enable GitHub Pages for the repository. The workflow in `.github/workflows/pages.yml` deploys the static dashboard from `main` when enabled in repository settings.
+## Layout
 
-## Important limits
+- `data/` – CSV registers: slates, injuries, strategies, gates, correlations, game flow, sources, questions, suggestions, repo review, requirements, flags.
+- `pipeline/` – standard-library Python only:
+  - `build_site.py` builds `site/` from `data/`.
+  - `verify.py` checks data rules and the built site (source links, internal links, blank-cell flags).
+  - `gates.py` and `rotation.py` hold the validation and minutes helpers.
+  - `tests/` holds unit tests.
+- `site/` – generated; not committed (built by CI and locally).
+- `COORDINATION.md` – shared task board and verification log.
 
-This repository does not contain a licensed odds feed, historical results, injury ingestion, schedule integration, line model, or validated picks. The dashboard intentionally presents no fabricated lines, correlations, player projections, or performance claims. Its candidate strategies are hypotheses, and all validation gates are blocked pending verified inputs and evidence. Consult the **Flagged for review** and **Open questions** sections before implementation.
+## Run
 
-## Sources
+```
+python3 -m unittest discover -s pipeline/tests
+python3 pipeline/build_site.py
+python3 pipeline/verify.py
+```
 
-The dashboard links to NBA.com/Stats glossary definitions and the NBA Official injury report index. Those sources do not by themselves establish predictive edge, provide minutes forecasts, or grant data redistribution rights.
+Deployment: `.github/workflows/pages.yml` tests, builds and verifies on every push and pull request, and deploys only `site/` from `main`.
+
+## Limits
+
+- Injury data: one official snapshot (11/13/26 11:00 AM ET), transcribed from PDF text. Team and matchup cells missing in the PDF are blank.
+- Schedule: Nov 13–16, 2026 (ET), 31 games.
+- No licence is declared on this repository, so no reuse is granted (flag F18). See the Flagged for Review page.
