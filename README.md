@@ -71,3 +71,24 @@ Do not compare IDs across the two sites without this table.
 No licensed odds feed, historical results, or validated picks are in this repository. No betting lines, correlations, player projections, or performance claims are shown. Candidate strategies are hypotheses. All validation gates are blocked until verified inputs exist. Check the Flagged for Review pages and the open questions before any decision.
 
 Nothing in this repository is betting advice. Follow local law and responsible-gambling practice.
+
+## Research site (`/research/`, session arena/9ed6085f)
+
+Generated from `data/*.csv` by `pipeline/build_site.py` into `research/` (not the repository root). Checked by `pipeline/verify.py`.
+
+| Item | Value |
+|---|---|
+| Slates | 31 games, Nov 13–16 2026 (ET), verified against `nba.com/schedule` (chunks 0–2 of 9) |
+| Injury snapshot | 11/13/26 11:00 AM ET (98 rows, transcribed from PDF text). `site/` uses the later 5:00 PM report (117 rows), so the two sites show different snapshots. Owner to choose the current one (flag F01). |
+| Picks / lines / correlations | None published (blank by design; flags F13, F14, F21) |
+| Strategies / gates | 11 strategies and 11 gates; all BLOCKED. Thresholds are proposals. |
+
+**ID namespaces (this site):** flags `F01–F25`, sources `S01–S19`, questions `Q-…`, suggestions `SG-01–SG-14`, gates `G01–G11`, strategies `ST01–ST11`, requirements `RQ01–RQ23`, repo review `R01–R17`. These do not match the namespaces in the table above. Compare IDs across sites only with a mapping.
+
+Rebuild and check:
+
+```bash
+python3 -m unittest discover -s pipeline/tests
+python3 pipeline/build_site.py
+python3 pipeline/verify.py
+```

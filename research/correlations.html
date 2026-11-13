@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correlations | NBA Edge Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">NBA Edge Lab</a>
+  <nav><a href="index.html">Dashboard</a><a href="exec-summary.html">Executive summary</a><a href="slates.html">Slates</a><a href="picks.html">Picks</a><a href="injuries.html">Injuries</a><a href="gameflow.html">Game flow</a><a href="strategies.html">Strategies</a><a href="gates.html">Gates</a><a href="correlations.html" aria-current="page">Correlations</a><a href="sources.html">Sources</a><a href="repo-review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for Review</a><a href="requirements.html">Requirements</a></nav>
+</header>
+<main>
+<h1>Correlations</h1>
+<p class="intro">Eight market pairs for parlays and prop combinations. Values are measured later, not assumed now.</p>
+
+<div class="banner"><strong>No correlation values.</strong> Each value cell is blank because no matched data exists. Values are not estimated.</div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Market A</th><th>Market B</th><th>Hypothesis (direction and size unknown)</th><th>Correlation</th><th>Status</th><th>Method reference</th></tr></thead><tbody><tr><td>C01</td><td>Team total points</td><td>Team win (same game)</td><td>Higher team total raises win chance; direction and size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no matched data</td><td><a href="https://www.itl.nist.gov/div898/handbook/" rel="noopener">Source</a></td></tr><tr><td>C02</td><td>Player points</td><td>Team points (same player and game)</td><td>Scoring players are part of team totals; size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no matched data</td><td><a href="https://www.itl.nist.gov/div898/handbook/" rel="noopener">Source</a></td></tr><tr><td>C03</td><td>Player points</td><td>Player minutes (same player and game)</td><td>More minutes usually means more opportunities; size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no matched data</td><td><a href="https://www.itl.nist.gov/div898/handbook/" rel="noopener">Source</a></td></tr><tr><td>C04</td><td>Point spread (team A)</td><td>Moneyline (team A) (same game)</td><td>Spread and moneyline are linked by the same game; size to be measured not assumed</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no prices (Q-DATA-02)</td><td><a href="https://www.itl.nist.gov/div898/handbook/" rel="noopener">Source</a></td></tr><tr><td>C05</td><td>Game total</td><td>Both teams&#x27; points (same game)</td><td>Total is a sum of two team outcomes; joint size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no matched data</td><td><a href="https://www.itl.nist.gov/div898/handbook/" rel="noopener">Source</a></td></tr><tr><td>C06</td><td>Starter status (OUT)</td><td>Teammate points (same team)</td><td>Teammates may gain usage when a starter is out; size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no injury history</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" rel="noopener">Source</a></td></tr><tr><td>C07</td><td>Player assists</td><td>Teammate made field goals (same team)</td><td>Assists and teammate scoring are linked by play; size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no matched data</td><td><a href="https://www.itl.nist.gov/div898/handbook/" rel="noopener">Source</a></td></tr><tr><td>C08</td><td>Score margin</td><td>Starter minutes (same game)</td><td>Lopsided games may shorten starter minutes; size unknown</td><td class="blank">&mdash; <span class="flag">unverified</span></td><td>Not measured - no score-state data</td><td><a href="https://www.nba.com/stats/help/glossary" rel="noopener">Source</a></td></tr></tbody></table></div>
+<h2>Analysis</h2>
+<p>Parlays and same-game combinations are only as good as their joint-frequency estimate. A product of two marginal probabilities is wrong when legs are dependent, so each pair above needs its own measured joint frequency with an interval before any combined price is used (<a href="questions.html">Q-MODEL-01</a>).</p>
+
+</main>
+<footer>
+  <p>Every table row links to its source. Blank values are unverified and flagged; nothing is inferred.
+  Content is research, not betting advice. Data as of 2026-11-13 (ET). Code and data:
+  <a href="https://github.com/wingbangboozle1-lang/NBA3">GitHub repository</a>.</p>
+</footer>
+</body>
+</html>

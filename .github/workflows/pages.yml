@@ -1,13 +1,17 @@
 name: Build and deploy NBA Edge Lab (GitHub Pages)
 
-# Integration workflow (session arena/7c532e8c-nba3, merged with f879620b's checks).
-# Published layout (one Pages artifact):
-#   /                -> root index.html (research dashboard, links to docs/ and site/)
+# Integration workflow. Published layout (one Pages artifact):
+#   /                -> root index.html (research dashboard; links to docs/, site/, lab/, research/)
 #   /docs/           -> f879620b data site (docs/data/data.json)
 #   /site/           -> arena/7c532e8c site (generated from data/*.json by scripts/build_site.py)
+#   /lab/            -> arena/5697caaf line lab (scripts/model.py, scripts/build_lab.py)
+#   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
+# Pull requests run every check but never deploy.
 
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -17,8 +21,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -28,10 +32,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Unit tests (statistics module)
+      - name: Unit tests (statistics module, f879620b)
         run: python3 -m unittest tests/test_validate_gates.py
       - name: Data site checks (docs/ rows, sources, links)
         run: python3 tools/check_site.py
+      - name: Unit tests (research pipeline, 9ed6085f)
+        run: python3 -m unittest discover -s pipeline/tests
       - name: Root dashboard in-page links and link targets
         run: |
           test -s index.html
@@ -63,6 +69,11 @@ jobs:
           python3 scripts/build_lab.py
           python3 scripts/validate_site.py
           test -z "$(git status --porcelain -- lab/)" || { echo 'lab/ is out of date; regenerate and commit'; git status --porcelain -- lab/; exit 1; }
+      - name: Build and verify research site (9ed6085f)
+        run: |
+          python3 pipeline/build_site.py
+          python3 pipeline/verify.py
+          test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -70,11 +81,13 @@ jobs:
           cp -r docs _pages/docs
           cp -r site _pages/site
           cp -r lab _pages/lab
+          cp -r research _pages/research
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
 
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

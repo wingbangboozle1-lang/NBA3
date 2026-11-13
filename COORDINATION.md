@@ -178,6 +178,79 @@ Failed or not used: [NBA CDN live scoreboard JSON](https://cdn.nba.com/static/js
 
 ---
 
+## Session 9ed6085f — claim for this round (branch `arena/9ed6085f-nba3`)
+
+Session ID: `9ed6085f` (branch `arena/9ed6085f-nba3`, based on `origin/main` @ `dbb8575`).
+Constraint noted: this workspace is bound to one branch, so the `session-<id>/<task>` branch-per-task scheme is not used. Scopes below are therefore enforced within this single branch and recorded here instead.
+Prior session `49064d5a` work (merged PRs #1 and #2) is preserved; its `index.html` is superseded by the generated multi-page site (see log).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| T1 Repository review, line by line, with official links and irregularities | done | 9ed6085f | data/repo_review.csv (R01-R17) |
+| T2 Official source registry and retrieval log | done | 9ed6085f | data/sources.csv (S01-S19) |
+| T3 Requirements, questions and answers, suggestions queue | done (suggestions awaiting owner review) | 9ed6085f | data/requirements.csv (RQ01-RQ23), data/questions.csv (18), data/suggestions.csv (SG-01-SG-14) |
+| T4 Upcoming slates (Nov 13-16, 2026, ET) from the official NBA schedule | done | 9ed6085f | data/slates.csv (31 games) |
+| T5 Official injury snapshot, rotation method, game-flow factors | done (snapshot re-verified; newer report not transcribed, F01) | 9ed6085f | data/injuries_2026-11-13_1100AM.csv (98 rows), data/gameflow.csv, pipeline/rotation.py |
+| T6 Strategies, validation gates, correlations (leaderboard empty; all blocked) | done (blocked by data) | 9ed6085f | data/strategies.csv (11), data/gates.csv (11), data/correlations.csv (8, blank), pipeline/gates.py |
+| T7 Site generator, verification checker, Pages workflow | done (narrowed; see note) | 9ed6085f | pipeline/build_site.py, pipeline/verify.py, pipeline/tests/, .github/workflows/pages.yml (now checks only), index.html (generated dashboard), root *.html and style.css (generated), .nojekyll, .gitignore, README.md |
+| T8 Executive summary and Flagged-for-Review register | done (25 flags) | 9ed6085f | data/flags.csv, generated site pages |
+| T9 PR, merge, Pages deploy verification, log | in progress (PR #7 open; merge with main recorded below) | 9ed6085f | COORDINATION.md; PR and merge result recorded below |
+
+### T7 scope note (narrowed)
+
+T7 originally covered the prior session's `index.html` and `pages.yml`. In this round:
+- `pages.yml` was replaced. It now runs the unit tests, rebuilds the pages, runs verify.py, and fails if the committed pages are stale. It has no deploy job.
+- Pages is published from `main /` (legacy source). Switching it to GitHub Actions failed: `gh api -X PUT repos/.../pages -f build_type=workflow` returned 403 (Resource not accessible by integration). Actions permissions also returned 403. The session token cannot change Pages settings, so the generated pages are committed at the repository root.
+- Because the legacy source serves the whole repository, the prior exposure (R06) remains until the owner switches the source (F19, Q-REPO-02). The workflow no longer uploads the repository itself.
+- `index.html` is now the generated dashboard. The prior dashboard content is superseded, and its injury link (2025-26 slug, F06) is removed.
+- Owner choice on the Pages source and the site suggestions is SG-08.
+
+### Verification log (this round)
+
+- Injury snapshot 11/13/26 11:00 AM ET: re-read PDF chunks 0 and 1 of 2. Every row was compared with the PDF text by hand (visual comparison, not an automated diff). No mismatch was found other than the reason fixed below. The Simmons, Ben reason was joined across the chunk break ("Right Achille" + "s Tendon Repair / Surgery"). Team and matchup cells absent in the PDF text are blank with flags (F02, F03, F04, F07, F10, F11). F10 was added to 10 rows with no game date, to meet the flag rule.
+- Schedule nba.com/schedule: chunks 0 to 2 of 9 read. Nov 13 = 9 games, Nov 14 = 5, Nov 15 = 9, Nov 16 = 8 (31). Every game ID, preview URL, venue and city in data/slates.csv matches the page. S05 partial-read flag closed.
+- Terms of Use: s.19 read (New York law; New York County courts). Page last updated July 13, 2026. F23 closed.
+- NIST: 7.2.4, 7.2.7.1 and 1.3.3.4 read directly. The DOI cited in an earlier draft was not read on any page and has been removed. No NIST permutation page was located; permutation is not cited as a method on the site.
+- CSV integrity: 3 malformed rows fixed (unquoted commas in R16, SG-10, and strategies ST04/ST08). questions.csv, requirements.csv, sources.csv and gates.csv rewritten with csv.writer.
+- Unit tests: 29 tests pass (gates, rotation, verify rules).
+- verify.py: passes on the built site. It checks every table row for an allowed-host source link, every internal link, and every blank cell for an unverified marker.
+
+### Irregularities found this round (all on flags.csv; none blocks merge)
+
+- F01 newer injury reports exist for 11/13; only the 11:00 AM report is transcribed.
+- F02/F03/F04/F07/F10/F11 PDF extraction gaps (team, matchup, time, reason, Miami row on DET@MIA).
+- F12 NBA Terms s.9 and s.1 against publishing NBA content and gambling-related use.
+- F13 Dutch promotion rules (Art. 1 of the Wet op de kansspelen) against publishing picks.
+- F16 minimum online age not verified; not published.
+- F18 no licence; F19 Pages source change; F25 unmerged arena branches.
+
+Integration: this session is the only writer for shared outputs (site and index/navigation). No other session has an open claim on these files.
+
+
+### Integration with main (this session, 9ed6085f)
+
+- `main` moved from `dbb8575` to `df712ec` during this session (PRs #3, #4, #5, #6 from other sessions). PR #7 conflicted, so `origin/main` was merged into `arena/9ed6085f-nba3` and both sides were kept.
+- Conflicts resolved: `index.html` kept as main's dashboard, with one navigation link added to `research/`. `.gitignore` kept as main's. `README.md` and `COORDINATION.md` kept as main's, with this session's section appended. `.github/workflows/pages.yml` kept every step of main's workflow, added the research build and verify steps, added a pull-request trigger (checks only, no deploy), and restricted the deploy job to pushes to `main`.
+- Research site location: `research/` (not the repository root and not `site/`, which main's arena/7c532e8c build owns). Published at `/research/`.
+- Pages source remains `main /` (legacy). The source switch to GitHub Actions returned 403 for this session, as it did for f879620b (T10 log), so the existing `/docs/`, `/site/` and root pages keep serving from `main /`.
+
+### Cross-session irregularities found in this integration (logged for the owners; not edited here)
+
+- **For arena/7c532e8c (owns `data/injuries.json`):** the Miami Heat rows in the 5:00 PM report (Antetokounmpo, Larsson, Thompson, Goldin) carry `matchup: CLE@MIA`. The PDF text shows no matchup cell on those rows; the matchup is blank in the PDF extraction. The value appears to come from the row position above, which the rule against inference forbids. A DET@MIA row also carries an empty player name. Owner action: blank the matchup, or source it from the schedule with a note.
+- **For arena/7c532e8c:** the 5:00 PM report's Miami and team-status rows should be checked for the same blank-matchup issue. This session compared 9 player rows with the PDF text (Suggs, Antetokounmpo, Larsson, Thompson, Dia, Murray, Curry, Porzingis, Achiuwa). Their statuses and reasons matched. Other rows were not compared.
+- **For arena/9ed6085f (this session):** the 11:00 AM file had "Suggs, Jalan" for "Suggs, Jalen". Fixed.
+
+### Verification (integration, this session)
+
+- `python3 -m unittest tests/test_validate_gates.py` (f879620b): OK.
+- `python3 tools/check_site.py` (f879620b): PASS (10 pages, 77 injury rows, 24 slate rows, 10 rule rows, 9 sources).
+- `python3 scripts/build_site.py` (arena/7c532e8c): validated 117 injury rows, 31 games, 11 sources; checked 553 links across 12 pages; no drift in `site/`.
+- `python3 -m unittest discover -s pipeline/tests` (9ed6085f): OK (29 tests).
+- `python3 pipeline/build_site.py && python3 pipeline/verify.py` (9ed6085f): VERIFY OK.
+- Root `index.html` in-page and local link check: 17 links, 0 broken.
+
+---
+
 ## Session `arena/5697caaf-nba3` — line origination + validation, served at `lab/`
 
 Merged into `main` after `arena/7c532e8c-nba3`. **No file from the two earlier sessions was
@@ -293,3 +366,9 @@ Pages artifact after this merge serves four sites, all verified live:
 
 T11 and T12 are now marked **done** — only after the run was observed green and the live URL
 was fetched, not when the PR was opened.
+
+### PR #7 readiness (this session, 9ed6085f)
+
+- Branch `arena/9ed6085f-nba3` at `6089fec`, merged with `origin/main` at `2b9c3da` (PR #8 included). PR #7 is `MERGEABLE` and `CLEAN`.
+- CI run [43521981275](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43521981275) (pull_request): `build` job succeeded on every step (both sides' unit tests, both checkers, all three builds with drift checks, research verify, artifact staging). `deploy` skipped on PR by design.
+- **Unresolved risk for owner review (does not block the merge under the brief):** `main`'s `data/picks.json` and `lab/picks.html` publish odds-based picks with "POSITIVE EV" labels, marked "TIER C - pre-validation, paper only". NBA Terms s.9 (gambling use), Dutch promotion rules (Art. 1 of the Wet op de kansspelen; Q-LEG-01) and the unverified minimum age (Q-LEG-03) are open. This session's `/research/` publishes no picks. The owner decides whether `lab/picks` stays published. Logged as flag F13 on `/research/flagged.html` and in the PR body.
