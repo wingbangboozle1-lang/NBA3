@@ -82,5 +82,5 @@ df=172. Not statistically distinguishable from zero in this sample. The Mexico C
 points against 225.5 for regulation games — a gap of 26.7 points. **Our originated
 totals are regulation equivalents**: they do not add expected overtime scoring, which biases
 them low by about 1.4 points on average. That is a documented modelling choice, listed on
-the [flagged page](../site/flagged.html), not an oversight.
+the [flagged page](../flagged.html), not an oversight.
 

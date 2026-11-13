@@ -1,6 +1,6 @@
 # Executive summary
 
-**Season 2026-27 &middot; results verified through 2026-11-12 &middot; generated 2026-11-13T23:05:45Z**
+**Season 2026-27 &middot; results verified through 2026-11-12 &middot; generated 2026-11-13T23:10:29Z**
 
 ## What this system is
 
@@ -102,5 +102,5 @@ requires no code changes to re-run once the season supplies them.
 | 2026-11-16 | 9:00 PM | PHX @ DEN | -5.5 | 226.2 | &plusmn;39.9 | [game](https://www.nba.com/game/phx-vs-den-0022600252) |
 
 Full detail, including the efficiency cross-check and per-team injury counts, is on the
-[lines page](../site/lines.html).
+[lines page](../lines.html).
 

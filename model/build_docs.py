@@ -12,8 +12,8 @@ import os
 from collections import defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROC = os.path.join(ROOT, "data", "processed")
-DOCS = os.path.join(ROOT, "docs")
+PROC = os.path.join(ROOT, "data", "origin")
+DOCS = os.path.join(ROOT, "origin", "notes")
 
 M = json.load(open(os.path.join(PROC, "model_output.json"), encoding="utf-8"))
 GAMES = sorted(csv.DictReader(open(os.path.join(PROC, "games.csv"), encoding="utf-8")),
@@ -51,7 +51,7 @@ def write(name, text):
     os.makedirs(DOCS, exist_ok=True)
     with open(os.path.join(DOCS, name), "w", encoding="utf-8") as fh:
         fh.write(text.lstrip() + "\n")
-    print("wrote docs/" + name)
+    print("wrote origin/notes/" + name)
 
 
 # ------------------------------------------------------------------ executive summary
@@ -146,7 +146,7 @@ requires no code changes to re-run once the season supplies them.
 {lines_rows}
 
 Full detail, including the efficiency cross-check and per-team injury counts, is on the
-[lines page](../site/lines.html).
+[lines page](../lines.html).
 """.format(through=M["data_through"], ts=M["generated_utc"],
            n=integ["games_captured"], first=GAMES[0]["date"], last=GAMES[-1]["date"],
            g=SRC["games"], ta=SRC["team_advanced"], tg=integ["team_games_captured"],
@@ -263,7 +263,7 @@ but we hold only *season-to-date* ratings. Putting it through the same walk-forw
 would leak future games into the fit, so it cannot be validated from this session's data. The
 **published line is LM-C, the model that was actually validated**; the efficiency estimate is
 published beside it as a clearly labelled cross-check. See
-[Originated Lines](../site/lines.html).
+[Originated Lines](../lines.html).
 
 ## Home-court advantage
 
@@ -271,7 +271,7 @@ Fitted by least squares over {hg} non-neutral games: **{hc:+.2f} points**, two-s
 p={hcp:.3f}, df={hcdf}. The Mexico City game (DEN vs IND, 7 Nov) is treated as neutral and
 excluded. This sample does **not** establish home-court advantage at conventional thresholds;
 the fitted value is used because it is the least-squares estimate, and the caveat is recorded
-on the [flagged page](../site/flagged.html).
+on the [flagged page](../flagged.html).
 
 ## Residuals
 
@@ -557,7 +557,7 @@ df={hcdf}. Not statistically distinguishable from zero in this sample. The Mexic
 points against {reg:.1f} for regulation games — a gap of {gap:.1f} points. **Our originated
 totals are regulation equivalents**: they do not add expected overtime scoring, which biases
 them low by about {bias:.1f} points on average. That is a documented modelling choice, listed on
-the [flagged page](../site/flagged.html), not an oversight.
+the [flagged page](../flagged.html), not an oversight.
 """.format(n=FLOW["games"], avg=FLOW["avg_total"], reg=FLOW["avg_total_regulation"],
            ot=FLOW["avg_total_ot"], otr=FLOW["ot_rate"], otn=FLOW["ot_games"],
            hwr=FLOW["home_wins"] / FLOW["home_games"], hw=FLOW["home_wins"],

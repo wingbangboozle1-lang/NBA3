@@ -106,7 +106,7 @@ but we hold only *season-to-date* ratings. Putting it through the same walk-forw
 would leak future games into the fit, so it cannot be validated from this session's data. The
 **published line is LM-C, the model that was actually validated**; the efficiency estimate is
 published beside it as a clearly labelled cross-check. See
-[Originated Lines](../site/lines.html).
+[Originated Lines](../lines.html).
 
 ## Home-court advantage
 
@@ -114,7 +114,7 @@ Fitted by least squares over 173 non-neutral games: **+1.59 points**, two-sided
 p=0.104, df=172. The Mexico City game (DEN vs IND, 7 Nov) is treated as neutral and
 excluded. This sample does **not** establish home-court advantage at conventional thresholds;
 the fitted value is used because it is the least-squares estimate, and the caveat is recorded
-on the [flagged page](../site/flagged.html).
+on the [flagged page](../flagged.html).
 
 ## Residuals
 

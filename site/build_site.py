@@ -16,8 +16,8 @@ import html
 from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROC = os.path.join(ROOT, "data", "processed")
-SITE = ROOT  # GitHub Pages is configured to serve the repository root
+PROC = os.path.join(ROOT, "data", "origin")
+SITE = os.path.join(ROOT, "origin")
 
 with open(os.path.join(PROC, "model_output.json"), encoding="utf-8") as fh:
     M = json.load(fh)

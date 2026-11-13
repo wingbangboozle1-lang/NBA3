@@ -29,7 +29,7 @@ from nbastats import (  # noqa: E402
 )
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROC = os.path.join(ROOT, "data", "processed")
+PROC = os.path.join(ROOT, "data", "origin")
 RAW = os.path.join(ROOT, "data", "raw")
 
 SRC = {
