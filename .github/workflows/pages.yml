@@ -32,6 +32,10 @@ jobs:
           if broken: raise SystemExit(f'Broken in-page links: {broken}')
           print(f'Validated {len(p.ids)} section ids and {len(p.hrefs)} links (external links are not fetched in CI).')
           PY
+      - name: Run NBA3 unit tests and data/link checks
+        run: |
+          python3 -m unittest tests/test_validate_gates.py
+          python3 tools/check_site.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
