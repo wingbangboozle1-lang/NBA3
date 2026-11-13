@@ -373,6 +373,57 @@ was fetched, not when the PR was opened.
 - CI run [43521981275](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43521981275) (pull_request): `build` job succeeded on every step (both sides' unit tests, both checkers, all three builds with drift checks, research verify, artifact staging). `deploy` skipped on PR by design.
 - **Unresolved risk for owner review (does not block the merge under the brief):** `main`'s `data/picks.json` and `lab/picks.html` publish odds-based picks with "POSITIVE EV" labels, marked "TIER C - pre-validation, paper only". NBA Terms s.9 (gambling use), Dutch promotion rules (Art. 1 of the Wet op de kansspelen; Q-LEG-01) and the unverified minimum age (Q-LEG-03) are open. This session's `/research/` publishes no picks. The owner decides whether `lab/picks` stays published. Logged as flag F13 on `/research/flagged.html` and in the PR body.
 
+
+---
+
+## Session arena-0a016df8 (branch `arena/0a016df8-nba3`) — round: verified data, origination engine, gated picks, edge/ dashboard
+
+Session ID: `arena-0a016df8`. Platform constraint: single assigned branch; scopes enforced per task.
+Claimed at 2026-11-13 (UTC); origin/main was at `dbb8575` at claim time.
+
+| ID | Task | Status | Files (scope) |
+|---|---|---|---|
+| T1 | Repo scaffolding & coordination board round 2 | done | README.md, COORDINATION.md (this section), .gitignore |
+| T2 | Data collection: 2026-27 results/schedule, official injury report, ratings refs | done | data/raw/**, data/processed/**, data/model/ratings_*.csv, data/injuries/injury_report_2026-11-13.json |
+| T3 | Origination engine, walk-forward validation gates, permutation tests, correlations | done | pipeline/{build_data,run_model}.py, docs/methodology.md, data/model/*.json |
+| T4 | Picks for every slate ≤3 days (singles, parlay combos, prop markets) | done | pipeline/{make_picks,make_props}.py, data/picks/** |
+| T5 | Injury/rotation & game-flow analysis | done | docs/injuries_gameflow.md |
+| T6 | Executive summary, open questions, suggestions queue | done | docs/{executive_summary,open_questions,suggestions}.md |
+| T7/T8 | Dashboard subpages + line-by-line verification pass | done | edge/** (moved from site/ — see incident), docs/verification_log.md |
+| T9 | Integration: re-verify, link check, PR to main, merge, Pages publish | done (this merge) | root index.html (1 nav link), .github/workflows/pages.yml (edge staging + check step), README.md (merge) |
+
+### Sources used (all fetched & transcribed 2026-11-13)
+- [BBR 2026-27 October schedule](https://www.basketball-reference.com/leagues/NBA_2027_games-october.html) · [November](https://www.basketball-reference.com/leagues/NBA_2027_games-november.html): 174 game results (Oct 20–Nov 12) + Nov 13–16 schedule.
+- [BBR 2026-27 team ratings](https://www.basketball-reference.com/leagues/NBA_2027_ratings.html): record cross-check (30/30 reconcile) + current adjusted ratings.
+- [BBR 2025-26 final ratings](https://www.basketball-reference.com/leagues/NBA_2026_ratings.html): model prior.
+- [Official NBA injury report PDF 11/13/26 5:00 PM ET](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf): availability rows transcribed (official source).
+- [BBR daily boxscores Nov 6](https://www.basketball-reference.com/boxscores/?month=11&day=6&year=2026): re-verification incl. quarter scores.
+- [BBR 2026-27 per-game stats](https://www.basketball-reference.com/leagues/NBA_2027_per_game.html): player averages for originated props.
+
+### Verification performed
+- 30/30 team records reconcile between the transcribed game log and the independent BBR ratings table (174 games).
+- Corrupted-fetch row (Nov 6 TOR@MIL) caught, flagged, re-verified from daily boxscores.
+- Pipeline bugs found & fixed before publication: OT/note conflation; ROI accounting error; same-day Elo leakage (date-batch fix). Audit trail in git history.
+- Walk-forward backtest (burn-in 30, n=138): Brier 0.2001; permutation tests (2,000 shuffles); STRAT1 +48.2% ROI @ assumed −110 (n=85, provisional — fails only the ≥100-sample gate); STRAT2 +23.5% (n=68, provisional); STRAT3 totals and STRAT4 parlays FAIL gates → published as not eligible.
+- ROI is measured vs OUR OWN line at an assumed −110 (no licensed odds feed) — market eligibility unproven; labeled everywhere.
+- `pipeline/check_site.py`: 13 pages, 10 data files, all internal links resolve, all JSON parses (run locally + added to CI).
+
+### Irregularities (published on edge/flagged.html; none block merge)
+- Collision incident: this session initially built its dashboard under `site/`, which was already
+  owned by 7c532e8c (generated tree, "do not edit by hand"). Resolved by MOVING this session's
+  dashboard to `edge/` (git mv) before merging; 7c532e8c's `site/` untouched.
+- Cross-session request (T9 integration): root `index.html` (9ed6085f generated) receives ONE
+  nav link to `edge/index.html` (same pattern 7c532e8c used); no other content changed.
+- Injury reports for 11/15–11/16 not yet published at generation time → picks flagged pending.
+- No player-level minutes/on-off data → numeric injury impact deliberately NOT produced.
+- Data redistribution rights and Dutch Koa licence questions (7C-F-01/02) noted; this session
+  publishes model outputs and links, and defers to the owner review already queued.
+- Pages/Publish: PR opened from `arena/0a016df8-nba3`; merge + deploy result recorded in the
+  board update at merge time.
+
+### Update after merge
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/11 (`arena/0a016df8-nba3` -> `main`; head `26f6e9c`). Merge commit and Pages deploy run recorded below after merge.
+- Live URLs after deploy: https://wingbangboozle1-lang.github.io/NBA3/ (root) and https://wingbangboozle1-lang.github.io/NBA3/edge/ (this session's dashboard).
 ### Result: PR #7 merged, Pages deployed (session 9ed6085f)
 
 | Item | Result |
@@ -389,3 +440,4 @@ was fetched, not when the PR was opened.
 - `lab/picks` on `main` publishes odds-based picks with POSITIVE EV labels before counsel review (F13, Q-LEG-01).
 - Cross-session data issue for arena/7c532e8c: Miami rows in `data/injuries.json` carry matchup `CLE@MIA` that the PDF does not show (see integration log above).
 - `/research/` publishes no picks, lines or correlation values.
+

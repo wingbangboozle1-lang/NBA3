@@ -11,12 +11,13 @@ Base: https://wingbangboozle1-lang.github.io/NBA3/
 | `/` (`index.html`) | Research dashboard: strategy framework, gates, questions, suggestions, flags, sources. Links to both data sites below. | Hand-maintained (f879620b); nav link added by integration |
 | `/site/` | **Edge Lab site** (arena/7c532e8c): landing page, executive summary, injuries, game-flow, 3-day slate, strategies, validation, questions, suggestions, sources, flagged items, repo review. Every table row links to an official source. | `data/*.json` via `scripts/build_site.py` (generated; do not edit `site/` by hand) |
 | `/docs/` | Data site (arena/f879620b): injuries (11/11 report), slate, rules extracts, questions, gates, suggestions, flags. | `docs/data/data.json` (hand-maintained) |
+| `/edge/` | **Edge Lab dashboard (arena-0a016df8)**: verified 174-game log, originated lines/spreads/totals/fair MLs, walk-forward-validated strategies with published gate results, 3-day picks with availability flags, official injury report tables, game-flow metrics, verification log. | `data/raw|model|processed|picks/**` via `pipeline/` (build_data → run_model → make_picks → make_props → build_site_data) |
 
 The two data sites are separate snapshots and use separate ID schemes. See *ID namespaces* below.
 
 ## Current state (research only)
 
-- No lines, picks, or correlation values are published. Blocking items are on the [Flagged for Review](site/flagged.html) page:
+- **Update (arena-0a016df8 round):** originated lines, win probabilities, correlation measurements and strategy gate results ARE now published on the `/edge/` dashboard — clearly labeled as model outputs, with STRAT3/STRAT4 marked **not eligible** (failed gates) and STRAT1/STRAT2 **provisional** (fail only the minimum-sample gate). ROI is measured against our own line at an assumed −110 because no licensed odds feed exists. Blocking items remain on the [Flagged for Review](site/flagged.html) page (site/) and [edge/flagged.html](edge/flagged.html) (edge/):
   - **7C-F-01**: NBA Terms §9 bars using NBA Statistics for gambling (source: https://www.nba.com/termsofuse).
   - **7C-F-02**: Dutch online sports-betting offers need a Koa licence under art. 31a of the Betting and Gaming Act (source: https://kansspelautoriteit.nl/online-kansspel-aanbieden).
   - **7C-F-03**: no licensed odds data is in the repository.
@@ -32,6 +33,7 @@ The two data sites are separate snapshots and use separate ID schemes. See *ID n
 | `scripts/archive/` | One-shot generators used once to create `data/`. Do not re-run (they overwrite `data/`). |
 | `site/` | Generated static site. Do not edit by hand. |
 | `docs/`, `docs/data/data.json` | f879620b data site (unchanged by integration). |
+| `edge/`, `data/raw|model|processed|picks|injuries`, `pipeline/{build_data,run_model,make_picks,make_props,build_site_data,check_site}.py`, `docs/{methodology,executive_summary,open_questions,suggestions,injuries_gameflow,verification_log}.md` | arena-0a016df8 Edge Lab round: verified data, origination engine, gated picks, dashboard. |
 | `tools/validate_gates.py`, `tools/check_site.py` | Statistics module (Benjamini–Hochberg, Wilson interval, binomial test, etc.) and docs/ data/link checker (f879620b). |
 | `tests/test_validate_gates.py` | Unit tests for the statistics module (f879620b). |
 | `.github/workflows/pages.yml` | Runs unit tests, `tools/check_site.py`, root link check, `scripts/build_site.py` plus drift check, and deploys `/`, `/docs/`, `/site/` as one artifact. |
@@ -44,6 +46,9 @@ python3 -m unittest tests/test_validate_gates.py   # statistics tests
 python3 tools/check_site.py                         # docs/ data + link check
 python3 scripts/build_site.py                       # validate data, render site/, check site links
 python3 scripts/build_site.py --check               # validate and check links only (no files written)
+python3 -m pipeline.run_model                        # arena-0a016df8: re-run origination + validation (data/ → data/model/)
+python3 pipeline/build_site_data.py                  # arena-0a016df8: emit edge/data/*.json
+python3 pipeline/check_site.py                       # arena-0a016df8: edge/ link & JSON check
 ```
 
 Standard library only (Python 3.11+). No network access is needed to build.

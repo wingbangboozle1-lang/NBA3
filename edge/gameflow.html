@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Game Flow | NBA3</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><script src="assets/nav.js"></script><main>
+<div class="crumb"><a href="../index.html">Overview</a> / Game Flow</div>
+<h1>Game-flow analysis</h1>
+<p class="sub">Computed from the verified 174-game 2026-27 log (through Nov 12). Source: <a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">Basketball-Reference</a>.</p>
+<div id="metrics"></div>
+<h2>Scoring flow — Nov 6, 9-game sample (quarter totals, avg per quarter)</h2>
+<div id="quarters"></div>
+<div class="note">Q3 dip (53.6) vs ~58 in other quarters is consistent with halftime adjustments. Single-day sample — illustrative, not a betting signal. Full quarter data requires play-by-play ingestion (Open Questions Q6-adjacent).</div>
+<h2>Rest & fatigue</h2>
+<div id="rest"></div>
+<footer>Derived metrics are computed in <code>pipeline/</code>; raw JSON: <a href="data/games.json">games.json</a>.</footer>
+</main>
+<script src="assets/app.js"></script>
+<script>
+(async()=>{
+ document.getElementById('metrics').appendChild(table([{h:'Metric (2026-27 through 11/12)'},{h:'Value',cls:'num'},{h:'Reading'}],[
+  [td('Average total'),td('226.8','num'),td('sd 19.2 — high-variance season')],
+  [td('Home win rate'),td('51.1%','num'),td('below typical ~53–55%')],
+  [td('Average home margin'),td('+1.62','num'),td('low vs ~+2.4 historical home edge — monitored')],
+  [td('Overtime rate'),td('5.2%','num'),td('9/174 — normal range (an earlier 16.7% reading was a data bug, fixed)')],
+  [td('Blowout rate (margin ≥ 20)'),td('25.3%','num'),td('44/174 — high; treat LOW-confidence lines as coin flips')]]));
+ document.getElementById('quarters').appendChild(table([{h:'Quarter'},{h:'Avg points',cls:'num'}],[
+  [td('Q1'),td('57.6','num')],[td('Q2'),td('58.8','num')],[td('Q3'),td('53.6','num')],[td('Q4'),td('57.7','num')]]));
+ document.getElementById('rest').appendChild(table([{h:'Rest situation'},{h:'Record (team-games)',cls:'num'},{h:'Win rate',cls:'num'},{h:'Reading'}],[
+  [td('Back-to-back'),td('29/61','num'),td('47.5%','num'),td('−3.6 pp vs overall; not significant at n=61 — flagged, no numeric adjustment')],
+  [td('3+ days rest'),td('28/55','num'),td('50.9%','num'),td('baseline')]]));
+})().catch(e=>{document.body.appendChild(el('p','note red','Failed to load data: '+e));});
+</script></body></html>

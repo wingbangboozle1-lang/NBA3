@@ -6,6 +6,7 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /site/           -> arena/7c532e8c site (generated from data/*.json by scripts/build_site.py)
 #   /lab/            -> arena/5697caaf line lab (scripts/model.py, scripts/build_lab.py)
 #   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
+#   /edge/           -> arena-0a016df8 Edge Lab dashboard (verified game log, originated lines, gated picks)
 # Pull requests run every check but never deploy.
 
 on:
@@ -74,6 +75,8 @@ jobs:
           python3 pipeline/build_site.py
           python3 pipeline/verify.py
           test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
+      - name: Edge Lab checks (arena-0a016df8: subpages, internal links, data JSON)
+        run: python3 pipeline/check_site.py
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -82,6 +85,7 @@ jobs:
           cp -r site _pages/site
           cp -r lab _pages/lab
           cp -r research _pages/research
+          cp -r edge _pages/edge
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
