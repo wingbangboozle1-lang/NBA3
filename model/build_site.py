@@ -415,13 +415,13 @@ players listed <i>Out</i> or <i>Doubtful</i>.</p>
         table_ratings=table(
             ["Team", "GP", "W-L", "OffRtg", "DefRtg", "NetRtg", "Pace", "Fitted rating", "Source"],
             ["".join(["<tr><td><b>{}</b></td><td class='num'>{}</td>"
-                      "<td class='num'>{}-{}</td>{}".format(
+                      "<td class='num'>{}-{}</td>{}{}{}{}{}{}</tr>".format(
                           esc(t), int(TEAM_R[t]["gp"]), int(TEAM_R[t]["w"]), int(TEAM_R[t]["l"]),
                           num(TEAM_R[t]["off_rtg"]), num(TEAM_R[t]["def_rtg"]),
-                          num(TEAM_R[t]["net_rtg"], 1, ""),
+                          num(TEAM_R[t]["net_rtg"], 1),
                           num(TEAM_R[t]["pace"], 2),
-                          num(TEAM_R[t]["massey_rating"], 2)) +
-                      src(TEAM_R[t]["url"], "team") + "</tr>"])
+                          num(TEAM_R[t]["massey_rating"], 2),
+                          src(TEAM_R[t]["url"], "team"))])
              for t in sorted(TEAM_R, key=lambda x: -TEAM_R[x]["net_rtg"])],
             "tbl"),
     )
@@ -538,7 +538,7 @@ A model that cannot beat that has no business originating lines.</p>
         table_models=table(
             ["Model", "Margin RMSE", "Margin baseline", "Total RMSE", "Total baseline",
              "Margin bias", "Total bias", "n"],
-            ["<tr><td><b>{}</b>{}</td>{}".format(
+            ["<tr><td><b>{}</b>{}</td>{}{}{}{}{}{}<td class='num'>{}</td></tr>".format(
                 esc(m["label"]),
                 " <span class='badge badge-ok'>selected</span>"
                 if (m["label"] == SEL["margin"]["selected"] or
@@ -546,7 +546,7 @@ A model that cannot beat that has no business originating lines.</p>
                 num(m["margin"]["rmse"], 2), num(m["margin_baseline_rmse"], 2),
                 num(m["total"]["rmse"], 2), num(m["total_baseline_rmse"], 2),
                 num(m["margin"]["bias"], 2), num(m["total"]["bias"], 2),
-                "<td class='num'>{}</td>".format(m["n"]))
+                m["n"])
              for m in (MODELS["A"], MODELS["B"], MODELS["C"])], "tbl"),
     )
     return shell("strategies.html", "Strategy Leaderboard",
@@ -573,10 +573,12 @@ def page_correlations():
                     c["ci95"][0], c["ci95"][1])
             n_cell = "<td class='num'>{}</td>".format(c["n"])
             src_cell = src(c["source"], "nba.com")
-        rows.append("<tr><td><b>{}</b></td><td>{}</td>{}{}{}{}<td>{}</td>{}</tr>".format(
-            esc(c["pair"]), esc(c["stat"]), val_cell, ci_cell, n_cell,
-            badge("verified", "ok") if c["verified"] else badge("assumption", "warn"),
-            esc(c["note"]), src_cell))
+        rows.append("<tr><td><b>{}</b></td><td>{}</td>{}{}{}<td>{}</td>"
+                    "<td>{}</td>{}</tr>".format(
+                        esc(c["pair"]), esc(c["stat"]), val_cell, ci_cell, n_cell,
+                        badge("verified", "ok") if c["verified"]
+                        else badge("assumption", "warn"),
+                        esc(c["note"]), src_cell))
 
     jr, ir = CORR["parlay_joint_rate"], CORR["parlay_independent_rate"]
     body = """
@@ -806,9 +808,9 @@ prices; if that changes, the comparison becomes possible.</li>
 def page_gameflow():
     pace_rows = []
     for p in FLOW["pace_leaders"]:
-        pace_rows.append("<tr><td><b>{}</b></td>{}".format(
+        pace_rows.append("<tr><td><b>{}</b></td>{}{}{}{}{}</tr>".format(
             esc(p["team"]), num(p["pace"], 2), num(p["off_rtg"]), num(p["def_rtg"]),
-            num(p["net_rtg"], 1), src(p["url"], "team")) + "</tr>")
+            num(p["net_rtg"], 1), src(p["url"], "team")))
 
     rest_rows = ["<tr><td><b>{}</b></td><td class='num'>{}</td></tr>".format(
         esc(k), v) for k, v in FLOW["rest_distribution"].items()]
@@ -1055,10 +1057,11 @@ def flagged_items():
     })
 
     # 4. uncaptured injured players
-    unc = []
+    unc_set, unc = set(), []
     for r in IMPACT:
         for d in r["details"]:
-            if d["mpg"] is None and d["player"]:
+            if d["mpg"] is None and d["player"] and d["player"] not in unc_set:
+                unc_set.add(d["player"])
                 unc.append((r["team"], d["player"], d["status"]))
     items.append({
         "area": "Injuries",
@@ -1479,7 +1482,7 @@ def page_questions():
          "Reviewer decision; both conventions are defensible but must be consistent.", "low"),
     ]
 
-    hrows = ["<tr><td><b>{}</b></td><td>{}</td><td>{}</td></tr>".format(
+    hrows = ["<tr><td><b>{}</b></td><td>{}</td>{}</tr>".format(
         esc(a), esc(b), src(c, "nba.com") if c else '<td class="muted">derived</td>')
         for a, b, c in have]
     nrows = ["<tr><td><b>{}</b></td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
