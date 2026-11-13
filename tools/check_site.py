@@ -114,6 +114,11 @@ def main():
     d = load()
     n_inj, n_slate, n_rules = check_data(d)
     pages = check_html()
+    root_index = os.path.join(ROOT, "..", "index.html")
+    if not os.path.exists(root_index):
+        fail("root index.html (redirect to docs/) missing")
+    elif "docs/index.html" not in open(root_index, encoding="utf-8").read():
+        fail("root index.html does not redirect to docs/index.html")
     if failures:
         print("FAIL")
         for f in failures:

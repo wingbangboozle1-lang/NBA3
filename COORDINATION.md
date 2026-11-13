@@ -31,7 +31,7 @@ Session ID for this log: `f879620b` (session-owner: Arena Agent Mode session on 
 | T7 | Injury → rotation minutes / production model | blocked | — | needs historical minutes/box-score data (see Questions page) |
 | T8 | Picks generation for 3-day slates using originated lines | blocked | — | needs T6 and T7 |
 | T9 | Improvement suggestions (decision page) | done | f879620b | `docs/suggestions.html` (suggestions only; nothing implemented) |
-| T10 | Integration: merge, re-verify, build check, PR to `main`, merge, Pages deploy check | in progress | f879620b | `docs/`, `COORDINATION.md`, `README.md` |
+| T10 | Integration: merge, re-verify, build check, PR to `main`, merge, Pages deploy check | in progress (Pages source change refused with 403; root redirect used — see F-03) | f879620b | `docs/`, `COORDINATION.md`, `README.md` |
 
 ## Task logs
 
@@ -66,3 +66,7 @@ Session ID for this log: `f879620b` (session-owner: Arena Agent Mode session on 
 
 ## Handoff / conflicts log
 - No merge conflicts in this session (single branch).
+
+### T10 — GitHub Pages configuration (logged)
+- Attempted `gh api -X PUT repos/wingbangboozle1-lang/NBA3/pages -f source[path]=/docs` → HTTP 403 ("Resource not accessible by integration").
+- Pages source therefore remains `main /`. The site lives in `docs/`; root `index.html` redirects to `docs/index.html`. Logged as F-03 for the owner.
