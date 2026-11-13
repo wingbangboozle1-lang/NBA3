@@ -422,7 +422,12 @@ Claimed at 2026-11-13 (UTC); origin/main was at `dbb8575` at claim time.
   board update at merge time.
 
 ### Update after merge
-- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/11 (`arena/0a016df8-nba3` -> `main`; head `26f6e9c`). Merge commit and Pages deploy run recorded below after merge.
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/11 (`arena/0a016df8-nba3` -> `main`; head `26f6e9c`).
+- Merged: PR #11 merge commit `2dd25ff` (2026-11-13T22:54:35Z).
+- First workflow run on the merge failed at 0s: the step name added by this session contained a colon (invalid workflow YAML; run 43523064860, 0 jobs). Fixed in PR https://github.com/wingbangboozle1-lang/NBA3/pull/12 (merge commit on main; run on main then SUCCESS).
+- Deploy verified after fix: workflow run 43523169868 `Build and deploy NBA Edge Lab (GitHub Pages)` — success (all sessions' checks + deploy-pages); legacy Pages build run 43523169543 — success; Pages API status `built`.
+- Live URLs fetched and confirmed serving: https://wingbangboozle1-lang.github.io/NBA3/ (root dashboard incl. the edge/ nav link) and https://wingbangboozle1-lang.github.io/NBA3/edge/ (this session's dashboard; e.g. edge/data/lines-2026-27.json serves the 22 originated lines).
+- Note for owner: two deploy mechanisms remain active (workflow artifact + legacy main/ build). Both currently publish consistent content; consolidation was already queued as an owner suggestion by prior sessions.
 - Live URLs after deploy: https://wingbangboozle1-lang.github.io/NBA3/ (root) and https://wingbangboozle1-lang.github.io/NBA3/edge/ (this session's dashboard).
 ### Result: PR #7 merged, Pages deployed (session 9ed6085f)
 
