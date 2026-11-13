@@ -1,0 +1,289 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Player props &amp; correlation — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html" class="on">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Player props</h2>
+<p class="lead">Prop markets are quoted and de-vigged, but <b>no prop probability is
+modelled here</b>. A prop number needs a minutes distribution, and no minutes source was
+retrieved this session. Rather than invent one, the model columns are blank and flagged.</p>
+
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Player</th><th>Stat</th><th class="num">Line</th><th class="num">Over</th>
+<th class="num">Under</th><th class="num">De-vigged over</th><th class="num">Hold</th>
+<th class="num">Move</th><th class="num">Season avg</th><th class="num">Model p</th>
+<th>Status</th><th>Source</th></tr></thead><tbody><tr>
+<td><b>Karl-Anthony Towns</b><div class="tiny muted">NYK</div></td>
+<td>Points</td>
+<td class="num">21.5</td>
+<td class="num">-102</td><td class="num">-124</td>
+<td class="num">47.7%</td>
+<td class="num">5.9%</td>
+<td class="num">+2.0</td>
+<td class="num">20.9</td>
+<td class="num"><span class="chip c-warn">no model</span></td>
+<td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
+<td class="src"><a href="https://www.espn.com/nba/player/_/id/3136195" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
+</tr><tr>
+<td><b>Kelly Oubre Jr.</b><div class="tiny muted">PHI</div></td>
+<td>Points</td>
+<td class="num">10.5</td>
+<td class="num">-125</td><td class="num">-102</td>
+<td class="num">52.4%</td>
+<td class="num">6.0%</td>
+<td class="num">-1.0</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num"><span class="chip c-warn">no model</span></td>
+<td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
+<td class="src"><a href="https://www.espn.com/nba/player/_/id/3133603" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
+</tr><tr>
+<td><b>Josh Hart</b><div class="tiny muted">NYK</div></td>
+<td>Points</td>
+<td class="num">9.5</td>
+<td class="num">-107</td><td class="num">-119</td>
+<td class="num">48.8%</td>
+<td class="num">6.0%</td>
+<td class="num">+0.0</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num"><span class="chip c-warn">no model</span></td>
+<td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
+<td class="src"><a href="https://www.espn.com/nba/player/_/id/3062679" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
+</tr><tr>
+<td><b>Mikal Bridges</b><div class="tiny muted">NYK</div></td>
+<td>Points</td>
+<td class="num">8.5</td>
+<td class="num">-108</td><td class="num">-118</td>
+<td class="num">49.0%</td>
+<td class="num">6.0%</td>
+<td class="num">+0.0</td>
+<td class="num">5.9</td>
+<td class="num"><span class="chip c-warn">no model</span></td>
+<td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
+<td class="src"><a href="https://www.espn.com/nba/player/_/id/3147657" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
+</tr><tr>
+<td><b>Andre Drummond</b><div class="tiny muted">NYK</div></td>
+<td>Points</td>
+<td class="num">3.5</td>
+<td class="num">-142</td><td class="num">111</td>
+<td class="num">55.3%</td>
+<td class="num">6.1%</td>
+<td class="num">+0.0</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num"><span class="chip c-warn">no model</span></td>
+<td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
+<td class="src"><a href="https://www.espn.com/nba/player/_/id/6585" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
+</tr></tbody></table></div></div>
+
+<div class="note"><b>What is real in that table.</b> The line, both prices, the de-vigged
+probability and the hold are transcribed from a live two-way prop market and are
+correct as of the timestamp on the ESPN record. The move column is the current line
+minus the opening line. The season average is the player's own scoring average as
+printed on its source. <b>What is missing is the model</b> — and a missing model is not a
+zero.</div>
+
+<div class="card">
+<h3 style="margin-top:0">Why props are the hardest market to originate honestly</h3>
+<ul class="tight">
+<li><b>Minutes are the number.</b> A player averaging 5.9 points
+can clear almost any line or none, depending on whether he plays 17 or 34 minutes. Blocks,
+steals and rebounds scale even more steeply.</li>
+<li><b>Blowout risk is asymmetric.</b> A 15-point game can delete a fourth quarter for the
+starter you picked and hand it to a bench player you did not.</li>
+<li><b>Availability resolves late.</b> The official report is a snapshot that keeps being
+revised up to tip-off, so a prop priced at 5 p.m. can be wrong at 7 p.m. with no change
+in the number.</li>
+</ul>
+<div class="danger" style="margin-bottom:0"><b>Consequence for this build.</b> Player
+prop combos (strategy S6) are the only strategy with <b>zero</b> validation gates passed.
+It is blocked, not merely unproven.</div>
+</div>
+
+<h2>Correlation — measured, with error bars</h2>
+<p class="lead">Parlays live or die on dependence. Multiplying leg probabilities assumes
+independence, and that assumption is exactly what a same-game parlay violates. Below is
+what was actually measured on 86 completed games, and — just as
+importantly — what could not be measured at all.</p>
+
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Leg A</th><th>Leg B</th><th class="num">n</th><th class="num">Pearson r</th>
+<th class="num">95% CI</th><th>Reading</th><th>Status</th><th>Source</th></tr></thead>
+<tbody><tr>
+<td>Away team total points</td><td>Home team total points</td>
+<td class="num">86</td>
+<td class="num">+0.082</td>
+<td class="num mono tiny">-0.132 … +0.289</td>
+<td class="tiny">Positive: both teams&#x27; scoring is driven by a shared possession count, so opposing totals move together. This is the mechanism behind same-game total correlation.</td>
+<td class="tiny"><span class="chip c-ok">measured</span></td>
+<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a></td>
+</tr><tr>
+<td>Game margin (home-away)</td><td>Game total</td>
+<td class="num">86</td>
+<td class="num">+0.005</td>
+<td class="num mono tiny">-0.207 … +0.217</td>
+<td class="tiny">Near zero means spread and total legs in the same game are close to independent, so a spread+total parlay can be multiplied with little error.</td>
+<td class="tiny"><span class="chip c-ok">measured</span></td>
+<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a></td>
+</tr><tr>
+<td>Team own points</td><td>Opponent points (pooled within team)</td>
+<td class="num">29</td>
+<td class="num">+0.049</td>
+<td class="num mono tiny">—</td>
+<td class="tiny">Average within-team correlation across 29 teams with &gt;=5 games. Catches pace-driven teams that inflate both sides.</td>
+<td class="tiny"><span class="chip c-ok">measured</span></td>
+<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a></td>
+</tr><tr>
+<td>Player points</td><td>Player rebounds (same player)</td>
+<td class="num">—</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num mono tiny">—</td>
+<td class="tiny">Not measured.</td>
+<td class="tiny"><span class="chip c-warn">not measured</span></td>
+<td class="src"><a href="questions.html">Q9</a> <span class="chip c-warn">no source</span></td>
+</tr><tr>
+<td>Player points</td><td>Same-team teammate points</td>
+<td class="num">—</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num mono tiny">—</td>
+<td class="tiny">Not measured.</td>
+<td class="tiny"><span class="chip c-warn">not measured</span></td>
+<td class="src"><a href="questions.html">Q9</a> <span class="chip c-warn">no source</span></td>
+</tr><tr>
+<td>Player points over</td><td>Team total over</td>
+<td class="num">—</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num mono tiny">—</td>
+<td class="tiny">Not measured.</td>
+<td class="tiny"><span class="chip c-warn">not measured</span></td>
+<td class="src"><a href="questions.html">Q9</a> <span class="chip c-warn">no source</span></td>
+</tr><tr>
+<td>Player minutes</td><td>Any prop</td>
+<td class="num">—</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
+<td class="num mono tiny">—</td>
+<td class="tiny">Not measured.</td>
+<td class="tiny"><span class="chip c-warn">not measured</span></td>
+<td class="src"><a href="questions.html">Q9</a> <span class="chip c-warn">no source</span></td>
+</tr></tbody></table></div></div>
+
+<div class="grid g2">
+<div class="card">
+<h3 style="margin-top:0">What the numbers say</h3>
+<ul class="tight">
+<li><b>Away total vs home total:</b> r = +0.082.
+Both totals share the same possession count, but the interval includes zero, so with this
+sample the dependence is <i>weak and not established</i>. Do not build a parlay model on
+it yet.</li>
+<li><b>Margin vs total:</b> r = +0.005,
+interval spanning zero. Spread and total legs in the same game can be multiplied as
+approximately independent without much error — which is the useful, boring answer.</li>
+<li><b>Sample honesty:</b> n = 86 is enough to rule out a large
+correlation and not enough to establish a small one. The intervals show that explicitly
+rather than hiding it behind a point estimate.</li>
+</ul>
+</div>
+<div class="card">
+<h3 style="margin-top:0">What could not be measured</h3>
+<p class="tiny">These are the correlations that actually matter for the prop combos the
+brief asks about. Each is blank, not estimated:</p>
+<ul class="tight tiny">
+<li>Points vs rebounds for the same player</li>
+<li>A player's points vs a teammate's points</li>
+<li>A player's over vs the team total over</li>
+<li>Minutes vs any prop, and therefore blowout-conditioned props</li>
+</ul>
+<p class="tiny muted" style="margin-bottom:0">All four need per-player game logs, which
+were not collected. Every one is listed on
+<a href="review.html">Flagged for review</a> with what would be required to close it.</p>
+</div>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">Prop market inventory</h3>
+<p>A single game exposes <b>1,170</b> individual prop price points
+across 47 pages of the upstream feed. Athlete names come
+back as opaque numeric ids, so resolving every one is a lookup per player. Five were
+resolved and are shown above with their real names and club, cross-checked against each
+player's own record. The rest are deliberately not published, because a price without a
+correctly identified player is worse than no price.</p>
+</div>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

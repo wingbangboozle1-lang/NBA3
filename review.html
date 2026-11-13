@@ -1,0 +1,161 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flagged for review — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html" class="on">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Flagged for review</h2>
+<p class="lead">Everything this build could not verify, could not measure, or deliberately
+chose not to assert. These items do not block publication — they block any claim that the
+system is validated, and they are listed here so a reviewer can act on them after the site
+is live.</p>
+
+<div class="danger"><b>Nothing on this list is hidden elsewhere.</b> Where a value could
+not be confirmed from a source it is blank in the tables and marked
+<span class="chip c-warn">unverified</span>. No value anywhere on this site was inferred,
+interpolated, or filled from a plausible-looking default.</div>
+
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>ID</th><th>Irregularity</th><th>Detail</th><th>Why it is flagged</th>
+<th>Source / action</th></tr></thead><tbody><tr><td><b>IR-01</b></td><td><b>Branch naming deviates from the brief</b></td><td class="tiny">The brief specifies branches named session-&amp;lt;id&amp;gt;/&amp;lt;task&amp;gt;. The workspace binds this session to the fixed branch arena/5697caaf-nba3 and forbids switching, so all work is committed there.</td>
+<td class="tiny">Workspace constraint, not a data problem.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-02</b></td><td><b>Previous version of this site linked the wrong season&#x27;s injury report</b></td><td class="tiny">The prior build linked the 2025-26 injury index while the live season is 2026-27. The link is corrected here and this entry records that it was wrong.</td>
+<td class="tiny">Prior commit on main, still visible in git history.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">source</a></td></tr><tr><td><b>IR-03</b></td><td><b>Previous version asserted that no data existed</b></td><td class="tiny">The prior build stated that no schedule, injury or odds data was available. An official schedule, the official dated injury PDF and public two-way prices were all retrievable, and are now collected. The earlier claim was wrong and is logged rather than quietly removed.</td>
+<td class="tiny">Correction is visible in this session&#x27;s commits.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-04</b></td><td><b>Home-court edge and distribution widths are partly assumed</b></td><td class="tiny">The home edge is measured (+1.51 pts) but its 95% CI spans zero. The shrinkage constant k is assumed, not fitted. Every line moves one-for-one with these.</td>
+<td class="tiny">Thin sample: 86 games, one 12-day window.</td>
+<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">source</a></td></tr><tr><td><b>IR-05</b></td><td><b>Team ratings come from a secondary source</b></td><td class="tiny">ORtg, DRtg and pace are Basketball-Reference figures, not an NBA-published export. They are reliable and widely used, but they are not the league&#x27;s own numbers and are labelled secondary throughout.</td>
+<td class="tiny">No machine-readable official team-rating endpoint was reachable in this session.</td>
+<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">source</a></td></tr><tr><td><b>IR-06</b></td><td><b>Market prices are one book, one snapshot</b></td><td class="tiny">All prices come from a single provider relayed by ESPN. &#x27;Edge&#x27; therefore means edge against that provider at that minute. No market consensus was captured.</td>
+<td class="tiny">A second and third feed are required to make a market-level claim.</td>
+<td class="src"><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds" target="_blank" rel="noopener">source</a></td></tr><tr><td><b>IR-07</b></td><td><b>Prop player names were only partly resolved</b></td><td class="tiny">The prop feed returns athlete ids, not names. Five were resolved and verified against each player&#x27;s own record; the remaining 1165 price points in that game are not published with names.</td>
+<td class="tiny">One lookup per athlete; the game exposes 1,170 price points.</td>
+<td class="src"><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">source</a></td></tr><tr><td><b>IR-08</b></td><td><b>No prop model exists</b></td><td class="tiny">Prop lines and de-vigged prices are quoted. No model probability is published, because no minutes distribution exists. Every prop row reads &#x27;model not available&#x27;.</td>
+<td class="tiny">Blocked on a minutes source.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-09</b></td><td><b>Four correlations could not be measured</b></td><td class="tiny">Player points vs rebounds, player vs teammate, player over vs team total, and minutes vs any prop are blank. They need per-player game logs, which were not collected.</td>
+<td class="tiny">Data not retrieved in this session.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-10</b></td><td><b>No strategy passes all seven validation gates</b></td><td class="tiny">The leaderboard is deliberately unflattering: every strategy is pre-validation, and one is blocked outright. No strategy is eligible.</td>
+<td class="tiny">By design until the gates can actually be run.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-11</b></td><td><b>Five of six strategies carry no performance score</b></td><td class="tiny">Without historical closing prices a return cannot be computed, so no score is published rather than a fabricated one.</td>
+<td class="tiny">Blocked on a closing-line archive.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-12</b></td><td><b>Injury-adjusted lines are not produced</b></td><td class="tiny">Model lines ignore availability. The official report is carried alongside as a separate column and used only to reject signals, never to adjust a number.</td>
+<td class="tiny">Requires a minutes model.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-13</b></td><td><b>Market movement is not attributed to injuries</b></td><td class="tiny">Movement is shown next to availability counts. The causal column stays unverified, because the league publishes statuses, not the reasons a price moved.</td>
+<td class="tiny">No source publishes attribution.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr><tr><td><b>IR-14</b></td><td><b>Data is a point-in-time snapshot</b></td><td class="tiny">Everything reflects 2026-11-13T22:30Z. The injury report is superseded within 15 minutes near tip-off, so no operational decision should rest on this snapshot.</td>
+<td class="tiny">No automated refresh is running.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">source</a></td></tr><tr><td><b>IR-15</b></td><td><b>Legal and licensing status is unknown</b></td><td class="tiny">No terms-of-service review was done for any of the four sources, and no jurisdiction was specified. Retrieval is not a redistribution licence.</td>
+<td class="tiny">Blocked on legal review.</td>
+<td class="src"><a href="methodology.html">method</a></td></tr></tbody></table></div></div>
+
+<div class="grid g2">
+<div class="card">
+<h3 style="margin-top:0">First five to fix, in order</h3>
+<ol class="tight">
+<li><b>IR-11</b> — get closing prices. It converts the whole site from "model output" to
+"measured skill".</li>
+<li><b>IR-08</b> — get a minutes source. It reopens props, the biggest market.</li>
+<li><b>IR-15</b> — settle the legal question before anything is published as actionable.</li>
+<li><b>IR-06</b> — add price feeds until "the market" means more than one book.</li>
+<li><b>IR-14</b> — automate the refresh so the snapshot is never stale.</li>
+</ol>
+</div>
+<div class="card">
+<h3 style="margin-top:0">What is <i>not</i> on this list</h3>
+<p class="tiny">These were checked and are clean, so they are recorded as verified rather
+than flagged:</p>
+<ul class="tight tiny">
+<li>All 30 teams' net ratings equal ORtg minus DRtg, and every team's SRS equals
+MOV plus SOS — the arithmetic in the ratings table is internally consistent.</li>
+<li>All 86 transcribed game results reconcile with the season win-loss records; no
+team's subset wins or losses exceed its season total.</li>
+<li>All 9 market snapshots agree with the favourite and line stated in the provider's own
+detail string.</li>
+<li>Every game ID on the slate resolves between the league's schedule and the market feed,
+and every box score in the completed-games sample links to a dated box score.</li>
+<li>Every table row on this site links to an http source, and the build fails if one does
+not.</li>
+</ul>
+</div>
+</div>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

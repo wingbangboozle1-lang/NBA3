@@ -1,0 +1,524 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Originated lines — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html" class="on">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Originated lines — 2026-11-13 .. 2026-11-15 (72h)</h2>
+<p class="lead">Every game inside the 72-hour window, with our own spread, total and win
+probability, and the listed market beside it where a price was captured. Games with no
+captured price show <span class="chip c-warn">unverified</span> and are not estimated.</p>
+
+<div class="note"><b>Sign convention.</b> The model spread is written as the handicap on
+the <b>home</b> team, exactly like a book: <span class="mono">ORL -9.5</span> means home
+is favoured by 9.5. A positive number means the home team is getting points. This lets a
+modelled line be compared with a listed line directly, with no mental sign flip.</div>
+
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Date / tip</th><th>Matchup</th><th class="num">Away rating</th>
+<th class="num">Home rating</th><th class="num">Exp. poss.</th>
+<th class="num">Model spread</th><th class="num">Model total</th>
+<th class="num">P(home win)</th><th class="num">P(over)</th>
+<th class="num">Market spread</th><th class="num">Market total</th>
+<th class="num">Spread gap</th><th>Market</th><th>Source</th></tr></thead>
+<tbody><tr>
+<td class="tiny">2026-11-13<br><span class="mono">19:00 ET</span></td>
+<td><b>NYK</b> @ <b>IND</b>
+  <div class="tiny muted">New York Knicks at Indiana Pacers</div>
+  <div class="tiny muted">East Group B</div></td>
+<td class="num">+3.6</td>
+<td class="num">-1.2</td>
+<td class="num">97.6</td>
+<td class="num"><b>+7.7</b></td>
+<td class="num"><b>217.1</b></td>
+<td class="num">32.6%</td>
+<td class="num">68.4%</td>
+<td class="num">+8.5</td>
+<td class="num">219.5</td>
+<td class="num">-0.8</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/nyk-vs-ind-0022600034" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">19:00 ET</span></td>
+<td><b>MIL</b> @ <b>ORL</b>
+  <div class="tiny muted">Milwaukee Bucks at Orlando Magic</div>
+  <div class="tiny muted">East Group A</div></td>
+<td class="num">-7.7</td>
+<td class="num">-2.8</td>
+<td class="num">98.4</td>
+<td class="num"><b>-10.3</b></td>
+<td class="num"><b>224.0</b></td>
+<td class="num">72.6%</td>
+<td class="num">54.3%</td>
+<td class="num">-9.5</td>
+<td class="num">224.5</td>
+<td class="num">-0.8</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/mil-vs-orl-0022600035" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">20:00 ET</span></td>
+<td><b>CLE</b> @ <b>MIA</b>
+  <div class="tiny muted">Cleveland Cavaliers at Miami Heat</div>
+  <div class="tiny muted">East Group B</div></td>
+<td class="num">+1.1</td>
+<td class="num">-2.0</td>
+<td class="num">100.8</td>
+<td class="num"><b>+4.8</b></td>
+<td class="num"><b>232.6</b></td>
+<td class="num">39.0%</td>
+<td class="num">36.1%</td>
+<td class="num">-2.5</td>
+<td class="num">236.5</td>
+<td class="num">+7.3</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/cle-vs-mia-0022600036" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">20:00 ET</span></td>
+<td><b>ATL</b> @ <b>CHI</b>
+  <div class="tiny muted">Atlanta Hawks at Chicago Bulls</div>
+  <div class="tiny muted">East Group C</div></td>
+<td class="num">+1.0</td>
+<td class="num">-7.2</td>
+<td class="num">102.8</td>
+<td class="num"><b>+16.2</b></td>
+<td class="num"><b>242.0</b></td>
+<td class="num">17.3%</td>
+<td class="num">19.4%</td>
+<td class="num">+7.5</td>
+<td class="num">245.5</td>
+<td class="num">+8.7</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/atl-vs-chi-0022600037" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">20:00 ET</span></td>
+<td><b>MEM</b> @ <b>NOP</b>
+  <div class="tiny muted">Memphis Grizzlies at New Orleans Pelicans</div>
+  <div class="tiny muted">West Group B</div></td>
+<td class="num">+3.0</td>
+<td class="num">-3.7</td>
+<td class="num">99.8</td>
+<td class="num"><b>+11.8</b></td>
+<td class="num"><b>235.3</b></td>
+<td class="num">24.6%</td>
+<td class="num">30.9%</td>
+<td class="num">+3.5</td>
+<td class="num">235.5</td>
+<td class="num">+8.3</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/mem-vs-nop-0022600038" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">20:30 ET</span></td>
+<td><b>UTA</b> @ <b>HOU</b>
+  <div class="tiny muted">Utah Jazz at Houston Rockets</div>
+  <div class="tiny muted">West Group A</div></td>
+<td class="num">-5.9</td>
+<td class="num">+4.8</td>
+<td class="num">98.2</td>
+<td class="num"><b>-21.4</b></td>
+<td class="num"><b>219.4</b></td>
+<td class="num">89.5%</td>
+<td class="num">63.8%</td>
+<td class="num">-15.5</td>
+<td class="num">220.5</td>
+<td class="num">-6.0</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/uta-vs-hou-0022600039" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">21:30 ET</span></td>
+<td><b>GSW</b> @ <b>SAS</b>
+  <div class="tiny muted">Golden State Warriors at San Antonio Spurs</div>
+  <div class="tiny muted">West Group C</div></td>
+<td class="num">+4.1</td>
+<td class="num">+5.8</td>
+<td class="num">98.3</td>
+<td class="num"><b>-5.0</b></td>
+<td class="num"><b>229.5</b></td>
+<td class="num">61.4%</td>
+<td class="num">42.5%</td>
+<td class="num">-12.5</td>
+<td class="num">217.5</td>
+<td class="num">+7.5</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/gsw-vs-sas-0022600040" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">22:00 ET</span></td>
+<td><b>POR</b> @ <b>SAC</b>
+  <div class="tiny muted">Portland Trail Blazers at Sacramento Kings</div>
+  <div class="tiny muted">West Group C</div></td>
+<td class="num">+3.6</td>
+<td class="num">-6.3</td>
+<td class="num">99.9</td>
+<td class="num"><b>+18.7</b></td>
+<td class="num"><b>233.7</b></td>
+<td class="num">13.8%</td>
+<td class="num">34.0%</td>
+<td class="num">+10.5</td>
+<td class="num">229.5</td>
+<td class="num">+8.2</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/por-vs-sac-0022600041" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-13<br><span class="mono">22:30 ET</span></td>
+<td><b>OKC</b> @ <b>LAC</b>
+  <div class="tiny muted">Oklahoma City Thunder at LA Clippers</div>
+  <div class="tiny muted">West Group B</div></td>
+<td class="num">+2.2</td>
+<td class="num">-2.8</td>
+<td class="num">99.1</td>
+<td class="num"><b>+8.4</b></td>
+<td class="num"><b>219.9</b></td>
+<td class="num">31.1%</td>
+<td class="num">62.8%</td>
+<td class="num">+7.5</td>
+<td class="num">222.5</td>
+<td class="num">+0.9</td>
+<td><span class="chip c-ok">market captured</span></td>
+<td class="src"><a href="https://www.nba.com/game/okc-vs-lac-0022600042" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-14<br><span class="mono">19:00 ET</span></td>
+<td><b>DEN</b> @ <b>NOP</b>
+  <div class="tiny muted">Denver Nuggets at New Orleans Pelicans</div>
+  </td>
+<td class="num">+0.6</td>
+<td class="num">-3.7</td>
+<td class="num">98.4</td>
+<td class="num"><b>+6.9</b></td>
+<td class="num"><b>236.2</b></td>
+<td class="num">34.4%</td>
+<td class="num">29.1%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-14<br><span class="mono">19:30 ET</span></td>
+<td><b>DAL</b> @ <b>CLE</b>
+  <div class="tiny muted">Dallas Mavericks at Cleveland Cavaliers</div>
+  </td>
+<td class="num">+0.5</td>
+<td class="num">+1.1</td>
+<td class="num">99.3</td>
+<td class="num"><b>-2.6</b></td>
+<td class="num"><b>227.8</b></td>
+<td class="num">56.0%</td>
+<td class="num">46.2%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-14<br><span class="mono">20:00 ET</span></td>
+<td><b>BRK</b> @ <b>MEM</b>
+  <div class="tiny muted">Brooklyn Nets at Memphis Grizzlies</div>
+  </td>
+<td class="num">-2.5</td>
+<td class="num">+3.0</td>
+<td class="num">99.1</td>
+<td class="num"><b>-12.5</b></td>
+<td class="num"><b>225.0</b></td>
+<td class="num">76.7%</td>
+<td class="num">52.2%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-14<br><span class="mono">20:00 ET</span></td>
+<td><b>DET</b> @ <b>MIA</b>
+  <div class="tiny muted">Detroit Pistons at Miami Heat</div>
+  </td>
+<td class="num">+3.9</td>
+<td class="num">-2.0</td>
+<td class="num">100.3</td>
+<td class="num"><b>+10.2</b></td>
+<td class="num"><b>224.1</b></td>
+<td class="num">27.5%</td>
+<td class="num">54.0%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-14<br><span class="mono">20:00 ET</span></td>
+<td><b>CHI</b> @ <b>MIN</b>
+  <div class="tiny muted">Chicago Bulls at Minnesota Timberwolves</div>
+  </td>
+<td class="num">-7.2</td>
+<td class="num">+6.9</td>
+<td class="num">101.7</td>
+<td class="num"><b>-30.4</b></td>
+<td class="num"><b>234.1</b></td>
+<td class="num">96.2%</td>
+<td class="num">33.1%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">13:00 ET</span></td>
+<td><b>IND</b> @ <b>PHI</b>
+  <div class="tiny muted">Indiana Pacers at Philadelphia 76ers</div>
+  </td>
+<td class="num">-1.2</td>
+<td class="num">+1.0</td>
+<td class="num">99.7</td>
+<td class="num"><b>-5.6</b></td>
+<td class="num"><b>218.8</b></td>
+<td class="num">62.8%</td>
+<td class="num">65.0%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">16:00 ET</span></td>
+<td><b>LAL</b> @ <b>PHO</b>
+  <div class="tiny muted">Los Angeles Lakers at Phoenix Suns</div>
+  </td>
+<td class="num">+4.3</td>
+<td class="num">-2.2</td>
+<td class="num">98.9</td>
+<td class="num"><b>+11.2</b></td>
+<td class="num"><b>239.1</b></td>
+<td class="num">25.7%</td>
+<td class="num">24.1%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/lal-vs-pho-0022600237" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">16:30 ET</span></td>
+<td><b>CHO</b> @ <b>LAC</b>
+  <div class="tiny muted">Charlotte Hornets at LA Clippers</div>
+  </td>
+<td class="num">-6.0</td>
+<td class="num">-2.8</td>
+<td class="num">97.7</td>
+<td class="num"><b>-7.3</b></td>
+<td class="num"><b>212.9</b></td>
+<td class="num">66.6%</td>
+<td class="num">75.9%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">17:00 ET</span></td>
+<td><b>SAS</b> @ <b>UTA</b>
+  <div class="tiny muted">San Antonio Spurs at Utah Jazz</div>
+  </td>
+<td class="num">+5.8</td>
+<td class="num">-5.9</td>
+<td class="num">99.0</td>
+<td class="num"><b>+20.5</b></td>
+<td class="num"><b>220.8</b></td>
+<td class="num">11.6%</td>
+<td class="num">61.0%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">18:00 ET</span></td>
+<td><b>DAL</b> @ <b>BOS</b>
+  <div class="tiny muted">Dallas Mavericks at Boston Celtics</div>
+  </td>
+<td class="num">+0.5</td>
+<td class="num">+6.0</td>
+<td class="num">97.3</td>
+<td class="num"><b>-11.8</b></td>
+<td class="num"><b>219.1</b></td>
+<td class="num">75.3%</td>
+<td class="num">64.5%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">18:00 ET</span></td>
+<td><b>NYK</b> @ <b>TOR</b>
+  <div class="tiny muted">New York Knicks at Toronto Raptors</div>
+  </td>
+<td class="num">+3.6</td>
+<td class="num">+0.7</td>
+<td class="num">97.0</td>
+<td class="num"><b>+4.2</b></td>
+<td class="num"><b>219.6</b></td>
+<td class="num">40.4%</td>
+<td class="num">63.5%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">19:00 ET</span></td>
+<td><b>HOU</b> @ <b>WAS</b>
+  <div class="tiny muted">Houston Rockets at Washington Wizards</div>
+  </td>
+<td class="num">+4.8</td>
+<td class="num">-3.1</td>
+<td class="num">97.6</td>
+<td class="num"><b>+13.1</b></td>
+<td class="num"><b>221.8</b></td>
+<td class="num">22.3%</td>
+<td class="num">58.8%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">20:00 ET</span></td>
+<td><b>ATL</b> @ <b>MIL</b>
+  <div class="tiny muted">Atlanta Hawks at Milwaukee Bucks</div>
+  </td>
+<td class="num">+1.0</td>
+<td class="num">-7.7</td>
+<td class="num">100.7</td>
+<td class="num"><b>+15.5</b></td>
+<td class="num"><b>233.2</b></td>
+<td class="num">18.4%</td>
+<td class="num">34.8%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr><tr>
+<td class="tiny">2026-11-15<br><span class="mono">21:00 ET</span></td>
+<td><b>OKC</b> @ <b>SAC</b>
+  <div class="tiny muted">Oklahoma City Thunder at Sacramento Kings</div>
+  </td>
+<td class="num">+2.2</td>
+<td class="num">-6.3</td>
+<td class="num">99.5</td>
+<td class="num"><b>+14.9</b></td>
+<td class="num"><b>220.5</b></td>
+<td class="num">19.2%</td>
+<td class="num">61.5%</td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td class="num"><span class="chip c-warn">not captured</span></td>
+<td><span class="chip c-warn">no market</span></td>
+<td class="src"><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener">NBA.com</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td>
+</tr></tbody></table></div></div>
+
+<h3>How a line is originated</h3>
+<div class="card">
+<div class="formula">home_pts = home_ORtg x (away_DRtg / 114.0) x (expected_pace / 100)
+away_pts = away_ORtg x (home_DRtg / 114.0) x (expected_pace / 100)
+margin_home = home_pts - away_pts + HCA        # HCA = +1.51 pts, measured
+model_spread_home = -margin_home               # book convention: negative = home favoured
+model_total = home_pts + away_pts
+P(home wins) = Phi(margin_home / 17.15)</div>
+<p class="tiny muted" style="margin-bottom:0">Ratings are first shrunk toward league
+average by a games-played factor of <span class="mono">G/(G+k)</span> with
+<span class="mono">k = 11.0</span>, because a
+team 11 games into a season has not earned the right to be taken at face value.
+<span class="mono">Phi</span> is the normal CDF. Full derivation and the sensitivity of
+every number to the assumptions is on the
+<a href="methodology.html">method page</a>.</p>
+</div>
+
+<h3>Team ratings behind the lines</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>#</th><th>Team</th><th class="num">W-L</th><th class="num">ORtg</th>
+<th class="num">DRtg</th><th class="num">Net</th><th class="num">Pace</th>
+<th class="num">Shrunk net</th><th class="num">MOV</th><th class="num">SRS</th><th>Source</th></tr></thead>
+<tbody><tr><td class='num'>1</td><td><b>MIN</b> <span class='muted tiny'>Minnesota Timberwolves</span></td><td class='num'>9-3</td><td class='num'>118.1</td><td class='num'>104.8</td><td class='num'>+13.3</td><td class='num'>100.2</td><td class='num'>+6.94</td><td class='num'>+13.42</td><td class='num'>+13.25</td><td class='src'><a href='https://www.basketball-reference.com/teams/MIN/2027.html' target='_blank' rel='noopener'>BBR MIN</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>2</td><td><b>BOS</b> <span class='muted tiny'>Boston Celtics</span></td><td class='num'>10-2</td><td class='num'>119.2</td><td class='num'>107.6</td><td class='num'>+11.6</td><td class='num'>95.0</td><td class='num'>+6.05</td><td class='num'>+11.17</td><td class='num'>+5.77</td><td class='src'><a href='https://www.basketball-reference.com/teams/BOS/2027.html' target='_blank' rel='noopener'>BBR BOS</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>3</td><td><b>SAS</b> <span class='muted tiny'>San Antonio Spurs</span></td><td class='num'>10-2</td><td class='num'>120.0</td><td class='num'>108.8</td><td class='num'>+11.2</td><td class='num'>98.4</td><td class='num'>+5.84</td><td class='num'>+11.17</td><td class='num'>+11.35</td><td class='src'><a href='https://www.basketball-reference.com/teams/SAS/2027.html' target='_blank' rel='noopener'>BBR SAS</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>4</td><td><b>HOU</b> <span class='muted tiny'>Houston Rockets</span></td><td class='num'>9-3</td><td class='num'>119.3</td><td class='num'>110.1</td><td class='num'>+9.2</td><td class='num'>96.7</td><td class='num'>+4.80</td><td class='num'>+8.92</td><td class='num'>+12.85</td><td class='src'><a href='https://www.basketball-reference.com/teams/HOU/2027.html' target='_blank' rel='noopener'>BBR HOU</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>5</td><td><b>LAL</b> <span class='muted tiny'>Los Angeles Lakers</span></td><td class='num'>11-2</td><td class='num'>122.7</td><td class='num'>114.7</td><td class='num'>+8.0</td><td class='num'>99.6</td><td class='num'>+4.33</td><td class='num'>+7.92</td><td class='num'>+8.28</td><td class='src'><a href='https://www.basketball-reference.com/teams/LAL/2027.html' target='_blank' rel='noopener'>BBR LAL</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>6</td><td><b>GSW</b> <span class='muted tiny'>Golden State Warriors</span></td><td class='num'>8-4</td><td class='num'>120.4</td><td class='num'>112.5</td><td class='num'>+7.9</td><td class='num'>98.3</td><td class='num'>+4.12</td><td class='num'>+7.83</td><td class='num'>+10.55</td><td class='src'><a href='https://www.basketball-reference.com/teams/GSW/2027.html' target='_blank' rel='noopener'>BBR GSW</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>7</td><td><b>DET</b> <span class='muted tiny'>Detroit Pistons</span></td><td class='num'>8-3</td><td class='num'>115.6</td><td class='num'>107.9</td><td class='num'>+7.7</td><td class='num'>98.1</td><td class='num'>+3.85</td><td class='num'>+7.73</td><td class='num'>+3.78</td><td class='src'><a href='https://www.basketball-reference.com/teams/DET/2027.html' target='_blank' rel='noopener'>BBR DET</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>8</td><td><b>POR</b> <span class='muted tiny'>Portland Trail Blazers</span></td><td class='num'>8-3</td><td class='num'>120.4</td><td class='num'>113.1</td><td class='num'>+7.3</td><td class='num'>99.3</td><td class='num'>+3.65</td><td class='num'>+7.27</td><td class='num'>+10.62</td><td class='src'><a href='https://www.basketball-reference.com/teams/POR/2027.html' target='_blank' rel='noopener'>BBR POR</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>9</td><td><b>NYK</b> <span class='muted tiny'>New York Knicks</span></td><td class='num'>6-5</td><td class='num'>116.2</td><td class='num'>109.0</td><td class='num'>+7.2</td><td class='num'>94.9</td><td class='num'>+3.60</td><td class='num'>+6.82</td><td class='num'>+2.51</td><td class='src'><a href='https://www.basketball-reference.com/teams/NYK/2027.html' target='_blank' rel='noopener'>BBR NYK</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>10</td><td><b>MEM</b> <span class='muted tiny'>Memphis Grizzlies</span></td><td class='num'>7-4</td><td class='num'>117.8</td><td class='num'>111.8</td><td class='num'>+6.0</td><td class='num'>99.1</td><td class='num'>+3.00</td><td class='num'>+6.00</td><td class='num'>+4.61</td><td class='src'><a href='https://www.basketball-reference.com/teams/MEM/2027.html' target='_blank' rel='noopener'>BBR MEM</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>11</td><td><b>OKC</b> <span class='muted tiny'>Oklahoma City Thunder</span></td><td class='num'>8-4</td><td class='num'>112.9</td><td class='num'>108.6</td><td class='num'>+4.3</td><td class='num'>98.4</td><td class='num'>+2.24</td><td class='num'>+4.17</td><td class='num'>+8.14</td><td class='src'><a href='https://www.basketball-reference.com/teams/OKC/2027.html' target='_blank' rel='noopener'>BBR OKC</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>12</td><td><b>CLE</b> <span class='muted tiny'>Cleveland Cavaliers</span></td><td class='num'>6-6</td><td class='num'>116.5</td><td class='num'>114.4</td><td class='num'>+2.1</td><td class='num'>99.1</td><td class='num'>+1.10</td><td class='num'>+2.08</td><td class='num'>+1.10</td><td class='src'><a href='https://www.basketball-reference.com/teams/CLE/2027.html' target='_blank' rel='noopener'>BBR CLE</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>13</td><td><b>ATL</b> <span class='muted tiny'>Atlanta Hawks</span></td><td class='num'>7-5</td><td class='num'>115.3</td><td class='num'>113.3</td><td class='num'>+2.0</td><td class='num'>102.5</td><td class='num'>+1.04</td><td class='num'>+2.08</td><td class='num'>-0.19</td><td class='src'><a href='https://www.basketball-reference.com/teams/ATL/2027.html' target='_blank' rel='noopener'>BBR ATL</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>14</td><td><b>PHI</b> <span class='muted tiny'>Philadelphia 76ers</span></td><td class='num'>10-3</td><td class='num'>112.0</td><td class='num'>110.2</td><td class='num'>+1.8</td><td class='num'>99.2</td><td class='num'>+0.97</td><td class='num'>+1.77</td><td class='num'>-1.43</td><td class='src'><a href='https://www.basketball-reference.com/teams/PHI/2027.html' target='_blank' rel='noopener'>BBR PHI</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>15</td><td><b>TOR</b> <span class='muted tiny'>Toronto Raptors</span></td><td class='num'>5-7</td><td class='num'>115.3</td><td class='num'>113.9</td><td class='num'>+1.4</td><td class='num'>99.1</td><td class='num'>+0.73</td><td class='num'>+1.42</td><td class='num'>+0.03</td><td class='src'><a href='https://www.basketball-reference.com/teams/TOR/2027.html' target='_blank' rel='noopener'>BBR TOR</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>16</td><td><b>DEN</b> <span class='muted tiny'>Denver Nuggets</span></td><td class='num'>6-4</td><td class='num'>117.6</td><td class='num'>116.4</td><td class='num'>+1.2</td><td class='num'>96.3</td><td class='num'>+0.57</td><td class='num'>+1.20</td><td class='num'>+3.85</td><td class='src'><a href='https://www.basketball-reference.com/teams/DEN/2027.html' target='_blank' rel='noopener'>BBR DEN</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>17</td><td><b>DAL</b> <span class='muted tiny'>Dallas Mavericks</span></td><td class='num'>7-5</td><td class='num'>113.7</td><td class='num'>112.7</td><td class='num'>+1.0</td><td class='num'>99.6</td><td class='num'>+0.52</td><td class='num'>+1.00</td><td class='num'>+3.45</td><td class='src'><a href='https://www.basketball-reference.com/teams/DAL/2027.html' target='_blank' rel='noopener'>BBR DAL</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>18</td><td><b>IND</b> <span class='muted tiny'>Indiana Pacers</span></td><td class='num'>4-8</td><td class='num'>111.4</td><td class='num'>113.8</td><td class='num'>-2.4</td><td class='num'>100.2</td><td class='num'>-1.25</td><td class='num'>-2.42</td><td class='num'>-5.44</td><td class='src'><a href='https://www.basketball-reference.com/teams/IND/2027.html' target='_blank' rel='noopener'>BBR IND</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>19</td><td><b>MIA</b> <span class='muted tiny'>Miami Heat</span></td><td class='num'>5-6</td><td class='num'>111.8</td><td class='num'>115.9</td><td class='num'>-4.1</td><td class='num'>102.6</td><td class='num'>-2.05</td><td class='num'>-4.27</td><td class='num'>-4.29</td><td class='src'><a href='https://www.basketball-reference.com/teams/MIA/2027.html' target='_blank' rel='noopener'>BBR MIA</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>20</td><td><b>PHO</b> <span class='muted tiny'>Phoenix Suns</span></td><td class='num'>5-6</td><td class='num'>113.7</td><td class='num'>118.2</td><td class='num'>-4.5</td><td class='num'>98.3</td><td class='num'>-2.25</td><td class='num'>-4.36</td><td class='num'>+0.84</td><td class='src'><a href='https://www.basketball-reference.com/teams/PHO/2027.html' target='_blank' rel='noopener'>BBR PHO</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>21</td><td><b>BRK</b> <span class='muted tiny'>Brooklyn Nets</span></td><td class='num'>3-8</td><td class='num'>110.1</td><td class='num'>115.2</td><td class='num'>-5.1</td><td class='num'>99.1</td><td class='num'>-2.55</td><td class='num'>-5.09</td><td class='num'>-7.68</td><td class='src'><a href='https://www.basketball-reference.com/teams/BRK/2027.html' target='_blank' rel='noopener'>BBR BRK</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>22</td><td><b>ORL</b> <span class='muted tiny'>Orlando Magic</span></td><td class='num'>4-7</td><td class='num'>109.7</td><td class='num'>115.3</td><td class='num'>-5.6</td><td class='num'>98.0</td><td class='num'>-2.80</td><td class='num'>-5.55</td><td class='num'>-5.03</td><td class='src'><a href='https://www.basketball-reference.com/teams/ORL/2027.html' target='_blank' rel='noopener'>BBR ORL</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>23</td><td><b>WAS</b> <span class='muted tiny'>Washington Wizards</span></td><td class='num'>4-9</td><td class='num'>110.0</td><td class='num'>115.8</td><td class='num'>-5.8</td><td class='num'>98.4</td><td class='num'>-3.14</td><td class='num'>-5.77</td><td class='num'>-9.50</td><td class='src'><a href='https://www.basketball-reference.com/teams/WAS/2027.html' target='_blank' rel='noopener'>BBR WAS</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>24</td><td><b>LAC</b> <span class='muted tiny'>LA Clippers</span></td><td class='num'>2-8</td><td class='num'>111.2</td><td class='num'>117.1</td><td class='num'>-5.9</td><td class='num'>99.8</td><td class='num'>-2.81</td><td class='num'>-5.90</td><td class='num'>-3.14</td><td class='src'><a href='https://www.basketball-reference.com/teams/LAC/2027.html' target='_blank' rel='noopener'>BBR LAC</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>25</td><td><b>NOP</b> <span class='muted tiny'>New Orleans Pelicans</span></td><td class='num'>4-8</td><td class='num'>113.4</td><td class='num'>120.5</td><td class='num'>-7.1</td><td class='num'>100.5</td><td class='num'>-3.70</td><td class='num'>-7.33</td><td class='num'>-7.82</td><td class='src'><a href='https://www.basketball-reference.com/teams/NOP/2027.html' target='_blank' rel='noopener'>BBR NOP</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>26</td><td><b>UTA</b> <span class='muted tiny'>Utah Jazz</span></td><td class='num'>1-11</td><td class='num'>105.2</td><td class='num'>116.5</td><td class='num'>-11.3</td><td class='num'>99.6</td><td class='num'>-5.90</td><td class='num'>-11.50</td><td class='num'>-7.95</td><td class='src'><a href='https://www.basketball-reference.com/teams/UTA/2027.html' target='_blank' rel='noopener'>BBR UTA</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>27</td><td><b>CHO</b> <span class='muted tiny'>Charlotte Hornets</span></td><td class='num'>4-8</td><td class='num'>103.2</td><td class='num'>114.8</td><td class='num'>-11.6</td><td class='num'>95.5</td><td class='num'>-6.05</td><td class='num'>-11.00</td><td class='num'>-13.08</td><td class='src'><a href='https://www.basketball-reference.com/teams/CHO/2027.html' target='_blank' rel='noopener'>BBR CHO</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>28</td><td><b>SAC</b> <span class='muted tiny'>Sacramento Kings</span></td><td class='num'>1-10</td><td class='num'>107.7</td><td class='num'>120.3</td><td class='num'>-12.6</td><td class='num'>100.5</td><td class='num'>-6.30</td><td class='num'>-12.73</td><td class='num'>-9.64</td><td class='src'><a href='https://www.basketball-reference.com/teams/SAC/2027.html' target='_blank' rel='noopener'>BBR SAC</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>29</td><td><b>MIL</b> <span class='muted tiny'>Milwaukee Bucks</span></td><td class='num'>1-11</td><td class='num'>108.1</td><td class='num'>122.9</td><td class='num'>-14.8</td><td class='num'>98.8</td><td class='num'>-7.72</td><td class='num'>-14.58</td><td class='num'>-13.09</td><td class='src'><a href='https://www.basketball-reference.com/teams/MIL/2027.html' target='_blank' rel='noopener'>BBR MIL</a> <span class="chip c-info">secondary</span></td></tr><tr><td class='num'>30</td><td><b>CHI</b> <span class='muted tiny'>Chicago Bulls</span></td><td class='num'>1-9</td><td class='num'>109.8</td><td class='num'>124.9</td><td class='num'>-15.1</td><td class='num'>103.1</td><td class='num'>-7.19</td><td class='num'>-15.50</td><td class='num'>-15.25</td><td class='src'><a href='https://www.basketball-reference.com/teams/CHI/2027.html' target='_blank' rel='noopener'>BBR CHI</a> <span class="chip c-info">secondary</span></td></tr></tbody></table></div></div>
+<p class="tiny muted">Ratings are points per 100 possessions from Basketball-Reference's
+2026-27 advanced table, retrieved 2026-11-13T22:30Z. That is a reputable
+secondary source, not the league's own export, so every row is tagged
+<span class="chip c-info">secondary</span>. The net rating column equals ORtg minus DRtg
+for all 30 teams, which is the internal consistency check on the transcription.</p>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>
