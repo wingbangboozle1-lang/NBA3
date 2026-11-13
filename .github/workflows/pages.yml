@@ -1,4 +1,7 @@
-name: Build and deploy GitHub Pages site
+name: Site checks (tests, build, verify)
+
+# GitHub Pages serves the branch root of main (legacy source), so the generated
+# pages are committed. This workflow proves they are current and valid.
 
 on:
   push:
@@ -11,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,27 +23,15 @@ jobs:
           python-version: "3.11"
       - name: Unit tests (standard library only)
         run: python3 -m unittest discover -s pipeline/tests
-      - name: Build site from data files
+      - name: Rebuild pages from data files
         run: python3 pipeline/build_site.py
       - name: Verify data rules, sources, links and blank-cell flags
         run: python3 pipeline/verify.py
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-  deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Fail if committed pages differ from a fresh build
+        run: |
+          if [ -n "$(git status --porcelain -- '*.html' style.css)" ]; then
+            git status --porcelain -- '*.html' style.css
+            echo "Committed pages are stale; run pipeline/build_site.py and commit."
+            exit 1
+          fi
+          echo "Committed pages match the build."

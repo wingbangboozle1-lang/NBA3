@@ -40,16 +40,18 @@ Prior session `49064d5a` work (merged PRs #1 and #2) is preserved; its `index.ht
 | T4 Upcoming slates (Nov 13-16, 2026, ET) from the official NBA schedule | done | 9ed6085f | data/slates.csv (31 games) |
 | T5 Official injury snapshot, rotation method, game-flow factors | done (snapshot re-verified; newer report not transcribed, F01) | 9ed6085f | data/injuries_2026-11-13_1100AM.csv (98 rows), data/gameflow.csv, pipeline/rotation.py |
 | T6 Strategies, validation gates, correlations (leaderboard empty; all blocked) | done (blocked by data) | 9ed6085f | data/strategies.csv (11), data/gates.csv (11), data/correlations.csv (8, blank), pipeline/gates.py |
-| T7 Site generator, verification checker, Pages workflow | done (narrowed; see note) | 9ed6085f | pipeline/build_site.py, pipeline/verify.py, pipeline/tests/, .github/workflows/pages.yml (replaced), index.html (now a stub), .gitignore, README.md; site/ generated and ignored by git |
+| T7 Site generator, verification checker, Pages workflow | done (narrowed; see note) | 9ed6085f | pipeline/build_site.py, pipeline/verify.py, pipeline/tests/, .github/workflows/pages.yml (now checks only), index.html (generated dashboard), root *.html and style.css (generated), .nojekyll, .gitignore, README.md |
 | T8 Executive summary and Flagged-for-Review register | done (25 flags) | 9ed6085f | data/flags.csv, generated site pages |
 | T9 PR, merge, Pages deploy verification, log | in progress | 9ed6085f | COORDINATION.md; PR and merge result recorded below |
 
 ### T7 scope note (narrowed)
 
 T7 originally covered the prior session's `index.html` and `pages.yml`. In this round:
-- `pages.yml` was replaced. It now tests, builds and verifies, then uploads only `site/` (the prior workflow uploaded `.`, which published COORDINATION.md and .github/).
-- `index.html` is now a stub that points to the generated site. The prior dashboard content is superseded and its injury link (2025-26 slug, F06) is removed from the live site.
-- Owner choice on removing the stub is suggestion SG-08.
+- `pages.yml` was replaced. It now runs the unit tests, rebuilds the pages, runs verify.py, and fails if the committed pages are stale. It has no deploy job.
+- Pages is published from `main /` (legacy source). Switching it to GitHub Actions failed: `gh api -X PUT repos/.../pages -f build_type=workflow` returned 403 (Resource not accessible by integration). Actions permissions also returned 403. The session token cannot change Pages settings, so the generated pages are committed at the repository root.
+- Because the legacy source serves the whole repository, the prior exposure (R06) remains until the owner switches the source (F19, Q-REPO-02). The workflow no longer uploads the repository itself.
+- `index.html` is now the generated dashboard. The prior dashboard content is superseded, and its injury link (2025-26 slug, F06) is removed.
+- Owner choice on the Pages source and the site suggestions is SG-08.
 
 ### Verification log (this round)
 

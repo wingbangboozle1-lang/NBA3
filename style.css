@@ -1,0 +1,28 @@
+
+:root { --ink:#1b1f24; --muted:#5b6470; --line:#d9dee5; --bg:#fbfbfc; --accent:#0b5cad; --warn:#8a4b00; --warnbg:#fff4e0; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+header.top { display:flex; flex-wrap:wrap; gap:12px 20px; align-items:center; padding:12px 20px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; }
+header.top .brand { font-weight:700; color:var(--ink); text-decoration:none; }
+header.top nav { display:flex; flex-wrap:wrap; gap:6px 12px; font-size:14px; }
+header.top nav a { color:var(--accent); text-decoration:none; padding:2px 4px; border-radius:4px; }
+header.top nav a[aria-current="page"] { background:#e6f0fb; }
+main { max-width:1180px; margin:0 auto; padding:20px; }
+h1 { font-size:26px; margin:8px 0 8px; }
+h2 { font-size:19px; margin:28px 0 8px; }
+p.intro { color:var(--muted); max-width:85ch; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; margin:16px 0; }
+.card { background:#fff; border:1px solid var(--line); border-radius:8px; padding:14px; }
+.card .n { font-size:26px; font-weight:700; }
+.card a { color:var(--accent); text-decoration:none; font-weight:600; }
+.card p { margin:6px 0 0; color:var(--muted); font-size:14px; }
+.banner { background:var(--warnbg); border:1px solid #f0d199; color:var(--warn); padding:12px 14px; border-radius:8px; }
+.table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:8px; background:#fff; }
+table { border-collapse:collapse; width:100%; font-size:14px; }
+th, td { text-align:left; padding:7px 9px; border-bottom:1px solid var(--line); vertical-align:top; }
+th { background:#f1f4f8; position:sticky; top:0; font-weight:600; }
+td.blank { color:var(--muted); background:#fcfcfd; }
+.flag { display:inline-block; font-size:12px; color:var(--warn); background:var(--warnbg); border-radius:4px; padding:0 4px; }
+ul.findings li { margin:6px 0; }
+footer { max-width:1180px; margin:24px auto; padding:0 20px 30px; color:var(--muted); font-size:13px; }
+a { color:var(--accent); }

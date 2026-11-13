@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game flow | NBA Edge Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">NBA Edge Lab</a>
+  <nav><a href="index.html">Dashboard</a><a href="exec-summary.html">Executive summary</a><a href="slates.html">Slates</a><a href="picks.html">Picks</a><a href="injuries.html">Injuries</a><a href="gameflow.html" aria-current="page">Game flow</a><a href="strategies.html">Strategies</a><a href="gates.html">Gates</a><a href="correlations.html">Correlations</a><a href="sources.html">Sources</a><a href="repo-review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for Review</a><a href="requirements.html">Requirements</a></nav>
+</header>
+<main>
+<h1>Game flow</h1>
+<p class="intro">Seven game-flow factors, with the data each would need and the official definition used.</p>
+
+<p>Game-flow factors are hypotheses to test, not findings. No score-state, pace, foul or play-by-play data was reached, so none of the factors is quantified.</p>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Factor</th><th>Why it may matter (hypothesis)</th><th>Data needed</th><th>Status</th><th>Definition source</th></tr></thead><tbody><tr><td>GF01</td><td>Pace (possessions per game)</td><td>Faster games can add possessions and change totals</td><td>Possessions by team and game</td><td>Blocked - no game data</td><td><a href="https://www.nba.com/stats/help/glossary" rel="noopener">Source</a></td></tr><tr><td>GF02</td><td>Score margin and blowout risk</td><td>Large leads can shorten starter minutes and change prop minutes</td><td>Quarter scores and minutes by player</td><td>Blocked - no score-state data</td><td><a href="https://www.nba.com/stats/help/glossary" rel="noopener">Source</a></td></tr><tr><td>GF03</td><td>Foul trouble</td><td>Players with fouls may play fewer minutes</td><td>Personal fouls and minutes by quarter</td><td>Blocked - no data</td><td><a href="https://www.nba.com/stats/help/glossary" rel="noopener">Source</a></td></tr><tr><td>GF04</td><td>Back-to-back schedule</td><td>Second games of a back-to-back are an official reporting category; rest effects are unmeasured</td><td>Game dates for each team from the official schedule</td><td>Partly available (schedule dates in slates.csv)</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" rel="noopener">Source</a></td></tr><tr><td>GF05</td><td>Injury-driven rotation change</td><td>Official status changes can shift minutes to other players</td><td>Injury status history; minutes; roster</td><td>Blocked - no history or minutes</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" rel="noopener">Source</a></td></tr><tr><td>GF06</td><td>Overtime and close finishes</td><td>Close games change minutes and late-game usage</td><td>Final score and minutes by player</td><td>Blocked - no data</td><td><a href="https://www.nba.com/stats/help/glossary" rel="noopener">Source</a></td></tr><tr><td>GF07</td><td>Schedule context for the 3-day window</td><td>The 3-day window contains 4 slates with 31 games</td><td>Official schedule for each date</td><td>Available for Nov 13-16</td><td><a href="https://www.nba.com/schedule" rel="noopener">Source</a></td></tr></tbody></table></div>
+<h2>Analysis</h2>
+<ul class="findings">
+<li>The schedule dates in slates.csv let us count rest situations, such as the Nov 14 and Nov 15 games for teams in consecutive slates. This is a schedule fact, not a measured rest effect.</li>
+<li>Score margin and foul trouble are the factors most likely to move starter minutes, but no data here tests that.</li>
+</ul>
+
+</main>
+<footer>
+  <p>Every table row links to its source. Blank values are unverified and flagged; nothing is inferred.
+  Content is research, not betting advice. Data as of 2026-11-13 (ET). Code and data:
+  <a href="https://github.com/wingbangboozle1-lang/NBA3">GitHub repository</a>.</p>
+</footer>
+</body>
+</html>

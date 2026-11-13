@@ -22,7 +22,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
-SITE = ROOT / "site"
+SITE = ROOT  # generated pages sit at the repository root (legacy Pages source)
 
 ALLOWED_HOSTS = {
     "nba.com", "www.nba.com", "official.nba.com", "ak-static.cms.nba.com", "cdn.nba.com", "stats.nba.com",
@@ -156,10 +156,10 @@ class SiteParser(HTMLParser):
 def check_site() -> list[str]:
     errors: list[str] = []
     if not SITE.exists():
-        return ["site/ not found; run pipeline/build_site.py first"]
+        return ["generated pages not found; run pipeline/build_site.py first"]
     pages = sorted(SITE.glob("*.html"))
     if not pages:
-        return ["no HTML pages in site/"]
+        return ["no generated HTML pages found"]
     names = {p.name for p in pages}
     for page in pages:
         parser = SiteParser()

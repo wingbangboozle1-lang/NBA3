@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary | NBA Edge Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">NBA Edge Lab</a>
+  <nav><a href="index.html">Dashboard</a><a href="exec-summary.html" aria-current="page">Executive summary</a><a href="slates.html">Slates</a><a href="picks.html">Picks</a><a href="injuries.html">Injuries</a><a href="gameflow.html">Game flow</a><a href="strategies.html">Strategies</a><a href="gates.html">Gates</a><a href="correlations.html">Correlations</a><a href="sources.html">Sources</a><a href="repo-review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for Review</a><a href="requirements.html">Requirements</a></nav>
+</header>
+<main>
+<h1>Executive summary</h1>
+<p class="intro">What is verified, what is blocked, and what is needed. Every number is computed from the data files.</p>
+
+<ul class="findings">
+<li><strong>Slates.</strong> 31 games are verified against the official schedule for Nov 13 to 16, 2026 (ET). Nov 13 has 9 games, Nov 14 has 5, Nov 15 has 9, and Nov 16 has 8. Every game ID, venue and preview link matches the schedule page (<a href="slates.html">slates table</a>).</li>
+<li><strong>Injuries.</strong> The 11/13/26 11:00 AM ET report is transcribed: 89 player rows and 9 team-status rows. Of the player rows, 63 are Out and 16 are Questionable. 27 rows have no matchup cell and 14 have no team cell in the PDF text; those cells are left blank (<a href="injuries.html">injury table</a>).</li>
+<li><strong>Originated lines.</strong> Not produced. No timestamped odds, prices or historical outcomes are available from an official source reached here (<a href="questions.html">Q-DATA-01 and Q-DATA-02</a>).</li>
+<li><strong>Picks.</strong> None published. The picks table lists all 31 games with blank lines and picks, pending legal advice on Dutch promotion rules (<a href="picks.html">picks</a>).</li>
+<li><strong>Strategies and gates.</strong> 11 strategy hypotheses are defined. 11 of 11 are blocked. Gate thresholds are proposals (<a href="strategies.html">strategies</a>, <a href="gates.html">gates</a>).</li>
+<li><strong>Correlations.</strong> None measured. Each cell is blank by design (<a href="correlations.html">correlations</a>).</li>
+<li><strong>Rotation and game flow.</strong> A tested function redistributes minutes when players are Out, and a 7-factor game-flow list is documented. Neither gives a published minutes or production figure, because no minutes data is reachable (<a href="gameflow.html">game flow</a>).</li>
+<li><strong>Legal.</strong> NBA Terms s.9 bars use of NBA Statistics in connection with any gambling activity. s.19 selects New York law. Dutch law (Art. 1 of the Wet op de kansspelen) restricts promotion of unlicensed gambling. The minimum online age is not verified and is not published (<a href="flagged.html">flagged items</a>).</li>
+<li><strong>Repository.</strong> No licence. Pages still builds from the branch root (main /), so the whole public repository is served; the Pages source switch failed with a permission error in this session (<a href="repo-review.html">repo review</a>).</li>
+</ul>
+<h2>Decisions needed from the owner</h2>
+<ul class="findings">
+<li>Approve, reject or amend the proposed gate thresholds (Q-GATE-01).</li>
+<li>Obtain counsel opinions on picks, rewards and the minimum age before any of them are published.</li>
+<li>Decide whether to keep the site public, choose a licence, and decide on the injury-snapshot refresh cadence.</li>
+<li>Choose which site suggestions to implement (<a href="suggestions.html">suggestions</a>).</li>
+</ul>
+
+</main>
+<footer>
+  <p>Every table row links to its source. Blank values are unverified and flagged; nothing is inferred.
+  Content is research, not betting advice. Data as of 2026-11-13 (ET). Code and data:
+  <a href="https://github.com/wingbangboozle1-lang/NBA3">GitHub repository</a>.</p>
+</footer>
+</body>
+</html>

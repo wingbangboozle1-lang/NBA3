@@ -1,6 +1,8 @@
 """Build the static GitHub Pages site from data/*.csv (standard library only).
 
-Output: site/ (ignored by git; built in CI and by hand).
+Output: the generated pages at the repository root (index.html, *.html, style.css).
+The Pages source is the legacy branch build from main / (this session cannot change it),
+so the generated pages are committed. CI rebuilds them and fails if the committed files differ.
 
 Rules enforced here and checked by pipeline/verify.py:
 - Every table row carries a source link taken from the data file.
@@ -12,13 +14,12 @@ from __future__ import annotations
 
 import csv
 import html
-import shutil
 from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
-OUT = ROOT / "site"
+OUT = ROOT
 
 
 def read_csv(name: str) -> list[dict]:
@@ -144,9 +145,6 @@ a { color:var(--accent); }
 
 
 def build() -> None:
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir(parents=True)
     (OUT / "style.css").write_text(CSS, encoding="utf-8")
 
     slates = read_csv("slates.csv")
@@ -225,7 +223,7 @@ def build() -> None:
 <li><strong>Correlations.</strong> None measured. Each cell is blank by design ({link("correlations.html", "correlations")}).</li>
 <li><strong>Rotation and game flow.</strong> A tested function redistributes minutes when players are Out, and a 7-factor game-flow list is documented. Neither gives a published minutes or production figure, because no minutes data is reachable ({link("gameflow.html", "game flow")}).</li>
 <li><strong>Legal.</strong> NBA Terms s.9 bars use of NBA Statistics in connection with any gambling activity. s.19 selects New York law. Dutch law (Art. 1 of the Wet op de kansspelen) restricts promotion of unlicensed gambling. The minimum online age is not verified and is not published ({link("flagged.html", "flagged items")}).</li>
-<li><strong>Repository.</strong> No licence. The previous Pages deploy published the whole repository; this round moves deployment to the generated site/ folder only ({link("repo-review.html", "repo review")}).</li>
+<li><strong>Repository.</strong> No licence. Pages still builds from the branch root (main /), so the whole public repository is served; the Pages source switch failed with a permission error in this session ({link("repo-review.html", "repo review")}).</li>
 </ul>
 <h2>Decisions needed from the owner</h2>
 <ul class="findings">
@@ -389,7 +387,7 @@ def build() -> None:
 <h2>Analysis</h2>
 <ul class="findings">
 <li>Irregular items: no licence (R03), no .gitignore (R04), dual Pages publishing (R05), whole-repo upload (R06), weak validation (R07), a stale injury-index link (R08), and a horizon mismatch (R17).</li>
-<li>Addressed in this round: the branch was rebased onto the current main (R01); the deploy workflow uploads only the generated site/ folder (R06); validation covers every generated page and internal link (R07). The Pages source change (R05) and its result are recorded in COORDINATION.md.</li>
+<li>Addressed in this round: the branch was rebased onto the current main (R01); the workflow now tests, builds and verifies the pages and fails if the committed pages are stale (R07). The Pages source is still legacy main / (R05), and the switch to GitHub Actions failed with a 403 permission error, so the whole repository is still served (R06).</li>
 </ul>
 """
     (OUT / "repo-review.html").write_text(page("Repository review", "repo-review.html", rr_body,
