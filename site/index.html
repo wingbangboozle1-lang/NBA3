@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home · NBA Edge Lab</title>
+<meta name="description" content="NBA Edge Lab home: status, metrics, and sections.">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="brand">NBA Edge Lab</div><div class="sub">Research dashboard · data as of 2026-11-13 · research only, not betting advice</div></header>
+<div class="layout">
+<nav class="side" aria-label="Site sections"><div class="navgroup"><div class="navlabel">Overview</div><a href="index.html" class="on" aria-current="page">Home</a><a href="executive-summary.html">Executive summary</a></div><div class="navgroup"><div class="navlabel">Data</div><a href="slate.html">3-day slate</a><a href="injuries.html">Injury tracker</a><a href="game-flow.html">Game flow</a></div><div class="navgroup"><div class="navlabel">Research</div><a href="strategies.html">Strategies</a><a href="validation.html">Validation &amp; correlation</a></div><div class="navgroup"><div class="navlabel">Decisions</div><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a></div><div class="navgroup"><div class="navlabel">Governance</div><a href="sources.html">Sources</a><a href="repo-review.html">Repo review</a><a href="flagged.html">Flagged for Review</a></div></nav>
+<main>
+
+<section class="card">
+<h1>NBA Edge Lab</h1>
+<p class="lede">A research dashboard for originating NBA line ideas, testing them, and tracking the official inputs behind them. It shows the official slate and injury report and the open legal and data blockers. It publishes no lines, picks, or correlation values yet.</p>
+<div class="banner stop"><b>No lines, picks, or correlation values are published.</b> Blocking items: NBA Terms §9 (F-01), Dutch licence requirement (F-02), and no licensed odds data (F-03). Everything shown is either sourced to an official link or flagged.</div>
+<div class="grid"><div class="metric"><b>31</b><small>games in the window (official schedule, 4 dates)</small></div><div class="metric"><b>117</b><small>injury-report rows (11/13 5:00 PM official report)</small></div><div class="metric"><b>0</b><small>originated lines published</small></div><div class="metric"><b>0</b><small>picks published</small></div><div class="metric"><b>3</b><small>open blockers (F-01 to F-03)</small></div><div class="metric"><b>17</b><small>items flagged for review</small></div></div>
+</section>
+<section class="card">
+<h2>Sections</h2>
+<div class="cards"><a class="cardlink" href="executive-summary.html"><b>Executive summary</b><span>Key facts, blockers, and what can and cannot be decided yet.</span></a><a class="cardlink" href="slate.html"><b>3-day slate</b><span>31 games, 11/13–11/16/2026, from the official schedule PDF.</span></a><a class="cardlink" href="injuries.html"><b>Injury tracker</b><span>117 rows from the official 11/13/26 5:00 PM injury report.</span></a><a class="cardlink" href="game-flow.html"><b>Game flow</b><span>Team status counts for games with a report; models not built.</span></a><a class="cardlink" href="strategies.html"><b>Strategies</b><span>11 candidate single bets, props, parlays, and combos. All blocked.</span></a><a class="cardlink" href="validation.html"><b>Validation &amp; correlation</b><span>10 gates, none run. Correlation values left blank.</span></a><a class="cardlink" href="questions.html"><b>Questions</b><span>14 questions: what is answered, partly answered, or missing.</span></a><a class="cardlink" href="suggestions.html"><b>Suggestions</b><span>11 proposals. Awaiting your selection; nothing is implemented.</span></a><a class="cardlink" href="sources.html"><b>Sources</b><span>11 official sources, with retrieval status and limits.</span></a><a class="cardlink" href="repo-review.html"><b>Repo review</b><span>7 repository findings with source links.</span></a><a class="cardlink" href="flagged.html"><b>Flagged for Review</b><span>17 items: 3 blockers, 7 unverified, 7 irregularities.</span></a></div>
+</section>
+<section class="card">
+<h2>Verified at a glance</h2>
+<ul class="tight">
+<li>Injury-report deadlines: teams report status by 5 p.m. local the day before a game (2nd game of a back-to-back: 1 p.m. local on game day); the game-day report runs 11 a.m.–1 p.m. local. <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">NBA Official, 2026-27 injury report index</a></li>
+<li>The official injury PDF lists status and reason only; it has no minutes field. <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">Injury report 11/13/26 5:00 PM</a></li>
+<li>NBA Terms §9: NBA Statistics may not be used in connection with any gambling activity, including legal gambling. <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">NBA.com Terms of Use</a></li>
+<li>Dutch online sports betting requires a Koa licence under art. 31a of the Betting and Gaming Act. <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">Kansspelautoriteit: online kansspel aanbieden</a></li>
+<li>The 2026-27 schedule was released August 13, 2026 and is labelled "subject to change". <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">Schedule PDF</a></li>
+</ul>
+</section>
+
+</main>
+</div>
+<footer>Generated from <code>data/*.json</code> by <code>scripts/build_site.py</code>. Values with no official source are left blank and flagged (see <a href="flagged.html">Flagged for Review</a>). Source of this site: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">GitHub repository</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.</footer>
+<script src="assets/site.js"></script>
+</body></html>

@@ -1,0 +1,169 @@
+[
+ {
+  "id": "F-01",
+  "type": "Blocker",
+  "item": "Use of NBA statistics for betting models and lines",
+  "why": "NBA Terms §9 says NBA Statistics may not be used in connection with any gambling activity, including legal gambling, and may not feed a comprehensive regularly updated statistics database without express prior consent.",
+  "action": "Obtain written permission from NBA, or source statistics from a provider whose terms allow this use. Get legal review before any model that uses NBA.com statistics.",
+  "sources": [
+   "S07"
+  ]
+ },
+ {
+  "id": "F-02",
+  "type": "Blocker",
+  "item": "Offering online sports betting or betting lines to Dutch customers",
+  "why": "Ksa says only holders of a Koa licence under art. 31a of the Betting and Gaming Act may offer online gambling, including bets on sports matches. The owner is located in Naaldwijk, NL.",
+  "action": "Get Dutch legal counsel on (a) private analysis versus offering picks or lines to others and (b) licensing. Do not offer betting products to NL residents without a licence.",
+  "sources": [
+   "S09",
+   "S08"
+  ]
+ },
+ {
+  "id": "F-03",
+  "type": "Blocker",
+  "item": "Originated lines and picks for 11/13–11/16",
+  "why": "The repository has no licensed odds feed, no historical dataset, and no validated model. Without these, no line can be originated or validated, and no pick can be responsibly generated.",
+  "action": "Decide on a licensed odds and statistics source (SG-02). No picks are published.",
+  "sources": []
+ },
+ {
+  "id": "F-04",
+  "type": "Unverified",
+  "item": "Historical box scores, minutes, play-by-play, and prop outcomes",
+  "why": "No authorized dataset is in the repository. The NBA terms restrict statistics use (F-01).",
+  "action": "Inventory authorized data with provenance and licence terms.",
+  "sources": [
+   "S07"
+  ]
+ },
+ {
+  "id": "F-05",
+  "type": "Unverified",
+  "item": "Injury effect on rotation minutes and production",
+  "why": "The official report gives status and reason only; it has no minutes or production fields (S04 header). No minutes projection source is verified.",
+  "action": "Build from authorized minutes data after F-01 and F-02 are resolved. Nothing is estimated here.",
+  "sources": [
+   "S02",
+   "S04"
+  ]
+ },
+ {
+  "id": "F-06",
+  "type": "Unverified",
+  "item": "All correlation values and parlay joint probabilities",
+  "why": "No outcomes, prices, or samples are available. Blank by policy.",
+  "action": "Measure out-of-sample with uncertainty once data passes G0–G2 (validation page).",
+  "sources": []
+ },
+ {
+  "id": "F-07",
+  "type": "Irregularity",
+  "item": "Prior dashboard linked the 2025-26 NBA injury index",
+  "why": "The current season index is the 2026-27 page (S02). The 2025-26 page (S03) still resolves but is superseded.",
+  "action": "Corrected in the rebuilt site. Owner to confirm.",
+  "sources": [
+   "S02",
+   "S03"
+  ]
+ },
+ {
+  "id": "F-08",
+  "type": "Irregularity",
+  "item": "Injury PDF rows with missing team or matchup text",
+  "why": "18 of 117 rows have no team or matchup in the extracted text (attribution 'U'). 19 rows take their matchup from the official schedule pairing (attribution 'S'). Some matchups have no game time printed.",
+  "action": "Check these rows against the PDF before relying on them.",
+  "sources": [
+   "S04",
+   "S05"
+  ]
+ },
+ {
+  "id": "F-09",
+  "type": "Irregularity",
+  "item": "Schedule may change",
+  "why": "The by-date PDF is labelled 'as of August 13, 2026 | subject to change'.",
+  "action": "Re-pull the schedule at query time. The site shows the pull date.",
+  "sources": [
+   "S05"
+  ]
+ },
+ {
+  "id": "F-10",
+  "type": "Unverified",
+  "item": "Home/away orientation for 11/15 and 11/16",
+  "why": "Home/away is confirmed only for 11/13 and 11/14 (injury report labels). For 11/15 and 11/16 the PDF gives printed order only.",
+  "action": "Confirm orientation against nba.com/schedule before use.",
+  "sources": [
+   "S05",
+   "S04"
+  ]
+ },
+ {
+  "id": "F-11",
+  "type": "Unverified",
+  "item": "Meaning of schedule markers 'R' and '#' (C)",
+  "why": "The PDF text shows 'R' and 'C' in marker columns with no legend in the text read.",
+  "action": "Confirm the legend in the PDF or the NBA schedule page before interpreting.",
+  "sources": [
+   "S05"
+  ]
+ },
+ {
+  "id": "F-12",
+  "type": "Irregularity",
+  "item": "NBA live scoreboard JSON unavailable",
+  "why": "The fetch tool returned HTTP 500 for the CDN scoreboard JSON (S10).",
+  "action": "Retry from an environment with access; not used here.",
+  "sources": [
+   "S10"
+  ]
+ },
+ {
+  "id": "F-13",
+  "type": "Unverified",
+  "item": "NBA Stat Glossary coverage",
+  "why": "Only the first of 10 chunks was read line by line.",
+  "action": "Read remaining chunks before citing any definition beyond those shown.",
+  "sources": [
+   "S01"
+  ]
+ },
+ {
+  "id": "F-14",
+  "type": "Irregularity",
+  "item": "Coordination protocol branch naming",
+  "why": "The brief asks for session-<id>/<task> branches; Arena policy fixes the branch as arena/7c532e8c-nba3.",
+  "action": "Recorded in COORDINATION.md. One branch with non-overlapping file scopes is used.",
+  "sources": []
+ },
+ {
+  "id": "F-15",
+  "type": "Irregularity",
+  "item": "Two deployment mechanisms existed on GitHub Pages",
+  "why": "Pages API reported a legacy build from main at '/' while the repo also had a GitHub Actions workflow (pages.yml).",
+  "action": "Switch to the workflow deploy from site/ and confirm the deploy (T8).",
+  "sources": []
+ },
+ {
+  "id": "F-16",
+  "type": "Unverified",
+  "item": "Dutch rules on publishing picks or tips (without offering a bet)",
+  "why": "Ksa's page covers offering online gambling. It does not address free tips or analysis content.",
+  "action": "Legal counsel to confirm before publishing any picks.",
+  "sources": [
+   "S09"
+  ]
+ },
+ {
+  "id": "F-17",
+  "type": "Irregularity",
+  "item": "Injury report status vocabulary includes a team-level value",
+  "why": "'NOT YET SUBMITTED' appears as a status for team rows (7 rows).",
+  "action": "Shown as printed. Do not read as a player status.",
+  "sources": [
+   "S04"
+  ]
+ }
+]

@@ -1,0 +1,147 @@
+[
+ {
+  "id": "Q-01",
+  "q": "Is the owner planning to offer lines or picks to other people in NL?",
+  "status": "Not answered",
+  "known": "Ksa: online sports betting offers need a Koa licence (S09).",
+  "missing": "Whether anyone other than the owner will receive lines or picks; operator status; entity and licence.",
+  "next": "SG-01 (legal)",
+  "src": [
+   "S09"
+  ]
+ },
+ {
+  "id": "Q-02",
+  "q": "May NBA statistics be used to build betting lines?",
+  "status": "Answered — restricted",
+  "known": "NBA Terms §9 bars gambling use of NBA Statistics and a regularly updated statistics database without express prior consent.",
+  "missing": "Any written permission from NBA.",
+  "next": "SG-02",
+  "src": [
+   "S07"
+  ]
+ },
+ {
+  "id": "Q-03",
+  "q": "Which games are in the next 3 days (11/13–11/16)?",
+  "status": "Answered (subject to change)",
+  "known": "31 games across 4 dates in the official by-date schedule (S05).",
+  "missing": "Confirmation of changes after August 13, 2026.",
+  "next": "Re-pull at query time",
+  "src": [
+   "S05",
+   "S06"
+  ]
+ },
+ {
+  "id": "Q-04",
+  "q": "Who is listed as out or questionable for those games?",
+  "status": "Partly answered",
+  "known": "Official 11/13 5:00 PM report transcribed (117 rows) and 11/14 rows partly submitted (S04). The report index shows later updates through 5:15 PM on 11/13 (S02).",
+  "missing": "Later report updates not retrieved; 18 rows lack team text.",
+  "next": "Re-pull reports (SG-03)",
+  "src": [
+   "S04",
+   "S02"
+  ]
+ },
+ {
+  "id": "Q-05",
+  "q": "Do official injury reports quantify minutes or production impact?",
+  "status": "Answered — no",
+  "known": "Report fields: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason (S04). Index describes status reporting only (S02).",
+  "missing": "Any authorized minutes or production model.",
+  "next": "SG-06",
+  "src": [
+   "S04",
+   "S02"
+  ]
+ },
+ {
+  "id": "Q-06",
+  "q": "What are the official injury reporting deadlines?",
+  "status": "Answered",
+  "known": "Status by 5 p.m. local the day before (except 2nd game of a back-to-back: 1 p.m. local on game day); game-day report 11 a.m.–1 p.m. local (8–10 a.m. for tip-offs at 5 p.m. or earlier) (S02).",
+  "missing": "None for this question.",
+  "next": "Use as cut-off rules",
+  "src": [
+   "S02"
+  ]
+ },
+ {
+  "id": "Q-07",
+  "q": "Which odds and prop data are licensed and available?",
+  "status": "Not answered",
+  "known": "None in the repository; no provider or licence verified.",
+  "missing": "Provider, markets, timestamps, history depth, licence and display rights, cost.",
+  "next": "SG-02",
+  "src": []
+ },
+ {
+  "id": "Q-08",
+  "q": "What historical data can be used, and under what terms?",
+  "status": "Not answered",
+  "known": "NBA Terms §9 restrict NBA statistics (S07). No other dataset identified.",
+  "missing": "Authorized sources, schema, provenance, and missingness.",
+  "next": "SG-02, SG-03",
+  "src": [
+   "S07"
+  ]
+ },
+ {
+  "id": "Q-09",
+  "q": "What minutes projection source is available?",
+  "status": "Not answered",
+  "known": "None verified.",
+  "missing": "Authorized rotation or minutes data and its terms.",
+  "next": "SG-06",
+  "src": []
+ },
+ {
+  "id": "Q-10",
+  "q": "What defines a 'useful signal' and the leaderboard winner?",
+  "status": "Not answered",
+  "known": "Not specified by owner in the repository.",
+  "missing": "Metric, threshold, minimum sample, horizon. Proposal in SG-04 for owner choice.",
+  "next": "SG-04",
+  "src": []
+ },
+ {
+  "id": "Q-11",
+  "q": "What bankroll and risk limits apply?",
+  "status": "Not answered",
+  "known": "Not in repository.",
+  "missing": "Risk tolerance, stake rules, drawdown cap.",
+  "next": "SG-09",
+  "src": []
+ },
+ {
+  "id": "Q-12",
+  "q": "What are the correlation values between markets or players?",
+  "status": "Not answered — no data",
+  "known": "No outcomes, prices or samples in the repository.",
+  "missing": "Matched outcomes, prices, and samples; measurement window.",
+  "next": "F-06 / G7",
+  "src": []
+ },
+ {
+  "id": "Q-13",
+  "q": "Where can problem-gambling help be found in NL?",
+  "status": "Partly answered",
+  "known": "Ksa publicises the Gokstop (self-exclusion) campaign (S08).",
+  "missing": "Confirmation of the Gokstop URL and any other official resource (not fetched).",
+  "next": "Verify before publishing",
+  "src": [
+   "S08"
+  ]
+ },
+ {
+  "id": "Q-14",
+  "q": "Does the repository have a live site with the correct source?",
+  "status": "Answered",
+  "known": "GitHub Pages is enabled for the repo (RR-04). Site will be rebuilt by T7/T8.",
+  "missing": "Post-deploy verification (T8).",
+  "next": "T8",
+  "src": []
+ }
+]
