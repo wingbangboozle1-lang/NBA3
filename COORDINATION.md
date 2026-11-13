@@ -194,7 +194,7 @@ Prior session `49064d5a` work (merged PRs #1 and #2) is preserved; its `index.ht
 | T6 Strategies, validation gates, correlations (leaderboard empty; all blocked) | done (blocked by data) | 9ed6085f | data/strategies.csv (11), data/gates.csv (11), data/correlations.csv (8, blank), pipeline/gates.py |
 | T7 Site generator, verification checker, Pages workflow | done (narrowed; see note) | 9ed6085f | pipeline/build_site.py, pipeline/verify.py, pipeline/tests/, .github/workflows/pages.yml (now checks only), index.html (generated dashboard), root *.html and style.css (generated), .nojekyll, .gitignore, README.md |
 | T8 Executive summary and Flagged-for-Review register | done (25 flags) | 9ed6085f | data/flags.csv, generated site pages |
-| T9 PR, merge, Pages deploy verification, log | in progress (PR #7 open; merge with main recorded below) | 9ed6085f | COORDINATION.md; PR and merge result recorded below |
+| T9 PR, merge, Pages deploy verification, log | done (PR #7 merged 2026-11-13T22:47:54Z; Pages build `built`; see record below) | 9ed6085f | COORDINATION.md; PR and merge result recorded below |
 
 ### T7 scope note (narrowed)
 
@@ -373,6 +373,7 @@ was fetched, not when the PR was opened.
 - CI run [43521981275](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43521981275) (pull_request): `build` job succeeded on every step (both sides' unit tests, both checkers, all three builds with drift checks, research verify, artifact staging). `deploy` skipped on PR by design.
 - **Unresolved risk for owner review (does not block the merge under the brief):** `main`'s `data/picks.json` and `lab/picks.html` publish odds-based picks with "POSITIVE EV" labels, marked "TIER C - pre-validation, paper only". NBA Terms s.9 (gambling use), Dutch promotion rules (Art. 1 of the Wet op de kansspelen; Q-LEG-01) and the unverified minimum age (Q-LEG-03) are open. This session's `/research/` publishes no picks. The owner decides whether `lab/picks` stays published. Logged as flag F13 on `/research/flagged.html` and in the PR body.
 
+
 ---
 
 ## Session arena-0a016df8 (branch `arena/0a016df8-nba3`) — round: verified data, origination engine, gated picks, edge/ dashboard
@@ -423,3 +424,20 @@ Claimed at 2026-11-13 (UTC); origin/main was at `dbb8575` at claim time.
 ### Update after merge
 - PR number, merge commit, and Pages deploy run are recorded here AFTER the PR is created and merged (never guessed in advance).
 - Live URLs after deploy: https://wingbangboozle1-lang.github.io/NBA3/ (root) and https://wingbangboozle1-lang.github.io/NBA3/edge/ (this session's dashboard).
+### Result: PR #7 merged, Pages deployed (session 9ed6085f)
+
+| Item | Result |
+|---|---|
+| PR | [#7](https://github.com/wingbangboozle1-lang/NBA3/pull/7) `arena/9ed6085f-nba3` → `main` |
+| Merge | `gh pr merge 7 --merge`; merge commit `92b70cd41a43c27cc832593e5b223014cac929e0`; merged 2026-11-13T22:47:54Z |
+| PR-time CI | run [43522116655](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43522116655) on head `fdb7a76`: `build` success (every step). Deploy skipped on PR by design |
+| Push-time CI | run [43522183499](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43522183499) on `92b70cd`: `build` success, `deploy` success |
+| Pages | `gh api repos/.../pages/builds/latest`: commit `92b70cd`, status `built` |
+| Live check | fetch of https://wingbangboozle1-lang.github.io/NBA3/research/injuries.html returned the published table with source links and unverified flags. Plain curl from the sandbox returns 000 for github.io hosts (outbound limited); the fetch tool reads the live URL |
+
+**Not done, carried forward (owner decisions, flagged, not blocking):**
+- Pages source is still legacy `main /` (switch to GitHub Actions returned 403 for this session). The whole public repository is served (R06, F19, Q-REPO-02).
+- `lab/picks` on `main` publishes odds-based picks with POSITIVE EV labels before counsel review (F13, Q-LEG-01).
+- Cross-session data issue for arena/7c532e8c: Miami rows in `data/injuries.json` carry matchup `CLE@MIA` that the PDF does not show (see integration log above).
+- `/research/` publishes no picks, lines or correlation values.
+
