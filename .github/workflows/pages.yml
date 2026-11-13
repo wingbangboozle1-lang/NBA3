@@ -32,6 +32,8 @@ jobs:
           if broken: raise SystemExit(f'Broken in-page links: {broken}')
           print(f'Validated {len(p.ids)} section ids and {len(p.hrefs)} links (external links are not fetched in CI).')
           PY
+      - name: Validate dashboard subpages, internal links, and data JSON
+        run: python3 pipeline/check_site.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
