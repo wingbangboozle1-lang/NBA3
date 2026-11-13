@@ -75,7 +75,7 @@ jobs:
           python3 pipeline/build_site.py
           python3 pipeline/verify.py
           test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
-      - name: Edge Lab checks (arena-0a016df8: subpages, internal links, data JSON)
+      - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
         run: python3 pipeline/check_site.py
       - name: Stage combined Pages artifact
         run: |
