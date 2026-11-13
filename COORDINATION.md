@@ -171,4 +171,7 @@ Failed or not used: [NBA CDN live scoreboard JSON](https://cdn.nba.com/static/js
 - Flag ID collision resolved: this site's flags are `7C-F-01…17`. f879620b's `F-01…F-15` are unchanged (see the README namespace table).
 - Local checks at merge time: `python3 scripts/build_site.py` (OK, 553 links, 12 pages); `python3 tools/check_site.py` (PASS, 10 pages); `python3 -m unittest tests/test_validate_gates.py` (13 tests, OK).
 - Pull request: https://github.com/wingbangboozle1-lang/NBA3/pull/5 (`arena/7c532e8c-nba3` -> `main`; head 33d09d4).
-- Merge result: see the line below once executed.
+- Merge result: PR #5 merged with a merge commit (no review; not auto-merge) at 2026-11-13T22:37:15Z, merge commit `bccf9b7` on `main`.
+- Deploy: workflow run 43520768394 (`Build and deploy NBA Edge Lab (GitHub Pages)`) on `bccf9b7`: build success, deploy success. Pages API: status `built`, latest build for `bccf9b7`. Public URLs checked with the fetch tool: `/site/` (landing, 31 games, 117 injury rows, 17 flags) and `/` (dashboard) load. The sandbox cannot reach the Pages host directly (curl fails at TLS).
+- Pages configuration note: Pages `build_type` is `legacy`, source `main /`. The workflow deploy and the legacy build serve the same committed tree (`/`, `/docs/`, `/site/`). Switching to the workflow build type was not done (f879620b's attempt to change source returned 403). Owner decision: see suggestions.
+- Open items, not blocking (unchanged from the verification log): 7 NOT YET SUBMITTED team rows vs 2 attribution-T rows (unreconciled); injury R/S/U rows not re-verified against the PDF; schedule orientation for 11/15 and 11/16 unverified (printed order kept); meaning of the schedule "C" column unknown.
