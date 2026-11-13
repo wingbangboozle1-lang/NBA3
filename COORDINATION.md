@@ -483,7 +483,7 @@ were restored to `main`'s content before this section was appended.
 | O13 | Site-improvement options page | done | 5 areas × 2–3 options, recommendations |
 | O14 | Open-questions page | done | 4 decisions need a human |
 | O15 | Flagged for Review page | done | 16 items with sources |
-| O16 | PR → merge → Pages | in progress | PR [#14](https://github.com/wingbangboozle1-lang/NBA3/pull/14) |
+| O16 | PR → merge → Pages | done | PR [#14](https://github.com/wingbangboozle1-lang/NBA3/pull/14) merged `dcfc2ad`; fix PR [#15](https://github.com/wingbangboozle1-lang/NBA3/pull/15) merged `306d1a3`; Pages `built` |
 
 ### Results (all reproducible via `python3 model/build.py`)
 
@@ -515,6 +515,22 @@ were restored to `main`'s content before this section was appended.
 | CR-O3 | owner of root `index.html` (session `49064d5a`) | Add a nav entry for `/origin/` so the new dashboard is discoverable from the landing page. | open |
 | CR-O4 | owner / reviewer | Decide how `/origin/` and `/edge/` should coexist — both build a verified 174-game log and originated lines independently. | open |
 | CR-O5 | reviewer | Decide whether sportsbook prices may be used for *comparison* (not copying). Without this, no strategy can be scored on profit — only on self-consistency against our own line. | open |
+
+### Integration log
+
+| Item | Result |
+|---|---|
+| Line-by-line re-verification | 174/174 results reconcile to official GP **and** official W-L for all 30 teams; 0 duplicate game IDs; 0 blank scores |
+| Header/cell parity check across all tables | 0 mismatches (a first pass found 4 broken tables — `str.format` silently drops surplus positional args — all fixed in PR #15) |
+| Broken-link check | 0 broken across 11 HTML pages and 10 Markdown notes |
+| Other sessions' files | `git diff origin/main HEAD` touches only `origin/`, `model/`, `data/origin/` plus appended sections of `COORDINATION.md`/`README.md`; `site/`, `docs/`, `edge/`, `lab/`, `research/` untouched |
+| Pre-existing CI | `tests/test_validate_gates.py` OK · `tools/check_site.py` PASS · `scripts/build_site.py` 553 links, `site/` drift 0 · `pipeline/check_site.py` OK |
+| PR #14 | `arena/e22a2831-nba3` → `main`, merge commit `dcfc2ad03529dc134944c1143f10b710a4979a71`, merged 2026-11-13T23:13:50Z |
+| PR #15 | table-rendering fix, merge commit `306d1a32d4b10ab4b906545835dbe5e94ff6fabe` |
+| Workflow | runs 43525538246, 43526106176, 43526107108 all `completed success` |
+| Pages | `gh api .../pages/builds/latest` → status `built`, commit `306d1a32d4b1` |
+| Live check | `https://wingbangboozle1-lang.github.io/NBA3/origin/` and `/origin/{lines,strategies,correlations,injuries,props,gameflow,data,flagged,suggestions,questions}.html` fetched and rendering with correct tables and source links |
+| Pages exposure | `cp -r origin _pages/origin` added to `.github/workflows/pages.yml`, and a nav link added to the root dashboard — without these the Actions artifact would not have included `/origin/` |
 
 ### Environment constraints confirmed by this session
 
