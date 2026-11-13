@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Game Flow &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li><a href='strategies.html'>Strategy Leaderboard</a></li><li><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li class='active'><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li><a href='suggestions.html'>Site Improvements</a></li><li><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap wide">
+<header class="page-head">
+<h1>Game Flow</h1>
+<p class="lead">Pace, rest, overtime and home court &mdash; computed from verified results, not copied from a summary page.</p>
+</header>
+
+<section class="panel">
+<h2>Game-flow facts from the verified results</h2>
+<div class="cards">
+<div class="card ok"><div class="card-label">Average game total</div>
+<div class="card-value">226.8</div><div class="card-sub">across 174 verified games</div></div><div class="card neut"><div class="card-label">Regulation / OT totals</div>
+<div class="card-value">225.5 / 252.1</div><div class="card-sub">regulation vs overtime games</div></div><div class="card neut"><div class="card-label">Overtime rate</div>
+<div class="card-value">5.2%</div><div class="card-sub">9 of 174 games</div></div><div class="card neut"><div class="card-label">Home win rate</div>
+<div class="card-value">51.4%</div><div class="card-sub">89 of 173 non-neutral games</div></div><div class="card neut"><div class="card-label">Mean home margin</div>
+<div class="card-value">+1.70</div><div class="card-sub">home score minus away score</div></div><div class="card warn"><div class="card-label">Games on a back-to-back</div>
+<div class="card-value">28.2%</div><div class="card-sub">at least one team on one day of rest</div></div>
+</div>
+<p>Every figure above is computed directly from the 174 verified final scores in
+<a href="data.html">the game log</a>. None of them is copied from a summary page.</p>
+</section>
+
+<section class="panel">
+<h2>Pace table</h2>
+<p>Official pace and efficiency for all 30 teams, sorted fastest to slowest. Pace is the single
+biggest driver of a game total: the spread between the fastest and slowest team here is
+8.7 possessions per 48 minutes, which at a league-average 112.9 offensive rating
+is worth roughly 9.8 points of total.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Team</th><th>Pace</th><th>OffRtg</th><th>DefRtg</th><th>NetRtg</th><th>Source</th></tr></thead><tbody><tr><td><b>CHI</b></td><td class='num'>103.75</td></tr><tr><td><b>ATL</b></td><td class='num'>103.46</td></tr><tr><td><b>MIA</b></td><td class='num'>102.80</td></tr><tr><td><b>NOP</b></td><td class='num'>101.64</td></tr><tr><td><b>SAC</b></td><td class='num'>101.23</td></tr><tr><td><b>IND</b></td><td class='num'>101.13</td></tr><tr><td><b>MIN</b></td><td class='num'>101.08</td></tr><tr><td><b>LAC</b></td><td class='num'>100.95</td></tr><tr><td><b>POR</b></td><td class='num'>100.86</td></tr><tr><td><b>UTA</b></td><td class='num'>100.75</td></tr><tr><td><b>LAL</b></td><td class='num'>100.50</td></tr><tr><td><b>DAL</b></td><td class='num'>100.50</td></tr><tr><td><b>MIL</b></td><td class='num'>100.50</td></tr><tr><td><b>MEM</b></td><td class='num'>100.28</td></tr><tr><td><b>PHI</b></td><td class='num'>100.04</td></tr><tr><td><b>TOR</b></td><td class='num'>99.88</td></tr><tr><td><b>BKN</b></td><td class='num'>99.83</td></tr><tr><td><b>CLE</b></td><td class='num'>99.80</td></tr><tr><td><b>GSW</b></td><td class='num'>99.76</td></tr><tr><td><b>WAS</b></td><td class='num'>99.63</td></tr><tr><td><b>DET</b></td><td class='num'>99.17</td></tr><tr><td><b>SAS</b></td><td class='num'>98.97</td></tr><tr><td><b>OKC</b></td><td class='num'>98.75</td></tr><tr><td><b>PHX</b></td><td class='num'>98.45</td></tr><tr><td><b>ORL</b></td><td class='num'>98.25</td></tr><tr><td><b>DEN</b></td><td class='num'>97.58</td></tr><tr><td><b>HOU</b></td><td class='num'>97.42</td></tr><tr><td><b>CHA</b></td><td class='num'>96.92</td></tr><tr><td><b>BOS</b></td><td class='num'>96.62</td></tr><tr><td><b>NYK</b></td><td class='num'>95.09</td></tr></tbody></table></div>
+</section>
+
+<section class="panel">
+<h2>Rest and scheduling</h2>
+<p>Days of rest for each team-game, derived by differencing the official game dates. The
+distribution is heavily front-loaded because back-to-backs are common early in a season.</p>
+<div class="grid-2">
+<div><div class='table-scroll'><table class='tbl tight'><thead><tr><th>Days of rest</th><th>Team-games</th></tr></thead><tbody><tr><td><b>1</b></td><td class='num'>61</td></tr><tr><td><b>2</b></td><td class='num'>202</td></tr><tr><td><b>3</b></td><td class='num'>48</td></tr><tr><td><b>4</b></td><td class='num'>7</td></tr><tr><td><b>6+</b></td><td class='num'>30</td></tr></tbody></table></div></div>
+<div>
+<h3>Why rest is on this page and not in a strategy</h3>
+<p>Our rest-differential strategy (S3) put up 52.9% over 17 graded bets, p=1.000.
+That is indistinguishable from a coin, and we report it as such. Rest is a real effect in the
+literature, but with 17 qualifying games in this sample we have no business claiming it. It
+stays here as context for the game-flow read, not as a signal.</p>
+</div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Home court</h2>
+<p>Our least-squares fit across 173 non-neutral games gives a home-court advantage of
+<b>+1.59 points</b> (two-sided p=0.104, df=172). At conventional significance
+thresholds that is <b>not</b> statistically distinguishable from zero. We use the fitted value
+in the line-origination model because it is the least-squares estimate, but a reviewer should
+know that in this particular 174-game sample the data does not establish home court at all.
+The Mexico City game (DEN vs IND, 7 Nov) is treated as neutral and is excluded from the fit.</p>
+</section>
+
+<section class="panel">
+<h2>Overtime</h2>
+<p>9 of 174 games went to overtime (5.2%). Overtime games average
+252.1 combined points against 225.5 for regulation games &mdash; a gap of
+26.7 points that matters for any total priced off regulation scoring rates. Our originated
+totals do <b>not</b> adjust for the possibility of overtime; they are regulation equivalents.
+That is a modelling choice, listed on the <a href="flagged.html">flagged page</a>, not an
+oversight.</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T23:10:29Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>

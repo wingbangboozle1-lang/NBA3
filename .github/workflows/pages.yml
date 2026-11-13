@@ -7,6 +7,7 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /lab/            -> arena/5697caaf line lab (scripts/model.py, scripts/build_lab.py)
 #   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
 #   /edge/           -> arena-0a016df8 Edge Lab dashboard (verified game log, originated lines, gated picks)
+#   /origin/         -> arena/e22a2831 origination engine (174-game verified log, walk-forward backtest, 7-gate leaderboard)
 # Pull requests run every check but never deploy.
 
 on:
@@ -86,6 +87,7 @@ jobs:
           cp -r lab _pages/lab
           cp -r research _pages/research
           cp -r edge _pages/edge
+          cp -r origin _pages/origin
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

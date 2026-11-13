@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Correlations &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li><a href='strategies.html'>Strategy Leaderboard</a></li><li class='active'><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li><a href='suggestions.html'>Site Improvements</a></li><li><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap wide">
+<header class="page-head">
+<h1>Correlations</h1>
+<p class="lead">Measured correlation values for parlay construction &mdash; and an explicit list of the ones we could not measure.</p>
+</header>
+
+<section class="panel">
+<h2>Measured correlations</h2>
+<p>Correlation is what decides whether a same-game parlay is fairly priced. If two legs are
+positively correlated, the joint probability is higher than the product of the legs, and a book
+that prices the parlay as independent is giving value away &mdash; and vice versa. We measure
+what we can and refuse to invent the rest.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Pair</th><th>Statistic</th><th>Value</th><th>95% CI</th><th>n</th><th>Status</th><th>Interpretation</th><th>Source</th></tr></thead><tbody><tr><td><b>Home points vs away points (same game)</b></td><td>Pearson r</td><td class='num'>+0.128</td><td class='num'>[-0.02, +0.27]</td><td class='num'>174</td><span class="badge badge-ok">verified</span><td>Computed from the 174 verified final scores.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Originated-spread residual vs originated-total residual</b></td><td>Pearson r</td><td class='num'>+0.091</td><td class='num'>[-0.09, +0.27]</td><td class='num'>114</td><span class="badge badge-ok">verified</span><td>Residuals are out-of-sample (walk-forward). This is the key input for same-game parlays that combine a side with a total.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Cover (vs our spread) AND over (vs our total)</b></td><td>phi (binary)</td><td class='num'>+0.109</td><td class="unverified">&nbsp;</td><td class='num'>114</td><span class="badge badge-ok">verified</span><td>Joint hit rate 0.246 vs 0.219 under independence.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Player A points vs Player B points, same team, same game (PTS-PTS)</b></td><td>Pearson r</td><td class="unverified">&nbsp; <span class="badge badge-unv" title="Not confirmed against an official source">UNVERIFIED</span></td><td class="unverified">&nbsp;</td><td class="unverified">&nbsp;</td><span class="badge badge-warn">assumption</span><td>Requires per-player game logs, which were not captured. Left blank by policy.</td><td class="unverified">no official source &mdash; requires per-player game logs</td></tr><tr><td><b>Player points vs player rebounds, same player, same game</b></td><td>Pearson r</td><td class="unverified">&nbsp; <span class="badge badge-unv" title="Not confirmed against an official source">UNVERIFIED</span></td><td class="unverified">&nbsp;</td><td class="unverified">&nbsp;</td><span class="badge badge-warn">assumption</span><td>Requires per-player game logs. Left blank by policy.</td><td class="unverified">no official source &mdash; requires per-player game logs</td></tr><tr><td><b>Player points vs player assists, same player, same game (combo SGP)</b></td><td>Pearson r</td><td class="unverified">&nbsp; <span class="badge badge-unv" title="Not confirmed against an official source">UNVERIFIED</span></td><td class="unverified">&nbsp;</td><td class="unverified">&nbsp;</td><span class="badge badge-warn">assumption</span><td>Requires per-player game logs. Left blank by policy.</td><td class="unverified">no official source &mdash; requires per-player game logs</td></tr><tr><td><b>Two legs in different games (cross-game parlay)</b></td><td>Pearson r</td><td class='num'>+0.000</td><td class="unverified">&nbsp;</td><td class='num'>None</td><span class="badge badge-warn">assumption</span><td>Not measured on this sample. Independence is an ASSUMPTION, not a verified result; treat as unverified.</td><td><a class="src" href="" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr></tbody></table></div>
+</section>
+
+<section class="panel">
+<h2>Same-game parlay: spread + total</h2>
+<div class="cards">
+<div class="card "><div class="card-label">Leg 1 hit rate (home cover)</div>
+<div class="card-value">50.9%</div><div class="card-sub">against our own originated spread</div></div><div class="card "><div class="card-label">Leg 2 hit rate (over)</div>
+<div class="card-value">43.0%</div><div class="card-sub">against our own originated total</div></div><div class="card ok"><div class="card-label">Both legs landed</div>
+<div class="card-value">24.6%</div><div class="card-sub">independence would predict 21.9%</div></div>
+</div>
+<p>Working the arithmetic: under independence the two legs would both land
+21.9% of the time (50.9% &times; 43.0%). In the 114 out-of-sample games both legs
+actually landed <b>24.6%</b> of the time. The gap of +2.7% points in the direction of
+<em>positive</em> correlation, but the residual correlation itself (r=+0.091) has a 95%
+confidence interval that contains zero, so this is suggestive rather than established. It is
+exactly the kind of number that needs 300+ games before anyone should size a position on it.</p>
+<p class="callout"><b>What we cannot tell you.</b> Player-prop correlations &mdash; the
+points-points and points-rebounds pairs that drive most same-game parlays &mdash; are blank
+above. They require per-player game logs, which were not captured in this session. We left them
+blank and flagged them rather than filling in plausible numbers, because a fabricated
+correlation is worse than no correlation: it gets priced into parlays.</p>
+</section>
+
+<section class="panel">
+<h2>Cross-game parlays</h2>
+<p>Independence between games is the standard assumption, and it is the one nobody checks. We
+have not checked it either &mdash; the sample of 114 games does not support a reliable estimate of
+the correlation between two different games played on the same night. Treat the 0.0 above as an
+<b>assumption awaiting evidence</b>, not a measurement.</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T23:10:29Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>

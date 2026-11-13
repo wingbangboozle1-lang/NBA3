@@ -97,3 +97,38 @@ python3 -m unittest discover -s pipeline/tests
 python3 pipeline/build_site.py
 python3 pipeline/verify.py
 ```
+
+---
+
+## Session `e22a2831` — independent line-origination engine (`/origin/`)
+
+An independently built line-origination and strategy-validation engine, published **alongside**
+the sites above rather than over them. It shares no code or data with `/edge/`, `/site/`,
+`/docs/`, `/lab/` or `/research/`.
+
+| Path | What it is |
+|---|---|
+| [`/origin/`](origin/index.html) | 11-page dashboard: originated lines, strategy leaderboard, correlations, injury impact, player props, game flow, data & sources, flagged for review, site improvements, open questions |
+| `origin/notes/` | The same material in Markdown, generated from the same model artefact |
+| `data/origin/` | Verified inputs (174 games) + `model_output.json`, the single source of truth |
+| `model/` | `nbastats.py` (stdlib statistics), `build.py`, `build_docs.py` |
+
+### Results
+
+| | |
+|---|---|
+| Games verified, 20 Oct – 12 Nov | **174** — 348 team-games, **zero** discrepancy against the official GP column, all 30 teams; recomputed W-L matches official W-L |
+| Margin model (walk-forward, 114 OOS games) | RMSE **16.18** vs 17.30 baseline |
+| Total model | RMSE **20.35** vs 19.56 baseline — **no improvement**, reported as such |
+| Strategies passing all 7 gates | **0 of 8** (two provisionals, both under-powered) |
+
+Built with the standard library only (`numpy`/`scipy`/`pandas` are unavailable in this
+workspace). Reproduce with:
+
+```bash
+python3 model/build.py && python3 model/build_docs.py && python3 model/build_site.py
+```
+
+See [`COORDINATION.md`](COORDINATION.md#session-e22a2831-arenae22a2831-nba3--line-origination-walk-forward-validation-origin-site)
+for the task board, cross-session change requests and the note on how `/origin/` and `/edge/`
+overlap.

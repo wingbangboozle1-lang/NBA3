@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strategy Leaderboard &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li class='active'><a href='strategies.html'>Strategy Leaderboard</a></li><li><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li><a href='suggestions.html'>Site Improvements</a></li><li><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap wide">
+<header class="page-head">
+<h1>Strategy Leaderboard</h1>
+<p class="lead">Eight candidate strategies, graded out-of-sample against the seven validation gates.</p>
+</header>
+
+<section class="panel">
+<h2>The validation gates</h2>
+<p>A strategy is only allowed onto the live leaderboard if it clears all of these. The gates are
+deliberately strict: the point of the exercise is to remove luck, not to find a story that
+fits 114 games.</p>
+<table class="tbl tight">
+<thead><tr><th>Gate</th><th>Requirement</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><b>G1</b> provenance</td><td>Every input is an official NBA figure or arithmetic on one</td>
+<td>Blocks anything trained on a number we cannot show a source for.</td></tr>
+<tr><td><b>G2</b> no look-ahead</td><td>Every prediction made with only games played strictly before it</td>
+<td>A model that has seen the future will always look good.</td></tr>
+<tr><td><b>G3</b> sample size</td><td>At least 100 graded bets</td>
+<td>Below 100, a 55% hit rate cannot be separated from noise at 80% power.</td></tr>
+<tr><td><b>G4</b> power</td><td>Report the n the observed effect would actually need</td>
+<td>Shows how far from adequate the sample is, in the same units as G3.</td></tr>
+<tr><td><b>G5</b> raw significance</td><td>Two-sided p &lt; 0.05 against the correct null</td>
+<td>Exact binomial test. For parlays the null is the independence-implied joint rate, not 0.50.</td></tr>
+<tr><td><b>G6</b> multiple testing</td><td>Survives Benjamini-Hochberg at FDR 0.05</td>
+<td>Eight candidates were searched; the bar has to rise accordingly.</td></tr>
+<tr><td><b>G7</b> stability</td><td>Direction of the edge holds in both halves of the sample</td>
+<td>An effect that only exists in one half is usually a calendar artefact.</td></tr>
+</tbody></table>
+</section>
+
+<section class="panel">
+<h2>Leaderboard</h2>
+<p>All eight strategies graded out-of-sample. Sorted by gate result, then hit rate. "Null" is the
+break-even probability each strategy is tested against &mdash; for the parlay (S6) it is the
+joint rate implied by the two legs under independence, because testing a two-leg parlay against
+0.50 would be a category error.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>ID</th><th>Strategy and rule</th><th>Bets</th><th>Wins</th><th>Hit rate</th><th>p (two-sided)</th><th>Null</th><th>Split-half</th><th>G1 provenance all inputs official or derived</th><th>G2 no lookahead</th><th>G3 sample n ge 100</th><th>G4 powered observed effect n needed</th><th>G5 raw p lt 0.05</th><th>G6 survives bh fdr 0.05</th><th>G7 split half direction stable</th><th>Verdict</th></tr></thead><tbody><tr><td><b>S5</b></td><td><b>Fade totals of 235+</b><div class='rule'>When our originated total is 235 or more, take the under.</div></td><td class='num'>24</td><td class='num'>21</td><td class='num'>87.5%</td><td class='num'>0.0003</td><td class='num'>0.500</td><td class='num'>0.800 / 1.000</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'>56</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td><span class="badge badge-warn">PROVISIONAL - signal present, sample under-powered</span></td></tr><tr><td><b>S4b</b></td><td><b>Back road favourites of 8+</b><div class='rule'>When our originated spread has the away team favoured by 8 or more, take the away side.</div></td><td class='num'>28</td><td class='num'>20</td><td class='num'>71.4%</td><td class='num'>0.0357</td><td class='num'>0.500</td><td class='num'>0.688 / 0.750</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'>171</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td><span class="badge badge-warn">PROVISIONAL - signal present, sample under-powered</span></td></tr><tr><td><b>S4</b></td><td><b>Fade home favourites of 8+</b><div class='rule'>When our originated spread has the home team favoured by 8 or more, take the away side.</div></td><td class='num'>36</td><td class='num'>21</td><td class='num'>58.3%</td><td class='num'>0.4050</td><td class='num'>0.500</td><td class='num'>0.550 / 0.625</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'>1131</td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td><span class="badge badge-neut">INCONCLUSIVE - sample too small</span></td></tr><tr><td><b>S5b</b></td><td><b>Back totals of 218 or fewer</b><div class='rule'>When our originated total is 218 or less, take the over.</div></td><td class='num'>11</td><td class='num'>6</td><td class='num'>54.5%</td><td class='num'>1.0000</td><td class='num'>0.500</td><td class='num'>0.667 / 0.400</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'>3799</td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td><span class="badge badge-neut">INCONCLUSIVE - sample too small</span></td></tr><tr><td><b>S3</b></td><td><b>Rest differential &gt;= 2 days</b><div class='rule'>When one team has at least two more days of rest than the other, take that team against our originated spread.</div></td><td class='num'>17</td><td class='num'>9</td><td class='num'>52.9%</td><td class='num'>1.0000</td><td class='num'>0.500</td><td class='num'>0.444 / 0.625</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'>9074</td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td><span class="badge badge-neut">INCONCLUSIVE - sample too small</span></td></tr><tr><td><b>S1</b></td><td><b>Originated spread - home side</b><div class='rule'>Take the home side against our own originated spread in every rated game (self-consistency test).</div></td><td class='num'>114</td><td class='num'>58</td><td class='num'>50.9%</td><td class='num'>0.9254</td><td class='num'>0.500</td><td class='num'>0.508 / 0.509</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'>102005</td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td><span class="badge badge-bad">FAILED - no evidence of edge</span></td></tr><tr><td><b>S2</b></td><td><b>Originated total - over</b><div class='rule'>Take the over against our own originated total in every rated game (self-consistency test).</div></td><td class='num'>114</td><td class='num'>49</td><td class='num'>43.0%</td><td class='num'>0.1598</td><td class='num'>0.500</td><td class='num'>0.443 / 0.415</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'>1594</td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td><span class="badge badge-bad">FAILED - no evidence of edge</span></td></tr><tr><td><b>S6</b></td><td><b>Same-game parlay: home cover AND over</b><div class='rule'>Two-leg correlated parlay built on our own originated spread and total.</div><div class='rule note'>Two-leg parlay judged against the independence-implied joint rate 0.219, not 0.50 (a 50% null would be a category error here).</div></td><td class='num'>114</td><td class='num'>28</td><td class='num'>24.6%</td><td class='num'>0.4966</td><td class='num'>0.219</td><td class='num'>0.262 / 0.226</td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td class='num'>10822</td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-bad">FAIL</span></td><td class='num'><span class="badge badge-ok">PASS</span></td><td><span class="badge badge-bad">FAILED - no evidence of edge</span></td></tr></tbody></table></div>
+</section>
+
+<section class="panel">
+<h2>Reading the result honestly</h2>
+<p><b>Nothing passes.</b> That is the finding, and it is the most useful thing this page
+contains. Two strategies are worth naming:</p>
+<ul>
+<li><b>S5 &mdash; fade our own totals of 235+.</b> 21 of 24 unders went under
+(p=0.0003). The threshold was pre-specified at 235 before the backtest ran, which is the
+right thing to do, but 24 bets is roughly a fifth of the sample the gate demands, and the
+effect is exactly what regression to the mean produces when a model is constructed from
+noisy season averages. It fails G3 and, at 56 bets needed for 80% power, it is nowhere
+close.</li>
+<li><b>S4b &mdash; back road favourites of 8+.</b> 20 of 28 covers (p=0.0357), but it
+does not survive Benjamini-Hochberg correction across the eight candidates (G6), so we do not
+treat it as established.</li>
+</ul>
+<p>Neither result should be traded. Both should be re-run automatically once the season supplies
+the sample they need; the pipeline already does this with no code changes.</p>
+</section>
+
+<section class="panel">
+<h2>Model accuracy that sits underneath</h2>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Model</th><th>Margin RMSE</th><th>Margin baseline</th><th>Total RMSE</th><th>Total baseline</th><th>Margin bias</th><th>Total bias</th><th>n</th></tr></thead><tbody><tr><td><b>LM-A additive points model</b></td><td class='num'>16.65</td><tr><td><b>LM-B Massey least-squares margin model</b> <span class='badge badge-ok'>selected</span></td><td class='num'>16.45</td><tr><td><b>LM-C blend (A+B margins, T2 total)</b> <span class='badge badge-ok'>selected</span></td><td class='num'>16.18</td></tbody></table></div>
+<p class="muted">RMSE in points. "Baseline" is a naive league-average prediction &mdash; the
+home margin is always the running mean home margin, the total is always the running mean total.
+A model that cannot beat that has no business originating lines.</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T23:10:29Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>

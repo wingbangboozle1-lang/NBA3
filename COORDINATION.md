@@ -446,3 +446,85 @@ Claimed at 2026-11-13 (UTC); origin/main was at `dbb8575` at claim time.
 - Cross-session data issue for arena/7c532e8c: Miami rows in `data/injuries.json` carry matchup `CLE@MIA` that the PDF does not show (see integration log above).
 - `/research/` publishes no picks, lines or correlation values.
 
+---
+
+## Session `e22a2831` (`arena/e22a2831-nba3`) — line origination, walk-forward validation, `/origin/` site
+
+Independent line-origination engine. Published **alongside** the existing sites rather than
+over them: everything this session generated lives under `origin/`, `data/origin/` and
+`model/`. No file owned by another session was overwritten — `COORDINATION.md` and `README.md`
+were restored to `main`'s content before this section was appended.
+
+### File scope claimed
+
+| Path | Contents |
+|---|---|
+| `data/origin/` | games.csv, teams_advanced.csv, players_top_minutes.csv, schedule_upcoming.csv, injuries.csv, model_output.json |
+| `model/` | `nbastats.py` (stdlib statistics), `build.py` (pipeline), `build_docs.py` (notes) |
+| `origin/` | 11-page site + `assets/`; `origin/notes/` Markdown |
+| `model/build_site.py` | Generates `origin/` — despite the path, it writes no files into `site/` |
+
+### Task board
+
+| # | Task | Status | Evidence |
+|---|------|--------|----------|
+| O1 | Capture official results 20 Oct – 12 Nov | done | 174 games, 348 team-games, **0 mismatch** vs official GP |
+| O2 | Capture official team advanced stats | done | all 30 teams |
+| O3 | Capture official player stats | done | top 31 by minutes only (**gap** — see CR-O1) |
+| O4 | Capture official injury report | done | PDF 2026-11-13 17:15 |
+| O5 | Capture upcoming slate D+0…D+3 | done | 31 games, 13–16 Nov |
+| O6 | Rating engines + walk-forward backtest | done | 60-game burn-in, 114 OOS games |
+| O7 | Originate lines for all 31 upcoming games | done | `origin/lines.html` |
+| O8 | Seven validation gates, 8 strategies | done | **0 of 8 pass** — `origin/strategies.html` |
+| O9 | Correlations | done | spread/total r=+0.091; player-level **blocked** |
+| O10 | Injury → minutes → production | done | quantified where sourced, blank + flagged otherwise |
+| O11 | Game-flow analysis | done | pace, rest, OT, home court |
+| O12 | Executive summary | done | `origin/notes/executive-summary.md` |
+| O13 | Site-improvement options page | done | 5 areas × 2–3 options, recommendations |
+| O14 | Open-questions page | done | 4 decisions need a human |
+| O15 | Flagged for Review page | done | 16 items with sources |
+| O16 | PR → merge → Pages | in progress | PR [#14](https://github.com/wingbangboozle1-lang/NBA3/pull/14) |
+
+### Results (all reproducible via `python3 model/build.py`)
+
+- **Margin model** RMSE 16.18 vs 17.30 baseline (walk-forward, 114 OOS games).
+- **Total model** RMSE 20.35 vs 19.56 baseline — **worse than the baseline**, reported as such.
+- **Home court** fitted at +1.59 pts, p=0.104 — not significant in this sample.
+- **Spread/total residual correlation** r=+0.091, 95% CI [-0.09, +0.27] — includes zero.
+- **0 of 8 strategies** pass all gates. Two provisionals: S5 fade totals 235+ (21/24, p=0.0003),
+  S4b road favourites 8+ (20/28, p=0.036). Both far below the 100-bet floor.
+- Integrity: recomputed W-L from our own scores matches official W-L for all 30 teams.
+
+### Cross-session notes
+
+- **Overlaps with `/edge/` (arena-0a016df8)**, which publishes a 174-game log, originated lines
+  and gated strategies from a separate pipeline. The two are independent builds of similar
+  scope with different ID schemes. I did **not** modify `edge/`; a reviewer may want to
+  reconcile or choose one. See CR-O4.
+- **Pages still serves legacy `main /`**, so `/origin/` is served as a subdirectory. No Pages
+  setting was changed by this session.
+- The `origin/` site is not yet reachable from the root `index.html` nav; adding that link
+  touches a file owned by session `49064d5a`. Logged as **CR-O3** rather than edited.
+
+### Change requests from this session
+
+| ID | To | Request | Status |
+|---|----|---------|--------|
+| CR-O1 | any session | Capture the full 465-row official player minutes table so injured players outside the top 31 have official minutes. Until then every injury minutes-vacuum figure is a **floor**. | open |
+| CR-O2 | any session | Capture `nba.com/stats/players/boxscores` by date to unblock player-prop distributions and player-level correlations (~4,000 rows). | open |
+| CR-O3 | owner of root `index.html` (session `49064d5a`) | Add a nav entry for `/origin/` so the new dashboard is discoverable from the landing page. | open |
+| CR-O4 | owner / reviewer | Decide how `/origin/` and `/edge/` should coexist — both build a verified 174-game log and originated lines independently. | open |
+| CR-O5 | reviewer | Decide whether sportsbook prices may be used for *comparison* (not copying). Without this, no strategy can be scored on profit — only on self-consistency against our own line. | open |
+
+### Environment constraints confirmed by this session
+
+- Shell has **no outbound network** (`curl` fails TLS). All external data must come from the
+  `fetch_page` / `web_search` tools.
+- `numpy`, `scipy`, `pandas` are **unavailable**; `model/nbastats.py` implements OLS, Pearson r
+  with Fisher intervals, exact binomial, Student-t (via the incomplete beta function) and
+  Benjamini–Hochberg from first principles.
+- Blocked (HTTP 500): `cdn.nba.com/static/json/...`, `data.nba.net/prod/v1/...`,
+  `stats.nba.com/stats/scoreboardv3`. Use `www.nba.com` HTML and `ak-static.cms.nba.com` PDFs.
+- `www.nba.com/standings` returns no data (client-rendered); use `/stats/teams/advanced`.
+- `/games?date=` truncates at chunk boundaries — a slate is incomplete until the last chunk is
+  read (1 chunk ≤4 games, 2 for 7–11, 3 for 14–15).
