@@ -1,0 +1,325 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Injuries &amp; game flow — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html" class="on">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Injuries, rotation minutes and game flow</h2>
+<p class="lead">The league publishes a timestamped availability report, not a minutes
+forecast. This page keeps that distinction explicit: the status is official and quoted
+exactly, while every attempt to turn a status into points or minutes is labelled as
+either derived or impossible.</p>
+
+<div class="note"><b>The reporting rule, from the league itself.</b> Teams must report a
+participation status and a specific reason by 5 p.m. local time the day before a game
+(1 p.m. on the day for the second of a back-to-back), and must file a game-day update
+between 11 a.m. and 1 p.m. Reports are revised continuously. So a status is a snapshot
+with an expiry, and the timestamp is part of the data.
+<a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA Official — injury report index</a>.</div>
+
+<h3>Availability by game — 5:00 PM ET report, 2026-11-13</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Game</th><th class="num">Out</th><th class="num">Doubtful</th>
+<th class="num">Questionable</th><th class="num">Probable</th>
+<th class="num">G-League rows</th><th class="num">Drag by team</th>
+<th>Players listed Out</th><th>Source</th></tr></thead>
+<tbody><tr>
+<td><b>MIL@ORL</b></td>
+<td class="num">4</td><td class="num">0</td>
+<td class="num">3</td><td class="num">0</td>
+<td class="num">0</td>
+<td class="num">ORL 5.50</td>
+<td class="tiny">Banchero, Paolo (Out), Isaac, Jonathan (Out), Nelson, Izaiyah (Out), Penda, Noah (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>NYK@IND</b></td>
+<td class="num">3</td><td class="num">0</td>
+<td class="num">1</td><td class="num">1</td>
+<td class="num">0</td>
+<td class="num">IND 3.75</td>
+<td class="tiny">Furphy, Johnny (Out), Haliburton, Tyrese (Out), Sheppard, Ben (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>ATL@CHI</b></td>
+<td class="num">8</td><td class="num">0</td>
+<td class="num">4</td><td class="num">0</td>
+<td class="num">3</td>
+<td class="num">ATL 4.50 / CHI 3.00</td>
+<td class="tiny">Gilbert, Keshon (Out), Gueye, Mouhamed (Out), Newell, Asa (Out), Veesaar, Henri (Out), Awaka, Tobe (Out), Wilson, Caleb (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>CLE@MIA</b></td>
+<td class="num">6</td><td class="num">1</td>
+<td class="num">0</td><td class="num">1</td>
+<td class="num">3</td>
+<td class="num">CLE 3.00 / MIA 1.00</td>
+<td class="tiny">Merrill, Sam (Out), Mobley, Evan (Out), Tomlin, Nae&#x27;Qwan (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>MEM@NOP</b></td>
+<td class="num">10</td><td class="num">0</td>
+<td class="num">1</td><td class="num">0</td>
+<td class="num">3</td>
+<td class="num">MEM 4.00 / NOP 4.50</td>
+<td class="tiny">Edey, Zach (Out), Pippen Jr., Scotty (Out), Post, Quinten (Out), Saunders, Richie (Out), McGowens, Bryce (Out), Missi, Yves (Out), Murphy III, Trey (Out), Murray, Dejounte (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>UTA@HOU</b></td>
+<td class="num">11</td><td class="num">0</td>
+<td class="num">0</td><td class="num">0</td>
+<td class="num">5</td>
+<td class="num">HOU 3.00 / UTA 3.00</td>
+<td class="tiny">Jackson Jr., Jaren (Out), Markkanen, Lauri (Out), Nurkic, Jusuf (Out), Adams, Steven (Out), Capela, Clint (Out), Smart, Marcus (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>GSW@SAS</b></td>
+<td class="num">7</td><td class="num">0</td>
+<td class="num">2</td><td class="num">1</td>
+<td class="num">0</td>
+<td class="num">GSW 4.25 / SAS 4.00</td>
+<td class="tiny">Butler III, Jimmy (Out), Curry, Stephen (Out), Moody, Moses (Out), Porzingis, Kristaps (Out), Williams, Brandon (Out), Harris, Tobias (Out), Quaintance, Jayden (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr><tr>
+<td><b>POR@SAC</b></td>
+<td class="num">8</td><td class="num">0</td>
+<td class="num">0</td><td class="num">0</td>
+<td class="num">3</td>
+<td class="num">POR 4.00 / SAC 1.00</td>
+<td class="tiny">Krejci, Vit (Out), Morant, Ja (Out), Sharpe, Shaedon (Out), Youngblood, Chris (Out), Achiuwa, Precious (Out)</td>
+<td class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">NBA official report</a> <span class="chip c-ok">official</span></td>
+</tr></tbody></table></div></div>
+
+<div class="card">
+<h3 style="margin-top:0">The availability-drag metric, and why it is not a projection</h3>
+<div class="formula">drag(team) = sum over that team's listed players of weight(status)
+weights: Out 1.00 · Doubtful 0.75 · Questionable 0.50 · Probable 0.25 · Available 0.00
+G-League assignments and two-way listings are counted separately and excluded.</div>
+<p class="tiny">This is an <b>ordinal exposure score</b>, not points and not minutes. Its
+only job is to sort games by how much uncertainty the roster carries, so the pick screening
+can throw out signals built on a roster we know is wrong. Calling it anything more
+specific would be inventing precision the source does not contain.</p>
+<p class="tiny muted" style="margin-bottom:0">Note that it is unitless and unbounded. A
+team with four Out players and a team with four Out players plus a Doubtful are ordered
+correctly; neither number should be read as "points lost".</p>
+</div>
+
+<h3>Where a season average exists, the exposure can be named</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Game</th><th>Team</th><th>Player</th><th>Status</th>
+<th class="num">Season PPG</th><th>What that number is and is not</th><th>Source</th></tr></thead>
+<tbody><tr><td colspan="6" class="muted">No listed player had a published season average in the retrieved sources.</td><td class="src"><a href="questions.html">Q9</a></td></tr></tbody></table></div></div>
+
+<div class="warn note"><b>Why this is not "the team loses X points".</b> A replacement
+absorbs part of an absent starter's production, usage redistributes to teammates, and the
+opponent's defensive attention changes. Converting "player averages 21.8" into "team loses
+21.8" is the single most common analytical error in injury coverage. This build reports
+the player's own number and refuses to make that leap.</div>
+
+<h3>Game flow — what the model does and does not see</h3>
+<div class="card">
+<div class="grid g2">
+<div>
+<h3 style="margin-top:0">Modelled</h3>
+<ul class="tight">
+<li><b>Expected possessions</b> per game, from both teams' pace. Published on every row of
+<a href="lines.html">Originated lines</a>: it is what converts a per-100-possession rating
+into a points number.</li>
+<li><b>Margin distribution width</b>, measured at 17.15 points.
+This is what makes a cover probability a probability rather than a guess, and it is the
+term that makes close games genuinely uncertain.</li>
+<li><b>Blowout asymmetry</b> is captured only through that width. A 15-point spread has a
+much wider plausible outcome set than a 2-point spread, and probabilities reflect it.</li>
+</ul>
+</div>
+<div>
+<h3 style="margin-top:0">Not modelled</h3>
+<ul class="tight">
+<li><b>Rotation minutes</b> — no minutes source was retrieved. This is the binding
+constraint on the entire prop programme.</li>
+<li><b>In-game score-state effects</b> — garbage-time minutes, foul trouble, late-game
+fouling. No play-by-play or lineup data was retrieved.</li>
+<li><b>Rest and travel</b> — back-to-backs and travel legs are not in the rating. The
+schedule is known, so this is a fixable gap rather than an architectural one.</li>
+<li><b>Coach and scheme changes</b> — not captured anywhere in this build.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3>Market movement beside official availability</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Game</th><th class="num">Open spread</th><th class="num">Now</th>
+<th class="num">Move</th><th class="num">Open total</th><th class="num">Now</th>
+<th class="num">Move</th><th class="num">Official outs</th><th class="num">Questionable</th>
+<th>Notable outs</th><th>Causal link</th></tr></thead>
+<tbody><tr><td>NYK@IND</td>
+<td class="num">-2.5</td><td class="num">+8.5</td>
+<td class="num">+11.0</td>
+<td class="num">233.5</td><td class="num">219.5</td>
+<td class="num">-14.0</td>
+<td class="num">3</td><td class="num">1</td>
+<td class="tiny">Furphy, Johnny, Haliburton, Tyrese, Sheppard, Ben</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>MIL@ORL</td>
+<td class="num">-9.5</td><td class="num">-9.5</td>
+<td class="num">+0.0</td>
+<td class="num">223.5</td><td class="num">224.5</td>
+<td class="num">+1.0</td>
+<td class="num">4</td><td class="num">3</td>
+<td class="tiny">Banchero, Paolo, Isaac, Jonathan, Nelson, Izaiyah, Penda, Noah</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>CLE@MIA</td>
+<td class="num">-1.5</td><td class="num">-2.5</td>
+<td class="num">-1.0</td>
+<td class="num">237.5</td><td class="num">236.5</td>
+<td class="num">-1.0</td>
+<td class="num">6</td><td class="num">1</td>
+<td class="tiny">Diop, Khalifa, Merrill, Sam, Mobley, Evan, Tomlin, Nae&#x27;Qwan, Udeh, Jr., Ernest, Goldin, Vladislav</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>ATL@CHI</td>
+<td class="num">+6.5</td><td class="num">+7.5</td>
+<td class="num">+1.0</td>
+<td class="num">246.5</td><td class="num">245.5</td>
+<td class="num">-1.0</td>
+<td class="num">8</td><td class="num">4</td>
+<td class="tiny">Gilbert, Keshon, Gueye, Mouhamed, Newell, Asa, Veesaar, Henri, Wilson, Jalen, Awaka, Tobe</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>MEM@NOP</td>
+<td class="num">+4.5</td><td class="num">+3.5</td>
+<td class="num">-1.0</td>
+<td class="num">234.5</td><td class="num">235.5</td>
+<td class="num">+1.0</td>
+<td class="num">10</td><td class="num">1</td>
+<td class="tiny">Edey, Zach, Lopez, Karim, Mashack, Jahmai, Pippen Jr., Scotty, Post, Quinten, Saunders, Richie</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>UTA@HOU</td>
+<td class="num">-17.5</td><td class="num">-15.5</td>
+<td class="num">+2.0</td>
+<td class="num">217.5</td><td class="num">220.5</td>
+<td class="num">+3.0</td>
+<td class="num">11</td><td class="num">0</td>
+<td class="tiny">Alexander, Trey, Bufkin, Kobe, Ingram, Harrison, Jackson Jr., Jaren, Markkanen, Lauri, Nurkic, Jusuf</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>GSW@SAS</td>
+<td class="num">-11.5</td><td class="num">-12.5</td>
+<td class="num">-1.0</td>
+<td class="num">234.5</td><td class="num">217.5</td>
+<td class="num">-17.0</td>
+<td class="num">7</td><td class="num">2</td>
+<td class="tiny">Butler III, Jimmy, Curry, Stephen, Moody, Moses, Porzingis, Kristaps, Williams, Brandon, Harris, Tobias</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>POR@SAC</td>
+<td class="num">+10.5</td><td class="num">+10.5</td>
+<td class="num">+0.0</td>
+<td class="num">229.5</td><td class="num">229.5</td>
+<td class="num">+0.0</td>
+<td class="num">8</td><td class="num">0</td>
+<td class="tiny">Krejci, Vit, Morant, Ja, Sharpe, Shaedon, Youngblood, Chris, Achiuwa, Precious, Karaban, Alex</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr><tr><td>OKC@LAC</td>
+<td class="num">+7.5</td><td class="num">+7.5</td>
+<td class="num">+0.0</td>
+<td class="num">221.5</td><td class="num">222.5</td>
+<td class="num">+1.0</td>
+<td class="num">0</td><td class="num">0</td>
+<td class="tiny">—</td>
+<td class="src"><a href="https://www.nba.com/schedule" target="_blank" rel="noopener">odds</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">report</a>
+<div class="tiny muted">causal link unverified</div></td></tr></tbody></table></div></div>
+<p class="tiny muted">Open and current prices are both from the same provider record, so
+the movement is internally consistent. The last column stays
+<span class="chip c-warn">unverified</span> on purpose: the league publishes who is
+unavailable, not why a book moved a number. Any claim that a specific injury caused a
+specific line move is an inference, and it is not made here. The largest total move in the
+window was -17.0 points on
+GSW@SAS, and the report for that game lists
+7 players out — suggestive,
+not proof.</p>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology | NBA3</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><script src="assets/nav.js"></script><main>
+<div class="crumb"><a href="../index.html">Overview</a> / Methodology</div>
+<h1>Methodology</h1>
+<p class="sub">Full document: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/methodology.md" target="_blank" rel="noopener">docs/methodology.md</a>. Everything is reproducible via <code>pipeline/</code>.</p>
+<h2>What we originate</h2>
+<p>For every game within the next 3 days: spread (expected home margin), total, fair moneylines, win probabilities. These are <b>our numbers</b>, never presented as market lines or sourced facts.</p>
+<h2>Models</h2>
+<ul>
+<li><b>Model A (prior):</b> 2025-26 final adjusted NRtg difference, calibrated to actual margin by OLS on an expanding window (min 30 games). Home edge included.</li>
+<li><b>Model B (elo):</b> in-season Elo with margin-of-victory multiplier <code>((|margin|+3)^0.8)/(7.5+0.006·Δelo)</code>, K=20, initialized from 2025-26 ratings (1 pt ≈ 15 Elo), home advantage 48 Elo (≈3.2 pts) in both update and prediction.</li>
+<li><b>Model C (consensus):</b> fixed 50/50 blend — chosen a priori, no tuning on the test window.</li>
+<li><b>Recalibration:</b> expanding-window OLS rescale of C + single-parameter logistic win-probability fit, past-only at each step (no leakage).</li>
+<li><b>Totals:</b> shrunk (k=8) opponent-adjusted team scoring, +1.5 home edge prior, expanding league-average baseline.</li>
+<li><b>Slate integrity:</b> predictions for a date use only prior-date state (games are simultaneous).</li>
+</ul>
+<h2>Validation gates</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Gate</th><th>Threshold</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>G1</td><td>≥ 100 rated bets</td><td>Minimum sample to limit luck</td></tr>
+<tr><td>G2</td><td>Brier ≤ 0.250</td><td>Win-probability calibration</td></tr>
+<tr><td>G3</td><td>ROI &gt; 0 at −110 (walk-forward)</td><td>Profitability under standard pricing</td></tr>
+<tr><td>G4</td><td>Permutation test p &lt; 0.10 (2,000 shuffles)</td><td>Skill, not luck</td></tr>
+<tr><td>G5</td><td>Max drawdown ≤ 8 units</td><td>Risk control</td></tr>
+<tr><td>G6</td><td>Parlay leg correlation cap ≤ 0.5; same-team legs banned</td><td>Correlation risk</td></tr>
+</tbody></table></div>
+<h2>Results snapshot (as of 2026-11-13 data)</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Strategy</th><th>n</th><th>ROI</th><th>Perm p</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>STRAT1 — high-conviction spread singles</td><td>85</td><td>+48.2%</td><td>&lt;0.0005</td><td><span class="badge warn">provisional (G1 short)</span></td></tr>
+<tr><td>STRAT2 — ML band 0.60–0.78</td><td>68</td><td>+23.5%</td><td>0.011</td><td><span class="badge warn">provisional (G1 short)</span></td></tr>
+<tr><td>STRAT3 — totals</td><td>14</td><td>−4.6%</td><td>0.59</td><td><span class="badge bad">not eligible</span></td></tr>
+<tr><td>STRAT4 — 2-leg parlays</td><td>15</td><td>+14.6%</td><td>0.29</td><td><span class="badge bad">not eligible</span></td></tr>
+</tbody></table></div>
+<div class="note red"><b>Read carefully:</b> ROI is vs <i>our own line</i> at an assumed −110 (no odds feed). It proves model skill; it does not prove market-beating profit. See <a href="flagged.html">Flagged for Review</a>.</div>
+<h2>Known limitations</h2>
+<ol>
+<li>No market odds feed → no CLV / market-relative validation (Q2).</li>
+<li>Short sample: 138 rated games; 2025-26 history would fix G1 (Q5).</li>
+<li>Totals model weak without pace data (Q9).</li>
+<li>Props prototype unvalidated (Q4).</li>
+<li>Injury reports publish day-before; +2/+3-day picks carry pending flags (Q3).</li>
+<li>Season variance is unusual (blowouts 25.3%, home win 51.1%); monitored.</li>
+</ol>
+</main></body></html>

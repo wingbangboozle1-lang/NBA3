@@ -1,0 +1,102 @@
+name: Build and deploy NBA Edge Lab (GitHub Pages)
+
+# Integration workflow. Published layout (one Pages artifact):
+#   /                -> root index.html (research dashboard; links to docs/, site/, lab/, research/)
+#   /docs/           -> f879620b data site (docs/data/data.json)
+#   /site/           -> arena/7c532e8c site (generated from data/*.json by scripts/build_site.py)
+#   /lab/            -> arena/5697caaf line lab (scripts/model.py, scripts/build_lab.py)
+#   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
+#   /edge/           -> arena-0a016df8 Edge Lab dashboard (verified game log, originated lines, gated picks)
+# Pull requests run every check but never deploy.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (statistics module, f879620b)
+        run: python3 -m unittest tests/test_validate_gates.py
+      - name: Data site checks (docs/ rows, sources, links)
+        run: python3 tools/check_site.py
+      - name: Unit tests (research pipeline, 9ed6085f)
+        run: python3 -m unittest discover -s pipeline/tests
+      - name: Root dashboard in-page links and link targets
+        run: |
+          test -s index.html
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import os
+          class Check(HTMLParser):
+              def __init__(self):
+                  super().__init__(); self.ids=set(); self.hrefs=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  if 'id' in a: self.ids.add(a['id'])
+                  if tag=='a' and 'href' in a: self.hrefs.append(a['href'])
+          p=Check(); p.feed(Path('index.html').read_text(encoding='utf-8'))
+          broken=[h for h in p.hrefs if h.startswith('#') and h[1:] not in p.ids]
+          broken+=[h for h in p.hrefs if not h.startswith(('#','http://','https://','mailto:')) and not os.path.exists(h.split('#')[0])]
+          if broken: raise SystemExit(f'Broken links in index.html: {broken}')
+          print(f'index.html: {len(p.ids)} ids, {len(p.hrefs)} links checked.')
+          PY
+      - name: Build NBA Edge Lab site (fails on missing sources, broken links, drift)
+        run: |
+          python3 scripts/build_site.py
+          git diff --exit-code -- site/
+          test -z "$(git status --porcelain -- site/)" || { echo 'site/ has uncommitted or untracked changes'; git status --porcelain -- site/; exit 1; }
+      - name: Build + validate the line-lab site (lab/)
+        run: |
+          python3 scripts/model.py
+          python3 scripts/build_lab.py
+          python3 scripts/validate_site.py
+          test -z "$(git status --porcelain -- lab/)" || { echo 'lab/ is out of date; regenerate and commit'; git status --porcelain -- lab/; exit 1; }
+      - name: Build and verify research site (9ed6085f)
+        run: |
+          python3 pipeline/build_site.py
+          python3 pipeline/verify.py
+          test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
+      - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
+        run: python3 pipeline/check_site.py
+      - name: Stage combined Pages artifact
+        run: |
+          rm -rf _pages && mkdir _pages
+          cp index.html _pages/
+          cp -r docs _pages/docs
+          cp -r site _pages/site
+          cp -r lab _pages/lab
+          cp -r research _pages/research
+          cp -r edge _pages/edge
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _pages
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
