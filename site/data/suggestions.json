@@ -3,7 +3,7 @@
   "id": "SG-01",
   "priority": 1,
   "suggestion": "Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.",
-  "why": "F-02: Ksa requires a Koa licence for online sports betting offers.",
+  "why": "7C-F-02: Ksa requires a Koa licence for online sports betting offers.",
   "dependency": "Counsel opinion",
   "src": [
    "S09",
@@ -19,7 +19,7 @@
   "id": "SG-02",
   "priority": 2,
   "suggestion": "Choose a data rights path: (A) written permission from NBA for statistics use under §9, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.",
-  "why": "F-01, F-03, F-04.",
+  "why": "7C-F-01, 7C-F-03, 7C-F-04.",
   "dependency": "Owner decision; vendor or NBA contact",
   "src": [
    "S07",
@@ -36,7 +36,7 @@
   "id": "SG-03",
   "priority": 3,
   "suggestion": "Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.",
-  "why": "F-09 (schedule changes), Q-04 (updates through the day).",
+  "why": "7C-F-09 (schedule changes), Q-04 (updates through the day).",
   "dependency": "Engineering time",
   "src": [
    "S02",
@@ -63,7 +63,7 @@
   "id": "SG-05",
   "priority": 5,
   "suggestion": "Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2–G7.",
-  "why": "Props and parlays depend on minutes and on correlation, neither of which is measured yet (F-05, F-06).",
+  "why": "Props and parlays depend on minutes and on correlation, neither of which is measured yet (7C-F-05, 7C-F-06).",
   "dependency": "SG-02 done",
   "src": [],
   "options": [
@@ -127,7 +127,7 @@
   "id": "SG-10",
   "priority": 10,
   "suggestion": "Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.",
-  "why": "F-07.",
+  "why": "7C-F-07.",
   "dependency": "None (done in T7)",
   "src": [
    "S02",
@@ -140,8 +140,8 @@
  {
   "id": "SG-11",
   "priority": 11,
-  "suggestion": "Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).",
-  "why": "Q-04, Q-07, Q-08, Q-09, F-01 to F-03: the missing items cannot be filled from the repository alone.",
+  "suggestion": "Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).",
+  "why": "Q-04, Q-07, Q-08, Q-09, 7C-F-01 to 7C-F-03: the missing items cannot be filled from the repository alone.",
   "dependency": "Owner approval for outreach; counsel",
   "src": [
    "S07",

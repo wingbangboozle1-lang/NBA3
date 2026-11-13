@@ -176,7 +176,7 @@ def page(filename, title, body, desc=""):
 
 def banner_research():
     return ('<div class="banner stop"><b>No lines, picks, or correlation values are published.</b> '
-            'Blocking items: NBA Terms §9 (F-01), Dutch licence requirement (F-02), and no licensed odds data (F-03). '
+            'Blocking items: NBA Terms §9 (7C-F-01), Dutch licence requirement (7C-F-02), and no licensed odds data (7C-F-03). '
             'Everything shown is either sourced to an official link or flagged.</div>')
 
 
@@ -330,7 +330,7 @@ def render_pages(d):
         (str(len(inj)), "injury-report rows (11/13 5:00 PM official report)"),
         ("0", "originated lines published"),
         ("0", "picks published"),
-        (str(len(blockers)), "open blockers (F-01 to F-03)"),
+        (str(len(blockers)), "open blockers (7C-F-01 to 7C-F-03)"),
         (str(len(flags)), "items flagged for review"),
     ]
     met_html = "".join(f'<div class="metric"><b>{esc(a)}</b><small>{esc(b)}</small></div>' for a, b in metrics)
@@ -382,9 +382,9 @@ def render_pages(d):
 </tbody></table></div>
 <h2>What is not known (and why it blocks decisions)</h2>
 <ul class="tight">
-<li>Odds and prop prices, with timestamps, under a licence (F-03).</li>
-<li>Authorized historical statistics and minutes (F-01, F-04, F-05).</li>
-<li>Any measured correlation (F-06) or any out-of-sample result.</li>
+<li>Odds and prop prices, with timestamps, under a licence (7C-F-03).</li>
+<li>Authorized historical statistics and minutes (7C-F-01, 7C-F-04, 7C-F-05).</li>
+<li>Any measured correlation (7C-F-06) or any out-of-sample result.</li>
 <li>Your leaderboard metric, thresholds, and risk limits (Q-10, Q-11).</li>
 </ul>
 <h2>Decisions needed from you</h2>
@@ -406,7 +406,7 @@ def render_pages(d):
             esc(g["national_tv"]) or '<span class="muted">—</span>',
             esc(g["hash_col"]) or '<span class="muted">—</span>',
             chip("Orientation confirmed", "ok") if conf else chip("Unverified order", "unverified"),
-            '<span class="muted">No pick — gates not passed (F-03)</span>',
+            '<span class="muted">No pick — gates not passed (7C-F-03)</span>',
             link(sched["source_url"], "S05 schedule PDF"),
         ])
     body = f"""
@@ -414,7 +414,7 @@ def render_pages(d):
 <h1>3-day slate (11/13–11/16/2026)</h1>
 <p class="lede">Source: {link(sched['source_url'], sched['source_title'])}. Release page: {link(sched['release_page'], 'NBA.com schedule release')}. Tip times are the ET column. {esc(sched['times_note'])}</p>
 {banner_research()}
-<div class="banner warn"><b>Subject to change.</b> The PDF is labelled as of August 13, 2026. Re-pull before use (F-09). "@" marks away @ home only where the injury report confirms it (11/13 and 11/14). For 11/15 and 11/16 the order is as printed (F-10). The marker column (C/R) has no legend in the text read (F-11).</div>
+<div class="banner warn"><b>Subject to change.</b> The PDF is labelled as of August 13, 2026. Re-pull before use (7C-F-09). "@" marks away @ home only where the injury report confirms it (11/13 and 11/14). For 11/15 and 11/16 the order is as printed (7C-F-10). The marker column (C/R) has no legend in the text read (7C-F-11).</div>
 {table(["Game #", "Day / date", "Matchup", "Tip (ET)", "National TV", "Marker", "Orientation", "Pick / line", "Source"], rows, "slate", True)}
 </section>
 """
@@ -438,7 +438,7 @@ def render_pages(d):
 <h1>Injury tracker — official report 11/13/26 5:00 PM</h1>
 <p class="lede">Every player row printed in the official report, transcribed as printed. Source: {link(inj[0]['report_source'], 'Injury Report PDF, 11/13/26 05:00 PM')}. Index: {link(S['S02']['url'], 'NBA Official injury report 2026-27')}.</p>
 {banner_research()}
-<div class="banner warn"><b>What this does not show.</b> The report has no minutes or production fields, so no effect on rotation minutes is estimated (F-05). Blank cells are values the PDF text did not attribute (F-08). Reports are updated through the day (S02); this is a single snapshot.</div>
+<div class="banner warn"><b>What this does not show.</b> The report has no minutes or production fields, so no effect on rotation minutes is estimated (7C-F-05). Blank cells are values the PDF text did not attribute (7C-F-08). Reports are updated through the day (S02); this is a single snapshot.</div>
 <h3>Attribution key</h3>
 <ul class="tight">
 <li><b>R</b>: team and matchup printed in the same row or block.</li>
@@ -472,7 +472,7 @@ def render_pages(d):
 <h1>Game flow and injury impact (11/13–11/14)</h1>
 <p class="lede">Counts below come only from attributed rows of the official 11/13 5:00 PM report (attribution R or S). Unattributed rows (U) are excluded and noted. Games on 11/15–11/16 have no report in this snapshot.</p>
 {banner_research()}
-<div class="banner warn"><b>Game-flow analysis is not built.</b> Pace, possessions, scoring model, lineup and minutes data are not verified (F-04, F-05). The two rightmost columns stay blank until authorized data exists. Counts are facts about the report, not impact estimates.</div>
+<div class="banner warn"><b>Game-flow analysis is not built.</b> Pace, possessions, scoring model, lineup and minutes data are not verified (7C-F-04, 7C-F-05). The two rightmost columns stay blank until authorized data exists. Counts are facts about the report, not impact estimates.</div>
 {table(["Game #", "Date", "Matchup (schedule order)", "Team", "Out", "Questionable / Doubtful", "Probable", "Available", "Rows", "Team status", "Rotation minutes effect", "Production effect", "Sources"], rows, "gameflow", True)}
 <h3>Unattributed rows excluded</h3>
 <p class="muted">{n_u} rows (U) carry no team or matchup text in the PDF extraction. They are on the Injury tracker, left blank, and not assigned to any game here.</p>
@@ -502,8 +502,8 @@ def render_pages(d):
 <h2>Parlay and combo policy</h2>
 <ul class="tight">
 <li>A parlay's probability is not the product of its legs unless independence is tested (G7).</li>
-<li>Same-game correlations are unmeasured. Blank by policy (F-06).</li>
-<li>Player-prop combos need minutes data (F-05) and price data (F-03).</li>
+<li>Same-game correlations are unmeasured. Blank by policy (7C-F-06).</li>
+<li>Player-prop combos need minutes data (7C-F-05) and price data (7C-F-03).</li>
 </ul>
 </section>
 """
@@ -597,7 +597,7 @@ def render_pages(d):
 <section class="card" id="flagged">
 <h1>Flagged for Review</h1>
 <p class="lede">Published for owner review after go-live. These items do not block the merge. Each has its source link where one exists. Request changes by ID.</p>
-<div class="banner warn"><b>Blockers:</b> F-01 (NBA Terms §9) and F-02 (Dutch licence) prevent the betting features from being built. F-03 blocks lines and picks. Everything else is unverified or an irregularity.</div>
+<div class="banner warn"><b>Blockers:</b> 7C-F-01 (NBA Terms §9) and 7C-F-02 (Dutch licence) prevent the betting features from being built. 7C-F-03 blocks lines and picks. Everything else is unverified or an irregularity.</div>
 {table(["ID", "Type", "Item", "Why flagged", "Action / review", "Sources"], rows, "flags", True)}
 </section>
 """
