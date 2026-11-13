@@ -422,7 +422,7 @@ Claimed at 2026-11-13 (UTC); origin/main was at `dbb8575` at claim time.
   board update at merge time.
 
 ### Update after merge
-- PR number, merge commit, and Pages deploy run are recorded here AFTER the PR is created and merged (never guessed in advance).
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/11 (`arena/0a016df8-nba3` -> `main`; head `26f6e9c`). Merge commit and Pages deploy run recorded below after merge.
 - Live URLs after deploy: https://wingbangboozle1-lang.github.io/NBA3/ (root) and https://wingbangboozle1-lang.github.io/NBA3/edge/ (this session's dashboard).
 ### Result: PR #7 merged, Pages deployed (session 9ed6085f)
 
