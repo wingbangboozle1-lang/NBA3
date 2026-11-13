@@ -1,0 +1,373 @@
+[
+  {
+    "id": "S1",
+    "name": "Favourite-side spread (model vs market)",
+    "market": "Single bet \u2014 point spread",
+    "thesis": "Where the originated spread differs from the listed spread, take the side the model favours. Edge is measured in points and converted to probability with the measured margin distribution.",
+    "signal": "sign(model_spread - market_spread)",
+    "stake_rule": "flat 1 unit; no progression, no chase",
+    "evidence": {
+      "sample": 9,
+      "sample_unit": "games with a captured market line (2026-11-13 slate only)",
+      "brier": null,
+      "accuracy": null,
+      "note": "No historical closing line exists in this session, so S1 cannot be scored on returns. Only a present-tense signal count is shown."
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "name": "Data provenance",
+        "status": "PASS",
+        "evidence": "Ratings: Basketball-Reference advanced table. Prices: ESPN core odds endpoint (DraftKings). Both transcribed with URL and retrieval time."
+      },
+      {
+        "id": "G2",
+        "name": "Leakage prevention",
+        "status": "FAIL",
+        "evidence": "Ratings are measured through 2026-11-12 and the market prices are a 2026-11-13 snapshot, so the comparison is live-clean. But no historical price archive exists, which means the strategy cannot be tested without look-ahead."
+      },
+      {
+        "id": "G3",
+        "name": "Baseline & calibration",
+        "status": "FAIL",
+        "evidence": "No scored sample of S1 signals exists, so no calibration plot can be produced."
+      },
+      {
+        "id": "G4",
+        "name": "Robustness",
+        "status": "FAIL",
+        "evidence": "Sample of 9 live games. Power is far below the required n."
+      },
+      {
+        "id": "G5",
+        "name": "Dependence (combos)",
+        "status": "PASS",
+        "evidence": "If combined, spread legs across games are near-independent; the measured margin/total correlation is reported on the correlation page."
+      },
+      {
+        "id": "G6",
+        "name": "Economic test",
+        "status": "FAIL",
+        "evidence": "No closing-line history and no settlement archive."
+      },
+      {
+        "id": "G7",
+        "name": "Prospective monitoring",
+        "status": "PENDING",
+        "evidence": "Signal must be frozen, logged pre-tip, and scored after settlement."
+      }
+    ],
+    "basis": "DERIVED",
+    "source": "espn_odds"
+  },
+  {
+    "id": "S2",
+    "name": "Total vs market (pace/ratings divergence)",
+    "market": "Single bet \u2014 game total",
+    "thesis": "Originated total = league average scoring scaled by the two teams' expected possessions. Divergence from the listed total is the signal.",
+    "signal": "model_total - market_total",
+    "stake_rule": "flat 1 unit",
+    "evidence": {
+      "sample": 9,
+      "sample_unit": "games with a captured total",
+      "brier": null,
+      "accuracy": null,
+      "note": "Directional signal only; no historical totals archive."
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "name": "Data provenance",
+        "status": "PASS",
+        "evidence": "Same sources as S1."
+      },
+      {
+        "id": "G2",
+        "name": "Leakage prevention",
+        "status": "FAIL",
+        "evidence": "No historical totals archive."
+      },
+      {
+        "id": "G3",
+        "name": "Baseline & calibration",
+        "status": "FAIL",
+        "evidence": "Unscored."
+      },
+      {
+        "id": "G4",
+        "name": "Robustness",
+        "status": "FAIL",
+        "evidence": "9 live games."
+      },
+      {
+        "id": "G5",
+        "name": "Dependence (combos)",
+        "status": "PASS",
+        "evidence": "Measured margin vs total correlation documented; over legs in different games are weakly dependent through pace only."
+      },
+      {
+        "id": "G6",
+        "name": "Economic test",
+        "status": "FAIL",
+        "evidence": "No closing prices."
+      },
+      {
+        "id": "G7",
+        "name": "Prospective monitoring",
+        "status": "PENDING",
+        "evidence": "Not yet running."
+      }
+    ],
+    "basis": "DERIVED",
+    "source": "espn_odds"
+  },
+  {
+    "id": "S3",
+    "name": "Moneyline value on the dog",
+    "market": "Single bet \u2014 moneyline",
+    "thesis": "Devig the two-way moneyline, compare the de-vigged implied probability with the model's win probability, and only act when the model is higher by more than the measured noise floor.",
+    "signal": "model_p - devigged_market_p",
+    "stake_rule": "flat 1 unit; quarter-Kelly cap as an upper bound only",
+    "evidence": {
+      "sample": 9,
+      "sample_unit": "games with a captured moneyline",
+      "brier": null,
+      "accuracy": null,
+      "note": "Only the 2026-11-13 slate carried prices this session."
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "name": "Data provenance",
+        "status": "PASS",
+        "evidence": "ESPN core odds endpoint, both moneylines, vig reported per game."
+      },
+      {
+        "id": "G2",
+        "name": "Leakage prevention",
+        "status": "FAIL",
+        "evidence": "No historical prices."
+      },
+      {
+        "id": "G3",
+        "name": "Baseline & calibration",
+        "status": "FAIL",
+        "evidence": "Unscored."
+      },
+      {
+        "id": "G4",
+        "name": "Robustness",
+        "status": "FAIL",
+        "evidence": "9 live games."
+      },
+      {
+        "id": "G5",
+        "name": "Dependence (combos)",
+        "status": "PASS",
+        "evidence": "Cross-game legs independent by construction."
+      },
+      {
+        "id": "G6",
+        "name": "Economic test",
+        "status": "FAIL",
+        "evidence": "No settlement data."
+      },
+      {
+        "id": "G7",
+        "name": "Prospective monitoring",
+        "status": "PENDING",
+        "evidence": "Not yet running."
+      }
+    ],
+    "basis": "DERIVED",
+    "source": "espn_odds"
+  },
+  {
+    "id": "S4",
+    "name": "Win-probability calibration (scored)",
+    "market": "Forecast skill, not a bet",
+    "thesis": "Emit a win probability for every completed game and score it with a proper rule. This is the one strategy in this build with a real, computed score, because it needs no price history.",
+    "signal": "norm_cdf(model_spread / margin_sd)",
+    "stake_rule": "n/a \u2014 scored on Brier and calibration, not staked",
+    "evidence": {
+      "sample": 86,
+      "sample_unit": "completed games 2026-11-01..11-12",
+      "brier": 0.1528,
+      "brier_baseline": 0.25,
+      "accuracy": 0.8488,
+      "expected_wins": 46.2,
+      "observed_wins": 43,
+      "z_score": -0.79,
+      "luck_p_value": 0.4294,
+      "note": "In-sample: ratings overlap the scored window, so treat as a consistency check."
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "name": "Data provenance",
+        "status": "PASS",
+        "evidence": "All 86 game results transcribed with the source page."
+      },
+      {
+        "id": "G2",
+        "name": "Leakage prevention",
+        "status": "FAIL",
+        "evidence": "In-sample by construction; no earlier-season ratings available this session."
+      },
+      {
+        "id": "G3",
+        "name": "Baseline & calibration",
+        "status": "PASS",
+        "evidence": "Brier 0.1528 vs home-rate baseline 0.25."
+      },
+      {
+        "id": "G4",
+        "name": "Robustness",
+        "status": "FAIL",
+        "evidence": "n=86; a single 12-day window in one season."
+      },
+      {
+        "id": "G5",
+        "name": "Dependence (combos)",
+        "status": "n/a",
+        "evidence": "Forecast scoring, no legs to combine."
+      },
+      {
+        "id": "G6",
+        "name": "Economic test",
+        "status": "n/a",
+        "evidence": "No stake taken."
+      },
+      {
+        "id": "G7",
+        "name": "Prospective monitoring",
+        "status": "PENDING",
+        "evidence": "Requires frozen snapshot scoring going forward."
+      }
+    ],
+    "basis": "DERIVED",
+    "source": "bbr_schedule"
+  },
+  {
+    "id": "S5",
+    "name": "Cross-game parlay (independent legs)",
+    "market": "Parlay",
+    "thesis": "Multiply de-vigged leg probabilities across games only where measured correlation is indistinguishable from zero, then compare with the offered parlay price.",
+    "signal": "prod(leg p) vs offered price",
+    "stake_rule": "flat, small; cap at 2 legs until G2 and G6 pass",
+    "evidence": {
+      "sample": null,
+      "sample_unit": "requires multi-book parlay pricing",
+      "brier": null,
+      "accuracy": null,
+      "note": "No parlay price was captured. Leg independence IS measured: see the correlation page."
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "name": "Data provenance",
+        "status": "PARTIAL",
+        "evidence": "Leg prices exist for 9 games; parlay prices do not."
+      },
+      {
+        "id": "G2",
+        "name": "Leakage prevention",
+        "status": "FAIL",
+        "evidence": "No price history."
+      },
+      {
+        "id": "G3",
+        "name": "Baseline & calibration",
+        "status": "FAIL",
+        "evidence": "Unscored."
+      },
+      {
+        "id": "G4",
+        "name": "Robustness",
+        "status": "FAIL",
+        "evidence": "No sample."
+      },
+      {
+        "id": "G5",
+        "name": "Dependence (combos)",
+        "status": "PASS",
+        "evidence": "Margin-vs-total r and away-vs-home total r measured with 95% CI on 86 games."
+      },
+      {
+        "id": "G6",
+        "name": "Economic test",
+        "status": "FAIL",
+        "evidence": "Parlay price and settlement rules not captured."
+      },
+      {
+        "id": "G7",
+        "name": "Prospective monitoring",
+        "status": "PENDING",
+        "evidence": "Not frozen."
+      }
+    ],
+    "basis": "DERIVED",
+    "source": "bbr_schedule"
+  },
+  {
+    "id": "S6",
+    "name": "Same-game player prop combo",
+    "market": "Player prop combo / SGP",
+    "thesis": "Legs on the same game share minutes, usage and score state. The joint probability must be estimated directly, never by multiplying marginals.",
+    "signal": "joint scenario simulation",
+    "stake_rule": "blocked",
+    "evidence": {
+      "sample": null,
+      "sample_unit": "none",
+      "brier": null,
+      "accuracy": null,
+      "note": "Blocked: no minutes distribution and no per-player game logs were retrieved."
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "name": "Data provenance",
+        "status": "PARTIAL",
+        "evidence": "1,170 prop price points are exposed for one game, but athlete names needed 1 lookup each and only 5 were resolved."
+      },
+      {
+        "id": "G2",
+        "name": "Leakage prevention",
+        "status": "FAIL",
+        "evidence": "No player game logs."
+      },
+      {
+        "id": "G3",
+        "name": "Baseline & calibration",
+        "status": "FAIL",
+        "evidence": "No prop model."
+      },
+      {
+        "id": "G4",
+        "name": "Robustness",
+        "status": "FAIL",
+        "evidence": "No sample."
+      },
+      {
+        "id": "G5",
+        "name": "Dependence (combos)",
+        "status": "FAIL",
+        "evidence": "Points-vs-rebounds and teammate correlations are unmeasured; see the blank rows on the correlation page."
+      },
+      {
+        "id": "G6",
+        "name": "Economic test",
+        "status": "FAIL",
+        "evidence": "No settlement rules captured."
+      },
+      {
+        "id": "G7",
+        "name": "Prospective monitoring",
+        "status": "BLOCKED",
+        "evidence": "Cannot start without G2 and G5."
+      }
+    ],
+    "basis": "UNVERIFIED",
+    "source": "espn_props"
+  }
+]

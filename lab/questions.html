@@ -1,0 +1,167 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Decision questions — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html" class="on">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Questions that must be answered before any decision</h2>
+<p class="lead">This is the register the brief asked for: plain questions, what we can
+already answer from evidence in hand, what is genuinely missing, and the concrete step
+that would close each gap. Nothing here is answered by assumption.</p>
+
+<div class="note"><b>How to read the "known" column.</b> It states only what this
+repository or a linked source actually establishes. "Not provided" means exactly that —
+it is not a placeholder for a sensible default, and no default has been substituted.</div>
+
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>#</th><th>Question</th><th>What is established now</th>
+<th>Missing information</th><th>How to discover it</th><th>Reference</th></tr></thead>
+<tbody><tr><td class="num">Q1</td><td><b>Which jurisdictions and uses are permitted?</b></td>
+<td class="tiny">Nothing in the repository or the retrieved sources establishes this.</td>
+<td class="tiny">Operating jurisdiction, age gates, advertising rules, whether displaying modelled prices is a regulated activity.</td><td class="tiny">Compliance review before any public pick is published as actionable. Until then everything here is labelled paper-only.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q2</td><td><b>Do we have the right to redistribute these numbers?</b></td>
+<td class="tiny">NBA pages, Basketball-Reference and ESPN all publish on their own terms. Retrieval is not a licence.</td>
+<td class="tiny">Terms of service for each source, rate limits, caching rules, permission for derivative display.</td><td class="tiny">Read the terms of service for each of the four sources; record the outcome next to the source in data/raw_data.py.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q3</td><td><b>Is there a historical closing-line archive available?</b></td>
+<td class="tiny">No. This is why five of six strategies carry no score.</td>
+<td class="tiny">Whether a licensed vendor can supply timestamped closing prices back several seasons, and at what cost.</td><td class="tiny">Request a trial export for one season, then re-run scripts/model.py with prices to produce the first real backtest.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q4</td><td><b>What is the bankroll, unit size and stop rule?</b></td>
+<td class="tiny">Not provided and not inferable.</td>
+<td class="tiny">Risk tolerance, maximum drawdown, whether staking is even in scope.</td><td class="tiny">Define a written risk policy before any staking recommendation. Note the build currently recommends nothing be staked.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q5</td><td><b>What counts as a successful strategy?</b></td>
+<td class="tiny">The brief asks for a leaderboard but no objective function is specified.</td>
+<td class="tiny">Primary metric (Brier, log loss, closing-line value, ROI), acceptable error, minimum sample, horizon.</td><td class="tiny">Pre-register the metric before seeing results. The build defaults to Brier improvement discounted by a luck p-value, and that default is itself a choice worth overruling.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q6</td><td><b>What is the snapshot and staleness policy?</b></td>
+<td class="tiny">This build is a single point-in-time snapshot, as labelled.</td>
+<td class="tiny">Refresh cadence, maximum age before a number is suppressed, how revisions are versioned.</td><td class="tiny">Set an SLA. The injury report alone is revised every 15 minutes in the hour before tip-off, so any operational system needs sub-hour refresh.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q7</td><td><b>How should injuries enter the model?</b></td>
+<td class="tiny">They do not. The line is a pure rating number and the availability list is a separate column.</td>
+<td class="tiny">A minutes model or a usage-redistribution model, plus a source for who replaces whom.</td><td class="tiny">Collect per-player game logs and lineup data, fit a minutes distribution, then re-open strategy S6.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q8</td><td><b>How large a sample is needed before calling anything skill-based?</b></td>
+<td class="tiny">The build computes the requirement: about 778 bets for a 5% edge, 2159 for 3%.</td>
+<td class="tiny">How many seasons of price history can actually be obtained.</td><td class="tiny">Set the threshold in advance and publish the running p-value so the leaderboard cannot be moved by noise.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q9</td><td><b>Player prop modelling: is a minutes source obtainable?</b></td>
+<td class="tiny">No. Props are priced and de-vigged only; no prop probability is published.</td>
+<td class="tiny">A licensed minutes projection or the raw lineup plus substitution data to build one.</td><td class="tiny">Source lineup and substitution data, then fit minutes before touching any prop line.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr><tr><td class="num">Q10</td><td><b>Which efficiency assumptions apply to execution?</b></td>
+<td class="tiny">Not addressed. No bet is recommended, so no execution assumption is needed yet.</td>
+<td class="tiny">Available limits, line-shopping across books, whether closing or current price is the benchmark.</td><td class="tiny">Run a paper trial that logs the price actually available at the moment of the signal, not the price after the fact.</td>
+<td class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">NBA</a>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">BBR</a></td></tr></tbody></table></div></div>
+
+<div class="grid g2">
+<div class="card">
+<h3 style="margin-top:0">The three that block everything else</h3>
+<ol class="tight">
+<li><b>Q3 — no closing-line history.</b> Without it, five of six strategies cannot be
+scored. This is not a modelling gap, it is a data acquisition gap, and no amount of code
+closes it.</li>
+<li><b>Q1 — legal and licensed use.</b> Model outputs are one thing; publishing them as
+actionable picks is another. This determines what the site is allowed to be.</li>
+<li><b>Q9 — no minutes source.</b> Props and same-game combos are the largest market by
+volume and are entirely out of reach until this is solved.</li>
+</ol>
+</div>
+<div class="card">
+<h3 style="margin-top:0">What we can already answer with confidence</h3>
+<ul class="tight">
+<li><b>The coming slate.</b> 23 games across three days, each with an official game ID,
+tip time and venue, all cross-checked between two sources.</li>
+<li><b>Who is unavailable.</b> 75 named statuses from the league's own 5 p.m. report,
+with the reason for each.</li>
+<li><b>What the market thinks.</b> Nine full two-way prices with open and current
+numbers, de-vigged.</li>
+<li><b>How noisy a result has to be before it means anything.</b> Computed explicitly:
+roughly 778 bets to establish a 5% edge.</li>
+</ul>
+</div>
+</div>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

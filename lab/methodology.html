@@ -1,0 +1,185 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method &amp; validation gates — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html" class="on">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Method and validation gates</h2>
+<p class="lead">Every number on this site is either transcribed from a source, computed
+from transcribed numbers by the code in this repository, or explicitly marked as an
+assumption. This page is the audit trail for that claim.</p>
+
+<h3>The five verification tiers</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Tier</th><th>Meaning</th><th>How it is used here</th><th>Source</th></tr></thead><tbody>
+<tr><td><span class="chip c-ok">OFFICIAL</span></td><td>Operated by the NBA</td>
+<td>Schedule, game IDs, venues, injury statuses, the reporting rule. Never used for a probabilistic claim, because the league does not publish one.</t<td class="src"><a href="methodology.html">this page</a></td></tr>
+<tr><td><span class="chip c-info">TRUSTED-2</span></td><td>A reputable secondary source</td>
+<td>Team ratings (Basketball-Reference), game results, market prices (ESPN relaying one book). Always labelled, never described as official.</t<td class="src"><a href="methodology.html">this page</a></td></tr>
+<tr><td><span class="chip c-info">MARKET</span></td><td>A live price from a book</td>
+<td>Spreads, totals, moneylines, prop prices. A price is a fact about the market at a timestamp, not a fact about the game.</t<td class="src"><a href="methodology.html">this page</a></td></tr>
+<tr><td><span class="chip c-neutral">DERIVED</span></td><td>Arithmetic on the above</td>
+<td>Every modelled spread, total, probability, correlation and score. Formula shown on the page where it is used.</t<td class="src"><a href="methodology.html">this page</a></td></tr>
+<tr><td><span class="chip c-warn">UNVERIFIED</span></td><td>No source could confirm it</td>
+<td>Left blank, listed on <a href="review.html">Flagged for review</a>. No value is ever inferred to fill the gap.</td><td class="src"><a href="review.html">review page</a></td></tr>
+</tbody></table></div></div>
+
+<h3>Origination model</h3>
+<div class="card">
+<div class="formula">For each team, from the advanced ratings table:
+  shrunk_net = net_rating x (G / (G + k))         k = 11.0
+
+Per matchup:
+  pace         = (pace_home + pace_away) / 2
+  home_pts     = ORtg_home x (DRtg_away / 114.0) x (pace / 100)
+  away_pts     = ORtg_away x (DRtg_home / 114.0) x (pace / 100)
+  margin_home  = (home_pts - away_pts) + HCA
+  model_spread = -margin_home                     (book sign convention)
+  model_total  = home_pts + away_pts
+
+Probabilities under a normal margin model:
+  P(home win)      = Phi(margin_home / sd_margin)
+  P(home covers h) = Phi((margin_home + h) / sd_margin)      h = listed home handicap
+  P(over t)        = 1 - Phi((t - model_total) / sd_total)
+
+De-vigging a two-way price:
+  p_a = 1 / decimal_a ;  p_b = 1 / decimal_b ;  fair_a = p_a / (p_a + p_b)</div>
+<p class="tiny muted" style="margin-bottom:0">The ratings are multiplicative rather than
+additive because a good offence meeting a bad defence should produce more points than the
+same two ratings meeting in the other order. Using only net ratings would throw that away.</p>
+</div>
+
+<h3>What is measured and what is assumed</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Quantity</th><th class="num">Value used</th><th>Status</th><th>Explanation</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Home-court scoring edge</td><td class="num">+1.51</td>
+<td><span class="chip c-ok">MEASURED</span></td><td class="tiny">Mean home margin across 86 games, 95% CI -2.2 to +5.2. The interval spans zero, so this is a point estimate on a thin sample.</td><td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Margin standard deviation</td><td class="num">17.15</td>
+<td><span class="chip c-ok">MEASURED</span></td><td class="tiny">Sample sd of the same 86 margins. This replaced an initial guess of 12.4 and materially widened every cover probability.</t<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Average total</td><td class="num">225.98</td>
+<td><span class="chip c-ok">MEASURED</span></td><td class="tiny">Mean of 86 game totals, CI 222.0 to 230.0.</t<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Total standard deviation</td><td class="num">18.62</td>
+<td><span class="chip c-ok">MEASURED</span></td><td class="tiny">Sample sd of the same totals.</t<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>League average rating</td><td class="num">114.0</td>
+<td><span class="chip c-ok">OFFICIAL</span></td><td class="tiny">League average ORtg/DRtg from the ratings table, used as the denominator in the log5 term.</t<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Shrinkage constant k</td><td class="num">11.0</td>
+<td><span class="chip c-warn">ASSUMPTION</span></td><td class="tiny">A prior worth 11.0 games of league-average play. Not fitted; chosen to keep an 11-game team from being treated as fully established. Larger k pulls every line toward the market.</t<td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+</tbody></table></div></div>
+
+<h3>Sensitivity — how wrong could this be</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>Assumption</th><th class="num">Used</th><th class="num">Plausible range</th><th>Effect</th><th>Source</th></tr></thead>
+<tbody><tr><td>Home-court edge</td><td class='num'>1.51</td><td class='num'>0.01 … 3.01</td><td class='tiny'>pt on every model spread</td><td class='src'><a href='methodology.html'>assumption</a></td></tr><tr><td>Margin sd</td><td class='num'>17.15</td><td class='num'>14.15 … 20.15</td><td class='tiny'>pts; changes every cover probability</td><td class='src'><a href='methodology.html'>assumption</a></td></tr><tr><td>Total sd</td><td class='num'>18.62</td><td class='num'>16.62 … 20.62</td><td class='tiny'>pts; changes every over/under probability</td><td class='src'><a href='methodology.html'>assumption</a></td></tr></tbody></table></div></div>
+<p class="tiny muted">The measured values above carry confidence intervals, and the
+assumed values carry this range on purpose. A point estimate presented without either is
+the thing this build is trying to avoid.</p>
+
+<h3>The seven validation gates</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>#</th><th>Gate</th><th>Question it asks</th><th>Applied on</th></tr></thead>
+<tbody><tr><td class='num'>G1</td><td><b>Data provenance</b></td><td>Is every input traceable to a source, with a retrieval time, a tier, and a rights note?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr><tr><td class='num'>G2</td><td><b>Leakage prevention</b></td><td>Were features available strictly at prediction time, with chronological splits and no same-game contamination?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr><tr><td class='num'>G3</td><td><b>Baselines &amp; calibration</b></td><td>Does the model beat a naive baseline on a proper scoring rule, and does its stated probability match observed frequency?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr><tr><td class='num'>G4</td><td><b>Robustness</b></td><td>Walk-forward holdout, multiple regimes, ablations, and enough sample that the result is not one hot streak?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr><tr><td class='num'>G5</td><td><b>Dependence</b></td><td>For combinations: is the joint probability modelled or measured directly, with the correlation and its uncertainty reported?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr><tr><td class='num'>G6</td><td><b>Economic test</b></td><td>Timestamped prices, settlement rules, hold and execution assumptions, and net expected value with drawdown?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr><tr><td class='num'>G7</td><td><b>Prospective monitoring</b></td><td>Frozen model version, pre-tip logged forecasts, post-settlement scoring, and drift detection?</td><td class='src'><a href='strategies.html'>strategies page</a></td></tr></tbody></table></div></div>
+<p class="tiny muted">A strategy must pass <b>all seven</b> to be eligible for the
+leaderboard's top tier. Current standing: <b>no strategy passes all seven</b>, and the
+<a href="strategies.html">leaderboard</a> says so in every row.</p>
+
+<h3>Diagnostic scoring of the win-probability model</h3>
+<div class="card">
+<table><thead><tr><th>Metric</th><th class="num">Value</th><th>Source</th></tr></thead><tbody>
+<tr><td>Games scored</td><td class="num">86</td><td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Brier score</td><td class="num">0.1528</td><td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Brier, always-home-rate baseline</td><td class="num">0.2500</td><td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Side accuracy</td><td class="num">84.9%</td><td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+<tr><td>Status</td><td><span class="chip c-warn">in-sample</span></td><td class="src"><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR results</a> <span class="chip c-neutral">derived</span></td></tr>
+</tbody></table>
+<div class="danger" style="margin-bottom:0">In-sample diagnostic. Ratings cover the same window as the games being scored, so this overstates any real edge. It is published to show the arithmetic is internally consistent, not as a performance claim.</div>
+</div>
+
+<h3>How to reproduce this build</h3>
+<div class="card">
+<div class="formula">python3 scripts/model.py        # recompute every figure from data/raw_data.py
+python3 scripts/build_site.py   # render the HTML from data/*.json
+python3 scripts/validate_site.py # fail the build on a broken link or unsourced row</div>
+<p class="tiny muted" style="margin-bottom:0">Nothing is hand-edited into the HTML. The
+site is generated, so a corrected input flows through to every page.</p>
+</div>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

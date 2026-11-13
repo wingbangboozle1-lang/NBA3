@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary · NBA3</title>
+<meta name="description" content="NBA3 — verified NBA data, validation gates and open decisions. Every row links to an official source.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html">NBA3</a>
+  <nav><a href="index.html">Home</a><a href="executive-summary.html" class="active">Executive summary</a><a href="injuries.html">Injuries</a><a href="slate.html">Upcoming slate</a><a href="rules.html">Rules</a><a href="strategies.html">Strategies</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Executive summary</h1>
+<p class="lead">Data date 13 Nov 2026. What is established, what is not, and what must be decided before the project can produce reliable picks.</p>
+<h2>Bottom line</h2>
+<ul>
+<li><b>No strategy can be validated yet.</b> Validation needs historical outcomes and market odds. Neither has a verified source in this repository.</li>
+<li><b>No correlation values exist.</b> Parlay and prop correlations need joint historical outcomes.</li>
+<li><b>No picks are generated.</b> The slate is captured (23 games on 11/13–11/15 plus 1 on 11/16), but there are no originated lines to price it.</li>
+<li><b>The validation toolkit is in place.</b> Binomial test, Wilson interval, Benjamini–Hochberg correction, parlay dependence ratio and a gate checker are implemented and tested (13 unit tests).</li>
+<li><b>A legal question must be answered first.</b> The Dutch regulator (Ksa) has stated that sports betting licences cover only bets on sports events or results, and that licence holders remain responsible for their offering. Whether this project's activity is covered is a legal question, not answered here.</li>
+</ul>
+<h2>What is verified</h2>
+<div class="tablewrap"><table><thead><tr><th>Item</th><th>Value</th><th>Source</th></tr></thead><tbody>
+<tr><td>2026-27 season tip-off</td><td>Tuesday 20 Oct 2026</td><td><a href="https://pr.nba.com/2026-27-nba-regular-season-schedule/" target="_blank" rel="noopener">S2 ↗</a></td></tr>
+<tr><td>Regular season end</td><td>Sunday 11 Apr 2027</td><td><a href="https://pr.nba.com/2026-27-nba-regular-season-schedule/" target="_blank" rel="noopener">S2 ↗</a></td></tr>
+<tr><td>Regulation period length</td><td>12 minutes</td><td><a href="https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf" target="_blank" rel="noopener">S4 ↗</a></td></tr>
+<tr><td>Overtime length</td><td>5 minutes</td><td><a href="https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf" target="_blank" rel="noopener">S4 ↗</a></td></tr>
+<tr><td>Injury report captured</td><td>11/11/26 07:00 PM, 77 rows (partial document)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-11_07_00PM.pdf" target="_blank" rel="noopener">S1 ↗</a></td></tr>
+</tbody></table></div>
+<h2>What is not verified (left blank)</h2>
+<ul>
+<li>Betting lines, odds, props, closing lines — no official source; not guessed.</li>
+<li>Player minutes and box scores — NBA stats page loads by script; endpoint unreachable from the sandbox.</li>
+<li>Injury → rotation/production effects — requires historical minutes data.</li>
+<li>Home/away order for the 11/13–11/16 games (separator missing in the extracted text).</li>
+</ul>
+<h2>Decisions needed from you</h2>
+<ol>
+<li>Odds data source (Suggestion SG02) — the main blocker.</li>
+<li>Player statistics source (SG03).</li>
+<li>Validation thresholds (SG04) — current values are proposals.</li>
+<li>Legal review before publishing any lines or picks (SG05).</li>
+<li>Repository licence and README scope (SG09; Flagged F-01).</li>
+</ol>
+<p class="small muted">Everything above links to a source on the <a href="sources.html">Sources</a> page. Nothing on this site is betting advice.</p>
+
+</div></main>
+<footer><div class="wrap">
+  NBA3 static dashboard · data date <span data-generated>2026-11-13</span> · Times as printed by each source. Values that could not be confirmed from an official source are left blank and flagged.
+  · <a href="https://github.com/wingbangboozle1-lang/NBA3">Repository</a>
+</div></footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
