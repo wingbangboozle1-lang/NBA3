@@ -57,12 +57,19 @@ jobs:
           python3 scripts/build_site.py
           git diff --exit-code -- site/
           test -z "$(git status --porcelain -- site/)" || { echo 'site/ has uncommitted or untracked changes'; git status --porcelain -- site/; exit 1; }
+      - name: Build + validate the line-lab site (lab/)
+        run: |
+          python3 scripts/model.py
+          python3 scripts/build_lab.py
+          python3 scripts/validate_site.py
+          test -z "$(git status --porcelain -- lab/)" || { echo 'lab/ is out of date; regenerate and commit'; git status --porcelain -- lab/; exit 1; }
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
           cp index.html _pages/
           cp -r docs _pages/docs
           cp -r site _pages/site
+          cp -r lab _pages/lab
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
