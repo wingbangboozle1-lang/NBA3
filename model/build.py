@@ -619,7 +619,8 @@ for r in upcoming:
         "injury_report_submitted_away": not sub_a,
         "source_team_stats": SRC["team_advanced"],
         "source_schedule": SRC["schedule"],
-        "source_game": "https://www.nba.com/game/{}".format(r["game_id"]),
+        "source_game": "https://www.nba.com/game/{}-vs-{}-{}".format(
+                r["away"].lower(), r["home"].lower(), r["game_id"]),
         "team_url_home": team_url(h), "team_url_away": team_url(a),
     })
 
