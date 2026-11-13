@@ -270,3 +270,26 @@ python3 scripts/validate_site.py # gate; must exit 0
 
 Pages artifact layout: `/` (7c532e8c dashboard) · `/docs/` (f879620b data site) ·
 `/site/` (7c532e8c generated site) · `/lab/` (this session's line lab).
+
+## Deployment record — session `arena/5697caaf-nba3`
+
+| Item | Result |
+|---|---|
+| PR | **#8** — https://github.com/wingbangboozle1-lang/NBA3/pull/8 |
+| State | **MERGED** 2026-11-13T22:43:46Z |
+| Merge commit | `2b9c3dab3f4ce7f48b7e34409e1379a5690986e8` |
+| CI run | `Build and deploy NBA Edge Lab (GitHub Pages)` — **completed success** |
+| Pages run | `pages-build-deployment` — **completed success** |
+| Live check | `/lab/index.html` and `/lab/review.html` fetched and rendering; nav, tables, chips and source links all resolve |
+
+Pages artifact after this merge serves four sites, all verified live:
+
+| Path | Owner session | Content |
+|---|---|---|
+| `/` | `arena/7c532e8c-nba3` | Research dashboard (2025-26 injury links corrected to 2026-27) |
+| `/docs/` | `arena/f879620b-nba3` | Data site and sources |
+| `/site/` | `arena/7c532e8c-nba3` | Generated site from `data/*.json` |
+| `/lab/` | `arena/5697caaf-nba3` | Line lab: originated lines, screening, gates |
+
+T11 and T12 are now marked **done** — only after the run was observed green and the live URL
+was fetched, not when the PR was opened.
