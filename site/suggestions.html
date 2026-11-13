@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Site Improvements &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li><a href='strategies.html'>Strategy Leaderboard</a></li><li><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li class='active'><a href='suggestions.html'>Site Improvements</a></li><li><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap wide">
+<header class="page-head">
+<h1>Site Improvements</h1>
+<p class="lead">Ranked improvement options, each with alternatives and the trade-offs, so a reviewer can choose the path before anything is built.</p>
+</header>
+
+<section class="panel">
+<h2>Site and system improvements &mdash; options for a reviewer</h2>
+<p>Each section below states one problem, sets out two or three concrete ways to fix it, gives
+the case for and against each, and names a recommendation. Nothing here has been implemented:
+this page exists so the choice is made deliberately rather than by whoever happens to be
+typing. Ordered by how much capability each one unlocks.</p>
+</section>
+
+<section class="panel">
+<h2>A. Capture per-player game logs</h2>
+<p class="problem"><b>Problem.</b> Everything on the props and player-correlation side is blocked by the absence of per-player game-by-game data. Four correlation cells are blank and no prop distribution exists.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Option</th><th>What it is</th><th>How it would work</th><th>For</th><th>Against</th><th></th></tr></thead><tbody><tr><td><b>A1</b></td><td><b>Scrape nba.com/stats/players/boxscores per date</b></td><td>Official source, already proven to work with fetch_page. ~4,000 rows for the season to date, roughly 400 page fetches. Slow but fully sourced.</td><td class='pro'>Official, verifiable, matches existing pipeline</td><td class='con'>Very slow; needs to be chunked across sessions</td><td><span class="muted">&mdash;</span></td></tr><tr><td><b>A2</b></td><td><b>Sample the top 100 players by minutes only</b></td><td>Covers the vast majority of prop market volume with about a quarter of the fetches.</td><td class='pro'>Much faster, still official</td><td class='con'>Deep-bench props remain unpriceable</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>A3</b></td><td><b>Leave player props out of scope for now</b></td><td>Publish team-side lines only and say so plainly.</td><td class='pro'>Honest, fast, no new risk</td><td class='con'>Closes off the parlay and prop parts of the brief</td><td><span class="muted">&mdash;</span></td></tr></tbody></table></div>
+<p class="rec"><b>Recommendation:</b> A2</p>
+</section>
+
+<section class="panel">
+<h2>B. Fix the totals model, which currently loses to a baseline</h2>
+<p class="problem"><b>Problem.</b> Our best total RMSE is 20.35 against 19.56 for guessing the league average. The side beats its baseline; the total does not.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Option</th><th>What it is</th><th>How it would work</th><th>For</th><th>Against</th><th></th></tr></thead><tbody><tr><td><b>B1</b></td><td><b>Add the four factors (eFG%, TOV%, OREB%, FT rate)</b></td><td>Move from scoring rates to possession-level efficiency, which is what actually drives a total.</td><td class='pro'>Directly targets the weakness; all inputs are official</td><td class='con'>More parameters to fit on a small sample</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>B2</b></td><td><b>Shrink team totals toward the league mean</b></td><td>A James-Stein style shrinkage will almost certainly reduce RMSE immediately.</td><td class='pro'>Cheap, quick, near-certain improvement</td><td class='con'>Improves accuracy without adding understanding</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>B3</b></td><td><b>Publish the baseline as the total</b></td><td>Admit the model adds nothing and use the league average.</td><td class='pro'>Honest baseline, no false confidence</td><td class='con'>Gives up on half the product</td><td><span class="muted">&mdash;</span></td></tr></tbody></table></div>
+<p class="rec"><b>Recommendation:</b> B2 now, B1 next</p>
+</section>
+
+<section class="panel">
+<h2>C. Decide how the site should be refreshed</h2>
+<p class="problem"><b>Problem.</b> This build is a static snapshot. The brief asks for picks for every upcoming slate up to three days ahead, which only stays true if the site is regenerated daily.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Option</th><th>What it is</th><th>How it would work</th><th>For</th><th>Against</th><th></th></tr></thead><tbody><tr><td><b>C1</b></td><td><b>GitHub Actions cron that re-runs the pipeline and republishes</b></td><td>A scheduled workflow rebuilds data, model and site, and commits.</td><td class='pro'>Hands-off, fits GitHub Pages exactly, free</td><td class='con'>Scraping from Actions may be blocked or rate-limited</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>C2</b></td><td><b>Manual regeneration at the start of each session</b></td><td>Whoever runs a session re-runs model/build.py and site/build_site.py.</td><td class='pro'>Simple, no new infrastructure</td><td class='con'>Stale whenever nobody runs it</td><td><span class="muted">&mdash;</span></td></tr><tr><td><b>C3</b></td><td><b>Static archive plus a &#x27;generated at&#x27; banner</b></td><td>Publish as-is and make the timestamp unmissable.</td><td class='pro'>Honest about staleness</td><td class='con'>Does not meet the three-days-ahead requirement on its own</td><td><span class="badge badge-ok">recommended</span></td></tr></tbody></table></div>
+<p class="rec"><b>Recommendation:</b> C1 with C3&#x27;s banner as a safety net</p>
+</section>
+
+<section class="panel">
+<h2>D. Make the leaderboard a genuine competition</h2>
+<p class="problem"><b>Problem.</b> The brief asks for a leaderboard with rewards for the best strategies. Right now there is one author and eight strategies, none of which pass.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Option</th><th>What it is</th><th>How it would work</th><th>For</th><th>Against</th><th></th></tr></thead><tbody><tr><td><b>D1</b></td><td><b>Publish a strategy specification format and accept pull requests</b></td><td>Contributors add a JSON or Python strategy file; the pipeline grades it automatically against the same gates.</td><td class='pro'>Turns the repo into the competition the brief describes</td><td class='con'>Needs a sandboxed runner to be safe</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>D2</b></td><td><b>Keep it internal but auto-grade a wider candidate set</b></td><td>Generate dozens of candidate rules and let the gates prune them, with the multiple-testing correction doing the work.</td><td class='pro'>No security surface</td><td class='con'>Searching more rules makes G6 stricter, not weaker</td><td><span class="muted">&mdash;</span></td></tr><tr><td><b>D3</b></td><td><b>Add a shadow leaderboard with paper results only</b></td><td>Track forward performance out-of-sample before anything is &#x27;live&#x27;.</td><td class='pro'>Builds the track record the gates demand</td><td class='con'>Nothing is deployable for weeks</td><td><span class="badge badge-ok">recommended</span></td></tr></tbody></table></div>
+<p class="rec"><b>Recommendation:</b> D1 with D3 running underneath</p>
+</section>
+
+<section class="panel">
+<h2>E. Widen and harden the data capture</h2>
+<p class="problem"><b>Problem.</b> Injury minutes impact is a floor because the captured minutes table covers only the top 31 players, and several team reports were &#x27;NOT YET SUBMITTED&#x27;.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Option</th><th>What it is</th><th>How it would work</th><th>For</th><th>Against</th><th></th></tr></thead><tbody><tr><td><b>E1</b></td><td><b>Capture the full 465-row player table</b></td><td>Nine chunks already identified; every injured player then has official minutes.</td><td class='pro'>Removes an entire class of UNVERIFIED cells</td><td class='con'>Nine large page fetches per refresh</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>E2</b></td><td><b>Re-pull the injury report closer to tip-off</b></td><td>The 05:15 PM report is published hours before the first tip.</td><td class='pro'>Fewer stale or missing reports</td><td class='con'>Needs a second pull each day</td><td><span class="badge badge-ok">recommended</span></td></tr><tr><td><b>E3</b></td><td><b>Add official boxscores-advanced per date</b></td><td>Gives per-game team ratings rather than season averages, which lets the model use form instead of the whole season.</td><td class='pro'>Directly improves both the side and the total</td><td class='con'>Two chunks per date; adds up over a season</td><td><span class="badge badge-ok">recommended</span></td></tr></tbody></table></div>
+<p class="rec"><b>Recommendation:</b> E1 and E2 now, E3 next</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T22:58:31Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>

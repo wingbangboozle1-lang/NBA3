@@ -559,6 +559,15 @@ strategies_sorted = sorted(
 # --------------------------------------------------------------------------------------
 # 8. originated lines for every upcoming game (D+0 .. D+3)
 # --------------------------------------------------------------------------------------
+# The PRIMARY originated line is produced by the model that was actually validated
+# walk-forward (the LM-C blend of the additive and Massey margin models, fitted on all 174
+# verified results).  The efficiency-based estimate built from the official season
+# OffRtg/DefRtg/Pace table is reported alongside it as a CROSS-CHECK only: it cannot be
+# walk-forward validated from this session's data, because we hold only season-to-date
+# ratings, and using them in a backtest would leak future games.
+full_stats, full_lg, full_gp = additive_stats(games)
+_lines_hca, _lines_ratings = full_hca, full_ratings
+
 lines = []
 for r in upcoming:
     h, a = r["home"], r["away"]
@@ -570,6 +579,13 @@ for r in upcoming:
     e_away = pace * a_adj / 100.0
     e_margin = e_home - e_away + full_hca
     e_total = e_home + e_away
+
+    # ---- primary line: walk-forward-validated LM-C blend --------------------------
+    hs, as_ = full_stats[h], full_stats[a]
+    m_add = (hs["ppg"] + as_["papg"] - full_lg) - (as_["ppg"] + hs["papg"] - full_lg)
+    m_mas = _lines_hca + _lines_ratings[h] - _lines_ratings[a]
+    m_primary = 0.5 * m_add + 0.5 * m_mas
+    t_primary = hs["ppg"] + as_["ppg"]          # T2 own-scoring estimator (validated)
     # availability diagnostics from the official injury report
     outs_h = [i for i in injuries if i["team"] == h and i["game_date"] == r["date"]
               and i["status"] in ("Out", "Doubtful")]
@@ -585,14 +601,16 @@ for r in upcoming:
         "pace": pace, "poss": pace,
         "exp_home_pts": e_home, "exp_away_pts": e_away,
         "exp_margin": e_margin, "exp_total": e_total,
-        "orig_spread_home": -e_margin,          # home line, negative = home favoured
-        "orig_total": e_total,
-        "total_lo": e_total - 1.959963984540054 * resid_sd_total,
-        "total_hi": e_total + 1.959963984540054 * resid_sd_total,
-        "margin_lo": e_margin - 1.959963984540054 * resid_sd_margin,
-        "margin_hi": e_margin + 1.959963984540054 * resid_sd_margin,
+        "orig_spread_home": -m_primary,   # home line, negative = home favoured
+        "orig_total": t_primary,
+        "eff_spread_home": -e_margin,     # cross-check only, NOT walk-forward validated
+        "eff_total": e_total,
+        "total_lo": t_primary - 1.959963984540054 * resid_sd_total,
+        "total_hi": t_primary + 1.959963984540054 * resid_sd_total,
+        "margin_lo": m_primary - 1.959963984540054 * resid_sd_margin,
+        "margin_hi": m_primary + 1.959963984540054 * resid_sd_margin,
         "p_home_win": 1.0 - 0.5 * (1.0 + math.erf(
-            -(e_margin) / (resid_sd_margin * math.sqrt(2.0)))) if resid_sd_margin > 0 else None,
+            -(m_primary) / (resid_sd_margin * math.sqrt(2.0)))) if resid_sd_margin > 0 else None,
         "p_ot": None,   # filled below
         "out_count_home": len(outs_h), "out_count_away": len(outs_a),
         "out_players_home": [i["player"] for i in outs_h],
@@ -740,6 +758,8 @@ game_flow["b2b_rate"] = game_flow["b2b_games"] / len(games)
 # --------------------------------------------------------------------------------------
 # 11. write artefacts
 # --------------------------------------------------------------------------------------
+MODELS_TOTAL_BEST = best_total
+
 out = {
     "generated_utc": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
     "season": "2026-27",
@@ -769,6 +789,12 @@ out = {
                    "note": "Derived by least squares from the 174 verified results. "
                            "Not an official NBA statistic."},
     "residuals": {"margin_sd": resid_sd_margin, "total_sd": resid_sd_total},
+    "skill": {
+        "margin_variance_explained": 1.0 - (modelC["margin"]["rmse"] ** 2) /
+                                     (modelC["margin_baseline_rmse"] ** 2),
+        "total_variance_explained": 1.0 - (MODELS_TOTAL_BEST["total"]["rmse"] ** 2) /
+                                    (MODELS_TOTAL_BEST["total_baseline_rmse"] ** 2),
+    },
     "oos_games": oos,
     "correlations": correlations,
     "strategies": strategies_sorted,

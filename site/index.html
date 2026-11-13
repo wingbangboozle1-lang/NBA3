@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NBA3 Overview &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li class='active'><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li><a href='strategies.html'>Strategy Leaderboard</a></li><li><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li><a href='suggestions.html'>Site Improvements</a></li><li><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap">
+<header class="page-head">
+<h1>NBA3 Overview</h1>
+<p class="lead">A line-origination and strategy system for the 2026-27 NBA season. Every number is either read from an official NBA source or derived by arithmetic you can inspect.</p>
+</header>
+
+<section class="cards"><div class="card ok"><div class="card-label">Games verified</div>
+<div class="card-value">174</div><div class="card-sub">Oct 20 &ndash; Nov 12, 2026 &middot; every score read off nba.com/games</div></div><div class="card ok"><div class="card-label">Integrity check</div>
+<div class="card-value">0 mismatch</div><div class="card-sub">348 team-games in our log vs 348 in the official GP column</div></div><div class="card ok"><div class="card-label">Out-of-sample games</div>
+<div class="card-value">114</div><div class="card-sub">Walk-forward, expanding window, no look-ahead</div></div><div class="card ok"><div class="card-label">Margin model RMSE</div>
+<div class="card-value">16.18</div><div class="card-sub">vs 17.30 for a league-average baseline (6.5% better)</div></div><div class="card bad"><div class="card-label">Total model RMSE</div>
+<div class="card-value">20.35</div><div class="card-sub">vs 19.56 baseline &mdash; <b>no improvement</b></div></div><div class="card warn"><div class="card-label">Home-court advantage</div>
+<div class="card-value">+1.59 pts</div><div class="card-sub">Derived by least squares; p=0.104, not significant</div></div><div class="card neut"><div class="card-label">Spread/total residual r</div>
+<div class="card-value">+0.091</div><div class="card-sub">95% CI [-0.09, +0.27] &mdash; includes zero</div></div><div class="card bad"><div class="card-label">Strategies passing all gates</div>
+<div class="card-value">0 of 8</div><div class="card-sub">2 provisional (signal, under-powered)</div></div></section>
+
+<section class="panel">
+<h2>Executive summary</h2>
+<p>NBA3 originates its own point spreads and totals for every NBA game, then tests strategies
+against those lines rather than against a sportsbook's. Every input is read from an official
+NBA source; every derived number is reproducible from <code>model/build.py</code>.</p>
+
+<ol class="summary">
+<li><b>The data is complete and reconciles exactly.</b> 174 games from 2026-10-20 to 2026-11-12,
+348 team-games, matching the official games-played column on
+<a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season" target="_blank" rel="noopener">nba.com/stats/teams/advanced</a> for all 30 teams
+with zero discrepancy. Per-team reconciliation is on the
+<a href="data.html">Data &amp; Sources</a> page.</li>
+
+<li><b>Our originated lines beat a naive baseline on the side, but not on the total.</b>
+Walk-forward over 114 out-of-sample games, the blend model cuts margin RMSE from
+17.30 to 16.18 points (6.5%). For totals the best model we tested is
+<em>worse</em> than simply guessing the league average (19.56 vs 20.35), so we do not
+claim any skill on totals and we say so in the numbers.</li>
+
+<li><b>No strategy clears every validation gate.</b> 0 of 8 pass. Two are
+provisionally interesting &mdash; fading our own totals of 235+ (21/24 unders, p=0.0003)
+and backing road favourites of 8+ (20/28, p=0.0357) &mdash; but both sit far below the
+100-bet sample floor the gate requires, and both were found in a search over eight candidates,
+so the honest reading is <em>under-powered, not disproven</em>.</li>
+
+<li><b>The parlay correlation we can measure is small.</b> The residual correlation between our
+own spread and our own total is r=+0.091 (95% CI [-0.09, +0.27], n=114). The
+confidence interval includes zero, so we cannot reject independence &mdash; but we also cannot
+assert it. Cross-game parlay legs were not measured at all and remain an assumption.</li>
+
+<li><b>Injuries move minutes, and we quantify what we can.</b> The official
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener">NBA injury report</a> for 13-14 Nov lists
+85 player-rows marked Out or Doubtful. Where the player appears in the official
+minutes table we convert his status into minutes at risk; where he does not, we leave the
+impact blank and flag it rather than guessing.</li>
+
+<li><b>Home court this season is small and not statistically significant.</b> Our least-squares
+estimate is +1.59 points (p=0.104, df=172). We still use it in the model because it
+is the fitted value, but a reviewer should know the data does not establish it.</li>
+</ol>
+
+<p class="callout"><b>Bottom line:</b> the pipeline is built, sourced and reproducible, and it
+produces defensible originated lines for every game in the next three days. It has <b>not</b>
+yet produced a strategy that survives its own validation gates. Deploying any of the provisional
+signals with real money today would be betting on a small sample, not on demonstrated skill.</p>
+</section>
+
+<section class="panel">
+<h2>Where to go next</h2>
+<div class="grid-2">
+<div><h3>Originated lines</h3><p>Our spread and total for all 31 games on the next three
+slates, with an interval band and the minutes-at-risk picture for each team.</p>
+<p><a class="btn" href="lines.html">Go to lines &#8594;</a></p></div>
+<div><h3>Strategy leaderboard</h3><p>Every strategy, its rule, its sample, its p-value, and
+which of the seven validation gates it passes or fails.</p>
+<p><a class="btn" href="strategies.html">Go to leaderboard &#8594;</a></p></div>
+<div><h3>Flagged for review</h3><p>16 items: unverified values left blank, data
+irregularities found on official pages, and modelling assumptions that a reviewer should
+approve or reject.</p>
+<p><a class="btn" href="flagged.html">Go to flagged &#8594;</a></p></div>
+<div><h3>Open questions</h3><p>What we have, what we do not have, and the decisions that are
+blocked until someone answers.</p>
+<p><a class="btn" href="questions.html">Go to questions &#8594;</a></p></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Top of the leaderboard</h2>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>ID</th><th>Strategy</th><th>Bets</th><th>Hit rate</th><th>p</th><th>Verdict</th></tr></thead><tbody><tr><td><b>S5</b></td><td>Fade totals of 235+</td><td class='num'>24</td><td class='num'>87.5%</td><td class='num'>0.0003</td><td><span class="badge badge-warn">PROVISIONAL - signal present, sample under-powered</span></td></tr><tr><td><b>S4b</b></td><td>Back road favourites of 8+</td><td class='num'>28</td><td class='num'>71.4%</td><td class='num'>0.0357</td><td><span class="badge badge-warn">PROVISIONAL - signal present, sample under-powered</span></td></tr><tr><td><b>S4</b></td><td>Fade home favourites of 8+</td><td class='num'>36</td><td class='num'>58.3%</td><td class='num'>0.4050</td><td><span class="badge badge-neut">INCONCLUSIVE - sample too small</span></td></tr><tr><td><b>S5b</b></td><td>Back totals of 218 or fewer</td><td class='num'>11</td><td class='num'>54.5%</td><td class='num'>1.0000</td><td><span class="badge badge-neut">INCONCLUSIVE - sample too small</span></td></tr><tr><td><b>S3</b></td><td>Rest differential &gt;= 2 days</td><td class='num'>17</td><td class='num'>52.9%</td><td class='num'>1.0000</td><td><span class="badge badge-neut">INCONCLUSIVE - sample too small</span></td></tr></tbody></table></div>
+<p class="muted">Full table, including the gates each strategy fails, is on the
+<a href="strategies.html">leaderboard page</a>.</p>
+</section>
+
+<section class="panel">
+<h2>Next games out</h2>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Date</th><th>Time ET</th><th>Matchup (away @ home)</th><th>Spread (home)</th><th>Total</th><th>95% &plusmn;</th><th>Source</th></tr></thead><tbody><tr><td>2026-11-13</td><td>7:00 PM</td><td>NYK <span class='muted'>@</span> IND</td><td class='num'>+7.6</td><td class='num'>221.9</td><td class='num'>&plusmn;39.9</td><td><a class="src" href="https://www.nba.com/game/0022600034" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-13</td><td>7:00 PM</td><td>MIL <span class='muted'>@</span> ORL</td><td class='num'>-9.6</td><td class='num'>215.2</td><td class='num'>&plusmn;39.9</td><td><a class="src" href="https://www.nba.com/game/0022600035" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-13</td><td>8:00 PM</td><td>CLE <span class='muted'>@</span> MIA</td><td class='num'>+4.9</td><td class='num'>232.1</td><td class='num'>&plusmn;39.9</td><td><a class="src" href="https://www.nba.com/game/0022600036" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-13</td><td>8:00 PM</td><td>ATL <span class='muted'>@</span> CHI</td><td class='num'>+15.4</td><td class='num'>231.6</td><td class='num'>&plusmn;39.9</td><td><a class="src" href="https://www.nba.com/game/0022600037" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-13</td><td>8:00 PM</td><td>MEM <span class='muted'>@</span> NOP</td><td class='num'>+12.1</td><td class='num'>234.8</td><td class='num'>&plusmn;39.9</td><td><a class="src" href="https://www.nba.com/game/0022600038" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-13</td><td>8:30 PM</td><td>UTA <span class='muted'>@</span> HOU</td><td class='num'>-21.4</td><td class='num'>222.0</td><td class='num'>&plusmn;39.9</td><td><a class="src" href="https://www.nba.com/game/0022600039" target="_blank" rel="noopener">game &#8599;</a></td></tr></tbody></table></div>
+<p class="muted">Full slate through 2026-11-16 on the <a href="lines.html">lines page</a>.</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T22:58:31Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>
