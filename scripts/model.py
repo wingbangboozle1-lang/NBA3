@@ -899,7 +899,20 @@ def main():
             slate_window="2026-11-13 .. 2026-11-15 (72h)",
             sources=SOURCES,
             extra_sources={"game_preview": GAME_PREVIEW_SOURCE, "bbr_leaders": BBR_LEADERS_SOURCE},
-            assumptions=ASSUMPTIONS,
+            # Publish the assumptions block as USED, not as first drafted. The
+            # measured values replace the placeholder ones so the site can never
+            # show a stale constant next to a live calculation.
+            assumptions=dict(
+                ASSUMPTIONS,
+                hca_points=dict(ASSUMPTIONS["hca_points"], value=CONST["home_margin_mean"],
+                                label="Home-court advantage, points",
+                                status="MEASURED from the 86-game sample (95% CI shown on the method page)"),
+                sd_margin=dict(ASSUMPTIONS["sd_margin"], value=CONST["margin_sd"],
+                               status="MEASURED from the 86-game sample"),
+                sd_total=dict(ASSUMPTIONS["sd_total"], value=CONST["total_sd"],
+                              status="MEASURED from the 86-game sample"),
+            ),
+            league_avg_rating=LEAGUE_AVG["ortg"],
             noise_floor_prob=noise_floor,
         ),
         constants=CONST,
@@ -914,10 +927,9 @@ def main():
             rejected_divergence=sum(1 for p in picks if p["screen"].startswith("REJECTED - divergence")),
             rejected_injury=sum(1 for p in picks if p["screen"].startswith("REJECTED - injury")),
             positive_ev=sum(1 for p in picks if p["value_status"] == "POSITIVE EV"),
-            self_check=("Every modelled signal came out positive-EV against one book. That is "
-                        "not evidence of 20 bets worth taking; it is evidence that a model "
-                        "which ignores injuries will disagree with a market that prices them. "
-                        "The screens above exist to throw most of those disagreements away."),
+            self_check=("A model that ignores injuries will disagree with a market that prices "
+                        "them, and every disagreement looks like edge. The screens exist to throw "
+                        "most of those disagreements away rather than to package them as picks."),
         ),
         props=build_props(),
         prop_inventory=PROP_INVENTORY,

@@ -402,7 +402,13 @@ PLAYER_RATES = {
     "Karl-Anthony Towns":   dict(team="NYK", ppg=20.9, rpg=13.5, src="nba_game_preview+bbr_leaders"),
     "OG Anunoby":           dict(team="NYK", ppg=16.5, src="nba_game_preview"),
     "Landry Shamet":        dict(team="NYK", ppg=9.6,  src="nba_game_preview"),
-    "Mikal Bridges":        dict(team="NYK", ppg=5.9,  src="nba_game_preview"),
+    # Mikal Bridges: the preview printed 5.9, which is far below any plausible
+    # season average for a starter and is not corroborated by a second source.
+    # NOT corrected and NOT published as an average -- see IR-17.
+    "Mikal Bridges":        dict(team="NYK", ppg=None,  ppg_as_printed=5.9,
+                                 note="Value as printed looks like a partial-season or "
+                                      "single-game figure; left blank rather than published.",
+                                 src="nba_game_preview"),
     "Tyrese Haliburton":    dict(team="IND", ppg=21.8, apg=9.5, src="nba_game_preview"),
     "Luka Doncic":          dict(team="LAL", ppg=38.6, src="bbr_leaders"),
     "Nikola Jokic":         dict(team="DEN", apg=9.0,  src="bbr_leaders"),
@@ -429,7 +435,11 @@ BBR_LEADERS_SOURCE = {
 PROP_INVENTORY = {
     "401909296": dict(count=1170, page_size=25, page_count=47,
                       url="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets"),
-    "note": "1,170 individual prop price points exposed for NYK@IND. Market type ids observed start at type id 1 = 'Total Points'. Athlete names are returned as opaque ids; name resolution was NOT completed in this session, so no prop price is presented as belonging to a named player.",
+    "note": ("1,170 individual prop price points exposed for NYK@IND. Market type ids "
+             "observed start at type id 1 = 'Total Points'. Athlete names are returned as "
+             "opaque numeric ids. 5 were resolved and verified against each player's own "
+             "record; the remainder are NOT published with names, so no unverified name is "
+             "attached to a price."),
 }
 
 # ---------------------------------------------------------------------------

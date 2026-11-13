@@ -92,7 +92,8 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <td><b>Karl-Anthony Towns</b><div class="tiny muted">NYK</div></td>
 <td>Points</td>
 <td class="num">21.5</td>
-<td class="num">-102</td><td class="num">-124</td>
+<td class="num">-102</td>
+<td class="num">-124</td>
 <td class="num">47.7%</td>
 <td class="num">5.9%</td>
 <td class="num">+2.0</td>
@@ -104,7 +105,8 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <td><b>Kelly Oubre Jr.</b><div class="tiny muted">PHI</div></td>
 <td>Points</td>
 <td class="num">10.5</td>
-<td class="num">-125</td><td class="num">-102</td>
+<td class="num">-125</td>
+<td class="num">-102</td>
 <td class="num">52.4%</td>
 <td class="num">6.0%</td>
 <td class="num">-1.0</td>
@@ -116,7 +118,8 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <td><b>Josh Hart</b><div class="tiny muted">NYK</div></td>
 <td>Points</td>
 <td class="num">9.5</td>
-<td class="num">-107</td><td class="num">-119</td>
+<td class="num">-107</td>
+<td class="num">-119</td>
 <td class="num">48.8%</td>
 <td class="num">6.0%</td>
 <td class="num">+0.0</td>
@@ -128,11 +131,12 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <td><b>Mikal Bridges</b><div class="tiny muted">NYK</div></td>
 <td>Points</td>
 <td class="num">8.5</td>
-<td class="num">-108</td><td class="num">-118</td>
+<td class="num">-108</td>
+<td class="num">-118</td>
 <td class="num">49.0%</td>
 <td class="num">6.0%</td>
 <td class="num">+0.0</td>
-<td class="num">5.9</td>
+<td class="num"><span class="chip c-warn">unverified</span></td>
 <td class="num"><span class="chip c-warn">no model</span></td>
 <td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
 <td class="src"><a href="https://www.espn.com/nba/player/_/id/3147657" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
@@ -140,7 +144,8 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <td><b>Andre Drummond</b><div class="tiny muted">NYK</div></td>
 <td>Points</td>
 <td class="num">3.5</td>
-<td class="num">-142</td><td class="num">111</td>
+<td class="num">-142</td>
+<td class="num">111<div class="chip c-bad" title="positive American price on the other side of a heavily-favoured under">out of family</div></td>
 <td class="num">55.3%</td>
 <td class="num">6.1%</td>
 <td class="num">+0.0</td>
@@ -149,6 +154,12 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <td class="tiny"><span class="chip c-warn">no model</span><div class="muted tiny">MODEL NOT AVAILABLE — minutes distribution missing</div></td>
 <td class="src"><a href="https://www.espn.com/nba/player/_/id/6585" target="_blank" rel="noopener">ESPN player</a> <span class="chip c-info">market</span><br><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets" target="_blank" rel="noopener">prop feed</a></td>
 </tr></tbody></table></div></div>
+
+<div class="note"><b>One price is flagged, not fixed.</b> Andre Drummond's under is
+transcribed as <span class="mono">+111</span> because that is what the feed published. It is
+the only price on the card outside the −100 … −150 band, so it is almost certainly a display
+artefact — but correcting it would mean inventing a number, so it is marked
+<span class="chip c-bad">out of family</span> and excluded from any comparison (IR-16).</div>
 
 <div class="note"><b>What is real in that table.</b> The line, both prices, the de-vigged
 probability and the hold are transcribed from a live two-way prop market and are
@@ -160,7 +171,7 @@ zero.</div>
 <div class="card">
 <h3 style="margin-top:0">Why props are the hardest market to originate honestly</h3>
 <ul class="tight">
-<li><b>Minutes are the number.</b> A player averaging 5.9 points
+<li><b>Minutes are the number.</b> A player averaging None points
 can clear almost any line or none, depending on whether he plays 17 or 34 minutes. Blocks,
 steals and rebounds scale even more steeply.</li>
 <li><b>Blowout risk is asymmetric.</b> A 15-point game can delete a fourth quarter for the

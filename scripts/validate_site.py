@@ -268,6 +268,22 @@ def check_data():
           f"{len(M['strategies'])} strategies, {len(M['injuries'])} injury groups")
 
 
+def check_flag_references():
+    """Every IR-nn cited anywhere must exist on the review page."""
+    rev_path = os.path.join(ROOT, "review.html")
+    if not os.path.exists(rev_path):
+        return
+    defined = set(re.findall(r"IR-\d\d", open(rev_path).read()))
+    for name in REQUIRED_PAGES:
+        p = os.path.join(ROOT, name)
+        if not os.path.exists(p):
+            continue
+        for ref in set(re.findall(r"IR-\d\d", open(p).read())):
+            if ref not in defined:
+                errors.append(f"{name}: cites {ref} but it is not on the review page")
+    print(f"  flag references: {len(defined)} defined on review.html, all citations resolve")
+
+
 def check_no_stale_generated_markers():
     """The old single-page build asserted no data existed. Assert it is gone."""
     for name in REQUIRED_PAGES:
@@ -287,6 +303,7 @@ def main():
     check_data()
     print("== rendering rules ==")
     check_unverified_cells()
+    check_flag_references()
     check_no_stale_generated_markers()
 
     if warnings:

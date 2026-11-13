@@ -211,7 +211,7 @@ source; anything that could not be confirmed is left blank and listed on the
     <div class="sub">ORtg / DRtg / pace, all 30</div></div>
   <div class="metric"><b>{c['n']}</b><small>completed games measured</small>
     <div class="sub">2026-11-01 → 11-12</div></div>
-  <div class="metric"><b>{m_or_0(sc['passed'])}</b><small>signals survived screening</small>
+  <div class="metric"><b>{sc['passed']}</b><small>signal{'s' if sc['passed'] != 1 else ''} survived screening</small>
     <div class="sub">of {sc['total_signals']} modelled; {sc['rejected_injury']} rejected for injury
     exposure, {sc['rejected_divergence']} for oversized divergence</div></div>
 </div>
@@ -220,9 +220,9 @@ source; anything that could not be confirmed is left blank and listed on the
 <h2>The honest headline</h2>
 <div class="danger">
 <b>Every single modelled signal came out positive-EV. That is a red flag, not a result.</b>
-The model ignores injuries; the market prices them. So wherever a team is missing
-rotation players, the model disagrees with the market by construction, and the
-disagreement looks like edge. {sc['self_check']}
+All {sc['total_signals']} of them. The model does not see injuries; the market does. So
+wherever a roster is disrupted the two disagree by construction, and that disagreement is
+indistinguishable from edge until something screens it out. {sc['self_check']}
 </div>
 
 <div class="grid g2">
@@ -330,10 +330,6 @@ tagged official, secondary, derived, or unverified.</li>
     write("index.html", page("Executive summary", "index.html", body))
 
 
-def m_or_0(x):
-    return x
-
-
 
 def lb_row(r):
     st = {"ELIGIBLE": ("ok", "eligible"), "PRE-VALIDATION": ("warn", "pre-validation"),
@@ -397,8 +393,8 @@ modelled line be compared with a listed line directly, with no mental sign flip.
 
 <h3>How a line is originated</h3>
 <div class="card">
-<div class="formula">home_pts = home_ORtg x (away_DRtg / {M['meta']['assumptions']['hca_points']['value'] and '114.0'}) x (expected_pace / 100)
-away_pts = away_ORtg x (home_DRtg / 114.0) x (expected_pace / 100)
+<div class="formula">home_pts = home_ORtg x (away_DRtg / {M['meta']['league_avg_rating']}) x (expected_pace / 100)
+away_pts = away_ORtg x (home_DRtg / {M['meta']['league_avg_rating']}) x (expected_pace / 100)
 margin_home = home_pts - away_pts + HCA        # HCA = {fnum(M['constants']['home_margin_mean'],2,True)} pts, measured
 model_spread_home = -margin_home               # book convention: negative = home favoured
 model_total = home_pts + away_pts
@@ -546,7 +542,8 @@ def build_props():
 <td><b>{e(p['player'])}</b><div class="tiny muted">{e(p['team'])}</div></td>
 <td>{e(p['stat'])}</td>
 <td class="num">{p['line']}</td>
-<td class="num">{p['over_odds']}</td><td class="num">{p['under_odds']}</td>
+<td class="num">{p['over_odds']}</td>
+<td class="num">{p['under_odds']}{outlier_flag(p)}</td>
 <td class="num">{p['market_p_over']*100:.1f}%</td>
 <td class="num">{p['vig']*100:.1f}%</td>
 <td class="num">{fnum(p['line_move'],1,True)}</td>
@@ -581,6 +578,12 @@ retrieved this session. Rather than invent one, the model columns are blank and 
 <th class="num">Under</th><th class="num">De-vigged over</th><th class="num">Hold</th>
 <th class="num">Move</th><th class="num">Season avg</th><th class="num">Model p</th>
 <th>Status</th><th>Source</th></tr></thead><tbody>{''.join(prow)}</tbody></table></div></div>
+
+<div class="note"><b>One price is flagged, not fixed.</b> Andre Drummond's under is
+transcribed as <span class="mono">+111</span> because that is what the feed published. It is
+the only price on the card outside the −100 … −150 band, so it is almost certainly a display
+artefact — but correcting it would mean inventing a number, so it is marked
+<span class="chip c-bad">out of family</span> and excluded from any comparison (IR-16).</div>
 
 <div class="note"><b>What is real in that table.</b> The line, both prices, the de-vigged
 probability and the hold are transcribed from a live two-way prop market and are
@@ -765,6 +768,15 @@ def adj_cell(v):
 
 def const_src():
     return f'<td class="src">{SRC_GAMES} <span class="chip c-neutral">derived</span></td>'
+
+
+def outlier_flag(p):
+    """Flag a transcribed price that cannot be a real two-way quote."""
+    o = p.get("under_odds")
+    if isinstance(o, int) and o > 0:
+        return ('<div class="chip c-bad" title="positive American price on the other '
+                'side of a heavily-favoured under">out of family</div>')
+    return ""
 
 
 def stat_src():
@@ -1310,6 +1322,20 @@ def build_review():
         ("IR-14", "Data is a point-in-time snapshot",
          "Everything reflects {snap}. The injury report is superseded within 15 minutes near tip-off, so no operational decision should rest on this snapshot.",
          "No automated refresh is running.", "https://official.nba.com/nba-injury-report-2026-27-season/"),
+        ("IR-16", "One prop price is out of family and was not corrected",
+         "Andre Drummond's under is published as +111, the only price on the card outside the "
+         "-100 to -150 band. Every other two-way quote on that feed is a short negative price, "
+         "so this is most likely a display artefact. It is transcribed exactly as published, "
+         "marked out-of-family in the table, and excluded from comparisons.",
+         "Correcting it would require inventing a price. Publishing it as if normal would be "
+         "worse than either.",
+         "Prop feed, same URL as the props page"),
+        ("IR-17", "One season average looks implausible and is withheld",
+         "Mikal Bridges' season scoring average is printed as 5.9 on the game preview, which is "
+         "far below any plausible average for a starter and is not corroborated by a second "
+         "source. The column is left blank rather than published.",
+         "Two sources disagree with the number's plausibility and only one asserts it.",
+         "See the props table; the raw printed value is recorded in scripts/raw_data.py"),
         ("IR-15", "Legal and licensing status is unknown",
          "No terms-of-service review was done for any of the four sources, and no jurisdiction was specified. Retrieval is not a redistribution licence.",
          "Blocked on legal review.", "See Q1 and Q2"),

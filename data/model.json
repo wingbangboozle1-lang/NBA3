@@ -66,24 +66,24 @@
     },
     "assumptions": {
       "hca_points": {
-        "value": 2.6,
+        "value": 1.51,
         "label": "Home-court advantage, points",
         "why": "Fixed league-wide constant used to convert neutral ratings into a home/road matchup.",
-        "status": "ASSUMPTION \u2014 not estimated from this season's data",
+        "status": "MEASURED from the 86-game sample (95% CI shown on the method page)",
         "sensitivity": "Every originated spread shifts 1:1 with this constant. See the sensitivity table on methodology.html."
       },
       "sd_margin": {
-        "value": 12.4,
+        "value": 17.15,
         "label": "Standard deviation of game margin, points",
         "why": "Gaussian margin model for cover probabilities.",
-        "status": "ASSUMPTION \u2014 calibrated to a typical NBA margin sd; not re-estimated here",
+        "status": "MEASURED from the 86-game sample",
         "sensitivity": "Cover probability is highly sensitive near the line; see sensitivity table."
       },
       "sd_total": {
-        "value": 18.5,
+        "value": 18.62,
         "label": "Standard deviation of game total, points",
         "why": "Gaussian total model for over/under probabilities.",
-        "status": "ASSUMPTION \u2014 calibrated to a typical NBA total sd; not re-estimated here",
+        "status": "MEASURED from the 86-game sample",
         "sensitivity": "Over/under probability moves ~2.7 points of probability per total point near the mean."
       },
       "shrink_k": {
@@ -94,6 +94,7 @@
         "sensitivity": "Larger k pulls ratings toward average and toward the market."
       }
     },
+    "league_avg_rating": 114.0,
     "noise_floor_prob": 0.03
   },
   "constants": {
@@ -2296,7 +2297,7 @@
     "rejected_divergence": 12,
     "rejected_injury": 7,
     "positive_ev": 20,
-    "self_check": "Every modelled signal came out positive-EV against one book. That is not evidence of 20 bets worth taking; it is evidence that a model which ignores injuries will disagree with a market that prices them. The screens above exist to throw most of those disagreements away."
+    "self_check": "A model that ignores injuries will disagree with a market that prices them, and every disagreement looks like edge. The screens exist to throw most of those disagreements away rather than to package them as picks."
   },
   "props": [
     {
@@ -2385,7 +2386,7 @@
       "market_p_under": 0.5104,
       "vig": 0.0605,
       "line_move": 0.0,
-      "season_avg": 5.9,
+      "season_avg": null,
       "season_avg_source": "nba_game_preview",
       "last_updated": "2026-11-13T18:11Z",
       "basis": "MARKET",
@@ -2427,7 +2428,7 @@
       "page_count": 47,
       "url": "https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds/100/propBets"
     },
-    "note": "1,170 individual prop price points exposed for NYK@IND. Market type ids observed start at type id 1 = 'Total Points'. Athlete names are returned as opaque ids; name resolution was NOT completed in this session, so no prop price is presented as belonging to a named player."
+    "note": "1,170 individual prop price points exposed for NYK@IND. Market type ids observed start at type id 1 = 'Total Points'. Athlete names are returned as opaque numeric ids. 5 were resolved and verified against each player's own record; the remainder are NOT published with names, so no unverified name is attached to a price."
   },
   "correlation": [
     {
