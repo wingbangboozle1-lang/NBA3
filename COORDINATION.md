@@ -25,3 +25,23 @@ This checkout contained only a six-byte README and no app, data, package configu
 - PR [#1](https://github.com/wingbangboozle1-lang/NBA3/pull/1) was merged to `main` with merge commit `ce3273eded5dc8083e0523d44666b92d7bee8f9e` on 2026-11-13.
 - GitHub Actions run [43519089153](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43519089153) completed successfully: both static validation/build and Pages deployment jobs passed. A separate Pages deployment run also showed success. Deployment confirmed by workflow; site URL is the repository GitHub Pages URL (repository custom Pages URL is not inferred here).
 - Workflow emitted non-fatal platform notices: Node.js 20 action runtime deprecation and forthcoming `ubuntu-latest` image migration. No check failed.
+
+## Session 9ed6085f — claim for this round (branch `arena/9ed6085f-nba3`)
+
+Session ID: `9ed6085f` (branch `arena/9ed6085f-nba3`, based on `origin/main` @ `dbb8575`).
+Constraint noted: this workspace is bound to one branch, so the `session-<id>/<task>` branch-per-task scheme is not used. Scopes below are therefore enforced within this single branch and recorded here instead.
+Prior session `49064d5a` work (merged PRs #1 and #2) is preserved; its `index.html` is superseded by the generated multi-page site (see log).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| T1 Repository review, line by line, with official links and irregularities | in progress (claimed) | 9ed6085f | data/repo_review.csv |
+| T2 Official source registry and retrieval log | in progress (claimed) | 9ed6085f | data/sources.csv |
+| T3 Requirements, questions and answers, suggestions queue | in progress (claimed) | 9ed6085f | data/requirements.csv, data/questions.csv, data/suggestions.csv |
+| T4 Upcoming slates (today + 3 days) from the official NBA schedule | in progress (claimed) | 9ed6085f | data/slates.csv |
+| T5 Official injury snapshot, rotation and game-flow method | in progress (claimed) | 9ed6085f | data/injuries_2026-11-13_1100AM.csv, data/gameflow.csv, pipeline/rotation.py |
+| T6 Strategies, validation gates, correlations, leaderboard | in progress (claimed) | 9ed6085f | data/strategies.csv, data/gates.csv, data/correlations.csv, pipeline/gates.py |
+| T7 Site generator, verification checker, Pages workflow | in progress (claimed) | 9ed6085f | pipeline/build_site.py, pipeline/verify.py, pipeline/tests/, .github/workflows/pages.yml, site/ (generated), index.html (superseded) |
+| T8 Executive summary and Flagged-for-Review register | in progress (claimed) | 9ed6085f | data/flags.csv, content/*.html |
+| T9 PR, merge, Pages deploy verification, log | pending | 9ed6085f | COORDINATION.md, README.md |
+
+Integration: this session is the only writer for shared outputs (site and index/navigation). No other session has an open claim on these files.
