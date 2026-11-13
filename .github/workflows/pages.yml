@@ -1,44 +1,72 @@
-name: Deploy static dashboard to GitHub Pages
+name: Build and deploy NBA Edge Lab (GitHub Pages)
+
+# Integration workflow (session arena/7c532e8c-nba3, merged with f879620b's checks).
+# Published layout (one Pages artifact):
+#   /                -> root index.html (research dashboard, links to docs/ and site/)
+#   /docs/           -> f879620b data site (docs/data/data.json)
+#   /site/           -> arena/7c532e8c site (generated from data/*.json by scripts/build_site.py)
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: pages
   cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate site entry point and links
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (statistics module)
+        run: python3 -m unittest tests/test_validate_gates.py
+      - name: Data site checks (docs/ rows, sources, links)
+        run: python3 tools/check_site.py
+      - name: Root dashboard in-page links and link targets
         run: |
           test -s index.html
           python3 - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
+          import os
           class Check(HTMLParser):
-              def __init__(self): super().__init__(); self.ids=set(); self.hrefs=[]
+              def __init__(self):
+                  super().__init__(); self.ids=set(); self.hrefs=[]
               def handle_starttag(self, tag, attrs):
                   a=dict(attrs)
                   if 'id' in a: self.ids.add(a['id'])
                   if tag=='a' and 'href' in a: self.hrefs.append(a['href'])
-          p=Check(); p.feed(Path('index.html').read_text())
+          p=Check(); p.feed(Path('index.html').read_text(encoding='utf-8'))
           broken=[h for h in p.hrefs if h.startswith('#') and h[1:] not in p.ids]
-          if broken: raise SystemExit(f'Broken in-page links: {broken}')
-          print(f'Validated {len(p.ids)} section ids and {len(p.hrefs)} links (external links are not fetched in CI).')
+          broken+=[h for h in p.hrefs if not h.startswith(('#','http://','https://','mailto:')) and not os.path.exists(h.split('#')[0])]
+          if broken: raise SystemExit(f'Broken links in index.html: {broken}')
+          print(f'index.html: {len(p.ids)} ids, {len(p.hrefs)} links checked.')
           PY
-      - name: Run NBA3 unit tests and data/link checks
+      - name: Build NBA Edge Lab site (fails on missing sources, broken links, drift)
         run: |
-          python3 -m unittest tests/test_validate_gates.py
-          python3 tools/check_site.py
+          python3 scripts/build_site.py
+          git diff --exit-code -- site/
+          test -z "$(git status --porcelain -- site/)" || { echo 'site/ has uncommitted or untracked changes'; git status --porcelain -- site/; exit 1; }
+      - name: Stage combined Pages artifact
+        run: |
+          rm -rf _pages && mkdir _pages
+          cp index.html _pages/
+          cp -r docs _pages/docs
+          cp -r site _pages/site
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _pages
+
   deploy:
     environment:
       name: github-pages

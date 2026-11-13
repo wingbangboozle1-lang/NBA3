@@ -1,0 +1,51 @@
+[
+ {
+  "id": "RR-01",
+  "item": "README.md (baseline)",
+  "obs": "Baseline README was a six-byte stub ('# NBA3').",
+  "src": "https://github.com/wingbangboozle1-lang/NBA3/commit/6c3004d3d64f1f2cdcfe01b81cbd6aca6d07a9df",
+  "status": "Replaced by site README in T7"
+ },
+ {
+  "id": "RR-02",
+  "item": "index.html (prior session, PR #1/#2)",
+  "obs": "Single-page dashboard linking the 2025-26 injury index (7C-F-07). No data tables with per-row sources.",
+  "src": "https://github.com/wingbangboozle1-lang/NBA3/pull/1",
+  "status": "Replaced by generated site (T7)"
+ },
+ {
+  "id": "RR-03",
+  "item": ".github/workflows/pages.yml",
+  "obs": "Validates only in-page anchors; external links are not checked. Uploads the whole repo root as the Pages artifact.",
+  "src": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml",
+  "status": "Rewritten: builds and checks site/ (T7)"
+ },
+ {
+  "id": "RR-04",
+  "item": "GitHub Pages configuration",
+  "obs": "API reported build_type 'legacy', source branch main, path '/', status 'built', https_enforced true.",
+  "src": "https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages",
+  "status": "Verify after switch (T8)"
+ },
+ {
+  "id": "RR-05",
+  "item": "COORDINATION.md",
+  "obs": "Prior session's board (PR #1/#2) preserved; this session's claims appended.",
+  "src": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md",
+  "status": "Done (this session)"
+ },
+ {
+  "id": "RR-06",
+  "item": "Merged PRs #1 and #2",
+  "obs": "Both from arena/49064d5a-nba3, merged to main. Prior session's deploy logged as successful.",
+  "src": "https://github.com/wingbangboozle1-lang/NBA3/pull/2",
+  "status": "History only"
+ },
+ {
+  "id": "RR-07",
+  "item": "Repository contents",
+  "obs": "No product code, datasets, odds, model, or tests at baseline. No licence file (LICENSE) in the repo.",
+  "src": "https://github.com/wingbangboozle1-lang/NBA3",
+  "status": "Flag: no LICENSE (owner to decide)"
+ }
+]
