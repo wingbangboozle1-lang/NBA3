@@ -1324,6 +1324,9 @@ def build_review():
         ("IR-14", "Data is a point-in-time snapshot",
          "Everything reflects {snap}. The injury report is superseded within 15 minutes near tip-off, so no operational decision should rest on this snapshot.",
          "No automated refresh is running.", "https://official.nba.com/nba-injury-report-2026-27-season/"),
+        ("IR-15", "Legal and licensing status is unknown",
+         "No terms-of-service review was done for any of the four sources, and no jurisdiction was specified. Retrieval is not a redistribution licence.",
+         "Blocked on legal review.", "See Q1 and Q2"),
         ("IR-16", "One prop price is out of family and was not corrected",
          "Andre Drummond's under is published as +111, the only price on the card outside the "
          "-100 to -150 band. Every other two-way quote on that feed is a short negative price, "
@@ -1338,9 +1341,6 @@ def build_review():
          "source. The column is left blank rather than published.",
          "Two sources disagree with the number's plausibility and only one asserts it.",
          "See the props table; the raw printed value is recorded in scripts/raw_data.py"),
-        ("IR-15", "Legal and licensing status is unknown",
-         "No terms-of-service review was done for any of the four sources, and no jurisdiction was specified. Retrieval is not a redistribution licence.",
-         "Blocked on legal review.", "See Q1 and Q2"),
     ]
     trs = "".join(
         f"""<tr><td><b>{e(i)}</b></td><td><b>{e(t)}</b></td><td class="tiny">{e(d)}</td>
