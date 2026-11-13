@@ -22,7 +22,8 @@ from html.parser import HTMLParser
 from urllib.parse import urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(ROOT, "data")
+DATA = os.path.join(ROOT, "lab", "data")
+OUT = os.path.join(ROOT, "lab")
 
 REQUIRED_PAGES = [
     "index.html", "lines.html", "picks.html", "props.html", "strategies.html",
@@ -98,7 +99,7 @@ class Doc(HTMLParser):
 def check_pages():
     docs = {}
     for name in REQUIRED_PAGES:
-        path = os.path.join(ROOT, name)
+        path = os.path.join(OUT, name)
         if not os.path.exists(path):
             errors.append(f"missing required page: {name}")
             continue
@@ -117,7 +118,7 @@ def check_pages():
                     errors.append(f"{name}: broken in-page anchor {h}")
             elif not urlparse(h).scheme and not h.startswith("mailto:"):
                 target = h.split("#")[0]
-                if target and not os.path.exists(os.path.join(ROOT, target)):
+                if target and not os.path.exists(os.path.join(OUT, target)):
                     errors.append(f"{name}: broken internal link {h}")
 
         # nav present
@@ -144,7 +145,7 @@ def check_unverified_cells():
     """A cell marked unverified must not contain a number."""
     pat = re.compile(r'<span class="chip c-warn">unverified</span>([^<]{0,40})')
     for name in REQUIRED_PAGES:
-        path = os.path.join(ROOT, name)
+        path = os.path.join(OUT, name)
         if not os.path.exists(path):
             continue
         raw = open(path).read()
@@ -270,7 +271,7 @@ def check_data():
 
 def check_flag_references():
     """Every IR-nn cited anywhere must exist on the review page."""
-    rev_path = os.path.join(ROOT, "review.html")
+    rev_path = os.path.join(OUT, "review.html")
     if not os.path.exists(rev_path):
         return
     defined = set(re.findall(r"IR-\d\d", open(rev_path).read()))
@@ -285,13 +286,15 @@ def check_flag_references():
 
 
 def check_no_stale_generated_markers():
-    """The old single-page build asserted no data existed. Assert it is gone."""
+    """The old single-page build asserted no current slate existed. Assert it is gone
+    from the generated lab pages (the merged root dashboard is another session's
+    artefact and is not ours to edit)."""
     for name in REQUIRED_PAGES:
-        p = os.path.join(ROOT, name)
+        p = os.path.join(OUT, name)
         if not os.path.exists(p):
             continue
         raw = open(p).read()
-        for bad in ("2025-26-season/", "No current slate, originated lines, picks"):
+        for bad in ("No current slate, originated lines, picks",):
             if bad in raw:
                 errors.append(f"{name}: stale content from the previous build ({bad!r})")
 

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strategies · NBA3</title>
+<meta name="description" content="NBA3 — verified NBA data, validation gates and open decisions. Every row links to an official source.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html">NBA3</a>
+  <nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary</a><a href="injuries.html">Injuries</a><a href="slate.html">Upcoming slate</a><a href="rules.html">Rules</a><a href="strategies.html" class="active">Strategies</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Strategies &amp; validation</h1>
+<p class="lead">A leaderboard for strategies once they pass validation. It is empty because no strategy has been scored, and no data is available to score one.</p>
+<h2>Leaderboard</h2>
+<div class="tablewrap"><table><thead><tr><th>Rank</th><th>Strategy</th><th>Type</th><th>Settled bets</th><th>Win rate</th><th>Adjusted p</th><th>Gates passed</th><th>Status</th></tr></thead>
+<tbody><tr><td colspan="8" class="blank" style="text-align:center;padding:22px">0 strategies evaluated. Blocked: no verified odds source and no historical player data (<a href="questions.html">Q01, Q03</a>).</td></tr></tbody></table></div>
+<h2>Strategy families to test (none started)</h2>
+<div class="tablewrap"><table><thead><tr><th>Family</th><th>Question it answers</th><th>Data needed</th><th>Status</th></tr></thead><tbody>
+<tr><td>Single bets</td><td>Does a rule beat the market price after fees?</td><td>Odds history, results</td><td><span class="pill bad">blocked</span></td></tr>
+<tr><td>Parlays</td><td>Do legs carry dependence that the price misses?</td><td>Joint outcomes of legs</td><td><span class="pill bad">blocked</span></td></tr>
+<tr><td>Player props</td><td>Do minutes and role predict prop outcomes?</td><td>Player box scores and minutes</td><td><span class="pill bad">blocked</span></td></tr>
+<tr><td>Injury-adjusted</td><td>Does a status change shift minutes and production?</td><td>Injury history + minutes</td><td><span class="pill bad">blocked</span></td></tr>
+</tbody></table></div>
+<h2>Validation gates (proposed)</h2>
+<p class="small muted">Thresholds are proposals for your approval (<a href="suggestions.html">SG04</a>). The gate logic is implemented in <code>tools/validate_gates.py</code> and tested.</p>
+<div data-view="gates"></div>
+<h2>Correlation values</h2>
+<div class="notice">Not computed. The helper computes Pearson correlation and a parlay dependence ratio (joint rate ÷ product of leg rates), but both need historical data.</div>
+
+</div></main>
+<footer><div class="wrap">
+  NBA3 static dashboard · data date <span data-generated>2026-11-13</span> · Times as printed by each source. Values that could not be confirmed from an official source are left blank and flagged.
+  · <a href="https://github.com/wingbangboozle1-lang/NBA3">Repository</a>
+</div></footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

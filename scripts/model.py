@@ -1,5 +1,5 @@
 """
-Model layer. Reads only scripts/raw_data.py. Emits data/*.json for the site.
+Model layer. Reads only scripts/raw_data.py. Emits lab/data/*.json for the lab site.
 
 Design rules enforced here:
   * No value is invented. Anything absent from raw_data stays None and is
@@ -25,7 +25,7 @@ from raw_data import (
     UPCOMING_GAMES,
 )
 
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "lab", "data")
 os.makedirs(OUT, exist_ok=True)
 
 norm = lambda t: ALIAS.get(t, t)
