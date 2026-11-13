@@ -170,5 +170,5 @@ Failed or not used: [NBA CDN live scoreboard JSON](https://cdn.nba.com/static/js
 - Cross-check against f879620b's data (`docs/data/data.json`): the 11/13–11/15 slate (teams and ET tip times) and the 11/16 ORL–BOS game agree with `data/schedule.json` for all rows they list. Their injury data is the 11/11 7:00 PM report, a different snapshot; it is not contradicted by the 11/13 5:00 PM report used here, and both are cited.
 - Flag ID collision resolved: this site's flags are `7C-F-01…17`. f879620b's `F-01…F-15` are unchanged (see the README namespace table).
 - Local checks at merge time: `python3 scripts/build_site.py` (OK, 553 links, 12 pages); `python3 tools/check_site.py` (PASS, 10 pages); `python3 -m unittest tests/test_validate_gates.py` (13 tests, OK).
-- Pull request: see the line below once created.
+- Pull request: https://github.com/wingbangboozle1-lang/NBA3/pull/5 (`arena/7c532e8c-nba3` -> `main`; head 33d09d4).
 - Merge result: see the line below once executed.
