@@ -1,0 +1,46 @@
+name: Deploy static dashboard to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate site entry point and links
+        run: |
+          test -s index.html
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          class Check(HTMLParser):
+              def __init__(self): super().__init__(); self.ids=set(); self.hrefs=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  if 'id' in a: self.ids.add(a['id'])
+                  if tag=='a' and 'href' in a: self.hrefs.append(a['href'])
+          p=Check(); p.feed(Path('index.html').read_text())
+          broken=[h for h in p.hrefs if h.startswith('#') and h[1:] not in p.ids]
+          if broken: raise SystemExit(f'Broken in-page links: {broken}')
+          print(f'Validated {len(p.ids)} section ids and {len(p.hrefs)} links (external links are not fetched in CI).')
+          PY
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
