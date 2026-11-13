@@ -17,7 +17,7 @@ from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROC = os.path.join(ROOT, "data", "processed")
-SITE = os.path.join(ROOT, "site")
+SITE = ROOT  # GitHub Pages is configured to serve the repository root
 
 with open(os.path.join(PROC, "model_output.json"), encoding="utf-8") as fh:
     M = json.load(fh)
@@ -1534,8 +1534,14 @@ layer.</b> That is a real achievement, and it is not yet a betting system.</p>
 
 
 # =========================================================================== render
+CSS = open(os.path.join(ROOT, "site", "assets", "style.css"), encoding="utf-8").read()
+
+
 def main():
     os.makedirs(os.path.join(SITE, "assets"), exist_ok=True)
+    with open(os.path.join(SITE, "assets", "style.css"), "w", encoding="utf-8") as fh:
+        fh.write(CSS)
+    print("wrote assets/style.css")
     pages = {
         "index.html": page_index,
         "lines.html": page_lines,

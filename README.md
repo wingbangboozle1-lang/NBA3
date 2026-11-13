@@ -4,7 +4,7 @@ A line-origination engine for the 2026-27 NBA season. It originates its own poin
 game totals from official NBA data, then tests betting strategies against those originated
 lines — not against a sportsbook's prices.
 
-**Live site:** <https://wingbangboozle1-lang.github.io/NBA3/>
+**Live site:** <https://wingbangboozle1-lang.github.io/NBA3/> 
 
 ## What it does
 
