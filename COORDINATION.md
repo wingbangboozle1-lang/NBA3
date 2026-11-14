@@ -931,7 +931,11 @@ are the integration surface.
 
 ### Deployment / PR status
 
-* PR: pending (see below, updated after the merge).
+* PR #28 (arena/a459dadf-nba3 → main): merged 2026-11-14T01:04:57Z, merge commit `511c2c12317b7a25b542117d0b196f8e7be1ddd2`. Summary, sources, and flagged irregularities included in PR body.
+* PR #29 (arena/a459dadf-nba3 → main): CI workflow fix (pages.yml conflict markers from PR #23). Merged 2026-11-14T01:06:05Z.
+* PR #31 (arena/a459dadf-nba3 → main): build_app.py single-source-of-truth fix so index.html is regenerated deterministically. Merged 2026-11-14T01:08:40Z; CI success.
+* GitHub Pages: status `built`, source `branch: main, path: /`, URL `https://wingbangboozle1-lang.github.io/NBA3/`. Deploy confirmed after PR #31 merge.
+* All tasks A1–A7 marked done. No strategies pass all 7 gates (2 provisional; rest failed or untestable) — this is a verified result, not a blocker. 48 flagged items published on the Flagged for Review page.
 
 ---
 
