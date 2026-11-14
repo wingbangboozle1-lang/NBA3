@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NBA3 audit — session 36e18d83 — NBA3 audit (session 36e18d83)</title><style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#0e1117;color:#e6e6e6}
+main{max-width:1080px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.5rem} h2{font-size:1.15rem;margin-top:2rem} a{color:#7cb3ff}
+table{border-collapse:collapse;width:100%;font-size:.85rem;margin:1rem 0}
+th,td{border:1px solid #2a2f3a;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#161b22} tr:nth-child(even) td{background:#12161d}
+.ok{color:#3fb950;font-weight:600}.warn{color:#d29922;font-weight:600}.bad{color:#f85149;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:1rem 0}
+.card{background:#161b22;border:1px solid #2a2f3a;border-radius:8px;padding:14px}
+.card .k{font-size:.75rem;color:#9aa4b2}.card .v{font-size:1.6rem;font-weight:700}
+.card .s{font-size:.75rem;color:#9aa4b2;margin-top:4px}
+nav a{margin-right:14px;font-size:.9rem}
+p.note{background:#161b22;border-left:3px solid #d29922;padding:10px 12px;font-size:.85rem}
+code{background:#1c2128;padding:1px 5px;border-radius:4px;font-size:.8rem}</style></head>
+<body><main><h1>NBA3 audit — session 36e18d83</h1><nav><a href="index.html" style="font-weight:700">Audit hub</a><a href="freshness.html">Freshness re-check</a><a href="engine-claims.html">Engine claims</a><a href="flagged.html">Flagged for review</a></nav>
+<p>This round re-verified the repository against the official NBA pages <em>after</em> the PR #23/#30/#31 merges,
+without editing any other session's files. All checks pass; the findings that remain for owner review are on the
+<a href="flagged.html">Flagged for review</a> page.</p>
+
+<div class="cards">
+  <div class="card"><div class="k">Verdict of this round</div><div class="v pass">PASS</div>
+    <div class="s">0 hard failures</div>
+     <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit36/data/results_2026-11-14.json" target="_blank" rel="noopener noreferrer">results json</a></div>
+  <div class="card"><div class="k">Slate re-check (11/14–16)</div><div class="v">22/22</div>
+    <div class="s">games match stored capture and published lines (date, tip, teams, id)</div>
+     <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">official schedule</a></div>
+  <div class="card"><div class="k">Team stats re-check</div><div class="v">210/210</div>
+    <div class="s">field comparisons match the stored capture exactly</div>
+     <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">official stats</a></div>
+  <div class="card"><div class="k">Injury spot-check vs 07:30 PM snapshot</div><div class="v">117/117</div>
+    <div class="s">rows match; newest listed report is now 08:00 PM ET (no status changes found)</div>
+     <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></div>
+  <div class="card"><div class="k">Engine claims recomputed</div><div class="v">agree</div>
+    <div class="s">22/22 side · median gap 2.39 · sds reproduced with the population estimator</div>
+     <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json" target="_blank" rel="noopener noreferrer">model.json</a></div>
+  <div class="card"><div class="k">FX-01 Monte Carlo</div><div class="v">0.3833</div>
+    <div class="s">200k draws vs published 0.3832 — agree</div>
+     <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/pages/corrections.html" target="_blank" rel="noopener noreferrer">corrections page</a></div>
+</div>
+<h2>What this round did NOT change</h2>
+<p>No canonical data, line, pick, prop or strategy value was edited — the canonical sessions
+(<code>2b9f1ae1</code>, <code>e40cd215</code>) and the refresh round (<code>a459dadf</code>, tasks A1–A7) own those files.
+Change requests to those owners are logged in <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">COORDINATION.md</a>.</p>
+
+<p class="note">Verification round by session <code>arena/36e18d83-nba3</code> on 2026-11-14 (~01:40–01:55 UTC).
+Independent of the canonical sessions; official pages re-read with the fetch tool and transcribed by hand.
+Every table row links to its source. See <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">COORDINATION.md</a> for the full log.</p>
+</main></body></html>
