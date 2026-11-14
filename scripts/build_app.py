@@ -38,9 +38,11 @@ NAV = [
     ]),
     ("Model output", [
         ("Originated lines", "app/lines.html"),
-        ("Picks (3-day window)", "app/picks.html"),
+        ("Prices for the window", "app/picks.html"),
+        ("Parlay & prop combos", "app/parlays.html"),
         ("Player props", "app/props.html"),
-        ("Strategies & gates", "app/strategies.html"),
+        ("Strategy leaderboard", "app/leaderboard.html"),
+        ("Validation gates", "app/strategies.html"),
         ("Correlations", "app/correlations.html"),
     ]),
     ("Game context", [
@@ -164,7 +166,7 @@ def layout(title, category, body, subtitle="", active="", root_page=False):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="{brand}"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>{BUILD_DATE}</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>{BUILD_DATE}</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
@@ -183,7 +185,7 @@ def layout(title, category, body, subtitle="", active="", root_page=False):
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated {BUILD_DATE} by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="{flagged}">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
@@ -208,452 +210,950 @@ def fmt_p(v):
     return f"{float(v):.4g}"
 
 
+def fmt_signed(v, nd=1):
+    """Signed number with a fixed number of decimals, or an em dash."""
+    if v is None:
+        return "—"
+    return f"{float(v):+.{nd}f}"
+
+
+def fmt_ml(v):
+    """American price with an explicit sign, or an em dash when there is none."""
+    if v is None:
+        return "—"
+    return f"{int(round(float(v))):+d}"
+
+
 # --------------------------------------------------------------------------
 # pages
 # --------------------------------------------------------------------------
+def _luck(d):
+    return d.get("luck_test") or {}
+
+
+def _res(d):
+    return d.get("residuals") or {}
+
+
 def page_summary(d):
     m = d["meta"]
     model = m["model"]
+    lab = d["lab"]
+    res = _res(d)
+    luck = _luck(d)
+    strategies = d["strategies"]
+    funded = [s for s in strategies if s["tier"] == "T1"]
+    provisional = [s for s in strategies if s["tier"] == "T2"]
     body = []
+
     body.append('<div class="cards">')
-    body.append(f"""<div class="card"><div class="k">Games in window</div><div class="v">{d['slate']['count']}</div>
-      <div class="s">2026-11-13 → 2026-11-16, read from the official schedule</div>
+    body.append(f"""<div class="card"><div class="k">Games priced in the window</div>
+      <div class="v">{d['slate']['count']}</div>
+      <div class="s">{d['slate']['window']['from']} → {d['slate']['window']['to']} — today plus the
+      maximum three-day horizon</div>
       {src_cell([d['slate']['source_url']], 'nba.com/schedule')}</div>""")
-    body.append(f"""<div class="card"><div class="k">Originated lines</div><div class="v">{len(d['lines'])}</div>
-      <div class="s">Spread + total for every game in the window</div>
-      {src_cell(['https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py'], 'model/build.py')}</div>""")
-    body.append(f"""<div class="card"><div class="k">Strategies passing all gates</div>
-      <div class="v">{sum(1 for s in d['strategies'] if s.get('passed_all_gates'))}</div>
-      <div class="s">of {len([s for s in d['strategies'] if s.get('n')])} measured strategies</div>
-      {src_cell(['https://www.nba.com/games?date='], 'nba.com/games')}</div>""")
-    body.append(f"""<div class="card"><div class="k">Injury rows (official)</div>
+    body.append(f"""<div class="card"><div class="k">Strategies funded</div>
+      <div class="v">{len(funded)}</div>
+      <div class="s">of {len(strategies)} scored rules. {len(provisional)} provisional,
+      the rest rejected or blocked.</div>
+      {src_cell([lab['meta']['source_games']], 'nba.com/games')}</div>""")
+    body.append(f"""<div class="card"><div class="k">Luck threshold for this board</div>
+      <div class="v">{num(luck.get('threshold_pp'), 1)} pp</div>
+      <div class="s">The best edge a board of {luck.get('rules', 0)} rules throws up by chance.
+      The largest edge any rule actually posted is
+      {max([abs(s['edge_pp']) for s in strategies if s['edge_pp'] is not None] or [0]):.1f} pp.</div>
+      {src_cell([lab['meta']['source_games']], 'nba.com/games')}</div>""")
+    body.append(f"""<div class="card"><div class="k">Official injury rows</div>
       <div class="v">{d['injuries']['count']}</div>
-      <div class="s">11/13/26 07:30 PM ET report — the newest listed</div>
+      <div class="s">{d['injuries']['report_stamp']} — the newest report listed on the official index</div>
       {src_cell([d['injuries']['source_url']], 'official PDF')}</div>""")
     body.append("</div>")
 
     body.append(f"""
-<h2>1. What this project is</h2>
-<p>A research pipeline that <strong>originates its own NBA lines</strong>, tests them out of sample
-against <strong>validation gates</strong>, and publishes every intermediate number with the official
-source it came from. It is deliberately conservative: a number that cannot be confirmed is left blank
-and listed on the <a href="app/flagged.html">Flagged for review</a> page rather than estimated.</p>
+<h2>1. What this project is, in one paragraph</h2>
+<p>A research pipeline that <strong>originates its own NBA lines</strong> from official results,
+tests them out of sample against <strong>nine validation gates</strong>, ranks the resulting
+strategies on a <strong>leaderboard</strong> with an explicit luck threshold, and publishes every
+intermediate number next to the official source it came from. There is
+<strong>no market price anywhere in this repository</strong>: no licensed odds feed is connected.
+Every “pick” on this site is a fair price against <em>our own</em> line, which makes its expected
+value zero by construction. The backtest therefore does not look for profit — it looks for
+<em>bias in our own line</em>, which is the only question this data can answer.</p>
 
-<h2>2. What has been verified, and how</h2>
-<p>All official pages below were re-read on <strong>{BUILD_DATE}</strong> and compared
-programmatically with the values already stored in the repository. The comparison script is
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14.py">scripts/capture_official_2026_11_14.py</a>;
-it fails loudly on any mismatch.</p>
+<h2>2. The headline result, stated plainly</h2>
+<ul>
+  <li><strong>Zero strategies are funded.</strong> Nothing on the board passes all nine gates.</li>
+  <li><strong>Nothing beats luck.</strong> Simulating the whole board under the fair-line null,
+      the best-looking rule clears <strong>{num(luck.get('threshold_pp'), 1)} percentage points</strong>
+      of edge 5% of the time. The largest edge any real rule posted is
+      <strong>{max([abs(s['edge_pp']) for s in strategies if s['edge_pp'] is not None] or [0]):.1f} pp</strong>.</li>
+  <li><strong>The margin model is honest but weak.</strong> Out-of-sample RMSE
+      {num(res.get('margin_rmse'))} against a {num(res.get('margin_baseline_rmse'))} constant
+      baseline, and it is unbiased ({num(res.get('margin_bias'))} points).</li>
+  <li><strong>The totals model is broken.</strong> Out-of-sample RMSE
+      {num(res.get('total_rmse'))} is <em>worse</em> than the {num(res.get('total_baseline_rmse'))}
+      constant baseline, and it runs {abs(res.get('total_bias') or 0):.1f} points hot. It is kept
+      only because the brief asks for originated totals, and it is shrunk toward the league mean.
+      See <a href="flagged.html">NF-49</a>.</li>
+  <li><strong>An earlier “signal” was the model’s error.</strong> Before regularisation, “fade the
+      highest projected totals” posted 69.7% on 66 games (p=0.0019). After regularisation it fell to
+      65.5% on 29 games (p=0.136). The signal was our own miscalibration. See
+      <a href="flagged.html">NF-50</a>.</li>
+</ul>
+
+<h2>3. What has been verified, and against what</h2>
+<p>Every official page below was read on <strong>{BUILD_DATE}</strong> at 01:05 UTC and compared
+programmatically with the values earlier sessions had stored. The comparison is
+<a href="{REPO_URL}/blob/main/scripts/capture_official_2026_11_14b.py">scripts/capture_official_2026_11_14b.py</a>;
+it prints every disagreement and the build fails on a mismatch.</p>
 """)
+
     ver_rows = [
-        ["Official schedule (31 games: date, tip time ET, teams, game id)",
-         src_cell([d["slate"]["source_url"]], "nba.com/schedule"),
-         "31/31 agree with the snapshot captured on 2026-11-13",
-         chip("Verified", "ok")],
-        ["Official team statistics (30 teams × GP, W, L, OffRtg, DefRtg, NetRtg, PACE)",
-         src_cell([d["ratings"]["source_url"]], "nba.com/stats/teams/advanced"),
-         "210/210 field comparisons agree",
-         chip("Verified", "ok")],
-        ["Official injury report (11/13/26 07:30 PM ET)",
-         src_cell([d["injuries"]["source_url"]], "official PDF"),
-         f"{len([r for r in d['injuries']['rows'] if r['row_type'] == 'player'])} player rows + "
-         f"{len([r for r in d['injuries']['rows'] if r['row_type'] != 'player'])} team report statuses",
-         chip("Verified", "ok")],
-        ["Historical results log (174 games, 348 team-games)",
-         src_cell(["https://www.nba.com/games?date="], "nba.com/games"),
-         "team-games match the official GP column for all 30 teams (0 mismatch)",
-         chip("Verified", "ok")],
+        [f"Official schedule — {d['slate']['count']} games, 2026-11-14 → 2026-11-17 "
+         "(date, tip time ET, teams, game id, venue, city)",
+         "22 of them also appear in the previous session’s 11/13–11/16 capture; "
+         "88 of 88 field comparisons agree, 0 differ.",
+         src_cell([d["slate"]["source_url"]], "nba.com/schedule")],
+        ["Official team advanced statistics — 30 teams × 8 fields (GP, W, L, MIN, "
+         "OffRtg, DefRtg, NetRtg, PACE)",
+         "240 of 240 field comparisons agree with the stored capture.",
+         src_cell([d["ratings"]["source_url"]], "nba.com/stats")],
+        [f"Official injury report {d['injuries']['report_stamp']} — "
+         f"{d['injuries']['count']} rows "
+         f"({d['injuries'].get('player_rows', 0)} player rows + "
+         f"{d['injuries'].get('not_submitted_rows', 0)} team “NOT YET SUBMITTED” rows)",
+         "122 rows in both this report and the 07:30 PM report it supersedes; "
+         "0 status changes between the two.",
+         src_cell([d["injuries"]["source_url"]], "official PDF")],
+        [f"Official final scores — {m['model']['results_captured']} games, "
+         f"{m['model']['team_games_official']} team-games",
+         f"{m['model']['mismatch']} mismatch against the official games-played column "
+         "for all 30 teams.",
+         src_cell([lab["meta"]["source_games"]], "nba.com/games")],
+        ["Walk-forward engine — refit for every date from strictly earlier games",
+         f"{res.get('n')} out-of-sample forecasts after a {m['model']['burn_in']}-game burn-in; "
+         "no game can see its own date.",
+         src_cell([REPO_URL + "/blob/main/scripts/strategy_lab.py"], "strategy_lab.py")],
     ]
-    body.append(table(["What", "Source", "Result", "Status"], ver_rows, "s2"))
+    body.append(table(["What", "Verification result", "Source"], ver_rows, "verification"))
 
     body.append(f"""
-<h2>3. Model results (out of sample, walk-forward)</h2>
+<h2>4. The engine, in four sentences</h2>
+<p>A <strong>Massey least-squares margin model</strong> fits one rating per team plus a home-court
+term on all completed games. A <strong>totals model</strong> regresses the game total on the two
+teams’ prior scoring environment. Both are shrunk — a ridge penalty on the ratings and a blend
+weight pulling the totals toward the league mean — and <strong>both shrinkage parameters are chosen
+by validating on the most recent 20% of past games only</strong>, never on the games being
+forecast. Every date is then priced with the engine fitted on strictly earlier dates, so nothing
+downstream has seen the future.</p>
+
+<h2>5. How luck is removed</h2>
+<p>Three separate mechanisms, because one is not enough:</p>
+<ul>
+  <li><strong>Exact binomial tests</strong> against the fair-line rate for the market — 50% for a
+      single bet, 25% for a two-leg parlay. This is gate G5.</li>
+  <li><strong>Benjamini–Hochberg FDR</strong> across every scored rule on the board, because a
+      board of {luck.get('rules', 0)} rules will throw up one “significant” result by chance.
+      This is gate G6.</li>
+  <li><strong>A whole-board Monte Carlo</strong>: every rule is simulated under its own fair-line
+      null, the largest edge anywhere on the board is recorded, and that is repeated
+      {luck.get('iterations', 0):,} times. The 95th percentile —
+      {num(luck.get('threshold_pp'), 1)} pp — is the edge a rule must beat before it is called
+      anything. This is gate G9, and nothing on the board beats it.</li>
+</ul>
+<p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big home favourite /
+fade it). They select the same games and are exact complements, so they are one finding, not two.
+And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
+it fails every gate, which is the check that the gates themselves work.</p>
+
+<h2>6. What is still missing, and what it blocks</h2>
 """)
-    mm = d["meta"]["model"]
-    model_rows = [
-        ["Games captured", num(mm["results_captured"], 0),
-         src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Out-of-sample games after burn-in", num(mm["oos_games"], 0),
-         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
-        ["Margin model RMSE vs baseline", f"{num(mm['margin_rmse'])} vs {num(mm['margin_baseline_rmse'])}",
-         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
-        ["Total model RMSE vs baseline",
-         f"{num(mm['total_rmse'])} vs {num(mm['total_baseline_rmse'])} — worse than baseline",
-         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
-        ["Home-court advantage (fitted)",
-         f"{num(mm['home_court'])} points (p = {num(mm['home_court_p'], 3)}) — not significant",
-         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
-        ["Strategies passing every gate", "0 of 8 measured strategies",
-         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/strategies.html"], "origin/strategies.html")],
-        ["Spread/total residual correlation",
-         "r = 0.091, 95% CI [−0.094, +0.270] — includes zero",
-         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/correlations.html"], "origin/correlations.html")],
+    gap_rows = [
+        ["Licensed, timestamped odds feed",
+         "Every ROI figure here is measured against our own line at an assumed −110 price. "
+         "No ROI in this repository is an economic result.",
+         chip("Blocks every staking decision", "warn"),
+         src_cell(["https://www.nba.com/schedule"], "nba.com/schedule")],
+        ["Per-player game logs",
+         "Four player-prop combos on the board cannot be scored at all, and every "
+         "player-level correlation cell is blank.",
+         chip("Blocks prop combos", "warn"),
+         src_cell([lab["meta"]["source_players"]], "nba.com/stats")],
+        ["Full official minutes table (only the top 31 is captured)",
+         "Every injury minutes-vacuum figure is a floor, not an estimate.",
+         chip("Blocks rotation impact", "warn"),
+         src_cell([lab["meta"]["source_players"]], "nba.com/stats")],
+        ["Injury reports for 2026-11-15, 11-16 and 11-17",
+         "No official report exists yet for those dates; five of the ten teams playing on "
+         "11/14 had not submitted either.",
+         chip("Blocks final selections", "warn"),
+         src_cell([d["injuries"]["index_url"]], "official index")],
+        ["Legal basis for publishing selections (NBA Terms §9, Dutch Koa licence)",
+         "The reward schedule cannot be written until this is settled.",
+         chip("Blocks the reward rule", "warn"),
+         src_cell(["https://www.nba.com/termsofuse",
+                   "https://kansspelautoriteit.nl/online-kansspel-aanbieden"],
+                  "terms + regulator")],
     ]
-    body.append(table(["Measure", "Value", "Source"], model_rows, "s3"))
-
-    body.append("""
-<h2>4. How luck is kept out of the score</h2>
-<p>Luck cannot be removed from a single game; it can only be kept out of the <em>evaluation</em>.
-The rules applied here are: exact binomial tests instead of eyeballing win rates; a Benjamini–Hochberg
-false-discovery adjustment when several strategies are tested at once; a split-half check that the
-effect points the same way in both halves of the sample; a minimum-sample gate (n ≥ 100 out-of-sample
-games) that no strategy currently meets; and walk-forward evaluation, so a game is never scored with
-information that did not exist at its tip-off. Short-run profitability is not treated as evidence of
-skill — only out-of-sample calibration and uncertainty-adjusted results count.</p>
-""")
-
-    body.append("""
-<h2>5. What a reader must not do with this site</h2>
-<ul>
-<li><strong>Do not treat the derived lines as official NBA values.</strong> They are this
-project's model output; the source column links to the method and to the official inputs it used.</li>
-<li><strong>Do not treat the picks as betting advice.</strong> No strategy has passed the full gate
-set, no licensed price feed is connected, and the legal questions on the
-<a href="app/questions.html">Open questions</a> page are unanswered.</li>
-<li><strong>Do not compare a status from one injury report with a status from another.</strong> The
-NBA updates the report every 15 minutes; only the newest published snapshot is used here and the
-difference against the previous one is listed on the
-<a href="app/injuries.html">Injuries &amp; rotation</a> page.</li>
-</ul>
-""")
-    body.append(f"""
-<h2>6. Where to go next</h2>
-<ul>
-<li><a href="app/lines.html">Originated lines</a> — a spread and a total for every game in the window.</li>
-<li><a href="app/picks.html">Picks</a> — what the model would do for each of the next three days, with
-availability flags and no market price.</li>
-<li><a href="app/strategies.html">Strategies &amp; gates</a> — the leaderboard and every gate result.</li>
-<li><a href="app/injuries.html">Injuries &amp; rotation</a> — official statuses, minutes vacuum and
-what is still unknown.</li>
-<li><a href="app/flagged.html">Flagged for review</a> — {len(d['flags'])} items for the owner.</li>
-<li><a href="app/questions.html">Open questions</a> — {len(d['questions'])} questions that need an
-answer before a decision can be made.</li>
-<li><a href="app/suggestions.html">Site suggestions</a> — {len(d['suggestions'])} options for the
-owner to choose from; none of them is implemented without a decision.</li>
-</ul>
-""")
+    body.append(table(["Missing", "What it blocks", "Severity", "Source"], gap_rows, "gaps"))
     return "\n".join(body)
 
 
 def page_lines(d):
+    lab = d["lab"]
+    res = _res(d)
     body = []
-    body.append(f"""<p>One originated line per game in the {d['slate']['window']['from']} → {d['slate']['window']['to']}
-window. <strong>Spread</strong> is the home team's expected margin (positive = home favoured);
-<strong>Total</strong> is the expected combined score, regulation-equivalent (no overtime added).
-The interval columns are the model's 80% ranges. Every row links to the official schedule page the
-game was read from and to the official game page.</p>""")
+    body.append(f"""
+<p>Lines <strong>originated by this project</strong> for every game of the
+{d['slate']['window']['from']} → {d['slate']['window']['to']} window. They are produced by the
+walk-forward engine described on the <a href="methodology.html">method</a> page and are
+<strong>not</strong> market prices: no licensed odds feed is connected, so there is nothing to
+compare them with and no claim of value is made anywhere on this page.</p>
+
+<div class="callout">
+<p><strong>How to read the spread column.</strong> The spread is quoted for the home team, the way a
+book prints it: a negative number means the home team is favoured by that many points. The fair
+moneyline is our own price with no vig. Because these are our own lines, the probability of
+covering them is 50% by construction — see the
+<a href="picks.html">prices page</a> for why that matters.</p>
+</div>
+
+<div class="callout warn">
+<p><strong>Read the totals with care.</strong> Out of sample our totals model is
+<em>worse</em> than a constant league-average total (RMSE {num(res.get('total_rmse'))} vs
+{num(res.get('total_baseline_rmse'))}) and runs {abs(res.get('total_bias') or 0):.1f} points hot.
+The published totals are shrunk toward the league mean. See <a href="flagged.html">NF-49</a>.</p>
+</div>
+""")
     rows = []
     for l in d["lines"]:
+        partial = not (l.get("home_reported") and l.get("away_reported"))
         rows.append([
-            l["date"],
-            f"{l['time_et']} ET",
-            f'<a href="{l["nba_game_url"]}" target="_blank" rel="noopener noreferrer">{esc(l["away"])} @ {esc(l["home"])}</a>',
-            esc(l["competition"] or "—"),
-            f'{num(l["eff_spread_home"], 1)}',
-            f'[{num(l["margin_lo"], 1)}, {num(l["margin_hi"], 1)}]',
-            f'{num(l["eff_total"], 1)}',
-            f'[{num(l["total_lo"], 1)}, {num(l["total_hi"], 1)}]',
-            f'{num(l["exp_home_pts"], 1)} – {num(l["exp_away_pts"], 1)}',
-            fmt_p(l["p_home_win"]),
-            f'{num(l["out_count_home"], 0)} / {num(l["out_count_away"], 0)}',
-            src_cell([l["source"], l["game_source"]], "schedule / game"),
+            esc(l["date"]), esc(l["time_et"]),
+            f'<a href="{esc(l["nba_game_url"])}" target="_blank" rel="noopener noreferrer">'
+            f'{esc(l["away"])} @ {esc(l["home"])}</a>',
+            esc(l["nba_game_url"].rsplit("-", 1)[-1]),
+            num(l["orig_spread_home"], 1),
+            num(l["orig_total"], 1),
+            num(l["exp_away_pts"], 1) + " – " + num(l["exp_home_pts"], 1),
+            fmt_pct(l["p_home_win"]),
+            f'{num(l["fair_ml_home"], 0)} / {num(l["fair_ml_away"], 0)}',
+            f'{num(l["margin_lo"], 0)} … {num(l["margin_hi"], 0)}',
+            num(l["pace"], 1),
+            f'{l["out_count_away"]} / {l["out_count_home"]}'
+            + (" " + chip("partial report", "warn") if partial else ""),
+            src_cell([l["source"], l["game_source"]], "schedule + game"),
         ])
     body.append(table(
-        ["Date", "Tip (ET)", "Game", "Competition", "Spread (home)", "Margin range",
-         "Total", "Total range", "Exp. score", "P(home win)", "Outs H/A", "Source"],
-        rows, "lines"))
-    body.append("""
-<div class="callout"><strong>How to read this.</strong> These are <em>derived</em> numbers from this
-project's model — not NBA-published lines. The inputs are official (schedule, official team
-statistics, official injury report, official final scores); the method is in
-<a href="app/methodology.html">Method &amp; rules</a>. The total model does not beat a naive
-league-average baseline out of sample, so totals are the weakest column on this page — see
-<a href="app/flagged.html">Flagged for review</a>.</div>
-""")
+        ["Date", "Tip (ET)", "Matchup", "Game id", "Spread (home)", "Total",
+         "Projected (away–home)", "P(home win)", "Fair ML home/away",
+         "Margin 95% range", "Pace", "Out away/home", "Source"],
+        rows, "lines",
+        note="Spread is quoted for the home team. Margin range is the model margin ± 1.96 × "
+             "out-of-sample residual sd. Pace is the mean of the two teams’ official PACE."))
+
+    body.append("<h2>How the engine performed out of sample</h2>")
+    acc = [
+        ["Out-of-sample forecasts", num(res.get("n"), 0),
+         f"after a {d['meta']['model']['burn_in']}-game burn-in, refit per date"],
+        ["Margin RMSE", num(res.get("margin_rmse"), 3),
+         f"constant-baseline RMSE {num(res.get('margin_baseline_rmse'), 3)} — ours is better"],
+        ["Total RMSE", num(res.get("total_rmse"), 3),
+         f"constant-baseline RMSE {num(res.get('total_baseline_rmse'), 3)} — ours is WORSE"],
+        ["Margin bias", num(res.get("margin_bias"), 3), "points; effectively zero"],
+        ["Total bias", num(res.get("total_bias"), 3),
+         f"points; our totals run {abs(res.get('total_bias') or 0):.1f} high"],
+        ["Brier score (home win)", num(res.get("brier"), 4),
+         f"unskilled baseline {num(res.get('brier_baseline'), 4)} — ours is better, in sample"],
+        ["Margin residual sd", num(res.get("margin_sd"), 3), "points; drives every probability"],
+        ["Total residual sd", num(res.get("total_sd"), 3), "points"],
+    ]
+    body.append(table(["Measure", "Value", "Against what"],
+                      [[a, b, c] for a, b, c in
+                       [[esc(a), esc(b), esc(c) + src_cell([lab["meta"]["source_games"]], "games")]
+                        for a, b, c in acc]], "accuracy"))
     return "\n".join(body)
 
 
 def page_picks(d):
+    lab = d["lab"]
     body = []
-    st = d["picks"][0].get("strategy_status", {}) if d["picks"] else {}
     body.append(f"""
-<div class="callout warn"><strong>No strategy is eligible.</strong> {esc(d['picks'][0]['pricing_note']) if d['picks'] else ''}
-Every pick below is <strong>paper only</strong>: it records what the model would have done, so the
-method can be audited and scored later. No price was compared, no money is at stake, and no pick is
-betting advice.</div>
+<div class="callout warn">
+<p><strong>This page does not contain bets.</strong> Every price below is <em>our own fair price
+against our own originated line</em>, which makes its expected value exactly zero. No licensed odds
+feed is connected to this repository, so there is no market line to beat and no expected value can
+be stated. Read this page as “here is what we think each game is worth”, not as “here is what to
+bet”. Suggestion <a href="suggestions.html">CS-36</a> proposes renaming it to match.</p>
+</div>
+
+<p>One row for every one of the {len(d['picks'])} games in the
+{d['slate']['window']['from']} → {d['slate']['window']['to']} window. The brief asks for picks up
+to three days ahead; this is today plus the maximum three-day horizon, generated from our
+originated lines. Games on 2026-11-13 were live on the official schedule page when it was read and
+are excluded — see <a href="flagged.html">NF-54</a>.</p>
 """)
     rows = []
     for p in d["picks"]:
-        avail = p["availability_flag"]
-        kind = "ok" if avail == "COMPLETE" else ("warn" if avail in ("PARTIAL_REPORT", "AVAILABILITY_RISK") else "bad")
+        flag = p["availability_flag"]
         rows.append([
-            p["date"],
-            f'{esc(p["away"])} @ {esc(p["home"])}',
-            esc(p["origin_spread"] or "—"),
-            esc(p["origin_total"] or "—"),
-            num(p["model_p_home"], 3),
-            esc(p["confidence"] or "—"),
-            chip(avail or "—", kind),
-            esc(p["singles_view"] or "—"),
-            src_cell([p["source"], p["nba_game_url"]] if p["nba_game_url"] else [p["source"]], "schedule"),
+            esc(p["date"]), esc(p["time_et"]),
+            f'<a href="{esc(p["nba_game_url"])}" target="_blank" rel="noopener noreferrer">'
+            f'{esc(p["away"])} @ {esc(p["home"])}</a>',
+            esc(p["origin_spread"]),
+            num(p["origin_total"], 1),
+            f'{num(p["fair_ml_home"], 0)} / {num(p["fair_ml_away"], 0)}',
+            fmt_pct(p["model_p_home"]),
+            esc(p["singles_view"]),
+            esc(p["totals_view"]),
+            chip(flag, "warn" if flag != "REPORTED" else "ok"),
+            src_cell([p["source"], p["nba_game_url"]], "schedule + game"),
         ])
     body.append(table(
-        ["Date", "Game", "Originated spread", "Originated total", "P(home win)", "Confidence",
-         "Injury report state", "Model view", "Source"],
-        rows, "picks"))
+        ["Date", "Tip (ET)", "Matchup", "Originated spread", "Originated total",
+         "Fair ML home/away", "P(home win)", "Model side", "Model total",
+         "Availability", "Source"],
+        rows, "picks",
+        note="“Model side” names the team our line favours, printed the way a book would print it. "
+             "“Availability” is whether both teams had filed an injury report at capture time."))
 
-    body.append("<h2>Strategy status carried by every pick</h2>")
-    srows = []
-    for k, v in st.items():
-        srows.append([esc(k), esc(v),
-                      src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json"], "picks json")])
-    body.append(table(["Strategy", "Status", "Source"], srows, "pickstatus"))
+    open_rows = [[
+        esc(p["date"]), esc(f"{p['away']} @ {p['home']}"), esc(p["availability_detail"]),
+        src_cell([p["nba_game_url"]], "game"),
+    ] for p in d["picks"] if p["availability_flag"] != "REPORTED"]
+    if open_rows:
+        body.append("<h2>Games whose injury picture is not settled</h2>")
+        body.append(table(["Date", "Matchup", "What is unresolved", "Source"],
+                          open_rows, "picks-open"))
+    else:
+        body.append("<h2>Games whose injury picture is not settled</h2><p>None — both teams had "
+                    "filed for every game in the window at capture time.</p>")
 
-    combos = [p for p in d["picks"] if p.get("parlay_leg_candidate")]
-    body.append(f"<h2>Same-game parlay leg candidates ({len(combos)})</h2>")
-    body.append("""<p>Games where the model's spread and total are both considered for a two-leg same-game
-combination. The joint probability is <strong>not</strong> the product of the marginals: the measured
-spread/total residual correlation is r = 0.091 with a 95% interval that includes zero, and the
-observed joint hit rate was 0.246 against 0.219 under independence. A cross-game parlay is priced
-under an <em>assumption</em> of independence that has not been measured — see
-<a href="app/correlations.html">Correlations</a>.</p>""")
-    crows = []
-    for p in combos:
-        crows.append([
-            p["date"], f'{esc(p["away"])} @ {esc(p["home"])}',
-            esc(p["totals_view"] or "—"),
+    sel = [p for p in d["picks"] if p.get("strategy_selections")]
+    body.append("<h2>Which strategies select which game</h2>")
+    if sel:
+        body.append(table(
+            ["Date", "Matchup", "Selected by", "Source"],
+            [[esc(p["date"]), esc(f"{p['away']} @ {p['home']}"),
+              "; ".join(esc(x) for x in p["strategy_selections"]) or "—",
+              src_cell([p["nba_game_url"]], "game")] for p in sel], "picks-sel"))
+    else:
+        body.append(
+            '<p><strong>No game in this window is selected by any strategy that reached tier T1 or '
+            'T2.</strong> That is the correct outcome given the leaderboard: no rule on the board '
+            'is funded or even provisional, so there is nothing to select on. The board is on the '
+            '<a href="leaderboard.html">leaderboard page</a>.</p>')
+    return "\n".join(body)
+
+
+def page_parlays(d):
+    lab = d["lab"]
+    corr = d["correlations"]
+    body = []
+    body.append(f"""
+<p>Every parlay and prop combination this project can price, and — more usefully — the four it
+cannot. All prices are <strong>our own fair prices</strong>, computed from our originated lines.
+There is no bookmaker involved at any point.</p>
+
+<h2>1. Same-game two-leggers</h2>
+<p>The dependence ratio below is <strong>measured</strong>, not assumed: it is the observed joint
+hit rate of “our side covers <em>and</em> the game goes over our total” divided by what that rate
+would be if the two legs were independent. A ratio above 1.0 means the legs land together more
+often than independence pricing assumes — which is precisely how a sportsbook protects itself on
+same-game parlays.</p>
+""")
+    ratio = corr.get("parlay_dependence_ratio")
+    joint_rows = [
+        ["Measured joint hit rate", fmt_pct(corr.get("parlay_joint_rate"), 2),
+         f"on {corr.get('n')} out-of-sample games"],
+        ["Rate under independence", fmt_pct(corr.get("parlay_independent_rate"), 2),
+         "P(side covers) × P(over)"],
+        ["Dependence ratio", num(ratio, 3),
+         "1.0 would mean independence is exactly right"],
+        ["Interval on the spread/total residual correlation",
+         "see the correlations page",
+         "the interval includes zero, so independence is not rejected"],
+    ]
+    body.append(table(["Quantity", "Value", "Note"],
+                      [[esc(a), esc(b), esc(c) + src_cell([corr.get("source") or
+                                                           lab["meta"]["source_games"]], "games")]
+                       for a, b, c in joint_rows], "sgp-measure"))
+
+    sgp = [p for p in d["parlays"] if p["kind"] == "Same-game 2-leg"]
+    rows = []
+    for p in sgp:
+        rows.append([
+            esc(p["date"]), esc(p["matchup"]),
+            "<br>".join(esc(f'{l["leg"]}: {l["detail"]}') for l in p["legs"]),
+            fmt_pct(p["p_joint"], 2),
+            fmt_ml(p["fair_price"]),
             src_cell([p["source"]], "schedule"),
         ])
-    body.append(table(["Date", "Game", "Totals view", "Source"], crows, "combos"))
+    body.append(table(["Date", "Game", "Legs", "Our joint probability", "Our fair price",
+                       "Source"], rows, "sgp"))
+
+    body.append("<h2>2. Cross-game two-leggers</h2>")
+    body.append("""
+<div class="callout warn">
+<p><strong>Independence across games on the same night is an assumption, not a measurement.</strong>
+It was not tested on this sample — two games tipping off at the same time share no players, but
+they do share a travel schedule, a referee pool and a news cycle, none of which this repository can
+measure. The fair prices below are correct only if that assumption holds.</p>
+</div>
+""")
+    cross = [p for p in d["parlays"] if p["kind"] == "Cross-game 2-leg"]
+    rows = []
+    for p in cross:
+        rows.append([
+            esc(p["date"]), esc(p["matchup"]),
+            "<br>".join(esc(f'{l["leg"]}: {l["detail"]}') for l in p["legs"]),
+            fmt_pct(p["p_joint"], 2),
+            fmt_ml(p["fair_price"]),
+            src_cell([p["source"]], "schedule"),
+        ])
+    body.append(table(["Date", "Games", "Legs", "Our joint probability (independence assumed)",
+                       "Our fair price", "Source"], rows, "cross"))
+
+    body.append("<h2>3. Player-prop combinations — all four are blocked</h2>")
+    body.append("""
+<p>These are the combinations the brief asks for. None can be priced, and the reason is the same for
+all four: <strong>this repository has never captured a per-player game log</strong>, so the joint
+distribution of two player markets does not exist here. Anything printed in the value column would
+be a guess, so the column is blank.</p>
+""")
+    rows = [[
+        esc(c["id"]), esc(c["combo"]), chip(c["status"], "warn"),
+        esc(c["reason"]),
+        '<span class="unverified">UNVERIFIED — not measurable</span>',
+        esc(c["unblock"]),
+        src_cell([c["source"]], "nba.com/stats"),
+    ] for c in d["prop_combos"]]
+    body.append(table(["ID", "Combination", "Status", "Why it is blocked", "Value",
+                       "What would unblock it", "Source"], rows, "prop-combos"))
+
+    body.append("""
+<h2>4. What a same-game parlay actually costs you</h2>
+<p>A two-legger priced as independent at 50% × 50% pays +300 for a 25% chance — a fair bet. If the
+legs are positively correlated, the true joint probability is higher than 25% and the +300 price is
+now generous; if they are negatively correlated, as our sample slightly suggests, the true
+probability is lower and the same price is a tax. The size of the tax is the dependence ratio above,
+and the interval on it includes 1.0, so on this sample we cannot tell which way it goes. That is
+the honest answer, and it is why nothing here is funded.</p>
+""")
+    return "\n".join(body)
+
+
+def page_leaderboard(d):
+    strategies = d["strategies"]
+    luck = _luck(d)
+    body = []
+    body.append(f"""
+<p>The competition the brief asks for. Every rule below selects real games from the
+{_res(d).get('n')} out-of-sample forecasts, is scored against nine gates, and is ranked by a
+composite skill score. Reward tiers decide what a rule is allowed to risk.</p>
+
+<div class="callout">
+<p><strong>What a rule is actually tested against.</strong> Not a bookmaker — our own line. Because
+our line is originated to be fair, a rule that wins more than half the time against it is evidence
+that <em>our line is biased</em> in the games the rule picks. That is a model defect to repair, not
+an edge to bet (see <a href="questions.html">CQ-40</a>). This is the only question the data can
+answer without a licensed price feed.</p>
+</div>
+
+<div class="callout warn">
+<p><strong>The luck threshold.</strong> A board of {luck.get('rules', 0)} rules will throw up one
+impressive-looking result by chance. Simulating the whole board under the fair-line null
+{luck.get('iterations', 0):,} times, the best edge anywhere on it reaches
+<strong>{num(luck.get('threshold_pp'), 1)} percentage points</strong> 5% of the time. The largest
+edge any real rule posted is
+<strong>{max([abs(s['edge_pp']) for s in strategies if s['edge_pp'] is not None] or [0]):.1f} pp</strong>.
+Nothing clears the bar. Gate G9 is the formal version of this test and no rule passes it.</p>
+</div>
+
+<h2>1. The board</h2>
+""")
+    rows = []
+    for s in strategies:
+        gates = s.get("gates", [])
+        passed = sum(1 for g in gates if g["passed"])
+        mirror = f'<br><span class="note">{esc(s.get("mirror_note", ""))}</span>' \
+            if s.get("mirror_note") else ""
+        luck_ok = s.get("p_family") is not None and s["p_family"] <= 0.05
+        rows.append([
+            esc(str(s["rank"])),
+            esc(s["id"]),
+            esc(s["name"]) + mirror,
+            esc(s["family"]),
+            num(s["n"], 0),
+            f'{s["baseline"]:.0%}',
+            fmt_pct(s["rate"]),
+            fmt_signed(s["edge_pp"]),
+            fmt_p(s["p_two_sided"]),
+            fmt_p(s["q_value"]),
+            chip("yes" if luck_ok else "no", "ok" if luck_ok else "warn"),
+            f"{passed} / {len(gates)}",
+            num(s["score"], 1),
+            chip(s["tier"], {"T1": "ok", "T2": "warn"}.get(s["tier"], "neutral")),
+            esc(s["stake"]),
+            src_cell(s["sources"], "games"),
+        ])
+    body.append(table(
+        ["#", "ID", "Rule", "Family", "n", "Fair rate", "Hit rate", "Edge (pp)",
+         "p", "q (BH)", "Beats luck", "Gates", "Score", "Tier", "Reward", "Source"],
+        rows, "board",
+        note="“Fair rate” is the hit rate the rule would post if our line were fair — 50% for a "
+             "single bet, 25% for a two-leg parlay. Scoring a parlay against 50% would hand it a "
+             "spurious signal for simply having two legs."))
+
+    body.append("<h2>2. Reward tiers</h2>")
+    tiers = [
+        ["T1", "Funded", "Passes all nine gates", "Full unit",
+         "Still conditional on the legal question (CQ-36) and a licensed price feed."],
+        ["T2", "Provisional", "Passes every gate except the minimum sample (G3)",
+         "Quarter unit, paper only", "Re-score at n ≥ 100."],
+        ["T3", "Watch", "Raw p < 0.05 but fails FDR, stability, power or the luck threshold",
+         "Paper tracking, no stake", "Most rules that look interesting land here."],
+        ["T4", "Rejected", "Fails the significance gate, or this direction simply loses",
+         "No stake", "The mirror of a losing rule is where any signal would be."],
+        ["T5", "Blocked", "No data exists to score the rule at all", "No stake",
+         "Collect the data first."],
+    ]
+    body.append(table(["Tier", "Name", "Condition", "Reward", "Caveat"],
+                      [[esc(a), esc(b), esc(c), esc(dd), esc(e) +
+                        src_cell([d["lab"]["meta"]["source_games"]], "games")]
+                       for a, b, c, dd, e in tiers], "tiers",
+                      note="The reward schedule itself is unapproved: see CQ-36. Until the owner "
+                           "decides whether this is a prize contest, a pool or internal scoring, "
+                           "“unit” means a paper unit."))
+
+    body.append("<h2>3. Mirror pairs</h2>")
+    body.append("""
+<p>Six of the rules are exact complements of another rule: same games, opposite side. If one wins
+68% the other wins 32%. They are <strong>one finding, not two</strong>, and a board of 15 rows is
+therefore closer to nine independent pieces of evidence. Both directions are published so the loser
+is visible — hiding it is how a backtest flatters itself — but only the winning direction can carry
+a score.</p>
+""")
+    mrows = [[
+        esc(s["id"]), esc(s.get("mirror_of") or "—"), num(s["n"], 0),
+        fmt_pct(s["rate"]), fmt_pct(s["half_first"]), fmt_pct(s["half_second"]),
+        chip("yes" if s["stable"] else "no", "ok" if s["stable"] else "warn"),
+        src_cell(s["sources"], "games"),
+    ] for s in strategies if s.get("mirror_of")]
+    body.append(table(["Rule", "Mirror of", "n", "Hit rate", "First half", "Second half",
+                       "Stable", "Source"], mrows, "mirrors"))
+
+    body.append("<h2>4. The control</h2>")
+    nul = next((s for s in strategies if s["id"] == "ST-NUL"), None)
+    if nul:
+        body.append(f"""
+<p>“Back the home team in every game” is scored on the same
+{num(nul['n'], 0)} forecasts as everything else. It posts
+{fmt_pct(nul['rate'])} against a {nul['baseline']:.0%} fair rate
+(p = {fmt_p(nul['p_two_sided'])}), an edge of {fmt_signed(nul['edge_pp'])} pp, and fails
+{sum(1 for g in nul['gates'] if not g['passed'])} of {len(nul['gates'])} gates. <strong>That is the
+result we want.</strong> If the null control passed, the gates would be broken and every other
+verdict on this page would be worthless.</p>
+""")
     return "\n".join(body)
 
 
 def page_strategies(d):
+    lab = d["lab"]
     body = []
     body.append("""
-<p>The leaderboard ranks strategies that have been tested out of sample. A strategy is only
-<strong>eligible</strong> when it passes every gate. The thresholds are proposals and are marked as
-such — they are not owner-approved facts.</p>""")
-    measured = [s for s in d["strategies"] if s.get("n")]
+<p>The nine gates every strategy has to pass, what each one is for, and how each rule scored.
+The full ranking is on the <a href="leaderboard.html">leaderboard page</a>; this page is the rule
+book. <strong>Every threshold here is proposed by this project and has not been approved by the
+owner</strong> — see <a href="questions.html">CQ-38</a>.</p>
+""")
     rows = []
-    for s in measured:
-        g = s.get("gates", [])
-        passed = sum(1 for x in g if x["passed"] is True)
-        rows.append([
-            esc(s["id"]), esc(s["name"]), esc(s["rule"]),
-            num(s["n"], 0), f'{num(s["wins"], 0)} / {num(s["n"], 0)}', fmt_pct(s["rate"]),
-            fmt_p(s["p"]),
-            f"{passed} / {len(g)}",
-            chip(s["verdict"], "ok" if s["passed_all_gates"] else "warn"),
-            src_cell([s["source"]], "source"),
-        ])
-    body.append(table(
-        ["ID", "Strategy", "Rule", "n", "Wins", "Hit rate", "p-value", "Gates passed", "Verdict", "Source"],
-        rows, "leaderboard"))
-
-    body.append("<h2>Gate definitions</h2>")
-    grows = []
     for g in d["gates"]:
-        grows.append([
-            esc(g["id"]), esc(g["name"]), esc(g["checks"]), esc(g["threshold"]),
-            chip(g["threshold_status"], "warn" if "roposal" in g["threshold_status"] else "neutral"),
+        if g["id"].startswith("CG-2") or g["id"].startswith("CG-19"):
+            continue
+        rows.append([
+            esc(g["id"]), esc(g.get("name", "")), esc(g.get("checks", "")),
+            esc(g.get("threshold", "")),
+            chip(g.get("threshold_status", ""),
+                 "warn" if "roposal" in g.get("threshold_status", "") else "neutral"),
             esc(g.get("notes", "") or "—"),
-            src_cell([g["source"]]),
+            src_cell([g.get("source") or REPO_URL], "source"),
         ])
-    body.append(table(["ID", "Gate", "What it checks", "Proposed threshold", "Threshold status",
-                        "Result / note", "Source"], grows, "gates"))
+    body.append(table(["ID", "Gate", "What it checks", "Threshold", "Threshold status",
+                       "Result / note", "Source"], rows, "gate-defs"))
 
-    body.append("<h2>Strategy designs that are not testable yet</h2>")
-    unmeasured = [s for s in d["strategies"] if not s.get("n")]
-    urows = []
-    for s in unmeasured:
-        urows.append([
-            esc(s["id"]), esc(s["name"]), esc(s["rule"]), esc(s.get("verdict") or "—"),
-            src_cell([s["source"]]),
-        ])
-    body.append(table(["ID", "Candidate", "Hypothesis", "Status", "Source"], urows, "candidates"))
+    body.append("<h2>How every rule scored against each gate</h2>")
+    grid = []
+    for s in d["strategies"]:
+        cells = []
+        for g in s.get("gates", []):
+            cells.append(chip("pass" if g["passed"] else "fail",
+                              "ok" if g["passed"] else "warn"))
+        grid.append([esc(s["id"]), esc(s["name"])] + cells +
+                    [chip(s["tier"], {"T1": "ok", "T2": "warn"}.get(s["tier"], "neutral")),
+                     src_cell(s["sources"], "games")])
+    head = ["ID", "Rule"] + [g["id"] for g in d["strategies"][0].get("gates", [])] + \
+        ["Tier", "Source"]
+    body.append(table(head, grid, "gate-grid"))
+
+    body.append("<h2>What each gate is protecting against</h2>")
+    why = [
+        ["G1 Provenance", "A number with no source cannot be audited, so it cannot be trusted."],
+        ["G2 Look-ahead", "The single most common way a backtest invents an edge. Ratings are "
+                          "refitted for every date from strictly earlier games; games are batched "
+                          "by date so a game cannot see another game tipped off the same night."],
+        ["G3 Sample size", "Small samples produce large apparent edges. n ≥ 100 is a convention, "
+                           "not a measurement — see CQ-38."],
+        ["G4 Power", "A rule can be 'not significant' simply because it was never able to detect "
+                     "the effect it found. This gate asks whether the observed effect is big "
+                     "enough for the sample to have seen it."],
+        ["G5 Significance", "Exact two-sided binomial against the fair-line rate for that market."],
+        ["G6 Multiple testing", "Fifteen rules at p < 0.05 produce a false positive more often "
+                                "than not. Benjamini–Hochberg controls the false discovery rate."],
+        ["G7 Stability", "An effect that only exists in one half of the sample is usually a "
+                         "regime change, not a signal."],
+        ["G8 Economics", "A date-block bootstrap of return at an assumed −110. Flagged: this is "
+                         "return against our own line, not profit — see NF-55."],
+        ["G9 Luck threshold", "The board-level test. Even with G6, the single best-looking rule on "
+                              "a large board is biased upward. This gate asks whether the rule "
+                              "beats what the whole board produces by chance."],
+    ]
+    body.append(table(["Gate", "What it protects against"],
+                      [[esc(a), esc(b) + src_cell([REPO_URL], "repo")] for a, b in why],
+                      "gate-why"))
+
+    body.append("<h2>What is not on the board yet</h2>")
+    body.append("""
+<p>Two gates this project thinks it needs and has not built: <strong>G10 pre-registration</strong>
+(hash the rule text and freeze it before the first graded forecast, so a rule cannot be written
+after seeing the results) and <strong>G11 price reality</strong> (every bet must be gradeable at a
+recorded, licensed price). Both are on the
+<a href="suggestions.html">suggestions page</a> as CS-31 and in CQ-37. Until G10 exists, treat every
+rule here as <strong>retrospective</strong>.</p>
+""")
     return "\n".join(body)
 
 
 def page_correlations(d):
+    corr = d["correlations"]
+    lab = d["lab"]
     body = []
     body.append("""
-<p>Correlations are measured on the official results log where possible. Where a correlation could
-<strong>not</strong> be measured (player-level pairs need per-player game logs that were never
-captured), the value is left blank and the row says so — it is never estimated.</p>""")
+<p>Correlation is what decides whether a parlay is priced correctly. Four values below were
+<strong>measured</strong> on official results; five could not be measured and are
+<strong>left blank</strong> rather than assumed. A blank on this page is a statement, not an
+omission.</p>
+""")
     rows = []
-    for c in d["correlations"]["rows"]:
-        ci = c.get("ci95")
-        if ci and ci[0] is not None:
-            ci_s = f"[{num(ci[0], 3)}, {num(ci[1], 3)}]"
+    for c in corr["rows"]:
+        if c["verified"]:
+            val = num(c["value"], 4)
+            ci = (f'{num(c["ci95"][0], 3)} … {num(c["ci95"][1], 3)}'
+                  if c["ci95"] and c["ci95"][0] is not None else "—")
         else:
-            ci_s = '<span class="unverified">not measurable</span>'
+            val = '<span class="unverified">UNVERIFIED — left blank</span>'
+            ci = "—"
         rows.append([
-            esc(c["pair"]), esc(c["stat"]),
-            num(c["value"], 3) if c["value"] is not None else '<span class="unverified">—</span>',
-            ci_s,
+            esc(c["pair"]), esc(c["stat"]), val, ci,
             num(c["n"], 0) if c["n"] else "—",
-            chip("Measured" if c.get("verified") else "Unverified", "ok" if c.get("verified") else "bad"),
-            esc(c.get("note", "")),
-            src_cell([c["source"]] if c.get("source")
-                     else ["https://www.nba.com/stats/players/boxscores"]),
+            chip("measured" if c["verified"] else "not measurable",
+                 "ok" if c["verified"] else "warn"),
+            esc(c["note"]),
+            src_cell([c["source"]] if c["source"] else
+                     [lab["meta"]["source_players"]], "source"),
         ])
-    body.append(table(["Pair", "Statistic", "Value", "95% interval", "n", "Status", "Note", "Source"],
-                      rows, "corr"))
+    body.append(table(["Pair", "Statistic", "Value", "95% interval", "n", "Status",
+                       "What it is used for", "Source"], rows, "corr"))
 
-    body.append("<h2>What the correlation numbers mean for combinations</h2>")
     body.append(f"""
-<ul>
-<li><strong>Same-game parlay (side + total).</strong> Measured joint hit rate
-{num(d['correlations']['parlay_joint_rate'], 3)} against {num(d['correlations']['parlay_independent_rate'], 3)}
-if the legs were independent. The difference is inside the noise of a {num(d['meta']['model']['oos_games'], 0)}-game
-sample, so no dependence premium is claimed either way.</li>
-<li><strong>Player-prop combinations.</strong> Not measurable without per-player game logs: the three
-player-level rows above are blank by policy.</li>
-<li><strong>Cross-game parlays.</strong> Independence is an assumption, not a result. It is priced as
-an assumption and flagged.</li>
-</ul>
+<h2>Why the same-game number matters</h2>
+<p>The joint hit rate of “our side covers <em>and</em> the game goes over our total” was
+<strong>{fmt_pct(corr.get('parlay_joint_rate'), 2)}</strong> against
+<strong>{fmt_pct(corr.get('parlay_independent_rate'), 2)}</strong> under independence — a dependence
+ratio of <strong>{num(corr.get('parlay_dependence_ratio'), 3)}</strong>. On this sample the ratio
+sits slightly below 1.0, meaning the two legs landed together a little <em>less</em> often than
+independence would suggest. The confidence interval on the underlying residual correlation includes
+zero, so <strong>independence is not rejected</strong> — we cannot tell whether the true value is
+above or below 1.0. That is the honest position, and it is why the same-game cards on the
+<a href="parlays.html">parlays page</a> are published with the interval attached rather than as
+clean prices.</p>
+
+<h2>Why the player numbers are blank</h2>
+<p>Every player-level correlation needs per-player game logs: one row per player per game, roughly
+4,000 rows a season. This repository has never captured them — it holds official season averages for
+31 players and nothing else. Without the game-by-game distribution there is no honest way to put a
+number in those cells, so they stay empty and are listed on the
+<a href="flagged.html">Flagged for review</a> page. Four prop combinations are blocked on exactly
+this gap.</p>
+
+<h2>The cross-game assumption</h2>
+<p>Two legs in different games are priced as independent on the
+<a href="parlays.html">parlays page</a>. That is an <strong>assumption</strong>, printed as one.
+Testing it properly needs matched same-night results with a shared context model, which this sample
+is too small to support.</p>
 """)
     return "\n".join(body)
 
 
 def page_props(d):
+    lab = d["lab"]
     body = []
     body.append("""
-<p>Player-prop projections for the games in the window. Season averages are official; the game
-projection uses a pro-rata minutes-redistribution assumption and <strong>no per-player game logs</strong>,
-so there is no distribution behind any of these numbers and no over/under probability can be
-computed. The prop line itself (what a sportsbook would offer) is not an official NBA value and is
-therefore not published here.</p>""")
+<div class="callout warn">
+<p><strong>No prop on this page is a bet, and none carries a price.</strong> Two things are missing
+and neither can be worked around. First, <strong>no licensed prop prices are connected</strong>, so
+there is no line to compare a projection with. Second, this repository holds
+<strong>season averages only — no per-player game logs</strong>, so the scoring distribution cannot
+be estimated and an over/under probability cannot be computed. The market-line and probability
+columns are therefore blank, and blank is the truthful value.</p>
+</div>
+
+<p>What the page <em>can</em> show honestly: the official season averages of the highest-minute
+players on each team in the window, and our projection, which for now is simply that average with
+no adjustment. Both are labelled for what they are.</p>
+""")
     rows = []
     for p in d["props"]:
         rows.append([
-            p["date"], f'{esc(p["team"])} @ {esc(p["opponent"])}', esc(p["player"]),
-            esc(p["status"]), num(p["gp"], 0),
-            num(p["season_min"], 1), num(p["season_pts"], 1), num(p["season_reb"], 1),
-            num(p["season_ast"], 1), num(p["season_fg3m"], 1),
-            num(p["projected_min"], 1), num(p["proj_pts"], 1),
-            chip("Distribution not established", "warn"),
-            src_cell([p["source_player"], p["source_injury"]] if p.get("source_injury") else [p["source_player"]]),
+            esc(p["date"]), esc(p["matchup"]), esc(p["team"]), esc(p["player"]),
+            num(p["gp"], 0), num(p["official_min"], 1),
+            num(p["official_pts"], 1), num(p["official_reb"], 1),
+            num(p["official_ast"], 1),
+            num(p["proj_pts"], 1), num(p["proj_reb"], 1), num(p["proj_ast"], 1),
+            '<span class="unverified">UNVERIFIED — no line connected</span>',
+            '<span class="unverified">UNVERIFIED — no distribution</span>',
+            src_cell([p["source_player"]], "official stats"),
         ])
     body.append(table(
-        ["Date", "Game", "Player", "Injury status", "GP", "Min", "PTS", "REB", "AST", "3PM",
-         "Proj min", "Proj PTS", "Prop line", "Source"],
-        rows, "props"))
+        ["Date", "Game", "Team", "Player", "GP", "MIN", "PTS", "REB", "AST",
+         "Proj PTS", "Proj REB", "Proj AST", "Market line", "P(over)", "Source"],
+        rows, "props",
+        note="MIN, PTS, REB and AST are official season averages. The projection repeats them "
+             "unchanged because no minutes, usage or matchup adjustment can be verified without "
+             "game logs."))
+
+    body.append("<h2>Prop combinations</h2>")
+    body.append("""
+<p>All four combinations the brief asks for are <strong>blocked</strong>, for the same reason: the
+joint distribution of two player markets cannot be estimated from season averages alone. They are
+listed with what would unblock them on the
+<a href="parlays.html">parlays page</a>.</p>
+""")
+    body.append(f"""
+<h2>What it would take to make this page useful</h2>
+<ol>
+  <li>Capture per-player game logs from
+      <a href="{lab['meta']['source_players']}" target="_blank" rel="noopener noreferrer">the
+      official players table</a> by date — about 4,000 rows a season. Owner decision: CQ-39.</li>
+  <li>Fit a distribution per player per market, with minutes as the exposure variable.</li>
+  <li>Connect a licensed prop price feed so a comparison is possible at all. Owner decision: Q-03,
+      tracked on the <a href="questions.html">questions page</a>.</li>
+  <li>Measure the within-game correlation between a player's markets, then price the combinations.
+      Until that measurement exists, any joint probability would be invented.</li>
+</ol>
+""")
     return "\n".join(body)
 
 
 def page_injuries(d):
-    body = []
     inj = d["injuries"]
+    lab = d["lab"]
+    body = []
     body.append(f"""
-<div class="callout"><strong>Newest official snapshot:</strong> {esc(inj['report_stamp'])},
-retrieved {esc(inj['retrieved_on'])}. {len([r for r in inj['rows'] if r['row_type'] == 'player'])}
-player rows and {len([r for r in inj['rows'] if r['row_type'] != 'player'])} team report statuses.
-The report covers the 2026-11-13 and 2026-11-14 games. <strong>No official report exists yet for the
-2026-11-15 and 2026-11-16 games</strong> — teams report by 5 p.m. local time the day before a game,
-so those games are published with an explicit gap rather than an estimate.</div>
+<p>Transcribed from the official NBA injury report
+<strong>{esc(inj['report_stamp'])}</strong> (<a href="{esc(inj['source_url'])}" target="_blank" rel="noopener noreferrer">PDF</a>).
+{inj['count']} rows: {inj.get('player_rows', 0)} player rows and
+{inj.get('not_submitted_rows', 0)} team rows printed “NOT YET SUBMITTED”. A team that has not filed
+is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
+and every downstream number respects the difference.</p>
+<div class="callout ok">
+<p><strong>Freshness check.</strong> The index lists a report every 15 minutes, so this page was
+checked against the <strong>newest</strong> report on the
+<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>,
+<strong>{esc(inj.get('newest_report_listed_on_index', 'n/a'))}</strong>
+— 45 minutes newer than the report transcribed here. All {inj.get('newest_report_rows', 0)} rows were
+compared: <strong>{inj.get('newest_report_differences', 0)} differences</strong>. Three consecutive
+official reports (07:30 PM, 07:45 PM, 08:30 PM) agree on every row, so the transcription is stable,
+not merely unchallenged. The build fails if a future report disagrees.</p>
+
+<div class="callout warn">
+<p><strong>Scope limit.</strong> This report covers 2026-11-13 and 2026-11-14 games only.
+<strong>No official report exists yet for 2026-11-15, 11-16 or 11-17</strong>, and five of the ten
+teams playing on 11/14 had not filed. Games later than 11/14 cannot be treated as settled — see
+<a href="flagged.html">NF-53</a>.</p>
+</div>
 """)
-    body.append("<h2>Status changes against the previous official snapshot (11/13 05:15 PM ET)</h2>")
-    body.append("""<p>Statuses move during the day. The table below is the difference between two official
-reports, so a reader can see exactly what changed and when.</p>""")
-    changes = [
-        ["McConnell, T.J. (IND)", "Probable", "Available", chip("Improved", "ok")],
-        ["Nesmith, Aaron (IND)", "Questionable", "Available", chip("Improved", "ok")],
-        ["Dennis, RayJ (ATL)", "Questionable", "Available", chip("Improved", "ok")],
-        ["Flemings, Kingston (ATL)", "Questionable", "Available", chip("Improved", "ok")],
-        ["Powell, Norman (CHI)", "Questionable", "Available", chip("Improved", "ok")],
-        ["Swain, Dailyn (CHI)", "Questionable", "Out", chip("Worsened", "bad")],
-        ["Larsson, Pelle (MIA)", "Doubtful", "Out", chip("Worsened", "bad")],
-        ["Thompson, Klay (MIA)", "Probable", "Out", chip("Worsened", "bad")],
-        ["Mathurin, Bennedict (NOP)", "Questionable", "Available", chip("Improved", "ok")],
-    ]
-    crows = []
-    for name, old, new, chip_s in changes:
-        crows.append([name, old, new, chip_s,
-                      src_cell([inj["source_url"], inj.get("prior_snapshot_url", "")] if inj.get("prior_snapshot_url") else [inj["source_url"]], "07:30 PM / 05:15 PM")])
-    body.append(table(["Player", "05:15 PM ET", "07:30 PM ET", "Change", "Source"], crows, "changes"))
 
-    body.append("<h2>Minutes vacuum by game (out, from the official report)</h2>")
-    irows = []
-    for i in d["injury_impact"]:
-        vac = num(i["minutes_vacuum"], 1) if i["minutes_vacuum"] else '<span class="unverified">—</span>'
-        ns = ", ".join(i["teams_not_submitted"]) if i["teams_not_submitted"] else "—"
-        irows.append([
-            i["date"], esc(i["matchup"]), num(i["rows_listed"], 0), num(i["out"], 0),
-            num(i["doubtful_or_questionable"], 0), vac,
-            num(i["minutes_vacuum_unquantified_players"], 0) if i["minutes_vacuum_unquantified_players"] else "—",
-            esc(ns),
-            esc(", ".join(i["out_players"]) or "—"),
-            src_cell([i["source"]]),
-        ])
-    body.append(table(
-        ["Date", "Game", "Rows", "Out", "Doubtful / Questionable / Probable", "Minutes vacuum (min)",
-         "Outs with no official MPG", "Report not submitted by", "Out players", "Source"],
-        irows, "vacuum"))
-
-    body.append("<h2>Full official report rows</h2>")
+    body.append("<h2>1. The report, row by row</h2>")
     rows = []
     for r in inj["rows"]:
-        att = chip("printed in row", "ok") if r["attribution"] == "printed" else chip("from PDF block header", "warn")
+        if r["is_team_not_submitted"]:
+            rows.append([
+                esc(r["game_date"]), esc(r["game_time_et"]), esc(r["matchup"]),
+                esc(r["team_name"]),
+                '<span class="unverified">NOT YET SUBMITTED</span>',
+                '<span class="unverified">unknown — no report filed</span>',
+                src_cell([inj["source_url"]], "official PDF"),
+            ])
+            continue
+        st = esc(r["status"] or "")
+        cls = {"Out": "warn", "Doubtful": "warn", "Questionable": "neutral",
+               "Probable": "ok", "Available": "ok"}.get(r["status"], "neutral")
         rows.append([
-            esc(r["id"]), esc(r["game_date"]), esc(r["game_time_et"]), esc(r["matchup"]),
-            esc(r["team"]), esc(r["player"] or "—"), esc(r["status"] or "—"),
-            esc(r["reason"]), att,
-            src_cell([r.get("reason_corroboration")] if r.get("reason_corroboration") else [inj["source_url"]]),
+            esc(r["game_date"]), esc(r["game_time_et"]), esc(r["matchup"]),
+            esc(r["team_name"]), esc(r["player"]),
+            chip(st, cls) + " " + esc(r["reason"] or ""),
+            src_cell([inj["source_url"]], "official PDF"),
+        ])
+    body.append(table(["Game date", "Time (ET)", "Matchup", "Team", "Player",
+                       "Status and reason", "Source"], rows, "injury-rows"))
+
+    body.append(f"""
+<h2>2. What the absences do to a rotation</h2>
+<p>The table below sums the <strong>official season minutes</strong> — and the official season
+points, rebounds and assists — of every player listed Out for a team. It is a
+<strong>floor, not an estimate</strong>: only the top 31 players by minutes were captured, so an
+injured player outside that table contributes nothing to the sum, and the count of such players is
+shown alongside. See <a href="flagged.html">NF-52</a>.</p>
+
+<div class="callout warn">
+<p><strong>Who absorbs those minutes, and how much of the vacated production they replace, is not
+quantified anywhere on this site.</strong> Answering that needs per-player game logs and on/off
+splits, which this repository does not have. The vacuum is published; the replacement is
+deliberately blank. Publishing a redistribution assumption as if it were a measurement is exactly
+the kind of number that gets a bankroll staked on it.</p>
+</div>
+""")
+    irows = []
+    for r in d["injury_impact"]:
+        reported = r.get("reported")
+        irows.append([
+            esc(r["date"]), esc(r["matchup"]), esc(r["side"]), esc(r["team"]),
+            chip("filed" if reported else "NOT FILED", "ok" if reported else "warn"),
+            num(r["rows_listed"], 0),
+            num(r["out"], 0),
+            "; ".join(esc(x) for x in r["out"]) or "—",
+            num(r["minutes_vacuum"], 1) if r["out"] else "—",
+            f'{num(r["pts_vacuum"], 1)} / {num(r["reb_vacuum"], 1)} / {num(r["ast_vacuum"], 1)}'
+            if r["out"] else "—",
+            num(r["players_without_official_minutes"], 0),
+            '<span class="unverified">UNVERIFIED — no game logs</span>',
+            src_cell([r["source"], r["source_minutes"]], "PDF + minutes"),
         ])
     body.append(table(
-        ["ID", "Date", "Time (ET)", "Matchup", "Team", "Player", "Status", "Reason as printed",
-         "Attribution", "Source"],
-        rows, "injrows"))
-    body.append("""
-<div class="callout"><strong>Attribution rule.</strong> <em>printed in row</em> means the PDF row itself
-carried the matchup, time and team cells. <em>from PDF block header</em> means the row itself was blank
-in those columns and the values come from the block header printed in the same PDF. Nothing is inferred
-from table position, and where a value is not in the PDF it is blank and flagged.</div>
-""")
+        ["Date", "Matchup", "Side", "Team", "Report", "Rows", "Out", "Players out",
+         "Minutes vacated", "PTS/REB/AST vacated", "Unquantified players",
+         "Replacement", "Source"],
+        irows, "rotation",
+        note="“Minutes vacated” is the sum of official season minutes-per-game over players listed "
+             "Out. “Unquantified players” is how many of them are outside the captured minutes "
+             "table and therefore contribute zero to the sum."))
+
+    body.append("<h2>3. Questionable players</h2>")
+    qrows = []
+    seen = set()
+    for r in inj["rows"]:
+        if (r["status"] or "").strip() in ("Questionable", "Probable", "Doubtful"):
+            key = (r["game_date"], r["matchup"], r["team_name"], r["player"])
+            if key in seen:
+                continue
+            seen.add(key)
+            qrows.append([
+                esc(r["game_date"]), esc(r["matchup"]), esc(r["team_name"]),
+                esc(r["player"]), chip(esc(r["status"]), "neutral"),
+                esc(r["reason"] or "—"),
+                src_cell([inj["source_url"]], "official PDF"),
+            ])
+    if qrows:
+        body.append(table(["Game date", "Matchup", "Team", "Player", "Status", "Reason",
+                           "Source"], qrows, "questionable"))
+    else:
+        body.append("<p>No player was listed Questionable, Doubtful or Probable in this report.</p>")
     return "\n".join(body)
 
 
 def page_gameflow(d):
-    gf = d["gameflow"]
+    flow = d["gameflow"]
+    res = _res(d)
     body = []
-    body.append("""
-<p>Game-flow analysis uses only official results and official schedule data. Where a factor cannot
-be computed from the captured data it is listed as blocked instead of being filled in.</p>""")
-    rows = [
-        ["Games analysed", num(gf["games"], 0), src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Average combined score", num(gf["avg_total"], 2), src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Average combined score, regulation games", num(gf["avg_total_regulation"], 2), src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Average combined score, overtime games", num(gf["avg_total_ot"], 2), src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Overtime rate", fmt_pct(gf["ot_rate"], 2), src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Home wins", f"{num(gf['home_wins'], 0)} of {num(gf['home_games'], 0)}", src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Average home margin", num(gf["home_margin_mean"], 2), src_cell(["https://www.nba.com/games?date="], "nba.com/games")],
-        ["Fitted home-court advantage", f"{num(gf['derived_hca'], 2)} points (p = {num(gf['derived_hca_p'], 3)})", src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
-        ["Back-to-back rate", f"{num(gf['b2b_games'], 0)} games ({fmt_pct(gf['b2b_rate'], 1)})", src_cell(["https://www.nba.com/schedule?date=2026-11-14"], "nba.com/schedule")],
-        ["League average pace", num(gf["lg_pace"], 2), src_cell([d["ratings"]["source_url"]], "official team stats")],
-        ["Margin residual SD (points)", num(gf["resid_sd_margin"], 2), src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
-        ["Total residual SD (points)", num(gf["resid_sd_total"], 2), src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py"], "model/build.py")],
+    body.append(f"""
+<p>Game-flow factors for every game in the window, all computed from official data: rest days from
+the official schedule and the 174 captured results, pace from the official team advanced statistics,
+and the probabilities from the out-of-sample residual distribution of our own engine.</p>
+""")
+    facts = [
+        ["League average total", num(res.get("avg_total"), 1),
+         "points, from the 174 official final scores"],
+        ["Overtime rate", fmt_pct(res.get("ot_rate"), 2),
+         f"{round((res.get('ot_rate') or 0) * (res.get('n') or 0))} of 174 captured games"],
+        ["Home win rate", fmt_pct(res.get("home_win_rate"), 1),
+         "of the 174 captured games"],
+        ["Average home margin", num(res.get("avg_margin"), 2), "points"],
+        ["Margin residual sd", num(res.get("margin_sd"), 2),
+         "points; the width of every probability on this site"],
     ]
-    body.append(table(["Factor", "Value", "Source"], rows, "gf"))
+    body.append(table(["League fact", "Value", "Basis"],
+                      [[esc(a), esc(b), esc(c) + src_cell([d["lab"]["meta"]["source_games"]],
+                                                          "games")]
+                       for a, b, c in facts], "flow-facts"))
 
-    body.append("<h2>Rest days before each game in the window</h2>")
-    rest = gf.get("rest_distribution", {})
-    rrows = [[k, num(v, 0), src_cell(["https://www.nba.com/games?date="], "nba.com/games")]
-             for k, v in sorted(rest.items(), key=lambda kv: (len(kv[0]), kv[0]))]
-    body.append(table(["Rest (days)", "Games", "Source"], rrows, "rest"))
-
-    body.append("<h2>Factors that are still blocked</h2>")
-    frows = []
-    for f in d["gameflow_factors"]:
-        frows.append([
-            esc(f["factor_id"]), esc(f["factor"]), esc(f["why_it_may_matter (hypothesis only)"]),
-            esc(f["data_needed"]), esc(f["definition_checked"]),
-            chip(f["status"], "warn" if "Blocked" in f["status"] else "neutral"),
-            src_cell([f["definition_source_url"]]),
+    body.append("<h2>Per-game factors</h2>")
+    rows = []
+    for f in flow:
+        notes = []
+        if f["home_b2b"]:
+            notes.append("home on the second night of a back-to-back")
+        if f["away_b2b"]:
+            notes.append("away on the second night of a back-to-back")
+        if f["rest_diff"] is not None and abs(f["rest_diff"]) >= 2:
+            who = "home" if f["rest_diff"] > 0 else "away"
+            notes.append(f"{who} has {abs(f['rest_diff'])} more rest days")
+        if f.get("proj_pace") is not None and f["proj_pace"] >= 101:
+            notes.append("pace above the league median")
+        if f["p_blowout_15"] is not None and f["p_blowout_15"] >= 0.45:
+            notes.append("high blowout risk")
+        if f["out_home"] + f["out_away"] >= 3:
+            notes.append(f"{f['out_home'] + f['out_away']} players listed Out")
+        rows.append([
+            esc(f["date"]), esc(f["matchup"]),
+            num(f["home_rest"], 0) if f["home_rest"] is not None else "—",
+            num(f["away_rest"], 0) if f["away_rest"] is not None else "—",
+            num(f["rest_diff"], 0) if f["rest_diff"] is not None else "—",
+            num(f.get("proj_pace"), 2),
+            num(f["proj_total"], 1),
+            num(f["total_vs_league"], 1),
+            fmt_pct(f["p_ot"], 1),
+            fmt_pct(f["p_blowout_15"], 1),
+            f'{f["out_away"]} / {f["out_home"]}',
+            "; ".join(esc(n) for n in notes) or "—",
+            src_cell([f["source"], f["source_stats"]], "schedule + stats"),
         ])
-    body.append(table(["ID", "Factor", "Why it may matter", "Data needed", "Definition checked",
-                        "Status", "Source"], frows, "gffactors"))
+    body.append(table(
+        ["Date", "Matchup", "Home rest", "Away rest", "Rest diff", "Pace",
+         "Projected total", "vs league", "P(OT)", "P(|margin|≥15)",
+         "Out away/home", "Flags", "Source"],
+        rows, "gameflow",
+        note="Rest days are counted from the team's previous game in the official schedule. "
+             "P(OT) is the measured league rate, not modelled per game — this project has no "
+             "OT model. P(|margin|≥15) uses our margin prediction and the out-of-sample residual "
+             "sd."))
+
+    body.append("<h2>What is deliberately missing from this page</h2>")
+    missing = [
+        ["Possession-level pace and efficiency for the window",
+         "The official team advanced page publishes season figures, not a per-game projection. "
+         "The pace column is the mean of two season figures, and it is labelled as such."],
+        ["An overtime model",
+         "9 of 174 games went to overtime. That is one rate, not a model. Applying a flat 5.17% "
+         "to every game is the honest ceiling of what this data supports."],
+        ["Referee, travel and altitude effects",
+         "No official source for these was captured, so they are absent rather than estimated."],
+        ["Live in-game win probability",
+         "Requires play-by-play, which this repository does not have."],
+    ]
+    body.append(table(["Missing factor", "Why it is not here"],
+                      [[esc(a), esc(b) + src_cell([d["lab"]["meta"]["source_schedule"]],
+                                                  "schedule")] for a, b in missing], "flow-missing"))
     return "\n".join(body)
 
 
@@ -840,59 +1340,129 @@ questions</a> page.</p>""")
 
 
 def page_methodology(d):
+    lab = d["lab"]
+    res = _res(d)
+    m = d["meta"]["model"]
+    luck = _luck(d)
     body = []
-    body.append("""
+    body.append(f"""
 <h2>1. What is originated here</h2>
-<p>Two numbers per game: a <strong>point spread</strong> (the home team's expected margin) and a
-<strong>total</strong> (expected combined points, regulation-equivalent). Both come from a
-walk-forward model whose inputs are official: the official schedule, official team advanced
-statistics, official final scores and the official injury report. Nothing is copied from a
-sportsbook.</p>
+<p>Two numbers per game: a <strong>point spread</strong>, quoted for the home team the way a book
+prints it, and a <strong>total</strong>. Both come from a walk-forward engine whose inputs are
+official: the official schedule, official team advanced statistics, official final scores and the
+official injury report. <strong>Nothing is copied from a sportsbook</strong>, because no
+sportsbook data is connected to this repository.</p>
+<p>The engine is <a href="{REPO_URL}/blob/main/scripts/strategy_lab.py">scripts/strategy_lab.py</a>,
+standard library only, seeded and deterministic — two consecutive runs produce byte-identical
+output, which is what lets the CI workflow detect drift.</p>
 
-<h2>2. How the model is tested</h2>
+<h2>2. The model</h2>
 <ul>
-<li><strong>Walk-forward.</strong> The first 60 captured games are a burn-in; every later game is
-scored with a model fitted only on games that had already happened.</li>
-<li><strong>Baselines.</strong> Each model is compared with a naive league-average forecast. The
-margin model beats its baseline (RMSE 16.18 vs 17.30); the total model does not (20.35 vs 19.56)
-and is reported as such.</li>
-<li><strong>Exact binomial tests.</strong> Win rates are tested against 50% with an exact binomial
-test rather than a normal approximation.</li>
-<li><strong>Multiple testing.</strong> When several strategies are tested, Benjamini–Hochberg
-controls the false-discovery rate at 5%.</li>
-<li><strong>Split-half stability.</strong> A strategy must point the same way in the first and the
-second half of the sample.</li>
-<li><strong>Minimum sample.</strong> n ≥ 100 out-of-sample games before a strategy can be eligible.
-No strategy reaches it on the current sample.</li>
+  <li><strong>Margin.</strong> A Massey least-squares model: one rating per team plus a home-court
+      term, fitted on completed games. The prediction for a game is
+      <code>rating(home) − rating(away) + home-court</code>.</li>
+  <li><strong>Total.</strong> An ordinary least-squares regression of the game total on the two
+      teams' prior scoring environment (points for and against, both teams).</li>
+  <li><strong>Shrinkage, chosen from the past.</strong> A ridge penalty on the team ratings and a
+      blend weight pulling the totals toward the league mean are both selected by validating on the
+      most recent 20% of <em>past</em> games. This matters: before shrinkage the ratings of teams on
+      a bad run exploded and the engine printed a 28-point spread, which no real line does.</li>
+  <li><strong>No look-ahead.</strong> For every date, the engine is refitted from games with a
+      strictly earlier date. Games are batched by date, so a game cannot see another game tipped off
+      the same night — a leak an earlier session's pipeline actually had.</li>
 </ul>
 
-<h2>3. Validation gates</h2>
+<h2>3. How it performed out of sample</h2>
+<p>{num(res.get('n'), 0)} out-of-sample forecasts, after a {m['burn_in']}-game burn-in. Each is
+scored against a naive constant baseline (league-average home margin, league-average total) on the
+same games.</p>
 """)
-    grows = []
-    for g in d["gates"]:
-        grows.append([esc(g["id"]), esc(g["name"]), esc(g["threshold"]),
-                      chip(g["threshold_status"], "warn"), esc(g.get("notes", "") or "—"),
-                      src_cell([g["source"]])])
-    body.append(table(["ID", "Gate", "Proposed threshold", "Status", "Result / note", "Source"],
-                      grows, "methodgates"))
+    perf = [
+        ["Margin RMSE", num(res.get("margin_rmse"), 3), num(res.get("margin_baseline_rmse"), 3),
+         "ours is better"],
+        ["Total RMSE", num(res.get("total_rmse"), 3), num(res.get("total_baseline_rmse"), 3),
+         "ours is WORSE — reported as such"],
+        ["Margin bias", num(res.get("margin_bias"), 3) + " pts", "0", "effectively unbiased"],
+        ["Total bias", num(res.get("total_bias"), 3) + " pts", "0",
+         f"our totals run {abs(res.get('total_bias') or 0):.1f} points high"],
+        ["Brier (home win)", num(res.get("brier"), 4), num(res.get("brier_baseline"), 4),
+         "better than unskilled, but scored on the same residuals — see the note below"],
+        ["Margin residual sd", num(res.get("margin_sd"), 3) + " pts", "—",
+         "the width behind every probability on this site"],
+    ]
+    body.append(table(
+        ["Measure", "Our model", "Baseline", "Verdict"],
+        [[esc(a), esc(b), esc(c), esc(dd) + src_cell([lab["meta"]["source_games"]], "games")]
+         for a, b, c, dd in perf], "method-perf"))
+    body.append(f"""
+<div class="callout warn">
+<p><strong>The Brier score is in-sample on the walk-forward residuals.</strong> The residual
+distribution that turns a margin into a probability is estimated from the same forecasts it scores.
+That flatters the number, it is not a calibration test on held-out data, and it is labelled as such
+wherever it appears.</p>
+</div>
 
-    body.append("""
 <h2>4. Removing luck from the evaluation</h2>
-<p>Luck cannot be removed from an individual game result. It can be kept out of the score by:
-scoring strategies out of sample; adjusting for the number of strategies tested; reporting
-confidence intervals rather than point estimates; requiring a direction that is stable across halves
-of the sample; refusing to score a strategy on fewer than 100 out-of-sample games; and never
-re-using a result to tune the rule that produced it. A positive short-run return is not evidence of
-skill, and none of the strategies on this site has demonstrated skill yet.</p>
+<p>Luck cannot be removed from a single game. It can be kept out of the <em>score</em>, and this
+project uses four mechanisms, because one is not enough:</p>
+<ol>
+  <li><strong>Exact binomial tests</strong> against the fair-line rate for the market — 50% for a
+      single bet, 25% for a two-leg parlay. Not a normal approximation: an exact test. (Gate G5.)</li>
+  <li><strong>Benjamini–Hochberg</strong> false-discovery-rate control across every scored rule on
+      the board. Fifteen rules at p &lt; 0.05 produce a false positive more often than not.
+      (Gate G6.)</li>
+  <li><strong>A whole-board Monte Carlo.</strong> Every rule is simulated under its own fair-line
+      null, the largest edge anywhere on the board is recorded, and that is repeated
+      {luck.get('iterations', 0):,} times. The 95th percentile —
+      <strong>{num(luck.get('threshold_pp'), 1)} percentage points</strong> — is the edge a rule
+      must beat before it is called anything. This is the test that catches the fact that the
+      <em>best</em> rule on a large board is biased upward even after FDR correction. (Gate G9.)
+      <strong>Nothing on the board beats it.</strong></li>
+  <li><strong>Date-block bootstrap</strong> for the return interval, because betting results cluster
+      by date — same slate, same travel, same news. The resampling unit is the date, not the bet.
+      (Gate G8.)</li>
+</ol>
+<p>Three further disciplines are structural rather than statistical. Rules are published in
+<strong>mirror pairs</strong> so the losing direction cannot be hidden. Strategy thresholds are
+<strong>rolling quantiles of prior projections</strong> rather than fixed numbers, so a rule cannot
+die or appear just because the model changed. And a <strong>null control</strong> — back the home
+team every game — is scored alongside everything else; it fails
+{sum(1 for g in next(s for s in d['strategies'] if s['id'] == 'ST-NUL')['gates'] if not g['passed'])}
+of {len(next(s for s in d['strategies'] if s['id'] == 'ST-NUL')['gates'])} gates, which is the check
+that the gates work.</p>
+
+<div class="callout">
+<p><strong>The most important methodological point on this site.</strong> Because our line is
+originated to be fair, the expected value of betting into it is <em>zero by construction</em>. A rule
+that wins more than half the time against our own line is therefore evidence that
+<strong>our line is biased</strong> in the games the rule picks — a model defect to repair, not an
+edge to bet. This project reports those biases as defects (see
+<a href="questions.html">CQ-40</a>). The one apparent exception found during this build — "fade the
+highest projected totals", which posted 69.7% on 66 games before the totals model was regularised —
+fell to 65.5% on 29 games once the model was fixed. The signal was the model's error.</p>
+</div>
 
 <h2>5. Injuries and rotation</h2>
 <p>The official injury report publishes a participation status and a reason. It does not publish
-minutes, expected minutes or production impact, and a status is not a medical clearance. The
-pipeline therefore (a) captures the newest report with its timestamp, (b) keeps the previous
-snapshots so status changes can be shown, (c) converts an OUT into a minutes vacuum only when the
-player's official minutes-per-game are captured, and (d) leaves the vacuum blank and flagged when
-they are not. Status-to-availability weights (Out 0.00, Doubtful 0.25, Questionable 0.60,
-Probable 0.90, Available 1.00) are this project's assumption and are flagged as such.</p>
+minutes, expected minutes, or production impact, and a status is not a medical clearance. This
+project therefore:</p>
+<ul>
+  <li>captures the newest report with its timestamp and keeps the previous snapshot so status
+      changes can be shown;</li>
+  <li>treats a team printed <strong>NOT YET SUBMITTED</strong> as <em>unknown</em>, never as
+      healthy — "unknown" and "fit" are different facts and every downstream number respects the
+      difference;</li>
+  <li>sums the <strong>official season minutes</strong>, and the official season points, rebounds
+      and assists, of players listed <strong>Out or Doubtful</strong> — and only those, because
+      anything softer is a guess;</li>
+  <li>publishes that vacuum as a <strong>floor</strong> and counts how many listed players fall
+      outside the captured minutes table, contributing zero;</li>
+  <li>leaves <strong>the replacement blank</strong>. Who absorbs the vacated minutes, and how much
+      of the production they replace, needs per-player game logs and on/off splits that this
+      repository does not have. No availability weights (Out 0.00 / Doubtful 0.25 / Questionable
+      0.60 / Probable 0.90 / Available 1.00) are applied anywhere in the current pipeline; earlier
+      sessions used such weights and they are recorded here only as history.</li>
+</ul>
 
 <h2>6. Legal and data-use boundary</h2>
 <ul>
@@ -900,12 +1470,14 @@ Probable 0.90, Available 1.00) are this project's assumption and are flagged as 
 reproduction. This is a research repository, publishes no market prices and no betting advice, and
 links to every official source it uses. The review points at
 <a href="https://www.nba.com/termsofuse">nba.com/termsofuse</a> are listed on the
-<a href="app/flagged.html">Flagged for review</a> page.</li>
+<a href="flagged.html">Flagged for review</a> page.</li>
 <li>Publishing betting-related functionality or recommendations in the Netherlands requires a
 licence under the Betting and Gaming Act and a Ksa licence for online sports-betting offers; the
-statutory position is summarised on the <a href="app/questions.html">Open questions</a> page.</li>
+statutory position is summarised on the <a href="questions.html">Open questions</a> page.</li>
 <li>No licensed price feed is connected, so no profit, ROI or market comparison can be published
-here. Every price shown is our own fair price.</li>
+here. Every price shown is our own fair price, and every ROI figure is measured against our own
+line at an assumed −110 — which is a property of our numbers, not an economic result
+(<a href="flagged.html">NF-55</a>).</li>
 </ul>
 """)
     return "\n".join(body)
@@ -941,48 +1513,66 @@ def build_index(d):
     top = [f for f in flags if f["severity"] == "high"][:6]
     flist_parts = []
     for f in top:
-        dash = ""
+        tail = ""
         # Cross-reference to the independent integration round (session e40cd215, PR #23).
         if f["id"] == "NF-23":
-            dash = (
-                '<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>'
+            tail = (
+                '\n<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>'
                 'Second, independent integration round: 174-game re-verification, 22 originated '
                 'lines from a separate engine, 9 gates, measured parlay dependence, '
                 'cross-engine reconciliation and a flagged register</a>')
-        tail = f"\n{dash}" if dash else ""
         flist_parts.append(
             f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
             f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}{tail}</li>')
     flist = "\n".join(flist_parts)
+    res = _res(d)
+    luck = _luck(d)
+    strategies = d["strategies"]
+    funded = sum(1 for s in strategies if s["tier"] == "T1")
+    best_edge = max([abs(s["edge_pp"]) for s in strategies if s["edge_pp"] is not None] or [0])
+    verified_official = d["slate"]["count"] + len(d["ratings"]["teams"]) + d["injuries"]["count"]
     body = []
     body.append(f"""
 <section class="hero">
-  <h2>Originated NBA lines, gated strategies, and every source behind them.</h2>
-  <p>One dashboard for the whole research pipeline: lines we originate for the next three days,
-  strategies measured out of sample against seven validation gates, correlations that were actually
-  measured (and the ones left blank), the official injury report with its rotation impact, game-flow
-  analysis, an executive summary, the open questions, improvement suggestions and a review page for
-  everything that is still unverified.</p>
+  <h2>We originate our own NBA lines, then try to prove they are worth anything.</h2>
+  <p>One dashboard for the whole pipeline: lines originated for today and the next three days,
+  {len(strategies)} strategy rules measured out of sample against nine validation gates and ranked on
+  a leaderboard with an explicit luck threshold, the correlations that were actually measured (and
+  the ones left blank), the official injury report with the rotation minutes it vacates, game-flow
+  factors, an executive summary, the open questions, improvement suggestions awaiting a decision, and
+  a review page for everything still unverified.</p>
   <p class="hero-meta">Window {esc(d['slate']['window']['from'])} → {esc(d['slate']['window']['to'])} ·
-  {d['slate']['count']} official games · {len(d['lines'])} originated lines · {len(d['picks'])} picks ·
-  {d['injuries']['count']} official injury rows · {len(d['flags'])} flagged items ·
-  snapshot {BUILD_DATE}</p>
+  {d['slate']['count']} official games · {len(d['lines'])} originated lines ·
+  {len(d['picks'])} priced games · {d['injuries']['count']} official injury rows ·
+  {len(d['flags'])} flagged items · snapshot {BUILD_DATE}</p>
 </section>
 <div class="cards">
-  <div class="card"><div class="k">Verified official rows</div><div class="v">{d['slate']['count'] + len(d['ratings']['teams']) + d['injuries']['count']}</div>
-    <div class="s">schedule + team stats + injury report, each cross-checked against the stored values</div>
+  <div class="card"><div class="k">Verified official rows</div><div class="v">{verified_official}</div>
+    <div class="s">schedule + team stats + injury report, each cross-checked field by field against
+    the values already stored</div>
     {src_cell([d['slate']['source_url'], d['ratings']['source_url'], d['injuries']['source_url']], 'official pages')}</div>
-  <div class="card"><div class="k">Strategies passing all gates</div><div class="v">0</div>
-    <div class="s">2 are provisional; the rest failed or are untestable</div>
-    {src_cell(['https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/strategies.html'], 'strategies')}</div>
+  <div class="card"><div class="k">Strategies funded</div><div class="v">{funded}</div>
+    <div class="s">of {len(strategies)} scored rules. None clears the luck threshold
+    ({num(luck.get('threshold_pp'), 1)} pp); the best edge any rule posted is {best_edge:.1f} pp.</div>
+    {src_cell([d['lab']['meta']['source_games']], 'nba.com/games')}</div>
   <div class="card"><div class="k">Correlation values measured</div>
-    <div class="v">{sum(1 for c in d['correlations']['rows'] if c.get('verified') and c.get('value') is not None)}</div>
-    <div class="s">of {len(d['correlations']['rows'])} pairs — {sum(1 for c in d['correlations']['rows'] if not c.get('verified') and c.get('value') is None)} are not measurable and left blank, {sum(1 for c in d['correlations']['rows'] if not c.get('verified') and c.get('value') is not None)} is an assumption</div>
-    {src_cell(['https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/correlations.html'], 'correlations')}</div>
+    <div class="v">{sum(1 for c in d['correlations']['rows'] if c.get('verified'))}</div>
+    <div class="s">of {len(d['correlations']['rows'])} pairs — {sum(1 for c in d['correlations']['rows'] if not c.get('verified') and c.get('value') is None)} are not measurable and left blank, {sum(1 for c in d['correlations']['rows'] if not c.get('verified') and c.get('value') is not None)} is an assumption printed as one</div>
+    {src_cell([d['lab']['meta']['source_games']], 'nba.com/games')}</div>
   <div class="card"><div class="k">Open questions</div><div class="v">{len(d['questions'])}</div>
-    <div class="s">each with what is known, what is missing and how to find it</div>
+    <div class="s">each with what is known, what is missing and what would settle it —
+    {sum(1 for q in d['questions'] if 'Open' in (q.get('status') or ''))} still need an owner decision</div>
     {src_cell([REPO_URL], 'repository')}</div>
 </div>
+<section class="cat">
+  <h3>Start here</h3>
+  <div class="tiles">
+    <a class="tile" href="app/summary.html"><span class="tile-t">Executive summary — the headline result</span></a>
+    <a class="tile" href="app/leaderboard.html"><span class="tile-t">Strategy leaderboard — who is winning, and whether it is luck</span></a>
+    <a class="tile" href="app/lines.html"><span class="tile-t">Originated lines for the window</span></a>
+    <a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review — read before trusting a number</span></a>
+  </div>
+</section>
 <section class="cats">{"".join(cats)}</section>
 <section class="cat">
   <h3>Highest-severity flags (full list on the <a href="app/flagged.html">Flagged for review</a> page)</h3>
@@ -991,10 +1581,11 @@ def build_index(d):
   </ul>
 </section>
 <section class="cat">
-  <h3>Earlier dashboards (kept for audit)</h3>
-  <p>Six dashboards were published by earlier sessions of this project. They are kept in the
-  repository and remain reachable; they use different ID namespaces and different injury snapshots,
-  so the canonical pages above should be used for current values.</p>
+  <h3>Earlier dashboards (kept for audit, not current)</h3>
+  <p>Eleven dashboards were published by earlier sessions of this project and are still reachable.
+  They use different ID namespaces, different injury snapshots and different model variants, so
+  <strong>the pages above are the current numbers</strong> and these are history. Consolidation is
+  queued as an owner decision (<a href="app/suggestions.html">CS-35</a>).</p>
   <div class="tiles">
     <a class="tile" href="docs/index.html"><span class="tile-t">/docs — data site (session f879620b)</span></a>
     <a class="tile" href="site/index.html"><span class="tile-t">/site — data site (session 7c532e8c)</span></a>
@@ -1002,9 +1593,10 @@ def build_index(d):
     <a class="tile" href="research/index.html"><span class="tile-t">/research — research site (session 9ed6085f)</span></a>
     <a class="tile" href="edge/index.html"><span class="tile-t">/edge — Edge Lab (session 0a016df8)</span></a>
     <a class="tile" href="origin/index.html"><span class="tile-t">/origin — origination engine (session e22a2831)</span></a>
-    <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
-    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
+    <a class="tile" href="dash/index.html"><span class="tile-t">/dash — unified dashboard (session e40cd215)</span></a>
     <a class="tile" href="verify/pages/index.html"><span class="tile-t">/verify/pages — verification &amp; decision layer (2026-11-14)</span></a>
+    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
+    <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
     <a class="tile" href="hub/index.html"><span class="tile-t">/hub — consolidated dashboard (session 99eabb04): one namespace, slate, injuries, lines, leaderboard, review pages</span></a>
     <a class="tile" href="d01ae7e2/docs/index.html"><span class="tile-t">/d01ae7e2 — official-slate line origination &amp; gated picks (session d01ae7e2): 31-game slate, provisional-safe pipeline, sources per row</span></a>
     <a class="tile" href="executive-summary.html"><span class="tile-t">/executive-summary.html — cross-site consolidated executive summary (session 3bf92fcc)</span></a>
@@ -1032,9 +1624,11 @@ def main():
         ("app/summary.html", "Executive summary", "Overview", page_summary(d), "app/summary.html"),
         ("app/methodology.html", "Method & rules", "Overview", page_methodology(d), "app/methodology.html"),
         ("app/lines.html", "Originated lines", "Model output", page_lines(d), "app/lines.html"),
-        ("app/picks.html", "Picks for the next three days", "Model output", page_picks(d), "app/picks.html"),
+        ("app/picks.html", "Prices for the window", "Model output", page_picks(d), "app/picks.html"),
+        ("app/parlays.html", "Parlay & prop combos", "Model output", page_parlays(d), "app/parlays.html"),
+        ("app/leaderboard.html", "Strategy leaderboard", "Model output", page_leaderboard(d), "app/leaderboard.html"),
         ("app/props.html", "Player props", "Model output", page_props(d), "app/props.html"),
-        ("app/strategies.html", "Strategies & validation gates", "Model output", page_strategies(d), "app/strategies.html"),
+        ("app/strategies.html", "Validation gates", "Model output", page_strategies(d), "app/strategies.html"),
         ("app/correlations.html", "Correlations & dependence", "Model output", page_correlations(d), "app/correlations.html"),
         ("app/injuries.html", "Injuries, rotation impact & report status", "Game context", page_injuries(d), "app/injuries.html"),
         ("app/gameflow.html", "Game flow", "Game context", page_gameflow(d), "app/gameflow.html"),

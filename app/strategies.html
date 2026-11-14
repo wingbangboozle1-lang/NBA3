@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Strategies &amp; validation gates — NBA3 NBA Edge Lab</title>
+<title>Validation gates — NBA3 NBA Edge Lab</title>
 <meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
 <link rel="stylesheet" href="assets/app.css">
 </head>
@@ -11,143 +11,33 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html" class="active">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html" class="active">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
   <div class="page-head">
     <div class="crumb">Model output</div>
-    <h1>Strategies &amp; validation gates</h1>
+    <h1>Validation gates</h1>
     
   </div>
 
-<p>The leaderboard ranks strategies that have been tested out of sample. A strategy is only
-<strong>eligible</strong> when it passes every gate. The thresholds are proposals and are marked as
-such — they are not owner-approved facts.</p>
+<p>The nine gates every strategy has to pass, what each one is for, and how each rule scored.
+The full ranking is on the <a href="leaderboard.html">leaderboard page</a>; this page is the rule
+book. <strong>Every threshold here is proposed by this project and has not been approved by the
+owner</strong> — see <a href="questions.html">CQ-38</a>.</p>
+
 <div class="table-wrap"><table>
-<caption id="leaderboard"></caption>
-<thead><tr>
-<th>ID</th>
-<th>Strategy</th>
-<th>Rule</th>
-<th>n</th>
-<th>Wins</th>
-<th>Hit rate</th>
-<th>p-value</th>
-<th>Gates passed</th>
-<th>Verdict</th>
-<th>Source</th>
-</tr></thead><tbody>
-<tr>
-<td>ST-S5</td>
-<td>Fade totals of 235+</td>
-<td>When our originated total is 235 or more, take the under.</td>
-<td>24</td>
-<td>21 / 24</td>
-<td>87.5%</td>
-<td>0.0002772</td>
-<td>5 / 7</td>
-<td><span class="chip chip-warn">PROVISIONAL - signal present, sample under-powered</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S4b</td>
-<td>Back road favourites of 8+</td>
-<td>When our originated spread has the away team favoured by 8 or more, take the away side.</td>
-<td>28</td>
-<td>20 / 28</td>
-<td>71.4%</td>
-<td>0.0357</td>
-<td>4 / 7</td>
-<td><span class="chip chip-warn">PROVISIONAL - signal present, sample under-powered</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S4</td>
-<td>Fade home favourites of 8+</td>
-<td>When our originated spread has the home team favoured by 8 or more, take the away side.</td>
-<td>36</td>
-<td>21 / 36</td>
-<td>58.3%</td>
-<td>0.405</td>
-<td>3 / 7</td>
-<td><span class="chip chip-warn">INCONCLUSIVE - sample too small</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S5b</td>
-<td>Back totals of 218 or fewer</td>
-<td>When our originated total is 218 or less, take the over.</td>
-<td>11</td>
-<td>6 / 11</td>
-<td>54.5%</td>
-<td>1</td>
-<td>2 / 7</td>
-<td><span class="chip chip-warn">INCONCLUSIVE - sample too small</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S3</td>
-<td>Rest differential &gt;= 2 days</td>
-<td>When one team has at least two more days of rest than the other, take that team against our originated spread.</td>
-<td>17</td>
-<td>9 / 17</td>
-<td>52.9%</td>
-<td>1</td>
-<td>2 / 7</td>
-<td><span class="chip chip-warn">INCONCLUSIVE - sample too small</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S1</td>
-<td>Originated spread - home side</td>
-<td>Take the home side against our own originated spread in every rated game (self-consistency test).</td>
-<td>114</td>
-<td>58 / 114</td>
-<td>50.9%</td>
-<td>0.9254</td>
-<td>4 / 7</td>
-<td><span class="chip chip-warn">FAILED - no evidence of edge</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S2</td>
-<td>Originated total - over</td>
-<td>Take the over against our own originated total in every rated game (self-consistency test).</td>
-<td>114</td>
-<td>49 / 114</td>
-<td>43.0%</td>
-<td>0.1598</td>
-<td>4 / 7</td>
-<td><span class="chip chip-warn">FAILED - no evidence of edge</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-<tr>
-<td>ST-S6</td>
-<td>Same-game parlay: home cover AND over</td>
-<td>Two-leg correlated parlay built on our own originated spread and total.</td>
-<td>114</td>
-<td>28 / 114</td>
-<td>24.6%</td>
-<td>0.4966</td>
-<td>4 / 7</td>
-<td><span class="chip chip-warn">FAILED - no evidence of edge</span></td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
-</tr>
-</tbody></table></div>
-<h2>Gate definitions</h2>
-<div class="table-wrap"><table>
-<caption id="gates"></caption>
+<caption id="gate-defs"></caption>
 <thead><tr>
 <th>ID</th>
 <th>Gate</th>
 <th>What it checks</th>
-<th>Proposed threshold</th>
+<th>Threshold</th>
 <th>Threshold status</th>
 <th>Result / note</th>
 <th>Source</th>
@@ -159,7 +49,7 @@ such — they are not owner-approved facts.</p>
 <td>Zero unsourced rows</td>
 <td><span class="chip chip-neutral">Design rule (proposed)</span></td>
 <td>Rule is defined in code: evaluate_gates() returns BLOCKED without evidence</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-02</td>
@@ -168,7 +58,7 @@ such — they are not owner-approved facts.</p>
 <td>Zero features stamped at or after tip-off</td>
 <td><span class="chip chip-neutral">Design rule (proposed)</span></td>
 <td>leakage_violations() is unit-tested</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-03</td>
@@ -177,7 +67,7 @@ such — they are not owner-approved facts.</p>
 <td>Lower 95% bound of score difference above 0</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Bootstrap per S17 (cluster extension)</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-04</td>
@@ -186,7 +76,7 @@ such — they are not owner-approved facts.</p>
 <td>At least 1000 graded forecasts per strategy</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Owner must approve the number (Q-GATE-01)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-05</td>
@@ -195,7 +85,7 @@ such — they are not owner-approved facts.</p>
 <td>Holm-adjusted p at or below 0.05</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Exact binomial tail per S16; Holm step-down in pipeline/gates.py</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm</a></td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-06</td>
@@ -204,7 +94,7 @@ such — they are not owner-approved facts.</p>
 <td>95% interval lower bound above 0</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Percentile bootstrap per S17; clustering by date is an extension</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-07</td>
@@ -213,7 +103,7 @@ such — they are not owner-approved facts.</p>
 <td>Two or more positive blocks</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Owner must define blocks (Q-GATE-01)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-08</td>
@@ -222,7 +112,7 @@ such — they are not owner-approved facts.</p>
 <td>Model joint inside the measured interval</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Method page for the interval not yet located; cite NIST index only</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-09</td>
@@ -231,7 +121,7 @@ such — they are not owner-approved facts.</p>
 <td>Net return interval above 0 at recorded prices</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>break-even and profit helpers unit-tested</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-10</td>
@@ -240,7 +130,7 @@ such — they are not owner-approved facts.</p>
 <td>At least 200 forecasts logged before tip-off</td>
 <td><span class="chip chip-neutral">Proposed (owner approval needed)</span></td>
 <td>Owner must approve</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-11</td>
@@ -249,7 +139,7 @@ such — they are not owner-approved facts.</p>
 <td>Null baseline passes no gate</td>
 <td><span class="chip chip-neutral">Design rule (proposed)</span></td>
 <td>Control strategy ST11</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-12</td>
@@ -258,7 +148,7 @@ such — they are not owner-approved facts.</p>
 <td>all inputs official or reproducible</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-13</td>
@@ -267,7 +157,7 @@ such — they are not owner-approved facts.</p>
 <td>no look-ahead</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-14</td>
@@ -276,7 +166,7 @@ such — they are not owner-approved facts.</p>
 <td>n &gt;= 100</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>fail</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-15</td>
@@ -285,7 +175,7 @@ such — they are not owner-approved facts.</p>
 <td>n needed for the observed effect</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>n needed 56</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-16</td>
@@ -294,7 +184,7 @@ such — they are not owner-approved facts.</p>
 <td>raw p &lt; 0.05</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-17</td>
@@ -303,7 +193,7 @@ such — they are not owner-approved facts.</p>
 <td>Benjamini-Hochberg FDR 0.05</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>CG-18</td>
@@ -312,130 +202,311 @@ such — they are not owner-approved facts.</p>
 <td>direction stable in both halves</td>
 <td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
 <td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 </tbody></table></div>
-<h2>Strategy designs that are not testable yet</h2>
+<h2>How every rule scored against each gate</h2>
 <div class="table-wrap"><table>
-<caption id="candidates"></caption>
+<caption id="gate-grid"></caption>
 <thead><tr>
 <th>ID</th>
-<th>Candidate</th>
-<th>Hypothesis</th>
-<th>Status</th>
+<th>Rule</th>
+<th>G1</th>
+<th>G2</th>
+<th>G3</th>
+<th>G4</th>
+<th>G5</th>
+<th>G6</th>
+<th>G7</th>
+<th>G8</th>
+<th>G9</th>
+<th>Tier</th>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
-<td>STRAT1</td>
-<td>Model side vs published spread (single bet)</td>
-<td>See edge/picks.html and edge/strategies.html for the full rule and gate output.</td>
-<td>provisional (passes all gates except minimum sample size)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json</a></td>
+<td>ST-05</td>
+<td>Unders in the highest-projected totals</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>STRAT2</td>
-<td>Model side vs published total (single bet)</td>
-<td>See edge/picks.html and edge/strategies.html for the full rule and gate output.</td>
-<td>provisional (passes all gates except minimum sample size)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json</a></td>
+<td>ST-02</td>
+<td>Fade big home favourites</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>STRAT3</td>
-<td>Totals fade strategy</td>
-<td>See edge/picks.html and edge/strategies.html for the full rule and gate output.</td>
-<td>not eligible: G1_sample&gt;=100, G3_roi&gt;0@-110, G4_perm_p&lt;0.10</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json</a></td>
+<td>ST-09</td>
+<td>Back the better-rested team</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>STRAT4</td>
-<td>Same-game parlay</td>
-<td>See edge/picks.html and edge/strategies.html for the full rule and gate output.</td>
-<td>not eligible: G1_sample&gt;=100, G4_perm_p&lt;0.10</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/data/validation-report.json</a></td>
+<td>ST-11</td>
+<td>Back home against a road back-to-back</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST01</td>
-<td>Team pace and efficiency total</td>
-<td>Team pace and efficiency predict game total points better than a base-rate forecast</td>
-<td>BLOCKED</td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>ST-12</td>
+<td>Fade the home team on no rest</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST02</td>
-<td>Rating-based point margin</td>
-<td>A rating model predicts margin better than home-court and base-rate baselines out of sample</td>
-<td>BLOCKED</td>
-<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td>ST-16</td>
+<td>Two cross-game model sides</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST03</td>
-<td>Calibrated moneyline probability</td>
-<td>Model probabilities are calibrated and beat the market-implied probability net of vig</td>
-<td>BLOCKED</td>
-<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+<td>ST-08</td>
+<td>Unders in the lowest-projected totals</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST04</td>
-<td>Injury-adjusted team margin</td>
-<td>Official status changes shift team strength through lost rotation minutes</td>
-<td>BLOCKED</td>
-<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+<td>ST-06</td>
+<td>Overs in the highest-projected totals</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST05</td>
-<td>Points from minutes times rate</td>
-<td>Predicted minutes times per-minute scoring rate gives a better points distribution than a base rate</td>
-<td>BLOCKED</td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>ST-01</td>
+<td>Back big home favourites</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST06</td>
-<td>Rebounds and assists from role and minutes</td>
-<td>Role and minutes predict rebounds and assists distributions better than a base rate</td>
-<td>BLOCKED</td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>ST-07</td>
+<td>Overs in the lowest-projected totals</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST07</td>
-<td>Two-leg cross-game parlay test</td>
-<td>Measured joint frequency of two independent-looking legs differs from the product of marginals</td>
-<td>BLOCKED</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+<td>ST-NUL</td>
+<td>Back the home team in every game</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST08</td>
-<td>Teammate usage when a starter is out</td>
-<td>A teammate&#x27;s usage and points rise when a starter is listed Out</td>
-<td>BLOCKED</td>
-<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+<td>ST-15</td>
+<td>Side covers AND over</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST09</td>
-<td>Team total and star points dependence</td>
-<td>Team points and a star&#x27;s points are positively dependent; a naive product overstates the joint probability</td>
-<td>BLOCKED</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+<td>ST-10</td>
+<td>Fade the better-rested team</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST10</td>
-<td>Starter minutes in lopsided games</td>
-<td>Starter minutes fall in games with large score margins, so prop minutes depend on score state</td>
-<td>BLOCKED</td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>ST-03</td>
+<td>Back big road favourites</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>ST11</td>
-<td>Null baseline (control)</td>
-<td>A strategy with no information must fail the gates; this checks the gate design against luck</td>
-<td>BLOCKED</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+<td>ST-04</td>
+<td>Fade big road favourites</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-warn">fail</span></td>
+<td><span class="chip chip-neutral">T4</span></td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 </tbody></table></div>
+<h2>What each gate is protecting against</h2>
+<div class="table-wrap"><table>
+<caption id="gate-why"></caption>
+<thead><tr>
+<th>Gate</th>
+<th>What it protects against</th>
+</tr></thead><tbody>
+<tr>
+<td>G1 Provenance</td>
+<td>A number with no source cannot be audited, so it cannot be trusted.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G2 Look-ahead</td>
+<td>The single most common way a backtest invents an edge. Ratings are refitted for every date from strictly earlier games; games are batched by date so a game cannot see another game tipped off the same night.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G3 Sample size</td>
+<td>Small samples produce large apparent edges. n ≥ 100 is a convention, not a measurement — see CQ-38.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G4 Power</td>
+<td>A rule can be &#x27;not significant&#x27; simply because it was never able to detect the effect it found. This gate asks whether the observed effect is big enough for the sample to have seen it.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G5 Significance</td>
+<td>Exact two-sided binomial against the fair-line rate for that market.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G6 Multiple testing</td>
+<td>Fifteen rules at p &lt; 0.05 produce a false positive more often than not. Benjamini–Hochberg controls the false discovery rate.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G7 Stability</td>
+<td>An effect that only exists in one half of the sample is usually a regime change, not a signal.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G8 Economics</td>
+<td>A date-block bootstrap of return at an assumed −110. Flagged: this is return against our own line, not profit — see NF-55.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+<tr>
+<td>G9 Luck threshold</td>
+<td>The board-level test. Even with G6, the single best-looking rule on a large board is biased upward. This gate asks whether the rule beats what the whole board produces by chance.<a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repo</a></td>
+</tr>
+</tbody></table></div>
+<h2>What is not on the board yet</h2>
+
+<p>Two gates this project thinks it needs and has not built: <strong>G10 pre-registration</strong>
+(hash the rule text and freeze it before the first graded forecast, so a rule cannot be written
+after seeing the results) and <strong>G11 price reality</strong> (every bet must be gradeable at a
+recorded, licensed price). Both are on the
+<a href="suggestions.html">suggestions page</a> as CS-31 and in CQ-37. Until G10 exists, treat every
+rule here as <strong>retrospective</strong>.</p>
+
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

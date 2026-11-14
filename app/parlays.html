@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parlay &amp; prop combos — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html" class="active">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Model output</div>
+    <h1>Parlay &amp; prop combos</h1>
+    
+  </div>
+
+<p>Every parlay and prop combination this project can price, and — more usefully — the four it
+cannot. All prices are <strong>our own fair prices</strong>, computed from our originated lines.
+There is no bookmaker involved at any point.</p>
+
+<h2>1. Same-game two-leggers</h2>
+<p>The dependence ratio below is <strong>measured</strong>, not assumed: it is the observed joint
+hit rate of “our side covers <em>and</em> the game goes over our total” divided by what that rate
+would be if the two legs were independent. A ratio above 1.0 means the legs land together more
+often than independence pricing assumes — which is precisely how a sportsbook protects itself on
+same-game parlays.</p>
+
+<div class="table-wrap"><table>
+<caption id="sgp-measure"></caption>
+<thead><tr>
+<th>Quantity</th>
+<th>Value</th>
+<th>Note</th>
+</tr></thead><tbody>
+<tr>
+<td>Measured joint hit rate</td>
+<td>22.90%</td>
+<td>on 131 out-of-sample games<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Rate under independence</td>
+<td>23.77%</td>
+<td>P(side covers) × P(over)<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Dependence ratio</td>
+<td>0.963</td>
+<td>1.0 would mean independence is exactly right<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Interval on the spread/total residual correlation</td>
+<td>see the correlations page</td>
+<td>the interval includes zero, so independence is not rejected<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<caption id="sgp"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>Legs</th>
+<th>Our joint probability</th>
+<th>Our fair price</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-14</td>
+<td>DEN@NOP</td>
+<td>Model side: NOP +6.1<br>Total: Over 230.6</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DAL@CLE</td>
+<td>Model side: CLE -1.6<br>Total: Over 227.4</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DET@MIA</td>
+<td>Model side: MIA +5.3<br>Total: Over 228.1</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>BKN@MEM</td>
+<td>Model side: MEM -8.4<br>Total: Over 227.1</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>CHI@MIN</td>
+<td>Model side: MIN -20.1<br>Total: Over 230.1</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>IND@PHI</td>
+<td>Model side: PHI -5.0<br>Total: Over 225.0</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>LAL@PHX</td>
+<td>Model side: PHX +5.6<br>Total: Over 229.5</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>CHA@LAC</td>
+<td>Model side: LAC -6.9<br>Total: Over 223.1</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>SAS@UTA</td>
+<td>Model side: UTA +12.5<br>Total: Over 226.5</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>DAL@BOS</td>
+<td>Model side: BOS -6.1<br>Total: Over 224.0</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>NYK@TOR</td>
+<td>Model side: TOR +0.7<br>Total: Over 223.6</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>HOU@WAS</td>
+<td>Model side: WAS +11.4<br>Total: Over 225.4</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>ATL@MIL</td>
+<td>Model side: MIL +8.4<br>Total: Over 229.2</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>OKC@SAC</td>
+<td>Model side: SAC +10.7<br>Total: Over 225.4</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>ORL@BOS</td>
+<td>Model side: BOS -10.8<br>Total: Over 223.3</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>CHI@CLE</td>
+<td>Model side: CLE -12.4<br>Total: Over 231.6</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>MEM@WAS</td>
+<td>Model side: WAS +6.5<br>Total: Over 227.4</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>PHI@BKN</td>
+<td>Model side: BKN +2.6<br>Total: Over 225.0</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>HOU@MIA</td>
+<td>Model side: MIA +8.9<br>Total: Over 227.8</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>POR@MIN</td>
+<td>Model side: MIN -4.7<br>Total: Over 227.5</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>GSW@NOP</td>
+<td>Model side: NOP +10.5<br>Total: Over 231.4</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>PHX@DEN</td>
+<td>Model side: DEN -5.0<br>Total: Over 227.3</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>NYK@TOR</td>
+<td>Model side: TOR +0.7<br>Total: Over 223.6</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>POR@MIN</td>
+<td>Model side: MIN -4.7<br>Total: Over 227.5</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>DET@SAS</td>
+<td>Model side: SAS -4.7<br>Total: Over 225.9</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>UTA@LAC</td>
+<td>Model side: LAC -5.5<br>Total: Over 227.2</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>CHA@LAL</td>
+<td>Model side: LAL -15.6<br>Total: Over 224.3</td>
+<td>24.08%</td>
+<td>+315</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+</tbody></table></div>
+<h2>2. Cross-game two-leggers</h2>
+
+<div class="callout warn">
+<p><strong>Independence across games on the same night is an assumption, not a measurement.</strong>
+It was not tested on this sample — two games tipping off at the same time share no players, but
+they do share a travel schedule, a referee pool and a news cycle, none of which this repository can
+measure. The fair prices below are correct only if that assumption holds.</p>
+</div>
+
+<div class="table-wrap"><table>
+<caption id="cross"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Games</th>
+<th>Legs</th>
+<th>Our joint probability (independence assumed)</th>
+<th>Our fair price</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-14</td>
+<td>CHI@MIN + BKN@MEM</td>
+<td>Model side: MIN -20.1<br>Model side: MEM -8.4</td>
+<td>25.00%</td>
+<td>+300</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>SAS@UTA + HOU@WAS</td>
+<td>Model side: UTA +12.5<br>Model side: WAS +11.4</td>
+<td>25.00%</td>
+<td>+300</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>CHI@CLE + ORL@BOS</td>
+<td>Model side: CLE -12.4<br>Model side: BOS -10.8</td>
+<td>25.00%</td>
+<td>+300</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>CHA@LAL + UTA@LAC</td>
+<td>Model side: LAL -15.6<br>Model side: LAC -5.5</td>
+<td>25.00%</td>
+<td>+300</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
+</tr>
+</tbody></table></div>
+<h2>3. Player-prop combinations — all four are blocked</h2>
+
+<p>These are the combinations the brief asks for. None can be priced, and the reason is the same for
+all four: <strong>this repository has never captured a per-player game log</strong>, so the joint
+distribution of two player markets does not exist here. Anything printed in the value column would
+be a guess, so the column is blank.</p>
+
+<div class="table-wrap"><table>
+<caption id="prop-combos"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Combination</th>
+<th>Status</th>
+<th>Why it is blocked</th>
+<th>Value</th>
+<th>What would unblock it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>PC-01</td>
+<td>Two teammates, same game: points and rebounds</td>
+<td><span class="chip chip-warn">BLOCKED</span></td>
+<td>Needs per-player game logs to measure the within-game correlation between a player&#x27;s points and rebounds.</td>
+<td><span class="unverified">UNVERIFIED — not measurable</span></td>
+<td>Capture per-player game logs from https://www.nba.com/stats/players/boxscores and re-run. Anything else would be a guess.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
+</tr>
+<tr>
+<td>PC-02</td>
+<td>Two teammates, same game: points and points</td>
+<td><span class="chip chip-warn">BLOCKED</span></td>
+<td>Needs per-player game logs to measure how two teammates&#x27; scoring moves together.</td>
+<td><span class="unverified">UNVERIFIED — not measurable</span></td>
+<td>Capture per-player game logs from https://www.nba.com/stats/players/boxscores and re-run. Anything else would be a guess.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
+</tr>
+<tr>
+<td>PC-03</td>
+<td>Star points and team total, same game</td>
+<td><span class="chip chip-warn">BLOCKED</span></td>
+<td>Needs per-player game logs to measure the dependence between one player&#x27;s scoring and the game total.</td>
+<td><span class="unverified">UNVERIFIED — not measurable</span></td>
+<td>Capture per-player game logs from https://www.nba.com/stats/players/boxscores and re-run. Anything else would be a guess.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
+</tr>
+<tr>
+<td>PC-04</td>
+<td>Points and assists, same player</td>
+<td><span class="chip chip-warn">BLOCKED</span></td>
+<td>Needs per-player game logs; usage correlation is not published anywhere official.</td>
+<td><span class="unverified">UNVERIFIED — not measurable</span></td>
+<td>Capture per-player game logs from https://www.nba.com/stats/players/boxscores and re-run. Anything else would be a guess.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>4. What a same-game parlay actually costs you</h2>
+<p>A two-legger priced as independent at 50% × 50% pays +300 for a 25% chance — a fair bet. If the
+legs are positively correlated, the true joint probability is higher than 25% and the +300 price is
+now generous; if they are negatively correlated, as our sample slightly suggests, the true
+probability is lower and the same price is a tax. The size of the tax is the dependence ratio above,
+and the interval on it includes 1.0, so on this sample we cannot tell which way it goes. That is
+the honest answer, and it is why nothing here is funded.</p>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

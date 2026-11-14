@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html" class="active">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html" class="active">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -26,158 +26,173 @@
     
   </div>
 <div class="cards">
-<div class="card"><div class="k">Games in window</div><div class="v">31</div>
-      <div class="s">2026-11-13 → 2026-11-16, read from the official schedule</div>
+<div class="card"><div class="k">Games priced in the window</div>
+      <div class="v">27</div>
+      <div class="s">2026-11-14 → 2026-11-17 — today plus the
+      maximum three-day horizon</div>
       <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></div>
-<div class="card"><div class="k">Originated lines</div><div class="v">22</div>
-      <div class="s">Spread + total for every game in the window</div>
-      <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></div>
-<div class="card"><div class="k">Strategies passing all gates</div>
+<div class="card"><div class="k">Strategies funded</div>
       <div class="v">0</div>
-      <div class="s">of 8 measured strategies</div>
+      <div class="s">of 15 scored rules. 0 provisional,
+      the rest rejected or blocked.</div>
       <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
-<div class="card"><div class="k">Injury rows (official)</div>
+<div class="card"><div class="k">Luck threshold for this board</div>
+      <div class="v">31.2 pp</div>
+      <div class="s">The best edge a board of 15 rules throws up by chance.
+      The largest edge any rule actually posted is
+      18.0 pp.</div>
+      <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
+<div class="card"><div class="k">Official injury rows</div>
       <div class="v">122</div>
-      <div class="s">11/13/26 07:30 PM ET report — the newest listed</div>
-      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
+      <div class="s">2026-11-13 07:45 PM ET — the newest report listed on the official index</div>
+      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
 </div>
 
-<h2>1. What this project is</h2>
-<p>A research pipeline that <strong>originates its own NBA lines</strong>, tests them out of sample
-against <strong>validation gates</strong>, and publishes every intermediate number with the official
-source it came from. It is deliberately conservative: a number that cannot be confirmed is left blank
-and listed on the <a href="flagged.html">Flagged for review</a> page rather than estimated.</p>
+<h2>1. What this project is, in one paragraph</h2>
+<p>A research pipeline that <strong>originates its own NBA lines</strong> from official results,
+tests them out of sample against <strong>nine validation gates</strong>, ranks the resulting
+strategies on a <strong>leaderboard</strong> with an explicit luck threshold, and publishes every
+intermediate number next to the official source it came from. There is
+<strong>no market price anywhere in this repository</strong>: no licensed odds feed is connected.
+Every “pick” on this site is a fair price against <em>our own</em> line, which makes its expected
+value zero by construction. The backtest therefore does not look for profit — it looks for
+<em>bias in our own line</em>, which is the only question this data can answer.</p>
 
-<h2>2. What has been verified, and how</h2>
-<p>All official pages below were re-read on <strong>2026-11-14</strong> and compared
-programmatically with the values already stored in the repository. The comparison script is
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14.py">scripts/capture_official_2026_11_14.py</a>;
-it fails loudly on any mismatch.</p>
+<h2>2. The headline result, stated plainly</h2>
+<ul>
+  <li><strong>Zero strategies are funded.</strong> Nothing on the board passes all nine gates.</li>
+  <li><strong>Nothing beats luck.</strong> Simulating the whole board under the fair-line null,
+      the best-looking rule clears <strong>31.2 percentage points</strong>
+      of edge 5% of the time. The largest edge any real rule posted is
+      <strong>18.0 pp</strong>.</li>
+  <li><strong>The margin model is honest but weak.</strong> Out-of-sample RMSE
+      15.90 against a 16.87 constant
+      baseline, and it is unbiased (0.52 points).</li>
+  <li><strong>The totals model is broken.</strong> Out-of-sample RMSE
+      19.64 is <em>worse</em> than the 19.46
+      constant baseline, and it runs 1.8 points hot. It is kept
+      only because the brief asks for originated totals, and it is shrunk toward the league mean.
+      See <a href="flagged.html">NF-49</a>.</li>
+  <li><strong>An earlier “signal” was the model’s error.</strong> Before regularisation, “fade the
+      highest projected totals” posted 69.7% on 66 games (p=0.0019). After regularisation it fell to
+      65.5% on 29 games (p=0.136). The signal was our own miscalibration. See
+      <a href="flagged.html">NF-50</a>.</li>
+</ul>
+
+<h2>3. What has been verified, and against what</h2>
+<p>Every official page below was read on <strong>2026-11-14</strong> at 01:05 UTC and compared
+programmatically with the values earlier sessions had stored. The comparison is
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py">scripts/capture_official_2026_11_14b.py</a>;
+it prints every disagreement and the build fails on a mismatch.</p>
 
 <div class="table-wrap"><table>
-<caption id="s2"></caption>
+<caption id="verification"></caption>
 <thead><tr>
 <th>What</th>
+<th>Verification result</th>
 <th>Source</th>
-<th>Result</th>
-<th>Status</th>
 </tr></thead><tbody>
 <tr>
-<td>Official schedule (31 games: date, tip time ET, teams, game id)</td>
+<td>Official schedule — 27 games, 2026-11-14 → 2026-11-17 (date, tip time ET, teams, game id, venue, city)</td>
+<td>22 of them also appear in the previous session’s 11/13–11/16 capture; 88 of 88 field comparisons agree, 0 differ.</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td>
-<td>31/31 agree with the snapshot captured on 2026-11-13</td>
-<td><span class="chip chip-ok">Verified</span></td>
 </tr>
 <tr>
-<td>Official team statistics (30 teams × GP, W, L, OffRtg, DefRtg, NetRtg, PACE)</td>
-<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats/teams/advanced</a></td>
-<td>210/210 field comparisons agree</td>
-<td><span class="chip chip-ok">Verified</span></td>
+<td>Official team advanced statistics — 30 teams × 8 fields (GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE)</td>
+<td>240 of 240 field comparisons agree with the stored capture.</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
 </tr>
 <tr>
-<td>Official injury report (11/13/26 07:30 PM ET)</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
-<td>117 player rows + 5 team report statuses</td>
-<td><span class="chip chip-ok">Verified</span></td>
+<td>Official injury report 2026-11-13 07:45 PM ET — 122 rows (117 player rows + 5 team “NOT YET SUBMITTED” rows)</td>
+<td>122 rows in both this report and the 07:30 PM report it supersedes; 0 status changes between the two.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
-<td>Historical results log (174 games, 348 team-games)</td>
+<td>Official final scores — 174 games, 348 team-games</td>
+<td>0 mismatch against the official games-played column for all 30 teams.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
-<td>team-games match the official GP column for all 30 teams (0 mismatch)</td>
-<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+<tr>
+<td>Walk-forward engine — refit for every date from strictly earlier games</td>
+<td>131 out-of-sample forecasts after a 40-game burn-in; no game can see its own date.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py" target="_blank" rel="noopener noreferrer">strategy_lab.py</a></td>
 </tr>
 </tbody></table></div>
 
-<h2>3. Model results (out of sample, walk-forward)</h2>
+<h2>4. The engine, in four sentences</h2>
+<p>A <strong>Massey least-squares margin model</strong> fits one rating per team plus a home-court
+term on all completed games. A <strong>totals model</strong> regresses the game total on the two
+teams’ prior scoring environment. Both are shrunk — a ridge penalty on the ratings and a blend
+weight pulling the totals toward the league mean — and <strong>both shrinkage parameters are chosen
+by validating on the most recent 20% of past games only</strong>, never on the games being
+forecast. Every date is then priced with the engine fitted on strictly earlier dates, so nothing
+downstream has seen the future.</p>
+
+<h2>5. How luck is removed</h2>
+<p>Three separate mechanisms, because one is not enough:</p>
+<ul>
+  <li><strong>Exact binomial tests</strong> against the fair-line rate for the market — 50% for a
+      single bet, 25% for a two-leg parlay. This is gate G5.</li>
+  <li><strong>Benjamini–Hochberg FDR</strong> across every scored rule on the board, because a
+      board of 15 rules will throw up one “significant” result by chance.
+      This is gate G6.</li>
+  <li><strong>A whole-board Monte Carlo</strong>: every rule is simulated under its own fair-line
+      null, the largest edge anywhere on the board is recorded, and that is repeated
+      5,000 times. The 95th percentile —
+      31.2 pp — is the edge a rule must beat before it is called
+      anything. This is gate G9, and nothing on the board beats it.</li>
+</ul>
+<p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big home favourite /
+fade it). They select the same games and are exact complements, so they are one finding, not two.
+And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
+it fails every gate, which is the check that the gates themselves work.</p>
+
+<h2>6. What is still missing, and what it blocks</h2>
 
 <div class="table-wrap"><table>
-<caption id="s3"></caption>
+<caption id="gaps"></caption>
 <thead><tr>
-<th>Measure</th>
-<th>Value</th>
+<th>Missing</th>
+<th>What it blocks</th>
+<th>Severity</th>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
-<td>Games captured</td>
-<td>174</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>Licensed, timestamped odds feed</td>
+<td>Every ROI figure here is measured against our own line at an assumed −110 price. No ROI in this repository is an economic result.</td>
+<td><span class="chip chip-warn">Blocks every staking decision</span></td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td>
 </tr>
 <tr>
-<td>Out-of-sample games after burn-in</td>
-<td>114</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
+<td>Per-player game logs</td>
+<td>Four player-prop combos on the board cannot be scored at all, and every player-level correlation cell is blank.</td>
+<td><span class="chip chip-warn">Blocks prop combos</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
 </tr>
 <tr>
-<td>Margin model RMSE vs baseline</td>
-<td>16.65 vs 17.30</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
+<td>Full official minutes table (only the top 31 is captured)</td>
+<td>Every injury minutes-vacuum figure is a floor, not an estimate.</td>
+<td><span class="chip chip-warn">Blocks rotation impact</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
 </tr>
 <tr>
-<td>Total model RMSE vs baseline</td>
-<td>21.28 vs 19.56 — worse than baseline</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
+<td>Injury reports for 2026-11-15, 11-16 and 11-17</td>
+<td>No official report exists yet for those dates; five of the ten teams playing on 11/14 had not submitted either.</td>
+<td><span class="chip chip-warn">Blocks final selections</span></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></td>
 </tr>
 <tr>
-<td>Home-court advantage (fitted)</td>
-<td>1.59 points (p = 0.104) — not significant</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
-</tr>
-<tr>
-<td>Strategies passing every gate</td>
-<td>0 of 8 measured strategies</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/strategies.html" target="_blank" rel="noopener noreferrer">origin/strategies.html</a></td>
-</tr>
-<tr>
-<td>Spread/total residual correlation</td>
-<td>r = 0.091, 95% CI [−0.094, +0.270] — includes zero</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/correlations.html" target="_blank" rel="noopener noreferrer">origin/correlations.html</a></td>
+<td>Legal basis for publishing selections (NBA Terms §9, Dutch Koa licence)</td>
+<td>The reward schedule cannot be written until this is settled.</td>
+<td><span class="chip chip-warn">Blocks the reward rule</span></td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">terms + regulator</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
 </tr>
 </tbody></table></div>
-
-<h2>4. How luck is kept out of the score</h2>
-<p>Luck cannot be removed from a single game; it can only be kept out of the <em>evaluation</em>.
-The rules applied here are: exact binomial tests instead of eyeballing win rates; a Benjamini–Hochberg
-false-discovery adjustment when several strategies are tested at once; a split-half check that the
-effect points the same way in both halves of the sample; a minimum-sample gate (n ≥ 100 out-of-sample
-games) that no strategy currently meets; and walk-forward evaluation, so a game is never scored with
-information that did not exist at its tip-off. Short-run profitability is not treated as evidence of
-skill — only out-of-sample calibration and uncertainty-adjusted results count.</p>
-
-
-<h2>5. What a reader must not do with this site</h2>
-<ul>
-<li><strong>Do not treat the derived lines as official NBA values.</strong> They are this
-project's model output; the source column links to the method and to the official inputs it used.</li>
-<li><strong>Do not treat the picks as betting advice.</strong> No strategy has passed the full gate
-set, no licensed price feed is connected, and the legal questions on the
-<a href="questions.html">Open questions</a> page are unanswered.</li>
-<li><strong>Do not compare a status from one injury report with a status from another.</strong> The
-NBA updates the report every 15 minutes; only the newest published snapshot is used here and the
-difference against the previous one is listed on the
-<a href="injuries.html">Injuries &amp; rotation</a> page.</li>
-</ul>
-
-
-<h2>6. Where to go next</h2>
-<ul>
-<li><a href="lines.html">Originated lines</a> — a spread and a total for every game in the window.</li>
-<li><a href="picks.html">Picks</a> — what the model would do for each of the next three days, with
-availability flags and no market price.</li>
-<li><a href="strategies.html">Strategies &amp; gates</a> — the leaderboard and every gate result.</li>
-<li><a href="injuries.html">Injuries &amp; rotation</a> — official statuses, minutes vacuum and
-what is still unknown.</li>
-<li><a href="flagged.html">Flagged for review</a> — 48 items for the owner.</li>
-<li><a href="questions.html">Open questions</a> — 35 questions that need an
-answer before a decision can be made.</li>
-<li><a href="suggestions.html">Site suggestions</a> — 30 options for the
-owner to choose from; none of them is implemented without a decision.</li>
-</ul>
-
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
