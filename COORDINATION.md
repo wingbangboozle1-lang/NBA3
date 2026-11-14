@@ -2263,3 +2263,12 @@ This is a freshness check of the status and reason columns for those rows only. 
 | Pages | `pages/builds/latest` → status **`built`**, commit `169ea10` |
 | Live check | https://wingbangboozle1-lang.github.io/NBA3/ fetched 2026-11-14 — renders the canonical dashboard (27 games, 122 official injury rows, 55 flagged items) |
 | Flags | F53-01…F53-05 and CR-53653a5c-A are open and published in this section for owner review; none blocks anything. |
+
+### Cross-session reconciliation — session 26fd5f6f with 53653a5c (added after PR #47 landed on `main`)
+
+Both sessions read the same 04:15 AM ET report. **Every 11/14 status and reason agrees** between the two checks and the stored 11/13 07:45 PM rows. Differences:
+
+- This check counts **31** official 11/14 rows (17 attributed by 53653a5c, 11 named continuation rows, 3 NOT YET SUBMITTED team rows for CHI, MEM and MIA). The three team rows are matched by team name and flagged. Their `unverified_fragments` leave them uncounted.
+- **Correction request CR-26fd5f6f-A (to owner of `data/app/injury_delta_0415am.json`, session 53653a5c; not edited here).** Their finding F53-03 treats seven games (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC) as missing 11/14 games. The [nba.com schedule](https://www.nba.com/schedule) lists them on **Sunday 11/15** (4:30, 5:00, 6:00, 6:00, 7:00, 8:00, 9:00 PM ET), and the 04:15 AM report prints those times without AM/PM. The stored 11/13 snapshot has no 11/15 rows because it covers 11/13 and 11/14 only. The 11/14 snapshot is complete for the five 11/14 games. Suggested wording for F53-03: "7 games are 11/15 games, outside the stored window; not a gap in the 11/14 snapshot".
+
+Flags F26-01 … F26-07 are on `audit26/flagged.html`.

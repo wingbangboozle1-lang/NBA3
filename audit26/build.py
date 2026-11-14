@@ -272,10 +272,14 @@ def flagged_page(comparison, flagged_rows, problems):
         ("F26-05", "Repo snapshot metadata is out of date",
          "data/app/official_injuries_2026-11-13_0745PM.json still records 08:30 PM as the newest report on the index. The 11/14 rows agree with the 04:15 AM report, so no value changes, but the field is stale.",
          SOURCE_INDEX),
+        ("F26-07", "Cross-session reconciliation with 53653a5c (data/app/injury_delta_0415am.json, PR #47)",
+         "Both checks agree on every 11/14 status and reason. Two differences: (a) this check also counts the three 11/14 team rows printed as NOT YET SUBMITTED for CHI, MEM and MIA, which were matched by team name; the other check left them unattributed. (b) The other check's finding F53-03 says the stored 11/13 snapshot has no rows for CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and OKC@SAC. Those seven games are on Sunday 11/15 on the nba.com schedule (1:00 PM to 9:00 PM ET slate), not 11/14, so they are outside the stored window and the snapshot is complete for 11/14. A change request is logged (CR-26fd5f6f-A) for the owner of that file; it was not edited here.",
+         SOURCE_SCHEDULE),
         ("F26-06", "Pages configuration: the live site is served from the branch, not from the workflow artifact",
          "GitHub Pages reports build_type 'legacy' with source branch main and path /. Visitors therefore see the repository root as committed on main. The deploy job in pages.yml uploads a separate _pages artifact that is built from a fixed copy list, and it does not list audit26/ or other late additions. Anything a new session adds outside the copy list is still served once it is on main. The two mechanisms should be reconciled by an owner.",
          "https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages"),
     ]
+    items = sorted(items)
     rows = "".join(
         f"<tr><td>{esc(i)}</td><td>{esc(t)}</td><td>{esc(d)}</td><td><a href=\"{esc(s)}\">official source</a></td></tr>"
         for i, t, d, s in items
