@@ -51,11 +51,11 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PUBLISH_DP = 6   # decimals kept in lab.json; see _round_floats()
 OUT = os.path.join(ROOT, "data", "app", "lab.json")
 
-GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
-PLAYERS_CSV = os.path.join(ROOT, "data", "origin", "players_top_minutes.csv")
-SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate_1114_1117.json")
-RATINGS_JSON = os.path.join(ROOT, "data", "app", "official_team_ratings_2026-11-14b.json")
-INJURY_JSON = os.path.join(ROOT, "data", "app", "official_injuries_2026-11-13_0745PM.json")
+GAMES_CSV = os.path.join(ROOT, "data", "app", "games_2026-11-14c.csv")
+PLAYERS_CSV = os.path.join(ROOT, "data", "app", "players_top31_2026-11-14c.csv")
+SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate_1114_1117_c.json")
+RATINGS_JSON = os.path.join(ROOT, "data", "app", "official_team_ratings_2026-11-14c.json")
+INJURY_JSON = os.path.join(ROOT, "data", "app", "official_injuries_2026-11-14_0445AM.json")
 PRIOR_SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate.json")
 
 # --------------------------------------------------------------------------
