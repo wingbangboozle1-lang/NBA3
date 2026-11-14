@@ -148,6 +148,23 @@ fade it). They select the same games and are exact complements, so they are one 
 And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
 it fails every gate, which is the check that the gates themselves work.</p>
 
+<h2>Note on this build (session a399d8a9, 2026-11-14)</h2>
+<div class="callout warn">
+<p><strong>The injury snapshot this dashboard priced was nine hours out of date when this session
+started, and one of the checks that should have caught it was structurally unable to.</strong>
+The published report was the 04:15 AM ET one; the official index now lists 11/14 reports through
+1:30 PM ET. On the old report, <strong>five of the ten</strong> teams playing that night had filed
+nothing. On the current one, <strong>1 of ten has not</strong>
+(MEM). Four players changed
+status and 24 player rows appear that were missing. Read
+<a href="injuries.html">Injuries &amp; rotation</a> for the row-by-row reconciliation against
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">the current
+official PDF</a>, and <a href="decision.html">Decision workspace</a> for what was changed without
+asking and why it was a defect rather than a preference. The freshness gate
+(<code>session_a399d8a9/apply_refresh.py --check</code>) now fails a build whose published stamp is
+not the newest listed one.</p>
+</div>
+
 <h2>6. What is still missing, and what it blocks</h2>
 
 <div class="table-wrap"><table>
@@ -178,7 +195,7 @@ it fails every gate, which is the check that the gates themselves work.</p>
 </tr>
 <tr>
 <td>Injury reports for 2026-11-15, 11-16 and 11-17</td>
-<td>No official report exists yet for those dates; five of the ten teams playing on 11/14 had not submitted either.</td>
+<td>No official report covers 11/16 or 11/17 at all, the 11/15 rows are all still NOT YET SUBMITTED, and 1 of the ten teams playing on 11/14 had not filed on the newest report either (MEM).</td>
 <td><span class="chip chip-warn">Blocks final selections</span></td>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></td>
 </tr>

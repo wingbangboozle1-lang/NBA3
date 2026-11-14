@@ -332,6 +332,12 @@ def page_summary(d):
     strategies = d["strategies"]
     funded = [s for s in strategies if s["tier"] == "T1"]
     provisional = [s for s in strategies if s["tier"] == "T2"]
+    # Derived, never typed: how many of the ten teams on tonight's slate had no filing
+    # on the snapshot this build publishes, and how many player rows the refresh added.
+    _av14 = [r for r in (d.get("availability") or {}).get("rows", []) if r["date"] == "2026-11-14"]
+    unfiled_1114_n = len({r["team"] for r in _av14 if r["state"] != "FILED"})
+    _added = d["injuries"].get("prior_report_rows_only_in_newest")
+    added_1114 = _added if isinstance(_added, int) else len(_added or [])
     body = []
 
     body.append('<div class="cards">')
@@ -455,6 +461,23 @@ fade it). They select the same games and are exact complements, so they are one 
 And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
 it fails every gate, which is the check that the gates themselves work.</p>
 
+<h2>Note on this build (session a399d8a9, 2026-11-14)</h2>
+<div class="callout warn">
+<p><strong>The injury snapshot this dashboard priced was nine hours out of date when this session
+started, and one of the checks that should have caught it was structurally unable to.</strong>
+The published report was the 04:15 AM ET one; the official index now lists 11/14 reports through
+1:30 PM ET. On the old report, <strong>five of the ten</strong> teams playing that night had filed
+nothing. On the current one, <strong>{unfiled_1114_n} of ten {("has" if unfiled_1114_n == 1 else "have")} not</strong>
+({esc(", ".join(sorted({r["team"] for r in _av14 if r["state"] != "FILED"})) or "none")}). Four players changed
+status and {added_1114} player rows appear that were missing. Read
+<a href="injuries.html">Injuries &amp; rotation</a> for the row-by-row reconciliation against
+<a href="{esc(d['injuries']['source_url'])}" target="_blank" rel="noopener noreferrer">the current
+official PDF</a>, and <a href="decision.html">Decision workspace</a> for what was changed without
+asking and why it was a defect rather than a preference. The freshness gate
+(<code>session_a399d8a9/apply_refresh.py --check</code>) now fails a build whose published stamp is
+not the newest listed one.</p>
+</div>
+
 <h2>6. What is still missing, and what it blocks</h2>
 """)
     gap_rows = [
@@ -473,8 +496,10 @@ it fails every gate, which is the check that the gates themselves work.</p>
          chip("Blocks rotation impact", "warn"),
          src_cell([lab["meta"]["source_players"]], "nba.com/stats")],
         ["Injury reports for 2026-11-15, 11-16 and 11-17",
-         "No official report exists yet for those dates; five of the ten teams playing on "
-         "11/14 had not submitted either.",
+         f"No official report covers 11/16 or 11/17 at all, the 11/15 rows are all still "
+         f"NOT YET SUBMITTED, and {unfiled_1114_n} of the ten teams playing on 11/14 had not "
+         f"filed on the newest report either "
+         f"({', '.join(sorted({r['team'] for r in _av14 if r['state'] != 'FILED'})) or 'none'}).",
          chip("Blocks final selections", "warn"),
          src_cell([d["injuries"]["index_url"]], "official index")],
         ["Legal basis for publishing selections (NBA Terms §9, Dutch Koa licence)",

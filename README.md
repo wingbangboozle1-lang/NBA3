@@ -5,6 +5,41 @@ support. The repository contains **multiple independently built analysis/site wo
 not a single reconciled model. This overview intentionally does not endorse any line, pick, market
 edge, correlation, ROI, or leaderboard result.
 
+## Session arena/a399d8a9-nba3 (2026-11-14, 19:2xZ) — freshness corrective + decision workspace
+
+**Corrective, not cosmetic: the dashboard was pricing a game-day slate off a pre-dawn injury
+report.** On arrival the canonical site published the **11/14 04:15 AM ET** report while the
+[official injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/) lists
+11/14 reports every 15 minutes **through 1:30 PM ET**, nine hours newer, with the 7:00 PM ET slate
+still ahead. On the old report **five of the ten** teams playing that night had filed nothing; on
+the current one only **MEM** has not.
+
+| What changed | Detail | Source |
+|---|---|---|
+| Snapshot re-read and re-pointed | 01:30 PM ET report, transcribed verbatim; **69 rows** (50 player + 19 `NOT YET SUBMITTED`) at [`data/app/official_injuries_2026-11-14_0130PM.json`](data/app/official_injuries_2026-11-14_0130PM.json), proved row by row to be a strict superset of the published one | [01:30 PM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf) |
+| Reconciliation published | 45 rows in common · **4 status changes** (Christie →Doubtful, Brown Jr. →Probable, Harkless and Jones →Available) · **24 player rows added** · 4 team placeholders closed because those teams filed · **0 rows lost** | [`session_a399d8a9/data/reconciliation_2026-11-14.json`](session_a399d8a9/data/reconciliation_2026-11-14.json) |
+| One open irregularity closed | The blank `Team` cell on the Traore row (IR-3bf80157-01 / F-DD1-01) is **printed** by the 01:30 PM report, so it is now filled from an official page instead of left blank | [01:30 PM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf) |
+| Defect in the check that should have caught it | [`scripts/report_availability.py`](scripts/report_availability.py) compared every filing deadline with a **hard-coded 04:45 clock** instead of the report's own stamp, so it reported “zero teams overdue” as a consequence of its own assumption; it also quoted the game-day filing clause and never applied it. Both fixed; the stamp now comes from the snapshot manifest | [official index, rules quoted there](https://official.nba.com/nba-injury-report-2026-27-season/) |
+| Hardcoded prose removed | The injuries page asserted “no movement at all … these rows can be published as settled for today” as a literal. Every number in that paragraph is now computed; the 11/14 filing sentence is derived | [`app/injuries.html`](app/injuries.html) |
+| Freshness gate added | `session_a399d8a9/apply_refresh.py --check` fails a build whose published stamp is not the newest listed one, or whose availability verdict marks a team overdue without a passed deadline. Wired into CI | [`session_a399d8a9/data/freshness_gate.json`](session_a399d8a9/data/freshness_gate.json) |
+| **Decision workspace** | New page at [`/app/decision.html`](app/decision.html): all 48 suggestions, 3 with paths scored against five stated criteria, 10 flagged as blocked on an open question, all 50 questions with known / missing / how-to-discover, and the dependency graph. **Nothing is implemented without a choice**; the register is [`session_a399d8a9/data/decisions.json`](session_a399d8a9/data/decisions.json) | built by [`scripts/build_app.py`](scripts/build_app.py) |
+
+Registered this round: flags **F26–F30**, questions **Q-FRESH-01**, **Q-FRESH-02**, **Q-DEC-01**,
+suggestions **CS-47**, **CS-48**. **CQ-47 answered** — it asked whether to move to the 04:45 AM
+stamp and to attribute the Traore cell from a second transcription; the newer official report
+prints the cell, so the question is overtaken rather than answered by preference.
+
+Unchanged by this round, and still true: **zero strategies are funded, nothing on the leaderboard
+beats the luck threshold, and no market price exists anywhere in the repository.**
+
+### Live site
+
+`https://wingbangboozle1-lang.github.io/NBA3/` — one dashboard, 22 generated pages, every table row
+carrying an official source link, anything unconfirmable left blank and listed on
+[Flagged for review](app/flagged.html).
+
+---
+
 ## Final integration status (2026-11-14, session arena/3bf92fcc-nba3)
 
 **Freshness re-check (2026-11-14, session `arena/3bf80157-nba3`).** The official injury-report index
