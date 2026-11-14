@@ -265,3 +265,26 @@ python3 verify/build.py --check                      # validate only
 
 Standard library only. `verify/build.py` refuses to write the site if any self-test fails, any
 VERIFIED claim lacks an https source, or a settled ledger row lacks an official settlement source.
+
+---
+
+## Workstream: `d01ae7e2/` — official-slate line origination & gated picks pipeline
+
+Session `d01ae7e2` (branch `arena/d01ae7e2-nba3`) — built entirely on **NBA-official sources only** (`nba.com`, `cdn.nba.com`, `ak-static.cms.nba.com`, `official.nba.com`, `pr.nba.com`, `statsdmz.nba.com`), with a machine-enforced allowlist. Self-contained namespace (coexists with every other workstream):
+
+| Path | Contents |
+|---|---|
+| `d01ae7e2/data/` | 31-game slate (Nov 13–16 = today + 3-day max window), full official 05:00 PM injury-report transcription, all 30 teams' official stats, player baselines, generated picks + correlations, 17 flagged items, 12-question register, source registry |
+| `d01ae7e2/docs/` | 12-page dashboard (landing, slate & picks, strategies & gates, leaderboard, injury impact, game flow, analysis, repo review, flagged, questions, suggestions, sources) + 9 long-form write-ups |
+| `d01ae7e2/scripts/` | `generate_picks.py` (deterministic pick generation, no manual input), `build_site.py` (JSON → HTML), `verify.py` (official-domain allowlist, blank+flag policy, per-row source links, pick coverage) |
+
+```bash
+python3 d01ae7e2/scripts/generate_picks.py && python3 d01ae7e2/scripts/build_site.py && python3 d01ae7e2/scripts/verify.py
+# expected: All verification checks passed.  (scope: this workstream only)
+```
+
+Dashboard (after Pages deploy): `https://wingbangboozle1-lang.github.io/NBA3/d01ae7e2/docs/index.html`
+
+Rules enforced in this namespace: every table row links its official NBA source; unconfirmable values are **blank + flagged, never inferred**; model parameters (HCA, rest/injury weights) are declared assumptions with pre-settlement revision logs; provisional picks (injury report not yet published) are never scored. The other workstreams' cautions above apply to them, not to this namespace — and this namespace makes no claim about theirs.
+
+Reviewers: decisions this workstream is waiting on (license, CI, odds source, HCA calibration…) are listed in `d01ae7e2/docs/QUESTIONS.md`; improvement suggestions await path selection in `d01ae7e2/docs/SUGGESTIONS.md` — none have been implemented.

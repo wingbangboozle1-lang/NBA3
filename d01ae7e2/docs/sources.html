@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources · NBA3 Research</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--txt:#e6edf3;--mut:#9da7b3;
+--acc:#4da3ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;--prov:#a371f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 22px;
+position:sticky;top:0;z-index:9}
+header h1{margin:0;font-size:18px;display:inline-block}
+header .tag{color:var(--mut);font-size:12px;margin-left:10px}
+nav{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
+nav a{padding:5px 11px;border-radius:6px;color:var(--txt);font-size:13px}
+nav a:hover{background:#21262d;text-decoration:none}
+nav a.on{background:var(--acc);color:#04121f;font-weight:600}
+main{max-width:1240px;margin:0 auto;padding:22px}
+h2{font-size:20px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-top:34px}
+h3{font-size:16px;margin-top:26px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card .n{font-size:26px;font-weight:700}
+.card .l{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+.badge{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:600;
+border:1px solid transparent;white-space:nowrap}
+.b-rel{background:rgba(63,185,80,.15);color:var(--good);border-color:rgba(63,185,80,.4)}
+.b-prov{background:rgba(163,113,247,.15);color:var(--prov);border-color:rgba(163,113,247,.4)}
+.b-flag{background:rgba(210,153,34,.15);color:var(--warn);border-color:rgba(210,153,34,.45)}
+.b-off{background:rgba(77,163,255,.13);color:var(--acc);border-color:rgba(77,163,255,.4)}
+.b-bad{background:rgba(248,81,73,.13);color:var(--bad);border-color:rgba(248,81,73,.4)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;
+background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#21262d;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);
+position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.src{font-size:11.5px;white-space:nowrap}
+.src a{margin-right:6px}
+.note{background:var(--card);border-left:3px solid var(--acc);padding:10px 14px;
+border-radius:0 8px 8px 0;margin:14px 0;font-size:14px;color:var(--mut)}
+.note.warn{border-left-color:var(--warn)}
+.note.prov{border-left-color:var(--prov)}
+code{background:#21262d;padding:1px 6px;border-radius:5px;font-size:13px}
+footer{color:var(--mut);font-size:12.5px;padding:26px 0;text-align:center;border-top:1px solid var(--line);margin-top:40px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto}
+ul.compact{margin:6px 0;padding-left:20px}
+ul.compact li{margin:3px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>NBA3 · Line-Origination &amp; Betting Strategy Research</h1>
+  <span class="tag">Official NBA sources only · data cut 2026-11-13 (data cut 18:28 ET / 23:30 UTC) · every row source-linked · blanks are flagged, never inferred</span>
+  <nav><a href="index.html" class="">Dashboard</a>
+<a href="slate.html" class="">Slate &amp; Picks</a>
+<a href="strategies.html" class="">Strategies &amp; Gates</a>
+<a href="leaderboard.html" class="">Leaderboard</a>
+<a href="injury-impact.html" class="">Injury Impact</a>
+<a href="game-flow.html" class="">Game Flow</a>
+<a href="analysis.html" class="">Analysis</a>
+<a href="repo-review.html" class="">Repo Review</a>
+<a href="flagged.html" class="">Flagged</a>
+<a href="questions.html" class="">Questions</a>
+<a href="suggestions.html" class="">Suggestions</a>
+<a href="sources.html" class="on">Sources</a></nav>
+</header>
+<main>
+<h2>Source registry</h2>
+<div class="note">Every source below was fetched during this session. Dead/blocked endpoints are recorded too so nobody retries them.</div><div class='scroll'><table><tr><th>ID</th><th>Title</th><th>Publisher</th><th>Fetched</th><th>Used for</th><th>Link</th></tr><tr><td><code>src-schedule-pdf</code></td><td><b>2026-27 NBA Regular Season Schedule By Date (official PDF)</b><br><span style="color:var(--mut);font-size:12px">Header states &#x27;AS OF AUGUST 13, 2026 | SUBJECT TO CHANGE&#x27;. Chunks 0-2 and 12 fetched; contains legend (C=A Emirates NBA Cup Group Play; A=Austin, B=Mexico City, D=Paris, E=Manchester) but no definition for &#x27;R&#x27; flag — see flagged item fl-04.</span></td><td>NBA (cdn.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">Nov 13-16 slate rows, game numbers, local/ET times, national TV, rest-day computation, schedule legend</td><td class="src"><a class="src" href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener">cdn.nba.com</a></td></tr><tr><td><code>src-nba-schedule-page</code></td><td><b>NBA.com Schedule (Week 4, Nov 9-15 + Week 5)</b><br><span style="color:var(--mut);font-size:12px">Cross-verifies schedule PDF for all 31 games in the Nov 13-16 window. &#x27;Hide Odds&#x27; toggle exists but odds are client-rendered only — market odds not retrievable (see flagged fl-06).</span></td><td>NBA (nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">game IDs 0022600034-0022600252, venues, records incl. Cup records, broadcasters, Emirates NBA Cup group labels, preview links</td><td class="src"><a class="src" href="https://www.nba.com/schedule" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>src-injury-0500</code></td><td><b>NBA Official Injury Report: 11/13/26 05:00 PM</b><br><span style="color:var(--mut);font-size:12px">Latest report available at data cut (18:28 ET). Covers 11/13 games fully; 11/14 partially (DAL, BKN, DET submitted; DEN, NOP, CLE, MEM, CHI, MIN, MIA NOT YET SUBMITTED). 11/15-11/16 games not present.</span></td><td>NBA (ak-static.cms.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">all 11/13 injury rows, 11/14 partial rows and NOT YET SUBMITTED entries</td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>src-injury-0415</code></td><td><b>NBA Official Injury Report: 11/13/26 04:15 PM</b><br><span style="color:var(--mut);font-size:12px">Superseded by 05:00 PM report for status values.</span></td><td>NBA (ak-static.cms.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">supersession check vs 05:00 PM report</td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_04_15PM.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>src-injury-0115</code></td><td><b>NBA Official Injury Report: 11/13/26 01:15 PM</b><br><span style="color:var(--mut);font-size:12px">Superseded.</span></td><td>NBA (ak-static.cms.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">supersession history, status-change examples (e.g., Dejounte Murray Doubtful-&gt;Out)</td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_01_15PM.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>src-injury-0100</code></td><td><b>NBA Official Injury Report: 11/13/26 01:00 PM</b><br><span style="color:var(--mut);font-size:12px">Superseded.</span></td><td>NBA (ak-static.cms.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">supersession history</td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_01_00PM.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>src-league-stats</code></td><td><b>NBA League Team Stats — Traditional, 2026-27 Regular Season (30 rows)</b><br><span style="color:var(--mut);font-size:12px">5 chunks fetched; full 30-row table.</span></td><td>NBA (nba.com/stats)</td><td>2026-11-13</td><td style="font-size:12.5px">GP, W, L, WIN%, PTS, +/- per game for all 30 teams</td><td class="src"><a class="src" href="https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>src-injury-policy</code></td><td><b>NBA Player Participation Policy (effective 2023-24)</b></td><td>NBA (ak-static.cms.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">star-player availability framework, back-to-back restrictions, injury-report consistency rules</td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/wp-content/uploads/sites/46/2023/09/NBA-Player-Participation-Policy.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>src-ppp-pr</code></td><td><b>NBA Player Participation Policy announcement (pr.nba.com)</b><br><span style="color:var(--mut);font-size:12px">Located via search result; not re-fetched in this session — treat as context, not row-level data source.</span></td><td>NBA (pr.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">policy context</td><td class="src"><a class="src" href="https://pr.nba.com/nba-announces-2023-24-player-participation-policy/" target="_blank" rel="noopener">pr.nba.com</a></td></tr><tr><td><code>src-rulebook</code></td><td><b>NBA Official Rulebook</b></td><td>NBA (official.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">Rules 1-14 reference, game-flow/OT rules context</td><td class="src"><a class="src" href="https://official.nba.com/rulebook/" target="_blank" rel="noopener">official.nba.com</a></td></tr><tr><td><code>src-injury-reporting-times</code></td><td><b>NBA official relaunch announcement — injury reports posted daily 1:30/5:30/8:30 p.m. ET</b><br><span style="color:var(--mut);font-size:12px">Observed PDF timestamps today were 01:00, 01:15, 04:15, 05:00 PM ET — differ from documented cadence; see flagged fl-05.</span></td><td>NBA (official.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">injury-report cadence claim</td><td class="src"><a class="src" href="https://official.nba.com/nba-official-relaunch/" target="_blank" rel="noopener">official.nba.com</a></td></tr><tr><td><code>src-injury-fines</code></td><td><b>official.nba.com — injury reporting compliance/fines coverage</b><br><span style="color:var(--mut);font-size:12px">Directory/search-result basis; fine fact taken from search snippet of official domain.</span></td><td>NBA (official.nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">injury-report compliance regime (e.g., Magic $25,000 fine, Apr 9 2026, re Anthony Black status)</td><td class="src"><a class="src" href="https://official.nba.com/" target="_blank" rel="noopener">official.nba.com</a></td></tr><tr><td><code>src-player-pages</code></td><td><b>NBA.com official player pages (season PPG + Last 5 Games logs)</b></td><td>NBA (nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">player PPG baselines, last-5 logs for props and correlations</td><td class="src"><a class="src" href="https://www.nba.com/players" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>src-team-pages</code></td><td><b>NBA.com official team pages and rosters (season PPG per player)</b></td><td>NBA (nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">player PPG for OUT-player production-at-risk, team profile PPG/OPPG headers</td><td class="src"><a class="src" href="https://www.nba.com/teams" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>src-game-pages</code></td><td><b>NBA.com official game preview/summary pages (per game ID)</b></td><td>NBA (nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">per-game record confirmation, box/linescore example (CLE 115-107 NYK, 11/11), rest-day cross-check</td><td class="src"><a class="src" href="https://www.nba.com/games" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>src-nba-cup</code></td><td><b>Emirates NBA Cup 2026 (nba.com)</b><br><span style="color:var(--mut);font-size:12px">Linked from nba.com nav; group labels taken from schedule page rows themselves.</span></td><td>NBA (nba.com)</td><td>2026-11-13</td><td style="font-size:12.5px">Cup group context for 11/13 slate</td><td class="src"><a class="src" href="https://www.nba.com/nba-cup/2026" target="_blank" rel="noopener">nba.com</a></td></tr></table></div><h3>Dead ends (do not retry)</h3><div class='scroll'><table><tr><th>URL</th><th>Result</th><th>Action taken</th></tr><tr><td style="font-size:12px">https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json</td><td><span class="badge b-bad">HTTP 500</span></td><td style="font-size:12.5px">do not retry</td></tr><tr><td style="font-size:12px">https://stats.nba.com/stats/leaguestandingsv3</td><td><span class="badge b-bad">fetch failed/blocked</span></td><td style="font-size:12.5px">do not retry</td></tr><tr><td style="font-size:12px">https://official.nba.com/injury-report/</td><td><span class="badge b-bad">HTTP 404</span></td><td style="font-size:12.5px">wrong path; real reports live at ak-static.cms.nba.com/referee/injury/</td></tr><tr><td style="font-size:12px">https://www.nba.com/standings</td><td><span class="badge b-bad">renders without standings table (JS-only)</span></td><td style="font-size:12.5px">records harvested from game pages + league stats table instead</td></tr><tr><td style="font-size:12px">https://www.nba.com/stats/player/1628973/gamelog</td><td><span class="badge b-bad">No data available (server-side)</span></td><td style="font-size:12.5px">use player-page Last 5 Games tables instead</td></tr></table></div>
+<footer>Generated by <code>d01ae7e2/scripts/build_site.py</code> from <code>d01ae7e2/data/*.json</code> · Verify: <code>python3 d01ae7e2/scripts/verify.py</code> ·
+All statistics © NBA (via official NBA sources) · Research/paper-trading only — not betting advice.</footer>
+</main>
+</body>
+</html>

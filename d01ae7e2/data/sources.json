@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "generated_by": "T03 research session d01ae7e2",
+    "fetched_at_utc": "2026-11-13T23:30:00Z",
+    "rule": "Every table row in every data file links to a source entry here or carries source_url directly. Only official NBA properties are used."
+  },
+  "sources": [
+    {
+      "id": "src-schedule-pdf",
+      "title": "2026-27 NBA Regular Season Schedule By Date (official PDF)",
+      "url": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+      "publisher": "NBA (cdn.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["Nov 13-16 slate rows", "game numbers", "local/ET times", "national TV", "rest-day computation", "schedule legend"],
+      "notes": "Header states 'AS OF AUGUST 13, 2026 | SUBJECT TO CHANGE'. Chunks 0-2 and 12 fetched; contains legend (C=A Emirates NBA Cup Group Play; A=Austin, B=Mexico City, D=Paris, E=Manchester) but no definition for 'R' flag — see flagged item fl-04."
+    },
+    {
+      "id": "src-nba-schedule-page",
+      "title": "NBA.com Schedule (Week 4, Nov 9-15 + Week 5)",
+      "url": "https://www.nba.com/schedule",
+      "publisher": "NBA (nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["game IDs 0022600034-0022600252", "venues", "records incl. Cup records", "broadcasters", "Emirates NBA Cup group labels", "preview links"],
+      "notes": "Cross-verifies schedule PDF for all 31 games in the Nov 13-16 window. 'Hide Odds' toggle exists but odds are client-rendered only — market odds not retrievable (see flagged fl-06)."
+    },
+    {
+      "id": "src-injury-0500",
+      "title": "NBA Official Injury Report: 11/13/26 05:00 PM",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+      "publisher": "NBA (ak-static.cms.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["all 11/13 injury rows", "11/14 partial rows and NOT YET SUBMITTED entries"],
+      "notes": "Latest report available at data cut (18:28 ET). Covers 11/13 games fully; 11/14 partially (DAL, BKN, DET submitted; DEN, NOP, CLE, MEM, CHI, MIN, MIA NOT YET SUBMITTED). 11/15-11/16 games not present."
+    },
+    {
+      "id": "src-injury-0415",
+      "title": "NBA Official Injury Report: 11/13/26 04:15 PM",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_04_15PM.pdf",
+      "publisher": "NBA (ak-static.cms.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["supersession check vs 05:00 PM report"],
+      "notes": "Superseded by 05:00 PM report for status values."
+    },
+    {
+      "id": "src-injury-0115",
+      "title": "NBA Official Injury Report: 11/13/26 01:15 PM",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_01_15PM.pdf",
+      "publisher": "NBA (ak-static.cms.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["supersession history", "status-change examples (e.g., Dejounte Murray Doubtful->Out)"],
+      "notes": "Superseded."
+    },
+    {
+      "id": "src-injury-0100",
+      "title": "NBA Official Injury Report: 11/13/26 01:00 PM",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_01_00PM.pdf",
+      "publisher": "NBA (ak-static.cms.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["supersession history"],
+      "notes": "Superseded."
+    },
+    {
+      "id": "src-league-stats",
+      "title": "NBA League Team Stats — Traditional, 2026-27 Regular Season (30 rows)",
+      "url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+      "publisher": "NBA (nba.com/stats)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["GP, W, L, WIN%, PTS, +/- per game for all 30 teams"],
+      "notes": "5 chunks fetched; full 30-row table."
+    },
+    {
+      "id": "src-injury-policy",
+      "title": "NBA Player Participation Policy (effective 2023-24)",
+      "url": "https://ak-static.cms.nba.com/wp-content/uploads/sites/46/2023/09/NBA-Player-Participation-Policy.pdf",
+      "publisher": "NBA (ak-static.cms.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["star-player availability framework", "back-to-back restrictions", "injury-report consistency rules"]
+    },
+    {
+      "id": "src-ppp-pr",
+      "title": "NBA Player Participation Policy announcement (pr.nba.com)",
+      "url": "https://pr.nba.com/nba-announces-2023-24-player-participation-policy/",
+      "publisher": "NBA (pr.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["policy context"],
+      "notes": "Located via search result; not re-fetched in this session — treat as context, not row-level data source."
+    },
+    {
+      "id": "src-rulebook",
+      "title": "NBA Official Rulebook",
+      "url": "https://official.nba.com/rulebook/",
+      "publisher": "NBA (official.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["Rules 1-14 reference", "game-flow/OT rules context"]
+    },
+    {
+      "id": "src-injury-reporting-times",
+      "title": "NBA official relaunch announcement — injury reports posted daily 1:30/5:30/8:30 p.m. ET",
+      "url": "https://official.nba.com/nba-official-relaunch/",
+      "publisher": "NBA (official.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["injury-report cadence claim"],
+      "notes": "Observed PDF timestamps today were 01:00, 01:15, 04:15, 05:00 PM ET — differ from documented cadence; see flagged fl-05."
+    },
+    {
+      "id": "src-injury-fines",
+      "title": "official.nba.com — injury reporting compliance/fines coverage",
+      "url": "https://official.nba.com/",
+      "publisher": "NBA (official.nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["injury-report compliance regime (e.g., Magic $25,000 fine, Apr 9 2026, re Anthony Black status)"],
+      "notes": "Directory/search-result basis; fine fact taken from search snippet of official domain."
+    },
+    {
+      "id": "src-player-pages",
+      "title": "NBA.com official player pages (season PPG + Last 5 Games logs)",
+      "url": "https://www.nba.com/players",
+      "publisher": "NBA (nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["player PPG baselines", "last-5 logs for props and correlations"],
+      "individual_pages": [
+        "https://www.nba.com/player/1628973/jalen-brunson",
+        "https://www.nba.com/player/1626157/karl-anthony-towns",
+        "https://www.nba.com/player/1641705/victor-wembanyama",
+        "https://www.nba.com/player/203507/giannis-antetokounmpo",
+        "https://www.nba.com/player/1628983/shai-gilgeous-alexander",
+        "https://www.nba.com/player/1630578/alperen-sengun",
+        "https://www.nba.com/player/1629630/ja-morant",
+        "https://www.nba.com/player/1629027/trae-young"
+      ]
+    },
+    {
+      "id": "src-team-pages",
+      "title": "NBA.com official team pages and rosters (season PPG per player)",
+      "url": "https://www.nba.com/teams",
+      "publisher": "NBA (nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["player PPG for OUT-player production-at-risk", "team profile PPG/OPPG headers"],
+      "individual_pages": [
+        "https://www.nba.com/team/1610612752/knicks",
+        "https://www.nba.com/stats/team/1610612752/traditional",
+        "https://www.nba.com/stats/team/1610612764/traditional",
+        "https://www.nba.com/stats/team/1610612754/traditional",
+        "https://www.nba.com/stats/team/1610612749/traditional",
+        "https://www.nba.com/stats/team/1610612753/traditional",
+        "https://www.nba.com/stats/team/1610612739/traditional",
+        "https://www.nba.com/warriors/roster",
+        "https://www.nba.com/pacers/roster",
+        "https://www.nba.com/magic/roster",
+        "https://www.nba.com/bucks/roster",
+        "https://www.nba.com/cavaliers/roster",
+        "https://www.nba.com/blazers/roster",
+        "https://www.nba.com/jazz/roster",
+        "https://www.nba.com/thunder/roster",
+        "https://www.nba.com/pelicans/roster",
+        "https://www.nba.com/grizzlies/roster",
+        "https://www.nba.com/rockets/roster",
+        "https://www.nba.com/kings/roster",
+        "https://www.nba.com/clippers/roster",
+        "https://www.nba.com/spurs/roster"
+      ]
+    },
+    {
+      "id": "src-game-pages",
+      "title": "NBA.com official game preview/summary pages (per game ID)",
+      "url": "https://www.nba.com/games",
+      "publisher": "NBA (nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["per-game record confirmation", "box/linescore example (CLE 115-107 NYK, 11/11)", "rest-day cross-check"],
+      "individual_pages": [
+        "https://www.nba.com/game/nyk-vs-ind-0022600034",
+        "https://www.nba.com/game/den-vs-nop-0022600231",
+        "https://www.nba.com/game/ind-vs-phi-0022600236",
+        "https://www.nba.com/game/cle-vs-nyk-0022600218",
+        "https://www.nba.com/game/chi-vs-nyk-0022600177"
+      ]
+    },
+    {
+      "id": "src-nba-cup",
+      "title": "Emirates NBA Cup 2026 (nba.com)",
+      "url": "https://www.nba.com/nba-cup/2026",
+      "publisher": "NBA (nba.com)",
+      "official": true,
+      "fetched_at": "2026-11-13",
+      "used_for": ["Cup group context for 11/13 slate"],
+      "notes": "Linked from nba.com nav; group labels taken from schedule page rows themselves."
+    }
+  ],
+  "blocked_or_dead_sources": [
+    {"url": "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json", "result": "HTTP 500", "fetched_at": "2026-11-13", "action": "do not retry"},
+    {"url": "https://stats.nba.com/stats/leaguestandingsv3", "result": "fetch failed/blocked", "fetched_at": "2026-11-13", "action": "do not retry"},
+    {"url": "https://official.nba.com/injury-report/", "result": "HTTP 404", "fetched_at": "2026-11-13", "action": "wrong path; real reports live at ak-static.cms.nba.com/referee/injury/"},
+    {"url": "https://www.nba.com/standings", "result": "renders without standings table (JS-only)", "fetched_at": "2026-11-13", "action": "records harvested from game pages + league stats table instead"},
+    {"url": "https://www.nba.com/stats/player/1628973/gamelog", "result": "No data available (server-side)", "fetched_at": "2026-11-13", "action": "use player-page Last 5 Games tables instead"}
+  ]
+}

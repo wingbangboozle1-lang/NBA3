@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "task": "T11",
+    "rule": "Items here are never silently corrected. Blank + flagged beats inferred. Every entry links its evidence.",
+    "generated_at": "2026-11-13T23:30:00Z"
+  },
+  "flags": [
+    {
+      "id": "fl-01",
+      "category": "repo",
+      "severity": "high",
+      "title": "Initial repository contained only a 6-byte README",
+      "detail": "At base commit 6c3004d the entire tree was README.md containing exactly '# NBA3' (6 bytes, verified with od -c). No LICENSE, no .gitignore, no CI, no docs, no code. Any statement that this repo previously contained analysis or pick logic would be false.",
+      "evidence": ["git ls-tree -r 6c3004d --name-only", "wc -c README.md"],
+      "status": "OPEN - README expanded in this branch; LICENSE/.gitignore decisions logged in QUESTIONS.md Q-07/Q-08",
+      "source_url": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "fl-02",
+      "category": "repo",
+      "severity": "low",
+      "title": "Commit author identities differ across history",
+      "detail": "Initial commit author email is a personal gmail address; subsequent commits use the noreply github address. Timestamps also differ in timezone offset (+0900 vs +0000). Not an integrity problem (all commits are the repo owner) but recorded for audit completeness.",
+      "evidence": ["git log --all --pretty='%h %an <%ae> %s'"],
+      "status": "OPEN - informational",
+      "source_url": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "fl-03",
+      "category": "source",
+      "severity": "medium",
+      "title": "nba.com/standings returns no standings table to non-JS fetch",
+      "detail": "Official standings page renders table content client-side only; fetch returned tiebreak procedures text but no team rows. Records were therefore harvested from nba.com game pages + nba.com/stats league table instead (both official, cross-checked: all 31 slate rows match).",
+      "evidence": ["fetch https://www.nba.com/standings -> no table rows"],
+      "status": "RESOLVED via alternate official sources; standings page remains unusable for automation",
+      "source_url": "https://www.nba.com/standings"
+    },
+    {
+      "id": "fl-04",
+      "category": "schedule",
+      "severity": "medium",
+      "title": "Undefined 'R' flag in official schedule PDF legend",
+      "detail": "Game 40 (GSW at SAS, 11/13) carries an 'R' flag in the NOTE column alongside the Cup 'C' flag. The official legend on the final PDF page defines C (Cup), A (Austin), B (Mexico City), D (Paris), E (Manchester) but never R. Meaning not inferred. Same R flag appears on other rows (e.g., game 27 PHI@CLE, game 50 HOU@DEN).",
+      "evidence": ["schedule PDF chunk 1 rows for games 27/40", "schedule PDF chunk 2 row 50", "schedule PDF chunk 12 legend"],
+      "status": "OPEN - flagged, not inferred; ask NBA source owner (Q-05)",
+      "source_url": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"
+    },
+    {
+      "id": "fl-05",
+      "category": "injury",
+      "severity": "medium",
+      "title": "Observed injury-report posting times do not match documented cadence",
+      "detail": "official.nba.com relaunch documentation states reports post daily at 1:30/5:30/8:30 p.m. ET. Reports observed on 2026-11-13 were stamped 01:00, 01:15, 04:15 and 05:00 PM ET. The documented cadence may be stale; observed timestamps are used for freshness gates.",
+      "evidence": ["4 report PDFs fetched with distinct timestamp filenames", "official.nba.com/nba-official-relaunch"],
+      "status": "OPEN - freshness gates use observed timestamps",
+      "source_url": "https://official.nba.com/nba-official-relaunch/"
+    },
+    {
+      "id": "fl-06",
+      "category": "injury",
+      "severity": "high",
+      "title": "11/14 teams partially NOT YET SUBMITTED; 11/15-16 reports not published",
+      "detail": "In the latest official report (05:00 PM 11/13), DEN, NOP, CLE, MEM, CHI, MIN and MIA rows for 11/14 read 'NOT YET SUBMITTED'. No rows exist for any 11/15 or 11/16 game. All affected pick rows are PROVISIONAL: model lines generated from team strength + rest only, injury input blank, never scored until a report covering that date exists.",
+      "evidence": ["Injury-Report_2026-11-13_05_00PM.pdf rows for 11/14-11/16"],
+      "status": "OPEN - pipeline re-runs when newer report publishes (Q-01)",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    },
+    {
+      "id": "fl-07",
+      "category": "injury",
+      "severity": "low",
+      "title": "Blank team cell on page-break row (Williams, Brandon)",
+      "detail": "PDF page break left the team column empty on the 'Williams, Brandon - Out - Left Hamstring Strain' row in the GSW@SAS block. Attributed to GSW because the GSW roster lists Brandon Williams #12 (10.4 PPG) and the SAS roster contains no such player. Attribution recorded rather than treated as certain.",
+      "evidence": ["05:00 PM report page-break structure", "https://www.nba.com/warriors/roster", "https://www.nba.com/spurs/roster"],
+      "status": "OPEN - attribution documented, confidence high but not official",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    },
+    {
+      "id": "fl-08",
+      "category": "stats",
+      "severity": "low",
+      "title": "MIL OPPG rounding mismatch (121.3 direct vs 121.4 derived)",
+      "detail": "Direct OPPG on the official MIL team page is 121.3; PTS(106.8) - margin(-14.6) derives 121.4. 0.1 rounding difference between two official renderings. Direct value used; derived cross-check recorded.",
+      "evidence": ["https://www.nba.com/stats/team/1610612749/traditional", "league stats row for MIL"],
+      "status": "OPEN - documented, direct value wins",
+      "source_url": "https://www.nba.com/stats/team/1610612749/traditional"
+    },
+    {
+      "id": "fl-09",
+      "category": "schedule",
+      "severity": "low",
+      "title": "DET@MIA (11/14) TV: PDF blank vs NBA TV on nba.com",
+      "detail": "Schedule PDF row 233 national-TV column is empty; nba.com/schedule shows the NBA TV logo for this game. Page treated as more current than the August PDF; both recorded.",
+      "evidence": ["schedule PDF chunk 1 row 233", "nba.com/schedule chunk 1"],
+      "status": "OPEN - discrepancy logged, page value used for display",
+      "source_url": "https://www.nba.com/schedule"
+    },
+    {
+      "id": "fl-10",
+      "category": "schedule",
+      "severity": "medium",
+      "title": "Schedule PDF rows 215+ lose the 'at' separator (column merge)",
+      "detail": "From PDF row 215 onward the 'at' token is concatenated into the away-team cell (e.g., 'Orlando | at Sacramento'), and rows 246-253 show no 'at' at all. Away/home order was cross-verified for all slate games via nba.com preview URL slugs (away-vs-home) and venue cities; no slate game left ambiguous.",
+      "evidence": ["schedule PDF chunk 1 rows 215-244", "schedule PDF chunk 2 rows 246-253", "nba.com preview slugs e.g. chi-vs-cle-0022600246"],
+      "status": "RESOLVED for all 31 slate rows via dual-source cross-check; PDF quirk still flagged",
+      "source_url": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"
+    },
+    {
+      "id": "fl-11",
+      "category": "source",
+      "severity": "low",
+      "title": "Player URL slug mismatch: /player/1629027/shai-gilgeous-alexander renders Trae Young",
+      "detail": "Requesting nba.com/player/1629027/shai-gilgeous-alexander returned the page titled 'Trae Young | Guard | Washington Wizards' (player id 1629027). Canonical URL corrected to nba.com/player/1629027/trae-young. Data used (Trae Young PPG 19.7, WAS) comes from the page that actually rendered. Also confirms Trae Young now plays for WAS in 2026-27 per official page.",
+      "evidence": ["fetched page title 'Trae Young | Guard | Washington Wizards'"],
+      "status": "RESOLVED - canonical URL recorded",
+      "source_url": "https://www.nba.com/player/1629027/trae-young"
+    },
+    {
+      "id": "fl-12",
+      "category": "injury",
+      "severity": "high",
+      "title": "Live scoreboard JSON and stats API blocked/failed",
+      "detail": "cdn.nba.com scoreboard JSON returned HTTP 500 (twice); stats.nba.com leaguestandingsv3 fetch failed. No retry per research log. All needed facts obtained from HTML pages and PDFs instead.",
+      "evidence": ["fetch cdn.nba.com/.../todaysScoreboard_00.json -> 500", "fetch stats.nba.com -> failed"],
+      "status": "RESOLVED via alternates; endpoints marked do-not-retry",
+      "source_url": "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
+    },
+    {
+      "id": "fl-13",
+      "category": "injury",
+      "severity": "medium",
+      "title": "Many OUT players have no verifiable season PPG",
+      "detail": "G-League/Two-Way assignments and players with GP=0 have PPG '-' on official rosters; some rosters (CHI, HOU, POR, MIA, DAL, BKN, DET) were not fetched in full this session so several OUT players carry season_ppg = null with flag-ppg-missing. Production-at-risk totals for those teams are under-counted by an unknown amount and are labelled INCOMPLETE in injury impact analysis. Never estimated.",
+      "evidence": ["data/injuries.json rows with flag-ppg-missing"],
+      "status": "OPEN - complete by fetching remaining rosters in a later pass (Q-02)",
+      "source_url": "https://www.nba.com/teams"
+    },
+    {
+      "id": "hca-01",
+      "category": "model",
+      "severity": "medium",
+      "title": "Home-court advantage constant (2.5 pts) is an assumption, not an official figure",
+      "detail": "No official NBA-published HCA value exists in the fetched sources. Location splits exist for only 5 teams (WAS, IND, MIL, ORL, CLE) and show no stable signal in that tiny sample. The model uses +2.5 pts as a flagged assumption; all originated lines carry hca-01. Calibration task logged as Q-03.",
+      "evidence": ["data/teams.json location_splits_note"],
+      "status": "OPEN - assumption, flagged on every line row",
+      "source_url": "https://www.nba.com/stats/team/1610612739/traditional"
+    },
+    {
+      "id": "w-01",
+      "category": "model",
+      "severity": "medium",
+      "title": "Rest penalty and injury PPG weights are model assumptions",
+      "detail": "b2b_penalty = -1.5 pts and injury_ppg_weight = 0.6 are design constants chosen for v1 of the origination model. They are not derived from official NBA publications. Both are logged as tunable parameters with pre-registered values (no post-hoc edits once picks are scored).",
+      "evidence": ["data/strategies.json parameters", "data/picks.json meta.parameters + parameter_revision"],
+      "status": "OPEN - assumption, pre-registered",
+      "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/strategies.json"
+    },
+    {
+      "id": "fl-14",
+      "category": "source",
+      "severity": "low",
+      "title": "official.nba.com/injury-report/ returns 404",
+      "detail": "The obvious official URL path for injury reports 404s; real reports live at ak-static.cms.nba.com/referee/injury/Injury-Report_<date>_<time>.pdf. Pattern confirmed by four working fetches today.",
+      "evidence": ["fetch official.nba.com/injury-report/ -> 404"],
+      "status": "RESOLVED - working pattern recorded in sources.json",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/"
+    },
+    {
+      "id": "fl-15",
+      "category": "schedule",
+      "severity": "low",
+      "title": "Schedule PDF is an August snapshot marked SUBJECT TO CHANGE",
+      "detail": "Official PDF header: 'AS OF AUGUST 13, 2026 | SUBJECT TO CHANGE'. All 31 slate rows were re-verified against the live nba.com/schedule page on 2026-11-13 (times, venues, TV, game IDs all match), so current slate data is live-verified; the PDF remains a secondary source.",
+      "evidence": ["PDF header text", "nba.com/schedule chunks 0-2"],
+      "status": "RESOLVED by dual-source verification",
+      "source_url": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"
+    },
+    {
+      "id": "fl-16",
+      "category": "repo",
+      "severity": "low",
+      "title": "NBA.com schedule page has odds behind 'Hide Odds' toggle but values are client-rendered",
+      "detail": "The schedule page exposes an odds toggle, but no odds values were present in server-rendered content during this session's fetches. Market odds are therefore NOT captured; CLV (closing-line-value) gates for strategies are explicitly blocked rather than faked.",
+      "evidence": ["nba.com/schedule chunk 0 shows 'Hide Odds' control with no odds values in payload"],
+      "status": "OPEN - market-odds source needed for CLV gates (Q-04)",
+      "source_url": "https://www.nba.com/schedule"
+    }
+  ]
+}
