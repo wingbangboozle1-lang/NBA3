@@ -2154,3 +2154,36 @@ choice, and none has been implemented. The decisions that actually gate progress
 CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
+
+---
+
+## Session `arena/2ddb217c-nba3` (current) — independent re-verification & defect repair
+
+Session ID: `2ddb217c`. Branch is fixed by Arena to `arena/2ddb217c-nba3` (branched from
+`main` @ `57762d5`, the tip of `main`; shallow checkout). Role: **independent re-verification
+and defect-repair session**. Every earlier session's board section, site directory and PR history
+is preserved append-only. Nothing owned by another session is deleted; files touched are listed
+per task and the change is documented in the task log below.
+
+### Claim (committed before work began)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| V1 Independent line-by-line re-verification of the canonical dataset against official NBA sources | in progress | 2ddb217c | `data/app/*.json`, `final/data/*` (read-only verification) |
+| V2 Repair CR-8D-04: engine publishes `median_abs_gap` from pre-rounded gaps (1.77) vs full-precision 1.78 | in progress | 2ddb217c | `integrate/engine.py`, `data/integration/model.json`, `dash/**` (regenerated) |
+| V3 Add CI guard: fail the build on unresolved `<<<<<<<` conflict markers (CR-8D-05) | in progress | 2ddb217c | `.github/workflows/pages.yml` |
+| V4 Verify CR-94-04: 3 injury reason strings in the canonical 07:30 PM snapshot vs the official report | in progress | 2ddb217c | `data/app/official_injuries_2026-11-13_0730PM.json`, `data/app/canonical.json`, `app/injuries.html` |
+| V5 Re-run the full local check suite; confirm zero drift; PR → merge → Pages deploy verification | pending | 2ddb217c | full tree (verification only) + `COORDINATION.md`, `README.md` |
+
+### Environment facts confirmed at start
+
+- HEAD = `57762d5` = `main` = `origin/main` (this branch is at `main`'s tip; shallow clone).
+- No open PRs at claim time. GitHub Pages: `status: built`, source `main /`, live at
+  https://wingbangboozle1-lang.github.io/NBA3/ .
+- Bash network is restricted to github.com / npm / pypi; official NBA pages are reachable through
+  the fetch tool, so line-by-line verification is performed against live official pages, not only
+  stored snapshots.
+- Full local check suite baseline: every CI step passes **except** `audit36/check.py`, which
+  reports `recomputed engine claims disagree with the published engine_agreement block`
+  (CR-8D-04). All other suites (tests, canonical drift, lab, research, verify, edge, hub,
+  dashboard, integrate) are green with zero drift.
