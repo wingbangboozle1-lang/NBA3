@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Picks for the next three days — NBA3 NBA Edge Lab</title>
+<title>Prices for the window — NBA3 NBA Edge Lab</title>
 <meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
 <link rel="stylesheet" href="assets/app.css">
 </head>
@@ -11,344 +11,411 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html" class="active">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html" class="active">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
   <div class="page-head">
     <div class="crumb">Model output</div>
-    <h1>Picks for the next three days</h1>
+    <h1>Prices for the window</h1>
     
   </div>
 
-<div class="callout warn"><strong>No strategy is eligible.</strong> Fair prices are OUR originated prices. No licensed odds feed is connected; no market comparison has been performed.
-Every pick below is <strong>paper only</strong>: it records what the model would have done, so the
-method can be audited and scored later. No price was compared, no money is at stake, and no pick is
-betting advice.</div>
+<div class="callout warn">
+<p><strong>This page does not contain bets.</strong> Every price below is <em>our own fair price
+against our own originated line</em>, which makes its expected value exactly zero. No licensed odds
+feed is connected to this repository, so there is no market line to beat and no expected value can
+be stated. Read this page as “here is what we think each game is worth”, not as “here is what to
+bet”. Suggestion <a href="suggestions.html">CS-36</a> proposes renaming it to match.</p>
+</div>
 
+<p>One row for every one of the 27 games in the
+2026-11-14 → 2026-11-17 window. The brief asks for picks up
+to three days ahead; this is today plus the maximum three-day horizon, generated from our
+originated lines. Games on 2026-11-13 were live on the official schedule page when it was read and
+are excluded — see <a href="flagged.html">NF-54</a>.</p>
+
+<p class="note">“Model side” names the team our line favours, printed the way a book would print it. “Availability” is whether both teams had filed an injury report at capture time.</p>
 <div class="table-wrap"><table>
 <caption id="picks"></caption>
 <thead><tr>
 <th>Date</th>
-<th>Game</th>
+<th>Tip (ET)</th>
+<th>Matchup</th>
 <th>Originated spread</th>
 <th>Originated total</th>
+<th>Fair ML home/away</th>
 <th>P(home win)</th>
-<th>Confidence</th>
-<th>Injury report state</th>
-<th>Model view</th>
+<th>Model side</th>
+<th>Model total</th>
+<th>Availability</th>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
 <td>2026-11-14</td>
-<td>DEN @ NOP</td>
-<td>DEN -8.6</td>
-<td>232.9</td>
-<td>0.327</td>
-<td>HIGH</td>
-<td><span class="chip chip-warn">PARTIAL_REPORT</span></td>
-<td>Model side: DEN (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/den-vs-nop-0022600231</a></td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">DEN @ NOP</a></td>
+<td>NOP +6.1</td>
+<td>230.6</td>
+<td>184 / -184</td>
+<td>35.2%</td>
+<td>DEN +6.1</td>
+<td>Over 230.6</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/den-vs-nop-0022600231</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>DAL @ CLE</td>
-<td>CLE -7.9</td>
-<td>229.1</td>
-<td>0.660</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-warn">AVAILABILITY_RISK</span></td>
-<td>Model side: CLE (spread) — HELD: availability risk on official report; re-check after lineups post.</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-cle-0022600232</a></td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">DAL @ CLE</a></td>
+<td>CLE -1.6</td>
+<td>227.4</td>
+<td>-117 / 117</td>
+<td>53.9%</td>
+<td>CLE -1.6</td>
+<td>Over 227.4</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-cle-0022600232</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>BKN @ MEM</td>
-<td>MEM -9.1</td>
-<td>228.8</td>
-<td>0.682</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: MEM (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bkn-vs-mem-0022600234</a></td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">DET @ MIA</a></td>
+<td>MIA +5.3</td>
+<td>228.1</td>
+<td>171 / -171</td>
+<td>36.9%</td>
+<td>DET +5.3</td>
+<td>Over 228.1</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-mia-0022600233</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>DET @ MIA</td>
-<td>DET -6.5</td>
-<td>229.9</td>
-<td>0.367</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-warn">AVAILABILITY_RISK</span></td>
-<td>Model side: DET (spread) — HELD: availability risk on official report; re-check after lineups post.</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-mia-0022600233</a></td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">BKN @ MEM</a></td>
+<td>MEM -8.4</td>
+<td>227.1</td>
+<td>-235 / 235</td>
+<td>70.1%</td>
+<td>MEM -8.4</td>
+<td>Over 227.1</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bkn-vs-mem-0022600234</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>CHI @ MIN</td>
-<td>MIN -17.4</td>
-<td>232.1</td>
-<td>0.812</td>
-<td>HIGH</td>
-<td><span class="chip chip-warn">PARTIAL_REPORT</span></td>
-<td>Model side: MIN (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-min-0022600235</a></td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">CHI @ MIN</a></td>
+<td>MIN -20.1</td>
+<td>230.1</td>
+<td>-859 / 859</td>
+<td>89.6%</td>
+<td>MIN -20.1</td>
+<td>Over 230.1</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-min-0022600235</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>IND @ PHI</td>
-<td>PHI -10.4</td>
-<td>226.0</td>
-<td>0.705</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: PHI (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-phi-0022600236</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td>LAL @ PHX</td>
-<td>LAL -3.7</td>
-<td>231.6</td>
-<td>0.422</td>
-<td>LOW</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>—</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lal-vs-phx-0022600237</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td>CHA @ LAC</td>
-<td>LAC -0.6</td>
-<td>223.7</td>
-<td>0.513</td>
-<td>LOW</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>—</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lac-0022600238</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td>SAS @ UTA</td>
-<td>SAS -19.3</td>
-<td>227.8</td>
-<td>0.165</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: SAS (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sas-vs-uta-0022600239</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td>DAL @ BOS</td>
-<td>BOS -14.7</td>
+<td>1:00 PM</td>
+<td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">IND @ PHI</a></td>
+<td>PHI -5.0</td>
 <td>225.0</td>
-<td>0.775</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: BOS (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-bos-0022600240</a></td>
+<td>-165 / 165</td>
+<td>62.3%</td>
+<td>PHI -5.0</td>
+<td>Under 225.0</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-phi-0022600236</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>NYK @ TOR</td>
-<td>NYK -2.9</td>
-<td>224.6</td>
-<td>0.440</td>
-<td>LOW</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>—</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600241</a></td>
+<td>4:00 PM</td>
+<td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">LAL @ PHX</a></td>
+<td>PHX +5.6</td>
+<td>229.5</td>
+<td>176 / -176</td>
+<td>36.3%</td>
+<td>LAL +5.6</td>
+<td>Over 229.5</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lal-vs-phx-0022600237</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>HOU @ WAS</td>
-<td>HOU -16.2</td>
+<td>4:30 PM</td>
+<td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">CHA @ LAC</a></td>
+<td>LAC -6.9</td>
+<td>223.1</td>
+<td>-201 / 201</td>
+<td>66.8%</td>
+<td>LAC -6.9</td>
+<td>Under 223.1</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lac-0022600238</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>5:00 PM</td>
+<td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">SAS @ UTA</a></td>
+<td>UTA +12.5</td>
 <td>226.5</td>
-<td>0.204</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: HOU (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-was-0022600242</a></td>
+<td>363 / -363</td>
+<td>21.6%</td>
+<td>SAS +12.5</td>
+<td>Under 226.5</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sas-vs-uta-0022600239</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>ATL @ MIL</td>
-<td>ATL -11.0</td>
-<td>231.0</td>
-<td>0.284</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: ATL (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+<td>6:00 PM</td>
+<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">DAL @ BOS</a></td>
+<td>BOS -6.1</td>
+<td>224.0</td>
+<td>-184 / 184</td>
+<td>64.8%</td>
+<td>BOS -6.1</td>
+<td>Under 224.0</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-bos-0022600240</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>OKC @ SAC</td>
-<td>OKC -19.2</td>
-<td>226.4</td>
-<td>0.165</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: OKC (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/okc-vs-sac-0022600244</a></td>
+<td>6:00 PM</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">NYK @ TOR</a></td>
+<td>TOR +0.7</td>
+<td>223.6</td>
+<td>107 / -107</td>
+<td>48.3%</td>
+<td>NYK +0.7</td>
+<td>Under 223.6</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600241</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">HOU @ WAS</a></td>
+<td>WAS +11.4</td>
+<td>225.4</td>
+<td>322 / -322</td>
+<td>23.7%</td>
+<td>HOU +11.4</td>
+<td>Under 225.4</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-was-0022600242</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">ATL @ MIL</a></td>
+<td>MIL +8.4</td>
+<td>229.2</td>
+<td>234 / -234</td>
+<td>30.0%</td>
+<td>ATL +8.4</td>
+<td>Over 229.2</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>9:00 PM</td>
+<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">OKC @ SAC</a></td>
+<td>SAC +10.7</td>
+<td>225.4</td>
+<td>299 / -299</td>
+<td>25.1%</td>
+<td>OKC +10.7</td>
+<td>Under 225.4</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/okc-vs-sac-0022600244</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>ORL @ BOS</td>
-<td>BOS -13.4</td>
-<td>224.2</td>
-<td>0.755</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: BOS (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bos-0022600245</a></td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">ORL @ BOS</a></td>
+<td>BOS -10.8</td>
+<td>223.3</td>
+<td>-300 / 300</td>
+<td>75.0%</td>
+<td>BOS -10.8</td>
+<td>Under 223.3</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bos-0022600245</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>CHI @ CLE</td>
-<td>CLE -13.4</td>
-<td>233.8</td>
-<td>0.756</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: CLE (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-cle-0022600246</a></td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">CHI @ CLE</a></td>
+<td>CLE -12.4</td>
+<td>231.6</td>
+<td>-357 / 357</td>
+<td>78.1%</td>
+<td>CLE -12.4</td>
+<td>Over 231.6</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-cle-0022600246</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>MEM @ WAS</td>
-<td>MEM -6.9</td>
-<td>228.9</td>
-<td>0.359</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: MEM (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a></td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">MEM @ WAS</a></td>
+<td>WAS +6.5</td>
+<td>227.4</td>
+<td>192 / -192</td>
+<td>34.3%</td>
+<td>MEM +6.5</td>
+<td>Over 227.4</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>PHI @ BKN</td>
-<td>PHI -8.9</td>
-<td>226.0</td>
-<td>0.321</td>
-<td>HIGH</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: PHI (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-bkn-0022600248</a></td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">PHI @ BKN</a></td>
+<td>BKN +2.6</td>
+<td>225.0</td>
+<td>130 / -130</td>
+<td>43.4%</td>
+<td>PHI +2.6</td>
+<td>Under 225.0</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-bkn-0022600248</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>HOU @ MIA</td>
-<td>HOU -5.7</td>
-<td>229.4</td>
-<td>0.383</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: HOU (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-mia-0022600249</a></td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">HOU @ MIA</a></td>
+<td>MIA +8.9</td>
+<td>227.8</td>
+<td>246 / -246</td>
+<td>28.9%</td>
+<td>HOU +8.9</td>
+<td>Over 227.8</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-mia-0022600249</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>POR @ MIN</td>
-<td>MIN -5.9</td>
-<td>229.3</td>
-<td>0.622</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: MIN (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600250</a></td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">POR @ MIN</a></td>
+<td>MIN -4.7</td>
+<td>227.5</td>
+<td>-161 / 161</td>
+<td>61.6%</td>
+<td>MIN -4.7</td>
+<td>Over 227.5</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600250</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>GSW @ NOP</td>
-<td>GSW -7.2</td>
-<td>233.8</td>
-<td>0.353</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: GSW (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">GSW @ NOP</a></td>
+<td>NOP +10.5</td>
+<td>231.4</td>
+<td>291 / -291</td>
+<td>25.6%</td>
+<td>GSW +10.5</td>
+<td>Over 231.4</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
-<td>PHX @ DEN</td>
-<td>DEN -6.1</td>
-<td>228.9</td>
-<td>0.626</td>
-<td>MEDIUM</td>
-<td><span class="chip chip-bad">NO_REPORT</span></td>
-<td>Model side: DEN (spread). Strategy status: provisional (passes all gates except minimum sample size).</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a> · <a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a></td>
+<td>9:00 PM</td>
+<td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">PHX @ DEN</a></td>
+<td>DEN -5.0</td>
+<td>227.3</td>
+<td>-165 / 165</td>
+<td>62.3%</td>
+<td>DEN -5.0</td>
+<td>Over 227.3</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">NYK @ TOR</a></td>
+<td>TOR +0.7</td>
+<td>223.6</td>
+<td>107 / -107</td>
+<td>48.3%</td>
+<td>NYK +0.7</td>
+<td>Under 223.6</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600253</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">POR @ MIN</a></td>
+<td>MIN -4.7</td>
+<td>227.5</td>
+<td>-161 / 161</td>
+<td>61.6%</td>
+<td>MIN -4.7</td>
+<td>Over 227.5</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600254</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">DET @ SAS</a></td>
+<td>SAS -4.7</td>
+<td>225.9</td>
+<td>-160 / 160</td>
+<td>61.6%</td>
+<td>SAS -4.7</td>
+<td>Under 225.9</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-sas-0022600255</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>10:30 PM</td>
+<td><a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">UTA @ LAC</a></td>
+<td>LAC -5.5</td>
+<td>227.2</td>
+<td>-174 / 174</td>
+<td>63.5%</td>
+<td>LAC -5.5</td>
+<td>Over 227.2</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lac-0022600257</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>11:00 PM</td>
+<td><a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">CHA @ LAL</a></td>
+<td>LAL -15.6</td>
+<td>224.3</td>
+<td>-511 / 511</td>
+<td>83.6%</td>
+<td>LAL -15.6</td>
+<td>Under 224.3</td>
+<td><span class="chip chip-ok">REPORTED</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lal-0022600256</a></td>
 </tr>
 </tbody></table></div>
-<h2>Strategy status carried by every pick</h2>
-<div class="table-wrap"><table>
-<caption id="pickstatus"></caption>
-<thead><tr>
-<th>Strategy</th>
-<th>Status</th>
-<th>Source</th>
-</tr></thead><tbody>
-<tr>
-<td>STRAT1</td>
-<td>provisional (passes all gates except minimum sample size)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json" target="_blank" rel="noopener noreferrer">picks json</a></td>
-</tr>
-<tr>
-<td>STRAT2</td>
-<td>provisional (passes all gates except minimum sample size)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json" target="_blank" rel="noopener noreferrer">picks json</a></td>
-</tr>
-<tr>
-<td>STRAT3</td>
-<td>not eligible: G1_sample&gt;=100, G3_roi&gt;0@-110, G4_perm_p&lt;0.10</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json" target="_blank" rel="noopener noreferrer">picks json</a></td>
-</tr>
-<tr>
-<td>STRAT4</td>
-<td>not eligible: G1_sample&gt;=100, G4_perm_p&lt;0.10</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json" target="_blank" rel="noopener noreferrer">picks json</a></td>
-</tr>
-</tbody></table></div>
-<h2>Same-game parlay leg candidates (2)</h2>
-<p>Games where the model's spread and total are both considered for a two-leg same-game
-combination. The joint probability is <strong>not</strong> the product of the marginals: the measured
-spread/total residual correlation is r = 0.091 with a 95% interval that includes zero, and the
-observed joint hit rate was 0.246 against 0.219 under independence. A cross-game parlay is priced
-under an <em>assumption</em> of independence that has not been measured — see
-<a href="correlations.html">Correlations</a>.</p>
-<div class="table-wrap"><table>
-<caption id="combos"></caption>
-<thead><tr>
-<th>Date</th>
-<th>Game</th>
-<th>Totals view</th>
-<th>Source</th>
-</tr></thead><tbody>
-<tr>
-<td>2026-11-14</td>
-<td>DEN @ NOP</td>
-<td>Originated total 232.9 (model projected 114.4 + 117.0). Totals strategy status: not eligible: G1_sample&gt;=100, G3_roi&gt;0@-110, G4_perm_p&lt;0.10 — not eligible for betting.</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
-</tr>
-<tr>
-<td>2026-11-14</td>
-<td>CHI @ MIN</td>
-<td>Originated total 232.1 (model projected 119.5 + 111.1). Totals strategy status: not eligible: G1_sample&gt;=100, G3_roi&gt;0@-110, G4_perm_p&lt;0.10 — not eligible for betting.</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
-</tr>
-</tbody></table></div>
+<h2>Games whose injury picture is not settled</h2><p>None — both teams had filed for every game in the window at capture time.</p>
+<h2>Which strategies select which game</h2>
+<p><strong>No game in this window is selected by any strategy that reached tier T1 or T2.</strong> That is the correct outcome given the leaderboard: no rule on the board is funded or even provisional, so there is nothing to select on. The board is on the <a href="leaderboard.html">leaderboard page</a>.</p>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

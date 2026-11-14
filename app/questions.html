@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -427,12 +427,67 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Owner</td>
 <td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm</a></td>
 </tr>
+<tr>
+<td>CQ-36</td>
+<td>Leaderboard</td>
+<td>What does winning the leaderboard actually pay?</td>
+<td>Open - owner decision</td>
+<td>The board ranks rules by a composite skill score and assigns reward tiers T1-T5 with a stake allocation (full unit / quarter unit / paper only / none). No money is attached.</td>
+<td>Whether this is a prize contest, a pool, or internal scoring. Dutch rules treat these differently (Q-LEG-01, Q-LEG-02).</td>
+<td>Decide the competition format first; the reward schedule follows from it.</td>
+<td>Owner</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CQ-37</td>
+<td>Leaderboard</td>
+<td>Who may add a strategy to the board, and how is it registered before it is scored?</td>
+<td>Open - owner decision</td>
+<td>Any rule can be scored. Nothing stops a rule being written after the results are known, which is how a backtest invents an edge.</td>
+<td>A pre-registration step: rule text, selection predicate and freeze date hashed before the first forecast is graded (gate G10 idea).</td>
+<td>Approve a pre-registration rule and add it as a gate; until then treat every strategy here as retrospective.</td>
+<td>Owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CQ-38</td>
+<td>Gates</td>
+<td>Is 100 graded out-of-sample forecasts the right minimum sample?</td>
+<td>Open - owner decision</td>
+<td>Gate G3 uses n &gt;= 100. With ~1,230 NBA games a season and rules that fire on a subset, 100 takes one to three seasons for the narrower rules.</td>
+<td>The cost of waiting versus the cost of acting on noise. 100 is a convention, not a measurement.</td>
+<td>Approve, raise or lower the number; the board re-scores automatically.</td>
+<td>Owner</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CQ-39</td>
+<td>Data</td>
+<td>May per-player game logs be captured and stored?</td>
+<td>Open - owner decision</td>
+<td>Without them every player-level correlation is blank and no prop combo can be priced. Four combos on the board are blocked on this alone.</td>
+<td>Storage, volume (~4,000 rows a season) and the reproduction terms in NBA s.1 and s.9.</td>
+<td>Decide, then capture nba.com/stats/players/boxscores by date and re-run the lab.</td>
+<td>Owner</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>CQ-40</td>
+<td>Gates</td>
+<td>Should a detected bias against our own line be reported as an edge or as a model defect?</td>
+<td>Answered (defect) - owner confirmation requested</td>
+<td>Our margin model is unbiased (+0.01 points) but the totals model runs about 1.5 points hot. A rule that fades our own high totals therefore &#x27;wins&#x27; against us.</td>
+<td>Nothing external. Beating our own line is not beating a market.</td>
+<td>Confirm the policy: a bias found against our own line is published as a model defect to fix, never as a betting edge.</td>
+<td>Owner</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

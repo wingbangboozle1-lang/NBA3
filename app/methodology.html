@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html" class="active">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html" class="active">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -27,203 +27,150 @@
   </div>
 
 <h2>1. What is originated here</h2>
-<p>Two numbers per game: a <strong>point spread</strong> (the home team's expected margin) and a
-<strong>total</strong> (expected combined points, regulation-equivalent). Both come from a
-walk-forward model whose inputs are official: the official schedule, official team advanced
-statistics, official final scores and the official injury report. Nothing is copied from a
-sportsbook.</p>
+<p>Two numbers per game: a <strong>point spread</strong>, quoted for the home team the way a book
+prints it, and a <strong>total</strong>. Both come from a walk-forward engine whose inputs are
+official: the official schedule, official team advanced statistics, official final scores and the
+official injury report. <strong>Nothing is copied from a sportsbook</strong>, because no
+sportsbook data is connected to this repository.</p>
+<p>The engine is <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py">scripts/strategy_lab.py</a>,
+standard library only, seeded and deterministic — two consecutive runs produce byte-identical
+output, which is what lets the CI workflow detect drift.</p>
 
-<h2>2. How the model is tested</h2>
+<h2>2. The model</h2>
 <ul>
-<li><strong>Walk-forward.</strong> The first 60 captured games are a burn-in; every later game is
-scored with a model fitted only on games that had already happened.</li>
-<li><strong>Baselines.</strong> Each model is compared with a naive league-average forecast. The
-margin model beats its baseline (RMSE 16.18 vs 17.30); the total model does not (20.35 vs 19.56)
-and is reported as such.</li>
-<li><strong>Exact binomial tests.</strong> Win rates are tested against 50% with an exact binomial
-test rather than a normal approximation.</li>
-<li><strong>Multiple testing.</strong> When several strategies are tested, Benjamini–Hochberg
-controls the false-discovery rate at 5%.</li>
-<li><strong>Split-half stability.</strong> A strategy must point the same way in the first and the
-second half of the sample.</li>
-<li><strong>Minimum sample.</strong> n ≥ 100 out-of-sample games before a strategy can be eligible.
-No strategy reaches it on the current sample.</li>
+  <li><strong>Margin.</strong> A Massey least-squares model: one rating per team plus a home-court
+      term, fitted on completed games. The prediction for a game is
+      <code>rating(home) − rating(away) + home-court</code>.</li>
+  <li><strong>Total.</strong> An ordinary least-squares regression of the game total on the two
+      teams' prior scoring environment (points for and against, both teams).</li>
+  <li><strong>Shrinkage, chosen from the past.</strong> A ridge penalty on the team ratings and a
+      blend weight pulling the totals toward the league mean are both selected by validating on the
+      most recent 20% of <em>past</em> games. This matters: before shrinkage the ratings of teams on
+      a bad run exploded and the engine printed a 28-point spread, which no real line does.</li>
+  <li><strong>No look-ahead.</strong> For every date, the engine is refitted from games with a
+      strictly earlier date. Games are batched by date, so a game cannot see another game tipped off
+      the same night — a leak an earlier session's pipeline actually had.</li>
 </ul>
 
-<h2>3. Validation gates</h2>
+<h2>3. How it performed out of sample</h2>
+<p>131 out-of-sample forecasts, after a 40-game burn-in. Each is
+scored against a naive constant baseline (league-average home margin, league-average total) on the
+same games.</p>
 
 <div class="table-wrap"><table>
-<caption id="methodgates"></caption>
+<caption id="method-perf"></caption>
 <thead><tr>
-<th>ID</th>
-<th>Gate</th>
-<th>Proposed threshold</th>
-<th>Status</th>
-<th>Result / note</th>
-<th>Source</th>
+<th>Measure</th>
+<th>Our model</th>
+<th>Baseline</th>
+<th>Verdict</th>
 </tr></thead><tbody>
 <tr>
-<td>CG-01</td>
-<td>Data provenance</td>
-<td>Zero unsourced rows</td>
-<td><span class="chip chip-warn">Design rule (proposed)</span></td>
-<td>Rule is defined in code: evaluate_gates() returns BLOCKED without evidence</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td>Margin RMSE</td>
+<td>15.900</td>
+<td>16.866</td>
+<td>ours is better<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>CG-02</td>
-<td>Leakage</td>
-<td>Zero features stamped at or after tip-off</td>
-<td><span class="chip chip-warn">Design rule (proposed)</span></td>
-<td>leakage_violations() is unit-tested</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td>Total RMSE</td>
+<td>19.636</td>
+<td>19.464</td>
+<td>ours is WORSE — reported as such<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>CG-03</td>
-<td>Beats baselines</td>
-<td>Lower 95% bound of score difference above 0</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Bootstrap per S17 (cluster extension)</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
+<td>Margin bias</td>
+<td>0.516 pts</td>
+<td>0</td>
+<td>effectively unbiased<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>CG-04</td>
-<td>Minimum sample</td>
-<td>At least 1000 graded forecasts per strategy</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Owner must approve the number (Q-GATE-01)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+<td>Total bias</td>
+<td>-1.756 pts</td>
+<td>0</td>
+<td>our totals run 1.8 points high<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>CG-05</td>
-<td>Significance with multiple testing</td>
-<td>Holm-adjusted p at or below 0.05</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Exact binomial tail per S16; Holm step-down in pipeline/gates.py</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm</a></td>
+<td>Brier (home win)</td>
+<td>0.2157</td>
+<td>0.2500</td>
+<td>better than unskilled, but scored on the same residuals — see the note below<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>CG-06</td>
-<td>Uncertainty</td>
-<td>95% interval lower bound above 0</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Percentile bootstrap per S17; clustering by date is an extension</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
-</tr>
-<tr>
-<td>CG-07</td>
-<td>Stability</td>
-<td>Two or more positive blocks</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Owner must define blocks (Q-GATE-01)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
-</tr>
-<tr>
-<td>CG-08</td>
-<td>Dependence (combos)</td>
-<td>Model joint inside the measured interval</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Method page for the interval not yet located; cite NIST index only</td>
-<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
-</tr>
-<tr>
-<td>CG-09</td>
-<td>Economic test</td>
-<td>Net return interval above 0 at recorded prices</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>break-even and profit helpers unit-tested</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
-</tr>
-<tr>
-<td>CG-10</td>
-<td>Prospective paper trial</td>
-<td>At least 200 forecasts logged before tip-off</td>
-<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
-<td>Owner must approve</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
-</tr>
-<tr>
-<td>CG-11</td>
-<td>Control check</td>
-<td>Null baseline passes no gate</td>
-<td><span class="chip chip-warn">Design rule (proposed)</span></td>
-<td>Control strategy ST11</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
-</tr>
-<tr>
-<td>CG-12</td>
-<td>Every input has an official or reproducible source</td>
-<td>all inputs official or reproducible</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
-</tr>
-<tr>
-<td>CG-13</td>
-<td>No look-ahead (all features exist at tip-off)</td>
-<td>no look-ahead</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
-</tr>
-<tr>
-<td>CG-14</td>
-<td>Sample size n &gt;= 100 out-of-sample games</td>
-<td>n &gt;= 100</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>fail</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
-</tr>
-<tr>
-<td>CG-15</td>
-<td>Effect is powered at the observed rate</td>
-<td>n needed for the observed effect</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>n needed 56</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
-</tr>
-<tr>
-<td>CG-16</td>
-<td>Raw p &lt; 0.05 (exact binomial against 50%)</td>
-<td>raw p &lt; 0.05</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
-</tr>
-<tr>
-<td>CG-17</td>
-<td>Survives Benjamini-Hochberg FDR 0.05</td>
-<td>Benjamini-Hochberg FDR 0.05</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
-</tr>
-<tr>
-<td>CG-18</td>
-<td>Direction stable in both halves of the sample</td>
-<td>direction stable in both halves</td>
-<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
-<td>pass</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+<td>Margin residual sd</td>
+<td>15.952 pts</td>
+<td>—</td>
+<td>the width behind every probability on this site<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 </tbody></table></div>
 
+<div class="callout warn">
+<p><strong>The Brier score is in-sample on the walk-forward residuals.</strong> The residual
+distribution that turns a margin into a probability is estimated from the same forecasts it scores.
+That flatters the number, it is not a calibration test on held-out data, and it is labelled as such
+wherever it appears.</p>
+</div>
+
 <h2>4. Removing luck from the evaluation</h2>
-<p>Luck cannot be removed from an individual game result. It can be kept out of the score by:
-scoring strategies out of sample; adjusting for the number of strategies tested; reporting
-confidence intervals rather than point estimates; requiring a direction that is stable across halves
-of the sample; refusing to score a strategy on fewer than 100 out-of-sample games; and never
-re-using a result to tune the rule that produced it. A positive short-run return is not evidence of
-skill, and none of the strategies on this site has demonstrated skill yet.</p>
+<p>Luck cannot be removed from a single game. It can be kept out of the <em>score</em>, and this
+project uses four mechanisms, because one is not enough:</p>
+<ol>
+  <li><strong>Exact binomial tests</strong> against the fair-line rate for the market — 50% for a
+      single bet, 25% for a two-leg parlay. Not a normal approximation: an exact test. (Gate G5.)</li>
+  <li><strong>Benjamini–Hochberg</strong> false-discovery-rate control across every scored rule on
+      the board. Fifteen rules at p &lt; 0.05 produce a false positive more often than not.
+      (Gate G6.)</li>
+  <li><strong>A whole-board Monte Carlo.</strong> Every rule is simulated under its own fair-line
+      null, the largest edge anywhere on the board is recorded, and that is repeated
+      5,000 times. The 95th percentile —
+      <strong>31.2 percentage points</strong> — is the edge a rule
+      must beat before it is called anything. This is the test that catches the fact that the
+      <em>best</em> rule on a large board is biased upward even after FDR correction. (Gate G9.)
+      <strong>Nothing on the board beats it.</strong></li>
+  <li><strong>Date-block bootstrap</strong> for the return interval, because betting results cluster
+      by date — same slate, same travel, same news. The resampling unit is the date, not the bet.
+      (Gate G8.)</li>
+</ol>
+<p>Three further disciplines are structural rather than statistical. Rules are published in
+<strong>mirror pairs</strong> so the losing direction cannot be hidden. Strategy thresholds are
+<strong>rolling quantiles of prior projections</strong> rather than fixed numbers, so a rule cannot
+die or appear just because the model changed. And a <strong>null control</strong> — back the home
+team every game — is scored alongside everything else; it fails
+5
+of 9 gates, which is the check
+that the gates work.</p>
+
+<div class="callout">
+<p><strong>The most important methodological point on this site.</strong> Because our line is
+originated to be fair, the expected value of betting into it is <em>zero by construction</em>. A rule
+that wins more than half the time against our own line is therefore evidence that
+<strong>our line is biased</strong> in the games the rule picks — a model defect to repair, not an
+edge to bet. This project reports those biases as defects (see
+<a href="questions.html">CQ-40</a>). The one apparent exception found during this build — "fade the
+highest projected totals", which posted 69.7% on 66 games before the totals model was regularised —
+fell to 65.5% on 29 games once the model was fixed. The signal was the model's error.</p>
+</div>
 
 <h2>5. Injuries and rotation</h2>
 <p>The official injury report publishes a participation status and a reason. It does not publish
-minutes, expected minutes or production impact, and a status is not a medical clearance. The
-pipeline therefore (a) captures the newest report with its timestamp, (b) keeps the previous
-snapshots so status changes can be shown, (c) converts an OUT into a minutes vacuum only when the
-player's official minutes-per-game are captured, and (d) leaves the vacuum blank and flagged when
-they are not. Status-to-availability weights (Out 0.00, Doubtful 0.25, Questionable 0.60,
-Probable 0.90, Available 1.00) are this project's assumption and are flagged as such.</p>
+minutes, expected minutes, or production impact, and a status is not a medical clearance. This
+project therefore:</p>
+<ul>
+  <li>captures the newest report with its timestamp and keeps the previous snapshot so status
+      changes can be shown;</li>
+  <li>treats a team printed <strong>NOT YET SUBMITTED</strong> as <em>unknown</em>, never as
+      healthy — "unknown" and "fit" are different facts and every downstream number respects the
+      difference;</li>
+  <li>sums the <strong>official season minutes</strong>, and the official season points, rebounds
+      and assists, of players listed <strong>Out or Doubtful</strong> — and only those, because
+      anything softer is a guess;</li>
+  <li>publishes that vacuum as a <strong>floor</strong> and counts how many listed players fall
+      outside the captured minutes table, contributing zero;</li>
+  <li>leaves <strong>the replacement blank</strong>. Who absorbs the vacated minutes, and how much
+      of the production they replace, needs per-player game logs and on/off splits that this
+      repository does not have. No availability weights (Out 0.00 / Doubtful 0.25 / Questionable
+      0.60 / Probable 0.90 / Available 1.00) are applied anywhere in the current pipeline; earlier
+      sessions used such weights and they are recorded here only as history.</li>
+</ul>
 
 <h2>6. Legal and data-use boundary</h2>
 <ul>
@@ -236,14 +183,16 @@ links to every official source it uses. The review points at
 licence under the Betting and Gaming Act and a Ksa licence for online sports-betting offers; the
 statutory position is summarised on the <a href="questions.html">Open questions</a> page.</li>
 <li>No licensed price feed is connected, so no profit, ROI or market comparison can be published
-here. Every price shown is our own fair price.</li>
+here. Every price shown is our own fair price, and every ROI figure is measured against our own
+line at an assumed −110 — which is a property of our numbers, not an economic result
+(<a href="flagged.html">NF-55</a>).</li>
 </ul>
 
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

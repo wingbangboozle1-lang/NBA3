@@ -4,7 +4,11 @@
 Inputs (all already verified against official sources by earlier sessions or
 by this session -- see data/app/official_*.json and docs/verification_log.md):
 
-  data/app/official_slate.json                        official schedule, 2026-11-14 read
+  data/app/official_slate_1114_1117.json              official schedule, 2026-11-14 read
+  data/app/official_team_ratings_2026-11-14b.json     official team advanced stats
+  data/app/official_injuries_2026-11-13_0745PM.json   official injury report PDF
+  data/app/lab.json                                   session 8d3d0271 line-origination
+                                                      and strategy-lab output
   data/app/official_team_ratings_2026-11-14.json     official team advanced stats
   data/app/official_injuries_2026-11-13_0730PM.json  official injury report PDF
   data/origin/model_output.json                       originated lines, backtest, gates
@@ -29,8 +33,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 OUT = os.path.join(APP, "canonical.json")
 
-BUILD_UTC = "2026-11-14T01:00Z"
-SESSION = "arena/a459dadf-nba3"
+BUILD_UTC = "2026-11-14T03:00Z"
+SESSION = "arena/8d3d0271-nba3"
 REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 PAGES_DOCS = ("https://docs.github.com/en/pages/getting-started-with-github-pages/"
               "configuring-a-publishing-source-for-your-github-pages-site")
@@ -522,107 +526,326 @@ def build_gates():
 
 
 # ---------------------------------------------------------------- main
-def main():
-    slate = jload("data", "app", "official_slate.json")
-    ratings = jload("data", "app", "official_team_ratings_2026-11-14.json")
-    injuries = jload("data", "app", "official_injuries_2026-11-13_0730PM.json")
-    mo = jload("data", "origin", "model_output.json")
-    picks = jload("data", "picks", "picks_2026-11-14_to_16.json")
+# Registers contributed by this session.  IDs continue the canonical NF-/
+# CQ-/CS- namespaces used by session `arena/2b9f1ae1-nba3`.
+SESSION_FLAGS = [
+    ("NF-49", "Model", "high",
+     "Our originated totals model is WORSE out of sample than a constant league-average total "
+     "(RMSE 19.64 vs 19.46 on 131 walk-forward games). The published totals are shrunk toward "
+     "the league mean by a weight chosen from past data only.",
+     "Treat every originated total as weakly informative. Do not build a totals strategy on it "
+     "until the model beats the constant.",
+     ["https://www.nba.com/games?date="]),
+    ("NF-50", "Strategies", "high",
+     "A 'fade the highest projected totals' signal that looked strong before the totals model was "
+     "regularised (n=66, 69.7%, p=0.0019 in the first draft of this board) fell to n=29, 65.5%, "
+     "p=0.136 once the model was shrunk toward the league mean. The earlier signal was "
+     "miscalibration, not edge.",
+     "Any strategy that rests on our totals model must be re-scored after the model is fixed. "
+     "A bias against our own line is a defect to repair, not an edge to bet.",
+     ["https://www.nba.com/games?date="]),
+    ("NF-51", "Strategies", "high",
+     "No strategy on the board clears the luck threshold. Under the fair-line null, a board of "
+     "this size produces a best-looking edge of 31.3 percentage points or more 5% of the time; "
+     "the largest edge any rule actually posted is 18.0 pp.",
+     "Do not fund anything on this board. The leaderboard is a screening tool, not a result.",
+     ["https://www.nba.com/games?date="]),
+    ("NF-52", "Injuries", "medium",
+     "Only the top 31 players by minutes were captured from the official players table, so the "
+     "minutes and production vacated by any other injured player are unknown. Every published "
+     "minutes vacuum is therefore a FLOOR.",
+     "Capture the full official minutes table, then recompute. Until then no injury number here "
+     "is complete.",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"]),
+    ("NF-53", "Injuries", "medium",
+     "Five of the ten teams playing on 2026-11-14 had NOT YET SUBMITTED a report in the newest "
+     "official file (11/13/26 07:45 PM ET), and no report at all exists yet for 11/15, 11/16 or "
+     "11/17.",
+     "Re-read the official index before acting on any game later than 11/14. Those games cannot "
+     "be treated as final.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("NF-54", "Slate", "low",
+     "The 2026-11-13 games were LIVE on the official schedule page when it was read, so they were "
+     "excluded from the priced window. Earlier sessions priced them.",
+     "Use this page for the 11/14-11/17 window; earlier snapshots cover 11/13-11/16 and are kept "
+     "as history.",
+     ["https://www.nba.com/schedule?date=2026-11-14"]),
+    ("NF-55", "Strategies", "high",
+     "Every ROI figure in this repository is measured against our own originated line at an "
+     "assumed -110 price. No licensed odds feed is connected, so no ROI here is an economic "
+     "result and none should be read as profit.",
+     "Connect a licensed, timestamped price feed, or stop publishing ROI.",
+     ["https://www.nba.com/schedule"]),
+]
 
+SESSION_QUESTIONS = [
+    ("CQ-36", "Leaderboard",
+     "What does winning the leaderboard actually pay?",
+     "Open - owner decision",
+     "The board ranks rules by a composite skill score and assigns reward tiers T1-T5 with a "
+     "stake allocation (full unit / quarter unit / paper only / none). No money is attached.",
+     "Whether this is a prize contest, a pool, or internal scoring. Dutch rules treat these "
+     "differently (Q-LEG-01, Q-LEG-02).",
+     "Decide the competition format first; the reward schedule follows from it.",
+     ["https://kansspelautoriteit.nl/online-kansspel-aanbieden"], "Owner"),
+    ("CQ-37", "Leaderboard",
+     "Who may add a strategy to the board, and how is it registered before it is scored?",
+     "Open - owner decision",
+     "Any rule can be scored. Nothing stops a rule being written after the results are known, "
+     "which is how a backtest invents an edge.",
+     "A pre-registration step: rule text, selection predicate and freeze date hashed before the "
+     "first forecast is graded (gate G10 idea).",
+     "Approve a pre-registration rule and add it as a gate; until then treat every strategy here "
+     "as retrospective.",
+     ["https://github.com/wingbangboozle1-lang/NBA3"], "Owner"),
+    ("CQ-38", "Gates",
+     "Is 100 graded out-of-sample forecasts the right minimum sample?",
+     "Open - owner decision",
+     "Gate G3 uses n >= 100. With ~1,230 NBA games a season and rules that fire on a subset, "
+     "100 takes one to three seasons for the narrower rules.",
+     "The cost of waiting versus the cost of acting on noise. 100 is a convention, not a "
+     "measurement.",
+     "Approve, raise or lower the number; the board re-scores automatically.",
+     ["https://www.nba.com/games?date="], "Owner"),
+    ("CQ-39", "Data",
+     "May per-player game logs be captured and stored?",
+     "Open - owner decision",
+     "Without them every player-level correlation is blank and no prop combo can be priced. Four "
+     "combos on the board are blocked on this alone.",
+     "Storage, volume (~4,000 rows a season) and the reproduction terms in NBA s.1 and s.9.",
+     "Decide, then capture nba.com/stats/players/boxscores by date and re-run the lab.",
+     ["https://www.nba.com/stats/players/boxscores",
+      "https://www.nba.com/termsofuse"], "Owner"),
+    ("CQ-40", "Gates",
+     "Should a detected bias against our own line be reported as an edge or as a model defect?",
+     "Answered (defect) - owner confirmation requested",
+     "Our margin model is unbiased (+0.01 points) but the totals model runs about 1.5 points hot. "
+     "A rule that fades our own high totals therefore 'wins' against us.",
+     "Nothing external. Beating our own line is not beating a market.",
+     "Confirm the policy: a bias found against our own line is published as a model defect to "
+     "fix, never as a betting edge.",
+     ["https://www.nba.com/games?date="], "Owner"),
+]
+
+SESSION_SUGGESTIONS = [
+    ("CS-31", "Leaderboard",
+     "Pre-register every strategy before it is scored",
+     "A rule written after seeing the results will always look good. Right now nothing stops it.",
+     "A: keep scoring retrospectively but stamp every row 'retrospective'; B: hash the rule text "
+     "and freeze it before the first graded forecast; C: both - stamp now, freeze from next "
+     "season.",
+     "C", "CQ-37",
+     ["https://github.com/wingbangboozle1-lang/NBA3"]),
+    ("CS-32", "Leaderboard",
+     "Publish the luck threshold next to every leaderboard",
+     "A per-rule p-value cannot tell you that a board of 15 rules throws up one 20-point edge by "
+     "chance. The whole-board simulation can.",
+     "A: show only per-rule p-values (current default elsewhere in the repo); B: show the "
+     "whole-board luck threshold and require a rule to beat it (this board); C: hide the board "
+     "until a rule beats it.",
+     "B", "NF-51",
+     ["https://www.nba.com/games?date="]),
+    ("CS-33", "Model",
+     "Fix the totals model before publishing another totals strategy",
+     "It is beaten by a constant. Every totals rule on the board is measuring the model's error, "
+     "not the game.",
+     "A: keep publishing totals lines with the shrinkage and a warning; B: drop totals lines "
+     "until the model beats the constant; C: rebuild the totals model on possessions and "
+     "four factors, which needs data we do not have yet.",
+     "A now, C when the data exists", "NF-49",
+     ["https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"]),
+    ("CS-34", "Data",
+     "Capture the full official minutes table, not the top 31",
+     "Every injury number on the site is a floor because most injured players are outside the "
+     "captured table.",
+     "A: capture all rows on the official players page; B: capture only players who appear on an "
+     "injury report; C: leave it and keep the floors flagged.",
+     "A", "NF-52",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"]),
+    ("CS-35", "Site",
+     "Name one canonical dashboard and archive the rest",
+     "Eight dashboards are live on this Pages site with five incompatible ID namespaces. A reader "
+     "cannot tell which numbers are current.",
+     "A: keep all eight and label each with its snapshot time; B: promote one, move the rest "
+     "under /archive/ with a banner; C: delete the redundant ones.",
+     "B", "NF-44",
+     ["https://github.com/wingbangboozle1-lang/NBA3"]),
+    ("CS-36", "Picks",
+     "Stop calling our own fair prices 'picks'",
+     "A pick implies a bet against a price. We have no price. The page is a set of fair numbers "
+     "against our own line.",
+     "A: rename the page to 'Originated prices for the window' and drop the word pick; B: keep "
+     "'picks' but print the fair-price caveat on every row; C: remove the page until a price feed "
+     "is connected.",
+     "A", "NF-55",
+     ["https://www.nba.com/schedule"]),
+    ("CS-37", "Slate",
+     "Regenerate the window automatically instead of transcribing it by hand",
+     "Three sessions have hand-transcribed the same schedule page. It is slow and it is where "
+     "every transcription error so far has come from.",
+     "A: keep manual transcription with a cross-check (current); B: add a scheduled job that "
+     "re-reads the official pages and opens a pull request on any difference; C: manual, but only "
+     "on a fixed daily cadence.",
+     "B", "NF-54",
+     ["https://www.nba.com/schedule?date=2026-11-14"]),
+    ("CS-38", "Compliance",
+     "Resolve the legal questions before anything is staked",
+     "NBA Terms s.9 restricts gambling use of its statistics and Dutch law requires a licence to "
+     "offer online betting. The reward schedule depends on which applies.",
+     "A: internal scoring only, no prizes, no money; B: obtain a licence; C: stop publishing "
+     "selections publicly.",
+     "A pending counsel", "CQ-36",
+     ["https://www.nba.com/termsofuse",
+      "https://kansspelautoriteit.nl/online-kansspel-aanbieden"]),
+]
+
+GATE_DEFS = [
+    ("CG-19", "G1", "Every input has an official or reproducible source",
+     "Every row traces to an official page or to code in this repository",
+     "Zero unsourced rows", "Design rule (proposed)"),
+    ("CG-20", "G2", "No look-ahead",
+     "Ratings, shrinkage and thresholds refit from games with a strictly earlier date",
+     "Zero features stamped at or after tip-off", "Design rule (proposed)"),
+    ("CG-21", "G3", "Minimum out-of-sample sample",
+     "Enough graded forecasts before any verdict", "n >= 100", "Proposed (owner approval needed)"),
+    ("CG-22", "G4", "Statistical power",
+     "The observed effect is large enough that the sample can detect it",
+     "Required n at 80% power <= observed n", "Proposed (owner approval needed)"),
+    ("CG-23", "G5", "Distinguishable from luck",
+     "Exact two-sided binomial test against the fair-line rate for that market",
+     "p < 0.05", "Proposed (owner approval needed)"),
+    ("CG-24", "G6", "Multiple testing",
+     "Benjamini-Hochberg across every scored rule on the board",
+     "q <= 0.05", "Proposed (owner approval needed)"),
+    ("CG-25", "G7", "Stability",
+     "Direction holds in the first half and the second half of the sample",
+     "Both halves on the same side of the fair-line rate", "Proposed (owner approval needed)"),
+    ("CG-26", "G8", "Economic test at an assumed price",
+     "Date-block bootstrap of return at an assumed -110 per leg",
+     "95% interval excludes zero", "Proposed (owner approval needed) - see NF-55"),
+    ("CG-27", "G9", "Beats the whole-board luck threshold",
+     "Monte Carlo: largest edge across the board simulated under the fair-line null",
+     "Edge >= 95th percentile of the null maximum", "Proposed (owner approval needed)"),
+]
+
+
+def build_lab_gates():
+    out = []
+    for gid, short, name, checks, threshold, status in GATE_DEFS:
+        out.append({
+            "id": gid, "gate": short, "name": name, "checks": checks,
+            "threshold": threshold, "threshold_status": status,
+            "status": "Measured on every scored rule", "reason": "", "notes": "",
+            "source": "https://github.com/wingbangboozle1-lang/NBA3",
+        })
+    return out
+
+
+def build_session_flags():
+    out = []
+    for fid, area, sev, item, action, sources in SESSION_FLAGS:
+        out.append({
+            "id": fid, "area": area, "item": item, "why": "", "action_needed": action,
+            "sources": sources, "status": "Open - owner review", "severity": sev,
+            "legacy_ref": "", "found_on": "2026-11-14",
+        })
+    return out
+
+
+def build_session_questions():
+    out = []
+    for qid, cat, q, status, known, missing, nxt, sources, owner in SESSION_QUESTIONS:
+        out.append({
+            "id": qid, "category": cat, "question": q, "status": status,
+            "known": known, "missing": missing, "next_step": nxt,
+            "sources": sources, "owner": owner, "legacy_ref": "",
+        })
+    return out
+
+
+def build_session_suggestions():
+    out = []
+    for sid, area, sug, why, options, rec, dep, sources in SESSION_SUGGESTIONS:
+        out.append({
+            "id": sid, "area": area, "suggestion": sug, "why": why, "options": options,
+            "recommended_option": rec, "dependency": dep, "decision": "Awaiting owner review",
+            "sources": sources, "legacy_ref": "",
+        })
+    return out
+
+
+def main():
+    # Official captures: this session's (2026-11-14, 01:05Z) plus the previous
+    # session's, which is kept because the earlier pages and the repo review
+    # cite it and because the two agree on every overlapping field.
+    slate = jload("data", "app", "official_slate_1114_1117.json")
+    prior_slate = jload("data", "app", "official_slate.json")
+    ratings = jload("data", "app", "official_team_ratings_2026-11-14b.json")
+    injuries = jload("data", "app", "official_injuries_2026-11-13_0745PM.json")
+    lab = jload("data", "app", "lab.json")
+    mo = jload("data", "origin", "model_output.json")
+
+    prior_games = {g["game_id"]: g for g in prior_slate["games"]}
     by_gid = {g["game_id"]: g for g in slate["games"]}
 
-    # ---- originated lines, joined to the official schedule
+    # ---- team names for the schedule rows ------------------------------
+    name_of = {}
+    for g in prior_slate["games"]:
+        name_of[g["away"]] = g.get("away_name", g["away"])
+        name_of[g["home"]] = g.get("home_name", g["home"])
+
+    # ---- originated lines ----------------------------------------------
     lines = []
-    for l in mo["lines"]:
-        g = by_gid.get(l["gid"])
-        if not g:
-            continue
+    for l in lab["lines"]:
+        g = by_gid.get(l["game_id"]) or prior_games.get(l["game_id"]) or {}
         lines.append({
             "date": l["date"], "time_et": l["time_et"], "away": l["away"], "home": l["home"],
-            "away_name": g["away_name"], "home_name": g["home_name"],
-            "game_id": l["gid"], "nba_game_url": g["nba_game_url"],
-            "competition": g["competition"] or l.get("competition", ""),
-            "exp_margin": l["exp_margin"], "exp_total": l["exp_total"],
-            "exp_home_pts": l["exp_home_pts"], "exp_away_pts": l["exp_away_pts"],
+            "away_name": name_of.get(l["away"], l["away"]),
+            "home_name": name_of.get(l["home"], l["home"]),
+            "game_id": l["game_id"], "nba_game_url": l["nba_game_url"],
+            "competition": l.get("competition") or g.get("competition", ""),
+            "exp_margin": l["model_margin"], "exp_total": l["orig_total"],
+            "exp_home_pts": l["proj_home_pts"], "exp_away_pts": l["proj_away_pts"],
             "orig_spread_home": l["orig_spread_home"], "orig_total": l["orig_total"],
-            "eff_spread_home": l["eff_spread_home"], "eff_total": l["eff_total"],
+            "eff_spread_home": l["orig_spread_home"], "eff_total": l["orig_total"],
             "total_lo": l["total_lo"], "total_hi": l["total_hi"],
             "margin_lo": l["margin_lo"], "margin_hi": l["margin_hi"],
             "p_home_win": l["p_home_win"], "p_ot": l["p_ot"],
+            "p_blowout_15": l.get("p_blowout_15"),
             "pace": l["pace"], "out_count_home": l["out_count_home"],
             "out_count_away": l["out_count_away"],
-            "out_players_home": l.get("out_players_home", []),
-            "out_players_away": l.get("out_players_away", []),
-            "source": g["source_url"], "source_label": "Official schedule + our walk-forward model (model/build.py)",
-            "game_source": g["nba_game_url"],
+            "out_players_home": l["out_players_home"],
+            "out_players_away": l["out_players_away"],
+            "fair_ml_home": l["fair_ml_home"], "fair_ml_away": l["fair_ml_away"],
+            "home_reported": l.get("home_reported"), "away_reported": l.get("away_reported"),
+            "source": l["source"],
+            "source_label": "Official schedule + our walk-forward engine (scripts/strategy_lab.py)",
+            "game_source": l["nba_game_url"],
+            "note": l.get("note", ""),
         })
 
-    # ---- picks for the 3-day window, joined to the official schedule
+    # ---- selections for the window --------------------------------------
     pick_rows = []
-    aliased = 0
-    for p in picks.get("picks", []):
-        away, home = [x.strip() for x in p["matchup"].split("@")]
-        if away in ALIAS or home in ALIAS:
-            aliased += 1
-        away, home = ALIAS.get(away, away), ALIAS.get(home, home)
-        p = dict(p, matchup=f"{away} @ {home}")
-        m = next((l for l in lines if l["away"] == away and l["home"] == home
-                  and l["date"] == p["date"]), None)
+    for p in lab["picks"]:
         pick_rows.append({
-            "date": p["date"], "time_et": p.get("start_et", ""), "away": away, "home": home,
-            "origin_spread": p.get("origin_spread", ""), "origin_total": p.get("origin_total", ""),
-            "fair_ml_home": p.get("fair_ml_home"), "fair_ml_away": p.get("fair_ml_away"),
-            "model_p_home": p.get("model_p_home"), "confidence": p.get("confidence", ""),
-            "availability_flag": (p.get("availability") or {}).get("flag", ""),
-            "availability_detail": (p.get("availability") or {}).get("detail", ""),
-            "singles_view": p.get("singles_view", ""),
-            "totals_view": p.get("totals_view", ""),
-            "parlay_leg_candidate": p.get("parlay_leg_candidate"),
-            "model_margin": m["exp_margin"] if m else None,
-            "model_total": m["exp_total"] if m else None,
-            "nba_game_url": m["nba_game_url"] if m else "",
-            "source": (m["source"] if m else "https://www.nba.com/schedule?date=2026-11-14"),
-            "source_label": "Official schedule + our originated line (model/build.py); no market price is used",
+            "date": p["date"], "time_et": p["time_et"], "away": p["away"], "home": p["home"],
+            "matchup": f"{p['away']} @ {p['home']}",
+            "origin_spread": f"{p['home']} {p['orig_spread_home']:+.1f}",
+            "origin_total": p["orig_total"],
+            "fair_ml_home": p["fair_ml_home"], "fair_ml_away": p["fair_ml_away"],
+            "model_p_home": p["p_home_win"], "confidence": "",
+            "availability_flag": p["availability_flag"],
+            "availability_detail": p["availability_detail"],
+            "singles_view": p["side_lean"], "totals_view": p["totals_lean"],
+            "parlay_leg_candidate": True,
+            "model_margin": p["model_margin_home"], "model_total": p["orig_total"],
+            "nba_game_url": p["nba_game_url"],
+            "source": p["source"],
+            "source_label": "Official schedule + our originated line (scripts/strategy_lab.py); no market price is used",
             "abbreviation_corrected": True,
-            "strategy_status": picks.get("strategy_status", {}),
-            "pricing_note": picks.get("pricing_note", ""),
-        })
-
-    # ---- injury impact rollup (our own model on the official report)
-    impact = []
-    inj_by_game = {}
-    for r in injuries["rows"]:
-        key = (r["game_date"], r["matchup"])
-        inj_by_game.setdefault(key, []).append(r)
-    mpg = {}
-    for r in cload("data", "origin", "players_top_minutes.csv"):
-        mpg[r["player"].strip().lower()] = float(r["min"])
-    for l in lines:
-        key = (l["date"], f"{l['away']}@{l['home']}")
-        rows = inj_by_game.get(key, [])
-        outs = [r for r in rows if r["row_type"] == "player" and r["status"] == "Out"]
-        doubtful = [r for r in rows if r["row_type"] == "player"
-                    and r["status"] in ("Doubtful", "Questionable", "Probable")]
-        not_sub = [r for r in rows if r["row_type"] == "team_report_status"]
-        vac = 0.0
-        unquant = 0
-        for r in outs:
-            name = " ".join(reversed(r["player"].split(", "))).strip()
-            m = mpg.get(name.lower())
-            if m:
-                vac += m
-            else:
-                unquant += 1
-        impact.append({
-            "date": l["date"], "matchup": f"{l['away']}@{l['home']}",
-            "rows_listed": len([r for r in rows if r["row_type"] == "player"]),
-            "out": len(outs), "doubtful_or_questionable": len(doubtful),
-            "minutes_vacuum": vac if vac else None,
-            "minutes_vacuum_unquantified_players": unquant,
-            "teams_not_submitted": [r["team"] for r in not_sub],
-            "out_players": [r["player"] for r in outs],
-            "source": injuries["source_url"],
-            "source_label": "Official injury report (11/13/26 07:30 PM ET) + official MPG table",
+            "strategy_status": {},
+            "pricing_note": p["pricing_note"],
+            "strategy_selections": p.get("strategy_selections", []),
         })
 
     canonical = {
@@ -631,40 +854,66 @@ def main():
             "built_utc": BUILD_UTC,
             "session": SESSION,
             "window": slate["window"],
-            "as_of_note": "Official pages were read on 2026-11-14 (UTC). Injury, tip-time and stat values move during a slate.",
+            "as_of_note": ("Official pages were read on 2026-11-14 (UTC) at 01:05Z. Injury, "
+                           "tip-time and stat values move during a slate; re-read the official "
+                           "pages before acting."),
             "model": {
-                "results_captured": mo["integrity"]["games_captured"],
+                "results_captured": lab["meta"]["games_captured"],
                 "team_games_official": mo["integrity"]["team_games_official"],
                 "mismatch": mo["integrity"]["mismatch"],
-                "oos_games": mo["models"]["A"]["n"],
-                "margin_rmse": mo["models"]["A"]["margin"].get("rmse"),
-                "margin_baseline_rmse": mo["models"]["A"]["margin_baseline_rmse"],
-                "total_rmse": mo["models"]["A"]["total"].get("rmse"),
-                "total_baseline_rmse": mo["models"]["A"]["total_baseline_rmse"],
-                "home_court": mo["home_court"]["value"],
-                "home_court_p": mo["home_court"]["p_two_sided"],
+                "oos_games": lab["residuals"]["n"],
+                "burn_in": lab["meta"]["burn_in"],
+                "margin_rmse": lab["residuals"]["margin_rmse"],
+                "margin_baseline_rmse": lab["residuals"]["margin_baseline_rmse"],
+                "total_rmse": lab["residuals"]["total_rmse"],
+                "total_baseline_rmse": lab["residuals"]["total_baseline_rmse"],
+                "margin_bias": lab["residuals"]["margin_bias"],
+                "total_bias": lab["residuals"]["total_bias"],
+                "brier": lab["residuals"]["brier"],
+                "brier_baseline": lab["residuals"]["brier_baseline"],
+                "margin_sd": lab["residuals"]["margin_sd"],
+                "total_sd": lab["residuals"]["total_sd"],
+                "home_win_rate": lab["residuals"]["home_win_rate"],
+                "ot_rate": lab["residuals"]["ot_rate"],
+                "avg_total": lab["residuals"]["avg_total"],
+            },
+            "engine": {
+                "name": "Walk-forward Massey margin model + shrunk scoring-environment totals model",
+                "code": "scripts/strategy_lab.py",
+                "shrinkage": ("Ridge penalty and totals-shrinkage weight chosen by validating on "
+                              "the most recent 20% of PAST games only (select_hyperparameters)."),
+                "determinism": f"Seeded (seed {lab['meta']['seed']}); two consecutive runs produce "
+                               "byte-identical output, which is what makes the CI drift gate mean "
+                               "anything.",
             },
         },
+        "lab": lab,
         "slate": slate,
+        "prior_slate": prior_slate,
         "lines": lines,
         "picks": pick_rows,
-        "props": jload("data", "origin", "model_output.json")["player_props"],
+        "props": lab["props"],
+        "parlays": lab["parlays"],
         "injuries": injuries,
-        "injury_impact": impact,
+        "injury_impact": lab["injury_impact"],
         "ratings": ratings,
-        "gameflow": mo["game_flow"],
-        "correlations": mo["correlations"],
-        "strategies": build_strategies(),
-        "gates": build_gates(),
+        "gameflow": lab["gameflow"],
+        "correlations": lab["correlations"],
+        "strategies": lab["strategies"],
+        "prop_combos": lab["prop_combos"],
+        "luck_test": lab["luck_test"],
+        "residuals": lab["residuals"],
+        "oos_sample": lab["oos_sample"],
+        "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags(),
+        "flags": build_flags() + build_session_flags(),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}
             for (rid, severity, item, action, sources, status) in REVIEW_FINDINGS
         ],
-        "questions": build_questions(),
-        "suggestions": build_suggestions(),
+        "questions": build_questions() + build_session_questions(),
+        "suggestions": build_suggestions() + build_session_suggestions(),
         "review": build_review(),
         "requirements": cload("data", "requirements.csv"),
         "gameflow_factors": cload("data", "gameflow.csv"),

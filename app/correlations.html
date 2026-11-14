@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -26,9 +26,11 @@
     
   </div>
 
-<p>Correlations are measured on the official results log where possible. Where a correlation could
-<strong>not</strong> be measured (player-level pairs need per-player game logs that were never
-captured), the value is left blank and the row says so — it is never estimated.</p>
+<p>Correlation is what decides whether a parlay is priced correctly. Four values below were
+<strong>measured</strong> on official results; five could not be measured and are
+<strong>left blank</strong> rather than assumed. A blank on this page is a statement, not an
+omission.</p>
+
 <div class="table-wrap"><table>
 <caption id="corr"></caption>
 <thead><tr>
@@ -38,98 +40,122 @@ captured), the value is left blank and the row says so — it is never estimated
 <th>95% interval</th>
 <th>n</th>
 <th>Status</th>
-<th>Note</th>
+<th>What it is used for</th>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
 <td>Home points vs away points (same game)</td>
 <td>Pearson r</td>
-<td>0.128</td>
-<td>[-0.021, 0.271]</td>
+<td>0.1277</td>
+<td>-0.021 … 0.271</td>
 <td>174</td>
-<td><span class="chip chip-ok">Measured</span></td>
-<td>Computed from the 174 verified final scores.</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Computed from the 174 official final scores. This is the number that decides whether a same-game side+total parlay is fairly priced as independent.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>Originated-spread residual vs originated-total residual</td>
 <td>Pearson r</td>
-<td>0.091</td>
-<td>[-0.094, 0.270]</td>
-<td>114</td>
-<td><span class="chip chip-ok">Measured</span></td>
-<td>Residuals are out-of-sample (walk-forward). This is the key input for same-game parlays that combine a side with a total.</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+<td>0.0321</td>
+<td>-0.140 … 0.202</td>
+<td>131</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Out-of-sample residuals from the walk-forward run. The key input for pricing a same-game parlay that combines a side with a total. The interval includes zero, so independence is not rejected here.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
-<td>Cover (vs our spread) AND over (vs our total)</td>
-<td>phi (binary)</td>
-<td>0.109</td>
-<td><span class="unverified">not measurable</span></td>
-<td>114</td>
-<td><span class="chip chip-ok">Measured</span></td>
-<td>Joint hit rate 0.246 vs 0.219 under independence.</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
-</tr>
-<tr>
-<td>Player A points vs Player B points, same team, same game (PTS-PTS)</td>
-<td>Pearson r</td>
-<td><span class="unverified">—</span></td>
-<td><span class="unverified">not measurable</span></td>
+<td>Cover (vs our spread) AND over (vs our total), same game</td>
+<td>phi (binary association)</td>
+<td>-0.0351</td>
 <td>—</td>
-<td><span class="chip chip-bad">Unverified</span></td>
-<td>Requires per-player game logs, which were not captured. Left blank by policy.</td>
-<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+<td>131</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Joint hit rate 0.2290 vs 0.2377 under independence; dependence ratio 0.963. A ratio above 1.0 means the two legs land together more often than independent pricing assumes, which is how a book protects itself on same-game parlays.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Player A points vs player B points, same team, same game</td>
+<td>Pearson r</td>
+<td><span class="unverified">UNVERIFIED — left blank</span></td>
+<td>—</td>
+<td>—</td>
+<td><span class="chip chip-warn">not measurable</span></td>
+<td>Needs per-player game logs. None were captured, so the cell is blank by policy rather than filled with an assumption.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>Player points vs player rebounds, same player, same game</td>
 <td>Pearson r</td>
-<td><span class="unverified">—</span></td>
-<td><span class="unverified">not measurable</span></td>
+<td><span class="unverified">UNVERIFIED — left blank</span></td>
 <td>—</td>
-<td><span class="chip chip-bad">Unverified</span></td>
-<td>Requires per-player game logs. Left blank by policy.</td>
-<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+<td>—</td>
+<td><span class="chip chip-warn">not measurable</span></td>
+<td>Needs per-player game logs. Blank by policy.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
-<td>Player points vs player assists, same player, same game (combo SGP)</td>
+<td>Player points vs player assists, same player, same game</td>
 <td>Pearson r</td>
-<td><span class="unverified">—</span></td>
-<td><span class="unverified">not measurable</span></td>
+<td><span class="unverified">UNVERIFIED — left blank</span></td>
 <td>—</td>
-<td><span class="chip chip-bad">Unverified</span></td>
-<td>Requires per-player game logs. Left blank by policy.</td>
-<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+<td>—</td>
+<td><span class="chip chip-warn">not measurable</span></td>
+<td>Needs per-player game logs. Blank by policy.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Player points vs team total, same game</td>
+<td>Pearson r</td>
+<td><span class="unverified">UNVERIFIED — left blank</span></td>
+<td>—</td>
+<td>—</td>
+<td><span class="chip chip-warn">not measurable</span></td>
+<td>Needs per-player game logs. Blank by policy.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>Two legs in different games (cross-game parlay)</td>
 <td>Pearson r</td>
-<td>0.000</td>
-<td><span class="unverified">not measurable</span></td>
+<td><span class="unverified">UNVERIFIED — left blank</span></td>
 <td>—</td>
-<td><span class="chip chip-bad">Unverified</span></td>
-<td>Not measured on this sample. Independence is an ASSUMPTION, not a verified result; treat as unverified.</td>
-<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+<td>—</td>
+<td><span class="chip chip-warn">not measurable</span></td>
+<td>Not measured on this sample. Independence is an ASSUMPTION used to price cross-game parlays, not a verified result. Treat as unverified.</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 </tbody></table></div>
-<h2>What the correlation numbers mean for combinations</h2>
 
-<ul>
-<li><strong>Same-game parlay (side + total).</strong> Measured joint hit rate
-0.246 against 0.219
-if the legs were independent. The difference is inside the noise of a 114-game
-sample, so no dependence premium is claimed either way.</li>
-<li><strong>Player-prop combinations.</strong> Not measurable without per-player game logs: the three
-player-level rows above are blank by policy.</li>
-<li><strong>Cross-game parlays.</strong> Independence is an assumption, not a result. It is priced as
-an assumption and flagged.</li>
-</ul>
+<h2>Why the same-game number matters</h2>
+<p>The joint hit rate of “our side covers <em>and</em> the game goes over our total” was
+<strong>22.90%</strong> against
+<strong>23.77%</strong> under independence — a dependence
+ratio of <strong>0.963</strong>. On this sample the ratio
+sits slightly below 1.0, meaning the two legs landed together a little <em>less</em> often than
+independence would suggest. The confidence interval on the underlying residual correlation includes
+zero, so <strong>independence is not rejected</strong> — we cannot tell whether the true value is
+above or below 1.0. That is the honest position, and it is why the same-game cards on the
+<a href="parlays.html">parlays page</a> are published with the interval attached rather than as
+clean prices.</p>
+
+<h2>Why the player numbers are blank</h2>
+<p>Every player-level correlation needs per-player game logs: one row per player per game, roughly
+4,000 rows a season. This repository has never captured them — it holds official season averages for
+31 players and nothing else. Without the game-by-game distribution there is no honest way to put a
+number in those cells, so they stay empty and are listed on the
+<a href="flagged.html">Flagged for review</a> page. Four prop combinations are blocked on exactly
+this gap.</p>
+
+<h2>The cross-game assumption</h2>
+<p>Two legs in different games are priced as independent on the
+<a href="parlays.html">parlays page</a>. That is an <strong>assumption</strong>, printed as one.
+Testing it properly needs matched same-night results with a shared context model, which this sample
+is too small to support.</p>
 
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

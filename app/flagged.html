@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -27,7 +27,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 48 items: 10 high, 37 medium, 1 low severity.
+<em>decisions</em>. 55 items: 14 high, 39 medium, 2 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -571,6 +571,83 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>2026-11-14</td>
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
+<tr>
+<td>NF-49</td>
+<td>Model</td>
+<td>Our originated totals model is WORSE out of sample than a constant league-average total (RMSE 19.64 vs 19.46 on 131 walk-forward games). The published totals are shrunk toward the league mean by a weight chosen from past data only.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Treat every originated total as weakly informative. Do not build a totals strategy on it until the model beats the constant.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>NF-50</td>
+<td>Strategies</td>
+<td>A &#x27;fade the highest projected totals&#x27; signal that looked strong before the totals model was regularised (n=66, 69.7%, p=0.0019 in the first draft of this board) fell to n=29, 65.5%, p=0.136 once the model was shrunk toward the league mean. The earlier signal was miscalibration, not edge.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Any strategy that rests on our totals model must be re-scored after the model is fixed. A bias against our own line is a defect to repair, not an edge to bet.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>NF-51</td>
+<td>Strategies</td>
+<td>No strategy on the board clears the luck threshold. Under the fair-line null, a board of this size produces a best-looking edge of 31.3 percentage points or more 5% of the time; the largest edge any rule actually posted is 18.0 pp.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Do not fund anything on this board. The leaderboard is a screening tool, not a result.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>NF-52</td>
+<td>Injuries</td>
+<td>Only the top 31 players by minutes were captured from the official players table, so the minutes and production vacated by any other injured player are unknown. Every published minutes vacuum is therefore a FLOOR.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Capture the full official minutes table, then recompute. Until then no injury number here is complete.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>NF-53</td>
+<td>Injuries</td>
+<td>Five of the ten teams playing on 2026-11-14 had NOT YET SUBMITTED a report in the newest official file (11/13/26 07:45 PM ET), and no report at all exists yet for 11/15, 11/16 or 11/17.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Re-read the official index before acting on any game later than 11/14. Those games cannot be treated as final.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-54</td>
+<td>Slate</td>
+<td>The 2026-11-13 games were LIVE on the official schedule page when it was read, so they were excluded from the priced window. Earlier sessions priced them.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Use this page for the 11/14-11/17 window; earlier snapshots cover 11/13-11/16 and are kept as history.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>NF-55</td>
+<td>Strategies</td>
+<td>Every ROI figure in this repository is measured against our own originated line at an assumed -110 price. No licensed odds feed is connected, so no ROI here is an economic result and none should be read as profit.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Connect a licensed, timestamped price feed, or stop publishing ROI.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
 </tbody></table></div>
 
 <h2>Cross-workstream audit findings (session arena/2e50a71a, 2026-11-14)</h2>
@@ -710,7 +787,7 @@ earlier sub-sites are read. Their IDs are the review's own.</p>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

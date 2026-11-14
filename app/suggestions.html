@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -373,12 +373,100 @@ questions</a> page.</p>
 <td>Awaiting owner review</td>
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
+<tr>
+<td>CS-31</td>
+<td>Leaderboard</td>
+<td>Pre-register every strategy before it is scored</td>
+<td>A rule written after seeing the results will always look good. Right now nothing stops it.</td>
+<td>A: keep scoring retrospectively but stamp every row &#x27;retrospective&#x27;; B: hash the rule text and freeze it before the first graded forecast; C: both - stamp now, freeze from next season.</td>
+<td>C</td>
+<td>CQ-37</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CS-32</td>
+<td>Leaderboard</td>
+<td>Publish the luck threshold next to every leaderboard</td>
+<td>A per-rule p-value cannot tell you that a board of 15 rules throws up one 20-point edge by chance. The whole-board simulation can.</td>
+<td>A: show only per-rule p-values (current default elsewhere in the repo); B: show the whole-board luck threshold and require a rule to beat it (this board); C: hide the board until a rule beats it.</td>
+<td>B</td>
+<td>NF-51</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CS-33</td>
+<td>Model</td>
+<td>Fix the totals model before publishing another totals strategy</td>
+<td>It is beaten by a constant. Every totals rule on the board is measuring the model&#x27;s error, not the game.</td>
+<td>A: keep publishing totals lines with the shrinkage and a warning; B: drop totals lines until the model beats the constant; C: rebuild the totals model on possessions and four factors, which needs data we do not have yet.</td>
+<td>A now, C when the data exists</td>
+<td>NF-49</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CS-34</td>
+<td>Data</td>
+<td>Capture the full official minutes table, not the top 31</td>
+<td>Every injury number on the site is a floor because most injured players are outside the captured table.</td>
+<td>A: capture all rows on the official players page; B: capture only players who appear on an injury report; C: leave it and keep the floors flagged.</td>
+<td>A</td>
+<td>NF-52</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CS-35</td>
+<td>Site</td>
+<td>Name one canonical dashboard and archive the rest</td>
+<td>Eight dashboards are live on this Pages site with five incompatible ID namespaces. A reader cannot tell which numbers are current.</td>
+<td>A: keep all eight and label each with its snapshot time; B: promote one, move the rest under /archive/ with a banner; C: delete the redundant ones.</td>
+<td>B</td>
+<td>NF-44</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CS-36</td>
+<td>Picks</td>
+<td>Stop calling our own fair prices &#x27;picks&#x27;</td>
+<td>A pick implies a bet against a price. We have no price. The page is a set of fair numbers against our own line.</td>
+<td>A: rename the page to &#x27;Originated prices for the window&#x27; and drop the word pick; B: keep &#x27;picks&#x27; but print the fair-price caveat on every row; C: remove the page until a price feed is connected.</td>
+<td>A</td>
+<td>NF-55</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>CS-37</td>
+<td>Slate</td>
+<td>Regenerate the window automatically instead of transcribing it by hand</td>
+<td>Three sessions have hand-transcribed the same schedule page. It is slow and it is where every transcription error so far has come from.</td>
+<td>A: keep manual transcription with a cross-check (current); B: add a scheduled job that re-reads the official pages and opens a pull request on any difference; C: manual, but only on a fixed daily cadence.</td>
+<td>B</td>
+<td>NF-54</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>CS-38</td>
+<td>Compliance</td>
+<td>Resolve the legal questions before anything is staked</td>
+<td>NBA Terms s.9 restricts gambling use of its statistics and Dutch law requires a licence to offer online betting. The reward schedule depends on which applies.</td>
+<td>A: internal scoring only, no prizes, no money; B: obtain a licence; C: stop publishing selections publicly.</td>
+<td>A pending counsel</td>
+<td>CQ-36</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

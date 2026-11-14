@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="app/summary.html">Executive summary</a> <a href="app/methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="app/lines.html">Originated lines</a> <a href="app/picks.html">Picks (3-day window)</a> <a href="app/props.html">Player props</a> <a href="app/strategies.html">Strategies &amp; gates</a> <a href="app/correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="app/injuries.html">Injuries &amp; rotation</a> <a href="app/gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="app/questions.html">Open questions</a> <a href="app/suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="app/verification.html">Verification log</a> <a href="app/sources.html">Source register</a> <a href="app/review.html">Repository review</a> <a href="app/flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="app/summary.html">Executive summary</a> <a href="app/methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="app/lines.html">Originated lines</a> <a href="app/picks.html">Prices for the window</a> <a href="app/parlays.html">Parlay &amp; prop combos</a> <a href="app/props.html">Player props</a> <a href="app/leaderboard.html">Strategy leaderboard</a> <a href="app/strategies.html">Validation gates</a> <a href="app/correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="app/injuries.html">Injuries &amp; rotation</a> <a href="app/gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="app/questions.html">Open questions</a> <a href="app/suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="app/verification.html">Verification log</a> <a href="app/sources.html">Source register</a> <a href="app/review.html">Repository review</a> <a href="app/flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -27,33 +27,46 @@
   </div>
 
 <section class="hero">
-  <h2>Originated NBA lines, gated strategies, and every source behind them.</h2>
-  <p>One dashboard for the whole research pipeline: lines we originate for the next three days,
-  strategies measured out of sample against seven validation gates, correlations that were actually
-  measured (and the ones left blank), the official injury report with its rotation impact, game-flow
-  analysis, an executive summary, the open questions, improvement suggestions and a review page for
-  everything that is still unverified.</p>
-  <p class="hero-meta">Window 2026-11-13 → 2026-11-16 ·
-  31 official games · 22 originated lines · 22 picks ·
-  122 official injury rows · 48 flagged items ·
-  snapshot 2026-11-14</p>
+  <h2>We originate our own NBA lines, then try to prove they are worth anything.</h2>
+  <p>One dashboard for the whole pipeline: lines originated for today and the next three days,
+  15 strategy rules measured out of sample against nine validation gates and ranked on
+  a leaderboard with an explicit luck threshold, the correlations that were actually measured (and
+  the ones left blank), the official injury report with the rotation minutes it vacates, game-flow
+  factors, an executive summary, the open questions, improvement suggestions awaiting a decision, and
+  a review page for everything still unverified.</p>
+  <p class="hero-meta">Window 2026-11-14 → 2026-11-17 ·
+  27 official games · 27 originated lines ·
+  27 priced games · 122 official injury rows ·
+  55 flagged items · snapshot 2026-11-14</p>
 </section>
 <div class="cards">
-  <div class="card"><div class="k">Verified official rows</div><div class="v">183</div>
-    <div class="s">schedule + team stats + injury report, each cross-checked against the stored values</div>
-    <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">official pages</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></div>
-  <div class="card"><div class="k">Strategies passing all gates</div><div class="v">0</div>
-    <div class="s">2 are provisional; the rest failed or are untestable</div>
-    <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/strategies.html" target="_blank" rel="noopener noreferrer">strategies</a></div>
+  <div class="card"><div class="k">Verified official rows</div><div class="v">179</div>
+    <div class="s">schedule + team stats + injury report, each cross-checked field by field against
+    the values already stored</div>
+    <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">official pages</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf</a></div>
+  <div class="card"><div class="k">Strategies funded</div><div class="v">0</div>
+    <div class="s">of 15 scored rules. None clears the luck threshold
+    (31.2 pp); the best edge any rule posted is 18.0 pp.</div>
+    <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
   <div class="card"><div class="k">Correlation values measured</div>
     <div class="v">3</div>
-    <div class="s">of 7 pairs — 3 are not measurable and left blank, 1 is an assumption</div>
-    <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/correlations.html" target="_blank" rel="noopener noreferrer">correlations</a></div>
-  <div class="card"><div class="k">Open questions</div><div class="v">35</div>
-    <div class="s">each with what is known, what is missing and how to find it</div>
+    <div class="s">of 8 pairs — 4 are not measurable and left blank, 1 is an assumption printed as one</div>
+    <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
+  <div class="card"><div class="k">Open questions</div><div class="v">40</div>
+    <div class="s">each with what is known, what is missing and what would settle it —
+    13 still need an owner decision</div>
     <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repository</a></div>
 </div>
-<section class="cats"><div class="cat"><h3>Overview</h3><div class="tiles"><a class="tile" href="app/summary.html"><span class="tile-t">Executive summary</span></a><a class="tile" href="app/methodology.html"><span class="tile-t">Method &amp; rules</span></a></div></div><div class="cat"><h3>Model output</h3><div class="tiles"><a class="tile" href="app/lines.html"><span class="tile-t">Originated lines</span></a><a class="tile" href="app/picks.html"><span class="tile-t">Picks (3-day window)</span></a><a class="tile" href="app/props.html"><span class="tile-t">Player props</span></a><a class="tile" href="app/strategies.html"><span class="tile-t">Strategies &amp; gates</span></a><a class="tile" href="app/correlations.html"><span class="tile-t">Correlations</span></a></div></div><div class="cat"><h3>Game context</h3><div class="tiles"><a class="tile" href="app/injuries.html"><span class="tile-t">Injuries &amp; rotation</span></a><a class="tile" href="app/gameflow.html"><span class="tile-t">Game flow</span></a></div></div><div class="cat"><h3>Decision support</h3><div class="tiles"><a class="tile" href="app/questions.html"><span class="tile-t">Open questions</span></a><a class="tile" href="app/suggestions.html"><span class="tile-t">Site suggestions</span></a></div></div><div class="cat"><h3>Verification</h3><div class="tiles"><a class="tile" href="app/verification.html"><span class="tile-t">Verification log</span></a><a class="tile" href="app/sources.html"><span class="tile-t">Source register</span></a><a class="tile" href="app/review.html"><span class="tile-t">Repository review</span></a><a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review</span></a></div></div></section>
+<section class="cat">
+  <h3>Start here</h3>
+  <div class="tiles">
+    <a class="tile" href="app/summary.html"><span class="tile-t">Executive summary — the headline result</span></a>
+    <a class="tile" href="app/leaderboard.html"><span class="tile-t">Strategy leaderboard — who is winning, and whether it is luck</span></a>
+    <a class="tile" href="app/lines.html"><span class="tile-t">Originated lines for the window</span></a>
+    <a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review — read before trusting a number</span></a>
+  </div>
+</section>
+<section class="cats"><div class="cat"><h3>Overview</h3><div class="tiles"><a class="tile" href="app/summary.html"><span class="tile-t">Executive summary</span></a><a class="tile" href="app/methodology.html"><span class="tile-t">Method &amp; rules</span></a></div></div><div class="cat"><h3>Model output</h3><div class="tiles"><a class="tile" href="app/lines.html"><span class="tile-t">Originated lines</span></a><a class="tile" href="app/picks.html"><span class="tile-t">Prices for the window</span></a><a class="tile" href="app/parlays.html"><span class="tile-t">Parlay &amp; prop combos</span></a><a class="tile" href="app/props.html"><span class="tile-t">Player props</span></a><a class="tile" href="app/leaderboard.html"><span class="tile-t">Strategy leaderboard</span></a><a class="tile" href="app/strategies.html"><span class="tile-t">Validation gates</span></a><a class="tile" href="app/correlations.html"><span class="tile-t">Correlations</span></a></div></div><div class="cat"><h3>Game context</h3><div class="tiles"><a class="tile" href="app/injuries.html"><span class="tile-t">Injuries &amp; rotation</span></a><a class="tile" href="app/gameflow.html"><span class="tile-t">Game flow</span></a></div></div><div class="cat"><h3>Decision support</h3><div class="tiles"><a class="tile" href="app/questions.html"><span class="tile-t">Open questions</span></a><a class="tile" href="app/suggestions.html"><span class="tile-t">Site suggestions</span></a></div></div><div class="cat"><h3>Verification</h3><div class="tiles"><a class="tile" href="app/verification.html"><span class="tile-t">Verification log</span></a><a class="tile" href="app/sources.html"><span class="tile-t">Source register</span></a><a class="tile" href="app/review.html"><span class="tile-t">Repository review</span></a><a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review</span></a></div></div></section>
 <section class="cat">
   <h3>Highest-severity flags (full list on the <a href="app/flagged.html">Flagged for review</a> page)</h3>
   <ul class="flag-list">
@@ -62,15 +75,15 @@
 <li><span class="flag-id">NF-14</span> <strong>No official odds source identified</strong> — Licensed feed or owner-captured prices under terms (SG-04) <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></li>
 <li><span class="flag-id">NF-15</span> <strong>Historical NBA stats unreachable from this environment</strong> — Network path or owner export with provenance (SG-03) <a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">source</a></li>
 <li><span class="flag-id">NF-16</span> <strong>Minimum age for online betting not verified</strong> — Read official age provision and cite it (Q-LEG-03) <a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">source</a></li>
-<li><span class="flag-id">NF-23</span> <strong>NBA Terms effective date not visible</strong> — Record the version when counsel reviews <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a>
-<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>Second, independent integration round: 174-game re-verification, 22 originated lines from a separate engine, 9 gates, measured parlay dependence, cross-engine reconciliation and a flagged register</a></li>
+<li><span class="flag-id">NF-23</span> <strong>NBA Terms effective date not visible</strong> — Record the version when counsel reviews <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></li>
   </ul>
 </section>
 <section class="cat">
-  <h3>Earlier dashboards (kept for audit)</h3>
-  <p>Six dashboards were published by earlier sessions of this project. They are kept in the
-  repository and remain reachable; they use different ID namespaces and different injury snapshots,
-  so the canonical pages above should be used for current values.</p>
+  <h3>Earlier dashboards (kept for audit, not current)</h3>
+  <p>Eight dashboards were published by earlier sessions of this project and are still reachable.
+  They use different ID namespaces, different injury snapshots and different model variants, so
+  <strong>the pages above are the current numbers</strong> and these are history. Consolidation is
+  queued as an owner decision (<a href="app/suggestions.html">CS-35</a>).</p>
   <div class="tiles">
     <a class="tile" href="docs/index.html"><span class="tile-t">/docs — data site (session f879620b)</span></a>
     <a class="tile" href="site/index.html"><span class="tile-t">/site — data site (session 7c532e8c)</span></a>
@@ -78,12 +91,10 @@
     <a class="tile" href="research/index.html"><span class="tile-t">/research — research site (session 9ed6085f)</span></a>
     <a class="tile" href="edge/index.html"><span class="tile-t">/edge — Edge Lab (session 0a016df8)</span></a>
     <a class="tile" href="origin/index.html"><span class="tile-t">/origin — origination engine (session e22a2831)</span></a>
-    <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
-    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
+    <a class="tile" href="dash/index.html"><span class="tile-t">/dash — unified dashboard (session e40cd215)</span></a>
     <a class="tile" href="verify/pages/index.html"><span class="tile-t">/verify/pages — verification &amp; decision layer (2026-11-14)</span></a>
-    <a class="tile" href="hub/index.html"><span class="tile-t">/hub — consolidated dashboard (session 99eabb04): one namespace, slate, injuries, lines, leaderboard, review pages</span></a>
-    <a class="tile" href="d01ae7e2/docs/index.html"><span class="tile-t">/d01ae7e2 — official-slate line origination &amp; gated picks (session d01ae7e2): 31-game slate, provisional-safe pipeline, sources per row</span></a>
-    <a class="tile" href="executive-summary.html"><span class="tile-t">/executive-summary.html — cross-site consolidated executive summary (session 3bf92fcc)</span></a>
+    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
+    <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
   </div>
 </section>
 
@@ -91,7 +102,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="app/flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

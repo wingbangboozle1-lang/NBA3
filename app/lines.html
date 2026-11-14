@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html" class="active">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html" class="active">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -25,31 +25,51 @@
     <h1>Originated lines</h1>
     
   </div>
-<p>One originated line per game in the 2026-11-13 → 2026-11-16
-window. <strong>Spread</strong> is the home team's expected margin (positive = home favoured);
-<strong>Total</strong> is the expected combined score, regulation-equivalent (no overtime added).
-The interval columns are the model's 80% ranges. Every row links to the official schedule page the
-game was read from and to the official game page.</p>
+
+<p>Lines <strong>originated by this project</strong> for every game of the
+2026-11-14 → 2026-11-17 window. They are produced by the
+walk-forward engine described on the <a href="methodology.html">method</a> page and are
+<strong>not</strong> market prices: no licensed odds feed is connected, so there is nothing to
+compare them with and no claim of value is made anywhere on this page.</p>
+
+<div class="callout">
+<p><strong>How to read the spread column.</strong> The spread is quoted for the home team, the way a
+book prints it: a negative number means the home team is favoured by that many points. The fair
+moneyline is our own price with no vig. Because these are our own lines, the probability of
+covering them is 50% by construction — see the
+<a href="picks.html">prices page</a> for why that matters.</p>
+</div>
+
+<div class="callout warn">
+<p><strong>Read the totals with care.</strong> Out of sample our totals model is
+<em>worse</em> than a constant league-average total (RMSE 19.64 vs
+19.46) and runs 1.8 points hot.
+The published totals are shrunk toward the league mean. See <a href="flagged.html">NF-49</a>.</p>
+</div>
+
+<p class="note">Spread is quoted for the home team. Margin range is the model margin ± 1.96 × out-of-sample residual sd. Pace is the mean of the two teams’ official PACE.</p>
 <div class="table-wrap"><table>
 <caption id="lines"></caption>
 <thead><tr>
 <th>Date</th>
 <th>Tip (ET)</th>
-<th>Game</th>
-<th>Competition</th>
+<th>Matchup</th>
+<th>Game id</th>
 <th>Spread (home)</th>
-<th>Margin range</th>
 <th>Total</th>
-<th>Total range</th>
-<th>Exp. score</th>
+<th>Projected (away–home)</th>
 <th>P(home win)</th>
-<th>Outs H/A</th>
+<th>Fair ML home/away</th>
+<th>Margin 95% range</th>
+<th>Pace</th>
+<th>Out away/home</th>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
 <td>2026-11-14</td>
-<td>7:00 PM ET</td>
+<td>7:00 PM</td>
 <td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">DEN @ NOP</a></td>
+<<<<<<< HEAD
 <td>Regular Season</td>
 <td>6.3</td>
 <td>[-41.2, 22.2]</td>
@@ -59,121 +79,142 @@ game was read from and to the official game page.</p>
 <td>0.2792</td>
 <td>0 / 4</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/den-vs-nop-0022600231</a></td>
+=======
+<td>0022600231</td>
+<td>6.1</td>
+<td>230.6</td>
+<td>118.3 – 112.3</td>
+<td>35.2%</td>
+<td>184 / -184</td>
+<td>-37 … 25</td>
+<td>99.6</td>
+<td>4 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/den-vs-nop-0022600231</a></td>
+>>>>>>> a72907f (8d3d0271: line-origination engine, strategy leaderboard, parlays, rebuilt canonical pages)
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>7:30 PM ET</td>
+<td>7:30 PM</td>
 <td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">DAL @ CLE</a></td>
-<td>Regular Season</td>
-<td>-2.8</td>
-<td>[-31.3, 32.1]</td>
-<td>227.9</td>
-<td>[189.7, 269.5]</td>
-<td>114.6 – 113.4</td>
-<td>0.5089</td>
-<td>0 / 3</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-cle-0022600232</a></td>
+<td>0022600232</td>
+<td>-1.6</td>
+<td>227.4</td>
+<td>112.9 – 114.5</td>
+<td>53.9%</td>
+<td>-117 / 117</td>
+<td>-30 … 33</td>
+<td>100.2</td>
+<td>3 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-cle-0022600232</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>8:00 PM ET</td>
+<td>8:00 PM</td>
 <td><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">DET @ MIA</a></td>
-<td>Regular Season</td>
-<td>10.3</td>
-<td>[-40.9, 22.5]</td>
-<td>224.6</td>
-<td>[191.4, 271.2]</td>
-<td>106.3 – 118.2</td>
-<td>0.2841</td>
-<td>0 / 5</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-mia-0022600233</a></td>
+<td>0022600233</td>
+<td>5.3</td>
+<td>228.1</td>
+<td>116.7 – 111.4</td>
+<td>36.9%</td>
+<td>171 / -171</td>
+<td>-37 … 26</td>
+<td>101.0</td>
+<td>5 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-mia-0022600233</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>8:00 PM ET</td>
+<td>8:00 PM</td>
 <td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">BKN @ MEM</a></td>
-<td>Regular Season</td>
-<td>-12.5</td>
-<td>[-19.6, 43.8]</td>
-<td>225.0</td>
-<td>[188.2, 268.0]</td>
-<td>117.9 – 107.0</td>
-<td>0.773</td>
-<td>0 / 4</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bkn-vs-mem-0022600234</a></td>
+<td>0022600234</td>
+<td>-8.4</td>
+<td>227.1</td>
+<td>109.4 – 117.8</td>
+<td>70.1%</td>
+<td>-235 / 235</td>
+<td>-23 … 40</td>
+<td>100.1</td>
+<td>4 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bkn-vs-mem-0022600234</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
-<td>8:00 PM ET</td>
+<td>8:00 PM</td>
 <td><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">CHI @ MIN</a></td>
-<td>Regular Season</td>
-<td>-30.7</td>
-<td>[-2.5, 61.0]</td>
-<td>234.1</td>
-<td>[192.8, 272.5]</td>
-<td>131.6 – 102.5</td>
-<td>0.9647</td>
-<td>2 / 0</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-min-0022600235</a></td>
+<td>0022600235</td>
+<td>-20.1</td>
+<td>230.1</td>
+<td>105.0 – 125.1</td>
+<td>89.6%</td>
+<td>-859 / 859</td>
+<td>-11 … 51</td>
+<td>102.4</td>
+<td>0 / 2</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-min-0022600235</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>1:00 PM ET</td>
+<td>1:00 PM</td>
 <td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">IND @ PHI</a></td>
-<td>Regular Season</td>
+<td>0022600236</td>
 <td>-5.0</td>
-<td>[-26.9, 36.5]</td>
-<td>219.0</td>
-<td>[182.9, 262.6]</td>
-<td>111.2 – 107.8</td>
-<td>0.6174</td>
+<td>225.0</td>
+<td>110.0 – 115.0</td>
+<td>62.3%</td>
+<td>-165 / 165</td>
+<td>-26 … 36</td>
+<td>100.6</td>
 <td>0 / 0</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-phi-0022600236</a></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-phi-0022600236</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>4:00 PM ET</td>
+<td>4:00 PM</td>
 <td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">LAL @ PHX</a></td>
-<td>Regular Season</td>
-<td>10.1</td>
-<td>[-41.2, 22.2]</td>
-<td>239.5</td>
-<td>[194.0, 273.8]</td>
-<td>113.9 – 125.6</td>
-<td>0.2781</td>
+<td>0022600237</td>
+<td>5.6</td>
+<td>229.5</td>
+<td>117.6 – 112.0</td>
+<td>36.3%</td>
+<td>176 / -176</td>
+<td>-37 … 26</td>
+<td>99.5</td>
 <td>0 / 0</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lal-vs-phx-0022600237</a></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lal-vs-phx-0022600237</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>4:30 PM ET</td>
+<td>4:30 PM</td>
 <td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">CHA @ LAC</a></td>
-<td>Regular Season</td>
+<td>0022600238</td>
 <td>-6.9</td>
-<td>[-23.4, 40.0]</td>
-<td>212.5</td>
-<td>[170.9, 250.7]</td>
-<td>108.9 – 103.6</td>
-<td>0.6957</td>
+<td>223.1</td>
+<td>108.1 – 115.0</td>
+<td>66.8%</td>
+<td>-201 / 201</td>
+<td>-24 … 38</td>
+<td>98.9</td>
 <td>0 / 0</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lac-0022600238</a></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lac-0022600238</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
-<td>5:00 PM ET</td>
+<td>5:00 PM</td>
 <td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">SAS @ UTA</a></td>
-<td>Regular Season</td>
-<td>21.0</td>
-<td>[-52.0, 11.4]</td>
-<td>220.7</td>
-<td>[185.9, 265.6]</td>
-<td>99.0 – 121.6</td>
-<td>0.1052</td>
+<td>0022600239</td>
+<td>12.5</td>
+<td>226.5</td>
+<td>119.5 – 107.0</td>
+<td>21.6%</td>
+<td>363 / -363</td>
+<td>-44 … 19</td>
+<td>99.9</td>
 <td>0 / 0</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sas-vs-uta-0022600239</a></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sas-vs-uta-0022600239</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
+<<<<<<< HEAD
 <td>6:00 PM ET</td>
 <td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">DAL @ BOS</a></td>
 <td>Regular Season</td>
@@ -345,29 +386,331 @@ game was read from and to the official game page.</p>
 <td>9:00 PM ET</td>
 <td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">PHX @ DEN</a></td>
 <td>Regular Season</td>
+=======
+<td>6:00 PM</td>
+<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">DAL @ BOS</a></td>
+<td>0022600240</td>
+>>>>>>> a72907f (8d3d0271: line-origination engine, strategy leaderboard, parlays, rebuilt canonical pages)
 <td>-6.1</td>
-<td>[-26.2, 37.2]</td>
-<td>231.9</td>
-<td>[186.3, 266.1]</td>
-<td>118.2 – 113.7</td>
-<td>0.6327</td>
+<td>224.0</td>
+<td>109.0 – 115.0</td>
+<td>64.8%</td>
+<td>-184 / 184</td>
+<td>-25 … 37</td>
+<td>98.6</td>
 <td>0 / 0</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule / game</a> · <a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-bos-0022600240</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>6:00 PM</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">NYK @ TOR</a></td>
+<td>0022600241</td>
+<td>0.7</td>
+<td>223.6</td>
+<td>112.1 – 111.5</td>
+<td>48.3%</td>
+<td>107 / -107</td>
+<td>-32 … 31</td>
+<td>97.5</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600241</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">HOU @ WAS</a></td>
+<td>0022600242</td>
+<td>11.4</td>
+<td>225.4</td>
+<td>118.4 – 107.0</td>
+<td>23.7%</td>
+<td>322 / -322</td>
+<td>-43 … 20</td>
+<td>98.5</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-was-0022600242</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">ATL @ MIL</a></td>
+<td>0022600243</td>
+<td>8.4</td>
+<td>229.2</td>
+<td>118.8 – 110.4</td>
+<td>30.0%</td>
+<td>234 / -234</td>
+<td>-40 … 23</td>
+<td>102.0</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>9:00 PM</td>
+<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">OKC @ SAC</a></td>
+<td>0022600244</td>
+<td>10.7</td>
+<td>225.4</td>
+<td>118.1 – 107.3</td>
+<td>25.1%</td>
+<td>299 / -299</td>
+<td>-42 … 21</td>
+<td>100.0</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/okc-vs-sac-0022600244</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">ORL @ BOS</a></td>
+<td>0022600245</td>
+<td>-10.8</td>
+<td>223.3</td>
+<td>106.3 – 117.0</td>
+<td>75.0%</td>
+<td>-300 / 300</td>
+<td>-21 … 42</td>
+<td>97.4</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bos-0022600245</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">CHI @ CLE</a></td>
+<td>0022600246</td>
+<td>-12.4</td>
+<td>231.6</td>
+<td>109.6 – 122.0</td>
+<td>78.1%</td>
+<td>-357 / 357</td>
+<td>-19 … 44</td>
+<td>101.8</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-cle-0022600246</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">MEM @ WAS</a></td>
+<td>0022600247</td>
+<td>6.5</td>
+<td>227.4</td>
+<td>116.9 – 110.5</td>
+<td>34.3%</td>
+<td>192 / -192</td>
+<td>-38 … 25</td>
+<td>100.0</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">PHI @ BKN</a></td>
+<td>0022600248</td>
+<td>2.6</td>
+<td>225.0</td>
+<td>113.8 – 111.2</td>
+<td>43.4%</td>
+<td>130 / -130</td>
+<td>-34 … 29</td>
+<td>99.9</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-bkn-0022600248</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">HOU @ MIA</a></td>
+<td>0022600249</td>
+<td>8.9</td>
+<td>227.8</td>
+<td>118.3 – 109.4</td>
+<td>28.9%</td>
+<td>246 / -246</td>
+<td>-40 … 22</td>
+<td>100.1</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-mia-0022600249</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">POR @ MIN</a></td>
+<td>0022600250</td>
+<td>-4.7</td>
+<td>227.5</td>
+<td>111.4 – 116.1</td>
+<td>61.6%</td>
+<td>-161 / 161</td>
+<td>-27 … 36</td>
+<td>101.0</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600250</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">GSW @ NOP</a></td>
+<td>0022600251</td>
+<td>10.5</td>
+<td>231.4</td>
+<td>120.9 – 110.5</td>
+<td>25.6%</td>
+<td>291 / -291</td>
+<td>-42 … 21</td>
+<td>100.7</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>9:00 PM</td>
+<td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">PHX @ DEN</a></td>
+<td>0022600252</td>
+<td>-5.0</td>
+<td>227.3</td>
+<td>111.2 – 116.1</td>
+<td>62.3%</td>
+<td>-165 / 165</td>
+<td>-26 … 36</td>
+<td>98.0</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">NYK @ TOR</a></td>
+<td>0022600253</td>
+<td>0.7</td>
+<td>223.6</td>
+<td>112.1 – 111.5</td>
+<td>48.3%</td>
+<td>107 / -107</td>
+<td>-32 … 31</td>
+<td>97.5</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600253</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">POR @ MIN</a></td>
+<td>0022600254</td>
+<td>-4.7</td>
+<td>227.5</td>
+<td>111.4 – 116.1</td>
+<td>61.6%</td>
+<td>-161 / 161</td>
+<td>-27 … 36</td>
+<td>101.0</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600254</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">DET @ SAS</a></td>
+<td>0022600255</td>
+<td>-4.7</td>
+<td>225.9</td>
+<td>110.6 – 115.3</td>
+<td>61.6%</td>
+<td>-160 / 160</td>
+<td>-27 … 36</td>
+<td>99.1</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-sas-0022600255</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>10:30 PM</td>
+<td><a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">UTA @ LAC</a></td>
+<td>0022600257</td>
+<td>-5.5</td>
+<td>227.2</td>
+<td>110.9 – 116.4</td>
+<td>63.5%</td>
+<td>-174 / 174</td>
+<td>-26 … 37</td>
+<td>100.8</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lac-0022600257</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>11:00 PM</td>
+<td><a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">CHA @ LAL</a></td>
+<td>0022600256</td>
+<td>-15.6</td>
+<td>224.3</td>
+<td>104.4 – 120.0</td>
+<td>83.6%</td>
+<td>-511 / 511</td>
+<td>-16 … 47</td>
+<td>98.7</td>
+<td>0 / 0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lal-0022600256</a></td>
 </tr>
 </tbody></table></div>
-
-<div class="callout"><strong>How to read this.</strong> These are <em>derived</em> numbers from this
-project's model — not NBA-published lines. The inputs are official (schedule, official team
-statistics, official injury report, official final scores); the method is in
-<a href="methodology.html">Method &amp; rules</a>. The total model does not beat a naive
-league-average baseline out of sample, so totals are the weakest column on this page — see
-<a href="flagged.html">Flagged for review</a>.</div>
-
+<h2>How the engine performed out of sample</h2>
+<div class="table-wrap"><table>
+<caption id="accuracy"></caption>
+<thead><tr>
+<th>Measure</th>
+<th>Value</th>
+<th>Against what</th>
+</tr></thead><tbody>
+<tr>
+<td>Out-of-sample forecasts</td>
+<td>131</td>
+<td>after a 40-game burn-in, refit per date<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Margin RMSE</td>
+<td>15.900</td>
+<td>constant-baseline RMSE 16.866 — ours is better<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Total RMSE</td>
+<td>19.636</td>
+<td>constant-baseline RMSE 19.464 — ours is WORSE<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Margin bias</td>
+<td>0.516</td>
+<td>points; effectively zero<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Total bias</td>
+<td>-1.756</td>
+<td>points; our totals run 1.8 high<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Brier score (home win)</td>
+<td>0.2157</td>
+<td>unskilled baseline 0.2500 — ours is better, in sample<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Margin residual sd</td>
+<td>15.952</td>
+<td>points; drives every probability<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+<tr>
+<td>Total residual sd</td>
+<td>19.633</td>
+<td>points<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+</tr>
+</tbody></table></div>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.

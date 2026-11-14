@@ -11,12 +11,12 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html" class="active">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html" class="active">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -26,191 +26,497 @@
     
   </div>
 
-<p>Game-flow analysis uses only official results and official schedule data. Where a factor cannot
-be computed from the captured data it is listed as blocked instead of being filled in.</p>
+<p>Game-flow factors for every game in the window, all computed from official data: rest days from
+the official schedule and the 174 captured results, pace from the official team advanced statistics,
+and the probabilities from the out-of-sample residual distribution of our own engine.</p>
+
 <div class="table-wrap"><table>
-<caption id="gf"></caption>
+<caption id="flow-facts"></caption>
 <thead><tr>
-<th>Factor</th>
+<th>League fact</th>
 <th>Value</th>
-<th>Source</th>
+<th>Basis</th>
 </tr></thead><tbody>
 <tr>
-<td>Games analysed</td>
-<td>174</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
-</tr>
-<tr>
-<td>Average combined score</td>
-<td>226.84</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
-</tr>
-<tr>
-<td>Average combined score, regulation games</td>
-<td>225.46</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
-</tr>
-<tr>
-<td>Average combined score, overtime games</td>
-<td>252.11</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>League average total</td>
+<td>226.8</td>
+<td>points, from the 174 official final scores<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Overtime rate</td>
 <td>5.17%</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>7 of 174 captured games<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>Home wins</td>
-<td>89 of 173</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>Home win rate</td>
+<td>51.1%</td>
+<td>of the 174 captured games<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Average home margin</td>
-<td>1.70</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>1.62</td>
+<td>points<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
-<td>Fitted home-court advantage</td>
-<td>1.59 points (p = 0.104)</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
-</tr>
-<tr>
-<td>Back-to-back rate</td>
-<td>49 games (28.2%)</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td>
-</tr>
-<tr>
-<td>League average pace</td>
-<td>99.85</td>
-<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">official team stats</a></td>
-</tr>
-<tr>
-<td>Margin residual SD (points)</td>
-<td>16.18</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
-</tr>
-<tr>
-<td>Total residual SD (points)</td>
-<td>20.35</td>
-<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">model/build.py</a></td>
+<td>Margin residual sd</td>
+<td>15.95</td>
+<td>points; the width of every probability on this site<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 </tbody></table></div>
-<h2>Rest days before each game in the window</h2>
+<h2>Per-game factors</h2>
+<p class="note">Rest days are counted from the team's previous game in the official schedule. P(OT) is the measured league rate, not modelled per game — this project has no OT model. P(|margin|≥15) uses our margin prediction and the out-of-sample residual sd.</p>
 <div class="table-wrap"><table>
-<caption id="rest"></caption>
+<caption id="gameflow"></caption>
 <thead><tr>
-<th>Rest (days)</th>
-<th>Games</th>
+<th>Date</th>
+<th>Matchup</th>
+<th>Home rest</th>
+<th>Away rest</th>
+<th>Rest diff</th>
+<th>Pace</th>
+<th>Projected total</th>
+<th>vs league</th>
+<th>P(OT)</th>
+<th>P(|margin|≥15)</th>
+<th>Out away/home</th>
+<th>Flags</th>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
+<td>2026-11-14</td>
+<td>DEN@NOP</td>
 <td>1</td>
-<td>61</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
-</tr>
-<tr>
-<td>2</td>
-<td>202</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
-</tr>
-<tr>
 <td>3</td>
-<td>48</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>-2</td>
+<td>99.61</td>
+<td>230.6</td>
+<td>3.8</td>
+<td>5.2%</td>
+<td>38.1%</td>
+<td>4 / 0</td>
+<td>home on the second night of a back-to-back; away has 2 more rest days; 4 players listed Out</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
 <tr>
+<td>2026-11-14</td>
+<td>DAL@CLE</td>
+<td>1</td>
+<td>2</td>
+<td>-1</td>
+<td>100.15</td>
+<td>227.4</td>
+<td>0.5</td>
+<td>5.2%</td>
+<td>34.9%</td>
+<td>3 / 0</td>
+<td>home on the second night of a back-to-back; 3 players listed Out</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DET@MIA</td>
+<td>1</td>
+<td>2</td>
+<td>-1</td>
+<td>100.98</td>
+<td>228.1</td>
+<td>1.3</td>
+<td>5.2%</td>
+<td>37.4%</td>
+<td>5 / 0</td>
+<td>home on the second night of a back-to-back; 5 players listed Out</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>BKN@MEM</td>
+<td>1</td>
+<td>3</td>
+<td>-2</td>
+<td>100.06</td>
+<td>227.1</td>
+<td>0.3</td>
+<td>5.2%</td>
+<td>41.1%</td>
+<td>4 / 0</td>
+<td>home on the second night of a back-to-back; away has 2 more rest days; 4 players listed Out</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>CHI@MIN</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>102.41</td>
+<td>230.1</td>
+<td>3.3</td>
+<td>5.2%</td>
+<td>63.8%</td>
+<td>0 / 2</td>
+<td>away on the second night of a back-to-back; pace above the league median; high blowout risk</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>IND@PHI</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>100.59</td>
+<td>225.0</td>
+<td>-1.9</td>
+<td>5.2%</td>
+<td>37.0%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>LAL@PHX</td>
+<td>3</td>
 <td>4</td>
-<td>7</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>-1</td>
+<td>99.47</td>
+<td>229.5</td>
+<td>2.7</td>
+<td>5.2%</td>
+<td>37.6%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
 <tr>
-<td>6+</td>
-<td>30</td>
-<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>2026-11-15</td>
+<td>CHA@LAC</td>
+<td>2</td>
+<td>3</td>
+<td>-1</td>
+<td>98.94</td>
+<td>223.1</td>
+<td>-3.8</td>
+<td>5.2%</td>
+<td>39.1%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>SAS@UTA</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>99.86</td>
+<td>226.5</td>
+<td>-0.3</td>
+<td>5.2%</td>
+<td>48.1%</td>
+<td>0 / 0</td>
+<td>high blowout risk</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>DAL@BOS</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+<td>98.56</td>
+<td>224.0</td>
+<td>-2.8</td>
+<td>5.2%</td>
+<td>38.1%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>NYK@TOR</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>97.48</td>
+<td>223.6</td>
+<td>-3.3</td>
+<td>5.2%</td>
+<td>34.7%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>HOU@WAS</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>98.53</td>
+<td>225.4</td>
+<td>-1.4</td>
+<td>5.2%</td>
+<td>46.0%</td>
+<td>0 / 0</td>
+<td>high blowout risk</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>ATL@MIL</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>101.98</td>
+<td>229.2</td>
+<td>2.4</td>
+<td>5.2%</td>
+<td>41.1%</td>
+<td>0 / 0</td>
+<td>pace above the league median</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>OKC@SAC</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>99.99</td>
+<td>225.4</td>
+<td>-1.5</td>
+<td>5.2%</td>
+<td>44.8%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>ORL@BOS</td>
+<td>5</td>
+<td>3</td>
+<td>2</td>
+<td>97.44</td>
+<td>223.3</td>
+<td>-3.5</td>
+<td>5.2%</td>
+<td>44.8%</td>
+<td>0 / 0</td>
+<td>home has 2 more rest days</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>CHI@CLE</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>101.78</td>
+<td>231.6</td>
+<td>4.8</td>
+<td>5.2%</td>
+<td>47.8%</td>
+<td>0 / 0</td>
+<td>pace above the league median; high blowout risk</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>MEM@WAS</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+<td>99.95</td>
+<td>227.4</td>
+<td>0.6</td>
+<td>5.2%</td>
+<td>38.6%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>PHI@BKN</td>
+<td>5</td>
+<td>4</td>
+<td>1</td>
+<td>99.94</td>
+<td>225.0</td>
+<td>-1.8</td>
+<td>5.2%</td>
+<td>35.4%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>HOU@MIA</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>100.11</td>
+<td>227.8</td>
+<td>0.9</td>
+<td>5.2%</td>
+<td>41.8%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>POR@MIN</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+<td>100.97</td>
+<td>227.5</td>
+<td>0.7</td>
+<td>5.2%</td>
+<td>36.8%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>GSW@NOP</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>100.70</td>
+<td>231.4</td>
+<td>4.5</td>
+<td>5.2%</td>
+<td>44.3%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>PHX@DEN</td>
+<td>5</td>
+<td>4</td>
+<td>1</td>
+<td>98.02</td>
+<td>227.3</td>
+<td>0.5</td>
+<td>5.2%</td>
+<td>37.0%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>NYK@TOR</td>
+<td>5</td>
+<td>4</td>
+<td>1</td>
+<td>97.48</td>
+<td>223.6</td>
+<td>-3.3</td>
+<td>5.2%</td>
+<td>34.7%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>POR@MIN</td>
+<td>5</td>
+<td>4</td>
+<td>1</td>
+<td>100.97</td>
+<td>227.5</td>
+<td>0.7</td>
+<td>5.2%</td>
+<td>36.8%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>DET@SAS</td>
+<td>4</td>
+<td>5</td>
+<td>-1</td>
+<td>99.07</td>
+<td>225.9</td>
+<td>-1.0</td>
+<td>5.2%</td>
+<td>36.8%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>UTA@LAC</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>100.85</td>
+<td>227.2</td>
+<td>0.4</td>
+<td>5.2%</td>
+<td>37.5%</td>
+<td>0 / 0</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>CHA@LAL</td>
+<td>6</td>
+<td>5</td>
+<td>1</td>
+<td>98.71</td>
+<td>224.3</td>
+<td>-2.5</td>
+<td>5.2%</td>
+<td>54.3%</td>
+<td>0 / 0</td>
+<td>high blowout risk</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + stats</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
 </tbody></table></div>
-<h2>Factors that are still blocked</h2>
+<h2>What is deliberately missing from this page</h2>
 <div class="table-wrap"><table>
-<caption id="gffactors"></caption>
+<caption id="flow-missing"></caption>
 <thead><tr>
-<th>ID</th>
-<th>Factor</th>
-<th>Why it may matter</th>
-<th>Data needed</th>
-<th>Definition checked</th>
-<th>Status</th>
-<th>Source</th>
+<th>Missing factor</th>
+<th>Why it is not here</th>
 </tr></thead><tbody>
 <tr>
-<td>GF01</td>
-<td>Pace (possessions per game)</td>
-<td>Faster games can add possessions and change totals</td>
-<td>Possessions by team and game</td>
-<td>No (glossary chunk 0 of 10 read; PACE entry not opened)</td>
-<td><span class="chip chip-warn">Blocked - no game data</span></td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>Possession-level pace and efficiency for the window</td>
+<td>The official team advanced page publishes season figures, not a per-game projection. The pace column is the mean of two season figures, and it is labelled as such.<a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
 </tr>
 <tr>
-<td>GF02</td>
-<td>Score margin and blowout risk</td>
-<td>Large leads can shorten starter minutes and change prop minutes</td>
-<td>Quarter scores and minutes by player</td>
-<td>No</td>
-<td><span class="chip chip-warn">Blocked - no score-state data</span></td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>An overtime model</td>
+<td>9 of 174 games went to overtime. That is one rate, not a model. Applying a flat 5.17% to every game is the honest ceiling of what this data supports.<a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
 </tr>
 <tr>
-<td>GF03</td>
-<td>Foul trouble</td>
-<td>Players with fouls may play fewer minutes</td>
-<td>Personal fouls and minutes by quarter</td>
-<td>No</td>
-<td><span class="chip chip-warn">Blocked - no data</span></td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+<td>Referee, travel and altitude effects</td>
+<td>No official source for these was captured, so they are absent rather than estimated.<a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
 </tr>
 <tr>
-<td>GF04</td>
-<td>Back-to-back schedule</td>
-<td>Second games of a back-to-back are an official reporting category; rest effects are unmeasured</td>
-<td>Game dates for each team from the official schedule</td>
-<td>Yes (term and reporting deadline read on the injury-report index)</td>
-<td><span class="chip chip-neutral">Partly available (schedule dates in slates.csv)</span></td>
-<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
-</tr>
-<tr>
-<td>GF05</td>
-<td>Injury-driven rotation change</td>
-<td>Official status changes can shift minutes to other players</td>
-<td>Injury status history; minutes; roster</td>
-<td>Yes (report rules read)</td>
-<td><span class="chip chip-warn">Blocked - no history or minutes</span></td>
-<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
-</tr>
-<tr>
-<td>GF06</td>
-<td>Overtime and close finishes</td>
-<td>Close games change minutes and late-game usage</td>
-<td>Final score and minutes by player</td>
-<td>No</td>
-<td><span class="chip chip-warn">Blocked - no data</span></td>
-<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
-</tr>
-<tr>
-<td>GF07</td>
-<td>Schedule context for the 3-day window</td>
-<td>The 3-day window contains 4 slates with 31 games</td>
-<td>Official schedule for each date</td>
-<td>Yes (schedule pages read)</td>
-<td><span class="chip chip-neutral">Available for Nov 13-16</span></td>
-<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td>Live in-game win probability</td>
+<td>Requires play-by-play, which this repository does not have.<a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule</a></td>
 </tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
-    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
     confirmed are left blank and flagged on the
     <a href="flagged.html">Flagged for review</a> page.</p>
     <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
