@@ -2845,7 +2845,15 @@ not regressions from this round.
   both regenerating canonical/app). Resolved by rebasing onto `main` and keeping `25418e3f`'s merged
   refresh, layering only this session's non-redundant additions — no other session's work discarded.
 
-**V6 — integration.** PR #60 was opened from `arena/bd90ce16-nba3` to `main`; the branch was then
-rebased onto `main`'s merged refresh (PR #59) to resolve the overlap. The rebased branch is pushed;
-the PR is re-targeted at the rebased head and merged, with GitHub Pages deploy confirmed. PR number,
-merge SHA and deploy status recorded below (filled in at merge time).
+**V6 — integration. DONE.** PR **#60** was opened from `arena/bd90ce16-nba3` to `main`, then the
+branch was rebased twice onto `main` as other sessions merged in parallel (PR #59, then PR #61,
+both from `25418e3f`), resolving the cross-session overlap by keeping `25418e3f`'s merged refresh
+and layering this session's non-redundant additions. Final state:
+
+- **PR #60: MERGED** — merge commit `7256b17` ("Merge pull request #60 from
+  wingbangboozle1-lang/arena/bd90ce16-nba3"), merged 2026-11-14 10:02 UTC.
+- **GitHub Pages: built and live** at https://wingbangboozle1.github.io/NBA3/ (source `main /`,
+  status `built`). The live `/app/verification.html` confirms the refreshed audit trail:
+  27-game slate (216/216 fields), 04:15 AM injury report (49 rows), 183-game results log.
+- Checks green on the merged tree: `check_site.py` PASS, `validate_gates.py` clean,
+  `release_audit.py` 0 merge markers.
