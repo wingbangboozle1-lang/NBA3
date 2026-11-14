@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Home">
+<title>Home &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="on" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="" href="questions.html">Questions</a><a class="" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Home</h1>
+<p class="lede">One dashboard for the whole project: originated lines, gated strategies, injuries, game flow, and the decisions that are still open.</p>
+
+<div class="grid g4" style="margin-bottom:18px"><div class="kpi"><b>174</b><small>Verified games in the log</small></div><div class="kpi"><b>114</b><small>Out-of-sample walk-forward games</small></div><div class="kpi"><b>16.18</b><small>Margin RMSE (baseline 17.30)</small></div><div class="kpi"><b>20.35</b><small>Totals RMSE (baseline 19.56)</small></div><div class="kpi"><b>22</b><small>Originated lines published</small></div><div class="kpi"><b>0 / 8</b><small>Strategies passing all gates</small></div><div class="kpi"><b>122</b><small>Injury rows from the official report</small></div><div class="kpi"><b>1,305</b><small>Verification checks, 0 mismatches</small></div></div>
+
+<div class="card"><div class="stop">
+<b>Read this before using any number on this site.</b><br>
+NBA.com Terms of Use section 9(iv) states, verbatim:
+&ldquo;the NBA Statistics may not be used in connection with any gambling activity
+(including legal gambling activity)&rdquo;. Section 9(vii) restricts a comprehensive,
+regularly updated statistics database without the Operator's express prior consent.
+This site is research output. It holds no market prices, states no expected value, and
+recommends no stake. See <a href="flagged.html">Flagged for Review</a>, items F-01 to F-03.
+</div></div>
+
+<div class="card"><h2>Where things stand</h2>
+<p>The margin model beats a naive baseline out of sample (16.18 vs 17.30 RMSE over
+114 games) but explains only 12.5% of margin variance. The totals model is
+<b>worse</b> than its baseline (20.35 vs 19.56) and is published only because the
+failure is disclosed. 0 of 8 candidate strategies pass all seven validation
+gates. The two provisional signals (S5, S4b) sit far below the 100-bet sample floor.</p>
+<p>Everything downstream of missing data is left blank: three of seven correlation rows,
+every player-prop distribution, and every economic figure. Blanks are flagged, never filled.</p>
+</div>
+
+<div class="card"><h2>Sections</h2><div class="grid g3"><a class="tile" href="executive-summary.html"><b>Executive summary</b><span>What the model does, what it proved, what it did not, and the three blockers.</span></a><a class="tile" href="methodology.html"><b>Methodology</b><span>Two margin engines, two totals engines, walk-forward design, and the derived constants.</span></a><a class="tile" href="lines.html"><b>Originated lines</b><span>22 games across the D+1 to D+3 slate, each with a spread, a total and a source link.</span></a><a class="tile" href="projections.html"><b>Slate projections</b><span>Which candidate strategies fire on which game, with each strategy&#x27;s gate record.</span></a><a class="tile" href="strategies.html"><b>Strategy leaderboard</b><span>8 candidates, 0 passing all seven gates. Empty by design.</span></a><a class="tile" href="validation.html"><b>Validation gates</b><span>The seven gates, the statistics behind them, and every strategy&#x27;s result per gate.</span></a><a class="tile" href="correlations.html"><b>Correlations</b><span>3 measured, 4 blank for missing data. Intervals shown, never point claims.</span></a><a class="tile" href="injuries.html"><b>Injuries &amp; rotation</b><span>122 rows from the newest official report; minutes impact where it can be sourced.</span></a><a class="tile" href="gameflow.html"><b>Game flow</b><span>Pace, rest, overtime, and home court measured on the 174 verified games.</span></a><a class="tile" href="data.html"><b>Data &amp; team ratings</b><span>The 174 game log, the official team table, and the 1,305 reconciliation checks.</span></a><a class="tile" href="questions.html"><b>Questions</b><span>15 questions that must be answered before any decision; 4 are blocking.</span></a><a class="tile" href="suggestions.html"><b>Suggestions</b><span>14 proposals with options and a recommended path. Nothing is implemented.</span></a><a class="tile" href="flagged.html"><b>Flagged for Review</b><span>18 items: 5 blockers, 10 irregularities, 3 unverified.</span></a><a class="tile" href="repo-review.html"><b>Repo review</b><span>15 findings from a line-by-line read of the repository.</span></a><a class="tile" href="sources.html"><b>Sources</b><span>13 official references with retrieval method and limits.</span></a><a class="tile" href="archives.html"><b>Archives</b><span>The six session dashboards that predate this consolidation.</span></a></div></div>
+
+<div class="card"><h2>Next three days</h2>
+<p class="mut">From the official NBA games pages. Tip times are ET. Injury data exists for
+11/14 only; teams file by 5pm local the day before a game, so no 11/15 or 11/16 report
+exists yet.</p>
+<div class="tw"><table id="slate"><thead><tr><th class="">Date</th><th class="">ET</th><th class="">Matchup</th><th class="n">Our spread (home)</th><th class="n">Our total</th><th class="n">P(home win)</th><th class="n">Out away/home</th><th class="">Strategies firing</th><th class="">Source</th></tr></thead><tbody><tr><td>2026-11-14</td><td>7:00 PM</td><td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener">DEN @ NOP</a></td><td>+9.5</td><td>231.4</td><td>27.9%</td><td>4 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-14</td><td>7:30 PM</td><td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener">DAL @ CLE</a></td><td>-0.4</td><td>229.6</td><td>50.9%</td><td>3 / 0</td><td><span class="mut">none</span></td><td><a class="src" href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-14</td><td>8:00 PM</td><td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener">BKN @ MEM</a></td><td>-12.1</td><td>228.1</td><td>77.3%</td><td>4 / 0</td><td>S4</td><td><a class="src" href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-14</td><td>8:00 PM</td><td><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener">DET @ MIA</a></td><td>+9.2</td><td>231.3</td><td>28.4%</td><td>5 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-14</td><td>8:00 PM</td><td><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener">CHI @ MIN</a></td><td>-29.2</td><td>232.6</td><td>96.5%</td><td>0 / 2</td><td>S4</td><td><a class="src" href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>1:00 PM</td><td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener">IND @ PHI</a></td><td>-4.8</td><td>222.7</td><td>61.7%</td><td>0 / 0</td><td><span class="mut">none</span></td><td><a class="src" href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>4:00 PM</td><td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener">LAL @ PHX</a></td><td>+9.5</td><td>233.9</td><td>27.8%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>4:30 PM</td><td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener">CHA @ LAC</a></td><td>-8.3</td><td>210.8</td><td>69.6%</td><td>0 / 0</td><td>S4, S5b</td><td><a class="src" href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>5:00 PM</td><td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener">SAS @ UTA</a></td><td>+20.3</td><td>225.8</td><td>10.5%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>6:00 PM</td><td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener">NYK @ TOR</a></td><td>+2.8</td><td>224.5</td><td>43.0%</td><td>0 / 0</td><td><span class="mut">none</span></td><td><a class="src" href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>6:00 PM</td><td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener">DAL @ BOS</a></td><td>-7.4</td><td>227.4</td><td>67.7%</td><td>0 / 0</td><td><span class="mut">none</span></td><td><a class="src" href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>7:00 PM</td><td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener">HOU @ WAS</a></td><td>+17.2</td><td>225.4</td><td>14.3%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>8:00 PM</td><td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener">ATL @ MIL</a></td><td>+14.1</td><td>225.0</td><td>19.2%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-15</td><td>9:00 PM</td><td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener">OKC @ SAC</a></td><td>+16.7</td><td>219.4</td><td>15.1%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>7:00 PM</td><td><a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener">ORL @ BOS</a></td><td>-14.6</td><td>222.7</td><td>81.6%</td><td>0 / 0</td><td>S4</td><td><a class="src" href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>7:00 PM</td><td><a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener">MEM @ WAS</a></td><td>+11.7</td><td>227.9</td><td>23.4%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>7:00 PM</td><td><a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener">CHI @ CLE</a></td><td>-17.6</td><td>229.7</td><td>86.1%</td><td>0 / 0</td><td>S4</td><td><a class="src" href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>7:30 PM</td><td><a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener">HOU @ MIA</a></td><td>+14</td><td>231.1</td><td>19.4%</td><td>0 / 0</td><td>S4b</td><td><a class="src" href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>7:30 PM</td><td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener">PHI @ BKN</a></td><td>+5.5</td><td>221.3</td><td>36.6%</td><td>0 / 0</td><td><span class="mut">none</span></td><td><a class="src" href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>8:00 PM</td><td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener">GSW @ NOP</a></td><td>+15.9</td><td>236.2</td><td>16.2%</td><td>0 / 0</td><td>S4b, S5</td><td><a class="src" href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>8:00 PM</td><td><a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener">POR @ MIN</a></td><td>-5.2</td><td>238.9</td><td>62.6%</td><td>0 / 0</td><td>S5</td><td><a class="src" href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener">game &#8599;</a></td></tr><tr><td>2026-11-16</td><td>9:00 PM</td><td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener">PHX @ DEN</a></td><td>-5.5</td><td>226.2</td><td>63.3%</td><td>0 / 0</td><td><span class="mut">none</span></td><td><a class="src" href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener">game &#8599;</a></td></tr></tbody></table></div>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

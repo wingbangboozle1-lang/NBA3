@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Suggestions">
+<title>Suggestions &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="" href="questions.html">Questions</a><a class="on" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Suggestions</h1>
+<p class="lede">Options with a recommended path. Nothing here is implemented until chosen.</p>
+
+<div class="card"><h2>Suggestions for improving the site and the decisions behind it</h2>
+<p>14 proposals. <b>None is implemented.</b> Each row gives the options, the recommended
+path, and what it depends on, so a reviewer can pick a direction before anything changes.
+Nothing on this page will be built until it is chosen.</p>
+</div>
+
+<div class="card">
+<div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Area</th><th class="">Suggestion</th><th class="">Why it matters</th><th class="">Options</th><th class="">Recommended</th><th class="">Depends on</th><th class="">Decision</th><th class="">Source</th></tr></thead><tbody><tr><td><b>SG-01</b></td><td>Legal path</td><td>Decide, in writing, whether NBA data may be used for this purpose at all.</td><td>Terms section 9(iv) bars use of NBA Statistics in connection with any gambling activity, including legal gambling activity. Every other decision is downstream of this one.</td><td>A. Private research only - keep the site private, publish no picks. B. Obtain the NBA&#x27;s express written consent. C. Replace NBA data with a licensed commercial feed that grants the needed rights.</td><td><b>A now; evaluate B or C only if wagering is intended.</b></td><td>Q-01, Q-13</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-02</b></td><td>Data rights and feed</td><td>Procure a licensed odds feed before any economic claim is made.</td><td>Without timestamped prices there is no way to compute expected value, closing-line value, or return. Everything economic on this site is therefore blank.</td><td>A. No feed - score on self-consistency and proper scoring rules only. B. Free/low-cost snapshot capture with manual timestamping. C. Paid provider with historical depth and written rights.</td><td><b>A for now, C if the project moves to live scoring.</b></td><td>Q-03</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-03</b></td><td>Data capture</td><td>Capture per-player game logs by date.</td><td>Player-level correlations, prop distributions, and the injury-to-production chain are all blocked without them. Three of seven correlation rows are blank for exactly this reason.</td><td>A. Capture nba.com/stats/players/boxscores by date (about 4,000 rows for the season to date). B. Licensed provider. C. Leave blank and do not publish player markets.</td><td><b>C until Q-01 is settled, then A or B.</b></td><td>Q-01, Q-06</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-04</b></td><td>Data capture</td><td>Capture the full official player minutes table, not only the top 31.</td><td>Every minutes-vacuum figure is currently a floor: an injured player outside the top 31 contributes zero measured minutes. The official table has about 465 rows.</td><td>A. Capture all pages of the official table. B. Capture the top 100 only. C. Keep the top 31 and label all vacuum figures as floors.</td><td><b>A; C is the current state and is flagged (F-12).</b></td><td>Q-01</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-05</b></td><td>Modelling</td><td>Do not publish totals bets until a totals model beats the naive baseline.</td><td>The walk-forward totals RMSE is 20.35 against a 19.56 baseline. The margin model beats its baseline (16.18 vs 17.30) but explains only 12.5% of margin variance.</td><td>A. Publish margins only. B. Add pace and opponent-adjusted estimators and re-test. C. Publish both and disclose the failure.</td><td><b>B, with A in the meantime.</b></td><td>Q-08</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-06</b></td><td>Modelling</td><td>Approve the seven validation gates and the 100-bet minimum, or replace them.</td><td>The gates are proposed, not approved. Zero of eight strategies pass, so the thresholds determine the entire leaderboard.</td><td>A. Approve as-is (n&gt;=100, p&lt;0.05, BH-FDR 0.05, split-half stability). B. Lower the sample floor and accept provisional status with disclosure. C. Replace with a proper-scoring-rule leaderboard (Brier / log loss) plus calibration.</td><td><b>C plus A: score calibration first, then admit a strategy to a return leaderboard only after the sample gate.</b></td><td>Q-04, Q-07</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-07</b></td><td>Injury pipeline</td><td>Automate injury-report capture on a schedule and keep every revision.</td><td>Reports are published 15 minutes apart all day and are overwritten in place at the index. Right now the capture is manual, so D+2 and D+3 slates have no injury data at all.</td><td>A. Scheduled job capturing every report and storing each PDF revision. B. Capture only the 5pm and 1pm deadlines. C. Keep manual capture.</td><td><b>B as a first step, A as the target.</b></td><td>Q-01, Q-09</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-08</b></td><td>Site architecture</td><td>Consolidate the seven overlapping dashboards into one.</td><td>docs/, site/, edge/, lab/, origin/, research/ and the root dashboard all publish similar tables with different ID schemes. That is the single biggest source of confusion on the live site.</td><td>A. One canonical dashboard; move the six session directories under /archive/ and link them from one page. B. Keep all seven and add a clear landing page that explains each. C. Delete the superseded ones.</td><td><b>A. This session built the consolidated dashboard at the site root and left the six session directories in place, linked from the Archives page.</b></td><td>Q-14</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-09</b></td><td>Deployment</td><td>Pick one GitHub Pages deployment mechanism.</td><td>Two are active: the legacy &#x27;main /&#x27; branch build and the Actions workflow artifact. They currently serve the same tree, but they can diverge silently.</td><td>A. Switch Pages to the GitHub Actions source and delete the legacy build. B. Keep the legacy build and drop the workflow deploy job. C. Leave both and add a parity check.</td><td><b>A. Earlier sessions could not change the setting (HTTP 403); the change needs a repository owner.</b></td><td>Owner access to repository settings</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-10</b></td><td>Repository hygiene</td><td>Add a LICENSE file and a Python project manifest.</td><td>The repository has no LICENSE (so default copyright applies) and no pyproject.toml. requirements.txt pins only requests==2.31.0, which the current pipeline does not import.</td><td>A. Add MIT or Apache-2.0 plus a pyproject.toml. B. Add LICENSE only. C. Leave as is.</td><td><b>A.</b></td><td>Owner choice of licence</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-11</b></td><td>Repository hygiene</td><td>Remove or reconcile the non-official data files in data/raw/.</td><td>Those CSVs are headed &#x27;source: Basketball-Reference&#x27;. Every other table on this site is reconciled to an official NBA page, so they are inconsistent with the verification policy.</td><td>A. Reconcile them to nba.com and record the check. B. Delete them. C. Move them to /archive/.</td><td><b>A if they are still used, otherwise B.</b></td><td>Q-15</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-12</b></td><td>Governance</td><td>Create a model register with frozen versions before promoting any strategy.</td><td>No versioning, promotion criteria, drift monitoring, or retirement rule exists. A leaderboard without them invites post-hoc selection.</td><td>A. Register with semantic versions, promotion checklist, and a retirement rule. B. Git tags only. C. Nothing yet.</td><td><b>A before any strategy is called deployable.</b></td><td>Q-12</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-13</b></td><td>Execution</td><td>Define a fixed prediction cut-off, staleness rule, and suppression rule.</td><td>Injury reports arrive up to tip-off. Without a rule, a published line can silently rest on stale availability data - and five of ten team reports for the D+1 slate were still &#x27;NOT YET SUBMITTED&#x27; at capture.</td><td>A. Cut off at the 5pm local filing deadline; suppress any game with a missing report. B. Cut off 2 hours before tip; show a staleness badge. C. Publish regardless and show the capture timestamp.</td><td><b>A plus a visible capture timestamp.</b></td><td>Q-09</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr><tr><td><b>SG-14</b></td><td>Execution</td><td>Record settlement rules before scoring any result.</td><td>Overtime, pushes, and prop voids change results. Nine of 174 games went to overtime this season, so the OT convention alone moves outcomes.</td><td>A. Record the venue rule book and encode it. B. Assume regulation-only and disclose. C. Assume including OT and disclose.</td><td><b>A. The model currently uses totals including OT, which is disclosed.</b></td><td>Q-10</td><td><span class="b warn">Awaiting your choice</span></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/final/data/content.json" target="_blank" rel="noopener">register &#8599;</a></td></tr></tbody></table></div>
+</div>
+
+<div class="card"><h2>Suggested discovery steps for the missing information</h2>
+<ol>
+<li><b>Settle the rights question first (SG-01).</b> One written decision on whether NBA data
+may be used for the intended purpose determines whether the rest of this project is research
+or something that needs a licence.</li>
+<li><b>Then the feed question (SG-02).</b> Without timestamped prices, no economic claim is
+possible, and the leaderboard can only score calibration.</li>
+<li><b>Then close the data gaps (SG-03, SG-04).</b> Per-player game logs unlock three blank
+correlation rows and every prop distribution. The full minutes table turns minutes-vacuum
+floors into real figures.</li>
+<li><b>Then fix the model (SG-05).</b> A totals model that loses to a naive baseline should
+not be published as a betting signal.</li>
+<li><b>Then the operating rules (SG-12, SG-13, SG-14).</b> Model register, cut-off and
+staleness rules, and settlement rules &mdash; before anything is scored as a result.</li>
+<li><b>Meanwhile, clean up the site (SG-08, SG-09, SG-10, SG-11).</b> One dashboard, one
+deploy mechanism, a licence, and no non-official data files.</li>
+</ol>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

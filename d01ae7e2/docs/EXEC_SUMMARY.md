@@ -15,7 +15,7 @@
 | T08 | **This summary** | ✅ |
 | T09 | **Questions register** — 12 Q&As; 10 unanswered gate real decisions (CLV source, HCA calibration, license, CI…), 2 answered in-design ([questions page](questions.html)) | ✅ |
 | T10 | **Suggestions queue** — 8 suggestions, each with 2 paths + recommendation, **none implemented** — reviewer chooses first ([suggestions page](suggestions.html)) | ✅ |
-| T11 | **Flagged for Review** — 17 items, evidence-linked; 6 resolved-by-workaround, 11 open ([flagged page](flagged.html)) | ✅ |
+| T11 | **Flagged for Review** — 18 items, evidence-linked; 6 resolved-by-workaround, 12 open ([flagged page](flagged.html)) | ✅ |
 | T12 | **GitHub Pages site** — 12-page dashboard built *from* the JSON by `build_site.py`; every data row source-linked | ✅ |
 | T13 | **Verification pass** — `d01ae7e2/scripts/verify.py`: 394 URLs against official-domain allowlist, blank+flag policy, pick coverage, HTML link integrity | ✅ |
 | T14 | **Integration** — build + verify re-run after merge inputs unified | ✅ |

@@ -40,6 +40,10 @@ confirmed against an official source is left blank and listed on the **Flagged f
 | `/review.html` | Cross-workstream audit by the 2026-11-14 integration session (R-01 – R-13) | hand-maintained |
 | `/hub/` | **Consolidated dashboard (session 99eabb04)**: 18 pages — landing, executive summary, slate, originated lines, picks, strategy leaderboard, correlations, injuries, game flow, player props, data and integrity, sources, repository review, questions, suggestions, flagged for review, verification log, methodology. One identifier namespace, one set of numbers, every published row linked to its source. | `data/hub/**` via `scripts/build_hub_data.py` + `scripts/build_hub.py` (generated; do not edit `hub/` by hand) |
 | `/executive-summary.html` | **Cross-site consolidated executive summary** (arena/3bf92fcc-nba3): verified data foundation, model results, gates, measured correlations, picks window, compliance flags, owner decisions — every number linked to its source; reconciled with the FX corrections. | Hand-maintained; verification performed 2026-11-14 |
+| `/site/` | **Edge Lab site** (arena/7c532e8c): landing page, executive summary, injuries, game-flow, 3-day slate, strategies, validation, questions, suggestions, sources, flagged items, repo review. Every table row links to an official source. | `data/*.json` via `scripts/build_site.py` (generated; do not edit `site/` by hand) |
+| `/docs/` | Data site (arena/f879620b): injuries (11/11 report), slate, rules extracts, questions, gates, suggestions, flags. | `docs/data/data.json` (hand-maintained) |
+| `/edge/` | **Edge Lab dashboard (arena-0a016df8)**: verified 174-game log, originated lines/spreads/totals/fair MLs, walk-forward-validated strategies with published gate results, 3-day picks with availability flags, official injury report tables, game-flow metrics, verification log. | `data/raw|model|processed|picks/**` via `pipeline/` (build_data → run_model → make_picks → make_props → build_site_data) |
+| `/dashboard/` | **Verified build (session arena/925439ca-nba3)** — 17 self-contained pages: home, executive summary, methodology, originated lines, slate projections, strategy leaderboard, validation gates, correlations, injuries & rotation, game flow, data & team ratings, questions, suggestions, flagged for review, repo review, sources, archives. Every table row links to the official NBA page it came from, and every stored value is re-checked line by line against the official pages (1,305 checks, 0 mismatches). Independently built; it does not replace `/` + `/app/`, `/dash/`, `/hub/` or `/d01ae7e2/`. | `final/data/*` via `final/build_site.py` (generated; do not edit `dashboard/` by hand) |
 
 ### What was re-verified for this dashboard (2026-11-14)
 
@@ -81,7 +85,44 @@ python3 scripts/capture_official_2026_11_14.py   # official capture + cross-chec
 python3 scripts/assemble_canonical.py            # merge into data/app/canonical.json
 python3 scripts/build_app.py                     # render app/ + index.html, check links and sources
 python3 scripts/scan_table_sources.py            # repository-wide source-per-row screen
-```
+
+- **Update (arena-0a016df8 round):** originated lines, win probabilities, correlation measurements and strategy gate results ARE now published on the `/edge/` dashboard — clearly labeled as model outputs, with STRAT3/STRAT4 marked **not eligible** (failed gates) and STRAT1/STRAT2 **provisional** (fail only the minimum-sample gate). ROI is measured against our own line at an assumed −110 because no licensed odds feed exists. Blocking items remain on the [Flagged for Review](site/flagged.html) page (site/) and [edge/flagged.html](edge/flagged.html) (edge/):
+  - **7C-F-01**: NBA Terms §9 bars using NBA Statistics for gambling (source: https://www.nba.com/termsofuse).
+  - **7C-F-02**: Dutch online sports-betting offers need a Koa licence under art. 31a of the Betting and Gaming Act (source: https://kansspelautoriteit.nl/online-kansspel-aanbieden).
+  - **7C-F-03**: no licensed odds data is in the repository.
+- The 3-day slate (11/13–11/16/2026) comes from the official schedule PDF, which is labelled "subject to change".
+- Injury rows (site/) come from the official 11/13/26 5:00 PM report. The report has no minutes field, so no minutes effect is estimated. The docs/ site uses the earlier 11/11/26 7:00 PM report.
+
+## Repository layout
+
+| Path | Purpose |
+|---|---|
+| `data/*.json` | Editable content for `site/`: sources (S01–S11), schedule, injuries, flags (7C-F-…), questions, suggestions, strategies, gates, repo review. |
+| `scripts/build_site.py` | Validates every row and renders `site/`. Fails on a missing official source, an unflagged blank, or a broken link. |
+| `scripts/archive/` | One-shot generators used once to create `data/`. Do not re-run (they overwrite `data/`). |
+| `site/` | Generated static site. Do not edit by hand. |
+| `docs/`, `docs/data/data.json` | f879620b data site (unchanged by integration). |
+| `edge/`, `data/raw|model|processed|picks|injuries`, `pipeline/{build_data,run_model,make_picks,make_props,build_site_data,check_site}.py`, `docs/{methodology,executive_summary,open_questions,suggestions,injuries_gameflow,verification_log}.md` | arena-0a016df8 Edge Lab round: verified data, origination engine, gated picks, dashboard. |
+| `final/data/`, `final/verify.py`, `final/build_model.py`, `final/build_site.py`, `final/check_site.py`, `final/site_lib.py` | Consolidated round (arena/925439ca-nba3): verified datasets, 1,305-check verifier, line-origination model, dashboard generator, site checker. |
+| `tools/validate_gates.py`, `tools/check_site.py` | Statistics module (Benjamini–Hochberg, Wilson interval, binomial test, etc.) and docs/ data/link checker (f879620b). |
+| `tests/test_validate_gates.py` | Unit tests for the statistics module (f879620b). |
+| `.github/workflows/pages.yml` | Runs unit tests, `tools/check_site.py`, root link check, `scripts/build_site.py` plus drift check, and deploys `/`, `/docs/`, `/site/` as one artifact. |
+| `COORDINATION.md` | Shared task board, claims, verification logs, and PR/deploy status for all sessions. |
+
+## Rebuild and check
+
+```bash
+python3 -m unittest tests/test_validate_gates.py   # statistics tests
+python3 tools/check_site.py                         # docs/ data + link check
+python3 scripts/build_site.py                       # validate data, render site/, check site links
+python3 scripts/build_site.py --check               # validate and check links only (no files written)
+python3 -m pipeline.run_model                        # arena-0a016df8: re-run origination + validation (data/ → data/model/)
+python3 pipeline/build_site_data.py                  # arena-0a016df8: emit edge/data/*.json
+python3 pipeline/check_site.py                       # arena-0a016df8: edge/ link & JSON check
+python3 final/verify.py                              # consolidated: 1,305 checks vs official pages
+python3 final/build_model.py                         # consolidated: walk-forward, gates, lines
+python3 final/build_site.py                          # consolidated: render the 17 root pages
+python3 final/check_site.py                          # consolidated: links + per-row source check```
 
 `scripts/build_app.py` fails the build if a table row has no `https` source link, if a link is broken or if
 an in-page anchor does not resolve. `scripts/capture_official_2026_11_14.py` prints a verification report
@@ -104,12 +145,21 @@ comparing the official pages read on 2026-11-14 with the values already stored i
   The repository's two origination engines publish a spread field with opposite sign conventions, so any
   cross-engine number has to be normalised before it is read (`F-24`).
 
+| Session | Flags | Suggestions | Questions | Sources |
+|---|---|---|---|---|
+| arena/7c532e8c (site/) | `7C-F-01…7C-F-17` | `SG-01…SG-11` | `Q-01…Q-14` | `S01…S11` |
+| arena/f879620b (docs/) | `F-01…F-15` | `SG01…SG09` | `Q01…Q12` | `S1…S9` |
+| arena/9ed6085f (research/) | `F01…F25` | `SG-01…SG-14` | `Q-…` | `S01…S19` |
+| arena/925439ca (verified build, `/dashboard/`) | `F-01…F-18` | `SG-01…SG-14` | `Q-01…Q-15` | `S-01…S-13` |
+
+Do not compare IDs across sites without this table. The `/dashboard/` build uses its own namespace
+and supersedes nothing: it is an independently verified alternative to `/` + `/app/` and `/dash/`.
+
 **Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/ (root landing) · **current numbers in one place:** https://wingbangboozle1-lang.github.io/NBA3/dash/<br>
 **Flagged for Review:** https://wingbangboozle1-lang.github.io/NBA3/review.html<br>
 **Repository audit log:** [`COORDINATION.md`](COORDINATION.md)
 
 ## Pages and workstreams
-
 | URL path | Contents | Caution |
 |---|---|---|
 | `/` | Executive summary, readiness, categories, questions, suggestions and official-source references | Cross-workstream overview, not a canonical model |
@@ -123,6 +173,8 @@ comparing the official pages read on 2026-11-14 with the values already stored i
 | `/dash/` | **Unified dashboard (integration round, session e40cd215)**: originated lines for the live 72-hour window, out-of-sample strategy leaderboard, 9 validation gates, measured correlations, injury/rotation register, game flow, cross-engine reconciliation, verification log, questions, suggestions and flagged items | Generated from `data/integration/model.json` by `integrate/engine.py` + `integrate/build_site.py`; byte-deterministic; `integrate/check.py` gates it |
 | `/origin/` | Independent lines, correlation, props, injury analysis and walk-forward outputs | Separate dataset/model; not reconciled with `/edge/` |
 | `/hub/` | **Consolidated dashboard (session 99eabb04)**: 18 pages over one identifier namespace — slate, originated lines, picks, 8-strategy leaderboard against 7 gates, correlations, injuries and minutes at risk, game flow, player props, data integrity, sources, repository review, questions, suggestions, flagged for review, verification log, methodology | Generated from `data/hub/dashboard.json` by `scripts/build_hub.py`; the build fails on an unsourced row, a non-https source or a broken link |
+
+| `/dashboard/` | Independently verified build: 17 pages, every table row source-linked, every stored value re-checked against the official pages (1,305 checks, 0 mismatches) | Separate verification pass and dataset; not reconciled with `/`, `/dash/`, `/hub/` or `/edge/`. Five dashboard-family trees now coexist on this site; choosing one canonical is an open owner decision (SG-08 / CR-925439ca-E) |
 
 Treat these as independent work products. Do not compare metrics across them without aligning source data, snapshots, dates, definitions, evaluation splits, odds, settlement, and statistical methods.
 
