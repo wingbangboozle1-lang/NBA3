@@ -2154,3 +2154,46 @@ choice, and none has been implemented. The decisions that actually gate progress
 CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
+
+
+## Session `arena/44e0c051-nba3` — CLAIM (final independent review, verification, site, PR + merge)
+
+Session ID `arena/44e0c051-nba3`. Branch: `arena/44e0c051-nba3` (branched from `main` @
+`57762d51e91ecffd976efb5ffb0c490a2ac11bc2`, which is origin/main HEAD). Arena binds this
+workspace to one branch, so the `session-<id>/<task>` scheme in the brief cannot be used; all work
+stays on this branch and scope is enforced by file list below, as every prior session recorded.
+
+No other session has an open claim. All earlier sessions are merged and closed. This session acts as
+the **final independent review session**: re-verify the combined data line by line against live
+official NBA sources, confirm the GitHub Pages site builds with no broken links, flag irregularities
+on the Flagged for Review page, then open a PR to `main`, merge it, and confirm the Pages deploy.
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| R1 | Claim task board + push claim immediately | in progress | arena/44e0c051-nba3 | `COORDINATION.md` (this section) |
+| R2 | Line-by-line repo review: official links, blanks, flags, irregularities | unclaimed→in progress | arena/44e0c051-nba3 | `data/app/canonical.json`, `data/app/official_*.json`, `app/*.html`, `index.html`, `app/flagged.html` |
+| R3 | Re-verify upcoming slate (27 games, 2026-11-14 → 2026-11-17) vs official schedule | unclaimed | arena/44e0c051-nba3 | `data/app/official_slate_1114_1117.json`, `scripts/capture_official_2026_11_14b.py` |
+| R4 | Re-verify official team advanced statistics (30 teams × 8 fields) | unclaimed | arena/44e0c051-nba3 | `data/app/official_team_ratings_2026-11-14b.json` |
+| R5 | Re-verify newest official injury report vs index + PDF; note any status changes | unclaimed | arena/44e0c051-nba3 | `data/app/official_injuries_2026-11-13_0745PM.json`, `official.nba.com/nba-injury-report-2026-27-season/` |
+| R6 | Build the site (scripts/build_app.py) and confirm zero broken links / all rows sourced | unclaimed | arena/44e0c051-nba3 | `app/*`, `index.html`, `scripts/build_app.py` |
+| R7 | Publish irregularities found this session on Flagged for Review with source links | unclaimed | arena/44e0c051-nba3 | `app/flagged.html`, `data/app/canonical.json` (flags) |
+| R8 | PR → main → merge → confirm GitHub Pages deploy; record PR link + merge result here | unclaimed | arena/44e0c051-nba3 | PR, `COORDINATION.md` (this log), `README.md` note |
+
+### Change requests to other sessions
+
+None. This session only appends to `COORDINATION.md` and regenerates/verifies files it scopes above;
+it does not edit any other session's tree (`docs/`, `site/`, `edge/`, `lab/`, `research/`, `origin/`,
+`dash/`, `hub/`, `dashboard/`, `verify/`, `d01ae7e2/`, `final/`, `audit/`, `audit36/`, `integrate/`,
+`pipeline/`, `model/`, `tests/`, `tools/`).
+
+### Sources to be checked live (all official NBA hosts)
+
+- Schedule: https://www.nba.com/schedule?date=2026-11-14 (window 2026-11-14 → 2026-11-17)
+- Team advanced stats: https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season
+- Injury index: https://official.nba.com/nba-injury-report-2026-27-season/
+- Injury report PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf
+
+### Verification log (filled in as tasks complete)
+
+None yet — claim pushed before any verification work, per the board rule.
+
