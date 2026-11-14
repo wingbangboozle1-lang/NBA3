@@ -1853,3 +1853,63 @@ Nothing else changed in this record commit. The flags F36-01…F36-07 remain pub
 * Merge conflicts: `main` advanced twice while this session worked (PRs #17/#18 and #20/#22 from the
   other integration sessions). Both merges were resolved without discarding the other sessions' work —
   see the merge notes above and the final conflict resolutions in the commit messages.
+
+---
+
+## W4 COMPLETE — final integration round (session `arena/9456a8ab-nba3`)
+
+**Scope:** integrate every open PR, re-verify, ship a green `main`, keep Pages live. Work only on `arena/9456a8ab-nba3`.
+
+### Open-PR integration results
+
+| PR | Session | Outcome |
+|---|---|---|
+| #21 `arena/fa03eba6-nba3` (data refresh) | fa03eba6 | **Integrated + corrected** (see correction below); content verified, defects fixed against the official PDF |
+| #26 `arena/2b9f1ae1-nba3` (append-only record) | 2b9f1ae1 | **Integrated**; their COORDINATION/README records kept verbatim, their PR#19-era generated files superseded by the current `main` lineage (their delta was docs-only: `COORDINATION.md` +18, `README.md` +1) |
+
+Merge strategy every time: `git merge origin/<branch>`, resolve with keep-both for board/docs,
+current-`main` lineage for generated files, commit the merge, then re-run the full T1–T14 suite.
+
+### PR #21 data correction (verified against the official PDF)
+
+`data/injuries.json` claimed report stamp **11/13/26 07:30 PM ET** but carried **05:15 PM** statuses
+(`model/build_shared.py` stamped `data/origin/injuries.csv`, session e22a2831's extract, as 07:30 PM).
+Corrected against the official PDF (source:
+https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf, fetched this round):
+
+* **9 statuses**: INJ-010 McConnell Probable→Available, INJ-011 Nesmith Questionable→Available,
+  INJ-013 Dennis Questionable→Available, INJ-014 Flemings Questionable→Available,
+  INJ-022 Powell Questionable→Available (+ reason "Low Back Spasms"→"-"), INJ-024 Swain Questionable→Out,
+  INJ-033 Larsson Doubtful→Out, INJ-034 Thompson Probable→Out, INJ-042 Mathurin Questionable→Available
+* **2 printed names**: INJ-030 `Udeh Jr., Ernest`→`Udeh, Jr., Ernest`, INJ-091
+  `Konan Niederhauser, Yanic`→`Niederhauser, Yanic Konan`
+* New audit reference `verify/data/official_injury_report_2026-11-13_0730PM.txt` (117 players + 5 team rows,
+  fetched from the official PDF) — cross-checked **117/117** on status/team/matchup against
+  `data/app/official_injuries_2026-11-13_0730PM.json` (independent transcription, session 2b9f1ae1)
+* `model/build_shared.py` now overlays statuses/names/reasons from that transcript, so regeneration
+  reproduces the corrected file (re-ran it: output = corrected data, zero drift on schedule/lines/props/picks)
+* `verify/build.py`: skip `player=null` team/placeholder rows (PR #21 added 49 of them);
+  audit reference swapped 05:00 PM → 07:30 PM because the 05:00 PM reference flagged the genuine
+  05:00→07:30 report updates as errors (Cain/da Silva/Suggs Questionable→Available, etc.)
+* Schedule refresh verified: **27/27** games of the new 11/14–11/17 window match nba.com/schedule
+  (22 earlier + 5 of 11/17 this round, ids `0022600253`–`257`)
+
+### New flag (logged for the active claim owner, not edited here)
+
+* **CR-94-04** — `data/app/official_injuries_2026-11-13_0730PM.json` (claim `app/**` + `data/app/*`, owner `8d3d0271`)
+  has **3 wrong reason strings** vs the official 07:30 PM PDF (statuses all correct): Phillips prints
+  `G League - Two-Way` (capture: `Right Ankle Sprain`), Wallace laterality is `Left` (capture: `Right`),
+  Raynaud prints `Right Patella Subluxation` (capture: `Right Patella Sprain/Subluxation`). The same PDF was
+  fetched twice this round (07:30 PM and 08:00 PM copies) with identical text, so this is a transcription
+  defect, not report drift. Owner should re-derive those 3 cells from the transcript in
+  `verify/data/official_injury_report_2026-11-13_0730PM.txt`.
+
+### Verification state at hand-off
+
+* Full CI-equivalent suite (T1–T14) green after each merge, on a clean tree.
+* Fresh-data checks: slate 22/22 (+5/5 for 11/17) vs live nba.com; team advanced 98/98 vs
+  nba.com/stats/teams/advanced; injury canonical 117/117 vs the official 08:00 PM PDF (07:30 content);
+  `data/injuries.json` now 0/117 mismatches vs the official 07:30 PM transcript.
+* Uncertainty (unchanged): 11/15–11/17 injury rows remain "not published yet" placeholders — the official
+  injury index had no Nov 14+ section as of 01:16 UTC; 10 ledger rows for 16 Nov still lack an official game id;
+  Q-01/Q-02/Q-03/Q-05/Q-06 open.
