@@ -182,6 +182,12 @@ price, and no price exists in this repository. Everything below the fold is labe
      link(f"https://www.nba.com/games?date={d}", "nba.com/games?date=" + d)]
     for d in sorted({l['date'] for l in m['lines']})], None,
    "11/13 is deliberately absent: those games were in progress while this build ran, so results stop at 11/12 (E-F-11).")}
+<h2>Two things that changed this round</h2>
+{table(["Finding", "What it was before", "What it is now", "Why it matters"], [
+  ["Our lines vs the other unified engine (app/)", "15 of 22 games on a different side, median gap 11.5 points — would have been reported as a contradiction between two research approaches", "22 of 22 on the same side, median gap 2.4 points", "The gap was a defect in <i>this</i> build — the slate was priced by a predictor the backtest had not selected. Fixed, and disclosed as E-F-18. Comparing engines is what surfaced it"],
+  ["Are our forecasts too timid or too bold?", "not measured; only RMSE was quoted", "margin slope 0.919 [0.49, 1.34] — correctly scaled. Totals slope 0.776 with a +49.9 intercept — over-dispersed, so every total is shrunk toward 226 on the lines page", "RMSE rewards timid forecasts. The reliability slope is what tells you whether a line is usable, and it is the difference between a model that is right and a model that is safe"],
+], "Headline corrections",
+ "Both are reproducible from <code>python3 -m integrate.engine</code>; see <a href='reconciliation.html'>reconciliation</a> for the full 22-game comparison and <a href='flagged.html#E-F-20'>E-F-18 to E-F-20</a>.")}
 <h2>How to read a number here</h2>
 <p>Every table row ends in a source. A dash (—) means the value was not verifiable and was left blank
 rather than estimated; hovering it says so. <code>data/integration/model.json</code> is the single artefact
@@ -206,8 +212,9 @@ def page_lines(m, reg):
             l["date"][5:],
             esc(l["time_et"]),
             f'{esc(l["away"])} at {esc(l["home"])}',
-            num(l["orig_spread_home"], 1),
-            num(l["orig_total"], 1),
+            f'{num(l["orig_spread_home"], 1)} <span class="mut">→ {num(l.get("calibrated_spread_home"), 1)}</span>',
+            f'{num(l["orig_total"], 1)} <span class="mut">→ {num(l.get("calibrated_total"), 1)}</span>',
+            esc(l.get("variant_margin", "?") + "/" + l.get("variant_total", "?")),
             num(l["fair_ml_home"], 0),
             num(l["p_home_win"], 3),
             f'[{num(l["margin_interval_95"][0],1)}, {num(l["margin_interval_95"][1],1)}]',
@@ -540,6 +547,28 @@ def page_reconciliation(m, reg):
                 "its own improvement figure. The three published residual correlations (+0.023, +0.091, -0.018) "
                 "differ by more than their point estimates while all three intervals contain zero - which is the "
                 "right conclusion for a sample this size, and the wrong basis for a parlay price (E-F-04).")
+        + (lambda ag: (
+            "<h2>Same slate, two engines: dash/ against app/</h2>"
+            + table(["Date", "Matchup", "app/ spread (home)", "dash/ spread (home)", "Gap", "Same side?", "Record favourite", "dash/ agrees", "app/ agrees", "Game"],
+                    [[r["date"][5:], f'{esc(r["away"])} at {esc(r["home"])}', num(r["their_spread_home"], 1), num(r["my_spread_home"], 1),
+                      num(r["abs_spread_gap"], 2), badge("yes") if r["same_side_favoured"] else badge("NO"),
+                      esc(r["official_record_favourite"]), badge("yes") if r["mine_matches_record"] else badge("no"),
+                      badge("yes") if r["theirs_matches_record"] else badge("no"), link(r["game_url"], "official")] for r in ag["rows"]],
+                    "All 22 games in the window, side by side",
+                    f'{ag["games_compared"]} games compared; the two engines favour the same side on {ag["same_side_favoured"]}, '
+                    f'median absolute gap {num(ag["median_abs_gap"])} points, maximum {num(ag["max_abs_gap"])}. '
+                    "Before flag E-F-18 was fixed inside this session the same comparison read 7/22 agreeing with a median gap of 11.5 - "
+                    "that disagreement was a defect in this build, not a research finding, and it is published as such. "
+                    "Note also that agreement here is weak evidence: both engines estimate strength from scoring differentials (E-F-19).")
+            + table(["Dispersion measure", "Value", "Read as"], [
+                ["sd of our originated spreads", num(ag["dispersion"]["sd_of_my_spreads"]), "how boldly this model calls games"],
+                ["sd of app/ spreads", num(ag["dispersion"]["sd_of_their_spreads"]), "the other engine, same slate"],
+                ["sd of actual margins (174 games)", num(ag["dispersion"]["sd_of_actual_margins"]), "the ceiling a perfect forecast could never reach"],
+                ["largest |spread| here / there", f'{num(ag["dispersion"]["my_max_abs"],1)} / {num(ag["dispersion"]["their_max_abs"],1)}', "both engines are willing to lay 20+ on the right night"],
+                ["margin reliability slope (OOS)", num(m["calibration"]["margin"]["slope"], 3) + f' CI {m["calibration"]["margin"]["slope_ci95"][0]:.2f}…{m["calibration"]["margin"]["slope_ci95"][1]:.2f}', "≈1: spread forecasts are scaled correctly"],
+                ["total reliability slope (OOS)", num(m["calibration"]["total"]["slope"], 3) + f' CI {m["calibration"]["total"]["slope_ci95"][0]:.2f}…{m["calibration"]["total"]["slope_ci95"][1]:.2f}', "under 1 with a +49.9 intercept: totals are over-dispersed (E-F-20)"],
+            ], "Is either engine too timid or too bold?", "RMSE alone cannot answer this - a shrunk model wins on RMSE while being useless for picking sides. The slope of realised on predicted is the diagnostic that separates the two failure modes.")
+        ))(m["engine_agreement"])
         + "<h2>Independent corroboration from the other audit this week</h2>"
         + table(["Point", "This session (e40cd215)", "Session 3655c68d (verify/)", "Agreement"], [
             ["Result sets reconcile", "174/174 after team-code normalisation, 0 score mismatches", "SUM-01: 174/174 across two independent pipelines", "same conclusion, reached separately"],
@@ -746,6 +775,7 @@ td:first-child{font-weight:600;white-space:nowrap}
 .b{display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:650;white-space:nowrap}
 .b-ok{background:#e7f6ee;color:var(--ok)}.b-bad{background:#fdeceb;color:var(--bad)}
 .b-warn{background:#fdf5e5;color:var(--warn)}.b-mute{background:#eef0f3;color:var(--mute)}.b-info{background:#e8f0fb;color:var(--info)}
+.mut{color:var(--mut);font-size:11px;white-space:nowrap}
 .blank{color:var(--mute);font-style:italic;border-bottom:1px dotted var(--mute);cursor:help}
 .note{font-size:12px;color:var(--mut);max-width:110ch;margin:8px 2px 0}
 code{background:#eef0f3;padding:1px 5px;border-radius:5px;font-size:12px}

@@ -411,6 +411,46 @@ def perm_p(win: int, n: int, rate: float, alt: str = "greater", reps: int = 2000
     return (hits + 1) / (reps + 1)
 
 
+def calibration(recs: list[dict]) -> dict:
+    """Regress the realised value on the forecast, out of sample.
+
+    Slope 1.0 with an intercept of 0 is what a well-dispersed, unbiased forecast looks like.
+    A slope above 1 says the forecasts are shrunk - right on average, too timid - and the
+    fix is to scale them by that slope. This is the standard reliability/regression test and
+    it is the reason an RMSE-only comparison misleads.
+    """
+    out = {}
+    for market, act in (("margin", "actual_margin"), ("total", "actual_total")):
+        pred = "pred_" + market
+        xs = [r[pred] for r in recs]
+        ys = [r[act] for r in recs]
+        n = len(xs)
+        mx, my = statistics.fmean(xs), statistics.fmean(ys)
+        sxx = sum((x - mx) ** 2 for x in xs)
+        sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+        b = sxy / sxx if sxx else float("nan")
+        a = my - b * mx
+        resid = [y - (a + b * x) for x, y in zip(xs, ys)]
+        se_b = math.sqrt((sum(e * e for e in resid) / (n - 2)) / sxx) if n > 2 and sxx else float("nan")
+        t = b / se_b if se_b else float("nan")
+        out[market] = {
+            "n": n,
+            "slope": round(b, 4),
+            "slope_se": round(se_b, 4),
+            "slope_ci95": [round(b - 1.96 * se_b, 3), round(b + 1.96 * se_b, 3)],
+            "intercept": round(a, 3),
+            "t_vs_zero": round(t, 3),
+            "r2": round(1 - sum(e * e for e in resid) / sum((y - my) ** 2 for y in ys), 4),
+            "reads_as": (
+                "forecasts are shrunk by roughly this factor; scaling them by the slope is the "
+                "calibration fix" if b > 1.25 else
+                ("forecasts are over-dispersed; scaling them down is the calibration fix" if b < 0.8 else
+                 "dispersion is about right")
+            ),
+        }
+    return out
+
+
 # ------------------------------------------------------------------- strategies
 STRATEGY_DEFS = [
     # id, name, bet family, what is staked, selection rule (evaluated pre-game only)
@@ -691,16 +731,46 @@ def injury_overlay(injury: dict, minutes: dict):
     return teams
 
 
-def originate(results: list[dict], slate: list[dict], inj: dict, minutes: dict) -> tuple[list[dict], dict]:
+def final_variant_choice(recs: list[dict], k: int = 30) -> dict:
+    """Reproduce the online selector's decision at the end of history, for the live slate."""
+    out = {}
+    for market in ("margin", "total"):
+        best, bv = None, "a"
+        for cand in ("a", "b", "c"):
+            se = [(r[f"pred_{market}_{cand}"] - r[f"actual_{market}"]) ** 2 for r in recs[-k:]]
+            mse = statistics.fmean(se)
+            if best is None or mse < best:
+                best, bv = mse, cand
+        out[market] = bv
+    return out
+
+
+def originate(results: list[dict], slate: list[dict], inj: dict, minutes: dict,
+              chosen: dict | None = None) -> tuple[list[dict], dict]:
+    """Price the live slate with the SAME variant the walk-forward validation selected.
+
+    Using one predictor for validation and another for the live lines is the classic way a
+    dashboard ends up publishing numbers its own backtest never tested, so the choice is
+    passed in from the selector rather than recomputed here.
+    """
+    chosen = chosen or {"margin": "a", "total": "a"}
     rd = Ratings(results)
     table, lm, lt = rd.fit(len(results))
+    fit_b = massey_fit(results, len(results))
     hist = {t: [g for g in results if t in (g["home"], g["away"])] for t in table}
     last_date = max(date.fromisoformat(g["date"]) for g in results)
     overlay = injury_overlay(inj, minutes)
     lines = []
     for g in slate:
         d = date.fromisoformat(g["date"])
-        m, tot, nh, na = rd.predict(table, lm, lt, g["home"], g["away"])
+        ma, ta, nh, na = rd.predict(table, lm, lt, g["home"], g["away"])
+        mb, tb = predict_massey(fit_b, g["home"], g["away"], lt / 2)
+        if mb is None:
+            mb, tb = ma, ta
+        mc, tc = (ma + mb) / 2, (ta + tb) / 2
+        picks = {"a": (ma, ta), "b": (mb, tb), "c": (mc, tc)}
+        m = picks[chosen["margin"]][0]
+        tot = picks[chosen["total"]][1]
         sd_m = statistics.fmean([abs(x["pred_margin"] - x["actual_margin"]) for x in WF_RECS]) * 1.2533
         sd_t = statistics.fmean([abs(x["pred_total"] - x["actual_total"]) for x in WF_RECS]) * 1.2533
         p_home = ns.normal_cdf(m / sd_m) if sd_m > 0 else 0.5
@@ -716,6 +786,7 @@ def originate(results: list[dict], slate: list[dict], inj: dict, minutes: dict) 
                 "away": g["away"],
                 "home": g["home"],
                 "competition": g.get("competition", "Regular Season"),
+                "variant_margin": chosen["margin"], "variant_total": chosen["total"],
                 "games_used_home": len(hist.get(g["home"], [])),
                 "games_used_away": len(hist.get(g["away"], [])),
                 "recency_weighted_games_home": round(nh, 2),
@@ -876,7 +947,18 @@ def main():
     sd_m = statistics.fmean([abs(r["pred_margin"] - r["actual_margin"]) for r in recs]) * 1.2533
     sd_t = statistics.fmean([abs(r["pred_total"] - r["actual_total"]) for r in recs]) * 1.2533
 
-    lines, overlay = originate(results, slate, inj, minutes)
+    chosen = final_variant_choice(recs)
+    lines, overlay = originate(results, slate, inj, minutes, chosen)
+    calib_pre = calibration(recs)
+    sm = calib_pre["margin"]["slope"]
+    st = calib_pre["total"]["slope"]
+    for l in lines:
+        l["calibrated_spread_home"] = round_half(-l["pred_margin_home"] * sm)
+        l["calibrated_total"] = round_half(226.0 + (l["pred_total"] - 226.0) * st)
+        l["calibration_note"] = (
+            "spread and total scaled by the out-of-sample reliability slopes "
+            f"({sm:.2f} margin, {st:.2f} total); this is a calibration correction, not a re-validated model"
+        )
     lines_by_gid = {l["gid"]: l for l in lines}
     strat_rows = grade(recs, {})
     for s in strat_rows:
@@ -918,6 +1000,7 @@ def main():
             hs.append(k / len(bets))
         s["halves"] = hs
     corr = correlations(recs)
+    calib = calibration(recs)
     integrity = {
         "games": len(results),
         "team_games": 2 * len(results),
@@ -929,6 +1012,93 @@ def main():
     global VARIANTS
     VARIANTS = variants
     gates = evaluate_gates(recs, strat_rows, None, integrity, corr)
+
+    # ---- cross-check against the other integration round that landed on main (session 2b9f1ae1)
+    cross = {}
+    ap = ROOT / "data" / "app" / "canonical.json"
+    if ap.exists():
+        rec = {}
+        for g in results:
+            for side in ("home", "away"):
+                pass
+        wl = {}
+        for g in results:
+            h, a = g["home"], g["away"]
+            hp, ap_ = g["home_pts"], g["away_pts"]
+            wl.setdefault(h, [0, 0]); wl.setdefault(a, [0, 0])
+            if hp > ap_:
+                wl[h][0] += 1; wl[a][1] += 1
+            else:
+                wl[a][0] += 1; wl[h][1] += 1
+        canon = json.load(open(ap))
+        theirs = {}
+        for r in (canon.get("lines") if isinstance(canon, dict) else canon) or []:
+            if isinstance(r, dict) and r.get("date") and r.get("away") and r.get("home"):
+                sp = r.get("orig_spread_home", r.get("spread_home", r.get("spread")))
+                to = r.get("orig_total", r.get("total"))
+                if sp is not None:
+                    theirs[(r["date"], r["away"], r["home"])] = (float(sp), None if to is None else float(to))
+        rows, agree, big = [], 0, 0
+        for l in lines:
+            k = (l["date"], l["away"], l["home"])
+            if k not in theirs:
+                continue
+            tsp, tto = theirs[k]
+            mine_s, mine_t = l["orig_spread_home"], l["orig_total"]
+            # which side does each engine favour? (negative home spread = home favoured)
+            def fav(sp):
+                return "HOME" if sp < 0 else ("AWAY" if sp > 0 else "EVEN")
+            # official anchor: the team with the better winning record through 11/12
+            wh, wa = wl.get(l["home"], [0, 0]), wl.get(l["away"], [0, 0])
+            ph = wh[0] / max(1, sum(wh)); pa = wa[0] / max(1, sum(wa))
+            better = "HOME" if ph > pa else ("AWAY" if pa > ph else "EVEN")
+            m_fav, t_fav = fav(mine_s), fav(tsp)
+            same_fav = m_fav == t_fav
+            d = abs(mine_s - tsp)
+            agree += 1 if same_fav else 0
+            big += 1 if d > 6.5 else 0
+            rows.append({
+                "date": l["date"], "away": l["away"], "home": l["home"],
+                "their_spread_home": round(tsp, 2), "my_spread_home": mine_s,
+                "abs_spread_gap": round(d, 2),
+                "their_total": None if tto is None else round(tto, 1), "my_total": mine_t,
+                "same_side_favoured": same_fav,
+                "official_record_favourite": better,
+                "mine_matches_record": m_fav == better,
+                "theirs_matches_record": t_fav == better,
+                "game_url": l["game_url"],
+            })
+        cross = {
+            "compared_against": "data/app/canonical.json (session 2b9f1ae1, merged to main as PR #19)",
+            "games_compared": len(rows),
+            "same_side_favoured": agree,
+            "spread_gap_over_6_5_points": big,
+            "max_abs_gap": max((r["abs_spread_gap"] for r in rows), default=None),
+            "median_abs_gap": round(statistics.median([r["abs_spread_gap"] for r in rows]), 2) if rows else None,
+            "mine_matches_record_favourite": sum(1 for r in rows if r["mine_matches_record"]),
+            "theirs_matches_record_favourite": sum(1 for r in rows if r["theirs_matches_record"]),
+            "n_rows": len(rows),
+            "dispersion": {
+                "sd_of_my_spreads": round(statistics.pstdev([r["my_spread_home"] for r in rows]), 2) if rows else None,
+                "sd_of_their_spreads": round(statistics.pstdev([r["their_spread_home"] for r in rows]), 2) if rows else None,
+                "sd_of_actual_margins": round(statistics.pstdev([g["home_pts"] - g["away_pts"] for g in results]), 2),
+                "my_max_abs": max((abs(r["my_spread_home"]) for r in rows), default=None),
+                "their_max_abs": max((abs(r["their_spread_home"]) for r in rows), default=None),
+                "reading": (
+                    "Predicted-spread dispersion against the dispersion of actual margins is the only way to "
+                    "tell an attenuated model from an over-confident one. A shrunk model is better on RMSE and "
+                    "worse at picking sides; an unshrunk one is the reverse. Mine is the shrunk case, the other "
+                    "engine is the unshrunk case, and neither has been checked against a price."
+                ),
+            },
+            "rows": rows,
+            "note": (
+                "A winning-record comparison is a weak plausibility anchor, not a model: an early-season "
+                "record carries no injury or rest information. It is used here only because it is the one "
+                "external check available without a price feed - it cannot tell which engine is right, "
+                "but a line that contradicts the record by 28 points deserves an explanation."
+            ),
+        }
 
     # ---- game-flow descriptors from the verified results only
     margins = [g["home_pts"] - g["away_pts"] for g in results]
@@ -964,6 +1134,7 @@ def main():
     model = {
         # deliberately NOT a wall-clock timestamp: the artefact must be byte-stable so CI
         # can prove the published tables match this code (git diff --exit-code).
+        "engine_agreement": cross,
         "as_of": "results through 2026-11-12 · availability from the 11/13/26 07:30 PM ET official report · pricing window 2026-11-14 to 2026-11-16",
         "session": "e40cd215",
         "season": "2026-27",
@@ -988,6 +1159,7 @@ def main():
             "sd_margin_used": round(sd_m, 3),
             "sd_total_used": round(sd_t, 3),
         },
+        "calibration": calib,
         "strategies": strat_rows,
         "gates": gates,
         "correlations": corr,

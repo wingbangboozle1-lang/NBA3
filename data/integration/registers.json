@@ -310,6 +310,42 @@
    "detail": "This session and session 3655c68d both found that the 174-game sets agree (174/174), that site/data was being clobbered by pipeline/build_site_data.py, and that the pick-card spread sign convention is easy to invert. Their verify/ site audits claims; dash/ supplies rebuilt numbers from one artefact. Nothing here was inherited from them - both findings were produced in parallel and agree.",
    "action_needed": "Owner: treat the 174-game reconciliation as verified, and treat a second independent capture as a required step for any future results set.",
    "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/summary.json"
+  },
+  {
+   "id": "E-F-17",
+   "area": "Site structure",
+   "severity": "high",
+   "item": "Two integration sessions built two 'unified' dashboards an hour apart - app/ and dash/",
+   "detail": "Session 2b9f1ae1 merged a canonical dashboard at /app/ (PR #19) while this session was building /dash/. Neither was aware of the other; COORDINATION.md is a text board with no locking, so claims do not exclude work. Both are now live and both link from the root page. They are NOT duplicates in content: app/ prices from its own pipeline with its own ratings and reports 48 flags; dash/ re-verifies the result sets, runs a leakage-free walk-forward with online model selection, and publishes gates and the calibration diagnostic below. But a reader who does not know which is current will mix them.",
+   "action_needed": "Owner: name one as canonical and have the other carry a banner pointing at it. This session will not edit app/ - it is another session's tree.",
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/index.html"
+  },
+  {
+   "id": "E-F-18",
+   "area": "This session's own defect",
+   "severity": "high",
+   "item": "Published lines initially came from a different predictor than the one the backtest validated - found and fixed here",
+   "detail": "First run of this build priced the live slate with variant A (recency-weighted points for/against) while the walk-forward validation had selected a Massey/blend variant, because originate() recomputed its own prediction instead of reusing the selection. The symptom was dramatic: my lines disagreed with the independently built app/ engine on the favoured side in 15 of 22 games, with a median gap of 11.5 points and a maximum of 30.7. After the fix - the selector's final choice is passed into originate() and recorded per line as variant_margin/variant_total - the two engines agree on the side in 22 of 22 games, median gap 2.39 points, none over 6.5. The contradiction that would have been reported as 'two engines disagree' was one defect in new code. It is recorded here rather than quietly corrected because it is the exact failure mode this project's verification rules exist to catch, and because it was found by comparing engines, which nobody had done before.",
+   "action_needed": "No owner action. Suggested as a permanent rule: the live-slate path must consume the same object the validator scored, asserted in code (this build does it by passing `chosen` into originate()).",
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py"
+  },
+  {
+   "id": "E-F-19",
+   "area": "Model validation",
+   "severity": "high",
+   "item": "Agreement between dash/ and app/ is NOT independent confirmation - both engines fit points for and against",
+   "detail": "After E-F-18 was fixed, the two engines agreed on the favoured side in 22/22 games. That is reassuring about implementation and worthless about correctness: both estimate team strength from scoring differentials, so they share the same blind spots - no shot-quality information, no possession adjustment, and no injury adjustment to the line itself. The CHI@MIN example makes the blind spot concrete: both engines lay roughly MIN -22 to -29 at home against a 1-9 Chicago side, on a night where Minnesota's best scorer (Anthony Edwards) is officially Out, and neither model moves its line for that.",
+   "action_needed": "Owner: decide whether injury-adjusting the line is in scope with an approved, backtested coefficient (see E-F-07). Until then, treat big-rating lines on short-handed favourites as the most likely to be wrong.",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+  },
+  {
+   "id": "E-F-20",
+   "area": "Model calibration",
+   "severity": "medium",
+   "item": "The model's dispersion is validated; its totals are over-dispersed",
+   "detail": "Out-of-sample reliability regression (114 games): margin slope 0.919 with 95% CI [0.493, 1.344], intercept -0.29, R2 0.138 - the spread forecasts are correctly scaled for their own dispersion, and the interval comfortably contains 1. Totals slope 0.776 [0.029, 1.523] with an intercept of +49.95 - the total line is pulled away from the league average by about 29% more than the data supports, so every published total should be shrunk toward 226 by that factor. The calibrated columns on the lines page apply these two slopes; they are labelled as a calibration correction, not a re-validated model, because applying a slope estimated on the same window is mildly optimistic.",
+   "action_needed": "Approve the shrinkage as the default published line, or approve a nested protocol (estimate the slope on a rolling window) before it is.",
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py"
   }
  ],
  "questions": [
@@ -554,6 +590,16 @@
    "decision_needed": "Approve the path table in COORDINATION.md as binding.",
    "status": "awaiting owner choice",
    "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml"
+  },
+  {
+   "id": "E-SG-14",
+   "area": "Verification",
+   "priority": "1",
+   "suggestion": "Make 'the live-slate predictor is the validated predictor' a CI assertion, not a convention",
+   "detail": "E-F-18 was a one-line inconsistency between two code paths and it changed the headline conclusion from 'our engines disagree by 11 points' to 'they agree on every side'. A cheap guard: assert that the object producing lines carries the same variant id the selector last chose, and fail the build when they differ.",
+   "decision_needed": "Approve adding the assertion to integrate/check.py (this session can add it on request).",
+   "status": "awaiting owner choice",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py"
   }
  ]
 }
