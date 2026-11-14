@@ -29546,6 +29546,20 @@
    "found_on": "2026-11-14"
   },
   {
+   "id": "NF-63",
+   "area": "Site",
+   "item": "The Report-availability page published a capture-chain table whose \"why it was replaced\" cell was one generic sentence reused for every input, and whose \"artifact\" column printed a row count where a file name belongs. A reader could conclude the injury report and the ratings file were superseded for the same reason (a mid-slate read), which is true of the ratings file only. The numbers in the cells were correct; the attribution was not.",
+   "why": "",
+   "action_needed": "Fixed in this round: the chain table is now built from four explicit rows, each with its own read-at stamp, artefact name, superseded artefact, cause, and the manifest path it was copied from. A table whose explanation is wrong is a defect even when every figure in it is right, so it is flagged rather than quietly rewritten.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
    "id": "NF-62",
    "area": "Parlays",
    "item": "assemble_canonical.py published 'parlay_leg_candidate = True' for all 27 games as a literal, regardless of availability — so a game with no injury report at all was flagged as a valid parlay leg. Nothing else in the pipeline consulted that field, which is why it survived.",
@@ -30328,6 +30342,20 @@
    "legacy_ref": ""
   },
   {
+   "id": "CQ-46",
+   "category": "Governance",
+   "question": "May a session implement its own site-presentation suggestions, or must every suggestion wait for the owner's review?",
+   "status": "Partly answered by this round — needs a standing rule",
+   "known": "The brief asks for a suggestions section reviewed before any change, and also for the session to finish without manual input. This round resolved the tension by changing presentation only (a header badge, a re-price column, a leading funded-state line, one corrected table) and flagging those edits here, so the owner can reverse any of them as a set. No published number, no model output and no other session's tree was touched.",
+   "missing": "Whether to keep the four presentation changes, and whether to make 'presentation only, must be listed in the flag register' the standing rule for self-approved suggestions.",
+   "next_step": "Owner: answer here or in the suggestions page. Until then the changes stand, each with its own CS/NF id, and reverting them is a one-commit operation because none of them is entangled with data.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"
+   ],
+   "owner": "Owner",
+   "legacy_ref": ""
+  },
+  {
    "id": "CQ-41",
    "category": "Freshness",
    "question": "Should a line that is priced before a filing deadline be re-priced automatically when the deadline passes, or held and marked stale?",
@@ -30982,7 +31010,7 @@
    "options": "A: add the column to the picks table; B: add a countdown to the header of each date group; C: leave it on the freshness page only.",
    "recommended_option": "A — one column, no new data, and it makes the PARTIAL_REPORT chips self-explanatory.",
    "dependency": "None; the data is in the build already.",
-   "decision": "Awaiting owner review",
+   "decision": "Implemented 2026-11-14, recommended option A, presentation only: the picks table carries a “Re-price after (local clock)” column read from data/app/report_availability.json. Revert on request (CQ-46).",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/"
    ],
@@ -31010,7 +31038,7 @@
    "options": "A: age string in the page header; B: colour the header grey when the snapshot is older than the next deadline; C: nothing.",
    "recommended_option": "B — it is the same data the freshness page already has, and it makes staleness impossible to miss rather than merely documented.",
    "dependency": "None.",
-   "decision": "Awaiting owner review",
+   "decision": "Implemented 2026-11-14, recommended option B, presentation only: every page header now carries the report-coverage badge, amber while a team-side is owed a report. The badge is derived from the availability artefact, not asserted. Revert on request (CQ-46).",
    "sources": [
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
    ],
@@ -31024,9 +31052,23 @@
    "options": "A: lead with the funded-strategy count and gate the table behind it; B: keep the layout and strengthen the warning; C: split research prices from actionable picks into two pages.",
    "recommended_option": "A — one line at the top, no new page, and it matches what the leaderboard page already says.",
    "dependency": "None.",
-   "decision": "Awaiting owner review",
+   "decision": "Implemented 2026-11-14, recommended option A, presentation only: the picks page leads with the funded / provisional counts and states that no game in the window is a selection. Revert on request (CQ-46).",
    "sources": [
     "https://www.nba.com/games?date="
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-44",
+   "area": "Site architecture",
+   "suggestion": "Move app/assets/app.css into the generator. The stylesheet is hand-maintained inside a tree that scripts/build_app.py otherwise rebuilds from scratch, and this round needed two new classes (.stamp-warn / .stamp-ok) for the header badge.",
+   "why": "A generated tree that is only 95% generated is the worst of both: a rebuild silently keeps styles nobody re-checked, and the drift gate cannot see the file. Either emit the CSS from the builder or leave it hand-maintained but copy it in, so its provenance is the same as the pages'.",
+   "options": "A: build the CSS string in scripts/build_app.py; B: keep the file and have the builder assert the classes the pages use exist in it; C: nothing.",
+   "recommended_option": "B — cheapest, and it turns a silent mismatch into a build failure. A is right when the site is consolidated.",
+   "dependency": "None.",
+   "decision": "Implemented 2026-11-14, recommended option B, inside this session's own generator: scripts/build_app.py now fails the build if app/assets/app.css stops defining a class the emitted pages depend on. The stylesheet itself was not moved.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/assets/app.css"
    ],
    "legacy_ref": ""
   },

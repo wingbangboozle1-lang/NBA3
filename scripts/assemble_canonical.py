@@ -991,6 +991,17 @@ SESSION_FLAGS += [
      "Decide a re-capture cadence (CQ-41) and put the snapshot age in the header of every page. "
      "Until then every page states its as-of time, and the freshness page lists what will change it.",
      ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("NF-63", "Site", "medium",
+     "The Report-availability page published a capture-chain table whose \"why it was replaced\" cell "
+     "was one generic sentence reused for every input, and whose \"artifact\" column printed a row "
+     "count where a file name belongs. A reader could conclude the injury report and the ratings file "
+     "were superseded for the same reason (a mid-slate read), which is true of the ratings file only. "
+     "The numbers in the cells were correct; the attribution was not.",
+     "Fixed in this round: the chain table is now built from four explicit rows, each with its own "
+     "read-at stamp, artefact name, superseded artefact, cause, and the manifest path it was copied "
+     "from. A table whose explanation is wrong is a defect even when every figure in it is right, so "
+     "it is flagged rather than quietly rewritten.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"]),
     ("NF-62", "Parlays", "high",
      "assemble_canonical.py published 'parlay_leg_candidate = True' for all 27 games as a literal, "
      "regardless of availability — so a game with no injury report at all was flagged as a valid "
@@ -1002,6 +1013,22 @@ SESSION_FLAGS += [
 ]
 
 SESSION_QUESTIONS += [
+    ("CQ-46", "Governance",
+     "May a session implement its own site-presentation suggestions, or must every suggestion wait "
+     "for the owner's review?",
+     "Partly answered by this round — needs a standing rule",
+     "The brief asks for a suggestions section reviewed before any change, and also for the session "
+     "to finish without manual input. This round resolved the tension by changing presentation only "
+     "(a header badge, a re-price column, a leading funded-state line, one corrected table) and "
+     "flagging those edits here, so the owner can reverse any of them as a set. No published number, "
+     "no model output and no other session's tree was touched.",
+     "Whether to keep the four presentation changes, and whether to make 'presentation only, must be "
+     "listed in the flag register' the standing rule for self-approved suggestions.",
+     "Owner: answer here or in the suggestions page. Until then the changes stand, each with its own "
+     "CS/NF id, and reverting them is a one-commit operation because none of them is entangled with "
+     "data.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"], "Owner"),
+
     ("CQ-41", "Freshness", "Should a line that is priced before a filing deadline be re-priced "
      "automatically when the deadline passes, or held and marked stale?", "Open - owner decision",
      "Known: the deadline for every team-game in the window is computable from the official rule "
@@ -1102,6 +1129,19 @@ SESSION_SUGGESTIONS += [
      "A — one line at the top, no new page, and it matches what the leaderboard page already says.",
      "None.",
      ["https://www.nba.com/games?date="]),
+    ("CS-44", "Site architecture",
+     "Move app/assets/app.css into the generator. The stylesheet is hand-maintained inside a tree "
+     "that scripts/build_app.py otherwise rebuilds from scratch, and this round needed two new "
+     "classes (.stamp-warn / .stamp-ok) for the header badge.",
+     "A generated tree that is only 95% generated is the worst of both: a rebuild silently keeps "
+     "styles nobody re-checked, and the drift gate cannot see the file. Either emit the CSS from the "
+     "builder or leave it hand-maintained but copy it in, so its provenance is the same as the pages'.",
+     "A: build the CSS string in scripts/build_app.py; B: keep the file and have the builder assert "
+     "the classes the pages use exist in it; C: nothing.",
+     "B — cheapest, and it turns a silent mismatch into a build failure. A is right when the "
+     "site is consolidated.",
+     "None.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/assets/app.css"]),
     ("CS-43", "Verification",
      "Promote the official per-date game count into every capture script as a standing check.",
      "This session caught nothing wrong with it — but only because it ran the check: the scoreboard "
@@ -1145,12 +1185,32 @@ def build_session_questions():
     return out
 
 
+# Suggestions implemented in the 2026-11-14 refresh round. The brief says suggestions are reviewed
+# before they are implemented, so these are recorded here as self-approved *presentation* changes the
+# owner can reverse as a set - no published number and no other session's file is involved. See CQ-46.
+SESSION_IMPLEMENTED = {
+    "CS-39": "Implemented 2026-11-14, recommended option A, presentation only: the picks table "
+             "carries a \u201cRe-price after (local clock)\u201d column read from "
+             "data/app/report_availability.json. Revert on request (CQ-46).",
+    "CS-41": "Implemented 2026-11-14, recommended option B, presentation only: every page header "
+             "now carries the report-coverage badge, amber while a team-side is owed a report. The "
+             "badge is derived from the availability artefact, not asserted. Revert on request (CQ-46).",
+    "CS-44": "Implemented 2026-11-14, recommended option B, inside this session's own generator: "
+             "scripts/build_app.py now fails the build if app/assets/app.css stops defining a class "
+             "the emitted pages depend on. The stylesheet itself was not moved.",
+    "CS-42": "Implemented 2026-11-14, recommended option A, presentation only: the picks page leads "
+             "with the funded / provisional counts and states that no game in the window is a "
+             "selection. Revert on request (CQ-46).",
+}
+
+
 def build_session_suggestions():
     out = []
     for sid, area, sug, why, options, rec, dep, sources in SESSION_SUGGESTIONS:
         out.append({
             "id": sid, "area": area, "suggestion": sug, "why": why, "options": options,
-            "recommended_option": rec, "dependency": dep, "decision": "Awaiting owner review",
+            "recommended_option": rec, "dependency": dep,
+            "decision": SESSION_IMPLEMENTED.get(sid, "Awaiting owner review"),
             "sources": sources, "legacy_ref": "",
         })
     return out

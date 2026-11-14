@@ -11,7 +11,8 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -469,7 +470,7 @@ questions</a> page.</p>
 <td>A: add the column to the picks table; B: add a countdown to the header of each date group; C: leave it on the freshness page only.</td>
 <td>A — one column, no new data, and it makes the PARTIAL_REPORT chips self-explanatory.</td>
 <td>None; the data is in the build already.</td>
-<td>Awaiting owner review</td>
+<td>Implemented 2026-11-14, recommended option A, presentation only: the picks table carries a “Re-price after (local clock)” column read from data/app/report_availability.json. Revert on request (CQ-46).</td>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
 </tr>
 <tr>
@@ -491,7 +492,7 @@ questions</a> page.</p>
 <td>A: age string in the page header; B: colour the header grey when the snapshot is older than the next deadline; C: nothing.</td>
 <td>B — it is the same data the freshness page already has, and it makes staleness impossible to miss rather than merely documented.</td>
 <td>None.</td>
-<td>Awaiting owner review</td>
+<td>Implemented 2026-11-14, recommended option B, presentation only: every page header now carries the report-coverage badge, amber while a team-side is owed a report. The badge is derived from the availability artefact, not asserted. Revert on request (CQ-46).</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
 </tr>
 <tr>
@@ -502,8 +503,19 @@ questions</a> page.</p>
 <td>A: lead with the funded-strategy count and gate the table behind it; B: keep the layout and strengthen the warning; C: split research prices from actionable picks into two pages.</td>
 <td>A — one line at the top, no new page, and it matches what the leaderboard page already says.</td>
 <td>None.</td>
-<td>Awaiting owner review</td>
+<td>Implemented 2026-11-14, recommended option A, presentation only: the picks page leads with the funded / provisional counts and states that no game in the window is a selection. Revert on request (CQ-46).</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CS-44</td>
+<td>Site architecture</td>
+<td>Move app/assets/app.css into the generator. The stylesheet is hand-maintained inside a tree that scripts/build_app.py otherwise rebuilds from scratch, and this round needed two new classes (.stamp-warn / .stamp-ok) for the header badge.</td>
+<td>A generated tree that is only 95% generated is the worst of both: a rebuild silently keeps styles nobody re-checked, and the drift gate cannot see the file. Either emit the CSS from the builder or leave it hand-maintained but copy it in, so its provenance is the same as the pages&#x27;.</td>
+<td>A: build the CSS string in scripts/build_app.py; B: keep the file and have the builder assert the classes the pages use exist in it; C: nothing.</td>
+<td>B — cheapest, and it turns a silent mismatch into a build failure. A is right when the site is consolidated.</td>
+<td>None.</td>
+<td>Implemented 2026-11-14, recommended option B, inside this session&#x27;s own generator: scripts/build_app.py now fails the build if app/assets/app.css stops defining a class the emitted pages depend on. The stylesheet itself was not moved.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/assets/app.css" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/assets/app.css</a></td>
 </tr>
 <tr>
 <td>CS-43</td>
