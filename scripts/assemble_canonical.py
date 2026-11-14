@@ -140,6 +140,65 @@ def build_sources():
     return out
 
 
+
+# Findings published by the 2026-11-14 integration review of session arena/2e50a71a
+# (root review.html, R-01 - R-13).  They are merged here so that the canonical
+# Flagged for Review page carries every finding, with the original IDs kept.
+REVIEW_FINDINGS = [
+    ("R-01", "Critical", "Multiple independent model products report different samples, estimates, correlations and strategy statuses; none is designated as the reconciled source of truth.",
+     "Do not combine or rank these results. Select one pipeline, define its data contract, and reproduce every result from identical timestamped inputs before publishing a canonical leaderboard.",
+     ["https://www.nba.com/stats/help/glossary"],
+     "Handled in this session: the canonical pages are built from one dataset (data/app/canonical.json) and from the official-sourced /origin/ pipeline only; the other workstreams are linked as snapshots and are not mixed in."),
+    ("R-02", "Critical", "Several model inputs name secondary sources, including Basketball-Reference and ESPN, rather than showing an authorized official/licensed data chain. Rights and exact source snapshots are not demonstrated here.",
+     "Source provenance is not proof of permission. Pause public derivative-use claims pending review of contracts/terms, versioned raw files, retrieval timestamps and redistribution rights.",
+     ["https://www.nba.com/termsofuse"],
+     "Open. The canonical pages use official NBA inputs only; the Basketball-Reference/ESPN inputs remain in the /edge/ and /lab/ snapshots and are not published on the canonical pages."),
+    ("R-03", "Critical", "Some published artifacts include betting prices and labels such as \u201cPOSITIVE EV,\u201d even though the repository does not establish a licensed market-data source or common settlement specification.",
+     "These are model outputs, not verified value. The source and rights must be established, odds timestamps and settlement rules recorded, vig/execution assumptions checked, and validation independently reproduced.",
+     ["https://www.nba.com/termsofuse"],
+     "Open. The canonical pages publish no market price and no EV label; the /edge/ and /lab/ snapshots still do and remain flagged."),
+    ("R-04", "High", "README has contradictory statements: it says no lines, correlations, picks or performance claims are shown, but elsewhere describes those outputs and separate sections document them.",
+     "Replace with one versioned, consistent status report. Keep every experimental output clearly distinguished from an official fact and from a validated recommendation.",
+     ["https://www.nba.com/termsofuse"],
+     "Handled in this session: the README now has one canonical section that states exactly what is published, what is derived and what is unverified."),
+    ("R-05", "High", "Injury data are snapshots with different timestamps across sites; the official injury index says reports are updated continually. A past PDF is not a current slate feed.",
+     "Store immutable report versions and timestamps; re-fetch the latest official report for every run; show staleness and suppress outputs if required inputs are missing. Do not infer minutes from status.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"],
+     "Handled in this session for the canonical pages (one snapshot, 11/13/26 07:30 PM ET, with the diff against the previous snapshot published). The earlier sub-sites still carry older snapshots."),
+    ("R-06", "High", "Upcoming slates and picks are fixed November 2026 files; the official schedule document is explicitly subject to change. No automated current-feed refresh is demonstrated by the static Pages site.",
+     "Use request-time schedule retrieval and a bounded 72-hour window; persist source time/version; suppress the slate on feed failure, schedule changes or stale snapshots.",
+     ["https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"],
+     "Open. The published window is a dated snapshot with its source and retrieval time shown on every page; a request-time feed is proposed as a site improvement (CS-33)."),
+    ("R-07", "High", "Correlation outputs are not a shared, reconciled measurement. Different artifacts use different sample sizes, data sources, markets and possibly definitions.",
+     "Keep values separate and unendorsed until pair definitions, sample construction, time windows, uncertainty, multiple-testing handling and source rights are harmonized and independently reproduced.",
+     ["https://www.nba.com/stats/help/glossary"],
+     "Handled in this session for the canonical pages: one correlation table, from one pipeline, with sample size, interval and status per row. The other artifacts remain unendorsed snapshots."),
+    ("R-08", "High", "Passing local checks is not a line-by-line verification of every claim. Existing validators focus on specific generated sites/data schemas; they do not verify external truth, licensing, model quality or current URLs.",
+     "Maintain site-specific tests, add scheduled source freshness checks and human review of changed source content; state exactly what each check proves.",
+     ["https://www.nba.com/termsofuse"],
+     "Partly handled in this session: the canonical build states what it proves (row-level source link, link integrity, official-value cross-check) and the repository-wide screen is reproducible (scripts/scan_table_sources.py). External truth, licensing and model quality remain outside the build's scope."),
+    ("R-09", "High", "NBA's Terms of Use text includes restrictions on NBA Statistics in connection with gambling activity and on certain regularly updated comprehensive-statistics databases without express prior consent.",
+     "This is not a legal determination about the project. Obtain current terms review and written permissions/contract advice before using NBA-sourced statistics in any gambling-related service.",
+     ["https://www.nba.com/termsofuse"],
+     "Open. Legal review is an owner decision; the canonical pages publish no betting recommendation and link the terms."),
+    ("R-10", "High", "The intended product audience, offering model and compliance scope in the Netherlands are not defined.",
+     "Get qualified Dutch counsel's assessment before deciding whether to offer information, picks or betting-related services to others; do not treat this page as legal advice.",
+     ["https://kansspelautoriteit.nl/online-kansspel-aanbieden"],
+     "Open. Tracked as an open question with the official regulator source."),
+    ("R-11", "Medium", "Different sub-sites contain distinct inventories, ID namespaces and dates; the root dashboard previously said outputs did not exist, although they are present elsewhere.",
+     "Use the root dashboard as the overview; label each sub-site's provenance and snapshot; reconcile IDs and remove obsolete contradictory summaries only after review.",
+     ["https://www.nba.com/news/2026-27-nba-regular-season-schedule"],
+     "Handled in this session: one canonical dashboard with one ID namespace; the earlier sub-sites are kept, labelled as snapshots and linked from the landing page."),
+    ("R-12", "Medium", "The user's \u201cremove luck\u201d goal is not literally achievable; predictive evaluation can separate signal from outcome noise only probabilistically.",
+     "Use proper probability scores, calibration, walk-forward evaluation, uncertainty intervals, pre-registration and prospective shadow results. Never claim luck-free outcomes.",
+     ["https://www.nba.com/stats/help/glossary"],
+     "Addressed in the canonical Method page: luck is kept out of the evaluation, not out of the outcome."),
+    ("R-13", "High", "A mechanical scan across the repository's HTML files found table-body rows that lack a direct official NBA/Ksa link. Earlier measurement by session 2e50a71a: 1,521 rows scanned, 423 without a direct official link (389 excluding the archived research-dashboard.html). Second independent scan on 2026-11-14 (scripts/scan_table_sources.py): 2,091 rows in 89 files, 369 without a direct official-host link.",
+     "This is a conservative automated screen, not a manual judgment that each row needs NBA evidence. For any row whose value cannot be confirmed from an official/authorized source, leave the value blank, label it unverified, and add an appropriate source before reuse. A full page-by-page source correction of the earlier sub-sites remains outstanding.",
+     ["https://www.nba.com/stats/help/glossary"],
+     "Open for the earlier sub-sites (lab 184, origin 73, site 29, edge 10, docs 5 rows without a direct official link; the archived root dashboard 34). The canonical pages contribute 0."),
+]
+
 # ---------------------------------------------------------------- flags
 def build_flags():
     out = []
@@ -599,6 +658,11 @@ def main():
         "gates": build_gates(),
         "sources": build_sources(),
         "flags": build_flags(),
+        "review_findings": [
+            {"id": rid, "severity": severity, "finding": item, "next_action": action,
+             "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}
+            for (rid, severity, item, action, sources, status) in REVIEW_FINDINGS
+        ],
         "questions": build_questions(),
         "suggestions": build_suggestions(),
         "review": build_review(),

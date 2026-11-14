@@ -233,3 +233,16 @@ td:first-child { white-space: nowrap; }
 
 /* ---------------------------------------------------------------- legacy */
 .legacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+
+/* ---------------------------------------------------------------- flags */
+.flag-list { margin: 6px 0 0; padding-left: 18px; }
+.flag-list li { margin-bottom: 7px; }
+.flag-id {
+  display: inline-block;
+  background: #eef1f6;
+  border-radius: 4px;
+  padding: 0 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4a586b;
+}

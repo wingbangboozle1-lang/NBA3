@@ -572,6 +572,140 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
 </tbody></table></div>
+
+<h2>Cross-workstream audit findings (session arena/2e50a71a, 2026-11-14)</h2>
+<p>These 13 findings come from the independent integration review published at
+<a href="../review.html">review.html</a>. They are merged here so that no finding is lost when the
+earlier sub-sites are read. Their IDs are the review's own.</p>
+<div class="table-wrap"><table>
+<caption id="reviewfindings"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Why it matters / next action</th>
+<th>Handling in this session</th>
+<th>Found on</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>R-01</td>
+<td><span class="chip chip-bad">Critical</span></td>
+<td>Multiple independent model products report different samples, estimates, correlations and strategy statuses; none is designated as the reconciled source of truth.</td>
+<td>Do not combine or rank these results. Select one pipeline, define its data contract, and reproduce every result from identical timestamped inputs before publishing a canonical leaderboard.</td>
+<td>Handled in this session: the canonical pages are built from one dataset (data/app/canonical.json) and from the official-sourced /origin/ pipeline only; the other workstreams are linked as snapshots and are not mixed in.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>R-02</td>
+<td><span class="chip chip-bad">Critical</span></td>
+<td>Several model inputs name secondary sources, including Basketball-Reference and ESPN, rather than showing an authorized official/licensed data chain. Rights and exact source snapshots are not demonstrated here.</td>
+<td>Source provenance is not proof of permission. Pause public derivative-use claims pending review of contracts/terms, versioned raw files, retrieval timestamps and redistribution rights.</td>
+<td>Open. The canonical pages use official NBA inputs only; the Basketball-Reference/ESPN inputs remain in the /edge/ and /lab/ snapshots and are not published on the canonical pages.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>R-03</td>
+<td><span class="chip chip-bad">Critical</span></td>
+<td>Some published artifacts include betting prices and labels such as “POSITIVE EV,” even though the repository does not establish a licensed market-data source or common settlement specification.</td>
+<td>These are model outputs, not verified value. The source and rights must be established, odds timestamps and settlement rules recorded, vig/execution assumptions checked, and validation independently reproduced.</td>
+<td>Open. The canonical pages publish no market price and no EV label; the /edge/ and /lab/ snapshots still do and remain flagged.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>R-04</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>README has contradictory statements: it says no lines, correlations, picks or performance claims are shown, but elsewhere describes those outputs and separate sections document them.</td>
+<td>Replace with one versioned, consistent status report. Keep every experimental output clearly distinguished from an official fact and from a validated recommendation.</td>
+<td>Handled in this session: the README now has one canonical section that states exactly what is published, what is derived and what is unverified.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>R-05</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>Injury data are snapshots with different timestamps across sites; the official injury index says reports are updated continually. A past PDF is not a current slate feed.</td>
+<td>Store immutable report versions and timestamps; re-fetch the latest official report for every run; show staleness and suppress outputs if required inputs are missing. Do not infer minutes from status.</td>
+<td>Handled in this session for the canonical pages (one snapshot, 11/13/26 07:30 PM ET, with the diff against the previous snapshot published). The earlier sub-sites still carry older snapshots.</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>R-06</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>Upcoming slates and picks are fixed November 2026 files; the official schedule document is explicitly subject to change. No automated current-feed refresh is demonstrated by the static Pages site.</td>
+<td>Use request-time schedule retrieval and a bounded 72-hour window; persist source time/version; suppress the slate on feed failure, schedule changes or stale snapshots.</td>
+<td>Open. The published window is a dated snapshot with its source and retrieval time shown on every page; a request-time feed is proposed as a site improvement (CS-33).</td>
+<td>2026-11-14</td>
+<td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
+</tr>
+<tr>
+<td>R-07</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>Correlation outputs are not a shared, reconciled measurement. Different artifacts use different sample sizes, data sources, markets and possibly definitions.</td>
+<td>Keep values separate and unendorsed until pair definitions, sample construction, time windows, uncertainty, multiple-testing handling and source rights are harmonized and independently reproduced.</td>
+<td>Handled in this session for the canonical pages: one correlation table, from one pipeline, with sample size, interval and status per row. The other artifacts remain unendorsed snapshots.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>R-08</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>Passing local checks is not a line-by-line verification of every claim. Existing validators focus on specific generated sites/data schemas; they do not verify external truth, licensing, model quality or current URLs.</td>
+<td>Maintain site-specific tests, add scheduled source freshness checks and human review of changed source content; state exactly what each check proves.</td>
+<td>Partly handled in this session: the canonical build states what it proves (row-level source link, link integrity, official-value cross-check) and the repository-wide screen is reproducible (scripts/scan_table_sources.py). External truth, licensing and model quality remain outside the build&#x27;s scope.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>R-09</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>NBA&#x27;s Terms of Use text includes restrictions on NBA Statistics in connection with gambling activity and on certain regularly updated comprehensive-statistics databases without express prior consent.</td>
+<td>This is not a legal determination about the project. Obtain current terms review and written permissions/contract advice before using NBA-sourced statistics in any gambling-related service.</td>
+<td>Open. Legal review is an owner decision; the canonical pages publish no betting recommendation and link the terms.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>R-10</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>The intended product audience, offering model and compliance scope in the Netherlands are not defined.</td>
+<td>Get qualified Dutch counsel&#x27;s assessment before deciding whether to offer information, picks or betting-related services to others; do not treat this page as legal advice.</td>
+<td>Open. Tracked as an open question with the official regulator source.</td>
+<td>2026-11-14</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>R-11</td>
+<td><span class="chip chip-warn">Medium</span></td>
+<td>Different sub-sites contain distinct inventories, ID namespaces and dates; the root dashboard previously said outputs did not exist, although they are present elsewhere.</td>
+<td>Use the root dashboard as the overview; label each sub-site&#x27;s provenance and snapshot; reconcile IDs and remove obsolete contradictory summaries only after review.</td>
+<td>Handled in this session: one canonical dashboard with one ID namespace; the earlier sub-sites are kept, labelled as snapshots and linked from the landing page.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/news/2026-27-nba-regular-season-schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/news/2026-27-nba-regular-season-schedule</a></td>
+</tr>
+<tr>
+<td>R-12</td>
+<td><span class="chip chip-warn">Medium</span></td>
+<td>The user&#x27;s “remove luck” goal is not literally achievable; predictive evaluation can separate signal from outcome noise only probabilistically.</td>
+<td>Use proper probability scores, calibration, walk-forward evaluation, uncertainty intervals, pre-registration and prospective shadow results. Never claim luck-free outcomes.</td>
+<td>Addressed in the canonical Method page: luck is kept out of the evaluation, not out of the outcome.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>R-13</td>
+<td><span class="chip chip-bad">High</span></td>
+<td>A mechanical scan across the repository&#x27;s HTML files found table-body rows that lack a direct official NBA/Ksa link. Earlier measurement by session 2e50a71a: 1,521 rows scanned, 423 without a direct official link (389 excluding the archived research-dashboard.html). Second independent scan on 2026-11-14 (scripts/scan_table_sources.py): 2,091 rows in 89 files, 369 without a direct official-host link.</td>
+<td>This is a conservative automated screen, not a manual judgment that each row needs NBA evidence. For any row whose value cannot be confirmed from an official/authorized source, leave the value blank, label it unverified, and add an appropriate source before reuse. A full page-by-page source correction of the earlier sub-sites remains outstanding.</td>
+<td>Open for the earlier sub-sites (lab 184, origin 73, site 29, edge 10, docs 5 rows without a direct official link; the archived root dashboard 34). The canonical pages contribute 0.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+</tbody></table></div>
 </main>
 <footer class="site-footer">
   <div class="wrap">

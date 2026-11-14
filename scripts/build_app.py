@@ -780,6 +780,24 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
         ])
     body.append(table(["ID", "Area", "Item", "Why it is flagged", "Severity", "Action needed",
                         "Status", "Found on", "Source"], rows, "flags"))
+
+    rf = d.get("review_findings", [])
+    if rf:
+        body.append(f"""
+<h2>Cross-workstream audit findings (session arena/2e50a71a, 2026-11-14)</h2>
+<p>These {len(rf)} findings come from the independent integration review published at
+<a href="../review.html">review.html</a>. They are merged here so that no finding is lost when the
+earlier sub-sites are read. Their IDs are the review's own.</p>""")
+        rrows = []
+        for f in rf:
+            kind = {"Critical": "bad", "High": "bad", "Medium": "warn", "Low": "neutral"}.get(f["severity"], "neutral")
+            rrows.append([
+                esc(f["id"]), chip(f["severity"], kind), esc(f["finding"]),
+                esc(f["next_action"]), esc(f["handling"]), esc(f["found_on"]),
+                src_cell(f["sources"]),
+            ])
+        body.append(table(["ID", "Severity", "Finding", "Why it matters / next action",
+                            "Handling in this session", "Found on", "Source"], rrows, "reviewfindings"))
     return "\n".join(body)
 
 
@@ -921,8 +939,9 @@ def build_index(d):
         cats.append(f'<div class="cat"><h3>{esc(cat)}</h3><div class="tiles">{"".join(cards)}</div></div>')
     flags = d["flags"]
     top = [f for f in flags if f["severity"] == "high"][:6]
-    frows = [[esc(f["id"]), esc(f["item"]), esc(f["action_needed"]),
-              src_cell(f["sources"])] for f in top]
+    flist = "\n".join(
+        f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
+        f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}</li>' for f in top)
     body = []
     body.append(f"""
 <section class="hero">
@@ -954,8 +973,10 @@ def build_index(d):
 </div>
 <section class="cats">{"".join(cats)}</section>
 <section class="cat">
-  <h3>Highest-severity flags (full list on the Flagged for Review page)</h3>
-  {table(["ID", "Item", "Action needed", "Source"], frows, "topflags")}
+  <h3>Highest-severity flags (full list on the <a href="app/flagged.html">Flagged for review</a> page)</h3>
+  <ul class="flag-list">
+  {flist}
+  </ul>
 </section>
 <section class="cat">
   <h3>Earlier dashboards (kept for audit)</h3>
@@ -970,6 +991,7 @@ def build_index(d):
     <a class="tile" href="edge/index.html"><span class="tile-t">/edge — Edge Lab (session 0a016df8)</span></a>
     <a class="tile" href="origin/index.html"><span class="tile-t">/origin — origination engine (session e22a2831)</span></a>
     <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
+    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
   </div>
 </section>
 """)
