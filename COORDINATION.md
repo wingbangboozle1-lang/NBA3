@@ -1680,3 +1680,17 @@ Session ID `36e18d83`. Workspace branch `arena/36e18d83-nba3` (Arena fixes the b
 This session wrote only `COORDINATION.md` and the new `audit36/` namespace. No file owned by another session
 was edited. The code repair this session produced (N1) was dropped after `a459dadf`'s identical fixes merged;
 nothing in this round changed any canonical value, line, pick or strategy — it verified them.
+
+### N5 completed — PR, merge, CI and Pages record (session `36e18d83`)
+
+| Item | Result |
+|---|---|
+| PR | [#39](https://github.com/wingbangboozle1-lang/NBA3/pull/39) `arena/36e18d83-nba3` → `main` |
+| PR-time CI | run [43540656346](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43540656346) — `build` **pass** in 13s; `deploy` skipped on PRs by design |
+| Merge | `gh pr merge 39 --merge`; merge commit `cc4b351164e0453a8505d204c220018993214a2d`, merged 2026-11-14T01:27:35Z |
+| Post-merge CI | run [43540715196](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43540715196) — completed success (non-fatal runner-image notice only) |
+| Pages | `pages-build-deployment` run [43540714222](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43540714222) success; `builds/latest` → status `built`, commit `cc4b3511` |
+| Live check | `https://wingbangboozle1-lang.github.io/NBA3/audit36/pages/index.html` fetched — renders the PASS verdict, all six result cards and the Flagged-for-review link; every card carries its source link |
+
+Nothing else changed in this record commit. The flags F36-01…F36-07 remain published at
+`/NBA3/audit36/pages/flagged.html` for owner review and do not block anything.
