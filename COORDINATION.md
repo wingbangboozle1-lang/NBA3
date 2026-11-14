@@ -3367,3 +3367,18 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+---
+
+## Session `arena/f524ac2f-nba3` — CLAIM: live-source freshness and strict 72-hour horizon audit
+
+**Branch:** `arena/f524ac2f-nba3` (Arena-assigned active branch, base `3a6c353dc87aad6eb35184a2ec2f0cc8759501f6`). The earlier `session-<id>/<task>` branch naming request conflicts with Arena's fixed-branch rule; all work stays on this branch. I read this board and the tracked tree first. The only open PR visible at claim time is #70, which changes `COORDINATION.md` only; no active in-progress claim in the canonical output scope was found. This claim is committed and pushed before implementation.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F1 | Independently check live official NBA injury-report index and current schedule window; document stale/unreadable values without inferring or silently replacing them | in progress | `audit_f524ac2f/**` (new independent evidence tree) |
+| F2 | Enforce the brief's maximum horizon as an exact 72-hour, timezone-aware cutoff for canonical line/pick output, including a deterministic as-of timestamp and regression tests | in progress | `scripts/strategy_lab.py`, `scripts/assemble_canonical.py`, `data/app/snapshot_manifest.json`, generated `data/app/lab.json`, `data/app/canonical.json`, `app/**`, `index.html` |
+| F3 | Publish the new freshness/horizon findings on the Flagged for Review experience and retain official links for manual review | in progress | `audit_f524ac2f/**`, `data/app/flags_f524ac2f.json` (new), `scripts/assemble_canonical.py`, generated `app/**`, `index.html` |
+| F4 | Add regression checks to the Pages workflow; run full local CI/build/link/source checks and integrate on this branch | pending | `tests/test_f524ac2f.py` (new), `.github/workflows/pages.yml`, `COORDINATION.md`, `README.md` |
+
+**Initial live-source observations (2026-11-14 UTC).** The official NBA injury-report index lists an 11/14 01:30 PM ET report, while the canonical model manifest points to 11/14 04:15 AM ET and the generated summary still calls that report the newest. I will not copy the 01:30 PM table because the fetcher's fragmented PDF extraction does not preserve every matchup/team cell unambiguously; those unconfirmed injury values will remain blank and the stale snapshot will be flagged. The official NBA schedule page was re-read for manual comparison; schedule and report links are evidence, not permission or predictive validation.
