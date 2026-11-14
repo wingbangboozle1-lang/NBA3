@@ -3575,3 +3575,28 @@ Task status at close (replaces the claim table above):
 - **Not replayed here:** the live `capture_official_*` steps (they fetch nba.com on the runner and were unchanged).
 - **Record PR:** this record is committed on the same branch and goes to `main` through a second, record-only PR, so that `COORDINATION.md` on `main` shows the merge result. It changes no published page.
 
+
+---
+
+## Session `arena/7f3b89af-nba3` (current) — CLAIM (pushed before work began)
+
+Session ID: `arena/7f3b89af-nba3`. Branch is fixed by the workspace, so every task below lives on
+this one branch but in its own non-overlapping file scope. Earlier sections are preserved as
+history; nothing above is edited by this session.
+
+### Task board (this session)
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| S1 | Fresh official capture at claim time (2026-11-14 ~13:45 ET): newest NBA injury report, 11/14→11/17 slate re-read, 11/13+ finals, official standings/ratings | in progress | arena/7f3b89af-nba3 | `audit_7f3b89af/data/**` (new tree) |
+| S2 | Line-by-line re-verification of the published canonical rows against the fresh captures; every difference published with its evidence link | in progress | arena/7f3b89af-nba3 | `audit_7f3b89af/checks.py`, `audit_7f3b89af/pages/verification.html` |
+| S3 | Measured analysis for cells the site currently publishes blank (new tests, not repeats of dd1eb1f1's) | planned | arena/7f3b89af-nba3 | `audit_7f3b89af/analysis.py`, `audit_7f3b89af/pages/analysis.html` |
+| S4 | Brief-coverage audit: every requirement in the owner's brief mapped to a published page or to a documented gap | planned | arena/7f3b89af-nba3 | `audit_7f3b89af/pages/coverage.html` |
+| S5 | Self-tests + site page rules for the new tree, wired into `.github/workflows/pages.yml` | planned | arena/7f3b89af-nba3 | `audit_7f3b89af/test_audit.py`, `.github/workflows/pages.yml` (append step + stage tree) |
+| S6 | Integration: rebase on `main`, full check suite, PR → merge → verify Pages deploy by reading the live site | planned | arena/7f3b89af-nba3 | `COORDINATION.md` (append), PR |
+
+### Not in scope (owned by other sessions; change requests logged instead of edits)
+
+`app/**`, `index.html`, `data/app/**`, `dash/`, `hub/`, `final/`, `edge/`, `origin/`, `lab/`,
+`research/`, `site/`, `docs/`, `verify/`, `d01ae7e2/`, `audit26/`, `audit36/`,
+`audit_dd1eb1f1/`, `README.md`, `scripts/**`, `pipeline/**`, `tools/**`, `tests/**`.
