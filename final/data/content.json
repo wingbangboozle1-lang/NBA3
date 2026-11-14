@@ -404,11 +404,12 @@
       "id": "SG-08",
       "area": "Site architecture",
       "suggestion": "Consolidate the seven overlapping dashboards into one.",
-      "why": "docs/, site/, edge/, lab/, origin/, research/ and the root dashboard all publish similar tables with different ID schemes. That is the single biggest source of confusion on the live site.",
+      "why": "docs/, site/, edge/, lab/, origin/, research/ and d01ae7e2/ publish similar tables with different ID schemes, and five later unified builds (/ + /app/, /dash/, /hub/, /d01ae7e2/, /dashboard/) each present themselves as the answer. That is the single biggest source of confusion on the live site.",
       "options": "A. One canonical dashboard; move the six session directories under /archive/ and link them from one page. B. Keep all seven and add a clear landing page that explains each. C. Delete the superseded ones.",
       "recommended": "A. This session built the consolidated dashboard at the site root and left the six session directories in place, linked from the Archives page.",
       "dependency": "Q-14",
-      "decision": "Awaiting your choice"
+      "decision": "Awaiting your choice",
+      "recommendation": "**A. This session did NOT consolidate the site root** — it published its verified build under /dashboard/ instead, because sessions a459dadf (/ + /app/) and 2b9f1ae1 (/dash/) already own their trees and 99eabb04 (/hub/) and d01ae7e2 joined meanwhile. Deleting any of them is an owner decision, not a session decision. See CR-925439ca-E."
     },
     {
       "id": "SG-09",
@@ -571,9 +572,9 @@
     {
       "id": "F-13",
       "kind": "Irregularity",
-      "title": "Seven overlapping dashboards on one Pages site",
-      "detail": "docs/ (23 files), site/ (29), edge/ (25), lab/ (17), origin/ (22), research/ (16) and a root dashboard each publish similar tables with different ID schemes.",
-      "effect": "Reviewers cannot tell which numbers are canonical. This session published a consolidated dashboard at the root and left the six session directories available under the Archives page.",
+      "title": "Eleven overlapping dashboards on one Pages site, five of them unified",
+      "detail": "docs/ (23 files), site/ (29), edge/ (25), lab/ (17), origin/ (22), research/ (16) and d01ae7e2/ publish similar tables with different ID schemes. Five later builds each present themselves as the single answer: / + /app/ (session a459dadf), /dash/ (2b9f1ae1 / e40cd215), /hub/ (99eabb04), /d01ae7e2/ (d01ae7e2) and /dashboard/ (this session, 925439ca). This build is published under /dashboard/ precisely so it does not overwrite the site root, which another session owns.",
+      "effect": "Reviewers cannot tell which numbers are canonical. Naming one canonical dashboard is an owner decision, not a session decision — see SG-08 and change request CR-925439ca-E in COORDINATION.md. Nothing on this site claims to supersede the others.",
       "source": "https://github.com/wingbangboozle1-lang/NBA3"
     },
     {
@@ -615,6 +616,14 @@
       "detail": "Every line carries p(OT) = 0.0517, the observed rate of 9 overtime games in 174. No game-specific OT model was fitted.",
       "effect": "Treat it as a league average, not a forecast for a particular game.",
       "source": "https://www.nba.com/games?date="
+    },
+    {
+      "id": "F-19",
+      "kind": "Irregularity",
+      "title": "Per-PR CI checks are invisible: the GitHub connection is an integration token",
+      "detail": "Branch pushes from this workspace create zero workflow runs (actions/runs?branch=arena/925439ca-nba3 returns total_count: 0) and dispatching a workflow manually fails with HTTP 403 'Resource not accessible by integration'. Merges to main do trigger the push workflow, so the post-merge run exists and was green (run 43540337304).",
+      "effect": "PR #34 shows no check runs in its own UI. Every check was run locally on the exact rebased tree before merging, and the same checks ran green on main afterwards. A reviewer using a user token would see per-PR checks normally.",
+      "source": "https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow"
     }
   ],
   "repo_review": [
