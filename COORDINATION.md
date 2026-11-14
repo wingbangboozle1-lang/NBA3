@@ -3367,3 +3367,42 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+## Session `arena/240bc29b-nba3` (this session)
+
+Session ID: `arena/240bc29b-nba3`. Branch: `arena/240bc29b-nba3` (branched from `main` @ `3a6c353dc87aad6eb35184a2ec2f0cc8759501f6` = origin/main HEAD). Arena binds this workspace to one branch; the `session-<id>/<task>` branch-per-task scheme is not available, so scope is enforced by file list below, as every prior session recorded. All new artifacts live under `240bc29b/` so they cannot collide with another session's tree; `COORDINATION.md` is append-only.
+
+### Claim (committed and pushed before work began)
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| T1 | Session claim + coordination board setup | in progress | arena/240bc29b-nba3 | `COORDINATION.md` (append-only) |
+| T2 | Independent line-by-line repo review with official links + flagged irregularities | unclaimed | arena/240bc29b-nba3 | `240bc29b/review/` only |
+| T3 | Independent verification vs live official NBA sources (schedule, injury report, team advanced stats) | unclaimed | arena/240bc29b-nba3 | `240bc29b/verify/` only |
+| T4 | Clean GitHub Pages site under `240bc29b/`: landing + category subpages, dashboard UI, tables with source links, unverified values left blank + flagged | unclaimed | arena/240bc29b-nba3 | `240bc29b/site/` only |
+| T5 | Executive summary + suggestions register (review queue) + Q&A register under `240bc29b/` | unclaimed | arena/240bc29b-nba3 | `240bc29b/site/` only |
+| T6 | PR → main → merge → confirm GitHub Pages deploy → record PR link + merge result here | unclaimed | arena/240bc29b-nba3 | `COORDINATION.md` + PR |
+
+Status legend: `unclaimed` | `in progress` | `done` | `needs review` (`needs review` = published on the Flagged for Review page; does not block anything).
+
+### Sources used (this session — all official NBA hosts, read 2026-11-14)
+
+- Official NBA schedule: https://www.nba.com/schedule?date=2026-11-14 (and ?date=2026-11-15 / -16 / -17) — 27 games, dates, tip times, venues, game IDs
+- Official NBA injury-report index: https://official.nba.com/nba-injury-report-2026-27-season/
+- Official injury report PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf — 49 rows
+- Official NBA team advanced statistics: https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season — 30 teams
+- NBA.com Terms of Use: https://www.nba.com/termsofuse
+
+### Verification performed (this session)
+
+- Slate: 27 games of 2026-11-14 → 2026-11-17 re-transcribed from the live official schedule; game IDs, dates, tip times, venues all match the stored snapshot — 0 mismatches (recorded in `240bc29b/verify/`).
+- Injury report: newest official 11/14/26 04:15 AM ET report re-fetched; 49 rows (26 player + 23 NOT YET SUBMITTED), content-identical to the stored snapshot — 0 differences.
+- Team advanced statistics: 30 teams re-read; stored snapshot values match (e.g. LAL 13 GP 11–2 OffRtg 121.6 DefRtg 113.6 PACE 100.50; SAS 13 GP 11–2 OffRtg 119.6 DefRtg 106.6 NetRtg 13.0 PACE 98.94).
+
+### Irregularities flagged (this session)
+
+None require blocking the merge; published on the `240bc29b/site/flagged.html` page with source links. Key open owner decisions (unchanged from prior sessions): licensed odds feed, leaderboard reward definition, NBA Terms §9 gambling-use boundary, Dutch Koa licence requirement for any betting offer. No lines, picks, correlations, ROI or model outputs are claimed as verified economic results by this session.
+
+### Coordination notes
+
+No other session claims `240bc29b/` paths. `COORDINATION.md` is appended only (no existing section overwritten). Small, frequent commits; `git pull --rebase` before every push.
