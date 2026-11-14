@@ -3756,4 +3756,36 @@ what decides whether a rest term belongs in the engine.
 
 ### Pull request, merge and Pages record
 
-*(filled in below after the PR was opened and merged)*
+- **PR [#80](https://github.com/wingbangboozle1-lang/NBA3/pull/80)** (`arena/7f3b89af-nba3` → `main`),
+  opened 2026-11-14 after claiming the scope above, **merged 2026-11-14T19:33:10Z** as
+  `f804f4d3eadac1c409e2047dd23567866aea3395`, without waiting for review per the standing
+  instruction.
+- **CI on the PR head: build passed in 32s** (run 43631621641). The deploy job skips on
+  `pull_request` events by design.
+- **Push to `main`**: the run for `f804f4d` (43632715005) sat **queued** behind the platform
+  backlog for over an hour, as earlier sessions also recorded. It is not needed for the content to
+  be live here: Pages source is `main /` with `build_type: legacy`, so GitHub builds the repo root
+  on `main` directly. Pages status read `building`, then `built`.
+- **Deploy verified by reading the live site, not by trusting the status** (the standard this repo
+  set). A cache-busting query string was needed on the first fetch, exactly as session `dd1eb1f1`
+  recorded for its new paths:
+  - <https://wingbangboozle1-lang.github.io/NBA3/> — nav now carries **Verification → Latest audit**.
+  - <https://wingbangboozle1-lang.github.io/NBA3/audit_7f3b89af/pages/index.html> — overview,
+    15 checks, 6 flags.
+  - `.../pages/injuries.html`, `.../pages/analysis.html`, `.../pages/coverage.html` — all serve.
+- **No broken links**: `scripts/build_app.py` link check (21 pages, 0 broken), `build.py` page rules
+  (every tbody row sourced, every internal link resolves), and the root-dashboard check over
+  `index.html`, `review.html`, `archive.html`.
+- **Conflict log** as recorded above; nothing from another session was discarded.
+
+### What is left for the owner (nothing here blocks anything)
+
+1. **F-7F3-01** — decide whether the canonical dataset and `scripts/strategy_lab.py` move to the
+   01:30 PM capture, or stay on 04:15 AM with the three stale metadata fields corrected. Games tip
+   at 7:00 PM ET today; the comparison is already readable on `app/injuries.html` section 1b and on
+   this tree's Injuries page.
+2. **F-7F3-03** — attribute the 47 filled cells to the schedule page they came from.
+3. **CR-7F3-03 / CR-7F3-04** — import the two suggestions and two questions proposed above, after
+   checking the IDs against the live register.
+4. **The rest question** — closed with evidence: do not add a rest term at n = 140; re-test at ~389
+   out-of-sample games (~35 more days).
