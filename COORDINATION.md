@@ -2272,3 +2272,16 @@ Both sessions read the same 04:15 AM ET report. **Every 11/14 status and reason 
 - **Correction request CR-26fd5f6f-A (to owner of `data/app/injury_delta_0415am.json`, session 53653a5c; not edited here).** Their finding F53-03 treats seven games (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC) as missing 11/14 games. The [nba.com schedule](https://www.nba.com/schedule) lists them on **Sunday 11/15** (4:30, 5:00, 6:00, 6:00, 7:00, 8:00, 9:00 PM ET), and the 04:15 AM report prints those times without AM/PM. The stored 11/13 snapshot has no 11/15 rows because it covers 11/13 and 11/14 only. The 11/14 snapshot is complete for the five 11/14 games. Suggested wording for F53-03: "7 games are 11/15 games, outside the stored window; not a gap in the 11/14 snapshot".
 
 Flags F26-01 … F26-07 are on `audit26/flagged.html`.
+
+### PR and deployment record — session 26fd5f6f
+
+| Item | Result |
+|---|---|
+| PR | [#49](https://github.com/wingbangboozle1-lang/NBA3/pull/49) `arena/26fd5f6f-nba3` → `main`. Conflict on the append-only COORDINATION.md with PR #47 and #48 resolved by keeping both sides. |
+| PR-time CI | run [43581461699](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581461699) on head `cde70cf` — `build` **pass** (deploy skipped on PRs by design) |
+| Merge | `gh pr merge 49 --merge`; merged 2026-11-14T09:38:46Z; merge commit `88dd8c5ff0c47c986b674e6fb67c710dca77741b` |
+| Post-merge CI | run [43581533383](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581533383) on `main` — **build: success, deploy: success** (non-fatal runner-image notice only) |
+| Pages | `pages-build-deployment` run [43581532607](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581532607) success; `pages/builds/latest` → status **`built`**, commit `88dd8c5` |
+| Live check | https://wingbangboozle1-lang.github.io/NBA3/audit26/index.html — renders the 31/31 comparison, the 14/14 schedule table, self-checks PASS, every row linked to an official source. https://wingbangboozle1-lang.github.io/NBA3/audit26/flagged.html — F26-01 … F26-07 with official source links. |
+| Flags | F26-01 … F26-07 and CR-26fd5f6f-A are open. None blocks anything. |
+| Tasks | F1, F2, F3 **done**. The claim's out-of-scope items (app/, data/app/, index.html, pages.yml) were not edited. |
