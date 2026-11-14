@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "task": "T04",
+    "principle": "Every strategy must pass validation gates before being ranked on the leaderboard. Luck is removed by: (1) unit-normalised scoring on settled picks only, (2) minimum-sample gates, (3) Wilson-interval skill tests vs break-even, (4) correlation caps on parlays/props, (5) selective release — strategies only bet when edge >= threshold. No strategy earns rewards until gate suite passes; unvalidated strategies are labelled PAPER.",
+    "correlation_policy": "Correlation values are computed from official NBA last-5 game logs and official league tables (see data/correlations.json). Parlays/props that exceed correlation caps are rejected at generation time."
+  },
+  "strategies": [
+    {
+      "id": "S1",
+      "name": "Edge Single (moneyline/spread)",
+      "type": "single_bet",
+      "status": "PAPER",
+      "description": "Originate a fair line for every slate game from official team strength (net rating proxy = PTS - OPPG), rest days, and injury production-at-risk. Bet only when our line diverges from a neutral baseline by >= edge_threshold and model confidence passes gates. One unit flat stake.",
+      "inputs": ["data/teams.json", "data/slate.json", "data/injuries.json"],
+      "model": "fair_margin = 0.5*(net_rating_home - net_rating_away) + homecourt_assumption + rest_adjustment + injury_impact_home - injury_impact_away; fair_total = (pts_home + oppg_away + pts_away + oppg_home)/2 adjusted for injury production out",
+      "parameters": {
+        "edge_threshold_pts": 3.0,
+        "confidence_cutoff": 0.60,
+        "homecourt_assumption_pts": 2.5,
+        "unit": 1.0,
+        "b2b_penalty_pts": -1.5,
+        "injury_ppg_weight": 0.35,
+        "injury_margin_cap_pts": 10.0,
+        "injury_rotation_gate_gp_share": 0.6
+      },
+      "parameters_note": "homecourt 2.5 pts, b2b penalty and injury weights/cap/gate are MODEL ASSUMPTIONS, not official NBA facts - flagged hca-01/w-01 in flagged.json pending calibration",
+      "parameter_revision": "rev-A: injury_ppg_weight 0.6->0.35, cap 10.0 added (implausible margins). rev-B: rotation gate - only OUT players with GP>=60% of team GP count (prevents double-counting absences already priced into season stats). Both pre-settlement, 0 settled picks. Recorded 2026-11-13.",
+      "validation_gates": [
+        {"gate": "G1_sample", "rule": ">= 30 settled picks before any skill claim", "state": "PENDING (0 settled)"},
+        {"gate": "G2_win_rate_ci", "rule": "Wilson 90% CI of ROI must exclude 0 (or ATS win rate CI excludes 52.4% break-even at -110)", "state": "PENDING"},
+        {"gate": "G3_edge_persistence", "rule": "mean |our_line - baseline| must stay >= 2.0 pts across 30 picks (model not collapsing to baseline)", "state": "PENDING"},
+        {"gate": "G4_data_freshness", "rule": "injury report used must be < 6h old at pick time for game day", "state": "FAIL for 11/15-16 games (reports not published) -> picks gated to provisional"},
+        {"gate": "G5_source_completeness", "rule": "every pick row must carry source_url to schedule + stats + injury report", "state": "PASS at generation (verify.py check)"}
+      ],
+      "luck_controls": ["flat staking", "settled-pick-only scoring", "CI-required claims", "no cherry-picking: every eligible game gets a released-or-pass record"],
+      "source_refs": ["https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season", "https://www.nba.com/schedule", "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"]
+    },
+    {
+      "id": "S2",
+      "name": "Correlated Double",
+      "type": "parlay_2leg",
+      "status": "PAPER",
+      "description": "Two S1 legs from the SAME game (e.g., favourite cover + over). Uses joint probability with computed correlation instead of naive independence. Only released when joint edge >= parlay_edge_threshold and leg correlation is measured, not assumed.",
+      "inputs": ["data/picks.json", "data/correlations.json"],
+      "parameters": {
+        "joint_edge_threshold_pct": 4.0,
+        "max_legs": 2,
+        "unit": 1.0
+      },
+      "validation_gates": [
+        {"gate": "G1_sample", "rule": ">= 20 settled parlays before ranking", "state": "PENDING"},
+        {"gate": "G2_corr_measured", "rule": "rho between legs must come from data/correlations.json with n>=5; if unavailable -> REJECT parlay", "state": "ENFORCED at generation"},
+        {"gate": "G3_joint_prob_method", "rule": "joint p computed as p(A)+p(B)-p(A)*p(B) - rho*min(pA,pB)*(1-max(pA,pB)) bounded [max(0,pA+pB-1), min(pA,pB)]; naive independence prohibited", "state": "ENFORCED"}
+      ],
+      "luck_controls": ["correlation required (no independence assumption)", "settled-only scoring", "pass record kept for rejected combos"],
+      "source_refs": ["https://www.nba.com/player/1628973/jalen-brunson", "https://www.nba.com/player/1626157/karl-anthony-towns"]
+    },
+    {
+      "id": "S3",
+      "name": "Prop Stack (player points combo)",
+      "type": "player_prop_combo",
+      "status": "PAPER",
+      "description": "Two same-team player points props combined (e.g., Brunson 25+ & Towns 20+). Requires teammate PTS correlation from official last-5 logs; rejects stacks when either player is Out/Doubtful per official injury report.",
+      "inputs": ["data/players.json", "data/correlations.json", "data/injuries.json"],
+      "parameters": {
+        "min_teammate_n": 5,
+        "min_joint_edge_pct": 3.0,
+        "unit": 1.0
+      },
+      "validation_gates": [
+        {"gate": "G1_sample", "rule": ">= 15 settled stacks before ranking", "state": "PENDING"},
+        {"gate": "G2_availability", "rule": "both players status in {not listed, Probable, Available} per latest official report; Questionable -> flagged review; Out/Doubtful -> auto-reject", "state": "ENFORCED at generation"},
+        {"gate": "G3_corr_source", "rule": "teammate rho must be computed from official Last-5 tables (n>=5); else stack released only as singles with flag", "state": "ENFORCED"}
+      ],
+      "luck_controls": ["availability gate", "correlation-estimated joint probability", "flat units", "settled-only scoring"],
+      "source_refs": ["https://www.nba.com/player/1628973/jalen-brunson", "https://www.nba.com/player/1626157/karl-anthony-towns", "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"]
+    },
+    {
+      "id": "S4",
+      "name": "Rest/Fatigue Favourite",
+      "type": "single_bet_filter",
+      "status": "PAPER",
+      "description": "Subset of S1: only games where rest differential >= 2 days (opponent on back-to-back or 0-1 rest vs our side >= 2). Hypothesis: rest edges persist in the first month of the season. Uses only official schedule-derived rest values.",
+      "inputs": ["data/slate.json", "data/teams.json"],
+      "parameters": {"min_rest_edge_days": 2, "edge_threshold_pts": 2.0, "unit": 1.0},
+      "validation_gates": [
+        {"gate": "G1_sample", "rule": ">= 25 settled picks (subset strategy needs larger N)", "state": "PENDING"},
+        {"gate": "G2_vs_parent", "rule": "must beat S1's settled ROI before promotion to leaderboard rank 1", "state": "PENDING"},
+        {"gate": "G3_schedule_source", "rule": "rest values must be computed from official schedule PDF only", "state": "PASS"}
+      ],
+      "luck_controls": ["hypothesis registered before results (pre-registration)", "subset-of-parent comparison", "flat units"],
+      "source_refs": ["https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"]
+    }
+  ],
+  "leaderboard": {
+    "rules": [
+      "Ranking metric: settled-pick ROI with Wilson 90% CI reported alongside; strategies with CI containing break-even are shown as 'not yet distinguished from luck'.",
+      "Minimum games before a strategy may be called 'skill-positive': strategy-specific gate N (30/20/15/25) AND CI excludes break-even.",
+      "Rewards: (1) weekly crown = highest settled ROI among gate-passing strategies; (2) 'Gate Champion' badge = first strategy to pass all gates; (3) unit allocation: top-ranked strategy receives 2x unit sizing in the following week's paper book, capped at 2%; others 1x.",
+      "Paper book starts at 100 units; bankruptcy rule: strategy dropped from live board below 50 units (historical record retained).",
+      "Every week the board freezes; no retroactive edits to settled picks.",
+      "PENDING/PROVISIONAL picks are never scored."
+    ],
+    "scoring": {"win": "+1 unit (at flat stake)", "loss": "-1 unit", "push": "0", "parlay": "stake 1 unit against joint probability"}
+  }
+}
