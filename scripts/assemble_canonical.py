@@ -33,8 +33,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 OUT = os.path.join(APP, "canonical.json")
 
-BUILD_UTC = "2026-11-14T03:00Z"
-SESSION = "arena/8d3d0271-nba3"
+BUILD_UTC = "2026-11-14T09:45Z"
+SESSION = ("arena/25418e3f-nba3 (official refresh 2026-11-14: 183-game result log, newest "
+           "injury report, post-slate team ratings, availability timeline) on top of "
+           "arena/8d3d0271-nba3 (engine, gates, leaderboard)")
 REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 PAGES_DOCS = ("https://docs.github.com/en/pages/getting-started-with-github-pages/"
               "configuring-a-publishing-source-for-your-github-pages-site")
@@ -135,6 +137,46 @@ def build_sources():
         "fetch_page, chunks 0-1 of 2", "2026-11-14",
         "Read. The index lists 11/13 reports from 12:00 a.m. to 07:30 p.m. ET. No 11/14 report is listed yet.",
         "No report exists yet for the 2026-11-15 and 2026-11-16 games; teams report by 5 p.m. local time the day before a game.")
+    # Sources read by the 2026-11-14 refresh (session arena/25418e3f-nba3).
+    add("NBA (official)", "NBA Games & Scores — 2026-11-13 (final scoreboard + November calendar)",
+        "https://www.nba.com/games?date=2026-11-13", "Official (NBA)",
+        "The nine final scores of 2026-11-13 (game id, matchup, score, Final / Final-OT state, "
+        "Cup group, post-game W-L per team) and the official game count printed under every date "
+        "of the November 2026 calendar",
+        "fetch_page, chunks 0-1 of 2", "2026-11-14",
+        "Read. 9 games transcribed. Cross-checked three ways: the official GP column (30 teams, "
+        "sum 366 = 2 x 183), the official W and L columns (183 and 183), and the 18 post-game "
+        "records printed on the same scoreboard page. All three reconcile with the extended log.",
+        "Read after all nine games had finished, so 'Final' is settled state, not a live score. "
+        "The calendar counts games, it does not name them.")
+    add("NBA (official)", "NBA Stats — Teams Advanced (Regular Season 2026-27), re-read after the 11/13 slate",
+        "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+        "Official (NBA)", "GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE for all 30 teams, post-slate",
+        "fetch_page, chunks 0-1 of 2", "2026-11-14",
+        "Read. Compared with the snapshot stored by the previous session: 18 of 30 teams gained a "
+        "game, and those 18 are exactly the 18 teams that played on 11/13, which is what shows the "
+        "stored snapshot had been read mid-slate. 123 of the 240 stored fields differ.",
+        "A rolling snapshot; any page read during a live slate is stale for the teams playing.")
+    add("NBA (official)", "NBA official injury report PDF — 11/14/26 04:15 AM ET",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+        "Official (NBA)",
+        "Newest report at read time: 31 rows for the 2026-11-14 slate and 18 team rows for "
+        "2026-11-15, every one of the 11/15 rows reading NOT YET SUBMITTED",
+        "fetch_page, chunk 0 of 1 (PDF text extraction, two printed pages)", "2026-11-14",
+        "Read. 49 rows. Compared row for row with the 11/13 07:45 PM ET report on the 2026-11-14 "
+        "slate: 31 rows in common, 0 status changes, 0 rows added or dropped.",
+        "Prints no rows at all for 2026-11-16 or 2026-11-17: those dates are outside every "
+        "published report, which is not the same as nobody being out.")
+    add("NBA (official)", "NBA Injury Report — 2026-27 season index (filing rule and report list)",
+        "https://official.nba.com/nba-injury-report-2026-27-season/", "Official (NBA)",
+        "The filing rule quoted verbatim on the Report-availability page (5 p.m. local the day "
+        "before; 1 p.m. local on game day for the second game of a back-to-back) and which "
+        "timestamped reports exist",
+        "fetch_page", "2026-11-14",
+        "Read. Index lists 11/14 reports from 12:00 a.m. to 04:15 a.m. ET; 04:15 a.m. is the "
+        "newest, and it is the file captured above.",
+        "The index lists reports by publication time; it does not state when each team's "
+        "deadline falls. That is derived from the rule text and the official schedule.")
     add("GitHub (repository API)", "wingbangboozle1-lang/NBA3 — repository, Pages and PR facts",
         "https://github.com/wingbangboozle1-lang/NBA3", "Platform (GitHub)",
         "Repository review: Pages build type and source, branches, pull requests, licences",
@@ -891,6 +933,188 @@ def build_lab_gates():
     return out
 
 
+SESSION_FLAGS += [
+    ("NF-56", "Availability", "high",
+     "Before this round the picks page published 'REPORTED — Both teams had filed a report at "
+     "capture time' and an absence count of 0 for both sides on 22 of the 27 games in the window "
+     "(every game on 2026-11-15, 11-16 and 11-17). No official report covered those dates: the "
+     "newest report prints NOT YET SUBMITTED for all 18 teams on 11/15 and nothing at all for "
+     "11/16 and 11/17. Root cause: 'submitted' was inferred from the absence of a NOT-YET-SUBMITTED "
+     "row, so an empty row set read as a clean bill of health.",
+     "Fixed in this round: availability is a four-state value (FILED / DUE_AND_NOT_FILED / "
+     "NOT_YET_DUE / NO_OFFICIAL_REPORT_COVERS_THIS_DATE) decided from the official filing rule, "
+     "and an absence count is published only for a team that is on the report. Owner decision "
+     "still owed: whether a pre-deadline line should be re-priced automatically at the deadline "
+     "(CQ-41).",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+      "https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("NF-57", "Inputs", "high",
+     "The team-ratings snapshot the window was priced with was read at 2026-11-14T01:05Z, i.e. "
+     "while the 11/13 slate was still live. 18 of 30 teams were one game stale — and those 18 are "
+     "exactly the 18 teams playing that night, so the staleness was not random. 123 of the 240 "
+     "stored stat fields differ from the post-slate re-read, and the canonical results log was "
+     "missing all nine 11/13 finals.",
+     "Refreshed here: log extended to 183 games, ratings re-read after the slate, every line "
+     "re-originated. All 27 lines moved (median |spread move| 1.11 points, max 4.89). Standing "
+     "rule proposed: never capture team stats during a live slate; capture after the last final.",
+     ["https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+      "https://www.nba.com/games?date=2026-11-13"]),
+    ("NF-58", "Data log", "medium",
+     "Flag F36-03 handed off 'extend data/origin/games.csv (to 184 games)'. The log now holds 183 "
+     "games, not 184. Three independent official readings agree on 183: the GP column of the "
+     "official team statistics (366 team-games), the W and L columns (183 wins, 183 losses), and "
+     "the official November calendar's per-date counts added to our own October rows (88 + 95).",
+     "Recorded so a later session does not 'repair' the log to 184 to match the note. The "
+     "off-by-one was in the hand-off text, not in the data.",
+     ["https://www.nba.com/games?date=2026-11-13",
+      "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"]),
+    ("NF-59", "Capture fidelity", "medium",
+     "One injury row of the 11/14 04:15 AM report — Traore, Nolan (Probable, right calf) on the "
+     "BKN@MEM block — sits at a page-break gap where the PDF text carries no Team cell. The team "
+     "is left BLANK in the capture rather than attributed, so that Probable is not attached to any "
+     "team in the availability join.",
+     "Needs a second read of the PDF table, or a check against the official team roster page, "
+     "before the row is attributed. It changes no line either way: a Probable is not an absence.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"]),
+    ("NF-60", "Model", "high",
+     "After the refresh the totals model still loses to a constant out of sample: RMSE 19.449 vs "
+     "19.386 on 140 walk-forward games (the margin model wins: 15.945 vs 16.921). Every originated "
+     "total is therefore weaker than the originated spread, and every totals rule on the board "
+     "inherits that.",
+     "Keep the totals published with this caveat on the page. Do not fund a totals strategy on a "
+     "model that loses to the league mean.",
+     ["https://www.nba.com/games?date="]),
+    ("NF-61", "Process", "medium",
+     "Nothing in the repository re-pulls the official pages on a schedule. The published window is "
+     "correct as of one timestamp (2026-11-14 09:45Z) and drifts silently after it — including "
+     "through the 1 p.m. local game-day deadline that would settle five of tonight's games.",
+     "Decide a re-capture cadence (CQ-41) and put the snapshot age in the header of every page. "
+     "Until then every page states its as-of time, and the freshness page lists what will change it.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("NF-62", "Parlays", "high",
+     "assemble_canonical.py published 'parlay_leg_candidate = True' for all 27 games as a literal, "
+     "regardless of availability — so a game with no injury report at all was flagged as a valid "
+     "parlay leg. Nothing else in the pipeline consulted that field, which is why it survived.",
+     "Fixed here: a game is a parlay-leg candidate only when both sides appear as filed on the "
+     "newest official report. On the current snapshot that is zero games, which agrees with the "
+     "leaderboard result (no funded strategy) and with the same page's own warning.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"]),
+]
+
+SESSION_QUESTIONS += [
+    ("CQ-41", "Freshness", "Should a line that is priced before a filing deadline be re-priced "
+     "automatically when the deadline passes, or held and marked stale?", "Open - owner decision",
+     "Known: the deadline for every team-game in the window is computable from the official rule "
+     "and the official schedule, and scripts/report_availability.py already publishes it per game. "
+     "Five of tonight's ten team-sides settle at 1 p.m. local today. Known: nothing re-pulls today.",
+     "Missing: whether an automatic re-price is wanted (it changes published numbers without a "
+     "human in the loop) or whether the site should only show the age and let the reader decide.",
+     "Pick one: (a) re-pull and re-price on the deadline, (b) re-pull and publish as a shadow line "
+     "next to the original, (c) leave as it is. (b) keeps an audit trail and is what the leaderboard "
+     "would need anyway to score strategies fairly.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"], "Owner"),
+    ("CQ-42", "Data", "Should there be one canonical result log for the whole repository?",
+     "Open - owner decision",
+     "Known: data/origin/games.csv now holds 183 verified games (through 2026-11-13); "
+     "final/data/games.csv still holds 174 (through 2026-11-12) and the /dashboard/ tree is built "
+     "from it, so two pages on the live site describe two different seasons-to-date.",
+     "Missing: a decision on which log is canonical, and whether the older trees are re-cut or "
+     "labelled as dated snapshots.",
+     "Either point every tree at data/origin/games.csv and re-run their builders, or add a "
+     "'snapshot of 2026-11-13' banner to the trees that keep their own copy. Re-cutting is the "
+     "cleaner option; it also re-opens their own verification numbers.",
+     ["https://www.nba.com/games?date=2026-11-13"], "Owner"),
+    ("CQ-43", "Method", "Is a venue time-zone table acceptable as an input?", "Open - owner decision",
+     "Known: the official rule states deadlines in LOCAL time; the official schedule prints tip "
+     "times in ET. The offset between the two is not printed on any official page this project reads, "
+     "so 're-price at 13:00 local' is shown as local and the ET equivalent is left blank.",
+     "Missing: permission to use a published time-zone reference (which would let the site print "
+     "'1:00 p.m. local = 2:00 p.m. ET' and rank tonight's games by when each becomes priceable).",
+     "Either accept an external time-zone source and record it in the source register, or keep the "
+     "blank and accept that the ordering, not the clock time, is what the site can promise.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"], "Owner"),
+    ("CQ-44", "Availability", "Does a game with an unresolved side belong in a parlay at all?",
+     "Open - owner decision",
+     "Known: same-game parlays on the site are priced with a measured dependence ratio of 0.942 "
+     "whose interval includes 1.0, so independence is not established; and 22 of 27 games have no "
+     "usable availability. The flag that said every game was a valid leg is now derived from "
+     "availability instead of being a literal.",
+     "Missing: the owner's policy on leg eligibility — zero legs is a defensible answer for tonight, "
+     "but not for a whole slate.",
+     "Choose a rule: exclude any leg whose team has not filed; or allow pre-deadline legs and mark "
+     "them; or gate legs on strategy funding instead of availability. The first is the strictest and "
+     "the easiest to defend.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"], "Owner"),
+    ("CQ-45", "Injuries", "How should a Probable or Available-with-injury row affect a line?",
+     "Open - owner decision",
+     "Known: the engine counts Out and Doubtful as absences and treats Questionable as 'listed but "
+     "not counted'; Probable and Available (9 rows on the 11/14 slate, e.g. Caleb Martin with a "
+     "thumb splint, Nolan Traore with a calf) currently have no effect at all.",
+     "Missing: a measured minute-donation model for game-time decisions, which needs per-player game "
+     "logs this repository does not have.",
+     "Either state on the page that Probable/Available rows are ignored and why, or capture player "
+     "game logs and measure how minutes actually shift for splint/mask cases. The first costs nothing.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"], "Owner"),
+]
+
+SESSION_SUGGESTIONS += [
+    ("CS-39", "Decision support",
+     "Put a 're-price at' column on the picks table, driven by the availability artefact that now "
+     "exists (data/app/report_availability.json).",
+     "The single most actionable fact about a pre-deadline game is when it stops being pre-deadline. "
+     "It is already computed and is only shown on the freshness page today.",
+     "A: add the column to the picks table; B: add a countdown to the header of each date group; "
+     "C: leave it on the freshness page only.",
+     "A — one column, no new data, and it makes the PARTIAL_REPORT chips self-explanatory.",
+     "None; the data is in the build already.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("CS-40", "Site architecture",
+     "Let the twelve site trees share one availability renderer instead of each deciding what 'no "
+     "rows captured' means.",
+     "The defect behind NF-56 was possible because each tree re-implemented the same judgement. A fix "
+     "applied to the canonical pages leaves the same wrong reading live in the other trees.",
+     "A: extract one module that every tree calls; B: freeze the older trees as dated snapshots with "
+     "a banner; C: delete the older trees from the Pages artifact.",
+     "B now, A when the site is consolidated. Freezing with a banner costs nothing and stops a "
+     "reader treating an old tree as current.",
+     "Owner decision on consolidation (CQ-42 is the same fork in the road).",
+     ["https://github.com/wingbangboozle1-lang/NBA3"]),
+    ("CS-41", "Trust",
+     "Print the snapshot age on every page: which capture timestamp the page was built from, and how "
+     "many hours ago.",
+     "Every number on the site is correct as of a moment that is now hours old, and only the "
+     "verification page says so. A reader who lands on the lines page has no signal that the "
+     "availability picture may already have moved.",
+     "A: age string in the page header; B: colour the header grey when the snapshot is older than "
+     "the next deadline; C: nothing.",
+     "B — it is the same data the freshness page already has, and it makes staleness impossible to "
+     "miss rather than merely documented.",
+     "None.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"]),
+    ("CS-42", "Decision discipline",
+     "Render the unfunded state of the leaderboard into the picks page itself: no funded strategy "
+     "means no game in the window is a selection, and the page should say that in its first line.",
+     "The picks page currently leads with 27 priced games and buries 'nothing here is a bet' in a "
+     "callout below. The honest headline is that the board has funded no rule, so the prices are "
+     "research output, not a slip.",
+     "A: lead with the funded-strategy count and gate the table behind it; B: keep the layout and "
+     "strengthen the warning; C: split research prices from actionable picks into two pages.",
+     "A — one line at the top, no new page, and it matches what the leaderboard page already says.",
+     "None.",
+     ["https://www.nba.com/games?date="]),
+    ("CS-43", "Verification",
+     "Promote the official per-date game count into every capture script as a standing check.",
+     "This session caught nothing wrong with it — but only because it ran the check: the scoreboard "
+     "calendar prints a game count per date, so '5 / 9 / 8 / 5 games' confirms a 27-game slate "
+     "without reading a single matchup row. It is a free tripwire for a truncated capture.",
+     "A: add the count check to each capture script; B: keep it in this session's capture only; "
+     "C: build one shared capture module for all trees.",
+     "A now, C when the trees are consolidated.",
+     "None.",
+     ["https://www.nba.com/games?date=2026-11-13"]),
+]
+
+
 def build_session_flags():
     out = []
     for fid, area, sev, item, action, sources in SESSION_FLAGS:
@@ -936,12 +1160,43 @@ def main():
     # Official captures: this session's (2026-11-14, 01:05Z) plus the previous
     # session's, which is kept because the earlier pages and the repo review
     # cite it and because the two agree on every overlapping field.
-    slate = jload("data", "app", "official_slate_1114_1117.json")
+    # The snapshot manifest (written by scripts/capture_official_2026_11_14c.py)
+    # names which official captures the canonical build reads, so a refresh is a
+    # data change and not an edit here.  Defaults reproduce the pre-manifest files.
+    manifest = {}
+    if os.path.exists(os.path.join(APP, "snapshot_manifest.json")):
+        manifest = jload("data", "app", "snapshot_manifest.json")
+
+    def resolved(block, fallback):
+        rel = ((manifest.get(block) or {}).get("path") or "").strip()
+        return jload(*(rel.split("/"))) if rel else jload(*fallback.split("/"))
+
+    slate = resolved("slate", "data/app/official_slate_1114_1117.json")
     prior_slate = jload("data", "app", "official_slate.json")
-    ratings = jload("data", "app", "official_team_ratings_2026-11-14b.json")
-    injuries = jload("data", "app", "official_injuries_2026-11-13_0745PM.json")
+    ratings = resolved("ratings", "data/app/official_team_ratings_2026-11-14b.json")
+    injuries = resolved("injuries", "data/app/official_injuries_2026-11-13_0745PM.json")
     lab = jload("data", "app", "lab.json")
     mo = jload("data", "origin", "model_output.json")
+
+    def optional(name):
+        path = os.path.join(APP, name)
+        return json.load(open(path, encoding="utf-8")) if os.path.exists(path) else None
+
+    availability = optional("report_availability.json")
+    delta = optional("snapshot_delta.json")
+    results_1113 = optional("official_results_2026-11-13.json")
+    counts = optional("official_counts_2026-11-14.json")
+    log_provenance = None
+    prov_path = os.path.join(ROOT, "data", "origin", "games_extended_provenance.json")
+    if os.path.exists(prov_path):
+        log_provenance = json.load(open(prov_path, encoding="utf-8"))
+    superseded_ratings = superseded_injuries = None
+    if manifest.get("superseded"):
+        try:
+            superseded_ratings = jload(*(manifest["superseded"]["ratings"].split("/")))
+            superseded_injuries = jload(*(manifest["superseded"]["injuries"].split("/")))
+        except (OSError, KeyError):
+            pass
 
     prior_games = {g["game_id"]: g for g in prior_slate["games"]}
     by_gid = {g["game_id"]: g for g in slate["games"]}
@@ -972,6 +1227,11 @@ def main():
             "p_blowout_15": l.get("p_blowout_15"),
             "pace": l["pace"], "out_count_home": l["out_count_home"],
             "out_count_away": l["out_count_away"],
+            "availability_state_home": l.get("availability_state_home"),
+            "availability_state_away": l.get("availability_state_away"),
+            "availability_basis": l.get("availability_basis", ""),
+            "reprice_after_home": l.get("reprice_after_home", ""),
+            "reprice_after_away": l.get("reprice_after_away", ""),
             "out_players_home": l["out_players_home"],
             "out_players_away": l["out_players_away"],
             "fair_ml_home": l["fair_ml_home"], "fair_ml_away": l["fair_ml_away"],
@@ -988,14 +1248,20 @@ def main():
         pick_rows.append({
             "date": p["date"], "time_et": p["time_et"], "away": p["away"], "home": p["home"],
             "matchup": f"{p['away']} @ {p['home']}",
+            "game_id": p["game_id"],
             "origin_spread": f"{p['home']} {p['orig_spread_home']:+.1f}",
             "origin_total": p["orig_total"],
             "fair_ml_home": p["fair_ml_home"], "fair_ml_away": p["fair_ml_away"],
             "model_p_home": p["p_home_win"], "confidence": "",
             "availability_flag": p["availability_flag"],
             "availability_detail": p["availability_detail"],
+            "availability_states": p.get("availability_states", {}),
+            "availability_basis": p.get("availability_basis", ""),
             "singles_view": p["side_lean"], "totals_view": p["totals_lean"],
-            "parlay_leg_candidate": True,
+            # Was a literal True for every game, which made a game with no injury
+            # report at all a valid parlay leg (flag NF-62).  Now derived: a leg
+            # needs both sides present on the newest official report.
+            "parlay_leg_candidate": (p["availability_flag"] == "REPORTED"),
             "model_margin": p["model_margin_home"], "model_total": p["orig_total"],
             "nba_game_url": p["nba_game_url"],
             "source": p["source"],
@@ -1006,19 +1272,50 @@ def main():
             "strategy_selections": p.get("strategy_selections", []),
         })
 
+    # ---- recompute the log's own integrity against the official GP column ----
+    with open(os.path.join(ROOT, "data", "origin", "games.csv"), encoding="utf-8") as fh:
+        _log_rows = list(csv.DictReader(fh))
+    _gp = {}
+    for _r in _log_rows:
+        _gp[_r["away"]] = _gp.get(_r["away"], 0) + 1
+        _gp[_r["home"]] = _gp.get(_r["home"], 0) + 1
+    _bad = [f"{t}: log {own} vs official {off}" for t, off in
+            ((x["team"], x["gp"]) for x in ratings["teams"])
+            if _gp.get(t, 0) != off for own in [_gp.get(t, 0)]]
+    log_integrity = {
+        "games": len(_log_rows),
+        "team_games": 2 * len(_log_rows),
+        "mismatch": len(_bad),
+        "detail": _bad[:10],
+        "last_date": max(r["date"] for r in _log_rows) if _log_rows else None,
+        "source": ((manifest.get("results_log") or {}).get("source_url")
+                   or "https://www.nba.com/games?date="),
+    }
+
     canonical = {
         "meta": {
             "title": "NBA3 — NBA Edge Lab",
             "built_utc": BUILD_UTC,
             "session": SESSION,
             "window": slate["window"],
-            "as_of_note": ("Official pages were read on 2026-11-14 (UTC) at 01:05Z. Injury, "
-                           "tip-time and stat values move during a slate; re-read the official "
-                           "pages before acting."),
+            "as_of_note": ("Official pages were re-read on 2026-11-14 (UTC) at 09:45Z: newest "
+                           "injury report 11/14 04:15 AM ET, team statistics read after the 11/13 "
+                           "slate, results log through 2026-11-13 (183 games). Injury, tip-time and "
+                           "stat values move during a slate; re-read the official pages before "
+                           "acting. See the Report-availability page for which numbers are already "
+                           "stale and when each one settles."),
             "model": {
                 "results_captured": lab["meta"]["games_captured"],
-                "team_games_official": mo["integrity"]["team_games_official"],
-                "mismatch": mo["integrity"]["mismatch"],
+                # Recomputed here, from the log and the official GP column, rather than
+                # copied from an earlier session's integrity block (which described the
+                # 174-game log).  See check C1 of scripts/capture_official_2026_11_14c.py.
+                "team_games_official": log_integrity["team_games"],
+                "mismatch": log_integrity["mismatch"],
+                "mismatch_detail": log_integrity["detail"],
+                "official_gp_source": ((manifest.get("ratings") or {}).get("source_url")
+                                       or "https://www.nba.com/stats/teams/advanced"),
+                "legacy_team_games_official": mo["integrity"]["team_games_official"],
+                "legacy_mismatch": mo["integrity"]["mismatch"],
                 "oos_games": lab["residuals"]["n"],
                 "burn_in": lab["meta"]["burn_in"],
                 "margin_rmse": lab["residuals"]["margin_rmse"],
@@ -1048,6 +1345,13 @@ def main():
         "lab": lab,
         "slate": slate,
         "prior_slate": prior_slate,
+        "availability": availability,
+        "snapshot_delta": delta,
+        "results_1113": results_1113,
+        "official_counts": counts,
+        "log_provenance": log_provenance,
+        "manifest": manifest or None,
+        "superseded": {"ratings": superseded_ratings, "injuries": superseded_injuries},
         "lines": lines,
         "picks": pick_rows,
         "props": lab["props"],

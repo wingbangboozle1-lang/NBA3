@@ -1,0 +1,152 @@
+{
+ "schema": "nba3.snapshot_manifest/v1",
+ "session": "arena/25418e3f-nba3",
+ "written_on": "2026-11-14",
+ "purpose": "Names the official captures the canonical engine and dashboard must read. Kept as a manifest rather than hard-coded paths so a later refresh can be made by dropping new files here and re-running the build.",
+ "window": {
+  "from": "2026-11-14",
+  "to": "2026-11-17"
+ },
+ "results_log": {
+  "path": "data/origin/games.csv",
+  "games": 183,
+  "last_date": "2026-11-13",
+  "provenance": "data/origin/games_extended_provenance.json",
+  "source_url": "https://www.nba.com/games?date=2026-11-13"
+ },
+ "slate": {
+  "path": "data/app/official_slate_1114_1117.json",
+  "source_url": "https://www.nba.com/schedule?date=2026-11-14",
+  "retrieved_stamp": "2026-11-14T01:05Z",
+  "reverified_on": "2026-11-14",
+  "reverified_by": "official scoreboard per-date counts, check C6"
+ },
+ "results_1113": {
+  "path": "data/app/official_results_2026-11-13.json",
+  "source_url": "https://www.nba.com/games?date=2026-11-13",
+  "retrieved_stamp": "2026-11-14T09:45Z"
+ },
+ "counts": {
+  "path": "data/app/official_counts_2026-11-14.json",
+  "source_url": "https://www.nba.com/games?date=2026-11-13",
+  "retrieved_stamp": "2026-11-14T09:45Z"
+ },
+ "availability": {
+  "path": "data/app/report_availability.json",
+  "built_by": "scripts/report_availability.py"
+ },
+ "ratings": {
+  "path": "data/app/official_team_ratings_2026-11-14c.json",
+  "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+  "retrieved_stamp": "2026-11-14T09:45Z"
+ },
+ "injuries": {
+  "path": "data/app/official_injuries_2026-11-14_0415AM.json",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+  "report_stamp": "2026-11-14 04:15 AM ET",
+  "retrieved_stamp": "2026-11-14T09:45Z"
+ },
+ "superseded": {
+  "ratings": "data/app/official_team_ratings_2026-11-14b.json",
+  "injuries": "data/app/official_injuries_2026-11-13_0745PM.json",
+  "reason": "The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row."
+ },
+ "checks": {
+  "C1_gp_w_l_reconcile": true,
+  "C2_calendar_total": true,
+  "C3_scoreboard_records": true,
+  "C4_injury_rows_stable": true,
+  "C4_compared_rows": 31,
+  "C5_staleness_explained": true,
+  "C5_teams_with_new_gp": [
+   "ATL",
+   "CHI",
+   "CLE",
+   "GSW",
+   "HOU",
+   "IND",
+   "LAC",
+   "MEM",
+   "MIA",
+   "MIL",
+   "NOP",
+   "NYK",
+   "OKC",
+   "ORL",
+   "POR",
+   "SAC",
+   "SAS",
+   "UTA"
+  ],
+  "C5_field_differences": 123,
+  "C6_slate_counts": true
+ },
+ "extended_log_vs_stored_ratings": {
+  "prior_stamp": "2026-11-14T01:05Z",
+  "prior_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+  "teams_with_new_gp": [
+   "ATL",
+   "CHI",
+   "CLE",
+   "GSW",
+   "HOU",
+   "IND",
+   "LAC",
+   "MEM",
+   "MIA",
+   "MIL",
+   "NOP",
+   "NYK",
+   "OKC",
+   "ORL",
+   "POR",
+   "SAC",
+   "SAS",
+   "UTA"
+  ],
+  "teams_that_played_1113": [
+   "ATL",
+   "CHI",
+   "CLE",
+   "GSW",
+   "HOU",
+   "IND",
+   "LAC",
+   "MEM",
+   "MIA",
+   "MIL",
+   "NOP",
+   "NYK",
+   "OKC",
+   "ORL",
+   "POR",
+   "SAC",
+   "SAS",
+   "UTA"
+  ],
+  "moved_equals_played": true,
+  "field_differences": 123
+ },
+ "injury_delta": {
+  "compared_rows": 31,
+  "differences": [],
+  "team_attribution_differences": [
+   [
+    "Traore, Nolan",
+    "BKN@MEM",
+    "BKN",
+    "(cell not printed)"
+   ]
+  ],
+  "rows_only_in_newest": [],
+  "rows_only_in_stored": [],
+  "note": "Every 2026-11-14 row of the 04:15 AM ET report matched the stored 07:45 PM ET report on status and reason. A row whose TEAM cell the PDF did not print is kept with the team left blank here even when the older snapshot attributed it; that is a transcription-provenance difference, not a change in the player's availability."
+ },
+ "counts_vs_slate": {
+  "2026-11-14": 5,
+  "2026-11-15": 9,
+  "2026-11-16": 8,
+  "2026-11-17": 5
+ },
+ "november_official_total": 215
+}

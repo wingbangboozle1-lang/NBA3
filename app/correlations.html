@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -46,19 +46,19 @@ omission.</p>
 <tr>
 <td>Home points vs away points (same game)</td>
 <td>Pearson r</td>
-<td>0.1277</td>
-<td>-0.021 … 0.271</td>
-<td>174</td>
+<td>0.1230</td>
+<td>-0.022 … 0.263</td>
+<td>183</td>
 <td><span class="chip chip-ok">measured</span></td>
-<td>Computed from the 174 official final scores. This is the number that decides whether a same-game side+total parlay is fairly priced as independent.</td>
+<td>Computed from the 183 official final scores. This is the number that decides whether a same-game side+total parlay is fairly priced as independent.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>Originated-spread residual vs originated-total residual</td>
 <td>Pearson r</td>
-<td>0.0321</td>
-<td>-0.140 … 0.202</td>
-<td>131</td>
+<td>0.0088</td>
+<td>-0.157 … 0.174</td>
+<td>140</td>
 <td><span class="chip chip-ok">measured</span></td>
 <td>Out-of-sample residuals from the walk-forward run. The key input for pricing a same-game parlay that combines a side with a total. The interval includes zero, so independence is not rejected here.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
@@ -66,11 +66,11 @@ omission.</p>
 <tr>
 <td>Cover (vs our spread) AND over (vs our total), same game</td>
 <td>phi (binary association)</td>
-<td>-0.0351</td>
+<td>-0.0549</td>
 <td>—</td>
-<td>131</td>
+<td>140</td>
 <td><span class="chip chip-ok">measured</span></td>
-<td>Joint hit rate 0.2290 vs 0.2377 under independence; dependence ratio 0.963. A ratio above 1.0 means the two legs land together more often than independent pricing assumes, which is how a book protects itself on same-game parlays.</td>
+<td>Joint hit rate 0.2214 vs 0.2351 under independence; dependence ratio 0.942. A ratio above 1.0 means the two legs land together more often than independent pricing assumes, which is how a book protects itself on same-game parlays.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
@@ -127,9 +127,9 @@ omission.</p>
 
 <h2>Why the same-game number matters</h2>
 <p>The joint hit rate of “our side covers <em>and</em> the game goes over our total” was
-<strong>22.90%</strong> against
-<strong>23.77%</strong> under independence — a dependence
-ratio of <strong>0.963</strong>. On this sample the ratio
+<strong>22.14%</strong> against
+<strong>23.51%</strong> under independence — a dependence
+ratio of <strong>0.942</strong>. On this sample the ratio
 sits slightly below 1.0, meaning the two legs landed together a little <em>less</em> often than
 independence would suggest. The confidence interval on the underlying residual correlation includes
 zero, so <strong>independence is not rejected</strong> — we cannot tell whether the true value is

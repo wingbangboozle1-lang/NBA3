@@ -1,0 +1,20 @@
+{
+ "file": "data/origin/games.csv",
+ "action": "extended",
+ "session": "arena/25418e3f-nba3",
+ "performed_on": "2026-11-14",
+ "reason": "Flag F36-03, left open by session arena/36e18d83-nba3: '2026-11-13 results (9 games) not yet in the canonical 174-game log ... Next refresh session: capture the 11/13 finals from the official scoreboard and extend data/origin/games.csv with provenance.'",
+ "rows_added": 9,
+ "games_before": 174,
+ "games_after": 183,
+ "source_url": "https://www.nba.com/games?date=2026-11-13",
+ "source_label": "NBA.com official scoreboard, read 2026-11-14 after all nine games had finished (Final / Final/OT state printed).",
+ "verbatim_transcription_of": "scripts/capture_official_2026_11_14c.py (RESULTS_1113)",
+ "verification": [
+  "Official team advanced statistics (nba.com/stats/teams/advanced, read 2026-11-14T09:45Z) publish GP for all 30 teams; the extended log reproduces every one of the 30 GP values, and the 30 GP values sum to 366 = 2 x 183.",
+  "The same page's W and L columns (30 x 2 values, 183 wins and 183 losses) reproduce exactly from the extended log.",
+  "The post-game W-L record printed under each of the 18 teams on the scoreboard page matches the record recomputed from the extended log for all 18 team-records.",
+  "Independently, the official November calendar's per-date game counts (13 -> 9 GAMES, 12 -> 4, ...) plus the log's own October rows reach 183 games from a different page of the same site."
+ ],
+ "note": "F36-03 predicted the log would reach 184 games. It reaches 183: the official GP column, the official W+L columns and the official per-date counts all give 183 games through 2026-11-13. The off-by-one in the hand-off note is recorded as flag 25418E3F-01 rather than quietly adopted."
+}

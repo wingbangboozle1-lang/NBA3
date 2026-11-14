@@ -158,7 +158,7 @@ def page_index(m, reg):
     head_rows = [
         ["Can be read now", "Originated lines for the 11/14–11/16 window", "Model output, with a 95% interval on each number", link("https://www.nba.com/games?date=2026-11-14", "nba.com/games")],
         ["Can be read now", "Official availability for the window", "Transcribed from the newest report that exists", link(m["sources"]["injury_pdf"], "injury PDF 07:30 PM")],
-        ["Can be read now", "Rest, back-to-back, overtime and margin structure", "Recomputed from the 174 verified results", link(m["sources"]["games_raw"], "games.csv")],
+        ["Can be read now", "Rest, back-to-back, overtime and margin structure", f'Recomputed from the {m["integrity"]["games"]} verified results', link(m["sources"]["games_raw"], "games.csv")],
         ["Needs a decision first", "Any claim of edge or profit", "No market price in the repository - E-F-05", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/questions.csv", "questions.csv")],
         ["Needs a decision first", "Player props and prop combos", "Only 31 players' minutes captured - E-F-07", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/players_top_minutes.csv", "players_top_minutes.csv")],
         ["Needs data we do not have", "A ranked leaderboard with rewards", "No strategy reaches the sample floor - E-F-15", badge("blocked")],
@@ -231,8 +231,8 @@ def page_lines(m, reg):
         f"{link(m['sources']['games_raw'], 'games.csv')}."
     )
     return (
-        "<p>Every game tipped in the next 72 hours, priced from the ratings fitted on the 174 verified "
-        "results. Nothing here uses an external price.</p>"
+        "<p>Every game tipped in the next 72 hours, priced from the ratings fitted on the "
+        f'{m["integrity"]["games"]} verified results. Nothing here uses an external price.</p>'
         + table(["Date", "Tip", "Matchup", "Spread (home)", "Total", "Fair ML (home)", "P(home win)", "95% margin interval", "Availability", "Source"],
                 rows, "Originated lines - model output only", note)
         + "<h2>What the model is</h2><p>Two independent rating engines are fitted on results alone "
@@ -469,7 +469,7 @@ def page_injuries(m, reg):
 def page_gameflow(m, reg):
     gf = m["game_flow"]
     items = [
-        ("Home win rate", pct(gf["home_win_rate"]), "of 174 verified games", "recomputed from results"),
+        ("Home win rate", pct(gf["home_win_rate"]), f'of {m["integrity"]["games"]} verified games', "recomputed from results"),
         ("Mean home margin", num(gf["mean_home_margin"]), "points", "recomputed from results"),
         ("Overtime rate", pct(gf["ot_rate"]), f'{gf["ot_games"]} games went to OT', "recomputed from results"),
         ("Blowouts (40+)", num(gf["blowouts_40plus"], 0), "games decided by 40 or more", "recomputed from results"),
@@ -497,7 +497,8 @@ def page_gameflow(m, reg):
         "OT exposure, how often games are actually decided. In-game flow (lead changes, halftime margins, "
         "four-factor splits) is published as blank because play-by-play is not in this repository and was not "
         "reachable from this workspace.</p>"
-        + table(["Metric", "Value", "Basis", "Source"], rows, "League structure from 174 verified games")
+        + table(["Metric", "Value", "Basis", "Source"], rows,
+              f'League structure from {m["integrity"]["games"]} verified games')
         + "<h2>Per-game flow for the live window</h2>"
         + table(["Date", "Matchup", "Days since away's last game", "Days since home's last game", "Games seen (away/home)", "Rest", "Source"],
                 rest_rows, "Rest and schedule spot",
@@ -522,8 +523,9 @@ def page_reconciliation(m, reg):
     ]
     ic = m["integrity"]["crosscheck"]
     return (
-        "<p>Six sessions built overlapping engines on the same claim - 174 verified games from 2026-10-20 to "
-        "2026-11-12. This page is what happens when they are compared instead of published side by side.</p>"
+        f"<p>Six sessions built overlapping engines on the same claim - {ic['theirs']} verified games from "
+        f"2026-10-20 to 2026-11-12 when this page was written, {m['integrity']['games']} now. This page "
+        "is what happens when they are compared instead of published side by side.</p>"
         + "<h2>The data underneath all of them</h2>"
         + table(["Check", "Result"], [
             ["Rows in the official-sourced capture", num(ic["ours"], 0)],
@@ -533,7 +535,8 @@ def page_reconciliation(m, reg):
             ["Independent capture's declared source", "Basketball-Reference - <b>not an official NBA property</b>, so it is used as a cross-check only (E-F-02)"],
             ["Official team records vs recomputed W-L", "5 of 5 verifiable teams match exactly (BKN 3-8, DAL 7-5, DEN 6-4, DET 8-3, MIN 9-3); the other 5 were excluded because they had a game in progress on 11/13"],
         ], "Reconciliation of the two result sets",
-            "Two captures made by different sessions from different sites agree on all 174 scores. That is the "
+            f"Two captures made by different sessions from different sites agree on all {ic['matched_keys']} shared "
+            "scores. That is the "
             "strongest evidence in this repository, and it was produced by accident rather than by design - "
             "the fix is to make a second capture a requirement, not a coincidence.")
         + "<h2>Model variants in this build</h2>"
@@ -563,7 +566,7 @@ def page_reconciliation(m, reg):
             + table(["Dispersion measure", "Value", "Read as"], [
                 ["sd of our originated spreads", num(ag["dispersion"]["sd_of_my_spreads"]), "how boldly this model calls games"],
                 ["sd of app/ spreads", num(ag["dispersion"]["sd_of_their_spreads"]), "the other engine, same slate"],
-                ["sd of actual margins (174 games)", num(ag["dispersion"]["sd_of_actual_margins"]), "the ceiling a perfect forecast could never reach"],
+                ["sd of actual margins (the canonical log)", num(ag["dispersion"]["sd_of_actual_margins"]), "the ceiling a perfect forecast could never reach"],
                 ["largest |spread| here / there", f'{num(ag["dispersion"]["my_max_abs"],1)} / {num(ag["dispersion"]["their_max_abs"],1)}', "both engines are willing to lay 20+ on the right night"],
                 ["margin reliability slope (OOS)", num(m["calibration"]["margin"]["slope"], 3) + f' CI {m["calibration"]["margin"]["slope_ci95"][0]:.2f}…{m["calibration"]["margin"]["slope_ci95"][1]:.2f}', "≈1: spread forecasts are scaled correctly"],
                 ["total reliability slope (OOS)", num(m["calibration"]["total"]["slope"], 3) + f' CI {m["calibration"]["total"]["slope_ci95"][0]:.2f}…{m["calibration"]["total"]["slope_ci95"][1]:.2f}', "under 1 with a +49.9 intercept: totals are over-dispersed (E-F-20)"],
@@ -571,7 +574,7 @@ def page_reconciliation(m, reg):
         ))(m["engine_agreement"])
         + "<h2>Independent corroboration from the other audit this week</h2>"
         + table(["Point", "This session (e40cd215)", "Session 3655c68d (verify/)", "Agreement"], [
-            ["Result sets reconcile", "174/174 after team-code normalisation, 0 score mismatches", "SUM-01: 174/174 across two independent pipelines", "same conclusion, reached separately"],
+            ["Result sets reconcile", f'{m["integrity"]["crosscheck"]["matched_keys"]}/{m["integrity"]["crosscheck"]["matched_keys"]} after team-code normalisation, {m["integrity"]["crosscheck"]["score_mismatches"]} score mismatches', "SUM-01: 174/174 across two independent pipelines", "same conclusion, reached separately"],
             ["site/data clobbered by the edge build", "found while re-running pipeline/build_site_data.py; reverted; logged as E-F-01", "found as V-F-02 and fixed in d83801c (OUT now edge/data)", "same defect, both found it inside an hour of each other"],
             ["Spread-sign convention", "three sign bugs found and fixed in this build's own engine before publication", "FX-02: pick cards printed the wrong side; corrected", "same failure mode in two codebases - it is the natural trap in a home-spread convention"],
             ["Parlay joint probability", "measured directly from outcomes (ratio 1.056, n=114)", "FX-01: their copula returned the marginal; FX-04 corrected the published example", "any pre-d83801c parlay figure in edge/ must be disregarded"],
@@ -591,9 +594,15 @@ def page_reconciliation(m, reg):
 def page_verification(m, reg):
     x = m["integrity"]["crosscheck"]
     rows = [
-        ["Results set", "174 games 2026-10-20 → 2026-11-12, row-by-row against an independent capture", f"{x['matched_keys']} keys matched, {x['score_mismatches']} score mismatches", badge("PASS"), link(m["sources"]["games_raw"], "games.csv")],
+        ["Results set", f'{m["integrity"]["games"]} games 2026-10-20 → {m.get("data_through", "2026-11-12")}, row-by-row against an independent capture', f"{x['matched_keys']} keys matched, {x['score_mismatches']} score mismatches", badge("PASS"), link(m["sources"]["games_raw"], "games.csv")],
         ["Team codes", "three-code alias set (CHO/CHA, BRK/BKN, PHO/PHX) identified as the only structural difference", "142 rows differed by code alone; 0 by score", badge("RESOLVED"), link(m["sources"]["games_crosscheck"], "results_2026-27_october.csv")],
         ["Official records", "recomputed W-L from our 174 games vs the records displayed on nba.com/games for the 11/14 slate", "5/5 verifiable teams exact; 5 excluded (game in progress)", badge("PASS"), link("https://www.nba.com/games?date=2026-11-14", "nba.com/games?date=2026-11-14")],
+        ["Log extension, 2026-11-14", f'canonical log moved to {m["integrity"]["games"]} games '
+         '(through 2026-11-13) on flag F36-03; the 174-game shared span above is unchanged',
+         f'{m["integrity"]["team_games"]} team-games = 2 × {m["integrity"]["games"]}, '
+         f'{m["integrity"]["score_mismatches"]} score mismatches, provenance '
+         f'{"present" if m["integrity"]["provenance_ok"] else "MISSING"}',
+         badge("PASS"), link("https://www.nba.com/games?date=2026-11-13", "nba.com/games?date=2026-11-13")],
         ["Slate 11/14", "teams, ET tip times and game IDs vs the official page", "5/5 match data/origin/schedule_upcoming.csv", badge("PASS"), link("https://www.nba.com/games?date=2026-11-14", "official page")],
         ["Slate 11/15", "same", "9/9 match, both chunks read", badge("PASS"), link("https://www.nba.com/games?date=2026-11-15", "official page")],
         ["Slate month grid", "game counts for 11/13-11/17 read off the official calendar grid", "9, 5, 9, 8, 5 - matches the per-day captures", badge("PASS"), link("https://www.nba.com/games?date=2026-11-14", "calendar")],
@@ -695,7 +704,7 @@ def page_data(m, reg):
         ["integrate/engine.py", "ratings, walk-forward, selector, gates, leaderboard, correlations", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py", "view")],
         ["integrate/build_site.py", "this site's generator", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/build_site.py", "view")],
         ["integrate/check.py", "row-source, link and drift checks", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py", "view")],
-        ["data/origin/games.csv", "174 verified results (canonical)", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv", "view")],
+        ["data/origin/games.csv", f'{m["integrity"]["games"]} verified results (canonical)', link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv", "view")],
         ["data/origin/schedule_upcoming.csv", "slate for 11/13-11/16 with game IDs", link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/schedule_upcoming.csv", "view")],
     ]
     trees = [

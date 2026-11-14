@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html" class="active">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html" class="active">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -37,15 +37,15 @@
       the rest rejected or blocked.</div>
       <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
 <div class="card"><div class="k">Luck threshold for this board</div>
-      <div class="v">31.2 pp</div>
+      <div class="v">28.9 pp</div>
       <div class="s">The best edge a board of 15 rules throws up by chance.
       The largest edge any rule actually posted is
-      18.0 pp.</div>
+      10.7 pp.</div>
       <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
 <div class="card"><div class="k">Official injury rows</div>
-      <div class="v">122</div>
-      <div class="s">2026-11-13 07:45 PM ET — the newest report listed on the official index</div>
-      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
+      <div class="v">49</div>
+      <div class="s">2026-11-14 04:15 AM ET — the newest report listed on the official index</div>
+      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
 </div>
 
 <h2>1. What this project is, in one paragraph</h2>
@@ -62,15 +62,15 @@ value zero by construction. The backtest therefore does not look for profit — 
 <ul>
   <li><strong>Zero strategies are funded.</strong> Nothing on the board passes all nine gates.</li>
   <li><strong>Nothing beats luck.</strong> Simulating the whole board under the fair-line null,
-      the best-looking rule clears <strong>31.2 percentage points</strong>
+      the best-looking rule clears <strong>28.9 percentage points</strong>
       of edge 5% of the time. The largest edge any real rule posted is
-      <strong>18.0 pp</strong>.</li>
+      <strong>10.7 pp</strong>.</li>
   <li><strong>The margin model is honest but weak.</strong> Out-of-sample RMSE
-      15.90 against a 16.87 constant
-      baseline, and it is unbiased (0.52 points).</li>
+      15.94 against a 16.92 constant
+      baseline, and it is unbiased (0.81 points).</li>
   <li><strong>The totals model is broken.</strong> Out-of-sample RMSE
-      19.64 is <em>worse</em> than the 19.46
-      constant baseline, and it runs 1.8 points hot. It is kept
+      19.45 is <em>worse</em> than the 19.39
+      constant baseline, and it runs 1.5 points hot. It is kept
       only because the brief asks for originated totals, and it is shrunk toward the league mean.
       See <a href="flagged.html">NF-49</a>.</li>
   <li><strong>An earlier “signal” was the model’s error.</strong> Before regularisation, “fade the
@@ -99,22 +99,22 @@ it prints every disagreement and the build fails on a mismatch.</p>
 </tr>
 <tr>
 <td>Official team advanced statistics — 30 teams × 8 fields (GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE)</td>
-<td>240 of 240 field comparisons agree with the stored capture.</td>
+<td>30 teams × 8 fields read after the 2026-11-13 slate completed. Against the snapshot it replaces (2026-11-14T01:05Z, read while that slate was live): 123 of 240 fields differ, on 18 teams — and those are exactly the teams that played on 11/13, which is what identifies the old capture as a mid-slate read rather than a wrong one.</td>
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
 </tr>
 <tr>
-<td>Official injury report 2026-11-13 07:45 PM ET — 122 rows (117 player rows + 5 team “NOT YET SUBMITTED” rows)</td>
-<td>122 rows in both this report and the 07:30 PM report it supersedes; 0 status changes between the two.</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Official injury report 2026-11-14 04:15 AM ET — 49 rows (26 player rows + 23 team “NOT YET SUBMITTED” rows)</td>
+<td>31 rows of the 2026-11-14 slate compared with the report it supersedes (2026-11-13 07:45 PM ET): 0 status changes.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
-<td>Official final scores — 174 games, 348 team-games</td>
+<td>Official final scores — 183 games, 366 team-games</td>
 <td>0 mismatch against the official games-played column for all 30 teams.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
 </tr>
 <tr>
 <td>Walk-forward engine — refit for every date from strictly earlier games</td>
-<td>131 out-of-sample forecasts after a 40-game burn-in; no game can see its own date.</td>
+<td>140 out-of-sample forecasts after a 40-game burn-in; no game can see its own date.</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py" target="_blank" rel="noopener noreferrer">strategy_lab.py</a></td>
 </tr>
 </tbody></table></div>
@@ -139,7 +139,7 @@ downstream has seen the future.</p>
   <li><strong>A whole-board Monte Carlo</strong>: every rule is simulated under its own fair-line
       null, the largest edge anywhere on the board is recorded, and that is repeated
       5,000 times. The 95th percentile —
-      31.2 pp — is the edge a rule must beat before it is called
+      28.9 pp — is the edge a rule must beat before it is called
       anything. This is gate G9, and nothing on the board beats it.</li>
 </ul>
 <p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big home favourite /

@@ -58,6 +58,44 @@ RATINGS_JSON = os.path.join(ROOT, "data", "app", "official_team_ratings_2026-11-
 INJURY_JSON = os.path.join(ROOT, "data", "app", "official_injuries_2026-11-13_0745PM.json")
 PRIOR_SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate.json")
 
+# --------------------------------------------------------------------------
+# input selection, added by session arena/25418e3f-nba3
+#
+# data/app/snapshot_manifest.json names the official captures the lab must
+# read.  When it exists it WINS over the defaults above, so refreshing the
+# dashboard is a data change (drop new captures, repoint the manifest) rather
+# than an edit of the engine.  The manifest is a checked-in file with no clock
+# in it, so lab.json stays byte-reproducible, which the CI drift gate relies on.
+# --------------------------------------------------------------------------
+MANIFEST_JSON = os.path.join(ROOT, "data", "app", "snapshot_manifest.json")
+AVAILABILITY_JSON = os.path.join(ROOT, "data", "app", "report_availability.json")
+
+# The four availability states, defined by scripts/report_availability.py and
+# used here so that "no rows captured" can never again be read as "nobody is
+# out".  FILED is the only state in which an absence count means anything.
+AV_FILED = "FILED"
+AV_STATES = (AV_FILED, "DUE_AND_NOT_FILED", "NOT_YET_DUE",
+             "NO_OFFICIAL_REPORT_COVERS_THIS_DATE")
+
+
+def _apply_manifest():
+    global SLATE_JSON, RATINGS_JSON, INJURY_JSON
+    if not os.path.exists(MANIFEST_JSON):
+        return None
+    with open(MANIFEST_JSON, encoding="utf-8") as fh:
+        man = json.load(fh)
+    def resolve(block):
+        rel = (man.get(block) or {}).get("path")
+        return os.path.join(ROOT, *rel.split("/")) if rel else None
+    for block, setter in (("slate", "SLATE"), ("ratings", "RATINGS"), ("injuries", "INJURY")):
+        path = resolve(block)
+        if path:
+            globals()[setter + "_JSON"] = path
+    return man
+
+
+MANIFEST = _apply_manifest()
+
 SRC_GAMES = "https://www.nba.com/games?date="
 SRC_TEAM_STATS = ("https://www.nba.com/stats/teams/advanced"
                   "?Season=2026-27&SeasonType=Regular%20Season")
@@ -1170,6 +1208,18 @@ def originate_window(games, slate, ratings, injury, players, resid):
     inj = defaultdict(list)
     for r in injury["rows"]:
         inj[(r["game_date"], r["matchup"], r["team"])].append(r)
+    # Which game dates the newest official report actually covers.  A date with
+    # no rows at all is NOT a date with no injuries: it is a date no report has
+    # reached yet.  Before this, "no rows" fell through to "submitted, 0 out".
+    covered_dates = {r["game_date"] for r in injury["rows"]}
+
+    # scripts/report_availability.py decides each team's state from the official
+    # filing rule and the official schedule; this reads its verdict instead of
+    # re-deriving it, so the site and the engine can never disagree about it.
+    avail_rows = {}
+    if os.path.exists(AVAILABILITY_JSON):
+        for ar in jload(AVAILABILITY_JSON).get("rows", []):
+            avail_rows[(ar["game_id"], ar["team"])] = ar
 
     out_lines, out_picks, out_flow, out_inj = [], [], [], []
 
@@ -1193,6 +1243,26 @@ def originate_window(games, slate, ratings, injury, players, resid):
         away_rows = inj.get((key_date, matchup, away), [])
         home_ns = any(r["is_team_not_submitted"] for r in home_rows)
         away_ns = any(r["is_team_not_submitted"] for r in away_rows)
+
+        def avail_state(team, rows, ns):
+            """One of the four availability states, for one team of one game."""
+            ar = avail_rows.get((gid, team))
+            if ar:
+                return ar
+            if key_date not in covered_dates:
+                return {"state": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+                        "out_count": None, "reprice_after": "", "filing_clause": "",
+                        "played_previous_day": None, "out_players": [],
+                        "state_reading": ("No official injury report covers "
+                                          f"{key_date} yet, so this team's absences are "
+                                          "unknown and are left blank rather than counted "
+                                          "as zero.")}
+            return {"state": (AV_FILED if not ns else "DUE_AND_NOT_FILED"),
+                    "out_count": None, "reprice_after": "", "filing_clause": "",
+                    "played_previous_day": None, "out_players": [],
+                    "state_reading": ""}
+
+        h_av, a_av = avail_state(home, home_rows, home_ns), avail_state(away, away_rows, away_ns)
 
         def rollup(rows, team):
             """Minutes and production vacated by players listed Out/Doubtful.
@@ -1232,6 +1302,29 @@ def originate_window(games, slate, ratings, injury, players, resid):
         h_roll = rollup(home_rows, home)
         a_roll = rollup(away_rows, away)
 
+        # An absence count is only meaningful when the report actually lists the
+        # team.  Everywhere else it is blank -- "we do not know" -- never 0.
+        def with_state(roll, av):
+            state = av["state"]
+            known = state == AV_FILED
+            roll = dict(roll)
+            roll["state"] = state
+            roll["out_count"] = len(roll["out"]) if known else None
+            roll["known"] = known
+            roll["reprice_after"] = av.get("reprice_after", "")
+            roll["filing_clause"] = av.get("filing_clause", "")
+            roll["b2b"] = av.get("played_previous_day")
+            return roll
+
+        h_roll, a_roll = with_state(h_roll, h_av), with_state(a_roll, a_av)
+        h_av_state, a_av_state = h_roll["state"], a_roll["state"]
+        if h_av_state == AV_FILED and a_av_state == AV_FILED:
+            avail_basis = "both teams listed on the newest official report"
+        elif AV_FILED in (h_av_state, a_av_state):
+            avail_basis = "one side only: the other team is not on the newest official report"
+        else:
+            avail_basis = "no usable official availability for this date; priced on ratings and rest alone"
+
         # rest
         def rest_for(team):
             prev = [d for d in played.get(team, []) if d < date]
@@ -1266,11 +1359,17 @@ def originate_window(games, slate, ratings, injury, players, resid):
             "p_blowout_15": (norm_cdf((-15 - margin) / sd_m) + 1 - norm_cdf((15 - margin) / sd_m))
             if sd_m else None,
             "pace": proj_pace,
-            "out_count_home": len(h_roll["out"]), "out_count_away": len(a_roll["out"]),
+            "out_count_home": h_roll["out_count"], "out_count_away": a_roll["out_count"],
             "out_players_home": h_roll["out"], "out_players_away": a_roll["out"],
             "questionable_home": h_roll["questionable"],
             "questionable_away": a_roll["questionable"],
-            "home_reported": h_roll["submitted"], "away_reported": a_roll["submitted"],
+            "home_reported": h_av_state == AV_FILED,
+            "away_reported": a_av_state == AV_FILED,
+            "availability_state_home": h_av_state,
+            "availability_state_away": a_av_state,
+            "availability_basis": avail_basis,
+            "reprice_after_home": h_av.get("reprice_after", ""),
+            "reprice_after_away": a_av.get("reprice_after", ""),
             "source": SRC_SCHEDULE,
             "source_stats": SRC_TEAM_STATS,
             "source_game": g["nba_game_url"],
@@ -1286,11 +1385,27 @@ def originate_window(games, slate, ratings, injury, players, resid):
             lean = "%s %+.1f" % (home, line["orig_spread_home"])
         else:
             lean = "%s %+.1f" % (away, line["orig_spread_home"])
-        avail = []
-        if not h_roll["submitted"]:
-            avail.append(f"{home} has not submitted its injury report")
-        if not a_roll["submitted"]:
-            avail.append(f"{away} has not submitted its injury report")
+        def avail_note(roll, team):
+            if roll["state"] == AV_FILED:
+                return None
+            return f"{team}: {roll['state'].replace('_', ' ').lower()}" + (
+                f" (re-price after {roll['reprice_after']})" if roll["reprice_after"] else "")
+
+        avail = [x for x in (avail_note(h_roll, home), avail_note(a_roll, away)) if x]
+        # A four-way flag, because the three cases read very differently:
+        # a team that is LATE is a risk; a team whose deadline has not arrived is
+        # a schedule; a date no report covers is simply unpriced on availability.
+        states = {h_av_state, a_av_state}
+        if states == {AV_FILED}:
+            flag = "REPORTED"
+        elif "DUE_AND_NOT_FILED" in states:
+            flag = "PARTIAL_REPORT_LATE"
+        elif AV_FILED in states:
+            flag = "PARTIAL_REPORT_NOT_DUE_YET"
+        elif states == {"NOT_YET_DUE"}:
+            flag = "AVAILABILITY_NOT_DUE_YET"
+        else:
+            flag = "NO_INJURY_REPORT_FOR_DATE"
         out_picks.append({
             "date": date, "time_et": g["time_et"], "away": away, "home": home,
             "game_id": gid, "nba_game_url": g["nba_game_url"],
@@ -1303,11 +1418,17 @@ def originate_window(games, slate, ratings, injury, players, resid):
             "side_lean": lean,
             "totals_lean": ("Over %.1f" % total) if total >= resid["avg_total"]
                            else ("Under %.1f" % total),
-            "availability_flag": "PARTIAL_REPORT" if avail else "REPORTED",
-            "availability_detail": ("; ".join(avail) +
-                                    " -- availability is unresolved, so this game "
-                                    "cannot be treated as a final selection.")
-            if avail else "Both teams had filed a report at capture time.",
+            "availability_flag": flag,
+            "availability_detail": (
+                ("Both teams appear as filed on the newest official report (" +
+                 injury["report_stamp"] + "), so the absence counts below are real.")
+                if flag == "REPORTED" else
+                "; ".join(avail) +
+                " -- availability is unresolved at capture time, so this game cannot be "
+                "treated as a final selection, and its absence count is published blank "
+                "rather than as zero."),
+            "availability_states": {"home": h_av_state, "away": a_av_state},
+            "availability_basis": avail_basis,
             "pricing_note": ("These are our own fair prices against our own originated "
                              "line. No licensed odds feed is connected, so no expected "
                              "value against a bookmaker can be stated and none is claimed."),
@@ -1329,7 +1450,13 @@ def originate_window(games, slate, ratings, injury, players, resid):
             "p_ot": p_ot,
             "p_blowout_15": line["p_blowout_15"],
             "margin_sd": sd_m,
-            "out_home": len(h_roll["out"]), "out_away": len(a_roll["out"]),
+            "out_home": h_roll["out_count"], "out_away": a_roll["out_count"],
+            "availability_states": {"home": h_av_state, "away": a_av_state},
+            "availability_note": (
+                "Absence counts are blank for this game: no official report covers it yet, "
+                "so nothing is known about who sits out."
+                if AV_FILED not in (h_av_state, a_av_state) else
+                "Absence counts cover only the side that has filed."),
             "notes": [],
             "source": SRC_SCHEDULE,
             "source_stats": SRC_TEAM_STATS,
@@ -1344,17 +1471,22 @@ def originate_window(games, slate, ratings, injury, players, resid):
                 "rows_listed": len([r for r in (home_rows if side == home else away_rows)
                                     if not r["is_team_not_submitted"]]),
                 "out": roll["out"], "questionable": roll["questionable"],
-                "minutes_vacuum": roll["minutes"] if roll["out"] else 0.0,
-                "pts_vacuum": roll["pts"] if roll["out"] else 0.0,
-                "reb_vacuum": roll["reb"] if roll["out"] else 0.0,
-                "ast_vacuum": roll["ast"] if roll["out"] else 0.0,
+                "availability_state": roll["state"],
+                "minutes_vacuum": (roll["minutes"] if roll["out"] else 0.0) if roll["known"] else None,
+                "pts_vacuum": (roll["pts"] if roll["out"] else 0.0) if roll["known"] else None,
+                "reb_vacuum": (roll["reb"] if roll["out"] else 0.0) if roll["known"] else None,
+                "ast_vacuum": (roll["ast"] if roll["out"] else 0.0) if roll["known"] else None,
                 "players_without_official_minutes": roll["unknown"],
                 "minutes_note": (
-                    "Sum of the official season minutes-per-game of the players listed "
-                    "Out. It is a FLOOR: %d listed player(s) are outside the captured "
-                    "top-31 minutes table, so their minutes are unknown and are not "
-                    "counted." % roll["unknown"]) if roll["out"] else
-                    "No player listed Out for this team in this report.",
+                    "No usable official report for this team at this date, so the minutes "
+                    "vacated are UNKNOWN and are published blank rather than as zero."
+                    if not roll["known"] else
+                    ("Sum of the official season minutes-per-game of the players listed "
+                     "Out. It is a FLOOR: %d listed player(s) are outside the captured "
+                     "top-31 minutes table, so their minutes are unknown and are not "
+                     "counted." % roll["unknown"]) if roll["out"] else
+                    "No player listed Out for this team in this report."),
+                "reprice_after": roll["reprice_after"],
                 "rotation_note": (
                     "Who absorbs those minutes, and how much of the vacated production "
                     "they replace, is NOT quantified. Answering it needs per-player game "

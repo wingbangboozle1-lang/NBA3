@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -27,7 +27,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 58 items: 14 high, 39 medium, 5 low severity.
+<em>decisions</em>. 65 items: 18 high, 42 medium, 5 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -647,6 +647,83 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>NF-56</td>
+<td>Availability</td>
+<td>Before this round the picks page published &#x27;REPORTED — Both teams had filed a report at capture time&#x27; and an absence count of 0 for both sides on 22 of the 27 games in the window (every game on 2026-11-15, 11-16 and 11-17). No official report covered those dates: the newest report prints NOT YET SUBMITTED for all 18 teams on 11/15 and nothing at all for 11/16 and 11/17. Root cause: &#x27;submitted&#x27; was inferred from the absence of a NOT-YET-SUBMITTED row, so an empty row set read as a clean bill of health.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Fixed in this round: availability is a four-state value (FILED / DUE_AND_NOT_FILED / NOT_YET_DUE / NO_OFFICIAL_REPORT_COVERS_THIS_DATE) decided from the official filing rule, and an absence count is published only for a team that is on the report. Owner decision still owed: whether a pre-deadline line should be re-priced automatically at the deadline (CQ-41).</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-57</td>
+<td>Inputs</td>
+<td>The team-ratings snapshot the window was priced with was read at 2026-11-14T01:05Z, i.e. while the 11/13 slate was still live. 18 of 30 teams were one game stale — and those 18 are exactly the 18 teams playing that night, so the staleness was not random. 123 of the 240 stored stat fields differ from the post-slate re-read, and the canonical results log was missing all nine 11/13 finals.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Refreshed here: log extended to 183 games, ratings re-read after the slate, every line re-originated. All 27 lines moved (median |spread move| 1.11 points, max 4.89). Standing rule proposed: never capture team stats during a live slate; capture after the last final.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>NF-58</td>
+<td>Data log</td>
+<td>Flag F36-03 handed off &#x27;extend data/origin/games.csv (to 184 games)&#x27;. The log now holds 183 games, not 184. Three independent official readings agree on 183: the GP column of the official team statistics (366 team-games), the W and L columns (183 wins, 183 losses), and the official November calendar&#x27;s per-date counts added to our own October rows (88 + 95).</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Recorded so a later session does not &#x27;repair&#x27; the log to 184 to match the note. The off-by-one was in the hand-off text, not in the data.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>NF-59</td>
+<td>Capture fidelity</td>
+<td>One injury row of the 11/14 04:15 AM report — Traore, Nolan (Probable, right calf) on the BKN@MEM block — sits at a page-break gap where the PDF text carries no Team cell. The team is left BLANK in the capture rather than attributed, so that Probable is not attached to any team in the availability join.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Needs a second read of the PDF table, or a check against the official team roster page, before the row is attributed. It changes no line either way: a Probable is not an absence.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-60</td>
+<td>Model</td>
+<td>After the refresh the totals model still loses to a constant out of sample: RMSE 19.449 vs 19.386 on 140 walk-forward games (the margin model wins: 15.945 vs 16.921). Every originated total is therefore weaker than the originated spread, and every totals rule on the board inherits that.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Keep the totals published with this caveat on the page. Do not fund a totals strategy on a model that loses to the league mean.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>NF-61</td>
+<td>Process</td>
+<td>Nothing in the repository re-pulls the official pages on a schedule. The published window is correct as of one timestamp (2026-11-14 09:45Z) and drifts silently after it — including through the 1 p.m. local game-day deadline that would settle five of tonight&#x27;s games.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Decide a re-capture cadence (CQ-41) and put the snapshot age in the header of every page. Until then every page states its as-of time, and the freshness page lists what will change it.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-62</td>
+<td>Parlays</td>
+<td>assemble_canonical.py published &#x27;parlay_leg_candidate = True&#x27; for all 27 games as a literal, regardless of availability — so a game with no injury report at all was flagged as a valid parlay leg. Nothing else in the pipeline consulted that field, which is why it survived.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Fixed here: a game is a parlay-leg candidate only when both sides appear as filed on the newest official report. On the current snapshot that is zero games, which agrees with the leaderboard result (no funded strategy) and with the same page&#x27;s own warning.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
 </tr>
 <tr>
 <td>44-F-01</td>

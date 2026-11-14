@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -44,9 +44,9 @@
 <td>Collect, organise and analyse NBA data</td>
 <td>Data</td>
 <td>Done for what is reachable</td>
-<td>Official schedule for 2026-11-14 to 2026-11-17 (27 games with game id, tip time, venue and city), official team advanced statistics for all 30 teams, official final scores for 174 games, and the official injury report 11/13/26 07:45 PM ET (122 rows) - all captured and compared field by field with the values earlier sessions stored.</td>
+<td>Official schedule for 2026-11-14 to 2026-11-17 (27 games with game id, tip time, venue and city), official team advanced statistics for all 30 teams, official final scores for 183 games (2026-10-20 to 2026-11-13), and the official injury report 11/14/26 04:15 AM ET (49 rows: 26 player rows, 5 team rows NOT YET SUBMITTED for 11/14 and 18 for 11/15) - all captured and compared field by field with the values earlier sessions stored.</td>
 <td>Historical box scores and per-player game logs were never captured. Those two gaps block the most downstream work. See CQ-39 and NF-52.</td>
-<td>Captured 2026-11-14: 88/88 overlapping slate fields, 240/240 team-stat fields and 122/122 injury rows agree with the stored captures (scripts/capture_official_2026_11_14b.py)</td>
+<td>Captured 2026-11-14: 88/88 overlapping slate fields, 240/240 team-stat fields and 122/122 injury rows agree with the stored captures (scripts/capture_official_2026_11_14b.py). Re-read 2026-11-14 09:45Z by scripts/capture_official_2026_11_14c.py: six checks, all pass - 366 official team-games = 2 x 183, W and L columns 183/183, 18 scoreboard records, 31/31 injury rows stable, mid-slate staleness explained, slate counts 5/9/8/5</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
 </tr>
 <tr>
@@ -54,9 +54,9 @@
 <td>Originate own NBA lines</td>
 <td>Models</td>
 <td>Done</td>
-<td>Lines originated for all 27 games of the live window by a walk-forward Massey margin model with ridge shrinkage plus a totals model shrunk toward the league mean. Both shrinkage parameters are chosen by validating on the most recent 20 percent of past games only. Code: scripts/strategy_lab.py, seeded and deterministic.</td>
+<td>Lines originated for all 27 games of the live window (re-originated 2026-11-14 on 183 games: all 27 lines moved, median 1.1 points, max 4.9) by a walk-forward Massey margin model with ridge shrinkage plus a totals model shrunk toward the league mean. Both shrinkage parameters are chosen by validating on the most recent 20 percent of past games only. Code: scripts/strategy_lab.py, seeded and deterministic.</td>
 <td>The margin model is only modestly better than a constant baseline and the totals model is worse than one. Both facts are published rather than hidden. See NF-49.</td>
-<td>131 out-of-sample forecasts; margin RMSE 15.900 vs 16.866 baseline, total RMSE 19.636 vs 19.464 baseline</td>
+<td>140 out-of-sample forecasts; margin RMSE 15.945 vs 16.921 baseline, total RMSE 19.449 vs 19.386 baseline</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
 </tr>
 <tr>
@@ -104,7 +104,7 @@
 <td>Determine correlation values</td>
 <td>Validation</td>
 <td>4 measured; 5 blank by policy</td>
-<td>Home points vs away points (r=0.128, n=174), spread residual vs total residual (r=0.014, n=131), and the same-game cover-and-over joint rate with its dependence ratio are measured from official results. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.</td>
+<td>Home points vs away points (r=0.128, n=183 after the 2026-11-14 log extension), spread residual vs total residual (r=0.014, n=131), and the same-game cover-and-over joint rate with its dependence ratio are measured from official results. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.</td>
 <td>Player-level correlations need per-player game logs. The cross-game independence figure is printed as an assumption, not a measurement. See CQ-39.</td>
 <td>Values, sample sizes and 95 percent intervals published on the Correlations page; blanks flagged</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
@@ -133,18 +133,18 @@
 <td>RQ10</td>
 <td>Track how injuries affect rotation minutes and production</td>
 <td>Injuries</td>
-<td>Partly done</td>
-<td>The newest official report is transcribed row by row with its timestamp; teams printed NOT YET SUBMITTED are published as unknown rather than as healthy; and the official season minutes, points, rebounds and assists vacated by players listed Out or Doubtful are summed per team-game, with a count of how many listed players fall outside the captured minutes table.</td>
-<td>Who absorbs the vacated minutes, and how much of the production they replace, is NOT quantified - that needs per-player game logs and on-off splits. The vacuum is published, the replacement is blank. See NF-52.</td>
-<td>54 team-game rows; every minutes figure is labelled a floor</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf</a></td>
+<td>Partly done; availability timing now modelled</td>
+<td>The newest official report is transcribed row by row with its timestamp, and scripts/report_availability.py now decides, per team and per game, which filing clause of the official rule applies (5 p.m. local the day before, or 1 p.m. local on game day for the second game of a back-to-back), whether any report covers the date at all, and when each game becomes priceable. Minutes vacated by listed Out players are published as a floor; the replacement is left blank because per-player game logs are not in the repository.</td>
+<td>No official report covers 2026-11-16 or 11-17 at all, and none has been filed for 11/15 - so a 3-day-ahead line cannot carry an injury overlay. Per-player game logs and on/off splits are still missing, so &#x27;who absorbs the minutes&#x27; stays blank. See CQ-41, CQ-44, CQ-45 and NF-56.</td>
+<td>49 rows transcribed from the newest report; the 31 rows covering 2026-11-14 compared field by field with the 11/13 07:45 PM report: 0 status changes. The 5 teams that have not filed tonight are exactly the 5 playing the second game of a back-to-back, verified against the official results log through 2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
 </tr>
 <tr>
 <td>RQ11</td>
 <td>Game flow analysis</td>
 <td>Game flow</td>
 <td>Done for what the data supports</td>
-<td>Rest days, back-to-back flags and rest differentials from the official schedule and the 174 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags.</td>
+<td>Rest days, back-to-back flags and rest differentials from the official schedule and the 174 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags. Rest and back-to-back flags for the 11/14 slate are now exact, because the results log reaches 2026-11-13.</td>
 <td>No possession-level pace projection, no overtime model (a flat measured rate is applied) and no referee, travel or altitude effects - none can be sourced officially. All three are listed as missing rather than estimated.</td>
 <td>27 rows; overtime rate 5.17 percent measured from 9 of 174 games; the missing factors are named on the page</td>
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
@@ -164,7 +164,7 @@
 <td>Site improvement suggestions for review before any change</td>
 <td>Reporting</td>
 <td>Done</td>
-<td>38 suggestions with an area, a reason, two or three named options, a recommended option, the dependency it hinges on, and a decision column left at Awaiting owner review. Nothing has been implemented.</td>
+<td>43 suggestions with an area, a reason, two or three named options, a recommended option, the dependency it hinges on, and a decision column left at Awaiting owner review. Nothing has been implemented.</td>
 <td>None. The queue exists so an owner can choose a path before anything changes.</td>
 <td>Decision column reads Awaiting owner review on every row</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/suggestions.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/suggestions.html</a></td>
@@ -174,7 +174,7 @@
 <td>Clear list of questions, information needed and answers</td>
 <td>Reporting</td>
 <td>Done</td>
-<td>40 questions, each with a category, what is already known, what is missing, the next step that would settle it, its sources and an owner.</td>
+<td>45 questions, each with a category, what is already known, what is missing, the next step that would settle it, its sources and an owner.</td>
 <td>Several need an owner or legal decision and cannot be resolved from data alone.</td>
 <td>Every question carries a status; open ones name the decision needed</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/questions.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/questions.html</a></td>
@@ -204,7 +204,7 @@
 <td>Repository review line by line with official links and flagged irregularities</td>
 <td>Repo review</td>
 <td>Done</td>
-<td>40 review findings covering git state, data integrity, model defects found and fixed, stale reporting, superseded links, site architecture and CI coverage. Each carries its evidence link and a recommended action.</td>
+<td>43 review findings covering git state, data integrity, model defects found and fixed, stale reporting, superseded links, site architecture and CI coverage. Each carries its evidence link and a recommended action.</td>
 <td>Consolidating the ten published site trees is an owner decision, not something a session should do unilaterally. See CS-35.</td>
 <td>Findings are dated and attributed to the session that produced them</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/review.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/review.html</a></td>
@@ -214,7 +214,7 @@
 <td>GitHub Pages live site: clean landing page and category subpages</td>
 <td>Site</td>
 <td>Done; publishing path is not ideal</td>
-<td>A landing page at the repository root with 18 category sub-pages under app/, generated from one dataset, with navigation by category. The build fails on a broken link or on a row without a source.</td>
+<td>A landing page at the repository root with 20 pages under app/, including the Report-availability page added 2026-11-14, generated from one dataset, with navigation by category. The build fails on a broken link or on a row without a source.</td>
 <td>Pages is still served from the legacy main / branch build, so the entire public repository is published rather than just the site. Switching to the Actions artifact needs an admin token; earlier attempts returned HTTP 403. See NF-43.</td>
 <td>Pages API confirms build_type=legacy, source branch main, path /</td>
 <td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
@@ -264,7 +264,7 @@
 <td>Flagged for Review page with source links</td>
 <td>Reporting</td>
 <td>Done</td>
-<td>55 flags with severity, the action needed, its sources and an open or closed status. Nothing on the page blocks a merge; it exists so the owner can review after the site is live.</td>
+<td>62 flags with severity, the action needed, its sources and an open or closed status. Nothing on the page blocks a merge; it exists so the owner can review after the site is live.</td>
 <td>None.</td>
 <td>Every flag carries at least one source link</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/flagged.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/flagged.html</a></td>

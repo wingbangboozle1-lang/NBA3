@@ -47,6 +47,7 @@ NAV = [
     ]),
     ("Game context", [
         ("Injuries & rotation", "app/injuries.html"),
+        ("Report availability", "app/freshness.html"),
         ("Game flow", "app/gameflow.html"),
     ]),
     ("Decision support", [
@@ -235,6 +236,35 @@ def _res(d):
     return d.get("residuals") or {}
 
 
+def _ratings_delta_text(d):
+    """Describe what this capture's team-statistics page says against the one it replaced.
+
+    Computed at render time from the two stored captures, so the sentence cannot go stale
+    the way a hard-coded '240 of 240 agree' did.
+    """
+    cur = d["ratings"]
+    sup = (d.get("superseded") or {}).get("ratings")
+    if not sup:
+        return "30 teams transcribed from the official page; no superseded snapshot to compare."
+    old_by = {t["team"]: t for t in sup["teams"]}
+    fields = ("gp", "w", "l", "min", "off_rtg", "def_rtg", "net_rtg", "pace")
+    diff_teams, diff_fields, total = [], 0, 0
+    for t in cur["teams"]:
+        o = old_by.get(t["team"])
+        if o is None:
+            continue
+        changed = [f for f in fields if o.get(f) != t.get(f)]
+        total += len(fields)
+        if changed:
+            diff_teams.append(t["team"])
+            diff_fields += len(changed)
+    return (f"{len(cur['teams'])} teams × {len(fields)} fields read after the 2026-11-13 slate "
+            f"completed. Against the snapshot it replaces ({sup.get('retrieved_stamp', 'n/a')}, "
+            f"read while that slate was live): {diff_fields} of {total} fields differ, on "
+            f"{len(diff_teams)} teams — and those are exactly the teams that played on 11/13, "
+            f"which is what identifies the old capture as a mid-slate read rather than a wrong one.")
+
+
 def page_summary(d):
     m = d["meta"]
     model = m["model"]
@@ -316,14 +346,15 @@ it prints every disagreement and the build fails on a mismatch.</p>
          src_cell([d["slate"]["source_url"]], "nba.com/schedule")],
         ["Official team advanced statistics — 30 teams × 8 fields (GP, W, L, MIN, "
          "OffRtg, DefRtg, NetRtg, PACE)",
-         "240 of 240 field comparisons agree with the stored capture.",
+         _ratings_delta_text(d),
          src_cell([d["ratings"]["source_url"]], "nba.com/stats")],
         [f"Official injury report {d['injuries']['report_stamp']} — "
          f"{d['injuries']['count']} rows "
          f"({d['injuries'].get('player_rows', 0)} player rows + "
          f"{d['injuries'].get('not_submitted_rows', 0)} team “NOT YET SUBMITTED” rows)",
-         "122 rows in both this report and the 07:30 PM report it supersedes; "
-         "0 status changes between the two.",
+         f"{d['injuries'].get('prior_report_compared_rows', 0)} rows of the 2026-11-14 slate "
+         f"compared with the report it supersedes ({d['injuries'].get('prior_report_stamp', '')}): "
+         f"{d['injuries'].get('prior_report_status_changes', 0)} status changes.",
          src_cell([d["injuries"]["source_url"]], "official PDF")],
         [f"Official final scores — {m['model']['results_captured']} games, "
          f"{m['model']['team_games_official']} team-games",
@@ -440,8 +471,12 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
             f'{num(l["fair_ml_home"], 0)} / {num(l["fair_ml_away"], 0)}',
             f'{num(l["margin_lo"], 0)} … {num(l["margin_hi"], 0)}',
             num(l["pace"], 1),
-            f'{l["out_count_away"]} / {l["out_count_home"]}'
-            + (" " + chip("partial report", "warn") if partial else ""),
+            (num(l["out_count_away"], 0) + " / " + num(l["out_count_home"], 0)
+             if (l["out_count_away"] is not None or l["out_count_home"] is not None)
+             else "— / —")
+            + (" " + chip("one side not on the report", "warn") if partial else "")
+            + (" " + chip("no report for this date", "bad")
+               if l.get("availability_state_home") == "NO_OFFICIAL_REPORT_COVERS_THIS_DATE" else ""),
             src_cell([l["source"], l["game_source"]], "schedule + game"),
         ])
     body.append(table(
@@ -475,6 +510,16 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
     return "\n".join(body)
 
 
+FLAG_KIND = {
+    "REPORTED": "ok",
+    "PARTIAL_REPORT_LATE": "bad",
+    "PARTIAL_REPORT_NOT_DUE_YET": "warn",
+    "AVAILABILITY_NOT_DUE_YET": "warn",
+    "NO_INJURY_REPORT_FOR_DATE": "bad",
+    "PARTIAL_REPORT": "warn",
+}
+
+
 def page_picks(d):
     lab = d["lab"]
     body = []
@@ -506,7 +551,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
             fmt_pct(p["model_p_home"]),
             esc(p["singles_view"]),
             esc(p["totals_view"]),
-            chip(flag, "warn" if flag != "REPORTED" else "ok"),
+            chip(flag, FLAG_KIND.get(flag, "warn")),
             src_cell([p["source"], p["nba_game_url"]], "schedule + game"),
         ])
     body.append(table(
@@ -515,7 +560,9 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
          "Availability", "Source"],
         rows, "picks",
         note="“Model side” names the team our line favours, printed the way a book would print it. "
-             "“Availability” is whether both teams had filed an injury report at capture time."))
+             "“Availability” is the four-state verdict from the official filing rule — see the "
+             '<a href="freshness.html">Report-availability page</a>. Only REPORTED means the '
+             "absence counts in the lines table are real; everywhere else they are blank, not zero."))
 
     open_rows = [[
         esc(p["date"]), esc(f"{p['away']} @ {p['home']}"), esc(p["availability_detail"]),
@@ -967,20 +1014,25 @@ def page_injuries(d):
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
 <div class="callout ok">
-<p><strong>Freshness check.</strong> The index lists a report every 15 minutes, so this page was
-checked against the <strong>newest</strong> report on the
-<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>,
-<strong>{esc(inj.get('newest_report_listed_on_index', 'n/a'))}</strong>
-— 45 minutes newer than the report transcribed here. All {inj.get('newest_report_rows', 0)} rows were
-compared: <strong>{inj.get('newest_report_differences', 0)} differences</strong>. Three consecutive
-official reports (07:30 PM, 07:45 PM, 08:30 PM) agree on every row, so the transcription is stable,
-not merely unchallenged. The build fails if a future report disagrees.</p>
+<p><strong>Freshness check.</strong> This is the newest report on the
+<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
+({esc(inj.get('newest_report_listed_on_index', 'n/a'))}), so there is no later file to reconcile it
+with. The comparison that exists is against the report it supersedes
+({esc(inj.get('prior_report_stamp', 'n/a'))}):
+<strong>{inj.get('prior_report_compared_rows', 0)} rows in common on the 2026-11-14 slate,
+{inj.get('prior_report_status_changes', 0)} status changes</strong>. An overnight gap of nine hours
+and one slate-turning set of games produced no movement at all, which is why these rows can be
+published as settled for today. The build fails if a future report disagrees.</p>
 
 <div class="callout warn">
-<p><strong>Scope limit.</strong> This report covers 2026-11-13 and 2026-11-14 games only.
-<strong>No official report exists yet for 2026-11-15, 11-16 or 11-17</strong>, and five of the ten
-teams playing on 11/14 had not filed. Games later than 11/14 cannot be treated as settled — see
-<a href="flagged.html">NF-53</a>.</p>
+<p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and
+2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
+teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
+of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
+Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
+is <a href="flagged.html">NF-53</a> and the corrected reading is
+<a href="flagged.html">NF-56</a>.</p>
 </div>
 """)
 
@@ -1072,22 +1124,355 @@ the kind of number that gets a bankroll staked on it.</p>
     return "\n".join(body)
 
 
+def page_freshness(d):
+    """Report availability & freshness — added by session arena/25418e3f-nba3.
+
+    Two jobs. First: publish, per team and per game, when the official injury
+    report for that game actually exists, so a reader can tell "nobody is out"
+    from "nobody has filed yet". Second: show exactly what this round's refresh
+    changed, line by line, against the artefact it replaced.
+    """
+    av = d.get("availability") or {}
+    delta = d.get("snapshot_delta") or {}
+    man = d.get("manifest") or {}
+    inj = d["injuries"]
+    ratings = d["ratings"]
+    superceded = d.get("superseded") or {}
+    sup_ratings = superceded.get("ratings")
+    log_prov = d.get("log_provenance") or {}
+    results = d.get("results_1113") or {}
+    body = []
+
+    if not av:
+        body.append('<div class="callout warn"><p>No availability artefact was found. '
+                    'Run <code>python3 scripts/report_availability.py</code> before the build.'
+                    '</p></div>')
+        return "\n".join(body)
+
+    counts = av.get("counts", {})
+    corr = av.get("b2b_correspondence_1114", {})
+    body.append(f"""
+<p>Every number on this site is a snapshot of an official page that keeps moving. This page is the
+audit of that movement: which official capture each figure comes from, what the previous capture
+said, what changed between them, and — for injuries — <strong>when a report for a given game is
+allowed to exist at all</strong>. The last question is the one that mattered: before this round the
+picks table asserted “both teams had filed” on 22 of 27 games for which no official report existed,
+and printed an absence count of zero. See
+<a href="flagged.html">NF-56</a>.</p>
+<div class="cards">
+  <div class="card"><div class="k">Team-games with availability</div>
+    <div class="v">{counts.get('filed', 0)}</div>
+    <div class="s">of {counts.get('team_side_rows', 0)} team-sides in the window — the rest are
+    blank by policy, never zero</div>
+    {src_cell([inj['source_url'], av['rule_source']], 'official report + rule')}</div>
+  <div class="card"><div class="k">Overdue reports</div>
+    <div class="v">{counts.get('due_and_not_filed', 0)}</div>
+    <div class="s">no team in the window is past its deadline without filing — every missing row is
+    explained by a deadline that has not arrived</div>
+    {src_cell([av['rule_source']], 'filing rule')}</div>
+  <div class="card"><div class="k">Lines that moved on the refresh</div>
+    <div class="v">{(delta.get('counts') or {}).get('lines_moved', 0)}</div>
+    <div class="s">of {(delta.get('counts') or {}).get('lines_compared', 0)}; median
+    {(delta.get('counts') or {}).get('median_abs_spread_move', 0)} points, max
+    {(delta.get('counts') or {}).get('max_abs_spread_move', 0)}</div>
+    {src_cell([man.get('results_log', {}).get('source_url', ''), ratings['source_url']],
+              'official sources')}</div>
+  <div class="card"><div class="k">Verified official rows, this capture</div>
+    <div class="v">{inj['count']}</div>
+    <div class="s">injury rows, plus {results.get('count', 0)} final scores and
+    {ratings['count']} team-stat rows, each cross-checked field by field</div>
+    {src_cell([inj['source_url'], results.get('source_url', ''), ratings['source_url']],
+              'official pages')}</div>
+</div>
+""")
+
+    # ---------------------------------------------------------------- 1. chain
+    body.append("<h2>1. The capture chain</h2>")
+    body.append(f"""<p>The canonical engine reads whatever the snapshot manifest names, so a refresh
+is a data change rather than an edit of the engine. These are the four inputs and what each one
+replaced.</p>""")
+    rows = []
+    for label, block, prior in (
+        ("Results log (walk-forward fit)", man.get("results_log", {}), None),
+        ("Team advanced statistics (pace, ratings inputs)", man.get("ratings", {}), sup_ratings),
+        ("Injury report (availability overlay)", man.get("injuries", {}),
+         superceded.get("injuries")),
+        ("Schedule / slate (the window itself)", man.get("slate", {}), None),
+    ):
+        srcs = [v for v in (block.get("source_url"), (prior or {}).get("source_url")) if v]
+        rows.append([
+            esc(label),
+            esc(block.get("retrieved_stamp") or block.get("report_stamp") or "—"),
+            esc(str(block.get("games") or block.get("path", "")).split("/")[-1]),
+            esc((prior or {}).get("retrieved_stamp") or (prior or {}).get("report_stamp") or "—"),
+            esc(man.get("superseded", {}).get("reason", "current capture") if prior else
+                "unchanged by this refresh"),
+            src_cell(srcs or [REPO_URL], "source"),
+        ])
+    body.append(table(["Input", "Read at (this capture)", "Artifact", "Superseded snapshot",
+                       "Why it was replaced", "Source"], rows, "chain"))
+
+    # ------------------------------------------------------------- 2. checks
+    body.append("<h2>2. The six checks this capture ran against official sources</h2>")
+    ch = man.get("checks", {})
+    check_rows = [
+        ["C1 — the extended log reproduces the official games-played, wins and losses columns",
+         "366 team-games = 2 × 183; 30 GP values, 30 W values, 30 L values compared",
+         chip("pass", "ok") if ch.get("C1_gp_w_l_reconcile") else chip("fail", "bad"),
+         src_cell([ratings["source_url"], results.get("source_url", "")], "official stats")],
+        ["C2 — the same 183, reached from the official per-date game counts",
+         "88 October games in our own log + 95 games the November calendar lists for 11/01–11/13",
+         chip("pass", "ok") if ch.get("C2_calendar_total") else chip("fail", "bad"),
+         src_cell([results.get("source_url", "")], "scoreboard calendar")],
+        ["C3 — the W–L record printed under each team on the scoreboard",
+         "18 team records compared with the records recomputed from the extended log",
+         chip("pass", "ok") if ch.get("C3_scoreboard_records") else chip("fail", "bad"),
+         src_cell([results.get("source_url", "")], "scoreboard")],
+        ["C4 — the 2026-11-14 rows of the newest report vs the report it supersedes",
+         f"{inj.get('prior_report_compared_rows', 0)} rows compared, "
+         f"{inj.get('prior_report_status_changes', 0)} status changes, "
+         f"{len(inj.get('prior_report_rows_only_in_newest', []))} added, "
+         f"{len(inj.get('prior_report_rows_only_in_prior', []))} dropped",
+         chip("pass", "ok") if ch.get("C4_injury_rows_stable") else chip("fail", "bad"),
+         src_cell([inj["source_url"], inj.get("prior_report_url", "")], "both PDFs")],
+        ["C5 — the previous ratings snapshot is stale for exactly the teams that played on 11/13",
+         f"{len(ch.get('C5_teams_with_new_gp', []))} teams gained a game; the 18 teams that "
+         f"played that night are the same 18 — {ch.get('C5_field_differences')} of 240 stored "
+         f"fields differ",
+         chip("pass", "ok") if ch.get("C5_staleness_explained") else chip("review", "warn"),
+         src_cell([ratings["source_url"], (sup_ratings or {}).get("source_url", ""),
+                   results.get("source_url", "")], "stats page + scoreboard")],
+        ["C6 — per-date game counts of the stored slate vs the official calendar",
+         "11/14 → 5, 11/15 → 9, 11/16 → 8, 11/17 → 5 = 27 games, matching the slate file",
+         chip("pass", "ok") if ch.get("C6_slate_counts") else chip("fail", "bad"),
+         src_cell([d["slate"]["source_url"], results.get("source_url", "")], "schedule + scores")],
+    ]
+    body.append(table(["Check", "What was compared", "Result", "Source"], check_rows, "checks"))
+    body.append(f"""<div class="callout"><p><strong>Why C1 and C2 are run separately.</strong> Both
+end in the number 183, and that is the point: one route counts team-games off the official
+statistics page, the other counts games off the scoreboard calendar and adds our own October rows.
+Two independent official readings agreeing is what lets the extended log be called verified rather
+than merely transcribed. The rebuild fails if either route disagrees.</p></div>""")
+
+    # --------------------------------------------------- 3. the nine new finals
+    body.append("<h2>3. The nine results added to the canonical log</h2>")
+    body.append(f"""<p>Flag <a href="flagged.html">F36-03</a> asked a later session to carry the
+2026-11-13 finals into <code>data/origin/games.csv</code>. They are here: {log_prov.get('games_before', '')} →
+{log_prov.get('games_after', '')} games. The note predicted 184; the log holds 183, and C1, C2 and C3
+all say 183 — recorded as <a href="flagged.html">NF-58</a> so nobody “fixes” the data to match the note.</p>""")
+    g_rows = []
+    for g in results.get("games", []):
+        g_rows.append([
+            esc(g["date"]), esc(g["game_id"]),
+            f'<a href="{esc(g["game_url"])}" target="_blank" rel="noopener noreferrer">'
+            f'{esc(g["away"])} @ {esc(g["home"])}</a>',
+            f'{g["away_pts"]} – {g["home_pts"]}',
+            esc(g["state"]),
+            esc(g["competition"]),
+            esc(f'{g["away_record_page"]} / {g["home_record_page"]}'),
+            src_cell([results.get("source_url", "")], "official scoreboard"),
+        ])
+    body.append(table(["Date", "Game id", "Matchup", "Score (away–home)", "State",
+                       "Competition", "W–L printed on the card after the game", "Source"],
+                      g_rows, "new-results"))
+
+    # ------------------------------------------------- 4. ratings staleness
+    if sup_ratings:
+        body.append("<h2>4. What the mid-slate ratings snapshot cost us</h2>")
+        body.append("""<p>The previous capture read the official team-statistics page at
+2026-11-14T01:05Z — while three games of the 11/13 slate were still live. The table below is the
+difference between that snapshot and this one, for the teams it touched. Every field is compared
+programmatically; nothing is inferred.</p>""")
+        old_by = {t["team"]: t for t in sup_ratings["teams"]}
+        r_rows = []
+        for t in ratings["teams"]:
+            o = old_by.get(t["team"])
+            if o is None:
+                continue
+            diffs = [(f, o.get(f), t.get(f)) for f in
+                     ("gp", "w", "l", "min", "off_rtg", "def_rtg", "net_rtg", "pace")
+                     if o.get(f) != t.get(f)]
+            if not diffs:
+                continue
+            r_rows.append([
+                esc(t["team"]),
+                f'{o.get("gp")} → {t.get("gp")}',
+                f'{o.get("w")}-{o.get("l")} → {t.get("w")}-{t.get("l")}',
+                f'{num(o.get("off_rtg"), 1)} → {num(t.get("off_rtg"), 1)}',
+                f'{num(o.get("def_rtg"), 1)} → {num(t.get("def_rtg"), 1)}',
+                f'{num(o.get("net_rtg"), 1)} → {num(t.get("net_rtg"), 1)}',
+                f'{num(o.get("pace"), 2)} → {num(t.get("pace"), 2)}',
+                str(len(diffs)),
+                src_cell([ratings["source_url"], sup_ratings["source_url"]],
+                         "new read / superseded read"),
+            ])
+        body.append(table(["Team", "GP", "W–L", "OffRtg", "DefRtg", "NetRtg", "PACE",
+                           "Fields that moved", "Source"], r_rows, "ratings-staleness"))
+        body.append(f"""<p><strong>{len(r_rows)} of 30 teams changed</strong> — and they are exactly
+the teams that played on 11/13. That coincidence is the verification: it is what a mid-slate capture
+has to look like. A page read at the wrong hour does not fail loudly; it publishes numbers that are
+merely yesterday's.</p>""")
+
+    # ----------------------------------------------------- 5. line movement
+    body.append("<h2>5. Every line this refresh moved</h2>")
+    body.append("""<p>Before and after, from the two published artefacts
+(<code>data/app/lab_snapshot_2026-11-14T0105Z.json</code> and <code>data/app/lab.json</code>), not
+from a re-derivation — so this table cannot disagree with the rest of the site.</p>""")
+    l_rows = []
+    for l in delta.get("lines", []):
+        l_rows.append([
+            esc(l["date"]),
+            f'<a href="{esc(l["game_url"])}" target="_blank" rel="noopener noreferrer">'
+            f'{esc(l["matchup"])}</a>',
+            num(l["spread_before"], 1), num(l["spread_after"], 1), num(l["spread_move"], 1),
+            num(l["total_before"], 1), num(l["total_after"], 1), num(l["total_move"], 1),
+            f'{fmt_pct(l["p_home_before"])} → {fmt_pct(l["p_home_after"])}',
+            "; ".join(esc(x) for x in l["drivers"]) or "—",
+            src_cell(l["sources"], "official sources"),
+        ])
+    body.append(table(["Date", "Matchup", "Spread before", "Spread after", "Move",
+                       "Total before", "Total after", "Move", "P(home win)",
+                       "What drove it", "Source"], l_rows, "line-movement"))
+
+    # ------------------------------------------- 6. availability states table
+    body.append("<h2>6. Report availability, game by game</h2>")
+    body.append(f"""<div class="callout"><p><strong>The rule, verbatim from the official
+index:</strong> “{esc(av.get('rule_quote', ''))}” — <a href="{esc(av['rule_source'])}"
+target="_blank" rel="noopener noreferrer">official.nba.com/nba-injury-report-2026-27-season/</a>.
+Deadlines are published in local time exactly as the rule words them; no Eastern-time equivalent is
+asserted, because the offset between a venue's clock and ET is not printed on any official page this
+project reads (<a href="questions.html">CQ-43</a>).</p></div>""")
+    by_game = {}
+    for r in av.get("rows", []):
+        by_game.setdefault(r["game_id"], {})[r["side"]] = r
+    a_rows = []
+    for gid in sorted(by_game, key=lambda g: (by_game[g]["home"]["date"],
+                                              by_game[g]["home"]["matchup"])):
+        sides = by_game[gid]
+        h, a = sides["home"], sides["away"]
+        pick = [p for p in d["picks"] if p["game_id"] == gid]
+        flag = pick[0]["availability_flag"] if pick else "—"
+        a_rows.append([
+            esc(h["date"]), esc(h["tip_et"]),
+            f'<a href="{esc(h["nba_game_url"])}" target="_blank" rel="noopener noreferrer">'
+            f'{esc(h["matchup"])}</a>',
+            f'{esc(a["team"])} ' + chip(a["state"], FLAG_KIND.get(flag, "warn")
+                                        if a["state"] != "FILED" else "ok"),
+            f'{esc(h["team"])} ' + chip(h["state"], FLAG_KIND.get(flag, "warn")
+                                        if h["state"] != "FILED" else "ok"),
+            esc("—" if not a.get("out_count") and a["state"] != "FILED" else
+                (a["out_count"] if a["state"] == "FILED" else "blank")),
+            esc("—" if not h.get("out_count") and h["state"] != "FILED" else
+                (h["out_count"] if h["state"] == "FILED" else "blank")),
+            esc(a["reprice_after"] or "filed"),
+            esc(h["reprice_after"] or "filed"),
+            chip(flag, FLAG_KIND.get(flag, "warn")),
+            src_cell([inj["source_url"], av["rule_source"], h["nba_game_url"]],
+                     "report + rule + game"),
+        ])
+    body.append(table(["Date", "Tip (ET)", "Matchup", "Away team", "Home team",
+                       "Out (away)", "Out (home)", "Away report exists after",
+                       "Home report exists after", "Pick flag", "Source"], a_rows,
+                      "availability",
+                      note="“blank” means the count is unknown because no official report lists that "
+                           "team — it does not mean nobody is out."))
+
+    # ------------------------------------------------- 7. coverage by date
+    body.append("<h2>7. How far ahead the availability picture reaches</h2>")
+    c_rows = []
+    for c in av.get("coverage_by_date", []):
+        c_rows.append([
+            esc(c["date"]), esc(c["lead_days"]), str(c["games"]), str(c["filed"]),
+            str(c["due_and_not_filed"]), str(c["not_yet_due"]),
+            str(c["no_report_covers_date"]),
+            esc(c["state"]),
+            src_cell([inj["source_url"], d["slate"]["source_url"]], "report + schedule"),
+        ])
+    body.append(table(["Date", "Lead time", "Games", "Team-sides filed",
+                       "Due and not filed", "Deadline not reached", "No report covers the date",
+                       "Reading", "Source"], c_rows, "coverage"))
+    body.append(f"""<div class="callout warn"><p><strong>{esc(av.get('headline', ''))}</strong></p>
+<p>This is the structural limit on “picks up to three days ahead”: on day 0 the overlay is usable for
+the teams whose deadline has passed, on day 1 nothing is due yet, and on days 2 and 3 no published
+report covers the games at all. A three-day-ahead line is therefore priced on ratings and rest, and
+becomes an availability-informed line only as each deadline passes.</p></div>""")
+
+    # ------------------------------------------ 8. tonight's back-to-back proof
+    body.append("<h2>8. The one clean test of the rule on this slate</h2>")
+    body.append(f"""<p>If the filing rule really explains the holes in the data, then on the
+2026-11-14 slate the teams that have <em>not</em> filed should be exactly the teams playing the
+second game of a back-to-back. They are:</p>""")
+    b_rows = [
+        ["Teams that filed on the newest report",
+         esc(", ".join(corr.get("teams_that_filed", [])) or "—"),
+         f'{len(corr.get("teams_that_filed", []))} teams',
+         src_cell([inj["source_url"]], "report")],
+        ["Teams printed as NOT YET SUBMITTED",
+         esc(", ".join(corr.get("teams_that_have_not", [])) or "—"),
+         f'{len(corr.get("teams_that_have_not", []))} teams',
+         src_cell([inj["source_url"]], "report")],
+        ["Teams playing the second game of a back-to-back on 11/14",
+         esc(", ".join(corr.get("teams_on_a_back_to_back", [])) or "—"),
+         "detected from the official results log, which is why the 11/13 finals had to be captured first",
+         src_cell([results.get("source_url", ""), d["slate"]["source_url"]], "log + schedule")],
+        ["Do the two sets match?",
+         chip("exact: the unfiled set IS the back-to-back set", "ok")
+         if corr.get("unfiled_are_exactly_the_b2b_teams") else chip("they do not match", "bad"),
+         esc(corr.get("interpretation", "")),
+         src_cell([av["rule_source"], inj["source_url"]], "rule + report")],
+    ]
+    body.append(table(["Set", "Members", "Note", "Source"], b_rows, "b2b-proof"))
+    body.append(f"""<div class="callout ok"><p>Five of ten team-sides are missing tonight, and none
+of them is late. Their deadline is 1 p.m. local on game day, hours before tip — so tonight's games
+are <em>recoverable by waiting</em>, not by guessing. Suggestion
+<a href="suggestions.html">CS-39</a> turns that into a column on the picks page;
+<a href="questions.html">CQ-41</a> asks whether the engine should re-price itself when each deadline
+passes.</p></div>""")
+
+    # ---------------------------------------------------- 9. what is still blank
+    body.append("<h2>9. What this page still cannot answer</h2>")
+    un_rows = [
+        ["The team for one injury row",
+         "Traore, Nolan (Probable, right calf) sits on a page-break where the PDF prints no Team "
+         "cell. Left blank rather than attributed; it changes no line, because a Probable is not an "
+         "absence.", "second read of the PDF, or the official roster page",
+         src_cell([inj["source_url"]], "official PDF")],
+        ["Eastern-time equivalents of the local deadlines",
+         "Not printed on any official page this project reads, so the column is local-only.",
+         "accept an external time-zone source, or keep the blank (CQ-43)",
+         src_cell([av["rule_source"]], "rule")],
+        ["Who absorbs the vacated minutes",
+         "Needs per-player game logs and on/off splits. This repository has a season-averaged "
+         "top-31 minutes table only, so the vacuum is a floor and the replacement is blank.",
+         "capture official player game logs (still the same ask as before this round)",
+         src_cell([d["lab"]["meta"].get("source_players", REPO_URL)], "player table")],
+        ["Whether a Probable or Available-with-injury row should move a line",
+         "Nine such rows exist on tonight's slate and none of them has any effect today.",
+         "owner decision CQ-45", src_cell([inj["source_url"]], "official PDF")],
+    ]
+    body.append(table(["Still blank", "Why", "What would settle it", "Source"], un_rows,
+                      "still-blank"))
+    return "\n".join(body)
+
+
 def page_gameflow(d):
+
     flow = d["gameflow"]
     res = _res(d)
     body = []
     body.append(f"""
 <p>Game-flow factors for every game in the window, all computed from official data: rest days from
-the official schedule and the 174 captured results, pace from the official team advanced statistics,
+the official schedule and the {d['meta']['model']['results_captured']} captured results, pace from the official team advanced statistics,
 and the probabilities from the out-of-sample residual distribution of our own engine.</p>
 """)
     facts = [
         ["League average total", num(res.get("avg_total"), 1),
-         "points, from the 174 official final scores"],
+         f"points, from the {d['meta']['model']['results_captured']} official final scores"],
         ["Overtime rate", fmt_pct(res.get("ot_rate"), 2),
-         f"{round((res.get('ot_rate') or 0) * (res.get('n') or 0))} of 174 captured games"],
+         f"{round((res.get('ot_rate') or 0) * (d['meta']['model']['results_captured'] or 0))} "
+         f"of {d['meta']['model']['results_captured']} captured games"],
         ["Home win rate", fmt_pct(res.get("home_win_rate"), 1),
-         "of the 174 captured games"],
+         f"of the {d['meta']['model']['results_captured']} captured games"],
         ["Average home margin", num(res.get("avg_margin"), 2), "points"],
         ["Margin residual sd", num(res.get("margin_sd"), 2),
          "points; the width of every probability on this site"],
@@ -1112,8 +1497,14 @@ and the probabilities from the out-of-sample residual distribution of our own en
             notes.append("pace above the league median")
         if f["p_blowout_15"] is not None and f["p_blowout_15"] >= 0.45:
             notes.append("high blowout risk")
-        if f["out_home"] + f["out_away"] >= 3:
-            notes.append(f"{f['out_home'] + f['out_away']} players listed Out")
+        _oh, _oa = f.get("out_home"), f.get("out_away")
+        if _oh is not None and _oa is not None and _oh + _oa >= 3:
+            notes.append(f"{_oh + _oa} players listed Out")
+        elif (_oh or 0) + (_oa or 0) >= 2:
+            missing = " and ".join(
+                side for side, v in (("home", _oh), ("away", _oa)) if v is None)
+            notes.append(f"{(_oh or 0) + (_oa or 0)} listed Out, {missing} side not on the "
+                         f"report yet so its count is unknown")
         rows.append([
             esc(f["date"]), esc(f["matchup"]),
             num(f["home_rest"], 0) if f["home_rest"] is not None else "—",
@@ -1144,8 +1535,11 @@ and the probabilities from the out-of-sample residual distribution of our own en
          "The official team advanced page publishes season figures, not a per-game projection. "
          "The pace column is the mean of two season figures, and it is labelled as such."],
         ["An overtime model",
-         "9 of 174 games went to overtime. That is one rate, not a model. Applying a flat 5.17% "
-         "to every game is the honest ceiling of what this data supports."],
+         f"{round((res.get('ot_rate') or 0) * (d['meta']['model']['results_captured'] or 0))} of "
+         f"{d['meta']['model']['results_captured']} captured games went to overtime "
+         f"({fmt_pct(res.get('ot_rate'), 2)}). That is one rate, not a model. Applying a flat "
+         f"{fmt_pct(res.get('ot_rate'), 2)} to every game is the honest ceiling of what this "
+         f"data supports."],
         ["Referee, travel and altitude effects",
          "No official source for these was captured, so they are absent rather than estimated."],
         ["Live in-game win probability",
@@ -1274,7 +1668,7 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
     for f in d["flags"]:
         rows.append([
             esc(f["id"]), esc(f["area"]), esc(f["item"]), esc(f["why"]),
-            chip(f["severity"], {"high": "bad", "medium": "warn", "low": "neutral"}[f["severity"]]),
+            chip(f["severity"], {"high": "bad", "medium": "warn", "low": "neutral"}.get(f["severity"], "warn")),
             esc(f["action_needed"]), esc(f["status"]), esc(f["found_on"]),
             src_cell(f["sources"]),
         ])
@@ -1631,6 +2025,8 @@ def main():
         ("app/strategies.html", "Validation gates", "Model output", page_strategies(d), "app/strategies.html"),
         ("app/correlations.html", "Correlations & dependence", "Model output", page_correlations(d), "app/correlations.html"),
         ("app/injuries.html", "Injuries, rotation impact & report status", "Game context", page_injuries(d), "app/injuries.html"),
+        ("app/freshness.html", "Report availability & freshness", "Game context",
+         page_freshness(d), "app/freshness.html"),
         ("app/gameflow.html", "Game flow", "Game context", page_gameflow(d), "app/gameflow.html"),
         ("app/questions.html", "Open questions", "Decision support", page_questions(d), "app/questions.html"),
         ("app/suggestions.html", "Site improvement suggestions", "Decision support", page_suggestions(d), "app/suggestions.html"),

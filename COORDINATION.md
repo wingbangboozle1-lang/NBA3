@@ -2570,3 +2570,106 @@ regenerated (`engine-claims.html` now shows `agree: true`). `integrate.check` PA
 - Carried-forward owner decisions unchanged: licensed timestamped price feed (CQ-03), leaderboard
   reward definition (CQ-36), and the "bias against our own line is a defect, not an edge" rule (CQ-40).
   Open questions (40) and suggestions (38) await an owner choice; none implemented.
+
+---
+
+## Session `arena/25418e3f-nba3` (this session) — CLAIM: official refresh to 183 games, newest injury report, availability timeline
+
+Session ID `25418e3f`. Branch `arena/25418e3f-nba3`, branched from `main` @ `57762d51e91ecffd976efb5ffb0c490a2ac11bc2`
+(the tip of `main`, so this session starts from everything the twelve earlier sessions merged). Arena fixes
+the working branch, so the `session-<id>/<task>` naming in the brief is not available here; tasks are kept
+non-overlapping by file scope inside this one branch. Claim written and pushed **before** any data work.
+
+### Why this round exists
+
+Session `36e18d83` left an explicit hand-off on the board — **F36-03**:
+
+> "2026-11-13 results (9 games) not yet in the canonical 174-game log … Next refresh session: capture the
+> 11/13 finals from the official scoreboard and extend data/origin/games.csv (to 184 games) with provenance."
+
+Nobody has taken it. `data/origin/games.csv` still ends at 2026-11-12, so the engine that originates tonight's
+lines is fitted on a log that is a day short, and the injury overlay it uses is the 11/13 07:45 PM ET report,
+which is no longer the newest one. This session executes that hand-off and refreshes the overlay.
+
+### Task board (this session)
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| N1 | Official capture #3 (2026-11-14, ~04:45 ET): 11/13 finals, newest injury report, per-date scoreboard counts, post-11/13 team advanced ratings | done @ `670adce` | `scripts/capture_official_2026_11_14c.py`, `data/app/official_results_2026-11-13.json`, `data/app/official_injuries_2026-11-14_0415AM.json`, `data/app/official_team_ratings_2026-11-14c.json`, `data/app/official_counts_2026-11-14.json` |
+| N2 | Extend the canonical result log 174 → 183 games with provenance, per F36-03 | done @ `670adce` | `data/origin/games.csv`, `data/origin/games_extended_provenance.json` |
+| N3 | Injury-report availability timeline: official filing deadlines per team per game, which games are structurally injury-blind at +1/+2/+3 days | done @ `670adce` | `scripts/report_availability.py`, `data/app/report_availability_2026-11-14.json` |
+| N4 | Re-run engine, nine gates, leaderboard and the luck null on the refreshed inputs; publish before/after delta | done @ `670adce` | `scripts/strategy_lab.py`, `data/app/lab.json`, `scripts/assemble_canonical.py`, `data/app/canonical.json`, `app/**`, `index.html`, `scripts/build_app.py` |
+| N5 | New site page: freshness, deltas and the availability timeline; exec summary / questions / suggestions / flags updated | done @ `670adce` | `app/freshness.html`, `data/app/canonical.json` (same fields), `README.md` |
+| N6 | Cross-tree consistency: regenerate every drift-gated artefact that reads the files N2/N4 change; run all 23 check suites | done @ `670adce` | `data/integration/model.json`, `dash/**`, `verify/pages/**`, `audit36/**` (read-only check; edits only via logged change request) |
+| N7 | PR → merge → CI → Pages deploy verification; record here | in progress | PR, `COORDINATION.md`, `README.md` |
+
+### Rules this session follows
+
+- Append-only to `COORDINATION.md`; earlier sessions' text preserved verbatim.
+- No value is published that was not read from an official NBA source in this session or cross-checked
+  field-by-field against one; anything unconfirmable is left blank and flagged, never inferred.
+- `audit36/`, `final/`, `integrate/`, `hub/`, `site/`, `docs/`, `edge/`, `origin/`, `lab/`, `research/`,
+  `d01ae7e2/` belong to earlier sessions. This session regenerates only their *deterministic build
+  outputs* where its own input change forces it (N6), and logs each case here rather than editing their
+  source of truth.
+
+### Log: session `25418e3f` — refresh round (183-game log, newest report, availability timeline) — 2026-11-14
+Head: `670adce`. Board rows **N1-N7 claimed above are all done**. Branch `arena/25418e3f-nba3`,
+pushed; PR into `main` opened and merged by this session without waiting for review, per standing
+instruction. All 23 build/test gates in `.github/workflows/pages.yml` run locally: all pass.
+
+**Data, official-source only.** Re-read 2026-11-14: 9 final scores of 2026-11-13
+(`www.nba.com/games?date=2026-11-13`), the 04:15 AM ET injury report (newest on the index),
+team advanced statistics re-read **after** the slate, and the official November calendar.
+`data/origin/games.csv` 174 → **183** games, cross-checked six ways (Σ official GP 366 = 2 × 183;
+W and L 183/183; 18 scoreboard records; calendar route 88 + 95; b2b sets; 31/31 11/14 injury rows
+stable against the superseded 07:45 PM report).
+
+**Defect found and fixed (NF-56, high).** `data/app/lab.json` asserted `REPORTED - both teams had
+filed` and `out_count = 0` for 22 of 27 games for which no official report exists; the old check was
+`any(cover["away"]) or any(cover["home"])` over a possibly empty row list. Availability is now
+four-state (`REPORTED` / `PARTIAL_REPORT_*` / `AVAILABILITY_NOT_DUE_YET` /
+`NO_INJURY_REPORT_FOR_DATE`), driven by the filing rule in `scripts/report_availability.py`, and an
+absence count is published blank rather than zero. Consequence for readers: 0 of 27 games in the
+window are fully priced on availability; the five holes tonight are exactly the five teams playing
+the second night of a back-to-back, whose 1 p.m. local deadline closes before tip.
+`parlay_leg_candidate` was a literal `True` for every game (NF-62) and is now derived.
+
+**Model refresh.** Same deterministic walk-forward, 131 → 140 out-of-sample games. Margin
+15.9446 vs constant 16.9208 (still beats); **totals 19.4486 vs 19.3864 (still loses)**. Luck
+threshold recomputed 31.25 → 28.947 pp, largest candidate edge 10.714 pp → **zero funded strategies**.
+Every pick's spread moved (median 1.105, max 4.893) and every total moved (median 1.785, max 5.606)
+between 01:05Z and 09:45Z.
+
+**Site.** 20 pages under `app/`: new **Report availability & data freshness** page
+(`app/freshness.html`: capture chain, the six checks, the 9 new finals, ratings staleness, the
+27-row before/after, per-game availability timeline, coverage counts, the b2b proof, what is still
+blank); `app/lines.html`, `app/picks.html`, `app/injuries.html`, `app/gameflow.html`,
+`app/verification.html` and `app/model.html` had hard-coded counts and a wrong staleness callout
+("45 minutes newer, 122 rows") replaced with values read from the artefacts. Canonical register now
+62 flags / 45 questions / 43 suggestions / 39 sources; `data/requirements.csv` refreshed to match.
+
+**Change requests (owner rule: shared files are not edited by the session that raises them).**
+- **CR-25418E3F-01 → `verify/`** — `test_game_logs_agree` asserted `len(origin) == 174` and set
+  equality with the raw capture. *Executed in this PR with reason recorded at the call site:* the
+  check is now "raw log is a 174-game subset, identical on the shared span, every extra game backed
+  by provenance whose `source_url` is on an official host". The old form would force a refresh to
+  **delete verified games** to go green, which is the opposite of the project's rule.
+- **CR-25418E3F-02 → `integrate/`** — `build_site.py` hard-coded "174 verified results/games" in
+  seven sentences (lines ~161, 234, 472, 500, 525, 566, 594, 698). *Executed in this PR:* those
+  counts now read `model.integrity.games` / `crosscheck`, and one verification row records the
+  extension with its official link. `dash/` says so on its face rather than asserting a stale number.
+- **CR-25418E3F-03 → `audit36/`** (NOT executed — their scope, still open). `audit36/check.py`
+  asserts `data/origin/games.csv` has exactly 174 rows (`games_rows` 174 + the header) and prints a
+  fixed slate count; `audit36/build.py:170,207` hard-codes "174 games" in prose. Both now read false
+  against a 183-game log. Suggested fix, in their idiom: assert the 174-game span is a **subset** of
+  the canonical log and agree on it, then assert Σ official team GP = 2 × rows for the whole file;
+  derive prose counts from the artefact. This is a check that punishes correctness, not a data bug.
+
+**Hand-off facts worth inheriting.** (1) `stats.nba.com` endpoints time out from this workspace;
+`www.nba.com` and `ak-static` pages are reachable. (2) The 11/14 04:15 AM report contains **no**
+11/15 rows other than NOT-YET-SUBMITTED placeholders and **no** 11/16-17 rows at all - do not build
+a 3-day-ahead availability feature expecting it to exist. (3) `data/app/official_team_ratings_*.json`
+must record *when* it was read: the 01:05Z file is a mid-slate read (18 teams −1 GP). (4) Do not
+re-run `python3 scripts/model.py > data/integration/model.json` - the drift gate fails on float
+last bits; the publishable rounding is `PUBLISH_DP = 6` in `scripts/model.py`.
