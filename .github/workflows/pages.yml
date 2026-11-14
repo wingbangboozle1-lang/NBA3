@@ -135,17 +135,27 @@ jobs:
       - name: Output-tree ownership audit (session e40cd215)
         run: |
           python3 - <<'PY'
-          import re, pathlib
+          import ast, re, pathlib
           src = pathlib.Path('integrate/build_site.py').read_text()
           assert 'DASH = ROOT / "dash"' in src, "dash/ path changed"
           bad = [l for l in src.splitlines() if re.search(r'(ROOT / "(?!dash|index)[a-zA-Z_]+")', l) and 'write' in l]
           if bad:
               raise SystemExit("integrate/build_site.py writes outside its claim: " + "; ".join(bad[:3]))
-          other = pathlib.Path('pipeline/build_site_data.py').read_text()
-          if 'site/data' in other:
-              print("WARNING: pipeline/build_site_data.py writes into site/data/ (owned by 7c532e8c).")
-          else:
-              print("pipeline/build_site_data.py now writes to edge/data only (fixed by 3655c68d, V-F-02).")
+          other_path = pathlib.Path('pipeline/build_site_data.py')
+          other = other_path.read_text()
+          tree = ast.parse(other, filename=str(other_path))
+          out_assignments = [n for n in tree.body
+                             if isinstance(n, ast.Assign)
+                             and any(isinstance(t, ast.Name) and t.id == 'OUT' for t in n.targets)]
+          if len(out_assignments) != 1 or ast.unparse(out_assignments[0].value) not in ("f'{ROOT}/edge/data'", 'f"{ROOT}/edge/data"'):
+              raise SystemExit('pipeline/build_site_data.py OUT no longer resolves to ROOT/edge/data')
+          writer = next((n for n in tree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name == 'w'), None)
+          opens = [n for n in ast.walk(writer) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                   and n.func.id == 'open' and len(n.args) >= 2 and isinstance(n.args[1], ast.Constant)
+                   and n.args[1].value == 'w'] if writer else []
+          if len(opens) != 1 or ast.unparse(opens[0].args[0]) not in ("f'{OUT}/{name}'", 'f"{OUT}/{name}"'):
+              raise SystemExit('pipeline/build_site_data.py writer no longer writes through OUT')
+          print('Ownership audit: pipeline writes to edge/data; site/data occurs only in the historical docstring.')
           print("Ownership audit: integrate/ writes only into dash/, data/integration/ and index.html.")
           PY
       - name: Canonical official-source capture + cross-check (arena/2b9f1ae1)

@@ -27,7 +27,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 55 items: 14 high, 39 medium, 2 low severity.
+<em>decisions</em>. 58 items: 14 high, 39 medium, 5 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -647,6 +647,39 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>44-F-01</td>
+<td>Data freshness</td>
+<td>Team advanced statistics are a 2026-11-14 snapshot; the live table now reflects later games.</td>
+<td>Re-reading the official team advanced table on 2026-11-14 shows 16 of 30 teams with more games played than the captured snapshot (e.g. San Antonio 13 GP live vs 12 captured; Golden State 13 vs 12; Oklahoma City 13 vs 12). Values were correct at capture time and are left unchanged per the never-infer policy; no always-current feed exists in this static Pages site.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Re-capture the team advanced table before publishing a new slate, model run or originated line; treat stored values as a dated snapshot.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>44-F-02</td>
+<td>Data freshness</td>
+<td>The official injury index now lists 11/14 reports newer than the 11/13 07:45 PM ET report used.</td>
+<td>The official injury index (re-read 2026-11-14) lists 11/14 reports from 12:00 a.m. to 4:15 a.m. ET, newer than the 11/13 07:45 PM ET snapshot used for the injury table. No stored row changed and no pick or line change is indicated; the newer reports were not transcribed.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Re-read the newest report before publishing picks for a new slate and mark any snapshot older than the latest report as potentially stale.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>44-F-03</td>
+<td>Prices / economics</td>
+<td>No licensed odds feed is connected; all prices and ROI are the project&#x27;s own originated fair prices against its own line.</td>
+<td>Every ROI figure is measured against the project&#x27;s own originated line at an assumed -110 price. Expected value is zero by construction; nothing here is an economic result, a positive-EV signal, or a bet.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Connect a licensed, timestamped price feed before any ROI or EV figure is used for a decision, or stop publishing ROI.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
 </tr>
 </tbody></table></div>
 
