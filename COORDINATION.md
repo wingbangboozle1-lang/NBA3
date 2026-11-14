@@ -573,7 +573,7 @@ Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df
 - Inspected current git/base state, root README, root landing, Pages workflow, source manifests, inputs and outputs across `data/`, plus `pipeline/`, `scripts/`, `site/`, `docs/`, `research/`, `lab/`, `edge/`, and `origin/`.
 - Found `data/raw/results_2026-27_october.csv` explicitly identifies Basketball-Reference as its source; `data/lines.json` includes `bbr_advanced` and `espn_odds` source labels; `data/picks.json` and `lab/picks.html` expose candidate picks/positive-EV labels. These were recorded as repository facts, not as confirmed underlying sports data or permission.
 - A mechanical scan of the repository's 73 HTML files counted 1,521 `<tbody><tr>` rows. 423 lacked a direct HTTPS link to an NBA or Ksa official host (389 excluding the root `research-dashboard.html` archive). By folder: docs 5/10; edge 10/10; lab 184/256; origin 73/594; research 81/313; site 36/262 lacked a direct NBA/Ksa-host link; the revised root index has 0/25 and `review.html` has 0/13. This is a conservative automated screen, not a judgment that every methodology row needs NBA evidence. It demonstrates the full repository does **not** meet the strict official-source-per-row requirement; R-13 publishes this limitation. No irrelevant official URLs were attached to old data rows to make the scan pass.
-- Root page/review page were separately checked: 25/25 and 12/12 table rows respectively have direct NBA/Ksa official links; all local/anchor targets resolve.
+- Root page/review page were separately checked: 25/25 and 13/13 table rows respectively have direct NBA/Ksa official links; all local/anchor targets resolve.
 - Checks passed: `python3 -m unittest tests/test_validate_gates.py` (13); `python3 -m unittest discover -s pipeline/tests` (29); `python3 tools/check_site.py`; `python3 scripts/build_site.py --check`; `python3 pipeline/check_site.py`; `python3 pipeline/verify.py`; `python3 scripts/model.py`; `python3 scripts/build_lab.py`; `python3 scripts/validate_site.py`; `python3 pipeline/build_site.py`; `git diff --check`. Generated tracked outputs remained unchanged.
 - Workflow's configured static checks are scoped validators and are not proof of data truth, rights, forecast validity, or overall row-level official source compliance. The full-source correction is an explicit unresolved review item, not marked verified.
 
@@ -584,9 +584,13 @@ Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df
 - No current live feed, full player-minutes source, authorized odds contract, reconciled sample or prospective record is verified. Consequently, this work does not establish active current picks, injury-minute effects, strategy profitability, or a skill-based leaderboard winner. These blockers are surfaced rather than fabricated or resolved by assumption.
 - Files kept within this integration session's claimed scope. Existing strategy/model files were not edited.
 
-**PR/deployment:** pending final branch checks and integration. This session can verify CI after PR but cannot claim a live publication until deployment evidence is available.
+**PR/deployment:** complete for PR #17. Residual data/source/legal issues remain explicitly flagged and do not imply that the experimental model output is verified.
 
-### Pull request record — before merge
+### Pull request, merge and Pages record
 
-- PR [#17](https://github.com/wingbangboozle1-lang/NBA3/pull/17) opened from `arena/2e50a71a-nba3` to `main` with the official-source list, tests, and unresolved findings in its description.
-- PR check run [43536268753](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536268753): build passed; deploy skipped as expected for a pull request. Merge and Pages deploy were pending when this note was written.
+- PR [#17](https://github.com/wingbangboozle1-lang/NBA3/pull/17), `arena/2e50a71a-nba3` → `main`, merged 2026-11-14T00:46:04Z with merge commit `4c66f10d0fa43262eb60c1856788b047f2b3ee44` (`gh pr merge 17 --merge`).
+- PR build run [43536268753](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536268753) passed; deploy was skipped for pull requests by design.
+- Post-merge workflow run [43536380494](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536380494) completed successfully: build and deploy jobs both passed. Non-fatal runner notices concerned Node.js 20 action runtime deprecation and the upcoming `ubuntu-latest` image migration.
+- GitHub Pages build [1367719759](https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages/builds/1367719759) reported `built` for merge commit `4c66f10d0fa43262eb60c1856788b047f2b3ee44`; Pages API reports `built` and public at `https://wingbangboozle1-lang.github.io/NBA3/`.
+- Live fetch (cache-busted with the merge SHA) confirmed the updated dashboard at `https://wingbangboozle1-lang.github.io/NBA3/?v=4c66f10d` and Flagged for Review at `https://wingbangboozle1-lang.github.io/NBA3/review.html?v=4c66f10d`.
+- The merge/deploy records the landing-page reconciliation only; it does **not** resolve R-01–R-13, which remain prominently flagged for follow-up.
