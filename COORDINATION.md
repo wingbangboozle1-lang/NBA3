@@ -796,3 +796,47 @@ correlation values on what is claimed to be the same dataset.
   newest report file that exists and stamps every table with the report time.
 - New flag **E-F-16** records the useful part: two sessions auditing the same 174 games from different
   directions reached the same conclusions, which is the best evidence in the repository.
+
+---
+
+## PR and deploy record — session `arena/3655c68d-nba3`
+
+| Item | Result |
+|---|---|
+| PR | [#20](https://github.com/wingbangboozle1-lang/NBA3/pull/20) `arena/3655c68d-nba3` → `main` |
+| Merge | `gh pr merge 20 --merge`; merge commit `239a023881d71d6fa7d5885d2b228fff6c1e6f50`; merged 2026-11-14T00:52:18Z |
+| PR-time CI | run [43536925832](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536925832) — `build` **pass** in 9s (all 11 steps, including the 16 new `verify` tests and the `verify/pages/` drift check); `deploy` skipped on PRs by design |
+| Post-merge CI | run [43537018699](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537018699) — `completed success` in 31s (`build` + `deploy`) |
+| Pages (Actions) | pages-build-deployment run [43537017534](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537017534) — `completed success` |
+| Pages API | `builds/latest` → status `built`, commit `239a023881d7`; `pages` → `built`, public |
+| Live check | `https://wingbangboozle1-lang.github.io/NBA3/verify/pages/index.html` fetched: renders all 8 headline findings with status tags and source links. Root `index.html` carries the new nav entry. |
+
+### What is live
+
+`/verify/pages/` — 13 pages, no JavaScript, no external assets:
+`index.html` (hub) · `executive.html` · `contradictions.html` · `claims.html` · `injuries.html` ·
+`results.html` · `corrections.html` · `decisions.html` · `questions.html` · `suggestions.html` ·
+`ledger.html` · `sources.html` · `flagged.html`
+
+### Still open, carried forward (owner decisions, do not block anything)
+
+- Q-01 legal basis (Dutch Koa licence; NBA Terms §9) — blocks every staking recommendation.
+- Q-02 is this a pool, a contest with prizes, or internal scoring — blocks the leaderboard reward rule.
+- Q-03 licensed odds feed — without it no ROI anywhere in this repository is an economic result.
+- Q-05 which injury snapshot is authoritative — three different snapshots are live on three different pages.
+- Q-06 player game logs — blocks any honest minutes/usage impact model.
+- 10 ledger rows for 16 Nov have no confirmed official game id; settlement source left blank (see Flagged for Review).
+
+### Correction to this session's own earlier note
+
+The claim block above says "The only shared files this session will edit are the two lines in the root
+`index.html` nav, the Pages staging step, and appended sections of `README.md`/`COORDINATION.md`." That was
+accurate for the site work, but this session also modified `pipeline/run_model.py`, `pipeline/make_picks.py`,
+`pipeline/build_site_data.py`, `data/model/*.json`, `data/picks/*.json` and `edge/data/*.json` in order to fix
+defects FX-01 to FX-05 and V-F-02. Those changes are logged on the Corrections page and in the README. They touch
+another session's pipeline code, which is recorded here as a scope deviation rather than left implicit. `site/`
+was restored to its committed state after an accidental overwrite (V-F-02) and carries no change from this session.
+
+Note on process: this record was first committed and pushed directly to `main` in error, which violates the
+one-branch rule; that commit was reverted with `git reset --hard 239a023` before any follow-up, and the record is
+being delivered through a pull request instead.
