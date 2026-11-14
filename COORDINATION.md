@@ -2401,17 +2401,22 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| F80-1 | in progress — make the three new `44-F-*` review flags reproducible from the canonical source so the main CI failure is fixed | `f80f0688` | `COORDINATION.md`, `scripts/assemble_canonical.py`, generated `data/app/canonical.json`, `app/flagged.html`, `index.html` |
+| F80-1 | withdrawn as superseded — session `26fd5f6f` completed PR #52, making the `44-F-*` records reproducible and restoring the main CI build | `f80f0688` | no files touched; see PR #52 |
 | F80-2 | in progress — correct the Pages workflow's output-tree audit false positive (`site/data` appears only in a historical docstring; the writer targets `edge/data`) | `f80f0688` | `.github/workflows/pages.yml` |
-| F80-3 | in progress — rerun the complete workflow locally, open/merge this branch's PR, and verify the post-merge Pages deploy | `f80f0688` | verification and integration record in this section |
+| F80-3 | in progress — rerun the complete workflow locally, open/merge this branch's PR, and verify the post-merge Pages deploy | `f80f0688` | workflow check and integration record in this section |
 
 ### Why this claim is non-overlapping
 
-- PRs #47–#51 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and the canonical `44-F-01…44-F-03` records.
-- GitHub Actions run [43581671552](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581671552) on `main` and PR run [43581647670](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581647670) both fail in **“Assemble canonical dataset and build the dashboard”**. The preceding workflow steps pass. The merged `44-F-*` rows were added to generated `data/app/canonical.json` and `app/flagged.html`, but the canonical assembler does not yet generate them, so CI correctly detects drift.
-- F80-1 changes only the canonical generator and its generated outputs; it does not change source facts, model outputs, the injury capture/delta, the slate or the completed audit pages.
-- F80-2 addresses a separate non-failing warning from the workflow's string-search audit. The file `pipeline/build_site_data.py` documents a past `site/data/` write in its docstring but sets `OUT` to `edge/data/`; the current audit mistakes that historical comment for a live output path.
+- PRs #47–#52 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and reproducible canonical `44-F-01…44-F-03` records.
+- The two failures [43581671552](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581671552) (main) and [43581647670](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581647670) (PR #50) were both at **“Assemble canonical dataset and build the dashboard”**. Session `26fd5f6f` resolved the generator drift in PR [#52](https://github.com/wingbangboozle1-lang/NBA3/pull/52); the main run [43581910516](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581910516) now reports success.
+- F80-1 was withdrawn as soon as that overlapping repair merged; no canonical data, model, injury capture, slate, or page files were changed by this session.
+- F80-2 is a separate non-failing warning from the workflow's string-search audit. `pipeline/build_site_data.py` documents a past `site/data/` write in its docstring but sets `OUT` to `edge/data/`; the current audit mistakes that historical comment for a live output path.
 
 ### Verification plan
 
-Keep the three `44-F-*` entries byte-for-byte equivalent in meaning to the merged records and retain their official source URLs. Rebuild with `scripts/assemble_canonical.py` and `scripts/build_app.py`, require zero generated drift, run all unit/site/model checks from `.github/workflows/pages.yml`, then verify the merged `main` Actions run and Pages build status. The existing static sources remain dated snapshots; this task does not claim a live data feed or profitable strategy.
+Make the output-tree check inspect the actual `OUT` assignment rather than search the whole source file for the historical `site/data` string. Run the step locally, then rerun all tests and build/check commands from `.github/workflows/pages.yml`; verify that the latest main Actions run and Pages build are green. The existing NBA sources remain dated snapshots; this task does not claim a live data feed or profitable strategy.
+
+### Handoff / rebase log — session f80f0688
+
+- `origin/main` advanced repeatedly while the initial claim was being prepared (PRs #47–#52). The append-only `COORDINATION.md` produced conflicts on rebase; both sides' substantive sections were retained. A first conflict resolution briefly staged markers, which were detected before further work; the local claim was then rebuilt on the latest `origin/main`. No other session's files or content were removed.
+- The original broad integration and injury-page ideas overlapped with PRs #49–#52 and were withdrawn before editing those files. F80-1 is recorded as superseded by PR #52. Only F80-2 (the workflow's false-positive ownership warning) remains in this session's code scope.
