@@ -350,6 +350,16 @@ def page_summary(d):
       <div class="v">{d['injuries']['count']}</div>
       <div class="s">{d['injuries']['report_stamp']} — the table this card reads. A newer report (01:30 PM ET) is listed on the official index: see the injuries page, section 1b</div>
       {src_cell([d['injuries']['source_url']], 'official PDF')}</div>""")
+    _delta = d.get("availability_delta")
+    if _delta:
+        _c = _delta["counts"]
+        body.append(f"""<div class="card"><div class="k">Filing moved during the day</div>
+      <div class="v">{_c['team_sides_not_submitted_then_filed']}</div>
+      <div class="s">team-sides went from NOT YET SUBMITTED to filed between
+      {esc(_delta['from_report']['stamp'])} and {esc(_delta['to_report']['stamp'])};
+      {_c['player_rows_changed']} player rows changed. None of it reached the prices, because the
+      engine does not read availability (<a href="flagged.html">NF-92</a>).</div>
+      {src_cell([_delta['to_report']['source_url']], 'official PDF')}</div>""")
     body.append("</div>")
 
     body.append(f"""
@@ -468,10 +478,13 @@ it fails every gate, which is the check that the gates themselves work.</p>
          chip("Blocks rotation impact", "warn"),
          src_cell([lab["meta"]["source_players"]], "nba.com/stats")],
         ["Injury reports for 2026-11-15, 11-16 and 11-17",
-         "No official report exists yet for those dates; five of the ten teams playing on "
-         "11/14 had not submitted either.",
+         "No official report exists for those dates, and a probe at 2026-11-14T18:44Z found no "
+         "11/15 report on the official CDN either. On the 11/14 slate nine of ten team-sides had "
+         "filed by 01:30 PM ET (Memphis had not).",
          chip("Blocks final selections", "warn"),
-         src_cell([d["injuries"]["index_url"]], "official index")],
+         src_cell([d["injuries"]["index_url"],
+                   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf"],
+                  "official index")],
         ["Legal basis for publishing selections (NBA Terms §9, Dutch Koa licence)",
          "The reward schedule cannot be written until this is settled.",
          chip("Blocks the reward rule", "warn"),
@@ -480,6 +493,52 @@ it fails every gate, which is the check that the gates themselves work.</p>
                   "terms + regulator")],
     ]
     body.append(table(["Missing", "What it blocks", "Severity", "Source"], gap_rows, "gaps"))
+
+    body.append("""
+<h2>7. Added by the 2026-11-14 game-day round</h2>
+<p>Four findings from this round change how the numbers above should be read. Each one is
+reproducible from a committed artefact or a linked official page; none of them changes a published
+price, and none of them is fixed by editing a number.</p>
+""")
+    round_rows = [
+        ["The rotation figures were structurally zero, not merely floored",
+         "The join between the injury report (“Edwards, Anthony”) and the players table "
+         "(“Anthony Edwards”) split on a comma, so 0 of 18 injured players could ever match a "
+         "minutes figure. Every published minutes-vacuum value was 0.0.",
+         "Fixed; regression test added. One of 18 players now resolves, because only the top 31 "
+         "players are captured — that part is still a floor (CQ-48).",
+         chip("NF-90", "warn"),
+         src_cell(["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100"],
+                  "nba.com/stats")],
+        ["The published injury snapshot was a morning report read at 1:44 PM",
+         "The official index republishes every fifteen minutes. Four team-sides filed after the "
+         "snapshot the site was built from, and four players changed status. None of it reached "
+         "the price.",
+         "Captured and published as a delta (section 3 of the injuries page). The price pages "
+         "are deliberately not re-pointed: which capture is canonical is CQ-47.",
+         chip("NF-91", "warn"),
+         src_cell(["https://official.nba.com/nba-injury-report-2026-27-season/"], "official index")],
+        ["The lines do not know who is playing",
+         "The engine prices from team ratings and rest alone. The injury report is joined "
+         "afterwards for annotation and never re-enters the price, so a team missing four "
+         "rotation players is priced as if at full strength.",
+         "Stated on the lines page and the method page. The modelling fix is suggestion S-90 and "
+         "needs per-player game logs.",
+         chip("NF-92", "warn"),
+         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py"],
+                  "engine source")],
+        ["No report exists for the three-day horizon",
+         "A probe of the official CDN at 2026-11-14T18:44Z found no 11/15 report (S3 "
+         "AccessDenied). Every game on 11/16 and 11/17, and every 11/15 game, is therefore "
+         "priced with no availability information whatsoever.",
+         "Left as a stated limit rather than filled. This is the single largest gap between the "
+         "brief (“picks three days ahead”) and what any official source can support tonight.",
+         chip("NF-91", "warn"),
+         src_cell(["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf"],
+                  "official CDN probe")],
+    ]
+    body.append(table(["Finding", "What was wrong", "What this round did", "Flag", "Source"],
+                      round_rows, "round-findings"))
     return "\n".join(body)
 
 
@@ -500,6 +559,16 @@ book prints it: a negative number means the home team is favoured by that many p
 moneyline is our own price with no vig. Because these are our own lines, the probability of
 covering them is 50% by construction — see the
 <a href="picks.html">prices page</a> for why that matters.</p>
+</div>
+
+<div class="callout warn">
+<p><strong>These lines do not know who is playing.</strong> The engine prices a game from team
+ratings and rest alone: the official injury report is joined afterwards, for annotation and for the
+minutes-vacated column, and it never re-enters the price. A team missing four rotation players is
+priced exactly as if it were at full strength. The injury overlay is therefore
+<em>descriptive, not priced</em> — see <a href="flagged.html">NF-92</a>. The availability history
+behind that statement, including the team-sides that filed after this snapshot, is on the
+<a href="injuries.html">injuries page</a>.</p>
 </div>
 
 <div class="callout warn">
@@ -1239,12 +1308,15 @@ are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
 <div class="callout warn">
 <p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
 2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
-Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
-is <a href="flagged.html">NF-53</a> and the corrected reading is
-<a href="flagged.html">NF-56</a>.</p>
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all</strong> — and a probe of the
+official CDN on 2026-11-14T18:44Z found no 11/15 report either yet (S3 AccessDenied). Of the ten
+team-sides playing on 11/14, nine had filed by 01:30 PM ET; the tenth is Memphis, still printed
+NOT YET SUBMITTED. The five that were missing from the overnight report are exactly the five playing
+the second game of a back-to-back, whose deadline is 1 p.m. local on game day — so the overnight hole
+was a rule, not an error, and section 3 shows it closing. Full per-game timeline on the
+<a href="freshness.html">Report-availability page</a>; the older flag is
+<a href="flagged.html">NF-53</a>, the corrected reading is <a href="flagged.html">NF-56</a>, and the
+game-day refresh is <a href="flagged.html">NF-91</a>.</p>
 </div>
 """)
 
@@ -1284,6 +1356,16 @@ injured player outside that table contributes nothing to the sum, and the count 
 shown alongside. See <a href="flagged.html">NF-52</a>.</p>
 
 <div class="callout warn">
+<p><strong>This table was structurally zero until 2026-11-14 and nobody could see it.</strong> The
+join between the injury report and the players table split the player name on a comma. The injury
+report prints “Edwards, Anthony”; the players table prints “Anthony Edwards”. Every key built from
+the players table was therefore a form the lookup could never produce, so <strong>0 of 18</strong>
+injured players ever matched a minutes figure and every vacuum below read 0.0. Fixed in this round;
+one player (Anthony Edwards, MIN — 33.7 minutes, 33.3 points per game, listed Out) now resolves, and
+a regression test pins both printed forms. See <a href="flagged.html">NF-90</a>.</p>
+</div>
+
+<div class="callout warn">
 <p><strong>Who absorbs those minutes, and how much of the vacated production they replace, is not
 quantified anywhere on this site.</strong> Answering that needs per-player game logs and on/off
 splits, which this repository does not have. The vacuum is published; the replacement is
@@ -1316,7 +1398,77 @@ the kind of number that gets a bankroll staked on it.</p>
              "Out. “Unquantified players” is how many of them are outside the captured minutes "
              "table and therefore contribute zero to the sum."))
 
-    body.append("<h2>3. Questionable players</h2>")
+    body.append("""
+<h2>3. What the injury report changed during the day</h2>
+<p>The official index publishes a new report every fifteen minutes and states that “Reports are
+updated on a continual basis throughout the day”
+(<a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>).
+This repository captures a stamp only when a session reads one, so the timeline below is what was
+actually captured, not every publication. The row-by-row comparison is computed by
+<code>scripts/capture_official_2026_11_14e.py</code> and published at
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/availability_delta_0130PM.json" target="_blank" rel="noopener noreferrer">data/app/availability_delta_0130PM.json</a>.</p>
+""")
+
+    tl_rows = [
+        ["2026-11-14 04:15 AM ET " + chip("the report the price pages use", "warn"),
+         "49", "31 on 11/14, 18 on 11/15",
+         "5 of 10 team-sides on the 11/14 slate filed",
+         "the snapshot every priced page on this site is built from",
+         src_cell([inj["source_url"]], "official PDF")],
+        ["2026-11-14 05:15 AM ET", "49", "31 on 11/14, 18 on 11/15",
+         "5 of 10", "content-identical to 04:15 AM, 0 differences (verified independently)",
+         src_cell(["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf"],
+                  "official PDF")],
+        ["2026-11-14 01:15 PM ET", "68", "51 on 11/14, 17 on 11/15",
+         "9 of 10", "first capture after the game-day filing window; 19 new player rows on 11/14",
+         src_cell(["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_15PM.pdf"],
+                  "official PDF")],
+        ["2026-11-14 01:30 PM ET " + chip("newest captured", "ok"),
+         "68", "51 on 11/14, 17 on 11/15",
+         "9 of 10", "identical to 01:15 PM, row for row and field for field",
+         src_cell(["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"],
+                  "official PDF")],
+    ]
+    body.append(table(["Report stamp", "Rows", "Rows by date", "11/14 team-sides filed",
+                       "What changed", "Source"], tl_rows, "availability-timeline"))
+
+    delta = d.get("availability_delta")
+    if delta:
+        c = delta["counts"]
+        body.append(f"""
+<div class="callout warn">
+<p><strong>What that movement means for the numbers on this site.</strong> Between the
+{esc(delta['from_report']['stamp'])} report the site publishes and the
+{esc(delta['to_report']['stamp'])} report, {c['team_sides_not_submitted_then_filed']} team-sides
+moved from NOT YET SUBMITTED to filed and {c['player_rows_changed']} player rows changed status or
+appeared for the first time. The price pages were <em>not</em> rebuilt from the newest report: which
+capture is canonical is the owner decision <a href="questions.html">CQ-47</a>, and this round does
+not make that decision. The delta is published here so the gap is measurable instead of invisible.
+</p>
+</div>
+""")
+        drows = []
+        for t in delta["team_side_transitions"]:
+            n = t["to_status"].split()[0]
+            label = "filed, %s player %s" % (n, "row" if n == "1" else "rows")
+            drows.append([esc(t["matchup"]), esc(t["team"]),
+                          '<span class="unverified">NOT YET SUBMITTED</span>',
+                          esc(label), esc(t["change"]),
+                          src_cell([delta["from_report"]["source_url"],
+                                    delta["to_report"]["source_url"]], "before + after")])
+        for ch in delta["player_row_changes"]:
+            drows.append([esc(ch["matchup"]), esc(ch["team"]), esc(ch["from_status"] or "—"),
+                          esc(ch["to_status"] or "—"),
+                          esc(ch["player"]) + " (" + esc(ch["kind"]) + ")",
+                          src_cell([ch["source_new"]], "official PDF")])
+        body.append('<p class="table-note">“Before” is the report the pricing pages were built '
+                    'from; “after” is the newest report captured. A blank before-value means the '
+                    'row did not appear in the earlier report, which is not the same as a removal. '
+                    'Every row links to both PDFs.</p>')
+        body.append(table(["Matchup", "Team", "Status before", "Status after", "Row",
+                           "Source"], drows, "availability-delta"))
+
+    body.append("<h2>4. Questionable players</h2>")
     qrows = []
     seen = set()
     for r in inj["rows"]:

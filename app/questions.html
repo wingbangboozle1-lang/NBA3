@@ -560,6 +560,28 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Owner</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
 </tr>
+<tr>
+<td>CQ-48</td>
+<td>Data</td>
+<td>Should the repository capture the whole official players table (467 rows) instead of the top 31 by minutes?</td>
+<td>Open - owner decision</td>
+<td>Known: the minutes-vacuum figure can only count players who appear in the captured table; with 31 of 467 players captured, 17 of the 18 injured players resolved to no minutes even after the name join was fixed (NF-90). The official page prints all 467 rows and its URL accepts PerPage=100.</td>
+<td>Missing: a decision on capture cost and scope. A full capture is one page read per 100 rows (five reads) and a larger committed file; the alternative is to keep the floor and label it.</td>
+<td>Either (a) capture the season table at PerPage=500 once per day and let the join find every injured player, or (b) keep the top 31 and state the floor as a share of players, not as a property of the data. (a) is what makes the rotation number mean something.</td>
+<td>Owner</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+</tr>
+<tr>
+<td>CQ-49</td>
+<td>Product</td>
+<td>When a team&#x27;s filing deadline passes mid-day, should the published line for tonight&#x27;s game change, or should the site publish the pre-deadline line and the post-deadline line side by side?</td>
+<td>Open - owner decision</td>
+<td>Known: this session measured the size of the problem. Between the 05:15 AM and 01:30 PM reports, four team-sides moved from NOT YET SUBMITTED to filed and four players changed status (Christie Questionable to Doubtful; Brown Jr. Questionable to Probable; Harkless and Jones Questionable to Available). None of that reached the price, because the price does not read availability at all (NF-92).</td>
+<td>Missing: whether the product wants one canonical line per game or a time series of lines keyed to the official report stamps. A leaderboard that rewards skill needs the timestamp the selection was made at, or it cannot distinguish a good call from a late one.</td>
+<td>Recommend the shadow-line option: keep the pre-deadline line as P1, publish every post-filing re-price as a new stamped row beside it, and score strategies against the row that was live when the rule fired. That preserves an audit trail and makes the leaderboard defensible.</td>
+<td>Owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/availability_delta_0130PM.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/availability_delta_0130PM.json</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">

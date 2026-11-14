@@ -461,27 +461,63 @@ def main():
     prev = json.load(open(PREV_SNAPSHOT, encoding="utf-8"))
     prev_rows = prev["rows"]
 
-    def team_sides(rows, is_new):
-        """(game_date, matchup, team) -> {"not_submitted": bool, "rows": {(player, status, reason)}}"""
+    def resolve_side_team(r):
+        """The team a row belongs to, for grouping.
+
+        A row's player is attributed to the block team only after the block is
+        SCANNED: a continuation row prints no Team cell, but the rows printed
+        below it in the same block may.  Attributing backwards (from a later
+        row) is still attribution, so the published ``team`` stays blank; this
+        function exists only to group the delta, and it is recorded on every
+        group as ``team_printed_on_page``.
+        """
+        if r.get("team"):
+            return r["team"]
+        label = r.get("block_team_from_previous_row") or ""
+        if not label:
+            return ""
+        # TEAM_ABBR maps official team name -> abbreviation
+        for name, abbr in TEAM_ABBR.items():
+            if name == label or name.split()[0] == label:
+                return abbr
+        return ""
+
+    def team_sides(rows):
+        """(game_date, matchup, team) -> {"not_submitted": bool, "players": {...}}
+
+        ``team`` is the block's team, so a continuation row that prints no Team
+        cell still lands in the right slot; ``team_printed`` records whether the
+        row that supplied the player printed the cell itself, so a page-layout
+        gap can never be mistaken for an attribution.
+        """
         out = {}
         for r in rows:
-            key = (r["game_date"], r["matchup"], r.get("team", ""))
-            slot = out.setdefault(key, {"not_submitted": False, "players": {}})
+            team = resolve_side_team(r)
+            key = (r["game_date"], r["matchup"], team)
+            slot = out.setdefault(key, {"not_submitted": False, "players": {},
+                                        "team_printed": False})
             if r.get("is_team_not_submitted"):
                 slot["not_submitted"] = True
+                slot["team_printed"] = slot["team_printed"] or bool(r.get("team"))
             else:
                 slot["players"][r["player"]] = (r["status"], r["reason"])
+                slot["team_printed"] = slot["team_printed"] or bool(r.get("team"))
+                # a continuation row is attributed for GROUPING only; the flag
+                # travels with the group so no reader mistakes it for a printed cell
+                slot["has_continuation_rows"] = (slot.get("has_continuation_rows", False)
+                                                 or not bool(r.get("team")))
         return out
 
-    prev_sides = team_sides(prev_rows, False)
-    new_sides = team_sides(rows_0130, True)
+    prev_sides = team_sides(prev_rows)
+    new_sides = team_sides(rows_0130)
 
     changes, team_transitions = [], []
     unchanged = 0
     for key in sorted(set(prev_sides) | set(new_sides), key=lambda k: (k[0], k[1], k[2])):
-        a = prev_sides.get(key, {"not_submitted": False, "players": {}})
-        b = new_sides.get(key, {"not_submitted": False, "players": {}})
-        label = {"game_date": key[0], "matchup": key[1], "team": key[2]}
+        a = prev_sides.get(key) or {"not_submitted": False, "players": {}, "team_printed": False}
+        b = new_sides.get(key) or {"not_submitted": False, "players": {}, "team_printed": False}
+        label = {"game_date": key[0], "matchup": key[1], "team": key[2],
+                 "team_printed_on_page": b.get("team_printed", False)}
         if a["not_submitted"] and not b["not_submitted"] and b["players"]:
             team_transitions.append(dict(label, change="NOT YET SUBMITTED -> filed",
                                          from_status="NOT YET SUBMITTED",

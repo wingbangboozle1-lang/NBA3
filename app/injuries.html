@@ -50,12 +50,15 @@ are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
 <div class="callout warn">
 <p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
 2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
-Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
-is <a href="flagged.html">NF-53</a> and the corrected reading is
-<a href="flagged.html">NF-56</a>.</p>
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all</strong> — and a probe of the
+official CDN on 2026-11-14T18:44Z found no 11/15 report either yet (S3 AccessDenied). Of the ten
+team-sides playing on 11/14, nine had filed by 01:30 PM ET; the tenth is Memphis, still printed
+NOT YET SUBMITTED. The five that were missing from the overnight report are exactly the five playing
+the second game of a back-to-back, whose deadline is 1 p.m. local on game day — so the overnight hole
+was a rule, not an error, and section 3 shows it closing. Full per-game timeline on the
+<a href="freshness.html">Report-availability page</a>; the older flag is
+<a href="flagged.html">NF-53</a>, the corrected reading is <a href="flagged.html">NF-56</a>, and the
+game-day refresh is <a href="flagged.html">NF-91</a>.</p>
 </div>
 
 <h2>1. The report, row by row</h2>
@@ -1247,6 +1250,16 @@ injured player outside that table contributes nothing to the sum, and the count 
 shown alongside. See <a href="flagged.html">NF-52</a>.</p>
 
 <div class="callout warn">
+<p><strong>This table was structurally zero until 2026-11-14 and nobody could see it.</strong> The
+join between the injury report and the players table split the player name on a comma. The injury
+report prints “Edwards, Anthony”; the players table prints “Anthony Edwards”. Every key built from
+the players table was therefore a form the lookup could never produce, so <strong>0 of 18</strong>
+injured players ever matched a minutes figure and every vacuum below read 0.0. Fixed in this round;
+one player (Anthony Edwards, MIN — 33.7 minutes, 33.3 points per game, listed Out) now resolves, and
+a regression test pins both printed forms. See <a href="flagged.html">NF-90</a>.</p>
+</div>
+
+<div class="callout warn">
 <p><strong>Who absorbs those minutes, and how much of the vacated production they replace, is not
 quantified anywhere on this site.</strong> Answering that needs per-player game logs and on/off
 splits, which this repository does not have. The vacuum is published; the replacement is
@@ -1401,9 +1414,9 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>3</td>
 <td>[&#x27;DiVincenzo, Donte&#x27;, &#x27;Edwards, Anthony&#x27;]</td>
 <td>DiVincenzo, Donte; Edwards, Anthony</td>
-<td>0.0</td>
-<td>0.0 / 0.0 / 0.0</td>
-<td>2</td>
+<td>33.7</td>
+<td>33.3 / 4.8 / 3.5</td>
+<td>1</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
@@ -2083,7 +2096,340 @@ the kind of number that gets a bankroll staked on it.</p>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 </tbody></table></div>
-<h2>3. Questionable players</h2>
+
+<h2>3. What the injury report changed during the day</h2>
+<p>The official index publishes a new report every fifteen minutes and states that “Reports are
+updated on a continual basis throughout the day”
+(<a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>).
+This repository captures a stamp only when a session reads one, so the timeline below is what was
+actually captured, not every publication. The row-by-row comparison is computed by
+<code>scripts/capture_official_2026_11_14e.py</code> and published at
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/availability_delta_0130PM.json" target="_blank" rel="noopener noreferrer">data/app/availability_delta_0130PM.json</a>.</p>
+
+<div class="table-wrap"><table>
+<caption id="availability-timeline"></caption>
+<thead><tr>
+<th>Report stamp</th>
+<th>Rows</th>
+<th>Rows by date</th>
+<th>11/14 team-sides filed</th>
+<th>What changed</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-14 04:15 AM ET <span class="chip chip-warn">the report the price pages use</span></td>
+<td>49</td>
+<td>31 on 11/14, 18 on 11/15</td>
+<td>5 of 10 team-sides on the 11/14 slate filed</td>
+<td>the snapshot every priced page on this site is built from</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>2026-11-14 05:15 AM ET</td>
+<td>49</td>
+<td>31 on 11/14, 18 on 11/15</td>
+<td>5 of 10</td>
+<td>content-identical to 04:15 AM, 0 differences (verified independently)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>2026-11-14 01:15 PM ET</td>
+<td>68</td>
+<td>51 on 11/14, 17 on 11/15</td>
+<td>9 of 10</td>
+<td>first capture after the game-day filing window; 19 new player rows on 11/14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_15PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>2026-11-14 01:30 PM ET <span class="chip chip-ok">newest captured</span></td>
+<td>68</td>
+<td>51 on 11/14, 17 on 11/15</td>
+<td>9 of 10</td>
+<td>identical to 01:15 PM, row for row and field for field</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+</tbody></table></div>
+
+<div class="callout warn">
+<p><strong>What that movement means for the numbers on this site.</strong> Between the
+2026-11-14 05:15 AM ET report the site publishes and the
+2026-11-14 01:30 PM ET report, 4 team-sides
+moved from NOT YET SUBMITTED to filed and 28 player rows changed status or
+appeared for the first time. The price pages were <em>not</em> rebuilt from the newest report: which
+capture is canonical is the owner decision <a href="questions.html">CQ-47</a>, and this round does
+not make that decision. The delta is published here so the gap is measurable instead of invisible.
+</p>
+</div>
+
+<p class="table-note">“Before” is the report the pricing pages were built from; “after” is the newest report captured. A blank before-value means the row did not appear in the earlier report, which is not the same as a removal. Every row links to both PDFs.</p>
+<div class="table-wrap"><table>
+<caption id="availability-delta"></caption>
+<thead><tr>
+<th>Matchup</th>
+<th>Team</th>
+<th>Status before</th>
+<th>Status after</th>
+<th>Row</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td>filed, 7 player rows</td>
+<td>NOT YET SUBMITTED -&gt; filed</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf" target="_blank" rel="noopener noreferrer">before + after</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td>filed, 8 player rows</td>
+<td>NOT YET SUBMITTED -&gt; filed</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf" target="_blank" rel="noopener noreferrer">before + after</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td>filed, 5 player rows</td>
+<td>NOT YET SUBMITTED -&gt; filed</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf" target="_blank" rel="noopener noreferrer">before + after</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td>filed, 4 player rows</td>
+<td>NOT YET SUBMITTED -&gt; filed</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf" target="_blank" rel="noopener noreferrer">before + after</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>BKN@MEM</td>
+<td>BKN</td>
+<td>Questionable</td>
+<td>Probable</td>
+<td>Brown Jr., Mikel (status)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Out</td>
+<td>Awaka, Tobe (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Claxton, Nic (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Powell, Norman (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Out</td>
+<td>Sellers, Jaylin (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Smith, Jalen (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Out</td>
+<td>Swain, Dailyn (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>—</td>
+<td>Out</td>
+<td>Wilson, Caleb (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Allen, Jarrett (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Harden, James (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Out</td>
+<td>Merrill, Sam (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Mitchell, Donovan (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Out</td>
+<td>Mobley, Evan (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Out</td>
+<td>Tomlin, Nae&#x27;Qwan (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Out</td>
+<td>Udeh, Jr., Ernest (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>—</td>
+<td>Questionable</td>
+<td>Watson, Peyton (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DAL@CLE</td>
+<td>DAL</td>
+<td>Questionable</td>
+<td>Doubtful</td>
+<td>Christie, Max (status)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>—</td>
+<td>Out</td>
+<td>McGowens, Bryce (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>—</td>
+<td>Probable</td>
+<td>Missi, Yves (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>—</td>
+<td>Out</td>
+<td>Murphy III, Trey (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>—</td>
+<td>Out</td>
+<td>Murray, Dejounte (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>—</td>
+<td>Out</td>
+<td>Watford, Trendon (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>DET</td>
+<td>Questionable</td>
+<td>Available</td>
+<td>Harkless, Elijah (status)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>DET</td>
+<td>Questionable</td>
+<td>Available</td>
+<td>Jones, Isaac (status)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>—</td>
+<td>Probable</td>
+<td>Antetokounmpo, Giannis (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>—</td>
+<td>Out</td>
+<td>Goldin, Vladislav (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>—</td>
+<td>Doubtful</td>
+<td>Larsson, Pelle (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>—</td>
+<td>Probable</td>
+<td>Thompson, Klay (added)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+</tbody></table></div>
+<h2>4. Questionable players</h2>
 <div class="table-wrap"><table>
 <caption id="questionable"></caption>
 <thead><tr>

@@ -47,6 +47,13 @@
       <div class="v">49</div>
       <div class="s">2026-11-14 04:15 AM ET — the table this card reads. A newer report (01:30 PM ET) is listed on the official index: see the injuries page, section 1b</div>
       <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
+<div class="card"><div class="k">Filing moved during the day</div>
+      <div class="v">4</div>
+      <div class="s">team-sides went from NOT YET SUBMITTED to filed between
+      2026-11-14 05:15 AM ET and 2026-11-14 01:30 PM ET;
+      28 player rows changed. None of it reached the prices, because the
+      engine does not read availability (<a href="flagged.html">NF-92</a>).</div>
+      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
 </div>
 
 <h2>1. What this project is, in one paragraph</h2>
@@ -178,15 +185,59 @@ it fails every gate, which is the check that the gates themselves work.</p>
 </tr>
 <tr>
 <td>Injury reports for 2026-11-15, 11-16 and 11-17</td>
-<td>No official report exists yet for those dates; five of the ten teams playing on 11/14 had not submitted either.</td>
+<td>No official report exists for those dates, and a probe at 2026-11-14T18:44Z found no 11/15 report on the official CDN either. On the 11/14 slate nine of ten team-sides had filed by 01:30 PM ET (Memphis had not).</td>
 <td><span class="chip chip-warn">Blocks final selections</span></td>
-<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf</a></td>
 </tr>
 <tr>
 <td>Legal basis for publishing selections (NBA Terms §9, Dutch Koa licence)</td>
 <td>The reward schedule cannot be written until this is settled.</td>
 <td><span class="chip chip-warn">Blocks the reward rule</span></td>
 <td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">terms + regulator</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>7. Added by the 2026-11-14 game-day round</h2>
+<p>Four findings from this round change how the numbers above should be read. Each one is
+reproducible from a committed artefact or a linked official page; none of them changes a published
+price, and none of them is fixed by editing a number.</p>
+
+<div class="table-wrap"><table>
+<caption id="round-findings"></caption>
+<thead><tr>
+<th>Finding</th>
+<th>What was wrong</th>
+<th>What this round did</th>
+<th>Flag</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>The rotation figures were structurally zero, not merely floored</td>
+<td>The join between the injury report (“Edwards, Anthony”) and the players table (“Anthony Edwards”) split on a comma, so 0 of 18 injured players could ever match a minutes figure. Every published minutes-vacuum value was 0.0.</td>
+<td>Fixed; regression test added. One of 18 players now resolves, because only the top 31 players are captured — that part is still a floor (CQ-48).</td>
+<td><span class="chip chip-warn">NF-90</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
+</tr>
+<tr>
+<td>The published injury snapshot was a morning report read at 1:44 PM</td>
+<td>The official index republishes every fifteen minutes. Four team-sides filed after the snapshot the site was built from, and four players changed status. None of it reached the price.</td>
+<td>Captured and published as a delta (section 3 of the injuries page). The price pages are deliberately not re-pointed: which capture is canonical is CQ-47.</td>
+<td><span class="chip chip-warn">NF-91</span></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></td>
+</tr>
+<tr>
+<td>The lines do not know who is playing</td>
+<td>The engine prices from team ratings and rest alone. The injury report is joined afterwards for annotation and never re-enters the price, so a team missing four rotation players is priced as if at full strength.</td>
+<td>Stated on the lines page and the method page. The modelling fix is suggestion S-90 and needs per-player game logs.</td>
+<td><span class="chip chip-warn">NF-92</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py" target="_blank" rel="noopener noreferrer">engine source</a></td>
+</tr>
+<tr>
+<td>No report exists for the three-day horizon</td>
+<td>A probe of the official CDN at 2026-11-14T18:44Z found no 11/15 report (S3 AccessDenied). Every game on 11/16 and 11/17, and every 11/15 game, is therefore priced with no availability information whatsoever.</td>
+<td>Left as a stated limit rather than filled. This is the single largest gap between the brief (“picks three days ahead”) and what any official source can support tonight.</td>
+<td><span class="chip chip-warn">NF-91</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf" target="_blank" rel="noopener noreferrer">official CDN probe</a></td>
 </tr>
 </tbody></table></div>
 </main>

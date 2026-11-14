@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 80 items: 19 high, 50 medium, 11 low severity.
+<em>decisions</em>. 85 items: 22 high, 51 medium, 12 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -780,6 +780,61 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-90</td>
+<td>Injuries / rotation</td>
+<td>The site&#x27;s rotation figures have been a floor of ZERO since they were first published, and the site said so as if it were a property of the data. scripts/strategy_lab.py joined the official injury report to the official per-player table by splitting the player name on a comma. The injury report prints &quot;Edwards, Anthony&quot;; the players table prints &quot;Anthony Edwards&quot;. Every key built from the players table was therefore the pair (&quot;anthony edwards&quot;, &quot;anthony edwards&quot;), a form the injury-report lookup can never produce, so no injured player could match. 0 of the 18 players listed Out or Doubtful across the window resolved to a minutes figure, and every published minutes-vacuum number was 0.0 with a client-side note claiming the players were outside the captured table.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Fixed in this round: both printed forms normalise to (first, last). After the fix one listing resolves — Anthony Edwards, MIN, 33.7 official minutes and 33.3 points per game, listed Out on the 11/14 CHI@MIN game. The floor is still a floor, but it is no longer structurally zero. Regression test: tests/test_capture_e.py::TestNameJoin. Owner decision still owed: whether to capture the whole players table instead of the top 31, which is what the remaining floor consists of (CQ-48).</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_capture_e.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_capture_e.py</a></td>
+</tr>
+<tr>
+<td>NF-91</td>
+<td>Freshness</td>
+<td>The dashboard published the 2026-11-14 04:15 AM ET injury report all day while the official index kept publishing reports every fifteen minutes; at this session&#x27;s read (2026-11-14T18:44Z = 01:44 PM ET) the newest was 01:30 PM ET and the 07:30 PM ET and 11/15 05:00 PM ET stamps returned S3 AccessDenied (they do not exist yet). The published snapshot described 5 of 10 team-sides on tonight&#x27;s slate as unresolved. By 01:30 PM ET, 9 of 10 had filed: NOP, CLE, CHI, MIA all now appear, and four players changed status.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Captured and published in this round: data/app/official_injuries_2026-11-14_0130PM.json plus the row-by-row delta in data/app/availability_delta_0130PM.json. The published pricing pages are NOT re-pointed at it, because re-pointing the manifest is the open decision CQ-47 and this round does not make that decision for the owner. The consequence is stated on the Report-availability page instead: the lines in the window remain priced without the newly filed availability.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-92</td>
+<td>Model / honesty</td>
+<td>The invented lines and every derived game-flow number are computed from team ratings and rest alone. scripts/strategy_lab.py&#x27;s Engine.predict() reads only the ratings table and the pace/scoring environment: it takes no availability input. The injury report is joined downstream, for annotation and for the minutes-vacuum column, and never re-enters the price. So tonight&#x27;s originated spread for a game can be identical whether a team is at full strength or missing four rotation players, and the site did not say this anywhere a reader of the lines page would see it.</td>
+<td></td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Documented in this round on the Method page and the lines page header: the injury overlay is descriptive, not priced. The owner decision this exposes is a modelling one, not a wording one — whether to build a minutes-adjusted price at all (S-90), which requires per-player game logs this repository does not have.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-93</td>
+<td>Data</td>
+<td>The 2026-11-14 04:15 AM snapshot publishes one row with blank team and team_name: Traore, Nolan, Probable, right calf, in the BKN@MEM block (IR-3bf80157-01). The 01:30 PM report prints the same row on a continuation page and again prints no Team cell, so the blank is faithful to the PDF rather than a transcription slip. The 05:15 AM snapshot and this round&#x27;s 01:30 PM snapshot both leave it blank.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>No action taken, by design: filling it would break the no-inference rule. The row is carried blank, with block_team_from_previous_row recording the block it sits in, and it changes no published line because a Probable is not counted as an absence. This entry supersedes flag NF-59&#x27;s suggested resolution (which proposed adopting the 04:45 AM attribution) with the stronger fact that a later official report still prints no team.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-94</td>
+<td>Capture fidelity</td>
+<td>The final printed page of every 11/14 report merges two game blocks into a single line: &quot;09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED&quot;. A parser that trusts column positions reads that as one game with one team, and a parser that splits it is inferring a cell the document does not print as two rows.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Recorded as printed and never split (merged_block_row = true), with the two matchups it names listed on the page and excluded from the coverage arithmetic by name, so nothing is silently dropped. Second consequence, recorded for the owner: the merged line also omits the Atlanta Hawks&#x27; own trailing row on 11/15, so ATL is not listed on the 11/15 report at all — the 11/15 coverage is 8 of 9 games in the printed rows plus this one merged line.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
 </tr>
 <tr>
 <td>44-F-01</td>

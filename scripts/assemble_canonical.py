@@ -1294,6 +1294,156 @@ SESSION_SUGGESTIONS += [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Flags raised by session arena/90183333-nba3 on 2026-11-14 (game-day refresh).
+# Every claim here is reproducible from a committed artefact or a linked
+# official page; the numbers in the text are the ones the capture printed.
+# ---------------------------------------------------------------------------
+SESSION_FLAGS += [
+    ("NF-90", "Injuries / rotation", "high",
+     "The site's rotation figures have been a floor of ZERO since they were first published, "
+     "and the site said so as if it were a property of the data. scripts/strategy_lab.py joined "
+     "the official injury report to the official per-player table by splitting the player name "
+     "on a comma. The injury report prints \"Edwards, Anthony\"; the players table prints "
+     "\"Anthony Edwards\". Every key built from the players table was therefore the pair "
+     "(\"anthony edwards\", \"anthony edwards\"), a form the injury-report lookup can never "
+     "produce, so no injured player could match. 0 of the 18 players listed Out or Doubtful "
+     "across the window resolved to a minutes figure, and every published minutes-vacuum number "
+     "was 0.0 with a client-side note claiming the players were outside the captured table.",
+     "Fixed in this round: both printed forms normalise to (first, last). After the fix one "
+     "listing resolves — Anthony Edwards, MIN, 33.7 official minutes and 33.3 points per game, "
+     "listed Out on the 11/14 CHI@MIN game. The floor is still a floor, but it is no longer "
+     "structurally zero. Regression test: tests/test_capture_e.py::TestNameJoin. Owner decision "
+     "still owed: whether to capture the whole players table instead of the top 31, which is "
+     "what the remaining floor consists of (CQ-48).",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_capture_e.py"]),
+    ("NF-91", "Freshness", "high",
+     "The dashboard published the 2026-11-14 04:15 AM ET injury report all day while the "
+     "official index kept publishing reports every fifteen minutes; at this session's read "
+     "(2026-11-14T18:44Z = 01:44 PM ET) the newest was 01:30 PM ET and the 07:30 PM ET and "
+     "11/15 05:00 PM ET stamps returned S3 AccessDenied (they do not exist yet). The published "
+     "snapshot described 5 of 10 team-sides on tonight's slate as unresolved. By 01:30 PM ET, "
+     "9 of 10 had filed: NOP, CLE, CHI, MIA all now appear, and four players changed status.",
+     "Captured and published in this round: data/app/official_injuries_2026-11-14_0130PM.json "
+     "plus the row-by-row delta in data/app/availability_delta_0130PM.json. The published "
+     "pricing pages are NOT re-pointed at it, because re-pointing the manifest is the open "
+     "decision CQ-47 and this round does not make that decision for the owner. The consequence "
+     "is stated on the Report-availability page instead: the lines in the window remain priced "
+     "without the newly filed availability.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/",
+      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf"]),
+    ("NF-92", "Model / honesty", "high",
+     "The invented lines and every derived game-flow number are computed from team ratings and "
+     "rest alone. scripts/strategy_lab.py's Engine.predict() reads only the ratings table and the "
+     "pace/scoring environment: it takes no availability input. The injury report is joined "
+     "downstream, for annotation and for the minutes-vacuum column, and never re-enters the "
+     "price. So tonight's originated spread for a game can be identical whether a team is at "
+     "full strength or missing four rotation players, and the site did not say this anywhere a "
+     "reader of the lines page would see it.",
+     "Documented in this round on the Method page and the lines page header: the injury overlay "
+     "is descriptive, not priced. The owner decision this exposes is a modelling one, not a "
+     "wording one — whether to build a minutes-adjusted price at all (S-90), which requires "
+     "per-player game logs this repository does not have.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py",
+      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"]),
+    ("NF-93", "Data", "medium",
+     "The 2026-11-14 04:15 AM snapshot publishes one row with blank team and team_name: Traore, "
+     "Nolan, Probable, right calf, in the BKN@MEM block (IR-3bf80157-01). The 01:30 PM report "
+     "prints the same row on a continuation page and again prints no Team cell, so the blank is "
+     "faithful to the PDF rather than a transcription slip. The 05:15 AM snapshot and this "
+     "round's 01:30 PM snapshot both leave it blank.",
+     "No action taken, by design: filling it would break the no-inference rule. The row is "
+     "carried blank, with block_team_from_previous_row recording the block it sits in, and it "
+     "changes no published line because a Probable is not counted as an absence. This entry "
+     "supersedes flag NF-59's suggested resolution (which proposed adopting the 04:45 AM "
+     "attribution) with the stronger fact that a later official report still prints no team.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"]),
+    ("NF-94", "Capture fidelity", "low",
+     "The final printed page of every 11/14 report merges two game blocks into a single line: "
+     "\"09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | "
+     "NOT YET SUBMITTED NOT YET SUBMITTED\". A parser that trusts column positions reads that "
+     "as one game with one team, and a parser that splits it is inferring a cell the document "
+     "does not print as two rows.",
+     "Recorded as printed and never split (merged_block_row = true), with the two matchups it "
+     "names listed on the page and excluded from the coverage arithmetic by name, so nothing is "
+     "silently dropped. Second consequence, recorded for the owner: the merged line also omits "
+     "the Atlanta Hawks' own trailing row on 11/15, so ATL is not listed on the 11/15 report at "
+     "all — the 11/15 coverage is 8 of 9 games in the printed rows plus this one merged line.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"]),
+]
+
+SESSION_QUESTIONS += [
+    ("CQ-48", "Data", "Should the repository capture the whole official players table (467 rows) "
+     "instead of the top 31 by minutes?", "Open - owner decision",
+     "Known: the minutes-vacuum figure can only count players who appear in the captured table; "
+     "with 31 of 467 players captured, 17 of the 18 injured players resolved to no minutes even "
+     "after the name join was fixed (NF-90). The official page prints all 467 rows and its URL "
+     "accepts PerPage=100.",
+     "Missing: a decision on capture cost and scope. A full capture is one page read per 100 "
+     "rows (five reads) and a larger committed file; the alternative is to keep the floor and "
+     "label it.",
+     "Either (a) capture the season table at PerPage=500 once per day and let the join find every "
+     "injured player, or (b) keep the top 31 and state the floor as a share of players, not as a "
+     "property of the data. (a) is what makes the rotation number mean something.",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"],
+     "Owner"),
+    ("CQ-49", "Product", "When a team's filing deadline passes mid-day, should the published line "
+     "for tonight's game change, or should the site publish the pre-deadline line and the "
+     "post-deadline line side by side?", "Open - owner decision",
+     "Known: this session measured the size of the problem. Between the 05:15 AM and 01:30 PM "
+     "reports, four team-sides moved from NOT YET SUBMITTED to filed and four players changed "
+     "status (Christie Questionable to Doubtful; Brown Jr. Questionable to Probable; Harkless "
+     "and Jones Questionable to Available). None of that reached the price, because the price "
+     "does not read availability at all (NF-92).",
+     "Missing: whether the product wants one canonical line per game or a time series of lines "
+     "keyed to the official report stamps. A leaderboard that rewards skill needs the timestamp "
+     "the selection was made at, or it cannot distinguish a good call from a late one.",
+     "Recommend the shadow-line option: keep the pre-deadline line as P1, publish every "
+     "post-filing re-price as a new stamped row beside it, and score strategies against the row "
+     "that was live when the rule fired. That preserves an audit trail and makes the leaderboard "
+     "defensible.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/availability_delta_0130PM.json"],
+     "Owner"),
+]
+
+SESSION_SUGGESTIONS += [
+    ("S-90", "Model", "Add a minutes-adjusted price layer: convert each team's Out/Doubtful "
+     "minutes into an expected-points adjustment and publish it as a separate, clearly-labelled "
+     "column beside the rating-only line.",
+     "NF-92 shows the current price cannot see availability at all. A column that shows the "
+     "adjustment separately keeps the rating-only model auditable (the gates were measured "
+     "against it) while giving a reader the number they actually want.",
+     "A: separate adjusted-price column beside the rating-only line; B: replace the line; "
+     "C: leave it unadjusted and only annotate.",
+     "A — it is additive, reversible, and it does not invalidate the nine-gate backtest, which "
+     "was measured on the rating-only model.",
+     "Needs CQ-48 (a players table that covers the league) and per-player game logs before the "
+     "adjustment can be calibrated rather than assumed.",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100"],
+     "Awaiting owner review"),
+    ("S-91", "Pipeline", "Make the injury capture a scheduled job that records every 15-minute "
+     "report stamp, instead of a per-session manual capture.",
+     "The official index publishes a new PDF every fifteen minutes and the repository has "
+     "captured five of them across a whole day (05:15 AM, 09:45 AM, 01:15 PM, 01:30 PM plus the "
+     "11/13 sets). Each manual capture is correct and each one is already stale within the hour. "
+     "A capture loop turns the availability timeline into an actual time series, which is what "
+     "the leaderboard needs to score a rule at the moment it fired.",
+     "A: GitHub Actions schedule every 15 minutes during the season, committing each stamp; "
+     "B: one capture per deadline (5 p.m. local day-before, 1 p.m. local game-day); C: keep "
+     "manual captures.",
+     "B now (bounded cost, matches the rule's own deadlines), A when there is a place to put "
+     "the time series.",
+     "Depends on CQ-49 (what the line does when the deadline passes) and on storage: 15-minute "
+     "stamps for a season are a large commit history.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"],
+     "Awaiting owner review"),
+]
+
 def build_session_flags():
     out = []
     for fid, area, sev, item, action, sources in SESSION_FLAGS:
@@ -1363,11 +1513,14 @@ SESSION_IMPLEMENTED = {
 
 def build_session_suggestions():
     out = []
-    for sid, area, sug, why, options, rec, dep, sources in SESSION_SUGGESTIONS:
+    for row in SESSION_SUGGESTIONS:
+        sid, area, sug, why, options, rec, dep, sources = row[:8]
+        decision_override = row[8] if len(row) > 8 else None
         out.append({
             "id": sid, "area": area, "suggestion": sug, "why": why, "options": options,
             "recommended_option": rec, "dependency": dep,
-            "decision": SESSION_IMPLEMENTED.get(sid, "Awaiting owner review"),
+            "decision": SESSION_IMPLEMENTED.get(
+                sid, decision_override or "Awaiting owner review"),
             "sources": sources, "legacy_ref": "",
         })
     return out
@@ -1400,6 +1553,7 @@ def main():
         return json.load(open(path, encoding="utf-8")) if os.path.exists(path) else None
 
     availability = optional("report_availability.json")
+    availability_delta = optional("availability_delta_0130PM.json")
     delta = optional("snapshot_delta.json")
     results_1113 = optional("official_results_2026-11-13.json")
     counts = optional("official_counts_2026-11-14.json")
@@ -1564,6 +1718,7 @@ def main():
         "slate": slate,
         "prior_slate": prior_slate,
         "availability": availability,
+        "availability_delta": availability_delta,
         "snapshot_delta": delta,
         "results_1113": results_1113,
         "official_counts": counts,

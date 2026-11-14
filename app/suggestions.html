@@ -550,6 +550,28 @@ questions</a> page.</p>
 <td>Awaiting owner review</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
 </tr>
+<tr>
+<td>S-90</td>
+<td>Model</td>
+<td>Add a minutes-adjusted price layer: convert each team&#x27;s Out/Doubtful minutes into an expected-points adjustment and publish it as a separate, clearly-labelled column beside the rating-only line.</td>
+<td>NF-92 shows the current price cannot see availability at all. A column that shows the adjustment separately keeps the rating-only model auditable (the gates were measured against it) while giving a reader the number they actually want.</td>
+<td>A: separate adjusted-price column beside the rating-only line; B: replace the line; C: leave it unadjusted and only annotate.</td>
+<td>A — it is additive, reversible, and it does not invalidate the nine-gate backtest, which was measured on the rating-only model.</td>
+<td>Needs CQ-48 (a players table that covers the league) and per-player game logs before the adjustment can be calibrated rather than assumed.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100</a></td>
+</tr>
+<tr>
+<td>S-91</td>
+<td>Pipeline</td>
+<td>Make the injury capture a scheduled job that records every 15-minute report stamp, instead of a per-session manual capture.</td>
+<td>The official index publishes a new PDF every fifteen minutes and the repository has captured five of them across a whole day (05:15 AM, 09:45 AM, 01:15 PM, 01:30 PM plus the 11/13 sets). Each manual capture is correct and each one is already stale within the hour. A capture loop turns the availability timeline into an actual time series, which is what the leaderboard needs to score a rule at the moment it fired.</td>
+<td>A: GitHub Actions schedule every 15 minutes during the season, committing each stamp; B: one capture per deadline (5 p.m. local day-before, 1 p.m. local game-day); C: keep manual captures.</td>
+<td>B now (bounded cost, matches the rule&#x27;s own deadlines), A when there is a place to put the time series.</td>
+<td>Depends on CQ-49 (what the line does when the deadline passes) and on storage: 15-minute stamps for a season are a large commit history.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
