@@ -102,7 +102,7 @@
    "id": "RR-08",
    "check": "every root-level HTML page is staged into the Pages artifact",
    "result": "REVIEW",
-   "n": 2,
+   "n": 1,
    "detail": {
     "root_pages": [
      "archive.html",
@@ -113,11 +113,11 @@
     ],
     "staged_by_workflow": [
      "archive.html",
+     "executive-summary.html",
      "index.html",
      "review.html"
     ],
     "not_staged": [
-     "executive-summary.html",
      "research-dashboard.html"
     ]
    },

@@ -595,7 +595,7 @@ def build_repo_review():
     with open(os.path.join(ROOT, ".github", "workflows", "pages.yml"), encoding="utf-8") as fh:
         wf = fh.read()
     roots = sorted(f for f in os.listdir(ROOT) if f.endswith(".html"))
-    staged = sorted(set(re.findall(r"^\s*cp\s+([A-Za-z0-9_]+\.html)", wf, re.M)))
+    staged = sorted(set(re.findall(r"^\s*cp\s+([A-Za-z0-9_.-]+\.html)", wf, re.M)))
     unstaged = [f for f in roots if f not in staged]
     findings.append({
         "id": "RR-08",
