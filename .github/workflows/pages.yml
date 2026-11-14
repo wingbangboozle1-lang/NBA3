@@ -209,6 +209,8 @@ jobs:
           if bad:
               sys.exit("freshness gate failed: " + ", ".join(bad))
           PY2
+      - name: Session a399d8a9 regression tests (freshness corrective)
+        run: python3 -m unittest session_a399d8a9/test_session.py -v
       - name: Decision workspace register (session a399d8a9)
         run: |
           python3 session_a399d8a9/build_decisions.py

@@ -119,6 +119,51 @@ it prints every disagreement and the build fails on a mismatch.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py" target="_blank" rel="noopener noreferrer">strategy_lab.py</a></td>
 </tr>
 </tbody></table></div>
+<h2>3b. What “up to three days in advance” means here</h2>
+<div class="table-wrap"><table>
+<caption id="horizon"></caption>
+<thead><tr>
+<th>Measure</th>
+<th>Which games</th>
+<th>Hours</th>
+<th>Status</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Farthest game priced</td>
+<td>CHA@LAL · 2026-11-17 11:00 PM ET</td>
+<td>81.5 h</td>
+<td>—</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>Games more than 72 hours from the snapshot</td>
+<td>NYK@TOR (78.0 h), POR@MIN (78.5 h), DET@SAS (78.5 h), UTA@LAC (81.0 h), CHA@LAL (81.5 h)</td>
+<td>5 of 27</td>
+<td><span class="chip chip-warn">outside a strict 72-hour reading</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>Games more than 48 hours from the snapshot</td>
+<td>13 of 27 games already priced</td>
+<td>13 of 27</td>
+<td><span class="chip chip-warn">priced before any filing is due</span></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></td>
+</tr>
+</tbody></table></div>
+<div class="callout warn">
+<p><strong>Which reading this site uses, stated rather than implied.</strong> The window is
+<strong>three calendar dates beyond today</strong> (2026-11-14 →
+2026-11-17), measured from the snapshot stamp
+(2026-11-14 01:30 PM ET). Under a strict 72-hour reading the same window is
+<strong>5 games too wide</strong> — the last one tips
+81.5 hours after the report. Both readings are published here
+because the brief says “maximum of 3 days” without saying which one it means; that is
+<a href="questions.html">Q-SCOPE-01</a>, still open. What is not ambiguous is that
+<strong>13 of the 27 games were priced more than 48 hours ahead,
+before any team's day-before filing deadline</strong>, so their availability is unknown by
+construction and is published blank, not zero.</p>
+</div>
 
 <h2>4. The engine, in four sentences</h2>
 <p>A <strong>Massey least-squares margin model</strong> fits one rating per team plus a home-court

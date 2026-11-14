@@ -323,6 +323,42 @@ def _ratings_delta_text(d):
             f"which is what identifies the old capture as a mid-slate read rather than a wrong one.")
 
 
+def _horizon(lab, stamp_text):
+    """Hours from the snapshot stamp to each game's tip, and what "3 days" means.
+
+    The brief asks for picks "up to a maximum of 3 days in advance". Three days
+    read as three calendar dates and three days read as 72 hours are not the
+    same window, and the site was silent about which one it publishes. This
+    computes both so the page can say which, from the schedule's own tip times.
+    """
+    import datetime as _dt
+    try:
+        stamp = _dt.datetime.strptime(stamp_text.replace("ET", "").strip(), "%Y-%m-%d %I:%M %p")
+    except (ValueError, AttributeError):
+        return None
+    rows = []
+    for g in lab.get("lines") or []:
+        try:
+            t = _dt.datetime.strptime(g["time_et"].replace(" ", ""), "%I:%M%p")
+            y, m, dd = (int(x) for x in g["date"].split("-"))
+        except (ValueError, KeyError):
+            continue
+        tip = _dt.datetime(y, m, dd, t.hour, t.minute)
+        rows.append({"date": g["date"], "matchup": "%s@%s" % (g["away"], g["home"]),
+                     "tip_et": g["time_et"],
+                     "hours": round((tip - stamp).total_seconds() / 3600.0, 2)})
+    if not rows:
+        return None
+    rows.sort(key=lambda r: r["hours"])
+    return {
+        "stamp": stamp_text,
+        "nearest": rows[0], "farthest": rows[-1],
+        "over_72h": [r for r in rows if r["hours"] > 72],
+        "over_48h": [r for r in rows if r["hours"] > 48],
+        "total": len(rows),
+    }
+
+
 def page_summary(d):
     m = d["meta"]
     model = m["model"]
@@ -431,6 +467,44 @@ it prints every disagreement and the build fails on a mismatch.</p>
          src_cell([REPO_URL + "/blob/main/scripts/strategy_lab.py"], "strategy_lab.py")],
     ]
     body.append(table(["What", "Verification result", "Source"], ver_rows, "verification"))
+
+    hz = _horizon(lab, d["injuries"].get("report_stamp", ""))
+    body.append("<h2>3b. What “up to three days in advance” means here</h2>")
+    if hz:
+        hrows = [
+            [f"Farthest game priced", f"{esc(hz['farthest']['matchup'])} · {esc(hz['farthest']['date'])} "
+             f"{esc(hz['farthest']['tip_et'])} ET",
+             f"{hz['farthest']['hours']:.1f} h", "—",
+             src_cell([d["slate"]["source_url"]], "nba.com/schedule")],
+            ["Games more than 72 hours from the snapshot", 
+             ", ".join(f"{esc(r['matchup'])} ({r['hours']:.1f} h)" for r in hz["over_72h"]) or "none",
+             f"{len(hz['over_72h'])} of {hz['total']}",
+             chip("outside a strict 72-hour reading", "warn") if hz["over_72h"] else chip("none", "ok"),
+             src_cell([d["injuries"]["source_url"]], "official PDF")],
+            ["Games more than 48 hours from the snapshot",
+             f"{len(hz['over_48h'])} of {hz['total']} games already priced",
+             f"{len(hz['over_48h'])} of {hz['total']}",
+             chip("priced before any filing is due", "warn"),
+             src_cell([d["injuries"]["index_url"]], "official index")],
+        ]
+        body.append(table(["Measure", "Which games", "Hours", "Status", "Source"], hrows,
+                          "horizon"))
+        body.append(f"""<div class="callout warn">
+<p><strong>Which reading this site uses, stated rather than implied.</strong> The window is
+<strong>three calendar dates beyond today</strong> ({esc(d['slate']['window']['from'])} →
+{esc(d['slate']['window']['to'])}), measured from the snapshot stamp
+({esc(hz['stamp'])}). Under a strict 72-hour reading the same window is
+<strong>{len(hz['over_72h'])} games too wide</strong> — the last one tips
+{hz['farthest']['hours']:.1f} hours after the report. Both readings are published here
+because the brief says “maximum of 3 days” without saying which one it means; that is
+<a href="questions.html">Q-SCOPE-01</a>, still open. What is not ambiguous is that
+<strong>{len(hz['over_48h'])} of the {hz['total']} games were priced more than 48 hours ahead,
+before any team's day-before filing deadline</strong>, so their availability is unknown by
+construction and is published blank, not zero.</p>
+</div>""")
+    else:
+        body.append("<p>The snapshot carries no parseable report stamp, so the horizon from the "
+                    "report to each tip-off cannot be computed and is left blank.</p>")
 
     body.append(f"""
 <h2>4. The engine, in four sentences</h2>
