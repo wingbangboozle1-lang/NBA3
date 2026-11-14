@@ -22,6 +22,8 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /archive.html    -> dated index of every earlier session's dashboard (moved off the landing
 #                       page by session dd1eb1f1 so the front door shows one navigation and
 #                       one set of numbers)
+#   /audit_736efb4b/ -> session 736efb4b: 11/14 01:30 PM ET official injury report transcribed row by row,
+#                       compared with the published 04:15 AM snapshot, with Flagged for Review page
 #   /audit_dd1eb1f1/ -> session dd1eb1f1 independent audit: official re-read compared row by row
 #                       against the canonical artefact, plus the correlations measured to fill
 #                       cells the canonical site publishes blank
@@ -237,6 +239,17 @@ jobs:
         run: python3 final/check_site.py
       - name: Independent audit tree (session dd1eb1f1) - verification values and page rules
         run: python3 -m unittest discover -s audit_dd1eb1f1 -p 'test_*.py'
+      - name: Injury freshness audit 736efb4b - regenerate, drift-check and test (11/14 01:30 PM ET official report)
+        run: |
+          python3 audit_736efb4b/capture.py
+          python3 audit_736efb4b/compare.py
+          python3 audit_736efb4b/build.py
+          test -z "$(git status --porcelain -- audit_736efb4b/)" || {
+            echo 'audit_736efb4b/ is stale; run capture.py, compare.py and build.py and commit'
+            git status --porcelain -- audit_736efb4b/
+            exit 1
+          }
+          python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -245,6 +258,7 @@ jobs:
           cp review.html _pages/review.html
           cp archive.html _pages/archive.html
           cp -r audit_dd1eb1f1 _pages/audit_dd1eb1f1
+          cp -r audit_736efb4b _pages/audit_736efb4b
           cp executive-summary.html _pages/
           cp -r dashboard _pages/dashboard
           cp -r docs _pages/docs

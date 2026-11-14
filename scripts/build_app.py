@@ -52,6 +52,7 @@ NAV = [
     ]),
     ("Game context", [
         ("Injuries & rotation", "app/injuries.html"),
+        ("Injury freshness audit (1:30 PM ET)", "audit_736efb4b/index.html"),
         ("Report availability", "app/freshness.html"),
         ("Game flow", "app/gameflow.html"),
     ]),
@@ -348,7 +349,7 @@ def page_summary(d):
       {src_cell([lab['meta']['source_games']], 'nba.com/games')}</div>""")
     body.append(f"""<div class="card"><div class="k">Official injury rows</div>
       <div class="v">{d['injuries']['count']}</div>
-      <div class="s">{d['injuries']['report_stamp']} — the newest report listed on the official index</div>
+      <div class="s">{d['injuries']['report_stamp']} — the snapshot used in this build. A newer report (11/14 01:30 PM ET) is listed on the official index; see <a href="../audit_736efb4b/index.html">the injury freshness audit</a>.</div>
       {src_cell([d['injuries']['source_url']], 'official PDF')}</div>""")
     body.append("</div>")
 
@@ -1115,15 +1116,7 @@ def page_injuries(d):
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
 <div class="callout ok">
-<p><strong>Freshness check.</strong> This is the newest report on the
-<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
-({esc(inj.get('newest_report_listed_on_index', 'n/a'))}), so there is no later file to reconcile it
-with. The comparison that exists is against the report it supersedes
-({esc(inj.get('prior_report_stamp', 'n/a'))}):
-<strong>{inj.get('prior_report_compared_rows', 0)} rows in common on the 2026-11-14 slate,
-{inj.get('prior_report_status_changes', 0)} status changes</strong>. An overnight gap of nine hours
-and one slate-turning set of games produced no movement at all, which is why these rows can be
-published as settled for today. The build fails if a future report disagrees. The earlier
+<p><strong>Freshness check — superseded.</strong> This is <strong>not</strong> the newest report any more. The <a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a> lists a later game-day report, <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">11/14 01:30 PM ET</a> (read 2026-11-14 at about 13:42 ET). This page still shows the snapshot stamped {esc(inj.get('newest_report_listed_on_index', 'n/a'))}. The row-by-row comparison with the 01:30 PM report, including the status changes, the new player rows and the teams that have now filed, is in <a href="../audit_736efb4b/index.html">audit_736efb4b/</a>. Nothing on this site has been re-run from it. The comparison with the report it supersedes ({esc(inj.get('prior_report_stamp', 'n/a'))}) found <strong>{inj.get('prior_report_compared_rows', 0)} rows in common on the 2026-11-14 slate and {inj.get('prior_report_status_changes', 0)} status changes</strong>. The earlier
 row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
 as change request <strong>CR-53653a5c-A</strong>) is published at
 <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
@@ -1752,9 +1745,10 @@ the audit trail for every number published on this site.</p>""")
          chip("Verified", "ok")],
         ["Injury report index (which reports exist)", "2026-11-14",
          src_cell(["https://official.nba.com/nba-injury-report-2026-27-season/"], "official index"),
-         "The index lists the 2026-11-14 game-day reports (up to 04:15 AM ET); the canonical report "
-         "transcribed here is the newest one listed on it",
-         chip("Verified", "ok")],
+         "Read 2026-11-14 at about 13:42 ET: the index lists the game-day reports up to 01:30 PM ET. "
+         "The canonical report transcribed here is the 04:15 AM ET one; the 01:30 PM ET report is "
+         "compared row by row in audit_736efb4b/",
+         chip("Superseded in part", "warn")],
         ["Historical results log", "2026-11-14 (refreshed)",
          src_cell(["https://www.nba.com/games?date="], "nba.com/games"),
          f"{d['lab']['meta'].get('games_captured', '?')} games / "
