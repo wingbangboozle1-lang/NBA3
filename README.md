@@ -7,6 +7,16 @@ edge, correlation, ROI, or leaderboard result.
 
 ## Final integration status (2026-11-14, session arena/3bf92fcc-nba3)
 
+**Freshness re-check (2026-11-14, session `arena/3bf80157-nba3`).** The official injury-report index
+and CDN were re-probed after the 04:45 AM ET snapshot: reports 05:00 AM and **05:15 AM ET** now
+exist (05:30/05:45 do not). The [05:15 AM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf)
+was captured verbatim (`data/app/official_injuries_2026-11-14_0515AM.json` + raw transcripts) and
+proven **content-identical** to the published canonical snapshot row for row (49/49, 0 unexplained
+differences), with the full 2026-11-14→17 slate window re-verified live against
+[nba.com/schedule](https://www.nba.com/schedule?date=2026-11-15) (27 games × 5 fields, 0
+differences). `scripts/capture_official_2026_11_14d.py` replays these checks offline in CI; no data
+refresh was required.
+
 A cross-site **[consolidated executive summary](executive-summary.html)** is served at `/NBA3/executive-summary.html`
 alongside the canonical dashboard below. It re-verified, line by line, on 2026-11-14:
 

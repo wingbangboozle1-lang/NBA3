@@ -166,6 +166,14 @@ jobs:
         run: |
           python3 scripts/capture_official_2026_11_14b.py
           git diff --exit-code -- data/app/official_slate_1114_1117.json data/app/official_team_ratings_2026-11-14b.json data/app/official_injuries_2026-11-13_0745PM.json
+      - name: Injury-report freshness re-check vs the newest official report (arena/3bf80157)
+        run: |
+          # Parses the committed verbatim fetch of the newest official injury
+          # report PDF (05:15 AM ET) and proves, offline and deterministically,
+          # that it is content-identical to the published canonical snapshot,
+          # and that the whole 27-game slate window matches its live re-read.
+          python3 scripts/capture_official_2026_11_14d.py
+          git diff --exit-code -- data/app/official_injuries_2026-11-14_0515AM.json
       - name: Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)
         run: |
           python3 scripts/strategy_lab.py
