@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="decision.html">Decision workspace</a> <a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -29,8 +29,8 @@
 
 <p>Improvements that could be made to this site and to the decision-making it supports. Each one lists
 the options, a recommendation and the dependency. <strong>Nothing here has been implemented without an
-owner decision</strong> — the decisions are listed on the <a href="questions.html">Open
-questions</a> page.</p>
+owner decision</strong> — the decisions themselves are taken on the <a href="decision.html">Decision
+workspace</a> page, which joins each suggestion to the open question that blocks it.</p>
 <div class="table-wrap"><table>
 <caption id="suggestions"></caption>
 <thead><tr>
@@ -200,6 +200,28 @@ questions</a> page.</p>
 </tr>
 <tr>
 <td>CS-15</td>
+<td>Decision process</td>
+<td>Make the decision workspace the only place a suggestion status can change</td>
+<td>Today a suggestion carries a free-text &#x27;decision&#x27; column edited inside the registers, so a choice can be overwritten by the next rebuild and there is no record of who chose what or why</td>
+<td>A: keep free text in the CSV; B: add a decided_by/decided_on/decided_path row per suggestion that the build reads; C: keep decisions outside the repo in issues</td>
+<td>B</td>
+<td>Q-DEC-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/session_a399d8a9/data/decisions.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/session_a399d8a9/data/decisions.json</a></td>
+</tr>
+<tr>
+<td>CS-16</td>
+<td>Freshness</td>
+<td>Publish the freshness gate&#x27;s result on every page header, not only on the injuries and decision pages</td>
+<td>The staleness that existed on arrival was invisible on the landing page: the badge said &#x27;official report filed for 5 of 54 team-sides&#x27; without saying the snapshot was nine hours old. A reader could not tell a fresh snapshot from a stale one</td>
+<td>A: leave it; B: put the report stamp and its age in the header badge; C: also refuse to build if the stamp is older than the newest listed report</td>
+<td>B now; C is already enforced by FG-1</td>
+<td>Q-FRESH-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CS-17</td>
 <td>Site</td>
 <td>Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.</td>
 <td>7C-F-02: Ksa requires a Koa licence for online sports betting offers.</td>
@@ -210,7 +232,7 @@ questions</a> page.</p>
 <td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
 </tr>
 <tr>
-<td>CS-16</td>
+<td>CS-18</td>
 <td>Site</td>
 <td>Choose a data rights path: (A) written permission from NBA for statistics use under §9, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.</td>
 <td>7C-F-01, 7C-F-03, 7C-F-04.</td>
@@ -221,7 +243,7 @@ questions</a> page.</p>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
 </tr>
 <tr>
-<td>CS-17</td>
+<td>CS-19</td>
 <td>Site</td>
 <td>Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.</td>
 <td>7C-F-09 (schedule changes), Q-04 (updates through the day).</td>
@@ -232,7 +254,7 @@ questions</a> page.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
 </tr>
 <tr>
-<td>CS-18</td>
+<td>CS-20</td>
 <td>Site</td>
 <td>Pre-register the leaderboard before any modelling: primary metric (e.g., Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with bootstrap CI), minimum sample, horizon, and gate thresholds.</td>
 <td>Q-10. Separates skill from luck and from backtest selection.</td>
@@ -243,7 +265,7 @@ questions</a> page.</p>
 <td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm</a></td>
 </tr>
 <tr>
-<td>CS-19</td>
+<td>CS-21</td>
 <td>Site</td>
 <td>Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2–G7.</td>
 <td>Props and parlays depend on minutes and on correlation, neither of which is measured yet (7C-F-05, 7C-F-06).</td>
@@ -254,7 +276,7 @@ questions</a> page.</p>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
 </tr>
 <tr>
-<td>CS-20</td>
+<td>CS-22</td>
 <td>Site</td>
 <td>Model injury effects on minutes only from authorized minutes data. Use the official status as an input, with uncertainty bands, and show &#x27;not quantified&#x27; where data is missing.</td>
 <td>Q-05: official reports carry status and reason only.</td>
@@ -265,7 +287,7 @@ questions</a> page.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
 </tr>
 <tr>
-<td>CS-21</td>
+<td>CS-23</td>
 <td>Site</td>
 <td>Add CSV export, a &#x27;last verified&#x27; date on every table, and an external-link checker that runs on a schedule (the current CI checks only in-page anchors).</td>
 <td>RR-03. Keeps the source trail current.</td>
@@ -276,7 +298,7 @@ questions</a> page.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions</a></td>
 </tr>
 <tr>
-<td>CS-22</td>
+<td>CS-24</td>
 <td>Site</td>
 <td>Keep the Flagged-for-Review page and COORDINATION board as the review trail. Fail CI when a row lacks a source or a &#x27;verified&#x27; flag.</td>
 <td>Brief: no unverified value may appear without a flag.</td>
@@ -287,7 +309,7 @@ questions</a> page.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
 </tr>
 <tr>
-<td>CS-23</td>
+<td>CS-25</td>
 <td>Site</td>
 <td>Before any betting content: set bankroll and loss limits, add a responsible-gambling section with Ksa Gokstop information (after verifying the link), and an age gate as counsel advises.</td>
 <td>Q-11, Q-13.</td>
@@ -298,7 +320,7 @@ questions</a> page.</p>
 <td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/</a></td>
 </tr>
 <tr>
-<td>CS-24</td>
+<td>CS-26</td>
 <td>Site</td>
 <td>Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.</td>
 <td>7C-F-07.</td>
@@ -309,7 +331,7 @@ questions</a> page.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2025-26-season/</a></td>
 </tr>
 <tr>
-<td>CS-25</td>
+<td>CS-27</td>
 <td>Site</td>
 <td>Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).</td>
 <td>Q-04, Q-07, Q-08, Q-09, 7C-F-01 to 7C-F-03: the missing items cannot be filled from the repository alone.</td>
@@ -320,7 +342,7 @@ questions</a> page.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
 </tr>
 <tr>
-<td>CS-26</td>
+<td>CS-28</td>
 <td>Site</td>
 <td>Retire or clearly mark the six earlier dashboards</td>
 <td>The earlier /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards duplicate facts under different ID namespaces and different injury snapshots. A reader can easily compare a 5:00 PM status with a 7:30 PM status and think the site contradicts itself.</td>
@@ -331,7 +353,7 @@ questions</a> page.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/branches</a></td>
 </tr>
 <tr>
-<td>CS-27</td>
+<td>CS-29</td>
 <td>Site</td>
 <td>Switch GitHub Pages from the legacy &#x27;main /&#x27; source to the Actions workflow</td>
 <td>With the legacy source the whole public repository is published, including raw JSON/CSV data files. That widens the surface of the NBA-derived content that the Terms-of-Use flag concerns.</td>
@@ -342,7 +364,7 @@ questions</a> page.</p>
 <td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
 </tr>
 <tr>
-<td>CS-28</td>
+<td>CS-30</td>
 <td>Site</td>
 <td>Add a single &#x27;as of&#x27; timestamp and data-freshness badge on every page</td>
 <td>Official sources move during a slate (injury reports every 15 minutes, tip times can change, stats pages update after games). A reader cannot currently tell how old a page is.</td>
@@ -353,7 +375,7 @@ questions</a> page.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
 </tr>
 <tr>
-<td>CS-29</td>
+<td>CS-31</td>
 <td>Decision support</td>
 <td>Turn the leaderboard into a scored competition with an explicit prize rule</td>
 <td>The brief asks for a leaderboard competition with rewards for the best strategies. The repository has gates and a ranking, but no reward rule, no capital base and no drawdown limit.</td>
@@ -364,7 +386,7 @@ questions</a> page.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
 </tr>
 <tr>
-<td>CS-30</td>
+<td>CS-32</td>
 <td>Model</td>
 <td>Add possession-level inputs (four factors) to the total model</td>
 <td>The total model does not beat a naive league-average baseline out of sample (RMSE 20.35 vs 19.56), so every total-based strategy rests on a model with no demonstrated skill.</td>

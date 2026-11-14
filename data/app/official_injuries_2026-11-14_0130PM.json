@@ -1,4 +1,10 @@
 {
+ "prior_report_compared_rows": 45,
+ "prior_report_status_changes": 4,
+ "prior_report_rows_only_in_newest": 24,
+ "prior_report_rows_only_in_prior": 4,
+ "prior_report_team_cell_gaps": 1,
+ "prior_report_note": "Compared row by row with the 04:15 AM ET report this snapshot supersedes: 45 rows matched, 4 changed status, 24 player rows appear for teams that had not filed, and 4 team placeholders closed because those teams filed. No row was removed because the league withdrew a player. Full detail: session_a399d8a9/data/reconciliation_2026-11-14.json.",
  "schema": "nba3.official_injury_snapshot/v1",
  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
  "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
@@ -54,6 +60,13 @@
   "report_stamp": "2026-11-14 04:15 AM ET",
   "why": "Nine hours older, and read before any game-day filing was due. It prints NOT YET SUBMITTED for eight of the ten teams playing on 11/14; the 01:30 PM report prints their actual player rows. Keeping the older stamp on a game-day slate would publish a stale availability picture on the page the owner reads for picks."
  },
+ "newest_report_listed_on_index": "2026-11-14 01:30 PM ET",
+ "newest_report_checked": true,
+ "newest_report_rows": 69,
+ "newest_report_differences": 0,
+ "newest_report_note": "This is the newest report on the official index at 2026-11-14T18:47Z (the index listed 11/14 files every 15 minutes through 1:30 PM ET; the next file, 1:45 PM, returned AccessDenied because it had been advertised but not yet written).",
+ "prior_report_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+ "prior_report_stamp": "2026-11-14 04:15 AM ET",
  "reconciliation": {
   "report": "session_a399d8a9/data/reconciliation_2026-11-14.json",
   "status_changes_vs_published": 4,

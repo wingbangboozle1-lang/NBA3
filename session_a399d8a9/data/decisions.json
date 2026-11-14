@@ -1,0 +1,3299 @@
+{
+ "schema": "nba3.decision_workspace/v1",
+ "session": "arena/a399d8a9-nba3",
+ "built_utc": "2026-11-14T19:20Z",
+ "purpose": "A place to review suggestions, compare the paths each one offers against stated criteria, see what is blocked until a question is answered, and record a choice before anything is implemented. Nothing on this page changes the site by itself.",
+ "criteria": [
+  {
+   "id": "K1",
+   "name": "Legality and terms",
+   "question": "Does the path stay inside the NBA's terms, Dutch gambling law and the data licences this project actually holds?",
+   "scale": [
+    "0 = would break a stated term or law as read",
+    "1 = unresolved, and the risk is on the owner",
+    "2 = inside the terms as read, with a residual risk named",
+    "3 = no identified objection on the sources read"
+   ]
+  },
+  {
+   "id": "K2",
+   "name": "Effect on decision quality",
+   "question": "Does the path make a decision on this site better informed, or does it only make the site prettier?",
+   "scale": [
+    "0 = no effect on any decision",
+    "1 = cosmetic",
+    "2 = removes a known ambiguity",
+    "3 = closes a gap that currently blocks a decision"
+   ]
+  },
+  {
+   "id": "K3",
+   "name": "Evidence available now",
+   "question": "Can the path be carried out and checked with the sources this repository already holds, without new data or new permissions?",
+   "scale": [
+    "0 = needs data nobody has",
+    "1 = needs a licensed feed or a legal opinion",
+    "2 = needs one official page re-read",
+    "3 = fully doable from committed artefacts"
+   ]
+  },
+  {
+   "id": "K4",
+   "name": "Reversibility",
+   "question": "If the owner dislikes the result, how cheaply can it be undone?",
+   "scale": [
+    "0 = irreversible (published, contractual, or paid)",
+    "1 = reversible with real work",
+    "2 = reversible by reverting a commit",
+    "3 = reversible by toggling a flag"
+   ]
+  },
+  {
+   "id": "K5",
+   "name": "Contribution to the brief",
+   "question": "How directly does it serve the owner's stated goal \u2014 originated lines, gated strategies, injury-driven rotation analysis, 3-day picks?",
+   "scale": [
+    "0 = unrelated to the brief",
+    "1 = tangential",
+    "2 = supports a brief item",
+    "3 = is a brief item"
+   ]
+  }
+ ],
+ "counts": {
+  "suggestions": 48,
+  "with_scored_paths": 3,
+  "blocked_on_an_open_question": 10,
+  "questions": 50,
+  "blocking_questions": 9,
+  "edges": 13
+ },
+ "items": [
+  {
+   "id": "CS-01",
+   "area": "Site / legal",
+   "suggestion": "Reduce NBA-derived content on the public site until reproduction rights are confirmed",
+   "why": "NBA Terms s.1 and s.9 restrict reproduction and statistics use; the site currently reproduces an injury snapshot and schedule rows",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B now, C if the project proceeds",
+   "reason": "B is reversible, doable today, and shrinks the exposure the terms describe. C is the only path that makes the full table safe, and it is not in this session's power. A keeps the exposure without buying anything.",
+   "has_reasoning": true,
+   "paths": [
+    {
+     "id": "A",
+     "label": "Keep the snapshot with attribution",
+     "cost": "none",
+     "risk": "Reproduces NBA-derived rows on a public page while s.1/s.9 of the terms restrict reproduction.",
+     "unblocks": [],
+     "scores": {
+      "K1": 1,
+      "K2": 2,
+      "K3": 3,
+      "K4": 3,
+      "K5": 2
+     },
+     "score": 11,
+     "score_normalised": 0.733,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "Publish links and counts only",
+     "cost": "one page edit",
+     "risk": "The injuries page loses the player-level table the rotation analysis is built on.",
+     "unblocks": [
+      "removes the largest reproduction exposure"
+     ],
+     "scores": {
+      "K1": 2,
+      "K2": 2,
+      "K3": 3,
+      "K4": 3,
+      "K5": 1
+     },
+     "score": 11,
+     "score_normalised": 0.733,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "Obtain written permission first",
+     "cost": "waiting on a third party",
+     "risk": "Nothing published until it arrives.",
+     "unblocks": [
+      "unblocks A and C permanently"
+     ],
+     "scores": {
+      "K1": 3,
+      "K2": 3,
+      "K3": 0,
+      "K4": 1,
+      "K5": 3
+     },
+     "score": 10,
+     "score_normalised": 0.667,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "A",
+   "best_path_agrees_with_recommendation": false,
+   "criteria_scored": true,
+   "dependencies": [
+    {
+     "id": "Q-DATA-03",
+     "resolved": false,
+     "status": "Partly answered",
+     "question": "What NBA content may be reproduced or published on a public site?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://www.nba.com/termsofuse"
+   ],
+   "legacy_ref": "SG-01"
+  },
+  {
+   "id": "CS-02",
+   "area": "Legal / product",
+   "suggestion": "Publish no picks or betting recommendations until a Dutch counsel opinion is received",
+   "why": "Art. 1(b) Wet op de kansspelen restricts promoting unlicensed gambling; Ksa says advertising needs a licence",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "Art. 1(b) Wet op de kansspelen restricts promoting unlicensed gambling and Ksa states advertising needs a licence; until counsel opines, A is the only path that cannot be wrong. The site already publishes fair prices with the caveat that they are not bets, which is A-plus-B read narrowly.",
+   "has_reasoning": true,
+   "paths": [
+    {
+     "id": "A",
+     "label": "Publish nothing that reads as a bet recommendation",
+     "cost": "none",
+     "risk": "The site is less useful for the owner's own decision-making.",
+     "unblocks": [],
+     "scores": {
+      "K1": 3,
+      "K2": 2,
+      "K3": 3,
+      "K4": 3,
+      "K5": 2
+     },
+     "score": 13,
+     "score_normalised": 0.867,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "Publish analysis, no bet recommendations",
+     "cost": "editorial care on every page",
+     "risk": "The line between 'originated line' and 'bet recommendation' is a legal judgement, not a technical one.",
+     "unblocks": [
+      "keeps the analysis usable"
+     ],
+     "scores": {
+      "K1": 2,
+      "K2": 3,
+      "K3": 3,
+      "K4": 2,
+      "K5": 3
+     },
+     "score": 13,
+     "score_normalised": 0.867,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "Private research only",
+     "cost": "the public site loses its purpose",
+     "risk": "none legal",
+     "unblocks": [],
+     "scores": {
+      "K1": 3,
+      "K2": 1,
+      "K3": 3,
+      "K4": 2,
+      "K5": 1
+     },
+     "score": 10,
+     "score_normalised": 0.667,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "A",
+   "best_path_agrees_with_recommendation": true,
+   "criteria_scored": true,
+   "dependencies": [
+    {
+     "id": "Q-LEG-01",
+     "resolved": false,
+     "status": "Open - blocking",
+     "question": "Can picks or betting recommendations be published to people in the Netherlands?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://wetten.overheid.nl/BWBR0002469/2025-02-12/0"
+   ],
+   "legacy_ref": "SG-02"
+  },
+  {
+   "id": "CS-03",
+   "area": "Data access",
+   "suggestion": "Provide an allowed network path or a dated owner export for historical NBA data",
+   "why": "No historical data can be retrieved from this environment; no strategy can be evaluated without it",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B short term, C before any publication",
+   "reason": "The engine already runs on a 183-game official log and a 31-player minutes table, so the gap is depth (per-player game logs, on/off splits), not existence. B closes the depth gap without a contract; C is the only path that survives legal review.",
+   "has_reasoning": true,
+   "paths": [
+    {
+     "id": "A",
+     "label": "Allow egress to stats.nba.com and cdn.nba.com",
+     "cost": "a policy change outside this harness",
+     "risk": "NBA terms still restrict bulk statistics use; access is not a licence.",
+     "unblocks": [
+      "CQ-01",
+      "CQ-26",
+      "CQ-39"
+     ],
+     "scores": {
+      "K1": 1,
+      "K2": 3,
+      "K3": 1,
+      "K4": 2,
+      "K5": 3
+     },
+     "score": 10,
+     "score_normalised": 0.667,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "Owner export with provenance",
+     "cost": "an owner task",
+     "risk": "Provenance has to be recorded at capture or it cannot be re-verified.",
+     "unblocks": [
+      "CQ-01",
+      "CQ-39",
+      "CQ-11"
+     ],
+     "scores": {
+      "K1": 2,
+      "K2": 3,
+      "K3": 1,
+      "K4": 2,
+      "K5": 3
+     },
+     "score": 11,
+     "score_normalised": 0.733,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "Licensed data vendor",
+     "cost": "money, contract",
+     "risk": "the only path that also answers the licensing question",
+     "unblocks": [
+      "CQ-01",
+      "CQ-03",
+      "CQ-26",
+      "CQ-39"
+     ],
+     "scores": {
+      "K1": 3,
+      "K2": 3,
+      "K3": 0,
+      "K4": 1,
+      "K5": 3
+     },
+     "score": 10,
+     "score_normalised": 0.667,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "B",
+   "best_path_agrees_with_recommendation": true,
+   "criteria_scored": true,
+   "dependencies": [
+    {
+     "id": "Q-DATA-01",
+     "resolved": true,
+     "status": "Answered (no)",
+     "question": "Can this environment pull official NBA historical data (box scores, game logs, play-by-play)?"
+    }
+   ],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/stats/players/traditional"
+   ],
+   "legacy_ref": "SG-03"
+  },
+  {
+   "id": "CS-04",
+   "area": "Odds",
+   "suggestion": "Use a licensed provider with timestamped odds history and written terms",
+   "why": "No official odds source identified; line comparison and ROI need timestamped prices",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "C until counsel reviews A or B",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "licensed vendor feed",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "owner-captured prices under the operator's terms",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "no prices (research only)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-DATA-02",
+     "resolved": true,
+     "status": "Answered (none identified)",
+     "question": "Is there an official source for betting odds or lines for NBA games?"
+    }
+   ],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/schedule"
+   ],
+   "legacy_ref": "SG-04"
+  },
+  {
+   "id": "CS-05",
+   "area": "Validation",
+   "suggestion": "Approve gate thresholds and freeze them before any data is loaded",
+   "why": "Pre-registration limits selection bias and luck-driven leaderboard results",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "strict proposed defaults (gates.csv)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "looser defaults",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "no thresholds (not recommended)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-GATE-01",
+     "resolved": false,
+     "status": "Open - decision",
+     "question": "Which gate thresholds are approved (sample size, significance level, margins)?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/"
+   ],
+   "legacy_ref": "SG-05"
+  },
+  {
+   "id": "CS-06",
+   "area": "Injuries",
+   "suggestion": "Refresh the injury snapshot from the newest official report on a fixed cadence and store each revision",
+   "why": "Reports are updated continually; a stale snapshot can mislead a slate",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B once egress exists; A until then",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "manual refresh before each slate",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "scheduled job (needs egress)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "no refresh",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-OPS-01",
+     "resolved": false,
+     "status": "Partly answered",
+     "question": "Which injury report is 'current' for a slate, and how often should it refresh?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": "SG-06"
+  },
+  {
+   "id": "CS-07",
+   "area": "Scope",
+   "suggestion": "Define the 3-day horizon as calendar dates inclusive (Nov 13-16 for today's run)",
+   "why": "Brief says up to 3 days; prior dashboard used 72 hours",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "calendar dates inclusive",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "72 hours from run time",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "3 game-days",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-SCOPE-01",
+     "resolved": false,
+     "status": "Partly answered",
+     "question": "What does 'up to 3 days in advance' mean?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://www.nba.com/schedule"
+   ],
+   "legacy_ref": "SG-07"
+  },
+  {
+   "id": "CS-08",
+   "area": "Site",
+   "suggestion": "Show an as-of timestamp and a stale-data warning on every table",
+   "why": "Reviewers need to see whether a value is current",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A (page) plus B for injuries",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "timestamp per page",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "timestamp per row",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "none",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"
+   ],
+   "legacy_ref": "SG-08"
+  },
+  {
+   "id": "CS-09",
+   "area": "Governance",
+   "suggestion": "Commit a hash of each strategy spec before its data is loaded",
+   "why": "Shows the strategy was not changed after seeing results",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "hash in strategies.csv",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "signed commit",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "none",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-GATE-01",
+     "resolved": false,
+     "status": "Open - decision",
+     "question": "Which gate thresholds are approved (sample size, significance level, margins)?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/"
+   ],
+   "legacy_ref": "SG-09"
+  },
+  {
+   "id": "CS-10",
+   "area": "Verification",
+   "suggestion": "Run an external-link check on a schedule and not only on deploy",
+   "why": "Prior workflow did not fetch external links; links can rot",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "weekly scheduled job",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "on every PR",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "manual",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-REPO-02",
+     "resolved": false,
+     "status": "Open - blocked (API 403)",
+     "question": "Which Pages publishing source should the site use?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml"
+   ],
+   "legacy_ref": "SG-10"
+  },
+  {
+   "id": "CS-11",
+   "area": "Repository",
+   "suggestion": "Add a LICENSE file",
+   "why": "No licence is declared",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "Owner choice",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "MIT",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "all rights reserved (no licence file)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "other",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-REPO-01",
+     "resolved": false,
+     "status": "Open - decision",
+     "question": "Which licence applies to the code and content?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": "SG-11"
+  },
+  {
+   "id": "CS-12",
+   "area": "Repository",
+   "suggestion": "Delete stale remote session branches after owner review",
+   "why": "Four remote arena/* branches exist; three have no PR",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A after review",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "delete after review",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "archive",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/branches"
+   ],
+   "legacy_ref": "SG-12"
+  },
+  {
+   "id": "CS-13",
+   "area": "Site",
+   "suggestion": "Add a decision log page where the owner records the chosen option and date",
+   "why": "Keeps choices auditable and separate from implementation",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "decision log in suggestions.csv",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "issue tracker",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "none",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/suggestions.csv"
+   ],
+   "legacy_ref": "SG-13"
+  },
+  {
+   "id": "CS-14",
+   "area": "Injuries",
+   "suggestion": "Add an injury parser with test fixtures before transcribing later reports",
+   "why": "Manual transcription from extracted PDF text is error-prone",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "parser with fixtures",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "manual transcription with a second check",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "no injury table",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-DATA-01",
+     "resolved": true,
+     "status": "Answered (no)",
+     "question": "Can this environment pull official NBA historical data (box scores, game logs, play-by-play)?"
+    }
+   ],
+   "blocked": false,
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf"
+   ],
+   "legacy_ref": "SG-14"
+  },
+  {
+   "id": "CS-15",
+   "area": "Decision process",
+   "suggestion": "Make the decision workspace the only place a suggestion status can change",
+   "why": "Today a suggestion carries a free-text 'decision' column edited inside the registers, so a choice can be overwritten by the next rebuild and there is no record of who chose what or why",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep free text in the CSV",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "add a decided_by/decided_on/decided_path row per suggestion that the build reads",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "keep decisions outside the repo in issues",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-DEC-01",
+     "resolved": false,
+     "status": "Open - decision",
+     "question": "Who may record a decision against a suggestion, and where is the record kept?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/session_a399d8a9/data/decisions.json"
+   ],
+   "legacy_ref": "CS-47"
+  },
+  {
+   "id": "CS-16",
+   "area": "Freshness",
+   "suggestion": "Publish the freshness gate's result on every page header, not only on the injuries and decision pages",
+   "why": "The staleness that existed on arrival was invisible on the landing page: the badge said 'official report filed for 5 of 54 team-sides' without saying the snapshot was nine hours old. A reader could not tell a fresh snapshot from a stale one",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B now; C is already enforced by FG-1",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "leave it",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "put the report stamp and its age in the header badge",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "also refuse to build if the stamp is older than the newest listed report",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [
+    {
+     "id": "Q-FRESH-01",
+     "resolved": false,
+     "status": "Partly answered by this round - needs a standing rule",
+     "question": "Which official injury report should the site publish, and who decides when a newer one exists?"
+    }
+   ],
+   "blocked": true,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": "CS-48"
+  },
+  {
+   "id": "CS-17",
+   "area": "Site",
+   "suggestion": "Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.",
+   "why": "7C-F-02: Ksa requires a Koa licence for online sports betting offers.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://kansspelautoriteit.nl/",
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden"
+   ],
+   "legacy_ref": "SG-01"
+  },
+  {
+   "id": "CS-18",
+   "area": "Site",
+   "suggestion": "Choose a data rights path: (A) written permission from NBA for statistics use under \u00a79, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.",
+   "why": "7C-F-01, 7C-F-03, 7C-F-04.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+    "https://www.nba.com/termsofuse"
+   ],
+   "legacy_ref": "SG-02"
+  },
+  {
+   "id": "CS-19",
+   "area": "Site",
+   "suggestion": "Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.",
+   "why": "7C-F-09 (schedule changes), Q-04 (updates through the day).",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"
+   ],
+   "legacy_ref": "SG-03"
+  },
+  {
+   "id": "CS-20",
+   "area": "Site",
+   "suggestion": "Pre-register the leaderboard before any modelling: primary metric (e.g., Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with bootstrap CI), minimum sample, horizon, and gate thresholds.",
+   "why": "Q-10. Separates skill from luck and from backtest selection.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm"
+   ],
+   "legacy_ref": "SG-04"
+  },
+  {
+   "id": "CS-21",
+   "area": "Site",
+   "suggestion": "Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2\u2013G7.",
+   "why": "Props and parlays depend on minutes and on correlation, neither of which is measured yet (7C-F-05, 7C-F-06).",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "legacy_ref": "SG-05"
+  },
+  {
+   "id": "CS-22",
+   "area": "Site",
+   "suggestion": "Model injury effects on minutes only from authorized minutes data. Use the official status as an input, with uncertainty bands, and show 'not quantified' where data is missing.",
+   "why": "Q-05: official reports carry status and reason only.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+   ],
+   "legacy_ref": "SG-06"
+  },
+  {
+   "id": "CS-23",
+   "area": "Site",
+   "suggestion": "Add CSV export, a 'last verified' date on every table, and an external-link checker that runs on a schedule (the current CI checks only in-page anchors).",
+   "why": "RR-03. Keeps the source trail current.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions"
+   ],
+   "legacy_ref": "SG-07"
+  },
+  {
+   "id": "CS-24",
+   "area": "Site",
+   "suggestion": "Keep the Flagged-for-Review page and COORDINATION board as the review trail. Fail CI when a row lacks a source or a 'verified' flag.",
+   "why": "Brief: no unverified value may appear without a flag.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": "SG-08"
+  },
+  {
+   "id": "CS-25",
+   "area": "Site",
+   "suggestion": "Before any betting content: set bankroll and loss limits, add a responsible-gambling section with Ksa Gokstop information (after verifying the link), and an age gate as counsel advises.",
+   "why": "Q-11, Q-13.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://kansspelautoriteit.nl/"
+   ],
+   "legacy_ref": "SG-09"
+  },
+  {
+   "id": "CS-26",
+   "area": "Site",
+   "suggestion": "Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.",
+   "why": "7C-F-07.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://official.nba.com/nba-injury-report-2025-26-season/"
+   ],
+   "legacy_ref": "SG-10"
+  },
+  {
+   "id": "CS-27",
+   "area": "Site",
+   "suggestion": "Run a discovery sprint for missing information: (1) written request to NBA for \u00a79 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).",
+   "why": "Q-04, Q-07, Q-08, Q-09, 7C-F-01 to 7C-F-03: the missing items cannot be filled from the repository alone.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://www.nba.com/termsofuse",
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden"
+   ],
+   "legacy_ref": "SG-11"
+  },
+  {
+   "id": "CS-28",
+   "area": "Site",
+   "suggestion": "Retire or clearly mark the six earlier dashboards",
+   "why": "The earlier /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards duplicate facts under different ID namespaces and different injury snapshots. A reader can easily compare a 5:00 PM status with a 7:30 PM status and think the site contradicts itself.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A for now \u2014 nothing is deleted without an owner decision; B is the cleanest long-term state.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep all six as linked 'earlier snapshots' (current)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep only /origin/ and /edge/ because they carry the model and the gates",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "move all of them to an archive branch and keep only the canonical site live.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/branches"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-29",
+   "area": "Site",
+   "suggestion": "Switch GitHub Pages from the legacy 'main /' source to the Actions workflow",
+   "why": "With the legacy source the whole public repository is published, including raw JSON/CSV data files. That widens the surface of the NBA-derived content that the Terms-of-Use flag concerns.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B \u2014 it publishes only the reviewed pages and removes the raw data files from the public surface.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep legacy source (current)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "switch to GitHub Actions so only the curated artifact is published.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-30",
+   "area": "Site",
+   "suggestion": "Add a single 'as of' timestamp and data-freshness badge on every page",
+   "why": "Official sources move during a slate (injury reports every 15 minutes, tip times can change, stats pages update after games). A reader cannot currently tell how old a page is.",
+   "current_decision": "Implemented in this session (open for owner confirmation)",
+   "status_note": "",
+   "recommendation": "B \u2014 already implemented in this session for the canonical pages.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep the current per-table source stamps only",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "add one global snapshot stamp plus a per-table freshness badge.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-31",
+   "area": "Decision support",
+   "suggestion": "Turn the leaderboard into a scored competition with an explicit prize rule",
+   "why": "The brief asks for a leaderboard competition with rewards for the best strategies. The repository has gates and a ranking, but no reward rule, no capital base and no drawdown limit.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B, once the legal and data questions (CQ pages) are answered.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep gates only (current)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "add a paper-trading prize rule with a fixed stake and a published drawdown stop.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-32",
+   "area": "Model",
+   "suggestion": "Add possession-level inputs (four factors) to the total model",
+   "why": "The total model does not beat a naive league-average baseline out of sample (RMSE 20.35 vs 19.56), so every total-based strategy rests on a model with no demonstrated skill.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B \u2014 the model is already written for it and the inputs are official NBA stats.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep the total model as published with the caveat",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "add offensive/defensive ratings and pace matchup before publishing total-based strategies.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-31",
+   "area": "Leaderboard",
+   "suggestion": "Pre-register every strategy before it is scored",
+   "why": "A rule written after seeing the results will always look good. Right now nothing stops it.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "C",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep scoring retrospectively but stamp every row 'retrospective'",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "hash the rule text and freeze it before the first graded forecast",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "both - stamp now, freeze from next season.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-32",
+   "area": "Leaderboard",
+   "suggestion": "Publish the luck threshold next to every leaderboard",
+   "why": "A per-rule p-value cannot tell you that a board of 15 rules throws up one 20-point edge by chance. The whole-board simulation can.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "show only per-rule p-values (current default elsewhere in the repo)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "show the whole-board luck threshold and require a rule to beat it (this board)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "hide the board until a rule beats it.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-33",
+   "area": "Model",
+   "suggestion": "Fix the totals model before publishing another totals strategy",
+   "why": "It is beaten by a constant. Every totals rule on the board is measuring the model's error, not the game.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A now, C when the data exists",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep publishing totals lines with the shrinkage and a warning",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "drop totals lines until the model beats the constant",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "rebuild the totals model on possessions and four factors, which needs data we do not have yet.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-34",
+   "area": "Data",
+   "suggestion": "Capture the full official minutes table, not the top 31",
+   "why": "Every injury number on the site is a floor because most injured players are outside the captured table.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "capture all rows on the official players page",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "capture only players who appear on an injury report",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "leave it and keep the floors flagged.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-35",
+   "area": "Site",
+   "suggestion": "Name one canonical dashboard and archive the rest",
+   "why": "Eight dashboards are live on this Pages site with five incompatible ID namespaces. A reader cannot tell which numbers are current.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep all eight and label each with its snapshot time",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "promote one, move the rest under /archive/ with a banner",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "delete the redundant ones.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-36",
+   "area": "Picks",
+   "suggestion": "Stop calling our own fair prices 'picks'",
+   "why": "A pick implies a bet against a price. We have no price. The page is a set of fair numbers against our own line.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "rename the page to 'Originated prices for the window' and drop the word pick",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep 'picks' but print the fair-price caveat on every row",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "remove the page until a price feed is connected.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/schedule"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-37",
+   "area": "Slate",
+   "suggestion": "Regenerate the window automatically instead of transcribing it by hand",
+   "why": "Three sessions have hand-transcribed the same schedule page. It is slow and it is where every transcription error so far has come from.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "keep manual transcription with a cross-check (current)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "add a scheduled job that re-reads the official pages and opens a pull request on any difference",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "manual, but only on a fixed daily cadence.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/schedule?date=2026-11-14"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-38",
+   "area": "Compliance",
+   "suggestion": "Resolve the legal questions before anything is staked",
+   "why": "NBA Terms s.9 restricts gambling use of its statistics and Dutch law requires a licence to offer online betting. The reward schedule depends on which applies.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A pending counsel",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "internal scoring only, no prizes, no money",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "obtain a licence",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "stop publishing selections publicly.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/termsofuse",
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-39",
+   "area": "Decision support",
+   "suggestion": "Put a 're-price at' column on the picks table, driven by the availability artefact that now exists (data/app/report_availability.json).",
+   "why": "The single most actionable fact about a pre-deadline game is when it stops being pre-deadline. It is already computed and is only shown on the freshness page today.",
+   "current_decision": "Implemented 2026-11-14, recommended option A, presentation only: the picks table carries a \u201cRe-price after (local clock)\u201d column read from data/app/report_availability.json. Revert on request (CQ-46).",
+   "status_note": "",
+   "recommendation": "A \u2014 one column, no new data, and it makes the PARTIAL_REPORT chips self-explanatory.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "add the column to the picks table",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "add a countdown to the header of each date group",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "leave it on the freshness page only.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-40",
+   "area": "Site architecture",
+   "suggestion": "Let the twelve site trees share one availability renderer instead of each deciding what 'no rows captured' means.",
+   "why": "The defect behind NF-56 was possible because each tree re-implemented the same judgement. A fix applied to the canonical pages leaves the same wrong reading live in the other trees.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B now, A when the site is consolidated. Freezing with a banner costs nothing and stops a reader treating an old tree as current.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "extract one module that every tree calls",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "freeze the older trees as dated snapshots with a banner",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "delete the older trees from the Pages artifact.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-41",
+   "area": "Trust",
+   "suggestion": "Print the snapshot age on every page: which capture timestamp the page was built from, and how many hours ago.",
+   "why": "Every number on the site is correct as of a moment that is now hours old, and only the verification page says so. A reader who lands on the lines page has no signal that the availability picture may already have moved.",
+   "current_decision": "Superseded \u2014 implemented",
+   "status_note": "The per-page freshness badge this suggestion asked for is live on every page; session a399d8a9 additionally made the badge's input the report's own stamp, so it can no longer claim freshness from a frozen clock.",
+   "recommendation": "B \u2014 it is the same data the freshness page already has, and it makes staleness impossible to miss rather than merely documented.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "age string in the page header",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "colour the header grey when the snapshot is older than the next deadline",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "nothing.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-42",
+   "area": "Decision discipline",
+   "suggestion": "Render the unfunded state of the leaderboard into the picks page itself: no funded strategy means no game in the window is a selection, and the page should say that in its first line.",
+   "why": "The picks page currently leads with 27 priced games and buries 'nothing here is a bet' in a callout below. The honest headline is that the board has funded no rule, so the prices are research output, not a slip.",
+   "current_decision": "Implemented 2026-11-14, recommended option A, presentation only: the picks page leads with the funded / provisional counts and states that no game in the window is a selection. Revert on request (CQ-46).",
+   "status_note": "",
+   "recommendation": "A \u2014 one line at the top, no new page, and it matches what the leaderboard page already says.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "lead with the funded-strategy count and gate the table behind it",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep the layout and strengthen the warning",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "split research prices from actionable picks into two pages.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-44",
+   "area": "Site architecture",
+   "suggestion": "Move app/assets/app.css into the generator. The stylesheet is hand-maintained inside a tree that scripts/build_app.py otherwise rebuilds from scratch, and this round needed two new classes (.stamp-warn / .stamp-ok) for the header badge.",
+   "why": "A generated tree that is only 95% generated is the worst of both: a rebuild silently keeps styles nobody re-checked, and the drift gate cannot see the file. Either emit the CSS from the builder or leave it hand-maintained but copy it in, so its provenance is the same as the pages'.",
+   "current_decision": "Implemented 2026-11-14, recommended option B, inside this session's own generator: scripts/build_app.py now fails the build if app/assets/app.css stops defining a class the emitted pages depend on. The stylesheet itself was not moved.",
+   "status_note": "",
+   "recommendation": "B \u2014 cheapest, and it turns a silent mismatch into a build failure. A is right when the site is consolidated.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "build the CSS string in scripts/build_app.py",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep the file and have the builder assert the classes the pages use exist in it",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "nothing.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/assets/app.css"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-43",
+   "area": "Verification",
+   "suggestion": "Promote the official per-date game count into every capture script as a standing check.",
+   "why": "This session caught nothing wrong with it \u2014 but only because it ran the check: the scoreboard calendar prints a game count per date, so '5 / 9 / 8 / 5 games' confirms a 27-game slate without reading a single matchup row. It is a free tripwire for a truncated capture.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A now, C when the trees are consolidated.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "add the count check to each capture script",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep it in this session's capture only",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "build one shared capture module for all trees.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-45",
+   "area": "Data pipeline",
+   "suggestion": "Make the snapshot manifest the only place an input path is decided: capture scripts write files and update the manifest, engines read the manifest, and no engine carries a default pointing at one session's capture.",
+   "why": "The 2026-11-14 near-miss came from exactly that. A parallel refresh re-pointed scripts/strategy_lab.py's GAMES_CSV at its own copy of the log, and the committed artefact was not rebuilt, so main's build went red while both data sets were correct. CQ-42 asked for one canonical log; this is the mechanism that keeps it canonical.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "A \u2014 the drift gate caught a broken build but not a broken choice; removing the second source of truth stops the argument recurring on every refresh.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "manifest-only resolution, with an engine default that raises instead of guessing",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "keep the defaults and add a CI check that every engine path equals the manifest path",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "nothing.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-46",
+   "area": "Engine inputs",
+   "suggestion": "Add a results-log freshness gate to the build: fail when data/origin/games.csv ends before the day before the priced window, and append any missing finals from the newest official capture in the same step.",
+   "why": "The 11/13 finals gap (flag F36-03) was open for half a day and priced into the 11/14 lines until session 25418e3f closed it by hand; nothing in the build would have failed. CS-43 puts the per-date count check inside capture scripts; this gate makes the LOG itself a build-time contract, so pricing can never run one day behind the official record again.",
+   "current_decision": "Awaiting owner review",
+   "status_note": "",
+   "recommendation": "B, with the capture cross-checks (records reconcile against the official team table) as the gate. Determinism is preserved by committing the regenerated artefacts.",
+   "reason": "",
+   "has_reasoning": false,
+   "paths": [
+    {
+     "id": "A",
+     "label": "manual append per slate (current)",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "B",
+     "label": "build step that appends any missing finals from the newest data/app/official_results_*.json capture, re-runs the seeded lab and fails if the log still ends before the window minus one day",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    },
+    {
+     "id": "C",
+     "label": "scheduled nightly re-capture.",
+     "cost": "",
+     "risk": "",
+     "unblocks": [],
+     "score": null,
+     "score_normalised": null,
+     "max_score": 15
+    }
+   ],
+   "best_path_by_criteria": "",
+   "best_path_agrees_with_recommendation": null,
+   "criteria_scored": false,
+   "dependencies": [],
+   "blocked": false,
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ],
+   "legacy_ref": ""
+  }
+ ],
+ "questions": [
+  {
+   "id": "CQ-01",
+   "category": "Data",
+   "question": "Can this environment pull official NBA historical data (box scores, game logs, play-by-play)?",
+   "status": "Answered (no)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "No. Direct curl to www.nba.com, stats.nba.com and cdn.nba.com returned no HTTP response. The fetch tool returned HTTP 500 for the cdn.nba.com schedule JSON and failed for a stats.nba.com scoreboard URL. HTML pages and the injury PDFs were readable; no statistical tables were.",
+   "missing": "Authorised network path, or owner-supplied dated export with provenance",
+   "how_to_discover": "Owner allows egress to stats.nba.com and cdn.nba.com, or supplies an export; re-run the pipeline and verify against official pages",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/stats/players/traditional"
+   ]
+  },
+  {
+   "id": "CQ-02",
+   "category": "Data",
+   "question": "Is there an official source for betting odds or lines for NBA games?",
+   "status": "Answered (none identified)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "No official NBA source with odds was identified among the sources reviewed. The schedule page has an odds toggle, but no price values were extracted. Operator prices are not official NBA data.",
+   "missing": "Licensed odds feed with written terms and timestamped history",
+   "how_to_discover": "Request written data terms and sample timestamped snapshots from odds providers; check licence scope with counsel",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "CQ-03",
+   "category": "Data",
+   "question": "What NBA content may be reproduced or published on a public site?",
+   "status": "Partly answered",
+   "severity": "partial",
+   "blocks_decisions": false,
+   "known": "Terms of Use s.1 restricts reproduction and public or commercial use without written permission. s.9 requires attribution, limits NBA Statistics to news or private non-commercial use, bars use in connection with any gambling activity, and bars comprehensive statistics databases without consent. This site reproduces an injury snapshot and schedule rows with attribution and links. Page last updated July 13, 2026.",
+   "missing": "Written permission from NBA, or a legal reading of s.1 and s.9 for this site",
+   "how_to_discover": "Counsel review; or reduce to links and counts until permission is obtained (SG-01)",
+   "owner": "Owner and counsel",
+   "sources": [
+    "https://www.nba.com/termsofuse"
+   ]
+  },
+  {
+   "id": "CQ-04",
+   "category": "Legal",
+   "question": "Can picks or betting recommendations be published to people in the Netherlands?",
+   "status": "Open - blocking",
+   "severity": "blocking",
+   "blocks_decisions": true,
+   "known": "Not determined. Art. 1 of the Wet op de kansspelen prohibits promoting participation in unlicensed gambling (see S12). Ksa states that without a licence an operator may not advertise at all, and that online sports betting needs an Art. 31a licence (S10, S11). This is not legal advice. No picks are published.",
+   "missing": "Dutch counsel opinion on whether picks, tips or analysis count as promotion",
+   "how_to_discover": "Obtain a written legal opinion. Until then, picks.html publishes blank cells and no picks",
+   "owner": "Owner and counsel",
+   "sources": [
+    "https://wetten.overheid.nl/BWBR0002469/2025-02-12/0"
+   ]
+  },
+  {
+   "id": "CQ-05",
+   "category": "Legal",
+   "question": "Can rewards be offered to top strategies on a leaderboard?",
+   "status": "Open - blocking",
+   "severity": "blocking",
+   "blocks_decisions": true,
+   "known": "Not determined. Prizes tied to betting outcomes or chance could be treated as gambling under the Wet op de kansspelen. No rule on this was verified.",
+   "missing": "Counsel opinion on prizes and rewards",
+   "how_to_discover": "Obtain counsel opinion before any reward is described on the site",
+   "owner": "Owner and counsel",
+   "sources": [
+    "https://wetten.overheid.nl/BWBR0002469/2025-02-12/0"
+   ]
+  },
+  {
+   "id": "CQ-06",
+   "category": "Legal",
+   "question": "What is the minimum age for online sports betting in the Netherlands?",
+   "status": "Open - unverified",
+   "severity": "unverified",
+   "blocks_decisions": true,
+   "known": "Not verified from an official source in this session. Secondary sources conflict and are not used. Nothing is published on age.",
+   "missing": "Official age provision (Ksa or Wet op de kansspelen article) with citation",
+   "how_to_discover": "Read the official age provisions and cite the article; until then do not publish a value (F16)",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame"
+   ]
+  },
+  {
+   "id": "CQ-07",
+   "category": "Compliance",
+   "question": "What responsible-gambling information should appear on a site of this type?",
+   "status": "Partly answered",
+   "severity": "partial",
+   "blocks_decisions": false,
+   "known": "Gokstop offers self-exclusion through the Cruks register (S13). The site links to Gokstop. Whether further safeguards are required is not determined.",
+   "missing": "Counsel view on required safeguards",
+   "how_to_discover": "Keep the Gokstop link; seek counsel advice on any further requirement",
+   "owner": "Owner and counsel",
+   "sources": [
+    "https://www.gokstop.nl/"
+   ]
+  },
+  {
+   "id": "CQ-08",
+   "category": "Validation",
+   "question": "Which gate thresholds are approved (sample size, significance level, margins)?",
+   "status": "Open - decision",
+   "severity": "decision",
+   "blocks_decisions": true,
+   "known": "Thresholds in gates.csv are proposals written by this repository. None has owner approval. NIST gives the method (S15 to S17), not the thresholds.",
+   "missing": "Owner approval of thresholds, and a pre-registration date",
+   "how_to_discover": "Owner selects an option in suggestions.html (SG-05); until then all gates stay BLOCKED",
+   "owner": "Owner",
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/"
+   ]
+  },
+  {
+   "id": "CQ-09",
+   "category": "Validation",
+   "question": "What is the leaderboard objective (scoring rule and return metric)?",
+   "status": "Open - decision",
+   "severity": "decision",
+   "blocks_decisions": true,
+   "known": "Proposed: out-of-sample proper scoring (log loss or Brier) first, then net return after recorded prices, with uncertainty. A proposal only.",
+   "missing": "Owner choice of primary metric",
+   "how_to_discover": "Decide before data is loaded; record in gates.csv",
+   "owner": "Owner",
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/"
+   ]
+  },
+  {
+   "id": "CQ-10",
+   "category": "Correlation",
+   "question": "What are the correlation values for parlay and prop-combo legs?",
+   "status": "Open - blocking (data)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "No correlation has been measured. Every value cell in correlations.csv is blank by design.",
+   "missing": "Matched, timestamped outcome data for each market pair",
+   "how_to_discover": "Estimate joint frequencies on matched data with confidence intervals; leave blank until then",
+   "owner": "Owner and analyst",
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/"
+   ]
+  },
+  {
+   "id": "CQ-11",
+   "category": "Injuries",
+   "question": "How much do injuries change minutes and production?",
+   "status": "Open - blocking (data)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Official injury rules describe participation status and reason only, not minutes or production (S01).",
+   "missing": "Historical injury status history linked to minutes and box scores",
+   "how_to_discover": "Event study on authorised historical data; report ranges, not single numbers",
+   "owner": "Owner and analyst",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-12",
+   "category": "Scope",
+   "question": "What does 'up to 3 days in advance' mean?",
+   "status": "Partly answered",
+   "severity": "partial",
+   "blocks_decisions": false,
+   "known": "Assumed: calendar dates 2026-11-13 through 2026-11-16 inclusive, which covers 31 scheduled games (S05). The prior dashboard used a 72-hour limit, which can differ.",
+   "missing": "Owner confirmation of the definition",
+   "how_to_discover": "Owner selects option A or B (SG-07)",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "CQ-13",
+   "category": "Operations",
+   "question": "Which injury report is 'current' for a slate, and how often should it refresh?",
+   "status": "Partly answered",
+   "severity": "partial",
+   "blocks_decisions": false,
+   "known": "Official rules: participation status is due 5 p.m. local the day before a game (1 p.m. local for the second of a back-to-back); game-day reports are filed 11 a.m. to 1 p.m. local (8 to 10 a.m. for tip-offs at or before 5 p.m.); reports update continually (S01). The 11/13 index lists reports from 12:00 a.m. to 5:15 p.m. ET.",
+   "missing": "Refresh policy and cutoff time",
+   "how_to_discover": "Owner selects a cadence (SG-06); each revision is stored with its timestamp",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-14",
+   "category": "Operations",
+   "question": "Which time zone should slate times use?",
+   "status": "Answered (ET)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Schedule times are shown in ET (S05). Injury report times are shown in ET with no AM/PM marker in the PDF text (F08). Conversion to Netherlands time was not performed.",
+   "missing": "None for ET. Local conversion needs a verified time-zone reference",
+   "how_to_discover": "None required for ET",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "CQ-15",
+   "category": "Site",
+   "question": "Is the site public or private?",
+   "status": "Answered (public)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "GitHub Pages sites are publicly available, even when the repository is private (S18). This repository is public.",
+   "missing": "Owner decision on whether to keep the site public",
+   "how_to_discover": "Owner chooses public or restricted publishing",
+   "owner": "Owner",
+   "sources": [
+    "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+   ]
+  },
+  {
+   "id": "CQ-16",
+   "category": "Repository",
+   "question": "Which licence applies to the code and content?",
+   "status": "Open - decision",
+   "severity": "decision",
+   "blocks_decisions": true,
+   "known": "No licence is declared on the repository (licenseInfo null, S19).",
+   "missing": "Owner choice of licence",
+   "how_to_discover": "Owner chooses a licence and adds a LICENSE file (SG-11)",
+   "owner": "Owner",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ]
+  },
+  {
+   "id": "CQ-17",
+   "category": "Repository",
+   "question": "Which Pages publishing source should the site use?",
+   "status": "Open - blocked (API 403)",
+   "severity": "blocked",
+   "blocks_decisions": true,
+   "known": "Official docs describe two sources: a branch folder, or a GitHub Actions workflow (S18). The repository's source is legacy main /. The attempt to set the GitHub Actions source failed with 403 Resource not accessible by integration. Decision: the generated pages are committed at the repository root and served from main /, and the workflow checks that they match a fresh build. The whole public repository is therefore served (R06).",
+   "missing": "Confirmation that the switch succeeded",
+   "how_to_discover": "Owner switches Settings > Pages > Source to GitHub Actions if the whole-repository publish is unwanted; then the workflow deploy job can be restored",
+   "owner": "Owner",
+   "sources": [
+    "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+   ]
+  },
+  {
+   "id": "CQ-18",
+   "category": "Process",
+   "question": "Can the blocked items be finished without owner input?",
+   "status": "Answered (no)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "No, for the blocked items. Data access, odds licensing, legal opinions and gate thresholds need an owner or counsel. These are recorded as questions and suggestions, not worked around with guessed values.",
+   "missing": "Owner or counsel decisions listed above",
+   "how_to_discover": "See suggestions.html for the choices",
+   "owner": "Owner",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"
+   ]
+  },
+  {
+   "id": "CQ-19",
+   "category": "Freshness",
+   "question": "Which official injury report should the site publish, and who decides when a newer one exists?",
+   "status": "Partly answered by this round - needs a standing rule",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Answered for 2026-11-14: the newest report listed on the official index that the CDN actually serves (1:30 PM ET; the 1:45 PM file 404s because it was advertised before being written). The build now reads the snapshot the manifest names and a freshness gate fails if that stamp is not the newest listed one. What is NOT settled is the rule for a future slate: whether the site should always show the newest report, or freeze one stamp per slate and keep later ones as deltas.",
+   "missing": "A standing rule from the owner: newest-always, or one frozen stamp per slate plus deltas",
+   "how_to_discover": "Owner states the rule; the capture script already supports either (add a new ..._letter.py capture rather than editing an existing one)",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-20",
+   "category": "Freshness",
+   "question": "How close to tip-off is close enough to price a game on confirmed availability?",
+   "status": "Open - decision",
+   "severity": "decision",
+   "blocks_decisions": true,
+   "known": "Not determined. The league requires a game-day report between 11 a.m. and 1 p.m. local (8-10 a.m. for tips at 5 p.m. or earlier) and updates continually after that; on 2026-11-14 the 1:30 PM report still had MEM unfiled and a 7:00 PM tip. Nothing in the official pages defines a 'final' report.",
+   "missing": "A risk rule from the owner: for example, no pick on a side whose team has not filed, or a maximum number of hours before tip for accepting a filed status",
+   "how_to_discover": "Owner states the rule; the engine already publishes hours_from_stamp_to_tip per team-side, so the rule can be enforced mechanically without new data",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-21",
+   "category": "Decision process",
+   "question": "Who may record a decision against a suggestion, and where is the record kept?",
+   "status": "Open - decision",
+   "severity": "decision",
+   "blocks_decisions": true,
+   "known": "Not determined. The decision workspace publishes recommendations and dependency state, but a choice is only a note in COORDINATION.md today, which is a session log, not an owner-facing record.",
+   "missing": "An owner-facing decision log with a date, the chosen path and the reason, which the build reads",
+   "how_to_discover": "Owner confirms the register of record (COORDINATION.md, a new CSV, or an issue); the workspace page then shows the decided path instead of the recommendation",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-22",
+   "category": "General",
+   "question": "Is the owner planning to offer lines or picks to other people in NL?",
+   "status": "Not answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Ksa: online sports betting offers need a Koa licence (S09).",
+   "missing": "Whether anyone other than the owner will receive lines or picks; operator status; entity and licence.",
+   "how_to_discover": "SG-01 (legal)",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden"
+   ]
+  },
+  {
+   "id": "CQ-23",
+   "category": "General",
+   "question": "May NBA statistics be used to build betting lines?",
+   "status": "Answered \u2014 restricted",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "NBA Terms \u00a79 bars gambling use of NBA Statistics and a regularly updated statistics database without express prior consent.",
+   "missing": "Any written permission from NBA.",
+   "how_to_discover": "SG-02",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/termsofuse"
+   ]
+  },
+  {
+   "id": "CQ-24",
+   "category": "General",
+   "question": "Which games are in the next 3 days (11/13\u201311/16)?",
+   "status": "Answered (subject to change)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "31 games across 4 dates in the official by-date schedule (S05).",
+   "missing": "Confirmation of changes after August 13, 2026.",
+   "how_to_discover": "Re-pull at query time",
+   "owner": "Owner",
+   "sources": [
+    "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+    "https://www.nba.com/news/2026-27-schedule-team-by-team-index"
+   ]
+  },
+  {
+   "id": "CQ-25",
+   "category": "General",
+   "question": "Who is listed as out or questionable for those games?",
+   "status": "Partly answered",
+   "severity": "partial",
+   "blocks_decisions": false,
+   "known": "Official 11/13 5:00 PM report transcribed (117 rows) and 11/14 rows partly submitted (S04). The report index shows later updates through 5:15 PM on 11/13 (S02).",
+   "missing": "Later report updates not retrieved; 18 rows lack team text.",
+   "how_to_discover": "Re-pull reports (SG-03)",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+   ]
+  },
+  {
+   "id": "CQ-26",
+   "category": "General",
+   "question": "Do official injury reports quantify minutes or production impact?",
+   "status": "Answered \u2014 no",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Report fields: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason (S04). Index describes status reporting only (S02).",
+   "missing": "Any authorized minutes or production model.",
+   "how_to_discover": "SG-06",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+   ]
+  },
+  {
+   "id": "CQ-27",
+   "category": "General",
+   "question": "What are the official injury reporting deadlines?",
+   "status": "Answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Status by 5 p.m. local the day before (except 2nd game of a back-to-back: 1 p.m. local on game day); game-day report 11 a.m.\u20131 p.m. local (8\u201310 a.m. for tip-offs at 5 p.m. or earlier) (S02).",
+   "missing": "None for this question.",
+   "how_to_discover": "Use as cut-off rules",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-28",
+   "category": "General",
+   "question": "Which odds and prop data are licensed and available?",
+   "status": "Not answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "None in the repository; no provider or licence verified.",
+   "missing": "Provider, markets, timestamps, history depth, licence and display rights, cost.",
+   "how_to_discover": "SG-02",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+    "https://www.nba.com/termsofuse"
+   ]
+  },
+  {
+   "id": "CQ-29",
+   "category": "General",
+   "question": "What historical data can be used, and under what terms?",
+   "status": "Not answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "NBA Terms \u00a79 restrict NBA statistics (S07). No other dataset identified.",
+   "missing": "Authorized sources, schema, provenance, and missingness.",
+   "how_to_discover": "SG-02, SG-03",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/termsofuse"
+   ]
+  },
+  {
+   "id": "CQ-30",
+   "category": "General",
+   "question": "What minutes projection source is available?",
+   "status": "Not answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "None verified.",
+   "missing": "Authorized rotation or minutes data and its terms.",
+   "how_to_discover": "SG-06",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/stats/players/traditional"
+   ]
+  },
+  {
+   "id": "CQ-31",
+   "category": "General",
+   "question": "What defines a 'useful signal' and the leaderboard winner?",
+   "status": "Not answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Not specified by owner in the repository.",
+   "missing": "Metric, threshold, minimum sample, horizon. Proposal in SG-04 for owner choice.",
+   "how_to_discover": "SG-04",
+   "owner": "Owner",
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm"
+   ]
+  },
+  {
+   "id": "CQ-32",
+   "category": "General",
+   "question": "What bankroll and risk limits apply?",
+   "status": "Not answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Not in repository.",
+   "missing": "Risk tolerance, stake rules, drawdown cap.",
+   "how_to_discover": "SG-09",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame"
+   ]
+  },
+  {
+   "id": "CQ-33",
+   "category": "General",
+   "question": "What are the correlation values between markets or players?",
+   "status": "Not answered \u2014 no data",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "No outcomes, prices or samples in the repository.",
+   "missing": "Matched outcomes, prices, and samples; measurement window.",
+   "how_to_discover": "7C-F-06 / G7",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/stats/players/boxscores"
+   ]
+  },
+  {
+   "id": "CQ-34",
+   "category": "General",
+   "question": "Where can problem-gambling help be found in NL?",
+   "status": "Partly answered",
+   "severity": "partial",
+   "blocks_decisions": false,
+   "known": "Ksa publicises the Gokstop (self-exclusion) campaign (S08).",
+   "missing": "Confirmation of the Gokstop URL and any other official resource (not fetched).",
+   "how_to_discover": "Verify before publishing",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/"
+   ]
+  },
+  {
+   "id": "CQ-35",
+   "category": "General",
+   "question": "Does the repository have a live site with the correct source?",
+   "status": "Answered",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "GitHub Pages is enabled for the repo (RR-04). Site will be rebuilt by T7/T8.",
+   "missing": "Post-deploy verification (T8).",
+   "how_to_discover": "T8",
+   "owner": "Owner",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ]
+  },
+  {
+   "id": "CQ-36",
+   "category": "Data",
+   "question": "Do you want the site to publish model-derived numbers that no official source confirms?",
+   "status": "Answered (policy applied)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "The brief requires a source link on every row and blanks for anything not confirmable from an official source. Model outputs (spread, total, probability) are by definition ours, not official.",
+   "missing": "Explicit owner confirmation of the display policy for derived values (currently: shown in a 'Derived' column with the model method link and never presented as an official fact).",
+   "how_to_discover": "Review the Derived columns on the Lines and Picks pages and say whether they should be hidden until a licensed market feed exists.",
+   "owner": "Owner",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ]
+  },
+  {
+   "id": "CQ-37",
+   "category": "Legal",
+   "question": "Will the project be used commercially in the Netherlands, and by whom?",
+   "status": "Answered (no) \u2014 awaiting counsel",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "No operator, licence or customer base is described in the repository.",
+   "missing": "Operator entity, Ksa licence status, customer geography, age verification, responsible-gambling controls.",
+   "how_to_discover": "Counsel review against the Ksa licensing page and the Wet op de kansspelen before any betting-related feature is published.",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+    "https://wetten.overheid.nl/BWBR0002469/2025-02-12/0"
+   ]
+  },
+  {
+   "id": "CQ-38",
+   "category": "Strategy",
+   "question": "What sample size and decision rule should gate a strategy as deployable?",
+   "status": "Answered (proposed, not approved)",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "The gate set in this repository proposes n >= 100 out-of-sample games, raw p < 0.05, Benjamini-Hochberg FDR 0.05 and a stable split-half direction. Thresholds are proposals, not owner decisions.",
+   "missing": "Owner approval of the thresholds, the loss function and the prize structure of the leaderboard.",
+   "how_to_discover": "Approve or amend the gate thresholds on the Strategies page; the leaderboard ranks by them.",
+   "owner": "Owner",
+   "sources": [
+    "https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm"
+   ]
+  },
+  {
+   "id": "CQ-36",
+   "category": "Leaderboard",
+   "question": "What does winning the leaderboard actually pay?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "The board ranks rules by a composite skill score and assigns reward tiers T1-T5 with a stake allocation (full unit / quarter unit / paper only / none). No money is attached.",
+   "missing": "Whether this is a prize contest, a pool, or internal scoring. Dutch rules treat these differently (Q-LEG-01, Q-LEG-02).",
+   "how_to_discover": "Decide the competition format first; the reward schedule follows from it.",
+   "owner": "Owner",
+   "sources": [
+    "https://kansspelautoriteit.nl/online-kansspel-aanbieden"
+   ]
+  },
+  {
+   "id": "CQ-37",
+   "category": "Leaderboard",
+   "question": "Who may add a strategy to the board, and how is it registered before it is scored?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Any rule can be scored. Nothing stops a rule being written after the results are known, which is how a backtest invents an edge.",
+   "missing": "A pre-registration step: rule text, selection predicate and freeze date hashed before the first forecast is graded (gate G10 idea).",
+   "how_to_discover": "Approve a pre-registration rule and add it as a gate; until then treat every strategy here as retrospective.",
+   "owner": "Owner",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ]
+  },
+  {
+   "id": "CQ-38",
+   "category": "Gates",
+   "question": "Is 100 graded out-of-sample forecasts the right minimum sample?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Gate G3 uses n >= 100. With ~1,230 NBA games a season and rules that fire on a subset, 100 takes one to three seasons for the narrower rules.",
+   "missing": "The cost of waiting versus the cost of acting on noise. 100 is a convention, not a measurement.",
+   "how_to_discover": "Approve, raise or lower the number; the board re-scores automatically.",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ]
+  },
+  {
+   "id": "CQ-39",
+   "category": "Data",
+   "question": "May per-player game logs be captured and stored?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Without them every player-level correlation is blank and no prop combo can be priced. Four combos on the board are blocked on this alone.",
+   "missing": "Storage, volume (~4,000 rows a season) and the reproduction terms in NBA s.1 and s.9.",
+   "how_to_discover": "Decide, then capture nba.com/stats/players/boxscores by date and re-run the lab.",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/stats/players/boxscores",
+    "https://www.nba.com/termsofuse"
+   ]
+  },
+  {
+   "id": "CQ-40",
+   "category": "Gates",
+   "question": "Should a detected bias against our own line be reported as an edge or as a model defect?",
+   "status": "Answered (defect) - owner confirmation requested",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Our margin model is unbiased (+0.01 points) but the totals model runs about 1.5 points hot. A rule that fades our own high totals therefore 'wins' against us.",
+   "missing": "Nothing external. Beating our own line is not beating a market.",
+   "how_to_discover": "Confirm the policy: a bias found against our own line is published as a model defect to fix, never as a betting edge.",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ]
+  },
+  {
+   "id": "CQ-47",
+   "category": "Data ownership",
+   "question": "Which injury capture is canonical now that two exist, and does the site move to the newer 04:45 AM stamp?",
+   "status": "Answered 2026-11-14 (session a399d8a9) \u2014 the question was overtaken by a newer report",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Both captures hold the same 49 rows under the same keys and the same counts. The newer file is the 04:45 AM report, and its only content difference is attributing the Traore row to BKN where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the availability join, the injury page and the impact table are written against that artefact's field names.",
+   "missing": "Nothing further for this slate. The 04:45 AM question was superseded: the official index now lists 11/14 reports through 1:30 PM ET, and that report PRINTS 'Brooklyn Nets' on the Traore row, so the cell is no longer a second transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the freshness gate now fails a build whose published stamp is not the newest listed one. What remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).",
+   "how_to_discover": "Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until then the build follows 'newest listed', enforced by the gate rather than by argument.",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json"
+   ]
+  },
+  {
+   "id": "CQ-46",
+   "category": "Governance",
+   "question": "May a session implement its own site-presentation suggestions, or must every suggestion wait for the owner's review?",
+   "status": "Partly answered by this round \u2014 needs a standing rule",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "The brief asks for a suggestions section reviewed before any change, and also for the session to finish without manual input. This round resolved the tension by changing presentation only (a header badge, a re-price column, a leading funded-state line, one corrected table) and flagging those edits here, so the owner can reverse any of them as a set. No published number, no model output and no other session's tree was touched.",
+   "missing": "Whether to keep the four presentation changes, and whether to make 'presentation only, must be listed in the flag register' the standing rule for self-approved suggestions.",
+   "how_to_discover": "Owner: answer here or in the suggestions page. Until then the changes stand, each with its own CS/NF id, and reverting them is a one-commit operation because none of them is entangled with data.",
+   "owner": "Owner",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"
+   ]
+  },
+  {
+   "id": "CQ-41",
+   "category": "Freshness",
+   "question": "Should a line that is priced before a filing deadline be re-priced automatically when the deadline passes, or held and marked stale?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Known: the deadline for every team-game in the window is computable from the official rule and the official schedule, and scripts/report_availability.py already publishes it per game. Five of tonight's ten team-sides settle at 1 p.m. local today. Known: nothing re-pulls today.",
+   "missing": "Missing: whether an automatic re-price is wanted (it changes published numbers without a human in the loop) or whether the site should only show the age and let the reader decide.",
+   "how_to_discover": "Pick one: (a) re-pull and re-price on the deadline, (b) re-pull and publish as a shadow line next to the original, (c) leave as it is. (b) keeps an audit trail and is what the leaderboard would need anyway to score strategies fairly.",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-42",
+   "category": "Data",
+   "question": "Should there be one canonical result log for the whole repository?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Known: data/origin/games.csv now holds 183 verified games (through 2026-11-13); final/data/games.csv still holds 174 (through 2026-11-12) and the /dashboard/ tree is built from it, so two pages on the live site describe two different seasons-to-date.",
+   "missing": "Missing: a decision on which log is canonical, and whether the older trees are re-cut or labelled as dated snapshots.",
+   "how_to_discover": "Either point every tree at data/origin/games.csv and re-run their builders, or add a 'snapshot of 2026-11-13' banner to the trees that keep their own copy. Re-cutting is the cleaner option; it also re-opens their own verification numbers.",
+   "owner": "Owner",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "CQ-43",
+   "category": "Method",
+   "question": "Is a venue time-zone table acceptable as an input?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Known: the official rule states deadlines in LOCAL time; the official schedule prints tip times in ET. The offset between the two is not printed on any official page this project reads, so 're-price at 13:00 local' is shown as local and the ET equivalent is left blank.",
+   "missing": "Missing: permission to use a published time-zone reference (which would let the site print '1:00 p.m. local = 2:00 p.m. ET' and rank tonight's games by when each becomes priceable).",
+   "how_to_discover": "Either accept an external time-zone source and record it in the source register, or keep the blank and accept that the ordering, not the clock time, is what the site can promise.",
+   "owner": "Owner",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "CQ-44",
+   "category": "Availability",
+   "question": "Does a game with an unresolved side belong in a parlay at all?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Known: same-game parlays on the site are priced with a measured dependence ratio of 0.942 whose interval includes 1.0, so independence is not established; and 22 of 27 games have no usable availability. The flag that said every game was a valid leg is now derived from availability instead of being a literal.",
+   "missing": "Missing: the owner's policy on leg eligibility \u2014 zero legs is a defensible answer for tonight, but not for a whole slate.",
+   "how_to_discover": "Choose a rule: exclude any leg whose team has not filed; or allow pre-deadline legs and mark them; or gate legs on strategy funding instead of availability. The first is the strictest and the easiest to defend.",
+   "owner": "Owner",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   ]
+  },
+  {
+   "id": "CQ-45",
+   "category": "Injuries",
+   "question": "How should a Probable or Available-with-injury row affect a line?",
+   "status": "Open - owner decision",
+   "severity": "tracked",
+   "blocks_decisions": false,
+   "known": "Known: the engine counts Out and Doubtful as absences and treats Questionable as 'listed but not counted'; Probable and Available (9 rows on the 11/14 slate, e.g. Caleb Martin with a thumb splint, Nolan Traore with a calf) currently have no effect at all.",
+   "missing": "Missing: a measured minute-donation model for game-time decisions, which needs per-player game logs this repository does not have.",
+   "how_to_discover": "Either state on the page that Probable/Available rows are ignored and why, or capture player game logs and measure how minutes actually shift for splint/mask cases. The first costs nothing.",
+   "owner": "Owner",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "CS-01",
+   "to": "Q-DATA-03",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-02",
+   "to": "Q-LEG-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-03",
+   "to": "Q-DATA-01",
+   "kind": "suggestion-needs-question",
+   "resolved": true
+  },
+  {
+   "from": "CS-04",
+   "to": "Q-DATA-02",
+   "kind": "suggestion-needs-question",
+   "resolved": true
+  },
+  {
+   "from": "CS-05",
+   "to": "Q-GATE-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-06",
+   "to": "Q-OPS-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-07",
+   "to": "Q-SCOPE-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-09",
+   "to": "Q-GATE-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-10",
+   "to": "Q-REPO-02",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-11",
+   "to": "Q-REPO-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-14",
+   "to": "Q-DATA-01",
+   "kind": "suggestion-needs-question",
+   "resolved": true
+  },
+  {
+   "from": "CS-15",
+   "to": "Q-DEC-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  },
+  {
+   "from": "CS-16",
+   "to": "Q-FRESH-01",
+   "kind": "suggestion-needs-question",
+   "resolved": false
+  }
+ ],
+ "session_record": {
+  "session": "arena/a399d8a9-nba3",
+  "date": "2026-11-14",
+  "worked_autonomously": [
+   {
+    "what": "Re-pointed the injury snapshot to the newest official report (01:30 PM ET)",
+    "why": "The published snapshot was 9.25 hours old on a game-day slate and 8 of 10 teams had not filed on it. This was a correctness defect, not a preference: no owner decision was needed to stop publishing a stale stamp.",
+    "evidence": "session_a399d8a9/data/reconciliation_2026-11-14.json",
+    "reversible": "yes \u2014 revert one manifest entry to restore the old stamp"
+   },
+   {
+    "what": "Corrected report_availability.py's deadline arithmetic",
+    "why": "It compared filing deadlines with a hard-coded 04:45 clock instead of the report's own stamp, so it could not detect the staleness above, and it reported 'no team is overdue' as a consequence of its own assumption.",
+    "evidence": "scripts/report_availability.py (docstring records the correction)",
+    "reversible": "yes \u2014 the old behaviour is one commit back"
+   }
+  ],
+  "needs_owner_decision": [
+   "CS-01",
+   "CS-02",
+   "CS-05",
+   "CS-06",
+   "CS-07",
+   "CS-09",
+   "CS-10",
+   "CS-11",
+   "CS-15",
+   "CS-16"
+  ],
+  "freshness_gate": {
+   "pass": true,
+   "checks": [
+    {
+     "id": "FG-1",
+     "what": "The build reads the newest injury report the official index lists.",
+     "pass": true,
+     "detail": "the manifest now names 2026-11-14 01:30 PM ET (newest listed and readable at 18:47Z); before this session it named 2026-11-14 01:30 PM ET",
+     "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+    },
+    {
+     "id": "FG-0",
+     "what": "The staleness that existed on arrival is recorded in the reconciliation, not quietly fixed and forgotten.",
+     "pass": true,
+     "detail": "on arrival the manifest named 2026-11-14 04:15 AM ET, 9.25 hours behind the newest official report and short a filing for 8 of the 10 teams on the slate it was pricing",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+    },
+    {
+     "id": "FG-2",
+     "what": "The snapshot is not older than the league's own game-day filing window for a slate it prices.",
+     "pass": true,
+     "detail": "report stamp 2026-11-14 01:30 PM ET is 5.50 hours before the first tip of the window (7:00 PM ET); a report stamped after the first tip would be pricing a slate on a document the league publishes only afterwards",
+     "source": "https://www.nba.com/schedule?date=2026-11-14"
+    },
+    {
+     "id": "FG-3",
+     "what": "Every team playing on the report's own date is flagged when it has not filed.",
+     "pass": true,
+     "detail": "1 team(s) not filed on 2026-11-14: MEM",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+    },
+    {
+     "id": "FG-4",
+     "what": "No team is reported as having zero absences unless it actually filed.",
+     "pass": true,
+     "detail": "out_count is published only in the FILED state; 9 team-sides are FILED, 45 are not",
+     "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+    },
+    {
+     "id": "FG-5",
+     "what": "The 27-game pricing window is unchanged by the refresh.",
+     "pass": true,
+     "detail": "per-date counts {'2026-11-14': 5, '2026-11-15': 9, '2026-11-16': 8, '2026-11-17': 5} match the page's own section headers",
+     "source": "https://www.nba.com/schedule?date=2026-11-14"
+    },
+    {
+     "id": "FG-6",
+     "what": "Every published injury value traces to a printed cell of the named report.",
+     "pass": true,
+     "detail": "16 fragment rows inherit only date/time/matchup from their own game block (listed in the reconciliation); no status, reason, player or team is inherited.",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+    }
+   ]
+  }
+ },
+ "how_to_use": [
+  "Start with the blocked column. A suggestion whose dependency question is still open cannot be implemented correctly yet, whatever path is chosen.",
+  "For each ready suggestion, read the paths against the five criteria. The criteria are scored 0-3 with the meaning of each score written out, so a disagreement is about the path and not about the scale.",
+  "Where this session has a recommendation, the reason is stated. Where it does not, the row says so \u2014 an unscored row is a request for a reviewer, not a silent ranking.",
+  "Record the choice in COORDINATION.md against the suggestion ID. The site is rebuilt from the registers, so the record and the page cannot drift apart."
+ ]
+}

@@ -20336,6 +20336,12 @@
   }
  ],
  "injuries": {
+  "prior_report_compared_rows": 45,
+  "prior_report_status_changes": 4,
+  "prior_report_rows_only_in_newest": 24,
+  "prior_report_rows_only_in_prior": 4,
+  "prior_report_team_cell_gaps": 1,
+  "prior_report_note": "Compared row by row with the 04:15 AM ET report this snapshot supersedes: 45 rows matched, 4 changed status, 24 player rows appear for teams that had not filed, and 4 team placeholders closed because those teams filed. No row was removed because the league withdrew a player. Full detail: session_a399d8a9/data/reconciliation_2026-11-14.json.",
   "schema": "nba3.official_injury_snapshot/v1",
   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
   "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
@@ -20391,6 +20397,13 @@
    "report_stamp": "2026-11-14 04:15 AM ET",
    "why": "Nine hours older, and read before any game-day filing was due. It prints NOT YET SUBMITTED for eight of the ten teams playing on 11/14; the 01:30 PM report prints their actual player rows. Keeping the older stamp on a game-day slate would publish a stale availability picture on the page the owner reads for picks."
   },
+  "newest_report_listed_on_index": "2026-11-14 01:30 PM ET",
+  "newest_report_checked": true,
+  "newest_report_rows": 69,
+  "newest_report_differences": 0,
+  "newest_report_note": "This is the newest report on the official index at 2026-11-14T18:47Z (the index listed 11/14 files every 15 minutes through 1:30 PM ET; the next file, 1:45 PM, returned AccessDenied because it had been advertised but not yet written).",
+  "prior_report_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+  "prior_report_stamp": "2026-11-14 04:15 AM ET",
   "reconciliation": {
    "report": "session_a399d8a9/data/reconciliation_2026-11-14.json",
    "status_changes_vs_published": 4,
@@ -29026,6 +29039,76 @@
   },
   {
    "id": "NF-26",
+   "area": "Data",
+   "item": "Published injury snapshot was 9.25 hours behind the newest official report",
+   "why": "The canonical site priced the 2026-11-14 slate off the 04:15 AM ET report. The official index served at 18:47Z lists 11/14 reports every 15 minutes through 01:30 PM ET. On the 04:15 AM report eight of the ten teams playing that night had filed nothing; on the 01:30 PM report nine of ten have filed. Four players changed status and 24 player rows appear that the older report did not carry.",
+   "action_needed": "Re-pointed the manifest at the 01:30 PM ET snapshot and rebuilt every artefact (session a399d8a9). Freshness gate FG-1..FG-6 now fails a build if the published stamp is not the newest listed one.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "status": "Resolved 2026-11-14 (session a399d8a9); published on the Decision workspace page",
+   "severity": "high",
+   "legacy_ref": "F26",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-27",
+   "area": "Data",
+   "item": "Filing-deadline arithmetic used a clock typed into the source file",
+   "why": "scripts/report_availability.py compared every filing deadline with a hard-coded 04:45 on 2026-11-14 instead of the stamp of the report it was reading, so its verdict ('zero teams are overdue') was produced by the assumption and could never have detected the staleness in F26. It also quoted the game-day filing clause (11 a.m.-1 p.m. local) and then never applied it.",
+   "action_needed": "The stamp is now read from the snapshot manifest and all three clauses are applied, using worst-case ET ordering rather than a published offset.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "Resolved 2026-11-14 (session a399d8a9)",
+   "severity": "high",
+   "legacy_ref": "F27",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-28",
+   "area": "Site",
+   "item": "The injuries page asserted 'no movement at all' as a fixed sentence",
+   "why": "The freshness paragraph was a hardcoded literal: it printed 'An overnight gap of nine hours ... produced no movement at all, which is why these rows can be published as settled for today' regardless of the data, and the numbers around it fell back to n/a and 0 when the snapshot carried no prior-report fields. After the refresh the sentence was still there and was false.",
+   "action_needed": "Every value in that paragraph is now read from the snapshot and the reconciliation, and the 11/14 filing sentence is derived from the availability rows.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/injuries.html"
+   ],
+   "status": "Resolved 2026-11-14 (session a399d8a9)",
+   "severity": "medium",
+   "legacy_ref": "F28",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-29",
+   "area": "Data",
+   "item": "games_fully_priced_on_availability was computed over dates, not games",
+   "why": "The expression grouped states by date and then tested `all(... for rows if date==d)` on the date key, so it could not distinguish a fully-priced game from a partly-priced one and reported 0 of 27 in both states.",
+   "action_needed": "Grouped by game_id instead; the figure is now 4 of 27, which is the correct count (the four 11/14 games where both sides have filed).",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/report_availability.py"
+   ],
+   "status": "Resolved 2026-11-14 (session a399d8a9)",
+   "severity": "high",
+   "legacy_ref": "F29",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-30",
+   "area": "Data",
+   "item": "The 'back-to-back correspondence' was gated on as a pass condition",
+   "why": "report_availability.py returned exit 1 unless the unfiled teams were exactly the back-to-back teams. That was true of the 04:15-05:15 AM reports and is expected to stop being true once those teams file, so the gate would have failed a correct refresh - or, worse, invited a session to keep an old snapshot to keep the gate green.",
+   "action_needed": "The correspondence is published as an observation about the old snapshot; the gate now checks the real invariant (a team is never published as overdue unless its deadline really has passed).",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "Resolved 2026-11-14 (session a399d8a9)",
+   "severity": "high",
+   "legacy_ref": "F30",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-31",
    "area": "Blocker",
    "item": "Use of NBA statistics for betting models and lines",
    "why": "NBA Terms §9 says NBA Statistics may not be used in connection with any gambling activity, including legal gambling, and may not feed a comprehensive regularly updated statistics database without express prior consent.",
@@ -29039,7 +29122,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-27",
+   "id": "NF-32",
    "area": "Blocker",
    "item": "Offering online sports betting or betting lines to Dutch customers",
    "why": "Ksa says only holders of a Koa licence under art. 31a of the Betting and Gaming Act may offer online gambling, including bets on sports matches. The owner is located in Naaldwijk, NL.",
@@ -29054,7 +29137,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-28",
+   "id": "NF-33",
    "area": "Blocker",
    "item": "Originated lines and picks for 11/13–11/16",
    "why": "The repository has no licensed odds feed, no historical dataset, and no validated model. Without these, no line can be originated or validated, and no pick can be responsibly generated.",
@@ -29068,7 +29151,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-29",
+   "id": "NF-34",
    "area": "Unverified",
    "item": "Historical box scores, minutes, play-by-play, and prop outcomes",
    "why": "No authorized dataset is in the repository. The NBA terms restrict statistics use (7C-F-01).",
@@ -29082,7 +29165,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-30",
+   "id": "NF-35",
    "area": "Unverified",
    "item": "Injury effect on rotation minutes and production",
    "why": "The official report gives status and reason only; it has no minutes or production fields (S04 header). No minutes projection source is verified.",
@@ -29097,7 +29180,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-31",
+   "id": "NF-36",
    "area": "Unverified",
    "item": "All correlation values and parlay joint probabilities",
    "why": "No outcomes, prices, or samples are available. Blank by policy.",
@@ -29111,7 +29194,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-32",
+   "id": "NF-37",
    "area": "Irregularity",
    "item": "Prior dashboard linked the 2025-26 NBA injury index",
    "why": "The current season index is the 2026-27 page (S02). The 2025-26 page (S03) still resolves but is superseded.",
@@ -29126,7 +29209,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-33",
+   "id": "NF-38",
    "area": "Irregularity",
    "item": "Injury PDF rows with missing team or matchup text",
    "why": "18 of 117 rows have no team or matchup in the extracted text (attribution 'U'). 19 rows take their matchup from the official schedule pairing (attribution 'S'). Some matchups have no game time printed.",
@@ -29141,7 +29224,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-34",
+   "id": "NF-39",
    "area": "Irregularity",
    "item": "Schedule may change",
    "why": "The by-date PDF is labelled 'as of August 13, 2026 | subject to change'.",
@@ -29155,7 +29238,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-35",
+   "id": "NF-40",
    "area": "Unverified",
    "item": "Home/away orientation for 11/15 and 11/16",
    "why": "Home/away is confirmed only for 11/13 and 11/14 (injury report labels). For 11/15 and 11/16 the PDF gives printed order only.",
@@ -29170,7 +29253,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-36",
+   "id": "NF-41",
    "area": "Unverified",
    "item": "Meaning of schedule markers 'R' and '#' (C)",
    "why": "The PDF text shows 'R' and 'C' in marker columns with no legend in the text read.",
@@ -29184,7 +29267,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-37",
+   "id": "NF-42",
    "area": "Irregularity",
    "item": "NBA live scoreboard JSON unavailable",
    "why": "The fetch tool returned HTTP 500 for the CDN scoreboard JSON (S10).",
@@ -29198,7 +29281,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-38",
+   "id": "NF-43",
    "area": "Unverified",
    "item": "NBA Stat Glossary coverage",
    "why": "Only the first of 10 chunks was read line by line.",
@@ -29212,7 +29295,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-39",
+   "id": "NF-44",
    "area": "Irregularity",
    "item": "Coordination protocol branch naming",
    "why": "The brief asks for session-<id>/<task> branches; Arena policy fixes the branch as arena/7c532e8c-nba3.",
@@ -29226,7 +29309,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-40",
+   "id": "NF-45",
    "area": "Irregularity",
    "item": "Two deployment mechanisms existed on GitHub Pages",
    "why": "Pages API reported a legacy build from main at '/' while the repo also had a GitHub Actions workflow (pages.yml).",
@@ -29240,7 +29323,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-41",
+   "id": "NF-46",
    "area": "Unverified",
    "item": "Dutch rules on publishing picks or tips (without offering a bet)",
    "why": "Ksa's page covers offering online gambling. It does not address free tips or analysis content.",
@@ -29254,7 +29337,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-42",
+   "id": "NF-47",
    "area": "Irregularity",
    "item": "Injury report status vocabulary includes a team-level value",
    "why": "'NOT YET SUBMITTED' appears as a status for team rows (7 rows).",
@@ -29268,7 +29351,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-43",
+   "id": "NF-48",
    "area": "Deployment",
    "item": "GitHub Pages is still served from the legacy 'main /' source",
    "why": "gh api reports build_type=legacy with source branch main, path /. The whole public repository is therefore published, including raw JSON and CSVs. The Actions workflow also runs and uploads an artifact, but the published site is the branch build.",
@@ -29282,7 +29365,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-44",
+   "id": "NF-49",
    "area": "Site",
    "item": "Seven separate dashboards were published from earlier sessions",
    "why": "The repository contained /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards plus a root dashboard. They use different ID namespaces and some publish the same facts with different injury snapshots, which makes the site confusing and easy to misread.",
@@ -29296,7 +29379,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-45",
+   "id": "NF-50",
    "area": "Data",
    "item": "Two official injury snapshots are stored with different timestamps",
    "why": "data/injuries.json holds the 11/13 05:00 PM report (117 rows) while data/origin/injuries.csv holds the 11/13 05:15 PM report (118 rows) and data/app holds the 11/13 07:30 PM report (122 rows). A reader could easily compare a 7:30 PM status with a 5:00 PM status and read it as a contradiction.",
@@ -29310,7 +29393,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-46",
+   "id": "NF-51",
    "area": "Data",
    "item": "No official injury report exists yet for the 2026-11-15 and 2026-11-16 games",
    "why": "The newest report listed on the official index (11/13 07:30 PM ET) covers the 11/13 and 11/14 games only. Five teams had not submitted their report for the 11/14 game at that time.",
@@ -29324,7 +29407,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-47",
+   "id": "NF-52",
    "area": "Data",
    "item": "Player abbreviations in one earlier pipeline are not NBA abbreviations",
    "why": "data/picks/picks_2026-11-14_to_16.json prints 'BRK @ MEM'; the official NBA abbreviation is BKN (Brooklyn Nets). The same file also carries a generated timestamp and an availability flag computed from the 11/13 report.",
@@ -29338,7 +29421,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-48",
+   "id": "NF-53",
    "area": "Verification",
    "item": "First manual transcription of the official team stats page produced 8 misread values",
    "why": "An independent manual transcription of nba.com/stats/teams/advanced on 2026-11-14 differed from the stored values for MIA, TOR, CHA, NOP and UTA. A second read of the same page confirmed the stored values and the first read was wrong. The automated cross-check caught all eight.",
@@ -30119,6 +30202,48 @@
   },
   {
    "id": "CQ-19",
+   "category": "Freshness",
+   "question": "Which official injury report should the site publish, and who decides when a newer one exists?",
+   "status": "Partly answered by this round - needs a standing rule",
+   "known": "Answered for 2026-11-14: the newest report listed on the official index that the CDN actually serves (1:30 PM ET; the 1:45 PM file 404s because it was advertised before being written). The build now reads the snapshot the manifest names and a freshness gate fails if that stamp is not the newest listed one. What is NOT settled is the rule for a future slate: whether the site should always show the newest report, or freeze one stamp per slate and keep later ones as deltas.",
+   "missing": "A standing rule from the owner: newest-always, or one frozen stamp per slate plus deltas",
+   "next_step": "Owner states the rule; the capture script already supports either (add a new ..._letter.py capture rather than editing an existing one)",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "owner": "Owner",
+   "legacy_ref": "Q-FRESH-01"
+  },
+  {
+   "id": "CQ-20",
+   "category": "Freshness",
+   "question": "How close to tip-off is close enough to price a game on confirmed availability?",
+   "status": "Open - decision",
+   "known": "Not determined. The league requires a game-day report between 11 a.m. and 1 p.m. local (8-10 a.m. for tips at 5 p.m. or earlier) and updates continually after that; on 2026-11-14 the 1:30 PM report still had MEM unfiled and a 7:00 PM tip. Nothing in the official pages defines a 'final' report.",
+   "missing": "A risk rule from the owner: for example, no pick on a side whose team has not filed, or a maximum number of hours before tip for accepting a filed status",
+   "next_step": "Owner states the rule; the engine already publishes hours_from_stamp_to_tip per team-side, so the rule can be enforced mechanically without new data",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "owner": "Owner",
+   "legacy_ref": "Q-FRESH-02"
+  },
+  {
+   "id": "CQ-21",
+   "category": "Decision process",
+   "question": "Who may record a decision against a suggestion, and where is the record kept?",
+   "status": "Open - decision",
+   "known": "Not determined. The decision workspace publishes recommendations and dependency state, but a choice is only a note in COORDINATION.md today, which is a session log, not an owner-facing record.",
+   "missing": "An owner-facing decision log with a date, the chosen path and the reason, which the build reads",
+   "next_step": "Owner confirms the register of record (COORDINATION.md, a new CSV, or an issue); the workspace page then shows the decided path instead of the recommendation",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "owner": "Owner",
+   "legacy_ref": "Q-DEC-01"
+  },
+  {
+   "id": "CQ-22",
    "category": "General",
    "question": "Is the owner planning to offer lines or picks to other people in NL?",
    "status": "Not answered",
@@ -30132,7 +30257,7 @@
    "legacy_ref": "Q-01"
   },
   {
-   "id": "CQ-20",
+   "id": "CQ-23",
    "category": "General",
    "question": "May NBA statistics be used to build betting lines?",
    "status": "Answered — restricted",
@@ -30146,7 +30271,7 @@
    "legacy_ref": "Q-02"
   },
   {
-   "id": "CQ-21",
+   "id": "CQ-24",
    "category": "General",
    "question": "Which games are in the next 3 days (11/13–11/16)?",
    "status": "Answered (subject to change)",
@@ -30161,7 +30286,7 @@
    "legacy_ref": "Q-03"
   },
   {
-   "id": "CQ-22",
+   "id": "CQ-25",
    "category": "General",
    "question": "Who is listed as out or questionable for those games?",
    "status": "Partly answered",
@@ -30176,7 +30301,7 @@
    "legacy_ref": "Q-04"
   },
   {
-   "id": "CQ-23",
+   "id": "CQ-26",
    "category": "General",
    "question": "Do official injury reports quantify minutes or production impact?",
    "status": "Answered — no",
@@ -30191,7 +30316,7 @@
    "legacy_ref": "Q-05"
   },
   {
-   "id": "CQ-24",
+   "id": "CQ-27",
    "category": "General",
    "question": "What are the official injury reporting deadlines?",
    "status": "Answered",
@@ -30205,7 +30330,7 @@
    "legacy_ref": "Q-06"
   },
   {
-   "id": "CQ-25",
+   "id": "CQ-28",
    "category": "General",
    "question": "Which odds and prop data are licensed and available?",
    "status": "Not answered",
@@ -30220,7 +30345,7 @@
    "legacy_ref": "Q-07"
   },
   {
-   "id": "CQ-26",
+   "id": "CQ-29",
    "category": "General",
    "question": "What historical data can be used, and under what terms?",
    "status": "Not answered",
@@ -30234,7 +30359,7 @@
    "legacy_ref": "Q-08"
   },
   {
-   "id": "CQ-27",
+   "id": "CQ-30",
    "category": "General",
    "question": "What minutes projection source is available?",
    "status": "Not answered",
@@ -30248,7 +30373,7 @@
    "legacy_ref": "Q-09"
   },
   {
-   "id": "CQ-28",
+   "id": "CQ-31",
    "category": "General",
    "question": "What defines a 'useful signal' and the leaderboard winner?",
    "status": "Not answered",
@@ -30262,7 +30387,7 @@
    "legacy_ref": "Q-10"
   },
   {
-   "id": "CQ-29",
+   "id": "CQ-32",
    "category": "General",
    "question": "What bankroll and risk limits apply?",
    "status": "Not answered",
@@ -30276,7 +30401,7 @@
    "legacy_ref": "Q-11"
   },
   {
-   "id": "CQ-30",
+   "id": "CQ-33",
    "category": "General",
    "question": "What are the correlation values between markets or players?",
    "status": "Not answered — no data",
@@ -30290,7 +30415,7 @@
    "legacy_ref": "Q-12"
   },
   {
-   "id": "CQ-31",
+   "id": "CQ-34",
    "category": "General",
    "question": "Where can problem-gambling help be found in NL?",
    "status": "Partly answered",
@@ -30304,7 +30429,7 @@
    "legacy_ref": "Q-13"
   },
   {
-   "id": "CQ-32",
+   "id": "CQ-35",
    "category": "General",
    "question": "Does the repository have a live site with the correct source?",
    "status": "Answered",
@@ -30318,7 +30443,7 @@
    "legacy_ref": "Q-14"
   },
   {
-   "id": "CQ-33",
+   "id": "CQ-36",
    "category": "Data",
    "question": "Do you want the site to publish model-derived numbers that no official source confirms?",
    "status": "Answered (policy applied)",
@@ -30332,7 +30457,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CQ-34",
+   "id": "CQ-37",
    "category": "Legal",
    "question": "Will the project be used commercially in the Netherlands, and by whom?",
    "status": "Answered (no) — awaiting counsel",
@@ -30347,7 +30472,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CQ-35",
+   "id": "CQ-38",
    "category": "Strategy",
    "question": "What sample size and decision rule should gate a strategy as deployable?",
    "status": "Answered (proposed, not approved)",
@@ -30435,10 +30560,10 @@
    "id": "CQ-47",
    "category": "Data ownership",
    "question": "Which injury capture is canonical now that two exist, and does the site move to the newer 04:45 AM stamp?",
-   "status": "Needs an owner decision",
+   "status": "Answered 2026-11-14 (session a399d8a9) — the question was overtaken by a newer report",
    "known": "Both captures hold the same 49 rows under the same keys and the same counts. The newer file is the 04:45 AM report, and its only content difference is attributing the Traore row to BKN where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the availability join, the injury page and the impact table are written against that artefact's field names.",
-   "missing": "A decision on which file the manifest names, and whether a blank cell that a second independent read of the same official PDF fills in may be published as confirmed - the no-inference rule asks for a source, and this is a second transcription rather than the page printing the cell.",
-   "next_step": "Owner: pick the canonical file. If the answer is 'the newest one listed on the index, always', CS-45 makes that a rule the manifest enforces, and the re-point happens on every capture instead of being argued per refresh.",
+   "missing": "Nothing further for this slate. The 04:45 AM question was superseded: the official index now lists 11/14 reports through 1:30 PM ET, and that report PRINTS 'Brooklyn Nets' on the Traore row, so the cell is no longer a second transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the freshness gate now fails a build whose published stamp is not the newest listed one. What remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).",
+   "next_step": "Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until then the build follows 'newest listed', enforced by the gate rather than by argument.",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json"
@@ -30730,6 +30855,34 @@
   },
   {
    "id": "CS-15",
+   "area": "Decision process",
+   "suggestion": "Make the decision workspace the only place a suggestion status can change",
+   "why": "Today a suggestion carries a free-text 'decision' column edited inside the registers, so a choice can be overwritten by the next rebuild and there is no record of who chose what or why",
+   "options": "A: keep free text in the CSV; B: add a decided_by/decided_on/decided_path row per suggestion that the build reads; C: keep decisions outside the repo in issues",
+   "recommended_option": "B",
+   "dependency": "Q-DEC-01",
+   "decision": "Awaiting owner review",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/session_a399d8a9/data/decisions.json"
+   ],
+   "legacy_ref": "CS-47"
+  },
+  {
+   "id": "CS-16",
+   "area": "Freshness",
+   "suggestion": "Publish the freshness gate's result on every page header, not only on the injuries and decision pages",
+   "why": "The staleness that existed on arrival was invisible on the landing page: the badge said 'official report filed for 5 of 54 team-sides' without saying the snapshot was nine hours old. A reader could not tell a fresh snapshot from a stale one",
+   "options": "A: leave it; B: put the report stamp and its age in the header badge; C: also refuse to build if the stamp is older than the newest listed report",
+   "recommended_option": "B now; C is already enforced by FG-1",
+   "dependency": "Q-FRESH-01",
+   "decision": "Awaiting owner review",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": "CS-48"
+  },
+  {
+   "id": "CS-17",
    "area": "Site",
    "suggestion": "Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.",
    "why": "7C-F-02: Ksa requires a Koa licence for online sports betting offers.",
@@ -30748,7 +30901,7 @@
    "legacy_ref": "SG-01"
   },
   {
-   "id": "CS-16",
+   "id": "CS-18",
    "area": "Site",
    "suggestion": "Choose a data rights path: (A) written permission from NBA for statistics use under §9, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.",
    "why": "7C-F-01, 7C-F-03, 7C-F-04.",
@@ -30768,7 +30921,7 @@
    "legacy_ref": "SG-02"
   },
   {
-   "id": "CS-17",
+   "id": "CS-19",
    "area": "Site",
    "suggestion": "Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.",
    "why": "7C-F-09 (schedule changes), Q-04 (updates through the day).",
@@ -30786,7 +30939,7 @@
    "legacy_ref": "SG-03"
   },
   {
-   "id": "CS-18",
+   "id": "CS-20",
    "area": "Site",
    "suggestion": "Pre-register the leaderboard before any modelling: primary metric (e.g., Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with bootstrap CI), minimum sample, horizon, and gate thresholds.",
    "why": "Q-10. Separates skill from luck and from backtest selection.",
@@ -30803,7 +30956,7 @@
    "legacy_ref": "SG-04"
   },
   {
-   "id": "CS-19",
+   "id": "CS-21",
    "area": "Site",
    "suggestion": "Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2–G7.",
    "why": "Props and parlays depend on minutes and on correlation, neither of which is measured yet (7C-F-05, 7C-F-06).",
@@ -30820,7 +30973,7 @@
    "legacy_ref": "SG-05"
   },
   {
-   "id": "CS-20",
+   "id": "CS-22",
    "area": "Site",
    "suggestion": "Model injury effects on minutes only from authorized minutes data. Use the official status as an input, with uncertainty bands, and show 'not quantified' where data is missing.",
    "why": "Q-05: official reports carry status and reason only.",
@@ -30838,7 +30991,7 @@
    "legacy_ref": "SG-06"
   },
   {
-   "id": "CS-21",
+   "id": "CS-23",
    "area": "Site",
    "suggestion": "Add CSV export, a 'last verified' date on every table, and an external-link checker that runs on a schedule (the current CI checks only in-page anchors).",
    "why": "RR-03. Keeps the source trail current.",
@@ -30855,7 +31008,7 @@
    "legacy_ref": "SG-07"
   },
   {
-   "id": "CS-22",
+   "id": "CS-24",
    "area": "Site",
    "suggestion": "Keep the Flagged-for-Review page and COORDINATION board as the review trail. Fail CI when a row lacks a source or a 'verified' flag.",
    "why": "Brief: no unverified value may appear without a flag.",
@@ -30871,7 +31024,7 @@
    "legacy_ref": "SG-08"
   },
   {
-   "id": "CS-23",
+   "id": "CS-25",
    "area": "Site",
    "suggestion": "Before any betting content: set bankroll and loss limits, add a responsible-gambling section with Ksa Gokstop information (after verifying the link), and an age gate as counsel advises.",
    "why": "Q-11, Q-13.",
@@ -30888,7 +31041,7 @@
    "legacy_ref": "SG-09"
   },
   {
-   "id": "CS-24",
+   "id": "CS-26",
    "area": "Site",
    "suggestion": "Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.",
    "why": "7C-F-07.",
@@ -30905,7 +31058,7 @@
    "legacy_ref": "SG-10"
   },
   {
-   "id": "CS-25",
+   "id": "CS-27",
    "area": "Site",
    "suggestion": "Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).",
    "why": "Q-04, Q-07, Q-08, Q-09, 7C-F-01 to 7C-F-03: the missing items cannot be filled from the repository alone.",
@@ -30925,7 +31078,7 @@
    "legacy_ref": "SG-11"
   },
   {
-   "id": "CS-26",
+   "id": "CS-28",
    "area": "Site",
    "suggestion": "Retire or clearly mark the six earlier dashboards",
    "why": "The earlier /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards duplicate facts under different ID namespaces and different injury snapshots. A reader can easily compare a 5:00 PM status with a 7:30 PM status and think the site contradicts itself.",
@@ -30939,7 +31092,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CS-27",
+   "id": "CS-29",
    "area": "Site",
    "suggestion": "Switch GitHub Pages from the legacy 'main /' source to the Actions workflow",
    "why": "With the legacy source the whole public repository is published, including raw JSON/CSV data files. That widens the surface of the NBA-derived content that the Terms-of-Use flag concerns.",
@@ -30953,7 +31106,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CS-28",
+   "id": "CS-30",
    "area": "Site",
    "suggestion": "Add a single 'as of' timestamp and data-freshness badge on every page",
    "why": "Official sources move during a slate (injury reports every 15 minutes, tip times can change, stats pages update after games). A reader cannot currently tell how old a page is.",
@@ -30967,7 +31120,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CS-29",
+   "id": "CS-31",
    "area": "Decision support",
    "suggestion": "Turn the leaderboard into a scored competition with an explicit prize rule",
    "why": "The brief asks for a leaderboard competition with rewards for the best strategies. The repository has gates and a ranking, but no reward rule, no capital base and no drawdown limit.",
@@ -30981,7 +31134,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CS-30",
+   "id": "CS-32",
    "area": "Model",
    "suggestion": "Add possession-level inputs (four factors) to the total model",
    "why": "The total model does not beat a naive league-average baseline out of sample (RMSE 20.35 vs 19.56), so every total-based strategy rests on a model with no demonstrated skill.",

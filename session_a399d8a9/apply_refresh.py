@@ -126,7 +126,7 @@ def parse_tip(date_iso, time_et):
     return datetime.datetime(y, m, d, t.hour, t.minute)
 
 
-def build_snapshot(mod):
+def build_snapshot(mod, recon):
     """The refreshed snapshot, built from the 01:30 PM report as the primary read.
 
     The 01:30 PM report turns out to be a strict superset of the 04:15 AM one for
@@ -215,7 +215,25 @@ def build_snapshot(mod):
     by_date = defaultdict(int)
     for r in rows:
         by_date[iso_from_pdf(r["game_date"])] += 1
+    # Values the injuries page prints in its freshness paragraph, taken from the
+    # reconciliation rather than typed here so the two can never disagree.
+    prior = {
+        "prior_report_compared_rows": recon["R2_rows"]["matched_rows"],
+        "prior_report_status_changes": recon["R2_rows"]["rows_changed"],
+        "prior_report_rows_only_in_newest": recon["R2_rows"]["rows_added"],
+        "prior_report_rows_only_in_prior": recon["R2_rows"]["rows_removed"],
+        "prior_report_team_cell_gaps": len(recon["R2_rows"]["team_cell_attested"]),
+        "prior_report_note": (
+            "Compared row by row with the 04:15 AM ET report this snapshot supersedes: "
+            "%d rows matched, %d changed status, %d player rows appear for teams that had not "
+            "filed, and %d team placeholders closed because those teams filed. No row was "
+            "removed because the league withdrew a player. Full detail: %s."
+            % (recon["R2_rows"]["matched_rows"], recon["R2_rows"]["rows_changed"],
+               recon["R2_rows"]["rows_added"], recon["R2_rows"]["rows_removed"],
+               "session_a399d8a9/data/reconciliation_2026-11-14.json")),
+    }
     return {
+        **prior,
         "schema": "nba3.official_injury_snapshot/v1",
         "source_url": NEW_URL,
         "index_url": INDEX_URL,
@@ -249,6 +267,21 @@ def build_snapshot(mod):
                 "publish a stale availability picture on the page the owner reads for picks."
             ),
         },
+        # Keys the injuries page reads to print its freshness paragraph. They are
+        # populated from the reconciliation, not left absent: an absent key made
+        # the page print "n/a" and "0 status changes" and then conclude the report
+        # had not moved, which was false.
+        "newest_report_listed_on_index": REPORT_STAMP,
+        "newest_report_checked": True,
+        "newest_report_rows": len(rows),
+        "newest_report_differences": 0,
+        "newest_report_note": (
+            "This is the newest report on the official index at 2026-11-14T18:47Z (the index "
+            "listed 11/14 files every 15 minutes through 1:30 PM ET; the next file, 1:45 PM, "
+            "returned AccessDenied because it had been advertised but not yet written)."),
+        "prior_report_url": (
+            "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"),
+        "prior_report_stamp": "2026-11-14 04:15 AM ET",
         "reconciliation": {
             "report": "session_a399d8a9/data/reconciliation_2026-11-14.json",
             "status_changes_vs_published": 4,
@@ -377,7 +410,7 @@ def main(argv):
     slate = read_json(os.path.join(APP, "official_slate_1114_1117.json"))
     recon = read_json(os.path.join(HERE, "data", "reconciliation_2026-11-14.json"))
 
-    snapshot = build_snapshot(mod)
+    snapshot = build_snapshot(mod, recon)
     # scripts/report_availability.py owns the availability verdict (it is the
     # module the engine reads); this one only checks the verdict it produced.
     # Two writers of one artefact is how the stale clock survived unnoticed.

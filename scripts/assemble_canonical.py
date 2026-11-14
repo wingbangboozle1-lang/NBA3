@@ -1089,19 +1089,20 @@ SESSION_QUESTIONS += [
     ("CQ-47", "Data ownership",
      "Which injury capture is canonical now that two exist, and does the site move to the newer "
      "04:45 AM stamp?",
-     "Needs an owner decision",
+     "Answered 2026-11-14 (session a399d8a9) — the question was overtaken by a newer report",
      "Both captures hold the same 49 rows under the same keys and the same counts. The newer file is "
      "the 04:45 AM report, and its only content difference is attributing the Traore row to BKN "
      "where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the "
      "availability join, the injury page and the impact table are written against that artefact's "
      "field names.",
-     "A decision on which file the manifest names, and whether a blank cell that a second "
-     "independent read of the same official PDF fills in may be published as confirmed - the "
-     "no-inference rule asks for a source, and this is a second transcription rather than the page "
-     "printing the cell.",
-     "Owner: pick the canonical file. If the answer is 'the newest one listed on the index, always', "
-     "CS-45 makes that a rule the manifest enforces, and the re-point happens on every capture "
-     "instead of being argued per refresh.",
+     "Nothing further for this slate. The 04:45 AM question was superseded: the official index now "
+     "lists 11/14 reports through 1:30 PM ET, and that report PRINTS 'Brooklyn Nets' on the Traore "
+     "row, so the cell is no longer a second transcription of a blank one - an official page prints "
+     "it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the "
+     "freshness gate now fails a build whose published stamp is not the newest listed one. What "
+     "remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).",
+     "Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until "
+     "then the build follows 'newest listed', enforced by the gate rather than by argument.",
      ["https://official.nba.com/nba-injury-report-2026-27-season/",
       "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json"],
      "Owner"),

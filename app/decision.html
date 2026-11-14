@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision workspace — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="decision.html" class="active">Decision workspace</a> <a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Decision support</div>
+    <h1>Decision workspace</h1>
+    
+  </div>
+
+<p class="lede">Every improvement this repository has proposed, in one place, with the paths each
+one offers judged against five stated criteria, the question that blocks it, and what it would take
+to undo. <strong>Choosing a path here changes nothing by itself</strong> — the register is the record,
+and the build reads it. 48 suggestions, 3 with scored paths,
+10 blocked on an unanswered question, 50 open questions
+(9 of them blocking).</p>
+<div class="note"><strong>How to use this page.</strong><ol><li>Start with the blocked column. A suggestion whose dependency question is still open cannot be implemented correctly yet, whatever path is chosen.</li><li>For each ready suggestion, read the paths against the five criteria. The criteria are scored 0-3 with the meaning of each score written out, so a disagreement is about the path and not about the scale.</li><li>Where this session has a recommendation, the reason is stated. Where it does not, the row says so — an unscored row is a request for a reviewer, not a silent ranking.</li><li>Record the choice in COORDINATION.md against the suggestion ID. The site is rebuilt from the registers, so the record and the page cannot drift apart.</li></ol></div>
+<h3>Done without asking, because it was a defect and not a preference</h3>
+<p>The owner asked for no manual input. These items were still recorded here
+rather than applied quietly, because each one changes what the site says and the owner may want it
+back.</p>
+<div class="table-wrap"><table>
+<caption id="decided-autonomously"></caption>
+<thead><tr>
+<th>Change</th>
+<th>Why it was a defect, not a choice</th>
+<th>Reversible</th>
+<th>Evidence</th>
+</tr></thead><tbody>
+<tr>
+<td>Re-pointed the injury snapshot to the newest official report (01:30 PM ET)</td>
+<td>The published snapshot was 9.25 hours old on a game-day slate and 8 of 10 teams had not filed on it. This was a correctness defect, not a preference: no owner decision was needed to stop publishing a stale stamp.</td>
+<td>yes — revert one manifest entry to restore the old stamp</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/session_a399d8a9/data/reconciliation_2026-11-14.json" target="_blank" rel="noopener noreferrer">evidence</a></td>
+</tr>
+<tr>
+<td>Corrected report_availability.py&#x27;s deadline arithmetic</td>
+<td>It compared filing deadlines with a hard-coded 04:45 clock instead of the report&#x27;s own stamp, so it could not detect the staleness above, and it reported &#x27;no team is overdue&#x27; as a consequence of its own assumption.</td>
+<td>yes — the old behaviour is one commit back</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/report_availability.py (docstring records the correction)" target="_blank" rel="noopener noreferrer">evidence</a></td>
+</tr>
+</tbody></table></div>
+<h3>The freshness gate this session added</h3>
+<p>A stale snapshot was being published without anything noticing, because
+the check that was meant to catch it compared the data against a clock typed into the same file.
+These checks are now evidence a build can fail on.</p>
+<div class="table-wrap"><table>
+<caption id="freshness-gate"></caption>
+<thead><tr>
+<th>Check</th>
+<th>What it proves</th>
+<th>Result</th>
+<th>Detail</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>FG-1</td>
+<td>The build reads the newest injury report the official index lists.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>the manifest now names 2026-11-14 01:30 PM ET (newest listed and readable at 18:47Z); before this session it named 2026-11-14 01:30 PM ET</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>FG-0</td>
+<td>The staleness that existed on arrival is recorded in the reconciliation, not quietly fixed and forgotten.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>on arrival the manifest named 2026-11-14 04:15 AM ET, 9.25 hours behind the newest official report and short a filing for 8 of the 10 teams on the slate it was pricing</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>FG-2</td>
+<td>The snapshot is not older than the league&#x27;s own game-day filing window for a slate it prices.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>report stamp 2026-11-14 01:30 PM ET is 5.50 hours before the first tip of the window (7:00 PM ET); a report stamped after the first tip would be pricing a slate on a document the league publishes only afterwards</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>FG-3</td>
+<td>Every team playing on the report&#x27;s own date is flagged when it has not filed.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>1 team(s) not filed on 2026-11-14: MEM</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>FG-4</td>
+<td>No team is reported as having zero absences unless it actually filed.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>out_count is published only in the FILED state; 9 team-sides are FILED, 45 are not</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>FG-5</td>
+<td>The 27-game pricing window is unchanged by the refresh.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>per-date counts {&#x27;2026-11-14&#x27;: 5, &#x27;2026-11-15&#x27;: 9, &#x27;2026-11-16&#x27;: 8, &#x27;2026-11-17&#x27;: 5} match the page&#x27;s own section headers</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>FG-6</td>
+<td>Every published injury value traces to a printed cell of the named report.</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td>16 fragment rows inherit only date/time/matchup from their own game block (listed in the reconciliation); no status, reason, player or team is inherited.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+</tbody></table></div>
+<h3>The five criteria every path is judged against</h3>
+<p>Each path is scored 0–3 on every criterion. The scale is written out so a
+disagreement is about the path, not about what the numbers mean. The scores are this session's
+judgement and are labelled as such — they are not official values and nothing here is verified
+against an external source, because a judgement cannot be.</p>
+<p class="note">Judgement, not data: no external source can confirm a score.</p>
+<div class="table-wrap"><table>
+<caption id="criteria"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Criterion</th>
+<th>Question it answers</th>
+<th>Scale</th>
+</tr></thead><tbody>
+<tr>
+<td>K1</td>
+<td>Legality and terms</td>
+<td>Does the path stay inside the NBA&#x27;s terms, Dutch gambling law and the data licences this project actually holds?</td>
+<td>0 = would break a stated term or law as read<br>1 = unresolved, and the risk is on the owner<br>2 = inside the terms as read, with a residual risk named<br>3 = no identified objection on the sources read</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>Effect on decision quality</td>
+<td>Does the path make a decision on this site better informed, or does it only make the site prettier?</td>
+<td>0 = no effect on any decision<br>1 = cosmetic<br>2 = removes a known ambiguity<br>3 = closes a gap that currently blocks a decision</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>Evidence available now</td>
+<td>Can the path be carried out and checked with the sources this repository already holds, without new data or new permissions?</td>
+<td>0 = needs data nobody has<br>1 = needs a licensed feed or a legal opinion<br>2 = needs one official page re-read<br>3 = fully doable from committed artefacts</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>Reversibility</td>
+<td>If the owner dislikes the result, how cheaply can it be undone?</td>
+<td>0 = irreversible (published, contractual, or paid)<br>1 = reversible with real work<br>2 = reversible by reverting a commit<br>3 = reversible by toggling a flag</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>Contribution to the brief</td>
+<td>How directly does it serve the owner&#x27;s stated goal — originated lines, gated strategies, injury-driven rotation analysis, 3-day picks?</td>
+<td>0 = unrelated to the brief<br>1 = tangential<br>2 = supports a brief item<br>3 = is a brief item</td>
+</tr>
+</tbody></table></div>
+<h3>Ready to decide — the suggestions with paths scored</h3>
+<p>These are the suggestions where this session could state a defensible
+recommendation. Each path lists what it costs, what could go wrong, and what it unblocks.</p>
+<h4 id="CS-01">CS-01 — Reduce NBA-derived content on the public site until reproduction rights are confirmed</h4>
+<p class="muted">Site / legal · NBA Terms s.1 and s.9 restrict reproduction and statistics use; the site currently reproduces an injury snapshot and schedule rows</p>
+<p class="note">Options and this session's scores — judgement, not data. The evidence for the suggestion itself is linked below the table.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Path</th>
+<th>What it is</th>
+<th>Cost</th>
+<th>What could go wrong</th>
+<th>Unblocks</th>
+<th>Score</th>
+<th></th>
+</tr></thead><tbody>
+<tr>
+<td>A</td>
+<td>Keep the snapshot with attribution</td>
+<td>none</td>
+<td>Reproduces NBA-derived rows on a public page while s.1/s.9 of the terms restrict reproduction.</td>
+<td>—</td>
+<td>11/15</td>
+<td><span class="chip chip-ok">highest score</span></td>
+</tr>
+<tr>
+<td>B</td>
+<td>Publish links and counts only</td>
+<td>one page edit</td>
+<td>The injuries page loses the player-level table the rotation analysis is built on.</td>
+<td>removes the largest reproduction exposure</td>
+<td>11/15</td>
+<td><span class="chip chip-neutral"></span></td>
+</tr>
+<tr>
+<td>C</td>
+<td>Obtain written permission first</td>
+<td>waiting on a third party</td>
+<td>Nothing published until it arrives.</td>
+<td>unblocks A and C permanently</td>
+<td>10/15</td>
+<td><span class="chip chip-neutral"></span></td>
+</tr>
+</tbody></table></div>
+<div class="note"><strong>Recommendation: B now, C if the project proceeds.</strong>
+B is reversible, doable today, and shrinks the exposure the terms describe. C is the only path that makes the full table safe, and it is not in this session&#x27;s power. A keeps the exposure without buying anything. The criteria score this path
+lower than another path — the recommendation weighs something the five criteria do not capture, and that disagreement is worth the owner's attention.</div>
+<p class="muted">Blocked: yes · Q-DATA-03 (Partly answered) · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></p>
+<h4 id="CS-02">CS-02 — Publish no picks or betting recommendations until a Dutch counsel opinion is received</h4>
+<p class="muted">Legal / product · Art. 1(b) Wet op de kansspelen restricts promoting unlicensed gambling; Ksa says advertising needs a licence</p>
+<p class="note">Options and this session's scores — judgement, not data. The evidence for the suggestion itself is linked below the table.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Path</th>
+<th>What it is</th>
+<th>Cost</th>
+<th>What could go wrong</th>
+<th>Unblocks</th>
+<th>Score</th>
+<th></th>
+</tr></thead><tbody>
+<tr>
+<td>A</td>
+<td>Publish nothing that reads as a bet recommendation</td>
+<td>none</td>
+<td>The site is less useful for the owner&#x27;s own decision-making.</td>
+<td>—</td>
+<td>13/15</td>
+<td><span class="chip chip-ok">highest score</span></td>
+</tr>
+<tr>
+<td>B</td>
+<td>Publish analysis, no bet recommendations</td>
+<td>editorial care on every page</td>
+<td>The line between &#x27;originated line&#x27; and &#x27;bet recommendation&#x27; is a legal judgement, not a technical one.</td>
+<td>keeps the analysis usable</td>
+<td>13/15</td>
+<td><span class="chip chip-neutral"></span></td>
+</tr>
+<tr>
+<td>C</td>
+<td>Private research only</td>
+<td>the public site loses its purpose</td>
+<td>none legal</td>
+<td>—</td>
+<td>10/15</td>
+<td><span class="chip chip-neutral"></span></td>
+</tr>
+</tbody></table></div>
+<div class="note"><strong>Recommendation: A.</strong>
+Art. 1(b) Wet op de kansspelen restricts promoting unlicensed gambling and Ksa states advertising needs a licence; until counsel opines, A is the only path that cannot be wrong. The site already publishes fair prices with the caveat that they are not bets, which is A-plus-B read narrowly. The criteria score this path
+highest, so the recommendation and the arithmetic agree.</div>
+<p class="muted">Blocked: yes · Q-LEG-01 (Open - blocking) · <a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">source</a></p>
+<h4 id="CS-03">CS-03 — Provide an allowed network path or a dated owner export for historical NBA data</h4>
+<p class="muted">Data access · No historical data can be retrieved from this environment; no strategy can be evaluated without it</p>
+<p class="note">Options and this session's scores — judgement, not data. The evidence for the suggestion itself is linked below the table.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Path</th>
+<th>What it is</th>
+<th>Cost</th>
+<th>What could go wrong</th>
+<th>Unblocks</th>
+<th>Score</th>
+<th></th>
+</tr></thead><tbody>
+<tr>
+<td>B</td>
+<td>Owner export with provenance</td>
+<td>an owner task</td>
+<td>Provenance has to be recorded at capture or it cannot be re-verified.</td>
+<td>CQ-01, CQ-39, CQ-11</td>
+<td>11/15</td>
+<td><span class="chip chip-ok">highest score</span></td>
+</tr>
+<tr>
+<td>A</td>
+<td>Allow egress to stats.nba.com and cdn.nba.com</td>
+<td>a policy change outside this harness</td>
+<td>NBA terms still restrict bulk statistics use; access is not a licence.</td>
+<td>CQ-01, CQ-26, CQ-39</td>
+<td>10/15</td>
+<td><span class="chip chip-neutral"></span></td>
+</tr>
+<tr>
+<td>C</td>
+<td>Licensed data vendor</td>
+<td>money, contract</td>
+<td>the only path that also answers the licensing question</td>
+<td>CQ-01, CQ-03, CQ-26, CQ-39</td>
+<td>10/15</td>
+<td><span class="chip chip-neutral"></span></td>
+</tr>
+</tbody></table></div>
+<div class="note"><strong>Recommendation: B short term, C before any publication.</strong>
+The engine already runs on a 183-game official log and a 31-player minutes table, so the gap is depth (per-player game logs, on/off splits), not existence. B closes the depth gap without a contract; C is the only path that survives legal review. The criteria score this path
+highest, so the recommendation and the arithmetic agree.</div>
+<p class="muted">Blocked: no · Q-DATA-01 (Answered (no)) · <a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">source</a></p>
+<h3>Cannot be decided correctly yet — an upstream question is open</h3>
+<p>These are not "no"s. They are items whose answer depends on a question the
+owner has not settled, so choosing a path now would be choosing without the information the path
+needs.</p>
+<div class="table-wrap"><table>
+<caption id="blocked-items"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Suggestion</th>
+<th>Area</th>
+<th>Waiting on</th>
+<th>Current recommendation</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CS-01</td>
+<td>Reduce NBA-derived content on the public site until reproduction rights are confirmed</td>
+<td>Site / legal</td>
+<td>Q-DATA-03 — Partly answered</td>
+<td>B now, C if the project proceeds</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-02</td>
+<td>Publish no picks or betting recommendations until a Dutch counsel opinion is received</td>
+<td>Legal / product</td>
+<td>Q-LEG-01 — Open - blocking</td>
+<td>A</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-05</td>
+<td>Approve gate thresholds and freeze them before any data is loaded</td>
+<td>Validation</td>
+<td>Q-GATE-01 — Open - decision</td>
+<td>A</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-06</td>
+<td>Refresh the injury snapshot from the newest official report on a fixed cadence and store each revision</td>
+<td>Injuries</td>
+<td>Q-OPS-01 — Partly answered</td>
+<td>B once egress exists; A until then</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-07</td>
+<td>Define the 3-day horizon as calendar dates inclusive (Nov 13-16 for today&#x27;s run)</td>
+<td>Scope</td>
+<td>Q-SCOPE-01 — Partly answered</td>
+<td>A</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-09</td>
+<td>Commit a hash of each strategy spec before its data is loaded</td>
+<td>Governance</td>
+<td>Q-GATE-01 — Open - decision</td>
+<td>A</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-10</td>
+<td>Run an external-link check on a schedule and not only on deploy</td>
+<td>Verification</td>
+<td>Q-REPO-02 — Open - blocked (API 403)</td>
+<td>B</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-11</td>
+<td>Add a LICENSE file</td>
+<td>Repository</td>
+<td>Q-REPO-01 — Open - decision</td>
+<td>Owner choice</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-15</td>
+<td>Make the decision workspace the only place a suggestion status can change</td>
+<td>Decision process</td>
+<td>Q-DEC-01 — Open - decision</td>
+<td>B</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/session_a399d8a9/data/decisions.json" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-16</td>
+<td>Publish the freshness gate&#x27;s result on every page header, not only on the injuries and decision pages</td>
+<td>Freshness</td>
+<td>Q-FRESH-01 — Partly answered by this round - needs a standing rule</td>
+<td>B now; C is already enforced by FG-1</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+</tbody></table></div>
+<h3>Not yet judged — needs a reviewer</h3>
+<p>37 suggestions are unblocked but this session did not score
+their paths, because scoring them would mean inventing a ranking rather than reading one off the
+evidence. They are listed so nothing appears to have been silently dropped.</p>
+<div class="table-wrap"><table>
+<caption id="not-judged"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Suggestion</th>
+<th>Area</th>
+<th>Recommendation on record</th>
+<th>Decision</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CS-04</td>
+<td>Use a licensed provider with timestamped odds history and written terms</td>
+<td>Odds</td>
+<td>C until counsel reviews A or B</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-08</td>
+<td>Show an as-of timestamp and a stale-data warning on every table</td>
+<td>Site</td>
+<td>A (page) plus B for injuries</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-12</td>
+<td>Delete stale remote session branches after owner review</td>
+<td>Repository</td>
+<td>A after review</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-13</td>
+<td>Add a decision log page where the owner records the chosen option and date</td>
+<td>Site</td>
+<td>A</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/suggestions.csv" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-14</td>
+<td>Add an injury parser with test fixtures before transcribing later reports</td>
+<td>Injuries</td>
+<td>A</td>
+<td>Awaiting owner review</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-17</td>
+<td>Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CS-18</td>
+<td>Choose a data rights path: (A) written permission from NBA for statistics use under §9, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>CS-19</td>
+<td>Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
+</tr>
+<tr>
+<td>CS-20</td>
+<td>Pre-register the leaderboard before any modelling: primary metric (e.g., Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with bootstrap CI), minimum sample, horizon, and gate thresholds.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-21</td>
+<td>Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2–G7.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-22</td>
+<td>Model injury effects on minutes only from authorized minutes data. Use the official status as an input, with uncertainty bands, and show &#x27;not quantified&#x27; where data is missing.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>CS-23</td>
+<td>Add CSV export, a &#x27;last verified&#x27; date on every table, and an external-link checker that runs on a schedule (the current CI checks only in-page anchors).</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-24</td>
+<td>Keep the Flagged-for-Review page and COORDINATION board as the review trail. Fail CI when a row lacks a source or a &#x27;verified&#x27; flag.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-25</td>
+<td>Before any betting content: set bankroll and loss limits, add a responsible-gambling section with Ksa Gokstop information (after verifying the link), and an age gate as counsel advises.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-26</td>
+<td>Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2025-26-season/</a></td>
+</tr>
+<tr>
+<td>CS-27</td>
+<td>Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).</td>
+<td>Site</td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CS-28</td>
+<td>Retire or clearly mark the six earlier dashboards</td>
+<td>Site</td>
+<td>A for now — nothing is deleted without an owner decision; B is the cleanest long-term state.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-29</td>
+<td>Switch GitHub Pages from the legacy &#x27;main /&#x27; source to the Actions workflow</td>
+<td>Site</td>
+<td>B — it publishes only the reviewed pages and removes the raw data files from the public surface.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-30</td>
+<td>Add a single &#x27;as of&#x27; timestamp and data-freshness badge on every page</td>
+<td>Site</td>
+<td>B — already implemented in this session for the canonical pages.</td>
+<td>Implemented in this session (open for owner confirmation)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-31</td>
+<td>Turn the leaderboard into a scored competition with an explicit prize rule</td>
+<td>Decision support</td>
+<td>B, once the legal and data questions (CQ pages) are answered.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-32</td>
+<td>Add possession-level inputs (four factors) to the total model</td>
+<td>Model</td>
+<td>B — the model is already written for it and the inputs are official NBA stats.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-31</td>
+<td>Pre-register every strategy before it is scored</td>
+<td>Leaderboard</td>
+<td>C</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-32</td>
+<td>Publish the luck threshold next to every leaderboard</td>
+<td>Leaderboard</td>
+<td>B</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-33</td>
+<td>Fix the totals model before publishing another totals strategy</td>
+<td>Model</td>
+<td>A now, C when the data exists</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-34</td>
+<td>Capture the full official minutes table, not the top 31</td>
+<td>Data</td>
+<td>A</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-35</td>
+<td>Name one canonical dashboard and archive the rest</td>
+<td>Site</td>
+<td>B</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-36</td>
+<td>Stop calling our own fair prices &#x27;picks&#x27;</td>
+<td>Picks</td>
+<td>A</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-37</td>
+<td>Regenerate the window automatically instead of transcribing it by hand</td>
+<td>Slate</td>
+<td>B</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-38</td>
+<td>Resolve the legal questions before anything is staked</td>
+<td>Compliance</td>
+<td>A pending counsel</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CS-39</td>
+<td>Put a &#x27;re-price at&#x27; column on the picks table, driven by the availability artefact that now exists (data/app/report_availability.json).</td>
+<td>Decision support</td>
+<td>A — one column, no new data, and it makes the PARTIAL_REPORT chips self-explanatory.</td>
+<td>Implemented 2026-11-14, recommended option A, presentation only: the picks table carries a “Re-price after (local clock)” column read from data/app/report_availability.json. Revert on request (CQ-46).</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-40</td>
+<td>Let the twelve site trees share one availability renderer instead of each deciding what &#x27;no rows captured&#x27; means.</td>
+<td>Site architecture</td>
+<td>B now, A when the site is consolidated. Freezing with a banner costs nothing and stops a reader treating an old tree as current.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-41</td>
+<td>Print the snapshot age on every page: which capture timestamp the page was built from, and how many hours ago.</td>
+<td>Trust</td>
+<td>B — it is the same data the freshness page already has, and it makes staleness impossible to miss rather than merely documented.</td>
+<td>Superseded — implemented</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-42</td>
+<td>Render the unfunded state of the leaderboard into the picks page itself: no funded strategy means no game in the window is a selection, and the page should say that in its first line.</td>
+<td>Decision discipline</td>
+<td>A — one line at the top, no new page, and it matches what the leaderboard page already says.</td>
+<td>Implemented 2026-11-14, recommended option A, presentation only: the picks page leads with the funded / provisional counts and states that no game in the window is a selection. Revert on request (CQ-46).</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-44</td>
+<td>Move app/assets/app.css into the generator. The stylesheet is hand-maintained inside a tree that scripts/build_app.py otherwise rebuilds from scratch, and this round needed two new classes (.stamp-warn / .stamp-ok) for the header badge.</td>
+<td>Site architecture</td>
+<td>B — cheapest, and it turns a silent mismatch into a build failure. A is right when the site is consolidated.</td>
+<td>Implemented 2026-11-14, recommended option B, inside this session&#x27;s own generator: scripts/build_app.py now fails the build if app/assets/app.css stops defining a class the emitted pages depend on. The stylesheet itself was not moved.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/assets/app.css" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-43</td>
+<td>Promote the official per-date game count into every capture script as a standing check.</td>
+<td>Verification</td>
+<td>A now, C when the trees are consolidated.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-45</td>
+<td>Make the snapshot manifest the only place an input path is decided: capture scripts write files and update the manifest, engines read the manifest, and no engine carries a default pointing at one session&#x27;s capture.</td>
+<td>Data pipeline</td>
+<td>A — the drift gate caught a broken build but not a broken choice; removing the second source of truth stops the argument recurring on every refresh.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CS-46</td>
+<td>Add a results-log freshness gate to the build: fail when data/origin/games.csv ends before the day before the priced window, and append any missing finals from the newest official capture in the same step.</td>
+<td>Engine inputs</td>
+<td>B, with the capture cross-checks (records reconcile against the official team table) as the gate. Determinism is preserved by committing the regenerated artefacts.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+</tbody></table></div>
+<h3>Questions that must be answered before a decision is reasonable</h3>
+<p>For each one: what is already known, what is missing, and the concrete step
+that would discover it. A question with no discovery step is a wish; every row below has one.</p>
+<div class="table-wrap"><table>
+<caption id="decision-questions"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Category</th>
+<th>Question</th>
+<th>Status</th>
+<th>Known now</th>
+<th>Missing</th>
+<th>How to discover it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CQ-01</td>
+<td>Data</td>
+<td>Can this environment pull official NBA historical data (box scores, game logs, play-by-play)?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>No. Direct curl to www.nba.com, stats.nba.com and cdn.nba.com returned no HTTP response. The fetch tool returned HTTP 500 for the cdn.nba.com schedule JSON and failed for a stats.nba.com scoreboard URL. HTML pages and the injury PDFs were readable; no statistical tables were.</td>
+<td>Authorised network path, or owner-supplied dated export with provenance</td>
+<td>Owner allows egress to stats.nba.com and cdn.nba.com, or supplies an export; re-run the pipeline and verify against official pages</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-02</td>
+<td>Data</td>
+<td>Is there an official source for betting odds or lines for NBA games?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>No official NBA source with odds was identified among the sources reviewed. The schedule page has an odds toggle, but no price values were extracted. Operator prices are not official NBA data.</td>
+<td>Licensed odds feed with written terms and timestamped history</td>
+<td>Request written data terms and sample timestamped snapshots from odds providers; check licence scope with counsel</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-03</td>
+<td>Data</td>
+<td>What NBA content may be reproduced or published on a public site?</td>
+<td><span class="chip chip-warn">partial</span></td>
+<td>Terms of Use s.1 restricts reproduction and public or commercial use without written permission. s.9 requires attribution, limits NBA Statistics to news or private non-commercial use, bars use in connection with any gambling activity, and bars comprehensive statistics databases without consent. This site reproduces an injury snapshot and schedule rows with attribution and links. Page last updated July 13, 2026.</td>
+<td>Written permission from NBA, or a legal reading of s.1 and s.9 for this site</td>
+<td>Counsel review; or reduce to links and counts until permission is obtained (SG-01)</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-04</td>
+<td>Legal</td>
+<td>Can picks or betting recommendations be published to people in the Netherlands?</td>
+<td><span class="chip chip-bad">blocking</span></td>
+<td>Not determined. Art. 1 of the Wet op de kansspelen prohibits promoting participation in unlicensed gambling (see S12). Ksa states that without a licence an operator may not advertise at all, and that online sports betting needs an Art. 31a licence (S10, S11). This is not legal advice. No picks are published.</td>
+<td>Dutch counsel opinion on whether picks, tips or analysis count as promotion</td>
+<td>Obtain a written legal opinion. Until then, picks.html publishes blank cells and no picks</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-05</td>
+<td>Legal</td>
+<td>Can rewards be offered to top strategies on a leaderboard?</td>
+<td><span class="chip chip-bad">blocking</span></td>
+<td>Not determined. Prizes tied to betting outcomes or chance could be treated as gambling under the Wet op de kansspelen. No rule on this was verified.</td>
+<td>Counsel opinion on prizes and rewards</td>
+<td>Obtain counsel opinion before any reward is described on the site</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-06</td>
+<td>Legal</td>
+<td>What is the minimum age for online sports betting in the Netherlands?</td>
+<td><span class="chip chip-warn">unverified</span></td>
+<td>Not verified from an official source in this session. Secondary sources conflict and are not used. Nothing is published on age.</td>
+<td>Official age provision (Ksa or Wet op de kansspelen article) with citation</td>
+<td>Read the official age provisions and cite the article; until then do not publish a value (F16)</td>
+<td><a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-07</td>
+<td>Compliance</td>
+<td>What responsible-gambling information should appear on a site of this type?</td>
+<td><span class="chip chip-warn">partial</span></td>
+<td>Gokstop offers self-exclusion through the Cruks register (S13). The site links to Gokstop. Whether further safeguards are required is not determined.</td>
+<td>Counsel view on required safeguards</td>
+<td>Keep the Gokstop link; seek counsel advice on any further requirement</td>
+<td><a href="https://www.gokstop.nl/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-08</td>
+<td>Validation</td>
+<td>Which gate thresholds are approved (sample size, significance level, margins)?</td>
+<td><span class="chip chip-warn">decision</span></td>
+<td>Thresholds in gates.csv are proposals written by this repository. None has owner approval. NIST gives the method (S15 to S17), not the thresholds.</td>
+<td>Owner approval of thresholds, and a pre-registration date</td>
+<td>Owner selects an option in suggestions.html (SG-05); until then all gates stay BLOCKED</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-09</td>
+<td>Validation</td>
+<td>What is the leaderboard objective (scoring rule and return metric)?</td>
+<td><span class="chip chip-warn">decision</span></td>
+<td>Proposed: out-of-sample proper scoring (log loss or Brier) first, then net return after recorded prices, with uncertainty. A proposal only.</td>
+<td>Owner choice of primary metric</td>
+<td>Decide before data is loaded; record in gates.csv</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-10</td>
+<td>Correlation</td>
+<td>What are the correlation values for parlay and prop-combo legs?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>No correlation has been measured. Every value cell in correlations.csv is blank by design.</td>
+<td>Matched, timestamped outcome data for each market pair</td>
+<td>Estimate joint frequencies on matched data with confidence intervals; leave blank until then</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-11</td>
+<td>Injuries</td>
+<td>How much do injuries change minutes and production?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Official injury rules describe participation status and reason only, not minutes or production (S01).</td>
+<td>Historical injury status history linked to minutes and box scores</td>
+<td>Event study on authorised historical data; report ranges, not single numbers</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-12</td>
+<td>Scope</td>
+<td>What does &#x27;up to 3 days in advance&#x27; mean?</td>
+<td><span class="chip chip-warn">partial</span></td>
+<td>Assumed: calendar dates 2026-11-13 through 2026-11-16 inclusive, which covers 31 scheduled games (S05). The prior dashboard used a 72-hour limit, which can differ.</td>
+<td>Owner confirmation of the definition</td>
+<td>Owner selects option A or B (SG-07)</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-13</td>
+<td>Operations</td>
+<td>Which injury report is &#x27;current&#x27; for a slate, and how often should it refresh?</td>
+<td><span class="chip chip-warn">partial</span></td>
+<td>Official rules: participation status is due 5 p.m. local the day before a game (1 p.m. local for the second of a back-to-back); game-day reports are filed 11 a.m. to 1 p.m. local (8 to 10 a.m. for tip-offs at or before 5 p.m.); reports update continually (S01). The 11/13 index lists reports from 12:00 a.m. to 5:15 p.m. ET.</td>
+<td>Refresh policy and cutoff time</td>
+<td>Owner selects a cadence (SG-06); each revision is stored with its timestamp</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-14</td>
+<td>Operations</td>
+<td>Which time zone should slate times use?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Schedule times are shown in ET (S05). Injury report times are shown in ET with no AM/PM marker in the PDF text (F08). Conversion to Netherlands time was not performed.</td>
+<td>None for ET. Local conversion needs a verified time-zone reference</td>
+<td>None required for ET</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-15</td>
+<td>Site</td>
+<td>Is the site public or private?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>GitHub Pages sites are publicly available, even when the repository is private (S18). This repository is public.</td>
+<td>Owner decision on whether to keep the site public</td>
+<td>Owner chooses public or restricted publishing</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-16</td>
+<td>Repository</td>
+<td>Which licence applies to the code and content?</td>
+<td><span class="chip chip-warn">decision</span></td>
+<td>No licence is declared on the repository (licenseInfo null, S19).</td>
+<td>Owner choice of licence</td>
+<td>Owner chooses a licence and adds a LICENSE file (SG-11)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-17</td>
+<td>Repository</td>
+<td>Which Pages publishing source should the site use?</td>
+<td><span class="chip chip-bad">blocked</span></td>
+<td>Official docs describe two sources: a branch folder, or a GitHub Actions workflow (S18). The repository&#x27;s source is legacy main /. The attempt to set the GitHub Actions source failed with 403 Resource not accessible by integration. Decision: the generated pages are committed at the repository root and served from main /, and the workflow checks that they match a fresh build. The whole public repository is therefore served (R06).</td>
+<td>Confirmation that the switch succeeded</td>
+<td>Owner switches Settings &gt; Pages &gt; Source to GitHub Actions if the whole-repository publish is unwanted; then the workflow deploy job can be restored</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-18</td>
+<td>Process</td>
+<td>Can the blocked items be finished without owner input?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>No, for the blocked items. Data access, odds licensing, legal opinions and gate thresholds need an owner or counsel. These are recorded as questions and suggestions, not worked around with guessed values.</td>
+<td>Owner or counsel decisions listed above</td>
+<td>See suggestions.html for the choices</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-19</td>
+<td>Freshness</td>
+<td>Which official injury report should the site publish, and who decides when a newer one exists?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Answered for 2026-11-14: the newest report listed on the official index that the CDN actually serves (1:30 PM ET; the 1:45 PM file 404s because it was advertised before being written). The build now reads the snapshot the manifest names and a freshness gate fails if that stamp is not the newest listed one. What is NOT settled is the rule for a future slate: whether the site should always show the newest report, or freeze one stamp per slate and keep later ones as deltas.</td>
+<td>A standing rule from the owner: newest-always, or one frozen stamp per slate plus deltas</td>
+<td>Owner states the rule; the capture script already supports either (add a new ..._letter.py capture rather than editing an existing one)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-20</td>
+<td>Freshness</td>
+<td>How close to tip-off is close enough to price a game on confirmed availability?</td>
+<td><span class="chip chip-warn">decision</span></td>
+<td>Not determined. The league requires a game-day report between 11 a.m. and 1 p.m. local (8-10 a.m. for tips at 5 p.m. or earlier) and updates continually after that; on 2026-11-14 the 1:30 PM report still had MEM unfiled and a 7:00 PM tip. Nothing in the official pages defines a &#x27;final&#x27; report.</td>
+<td>A risk rule from the owner: for example, no pick on a side whose team has not filed, or a maximum number of hours before tip for accepting a filed status</td>
+<td>Owner states the rule; the engine already publishes hours_from_stamp_to_tip per team-side, so the rule can be enforced mechanically without new data</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-21</td>
+<td>Decision process</td>
+<td>Who may record a decision against a suggestion, and where is the record kept?</td>
+<td><span class="chip chip-warn">decision</span></td>
+<td>Not determined. The decision workspace publishes recommendations and dependency state, but a choice is only a note in COORDINATION.md today, which is a session log, not an owner-facing record.</td>
+<td>An owner-facing decision log with a date, the chosen path and the reason, which the build reads</td>
+<td>Owner confirms the register of record (COORDINATION.md, a new CSV, or an issue); the workspace page then shows the decided path instead of the recommendation</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-22</td>
+<td>General</td>
+<td>Is the owner planning to offer lines or picks to other people in NL?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Ksa: online sports betting offers need a Koa licence (S09).</td>
+<td>Whether anyone other than the owner will receive lines or picks; operator status; entity and licence.</td>
+<td>SG-01 (legal)</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-23</td>
+<td>General</td>
+<td>May NBA statistics be used to build betting lines?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>NBA Terms §9 bars gambling use of NBA Statistics and a regularly updated statistics database without express prior consent.</td>
+<td>Any written permission from NBA.</td>
+<td>SG-02</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-24</td>
+<td>General</td>
+<td>Which games are in the next 3 days (11/13–11/16)?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>31 games across 4 dates in the official by-date schedule (S05).</td>
+<td>Confirmation of changes after August 13, 2026.</td>
+<td>Re-pull at query time</td>
+<td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://www.nba.com/news/2026-27-schedule-team-by-team-index" target="_blank" rel="noopener noreferrer">https://www.nba.com/news/2026-27-schedule-team-by-team-index</a></td>
+</tr>
+<tr>
+<td>CQ-25</td>
+<td>General</td>
+<td>Who is listed as out or questionable for those games?</td>
+<td><span class="chip chip-warn">partial</span></td>
+<td>Official 11/13 5:00 PM report transcribed (117 rows) and 11/14 rows partly submitted (S04). The report index shows later updates through 5:15 PM on 11/13 (S02).</td>
+<td>Later report updates not retrieved; 18 rows lack team text.</td>
+<td>Re-pull reports (SG-03)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>CQ-26</td>
+<td>General</td>
+<td>Do official injury reports quantify minutes or production impact?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Report fields: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason (S04). Index describes status reporting only (S02).</td>
+<td>Any authorized minutes or production model.</td>
+<td>SG-06</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>CQ-27</td>
+<td>General</td>
+<td>What are the official injury reporting deadlines?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Status by 5 p.m. local the day before (except 2nd game of a back-to-back: 1 p.m. local on game day); game-day report 11 a.m.–1 p.m. local (8–10 a.m. for tip-offs at 5 p.m. or earlier) (S02).</td>
+<td>None for this question.</td>
+<td>Use as cut-off rules</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-28</td>
+<td>General</td>
+<td>Which odds and prop data are licensed and available?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>None in the repository; no provider or licence verified.</td>
+<td>Provider, markets, timestamps, history depth, licence and display rights, cost.</td>
+<td>SG-02</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>CQ-29</td>
+<td>General</td>
+<td>What historical data can be used, and under what terms?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>NBA Terms §9 restrict NBA statistics (S07). No other dataset identified.</td>
+<td>Authorized sources, schema, provenance, and missingness.</td>
+<td>SG-02, SG-03</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-30</td>
+<td>General</td>
+<td>What minutes projection source is available?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>None verified.</td>
+<td>Authorized rotation or minutes data and its terms.</td>
+<td>SG-06</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-31</td>
+<td>General</td>
+<td>What defines a &#x27;useful signal&#x27; and the leaderboard winner?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Not specified by owner in the repository.</td>
+<td>Metric, threshold, minimum sample, horizon. Proposal in SG-04 for owner choice.</td>
+<td>SG-04</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-32</td>
+<td>General</td>
+<td>What bankroll and risk limits apply?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Not in repository.</td>
+<td>Risk tolerance, stake rules, drawdown cap.</td>
+<td>SG-09</td>
+<td><a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-33</td>
+<td>General</td>
+<td>What are the correlation values between markets or players?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>No outcomes, prices or samples in the repository.</td>
+<td>Matched outcomes, prices, and samples; measurement window.</td>
+<td>7C-F-06 / G7</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-34</td>
+<td>General</td>
+<td>Where can problem-gambling help be found in NL?</td>
+<td><span class="chip chip-warn">partial</span></td>
+<td>Ksa publicises the Gokstop (self-exclusion) campaign (S08).</td>
+<td>Confirmation of the Gokstop URL and any other official resource (not fetched).</td>
+<td>Verify before publishing</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-35</td>
+<td>General</td>
+<td>Does the repository have a live site with the correct source?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>GitHub Pages is enabled for the repo (RR-04). Site will be rebuilt by T7/T8.</td>
+<td>Post-deploy verification (T8).</td>
+<td>T8</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-36</td>
+<td>Data</td>
+<td>Do you want the site to publish model-derived numbers that no official source confirms?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>The brief requires a source link on every row and blanks for anything not confirmable from an official source. Model outputs (spread, total, probability) are by definition ours, not official.</td>
+<td>Explicit owner confirmation of the display policy for derived values (currently: shown in a &#x27;Derived&#x27; column with the model method link and never presented as an official fact).</td>
+<td>Review the Derived columns on the Lines and Picks pages and say whether they should be hidden until a licensed market feed exists.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-37</td>
+<td>Legal</td>
+<td>Will the project be used commercially in the Netherlands, and by whom?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>No operator, licence or customer base is described in the repository.</td>
+<td>Operator entity, Ksa licence status, customer geography, age verification, responsible-gambling controls.</td>
+<td>Counsel review against the Ksa licensing page and the Wet op de kansspelen before any betting-related feature is published.</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">https://wetten.overheid.nl/BWBR0002469/2025-02-12/0</a></td>
+</tr>
+<tr>
+<td>CQ-38</td>
+<td>Strategy</td>
+<td>What sample size and decision rule should gate a strategy as deployable?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>The gate set in this repository proposes n &gt;= 100 out-of-sample games, raw p &lt; 0.05, Benjamini-Hochberg FDR 0.05 and a stable split-half direction. Thresholds are proposals, not owner decisions.</td>
+<td>Owner approval of the thresholds, the loss function and the prize structure of the leaderboard.</td>
+<td>Approve or amend the gate thresholds on the Strategies page; the leaderboard ranks by them.</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-36</td>
+<td>Leaderboard</td>
+<td>What does winning the leaderboard actually pay?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>The board ranks rules by a composite skill score and assigns reward tiers T1-T5 with a stake allocation (full unit / quarter unit / paper only / none). No money is attached.</td>
+<td>Whether this is a prize contest, a pool, or internal scoring. Dutch rules treat these differently (Q-LEG-01, Q-LEG-02).</td>
+<td>Decide the competition format first; the reward schedule follows from it.</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-37</td>
+<td>Leaderboard</td>
+<td>Who may add a strategy to the board, and how is it registered before it is scored?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Any rule can be scored. Nothing stops a rule being written after the results are known, which is how a backtest invents an edge.</td>
+<td>A pre-registration step: rule text, selection predicate and freeze date hashed before the first forecast is graded (gate G10 idea).</td>
+<td>Approve a pre-registration rule and add it as a gate; until then treat every strategy here as retrospective.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-38</td>
+<td>Gates</td>
+<td>Is 100 graded out-of-sample forecasts the right minimum sample?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Gate G3 uses n &gt;= 100. With ~1,230 NBA games a season and rules that fire on a subset, 100 takes one to three seasons for the narrower rules.</td>
+<td>The cost of waiting versus the cost of acting on noise. 100 is a convention, not a measurement.</td>
+<td>Approve, raise or lower the number; the board re-scores automatically.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-39</td>
+<td>Data</td>
+<td>May per-player game logs be captured and stored?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Without them every player-level correlation is blank and no prop combo can be priced. Four combos on the board are blocked on this alone.</td>
+<td>Storage, volume (~4,000 rows a season) and the reproduction terms in NBA s.1 and s.9.</td>
+<td>Decide, then capture nba.com/stats/players/boxscores by date and re-run the lab.</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>CQ-40</td>
+<td>Gates</td>
+<td>Should a detected bias against our own line be reported as an edge or as a model defect?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Our margin model is unbiased (+0.01 points) but the totals model runs about 1.5 points hot. A rule that fades our own high totals therefore &#x27;wins&#x27; against us.</td>
+<td>Nothing external. Beating our own line is not beating a market.</td>
+<td>Confirm the policy: a bias found against our own line is published as a model defect to fix, never as a betting edge.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-47</td>
+<td>Data ownership</td>
+<td>Which injury capture is canonical now that two exist, and does the site move to the newer 04:45 AM stamp?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Both captures hold the same 49 rows under the same keys and the same counts. The newer file is the 04:45 AM report, and its only content difference is attributing the Traore row to BKN where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the availability join, the injury page and the impact table are written against that artefact&#x27;s field names.</td>
+<td>Nothing further for this slate. The 04:45 AM question was superseded: the official index now lists 11/14 reports through 1:30 PM ET, and that report PRINTS &#x27;Brooklyn Nets&#x27; on the Traore row, so the cell is no longer a second transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the freshness gate now fails a build whose published stamp is not the newest listed one. What remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).</td>
+<td>Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until then the build follows &#x27;newest listed&#x27;, enforced by the gate rather than by argument.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json</a></td>
+</tr>
+<tr>
+<td>CQ-46</td>
+<td>Governance</td>
+<td>May a session implement its own site-presentation suggestions, or must every suggestion wait for the owner&#x27;s review?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>The brief asks for a suggestions section reviewed before any change, and also for the session to finish without manual input. This round resolved the tension by changing presentation only (a header badge, a re-price column, a leading funded-state line, one corrected table) and flagging those edits here, so the owner can reverse any of them as a set. No published number, no model output and no other session&#x27;s tree was touched.</td>
+<td>Whether to keep the four presentation changes, and whether to make &#x27;presentation only, must be listed in the flag register&#x27; the standing rule for self-approved suggestions.</td>
+<td>Owner: answer here or in the suggestions page. Until then the changes stand, each with its own CS/NF id, and reverting them is a one-commit operation because none of them is entangled with data.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-41</td>
+<td>Freshness</td>
+<td>Should a line that is priced before a filing deadline be re-priced automatically when the deadline passes, or held and marked stale?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Known: the deadline for every team-game in the window is computable from the official rule and the official schedule, and scripts/report_availability.py already publishes it per game. Five of tonight&#x27;s ten team-sides settle at 1 p.m. local today. Known: nothing re-pulls today.</td>
+<td>Missing: whether an automatic re-price is wanted (it changes published numbers without a human in the loop) or whether the site should only show the age and let the reader decide.</td>
+<td>Pick one: (a) re-pull and re-price on the deadline, (b) re-pull and publish as a shadow line next to the original, (c) leave as it is. (b) keeps an audit trail and is what the leaderboard would need anyway to score strategies fairly.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-42</td>
+<td>Data</td>
+<td>Should there be one canonical result log for the whole repository?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Known: data/origin/games.csv now holds 183 verified games (through 2026-11-13); final/data/games.csv still holds 174 (through 2026-11-12) and the /dashboard/ tree is built from it, so two pages on the live site describe two different seasons-to-date.</td>
+<td>Missing: a decision on which log is canonical, and whether the older trees are re-cut or labelled as dated snapshots.</td>
+<td>Either point every tree at data/origin/games.csv and re-run their builders, or add a &#x27;snapshot of 2026-11-13&#x27; banner to the trees that keep their own copy. Re-cutting is the cleaner option; it also re-opens their own verification numbers.</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-43</td>
+<td>Method</td>
+<td>Is a venue time-zone table acceptable as an input?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Known: the official rule states deadlines in LOCAL time; the official schedule prints tip times in ET. The offset between the two is not printed on any official page this project reads, so &#x27;re-price at 13:00 local&#x27; is shown as local and the ET equivalent is left blank.</td>
+<td>Missing: permission to use a published time-zone reference (which would let the site print &#x27;1:00 p.m. local = 2:00 p.m. ET&#x27; and rank tonight&#x27;s games by when each becomes priceable).</td>
+<td>Either accept an external time-zone source and record it in the source register, or keep the blank and accept that the ordering, not the clock time, is what the site can promise.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-44</td>
+<td>Availability</td>
+<td>Does a game with an unresolved side belong in a parlay at all?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Known: same-game parlays on the site are priced with a measured dependence ratio of 0.942 whose interval includes 1.0, so independence is not established; and 22 of 27 games have no usable availability. The flag that said every game was a valid leg is now derived from availability instead of being a literal.</td>
+<td>Missing: the owner&#x27;s policy on leg eligibility — zero legs is a defensible answer for tonight, but not for a whole slate.</td>
+<td>Choose a rule: exclude any leg whose team has not filed; or allow pre-deadline legs and mark them; or gate legs on strategy funding instead of availability. The first is the strictest and the easiest to defend.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>CQ-45</td>
+<td>Injuries</td>
+<td>How should a Probable or Available-with-injury row affect a line?</td>
+<td><span class="chip chip-ok">tracked</span></td>
+<td>Known: the engine counts Out and Doubtful as absences and treats Questionable as &#x27;listed but not counted&#x27;; Probable and Available (9 rows on the 11/14 slate, e.g. Caleb Martin with a thumb splint, Nolan Traore with a calf) currently have no effect at all.</td>
+<td>Missing: a measured minute-donation model for game-time decisions, which needs per-player game logs this repository does not have.</td>
+<td>Either state on the page that Probable/Available rows are ignored and why, or capture player game logs and measure how minutes actually shift for splint/mask cases. The first costs nothing.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+</tbody></table></div>
+<h3>What depends on what</h3>
+<p>Read this as: the suggestion on the left cannot be implemented correctly until
+the question on the right is answered.</p>
+<div class="table-wrap"><table>
+<caption id="dep-graph"></caption>
+<thead><tr>
+<th>Suggestion</th>
+<th>Needs</th>
+<th>That question is</th>
+<th>Register</th>
+</tr></thead><tbody>
+<tr>
+<td>CS-01</td>
+<td>Q-DATA-03</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-02</td>
+<td>Q-LEG-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-03</td>
+<td>Q-DATA-01</td>
+<td><span class="chip chip-ok">answered</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-04</td>
+<td>Q-DATA-02</td>
+<td><span class="chip chip-ok">answered</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-05</td>
+<td>Q-GATE-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-06</td>
+<td>Q-OPS-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-07</td>
+<td>Q-SCOPE-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-09</td>
+<td>Q-GATE-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-10</td>
+<td>Q-REPO-02</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-11</td>
+<td>Q-REPO-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-14</td>
+<td>Q-DATA-01</td>
+<td><span class="chip chip-ok">answered</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-15</td>
+<td>Q-DEC-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+<tr>
+<td>CS-16</td>
+<td>Q-FRESH-01</td>
+<td><span class="chip chip-warn">open</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/canonical.json" target="_blank" rel="noopener noreferrer">register</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

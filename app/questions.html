@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="decision.html">Decision workspace</a> <a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -243,6 +243,39 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 </tr>
 <tr>
 <td>CQ-19</td>
+<td>Freshness</td>
+<td>Which official injury report should the site publish, and who decides when a newer one exists?</td>
+<td>Partly answered by this round - needs a standing rule</td>
+<td>Answered for 2026-11-14: the newest report listed on the official index that the CDN actually serves (1:30 PM ET; the 1:45 PM file 404s because it was advertised before being written). The build now reads the snapshot the manifest names and a freshness gate fails if that stamp is not the newest listed one. What is NOT settled is the rule for a future slate: whether the site should always show the newest report, or freeze one stamp per slate and keep later ones as deltas.</td>
+<td>A standing rule from the owner: newest-always, or one frozen stamp per slate plus deltas</td>
+<td>Owner states the rule; the capture script already supports either (add a new ..._letter.py capture rather than editing an existing one)</td>
+<td>Owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CQ-20</td>
+<td>Freshness</td>
+<td>How close to tip-off is close enough to price a game on confirmed availability?</td>
+<td>Open - decision</td>
+<td>Not determined. The league requires a game-day report between 11 a.m. and 1 p.m. local (8-10 a.m. for tips at 5 p.m. or earlier) and updates continually after that; on 2026-11-14 the 1:30 PM report still had MEM unfiled and a 7:00 PM tip. Nothing in the official pages defines a &#x27;final&#x27; report.</td>
+<td>A risk rule from the owner: for example, no pick on a side whose team has not filed, or a maximum number of hours before tip for accepting a filed status</td>
+<td>Owner states the rule; the engine already publishes hours_from_stamp_to_tip per team-side, so the rule can be enforced mechanically without new data</td>
+<td>Owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CQ-21</td>
+<td>Decision process</td>
+<td>Who may record a decision against a suggestion, and where is the record kept?</td>
+<td>Open - decision</td>
+<td>Not determined. The decision workspace publishes recommendations and dependency state, but a choice is only a note in COORDINATION.md today, which is a session log, not an owner-facing record.</td>
+<td>An owner-facing decision log with a date, the chosen path and the reason, which the build reads</td>
+<td>Owner confirms the register of record (COORDINATION.md, a new CSV, or an issue); the workspace page then shows the decided path instead of the recommendation</td>
+<td>Owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CQ-22</td>
 <td>General</td>
 <td>Is the owner planning to offer lines or picks to other people in NL?</td>
 <td>Not answered</td>
@@ -253,7 +286,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
 </tr>
 <tr>
-<td>CQ-20</td>
+<td>CQ-23</td>
 <td>General</td>
 <td>May NBA statistics be used to build betting lines?</td>
 <td>Answered — restricted</td>
@@ -264,7 +297,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
 </tr>
 <tr>
-<td>CQ-21</td>
+<td>CQ-24</td>
 <td>General</td>
 <td>Which games are in the next 3 days (11/13–11/16)?</td>
 <td>Answered (subject to change)</td>
@@ -275,7 +308,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a> · <a href="https://www.nba.com/news/2026-27-schedule-team-by-team-index" target="_blank" rel="noopener noreferrer">https://www.nba.com/news/2026-27-schedule-team-by-team-index</a></td>
 </tr>
 <tr>
-<td>CQ-22</td>
+<td>CQ-25</td>
 <td>General</td>
 <td>Who is listed as out or questionable for those games?</td>
 <td>Partly answered</td>
@@ -286,7 +319,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
 </tr>
 <tr>
-<td>CQ-23</td>
+<td>CQ-26</td>
 <td>General</td>
 <td>Do official injury reports quantify minutes or production impact?</td>
 <td>Answered — no</td>
@@ -297,7 +330,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
 </tr>
 <tr>
-<td>CQ-24</td>
+<td>CQ-27</td>
 <td>General</td>
 <td>What are the official injury reporting deadlines?</td>
 <td>Answered</td>
@@ -308,7 +341,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
 </tr>
 <tr>
-<td>CQ-25</td>
+<td>CQ-28</td>
 <td>General</td>
 <td>Which odds and prop data are licensed and available?</td>
 <td>Not answered</td>
@@ -319,7 +352,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
 </tr>
 <tr>
-<td>CQ-26</td>
+<td>CQ-29</td>
 <td>General</td>
 <td>What historical data can be used, and under what terms?</td>
 <td>Not answered</td>
@@ -330,7 +363,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
 </tr>
 <tr>
-<td>CQ-27</td>
+<td>CQ-30</td>
 <td>General</td>
 <td>What minutes projection source is available?</td>
 <td>Not answered</td>
@@ -341,7 +374,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional</a></td>
 </tr>
 <tr>
-<td>CQ-28</td>
+<td>CQ-31</td>
 <td>General</td>
 <td>What defines a &#x27;useful signal&#x27; and the leaderboard winner?</td>
 <td>Not answered</td>
@@ -352,7 +385,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm</a></td>
 </tr>
 <tr>
-<td>CQ-29</td>
+<td>CQ-32</td>
 <td>General</td>
 <td>What bankroll and risk limits apply?</td>
 <td>Not answered</td>
@@ -363,7 +396,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame</a></td>
 </tr>
 <tr>
-<td>CQ-30</td>
+<td>CQ-33</td>
 <td>General</td>
 <td>What are the correlation values between markets or players?</td>
 <td>Not answered — no data</td>
@@ -374,7 +407,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
 </tr>
 <tr>
-<td>CQ-31</td>
+<td>CQ-34</td>
 <td>General</td>
 <td>Where can problem-gambling help be found in NL?</td>
 <td>Partly answered</td>
@@ -385,7 +418,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/</a></td>
 </tr>
 <tr>
-<td>CQ-32</td>
+<td>CQ-35</td>
 <td>General</td>
 <td>Does the repository have a live site with the correct source?</td>
 <td>Answered</td>
@@ -396,7 +429,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
 </tr>
 <tr>
-<td>CQ-33</td>
+<td>CQ-36</td>
 <td>Data</td>
 <td>Do you want the site to publish model-derived numbers that no official source confirms?</td>
 <td>Answered (policy applied)</td>
@@ -407,7 +440,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
 </tr>
 <tr>
-<td>CQ-34</td>
+<td>CQ-37</td>
 <td>Legal</td>
 <td>Will the project be used commercially in the Netherlands, and by whom?</td>
 <td>Answered (no) — awaiting counsel</td>
@@ -418,7 +451,7 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a> · <a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">https://wetten.overheid.nl/BWBR0002469/2025-02-12/0</a></td>
 </tr>
 <tr>
-<td>CQ-35</td>
+<td>CQ-38</td>
 <td>Strategy</td>
 <td>What sample size and decision rule should gate a strategy as deployable?</td>
 <td>Answered (proposed, not approved)</td>
@@ -487,10 +520,10 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>CQ-47</td>
 <td>Data ownership</td>
 <td>Which injury capture is canonical now that two exist, and does the site move to the newer 04:45 AM stamp?</td>
-<td>Needs an owner decision</td>
+<td>Answered 2026-11-14 (session a399d8a9) — the question was overtaken by a newer report</td>
 <td>Both captures hold the same 49 rows under the same keys and the same counts. The newer file is the 04:45 AM report, and its only content difference is attributing the Traore row to BKN where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the availability join, the injury page and the impact table are written against that artefact&#x27;s field names.</td>
-<td>A decision on which file the manifest names, and whether a blank cell that a second independent read of the same official PDF fills in may be published as confirmed - the no-inference rule asks for a source, and this is a second transcription rather than the page printing the cell.</td>
-<td>Owner: pick the canonical file. If the answer is &#x27;the newest one listed on the index, always&#x27;, CS-45 makes that a rule the manifest enforces, and the re-point happens on every capture instead of being argued per refresh.</td>
+<td>Nothing further for this slate. The 04:45 AM question was superseded: the official index now lists 11/14 reports through 1:30 PM ET, and that report PRINTS &#x27;Brooklyn Nets&#x27; on the Traore row, so the cell is no longer a second transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the freshness gate now fails a build whose published stamp is not the newest listed one. What remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).</td>
+<td>Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until then the build follows &#x27;newest listed&#x27;, enforced by the gate rather than by argument.</td>
 <td>Owner</td>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json</a></td>
 </tr>

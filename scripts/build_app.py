@@ -24,6 +24,10 @@ from urllib.parse import urlparse
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP_DATA = os.path.join(ROOT, "data", "app", "canonical.json")
+# The decision workspace register (session a399d8a9). Optional: the build says so
+# on the page rather than failing, because the rest of the dashboard does not
+# depend on it.
+DECISIONS_DATA = os.path.join(ROOT, "session_a399d8a9", "data", "decisions.json")
 OUT_DIR = os.path.join(ROOT, "app")
 ROOT_INDEX = os.path.join(ROOT, "index.html")
 CSS_DIR = os.path.join(OUT_DIR, "assets")
@@ -56,6 +60,7 @@ NAV = [
         ("Game flow", "app/gameflow.html"),
     ]),
     ("Decision support", [
+        ("Decision workspace", "app/decision.html"),
         ("Open questions", "app/questions.html"),
         ("Site suggestions", "app/suggestions.html"),
     ]),
@@ -1106,6 +1111,26 @@ listed with what would unblock them on the
 def page_injuries(d):
     inj = d["injuries"]
     lab = d["lab"]
+    # The 11/14 filing sentence is derived, not written: on the 04:15 AM report five
+    # of ten teams had not filed and that was a back-to-back timing rule; on the
+    # 01:30 PM report all but one have filed. A hardcoded sentence survived the
+    # refresh and stated the opposite of the data (session a399d8a9).
+    av_rows = (d.get("availability") or {}).get("rows") or []
+    d14 = [r for r in av_rows if r["date"] == "2026-11-14"]
+    unfiled14 = sorted({r["team"] for r in d14 if r["state"] != "FILED"})
+    filed14 = sorted({r["team"] for r in d14 if r["state"] == "FILED"})
+    if not d14:
+        scope_1114 = ("The per-team filing state for 11/14 is not in this build, so no claim is "
+                      "made about it.")
+    elif unfiled14:
+        scope_1114 = (
+            f"{len(filed14)} of the {len(d14)} teams playing on 11/14 have filed on this report; "
+            f"<strong>{esc(', '.join(unfiled14))} has not</strong>, and its game-day filing window "
+            f"is 11 a.m.–1 p.m. local on game day, so the hole is a timing rule, not a failure to "
+            f"file. Any absence count for that side is published blank rather than as zero.")
+    else:
+        scope_1114 = (f"All {len(d14)} teams playing on 11/14 have filed on this report, so the "
+                      f"11/14 absence counts are real.")
     body = []
     body.append(f"""
 <p>Transcribed from the official NBA injury report
@@ -1114,17 +1139,18 @@ def page_injuries(d):
 {inj.get('not_submitted_rows', 0)} team rows printed “NOT YET SUBMITTED”. A team that has not filed
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
-<div class="callout ok">
-<p><strong>Freshness check.</strong> This is the newest report on the
+<div class="callout {'warn' if inj.get('prior_report_status_changes') else 'ok'}">
+<p><strong>Freshness check, computed.</strong> This is the newest report on the
 <a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
-({esc(inj.get('newest_report_listed_on_index', 'n/a'))}), so there is no later file to reconcile it
-with. The comparison that exists is against the report it supersedes
-({esc(inj.get('prior_report_stamp', 'n/a'))}):
-<strong>{inj.get('prior_report_compared_rows', 0)} rows in common on the 2026-11-14 slate,
-{inj.get('prior_report_status_changes', 0)} status changes</strong>. An overnight gap of nine hours
-and one slate-turning set of games produced no movement at all, which is why these rows can be
-published as settled for today. The build fails if a future report disagrees. The earlier
-row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
+({esc(inj.get('newest_report_listed_on_index', 'not stated'))}).{' ' + esc(inj['newest_report_note']) if inj.get('newest_report_note') else ''}
+Compared row by row with the report it supersedes
+(<a href="{esc(inj.get('prior_report_url', ''))}" target="_blank" rel="noopener noreferrer">{esc(inj.get('prior_report_stamp', 'not stated'))}</a>):
+<strong>{inj.get('prior_report_compared_rows', 0)} rows in common,
+{inj.get('prior_report_status_changes', 0)} status change(s),
+{inj.get('prior_report_rows_only_in_newest', 0)} player row(s) present only in this report,
+{inj.get('prior_report_rows_only_in_prior', 0)} placeholder(s) closed because the team filed</strong>.
+The earlier row-by-row delta between the stored
+07:30 PM snapshot and the 04:15 AM report (session 53653a5c, executed
 as change request <strong>CR-53653a5c-A</strong>) is published at
 <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
 (17/17 attributed rows identical; 29 fragmented rows listed unverified, never counted), and
@@ -1132,13 +1158,13 @@ session 26fd5f6f independently matched <strong>31/31</strong> rows — see
 <a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>.
 Correction CR-26fd5f6f-A is applied: the seven games once miscounted as a gap in the 11/14 slate
 are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
+</div>
 
 <div class="callout warn">
 <p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and
 2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong>
+{scope_1114}
 Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
 is <a href="flagged.html">NF-53</a> and the corrected reading is
 <a href="flagged.html">NF-56</a>.</p>
@@ -1370,6 +1396,14 @@ replaced.</p>""")
                    f"against {_pcinj.get('rows_parallel', '?')} in the 04:45 AM capture the parallel "
                    "session transcribed; the difference is published in full rather than resolved "
                    "silently")
+    # The two "rows only in ..." fields are a count in the refreshed snapshot and a
+    # list in the older one; accept either instead of crashing on len(int).
+    def _count(v):
+        if v is None:
+            return None
+        return v if isinstance(v, int) else len(v)
+    _c4_added = _count(inj.get("prior_report_rows_only_in_newest"))
+    _c4_dropped = _count(inj.get("prior_report_rows_only_in_prior"))
     check_rows = [
         ["C1 — the extended log reproduces the official games-played, wins and losses columns",
          "366 team-games = 2 × 183; 30 GP values, 30 W values, 30 L values compared",
@@ -1386,8 +1420,7 @@ replaced.</p>""")
         ["C4 — the 2026-11-14 rows of the newest report vs the report it supersedes",
          f"{inj.get('prior_report_compared_rows', 0)} rows compared, "
          f"{inj.get('prior_report_status_changes', 0)} status changes, "
-         f"{len(inj.get('prior_report_rows_only_in_newest', []))} added, "
-         f"{len(inj.get('prior_report_rows_only_in_prior', []))} dropped",
+         + (f"{_c4_added} added, {_c4_dropped} dropped" if _c4_added is not None else ""),
          chip("pass", "ok") if ch.get("C4_injury_rows_stable") else chip("fail", "bad"),
          src_cell([inj["source_url"], inj.get("prior_report_url", "")], "both PDFs")],
         ["C5 — the previous ratings snapshot is stale for exactly the teams that played on 11/13",
@@ -1902,8 +1935,8 @@ def page_suggestions(d):
     body.append("""
 <p>Improvements that could be made to this site and to the decision-making it supports. Each one lists
 the options, a recommendation and the dependency. <strong>Nothing here has been implemented without an
-owner decision</strong> — the decisions are listed on the <a href="app/questions.html">Open
-questions</a> page.</p>""")
+owner decision</strong> — the decisions themselves are taken on the <a href="app/decision.html">Decision
+workspace</a> page, which joins each suggestion to the open question that blocks it.</p>""")
     rows = []
     for s in d["suggestions"]:
         rows.append([
@@ -1913,6 +1946,161 @@ questions</a> page.</p>""")
         ])
     body.append(table(["ID", "Area", "Suggestion", "Why", "Options", "Recommendation",
                         "Dependency", "Decision", "Source"], rows, "suggestions"))
+    return "\n".join(body)
+
+
+def _decision_data():
+    if not os.path.exists(DECISIONS_DATA):
+        return None
+    with open(DECISIONS_DATA, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def page_decision(dd, d):
+    """The decision workspace: review suggestions, compare paths, choose before building.
+
+    Session a399d8a9. The owner asked for a section where someone can review
+    suggestions and choose the best path before anything is implemented. The
+    suggestions page lists what could be done; this page is where the choice is
+    made, with the criteria written out so two reviewers can disagree about a
+    path without disagreeing about the scale, and with the blocking questions
+    joined in so an undecided prerequisite cannot be missed.
+    """
+    if dd is None:
+        return ("<p class=\"lede\">The decision register "
+                "(<code>session_a399d8a9/data/decisions.json</code>) is missing from this build, "
+                "so this page cannot state what is awaiting a decision. Run "
+                "<code>python3 session_a399d8a9/build_decisions.py</code> and rebuild.</p>")
+    c = dd["counts"]
+    body = []
+    body.append(f"""
+<p class="lede">Every improvement this repository has proposed, in one place, with the paths each
+one offers judged against five stated criteria, the question that blocks it, and what it would take
+to undo. <strong>Choosing a path here changes nothing by itself</strong> — the register is the record,
+and the build reads it. {c['suggestions']} suggestions, {c['with_scored_paths']} with scored paths,
+{c['blocked_on_an_open_question']} blocked on an unanswered question, {c['questions']} open questions
+({c['blocking_questions']} of them blocking).</p>""")
+
+    # ---- how to use this page
+    body.append('<div class="note"><strong>How to use this page.</strong><ol>' +
+                "".join(f"<li>{esc(x)}</li>" for x in dd["how_to_use"]) + "</ol></div>")
+
+    # ---- what this session changed on its own, and why that was not a choice
+    rec = dd["session_record"]
+    rows = [[esc(w["what"]), esc(w["why"]), esc(w["reversible"]),
+             src_cell([w["evidence"] if w["evidence"].startswith("http") else
+                       REPO_URL + "/blob/main/" + w["evidence"]], "evidence")]
+            for w in rec["worked_autonomously"]]
+    body.append("<h3>Done without asking, because it was a defect and not a preference</h3>")
+    body.append("""<p>The owner asked for no manual input. These items were still recorded here
+rather than applied quietly, because each one changes what the site says and the owner may want it
+back.</p>""")
+    body.append(table(["Change", "Why it was a defect, not a choice", "Reversible", "Evidence"],
+                      rows, "decided-autonomously"))
+
+    gate = rec.get("freshness_gate") or {}
+    if gate.get("checks"):
+        rows = [[esc(ch["id"]), esc(ch["what"]), chip("pass" if ch["pass"] else "fail",
+                                                      "ok" if ch["pass"] else "bad"),
+                 esc(ch["detail"]), src_cell([ch["source"]], "official")]
+                for ch in gate["checks"]]
+        body.append("<h3>The freshness gate this session added</h3>")
+        body.append("""<p>A stale snapshot was being published without anything noticing, because
+the check that was meant to catch it compared the data against a clock typed into the same file.
+These checks are now evidence a build can fail on.</p>""")
+        body.append(table(["Check", "What it proves", "Result", "Detail", "Source"], rows,
+                          "freshness-gate"))
+
+    # ---- criteria
+    rows = [[esc(k["id"]), esc(k["name"]), esc(k["question"]),
+             "<br>".join(esc(x) for x in k["scale"])] for k in dd["criteria"]]
+    body.append("<h3>The five criteria every path is judged against</h3>")
+    body.append("""<p>Each path is scored 0–3 on every criterion. The scale is written out so a
+disagreement is about the path, not about what the numbers mean. The scores are this session's
+judgement and are labelled as such — they are not official values and nothing here is verified
+against an external source, because a judgement cannot be.</p>""")
+    body.append(table(["ID", "Criterion", "Question it answers", "Scale"], rows, "criteria",
+                      require_source=False,
+                      note="Judgement, not data: no external source can confirm a score."))
+
+    # ---- suggestions with paths
+    body.append("<h3>Ready to decide — the suggestions with paths scored</h3>")
+    body.append("""<p>These are the suggestions where this session could state a defensible
+recommendation. Each path lists what it costs, what could go wrong, and what it unblocks.</p>""")
+    for it in [x for x in dd["items"] if x["criteria_scored"]]:
+        body.append(f'<h4 id="{esc(it["id"])}">{esc(it["id"])} — {esc(it["suggestion"])}</h4>')
+        body.append(f'<p class="muted">{esc(it["area"])} · {esc(it["why"])}</p>')
+        prow = []
+        for p in sorted(it["paths"], key=lambda x: -(x["score"] or 0)):
+            prow.append([
+                esc(p["id"]), esc(p["label"]), esc(p["cost"] or "—"), esc(p["risk"] or "—"),
+                esc(", ".join(p["unblocks"]) or "—"),
+                f'{p["score"]}/{p["max_score"]}' if p["score"] is not None else "—",
+                chip("highest score" if p["id"] == it["best_path_by_criteria"] else "",
+                     "ok" if p["id"] == it["best_path_by_criteria"] else "neutral"),
+            ])
+        # A path is an option, not a fact: there is no external source that can
+        # confirm what choosing it would cost. The exemption is explicit and the
+        # page says so; the suggestion's own evidence link is printed under it.
+        body.append(table(["Path", "What it is", "Cost", "What could go wrong", "Unblocks",
+                           "Score", ""], prow, None, require_source=False,
+                          note="Options and this session's scores — judgement, not data. "
+                               "The evidence for the suggestion itself is linked below the table."))
+        agree = it["best_path_agrees_with_recommendation"]
+        body.append(f"""<div class="note"><strong>Recommendation: {esc(it["recommendation"])}.</strong>
+{esc(it["reason"])} The criteria score this path
+{"highest, so the recommendation and the arithmetic agree" if agree else
+ "lower than another path — the recommendation weighs something the five criteria do not capture, and that disagreement is worth the owner's attention"}.</div>""")
+        body.append(f'<p class="muted">Blocked: {"yes" if it["blocked"] else "no"} · '
+                    + (", ".join(f'{esc(x["id"])} ({esc(x["status"])})' for x in it["dependencies"])
+                       or "no dependency recorded")
+                    + ' · ' + src_cell(it["sources"], "source") + '</p>')
+
+    # ---- blocked
+    blocked = [x for x in dd["items"] if x["blocked"]]
+    body.append("<h3>Cannot be decided correctly yet — an upstream question is open</h3>")
+    body.append("""<p>These are not "no"s. They are items whose answer depends on a question the
+owner has not settled, so choosing a path now would be choosing without the information the path
+needs.</p>""")
+    rows = [[esc(x["id"]), esc(x["suggestion"]), esc(x["area"]),
+             ", ".join(f'{esc(dep["id"])} — {esc(dep["status"])}' for dep in x["dependencies"]),
+             esc(x["recommendation"]), src_cell(x["sources"], "source")] for x in blocked]
+    body.append(table(["ID", "Suggestion", "Area", "Waiting on", "Current recommendation", "Source"],
+                      rows, "blocked-items"))
+
+    # ---- everything else
+    rest = [x for x in dd["items"] if not x["criteria_scored"] and not x["blocked"]]
+    if rest:
+        body.append("<h3>Not yet judged — needs a reviewer</h3>")
+        body.append(f"""<p>{len(rest)} suggestions are unblocked but this session did not score
+their paths, because scoring them would mean inventing a ranking rather than reading one off the
+evidence. They are listed so nothing appears to have been silently dropped.</p>""")
+        rows = [[esc(x["id"]), esc(x["suggestion"]), esc(x["area"]), esc(x["recommendation"]),
+                 esc(x["current_decision"]), src_cell(x["sources"], "source")] for x in rest]
+        body.append(table(["ID", "Suggestion", "Area", "Recommendation on record", "Decision",
+                           "Source"], rows, "not-judged"))
+
+    # ---- questions
+    body.append("<h3>Questions that must be answered before a decision is reasonable</h3>")
+    body.append("""<p>For each one: what is already known, what is missing, and the concrete step
+that would discover it. A question with no discovery step is a wish; every row below has one.</p>""")
+    rows = [[esc(q["id"]), esc(q["category"]), esc(q["question"]),
+             chip(esc(q["severity"]), "bad" if q["severity"] in ("blocking", "blocked") else
+                  "warn" if q["severity"] in ("decision", "unverified", "partial") else "ok"),
+             esc(q["known"]), esc(q["missing"]), esc(q["how_to_discover"]),
+             src_cell(q["sources"], "source")] for q in dd["questions"]]
+    body.append(table(["ID", "Category", "Question", "Status", "Known now", "Missing",
+                       "How to discover it", "Source"], rows, "decision-questions"))
+
+    # ---- dependency graph
+    body.append("<h3>What depends on what</h3>")
+    rows = [[esc(e["from"]), esc(e["to"]), chip("answered" if e["resolved"] else "open",
+                                                "ok" if e["resolved"] else "warn"),
+             src_cell([REPO_URL + "/blob/main/data/app/canonical.json"], "register")]
+            for e in dd["edges"]]
+    body.append("""<p>Read this as: the suggestion on the left cannot be implemented correctly until
+the question on the right is answered.</p>""")
+    body.append(table(["Suggestion", "Needs", "That question is", "Register"], rows, "dep-graph"))
     return "\n".join(body)
 
 
@@ -2146,6 +2334,7 @@ def build_index(d):
     <a class="tile" href="app/summary.html"><span class="tile-t">Executive summary — the headline result</span></a>
     <a class="tile" href="app/leaderboard.html"><span class="tile-t">Strategy leaderboard — who is winning, and whether it is luck</span></a>
     <a class="tile" href="app/lines.html"><span class="tile-t">Originated lines for the window</span></a>
+    <a class="tile" href="app/decision.html"><span class="tile-t">Decision workspace — review every suggestion, choose a path before anything is built</span></a>
     <a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review — read before trusting a number</span></a>
   </div>
 </section>
@@ -2294,6 +2483,7 @@ def main():
         ("app/freshness.html", "Report availability & freshness", "Game context",
          page_freshness(d), "app/freshness.html"),
         ("app/gameflow.html", "Game flow", "Game context", page_gameflow(d), "app/gameflow.html"),
+        ("app/decision.html", "Decision workspace", "Decision support", page_decision(_decision_data(), d), "app/decision.html"),
         ("app/questions.html", "Open questions", "Decision support", page_questions(d), "app/questions.html"),
         ("app/suggestions.html", "Site improvement suggestions", "Decision support", page_suggestions(d), "app/suggestions.html"),
         ("app/verification.html", "Verification log", "Verification", page_verification(d), "app/verification.html"),
