@@ -544,6 +544,22 @@ def build_review():
         "assumed one.",
         ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_30PM.pdf"],
         "", "2026-11-14")
+    add("Cross-session", "An engine swap tripped another session's CI drift gate",
+        "integrate/engine.py (session e40cd215) derives its cross-engine reconciliation from the "
+        "lines published in app/, so replacing the app/ engine changed its output and its "
+        "'git diff --exit-code -- data/integration/model.json' drift gate failed on this branch's "
+        "first CI run. The engine is deterministic (verified byte-identical across runs), so the "
+        "correct fix is to commit the regenerated artefact: data/integration/model.json, "
+        "dash/data/model.json and dash/reconciliation.html. The comparison still reads 22 of 22 "
+        "games agreeing on the favoured side; only the gaps moved (median 2.39 -> 1.77, max "
+        "4.76 -> 4.44, sd of app/ spreads 10.81 -> 8.81). Their gate did its job — it caught that "
+        "an upstream input changed. Those three files are e40cd215's scope and their session is "
+        "closed; they were regenerated rather than left failing, and the deviation is logged.",
+        "Irregularity — repaired, scope deviation disclosed",
+        "Session e40cd215: confirm the regenerated reconciliation, or make the comparison read "
+        "from a pinned snapshot of app/ so an engine swap elsewhere cannot move it. Logged as "
+        "CR-8D-06. Alternative considered and rejected: weakening the drift gate.",
+        ["https://github.com/wingbangboozle1-lang/NBA3"], "", "2026-11-14")
     add("Cross-session", "Rebuilding the canonical engine invalidated another session's audit",
         "Session 36e18d83's audit36/check.py recomputes an 'engine agreement' block comparing the "
         "dash/ engine against the app/ engine and compares the result against values hard-coded in "
