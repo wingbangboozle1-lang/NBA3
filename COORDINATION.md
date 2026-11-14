@@ -3947,8 +3947,61 @@ offset is not in the table the cell is left blank.
 
 #### PR and deployment record — session `arena/1823b910`
 
-- **PR [#75](https://github.com/wingbangboozle1-lang/NBA3/pull/75)**
-  (`arena/1823b910-nba3` → `main`), merged 2026-11-14 without waiting for review, per the
-  standing instruction.
-- Merge result, CI result, and the live-site verification are recorded below once the run
-  completes.
+- **PR [#81](https://github.com/wingbangboozle1-lang/NBA3/pull/81)**
+  (`arena/1823b910-nba3` → `main`), opened 2026-11-14 19:58 UTC, **merged 2026-11-14T20:54:45Z**
+  as `f9921a6` — merged without waiting for review, per the standing instruction. CI `build`
+  **success** (run `43634941029`, 27m46s).
+- **PR [#82](https://github.com/wingbangboozle1-lang/NBA3/pull/82)** (follow-up, same branch),
+  **merged 2026-11-14T22:33:51Z** as `8262599`. CI `build` **pass** (run `43643579332`, 55s);
+  `deploy` reports `skipping`, which is by design — the workflow only deploys on push to `main`.
+- **Deploy:** push run `43648752106` on `main`, `build` **success** and `deploy` **success**;
+  Pages API reports `status: built`, source `main /`.
+- **Live verification — read from the deployed pages, not from the status:**
+  - `https://wingbangboozle1-lang.github.io/NBA3/audit_1823b910/pages/index.html` renders the
+    overview with the six summary cards (49 → 69 rows, 4 team-games filed, 24 new player rows,
+    4 status changes, 0/17 price fields moved, 7 flagged items) and the ten-row
+    published-vs-now table, every row linking to the 1:30 PM PDF and its nba.com game page.
+  - `.../rotation.html` renders the ten team-game rows (MIN 33.7 minutes / 33.3 pts vacated;
+    CLE 33.0 minutes at risk; MEM blank) and the named-player table.
+  - `.../gameflow.html` renders the five games with venue, rest, back-to-back flags, pace and
+    net rating, plus the availability-change table and the published projections with the note
+    that they are unchanged by the refresh.
+  - `.../flags.html` renders all seven flagged items with owner, evidence and measured values.
+  - `https://wingbangboozle1-lang.github.io/NBA3/index.html` shows four audit entries under
+    Verification: `Independent audit` (dd1eb1f1), `Latest audit` (7f3b89af),
+    `Injury refresh audit` (1823b910) and `Injury freshness audit (1:30 PM ET)` (736efb4b) under
+    Game context. No broken links.
+- **Reading the live site caught a bug the build could not.** Two page titles were written with
+  the HTML entity `&rarr;`, which `Page()` then escaped again, so the `h1` and `<title>` rendered
+  the literal text `&rarr;` on rotation.html and refresh.html. Fixed in PR #82 by using the
+  character itself, and covered by a test that fails if any title or `h1` in the tree contains
+  `&amp;`. Worth keeping in mind: the build's link and source checks pass on a page that renders
+  wrong, so the live read is not redundant.
+- **Not replayed here:** the live `capture_official_2026_11_14b/c/d` steps, which fetch nba.com
+  on the runner. This session's `..._e.py` parses committed verbatim files and runs on the
+  runner, so it is covered.
+
+#### Rebase notes — conflicts with three parallel sessions, all resolved without discarding work
+
+`main` moved 21 commits while this branch was open (PRs #76, #77, #78, #80). Three rebases were
+needed; in every case both sides were kept rather than one winning:
+
+1. **`COORDINATION.md`** — append-only, so both sides were kept each time. One nested conflict
+   (`<<<<<<< HEAD` inside `<<<<<<< HEAD`) was produced by the first resolution; it was cleaned by
+   stripping the bare marker lines and keeping all real content. Nothing from sessions 736efb4b,
+   965fbd17, 240bc29b or 7f3b89af was lost.
+2. **`data/app/official_injuries_2026-11-14_0130PM_raw.md` (add/add)** — session 965fbd17 had
+   transcribed the same PDF and committed it to the same path. The two verbatim transcriptions
+   are identical table-for-table, so **their file was kept** at the shared path and this
+   session's copy moved to
+   `audit_1823b910/data/independent_transcription_0130PM_raw.md`, where check E0 parses both and
+   proves they agree on all 69 rows.
+3. **`scripts/build_app.py` nav entry** — session 7f3b89af replaced this session's
+   `("Injury refresh audit", ...)` entry with its own `("Latest audit", ...)`. Resolved by
+   keeping **both**, so the dashboard now links four audit trees.
+4. **`.github/workflows/pages.yml`** — the 736efb4b and 7f3b89af CI steps were kept and this
+   session's three steps re-applied alongside them, along with the `audit_1823b910/` staging line
+   and header comment.
+
+One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
+pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
