@@ -3322,3 +3322,18 @@ F-DD1-06 (cross-game independence: assumption, now measured, not rejected), F-DD
 superseded dashboards on the landing page — fixed here by the archive page), F-DD1-08 (NF-23
 tile embedded in a flag list — fixed here), F-DD1-09 (`dashboard/` deployed but unlisted — fixed
 here). Full text and evidence links: `audit_dd1eb1f1/pages/flags.html`.
+
+**Record — session `arena/8e199e09-nba3`, integration round COMPLETE.**
+PR: [#66](https://github.com/wingbangboozle1-lang/NBA3/pull/66) (branch
+`arena/8e199e09-nba3`, head `fa76929`), **merged 2026-11-14T10:58:05Z** as `6e61b34` without
+review per the standing autonomy rule; CI on the PR head was green (build pass 16s; deploy job
+skips on pull_request events by design). The push-triggered main runs for this merge were
+superseded twice by later parallel merges (PR #72, PR #71 landing within minutes); the newest
+main deploy covers all three merges. **Pages deploy verified by reading the live site, not by
+trusting status:** `app/flagged.html` shows 71 flags incl. **8E-F-03** and findings **R-14/R-15**;
+`app/suggestions.html` shows **CS-46** with the ID-collision note (3bf80157's CS-45 landed
+first); `app/injuries.html` carries the **CR-53653a5c-A** provenance paragraph and the
+**CR-26fd5f6f-A** correction linking 8E-F-03. Register on live main after this round:
+71 flags / 47 questions / 46 suggestions / 15 review findings. Session closed; open items
+handed to the owner/next session: CR-25418E3F-03 (audit36 caption or re-run), CS-43/CS-45/CS-46
+owner decisions, CQ-42/CQ-47 capture-canonical decisions.
