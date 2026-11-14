@@ -188,6 +188,35 @@ jobs:
           # and that the whole 27-game slate window matches its live re-read.
           python3 scripts/capture_official_2026_11_14d.py
           git diff --exit-code -- data/app/official_injuries_2026-11-14_0515AM.json
+      - name: Freshness gate - the published injury snapshot must be the newest official report (session a399d8a9)
+        run: |
+          # Rebuilds the snapshot, the manifest pointer and the gate evidence from
+          # the committed verbatim transcript, and fails on any drift. This is what
+          # makes "the site is pricing today's slate on a nine-hour-old report" a
+          # red build instead of a silent default (flags F26, F27).
+          python3 session_a399d8a9/verify_freshness.py
+          python3 scripts/report_availability.py
+          python3 session_a399d8a9/apply_refresh.py --check
+          git diff --exit-code -- data/app/report_availability.json || {
+            echo "report_availability.json drifted: the deadline arithmetic is not deterministic"
+            exit 1
+          }
+          python3 - <<'PY2'
+          import json, sys
+          g = json.load(open("session_a399d8a9/data/freshness_gate.json"))
+          bad = [c["id"] for c in g["checks"] if not c["pass"]]
+          print("freshness checks:", ", ".join(f"{c['id']}={'ok' if c['pass'] else 'FAIL'}" for c in g["checks"]))
+          if bad:
+              sys.exit("freshness gate failed: " + ", ".join(bad))
+          PY2
+      - name: Decision workspace register (session a399d8a9)
+        run: |
+          python3 session_a399d8a9/build_decisions.py
+          test -z "$(git status --porcelain -- session_a399d8a9/data/)" || {
+            echo 'the decision register is stale; run session_a399d8a9/build_decisions.py and commit'
+            git status --porcelain -- session_a399d8a9/data/
+            exit 1
+          }
       - name: Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)
         run: |
           python3 scripts/strategy_lab.py
@@ -202,6 +231,7 @@ jobs:
         run: |
           python3 scripts/assemble_canonical.py
           python3 scripts/build_app.py
+          test -s app/decision.html || { echo "app/decision.html was not generated"; exit 1; }
           git diff --exit-code -- data/app/canonical.json app/ index.html || {
             echo "The canonical dataset or the generated pages drifted from what is committed."
             git --no-pager diff --stat -- data/app/canonical.json app/ index.html | tail -20

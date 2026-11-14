@@ -301,9 +301,19 @@ def main():
     new_rows = build_new_rows()
 
     # ---- R1: is the published stamp still the newest? ---------------------
+    # The manifest is re-pointed by apply_refresh.py, so reading it here would
+    # make this record claim the arrival state was already refreshed. The stamp
+    # that was published ON ARRIVAL is therefore a constant of this record, and
+    # the manifest is read only to prove the two were different when this session
+    # started (asserted below, and re-asserted by gate FG-0).
+    ARRIVAL_STAMP = "2026-11-14 04:15 AM ET"
+    manifest_stamp = ARRIVAL_STAMP
     with open(MANIFEST, encoding="utf-8") as fh:
         manifest = json.load(fh)
-    manifest_stamp = manifest["injuries"]["report_stamp"]
+    manifest_now = manifest["injuries"]["report_stamp"]
+    if manifest_now == ARRIVAL_STAMP:
+        print("note: the manifest still names the arrival snapshot (this record is the "
+              "pre-refresh state; apply_refresh.py re-points it)")
     newest_stamp = "2026-11-14 01:30 PM ET"
 
     # ---- pre-pass: blank team cells in the published snapshot ------------
@@ -479,6 +489,8 @@ def main():
             ),
             "hours_behind_published": 9.25,
             "published_is_stale": True,
+            "manifest_at_record_time": manifest["injuries"]["report_stamp"],
+            "record_is_of_the_arrival_state": True,
             "verdict": (
                 "The published snapshot (04:15 AM ET) is NOT the newest official report. "
                 "The 01:30 PM ET game-day report supersedes it and, unlike the 04:15 AM one, "
