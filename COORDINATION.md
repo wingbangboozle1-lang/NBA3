@@ -3449,3 +3449,7 @@ have now printed players.
 
 **Open PR #70** (`arena/f2d4a99f-nba3`, COORDINATION.md only) is in conflict with `main`. Not this session's; left untouched.
 
+
+### PR record — session `736efb4b` (F3, integration)
+
+- PR [#76](https://github.com/wingbangboozle1-lang/NBA3/pull/76) (`arena/736efb4b-nba3` → `main`), opened 2026-11-14 ~18:5x UTC. Scope: the files listed in the F1 claim, the three text corrections in `scripts/build_app.py`, the regenerated `app/`, `index.html`, `archive.html`, and `.github/workflows/pages.yml`. Merge result is recorded below once the PR is merged.
