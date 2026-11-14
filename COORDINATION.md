@@ -3367,3 +3367,26 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+## Session `arena/965fbd17-nba3` (current) — CLAIM: newest official injury reports (after 05:15 AM ET), slate and results re-check, publish delta
+
+Session ID: `965fbd17`. Workspace branch `arena/965fbd17-nba3`, branched from `main` @ `3a6c353` (merge of PR #74).
+Claim written and pushed before any other work started (2026-11-14 ~18:42 UTC).
+
+Reason this round exists: at 18:42 UTC the newest injury snapshot in the canonical build is the
+**05:15 AM ET** capture (`data/app/official_injuries_2026-11-14_0515AM.json`). The official index
+[official.nba.com/nba-injury-report-2026-27-season/](https://official.nba.com/nba-injury-report-2026-27-season/)
+now lists 11/14 reports through **1:30 PM ET**. Every injury row published on the site is therefore
+up to ~8 hours behind the newest official report, which matters for any injury-to-rotation view.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| F1 | Capture every 11/14 official injury report newer than 05:15 AM ET (verbatim text, timestamped), with the index as the listing source | in progress | `data/app/official_injuries_*_raw.md` (new files only) |
+| F2 | Compute the delta vs the 05:15 AM snapshot using the existing attribution rule (rows with no printed date/matchup/team stay UNVERIFIED) | pending | `scripts/injury_delta_*.py` (new), `data/app/injury_delta_*.json` (new) |
+| F3 | Re-check the 11/14–11/17 slate and the 11/13 results against nba.com (no change unless the official page differs) | pending | `data/app/official_slate_*.json` (only if a mismatch is found) |
+| F4 | Publish the delta and any irregularity on the freshness and flagged pages through the existing generators, then run the full check suite | pending | `scripts/build_app.py`, `scripts/assemble_canonical.py` (shared; rebase before push), `app/*.html`, `index.html`, `data/app/canonical.json` |
+| F5 | PR to `main`, merge, confirm Pages deploy by reading the live site, record here | pending | `COORDINATION.md` |
+
+Rules this session follows: no value is entered unless it is read from an official NBA page this
+session; anything not confirmed is left blank and flagged; `COORDINATION.md` edits are append-only;
+the session works only on `arena/965fbd17-nba3`.
