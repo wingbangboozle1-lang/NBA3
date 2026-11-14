@@ -288,7 +288,7 @@ def page_index(refresh, inv, rot, flow, review, flags):
 
 
 def page_refresh(refresh):
-    p = Page("refresh.html", "Injury refresh: 05:15 AM ET &rarr; 1:30 PM ET",
+    p = Page("refresh.html", "Injury refresh: 05:15 AM ET \u2192 1:30 PM ET",
              "What changed between the report the dashboard publishes and the newest official "
              "report, row by row.")
     c = refresh["counts"]
@@ -412,7 +412,7 @@ def page_refresh(refresh):
 
 
 def page_rotation(rot):
-    p = Page("rotation.html", "Injury &rarr; rotation minutes and production",
+    p = Page("rotation.html", "Injury \u2192 rotation minutes and production",
              "What each team's absences take off the floor, before and after the refresh.")
     p.note("<b>Convention.</b> " + esc(rot["convention"]))
     p.note("<b>Unknowns.</b> " + esc(rot["unknown_policy"]))

@@ -114,6 +114,19 @@ class TestPageRules(unittest.TestCase):
                     self.assertIn(href[1:], p.ids,
                                   f"{name}: dangling in-page anchor {href}")
 
+    def test_no_double_escaped_entities_in_titles(self):
+        """A title is escaped by esc(); a pre-written &rarr; would render literally."""
+        for name in self.page_names():
+            with open(os.path.join(PAGES, name), encoding="utf-8") as fh:
+                text = fh.read()
+            for tag in ("<title>", "<h1>"):
+                start = text.find(tag)
+                self.assertNotEqual(start, -1, f"{name} has no {tag}")
+                end = text.find("<", start + len(tag))
+                chunk = text[start:end]
+                self.assertNotIn("&amp;", chunk,
+                                 f"{name}: double-escaped entity in {tag}: {chunk}")
+
     def test_pages_are_html5_and_link_the_stylesheet(self):
         for name in self.page_names():
             with open(os.path.join(PAGES, name), encoding="utf-8") as fh:
