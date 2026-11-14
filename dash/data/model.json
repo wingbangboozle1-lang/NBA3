@@ -1,0 +1,2548 @@
+{
+ "engine_agreement": {
+  "compared_against": "data/app/canonical.json (session 2b9f1ae1, merged to main as PR #19)",
+  "games_compared": 22,
+  "same_side_favoured": 22,
+  "spread_gap_over_6_5_points": 0,
+  "max_abs_gap": 4.76,
+  "median_abs_gap": 2.39,
+  "mine_matches_record_favourite": 20,
+  "theirs_matches_record_favourite": 20,
+  "n_rows": 22,
+  "dispersion": {
+   "sd_of_my_spreads": 10.81,
+   "sd_of_their_spreads": 13.01,
+   "sd_of_actual_margins": 16.89,
+   "my_max_abs": 24.5,
+   "their_max_abs": 29.24,
+   "reading": "Predicted-spread dispersion against the dispersion of actual margins is the only way to tell an attenuated model from an over-confident one. A shrunk model is better on RMSE and worse at picking sides; an unshrunk one is the reverse. Mine is the shrunk case, the other engine is the unshrunk case, and neither has been checked against a price."
+  },
+  "rows": [
+   {
+    "date": "2026-11-14",
+    "away": "DEN",
+    "home": "NOP",
+    "their_spread_home": 9.47,
+    "my_spread_home": 8.0,
+    "abs_spread_gap": 1.47,
+    "their_total": 231.4,
+    "my_total": 234.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/den-vs-nop-0022600231"
+   },
+   {
+    "date": "2026-11-14",
+    "away": "DAL",
+    "home": "CLE",
+    "their_spread_home": -0.36,
+    "my_spread_home": -1.0,
+    "abs_spread_gap": 0.64,
+    "their_total": 229.6,
+    "my_total": 231.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": false,
+    "theirs_matches_record": false,
+    "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232"
+   },
+   {
+    "date": "2026-11-14",
+    "away": "DET",
+    "home": "MIA",
+    "their_spread_home": 9.23,
+    "my_spread_home": 6.5,
+    "abs_spread_gap": 2.73,
+    "their_total": 231.3,
+    "my_total": 232.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/det-vs-mia-0022600233"
+   },
+   {
+    "date": "2026-11-14",
+    "away": "BKN",
+    "home": "MEM",
+    "their_spread_home": -12.11,
+    "my_spread_home": -10.5,
+    "abs_spread_gap": 1.61,
+    "their_total": 228.1,
+    "my_total": 230.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/bkn-vs-mem-0022600234"
+   },
+   {
+    "date": "2026-11-14",
+    "away": "CHI",
+    "home": "MIN",
+    "their_spread_home": -29.24,
+    "my_spread_home": -24.5,
+    "abs_spread_gap": 4.74,
+    "their_total": 232.6,
+    "my_total": 234.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/chi-vs-min-0022600235"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "IND",
+    "home": "PHI",
+    "their_spread_home": -4.83,
+    "my_spread_home": -5.5,
+    "abs_spread_gap": 0.67,
+    "their_total": 222.7,
+    "my_total": 222.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/ind-vs-phi-0022600236"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "LAL",
+    "home": "PHX",
+    "their_spread_home": 9.52,
+    "my_spread_home": 6.5,
+    "abs_spread_gap": 3.02,
+    "their_total": 233.9,
+    "my_total": 232.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/lal-vs-phx-0022600237"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "CHA",
+    "home": "LAC",
+    "their_spread_home": -8.28,
+    "my_spread_home": -9.0,
+    "abs_spread_gap": 0.72,
+    "their_total": 210.8,
+    "my_total": 219.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": false,
+    "theirs_matches_record": false,
+    "game_url": "https://www.nba.com/game/cha-vs-lac-0022600238"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "SAS",
+    "home": "UTA",
+    "their_spread_home": 20.26,
+    "my_spread_home": 15.5,
+    "abs_spread_gap": 4.76,
+    "their_total": 225.8,
+    "my_total": 224.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/sas-vs-uta-0022600239"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "NYK",
+    "home": "TOR",
+    "their_spread_home": 2.84,
+    "my_spread_home": 0.5,
+    "abs_spread_gap": 2.34,
+    "their_total": 224.5,
+    "my_total": 219.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600241"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "DAL",
+    "home": "BOS",
+    "their_spread_home": -7.41,
+    "my_spread_home": -6.0,
+    "abs_spread_gap": 1.41,
+    "their_total": 227.4,
+    "my_total": 222.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/dal-vs-bos-0022600240"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "HOU",
+    "home": "WAS",
+    "their_spread_home": 17.24,
+    "my_spread_home": 15.5,
+    "abs_spread_gap": 1.74,
+    "their_total": 225.4,
+    "my_total": 224.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/hou-vs-was-0022600242"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "ATL",
+    "home": "MIL",
+    "their_spread_home": 14.1,
+    "my_spread_home": 10.0,
+    "abs_spread_gap": 4.1,
+    "their_total": 225.0,
+    "my_total": 231.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/atl-vs-mil-0022600243"
+   },
+   {
+    "date": "2026-11-15",
+    "away": "OKC",
+    "home": "SAC",
+    "their_spread_home": 16.72,
+    "my_spread_home": 13.5,
+    "abs_spread_gap": 3.22,
+    "their_total": 219.4,
+    "my_total": 221.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/okc-vs-sac-0022600244"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "ORL",
+    "home": "BOS",
+    "their_spread_home": -14.55,
+    "my_spread_home": -12.0,
+    "abs_spread_gap": 2.55,
+    "their_total": 222.7,
+    "my_total": 220.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/orl-vs-bos-0022600245"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "MEM",
+    "home": "WAS",
+    "their_spread_home": 11.73,
+    "my_spread_home": 8.5,
+    "abs_spread_gap": 3.23,
+    "their_total": 227.9,
+    "my_total": 228.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/mem-vs-was-0022600247"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "CHI",
+    "home": "CLE",
+    "their_spread_home": -17.58,
+    "my_spread_home": -15.0,
+    "abs_spread_gap": 2.58,
+    "their_total": 229.7,
+    "my_total": 240.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/chi-vs-cle-0022600246"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "HOU",
+    "home": "MIA",
+    "their_spread_home": 13.99,
+    "my_spread_home": 11.5,
+    "abs_spread_gap": 2.49,
+    "their_total": 231.1,
+    "my_total": 228.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/hou-vs-mia-0022600249"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "PHI",
+    "home": "BKN",
+    "their_spread_home": 5.55,
+    "my_spread_home": 3.5,
+    "abs_spread_gap": 2.05,
+    "their_total": 221.3,
+    "my_total": 225.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/phi-vs-bkn-0022600248"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "GSW",
+    "home": "NOP",
+    "their_spread_home": 15.94,
+    "my_spread_home": 13.5,
+    "abs_spread_gap": 2.44,
+    "their_total": 236.2,
+    "my_total": 234.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "AWAY",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/gsw-vs-nop-0022600251"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "POR",
+    "home": "MIN",
+    "their_spread_home": -5.18,
+    "my_spread_home": -4.5,
+    "abs_spread_gap": 0.68,
+    "their_total": 238.9,
+    "my_total": 227.5,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600250"
+   },
+   {
+    "date": "2026-11-16",
+    "away": "PHX",
+    "home": "DEN",
+    "their_spread_home": -5.48,
+    "my_spread_home": -5.5,
+    "abs_spread_gap": 0.02,
+    "their_total": 226.2,
+    "my_total": 228.0,
+    "same_side_favoured": true,
+    "official_record_favourite": "HOME",
+    "mine_matches_record": true,
+    "theirs_matches_record": true,
+    "game_url": "https://www.nba.com/game/phx-vs-den-0022600252"
+   }
+  ],
+  "note": "A winning-record comparison is a weak plausibility anchor, not a model: an early-season record carries no injury or rest information. It is used here only because it is the one external check available without a price feed - it cannot tell which engine is right, but a line that contradicts the record by 28 points deserves an explanation."
+ },
+ "as_of": "results through 2026-11-12 \u00b7 availability from the 11/13/26 07:30 PM ET official report \u00b7 pricing window 2026-11-14 to 2026-11-16",
+ "session": "e40cd215",
+ "season": "2026-27",
+ "data_through": "2026-11-12",
+ "as_of_note": "The 11/13 slate was in progress at retrieval time, so results stop at 11/12 and pricing starts at 11/14.",
+ "window": {
+  "start": "2026-11-14",
+  "end": "2026-11-16",
+  "games": 22,
+  "horizon_days": 3
+ },
+ "sources": {
+  "games": "https://www.nba.com/games",
+  "games_raw": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv",
+  "games_crosscheck": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv",
+  "schedule": "https://www.nba.com/games?date=2026-11-14",
+  "injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "injury_pdf": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+  "injury_pdf_1700": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+  "injury_pdf_1715": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf",
+  "terms": "https://www.nba.com/termsofuse",
+  "rules": "https://official.nba.com/nba-official-rules/",
+  "ksa": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+  "nist": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda359.htm",
+  "glossary": "https://www.nba.com/stats/help/glossary"
+ },
+ "integrity": {
+  "games": 174,
+  "team_games": 348,
+  "score_mismatches": 0,
+  "provenance_ok": true,
+  "crosscheck": {
+   "ours": 174,
+   "theirs": 174,
+   "matched_keys": 174,
+   "score_mismatches": 0,
+   "mismatch_detail": [],
+   "note": "Both captures hold 174 games for 2026-10-20..2026-11-12. After normalising the team-code vocabulary used by each capture (CHO/CHA, BRK/BKN, PHO/PHX), the two sets have an identical key set and identical scores on all 174 games. The second capture is a cross-check only: its declared source is Basketball-Reference, which is not an official NBA property, so it is not used as a primary source (flag E-F-02).",
+   "their_declared_source": "https://www.basketball-reference.com/leagues/NBA_2027_games-october.html"
+  },
+  "wl_check": null
+ },
+ "model_variants": [
+  {
+   "variant": "SELECTED - variant chosen game by game from the trailing 30 OOS errors",
+   "variant_id": "sel",
+   "market": "margin",
+   "rmse_model": 15.477,
+   "rmse_baseline": 16.728,
+   "mae_model": 12.588,
+   "mae_baseline": 13.821,
+   "improvement_pct": 7.48,
+   "paired_t": -2.422,
+   "paired_p": 0.017,
+   "better_than_baseline": true,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "C - equal blend of A and B",
+   "variant_id": "c",
+   "market": "margin",
+   "rmse_model": 15.539,
+   "rmse_baseline": 16.728,
+   "mae_model": 12.411,
+   "mae_baseline": 13.821,
+   "improvement_pct": 7.11,
+   "paired_t": -3.537,
+   "paired_p": 0.0006,
+   "better_than_baseline": true,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "B - Massey ridge least squares on margin and on total",
+   "variant_id": "b",
+   "market": "margin",
+   "rmse_model": 15.543,
+   "rmse_baseline": 16.728,
+   "mae_model": 12.316,
+   "mae_baseline": 13.821,
+   "improvement_pct": 7.09,
+   "paired_t": -2.106,
+   "paired_p": 0.0374,
+   "better_than_baseline": true,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "A - recency-weighted points for/against with league shrinkage",
+   "variant_id": "a",
+   "market": "margin",
+   "rmse_model": 16.954,
+   "rmse_baseline": 16.728,
+   "mae_model": 13.833,
+   "mae_baseline": 13.821,
+   "improvement_pct": -1.35,
+   "paired_t": 0.061,
+   "paired_p": 0.9514,
+   "better_than_baseline": false,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "C - equal blend of A and B",
+   "variant_id": "c",
+   "market": "total",
+   "rmse_model": 18.831,
+   "rmse_baseline": 19.297,
+   "mae_model": 14.36,
+   "mae_baseline": 14.873,
+   "improvement_pct": 2.41,
+   "paired_t": -1.201,
+   "paired_p": 0.2321,
+   "better_than_baseline": true,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "SELECTED - variant chosen game by game from the trailing 30 OOS errors",
+   "variant_id": "sel",
+   "market": "total",
+   "rmse_model": 18.903,
+   "rmse_baseline": 19.297,
+   "mae_model": 14.445,
+   "mae_baseline": 14.873,
+   "improvement_pct": 2.04,
+   "paired_t": -1.06,
+   "paired_p": 0.2913,
+   "better_than_baseline": true,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "A - recency-weighted points for/against with league shrinkage",
+   "variant_id": "a",
+   "market": "total",
+   "rmse_model": 19.128,
+   "rmse_baseline": 19.297,
+   "mae_model": 14.651,
+   "mae_baseline": 14.873,
+   "improvement_pct": 0.88,
+   "paired_t": -2.08,
+   "paired_p": 0.0398,
+   "better_than_baseline": true,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  },
+  {
+   "variant": "B - Massey ridge least squares on margin and on total",
+   "variant_id": "b",
+   "market": "total",
+   "rmse_model": 19.37,
+   "rmse_baseline": 19.297,
+   "mae_model": 14.838,
+   "mae_baseline": 14.873,
+   "improvement_pct": -0.38,
+   "paired_t": -0.048,
+   "paired_p": 0.9621,
+   "better_than_baseline": false,
+   "n": 114,
+   "baseline_definition": "in-sample mean home margin (margin) / in-sample mean total (total), refitted at each step"
+  }
+ ],
+ "model_selector": {
+  "trailing_window": 30,
+  "selection_tally": {
+   "margin": {
+    "a": 30,
+    "b": 51,
+    "c": 33
+   },
+   "total": {
+    "a": 53,
+    "b": 20,
+    "c": 41
+   }
+  },
+  "forced_variant_for_first_games": "a",
+  "note": "Selection at each game uses only the trailing 30 predictions that were already available, so the score reported for the selected model is out of sample end to end."
+ },
+ "model": {
+  "burn_in_games": 60,
+  "oos_games": 114,
+  "half_life_games": 25.0,
+  "ridge_shrink_k": 10.0,
+  "margin_rmse_model": 15.476971360301572,
+  "margin_rmse_baseline": 16.72791524857525,
+  "total_rmse_model": 18.902883874408044,
+  "total_rmse_baseline": 19.296605893084244,
+  "margin_paired_t": [
+   -2.4222703243461927,
+   0.017013378390009708,
+   113
+  ],
+  "total_paired_t": [
+   -1.060320542183571,
+   0.2912598901053731,
+   113
+  ],
+  "sd_margin_used": 15.776,
+  "sd_total_used": 18.104
+ },
+ "calibration": {
+  "margin": {
+   "n": 114,
+   "slope": 0.9188,
+   "slope_se": 0.2172,
+   "slope_ci95": [
+    0.493,
+    1.344
+   ],
+   "intercept": -0.292,
+   "t_vs_zero": 4.231,
+   "r2": 0.1378,
+   "reads_as": "dispersion is about right"
+  },
+  "total": {
+   "n": 114,
+   "slope": 0.7761,
+   "slope_se": 0.3812,
+   "slope_ci95": [
+    0.029,
+    1.523
+   ],
+   "intercept": 49.952,
+   "t_vs_zero": 2.036,
+   "r2": 0.0357,
+   "reads_as": "forecasts are over-dispersed; scaling them down is the calibration fix"
+  }
+ },
+ "strategies": [
+  {
+   "id": "STR-01",
+   "gradable_vs_own_line": true,
+   "name": "Home dog covers (+4.5 or more)",
+   "family": "single / spread",
+   "stake": "home +",
+   "n_bets": 12,
+   "wins": 6,
+   "losses": 6,
+   "hit_rate": 0.5,
+   "wilson_low": 0.2537815976337061,
+   "wilson_high": 0.7462184023662939,
+   "perm_p": 0.6122193890305485,
+   "roi_vs_own_line": -0.04545454545454549,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-31",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "id": "STR-13",
+   "gradable_vs_own_line": false,
+   "name": "Home dog moneyline (NOT GRADABLE at -110)",
+   "family": "single / moneyline",
+   "stake": "home ML",
+   "n_bets": 43,
+   "wins": 13,
+   "losses": 30,
+   "hit_rate": 0.3023255813953488,
+   "wilson_low": 0.1860200013584818,
+   "wilson_high": 0.45105364177729607,
+   "perm_p": 0.9973001349932503,
+   "roi_vs_own_line": -0.4228329809725158,
+   "not_gradable_reason": "A moneyline graded against our own fair price is zero by construction: our price is derived from the same probability. Only a market price can measure edge here (flag E-F-05).",
+   "first_bet": "2026-10-24",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.4,
+    0.25
+   ]
+  },
+  {
+   "id": "STR-02",
+   "gradable_vs_own_line": true,
+   "name": "Fade model total >= 231 (play under)",
+   "family": "single / total",
+   "stake": "under",
+   "n_bets": 18,
+   "wins": 11,
+   "losses": 7,
+   "hit_rate": 0.6111111111111112,
+   "wilson_low": 0.3861904160223791,
+   "wilson_high": 0.7969475342783638,
+   "perm_p": 0.23873806309684517,
+   "roi_vs_own_line": 0.16666666666666666,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-28",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.75,
+    0.5714285714285714
+   ]
+  },
+  {
+   "id": "STR-03",
+   "gradable_vs_own_line": true,
+   "name": "Fade model total <= 219 (play over)",
+   "family": "single / total",
+   "stake": "over",
+   "n_bets": 4,
+   "wins": 3,
+   "losses": 1,
+   "hit_rate": 0.75,
+   "wilson_low": 0.30064184258240184,
+   "wilson_high": 0.9544127391902995,
+   "perm_p": null,
+   "roi_vs_own_line": 0.43181818181818177,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-31",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    1.0,
+    0.6666666666666666
+   ]
+  },
+  {
+   "id": "STR-04",
+   "gradable_vs_own_line": true,
+   "name": "Home favourite cover, model margin >= +5",
+   "family": "single / spread",
+   "stake": "home -",
+   "n_bets": 35,
+   "wins": 17,
+   "losses": 18,
+   "hit_rate": 0.4857142857142857,
+   "wilson_low": 0.32994236002509725,
+   "wilson_high": 0.6443119540413141,
+   "perm_p": 0.6298185090745463,
+   "roi_vs_own_line": -0.07272727272727271,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-28",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.6666666666666666,
+    0.35
+   ]
+  },
+  {
+   "id": "STR-05",
+   "gradable_vs_own_line": true,
+   "name": "Road favourite cover, model margin <= -7",
+   "family": "single / spread",
+   "stake": "away -",
+   "n_bets": 9,
+   "wins": 4,
+   "losses": 5,
+   "hit_rate": 0.4444444444444444,
+   "wilson_low": 0.18877852109766452,
+   "wilson_high": 0.733348706504507,
+   "perm_p": 0.7478626068696566,
+   "roi_vs_own_line": -0.15151515151515152,
+   "not_gradable_reason": null,
+   "first_bet": "2026-11-07",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    null,
+    0.4444444444444444
+   ]
+  },
+  {
+   "id": "STR-06",
+   "gradable_vs_own_line": true,
+   "name": "Fresher team (>= 2 more rest days)",
+   "family": "single / spread",
+   "stake": "fresher",
+   "n_bets": 18,
+   "wins": 12,
+   "losses": 6,
+   "hit_rate": 0.6666666666666666,
+   "wilson_low": 0.43749467295945105,
+   "wilson_high": 0.837212252491663,
+   "perm_p": 0.11829408529573521,
+   "roi_vs_own_line": 0.2727272727272727,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-24",
+   "last_bet": "2026-11-08",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.6923076923076923,
+    0.6
+   ]
+  },
+  {
+   "id": "STR-07",
+   "gradable_vs_own_line": true,
+   "name": "Fade a team on the 2nd night of a back-to-back",
+   "family": "single / spread",
+   "stake": "vs b2b",
+   "n_bets": 18,
+   "wins": 9,
+   "losses": 9,
+   "hit_rate": 0.5,
+   "wilson_low": 0.29031021505169974,
+   "wilson_high": 0.7096897849483003,
+   "perm_p": 0.591970401479926,
+   "roi_vs_own_line": -0.04545454545454546,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-24",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.6666666666666666,
+    0.4166666666666667
+   ]
+  },
+  {
+   "id": "STR-08",
+   "gradable_vs_own_line": true,
+   "name": "Fade a small home favourite (0 < margin <= 2)",
+   "family": "single / spread",
+   "stake": "away +",
+   "n_bets": 10,
+   "wins": 5,
+   "losses": 5,
+   "hit_rate": 0.5,
+   "wilson_low": 0.236593090512564,
+   "wilson_high": 0.7634069094874361,
+   "perm_p": 0.6229188540572972,
+   "roi_vs_own_line": -0.045454545454545414,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-28",
+   "last_bet": "2026-11-06",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.5,
+    0.5
+   ]
+  },
+  {
+   "id": "STR-09",
+   "gradable_vs_own_line": true,
+   "name": "Parlay: model total over + home cover (same game)",
+   "family": "parlay / 2-leg same game",
+   "stake": "parlay",
+   "n_bets": 34,
+   "wins": 5,
+   "losses": 29,
+   "hit_rate": 0.14705882352941177,
+   "wilson_low": 0.06449441444782457,
+   "wilson_high": 0.3012805649545216,
+   "perm_p": 1.0,
+   "roi_vs_own_line": -0.7192513368983957,
+   "not_gradable_reason": null,
+   "first_bet": "2026-10-25",
+   "last_bet": "2026-11-11",
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    0.18181818181818182,
+    0.08333333333333333
+   ]
+  },
+  {
+   "id": "STR-10",
+   "gradable_vs_own_line": true,
+   "name": "Parlay: two unrelated single-slate spreads",
+   "family": "parlay / 2-leg cross game",
+   "stake": "parlay",
+   "n_bets": 0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "wilson_low": null,
+   "wilson_high": null,
+   "perm_p": null,
+   "roi_vs_own_line": null,
+   "not_gradable_reason": null,
+   "first_bet": null,
+   "last_bet": null,
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    null,
+    null
+   ]
+  },
+  {
+   "id": "STR-11",
+   "gradable_vs_own_line": false,
+   "name": "Player prop combo (points + assists over)",
+   "family": "prop combo",
+   "stake": "prop parlay",
+   "n_bets": 0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "wilson_low": null,
+   "wilson_high": null,
+   "perm_p": null,
+   "roi_vs_own_line": null,
+   "not_gradable_reason": "A moneyline graded against our own fair price is zero by construction: our price is derived from the same probability. Only a market price can measure edge here (flag E-F-05).",
+   "first_bet": null,
+   "last_bet": null,
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    null,
+    null
+   ]
+  },
+  {
+   "id": "STR-12",
+   "gradable_vs_own_line": false,
+   "name": "Fade teams with 3+ official OUT designations",
+   "family": "single / spread",
+   "stake": "vs short-handed",
+   "n_bets": 0,
+   "wins": 0,
+   "losses": 0,
+   "hit_rate": null,
+   "wilson_low": null,
+   "wilson_high": null,
+   "perm_p": null,
+   "roi_vs_own_line": null,
+   "not_gradable_reason": "A moneyline graded against our own fair price is zero by construction: our price is derived from the same probability. Only a market price can measure edge here (flag E-F-05).",
+   "first_bet": null,
+   "last_bet": null,
+   "graded_against": "our originated line at an assumed -110; no market price exists in this repository",
+   "halves": [
+    null,
+    null
+   ]
+  }
+ ],
+ "gates": [
+  {
+   "id": "E-G01",
+   "name": "Data provenance",
+   "checks": "Every input row cites an official NBA property or the repository's own git history.",
+   "threshold": "Zero unsourced rows",
+   "status": "PASS",
+   "evidence": "174 games cross-checked against an independent capture; 0 score mismatches. One prior capture cites a non-official source and is excluded from primary use."
+  },
+  {
+   "id": "E-G02",
+   "name": "Leakage",
+   "checks": "Each feature used for a prediction is available strictly before that game's tip-off.",
+   "threshold": "Zero features stamped at or after tip-off",
+   "status": "PASS",
+   "evidence": "By construction: every prediction at index i is fitted on games 0..i-1 only (walk-forward). The feature set is dates and scores."
+  },
+  {
+   "id": "E-G03",
+   "name": "Beats a naive baseline",
+   "checks": "Out-of-sample error is better than the constant baseline, with a paired interval excluding zero.",
+   "threshold": "Paired t-test p < 0.05 and negative mean error difference",
+   "status": "PARTIAL",
+   "evidence": "selected model: margin RMSE 15.48 vs baseline 16.73 (paired t p=0.0170); total RMSE 18.90 vs baseline 19.30 (p=0.2913). Both markets must improve; a model that only forecasts the spread does not clear this gate."
+  },
+  {
+   "id": "E-G04",
+   "name": "Minimum sample",
+   "checks": "Enough graded bets before any verdict on a strategy.",
+   "threshold": "At least 100 graded bets per strategy",
+   "status": "FAIL",
+   "evidence": "Largest strategy sample is 35 bets against a floor of 100. Eligible: none."
+  },
+  {
+   "id": "E-G05",
+   "name": "Beats the break-even hurdle",
+   "checks": "Hit rate above break-even with the lower bound of the interval still above break-even.",
+   "threshold": "Wilson 95% lower bound > 0.5213",
+   "status": "FAIL",
+   "evidence": "No strategy has a Wilson 95% lower bound above break-even 0.5213. Eligible: none."
+  },
+  {
+   "id": "E-G06",
+   "name": "Luck removed",
+   "checks": "Observed performance is not reachable by chance at the same sample size.",
+   "threshold": "Permutation p < 0.05",
+   "status": "FAIL",
+   "evidence": "Strategies clearing permutation p<0.05: none. Two pass the raw test but fail the sample gate, which is the point of running both."
+  },
+  {
+   "id": "E-G07",
+   "name": "Multiple-comparison control",
+   "checks": "A strategy that survives only because 12 were tried is rejected.",
+   "threshold": "Benjamini-Hochberg, FDR 10%",
+   "status": "FAIL",
+   "evidence": "Benjamini-Hochberg over 8 tested strategies at FDR 10%. Survivors: none."
+  },
+  {
+   "id": "E-G08",
+   "name": "Temporal stability",
+   "checks": "Performance holds in both halves of the out-of-sample window.",
+   "threshold": "Both halves above break-even",
+   "status": "NOT EVALUATED",
+   "evidence": "No strategy reaches the 100-bet sample floor, so split-half stability has nothing to judge. Half-window hit rates are published on the leaderboard for information only."
+  },
+  {
+   "id": "E-G09",
+   "name": "Forward paper tracking",
+   "checks": "200 picks tracked live before any model output is used for a decision.",
+   "threshold": "200 graded forward picks",
+   "status": "NOT STARTED",
+   "evidence": "No forward paper tracking exists. This gate cannot be cleared by backtesting at all, and it is the only gate that measures the live process."
+  }
+ ],
+ "correlations": {
+  "margin_total_residual": {
+   "label": "Residual of our spread forecast vs residual of our total forecast, same game",
+   "pearson_r": 0.022749230490064314,
+   "ci95": [
+    -0.1618427090776534,
+    0.20580296986254426
+   ],
+   "n": 114,
+   "interpretation": "CI includes 0 - no measurable dependence. A parlay that pairs a spread leg and a total leg from the same game is therefore treated as near-independent by this data, which is the opposite of the usual assumption."
+  },
+  "same_game_parlay_joint": {
+   "label": "P(over our total AND home covers our spread) vs the product of the two marginals",
+   "p_over": 0.47368421052631576,
+   "p_home_cover": 0.45614035087719296,
+   "p_both_observed": 0.22807017543859648,
+   "p_both_if_independent": 0.2160664819944598,
+   "ratio_observed_over_independent": 1.0555555555555556,
+   "phi": 0.04826747459669567,
+   "n": 114,
+   "interpretation": "A ratio above 1 means the same-game parlay pays out more often than independent legs imply; below 1, less often."
+  },
+  "same_slate_cross_game": {
+   "label": "Do games on the same date share a forecast error?",
+   "dates_with_2_plus_games": 16,
+   "within_date_pairs": 439,
+   "pearson_r": null,
+   "ci95": null,
+   "n": 439,
+   "note": "Not estimated: with 114 out-of-sample games the within-date pairs are few and a meaningful interval is not reachable. Left blank rather than assumed to be 0 (flag E-F-06). This is the quantity a multi-game parlay depends on most."
+  },
+  "spread_moneyline": {
+   "label": "Our spread vs our moneyline, same game",
+   "pearson_r": 1.0,
+   "ci95": [
+    1.0,
+    1.0
+   ],
+   "n": 114,
+   "interpretation": "Exactly 1 by construction: both are derived from one predicted margin. Correlation here is mechanical, not empirical, and must not be quoted as a measured value."
+  },
+  "rest_edge_margin": {
+   "label": "Rest-day advantage (home minus away) vs actual home margin",
+   "pearson_r": 0.13417046433583127,
+   "ci95": [
+    -0.13596644556436302,
+    0.38573730544519985
+   ],
+   "n": 55,
+   "interpretation": "Direction and size as measured on this sample only."
+  },
+  "player_points_minutes": {
+   "label": "Player points vs player minutes, same player-game",
+   "pearson_r": null,
+   "n": 0,
+   "note": "BLOCKED. Only the 31 highest-minute players in the league were captured and there are no player game logs in the repository, so no player-level correlation can be estimated (flag E-F-07)."
+  }
+ },
+ "lines": [
+  {
+   "date": "2026-11-14",
+   "time_et": "7:00 PM",
+   "gid": "0022600231",
+   "away": "DEN",
+   "home": "NOP",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 10,
+   "recency_weighted_games_home": 3.04,
+   "recency_weighted_games_away": 2.51,
+   "pred_margin_home": -8.21,
+   "pred_total": 233.84,
+   "orig_spread_home": 8.0,
+   "orig_total": 234.0,
+   "p_home_win": 0.3013,
+   "fair_ml_home": 232,
+   "fair_ml_away": -232,
+   "margin_interval_95": [
+    -39.1,
+    22.7
+   ],
+   "total_interval_95": [
+    198.4,
+    269.3
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 3,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "submitted",
+    "out_or_doubtful": 4,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/den-vs-nop-0022600231",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-14",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 7.5,
+   "calibrated_total": 232.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-14",
+   "time_et": "7:30 PM",
+   "gid": "0022600232",
+   "away": "DAL",
+   "home": "CLE",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.46,
+   "recency_weighted_games_away": 2.04,
+   "pred_margin_home": 0.96,
+   "pred_total": 231.07,
+   "orig_spread_home": -1.0,
+   "orig_total": 231.0,
+   "p_home_win": 0.5244,
+   "fair_ml_home": -110,
+   "fair_ml_away": 110,
+   "margin_interval_95": [
+    -30.0,
+    31.9
+   ],
+   "total_interval_95": [
+    195.6,
+    266.6
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 2,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "submitted",
+    "out_or_doubtful": 3,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-14",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -1.0,
+   "calibrated_total": 230.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-14",
+   "time_et": "8:00 PM",
+   "gid": "0022600233",
+   "away": "DET",
+   "home": "MIA",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 11,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 2.24,
+   "recency_weighted_games_away": 1.43,
+   "pred_margin_home": -6.26,
+   "pred_total": 231.84,
+   "orig_spread_home": 6.5,
+   "orig_total": 232.0,
+   "p_home_win": 0.3457,
+   "fair_ml_home": 189,
+   "fair_ml_away": -189,
+   "margin_interval_95": [
+    -37.2,
+    24.7
+   ],
+   "total_interval_95": [
+    196.4,
+    267.3
+   ],
+   "days_since_last_home": 4,
+   "days_since_last_away": 2,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "submitted",
+    "out_or_doubtful": 5,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/det-vs-mia-0022600233",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-14",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 6.0,
+   "calibrated_total": 230.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-14",
+   "time_et": "8:00 PM",
+   "gid": "0022600234",
+   "away": "BKN",
+   "home": "MEM",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 11,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 2.5,
+   "recency_weighted_games_away": 2.14,
+   "pred_margin_home": 10.46,
+   "pred_total": 229.82,
+   "orig_spread_home": -10.5,
+   "orig_total": 230.0,
+   "p_home_win": 0.7463,
+   "fair_ml_home": -294,
+   "fair_ml_away": 294,
+   "margin_interval_95": [
+    -20.5,
+    41.4
+   ],
+   "total_interval_95": [
+    194.3,
+    265.3
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 3,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "submitted",
+    "out_or_doubtful": 4,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/bkn-vs-mem-0022600234",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-14",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -9.5,
+   "calibrated_total": 229.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-14",
+   "time_et": "8:00 PM",
+   "gid": "0022600235",
+   "away": "CHI",
+   "home": "MIN",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 10,
+   "recency_weighted_games_home": 1.53,
+   "recency_weighted_games_away": 1.78,
+   "pred_margin_home": 24.55,
+   "pred_total": 234.37,
+   "orig_spread_home": -24.5,
+   "orig_total": 234.5,
+   "p_home_win": 0.9402,
+   "fair_ml_home": -1572,
+   "fair_ml_away": 1572,
+   "margin_interval_95": [
+    -6.4,
+    55.5
+   ],
+   "total_interval_95": [
+    198.9,
+    269.9
+   ],
+   "days_since_last_home": 2,
+   "days_since_last_away": 3,
+   "availability_home": {
+    "report_status": "submitted",
+    "out_or_doubtful": 2,
+    "minutes_at_risk_floor": 33.7
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/chi-vs-min-0022600235",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-14",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -22.5,
+   "calibrated_total": 232.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "1:00 PM",
+   "gid": "0022600236",
+   "away": "IND",
+   "home": "PHI",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 13,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 1.9,
+   "recency_weighted_games_away": 2.3,
+   "pred_margin_home": 5.58,
+   "pred_total": 222.38,
+   "orig_spread_home": -5.5,
+   "orig_total": 222.5,
+   "p_home_win": 0.6383,
+   "fair_ml_home": -176,
+   "fair_ml_away": 176,
+   "margin_interval_95": [
+    -25.3,
+    36.5
+   ],
+   "total_interval_95": [
+    186.9,
+    257.9
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -5.0,
+   "calibrated_total": 223.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "4:00 PM",
+   "gid": "0022600237",
+   "away": "LAL",
+   "home": "PHX",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 11,
+   "games_used_away": 13,
+   "recency_weighted_games_home": 2.58,
+   "recency_weighted_games_away": 3.14,
+   "pred_margin_home": -6.38,
+   "pred_total": 232.01,
+   "orig_spread_home": 6.5,
+   "orig_total": 232.0,
+   "p_home_win": 0.3431,
+   "fair_ml_home": 192,
+   "fair_ml_away": -192,
+   "margin_interval_95": [
+    -37.3,
+    24.5
+   ],
+   "total_interval_95": [
+    196.5,
+    267.5
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 6.0,
+   "calibrated_total": 230.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "4:30 PM",
+   "gid": "0022600238",
+   "away": "CHA",
+   "home": "LAC",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 10,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.15,
+   "recency_weighted_games_away": 1.36,
+   "pred_margin_home": 8.85,
+   "pred_total": 219.06,
+   "orig_spread_home": -9.0,
+   "orig_total": 219.0,
+   "p_home_win": 0.7126,
+   "fair_ml_home": -248,
+   "fair_ml_away": 248,
+   "margin_interval_95": [
+    -22.1,
+    39.8
+   ],
+   "total_interval_95": [
+    183.6,
+    254.5
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 3,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -8.0,
+   "calibrated_total": 220.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "5:00 PM",
+   "gid": "0022600239",
+   "away": "SAS",
+   "home": "UTA",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 3.12,
+   "recency_weighted_games_away": 3.08,
+   "pred_margin_home": -15.27,
+   "pred_total": 224.49,
+   "orig_spread_home": 15.5,
+   "orig_total": 224.5,
+   "p_home_win": 0.1665,
+   "fair_ml_home": 500,
+   "fair_ml_away": -500,
+   "margin_interval_95": [
+    -46.2,
+    15.7
+   ],
+   "total_interval_95": [
+    189.0,
+    260.0
+   ],
+   "days_since_last_home": 4,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 14.0,
+   "calibrated_total": 225.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "6:00 PM",
+   "gid": "0022600241",
+   "away": "NYK",
+   "home": "TOR",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 2.5,
+   "recency_weighted_games_away": 2.2,
+   "pred_margin_home": -0.71,
+   "pred_total": 218.78,
+   "orig_spread_home": 0.5,
+   "orig_total": 219.0,
+   "p_home_win": 0.4821,
+   "fair_ml_home": 107,
+   "fair_ml_away": -107,
+   "margin_interval_95": [
+    -31.6,
+    30.2
+   ],
+   "total_interval_95": [
+    183.3,
+    254.3
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600241",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 0.5,
+   "calibrated_total": 220.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "6:00 PM",
+   "gid": "0022600240",
+   "away": "DAL",
+   "home": "BOS",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.83,
+   "recency_weighted_games_away": 2.04,
+   "pred_margin_home": 5.89,
+   "pred_total": 221.99,
+   "orig_spread_home": -6.0,
+   "orig_total": 222.0,
+   "p_home_win": 0.6455,
+   "fair_ml_home": -182,
+   "fair_ml_away": 182,
+   "margin_interval_95": [
+    -25.0,
+    36.8
+   ],
+   "total_interval_95": [
+    186.5,
+    257.5
+   ],
+   "days_since_last_home": 4,
+   "days_since_last_away": 3,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "submitted",
+    "out_or_doubtful": 3,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/dal-vs-bos-0022600240",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -5.5,
+   "calibrated_total": 223.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "7:00 PM",
+   "gid": "0022600242",
+   "away": "HOU",
+   "home": "WAS",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 13,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.39,
+   "recency_weighted_games_away": 2.76,
+   "pred_margin_home": -15.28,
+   "pred_total": 223.86,
+   "orig_spread_home": 15.5,
+   "orig_total": 224.0,
+   "p_home_win": 0.1664,
+   "fair_ml_home": 501,
+   "fair_ml_away": -501,
+   "margin_interval_95": [
+    -46.2,
+    15.6
+   ],
+   "total_interval_95": [
+    188.4,
+    259.3
+   ],
+   "days_since_last_home": 3,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/hou-vs-was-0022600242",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 14.0,
+   "calibrated_total": 224.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "8:00 PM",
+   "gid": "0022600243",
+   "away": "ATL",
+   "home": "MIL",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.93,
+   "recency_weighted_games_away": 1.63,
+   "pred_margin_home": -9.81,
+   "pred_total": 231.06,
+   "orig_spread_home": 10.0,
+   "orig_total": 231.0,
+   "p_home_win": 0.2671,
+   "fair_ml_home": 274,
+   "fair_ml_away": -274,
+   "margin_interval_95": [
+    -40.7,
+    21.1
+   ],
+   "total_interval_95": [
+    195.6,
+    266.5
+   ],
+   "days_since_last_home": 4,
+   "days_since_last_away": 6,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 9.0,
+   "calibrated_total": 230.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": "9:00 PM",
+   "gid": "0022600244",
+   "away": "OKC",
+   "home": "SAC",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 11,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.39,
+   "recency_weighted_games_away": 2.91,
+   "pred_margin_home": -13.68,
+   "pred_total": 221.0,
+   "orig_spread_home": 13.5,
+   "orig_total": 221.0,
+   "p_home_win": 0.1929,
+   "fair_ml_home": 418,
+   "fair_ml_away": -418,
+   "margin_interval_95": [
+    -44.6,
+    17.2
+   ],
+   "total_interval_95": [
+    185.5,
+    256.5
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/okc-vs-sac-0022600244",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-15",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 12.5,
+   "calibrated_total": 222.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "7:00 PM",
+   "gid": "0022600245",
+   "away": "ORL",
+   "home": "BOS",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 2.83,
+   "recency_weighted_games_away": 2.56,
+   "pred_margin_home": 11.96,
+   "pred_total": 220.66,
+   "orig_spread_home": -12.0,
+   "orig_total": 220.5,
+   "p_home_win": 0.7757,
+   "fair_ml_home": -346,
+   "fair_ml_away": 346,
+   "margin_interval_95": [
+    -19.0,
+    42.9
+   ],
+   "total_interval_95": [
+    185.2,
+    256.1
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 5,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/orl-vs-bos-0022600245",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -11.0,
+   "calibrated_total": 222.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "7:00 PM",
+   "gid": "0022600247",
+   "away": "MEM",
+   "home": "WAS",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 13,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 2.39,
+   "recency_weighted_games_away": 2.5,
+   "pred_margin_home": -8.73,
+   "pred_total": 228.24,
+   "orig_spread_home": 8.5,
+   "orig_total": 228.0,
+   "p_home_win": 0.29,
+   "fair_ml_home": 245,
+   "fair_ml_away": -245,
+   "margin_interval_95": [
+    -39.7,
+    22.2
+   ],
+   "total_interval_95": [
+    192.8,
+    263.7
+   ],
+   "days_since_last_home": 4,
+   "days_since_last_away": 5,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/mem-vs-was-0022600247",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 8.0,
+   "calibrated_total": 227.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "7:00 PM",
+   "gid": "0022600246",
+   "away": "CHI",
+   "home": "CLE",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 10,
+   "recency_weighted_games_home": 2.46,
+   "recency_weighted_games_away": 1.78,
+   "pred_margin_home": 14.93,
+   "pred_total": 240.07,
+   "orig_spread_home": -15.0,
+   "orig_total": 240.0,
+   "p_home_win": 0.8279,
+   "fair_ml_home": -481,
+   "fair_ml_away": 481,
+   "margin_interval_95": [
+    -16.0,
+    45.8
+   ],
+   "total_interval_95": [
+    204.6,
+    275.6
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 5,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "game_url": "https://www.nba.com/game/chi-vs-cle-0022600246",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -13.5,
+   "calibrated_total": 237.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "7:30 PM",
+   "gid": "0022600249",
+   "away": "HOU",
+   "home": "MIA",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 11,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 2.24,
+   "recency_weighted_games_away": 2.76,
+   "pred_margin_home": -11.73,
+   "pred_total": 228.7,
+   "orig_spread_home": 11.5,
+   "orig_total": 228.5,
+   "p_home_win": 0.2285,
+   "fair_ml_home": 338,
+   "fair_ml_away": -338,
+   "margin_interval_95": [
+    -42.7,
+    19.2
+   ],
+   "total_interval_95": [
+    193.2,
+    264.2
+   ],
+   "days_since_last_home": 6,
+   "days_since_last_away": 5,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/hou-vs-mia-0022600249",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 11.0,
+   "calibrated_total": 228.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "7:30 PM",
+   "gid": "0022600248",
+   "away": "PHI",
+   "home": "BKN",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 11,
+   "games_used_away": 13,
+   "recency_weighted_games_home": 2.14,
+   "recency_weighted_games_away": 1.9,
+   "pred_margin_home": -3.52,
+   "pred_total": 225.28,
+   "orig_spread_home": 3.5,
+   "orig_total": 225.5,
+   "p_home_win": 0.4117,
+   "fair_ml_home": 143,
+   "fair_ml_away": -143,
+   "margin_interval_95": [
+    -34.4,
+    27.4
+   ],
+   "total_interval_95": [
+    189.8,
+    260.8
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "submitted",
+    "out_or_doubtful": 4,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/phi-vs-bkn-0022600248",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 3.0,
+   "calibrated_total": 225.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "8:00 PM",
+   "gid": "0022600251",
+   "away": "GSW",
+   "home": "NOP",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 12,
+   "recency_weighted_games_home": 3.04,
+   "recency_weighted_games_away": 2.86,
+   "pred_margin_home": -13.53,
+   "pred_total": 234.73,
+   "orig_spread_home": 13.5,
+   "orig_total": 234.5,
+   "p_home_win": 0.1956,
+   "fair_ml_home": 411,
+   "fair_ml_away": -411,
+   "margin_interval_95": [
+    -44.5,
+    17.4
+   ],
+   "total_interval_95": [
+    199.2,
+    270.2
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 5,
+   "availability_home": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": 0,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/gsw-vs-nop-0022600251",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": 12.5,
+   "calibrated_total": 233.0,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "8:00 PM",
+   "gid": "0022600250",
+   "away": "POR",
+   "home": "MIN",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 12,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 1.53,
+   "recency_weighted_games_away": 3.26,
+   "pred_margin_home": 4.74,
+   "pred_total": 227.63,
+   "orig_spread_home": -4.5,
+   "orig_total": 227.5,
+   "p_home_win": 0.6181,
+   "fair_ml_home": -162,
+   "fair_ml_away": 162,
+   "margin_interval_95": [
+    -26.2,
+    35.7
+   ],
+   "total_interval_95": [
+    192.1,
+    263.1
+   ],
+   "days_since_last_home": 4,
+   "days_since_last_away": 5,
+   "availability_home": {
+    "report_status": "submitted",
+    "out_or_doubtful": 2,
+    "minutes_at_risk_floor": 33.7
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600250",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -4.5,
+   "calibrated_total": 227.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  },
+  {
+   "date": "2026-11-16",
+   "time_et": "9:00 PM",
+   "gid": "0022600252",
+   "away": "PHX",
+   "home": "DEN",
+   "competition": "Regular Season",
+   "variant_margin": "b",
+   "variant_total": "c",
+   "games_used_home": 10,
+   "games_used_away": 11,
+   "recency_weighted_games_home": 2.51,
+   "recency_weighted_games_away": 2.58,
+   "pred_margin_home": 5.4,
+   "pred_total": 227.79,
+   "orig_spread_home": -5.5,
+   "orig_total": 228.0,
+   "p_home_win": 0.6338,
+   "fair_ml_home": -173,
+   "fair_ml_away": 173,
+   "margin_interval_95": [
+    -25.5,
+    36.3
+   ],
+   "total_interval_95": [
+    192.3,
+    263.3
+   ],
+   "days_since_last_home": 5,
+   "days_since_last_away": 4,
+   "availability_home": {
+    "report_status": "submitted",
+    "out_or_doubtful": 4,
+    "minutes_at_risk_floor": 0.0
+   },
+   "availability_away": {
+    "report_status": "not_yet_submitted",
+    "out_or_doubtful": null,
+    "minutes_at_risk_floor": null
+   },
+   "game_url": "https://www.nba.com/game/phx-vs-den-0022600252",
+   "sources": {
+    "schedule": "https://www.nba.com/games?date=2026-11-16",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   },
+   "calibrated_spread_home": -5.0,
+   "calibrated_total": 227.5,
+   "calibration_note": "spread and total scaled by the out-of-sample reliability slopes (0.92 margin, 0.78 total); this is a calibration correction, not a re-validated model"
+  }
+ ],
+ "injury_overlay": {
+  "DEN": {
+   "team": "DEN",
+   "club": "Denver Nuggets",
+   "matchup": "DEN@NOP",
+   "listed": 4,
+   "out": 4,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": false,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [
+    {
+     "player": "Holmes II, DaRon",
+     "status": "Out",
+     "reason": "G League - On Assignment",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Nembhard, Ryan",
+     "status": "Out",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Strawther, Julian",
+     "status": "Out",
+     "reason": "Injury/Illness - Left Knee Sprain",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Whitmore, Cam",
+     "status": "Out",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    }
+   ],
+   "out_or_doubtful": 4,
+   "minutes_unquantified_count": 4,
+   "minutes_at_risk_is_floor": true
+  },
+  "NOP": {
+   "team": "NOP",
+   "club": "New Orleans Pelicans",
+   "matchup": "DEN@NOP",
+   "listed": 0,
+   "out": 0,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": true,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [],
+   "out_or_doubtful": 0,
+   "minutes_unquantified_count": 0,
+   "minutes_at_risk_is_floor": true
+  },
+  "DAL": {
+   "team": "DAL",
+   "club": "Dallas Mavericks",
+   "matchup": "DAL@CLE",
+   "listed": 6,
+   "out": 3,
+   "doubtful": 0,
+   "questionable": 1,
+   "probable": 1,
+   "available": 1,
+   "not_yet_submitted": false,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [
+    {
+     "player": "Biberovic, Tarik",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Heel Bursitis",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Christie, Max",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Ankle Sprain",
+     "mpg": null,
+     "mpg_source": null
+    },
+    {
+     "player": "de Larrea, Sergio",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Knee Sprain",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Johnson Jr., Morez",
+     "status": "Probable",
+     "reason": "Injury/Illness - Left Shin / Tibia Contusion",
+     "mpg": null,
+     "mpg_source": null
+    },
+    {
+     "player": "Lively II, Dereck",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Foot Surgery",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Martin, Caleb",
+     "status": "Available",
+     "reason": "Injury/Illness - Right Thumb Splint",
+     "mpg": null,
+     "mpg_source": null
+    }
+   ],
+   "out_or_doubtful": 3,
+   "minutes_unquantified_count": 3,
+   "minutes_at_risk_is_floor": true
+  },
+  "CLE": {
+   "team": "CLE",
+   "club": "Cleveland Cavaliers",
+   "matchup": "DAL@CLE",
+   "listed": 0,
+   "out": 0,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": true,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [],
+   "out_or_doubtful": 0,
+   "minutes_unquantified_count": 0,
+   "minutes_at_risk_is_floor": true
+  },
+  "BKN": {
+   "team": "BKN",
+   "club": "Brooklyn Nets",
+   "matchup": "BKN@MEM",
+   "listed": 6,
+   "out": 4,
+   "doubtful": 0,
+   "questionable": 1,
+   "probable": 1,
+   "available": 0,
+   "not_yet_submitted": false,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [
+    {
+     "player": "Bilodeau, Tyler",
+     "status": "Out",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Brown Jr., Mikel",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Illness",
+     "mpg": null,
+     "mpg_source": null
+    },
+    {
+     "player": "Jefferson, Joshua",
+     "status": "Out",
+     "reason": "G League - On Assignment",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Nelson, Grant",
+     "status": "Out",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Saraf, Ben",
+     "status": "Out",
+     "reason": "G League - On Assignment",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Traore, Nolan",
+     "status": "Probable",
+     "reason": "Injury/Illness - Right Calf Tightness / Soreness",
+     "mpg": null,
+     "mpg_source": null
+    }
+   ],
+   "out_or_doubtful": 4,
+   "minutes_unquantified_count": 4,
+   "minutes_at_risk_is_floor": true
+  },
+  "MEM": {
+   "team": "MEM",
+   "club": "Memphis Grizzlies",
+   "matchup": "BKN@MEM",
+   "listed": 0,
+   "out": 0,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": true,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [],
+   "out_or_doubtful": 0,
+   "minutes_unquantified_count": 0,
+   "minutes_at_risk_is_floor": true
+  },
+  "CHI": {
+   "team": "CHI",
+   "club": "Chicago Bulls",
+   "matchup": "CHI@MIN",
+   "listed": 0,
+   "out": 0,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": true,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [],
+   "out_or_doubtful": 0,
+   "minutes_unquantified_count": 0,
+   "minutes_at_risk_is_floor": true
+  },
+  "MIN": {
+   "team": "MIN",
+   "club": "Minnesota Timberwolves",
+   "matchup": "CHI@MIN",
+   "listed": 3,
+   "out": 2,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 1,
+   "not_yet_submitted": false,
+   "mpg_known": 1,
+   "minutes_at_risk_floor": 33.7,
+   "players": [
+    {
+     "player": "Beringer, Joan",
+     "status": "Available",
+     "reason": "Injury/Illness - Face Mask",
+     "mpg": null,
+     "mpg_source": null
+    },
+    {
+     "player": "DiVincenzo, Donte",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Edwards, Anthony",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Knee Arthroscopy",
+     "mpg": 33.7,
+     "mpg_source": "https://www.nba.com/stats/help/glossary",
+     "minutes_source": "official top-31 minutes table (data/origin/players_top_minutes.csv)"
+    }
+   ],
+   "out_or_doubtful": 2,
+   "minutes_unquantified_count": 1,
+   "minutes_at_risk_is_floor": true
+  },
+  "DET": {
+   "team": "DET",
+   "club": "Detroit Pistons",
+   "matchup": "DET@MIA",
+   "listed": 7,
+   "out": 5,
+   "doubtful": 0,
+   "questionable": 2,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": false,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [
+    {
+     "player": "Duren, Jalen",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Hamstring Strain",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Harkless, Elijah",
+     "status": "Questionable",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null
+    },
+    {
+     "player": "Joe, Isaiah",
+     "status": "Out",
+     "reason": "Injury/Illness - Right Hip Contusion",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Jones, Isaac",
+     "status": "Questionable",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null
+    },
+    {
+     "player": "Lanier, Chaz",
+     "status": "Out",
+     "reason": "G League - On Assignment",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Okorie, Ebuka",
+     "status": "Out",
+     "reason": "G League - On Assignment",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    },
+    {
+     "player": "Onyenso, Ugonna",
+     "status": "Out",
+     "reason": "G League - Two-Way",
+     "mpg": null,
+     "mpg_source": null,
+     "minutes_source": null,
+     "note": "Not in the captured top-31 minutes set - minutes left blank, not estimated (flag E-F-07)."
+    }
+   ],
+   "out_or_doubtful": 5,
+   "minutes_unquantified_count": 5,
+   "minutes_at_risk_is_floor": true
+  },
+  "MIA": {
+   "team": "MIA",
+   "club": "Miami Heat",
+   "matchup": "DET@MIA",
+   "listed": 0,
+   "out": 0,
+   "doubtful": 0,
+   "questionable": 0,
+   "probable": 0,
+   "available": 0,
+   "not_yet_submitted": true,
+   "mpg_known": 0,
+   "minutes_at_risk_floor": 0.0,
+   "players": [],
+   "out_or_doubtful": 0,
+   "minutes_unquantified_count": 0,
+   "minutes_at_risk_is_floor": true
+  }
+ },
+ "game_flow": {
+  "window": "2026-10-20 .. 2026-11-12 (verified results only)",
+  "home_win_rate": 0.5115,
+  "mean_home_margin": 1.62,
+  "median_abs_margin": 11.0,
+  "ot_games": 9,
+  "ot_rate": 0.0517,
+  "blowouts_40plus": 4,
+  "within_five_pts": 34,
+  "avg_total": 226.84,
+  "total_sd": 19.26,
+  "back_to_back_games_in_oos": 25,
+  "resid_sd_margin_mae_based": 15.78,
+  "resid_sd_total_mae_based": 18.1,
+  "lead_changes": null,
+  "halftime_margin": null,
+  "four_factors": null,
+  "unavailable_note": "lead_changes, halftime_margin and four_factors are null on purpose. They need play-by-play and box-score data, which is not in the repository and was not reachable from this workspace, so no value is published for them (flag E-F-08)."
+ },
+ "price_assumption": {
+  "assumed_price": -110,
+  "break_even_hit_rate": 0.52133,
+  "why": "No licensed odds feed exists in this repository, so profit is measured against our own line at an assumed -110. This is a modelling convention, not a market price (flag E-F-05)."
+ }
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data &amp; reproduction · NBA Edge Lab</title>
+<meta name="description" content="Files, schemas and the commands that rebuild everything">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="top">
+  <div class="brand"><a href="index.html"><strong>NBA Edge Lab</strong><span>integrated build · session e40cd215</span></a></div>
+  <div class="stamp">results through 2026-11-12 · availability from the 11/13/26 07:30 PM ET official report · pricing window 2026-11-14 to 2026-11-16</div>
+</header>
+<nav class="nav" aria-label="sections"><a class="nav-i" href="index.html">Executive summary</a>
+<a class="nav-i" href="lines.html">Originated lines</a>
+<a class="nav-i" href="picks.html">Picks &amp; parlays</a>
+<a class="nav-i" href="leaderboard.html">Strategy leaderboard</a>
+<a class="nav-i" href="gates.html">Validation gates</a>
+<a class="nav-i" href="correlations.html">Correlation</a>
+<a class="nav-i" href="injuries.html">Injuries &amp; rotations</a>
+<a class="nav-i" href="gameflow.html">Game flow</a>
+<a class="nav-i" href="reconciliation.html">Cross-engine reconciliation</a>
+<a class="nav-i" href="verification.html">Verification log</a>
+<a class="nav-i" href="questions.html">Open questions</a>
+<a class="nav-i" href="suggestions.html">Site improvements</a>
+<a class="nav-i" href="flagged.html">Flagged for review</a>
+<a class="nav-i" href="sources.html">Source register</a>
+<a class="nav-i" href="data.html" aria-current="page">Data &amp; reproduction</a></nav>
+<main>
+<h1>Data &amp; reproduction</h1>
+<p class="sub">Files, schemas and the commands that rebuild everything</p>
+<p>Reproduce the whole site:</p><pre><code>python3 -m integrate.engine
+python3 -m integrate.build_site
+python3 -m integrate.check</code></pre><p>Standard library only - <code>numpy</code>, <code>scipy</code> and <code>pandas</code> are not available in this workspace, so statistics are implemented in <code>model/nbastats.py</code> (imported, not modified) and unit-tested there. The build is byte-deterministic: the permutation test is seeded (20261113) and no wall-clock timestamp is written into any artefact, so CI can assert that the committed pages match the committed code exactly.</p><div class="tw"><table data-rows="8"><caption>Files</caption><thead><tr><th>File</th><th>What it holds</th><th>Link</th></tr></thead><tbody><tr><td>data/integration/model.json</td><td>the single artefact every page renders</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json" target="_blank" rel="noopener">view</a></td></tr><tr><td>data/integration/registers.json</td><td>sources, flags, questions, suggestions</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/registers.json" target="_blank" rel="noopener">view</a></td></tr><tr><td>data/integration/injuries_2026-11-13_0730PM_1114.json</td><td>transcribed 11/14 block of the official report</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/injuries_2026-11-13_0730PM_1114.json" target="_blank" rel="noopener">view</a></td></tr><tr><td>integrate/engine.py</td><td>ratings, walk-forward, selector, gates, leaderboard, correlations</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">view</a></td></tr><tr><td>integrate/build_site.py</td><td>this site's generator</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/build_site.py" target="_blank" rel="noopener">view</a></td></tr><tr><td>integrate/check.py</td><td>row-source, link and drift checks</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py" target="_blank" rel="noopener">view</a></td></tr><tr><td>data/origin/games.csv</td><td>174 verified results (canonical)</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv" target="_blank" rel="noopener">view</a></td></tr><tr><td>data/origin/schedule_upcoming.csv</td><td>slate for 11/13-11/16 with game IDs</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/schedule_upcoming.csv" target="_blank" rel="noopener">view</a></td></tr></tbody></table></div><h2>Per-session site trees</h2><div class="tw"><table data-rows="8"><caption>Archive index</caption><thead><tr><th>Path</th><th>Owning session</th><th>Contents</th><th>Status</th></tr></thead><tbody><tr><td><a href='../dash/'>dash/</a></td><td>session e40cd215</td><td>the unified dashboard - start here</td><td><span class="b b-info">current</span></td></tr><tr><td><a href='../site/'>site/</a></td><td>7c532e8c</td><td>framework-only site; no lines, all gates blocked at the time</td><td><span class="b b-info">archive</span></td></tr><tr><td><a href='../docs/'>docs/</a></td><td>f879620b</td><td>11/11 injury report and 2026-27 rules extracts</td><td><span class="b b-info">archive</span></td></tr><tr><td><a href='../research/'>research/</a></td><td>9ed6085f</td><td>requirements register and 11/13 11:00 AM injury snapshot</td><td><span class="b b-info">archive</span></td></tr><tr><td><a href='../edge/'>edge/</a></td><td>0a016df8</td><td>second engine; 138-game OOS window; results built on a non-official results source</td><td><span class="b b-info">archive</span></td></tr><tr><td><a href='../lab/'>lab/</a></td><td>5697caaf</td><td>measured-constants layer and signal funnel</td><td><span class="b b-info">archive</span></td></tr><tr><td><a href='../origin/'>origin/</a></td><td>e22a2831</td><td>third engine; 174-game log with its own gate results</td><td><span class="b b-info">archive</span></td></tr><tr><td><a href='../verify/pages/'>verify/pages/</a></td><td>3655c68d</td><td>cross-pipeline audit: 9 contradictions between the dashboards, 5 defects found and fixed (FX-01…FX-05, V-F-02)</td><td><span class="b b-info">current, complementary</span></td></tr></tbody></table></div><p class="note">Nothing was deleted or edited in another session's tree. Those pages remain live so earlier claims stay auditable, but they are snapshots taken on 2026-11-13 and their tables are not maintained - see E-Q06.</p><h2>Schema notes</h2><ul><li><code>orig_spread_home</code>: our model's home spread in points, half-point rounded, negative = home favoured.</li><li><code>p_home_win</code>: normal-CDF probability from the predicted margin and the MAE-derived residual scale.</li><li><code>minutes_at_risk_floor</code>: sum of official season MPG for Out/Doubtful players present in the captured minutes table; a floor, never an estimate.</li><li><code>gradable_vs_own_line</code>: false means the strategy's payoff cannot be measured against a price we set ourselves.</li></ul>
+</main>
+<footer>
+<p><b>Not betting advice.</b> Lines on this site are model output from verified NBA.com results, not
+market prices; no licensed odds feed exists in this repository. Strategy results are out-of-sample
+backtests on 114 games and none of them clears the eligibility gates. Follow local law and
+responsible-gambling practice.</p>
+<p>Rebuilt by <code>python3 -m integrate.engine &amp;&amp; python3 -m integrate.build_site</code> ·
+<a href="data.html">data &amp; reproduction</a> ·
+<a href="flagged.html">flagged for review</a> ·
+<a href="../index.html">root landing</a></p>
+</footer>
+<script src="app.js"></script>
+</body></html>

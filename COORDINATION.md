@@ -685,6 +685,118 @@ recorded above under "Merge conflict resolved".
 
 See the PR link and merge result appended below once the PR is merged.
 
+## Session `e40cd215` (`arena/e40cd215-nba3`) — CLAIM (integration + reconciliation round)
+
+Session ID `e40cd215`. Arena binds this workspace to branch `arena/e40cd215-nba3` (base `e591b671`,
+which is `main` HEAD), so the `session-<id>/<task>` branch scheme in the brief cannot be used here —
+scope is enforced by file list inside this one branch, as prior sessions recorded.
+
+All prior sessions (49064d5a, f879620b, 7c532e8c, 9ed6085f, 5697caaf, 0a016df8, e22a2831) are merged
+and closed; none has an open claim. This session therefore acts as the **final integration session**
+and is the only writer for shared outputs (root `index.html`, `README.md`, `COORDINATION.md`,
+`.github/workflows/pages.yml`). No prior session's site directory is deleted or edited: `docs/`,
+`site/`, `edge/`, `lab/`, `research/`, `origin/` stay byte-identical and are linked as per-session
+archives.
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| E1 | Cross-session reconciliation: 174-game result sets, injury snapshots, slate counts, ID namespaces | in progress | `data/integration/`, `integrate/` |
+| E2 | Independent official re-verification of results, upcoming slate, injury reports | in progress | `data/integration/verify_*.json`, `integrate/verify.py` |
+| E3 | Line origination for the live 72-hour window (11/14–11/16) + picks, gates, correlations | unclaimed | `integrate/lines.py`, `data/integration/lines_*.json` |
+| E4 | Single unified dashboard site (`dash/`) + root landing page with category nav | unclaimed | `dash/`, `index.html`, `integrate/build_site.py` |
+| E5 | Executive summary, open questions, suggestions queue, Flagged-for-Review page | unclaimed | `dash/*.html`, `data/integration/*.json` |
+| E6 | PR → merge → Pages deploy verification | unclaimed | PR, `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` |
+
+## Results (session e40cd215)
+
+| # | Task | Status | Evidence |
+|---|------|--------|----------|
+| E1 | Cross-session reconciliation of the 174-game result sets, injury snapshots, slate counts and ID namespaces | done | 174/174 scores agree between the `origin/` and `edge/` captures after normalising team codes (CHO→CHA, BRK→BKN, PHO→PHX); the only structural difference is the vocabulary |
+| E2 | Independent official re-verification | done | W-L recomputed from the 174 games matches the records displayed on [nba.com/games?date=2026-11-14](https://www.nba.com/games?date=2026-11-14) for all 5 teams not playing on 11/13; 11/14 slate 5/5 and 11/15 slate 9/9 verified against the official pages; the 11/13 slate was live during the build and was therefore excluded rather than half-used |
+| E3 | Line origination for the live window + gates + correlations | done | `data/integration/model.json`: 22 originated lines (11/14–11/16), margin RMSE 15.48 vs baseline 16.73 on 114 OOS games (paired t p=0.017), total 18.90 vs 19.30 (p=0.291, **not** significant); measured same-game parlay dependence ratio 1.056; cross-game dependence left blank by design |
+| E4 | Unified dashboard | done | `dash/` — 15 pages, generated from one artefact; root `index.html` rewritten as the landing page; no other session's tree edited |
+| E5 | Registers | done | 15 flags (E-F-01…15), 10 questions, 12 suggestions, 15 sources with retrieval state, all in `data/integration/registers.json` |
+| E6 | PR → merge → Pages | see PR record below | — |
+
+### Two disputes between earlier sessions, settled with primary evidence
+
+1. **The 05:00 PM vs 05:15 PM status difference** (Cain, da Silva, Suggs: Questionable → Available).
+   Both PDFs were read this round: [05:00 PM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf)
+   prints Questionable, [05:15 PM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf)
+   prints Available. Both captures were correct for their own stamp — a genuine report update, not a
+   transcription error. `9ed6085f`'s integration log and `7c532e8c`'s data can both stand.
+2. **The "Miami rows carry a CLE@MIA matchup the PDF does not show" note.** CLE@MIA is a real 11/13 game
+   on the official slate ([game 0022600036](https://www.nba.com/game/cle-vs-mia-0022600036)), and the DET@MIA
+   rows in the same file are the 11/14 day-before block (game 0022600233). The attribution is correct; the
+   PDF simply prints the matchup once per block. The related open question is now *freshness*, not accuracy:
+   the newest report for 11/13 is the **07:30 PM** file, which moves Klay Thompson Probable→Out and
+   Pelle Larsson Doubtful→Out, and for 11/14 shows 5 of 10 teams as NOT YET SUBMITTED.
+
+### New irregularities found this round (all on `dash/flagged.html`, none blocks merge)
+
+- **E-F-01 (high)** `pipeline/build_site_data.py` line 6 has `OUT = f'{ROOT}/site/data'`, i.e. the `edge/`
+  build writes into `site/data/`, which belongs to session `7c532e8c`. Running it during this session
+  modified `site/data/{injuries,picks,props,schedule}.json` and added 6 files; all were reverted with
+  `git checkout` and `main` was never affected, but any future rebuild of `edge/` will silently overwrite
+  that site's data. CI now emits a warning (non-blocking) and an ownership audit for new sessions.
+- **E-F-02 (high)** `data/raw/results_2026-27_*.csv`, the results source behind `/edge/`, cites
+  Basketball-Reference — not an official NBA property — and its header comment documents an 8-column
+  format while each row has 5 fields. The values are fine (they agree with the official capture); the
+  citation does not meet the project's own rule, so this build uses `data/origin/games.csv` as canonical.
+- **E-F-03 (high)** six published dashboards with five incompatible ID namespaces (`F01`, `7C-F-01`,
+  `7C-F-01`, `IR-01`, `E-F-01` …) — same-shaped IDs, different meanings.
+- **E-F-04 (high)** three engines quote incomparable headline RMSEs and three different values for one
+  correlation (+0.023 here, +0.091 in `origin/`, −0.018 in `edge/`); `edge/`'s baseline uses the population
+  sd of all margins *including* test games (`pipeline/run_model.py` line 299), which flatters its improvement
+  figure. Numbers were not reconciled before publication by any earlier session.
+- **E-F-14 (low)** a 3-day horizon skips 11/17 (5 games) and 11/18 (12 games) per the official month grid.
+
+### Files written this session
+
+`data/integration/{model.json,registers.json,injuries_2026-11-13_0730PM_1114.json}`,
+`integrate/{engine.py,build_site.py,check.py}`, `dash/` (15 pages + assets + data copies),
+root `index.html` (regenerated as the landing page), `.github/workflows/pages.yml` (three steps added:
+engine + drift gate, dashboard check, ownership audit; `dash/` added to the Pages artifact),
+`README.md` (site table + state correction), `COORDINATION.md` (this section).
+
+Findings already logged during this claim (detail in the log above): six competing site trees;
+`edge/` results sourced from Basketball-Reference (not an official NBA source) — 174/174 scores agree
+with the official-sourced `origin/` capture after team-code normalisation (CHO→CHA, BRK→BKN, PHO→PHX);
+`edge/` and `origin/` publish **different** walk-forward statistics and different spread/total
+correlation values on what is claimed to be the same dataset.
+
+### Conflict log (this session)
+
+- `git pull --rebase origin main` was attempted as instructed. It stopped on `COORDINATION.md`
+  (`Could not apply 53a0fc5`) because two sessions had appended to the same file. The rebase was
+  **aborted** — no history was rewritten and no commit was lost — and the merge route was used instead:
+  `git merge --no-commit --no-ff origin/main`, which conflicted in exactly the four shared files:
+  `index.html`, `README.md`, `COORDINATION.md`, `.github/workflows/pages.yml`.
+- Resolutions, all "keep both sides", no other session's content removed:
+  | File | Resolution |
+  |---|---|
+  | `index.html` | kept session `49064d5a`'s hand-maintained landing page (including the `docs/index.html` string `tools/check_site.py` asserts) and inserted **one** card linking `dash/index.html`; `integrate/build_site.py` was then changed to stop writing the root file at all, so this cannot happen again in either direction |
+  | `COORDINATION.md` | their `V1–V7` log kept verbatim, this session's `E1–E6` section appended after it |
+  | `README.md` | their rewritten layout kept; `/dash/` added as a row in *Pages and workstreams*, the primary-dashboard line extended, and the rebuild commands section extended |
+  | `.github/workflows/pages.yml` | their steps kept (including `review.html` and `verify/` staging); this session's three steps inserted before the artifact stage and `cp -r dash _pages/dash` added |
+- Merge commit `617839a` on `arena/e40cd215-nba3`.
+
+### What the other sessions landing on `main` changed about this session's findings
+
+- **E-F-01 is closed as a defect, not as a lesson.** Session `3655c68d` found the same cross-write
+  (`pipeline/build_site_data.py` → `site/data/`) as their **V-F-02** and fixed it in `d83801c`. This
+  session hit it independently about an hour earlier and reverted the damage. The flag stays on the
+  Flagged page with both records, because the fix was courtesy rather than policy — see new suggestion
+  **E-SG-13** (binding path-ownership table).
+- Their **FX-01/FX-04** (the edge pipeline's parlay routine returned a marginal probability where a joint
+  was published, and the corrected example) means any `edge/` parlay number before `d83801c` must be
+  disregarded in comparisons. Recorded on the reconciliation page.
+- Their **C-01..C-09** contradiction list overlaps E-F-03 (seven dashboards now, five ID namespaces) and
+  C-05 (which injury snapshot is current). `dash/` answers C-05 structurally: it always prices from the
+  newest report file that exists and stamps every table with the report time.
+- New flag **E-F-16** records the useful part: two sessions auditing the same 174 games from different
+  directions reached the same conclusions, which is the best evidence in the repository.
+
 ---
 
 ## Merge note — `arena/2b9f1ae1-nba3` (integration, second merge)
@@ -845,3 +957,35 @@ Claimed at 2026-11-14 (UTC). No other session had an open claim on the files lis
 **Change requests to other sessions:** none. No file owned by an earlier session is edited by hand;
 `origin/**`, `app/**`, `index.html` are regenerated from their generators only.
 
+---
+
+### Second merge round and what comparing engines found (this session)
+
+`main` moved twice more while this section was being written. Both merges were resolved keeping every
+session's content; `index.html` now carries both `/app/` (session 2b9f1ae1, PR #19) and `/dash/`
+links, and `integrate/build_site.py` no longer writes the root file at all so the two generators can
+never collide on it again.
+
+New flags from this round: **E-F-17** (two unified dashboards built an hour apart — owner to name one
+canonical), **E-F-18** (this build's own defect, disclosed), **E-F-19** (engine agreement is not
+independent confirmation), **E-F-20** (calibration: spread correctly scaled, totals over-dispersed).
+New suggestion **E-SG-14** (make "the predictor that prices the slate is the predictor that was
+validated" a CI assertion).
+
+| Item | Before the fix | After the fix |
+|---|---|---|
+| dash/ vs app/ agree on the favoured side | 7 of 22 | **22 of 22** |
+| median absolute spread gap | 11.48 points | **2.39 points** |
+| games differing by more than 6.5 points | 16 of 22 | **0** |
+| sd of originated spreads | 2.38 (far too timid) | 10.81 (vs 16.89 for actual margins) |
+| engines matching the better-record side | mine 5/22, theirs 20/22 | mine 20/22, theirs 20/22 |
+
+Cause: `originate()` recomputed its own prediction instead of reusing the variant the online selector
+had chosen, so the published lines came from a model the walk-forward backtest had rejected. The
+symptom was a large apparent disagreement with another session's engine; had I reported that as a
+research finding instead of tracing it, the site would have published a false contradiction and the
+project would have "fixed" a model that was fine. Recorded as E-F-18 with the numbers both ways.
+
+Verification of this round: `integrate.check` PASS (15 pages, 22 lines, 9 gates, 20 flags, every table
+row sourced or flagged); all seven other sessions' suites re-run and green; the CI drift gate proves
+`data/integration/model.json` and `dash/` match the committed code byte-for-byte.

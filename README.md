@@ -67,7 +67,7 @@ comparing the official pages read on 2026-11-14 with the values already stored i
 - Local tests/builds validate selected code, data shape, source-link presence and internal links. They do **not** prove that every historical row matches an official NBA primary record, that sources are licensed, or that a model predicts profitably. A mechanical repository-wide HTML scan (session 2e50a71a) counted 1,521 table-body rows; 423 lacked a direct official NBA/Ksa link (389 excluding the archived `research-dashboard.html`). A second, independent scan on 2026-11-14 (`scripts/scan_table_sources.py`) counted 2,111 rows in 90 files, 369 without a direct official-host link; the canonical pages contribute 0 and the remainder sit in the earlier sub-sites. Neither scan is a manual classification of whether every row is factual, but both confirm the strict source-per-row requirement is met on the canonical pages and is still open across the earlier sub-sites; see [R-13](review.html) and the [Flagged for review](app/flagged.html) page.
 - The 2026–27 NBA Terms and use of NBA-derived statistics, distribution to others, and Dutch regulatory obligations remain review items. This repository is not legal advice.
 
-**Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/<br>
+**Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/ (root landing) · **current numbers in one place:** https://wingbangboozle1-lang.github.io/NBA3/dash/<br>
 **Flagged for Review:** https://wingbangboozle1-lang.github.io/NBA3/review.html<br>
 **Repository audit log:** [`COORDINATION.md`](COORDINATION.md)
 
@@ -83,6 +83,7 @@ comparing the official pages read on 2026-11-14 with the values already stored i
 | `/research/` | Research and requirements tables, source register, flags and questions | Build checks cover this site’s configured data and link rules, not the truth of every source value |
 | `/lab/` | Experimental line origination, picks, player props and strategy tests | Not a vetted betting system; some outputs carry market/EV labels |
 | `/edge/` | Independent line, pick, strategy, injury and game-flow dashboard | Separate pipeline and assumptions; not reconciled with `/lab/` or `/origin/` |
+| `/dash/` | **Unified dashboard (integration round, session e40cd215)**: originated lines for the live 72-hour window, out-of-sample strategy leaderboard, 9 validation gates, measured correlations, injury/rotation register, game flow, cross-engine reconciliation, verification log, questions, suggestions and flagged items | Generated from `data/integration/model.json` by `integrate/engine.py` + `integrate/build_site.py`; byte-deterministic; `integrate/check.py` gates it |
 | `/origin/` | Independent lines, correlation, props, injury analysis and walk-forward outputs | Separate dataset/model; not reconciled with `/edge/` |
 
 Treat these as independent work products. Do not compare metrics across them without aligning source data, snapshots, dates, definitions, evaluation splits, odds, settlement, and statistical methods.
@@ -125,7 +126,16 @@ The dashboard links the detailed question and suggestions pages. The blocking un
 
 Sources fetched for the 14 November 2026 audit. Check current terms/reports at implementation time; old copies are not live evidence.
 
-## Rebuild and verification commands
+## Rebuild and verification commands (unified dashboard)
+
+```bash
+python3 -m integrate.engine        # rebuild data/integration/model.json (deterministic)
+python3 -m integrate.build_site    # render dash/ (15 pages)
+python3 -m integrate.check         # row-source, link, number-consistency and scope gate
+```
+
+Standard library only. `integrate/engine.py` imports `model/nbastats.py` (session e22a2831) without modifying it.
+
 
 These commands are for repository/code consistency. Passing them does not verify statistical truth, data licensing, or profitability.
 
