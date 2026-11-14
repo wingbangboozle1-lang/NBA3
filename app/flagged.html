@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 66 items: 18 high, 43 medium, 5 low severity.
+<em>decisions</em>. 67 items: 18 high, 43 medium, 6 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -714,6 +714,17 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-65</td>
+<td>Registers</td>
+<td>A review finding published on the Repository-review page made two claims that the 2026-11-14 refresh invalidated: that the canonical site publishes the 11/13 07:45 PM injury snapshot (it now publishes the 11/14 04:15 AM one) and that the injury cross-check &quot;fails the build if a future report disagrees&quot;. The second is an overstatement of what an offline reproduction gate can do: CI re-runs the capture script against files in the repository, so it detects a non-deterministic capture, not a stale snapshot.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Corrected in place on the review row, with the accurate wording and a pointer to the row-by-row comparison the refresh actually ran (31 rows, 0 differences). The freshness alarm this sentence implied is what CQ-41 / NF-61 asks the owner to decide on: a scheduled re-capture. Recorded because a register that overstates its own guards is worse than one that stays quiet.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py</a></td>
 </tr>
 <tr>
 <td>NF-63</td>

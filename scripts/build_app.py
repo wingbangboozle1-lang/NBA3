@@ -1684,7 +1684,7 @@ the audit trail for every number published on this site.</p>""")
          src_cell(["https://official.nba.com/nba-injury-report-2026-27-season/"], "official index"),
          "Newest listed report is 11/13 07:30 PM ET; no 11/14 report is listed yet",
          chip("Verified", "ok")],
-        ["Historical results log", "2026-11-13 (earlier session)",
+        ["Historical results log", "2026-11-13 (earlier session, superseded 2026-11-14)",
          src_cell(["https://www.nba.com/games?date="], "nba.com/games"),
          "174 games / 348 team-games; team-games match the official GP column for all 30 teams "
          "(0 mismatch) and recomputed W–L matches the official W–L",

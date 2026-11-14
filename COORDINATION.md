@@ -2727,3 +2727,26 @@ pages use (verified by breaking a class name and watching `BUILD FAILED` name it
   is what caught that the stored slate was right while nothing else was checking it).
 
 **Registers after this round:** 66 flags / 46 questions / 44 suggestions / 39 sources.
+
+### Log: session `25418e3f` — round 3 (stale figures in the requirement register) + board close-out — 2026-11-14
+A figure-by-figure scan of the built pages (`app/*.html` + `index.html`) for the numbers this
+session replaced — old luck threshold, old RMSEs, old correlation, old out-of-sample `n`, old log
+size, old control result, old flag counts. Three registers still asserted pre-refresh values, on
+pages no drift gate covers because they are prose, not computed cells:
+
+| Where | Was published | Now |
+| --- | --- | --- |
+| `requirements.html` RQ07 | "Home points vs away points (r=0.128, n=174)" | r = 0.1230, n = 183, CI −0.022…0.263; residual pair r = 0.0088, n = 140; dependence ratio 0.942 — each read out of `data/app/lab.json`, not typed |
+| `requirements.html` RQ03 / RQ08 | "largest edge 18.0 pp; luck threshold 31.2 pp"; "control: 47.3 percent on 131 games, p=0.60" | 10.7 pp / 28.9 pp; control 48.6 percent on 140 games, p=0.80 (ST-NUL) |
+| `requirements.html` RQ11 | "overtime rate 5.17 percent measured from 9 of 174 games" | 5.4645 percent, 10 of 183 — the tenth is CHI@ATL on 2026-11-13, which is in the log this round added |
+| `review.html` injury row | "the canonical site publishes the 07:45 PM snapshot" + "this cross-check … fails the build if a future report disagrees" | corrected on the row, with the accurate wording: the site publishes the 11/14 04:15 AM report, and the gate is a determinism check against committed files, not a freshness alarm — raised as **NF-65** (low) |
+| `verification.html` | "Historical results log … 174 games / 348 team-games" | row kept (it is a true statement about the 2026-11-13 capture) and relabelled "earlier session, superseded 2026-11-14" |
+
+`audit36/data/results_2026-11-14.json` was restored to main's version after a local re-run of
+`audit36/check.py` dirtied it — see the corrected CR-25418E3F-03 above. Their tree is untouched.
+
+**Board `25418e3f` closed:** N1–N7 all done. Delivered as `43d28e8` (claim) → `670adce` (data,
+engine, site) → `0c1a355` (round log, CR-01…03) → `b3b5279` (presentation round 2) → this commit
+(registers). PRs #59 and #61 merged into `main` (tips `86ab132`, `ffe76f6`); CI 29/29 steps green on
+both; Pages verified by reading the deployed pages. Final register counts: **67 flags / 46
+questions / 44 suggestions / 39 sources / 23 requirement rows**.

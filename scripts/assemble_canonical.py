@@ -486,9 +486,17 @@ def build_review():
         "reports agreeing on every row is evidence the transcription is stable, not merely "
         "unchallenged. The index publishes a report every 15 minutes, so this cross-check is now "
         "part of the build and fails it if a future report disagrees.",
-        "Verified",
+        "Verified, with two corrections recorded 2026-11-14 - see NF-65",
         "None. The canonical site publishes the 07:45 PM snapshot, stamps it with the newest "
-        "report it was checked against, and cites the index for freshness.",
+        "report it was checked against, and cites the index for freshness. CORRECTION (2026-11-14, "
+        "round 25418e3f): both halves of this sentence have since moved. The canonical site now "
+        "publishes the 11/14 04:15 AM report (49 rows), which is the newest file on the index, and "
+        "its 2026-11-14 rows were checked against this 07:45 PM snapshot row for row - 31 compared, "
+        "0 differences. On the enforcement claim: what the workflow runs is scripts/"
+        "capture_official_2026_11_14b.py against files committed in the repository, so the gate "
+        "proves the capture reproduces byte for byte. It is a determinism check, not a freshness "
+        "alarm: a newer report posted to the index cannot fail CI, because CI does not read the "
+        "index. Raising an alarm needs the scheduled re-capture of CQ-41/NF-61.",
         ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
          "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_30PM.pdf",
          "https://official.nba.com/nba-injury-report-2026-27-season/"], "", "2026-11-14")
@@ -991,6 +999,19 @@ SESSION_FLAGS += [
      "Decide a re-capture cadence (CQ-41) and put the snapshot age in the header of every page. "
      "Until then every page states its as-of time, and the freshness page lists what will change it.",
      ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("NF-65", "Registers", "low",
+     "A review finding published on the Repository-review page made two claims that the 2026-11-14 "
+     "refresh invalidated: that the canonical site publishes the 11/13 07:45 PM injury snapshot "
+     "(it now publishes the 11/14 04:15 AM one) and that the injury cross-check "
+     "\"fails the build if a future report disagrees\". The second is an overstatement of what an "
+     "offline reproduction gate can do: CI re-runs the capture script against files in the "
+     "repository, so it detects a non-deterministic capture, not a stale snapshot.",
+     "Corrected in place on the review row, with the accurate wording and a pointer to the row-by-row "
+     "comparison the refresh actually ran (31 rows, 0 differences). The freshness alarm this sentence "
+     "implied is what CQ-41 / NF-61 asks the owner to decide on: a scheduled re-capture. Recorded "
+     "because a register that overstates its own guards is worse than one that stays quiet.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py"]),
     ("NF-63", "Site", "medium",
      "The Report-availability page published a capture-chain table whose \"why it was replaced\" cell "
      "was one generic sentence reused for every input, and whose \"artifact\" column printed a row "

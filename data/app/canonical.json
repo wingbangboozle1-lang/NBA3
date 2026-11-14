@@ -29546,6 +29546,21 @@
    "found_on": "2026-11-14"
   },
   {
+   "id": "NF-65",
+   "area": "Registers",
+   "item": "A review finding published on the Repository-review page made two claims that the 2026-11-14 refresh invalidated: that the canonical site publishes the 11/13 07:45 PM injury snapshot (it now publishes the 11/14 04:15 AM one) and that the injury cross-check \"fails the build if a future report disagrees\". The second is an overstatement of what an offline reproduction gate can do: CI re-runs the capture script against files in the repository, so it detects a non-deterministic capture, not a stale snapshot.",
+   "why": "",
+   "action_needed": "Corrected in place on the review row, with the accurate wording and a pointer to the row-by-row comparison the refresh actually ran (31 rows, 0 differences). The freshness alarm this sentence implied is what CQ-41 / NF-61 asks the owner to decide on: a scheduled re-capture. Recorded because a register that overstates its own guards is worse than one that stays quiet.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py"
+   ],
+   "status": "Open - owner review",
+   "severity": "low",
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
    "id": "NF-63",
    "area": "Site",
    "item": "The Report-availability page published a capture-chain table whose \"why it was replaced\" cell was one generic sentence reused for every input, and whose \"artifact\" column printed a row count where a file name belongs. A reader could conclude the injury report and the ratings file were superseded for the same reason (a mid-slate read), which is true of the ratings file only. The numbers in the cells were correct; the attribution was not.",
@@ -31496,8 +31511,8 @@
    "area": "Data",
    "item_reviewed": "Official capture re-read: injury report",
    "finding": "The 11/13/26 07:45 PM report was transcribed: 122 rows (117 player rows, 5 team 'NOT YET SUBMITTED' rows). Three official reports were then compared with each other — 07:30 PM vs 07:45 PM: 0 status changes; 07:45 PM vs the newest report listed on the official index, 08:30 PM: 122 rows each and 0 differences. Three consecutive official reports agreeing on every row is evidence the transcription is stable, not merely unchallenged. The index publishes a report every 15 minutes, so this cross-check is now part of the build and fails it if a future report disagrees.",
-   "status": "Verified",
-   "recommended_action": "None. The canonical site publishes the 07:45 PM snapshot, stamps it with the newest report it was checked against, and cites the index for freshness.",
+   "status": "Verified, with two corrections recorded 2026-11-14 - see NF-65",
+   "recommended_action": "None. The canonical site publishes the 07:45 PM snapshot, stamps it with the newest report it was checked against, and cites the index for freshness. CORRECTION (2026-11-14, round 25418e3f): both halves of this sentence have since moved. The canonical site now publishes the 11/14 04:15 AM report (49 rows), which is the newest file on the index, and its 2026-11-14 rows were checked against this 07:45 PM snapshot row for row - 31 compared, 0 differences. On the enforcement claim: what the workflow runs is scripts/capture_official_2026_11_14b.py against files committed in the repository, so the gate proves the capture reproduces byte for byte. It is a determinism check, not a freshness alarm: a newer report posted to the index cannot fail CI, because CI does not read the index. Raising an alarm needs the scheduled re-capture of CQ-41/NF-61.",
    "sources": [
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_30PM.pdf",
@@ -31679,7 +31694,7 @@
    "how_addressed": "15 rules across single bets, same-game parlays and cross-game parlays, each scored out of sample against nine gates. Six are exact mirror pairs so the losing direction cannot be hidden, and one is a null control.",
    "blocker_or_gap": "No rule shows a signal that survives its own p-value, FDR correction and the whole-board luck threshold. See NF-51.",
    "evidence_url": "https://www.nba.com/games?date=",
-   "verification_status": "Largest edge any rule posted is 18.0 pp; the luck threshold for a board this size is 31.2 pp"
+   "verification_status": "Refreshed 2026-11-14 on the 183-game log: largest edge any rule posted is 10.7 pp; the luck threshold for a board this size is 28.9 pp"
   },
   {
    "req_id": "RQ04",
@@ -31716,7 +31731,7 @@
    "requirement_from_brief": "Determine correlation values",
    "category": "Validation",
    "status": "4 measured; 5 blank by policy",
-   "how_addressed": "Home points vs away points (r=0.128, n=183 after the 2026-11-14 log extension), spread residual vs total residual (r=0.014, n=131), and the same-game cover-and-over joint rate with its dependence ratio are measured from official results. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.",
+   "how_addressed": "Home points vs away points (Pearson r 0.1230, n=183, 95% CI -0.022 to 0.263), spread residual vs total residual (r 0.0088, n=140, 95% CI -0.157 to 0.174), and the same-game cover-and-over joint rate with its dependence ratio 0 are measured from the 183 official finals after the 2026-11-14 log extension. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.",
    "blocker_or_gap": "Player-level correlations need per-player game logs. The cross-game independence figure is printed as an assumption, not a measurement. See CQ-39.",
    "evidence_url": "https://www.nba.com/games?date=",
    "verification_status": "Values, sample sizes and 95 percent intervals published on the Correlations page; blanks flagged"
@@ -31726,8 +31741,8 @@
    "requirement_from_brief": "Remove luck; build selectively skill-based strategies",
    "category": "Validation",
    "status": "Method applied; no skill demonstrated",
-   "how_addressed": "Exact binomial tests against the market's fair-line rate; Benjamini-Hochberg across the board; a 5,000-iteration whole-board Monte Carlo producing a 31.2 pp luck threshold; date-block bootstrap for return intervals; split-half stability; mirror pairs so the losing side is visible; and a null control that must fail. It does: 47.3 percent on 131 games, p=0.60.",
-   "blocker_or_gap": "The methods detect luck; they cannot manufacture skill from 174 games. Nothing on the board beats the threshold. See NF-51.",
+   "how_addressed": "Exact binomial tests against the market's fair-line rate; Benjamini-Hochberg across the board; a 5,000-iteration whole-board Monte Carlo producing a 28.9 pp luck threshold; date-block bootstrap for return intervals; split-half stability; mirror pairs so the losing side is visible; and a null control that must fail. It does: 48.6 percent on 140 games, p=0.80 (recomputed on the 183-game log, 2026-11-14).",
+   "blocker_or_gap": "The methods detect luck; they cannot manufacture skill from 183 games. Nothing on the board beats the threshold. See NF-51.",
    "evidence_url": "https://www.nba.com/games?date=",
    "verification_status": "Null control ST-NUL fails 8 of 9 gates, which is the check that the gates work"
   },
@@ -31756,10 +31771,10 @@
    "requirement_from_brief": "Game flow analysis",
    "category": "Game flow",
    "status": "Done for what the data supports",
-   "how_addressed": "Rest days, back-to-back flags and rest differentials from the official schedule and the 174 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags. Rest and back-to-back flags for the 11/14 slate are now exact, because the results log reaches 2026-11-13.",
+   "how_addressed": "Rest days, back-to-back flags and rest differentials from the official schedule and the 183 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags. Rest and back-to-back flags for the 11/14 slate are now exact, because the results log reaches 2026-11-13.",
    "blocker_or_gap": "No possession-level pace projection, no overtime model (a flat measured rate is applied) and no referee, travel or altitude effects - none can be sourced officially. All three are listed as missing rather than estimated.",
    "evidence_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-   "verification_status": "27 rows; overtime rate 5.17 percent measured from 9 of 174 games; the missing factors are named on the page"
+   "verification_status": "27 rows; overtime rate 5.4645 percent measured from 10 of 183 games (the tenth is CHI@ATL on 2026-11-13); home win rate 52.459 percent; mean total 226.98; the missing factors are named on the page"
   },
   {
    "req_id": "RQ12",
