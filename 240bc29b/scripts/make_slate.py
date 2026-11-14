@@ -53,7 +53,7 @@ for g in GAMES:
 os.makedirs("240bc29b/data", exist_ok=True)
 out = {
     "window": "2026-11-14 to 2026-11-17 (maximum 3 days in advance)",
-    "games": len(GAMES),
+    "game_count": len(GAMES),
     "games_by_date": {"2026-11-14": 5, "2026-11-15": 9, "2026-11-16": 8, "2026-11-17": 5},
     "source": SCHEDULE_URL,
     "source_note": "Official NBA schedule. Re-transcribed 2026-11-14; dates, tip times, venues and game IDs match the stored snapshot - 0 mismatches.",
