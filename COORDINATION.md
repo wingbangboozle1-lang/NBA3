@@ -1703,6 +1703,47 @@ Because of F-01 and F-03, the "projections" page publishes **candidate-rule sele
 our own originated line**, not betting picks against a market price. No odds, stake, price or
 expected value appears anywhere on the site.
 
+## Session `arena/8d3d0271-nba3` (this session) — CLAIM
+
+Session ID `arena/8d3d0271-nba3`. Branched from `main` @ `3367762`; fast-forwarded to `4e9dec4`
+before any work began (no rebase of other sessions' history). Arena binds this workspace to one
+branch, so the `session-<id>/<task>` scheme in the brief is again not available; scope is enforced
+by file list inside this branch, as every prior session recorded.
+
+**Open PRs seen at claim time and the scopes they hold (not touched by this session):**
+
+| PR | Branch | Scope held | This session's stance |
+|---|---|---|---|
+| [#21](https://github.com/wingbangboozle1-lang/NBA3/pull/21) | `arena/fa03eba6-nba3` | `data/*.json`, `site/**`, `model/build*.py`, `scripts/build_site.py` | not touched |
+| [#24](https://github.com/wingbangboozle1-lang/NBA3/pull/24) | `arena/d01ae7e2-nba3` | `docs/**`, `data/*.json`, `scripts/build_site.py`, `scripts/generate_picks.py`, `scripts/verify.py` | not touched |
+| [#25](https://github.com/wingbangboozle1-lang/NBA3/pull/25) | `arena/3bf92fcc-nba3` | root `index.html`, `executive-summary.html`, `.github/workflows/pages.yml` | **request logged** — see CR-8D-01 |
+| [#26](https://github.com/wingbangboozle1-lang/NBA3/pull/26) | `arena/2b9f1ae1-nba3` | `COORDINATION.md`, `README.md` (append-only merge record) | append-only, no overwrite |
+
+**Files this session claims (no other open PR touches these paths):**
+
+| Path | Purpose |
+|---|---|
+| `app/**` | canonical dashboard: landing + category sub-pages (session `2b9f1ae1`'s tree, taken over — its I1–I8 are marked done and PR #26 is a documentation record only) |
+| `data/app/canonical.json`, `data/app/official_*.json` | canonical dataset and official capture snapshots |
+| `scripts/assemble_canonical.py`, `scripts/build_app.py` | canonical assembly + site generator |
+| `scripts/capture_official_2026_11_14b.py` (**new**) | this round's official capture: slate 11/14–11/17, team advanced stats, newest injury report |
+| `scripts/strategy_lab.py` (**new**) | leaderboard scoring, parlay combos, prop combos, injury production impact |
+| `COORDINATION.md` | appended section only |
+
+### Task board (this session)
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| A1 | Read COORDINATION.md, map open PRs, claim non-overlapping scope, push the claim | done | `COORDINATION.md` |
+| A2 | Fresh official capture on 2026-11-14 (slate 11/14–11/17, team ratings, newest injury report) | in progress | `scripts/capture_official_2026_11_14b.py`, `data/app/official_*` |
+| A3 | Line-by-line re-verification of the canonical dataset against those official pages | in progress | `scripts/assemble_canonical.py` |
+| A4 | Strategy leaderboard with a composite skill score and reward tiers | in progress | `scripts/strategy_lab.py`, `app/strategies.html` |
+| A5 | Parlay and player-prop combo generation for the live window, priced with measured correlation | in progress | `scripts/strategy_lab.py`, `app/picks.html`, `app/props.html` |
+| A6 | Injury → rotation minutes → production, plus game-flow factors | in progress | `app/injuries.html`, `app/gameflow.html` |
+| A7 | Executive summary, questions register, suggestions queue with decision paths | in progress | `app/summary.html`, `app/questions.html`, `app/suggestions.html` |
+| A8 | Repository review line by line, official links, irregularities | in progress | `app/review.html`, `app/flagged.html` |
+| A9 | Integration: merge `origin/main`, resolve conflicts keeping every side, build gates, PR → merge → Pages deploy verification | in progress | shared integration surface |
+
 ### Change requests from this session
 
 | ID | To | Request | Status |
@@ -1927,3 +1968,10 @@ https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pd
 | Local CI runner | `/tmp/run_ci_steps.sh` now covers **T1–T15** (hub step added) |
 
 W4 done: every open PR integrated or handed back, `main` green, Pages verified live.
+
+
+| CR-8D-01 | owner of root `index.html` (`arena/3bf92fcc-nba3`, PR #25) | This round's canonical build regenerates the root landing page. If PR #25 merges first, this session merges `main` before its own PR and keeps PR #25's content plus the canonical nav (nothing removed). If this session's PR merges first, the same rule applies in reverse. | open |
+| CR-8D-02 | any session with an official odds feed | Every ROI number in this repository is measured against our own originated line at an assumed −110 price. A licensed, timestamped price feed is the only thing that turns those into economic results (Q-03, NF-14). | open |
+| CR-8D-03 | any session | Per-player game logs are still uncaptured, so every player-level correlation cell is blank by policy, not by omission (Q-06). | open |
+
+Claimed at 2026-11-14T01:05Z (UTC).
