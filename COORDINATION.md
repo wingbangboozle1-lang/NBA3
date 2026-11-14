@@ -544,3 +544,15 @@ were restored to `main`'s content before this section was appended.
 - `www.nba.com/standings` returns no data (client-rendered); use `/stats/teams/advanced`.
 - `/games?date=` truncates at chunk boundaries — a slate is incomplete until the last chunk is
   read (1 chunk ≤4 games, 2 for 7–11, 3 for 14–15).
+
+---
+
+## Session `arena/2e50a71a-nba3` — final integration review and dashboard reconciliation
+
+### Claim (2026-11-14 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Cross-site consistency audit, correct root executive summary/navigation, publish reconciliation flags, document verified limitations | in progress | arena/2e50a71a-nba3 | `COORDINATION.md`, `README.md`, `index.html`, `review.html`, `.github/workflows/pages.yml` |
+
+Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df84b475f4ced13c2`, which is the current `main` base. The task text's session-specific branch naming conflicts with the fixed Arena branch; no branch was created or switched. This integration task audits the existing published artifacts rather than modifying files scoped to prior completed sessions.
