@@ -3367,3 +3367,27 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+---
+
+## Session `736efb4b` (`arena/736efb4b-nba3`) — CLAIM: injury freshness re-check vs the 1:30 PM ET official report, repo check suite, integration
+
+Session ID: `736efb4b`. Workspace branch `arena/736efb4b-nba3`, branched from `main` @ `3a6c353` (merge of PR #74).
+Per the workspace rule, all work stays on this one branch; the per-task scopes below are still kept
+disjoint so they can be merged without overlap. Claim written and pushed before any other edit (2026-11-14 ~18:4x UTC).
+
+Reason this round exists: the official NBA injury-report index, read at ~18:4x UTC (13:4x ET), lists
+game-day reports through **11/14 01:30 PM ET**. The newest canonical injury snapshot in the tree is
+**05:15 AM ET**. The 1:30 PM report is therefore newer than every published injury figure on the site.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| F1 | Capture the 11/14 01:30 PM ET official injury report verbatim, transcribe it, compare it row by row with the canonical 05:15 AM snapshot, publish the delta with source links, flag every row that cannot be confirmed | in progress | `audit_736efb4b/**` (new); one step + one staging line in `.github/workflows/pages.yml`; one row in `ARCHIVE_TREES_ROWS` in `scripts/build_app.py` (archive link) |
+| F2 | Run the existing local check suites on this branch (CI parity) and record pass/fail and any irregularity | in progress | `COORDINATION.md` (log only) |
+| F3 | Integration: PR to `main` (only this branch's files), merge without waiting, confirm Pages deploy, record PR link and merge result | pending | `COORDINATION.md` |
+
+Not claimed by this session (no change made, nothing edited): the canonical picks, lines, strategies, gates,
+correlations, questions, suggestions and flags. Those depend on the 05:15 AM snapshot and a full model
+re-run; this session publishes the injury delta as a flagged, sourced finding rather than silently
+re-running the model. Open PR #70 (`arena/f2d4a99f-nba3`, COORDINATION.md only) is not this session's and
+is left as it is.
