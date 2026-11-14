@@ -569,7 +569,59 @@ archives.
 | E5 | Executive summary, open questions, suggestions queue, Flagged-for-Review page | unclaimed | `dash/*.html`, `data/integration/*.json` |
 | E6 | PR → merge → Pages deploy verification | unclaimed | PR, `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` |
 
-Findings already logged during this claim (detail in the log below): six competing site trees;
+## Results (session e40cd215)
+
+| # | Task | Status | Evidence |
+|---|------|--------|----------|
+| E1 | Cross-session reconciliation of the 174-game result sets, injury snapshots, slate counts and ID namespaces | done | 174/174 scores agree between the `origin/` and `edge/` captures after normalising team codes (CHO→CHA, BRK→BKN, PHO→PHX); the only structural difference is the vocabulary |
+| E2 | Independent official re-verification | done | W-L recomputed from the 174 games matches the records displayed on [nba.com/games?date=2026-11-14](https://www.nba.com/games?date=2026-11-14) for all 5 teams not playing on 11/13; 11/14 slate 5/5 and 11/15 slate 9/9 verified against the official pages; the 11/13 slate was live during the build and was therefore excluded rather than half-used |
+| E3 | Line origination for the live window + gates + correlations | done | `data/integration/model.json`: 22 originated lines (11/14–11/16), margin RMSE 15.48 vs baseline 16.73 on 114 OOS games (paired t p=0.017), total 18.90 vs 19.30 (p=0.291, **not** significant); measured same-game parlay dependence ratio 1.056; cross-game dependence left blank by design |
+| E4 | Unified dashboard | done | `dash/` — 15 pages, generated from one artefact; root `index.html` rewritten as the landing page; no other session's tree edited |
+| E5 | Registers | done | 15 flags (E-F-01…15), 10 questions, 12 suggestions, 15 sources with retrieval state, all in `data/integration/registers.json` |
+| E6 | PR → merge → Pages | see PR record below | — |
+
+### Two disputes between earlier sessions, settled with primary evidence
+
+1. **The 05:00 PM vs 05:15 PM status difference** (Cain, da Silva, Suggs: Questionable → Available).
+   Both PDFs were read this round: [05:00 PM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf)
+   prints Questionable, [05:15 PM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf)
+   prints Available. Both captures were correct for their own stamp — a genuine report update, not a
+   transcription error. `9ed6085f`'s integration log and `7c532e8c`'s data can both stand.
+2. **The "Miami rows carry a CLE@MIA matchup the PDF does not show" note.** CLE@MIA is a real 11/13 game
+   on the official slate ([game 0022600036](https://www.nba.com/game/cle-vs-mia-0022600036)), and the DET@MIA
+   rows in the same file are the 11/14 day-before block (game 0022600233). The attribution is correct; the
+   PDF simply prints the matchup once per block. The related open question is now *freshness*, not accuracy:
+   the newest report for 11/13 is the **07:30 PM** file, which moves Klay Thompson Probable→Out and
+   Pelle Larsson Doubtful→Out, and for 11/14 shows 5 of 10 teams as NOT YET SUBMITTED.
+
+### New irregularities found this round (all on `dash/flagged.html`, none blocks merge)
+
+- **E-F-01 (high)** `pipeline/build_site_data.py` line 6 has `OUT = f'{ROOT}/site/data'`, i.e. the `edge/`
+  build writes into `site/data/`, which belongs to session `7c532e8c`. Running it during this session
+  modified `site/data/{injuries,picks,props,schedule}.json` and added 6 files; all were reverted with
+  `git checkout` and `main` was never affected, but any future rebuild of `edge/` will silently overwrite
+  that site's data. CI now emits a warning (non-blocking) and an ownership audit for new sessions.
+- **E-F-02 (high)** `data/raw/results_2026-27_*.csv`, the results source behind `/edge/`, cites
+  Basketball-Reference — not an official NBA property — and its header comment documents an 8-column
+  format while each row has 5 fields. The values are fine (they agree with the official capture); the
+  citation does not meet the project's own rule, so this build uses `data/origin/games.csv` as canonical.
+- **E-F-03 (high)** six published dashboards with five incompatible ID namespaces (`F01`, `7C-F-01`,
+  `7C-F-01`, `IR-01`, `E-F-01` …) — same-shaped IDs, different meanings.
+- **E-F-04 (high)** three engines quote incomparable headline RMSEs and three different values for one
+  correlation (+0.023 here, +0.091 in `origin/`, −0.018 in `edge/`); `edge/`'s baseline uses the population
+  sd of all margins *including* test games (`pipeline/run_model.py` line 299), which flatters its improvement
+  figure. Numbers were not reconciled before publication by any earlier session.
+- **E-F-14 (low)** a 3-day horizon skips 11/17 (5 games) and 11/18 (12 games) per the official month grid.
+
+### Files written this session
+
+`data/integration/{model.json,registers.json,injuries_2026-11-13_0730PM_1114.json}`,
+`integrate/{engine.py,build_site.py,check.py}`, `dash/` (15 pages + assets + data copies),
+root `index.html` (regenerated as the landing page), `.github/workflows/pages.yml` (three steps added:
+engine + drift gate, dashboard check, ownership audit; `dash/` added to the Pages artifact),
+`README.md` (site table + state correction), `COORDINATION.md` (this section).
+
+Findings already logged during this claim (detail in the log above): six competing site trees;
 `edge/` results sourced from Basketball-Reference (not an official NBA source) — 174/174 scores agree
 with the official-sourced `origin/` capture after team-code normalisation (CHO→CHA, BRK→BKN, PHO→PHX);
 `edge/` and `origin/` publish **different** walk-forward statistics and different spread/total

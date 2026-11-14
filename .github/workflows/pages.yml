@@ -8,6 +8,9 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
 #   /edge/           -> arena-0a016df8 Edge Lab dashboard (verified game log, originated lines, gated picks)
 #   /origin/         -> arena/e22a2831 origination engine (174-game verified log, walk-forward backtest, 7-gate leaderboard)
+#   /dash/           -> arena/e40cd215 unified dashboard (integrated, reconciled across the sessions above)
+# The repository root index.html is the landing page and links to every tree above; tools/check_site.py
+# asserts that it contains the string "docs/index.html", so keep that link written out in full.
 # Pull requests run every check but never deploy.
 
 on:
@@ -78,6 +81,31 @@ jobs:
           test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
       - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
         run: python3 pipeline/check_site.py
+      - name: Integration engine and unified dashboard (session e40cd215)
+        run: |
+          python3 -m integrate.engine
+          git diff --exit-code -- data/integration/model.json
+          python3 -m integrate.build_site
+          python3 -m integrate.check
+          test -z "$(git status --porcelain -- dash/ data/integration/ index.html)" || { echo 'dash/ or index.html is stale; run python3 -m integrate.build_site and commit'; git status --porcelain -- dash/ data/integration/ index.html; exit 1; }
+      - name: Output-tree ownership audit
+        run: |
+          python3 - <<'PY'
+          import re, pathlib
+          # This session's generator must write only inside the paths it claimed.
+          src = pathlib.Path('integrate/build_site.py').read_text()
+          writes = re.findall(r'(?:write_text|mkdir)\(', src)
+          assert 'ROOT / "dash"' in src or 'DASH = ROOT / "dash"' in src, "dash/ path changed"
+          bad = [l for l in src.splitlines() if re.search(r'(ROOT / "(?!dash|index)[a-zA-Z_]+")', l) and 'write' in l]
+          if bad:
+              raise SystemExit("integrate/build_site.py writes outside its claim: " + "; ".join(bad[:3]))
+          # Known, owner-pending hazard (flag E-F-01): pipeline/build_site_data.py emits into site/data.
+          other = pathlib.Path('pipeline/build_site_data.py').read_text()
+          if 'site/data' in other:
+              print("WARNING (does not fail the build): pipeline/build_site_data.py writes into site/data/,")
+              print("WARNING: which is owned by session 7c532e8c's site/. Owner decision pending - see E-F-01.")
+          print("Ownership audit: integrate/ writes only into dash/, data/integration/ and index.html.")
+          PY
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -88,6 +116,7 @@ jobs:
           cp -r research _pages/research
           cp -r edge _pages/edge
           cp -r origin _pages/origin
+          cp -r dash _pages/dash
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

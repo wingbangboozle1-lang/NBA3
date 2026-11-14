@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary · NBA Edge Lab</title>
+<meta name="description" content="Landing, headline numbers, what is and is not usable">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="top">
+  <div class="brand"><a href="index.html"><strong>NBA Edge Lab</strong><span>integrated build · session e40cd215</span></a></div>
+  <div class="stamp">results through 2026-11-12 · availability from the 11/13/26 07:30 PM ET official report · pricing window 2026-11-14 to 2026-11-16</div>
+</header>
+<nav class="nav" aria-label="sections"><a class="nav-i" href="index.html" aria-current="page">Executive summary</a>
+<a class="nav-i" href="lines.html">Originated lines</a>
+<a class="nav-i" href="picks.html">Picks &amp; parlays</a>
+<a class="nav-i" href="leaderboard.html">Strategy leaderboard</a>
+<a class="nav-i" href="gates.html">Validation gates</a>
+<a class="nav-i" href="correlations.html">Correlation</a>
+<a class="nav-i" href="injuries.html">Injuries &amp; rotations</a>
+<a class="nav-i" href="gameflow.html">Game flow</a>
+<a class="nav-i" href="reconciliation.html">Cross-engine reconciliation</a>
+<a class="nav-i" href="verification.html">Verification log</a>
+<a class="nav-i" href="questions.html">Open questions</a>
+<a class="nav-i" href="suggestions.html">Site improvements</a>
+<a class="nav-i" href="flagged.html">Flagged for review</a>
+<a class="nav-i" href="sources.html">Source register</a>
+<a class="nav-i" href="data.html">Data &amp; reproduction</a></nav>
+<main>
+<h1>Executive summary</h1>
+<p class="sub">Landing, headline numbers, what is and is not usable</p>
+
+<section class="callout"><h2>Read this first</h2>
+<p>The model in this build forecasts <b>the score</b>, not the market. Out of sample its spread
+prediction is 7.5% better than a
+constant baseline on 114 games (paired t p=0.0170); its total prediction is
+2.0% better and that part is not
+significant (p=0.2913). So we do have forecast skill on the margin, and we do not
+yet have evidence of betting skill: no bettor profits from a forecast, only from a forecast that beats a
+price, and no price exists in this repository. Everything below the fold is labelled accordingly.</p></section>
+<div class="cards"><div class="card"><div class="k">Games verified</div><div class="v">174</div><div class="d">2026-10-20 → 2026-11-12, two independent captures</div></div><div class="card"><div class="k">Score mismatches</div><div class="v">0</div><div class="d">between the two captures, after normalising team codes</div></div><div class="card"><div class="k">Lines originated</div><div class="v">22</div><div class="d">every game in the live 72-hour window</div></div><div class="card"><div class="k">Strategies passing all gates</div><div class="v">0</div><div class="d">largest gradable sample 35 bets vs a floor of 100</div></div><div class="card"><div class="k">Gates cleared</div><div class="v">2 of 9</div><div class="d">provenance and leakage only</div></div><div class="card"><div class="k">Margin model vs baseline</div><div class="v">15.48 / 16.73</div><div class="d">RMSE, out of sample, one shared baseline</div></div></div>
+<div class="tw"><table data-rows="6"><caption>What is usable today</caption><thead><tr><th>Status</th><th>What</th><th>Basis</th><th>Source</th></tr></thead><tbody><tr><td>Can be read now</td><td>Originated lines for the 11/14–11/16 window</td><td>Model output, with a 95% interval on each number</td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener">nba.com/games</a></td></tr><tr><td>Can be read now</td><td>Official availability for the window</td><td>Transcribed from the newest report that exists</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener">injury PDF 07:30 PM</a></td></tr><tr><td>Can be read now</td><td>Rest, back-to-back, overtime and margin structure</td><td>Recomputed from the 174 verified results</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv" target="_blank" rel="noopener">games.csv</a></td></tr><tr><td>Needs a decision first</td><td>Any claim of edge or profit</td><td>No market price in the repository - E-F-05</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/questions.csv" target="_blank" rel="noopener">questions.csv</a></td></tr><tr><td>Needs a decision first</td><td>Player props and prop combos</td><td>Only 31 players' minutes captured - E-F-07</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/players_top_minutes.csv" target="_blank" rel="noopener">players_top_minutes.csv</a></td></tr><tr><td>Needs data we do not have</td><td>A ranked leaderboard with rewards</td><td>No strategy reaches the sample floor - E-F-15</td><td><span class="b b-bad">blocked</span></td></tr></tbody></table></div><p class="note">Three of six rows are blocked on an owner decision, not on engineering. See <a href="questions.html">open questions</a> and <a href="flagged.html">flagged items</a>.</p>
+<h2>The window</h2>
+<div class="tw"><table data-rows="3"><thead><tr><th>Date</th><th>Games</th><th>Tip window (ET)</th><th>Verified against</th></tr></thead><tbody><tr><td>2026-11-14</td><td>5</td><td>7:00 PM – 8:00 PM</td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener">nba.com/games?date=2026-11-14</a></td></tr><tr><td>2026-11-15</td><td>9</td><td>1:00 PM – 9:00 PM</td><td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener">nba.com/games?date=2026-11-15</a></td></tr><tr><td>2026-11-16</td><td>8</td><td>7:00 PM – 9:00 PM</td><td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener">nba.com/games?date=2026-11-16</a></td></tr></tbody></table></div><p class="note">11/13 is deliberately absent: those games were in progress while this build ran, so results stop at 11/12 (E-F-11).</p>
+<h2>How to read a number here</h2>
+<p>Every table row ends in a source. A dash (—) means the value was not verifiable and was left blank
+rather than estimated; hovering it says so. <code>data/integration/model.json</code> is the single artefact
+these pages render, so a row that looks wrong can be traced to the line of <code>integrate/engine.py</code>
+that produced it.</p>
+
+</main>
+<footer>
+<p><b>Not betting advice.</b> Lines on this site are model output from verified NBA.com results, not
+market prices; no licensed odds feed exists in this repository. Strategy results are out-of-sample
+backtests on 114 games and none of them clears the eligibility gates. Follow local law and
+responsible-gambling practice.</p>
+<p>Rebuilt by <code>python3 -m integrate.engine &amp;&amp; python3 -m integrate.build_site</code> ·
+<a href="data.html">data &amp; reproduction</a> ·
+<a href="flagged.html">flagged for review</a> ·
+<a href="../index.html">root landing</a></p>
+</footer>
+<script src="app.js"></script>
+</body></html>
