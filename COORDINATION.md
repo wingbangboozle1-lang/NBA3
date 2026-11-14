@@ -1345,7 +1345,7 @@ present.
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| I1 | Independently reproduce checks and audit decision claims, source links, model/strategy gates, and release scope; publish new defects as review flags without inventing values | in progress | `COORDINATION.md` (log only), `tools/release_audit.py`, `audit/**` |
+| I1 | Independently reproduce checks and audit decision claims, source links, model/strategy gates, and release scope; publish new defects as review flags without inventing values | done — PR #35 merged | `COORDINATION.md` (log only), `tools/release_audit.py`, `audit/**` |
 
 No model/data rows will be changed unless a value can be independently verified against a cited official source. Any unsupported items will remain blank or be marked unverified and flagged. This claim is pushed before starting the audit.
 
@@ -1416,3 +1416,13 @@ This section supersedes the earlier pending-request wording where PRs have since
 | Rebase rounds | 3 (concurrent merges #17–#31 landed while this session worked); conflicts resolved keeping both sides each time; `index.html` taken wholesale from main (canonical generator; verified zero drift after `scripts/build_app.py`) |
 | CI incident observed on main | PR #23 (e40cd215) merged `pages.yml` with unresolved conflict markers; main CI failed (runs 43538502999, 43538566529); fixed by session a459dadf in PRs #29/#30 (kept both step groups) and PR #31 (build_app.py single source of truth for index.html). Not repaired by this session — a459dadf's fix landed first; recorded here for the audit trail. |
 | Carried forward | Owner decisions unchanged: 7C-F-01/02/03, F13/Q-LEG-01, CR-O1…CR-O5, canonical-site choice (Q2 — five surfaces now live: `app/`, `dash/`, `verify/pages/`, six legacy sub-sites, this summary), leaderboard rewards (Q3). PR #27 (99eabb04, `/hub/` dashboard) was still OPEN at merge time. |
+
+### I1 final delivery, merge and Pages verification (2026-11-14 UTC)
+
+- Audit PR [#35](https://github.com/wingbangboozle1-lang/NBA3/pull/35) was opened from `arena/c4b7b751-nba3` to `main`, passed its build check, and was squash-merged at 01:19:36Z. Main merge commit: `a48cf76b0ced91329f1496e0b4c0a3409a71ea5b`.
+- PR check/build run [43539852715](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539852715) succeeded; deployment was skipped on the PR event, as expected.
+- Post-merge main build-and-deploy run [43539907233](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539907233) succeeded, including both build and deploy jobs. Pages build/deployment run [43539906619](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539906619) also succeeded, including Jekyll build and deploy. The Pages API subsequently returned `status: built` for https://wingbangboozle1-lang.github.io/NBA3/ .
+- The audit artifacts are merged in the repository under `audit/`, including `audit/release-audit.html`, with machine-readable CSV/JSON evidence. **They are not staged at a public `/audit/` path on GitHub Pages**; the PR clearly stated this boundary. A later integration owner may publish them after reviewing the open findings and taking the shared workflow/navigation scope.
+- At the merged baseline, `audit/release-audit.json` records 148 staged HTML files and 3,421 table-body rows. Six findings remain open: RA-02 page-wide rather than row-scoped citation gate; RA-03 1,085 rows without an official link and without an explicit unverified marker (136 more without a link are flagged); RA-04 three picks beyond 72 hours; RA-05 official-capture CI is offline/static; RA-06 missing exact line-generation timestamp; RA-07 legacy GitHub-as-official classification. RA-01 is resolved by upstream workflow repair. No NBA web page or PDF was fetched by this audit, and no stored sports values were newly verified.
+
+---
