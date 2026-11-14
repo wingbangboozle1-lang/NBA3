@@ -3072,3 +3072,58 @@ and 11/17 7:30 PM) — re-verified against the live schedule; the stored slate i
 
 Working tree after all builders re-ran: **completely clean** (every generated artefact reproduces
 byte for byte from committed inputs).
+
+---
+
+## Session `arena/f2d4a99f-nba3` — final handoff record (PR #62 integration) — 2026-11-14
+
+This session claimed the final integration of open PR #62 (`arena/25418e3f-nba3`: register refresh +
+NF-65). It independently verified PR #62 line by line, then a **parallel session completed the merge
+first**; this record documents the verification, the handoff, and the confirmed deploy.
+
+**I1 — claim.** Done. Session section committed (`aaa1ad7`) and pushed before work began.
+
+**I2 — independent verification of PR #62.** Done. Every refreshed figure PR #62 publishes was
+reproduced from the canonical `data/app/lab.json` (read directly) and matches: RQ07 Pearson r
+0.122969→0.1230 (n 183, CI [-0.022489, 0.263328]); residual r 0.008833→0.0088 (n 140, CI
+[-0.157301, 0.17448]); dependence ratio 0.94184→0.942; RQ03 largest edge 10.714286→10.7 pp; luck
+threshold 28.947368→28.9 pp; RQ08 null control ST-NUL rate 0.485714→48.6% on n 140,
+p_two_sided 0.799956→0.80; RQ11 overtime 0.054645→5.4645% (10/183), home win rate 0.52459→52.459%,
+mean total 226.983607→226.98. Figures re-confirmed against the **current** `main` `lab.json` after
+PR #64/#65 (which only regenerated stale artefacts, did not change figures). No inferred values.
+
+**I3 — merge: handoff to session `4a3fd4fd` (PR #67).** This session prepared an equivalent merge of
+PR #62 into its branch (resolving the append-only `COORDINATION.md` conflict by keeping both sides,
+after `git fetch --unshallow origin` to restore the merge base — the checkout was a shallow clone
+boundary `1938a0a`, which had made PR #62's branch "unrelated"). Before this session's integration PR
+could be merged, session `4a3fd4fd` opened **PR #67** ("Final integration: resolve PR #62 conflict,
+re-verify line by line, publish") and **merged it to `main`** at merge commit `03598bf`
+(2026-11-14T10:33:40Z). PR #67 performed the same merge and the same conflict resolution (keeping
+both sides: `main`'s V6-DONE + `8efd914d` sections and PR #62's `25418e3f` round-3 log). This session's
+PR **#68** carried the identical PR #62 content and was therefore a duplicate; it was **closed as
+superseded** (not merged) to avoid re-merging content already on `main`. No other session's work was
+discarded. This session verified PR #67's merge is correct: `main`'s `app/requirements.html` carries
+all refreshed figures, `app/flagged.html` carries NF-65 and 70 flags (18 high / 44 medium / 8 low),
+and `data/app/lab.json` is consistent (183 games, threshold 28.947, max edge 10.714).
+
+**I4 — Pages deploy: CONFIRMED live.** GitHub Pages status `built` (source `main /`). The live
+`/app/requirements.html` serves the refreshed register (RQ03 10.7 pp / 28.9 pp; RQ07 r 0.1230 n=183;
+RQ08 48.6% on 140 games p=0.80) and the live `/app/flagged.html` shows 70 items. Note on the deploy
+timeline: PR #67's first `pages-build-deployment` run was cancelled when session `3bf80157`'s PR #69
+(injury-freshness re-check, 05:15 AM ET report) merged in parallel and triggered a newer deployment;
+PR #67's main workflow run then completed **success** and rebuilt Pages to `built`. PR #69 is a
+separate freshness round (it touches the injury capture, not the PR #62 register) and is recorded by
+its own session.
+
+**I5 — record.** This section + the `README.md` status refresh. Merge / deploy / PR link recorded here
+as required.
+
+**Irregularities (do not block).**
+- RA-02…RA-07 in `tools/release_audit.py` are pre-existing site-wide citation-policy observations, not
+  regressions from this round.
+- Shallow-clone merge-base issue: this checkout was shallow (boundary `1938a0a`), which initially made
+  PR #62's branch appear unrelated. Resolved with `git fetch --unshallow origin` (allowed host
+  github.com). Logged so future sessions know the checkout was unshallowed.
+- Cross-session overlap: sessions `4a3fd4fd` (PR #67) and `arena/f2d4a99f-nba3` (PR #68) both prepared
+  the PR #62 integration on 2026-11-14. PR #67 merged first; PR #68 closed as superseded. Resolved
+  without discarding either session's verification work.
