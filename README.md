@@ -5,6 +5,49 @@ support. The repository contains **multiple independently built analysis/site wo
 not a single reconciled model. This overview intentionally does not endorse any line, pick, market
 edge, correlation, ROI, or leaderboard result.
 
+## Injury-report refresh (2026-11-14 01:30 PM ET, session `arena/1823b910-nba3`)
+
+**The injury snapshot this dashboard publishes is 8h15m behind the newest official report.** The
+canonical pages show the
+[11/14/26 05:15 AM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf)
+(49 rows). The [official index](https://official.nba.com/nba-injury-report-2026-27-season/) now
+lists the November 14 reports through **1:30 PM ET**, and the
+[01:45 PM probe](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_45PM.pdf)
+returns `AccessDenied`, so 1:30 PM is the newest that exists. The
+[1:30 PM report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf)
+has **69 rows** (50 player + 19 `NOT YET SUBMITTED`).
+
+| What changed | Published (05:15 AM) | Newest (01:30 PM) |
+|---|---|---|
+| Report rows | 49 | 69 |
+| Player rows | 26 | 50 |
+| `NOT YET SUBMITTED` rows | 23 | 19 |
+| 11/14 team-games filed | 5 of 10 | 9 of 10 |
+
+Four team-games the dashboard marks `NOT_YET_DUE` have since filed: **NOP** (5 rows), **CLE**
+(8), **CHI** (7) and **MIA** (4). **MEM** is still blank, and that is correct rather than a
+defect: the league's deadline is 1:00 PM *local*, Memphis is on Central time, so its deadline is
+2:00 PM ET — after the 1:30 PM report. Four status changes also landed (Max Christie
+Questionable → Doubtful; Mikel Brown Jr. Questionable → Probable; Elijah Harkless and Isaac Jones
+Questionable → Available).
+
+**And none of it moves a number.** `scripts/strategy_lab.py` was re-run unchanged with the
+refreshed report substituted for the 04:45 AM one: **0 of 17 price fields changed across 27
+lines** and the pick list is identical. Only the absence roll-up printed beside the line changed.
+Cleveland filed with Donovan Mitchell and James Harden Questionable and Evan Mobley Out, and the
+published spread for that game is unchanged by all three.
+
+Full audit, every row linked to its official source: **`/audit_1823b910/`** —
+[overview](audit_1823b910/pages/index.html) ·
+[refresh](audit_1823b910/pages/refresh.html) ·
+[rotation impact](audit_1823b910/pages/rotation.html) ·
+[game flow](audit_1823b910/pages/gameflow.html) ·
+[repo review](audit_1823b910/pages/review.html) ·
+[questions](audit_1823b910/pages/questions.html) ·
+[suggestions](audit_1823b910/pages/suggestions.html) ·
+[flagged](audit_1823b910/pages/flags.html) ·
+[sources](audit_1823b910/pages/sources.html).
+
 ## Final integration status (2026-11-14, session arena/3bf92fcc-nba3)
 
 **Freshness re-check (2026-11-14, session `arena/3bf80157-nba3`).** The official injury-report index

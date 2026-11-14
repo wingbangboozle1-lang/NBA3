@@ -3886,6 +3886,9 @@ root-level HTML pages are staged (REVIEW: `research-dashboard.html` exists at th
 root and is not copied into the Pages artifact — pre-existing, not this session's, and logged for
 the owner).
 
+71 flags / 47 questions / 46 suggestions / 15 review findings) · RR-08 every root-level HTML is
+staged (REVIEW: `lab-vs-lab.html` is present but not staged — pre-existing, not this session's).
+
 **Verification performed.** Full local replay of the CI suite on the final tree, all green:
 `tests/test_validate_gates.py` (13), `tests/test_injury_delta.py` (3), `tests/test_capture_c.py`
 (5), `tools/check_site.py` PASS, `pipeline/tests` (29), `audit_dd1eb1f1` (13),
