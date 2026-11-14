@@ -2104,6 +2104,53 @@ failure was undiagnosable except by reproducing the step order locally. Both dri
 the diff they tripped on, so the next one is readable from the run page. This reproduces flag
 **F-19** raised by session 925439ca.
 
+### Second rebase: session 9456a8ab merged into `app/**` mid-flight
+
+While this session was integrating, `main` advanced another 21 commits and session `9456a8ab`
+merged work into **this session's claimed scope** — `app/flagged.html`, `app/injuries.html`,
+`app/lines.html`, `app/props.html`, `app/questions.html`, `app/sources.html`,
+`app/suggestions.html`, `app/summary.html`, plus `data/app/canonical.json`,
+`data/integration/model.json` and `dash/`.
+
+Rebased again. Resolutions:
+
+| File | Resolution |
+|---|---|
+| `COORDINATION.md`, `README.md` | Both sessions' content kept. In README the primary-dashboard line, main's "current numbers" line, main's PR #19 publication record and this session's flagged-page link were merged rather than one side dropped. |
+| `app/summary.html`, `data/app/canonical.json`, `index.html` | Generated — rebuilt after the rebase. |
+| `data/integration/model.json`, `dash/data/model.json`, `dash/reconciliation.html` | Regenerated (see CR-43). |
+
+Their substantive change that moved the data: **SRC-23 in `data/sources.json` was corrected** —
+the official injury report it cited was the 11/13 **05:00 PM** edition; it now cites the
+**07:30 PM ET** one, retrieved 2026-11-14. That is an improvement (the older snapshot was
+superseded), and it changed `canonical.json`, so every derived artefact was regenerated and
+committed.
+
+No content from either side was discarded.
+
 ### Deployment record
 
-_Filled in below after the merge._
+| Item | Result |
+|---|---|
+| PR | [#42](https://github.com/wingbangboozle1-lang/NBA3/pull/42) `arena/8d3d0271-nba3` → `main` |
+| Merge | `gh pr merge 42 --merge`; merged **2026-11-14T02:09:20Z**, merge commit `3e125a6326e2c4e9b0585ed44939c8f049476fe1` |
+| Post-merge CI | run [43544692319](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43544692319) (push, head `3e125a6`) — **completed success**, all 17 steps |
+| Pages | `pages-build-deployment` run [43544691194](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43544691194) success; `builds/latest` → status **`built`**, commit `3e125a6` |
+| Live checks | `/` renders the canonical landing page (27 games, 27 lines, 0 of 15 funded, 31.2 pp luck threshold, 40 questions); `/app/leaderboard.html` renders all 15 rules with gates, scores, tiers, mirror pairs and the null control; `/app/injuries.html` renders 122 rows with the split 117/5 and the freshness callout against the 08:30 PM report |
+
+**Note on how this was verified.** Runs triggered by this workspace's token cannot be read back
+(the log endpoint returns 403/EOF) and `gh workflow run` returns 403, so the two CI failures above
+were diagnosed by reproducing the step order locally. The green run that matters is the **push**
+run on `main` after the merge, which is reported above. Because that route works, the drift gates
+were also made self-diagnosing: they now print the diff they tripped on.
+
+### Status
+
+All nine tasks A1–A9 are **done**. The site is live at
+https://wingbangboozle1-lang.github.io/NBA3/ with zero broken links and every table row sourced.
+
+What is **not** done, and is not code: 40 open questions and 38 suggestions await the owner's
+choice, and none has been implemented. The decisions that actually gate progress are
+CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
+CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
+scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
