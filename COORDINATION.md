@@ -1007,7 +1007,7 @@ builds with no broken links, then open a PR to `main`, merge, and verify the Git
 | I-1 | Full rebuild + check suite on merged state (all unit tests, all site builders, drift checks, link checks) | done | arena/3bf92fcc-nba3 | no file edits (verification only) |
 | I-2 | Line-by-line re-verification of combined data vs official sources (schedule, injuries, ratings spot-checks) | done | arena/3bf92fcc-nba3 | COORDINATION.md log only |
 | I-3 | Verify/resolve carried-forward cross-session irregularities that do NOT need owner decisions (Miami `CLE@MIA` injury matchup; anything falsified) | done — RESOLVED | arena/3bf92fcc-nba3 | `data/injuries.json` NOT modified (verified correct as-is) |
-| I-4 | Shared-output refresh: root `index.html` status + README final-state note | done | arena/3bf92fcc-nba3 | `executive-summary.html` (new), `index.html` (nav link + stale hero corrected), `README.md`, `.github/workflows/pages.yml` (artifact staging only) |
+| I-4 | Shared-output refresh: root `index.html` status + README final-state note | done (revised after rebase — see I-4 note) | arena/3bf92fcc-nba3 | `executive-summary.html` (new), `README.md` (final-state block + table row), `.github/workflows/pages.yml` (artifact staging line only) |
 | I-5 | PR to `main`, merge, confirm Pages deploy, record PR link + merge result here | in progress | arena/3bf92fcc-nba3 | COORDINATION.md, PR |
 
 Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessions' scopes touched.
@@ -1045,7 +1045,16 @@ Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessi
 
 ### I-4 · Shared outputs updated
 
-- New: `executive-summary.html` (repo root) — consolidated current-state summary; every number linked to its data file or official source; internal-link check passes (97 links, 0 broken).
-- Root `index.html`: one nav link added (first position) + stale hero corrected (facts above). In-page link check passes (23 links, 0 broken).
-- `README.md`: final-integration status block + site table row for `/executive-summary.html`.
+- New: `executive-summary.html` (repo root) — consolidated current-state summary; every number linked to its data file or official source; internal-link check passes (106 links, 0 broken).
+- `README.md`: final-integration status block + site-table row for `/executive-summary.html`.
 - `.github/workflows/pages.yml`: `cp executive-summary.html _pages/` added to artifact staging so the page is served. No check steps changed.
+- **I-4 note (revised after concurrent merges):** while this session worked, five more sessions merged
+  (2e50a71a #17/#18, 3655c68d #20/#22, 2b9f1ae1 #19) and three more PRs opened (#21 fa03eba6, #23 e40cd215,
+  #24 d01ae7e2). This branch was rebased onto `origin/main` @ `3367762`; conflicts in `COORDINATION.md`,
+  `README.md`, `index.html` and `pages.yml` were resolved by keeping both sides, and `index.html` was taken
+  **wholesale from main** (the canonical generated dashboard from 2b9f1ae1) — the stale-hero correction this
+  session had made to the old hand-maintained dashboard is superseded by that canonical rebuild. The
+  consolidated summary was then reconciled with the FX fixes from 3655c68d (parlay maths FX-01: joint 0.3832
+  at ρ=0.3, fair decimal 2.61; pick spread labels FX-02: 22/22 corrected, example now DEN −8.6; moneyline
+  caveat on STRAT1/2 ROI) and with the 7:30 PM injury report captured by 2b9f1ae1. Zero drift after
+  `scripts/build_app.py`, `verify/build.py` and all site rebuilds.
