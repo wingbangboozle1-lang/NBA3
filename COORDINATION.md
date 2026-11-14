@@ -1300,3 +1300,32 @@ python3 d01ae7e2/scripts/verify.py           # exit 0 = all checks pass
 Expected: `All verification checks passed.` Every pick row carries 6 source links; every HTML
 table row carries an inline official-NBA source link; nulls require an adjacent flag.
 Workstream-scope only — it does not vouch for other sessions' artifacts (see README cautions).
+
+---
+
+## Session `arena/c4b7b751-nba3` — post-merge source and decision-safety audit
+
+Branch: `arena/c4b7b751-nba3` (Arena-assigned active branch; base `3367762bd0602b6ae78ff16ad67b06ab8481da42`).
+This workspace is fixed to the assigned branch. The initial status was clean, and `origin/main` was at the
+same commit as this branch. Existing session records above are historical; no active in-progress claim was
+present.
+
+### Claim (2026-11-14 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| I1 | Independently reproduce checks and audit decision claims, source links, model/strategy gates, and release scope; publish new defects as review flags without inventing values | in progress | `COORDINATION.md` (log only), `tools/release_audit.py`, `audit/**` |
+
+No model/data rows will be changed unless a value can be independently verified against a cited official source. Any unsupported items will remain blank or be marked unverified and flagged. This claim is pushed before starting the audit.
+
+---
+
+
+
+### Coordination update after rebase
+
+On 2026-11-14, after the claim was pushed, `origin/main` advanced through PR #23 and PRs #21, #24, and #25 were open. PR #25 owns the shared `README.md`, root `index.html`, `.github/workflows/pages.yml`, `executive-summary.html`, and coordination integration notes; PR #24 and #21 have overlapping data/pipeline scopes. To avoid conflicts, this session will not edit those files or any claimed data/model files. The audit is narrowed to a new standalone checker and report. A rebase conflict occurred only because PR #23 appended its integration findings to this shared board while the claim commit appended this session; both sections were retained.
+
+### Request logged for the integration owner
+
+Please keep the workflow step for `scripts/capture_official_2026_11_14.py` clearly labeled as an offline, hard-coded snapshot comparison, not as a live re-fetch or independent verification of the official NBA source. This session found that the script writes fixed transcription constants and the CI job reruns those constants; it cannot establish current source freshness. No change to the workflow is made here because PR #25 owns that file.
