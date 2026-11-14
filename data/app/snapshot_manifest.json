@@ -48,15 +48,20 @@
   "retrieved_stamp": "2026-11-14T09:45Z"
  },
  "injuries": {
-  "path": "data/app/official_injuries_2026-11-14_0415AM.json",
-  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
-  "report_stamp": "2026-11-14 04:15 AM ET",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "path": "data/app/official_injuries_2026-11-14_0130PM.json",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+  "report_stamp": "2026-11-14 01:30 PM ET",
+  "retrieved_stamp": "2026-11-14T19:05Z",
+  "supersedes": "data/app/official_injuries_2026-11-14_0415AM.json",
+  "reconciliation": "session_a399d8a9/data/reconciliation_2026-11-14.json",
+  "freshness_gate": "session_a399d8a9/data/freshness_gate.json",
+  "note": "Re-pointed by session a399d8a9 because the published snapshot was the pre-dawn report on a game-day slate. CQ-47 asked whether to move to the 04:45 AM stamp; this answer supersedes that question \u2014 the newest official report at 18:47Z is 1:30 PM ET, and it is the one every downstream artefact now reads."
  },
  "superseded": {
   "ratings": "data/app/official_team_ratings_2026-11-14b.json",
-  "injuries": "data/app/official_injuries_2026-11-13_0745PM.json",
-  "reason": "The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row."
+  "injuries": "data/app/official_injuries_2026-11-14_0415AM.json",
+  "reason": "The injury overlay was the 11/14 04:15 AM ET report. Session a399d8a9 re-read the official index on 2026-11-14 at 18:47Z and found reports through 1:30 PM ET; the 04:15 AM stamp is nine hours behind the newest official report and eight of the ten 11/14 teams had not filed on it. The ratings and results entries in this block are unchanged by this session.",
+  "injuries_previous_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
  },
  "checks": {
   "C1_gp_w_l_reconcile": true,
@@ -185,5 +190,7 @@
   "2026-11-16": 8,
   "2026-11-17": 5
  },
- "november_official_total": 215
+ "november_official_total": 215,
+ "manifest_session": "arena/a399d8a9-nba3",
+ "manifest_written": "2026-11-14T19:05Z"
 }

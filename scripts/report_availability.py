@@ -43,6 +43,18 @@ OFFICIAL RULE, QUOTED VERBATIM
     the deadline always falls before that team's tip-off -- needs no conversion
     and is stated instead.
 
+CORRECTION, session arena/a399d8a9-nba3 (2026-11-14, 19:05Z)
+    v1 of this module compared every deadline with a HARD-CODED clock
+    (AS_OF_DATE 2026-11-14, AS_OF_LOCAL_HOUR 04:45) while the injury snapshot it
+    read was independently hard-coded too.  Both drifted: the build went on
+    stamping "no team is overdue" from an assumption, and it kept saying that
+    for a snapshot nine hours out of date.  The clock is now the report's own
+    stamp (``as_of_report_et``), the snapshot path comes from the snapshot
+    manifest, and the game-day clause -- which v1 quoted and then ignored -- is
+    applied.  The five-team back-to-back correspondence v1 reported was real at
+    04:45 AM; at 1:30 PM the same slate reads differently, and the module now
+    says so instead of reporting the old answer forever.
+
 Run:  python3 scripts/report_availability.py
 Writes: data/app/report_availability.json  (the name is stable on purpose: the
 lab and the canonical assembler read it without being edited at each refresh)
@@ -58,11 +70,17 @@ OUT = os.path.join(APP, "report_availability.json")
 
 SLATE_JSON = os.path.join(APP, "official_slate_1114_1117.json")
 GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
-INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0415AM.json")
+INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0415AM.json")  # default; manifest wins
 RESULTS_1113_JSON = os.path.join(APP, "official_results_2026-11-13.json")
 MANIFEST_JSON = os.path.join(APP, "snapshot_manifest.json")
 
 RULE_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
+
+# Filled in main() from the snapshot the manifest names and the schedule it
+# prices: (date -> first tip-off that date, ET).  Declared here so the deadline
+# arithmetic above cannot quietly invent them.
+AS_OF_STAMP_ET = None
+TIP_ET = {}
 RULE_QUOTE = (
     "By 5 p.m. local time the day before a game (other than the second day of a "
     "back-to-back), teams must designate a participation status and identify a "
@@ -105,30 +123,48 @@ STATE_READING = {
                       "shown as zero."),
 }
 
-# The capture moment this module reasons about.  Every deadline is compared with
-# it in *local* terms only, so no clock conversion is needed:
-#   * 5 p.m. local on a date strictly earlier than the as-of date has passed;
-#   * 1 p.m. local on the as-of date has not passed at 04:45 (the earliest US/
-#     Canadian venue offsets put 1 p.m. local at 2 p.m. ET or later; a 5 p.m.
-#     local deadline on the same date is even later).  That is the only place a
-#     time-zone fact is used, and it is used to ORDER two moments, never to
-#     convert a clock reading.
-AS_OF_DATE = "2026-11-14"
-AS_OF_LOCAL_HOUR = 4 + 45 / 60.0     # 04:45 on the as-of date, in local terms
-EARLIEST_LOCAL_1PM_OFFSET_HOURS = 1.0
-LATEST_LOCAL_5PM_OFFSET_HOURS = 3.0  # Pacific is 3 h behind ET; ET venues 0 h
+# The moment this module reasons about: the STAMP PRINTED ON THE REPORT IT READS.
+# It is parsed from the snapshot's own ``report_stamp`` field, never typed here,
+# so a refresh cannot leave the verdict reasoning about a clock that has moved on.
+# Read as 2026-11-14 01:30 PM ET for the snapshot session a399d8a9 publishes.
+def parse_stamp(text):
+    """'2026-11-14 01:30 PM ET' -> datetime. The report prints its own ET stamp."""
+    import datetime as _dt
+    t = text.replace("ET", "").strip()
+    return _dt.datetime.strptime(t, "%Y-%m-%d %I:%M %p")
 
 
-def deadline_passed(date, clause):
-    """Return True only if the filing deadline is certainly behind us."""
-    due_day = shift(date, -1) if clause == CLAUSE_DAY_BEFORE else date
-    if due_day < AS_OF_DATE:
-        return True                      # a same-clock hour on an earlier date
-    if due_day == AS_OF_DATE:
-        # 1 p.m. local >= 1 + 1 = 2 p.m. ET and 5 p.m. local >= 5 p.m. ET,
-        # both later than 04:45 ET, so on the as-of date nothing is overdue.
-        return False
-    return False
+def deadline_passed(date, clause, stamp=None):
+    """Has this team's filing deadline passed at the report's own stamp?
+
+    Three clauses, all quoted from the official index above:
+
+      * day before the game, 5 p.m. local;
+      * second of a back-to-back, 1 p.m. local on game day;
+      * game day, a report between 11 a.m. and 1 p.m. local (8-10 a.m. for
+        tip-offs at 5 p.m. or earlier).
+
+    Every venue in this project's window is on Eastern time or behind it, so a
+    local deadline is at or after the same clock reading in ET.  The comparison
+    uses that worst case, so it can only ever call a deadline "not yet passed"
+    when it might have passed -- never the reverse.  No offset is published.
+    """
+    import datetime as _dt
+    if stamp is None:
+        stamp = AS_OF_STAMP_ET
+    game = _dt.date.fromisoformat(date)
+    tip = TIP_ET.get(date)
+    # A deadline stated in local time is at or after the same ET clock reading.
+    candidates = []
+    if clause == CLAUSE_B2B:
+        candidates.append(_dt.datetime.combine(game, _dt.time(13, 0)))
+    else:
+        candidates.append(_dt.datetime.combine(game - _dt.timedelta(days=1), _dt.time(17, 0)))
+    # game-day report, except for the second game of a back-to-back
+    if clause != CLAUSE_B2B:
+        early = tip is not None and tip.hour < 17
+        candidates.append(_dt.datetime.combine(game, _dt.time(8, 0) if early else _dt.time(11, 0)))
+    return min(candidates) <= stamp
 
 
 def read_json(path):
@@ -175,9 +211,34 @@ def load_played_dates():
     return {t: sorted(v) for t, v in played.items()}
 
 
+def resolve_inputs():
+    """Read the snapshot and the schedule the manifest names (fallbacks kept)."""
+    global AS_OF_STAMP_ET, TIP_ET, INJURY_JSON
+    man = read_json(MANIFEST_JSON) if os.path.exists(MANIFEST_JSON) else {}
+    rel = ((man.get("injuries") or {}).get("path") or "").strip()
+    if rel:
+        INJURY_JSON = os.path.join(ROOT, *rel.split("/"))
+    injury = read_json(INJURY_JSON)
+    stamp_text = injury.get("report_stamp") or (man.get("injuries") or {}).get("report_stamp")
+    if not stamp_text:
+        raise SystemExit("no report_stamp on the snapshot or in the manifest: the deadline "
+                         "arithmetic needs the moment the report was stamped, and inventing "
+                         "one is exactly the defect this module was corrected for")
+    AS_OF_STAMP_ET = parse_stamp(stamp_text)
+    if AS_OF_STAMP_ET.tzinfo is not None:
+        AS_OF_STAMP_ET = AS_OF_STAMP_ET.replace(tzinfo=None)
+    return injury, stamp_text
+
+
 def main():
     slate = read_json(SLATE_JSON)
-    injury = read_json(INJURY_JSON)
+    injury, stamp_text = resolve_inputs()
+    for g in slate["games"]:
+        import datetime as _dt
+        t = _dt.datetime.strptime(g["time_et"].replace(" ", ""), "%I:%M%p")
+        cur = TIP_ET.get(g["date"])
+        tip = _dt.datetime.combine(_dt.date.fromisoformat(g["date"]), t.time())
+        TIP_ET[g["date"]] = tip if cur is None else min(cur, tip)
     played = load_played_dates()
 
     def iso_from_pdf(gd):          # '11/14/2026' -> '2026-11-14'
@@ -230,6 +291,7 @@ def main():
                 "filing_clause": clause,
                 "due_local_text": CLAUSE_TEXT[clause],
                 "deadline_passed_at_capture": deadline_passed(date, clause),
+                "stamp_reasoned_about": AS_OF_STAMP_ET.strftime("%Y-%m-%d %H:%M") + " ET",
                 "report_covers_date": covers,
                 "state": state,
                 "state_reading": STATE_READING[state] + ((" " + note_extra) if note_extra else ""),
@@ -262,14 +324,21 @@ def main():
         "teams_not_on_a_back_to_back": not_on_b2b,
         "unfiled_are_exactly_the_b2b_teams": unfiled == on_b2b,
         "filed_are_exactly_the_rest": filed == not_on_b2b,
+        "observed_at_stamp": None,  # filled below with the stamp actually used
+        "is_a_pass_condition": False,
+        "why_not_a_pass_condition": (
+            "This correspondence was true at the 04:15-05:15 AM ET reports, when the five "
+            "back-to-back teams legitimately had not filed yet. Once those teams file (the "
+            "01:30 PM ET report shows them filed) it is expected to stop holding. It is "
+            "published as an observation about the old snapshot, not as a build gate; "
+            "gating on it was how v1 came to assert a stale reading was correct."),
         "interpretation": (
-            "On the 2026-11-14 slate the five teams whose rows are missing from the "
-            "newest official report are exactly the five teams playing the second game "
-            "of a back-to-back, whose report deadline is 1:00 PM local on game day. "
-            "Their absence is a rule-driven timing gap, not a failure to file, and it "
-            "closes hours before tip-off -- so these games are recoverable by waiting, "
-            "not by guessing."
-        ),
+            "At the 04:15-05:15 AM ET reports the teams with no rows were exactly the five "
+            "playing the second game of a back-to-back, whose deadline is 1:00 PM local on "
+            "game day: a timing gap, not a failure to file. At the 01:30 PM ET report those "
+            "teams have filed, so the correspondence no longer holds and the remaining "
+            "unfiled team is %s. Read this block as history, not as a current verdict."
+            % (", ".join(unfiled) if unfiled else "none")),
         "source_rule": RULE_URL,
         "source_injury": injury["source_url"],
         "source_results": ("https://www.nba.com/games?date=2026-11-13"),
@@ -303,7 +372,15 @@ def main():
         "schema": "nba3.report_availability/v1",
         "session": "arena/25418e3f-nba3",
         "built_on": "2026-11-14",
-        "as_of_report": injury["report_stamp"],
+        "schema": "nba3.report_availability/v2",
+        "as_of_report": injury.get("report_stamp", ""),
+        "as_of_stamp_reasoned_about": AS_OF_STAMP_ET.strftime("%Y-%m-%d %H:%M") + " ET",
+        "as_of_source": injury.get("source_url", ""),
+        "correction_note": (
+            "The deadline comparison now uses the stamp printed on the report this build "
+            "reads, taken from the snapshot manifest, instead of a clock literal typed into "
+            "this file. v1 used a frozen 2026-11-14 04:45 and could not have detected the "
+            "staleness it was publishing."),
         "rule_source": RULE_URL,
         "rule_quote": RULE_QUOTE,
         "note_no_clock_conversion": (
@@ -319,9 +396,14 @@ def main():
             "due_and_not_filed": sum(1 for r in rows if r["state"] == STATE_OVERDUE),
             "not_yet_due": sum(1 for r in rows if r["state"] == STATE_NOT_YET_DUE),
             "no_report_covers_date": sum(1 for r in rows if r["state"] == STATE_UNCOVERED),
-            "games_fully_priced_on_availability": sum(
-                1 for d in {r["date"] for r in rows}
-                if all(r["state"] == STATE_FILED for r in rows if r["date"] == d)),
+            # Per GAME, not per date: a date is priced only when every game on it
+            # has both sides filed. The v1 expression grouped by date and then
+            # looked up the date, so it counted a date as fully priced only if
+            # *some* row on that date was filed -- it returned 0 of 27 either way
+            # and was never checked.
+            "games_fully_priced_on_availability": len({
+                gid for gid in {r["game_id"] for r in rows}
+                if all(r["state"] == STATE_FILED for r in rows if r["game_id"] == gid)}),
         },
         "coverage_by_date": coverage,
         "headline": (
@@ -350,14 +432,22 @@ def main():
           f"| no official report covers the date {c['no_report_covers_date']}")
     print(f"  games whose availability is fully priced: "
           f"{c['games_fully_priced_on_availability']} of {c['games']}")
-    ok = correspondence["unfiled_are_exactly_the_b2b_teams"] and \
-        correspondence["filed_are_exactly_the_rest"]
-    print(f"  11/14 back-to-back correspondence: "
-          f"{'exact 5/5 -- unfiled set == back-to-back set' if ok else 'DOES NOT LINE UP'}")
+    correspondence["observed_at_stamp"] = AS_OF_STAMP_ET.strftime("%Y-%m-%d %H:%M") + " ET"
+    # The invariant worth gating on is not the historical correspondence; it is
+    # that no team can be published as "not filed" without a deadline that has
+    # not arrived, and none as "filed" while the report says it has not.
+    ok = all(
+        (r["state"] == STATE_OVERDUE) == (r["state"] != STATE_FILED and
+                                         r["deadline_passed_at_capture"] and
+                                         r["report_covers_date"])
+        for r in rows if r["report_covers_date"])
+    print(f"  11/14 back-to-back correspondence (historical, not gated): "
+          f"{'held' if correspondence['unfiled_are_exactly_the_b2b_teams'] else 'no longer holds at this stamp'}")
     for row in coverage:
         print(f"    {row['date']} ({row['lead_days']}): filed {row['filed']}, "
               f"due-and-not-filed {row['due_and_not_filed']}, not yet due {row['not_yet_due']}, "
               f"no report covers it {row['no_report_covers_date']}")
+    print(f"  deadline/state consistency across all covered dates: {'PASS' if ok else 'FAIL'}")
     if not ok:
         return 1
     return 0

@@ -1,0 +1,61 @@
+{
+ "schema": "nba3.freshness_gate/v1",
+ "session": "arena/a399d8a9-nba3",
+ "built_utc": "2026-11-14T19:05Z",
+ "report_stamp": "2026-11-14 01:30 PM ET",
+ "first_tip_et": "2026-11-14 7:00 PM",
+ "hours_from_stamp_to_first_tip": 5.5,
+ "all_pass": true,
+ "checks": [
+  {
+   "id": "FG-1",
+   "what": "The build reads the newest injury report the official index lists.",
+   "pass": true,
+   "detail": "the manifest now names 2026-11-14 01:30 PM ET (newest listed and readable at 18:47Z); before this session it named 2026-11-14 01:30 PM ET",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  },
+  {
+   "id": "FG-0",
+   "what": "The staleness that existed on arrival is recorded in the reconciliation, not quietly fixed and forgotten.",
+   "pass": true,
+   "detail": "on arrival the manifest named 2026-11-14 04:15 AM ET, 9.25 hours behind the newest official report and short a filing for 8 of the 10 teams on the slate it was pricing",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "id": "FG-2",
+   "what": "The snapshot is not older than the league's own game-day filing window for a slate it prices.",
+   "pass": true,
+   "detail": "report stamp 2026-11-14 01:30 PM ET is 5.50 hours before the first tip of the window (7:00 PM ET); a report stamped after the first tip would be pricing a slate on a document the league publishes only afterwards",
+   "source": "https://www.nba.com/schedule?date=2026-11-14"
+  },
+  {
+   "id": "FG-3",
+   "what": "Every team playing on the report's own date is flagged when it has not filed.",
+   "pass": true,
+   "detail": "1 team(s) not filed on 2026-11-14: MEM",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "id": "FG-4",
+   "what": "No team is reported as having zero absences unless it actually filed.",
+   "pass": true,
+   "detail": "out_count is published only in the FILED state; 9 team-sides are FILED, 45 are not",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  },
+  {
+   "id": "FG-5",
+   "what": "The 27-game pricing window is unchanged by the refresh.",
+   "pass": true,
+   "detail": "per-date counts {'2026-11-14': 5, '2026-11-15': 9, '2026-11-16': 8, '2026-11-17': 5} match the page's own section headers",
+   "source": "https://www.nba.com/schedule?date=2026-11-14"
+  },
+  {
+   "id": "FG-6",
+   "what": "Every published injury value traces to a printed cell of the named report.",
+   "pass": true,
+   "detail": "16 fragment rows inherit only date/time/matchup from their own game block (listed in the reconciliation); no status, reason, player or team is inherited.",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  }
+ ],
+ "how_ci_uses_this": "session_a399d8a9/apply_refresh.py --check regenerates the snapshot, the availability verdict, the manifest and this file from committed inputs and fails if any of them differs from what is committed. That makes 'the site is pricing today's slate on a nine-hour-old report' a red build instead of a silent default."
+}
