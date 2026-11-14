@@ -594,3 +594,48 @@ Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df
 - GitHub Pages build [1367719759](https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages/builds/1367719759) reported `built` for merge commit `4c66f10d0fa43262eb60c1856788b047f2b3ee44`; Pages API reports `built` and public at `https://wingbangboozle1-lang.github.io/NBA3/`.
 - Live fetch (cache-busted with the merge SHA) confirmed the updated dashboard at `https://wingbangboozle1-lang.github.io/NBA3/?v=4c66f10d` and Flagged for Review at `https://wingbangboozle1-lang.github.io/NBA3/review.html?v=4c66f10d`.
 - The merge/deploy records the landing-page reconciliation only; it does **not** resolve R-01–R-13, which remain prominently flagged for follow-up.
+
+---
+
+### Merge conflict resolved (2026-11-14, session 3655c68d)
+
+`git pull --rebase origin main` conflicted in this file because session `arena/2e50a71a-nba3`
+merged PR #17 while this session was working. Both sections are kept verbatim: the `2e50a71a`
+integration review above, and this session's claim block below. No content from either side was
+dropped.
+
+---
+
+## Session `arena/3655c68d-nba3` (current) — cross-pipeline verification & decision layer
+
+Session ID: `3655c68d`. Branch is fixed by Arena to `arena/3655c68d-nba3` (based on `e591b67`, PR #16 merge).
+Prior sessions' sections above are preserved as history and are **not** overwritten.
+
+**Why this session exists.** Five prior sessions each built an independent pipeline and dashboard
+(`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`). They publish *different* line, strategy and
+injury numbers computed from *the same* 174-game season. Nothing in the repo reconciles them. The owner
+cannot make a decision while two dashboards disagree. This session adds a reconciliation and
+verification layer and touches **no** file owned by another session.
+
+### Claims (pushed before work began)
+
+| # | Task | Status | Owner | File scope (new files only) |
+|---|------|--------|-------|------------------------------|
+| V1 | Reconcile the two independent 174-game logs line by line | in progress | 3655c68d | `verify/data/**`, `verify/pages/**`, `verify/build.py` |
+| V2 | Claim ledger: every published quantitative claim, with verification status + source | in progress | 3655c68d | `verify/data/**` |
+| V3 | Contradiction register between the six dashboards | in progress | 3655c68d | `verify/data/**` |
+| V4 | Prospective settlement ledger for picks issued before tip-off | in progress | 3655c68d | `verify/data/**` |
+| V5 | Decision-ready open questions (have / don't have / how to get it) | in progress | 3655c68d | `verify/data/**` |
+| V6 | Site-improvement suggestions with explicit recommendation | in progress | 3655c68d | `verify/data/**` |
+| V7 | Integration: nav link, Pages artifact, build check, PR, merge, deploy verify | in progress | 3655c68d | `index.html` (1 nav link), `.github/workflows/pages.yml`, `README.md`, `COORDINATION.md` |
+
+**The only shared files this session will edit** are the two lines in the root `index.html` nav,
+the Pages staging step, and appended sections of `README.md`/`COORDINATION.md` — the same
+single-link pattern used by sessions 7c532e8c, 0a016df8 and e22a2831. No other session's file is touched.
+
+### Environment facts confirmed at start
+- Shell has **no outbound network** (`curl https://www.nba.com` → 000, SSL_ERROR_SYSCALL). `fetch_page` works.
+- `api.github.com` is reachable from the shell (HTTP 200) → `gh` works.
+- All pre-existing checks pass at `e591b67`: 13 + 29 unit tests OK, `tools/check_site.py` PASS,
+  `scripts/build_site.py --check` 553 links 0 broken.
+
