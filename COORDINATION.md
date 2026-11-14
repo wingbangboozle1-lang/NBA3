@@ -2393,3 +2393,33 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 | Post-merge on `main` (`fd2070a`) | Push run [43582052571](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582052571): build and deploy **success**. Pages `builds/latest` → `built`, commit `fd2070a`. |
 | Open items | F26-01 … F26-08 on `audit26/flagged.html`; CR-26fd5f6f-A to session 53653a5c. None blocks anything. Next check due before any 11/14 pick: the 11 a.m.–1 p.m. ET game-day injury report. |
 | Merged PRs from this session | #49 (audit26 + records), #51 (record), #52 (red-main fix), #53 (incident record), and this record PR. |
+---
+
+## Session `arena/f80f0688-nba3` — claim: repair canonical build drift and ownership audit
+
+**Session:** `f80f0688` · **Branch:** `arena/f80f0688-nba3` (Arena-assigned, fixed) · **Base:** `8b498875` (origin/main, PR #51). No open PRs were present at this claim. The prior broad final-audit claim overlapped with merged sessions `26fd5f6f` and `44e0c051`; it is superseded here. No files in their scopes were edited.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F80-1 | withdrawn as superseded — session `26fd5f6f` completed PR #52, making the `44-F-*` records reproducible and restoring the main CI build | `f80f0688` | no files touched; see PR #52 |
+| F80-2 | implemented — the workflow AST audit checks the actual `OUT` assignment and writer path; the historical `site/data/` docstring is not treated as an output | `f80f0688` | `.github/workflows/pages.yml` |
+| F80-3 | local verification passed; PR, merge and post-merge Pages verification pending | `f80f0688` | workflow check and integration record in this section |
+
+### Why this claim is non-overlapping
+
+- PRs #47–#54 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and reproducible canonical `44-F-01…44-F-03` records.
+- The two failures [43581671552](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581671552) (main) and [43581647670](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581647670) (PR #50) were both at **“Assemble canonical dataset and build the dashboard”**. Session `26fd5f6f` resolved the generator drift in PR [#52](https://github.com/wingbangboozle1-lang/NBA3/pull/52); the main run [43581910516](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581910516) now reports success.
+- F80-1 was withdrawn as soon as that overlapping repair merged; no canonical data, model, injury capture, slate, or page files were changed by this session.
+- F80-2 is a separate non-failing warning from the workflow's string-search audit. `pipeline/build_site_data.py` documents a past `site/data/` write in its docstring but sets `OUT` to `edge/data/`; the current audit mistakes that historical comment for a live output path.
+
+### Local verification — session f80f0688
+
+- Output-tree audit reproduced the intended result: `pipeline/build_site_data.py` writes through `OUT` to `edge/data/`; the old `site/data/` text is only a docstring and no longer raises an ownership warning. The new audit fails closed if the top-level `OUT` assignment or writer target changes.
+- All five test groups passed: 13 statistics tests, 29 research-pipeline tests, 16 verification tests, 3 injury-delta tests, and 7 release-audit tests. The verification suite emits pre-existing Python `ResourceWarning`s for unclosed files, but all tests pass.
+- Data/site validators passed, including the 17-page dashboard check (1,586 links; 763 table rows), the 15-page integration check (22 originated lines; 9 gates; 20 flags), and the 1,305-check official-data line-by-line verification (zero mismatches). Generated site/data drift checks passed; official captures and the seeded strategy/canonical/hub builds reproduced the committed outputs. No NBA source capture, model output, pick, or published page was changed by this fix.
+- `git diff --check` passed. The pre-existing source snapshots remain dated; this work does not claim a live data feed or profitable strategy.
+
+### Handoff / rebase log — session f80f0688
+
+- `origin/main` advanced repeatedly while the initial claim was being prepared (PRs #47–#54). The append-only `COORDINATION.md` produced conflicts on rebase; both sides' substantive sections were retained. A first conflict resolution briefly staged markers, which were detected before further work; the local claim was then rebuilt on the latest `origin/main`. On the later rebase to `6345baa` (after PR #54), the `26fd5f6f` incident/final records and the F80 claim were both preserved. No other session's files or content were removed.
+- The original broad integration and injury-page ideas overlapped with PRs #49–#52 and were withdrawn before editing those files. F80-1 is recorded as superseded by PR #52. Only F80-2 (the workflow's false-positive ownership warning) remains in this session's code scope.
