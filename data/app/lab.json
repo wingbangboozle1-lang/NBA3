@@ -7,6 +7,16 @@
    "to": "2026-11-17"
   },
   "games_captured": 183,
+  "second_capture_agreement": {
+   "canonical": "data/origin/games.csv",
+   "second_capture": "data/app/games_2026-11-14c.csv",
+   "rows_canonical": 183,
+   "rows_second": 183,
+   "identical": true,
+   "detail": [
+    "two sessions extended data/origin/games.csv and data/app/games_2026-11-14c.csv independently from the official scoreboard; the row sets agree exactly, including game id, both scores and the overtime flag. Row order differs (each file appends where it likes); the engine sorts by date and game id, so order is not a finding."
+   ]
+  },
   "oos_games": 140,
   "burn_in": 40,
   "seed": 20261114,
