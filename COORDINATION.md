@@ -1913,3 +1913,17 @@ https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pd
 * Uncertainty (unchanged): 11/15–11/17 injury rows remain "not published yet" placeholders — the official
   injury index had no Nov 14+ section as of 01:16 UTC; 10 ledger rows for 16 Nov still lack an official game id;
   Q-01/Q-02/Q-03/Q-05/Q-06 open.
+
+### W4 ship record — final
+
+| Item | Result |
+|---|---|
+| PR | [#43](https://github.com/wingbangboozle1-lang/NBA3/pull/43) `arena/9456a8ab-nba3` → `main`, merged 2026-11-14 (PR #21 + #26 content, official 07:30 PM correction set, regenerated outputs) |
+| Post-merge CI | first run failed at the `hub/` drift step (missed by the local runner) → [#44](https://github.com/wingbangboozle1-lang/NBA3/pull/44) regenerated `hub/` + `data/hub/dashboard.json` and added T15 to the runner; merged as `ee8e26a` |
+| CI on `ee8e26a` | run [43543752319](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43543752319) build+deploy **success** (all steps incl. hub); run [43543751946](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43543751946) pages-build-deployment **success** |
+| Pages | live at https://wingbangboozle1-lang.github.io/NBA3/ — root canonical dashboard, `/app/injuries.html` (shows exactly the 9 corrected 05:15→07:30 status changes, each row linked to both official PDFs), `/hub/`, `/dash/`, `/executive-summary.html` all render |
+| PRs #21 / #26 | GitHub auto-marked **merged** once their heads reached `main` via #43; no work discarded (their docs records kept verbatim) |
+| PR #42 (`arena/8d3d0271-nba3`) | **left to its owner** — session was actively pushing (last commit 02:00:45Z); conflicts are theirs to rebase against the now-green `main` |
+| Local CI runner | `/tmp/run_ci_steps.sh` now covers **T1–T15** (hub step added) |
+
+W4 done: every open PR integrated or handed back, `main` green, Pages verified live.
