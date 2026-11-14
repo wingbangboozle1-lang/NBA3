@@ -2659,12 +2659,21 @@ blank); `app/lines.html`, `app/picks.html`, `app/injuries.html`, `app/gameflow.h
   seven sentences (lines ~161, 234, 472, 500, 525, 566, 594, 698). *Executed in this PR:* those
   counts now read `model.integrity.games` / `crosscheck`, and one verification row records the
   extension with its official link. `dash/` says so on its face rather than asserting a stale number.
-- **CR-25418E3F-03 → `audit36/`** (NOT executed — their scope, still open). `audit36/check.py`
-  asserts `data/origin/games.csv` has exactly 174 rows (`games_rows` 174 + the header) and prints a
-  fixed slate count; `audit36/build.py:170,207` hard-codes "174 games" in prose. Both now read false
-  against a 183-game log. Suggested fix, in their idiom: assert the 174-game span is a **subset** of
-  the canonical log and agree on it, then assert Σ official team GP = 2 × rows for the whole file;
-  derive prose counts from the artefact. This is a check that punishes correctness, not a data bug.
+- **CR-25418E3F-03 → `audit36/`** (NOT executed — their scope, still open).
+  *Correction to the text first written here:* `audit36/check.py` does **not** assert a 174-row log —
+  it reads every row of `data/origin/games.csv` and takes the standard deviation of the margins
+  (lines 171-179), so it is refresh-proof. Two real exposures remain. (1) `audit36/build.py:205`
+  states flag F36-03 in the present tense ("2026-11-13 results (9 games) not yet in the canonical
+  174-game log"); that flag is now executed, so the sentence should read as history or the page
+  should carry a "superseded by `670adce`" stamp. (2) `audit36/data/results_2026-11-14.json`
+  publishes `engine_claims` (22/22 same side favoured, median gap 1.78, max 4.44) measured against
+  the **pre-refresh** lines. Re-running `python3 audit36/check.py` today recomputes 21/22 and 3.49 —
+  because all 27 originated lines moved in this refresh, not because their arithmetic was wrong.
+  Their artefact is a dated audit, so this session did **not** commit that rewrite; it restored
+  main's file. Owner/integration choice: re-run and re-publish their audit against the 183-game
+  inputs, or leave the dated file and add the "measured before the 2026-11-14 refresh" caption.
+  Also for them: re-running `audit36/check.py` writes into their own results path, so any session
+  that runs it dirties `audit36/` — worth a `--dry-run` flag.
 
 **Hand-off facts worth inheriting.** (1) `stats.nba.com` endpoints time out from this workspace;
 `www.nba.com` and `ak-static` pages are reachable. (2) The 11/14 04:15 AM report contains **no**
@@ -2673,3 +2682,48 @@ a 3-day-ahead availability feature expecting it to exist. (3) `data/app/official
 must record *when* it was read: the 01:05Z file is a mid-slate read (18 teams −1 GP). (4) Do not
 re-run `python3 scripts/model.py > data/integration/model.json` - the drift gate fails on float
 last bits; the publishable rounding is `PUBLISH_DP = 6` in `scripts/model.py`.
+
+### Log: session `25418e3f` — round 2 (presentation, provenance, two change requests) — 2026-11-14
+Follows PR #59 (merged as `86ab132`; CI 29/29 steps green, Pages live — verified by reading
+`https://wingbangboozle1-lang.github.io/NBA3/app/freshness.html`, not by trusting the deploy status).
+
+**Site, presentation only — no published number changes.** Implementing three suggestions this
+session filed, each recorded as self-approved in the register with CQ-46 asking whether that is the
+right standing rule: **CS-39** (a "Re-price after (local clock)" column on the picks table, read from
+`data/app/report_availability.json`, so a `PARTIAL_REPORT_NOT_DUE_YET` chip names the deadline it is
+waiting for); **CS-41** (every page header carries an availability badge derived from the artefact —
+"official report filed for 5 of 54 team-sides · 11/14 5/10 · 11/15 0/18 · 11/16 0/16 (no report
+covers this date) · 11/17 0/10 (no report covers this date)" — amber while any side is owed a
+report); **CS-42** (the picks page now *leads* with "0 of 15 rules funded and 0 provisional, so no
+game in this window is a selection").
+
+**Defect found and fixed in this session's own output (NF-63, medium).** The capture-chain table on
+`app/freshness.html` reused one generic "why it was replaced" sentence for all four inputs and
+printed a row count where an artefact name belonged — so the published page implied the injury
+report had been superseded for the same mid-slate reason the ratings file had. The figures were
+right, the attribution was not. The table is now four explicit rows copied from
+`data/app/snapshot_manifest.json`. Flagged rather than silently rewritten because the wrong version
+was live for roughly half an hour.
+
+**Provenance correction.** `data/app/lab_snapshot_2026-11-14T0105Z.json` carried a malformed
+`git_commit` (`…a2ac111432`, resolving to no object). Corrected to `57762d51e91ecffd976efb5ffb0c490a2ac11bc2`
+and the file records *how* that was verified: `git rev-parse <commit>:data/app/lab.json` returns the
+`git_blob_sha1` stored beside it and `git show <commit>:data/app/lab.json | sha256sum` returns the
+stored `sha256`. Nothing was inferred — this is a check, not a guess.
+
+**CS-44 raised and implemented as option B.** `app/assets/app.css` is hand-maintained inside a tree
+`scripts/build_app.py` otherwise rebuilds; the header badge needed two new classes, which made the
+gap visible. The builder now fails the build if the stylesheet stops defining a class the emitted
+pages use (verified by breaking a class name and watching `BUILD FAILED` name it).
+
+**Change requests, not edits (other sessions' scope).**
+- **CR-25418E3F-04 → the other site trees (`lab/`, `research/`, `dashboard/`, `hub/`, `dash/`)**:
+  CS-40's recommended option B — freeze the superseded trees with a dated banner at the top of each
+  page. Root `index.html` already carries an "Earlier dashboards (kept for audit, not current)"
+  section, so this is the per-tree half of the same fix. It needs their builders.
+- **CR-25418E3F-05 → `scripts/capture_official_2026_11_14.py` and `_11_14b.py`**: CS-43's recommended
+  option A — promote the official per-date game count into each capture script as a standing check
+  (this session's `capture_official_2026_11_14c.py` check C6 is the template: 5/9/8/5 = 27, and it
+  is what caught that the stored slate was right while nothing else was checking it).
+
+**Registers after this round:** 66 flags / 46 questions / 44 suggestions / 39 sources.

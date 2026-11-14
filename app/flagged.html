@@ -11,7 +11,8 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -27,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 65 items: 18 high, 42 medium, 5 low severity.
+<em>decisions</em>. 66 items: 18 high, 43 medium, 5 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -713,6 +714,17 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-63</td>
+<td>Site</td>
+<td>The Report-availability page published a capture-chain table whose &quot;why it was replaced&quot; cell was one generic sentence reused for every input, and whose &quot;artifact&quot; column printed a row count where a file name belongs. A reader could conclude the injury report and the ratings file were superseded for the same reason (a mid-slate read), which is true of the ratings file only. The numbers in the cells were correct; the attribution was not.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Fixed in this round: the chain table is now built from four explicit rows, each with its own read-at stamp, artefact name, superseded artefact, cause, and the manifest path it was copied from. A table whose explanation is wrong is a defect even when every figure in it is right, so it is flagged rather than quietly rewritten.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json</a></td>
 </tr>
 <tr>
 <td>NF-62</td>

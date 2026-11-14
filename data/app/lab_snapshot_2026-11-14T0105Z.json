@@ -3,14 +3,15 @@
   "file": "data/app/lab_snapshot_2026-11-14T0105Z.json",
   "role": "the lab artefact as published before this session's refresh, kept verbatim so the before/after delta on the site is auditable",
   "git_blob_sha1": "edbe14d5a621f21b2989ce5bc8377cb7fd3d65b2",
-  "git_commit": "57762d51e91ecffd976efb5ffb0c490a2ac111432",
+  "git_commit": "57762d51e91ecffd976efb5ffb0c490a2ac11bc2",
   "sha256": "cc2abe08ce483ba0015f5cbab283dde8204b64250373b32db8e0951150557888",
   "bytes": 308392,
   "built_by": "scripts/strategy_lab.py (session arena/8d3d0271-nba3)",
   "inputs_replaced_by": "data/app/snapshot_manifest.json",
   "why_kept": "The canonical chain regenerates lab.json in place. Without a stored copy of the previous artefact, a reader could not see what the refresh actually changed.",
   "session": "arena/25418e3f-nba3",
-  "written_on": "2026-11-14"
+  "written_on": "2026-11-14",
+  "git_commit_note": "Corrected 2026-11-14 by session arena/25418e3f-nba3. The value first written here was a transcription of the branch tip with a malformed final group of characters and resolved to no object. Verified against git: 57762d51e91ecffd976efb5ffb0c490a2ac11bc2 is a commit, and 'git rev-parse <that commit>:data/app/lab.json' returns the git_blob_sha1 recorded above (edbe14d5a621f21b2989ce5bc8377cb7fd3d65b2), while 'git show <that commit>:data/app/lab.json | sha256sum' returns the sha256 recorded above - so the artefact is the file it claims to be."
  },
  "lab": {
   "meta": {
