@@ -12,7 +12,8 @@
   "games": 183,
   "last_date": "2026-11-13",
   "provenance": "data/origin/games_extended_provenance.json",
-  "source_url": "https://www.nba.com/games?date=2026-11-13"
+  "source_url": "https://www.nba.com/games?date=2026-11-13",
+  "cross_check_copy": "data/app/games_2026-11-14c.csv"
  },
  "slate": {
   "path": "data/app/official_slate_1114_1117.json",
@@ -34,6 +35,12 @@
  "availability": {
   "path": "data/app/report_availability.json",
   "built_by": "scripts/report_availability.py"
+ },
+ "players": {
+  "path": "data/app/players_top31_2026-11-14c.csv",
+  "captured_by": "session bd90ce16 (2026-11-14); this session did not re-read the table",
+  "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+  "note": "The official per-player minutes table, newest capture in the repository. The canonical file data/origin/players_top_minutes.csv still predates the 2026-11-13 slate, so the manifest names the newer capture instead of letting an engine default decide it (flag NF-68, CS-45). Refreshing the canonical file is the request session bd90ce16 logged in COORDINATION.md and repeats here."
  },
  "ratings": {
   "path": "data/app/official_team_ratings_2026-11-14c.json",
@@ -79,7 +86,37 @@
    "UTA"
   ],
   "C5_field_differences": 123,
-  "C6_slate_counts": true
+  "C6_slate_counts": true,
+  "C7_second_capture_agrees": true,
+  "C7_rows_compared": 183,
+  "C8_parallel_injury_report_agrees": false,
+  "C8_rows_compared": 26
+ },
+ "parallel_capture": {
+  "what": "Two sessions refreshed the same inputs within about 40 minutes of each other on 2026-11-14, from the same official pages, with different file names and different code. This block records where they agree and where one of them is newer, so the overlap becomes corroboration instead of a fork.",
+  "results_log": {
+   "file": "data/app/games_2026-11-14c.csv",
+   "rows": 183,
+   "canonical_rows": 183,
+   "identical": true,
+   "only_in_canonical": [],
+   "only_in_copy": []
+  },
+  "injury_report": {
+   "file": "data/app/official_injuries_2026-11-14_0445AM.json",
+   "report_stamp": "2026-11-14 04:45 AM ET",
+   "rows_this_capture": 26,
+   "rows_parallel": 26,
+   "identical": false,
+   "only_here": [
+    "('11/14/2026', '', 'Traore, Nolan', 'Probable')"
+   ],
+   "only_there": [
+    "('11/14/2026', 'BKN', 'Traore, Nolan', 'Probable')"
+   ]
+  },
+  "newer_parallel_injury_file": "data/app/official_injuries_2026-11-14_0445AM.json",
+  "why_the_older_report_is_still_published": "Both files report the same 49 rows, 26 player rows and 23 team NOT-YET-SUBMITTED rows, under the same keys, from the same official index. The only substantive difference is one cell: this read of the 11/14 04:15 AM PDF found no Team cell for Traore, Nolan (BKN@MEM, Probable) at a page break and left it blank per the no-inference rule, while the parallel read of the 04:45 AM PDF attributes it to BKN. The newer report is therefore a second independent read of the same information, not new information: adopting its stamp as canonical is a one-field re-point of this manifest, and it should be made deliberately (CQ-47) because it also decides whether to fill in that cell. Nothing in the 27-game window changes either way - a Probable is not an absence, and no line is priced off it."
  },
  "extended_log_vs_stored_ratings": {
   "prior_stamp": "2026-11-14T01:05Z",

@@ -1323,8 +1323,19 @@ replaced.</p>""")
                            "not update the manifest cannot silently change what the engine reads."))
 
     # ------------------------------------------------------------- 2. checks
-    body.append("<h2>2. The six checks this capture ran against official sources</h2>")
+    body.append("<h2>2. The eight checks this capture ran against official sources</h2>")
     ch = man.get("checks", {})
+    pc = man.get("parallel_capture", {})
+    _pclog = pc.get("results_log", {})
+    _pcinj = pc.get("injury_report", {})
+    pc_note = (f"{_pclog.get('canonical_rows', '?')} rows in data/origin/games.csv against "
+               f"{_pclog.get('rows', '?')} in data/app/games_2026-11-14c.csv, compared as "
+               "(date, game id, teams, both scores, overtime flag) — two sessions extending the same "
+               "nine finals from the same official page, with no shared code")
+    pc_inj_note = (f"{_pcinj.get('rows_this_capture', '?')} player rows in the 04:15 AM capture "
+                   f"against {_pcinj.get('rows_parallel', '?')} in the 04:45 AM capture the parallel "
+                   "session transcribed; the difference is published in full rather than resolved "
+                   "silently")
     check_rows = [
         ["C1 — the extended log reproduces the official games-played, wins and losses columns",
          "366 team-games = 2 × 183; 30 GP values, 30 W values, 30 L values compared",
@@ -1356,6 +1367,16 @@ replaced.</p>""")
          "11/14 → 5, 11/15 → 9, 11/16 → 8, 11/17 → 5 = 27 games, matching the slate file",
          chip("pass", "ok") if ch.get("C6_slate_counts") else chip("fail", "bad"),
          src_cell([d["slate"]["source_url"], results.get("source_url", "")], "schedule + scores")],
+        ["C7 — this session's result log vs the log a parallel session captured independently",
+         pc_note,
+         chip("pass", "ok") if pc.get("results_log", {}).get("identical") else chip("review", "warn"),
+         src_cell([results.get("source_url", ""), REPO_URL + "/blob/main/data/app/games_2026-11-14c.csv"],
+                  "scoreboard + the other capture")],
+        ["C8 — this session's injury transcription vs the parallel session's newer one",
+         pc_inj_note,
+         chip("pass", "ok") if pc.get("injury_report", {}).get("identical") else chip("review", "warn"),
+         src_cell([d["injuries"]["source_url"], d["injuries"].get("index_url", "")],
+                  "both PDFs on the official index")],
     ]
     body.append(table(["Check", "What was compared", "Result", "Source"], check_rows, "checks"))
     body.append(f"""<div class="callout"><p><strong>Why C1 and C2 are run separately.</strong> Both
@@ -1363,6 +1384,18 @@ end in the number 183, and that is the point: one route counts team-games off th
 statistics page, the other counts games off the scoreboard calendar and adds our own October rows.
 Two independent official readings agreeing is what lets the extended log be called verified rather
 than merely transcribed. The rebuild fails if either route disagrees.</p></div>""")
+    if pc:
+        body.append(f"""<div class="callout warn"><p><strong>C7 and C8 exist because two sessions did the
+same refresh by accident.</strong> On 2026-11-14, about 40 minutes apart, this session and session
+<code>bd90ce16</code> each appended the nine 2026-11-13 finals and each transcribed the injury report,
+into different files, from the same official pages. Each then became the engine's input by a
+different route — and the collision is what turned the Pages build red on <code>main</code> for one
+cycle (flag <a href="flagged.html">NF-66</a>). The reconciliation is not a tie-break: the canonical
+log stays the input, the other capture is compared against it on every build, and both agreements
+are published here instead of being mentioned in a commit message. The injury comparison is
+<em>not</em> a clean pass: the one difference is the Traore team cell (check C8, flag
+<a href="flagged.html">NF-59</a>), and whether to adopt the other read's attribution and move to the
+newer stamp is <a href="questions.html">CQ-47</a>.</p></div>""")
 
     # --------------------------------------------------- 3. the nine new finals
     body.append("<h2>3. The nine results added to the canonical log</h2>")

@@ -106,7 +106,7 @@ replaced.</p>
 <td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + scores</a></td>
 </tr>
 </tbody></table></div>
-<h2>2. The six checks this capture ran against official sources</h2>
+<h2>2. The eight checks this capture ran against official sources</h2>
 <div class="table-wrap"><table>
 <caption id="checks"></caption>
 <thead><tr>
@@ -151,12 +151,35 @@ replaced.</p>
 <td><span class="chip chip-ok">pass</span></td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + scores</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
 </tr>
+<tr>
+<td>C7 — this session's result log vs the log a parallel session captured independently</td>
+<td>183 rows in data/origin/games.csv against 183 in data/app/games_2026-11-14c.csv, compared as (date, game id, teams, both scores, overtime flag) — two sessions extending the same nine finals from the same official page, with no shared code</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">scoreboard + the other capture</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/games_2026-11-14c.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/games_2026-11-14c.csv</a></td>
+</tr>
+<tr>
+<td>C8 — this session's injury transcription vs the parallel session's newer one</td>
+<td>26 player rows in the 04:15 AM capture against 26 in the 04:45 AM capture the parallel session transcribed; the difference is published in full rather than resolved silently</td>
+<td><span class="chip chip-warn">review</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">both PDFs on the official index</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
 </tbody></table></div>
 <div class="callout"><p><strong>Why C1 and C2 are run separately.</strong> Both
 end in the number 183, and that is the point: one route counts team-games off the official
 statistics page, the other counts games off the scoreboard calendar and adds our own October rows.
 Two independent official readings agreeing is what lets the extended log be called verified rather
 than merely transcribed. The rebuild fails if either route disagrees.</p></div>
+<div class="callout warn"><p><strong>C7 and C8 exist because two sessions did the
+same refresh by accident.</strong> On 2026-11-14, about 40 minutes apart, this session and session
+<code>bd90ce16</code> each appended the nine 2026-11-13 finals and each transcribed the injury report,
+into different files, from the same official pages. Each then became the engine's input by a
+different route — and the collision is what turned the Pages build red on <code>main</code> for one
+cycle (flag <a href="flagged.html">NF-66</a>). The reconciliation is not a tie-break: the canonical
+log stays the input, the other capture is compared against it on every build, and both agreements
+are published here instead of being mentioned in a commit message. The injury comparison is
+<em>not</em> a clean pass: the one difference is the Traore team cell (check C8, flag
+<a href="flagged.html">NF-59</a>), and whether to adopt the other read's attribution and move to the
+newer stamp is <a href="questions.html">CQ-47</a>.</p></div>
 <h2>3. The nine results added to the canonical log</h2>
 <p>Flag <a href="flagged.html">F36-03</a> asked a later session to carry the
 2026-11-13 finals into <code>data/origin/games.csv</code>. They are here: 174 →

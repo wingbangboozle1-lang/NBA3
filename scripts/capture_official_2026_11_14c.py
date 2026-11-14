@@ -54,6 +54,7 @@ Writes:
   data/app/snapshot_manifest.json
 and prints the six checks above.
 """
+import csv
 import json
 import os
 from collections import defaultdict
@@ -555,6 +556,43 @@ def main():
     if not c6:
         problems.append(f"C6 slate per-date counts disagree with the official calendar: {c6_bad}")
 
+    # ---- C7 / C8: do the two independent refreshes agree? -------------------------------
+    def _log_rows(path):
+        out = set()
+        if not os.path.exists(path):
+            return None
+        with open(path, encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                out.add((r["date"], r["game_id"], r["away"], int(r["away_pts"]),
+                         r["home"], int(r["home_pts"]), r["ot"] not in ("", "0", "None")))
+        return out
+
+    copy_path = os.path.join(ROOT, "data", "app", "games_2026-11-14c.csv")
+    canon_rows = _log_rows(os.path.join(ROOT, "data", "origin", "games.csv"))
+    copy_rows = _log_rows(copy_path)
+    c7 = {"file": "data/app/games_2026-11-14c.csv",
+          "rows": len(copy_rows) if copy_rows is not None else None,
+          "canonical_rows": len(canon_rows or ()),
+          "identical": (canon_rows == copy_rows) if copy_rows is not None else None,
+          "only_in_canonical": sorted(map(str, (canon_rows or set()) - (copy_rows or set())))[:5],
+          "only_in_copy": sorted(map(str, (copy_rows or set()) - (canon_rows or set())))[:5]}
+
+    their_inj = os.path.join(ROOT, "data", "app", "official_injuries_2026-11-14_0445AM.json")
+    mine_set = {(r.get("game_date") or r.get("date"), r.get("team"), r.get("player"), r.get("status"))
+                for r in injuries.get("rows", []) if not r.get("is_team_not_submitted")}
+    theirs_set = None
+    if os.path.exists(their_inj):
+        tj = json.load(open(their_inj, encoding="utf-8"))
+        theirs_set = {(r.get("game_date") or r.get("date"), r.get("team"), r.get("player"),
+                       r.get("status"))
+                      for r in tj.get("rows", []) if not r.get("is_team_not_submitted")}
+    c8 = {"file": "data/app/official_injuries_2026-11-14_0445AM.json",
+          "report_stamp": "2026-11-14 04:45 AM ET",
+          "rows_this_capture": len(mine_set), "rows_parallel": len(theirs_set or ()),
+          "identical": (mine_set == theirs_set) if theirs_set is not None else None,
+          "only_here": sorted(map(str, mine_set - (theirs_set or set())))[:5],
+          "only_there": sorted(map(str, (theirs_set or set()) - mine_set))[:5]}
+
     manifest = {
         "schema": "nba3.snapshot_manifest/v1",
         "session": SESSION,
@@ -569,6 +607,11 @@ def main():
             "last_date": "2026-11-13",
             "provenance": "data/origin/games_extended_provenance.json",
             "source_url": GAMES_URL,
+            # Session arena/bd90ce16 extended its own copy of the same nine finals, independently
+            # and from the same official page, while this session was writing the canonical file.
+            # The copy is registered as a cross-check so that agreement is re-proved on every build
+            # and the canonical log stays the single input (CQ-42, flag NF-66).
+            "cross_check_copy": "data/app/games_2026-11-14c.csv",
         },
         "slate": {"path": "data/app/official_slate_1114_1117.json",
                   "source_url": "https://www.nba.com/schedule?date=2026-11-14",
@@ -581,6 +624,18 @@ def main():
                    "source_url": GAMES_URL, "retrieved_stamp": RETRIEVED_STAMP},
         "availability": {"path": "data/app/report_availability.json",
                          "built_by": "scripts/report_availability.py"},
+        "players": {
+            "path": "data/app/players_top31_2026-11-14c.csv",
+            "captured_by": "session bd90ce16 (2026-11-14); this session did not re-read the table",
+            "source_url": ("https://www.nba.com/stats/players/traditional?Season=2026-27"
+                           "&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN"
+                           "&SortDirection=DESC"),
+            "note": ("The official per-player minutes table, newest capture in the repository. The "
+                     "canonical file data/origin/players_top_minutes.csv still predates the "
+                     "2026-11-13 slate, so the manifest names the newer capture instead of letting "
+                     "an engine default decide it (flag NF-68, CS-45). Refreshing the canonical file "
+                     "is the request session bd90ce16 logged in COORDINATION.md and repeats here."),
+        },
         "ratings": {"path": "data/app/official_team_ratings_2026-11-14c.json",
                     "source_url": TEAM_STATS_URL, "retrieved_stamp": RETRIEVED_STAMP},
         "injuries": {"path": "data/app/official_injuries_2026-11-14_0415AM.json",
@@ -604,6 +659,30 @@ def main():
             "C5_teams_with_new_gp": staleness.get("teams_with_new_gp", []),
             "C5_field_differences": staleness.get("field_differences"),
             "C6_slate_counts": c6,
+            "C7_second_capture_agrees": c7["identical"],
+            "C7_rows_compared": c7["rows"],
+            "C8_parallel_injury_report_agrees": c8["identical"],
+            "C8_rows_compared": c8["rows_this_capture"],
+        },
+        "parallel_capture": {
+            "what": ("Two sessions refreshed the same inputs within about 40 minutes of each other "
+                     "on 2026-11-14, from the same official pages, with different file names and "
+                     "different code. This block records where they agree and where one of them is "
+                     "newer, so the overlap becomes corroboration instead of a fork."),
+            "results_log": c7,
+            "injury_report": c8,
+            "newer_parallel_injury_file": "data/app/official_injuries_2026-11-14_0445AM.json",
+            "why_the_older_report_is_still_published": (
+                "Both files report the same 49 rows, 26 player rows and 23 team NOT-YET-SUBMITTED "
+                "rows, under the same keys, from the same official index. The only substantive "
+                "difference is one cell: this read of the 11/14 04:15 AM PDF found no Team cell for "
+                "Traore, Nolan (BKN@MEM, Probable) at a page break and left it blank per the "
+                "no-inference rule, while the parallel read of the 04:45 AM PDF attributes it to "
+                "BKN. The newer report is therefore a second independent read of the same "
+                "information, not new information: adopting its stamp as canonical is a one-field "
+                "re-point of this manifest, and it should be made deliberately (CQ-47) because it "
+                "also decides whether to fill in that cell. Nothing in the 27-game window changes "
+                "either way - a Probable is not an absence, and no line is priced off it."),
         },
         "extended_log_vs_stored_ratings": staleness,
         "injury_delta": c4_details,
