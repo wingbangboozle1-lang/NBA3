@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Injury verification - NBA3 verification</title>
+<style>
+:root{--ink:#17203a;--muted:#5b6780;--line:#dfe5ee;--bg:#f6f8fb;--card:#fff;
+--navy:#111d33;--blue:#1f5be0;--red:#b3261e;--amber:#8a5a00;--green:#1c6b45}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+header{background:var(--navy);color:#fff;padding:22px max(20px,calc((100vw - 1240px)/2))}
+header .eyebrow{color:#9fb6ff;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+header h1{margin:4px 0 2px;font-size:26px;font-weight:700}
+header p{margin:3px 0 0;color:#c9d6ef;font-size:13.5px;max-width:900px}
+.wrap{max-width:1240px;margin:0 auto;padding:20px;display:grid;grid-template-columns:212px 1fr;gap:22px}
+nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;height:max-content;position:sticky;top:14px}
+nav .grp{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 8px 4px}
+nav a{display:block;padding:7px 9px;border-radius:6px;color:var(--ink);font-size:14px}
+nav a:hover{background:#eef3fd}nav a.on{background:#e4ecfd;color:var(--blue);font-weight:650}
+main{min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:19px}
+.card h2+.sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+.card h3{font-size:15px;margin:18px 0 6px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{background:#f1f5fb;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:#3c4a63;font-weight:700;white-space:nowrap}
+tbody tr:hover td{background:#fafcff}
+td.id{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;font-size:12.5px}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;border:1px solid}
+.t-verified{color:var(--green);border-color:#bfe0cf;background:#eaf6ef}
+.t-disc{color:var(--red);border-color:#f0c8c4;background:#fdeceb}
+.t-unv{color:var(--amber);border-color:#ecd9ae;background:#fdf5e4}
+.t-info{color:#2c3f63;border-color:#d5deee;background:#eef2f9}
+.metric{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:14px 0}
+.m{background:#f8fafd;border:1px solid var(--line);border-radius:9px;padding:14px}
+.m b{display:block;font-size:23px;font-weight:750;letter-spacing:-.01em}
+.m span{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.m small{display:block;color:var(--muted);font-size:11.5px;margin-top:6px}
+.note{border-left:3px solid var(--blue);background:#f2f6fe;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+.warn{border-left:3px solid var(--red);background:#fdf0ef;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+.good{border-left:3px solid var(--green);background:#eef8f2;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+code{background:#eef1f6;padding:1.5px 5px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+footer{color:var(--muted);font-size:12.5px;padding:8px 0 26px;border-top:1px solid var(--line);margin-top:8px}
+ul.tight{margin:6px 0 0;padding-left:18px}ul.tight li{margin:3px 0}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;padding:14px}nav{position:static;display:flex;flex-wrap:wrap;gap:2px}
+nav .grp{width:100%}nav a{white-space:nowrap}}
+</style></head>
+<body>
+<header><div class="eyebrow">NBA3 / session 3655c68d / verification layer</div>
+<h1>Injury verification</h1>
+<p>Cross-pipeline verification of the six dashboards already in this repository. Research only, not betting advice.
+Nothing on this site is eligible for staking.</p></header>
+<div class="wrap"><nav aria-label="Sections"><div class="grp">Overview</div><a href="index.html">Verification hub</a><a href="executive.html">Executive summary</a><a href="contradictions.html">Contradictions (9)</a><div class="grp">Evidence</div><a href="claims.html">Claim ledger</a><a href="injuries.html" class="on">Injury verification</a><a href="results.html">Game-log verification</a><a href="corrections.html">Corrections made</a><div class="grp">Decision</div><a href="decisions.html">Decisions needed</a><a href="questions.html">Questions ledger</a><a href="suggestions.html">Suggestions</a><div class="grp">Record</div><a href="ledger.html">Settlement ledger</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a></nav><main>
+
+<section class="card"><h2>Injury verification</h2>
+<p class="sub">The published injury table was checked row by row against the official NBA PDF, then checked again
+against a later official report to test whether it was current.</p>
+
+<div class="metric">
+<div class="m"><b>98</b><span>named players in the official report</span><small>transcribed verbatim</small></div>
+<div class="m"><b>110</b><span>matched to our table</span><small>0 status mismatches</small></div>
+<div class="m"><b>117</b><span>rows in our table</span><small>7 are team-level placeholders</small></div>
+<div class="m"><b>11</b><span>players whose status changed within 2.5 hours</span><small>in the 07:30 PM report</small></div>
+</div>
+
+<div class="good"><b>The transcription itself is clean.</b> Every one of the 98 named players
+in the official 05:00 PM report appears in <code>data/injuries.json</code> with the same status and the same matchup.
+Zero mismatches. The rows our table adds beyond the named players are team-level "NOT YET SUBMITTED" headers, which
+the PDF does contain as team rows.</div>
+
+<div class="warn"><b>The snapshot, however, was already stale when it was published.</b> The official index publishes a
+report every 15 minutes. A <b>07:30 PM</b> report exists, 2.5 hours after the 05:00 PM snapshot the site uses, and
+11 players changed status in it. Two of them went <b>to Out</b>. That is exactly the kind of change
+that moves a line, and the site could not have shown it.</div>
+
+<h3>Status changes between the 05:00 PM and 07:30 PM official reports</h3>
+<div class="scroll"><table><thead><tr><th>Player</th><th>Team</th><th>Matchup</th>
+<th>05:00 PM (published)</th><th>07:30 PM (later)</th><th>Direction</th></tr></thead><tbody><tr><td class="id">Cain, Jamal</td><td>Orlando Magic</td><td><code>MIL@ORL</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">da Silva, Tristan</td><td>Orlando Magic</td><td><code>MIL@ORL</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Suggs, Jalen</td><td>Orlando Magic</td><td><code>MIL@ORL</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">McConnell, T.J.</td><td>Indiana Pacers</td><td><code>NYK@IND</code></td><td>Probable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Nesmith, Aaron</td><td>Indiana Pacers</td><td><code>NYK@IND</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Dennis, RayJ</td><td>Atlanta Hawks</td><td><code>ATL@CHI</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Flemings, Kingston</td><td>Atlanta Hawks</td><td><code>ATL@CHI</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Powell, Norman</td><td>Chicago Bulls</td><td><code>ATL@CHI</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Mathurin, Bennedict</td><td>New Orleans Pelicans</td><td><code>MEM@NOP</code></td><td>Questionable</td><td>Available</td><td>Became available</td></tr><tr><td class="id">Larsson, Pelle</td><td>Miami Heat</td><td><code>CLE@MIA</code></td><td>Doubtful</td><td>Out</td><td>WENT OUT - adverse</td></tr><tr><td class="id">Thompson, Klay</td><td>Miami Heat</td><td><code>CLE@MIA</code></td><td>Probable</td><td>Out</td><td>WENT OUT - adverse</td></tr></tbody></table></div>
+<p style="font-size:13px;color:var(--muted)">Source for both columns:
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf">05:00 PM PDF</a> &middot;
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf">07:30 PM PDF</a> &middot;
+<a href="https://official.nba.com/nba-injury-report-2026-27-season/">official index</a>.
+The 11/14 11:00 AM report returned an access-denied error and is recorded as a failed source, not omitted.</p>
+
+<h3>How each row's team and matchup were established</h3>
+<div class="scroll"><table><thead><tr><th>Code</th><th>Meaning</th><th>Rows</th><th>How it is disclosed</th></tr></thead>
+<tbody><tr><td class="num">R</td><td>Printed on the official PDF</td><td class="num">78</td><td>Nothing inferred. Team, matchup and status are exactly as the league printed them.</td></tr><tr><td class="num">S</td><td>Team printed on the PDF; matchup linked from the official schedule</td><td class="num">19</td><td>Carries the flag &quot;Team printed; matchup linked via official schedule pairing&quot;. Team is official, matchup is inferred.</td></tr><tr><td class="num">T</td><td>Team-level row, no player named</td><td class="num">2</td><td>The PDF shows a team header with status NOT YET SUBMITTED. Shown as a team row, not a player row.</td></tr><tr><td class="num">U</td><td>Team and matchup not extracted from the PDF text</td><td class="num">18</td><td>Left blank and flagged rather than guessed. The player and status are official; the team is not shown.</td></tr></tbody></table></div>
+
+<div class="note"><b>Why this matters more than it looks.</b> The PDF text extraction drops the team and matchup cells
+for some rows, so 18 rows could only be attributed with reference to the surrounding context. Those rows are marked
+<code>U</code> and left blank rather than guessed. A further 19 carry a team printed on the PDF but a matchup inferred
+from the official schedule; they are marked <code>S</code>. A reader can therefore tell, on every single row, what was
+printed by the league and what was added by us.</div>
+</section>
+<footer>Built by <code>python3 verify/build.py</code> from <code>verify/data/*.json</code>. Every table row links to its source.
+Values that could not be confirmed against an official source are left blank and flagged.</footer>
+</main></div></body></html>

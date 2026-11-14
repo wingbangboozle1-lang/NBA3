@@ -1,0 +1,163 @@
+{
+ "meta": {
+  "what": "Every question that must be answered before a decision can reasonably be made, split into what the repository already establishes, what is missing, and how the missing part would be discovered. No question is answered by inference.",
+  "how_to_read": "`blocking` says what is frozen until the question is answered. A question marked Blocking prevents the site from publishing a staking-eligible pick. A question marked Non-blocking still allows research output.",
+  "owner": "Every question here needs a human decision or a licensed data purchase. None can be closed by another agent session."
+ },
+ "questions": [
+  {
+   "id": "Q-01",
+   "topic": "Legal basis for publishing betting content",
+   "have": "Dutch Betting and Gaming Act art. 31a requires a licence from the Kansspelautoriteit to offer online sports betting in the Netherlands (source 1). NBA.com Terms of Use section 9 restricts use of NBA Statistics for gambling purposes (source 2). Both were read directly in prior sessions and the quoted requirement is reproduced in the flagged register.",
+   "missing": "Whether this project offers, promotes or merely analyses betting content, and from which jurisdiction it is operated. Whether the owner holds or will obtain a Koa licence. Whether the NBA terms prohibit even a private, non-monetised model.",
+   "how": "Written legal opinion covering (a) the licence question for the intended jurisdiction and (b) the NBA terms question. Nothing in this repository can substitute for it.",
+   "blocking": "Yes - blocks every staking recommendation, and blocks any public leaderboard that ranks real money outcomes.",
+   "risk_if_ignored": "Operating without a licence in the Netherlands is an offence under the Betting and Gaming Act; the NBA terms question creates separate contractual exposure.",
+   "source": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+   "extra": "https://www.nba.com/termsofuse"
+  },
+  {
+   "id": "Q-02",
+   "topic": "Is this a pool or a competition with prizes?",
+   "have": "Nothing. No rule set, no entry mechanism, no eligibility, no prize terms, no terms of service exist in the repository.",
+   "missing": "Whether 'leaderboard that rewards top performing strategies' means internal research scoring, a public contest, or something with money changing hands. Each has a different legal and tax treatment and a different definition of cheating.",
+   "how": "One page of written product intent from the owner. This is the single cheapest unblocking action available and it constrains everything on the strategies page.",
+   "blocking": "Yes - the reward rule cannot be defined without it.",
+   "risk_if_ignored": "Any leaderboard built now may have to be discarded.",
+   "source": "",
+   "extra": ""
+  },
+  {
+   "id": "Q-03",
+   "topic": "Which market prices may be recorded?",
+   "have": "One pipeline (/lab/) records a single-book DraftKings price relayed by an ESPN endpoint and classifies it TRUSTED-2, explicitly 'not an NBA source'. Every other pipeline has no prices at all and assumes -110.",
+   "missing": "A licensed odds feed with historical depth: open, current and closing prices, per book, per market, timestamped. Also whether a sportsbook's terms permit storing and republishing their prices.",
+   "how": "Procure a feed (or a documented free source) and record the licence terms. Then re-run the backtests with real prices. Until then no ROI figure in this repository is an economic result.",
+   "blocking": "Yes - without it, profitability cannot be measured, only self-consistency.",
+   "risk_if_ignored": "Every ROI number here is measured against a price nobody offered. The strategy leaderboard rewards a number that cannot be earned.",
+   "source": "https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds",
+   "extra": ""
+  },
+  {
+   "id": "Q-04",
+   "topic": "What exactly counts as a winning strategy?",
+   "have": "Three different gate systems exist: /origin/ with 7 gates, /edge/ with 6, /lab/ with 7. They disagree on thresholds and on whether an ineligible strategy may hold a rank.",
+   "missing": "A single agreed metric, a single minimum sample, and a rule for what happens to a strategy that passes some gates and not others.",
+   "how": "Choose one gate set and one scoring rule before looking at any more results. The recommendation is on the Suggestions page as SG-01.",
+   "blocking": "Yes - the leaderboard has no meaning until one rule is agreed.",
+   "risk_if_ignored": "Three dashboards will keep publishing three leaderboards.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json",
+   "extra": ""
+  },
+  {
+   "id": "Q-05",
+   "topic": "Which injury snapshot is authoritative, and how often is it refreshed?",
+   "have": "Established directly from the official index: teams must report by 5:00 PM local the day before a game and between 11:00 AM and 1:00 PM on game day, and reports update continually in 15-minute steps. The index lists 80 reports for 11/13 alone.",
+   "missing": "Which snapshot the site should key on (probably the last one before tip-off), and an automated refresh. The repository currently holds three different snapshots on three different pages, none of them the latest.",
+   "how": "Pick a cutoff per game (for example, the last report published at least 30 minutes before tip-off), then automate the pull. The 11/14 11:00 AM report returned an access-denied error from this environment, so the pull must be tested from the production environment.",
+   "blocking": "Yes for props and for anything that depends on who is playing.",
+   "risk_if_ignored": "The site will present an availability picture that is hours out of date and inverts as late scratches land.",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "extra": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+  },
+  {
+   "id": "Q-06",
+   "topic": "How does an injury change minutes and usage?",
+   "have": "Official status labels (Out, Doubtful, Questionable, Probable, Available) and, in /origin/, the top 31 players by minutes.",
+   "missing": "Per-game player box scores for every player, so that the minutes vacuum left by an absence can be measured rather than guessed. The repository has no player game logs at all.",
+   "how": "Capture player box scores by date from an official or licensed endpoint. /origin/ logged this as cross-session request CR-O2 and it remains open. Until then any minutes figure published here would be fabricated.",
+   "blocking": "Yes for player props and for the injury-impact claim in the brief.",
+   "risk_if_ignored": "The brief asks for rotation-minute impact; nothing in the repository can produce it honestly.",
+   "source": "https://www.nba.com/stats/players/boxscores",
+   "extra": "https://www.nba.com/stats/help/glossary"
+  },
+  {
+   "id": "Q-07",
+   "topic": "What is the bankroll and staking policy?",
+   "have": "Nothing. Every pipeline books a flat 1-unit stake as a simplifying assumption and labels it so.",
+   "missing": "Bankroll, maximum stake, maximum daily exposure, drawdown stop, and responsible-gambling controls.",
+   "how": "Write the policy before any staking figure is published. Kelly-style sizing cannot be recommended before the edge itself is measurable (Q-03).",
+   "blocking": "Yes for any staking output.",
+   "risk_if_ignored": "A leaderboard that rewards unconstrained growth will be won by whoever takes the most risk, not by skill.",
+   "source": "",
+   "extra": ""
+  },
+  {
+   "id": "Q-08",
+   "topic": "What does the site do when data goes stale?",
+   "have": "Several pages already label staleness partially (PARTIAL_REPORT, NO_REPORT, 'subject to change'), but nothing suppresses output.",
+   "missing": "An explicit rule: if the newest report is older than N minutes, or an input is missing, the pick is withdrawn rather than shown with a warning.",
+   "how": "Decide the rule, then implement it as a build failure rather than a label. This session already demonstrated the failure mode: the 11/14 11:00 AM report was not retrievable at build time and nothing stopped the site from publishing.",
+   "blocking": "No, but it is the difference between research output and usable output.",
+   "risk_if_ignored": "A user will act on a stale number displayed with a small warning.",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "extra": ""
+  },
+  {
+   "id": "Q-09",
+   "topic": "Which of the six dashboards is the product?",
+   "have": "Six independent trees built by six sessions, each complete, each with its own ID scheme. Two of them still claim that no picks are published while four publish picks.",
+   "missing": "A decision on whether to consolidate into one site or keep them as an archive, and who owns the consolidated one.",
+   "how": "See SG-02. The cheapest correct answer is to make the root page a truthful index and mark the stale trees as archived.",
+   "blocking": "No, but it blocks any improvement to decision making, because a user cannot tell which page to believe.",
+   "risk_if_ignored": "The site keeps contradicting itself. This session found nine such contradictions.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/contradictions.json",
+   "extra": ""
+  },
+  {
+   "id": "Q-10",
+   "topic": "What sample is large enough to call a strategy proven?",
+   "have": "Three different floors: 100 bets in /origin/ and /edge/, 30 in /lab/. /lab/ also reports a power calculation needing 778 games to detect a 5% edge.",
+   "missing": "One pre-registered answer, stated before the data is seen, with the effect size it is powered to detect.",
+   "how": "The measured out-of-sample standard deviation is 16.15 points on margin and 20.23 on total, recomputed from /origin/'s walk-forward file. Those two numbers alone allow a power calculation for any proposed edge. The 778-game figure reported by /lab/ is reproducible as a starting point, not as an answer.",
+   "blocking": "Yes - without a floor, the leaderboard can be won on 20 lucky bets.",
+   "risk_if_ignored": "The best-performing strategy will be the one with the fewest bets.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/validation_report.json",
+   "extra": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json"
+  },
+  {
+   "id": "Q-11",
+   "topic": "Who verifies a settlement?",
+   "have": "A 174-game log that two independent pipelines agree on, game by game, including overtime classification.",
+   "missing": "An owner for the settlement step once picks go live, and a rule for what happens when a game is postponed or a stat is corrected.",
+   "how": "Assign the role and write the rule. The ledger on this site is append-only and already records the official game page for each pick.",
+   "blocking": "No, until picks are settled for a leaderboard.",
+   "risk_if_ignored": "A corrected stat silently changes a historical pick, and a leaderboard becomes unauditable.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv",
+   "extra": ""
+  },
+  {
+   "id": "Q-12",
+   "topic": "Do we have the right to store and republish the inputs?",
+   "have": "The repository stores game scores, team ratings and injury rows, partly transcribed from Basketball-Reference and partly from NBA-hosted PDFs.",
+   "missing": "Written terms for Basketball-Reference (which has its own terms of use) and confirmation of the NBA redistribution position. The repository contains no licence file at all.",
+   "how": "Add a licence for the code, obtain written terms for the data, and remove anything that cannot be redistributed. This is related to Q-01 but is a separate question.",
+   "blocking": "Yes for any public deployment that displays the underlying data rather than derived statistics.",
+   "risk_if_ignored": "The public GitHub Pages deployment currently republishes third-party data with no stated basis.",
+   "source": "https://www.basketball-reference.com/about/terms.html",
+   "extra": "https://www.nba.com/termsofuse"
+  },
+  {
+   "id": "Q-13",
+   "topic": "Is the model good enough to originate a line at all?",
+   "have": "Margin model RMSE 16.18 points on 114 out-of-sample games against a 17.30 baseline, and a total model at 20.35 that loses to a 19.56 baseline.",
+   "missing": "Any comparison to a market closing line. A model can beat its own baseline and still be far worse than the market, which is the only benchmark that matters for line origination.",
+   "how": "Q-03 supplies the benchmark. Until then 'our line' should be described as a naive estimate, not as an originated line competing with a bookmaker.",
+   "blocking": "Yes for the brief's central goal of originating lines.",
+   "risk_if_ignored": "The project will believe it has an edge when it has only out-performed a weak baseline.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json",
+   "extra": ""
+  },
+  {
+   "id": "Q-14",
+   "topic": "What is the promotion rule for the leaderboard?",
+   "have": "A proposed promotion rule on this site: 100 settled picks and a bootstrap interval on Brier skill that excludes zero.",
+   "missing": "Owner approval, and a decision on whether the leaderboard is public, internal, or tied to a prize (Q-02).",
+   "how": "Approve or amend the rule on the Suggestions page, then it can be implemented as a build gate.",
+   "blocking": "Yes for the leaderboard competition in the brief.",
+   "risk_if_ignored": "The leaderboard will reward luck, which is precisely what the brief asks to avoid.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/ledger.json",
+   "extra": ""
+  }
+ ]
+}

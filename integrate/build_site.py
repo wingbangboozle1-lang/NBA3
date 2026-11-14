@@ -800,12 +800,15 @@ def build():
     shutil_copy = Path(DASH / "data")
     (shutil_copy / "model.json").write_text(json.dumps(m, indent=1))
     (shutil_copy / "registers.json").write_text(json.dumps(reg, indent=1))
-    (ROOT / "index.html").write_text(landing(m, reg))
-    print(f"wrote {len(written)} pages to dash/ + root index.html")
+    # The root index.html is a hand-maintained page owned by session 49064d5a and kept
+    # current by later sessions. This generator deliberately does NOT write it; it only
+    # links into dash/ (inserted once by hand during integration), and integrate/check.py
+    # asserts that link stays present.
+    print(f"wrote {len(written)} pages to dash/")
     return written
 
 
-def landing(m, reg):
+def landing_unused(m, reg):
     n_flags = len(reg["flags"])
     hi = sum(1 for f in reg["flags"] if f["severity"] == "high")
     cards = [

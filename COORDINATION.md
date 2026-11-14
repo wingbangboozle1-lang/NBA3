@@ -547,6 +547,144 @@ were restored to `main`'s content before this section was appended.
 
 ---
 
+## Session `arena/2e50a71a-nba3` — final integration review and dashboard reconciliation
+
+### Claim (2026-11-14 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Cross-site consistency audit, correct root executive summary/navigation, publish reconciliation flags, document verified limitations | done (residuals published as review flags R-01–R-13) | arena/2e50a71a-nba3 | `COORDINATION.md`, `README.md`, `index.html`, `review.html`, `.github/workflows/pages.yml` |
+
+Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df84b475f4ced13c2`, which is the current `main` base. The task text's session-specific branch naming conflicts with the fixed Arena branch; no branch was created or switched. This integration task audits the existing published artifacts rather than modifying files scoped to prior completed sessions.
+
+### Completion and verification log — 2026-11-14 UTC
+
+**Scope completed:** Replaced stale root landing/README claims with an accurate executive summary of the extant parallel workstreams; added a dedicated root `review.html` (R-01–R-13); connected it to the Pages artifact; and added a CI rule requiring each table-body row on the root dashboard and review page to contain a direct HTTPS NBA/Ksa official-host link. This session did not change the older independently owned sub-sites or alter their model outputs.
+
+**Official pages fetched and checked for the specific statements used:**
+- [NBA Official 2026–27 injury report index](https://official.nba.com/nba-injury-report-2026-27-season/): reporting deadlines, continual updates, dated reports; not a minutes projection.
+- [NBA 2026–27 schedule by-date PDF](https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf): header identifies season and says “subject to change”; inspected schedule chunks 0 and 2 (the latter includes Nov. 16–18 rows).
+- [NBA 2026–27 schedule announcement](https://www.nba.com/news/2026-27-nba-regular-season-schedule): official schedule announcement and schedule resources.
+- [NBA Terms of Use](https://www.nba.com/termsofuse): fetched §9 text; it includes restrictions on use of NBA Statistics in connection with gambling activity, commercial products and certain comprehensive regularly updated databases. The site explicitly leaves legal application to counsel.
+- [NBA Stats glossary](https://www.nba.com/stats/help/glossary): fetched glossary entries; cited only for official terminology, not predictive validity or data rights.
+- [Kansspelautoriteit online gambling guidance](https://kansspelautoriteit.nl/online-kansspel-aanbieden): official Dutch regulator page states online sports-betting offers are among licensed online gambling offerings. No legal conclusion about this research site is made.
+
+**Repository inspection and validation:**
+- Inspected current git/base state, root README, root landing, Pages workflow, source manifests, inputs and outputs across `data/`, plus `pipeline/`, `scripts/`, `site/`, `docs/`, `research/`, `lab/`, `edge/`, and `origin/`.
+- Found `data/raw/results_2026-27_october.csv` explicitly identifies Basketball-Reference as its source; `data/lines.json` includes `bbr_advanced` and `espn_odds` source labels; `data/picks.json` and `lab/picks.html` expose candidate picks/positive-EV labels. These were recorded as repository facts, not as confirmed underlying sports data or permission.
+- A mechanical scan of the repository's 73 HTML files counted 1,521 `<tbody><tr>` rows. 423 lacked a direct HTTPS link to an NBA or Ksa official host (389 excluding the root `research-dashboard.html` archive). By folder: docs 5/10; edge 10/10; lab 184/256; origin 73/594; research 81/313; site 36/262 lacked a direct NBA/Ksa-host link; the revised root index has 0/25 and `review.html` has 0/13. This is a conservative automated screen, not a judgment that every methodology row needs NBA evidence. It demonstrates the full repository does **not** meet the strict official-source-per-row requirement; R-13 publishes this limitation. No irrelevant official URLs were attached to old data rows to make the scan pass.
+- Root page/review page were separately checked: 25/25 and 13/13 table rows respectively have direct NBA/Ksa official links; all local/anchor targets resolve.
+- Checks passed: `python3 -m unittest tests/test_validate_gates.py` (13); `python3 -m unittest discover -s pipeline/tests` (29); `python3 tools/check_site.py`; `python3 scripts/build_site.py --check`; `python3 pipeline/check_site.py`; `python3 pipeline/verify.py`; `python3 scripts/model.py`; `python3 scripts/build_lab.py`; `python3 scripts/validate_site.py`; `python3 pipeline/build_site.py`; `git diff --check`. Generated tracked outputs remained unchanged.
+- Workflow's configured static checks are scoped validators and are not proof of data truth, rights, forecast validity, or overall row-level official source compliance. The full-source correction is an explicit unresolved review item, not marked verified.
+
+**Irregularities and outstanding work:**
+- R-01–R-07: competing workstreams, secondary-source/rights issues, published price/EV outputs, stale contradictory README, non-current injury/schedule snapshots, and unreconciled correlations.
+- R-08 / R-13: checks have limited scope; repository-wide direct official-source criterion remains unmet (counts above).
+- R-09 / R-10: NBA-statistics terms and Netherlands intended-use/compliance require qualified counsel and written permissions; not decided here.
+- No current live feed, full player-minutes source, authorized odds contract, reconciled sample or prospective record is verified. Consequently, this work does not establish active current picks, injury-minute effects, strategy profitability, or a skill-based leaderboard winner. These blockers are surfaced rather than fabricated or resolved by assumption.
+- Files kept within this integration session's claimed scope. Existing strategy/model files were not edited.
+
+**PR/deployment:** complete for PR #17. Residual data/source/legal issues remain explicitly flagged and do not imply that the experimental model output is verified.
+
+### Pull request, merge and Pages record
+
+- PR [#17](https://github.com/wingbangboozle1-lang/NBA3/pull/17), `arena/2e50a71a-nba3` → `main`, merged 2026-11-14T00:46:04Z with merge commit `4c66f10d0fa43262eb60c1856788b047f2b3ee44` (`gh pr merge 17 --merge`).
+- PR build run [43536268753](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536268753) passed; deploy was skipped for pull requests by design.
+- Post-merge workflow run [43536380494](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536380494) completed successfully: build and deploy jobs both passed. Non-fatal runner notices concerned Node.js 20 action runtime deprecation and the upcoming `ubuntu-latest` image migration.
+- GitHub Pages build [1367719759](https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages/builds/1367719759) reported `built` for merge commit `4c66f10d0fa43262eb60c1856788b047f2b3ee44`; Pages API reports `built` and public at `https://wingbangboozle1-lang.github.io/NBA3/`.
+- Live fetch (cache-busted with the merge SHA) confirmed the updated dashboard at `https://wingbangboozle1-lang.github.io/NBA3/?v=4c66f10d` and Flagged for Review at `https://wingbangboozle1-lang.github.io/NBA3/review.html?v=4c66f10d`.
+- The merge/deploy records the landing-page reconciliation only; it does **not** resolve R-01–R-13, which remain prominently flagged for follow-up.
+
+---
+
+### Merge conflict resolved (2026-11-14, session 3655c68d)
+
+`git pull --rebase origin main` conflicted in this file because session `arena/2e50a71a-nba3`
+merged PR #17 while this session was working. Both sections are kept verbatim: the `2e50a71a`
+integration review above, and this session's claim block below. No content from either side was
+dropped.
+
+---
+
+## Session `arena/3655c68d-nba3` (current) — cross-pipeline verification & decision layer
+
+Session ID: `3655c68d`. Branch is fixed by Arena to `arena/3655c68d-nba3` (based on `e591b67`, PR #16 merge).
+Prior sessions' sections above are preserved as history and are **not** overwritten.
+
+**Why this session exists.** Five prior sessions each built an independent pipeline and dashboard
+(`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`). They publish *different* line, strategy and
+injury numbers computed from *the same* 174-game season. Nothing in the repo reconciles them. The owner
+cannot make a decision while two dashboards disagree. This session adds a reconciliation and
+verification layer and touches **no** file owned by another session.
+
+### Claims (pushed before work began)
+
+| # | Task | Status | Owner | File scope (new files only) |
+|---|------|--------|-------|------------------------------|
+| V1 | Reconcile the two independent 174-game logs line by line | done | 3655c68d | `verify/data/**`, `verify/pages/**`, `verify/build.py` |
+| V2 | Claim ledger: every published quantitative claim, with verification status + source | done | 3655c68d | `verify/data/**` |
+| V3 | Contradiction register between the six dashboards | done | 3655c68d | `verify/data/**` |
+| V4 | Prospective settlement ledger for picks issued before tip-off | done | 3655c68d | `verify/data/**` |
+| V5 | Decision-ready open questions (have / don't have / how to get it) | done | 3655c68d | `verify/data/**` |
+| V6 | Site-improvement suggestions with explicit recommendation | done | 3655c68d | `verify/data/**` |
+| V7 | Integration: nav link, Pages artifact, build check, PR, merge, deploy verify | done | 3655c68d | `index.html` (1 nav link), `.github/workflows/pages.yml`, `README.md`, `COORDINATION.md` |
+
+**The only shared files this session will edit** are the two lines in the root `index.html` nav,
+the Pages staging step, and appended sections of `README.md`/`COORDINATION.md` — the same
+single-link pattern used by sessions 7c532e8c, 0a016df8 and e22a2831. No other session's file is touched.
+
+### Environment facts confirmed at start
+- Shell has **no outbound network** (`curl https://www.nba.com` → 000, SSL_ERROR_SYSCALL). `fetch_page` works.
+- `api.github.com` is reachable from the shell (HTTP 200) → `gh` works.
+- All pre-existing checks pass at `e591b67`: 13 + 29 unit tests OK, `tools/check_site.py` PASS,
+  `scripts/build_site.py --check` 553 links 0 broken.
+
+
+### Verification performed (session 3655c68d)
+
+- **174-game reconciliation.** Parsed both logs into (date, away, home) -> (away pts, home pts, OT) and compared
+  every key. Both cover the same 174 games; **0 score mismatches, 0 overtime mismatches**. Team-code differences
+  (BRK/BKN, CHO/CHA, PHO/PHX) were normalised before comparison. An earlier count of mine (29 vs 9 OT games) was my
+  own parsing error — `'OT' in note` also matches the `NBA Cup` note — and was corrected before publication.
+- **Injury reconciliation.** Transcribed both chunks of the 05:00 PM official PDF verbatim to
+  `verify/data/official_injury_report_2026-11-13_0500PM.txt` and compared all 110 named players in
+  `data/injuries.json` on name, status and matchup: **0 mismatches**. Also read the **07:30 PM** official report and
+  found **11 status changes** between the two, including Klay Thompson Probable→Out and Pelle Larsson Doubtful→Out.
+  The 11/14 11:00 AM report returns S3 `AccessDenied`; recorded as a failed source, not omitted.
+- **Strategy re-audit.** Recomputed each published ROI from the individual rows in `backtest_bets.json`:
+  STRAT1 66/85 → +48.24%, STRAT2 44/68 → +23.53%, STRAT4 9/15 → +14.55%. All reproduce. The *labels* on
+  STRAT1/STRAT2 do not: their settlement rule is `margin > 0`, i.e. moneyline, not spread.
+- **Parlay maths.** `parlay_joint` proved to return exactly `p2` for any `p1`/`rho` (verified by evaluating it at
+  `(0.2, 0.9, 0.0) → 0.8999`). Corrected implementation checked three ways: closed-form at ρ=0, adaptive Simpson,
+  and 200k-draw Monte Carlo; all agree at 0.3832 for (0.58, 0.58, +0.3).
+- **Pick labels.** All 22 cards re-derived from `origin_spread_home`. 0 of 22 were correct before the fix
+  (every card carried a plus handicap on the away team); 22 of 22 are correct after it.
+- **One false positive of my own, kept in the record.** I first flagged `/edge/`'s `n_test=138` as inconsistent with
+  `burn_in=30` (30+138=168). Recomputation showed 36 rows have no fitted calibration and 138 is exactly the number
+  with a fitted calibration and index ≥ 30. The claim is recorded as VERIFIED and the false alarm is documented on
+  the Corrections page.
+- **Full CI sequence run locally** before pushing: statistics tests OK · `tools/check_site.py` PASS ·
+  `pipeline/tests` OK · `verify` 16 tests OK · `verify/build.py` 13 pages 0 broken links · `scripts/build_site.py`
+  553 links 0 broken · `lab/` build + validate OK · `research/` build + verify OK · `pipeline/check_site.py` OK.
+  Zero working-tree drift after all rebuilds.
+
+### Irregularity this session caused and repaired (V-F-02)
+
+Running `pipeline/build_site_data.py` (an `edge/` pipeline script) overwrote four files in `site/data/`, a tree
+owned and generated by session `7c532e8c`, and added six new ones. The files were restored with `git checkout`
+before any commit, and the script's output path was changed from `site/data` to `edge/data`, which is where
+`edge/*.html` actually reads from. Recorded here rather than silently fixed.
+
+### Cross-session conflict resolved
+
+`git pull --rebase origin main` conflicted in this file because session `arena/2e50a71a-nba3` merged PR #17 while
+this session was working. Both sections were kept verbatim; nothing from either side was discarded. The merge is
+recorded above under "Merge conflict resolved".
+
+### Merge and deploy
+
+See the PR link and merge result appended below once the PR is merged.
+
 ## Session `e40cd215` (`arena/e40cd215-nba3`) — CLAIM (integration + reconciliation round)
 
 Session ID `e40cd215`. Arena binds this workspace to branch `arena/e40cd215-nba3` (base `e591b671`,

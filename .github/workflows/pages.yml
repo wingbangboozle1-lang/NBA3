@@ -1,16 +1,15 @@
 name: Build and deploy NBA Edge Lab (GitHub Pages)
 
 # Integration workflow. Published layout (one Pages artifact):
-#   /                -> root index.html (research dashboard; links to docs/, site/, lab/, research/)
+#   /                -> root index.html (executive summary, category navigation, questions, suggestions)
+#   /review.html     -> cross-workstream Flagged for Review page
 #   /docs/           -> f879620b data site (docs/data/data.json)
 #   /site/           -> arena/7c532e8c site (generated from data/*.json by scripts/build_site.py)
 #   /lab/            -> arena/5697caaf line lab (scripts/model.py, scripts/build_lab.py)
 #   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
 #   /edge/           -> arena-0a016df8 Edge Lab dashboard (verified game log, originated lines, gated picks)
 #   /origin/         -> arena/e22a2831 origination engine (174-game verified log, walk-forward backtest, 7-gate leaderboard)
-#   /dash/           -> arena/e40cd215 unified dashboard (integrated, reconciled across the sessions above)
-# The repository root index.html is the landing page and links to every tree above; tools/check_site.py
-# asserts that it contains the string "docs/index.html", so keep that link written out in full.
+#   /verify/pages/   -> arena/3655c68d verification & decision layer (cross-pipeline reconciliation, corrections, decision queue)
 # Pull requests run every check but never deploy.
 
 on:
@@ -46,22 +45,42 @@ jobs:
       - name: Root dashboard in-page links and link targets
         run: |
           test -s index.html
+          test -s review.html
           python3 - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
+          from urllib.parse import urlparse
           import os
+          OFFICIAL = ('nba.com', 'kansspelautoriteit.nl')
           class Check(HTMLParser):
               def __init__(self):
-                  super().__init__(); self.ids=set(); self.hrefs=[]
+                  super().__init__(); self.ids=set(); self.hrefs=[]; self.rows=[]
+                  self.in_tbody=False; self.row=None
               def handle_starttag(self, tag, attrs):
                   a=dict(attrs)
                   if 'id' in a: self.ids.add(a['id'])
-                  if tag=='a' and 'href' in a: self.hrefs.append(a['href'])
-          p=Check(); p.feed(Path('index.html').read_text(encoding='utf-8'))
-          broken=[h for h in p.hrefs if h.startswith('#') and h[1:] not in p.ids]
-          broken+=[h for h in p.hrefs if not h.startswith(('#','http://','https://','mailto:')) and not os.path.exists(h.split('#')[0])]
-          if broken: raise SystemExit(f'Broken links in index.html: {broken}')
-          print(f'index.html: {len(p.ids)} ids, {len(p.hrefs)} links checked.')
+                  if tag=='a' and 'href' in a:
+                      self.hrefs.append(a['href'])
+                      if self.row is not None: self.row.append(a['href'])
+                  if tag=='tbody': self.in_tbody=True
+                  if tag=='tr' and self.in_tbody: self.row=[]
+              def handle_endtag(self, tag):
+                  if tag=='tr' and self.row is not None:
+                      self.rows.append(self.row); self.row=None
+                  if tag=='tbody': self.in_tbody=False
+          for filename in ('index.html', 'review.html'):
+              p=Check(); p.feed(Path(filename).read_text(encoding='utf-8'))
+              broken=[h for h in p.hrefs if h.startswith('#') and h[1:] not in p.ids]
+              broken += [h for h in p.hrefs if not h.startswith(('#','http://','https://','mailto:')) and not os.path.exists(h.split('#')[0])]
+              if broken: raise SystemExit(f'Broken links in {filename}: {broken}')
+              for i,row in enumerate(p.rows,1):
+                  sources=[]
+                  for href in row:
+                      u=urlparse(href)
+                      if u.scheme=='https' and u.hostname and any(u.hostname==d or u.hostname.endswith('.'+d) for d in OFFICIAL):
+                          sources.append(href)
+                  if not sources: raise SystemExit(f'{filename}: table body row {i} has no official-source link')
+              print(f'{filename}: {len(p.ids)} ids, {len(p.hrefs)} links, {len(p.rows)} sourced data rows checked.')
           PY
       - name: Build NBA Edge Lab site (fails on missing sources, broken links, drift)
         run: |
@@ -79,6 +98,12 @@ jobs:
           python3 pipeline/build_site.py
           python3 pipeline/verify.py
           test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
+      - name: Verification layer self-tests (session 3655c68d)
+        run: python3 -m unittest verify.tests.test_verification
+      - name: Build verification site and check its links
+        run: |
+          python3 verify/build.py
+          test -z "$(git status --porcelain -- verify/pages/)" || { echo 'verify/pages/ is out of date; run verify/build.py and commit'; git status --porcelain -- verify/pages/; exit 1; }
       - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
         run: python3 pipeline/check_site.py
       - name: Integration engine and unified dashboard (session e40cd215)
@@ -87,29 +112,29 @@ jobs:
           git diff --exit-code -- data/integration/model.json
           python3 -m integrate.build_site
           python3 -m integrate.check
-          test -z "$(git status --porcelain -- dash/ data/integration/ index.html)" || { echo 'dash/ or index.html is stale; run python3 -m integrate.build_site and commit'; git status --porcelain -- dash/ data/integration/ index.html; exit 1; }
-      - name: Output-tree ownership audit
+          test -z "$(git status --porcelain -- dash/ data/integration/)" || { echo 'dash/ is stale; run python3 -m integrate.build_site and commit'; git status --porcelain -- dash/ data/integration/; exit 1; }
+          grep -q "dash/index.html" index.html || { echo "root index.html lost its link to dash/"; exit 1; }
+      - name: Output-tree ownership audit (session e40cd215)
         run: |
           python3 - <<'PY'
           import re, pathlib
-          # This session's generator must write only inside the paths it claimed.
           src = pathlib.Path('integrate/build_site.py').read_text()
-          writes = re.findall(r'(?:write_text|mkdir)\(', src)
-          assert 'ROOT / "dash"' in src or 'DASH = ROOT / "dash"' in src, "dash/ path changed"
+          assert 'DASH = ROOT / "dash"' in src, "dash/ path changed"
           bad = [l for l in src.splitlines() if re.search(r'(ROOT / "(?!dash|index)[a-zA-Z_]+")', l) and 'write' in l]
           if bad:
               raise SystemExit("integrate/build_site.py writes outside its claim: " + "; ".join(bad[:3]))
-          # Known, owner-pending hazard (flag E-F-01): pipeline/build_site_data.py emits into site/data.
           other = pathlib.Path('pipeline/build_site_data.py').read_text()
           if 'site/data' in other:
-              print("WARNING (does not fail the build): pipeline/build_site_data.py writes into site/data/,")
-              print("WARNING: which is owned by session 7c532e8c's site/. Owner decision pending - see E-F-01.")
+              print("WARNING: pipeline/build_site_data.py writes into site/data/ (owned by 7c532e8c).")
+          else:
+              print("pipeline/build_site_data.py now writes to edge/data only (fixed by 3655c68d, V-F-02).")
           print("Ownership audit: integrate/ writes only into dash/, data/integration/ and index.html.")
           PY
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
           cp index.html _pages/
+          cp review.html _pages/review.html
           cp -r docs _pages/docs
           cp -r site _pages/site
           cp -r lab _pages/lab
@@ -117,6 +142,7 @@ jobs:
           cp -r edge _pages/edge
           cp -r origin _pages/origin
           cp -r dash _pages/dash
+          cp -r verify _pages/verify
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
