@@ -933,6 +933,32 @@ are the integration surface.
 
 * PR: pending (see below, updated after the merge).
 
+---
+
+## Session `arena/a459dadf-nba3` — window refresh, line-by-line re-verification, canonical site integration
+
+Session ID: `a459dadf`. Arena fixes this session to branch `arena/a459dadf-nba3` (based on `main` @
+`3367762`, the merge of PR #19). The brief's `session-<id>/<task>` branch naming conflicts with the
+Arena one-branch rule, so all work stays on the assigned branch; per-task scopes are kept below and
+in the file list, which are non-overlapping with every earlier session's scope.
+
+Claimed at 2026-11-14 (UTC). No other session had an open claim on the files listed below.
+
+| Task | Status | Owner | Files in scope |
+|---|---|---|---|
+| A1 Repo review, line by line, with official links and irregularities | in progress | a459dadf | `data/repo_review.csv`, `data/repo_review.json`, `scripts/build_app.py` (repo-review section only) |
+| A2 Official capture refresh: slate 2026-11-14 → 2026-11-17, newest official injury report, official team stats re-check | in progress | a459dadf | `scripts/capture_official_2026_11_14.py`, `data/app/official_*.json` |
+| A3 Origination engine re-run on the refreshed window (lines, props, gates, correlations) | in progress | a459dadf | `data/origin/*`, `model/build.py`, `origin/**` (generated) |
+| A4 Canonical dataset + dashboard rebuild (every table row sourced, blanks flagged) | in progress | a459dadf | `data/app/canonical.json`, `app/**`, `index.html` |
+| A5 Picks for every game in the 3-day window (singles, parlay combos, player props) | in progress | a459dadf | `data/picks/**`, `scripts/build_app.py` (picks section) |
+| A6 Executive summary, questions, suggestions refresh | in progress | a459dadf | `data/questions.*`, `data/suggestions.*`, `data/flags.*`, `app/summary.html`, `app/questions.html`, `app/suggestions.html`, `app/flagged.html` (generated) |
+| A7 Integration: verify, link check, PR to `main`, merge, Pages deploy verification | in progress | a459dadf | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` |
+
+**Change requests to other sessions:** none. No file owned by an earlier session is edited by hand;
+`origin/**`, `app/**`, `index.html` are regenerated from their generators only.
+
+---
+
 ### Second merge round and what comparing engines found (this session)
 
 `main` moved twice more while this section was being written. Both merges were resolved keeping every
