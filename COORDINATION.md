@@ -2727,3 +2727,34 @@ pages use (verified by breaking a class name and watching `BUILD FAILED` name it
   is what caught that the stored slate was right while nothing else was checking it).
 
 **Registers after this round:** 66 flags / 46 questions / 44 suggestions / 39 sources.
+---
+
+## Session `arena/bd90ce16-nba3` (current) — CLAIM: fresh official refresh + line-by-line verification + integration
+
+Session ID: `bd90ce16`. Workspace branch `arena/bd90ce16-nba3` (Arena-fixed; the brief's
+`session-<id>/<task>` scheme is not available, as every prior session recorded). Branch is at the
+same commit as `origin/main` (`57762d5`, merge of PR #46). No open PRs and no active claims were
+present at claim time (2026-11-14, ~09:40 UTC). All prior sessions' sections above are historical.
+
+**Why this round exists.** The canonical dashboard publishes the official injury snapshot of
+2026-11-13 07:45 PM ET. A fresh read of the official injury-report index on 2026-11-14 lists
+**November 14 game-day reports** (12:00 a.m → 4:15 a.m ET so far), i.e. newer official injury
+data for the live 11/14 window than what the site currently carries. This round re-verifies the
+canonical dataset against the official sources line by line, refreshes the injury capture, and
+re-integrates.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| V1 | Claim scope, push claim before work | done | `COORDINATION.md` |
+| V2 | Fresh official capture: complete injury-report index list, newest 11/14 report PDF, official schedule window 11/14–11/17, team advanced stats spot-check | in progress | `scripts/capture_official_2026_11_14c.py` (**new**), `data/app/official_*` (**new snapshots**) |
+| V3 | Line-by-line verification of stored canonical values against the re-fetched official pages; diff old vs new injury snapshot | in progress | `scripts/assemble_canonical.py`, `data/app/canonical.json` |
+| V4 | Re-run strategy lab (seeded), rebuild canonical dashboard `app/**` + `index.html`; every table row keeps its official source link, blanks stay blank and flagged | in progress | `scripts/strategy_lab.py`, `scripts/build_app.py`, `app/**`, `index.html` |
+| V5 | Run all existing check suites (unit tests, site builders, link/source checkers, release audit) on the final tree | in progress | repository-wide, read-only for other sessions' trees |
+| V6 | Integration: PR to `main`, merge, confirm GitHub Pages deploy, record PR/merge/deploy + irregularities here | pending | `COORDINATION.md`, `README.md` |
+
+Files claimed: `scripts/capture_official_2026_11_14c.py`, `data/app/official_*` (new files),
+`data/app/canonical.json`, `data/app/lab.json`, `app/**`, `index.html`, plus append-only
+`COORDINATION.md` and the `README.md` status block (shared integration surface). Other sessions'
+trees (`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`, `hub/`, `dash/`, `dashboard/`,
+`d01ae7e2/`, `final/`, `verify/`, `model/`, `pipeline/`, `tools/`, `tests/`, `audit/`) are
+read-only for this session; requests to their owners are logged below, not edited. (bd90ce16: claim final verification + official refresh round on COORDINATION.md)
