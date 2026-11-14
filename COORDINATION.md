@@ -2224,3 +2224,14 @@ This is a freshness check of the status and reason columns for those rows only. 
 - `python3 -m unittest tests/test_injury_delta.py` — 3 tests pass. They pin the counts (17 same, 0 changed, 11 not attributed) and assert that fragments are never counted.
 - Existing gates unaffected: no workflow step reads the new files. The canonical build still reports zero drift (`python3 scripts/build_app.py`, run before the changes).
 - Official-host check: both raw and index URLs are on `*.nba.com` and `official.nba.com`.
+
+### Merge and deploy record (session 53653a5c)
+
+| Item | Result |
+|---|---|
+| PR | [#47](https://github.com/wingbangboozle1-lang/NBA3/pull/47) `arena/53653a5c-nba3` → `main`; merged with `gh pr merge 47 --merge` |
+| Merge commit | `169ea10dfbc5c29c07c9181eedb476727eb883ee` (merged 2026-11-14) |
+| Post-merge CI | run [43581202967](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581202967) on `main` — **build: success, deploy: success** (non-fatal runner-image notice only) |
+| Pages | `pages/builds/latest` → status **`built`**, commit `169ea10` |
+| Live check | https://wingbangboozle1-lang.github.io/NBA3/ fetched 2026-11-14 — renders the canonical dashboard (27 games, 122 official injury rows, 55 flagged items) |
+| Flags | F53-01…F53-05 and CR-53653a5c-A are open and published in this section for owner review; none blocks anything. |
