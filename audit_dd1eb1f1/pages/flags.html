@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review — NBA3 session dd1eb1f1 audit</title>
+<meta name="description" content="Independent verification and measured correlations for the NBA3 / NBA Edge Lab project. Every row links to its official source.">
+<link rel="stylesheet" href="../assets/audit.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="../../index.html"><span class="brand-mark">NBA3</span> Independent audit — session dd1eb1f1</a>
+  <div class="stamp">Session dd1eb1f1 · 8 entries · generated 2026-11-14T10:32Z</div>
+</div></header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="../../index.html">Canonical dashboard</a> <a href="../../app/summary.html">Executive summary</a></span></div><div class="nav-group"><span class="nav-cat">This audit</span><span class="nav-links"><a href="index.html">What this session did</a> <a href="verification.html">Line-by-line verification</a> <a href="correlations.html">Measured correlations</a> <a href="flags.html">Flagged for review</a></span></div><div class="nav-group"><span class="nav-cat">Canonical site</span><span class="nav-links"><a href="../../app/flagged.html">Flagged for review</a> <a href="../../app/verification.html">Verification log</a> <a href="../../app/sources.html">Source register</a></span></div></div></nav>
+<main class="wrap">
+  <div class="crumb small">Independent audit / Flagged for review</div>
+  <h1>Flagged for review</h1>
+  <p class="lead">Irregularities found by this session, with the evidence link for each. None of them blocks publishing.</p>
+<p>Everything below was found by this session while verifying the published data
+    against the official pages. Nothing here blocks the merge. Each entry links to the official or
+    repository page that is the evidence for it.</p><div class="flag"><div><span class="id">F-DD1-01</span>
+        <strong>An injury row with a blank Team cell, and why blank is the right answer</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">informational — corrected in this audit</div>
+        <p style="margin:0 0 7px">Row 18 of the 04:30 AM ET report prints &#x27;Traore, Nolan, Probable, Injury/Illness - Right Calf Tightness / Soreness&#x27; with the Game Date, Game Time, Matchup and Team cells empty, because it is the first row of the PDF&#x27;s second table. This audit&#x27;s first transcription filled the Team cell in as BKN from the block heading above it. The canonical artefact leaves the cell empty. Leaving it empty is the correct behaviour under the project&#x27;s no-inference rule, so the audit capture was corrected to blank and the value is published as blank. Consequence for readers: the player&#x27;s team is not established by this row alone.</p>
+        <div class="small">Evidence: <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_30AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_30AM.pdf</a></div></div><div class="flag"><div><span class="id">F-DD1-02</span>
+        <strong>The official schedule prints the same matchup twice inside the 4-day window</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">needs owner review</div>
+        <p style="margin:0 0 7px">NYK@TOR appears on 2026-11-15 (game 0022600241) and again on 2026-11-17 (game 0022600253), both at Scotiabank Arena. POR@MIN appears on 2026-11-16 (game 0022600250) and again on 2026-11-17 (game 0022600254), both at Target Center. This is what the official schedule page prints; it has not been corrected, because the project&#x27;s rule is to publish the official value and flag the doubt. It matters for the model: a repeat matchup 48 hours apart is not the same game twice, and any rule that treats teams as independent across legs will mis-price it.</p>
+        <div class="small">Evidence: <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></div></div><div class="flag"><div><span class="id">F-DD1-03</span>
+        <strong>Two 2026-11-17 game ids are printed out of chronological order</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">cosmetic</div>
+        <p style="margin:0 0 7px">The schedule page prints CHA@LAL at 11:00 PM ET with game id 0022600256 after UTA@LAC at 10:30 PM ET with game id 0022600257. The ids are used as keys, so the stored order follows the page. No value is wrong; a reader sorting by id will see a different order than a reader sorting by tip time.</p>
+        <div class="small">Evidence: <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></div></div><div class="flag"><div><span class="id">F-DD1-04</span>
+        <strong>main CI was red at the strategy-lab drift gate when this session started</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">resolved by another session — recorded for history</div>
+        <p style="margin:0 0 7px">Workflow run 43584459385 failed at the &#x27;Strategy lab ... must reproduce byte for byte&#x27; step because the committed data/app/lab.json no longer reproduced from the committed inputs, and every step after it was skipped — so no Pages artifact had been produced since 1938a0a and the site was only being served by the legacy Pages build. Session 8efd914d diagnosed and repaired it in PR #64/#65 before this session&#x27;s first commit. Recorded here because a red build is an irregularity worth a permanent entry, not a footnote.</p>
+        <div class="small">Evidence: <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584459385" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584459385</a></div></div><div class="flag"><div><span class="id">F-DD1-05</span>
+        <strong>The canonical injury snapshot is 15 minutes behind the newest official file, and the index page itself lags</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">informational</div>
+        <p style="margin:0 0 7px">The canonical artefact publishes the 04:15 AM ET report. The injury-report index listed 04:30 AM ET as the newest 2026-11-14 report when this session read it, and a probe of the 05:30 AM ET file returned an S3 AccessDenied object, so no newer report existed. This session transcribed the 04:30 AM report in full (49 rows) and it is row-for-row identical to what the site publishes. No staleness defect today; the point is that &#x27;newest&#x27; has to be re-checked every time, because the index page is cached.</p>
+        <div class="small">Evidence: <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></div></div><div class="flag"><div><span class="id">F-DD1-06</span>
+        <strong>Cross-game parlay independence was an assumption; it is now measured, and the totals hint is the one to watch</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">open — assumption replaced by a measurement</div>
+        <p style="margin:0 0 7px">The canonical correlations page publishes &#x27;Two legs in different games&#x27; as r = 0.0 with verified = false and the note that independence is an assumption. This session measured within-slate dependence directly: for margin residuals the within-night correlation is -0.014657 (permutation p 0.730454), and for total residuals -0.06954 (permutation p 0.072985). Neither survives a 5% threshold, so the assumption stands for now — but the totals figure is negative and its naive interval excludes zero, which is the direction that would make a cross-game over parlay worth less than independent pricing. Re-measure when the out-of-sample log is larger.</p>
+        <div class="small">Evidence: <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></div></div><div class="flag"><div><span class="id">F-DD1-07</span>
+        <strong>Twelve superseded dashboards are still published next to the canonical one</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">open — site structure</div>
+        <p style="margin:0 0 7px">docs/, site/, lab/, research/, edge/, origin/, dash/, verify/pages/, d01ae7e2/, hub/, dashboard/ and app/legacy/ are earlier sessions&#x27; complete sites, each with its own navigation, ID namespace and data snapshot. They are valuable as an audit trail and destructive as a landing page: a reader who lands on one cannot tell which numbers are current. The recommendation filed on the suggestions page is to keep every tree reachable but move all of them behind one dated archive page, so the landing page shows one navigation, one set of numbers and one snapshot date.</p>
+        <div class="small">Evidence: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></div></div><div class="flag"><div><span class="id">F-DD1-08</span>
+        <strong>A dashboard tile is embedded inside a flagged-item list entry on the landing page</strong></div>
+        <div class="small" style="margin:3px 0 7px;color:var(--warn)">open — presentation defect</div>
+        <p style="margin:0 0 7px">On the canonical landing page the &#x27;Highest-severity flags&#x27; list item for NF-23 ends with an embedded anchor card linking to dash/index.html. It renders as a flag that is also a navigation tile, inside a list of severity findings. The link itself is fine; its placement makes the page read as if &#x27;Unified dashboard (e40cd215)&#x27; were an eighth flagged item. Raised as a change request to the owner of scripts/build_app.py rather than patched here, because that builder owns index.html and a hand edit would be overwritten on the next regeneration.</p>
+        <div class="small">Evidence: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></div></div><h2>Summary of this session's verification</h2>
+<table><thead><tr><th>Section</th><th>Rows</th><th>Field checks</th><th>Mismatches</th>
+<th>Official source</th></tr></thead><tbody>
+<tr><td>Upcoming slate, 2026-11-14 → 2026-11-17</td><td class="num">27</td>
+<td class="num">189</td><td class="num">0</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td></tr>
+<tr><td>Official injury report</td><td class="num">49</td>
+<td class="num">343</td><td class="num">0</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_30AM.pdf" target="_blank" rel="noopener noreferrer">injury PDF</a></td></tr>
+</tbody></table>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <p><strong>NBA3 — independent audit by session <code>arena/dd1eb1f1-nba3</code></strong>.
+  Every table row links to the official page the value was read from. Values that could not be
+  confirmed are left blank and marked unverified — nothing is inferred. Model outputs are
+  labelled <em>Derived</em> and are not official NBA statistics. Research, not betting advice.</p>
+  <p>Repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">github.com/wingbangboozle1-lang/NBA3</a>
+  · canonical dashboard <a href="../../index.html">/</a></p>
+</div></footer>
+</body>
+</html>

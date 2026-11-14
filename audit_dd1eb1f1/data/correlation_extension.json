@@ -1,0 +1,263 @@
+{
+ "schema": "nba3.audit_dd1eb1f1.correlation_extension.v1",
+ "session": "arena/dd1eb1f1-nba3",
+ "generated_utc": "2026-11-14T10:38Z",
+ "seed": 20261114,
+ "permutations": 5000,
+ "what_this_is": "Measured values computed by this session from official NBA final scores and from the site's own published out-of-sample predictions. They are labelled Derived: they are not official NBA statistics and they are not the canonical site's numbers.",
+ "sources": {
+  "official_final_scores": "https://www.nba.com/games?date=",
+  "official_team_advanced": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+  "games_log_file": "data/app/games_2026-11-14c.csv",
+  "oos_predictions_file": "data/app/canonical.json -> oos_sample"
+ },
+ "sections": [
+  {
+   "title": "Rest, back-to-backs and the official final scores",
+   "question": "Does days-of-rest carry a measurable signal in the official results, or is it noise? The site lists rest as a game-flow factor (GF04) but records the effect as unmeasured. These numbers measure it.",
+   "inputs": {
+    "games": 167,
+    "games_excluded_no_prior_game": 16,
+    "exclusion_reason": "a team's first game of the season has no computable rest"
+   },
+   "source_scores": "https://www.nba.com/games?date=",
+   "method": "Days of rest = the gap in days between a team's game and its previous game, derived from the official game dates in the 183-game log. rest_diff = home rest minus away rest. Correlations are Pearson with a Fisher z 95% interval; the p-value for rest_diff vs home margin comes from 5,000 permutations of the margins (seed 20261114), which assumes nothing about the distribution.",
+   "rows": [
+    {
+     "pair": "Rest differential (home rest - away rest) vs home margin",
+     "stat": "Pearson r",
+     "value": 0.094933,
+     "ci95": [
+      -0.057764,
+      0.243289
+     ],
+     "n": 167,
+     "permutation_p": 0.224555,
+     "verified": true,
+     "kind": "derived",
+     "reading": "Positive means the better-rested home team does better than the rest-neutral expectation. The interval is the honest answer: if it covers zero, this sample cannot distinguish the effect from noise."
+    },
+    {
+     "pair": "Rest differential vs game total",
+     "stat": "Pearson r",
+     "value": -0.045148,
+     "ci95": [
+      -0.19567,
+      0.107452
+     ],
+     "n": 167,
+     "verified": true,
+     "kind": "derived",
+     "reading": "Whether rest asymmetry is associated with higher or lower scoring."
+    },
+    {
+     "pair": "Rest differential vs absolute margin (blowout size)",
+     "stat": "Pearson r",
+     "value": 0.079939,
+     "ci95": [
+      -0.072808,
+      0.229023
+     ],
+     "n": 167,
+     "verified": true,
+     "kind": "derived",
+     "reading": "Whether tired teams get blown out, which matters for props and fourth-quarter minutes."
+    },
+    {
+     "pair": "Combined rest (home + away) vs game total",
+     "stat": "Pearson r",
+     "value": 0.013839,
+     "ci95": [
+      -0.138315,
+      0.165355
+     ],
+     "n": 167,
+     "verified": true,
+     "kind": "derived",
+     "reading": "Whether two rested teams score more in total."
+    }
+   ],
+   "group_means": [
+    {
+     "group": "Home team on a back-to-back, opponent rested",
+     "n": 20,
+     "mean_home_margin": 2.1,
+     "home_win_rate": 0.6,
+     "welch_t_vs_rested_both": 0.637705,
+     "p_normal_approx": 0.523666
+    },
+    {
+     "group": "Neither team on a back-to-back",
+     "n": 118,
+     "mean_home_margin": -0.033898,
+     "home_win_rate": 0.491525,
+     "welch_t_vs_rested_both": null,
+     "p_normal_approx": null
+    },
+    {
+     "group": "Away team on a back-to-back, home team rested",
+     "n": 17,
+     "mean_home_margin": 8.882353,
+     "home_win_rate": 0.705882,
+     "welch_t_vs_rested_both": 2.057049,
+     "p_normal_approx": 0.039682
+    }
+   ],
+   "multiple_comparisons": {
+    "family_size": 3,
+    "method": "Benjamini-Hochberg (1995) across the three rest tests in this section",
+    "tests": [
+     {
+      "test": "Rest differential vs home margin",
+      "raw_p": 0.224555,
+      "bh_adjusted_p": 0.336833,
+      "survives_0.05": false
+     },
+     {
+      "test": "Home team on a back-to-back, opponent rested",
+      "raw_p": 0.523666,
+      "bh_adjusted_p": 0.523666,
+      "survives_0.05": false
+     },
+     {
+      "test": "Away team on a back-to-back, home team rested",
+      "raw_p": 0.039682,
+      "bh_adjusted_p": 0.119045,
+      "survives_0.05": false
+     }
+    ],
+    "reading": "One raw p-value in this section sits below 0.05 on its own. After adjusting for the fact that three rest hypotheses were tested on the same sample, none of them reaches 0.05. Publishing that one would have been a manufactured signal."
+   },
+   "caveat": "These are observational counts of one 25-day slice of one season, not a controlled experiment. Rest is confounded with travel, opponent quality and coaching. A small n in the back-to-back cells is exactly why the intervals are published next to the point estimates."
+  },
+  {
+   "title": "How much of the official result our originated numbers actually track",
+   "source_scores": "https://www.nba.com/games?date=",
+   "method": "Pearson r between our walk-forward prediction and the official result, on the 140 out-of-sample games only. The baseline column is the same correlation for the site's constant baseline, so the comparison shows what the model adds. A model that beats the baseline on RMSE but not on correlation is picking up level, not ordering.",
+   "rows": [
+    {
+     "pair": "Originated spread (home margin) vs official home margin",
+     "stat": "Pearson r",
+     "value": 0.353937,
+     "ci95": [
+      0.199764,
+      0.491009
+     ],
+     "n": 140,
+     "baseline_r": -0.11827,
+     "baseline_ci95": [
+      -0.278705,
+      0.048587
+     ],
+     "verified": true,
+     "kind": "derived",
+     "reading": "Positive correlation means the ordering of games is informative even where the level is off."
+    },
+    {
+     "pair": "Originated total vs official total",
+     "stat": "Pearson r",
+     "value": 0.034458,
+     "ci95": [
+      -0.132201,
+      0.199222
+     ],
+     "n": 140,
+     "baseline_r": -0.031546,
+     "baseline_ci95": [
+      -0.196421,
+      0.135064
+     ],
+     "verified": true,
+     "kind": "derived",
+     "reading": "Positive correlation means the ordering of games is informative even where the level is off."
+    }
+   ],
+   "residual_summary": {
+    "n": 140,
+    "margin_residual_mean": 0.811362,
+    "margin_residual_sd": 15.981104,
+    "total_residual_mean": -1.516701,
+    "total_residual_sd": 19.458983,
+    "baseline_margin_residual_sd": 16.956898,
+    "baseline_total_residual_sd": 19.416524
+   }
+  },
+  {
+   "title": "Do our errors cluster inside one slate? (cross-game parlay dependence)",
+   "question": "Cross-game parlays are priced as if the legs are independent. That is an assumption, and the site says so. If residuals on the same night move together, a cross-game parlay of our own picks is mispriced in a known direction.",
+   "source_scores": "https://www.nba.com/games?date=",
+   "cover_definition": "The home side covers our originated spread when act_margin > pred_margin, the same convention the site uses in scripts/strategy_lab.py::grade_game.",
+   "method": "For every pair of games that share a date, correlate their out-of-sample residuals (both orderings, so the estimate is symmetric). The null shuffles residuals across dates 5,000 times (seed 20261114+1), which destroys any within-night structure while keeping the same residuals and the same slate sizes. p is the fraction of shuffled values at least as extreme as observed. The second test asks whether the per-date side hit rate varies more than a coin with a constant rate would (5,000 shuffles, seed 20261114+2).",
+   "results": {
+    "margin residual": {
+     "stat": "within-slate pairwise Pearson r of residuals",
+     "value": -0.014657,
+     "ci95": [
+      -0.071761,
+      0.042543
+     ],
+     "pairs": 1176,
+     "games": 140,
+     "dates": 18,
+     "permutation_p": 0.730454,
+     "null_median": -0.013182,
+     "null_p95": 0.063526,
+     "permutations": 5000
+    },
+    "total residual": {
+     "stat": "within-slate pairwise Pearson r of residuals",
+     "value": -0.06954,
+     "ci95": [
+      -0.126202,
+      -0.012425
+     ],
+     "pairs": 1176,
+     "games": 140,
+     "dates": 18,
+     "permutation_p": 0.072985,
+     "null_median": -0.011616,
+     "null_p95": 0.064943,
+     "permutations": 5000
+    }
+   },
+   "per_date_hit_rate_overdispersion": {
+    "observed_variance_of_per_date_rate": 0.035918,
+    "null_median_variance": 0.039595,
+    "permutation_p": 0.612677,
+    "permutations": 5000,
+    "reading": "A p near 1 means the per-night hit rates vary less than chance, i.e. no detectable slate effect. A p near 0 means our errors share a nightly component, which is the thing that would break independent parlay pricing."
+   },
+   "caveat": "140 games over roughly 30 dates is a small sample for a variance-component question, and the 1,176 pairs are not independent: one game on a ten-game night contributes eighteen pairs. The Fisher-z interval above therefore assumes something that is not true and is printed only for completeness - the permutation p, which reshuffles whole slates and keeps the dependence structure, is the number to read. The honest output here is 'no detectable slate effect', not a verdict of independence."
+  },
+  {
+   "title": "Correlations still left blank, and exactly what would fill them",
+   "note": "These are the cells the site publishes empty. This session did not fill them, because the input they need does not exist in this repository.",
+   "rows": [
+    {
+     "pair": "Player A points vs player B points, same team, same game",
+     "needs": "per-player box scores for the season",
+     "status": "blank",
+     "official_source_that_has_it": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "pair": "Player points vs player rebounds, same player, same game",
+     "needs": "per-player game logs",
+     "status": "blank",
+     "official_source_that_has_it": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "pair": "Player points vs team total, same game",
+     "needs": "per-player game logs joined to game totals",
+     "status": "blank",
+     "official_source_that_has_it": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "pair": "Minutes played vs production when a teammate is out",
+     "needs": "per-player game logs plus the injury history by date",
+     "status": "blank",
+     "official_source_that_has_it": "https://official.nba.com/nba-injury-report-2026-27-season/"
+    }
+   ]
+  }
+ ]
+}
