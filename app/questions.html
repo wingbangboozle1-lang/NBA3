@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -559,6 +559,39 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Either state on the page that Probable/Available rows are ignored and why, or capture player game logs and measure how minutes actually shift for splint/mask cases. The first costs nothing.</td>
 <td>Owner</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>CQ-48</td>
+<td>Data availability</td>
+<td>Is any official, machine-readable per-player game log reachable from this environment at all? Every blank player-level correlation and every unpriced prop traces back to this one question, and no session had actually probed it.</td>
+<td>answered (no)</td>
+<td>Probed on 2026-11-14 by session arena/df301475-nba3 with the same fetch path the captures use: https://stats.nba.com/stats/boxscoretraditionalv2 (the JSON endpoint) fails at fetch; https://www.nba.com/stats/players/gamelog, /stats/players/boxscoregamelog, /stats/teams/boxsrctraditional and /stats/teams/boxscoretraditional each return the NBA &#x27;Content Unavailable&#x27; page. The only official per-player game data that renders here is the per-game box-score HTML page (https://www.nba.com/game/&lt;slug&gt;/&lt;game_id&gt;/box-score), which carries one full box per fetch with the stat cells wrapped in link markup - a single game spanned 6 chunks. So the data exists officially but not at a size, or in a shape, that can be transcribed without hand-keying numbers, which this project does not do.</td>
+<td>MISSING: an official per-player game log in a shape that can be captured at the sample size a correlation or a scoring distribution needs - roughly 200+ player-games, not 9. No reachable official page offers it: the stats pages that render are season aggregates, and the per-game data lives only in per-game HTML boxes.</td>
+<td>Either accept that the player-level cells stay blank for the season, or fund a licensed stats feed (the answer CQ-03 was heading for), or capture box scores one game at a time for a fixed, declared sample (e.g. the 9 games of 11/13) and label every player-level number as measured on that sample only.</td>
+<td>owner decision; no session can resolve it by working harder at the same URLs</td>
+<td><a href="https://www.nba.com/game/nyk-vs-ind-0022600034/box-score" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-ind-0022600034/box-score</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CQ-49</td>
+<td>Availability rules</td>
+<td>At 1:30 p.m. ET on a game day, is a team playing the second night of a back-to-back LATE or NOT YET DUE? Memphis is the only 11/14 side with no rows in the game-day report.</td>
+<td>answered by the ordering argument already in the code</td>
+<td>The rule publishes the deadline as &#x27;1 p.m. local time on the day of the game&#x27; and never a conversion to ET. 1 p.m. local is 2 p.m. ET or later for every US/Canadian venue in this window (the easternmost venues are at ET; Memphis is one hour behind), so at 1:30 p.m. ET the deadline is certainly not past and the state is NOT_YET_DUE, not DUE_AND_NOT_FILED. What is NOT in the data is whether the owner wants the site to escalate this to &#x27;late&#x27; once 2 p.m. ET passes without a re-capture: the state is a property of the document&#x27;s stamp, so it cannot age on its own.</td>
+<td>MISSING: nothing further from the league. The state is correct at the document&#x27;s own stamp; what is missing is a refresh cadence, which is a process decision (CS-49), not a fact.</td>
+<td>Confirm the treatment, or accept CS-49 (a CI/refresh cadence that re-reads the index and re-derives the states against the newest file, so &#x27;not yet due&#x27; cannot sit there all day).</td>
+<td>owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CQ-50</td>
+<td>Signals vs engine defects</td>
+<td>The strongest rule the board has ever produced - ST-21, &#x27;back the team our own previous line under-rated&#x27; - wins 65.1% of 63 out-of-sample games (p = 0.023, q = 0.26, and below the board&#x27;s luck threshold of 30.6 pp). Is that a signal to trade, or a defect in our engine?</td>
+<td>open - and the honest reading is the second</td>
+<td>A rule that beats OUR OWN line by anticipating our own previous error is evidence the line is slow, not that the market is wrong: our line is fair by construction, so its residual autocorrelation is a property of the estimator. What is missing to act on it is a fitted alternative: a short-window form term in the walk-forward refit, scored on the same sample, with the same gates, and the rule then re-run to see whether it stops working (it should - if the fix works, the exploit disappears).</td>
+<td>MISSING: the form term is not in the model, so the rule keeps working; and the harness has no &#x27;engine drift&#x27; measure (residual autocorrelation by date) published, only the rule&#x27;s own hit rate.</td>
+<td>Decide CS-50 (A: fit a form-blend and re-run the harness; B: log it as a known engine property and leave the model; C: publish an engine-drift chart on the methodology page). Until then the leaderboard shows ST-21 at tier T3, watch-only, with no stake.</td>
+<td>owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json</a></td>
 </tr>
 </tbody></table></div>
 </main>

@@ -2,16 +2,16 @@
  "schema": "nba3.report_availability/v1",
  "session": "arena/25418e3f-nba3",
  "built_on": "2026-11-14",
- "as_of_report": "2026-11-14 04:15 AM ET",
+ "as_of_report": "2026-11-14 01:30 PM ET",
  "rule_source": "https://official.nba.com/nba-injury-report-2026-27-season/",
  "rule_quote": "By 5 p.m. local time the day before a game (other than the second day of a back-to-back), teams must designate a participation status and identify a specific injury, illness, other medical condition, or other reason for any player whose participation in the game may be affected for any reason. For the second game of a back-to-back, teams must report the above information by 1 p.m. local time on the day of the game. In addition, teams are required to submit a game-day injury report between 11 a.m. and 1 p.m. local time (and between 8 and 10 a.m. for tip-offs 5 p.m. or earlier) on game days (besides the second game of a back-to-back).",
  "note_no_clock_conversion": "Deadlines are published in local time, exactly as the rule words them. The offset between a venue's local clock and Eastern time is not printed on the official pages read for this project, so no ET equivalent is asserted -- that column is left blank rather than filled from memory.",
  "counts": {
   "games": 27,
   "team_side_rows": 54,
-  "filed": 5,
+  "filed": 9,
   "due_and_not_filed": 0,
-  "not_yet_due": 23,
+  "not_yet_due": 19,
   "no_report_covers_date": 26,
   "games_fully_priced_on_availability": 0
  },
@@ -20,13 +20,13 @@
    "date": "2026-11-14",
    "games": 5,
    "team_sides": 10,
-   "filed": 5,
+   "filed": 9,
    "due_and_not_filed": 0,
-   "not_yet_due": 5,
+   "not_yet_due": 1,
    "no_report_covers_date": 0,
    "lead_days": "today",
    "state": "the newest official report covers this date and teams have filed",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -38,7 +38,7 @@
    "no_report_covers_date": 0,
    "lead_days": "game day is 1 day ahead",
    "state": "the newest official report does not cover this date at all",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -50,7 +50,7 @@
    "no_report_covers_date": 16,
    "lead_days": "game day is 2 days ahead",
    "state": "the newest official report does not cover this date at all",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -62,7 +62,7 @@
    "no_report_covers_date": 10,
    "lead_days": "game day is 3 days ahead",
    "state": "the newest official report does not cover this date at all",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   }
  ],
  "headline": "Zero teams in the window are overdue. Every missing row is explained by a deadline that has not arrived yet: the five back-to-back teams on 2026-11-14 file by 1 p.m. local today, every 2026-11-15 team files by 5 p.m. local tomorrow's-eve, and no official report exists yet for 2026-11-16 or 2026-11-17. So a 3-day-ahead line is priced on ratings and rest alone, and the injury overlay can only be applied to the day it is filed for.",
@@ -70,17 +70,17 @@
   "date": "2026-11-14",
   "teams_that_filed": [
    "BKN",
+   "CHI",
+   "CLE",
    "DAL",
    "DEN",
    "DET",
-   "MIN"
+   "MIA",
+   "MIN",
+   "NOP"
   ],
   "teams_that_have_not": [
-   "CHI",
-   "CLE",
-   "MEM",
-   "MIA",
-   "NOP"
+   "MEM"
   ],
   "teams_on_a_back_to_back": [
    "CHI",
@@ -96,11 +96,14 @@
    "DET",
    "MIN"
   ],
-  "unfiled_are_exactly_the_b2b_teams": true,
-  "filed_are_exactly_the_rest": true,
-  "interpretation": "On the 2026-11-14 slate the five teams whose rows are missing from the newest official report are exactly the five teams playing the second game of a back-to-back, whose report deadline is 1:00 PM local on game day. Their absence is a rule-driven timing gap, not a failure to file, and it closes hours before tip-off -- so these games are recoverable by waiting, not by guessing.",
+  "unfiled_are_exactly_the_b2b_teams": false,
+  "filed_are_exactly_the_rest": false,
+  "every_unfiled_side_is_explained_by_the_back_to_back_clause": true,
+  "as_of_local_hour_et_terms": 13.5,
+  "interpretation": "On the 2026-11-14 slate the team-sides still without player rows (MEM) are all playing the second game of a back-to-back, whose report deadline is 1:00 PM local on game day -- not yet reached at the 2026-11-14 01:30 PM ET stamp of this document. That is a rule-driven timing gap, not a failure to file, and it closes hours before tip-off: recoverable by waiting, not by guessing.",
+  "interpretation_note": "The equality of the two sets is published as an observation, not asserted as a rule: it held for the 04:15 AM ET pre-filing report and is not expected to hold for a game-day report, where most teams file whether or not they are on a back-to-back. Only the subset test is treated as a correctness condition.",
   "source_rule": "https://official.nba.com/nba-injury-report-2026-27-season/",
-  "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+  "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
   "source_results": "https://www.nba.com/games?date=2026-11-13"
  },
  "rows": [
@@ -130,7 +133,7 @@
    ],
    "questionable_count": 0,
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/den-vs-nop-0022600231"
@@ -149,14 +152,19 @@
    "due_local_text": "1:00 PM local time on the day of the game (second game of a back-to-back)",
    "deadline_passed_at_capture": false,
    "report_covers_date": true,
-   "state": "NOT_YET_DUE",
-   "state_reading": "The official deadline for this team has not arrived yet at the capture time. The missing rows are EXPECTED, not a data failure: the number of absences is unknown, so it is left blank rather than shown as zero, and the game becomes re-priceable after the deadline.",
-   "rows_listed": 1,
-   "out_count": null,
-   "out_players": [],
-   "questionable_count": null,
+   "state": "FILED",
+   "state_reading": "The newest official report lists rows for this team. Players marked Out or Doubtful are known absences; players not named in it are not declared out.",
+   "rows_listed": 5,
+   "out_count": 4,
+   "out_players": [
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte",
+    "Watford, Trendon"
+   ],
+   "questionable_count": 0,
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/den-vs-nop-0022600231"
@@ -178,15 +186,16 @@
    "state": "FILED",
    "state_reading": "The newest official report lists rows for this team. Players marked Out or Doubtful are known absences; players not named in it are not declared out.",
    "rows_listed": 6,
-   "out_count": 3,
+   "out_count": 4,
    "out_players": [
     "Biberovic, Tarik",
-    "de Larrea, Sergio",
-    "Lively II, Dereck"
+    "Christie, Max",
+    "Lively II, Dereck",
+    "de Larrea, Sergio"
    ],
-   "questionable_count": 1,
+   "questionable_count": 0,
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/dal-vs-cle-0022600232"
@@ -205,14 +214,19 @@
    "due_local_text": "1:00 PM local time on the day of the game (second game of a back-to-back)",
    "deadline_passed_at_capture": false,
    "report_covers_date": true,
-   "state": "NOT_YET_DUE",
-   "state_reading": "The official deadline for this team has not arrived yet at the capture time. The missing rows are EXPECTED, not a data failure: the number of absences is unknown, so it is left blank rather than shown as zero, and the game becomes re-priceable after the deadline.",
-   "rows_listed": 1,
-   "out_count": null,
-   "out_players": [],
-   "questionable_count": null,
+   "state": "FILED",
+   "state_reading": "The newest official report lists rows for this team. Players marked Out or Doubtful are known absences; players not named in it are not declared out.",
+   "rows_listed": 8,
+   "out_count": 4,
+   "out_players": [
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "questionable_count": 4,
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/dal-vs-cle-0022600232"
@@ -242,9 +256,9 @@
     "Okorie, Ebuka",
     "Onyenso, Ugonna"
    ],
-   "questionable_count": 2,
+   "questionable_count": 0,
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/det-vs-mia-0022600233"
@@ -263,14 +277,17 @@
    "due_local_text": "1:00 PM local time on the day of the game (second game of a back-to-back)",
    "deadline_passed_at_capture": false,
    "report_covers_date": true,
-   "state": "NOT_YET_DUE",
-   "state_reading": "The official deadline for this team has not arrived yet at the capture time. The missing rows are EXPECTED, not a data failure: the number of absences is unknown, so it is left blank rather than shown as zero, and the game becomes re-priceable after the deadline.",
-   "rows_listed": 1,
-   "out_count": null,
-   "out_players": [],
-   "questionable_count": null,
+   "state": "FILED",
+   "state_reading": "The newest official report lists rows for this team. Players marked Out or Doubtful are known absences; players not named in it are not declared out.",
+   "rows_listed": 4,
+   "out_count": 2,
+   "out_players": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
+   "questionable_count": 0,
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/det-vs-mia-0022600233"
@@ -291,7 +308,7 @@
    "report_covers_date": true,
    "state": "FILED",
    "state_reading": "The newest official report lists rows for this team. Players marked Out or Doubtful are known absences; players not named in it are not declared out.",
-   "rows_listed": 5,
+   "rows_listed": 6,
    "out_count": 4,
    "out_players": [
     "Bilodeau, Tyler",
@@ -299,9 +316,9 @@
     "Nelson, Grant",
     "Saraf, Ben"
    ],
-   "questionable_count": 1,
+   "questionable_count": 0,
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/bkn-vs-mem-0022600234"
@@ -327,7 +344,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/bkn-vs-mem-0022600234"
@@ -346,14 +363,19 @@
    "due_local_text": "1:00 PM local time on the day of the game (second game of a back-to-back)",
    "deadline_passed_at_capture": false,
    "report_covers_date": true,
-   "state": "NOT_YET_DUE",
-   "state_reading": "The official deadline for this team has not arrived yet at the capture time. The missing rows are EXPECTED, not a data failure: the number of absences is unknown, so it is left blank rather than shown as zero, and the game becomes re-priceable after the deadline.",
-   "rows_listed": 1,
-   "out_count": null,
-   "out_players": [],
-   "questionable_count": null,
+   "state": "FILED",
+   "state_reading": "The newest official report lists rows for this team. Players marked Out or Doubtful are known absences; players not named in it are not declared out.",
+   "rows_listed": 7,
+   "out_count": 4,
+   "out_players": [
+    "Awaka, Tobe",
+    "Sellers, Jaylin",
+    "Swain, Dailyn",
+    "Wilson, Caleb"
+   ],
+   "questionable_count": 3,
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/chi-vs-min-0022600235"
@@ -382,7 +404,7 @@
    ],
    "questionable_count": 0,
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/chi-vs-min-0022600235"
@@ -408,7 +430,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/ind-vs-phi-0022600236"
@@ -434,7 +456,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/ind-vs-phi-0022600236"
@@ -460,7 +482,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/lal-vs-phx-0022600237"
@@ -486,7 +508,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/lal-vs-phx-0022600237"
@@ -512,7 +534,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/cha-vs-lac-0022600238"
@@ -538,7 +560,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/cha-vs-lac-0022600238"
@@ -564,7 +586,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/sas-vs-uta-0022600239"
@@ -590,7 +612,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/sas-vs-uta-0022600239"
@@ -616,7 +638,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/dal-vs-bos-0022600240"
@@ -642,7 +664,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/dal-vs-bos-0022600240"
@@ -668,7 +690,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/nyk-vs-tor-0022600241"
@@ -694,7 +716,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/nyk-vs-tor-0022600241"
@@ -720,7 +742,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/hou-vs-was-0022600242"
@@ -746,7 +768,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/hou-vs-was-0022600242"
@@ -772,7 +794,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/atl-vs-mil-0022600243"
@@ -798,7 +820,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/atl-vs-mil-0022600243"
@@ -824,7 +846,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/okc-vs-sac-0022600244"
@@ -850,7 +872,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/okc-vs-sac-0022600244"
@@ -876,7 +898,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/orl-vs-bos-0022600245"
@@ -902,7 +924,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/orl-vs-bos-0022600245"
@@ -928,7 +950,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/chi-vs-cle-0022600246"
@@ -954,7 +976,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/chi-vs-cle-0022600246"
@@ -980,7 +1002,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/mem-vs-was-0022600247"
@@ -1006,7 +1028,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/mem-vs-was-0022600247"
@@ -1032,7 +1054,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/phi-vs-bkn-0022600248"
@@ -1058,7 +1080,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/phi-vs-bkn-0022600248"
@@ -1084,7 +1106,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/hou-vs-mia-0022600249"
@@ -1110,7 +1132,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/hou-vs-mia-0022600249"
@@ -1136,7 +1158,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/por-vs-min-0022600250"
@@ -1162,7 +1184,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/por-vs-min-0022600250"
@@ -1188,7 +1210,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/gsw-vs-nop-0022600251"
@@ -1214,7 +1236,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/gsw-vs-nop-0022600251"
@@ -1240,7 +1262,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/phx-vs-den-0022600252"
@@ -1266,7 +1288,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/phx-vs-den-0022600252"
@@ -1292,7 +1314,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/nyk-vs-tor-0022600253"
@@ -1318,7 +1340,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/nyk-vs-tor-0022600253"
@@ -1344,7 +1366,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-17 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/por-vs-min-0022600254"
@@ -1370,7 +1392,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-17 13:00 local, game day (second game of a back-to-back)",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/por-vs-min-0022600254"
@@ -1396,7 +1418,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/det-vs-sas-0022600255"
@@ -1422,7 +1444,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/det-vs-sas-0022600255"
@@ -1448,7 +1470,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/uta-vs-lac-0022600257"
@@ -1474,7 +1496,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/uta-vs-lac-0022600257"
@@ -1500,7 +1522,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/cha-vs-lal-0022600256"
@@ -1526,7 +1548,7 @@
    "out_players": [],
    "questionable_count": null,
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
    "source_game": "https://www.nba.com/game/cha-vs-lal-0022600256"

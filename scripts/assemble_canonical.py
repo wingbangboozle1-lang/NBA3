@@ -183,6 +183,26 @@ def build_sources():
         "gh api (authenticated)", "2026-11-14",
         "Verified against API output at retrieval time.",
         "Repository facts change; re-check before relying on them.")
+    add("NBA (official)",
+        "NBA official injury report PDF - 11/14/26 01:30 PM ET (game-day report)",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+        "Official (NBA)",
+        "The availability snapshot every 11/14 line, pick, injury row and rotation figure is priced "
+        "from; replaces the 04:15 AM ET pre-filing report as the manifest's injuries input.",
+        "fetch_page, 1 chunk, hasMore false (PDF text extraction); the 01:15 PM ET report read "
+        "independently as a cross-check; the next quarter-hour file probed and absent",
+        "2026-11-14",
+        "69 rows (50 player, 19 team NOT YET SUBMITTED). C1 the two consecutive reports agree row for "
+        "row (0 differences); C2 the parse agrees with an independent hand transcription (0 "
+        "differences); C4 all ten 11/14 and eighteen 11/15 team slots of the official slate present "
+        "exactly once; C5/C5b every tip time, printed or carried, equals the official slate; C6 the "
+        "49->69 delta reconciles (25 added, 4 status changes, 5 withdrawn, each explained); C7 "
+        "fragment accounting. Both raw extractions committed beside the JSON.",
+        "A snapshot of one minute of a continually updated document: further 11/14 reports publish "
+        "this afternoon and tonight's tips are 7:00-8:00 PM ET (F-DF3-06). It prints no rows at all "
+        "for 2026-11-16 or 2026-11-17, which is not the same as nobody being out. No official "
+        "minutes-per-game is available beyond the captured top-31 table, so every vacuum figure "
+        "built from it is a floor.")
     return out
 
 
@@ -1290,6 +1310,149 @@ def build_session_flags():
     return out
 
 
+# ---------------------------------------------------------------------------
+# session arena/df301475-nba3 (2026-11-14, game-day refresh round)
+# ---------------------------------------------------------------------------
+SESSION_FLAGS += [
+    ("F-DF3-07", "Register coverage", "info",
+     "This session's six flagged items live in data/app/flags_df301475.json and are loaded by "
+     "build_round_df301475_flags(), so the register on the site is complete rather than "
+     "half in the register and half in a page another tree owns. Precedent for the mechanism: "
+     "flags_44e0c051.json and flags_8e199e09.json.",
+     "None - mechanism note for the next session, so nobody re-invents it.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/flags_df301475.json"]),
+]
+
+SESSION_QUESTIONS += [
+    ("CQ-48", "Data availability",
+     "Is any official, machine-readable per-player game log reachable from this environment at "
+     "all? Every blank player-level correlation and every unpriced prop traces back to this one "
+     "question, and no session had actually probed it.",
+     "answered (no)",
+     "Probed on 2026-11-14 by session arena/df301475-nba3 with the same fetch path the captures "
+     "use: https://stats.nba.com/stats/boxscoretraditionalv2 (the JSON endpoint) fails at fetch; "
+     "https://www.nba.com/stats/players/gamelog, /stats/players/boxscoregamelog, "
+     "/stats/teams/boxsrctraditional and /stats/teams/boxscoretraditional each return the NBA "
+     "'Content Unavailable' page. The only official per-player game data that renders here is the "
+     "per-game box-score HTML page (https://www.nba.com/game/<slug>/<game_id>/box-score), which "
+     "carries one full box per fetch with the stat cells wrapped in link markup - a single game "
+     "spanned 6 chunks. So the data exists officially but not at a size, or in a shape, that can "
+     "be transcribed without hand-keying numbers, which this project does not do.",
+     "MISSING: an official per-player game log in a shape that can be captured at the sample size "
+     "a correlation or a scoring distribution needs - roughly 200+ player-games, not 9. No "
+     "reachable official page offers it: the stats pages that render are season aggregates, and "
+     "the per-game data lives only in per-game HTML boxes.",
+     "Either accept that the player-level cells stay blank for the season, or fund a licensed "
+     "stats feed (the answer CQ-03 was heading for), or capture box scores one game at a time for "
+     "a fixed, declared sample (e.g. the 9 games of 11/13) and label every player-level number as "
+     "measured on that sample only.",
+     ["https://www.nba.com/game/nyk-vs-ind-0022600034/box-score",
+      "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"],
+     "owner decision; no session can resolve it by working harder at the same URLs"),
+    ("CQ-49", "Availability rules",
+     "At 1:30 p.m. ET on a game day, is a team playing the second night of a back-to-back LATE "
+     "or NOT YET DUE? Memphis is the only 11/14 side with no rows in the game-day report.",
+     "answered by the ordering argument already in the code",
+     "The rule publishes the deadline as '1 p.m. local time on the day of the game' and never a "
+     "conversion to ET. 1 p.m. local is 2 p.m. ET or later for every US/Canadian venue in this "
+     "window (the easternmost venues are at ET; Memphis is one hour behind), so at 1:30 p.m. ET "
+     "the deadline is certainly not past and the state is NOT_YET_DUE, not DUE_AND_NOT_FILED. "
+     "What is NOT in the data is whether the owner wants the site to escalate this to 'late' once "
+     "2 p.m. ET passes without a re-capture: the state is a property of the document's stamp, so "
+     "it cannot age on its own.",
+     "MISSING: nothing further from the league. The state is correct at the document's own stamp; "
+     "what is missing is a refresh cadence, which is a process decision (CS-49), not a fact.",
+     "Confirm the treatment, or accept CS-49 (a CI/refresh cadence that re-reads the index and "
+     "re-derives the states against the newest file, so 'not yet due' cannot sit there all day).",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"],
+     "owner"),
+    ("CQ-50", "Signals vs engine defects",
+     "The strongest rule the board has ever produced - ST-21, 'back the team our own previous line "
+     "under-rated' - wins 65.1% of 63 out-of-sample games (p = 0.023, q = 0.26, and below the "
+     "board's luck threshold of 30.6 pp). Is that a signal to trade, or a defect in our engine?",
+     "open - and the honest reading is the second",
+     "A rule that beats OUR OWN line by anticipating our own previous error is evidence the line "
+     "is slow, not that the market is wrong: our line is fair by construction, so its residual "
+     "autocorrelation is a property of the estimator. What is missing to act on it is a fitted "
+     "alternative: a short-window form term in the walk-forward refit, scored on the same sample, "
+     "with the same gates, and the rule then re-run to see whether it stops working (it should - "
+     "if the fix works, the exploit disappears).",
+     "MISSING: the form term is not in the model, so the rule keeps working; and the harness has "
+     "no 'engine drift' measure (residual autocorrelation by date) published, only the rule's "
+     "own hit rate.",
+     "Decide CS-50 (A: fit a form-blend and re-run the harness; B: log it as a known engine "
+     "property and leave the model; C: publish an engine-drift chart on the methodology page). "
+     "Until then the leaderboard shows ST-21 at tier T3, watch-only, with no stake.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json"],
+     "owner"),
+]
+
+SESSION_SUGGESTIONS += [
+    ("CS-47", "Site - injury freshness",
+     "Publish the game-day filing delta on the injuries page: the row-by-row difference between "
+     "the snapshot the site was pricing with and the newest official report (rows added, statuses "
+     "changed, slots withdrawn), with the reason each change matters for tonight's lines.",
+     "Until now the site showed one injury snapshot with no before/after, so 'we refreshed' was a "
+     "claim in COORDINATION.md rather than something the decision-maker could see. A 04:15 AM "
+     "report and a 1:30 PM game-day report differ by 25 rows and 4 status changes - and a user "
+     "comparing 'what the site said' with 'what the league filed today' had no way to see which "
+     "one any pick was built on.",
+     "A: add a dated delta table to app/injuries.html built from "
+     "data/app/injury_delta_game_day.json; B: only mention it in the freshness page; C: nothing.",
+     "A",
+     "presentation only; the delta file is produced by the capture script and the page reads it, "
+     "so no published number changes",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_game_day.json",
+      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"]),
+    ("CS-48", "Data - rotation depth",
+     "Capture a rotation-depth player table instead of the league's top 31 by minutes - e.g. the "
+     "same official traditional table at PerPage=150, or each team's roster page for the ten clubs "
+     "in the window - so the vacated-minutes floor stops being 1 team-game row out of 54.",
+     "With F-DF3-03 fixed the matching works, and the coverage limit is now the visible thing: 33 "
+     "players are listed Out or Doubtful for tonight and exactly one of them (Anthony Edwards) is "
+     "in the captured table, because a top-31-by-minutes list holds roughly one player per team. "
+     "Every other 'minutes vacated' figure is a floor of zero by construction, which reads like a "
+     "quantified answer and is not one.",
+     "A: re-capture the same official page with a larger PerPage and store it as a new dated "
+     "artefact; B: per-team roster captures for the 10 teams of the live window only; C: leave it "
+     "and keep publishing the floor with its caveat.",
+     "A, with the same double-entry transcription control the injury captures use",
+     "needs a capture round; a hand-keyed 150-row table is the risk to manage, not the page",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"]),
+    ("CS-49", "Process - refresh cadence",
+     "Add a CI (or scheduled) step that re-reads the official report index, and when a newer "
+     "report exists for a date inside the live window, records it as an open 'capture due' item on "
+     "the freshness page instead of letting the site publish a snapshot whose age is only visible "
+     "in a provenance line.",
+     "The 01:30 PM ET capture happened because this session read the index by hand. The gap "
+     "between 'the newest report the league has published' and 'the report the site prices with' "
+     "is the single most decision-relevant number on a pre-game dashboard, and today it is "
+     "computed only when someone remembers to look (F-DF3-06).",
+     "A: a build-time check that fails when a newer report exists for a live-window date; B: a "
+     "published 'newest report at build time vs ours' row on the freshness page, no failure; C: "
+     "nothing, accept manual refresh.",
+     "B, because a CI job cannot fetch and a failing build on a network fact is a false alarm",
+     "the capture scripts already print the index read; only the comparison is new",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("CS-50", "Model - engine drift",
+     "Decide what to do with the ST-21 finding (CQ-50): fit a short-window form term into the "
+     "walk-forward engine and re-run the harness, or record the slow-rating behaviour as a known "
+     "property of the estimator and leave the model alone.",
+     "This is the only place in the project where a rule looks strong and the correct response is "
+     "to change the model rather than to bet. It also decides the leaderboard's meaning: as long as "
+     "ST-21 stands at the top, the board is measuring our engine's lag, not the market's error, and "
+     "the executive summary has to keep saying so.",
+     "A: fit the form term, re-run walk-forward, and expect ST-21's edge to collapse - if it does "
+     "not, the model is wrong somewhere else; B: leave it and publish the caveat; C: add an "
+     "engine-drift chart (residual autocorrelation by date) to the methodology page.",
+     "A, gated on the same nine gates and the same luck threshold; it is the only option that can "
+     "prove the fix rather than assert it",
+     "touches scripts/strategy_lab.py's engine and every number downstream - deliberately not "
+     "done in a refresh round, and not done at all without a decision",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json"]),
+]
+
+
 def build_round44_flags():
     """Flags 44-F-01..03 from session 44e0c051 (commit b769edd). They were first hand-added to
     canonical.json; they now live in data/app/flags_44e0c051.json so this assembler reproduces them.
@@ -1304,6 +1467,13 @@ def build_round8e_flags():
     It publishes the CR-26fd5f6f-A correction (F53-03 wording), which no earlier
     round carried into the flag register."""
     with open(os.path.join(APP, "flags_8e199e09.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def build_round_df301475_flags():
+    """Flags F-DF3-01..06 from session arena/df301475-nba3, loaded verbatim from
+    data/app/flags_df301475.json (the pattern set by build_round44_flags)."""
+    with open(os.path.join(APP, "flags_df301475.json"), encoding="utf-8") as fh:
         return json.load(fh)
 
 
@@ -1322,6 +1492,11 @@ def build_session_questions():
 # before they are implemented, so these are recorded here as self-approved *presentation* changes the
 # owner can reverse as a set - no published number and no other session's file is involved. See CQ-46.
 SESSION_IMPLEMENTED = {
+    "CS-47": ("Implemented 2026-11-14, recommended option A, presentation only: app/injuries.html "
+              "carries a dated 'game-day filing delta' table built from "
+              "data/app/injury_delta_game_day.json, produced by "
+              "scripts/capture_official_2026_11_14e.py. No published number changed. Revert on "
+              "request."),
     "CS-39": "Implemented 2026-11-14, recommended option A, presentation only: the picks table "
              "carries a \u201cRe-price after (local clock)\u201d column read from "
              "data/app/report_availability.json. Revert on request (CQ-46).",
@@ -1377,6 +1552,13 @@ def main():
 
     availability = optional("report_availability.json")
     delta = optional("snapshot_delta.json")
+    # The game-day filing delta (session arena/df301475-nba3): newest official
+    # report vs the snapshot the site had been pricing with, row by row.
+    game_day_delta = optional("injury_delta_game_day.json")
+    # Line/pick delta for the game-day round, produced by
+    # scripts/snapshot_delta.py against the artefact the site published at the
+    # moment before the refresh (data/app/lab_snapshot_2026-11-14T1831Z.json).
+    line_day_delta = optional("snapshot_delta_game_day.json")
     results_1113 = optional("official_results_2026-11-13.json")
     counts = optional("official_counts_2026-11-14.json")
     log_provenance = None
@@ -1540,6 +1722,9 @@ def main():
         "prior_slate": prior_slate,
         "availability": availability,
         "snapshot_delta": delta,
+        "injury_game_day_delta": game_day_delta,
+        "line_delta_game_day": line_day_delta,
+        "mirror_audit": lab.get("mirror_audit"),
         "results_1113": results_1113,
         "official_counts": counts,
         "log_provenance": log_provenance,
@@ -1561,7 +1746,8 @@ def main():
         "oos_sample": lab["oos_sample"],
         "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags(),
+        "flags": (build_flags() + build_session_flags() + build_round44_flags()
+                  + build_round8e_flags() + build_round_df301475_flags()),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}

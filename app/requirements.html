@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -45,10 +45,10 @@
 <td>Collect, organise and analyse NBA data</td>
 <td>Data</td>
 <td>Done for what is reachable</td>
-<td>Official schedule for 2026-11-14 to 2026-11-17 (27 games with game id, tip time, venue and city), official team advanced statistics for all 30 teams, official final scores for 183 games (2026-10-20 to 2026-11-13), and the official injury report 11/14/26 04:15 AM ET (49 rows: 26 player rows, 5 team rows NOT YET SUBMITTED for 11/14 and 18 for 11/15) - all captured and compared field by field with the values earlier sessions stored.</td>
+<td>Official schedule for 2026-11-14 to 2026-11-17 (27 games with game id, tip time, venue and city), official team advanced statistics for all 30 teams, official final scores for 183 games (2026-10-20 to 2026-11-13), and the official GAME-DAY injury report 11/14/26 01:30 PM ET (69 rows: 50 player rows, 19 team rows NOT YET SUBMITTED) - all captured and compared field by field with the values earlier sessions stored. The report the site used until this round (11/14 04:15 AM ET, 49 rows) is retained and the row-by-row difference between the two is published on the injuries page.</td>
 <td>Historical box scores and per-player game logs were never captured. Those two gaps block the most downstream work. See CQ-39 and NF-52.</td>
-<td>Captured 2026-11-14: 88/88 overlapping slate fields, 240/240 team-stat fields and 122/122 injury rows agree with the stored captures (scripts/capture_official_2026_11_14b.py). Re-read 2026-11-14 09:45Z by scripts/capture_official_2026_11_14c.py: six checks, all pass - 366 official team-games = 2 x 183, W and L columns 183/183, 18 scoreboard records, 31/31 injury rows stable, mid-slate staleness explained, slate counts 5/9/8/5</td>
-<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+<td>Captured 2026-11-14: 88/88 overlapping slate fields, 240/240 team-stat fields and 122/122 injury rows agree with the stored captures (capture_official_2026_11_14b.py). Re-read 2026-11-14 09:45Z by capture_official_2026_11_14c.py: six checks, all pass - 366 official team-games = 2 x 183, W and L columns 183/183, 18 scoreboard records, 31/31 injury rows stable, mid-slate staleness explained, slate counts 5/9/8/5. Game-day refresh 2026-11-14 18:47Z by capture_official_2026_11_14e.py: C1 two consecutive official reports agree row for row (0 differences over 69 rows), C2 parser vs independent hand transcription (0 differences), C4 every 11/14 and 11/15 team slot of the official slate present exactly once, C5/C5b every tip time printed OR carried equals the official slate value, C6 the 49-&gt;69 row delta reconciles (25 added, 4 changed, 5 withdrawn, each explained), C7 the fragment accounting.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
 </tr>
 <tr>
 <td>RQ02</td>
@@ -85,7 +85,7 @@
 <td>Single bets, parlays and player prop combos</td>
 <td>Models</td>
 <td>Singles and parlays priced; prop combos blocked</td>
-<td>12 single-bet rules, 1 same-game parlay rule and 1 cross-game parlay rule are scored. Same-game cards for all 27 games and cross-game cards for the four dates are published with fair prices. Four player-prop combos are listed and all four are blocked.</td>
+<td>23 rules on one board: 18 single-bet spread/total rules (favourites, totals terciles, rest, back-to-backs, recent form, and a calibration pair that tests our own engine), 1 same-game parlay rule, 1 cross-game parlay rule, 2 rest-x-total rules and the always-home control. Same-game cards for all 27 games and cross-game cards for the four dates are published with fair prices. Four player-prop combos are listed and all four are blocked.</td>
 <td>Prop combos need per-player game logs to measure the joint distribution. Without them every cell is blank by policy. See NF-52 and CQ-39.</td>
 <td>4 of 4 prop combos published as BLOCKED with the unblocking step; no value invented</td>
 <td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
@@ -105,7 +105,7 @@
 <td>Determine correlation values</td>
 <td>Validation</td>
 <td>4 measured; 5 blank by policy</td>
-<td>Home points vs away points (Pearson r 0.1230, n=183, 95% CI -0.022 to 0.263), spread residual vs total residual (r 0.0088, n=140, 95% CI -0.157 to 0.174), and the same-game cover-and-over joint rate with its dependence ratio 0 are measured from the 183 official finals after the 2026-11-14 log extension. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.</td>
+<td>Nine correlation rows, seven of them measured from the official data: home vs away points (Pearson r 0.1230, n=183), spread residual vs total residual (n=140), the same-game cover-and-over joint rate with its dependence ratio 0.942, same-night margin-residual and total-residual dependence with permutation p-values, rest-days differential vs actual margin, previous-margin vs next-margin form carry-over, the after-overtime margin shift, and two descriptive rows against the official advanced table. The four player-level pairs stay blank, each with the probe that shows why (CQ-48).</td>
 <td>Player-level correlations need per-player game logs. The cross-game independence figure is printed as an assumption, not a measurement. See CQ-39.</td>
 <td>Values, sample sizes and 95 percent intervals published on the Correlations page; blanks flagged</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>

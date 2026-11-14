@@ -2,6 +2,9 @@
  "meta": {
   "session": "arena/8d3d0271-nba3",
   "built_utc": "2026-11-14T01:30Z",
+  "revised_by": "arena/df301475-nba3",
+  "revised_utc": "2026-11-14T19:10Z",
+  "revision": "Game-day injury snapshot from the manifest (11/14 01:30 PM ET); player-name matching between the injury report and the minutes table repaired (flag F-DF3-03); nine new board rules (ST-17..ST-24 + the calibration pair); five correlations measured that were previously blank or assumed; the mirror claim now audited rather than declared.",
   "window": {
    "from": "2026-11-14",
    "to": "2026-11-17"
@@ -27,7 +30,7 @@
   "source_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
   "source_schedule": "https://www.nba.com/schedule?date=2026-11-14",
   "source_players": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-  "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+  "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
  },
  "residuals": {
   "n": 140,
@@ -116,13 +119,180 @@
  },
  "luck_test": {
   "iterations": 5000,
-  "rules": 15,
-  "threshold_pp": 28.947368,
-  "median_pp": 19.444444,
-  "max_pp": 50.0,
+  "rules": 23,
+  "threshold_pp": 30.555556,
+  "median_pp": 20.0,
+  "max_pp": 44.444444,
   "method": "Each rule simulated under its own fair-line null; the largest absolute edge on the board per iteration; 95th percentile reported as the luck threshold."
  },
+ "mirror_audit": {
+  "pairs": [
+   [
+    "ST-01",
+    "ST-02"
+   ],
+   [
+    "ST-03",
+    "ST-04"
+   ],
+   [
+    "ST-05",
+    "ST-06"
+   ],
+   [
+    "ST-07",
+    "ST-08"
+   ],
+   [
+    "ST-09",
+    "ST-10"
+   ],
+   [
+    "ST-17",
+    "ST-18"
+   ],
+   [
+    "ST-19",
+    "ST-20"
+   ],
+   [
+    "ST-21",
+    "ST-22"
+   ],
+   [
+    "ST-23",
+    "ST-24"
+   ]
+  ],
+  "checked": 9,
+  "identical_selection": 9,
+  "complementary_outcomes": 9,
+  "detail": []
+ },
  "strategies": [
+  {
+   "id": "ST-21",
+   "family": "Single bet - calibration",
+   "name": "Back the team our last line under-rated",
+   "market": "spread",
+   "rule": "When exactly one team beat the margin we had projected for it in its previous game by 4+ points, back that team. Tests our own engine for a short-run bias.",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 63,
+   "wins": 41,
+   "rate": 0.650794,
+   "edge_pp": 15.079365,
+   "roi_pct": 24.242424,
+   "p_two_sided": 0.022575,
+   "p_one_sided": 0.011287,
+   "q_value": 0.259612,
+   "p_family": 1.0,
+   "ci_low": 0.546875,
+   "ci_high": 0.753846,
+   "roi_ci_low": 4.403409,
+   "roi_ci_high": 43.916084,
+   "n_required": 83.897001,
+   "half_first": 0.677419,
+   "half_second": 0.625,
+   "stable": true,
+   "directional": true,
+   "score": 55.0,
+   "tier": "T3",
+   "tier_label": "Watch - raw signal, incomplete evidence",
+   "stake": "Paper tracking only, no stake.",
+   "verdict": "WATCH - raw signal only",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": false,
+     "value": "n = 63",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 84",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": true,
+     "value": "p = 0.0226",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 0.2596",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": true,
+     "value": "first 0.677, second 0.625",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": true,
+     "value": "95% interval 4.4% to 43.9%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge 15.1 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "mirror_of": "ST-22",
+   "mirror_note": "Complement of ST-22: same games, opposite side. ST-22 wins 34.9% of them. These are one finding, not two.",
+   "rank": 1
+  },
   {
    "id": "ST-02",
    "family": "Single bet - spread",
@@ -138,7 +308,7 @@
    "roi_pct": 14.545455,
    "p_two_sided": 0.361595,
    "p_one_sided": 0.180797,
-   "q_value": 1.0,
+   "q_value": 0.998297,
    "p_family": 1.0,
    "ci_low": 0.47619,
    "ci_high": 0.75,
@@ -160,7 +330,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -194,8 +364,8 @@
      "id": "G6",
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
-     "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -215,8 +385,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 10.0 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 10.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -242,7 +412,132 @@
    ],
    "mirror_of": "ST-01",
    "mirror_note": "Complement of ST-01: same games, opposite side. ST-01 wins 60.0% of them. These are one finding, not two.",
-   "rank": 1
+   "rank": 2
+  },
+  {
+   "id": "ST-24",
+   "family": "Single bet - rest x total",
+   "name": "Unders when both teams are on 2+ days' rest",
+   "market": "total",
+   "rule": "Mirror of ST-23: the same games, the other side.",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 100,
+   "wins": 55,
+   "rate": 0.55,
+   "edge_pp": 5.0,
+   "roi_pct": 5.0,
+   "p_two_sided": 0.368202,
+   "p_one_sided": 0.184101,
+   "q_value": 0.998297,
+   "p_family": 1.0,
+   "ci_low": 0.505263,
+   "ci_high": 0.592593,
+   "roi_ci_low": -3.54067,
+   "roi_ci_high": 13.131313,
+   "n_required": 782.525956,
+   "half_first": 0.54,
+   "half_second": 0.56,
+   "stable": true,
+   "directional": true,
+   "score": 43.1,
+   "tier": "T4",
+   "tier_label": "Rejected - not distinguishable from luck",
+   "stake": "No stake.",
+   "verdict": "FAILS - no evidence of skill",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": true,
+     "value": "n = 100",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 783",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": false,
+     "value": "p = 0.3682",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": true,
+     "value": "first 0.540, second 0.560",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -3.5% to 13.1%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge 5.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+   ],
+   "mirror_of": "ST-23",
+   "mirror_note": "Complement of ST-23: same games, opposite side. ST-23 wins 55.0% of them. These are one finding, not two.",
+   "rank": 3
   },
   {
    "id": "ST-08",
@@ -259,7 +554,7 @@
    "roi_pct": 5.0,
    "p_two_sided": 0.434042,
    "p_one_sided": 0.217021,
-   "q_value": 1.0,
+   "q_value": 0.998297,
    "p_family": 1.0,
    "ci_low": 0.470588,
    "ci_high": 0.619565,
@@ -281,7 +576,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -315,8 +610,8 @@
      "id": "G6",
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
-     "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -336,8 +631,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 5.0 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 5.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -364,7 +659,7 @@
    ],
    "mirror_of": "ST-07",
    "mirror_note": "Complement of ST-07: same games, opposite side. ST-07 wins 55.0% of them. These are one finding, not two.",
-   "rank": 2
+   "rank": 4
   },
   {
    "id": "ST-05",
@@ -381,7 +676,7 @@
    "roi_pct": 15.909091,
    "p_two_sided": 0.344928,
    "p_one_sided": 0.172464,
-   "q_value": 1.0,
+   "q_value": 0.998297,
    "p_family": 1.0,
    "ci_low": 0.392857,
    "ci_high": 0.772727,
@@ -403,7 +698,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -437,8 +732,8 @@
      "id": "G6",
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
-     "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -458,8 +753,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 10.7 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 10.7 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -483,7 +778,7 @@
    ],
    "mirror_of": "ST-06",
    "mirror_note": "Complement of ST-06: same games, opposite side. ST-06 wins 39.3% of them. These are one finding, not two.",
-   "rank": 3
+   "rank": 5
   },
   {
    "id": "ST-11",
@@ -522,7 +817,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -557,7 +852,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -577,8 +872,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 4.5 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 4.5 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -602,7 +897,7 @@
    ],
    "mirror_of": "",
    "mirror_note": "",
-   "rank": 4
+   "rank": 6
   },
   {
    "id": "ST-12",
@@ -641,7 +936,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -676,7 +971,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -696,8 +991,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 3.8 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 3.8 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -722,7 +1017,251 @@
    ],
    "mirror_of": "",
    "mirror_note": "",
-   "rank": 5
+   "rank": 7
+  },
+  {
+   "id": "ST-19",
+   "family": "Single bet - form",
+   "name": "Fade the team off a 20+ point win",
+   "market": "spread",
+   "rule": "When exactly one team won its previous game by 20 or more, back the other side (the let-down hypothesis).",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 28,
+   "wins": 16,
+   "rate": 0.571429,
+   "edge_pp": 7.142857,
+   "roi_pct": 9.090909,
+   "p_two_sided": 0.571588,
+   "p_one_sided": 0.285794,
+   "q_value": 1.0,
+   "p_family": 1.0,
+   "ci_low": 0.44,
+   "ci_high": 0.703704,
+   "roi_ci_low": -16.0,
+   "roi_ci_high": 34.343434,
+   "n_required": 382.228731,
+   "half_first": 0.642857,
+   "half_second": 0.5,
+   "stable": false,
+   "directional": true,
+   "score": 29.2,
+   "tier": "T4",
+   "tier_label": "Rejected - not distinguishable from luck",
+   "stake": "No stake.",
+   "verdict": "FAILS - no evidence of skill",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": false,
+     "value": "n = 28",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 382",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": false,
+     "value": "p = 0.5716",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 1.0000",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": false,
+     "value": "first 0.643, second 0.500",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -16.0% to 34.3%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge 7.1 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12"
+   ],
+   "mirror_of": "ST-20",
+   "mirror_note": "Complement of ST-20: same games, opposite side. ST-20 wins 42.9% of them. These are one finding, not two.",
+   "rank": 8
+  },
+  {
+   "id": "ST-22",
+   "family": "Single bet - calibration",
+   "name": "Fade the team our last line under-rated",
+   "market": "spread",
+   "rule": "Mirror of ST-21: over-reaction is the alternative story, and it is scored, not assumed away.",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 63,
+   "wins": 22,
+   "rate": 0.349206,
+   "edge_pp": -15.079365,
+   "roi_pct": -33.333333,
+   "p_two_sided": 0.022575,
+   "p_one_sided": 0.994429,
+   "q_value": 0.259612,
+   "p_family": 1.0,
+   "ci_low": 0.245614,
+   "ci_high": 0.446429,
+   "roi_ci_low": -53.110048,
+   "roi_ci_high": -14.772727,
+   "n_required": 83.897001,
+   "half_first": 0.322581,
+   "half_second": 0.375,
+   "stable": true,
+   "directional": false,
+   "score": 16.5,
+   "tier": "T4",
+   "tier_label": "Rejected - this direction loses; the mirror is the candidate",
+   "stake": "No stake on this side.",
+   "verdict": "REJECTED - this direction loses against our own line",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": false,
+     "value": "n = 63",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 84",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": true,
+     "value": "p = 0.0226",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 0.2596",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": true,
+     "value": "first 0.323, second 0.375",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -53.1% to -14.8%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge -15.1 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "mirror_of": "ST-21",
+   "mirror_note": "Complement of ST-21: same games, opposite side. ST-21 wins 65.1% of them, so this direction loses. The signal, if any, is on the other side.",
+   "rank": 9
   },
   {
    "id": "ST-16",
@@ -783,7 +1322,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -818,7 +1357,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -838,8 +1377,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 2.8 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 2.8 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "score": 11.5,
@@ -847,7 +1386,7 @@
    "tier_label": "Rejected - not distinguishable from luck",
    "stake": "No stake.",
    "verdict": "FAILS - no evidence of skill",
-   "rank": 6
+   "rank": 10
   },
   {
    "id": "ST-09",
@@ -886,7 +1425,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -921,7 +1460,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -941,8 +1480,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 2.6 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 2.6 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -965,7 +1504,130 @@
    ],
    "mirror_of": "ST-10",
    "mirror_note": "Complement of ST-10: same games, opposite side. ST-10 wins 47.4% of them. These are one finding, not two.",
-   "rank": 7
+   "rank": 11
+  },
+  {
+   "id": "ST-17",
+   "family": "Single bet - form",
+   "name": "Back the team off a 15+ point loss",
+   "market": "spread",
+   "rule": "When exactly one team lost its previous game by 15 or more, back that team against our spread (the bounce-back hypothesis).",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 42,
+   "wins": 22,
+   "rate": 0.52381,
+   "edge_pp": 2.380952,
+   "roi_pct": 0.0,
+   "p_two_sided": 0.877614,
+   "p_one_sided": 0.438807,
+   "q_value": 1.0,
+   "p_family": 1.0,
+   "ci_low": 0.418605,
+   "ci_high": 0.641026,
+   "roi_ci_low": -20.084567,
+   "roi_ci_high": 22.377622,
+   "n_required": 3458.997155,
+   "half_first": 0.47619,
+   "half_second": 0.571429,
+   "stable": false,
+   "directional": true,
+   "score": 9.5,
+   "tier": "T4",
+   "tier_label": "Rejected - not distinguishable from luck",
+   "stake": "No stake.",
+   "verdict": "FAILS - no evidence of skill",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": false,
+     "value": "n = 42",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 3459",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": false,
+     "value": "p = 0.8776",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 1.0000",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": false,
+     "value": "first 0.476, second 0.571",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -20.1% to 22.4%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge 2.4 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+   ],
+   "mirror_of": "ST-18",
+   "mirror_note": "Complement of ST-18: same games, opposite side. ST-18 wins 47.6% of them. These are one finding, not two.",
+   "rank": 12
   },
   {
    "id": "ST-06",
@@ -982,7 +1644,7 @@
    "roi_pct": -25.0,
    "p_two_sided": 0.344928,
    "p_one_sided": 0.907533,
-   "q_value": 1.0,
+   "q_value": 0.998297,
    "p_family": 1.0,
    "ci_low": 0.225806,
    "ci_high": 0.588235,
@@ -1004,7 +1666,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1038,8 +1700,8 @@
      "id": "G6",
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
-     "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1059,8 +1721,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge -10.7 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge -10.7 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1084,7 +1746,7 @@
    ],
    "mirror_of": "ST-05",
    "mirror_note": "Complement of ST-05: same games, opposite side. ST-05 wins 60.7% of them, so this direction loses. The signal, if any, is on the other side.",
-   "rank": 8
+   "rank": 13
   },
   {
    "id": "ST-01",
@@ -1101,7 +1763,7 @@
    "roi_pct": -23.636364,
    "p_two_sided": 0.361595,
    "p_one_sided": 0.899756,
-   "q_value": 1.0,
+   "q_value": 0.998297,
    "p_family": 1.0,
    "ci_low": 0.241379,
    "ci_high": 0.52,
@@ -1123,7 +1785,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1157,8 +1819,8 @@
      "id": "G6",
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
-     "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1178,8 +1840,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge -10.0 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge -10.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1205,7 +1867,132 @@
    ],
    "mirror_of": "ST-02",
    "mirror_note": "Complement of ST-02: same games, opposite side. ST-02 wins 60.0% of them, so this direction loses. The signal, if any, is on the other side.",
-   "rank": 9
+   "rank": 14
+  },
+  {
+   "id": "ST-23",
+   "family": "Single bet - rest x total",
+   "name": "Overs when both teams are on 2+ days' rest",
+   "market": "total",
+   "rule": "Both teams rested at least two days: take the over of our originated total.",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 100,
+   "wins": 45,
+   "rate": 0.45,
+   "edge_pp": -5.0,
+   "roi_pct": -14.090909,
+   "p_two_sided": 0.368202,
+   "p_one_sided": 0.864373,
+   "q_value": 0.998297,
+   "p_family": 1.0,
+   "ci_low": 0.408602,
+   "ci_high": 0.493976,
+   "roi_ci_low": -21.994135,
+   "roi_ci_high": -5.695509,
+   "n_required": 782.525956,
+   "half_first": 0.46,
+   "half_second": 0.44,
+   "stable": true,
+   "directional": false,
+   "score": 4.3,
+   "tier": "T4",
+   "tier_label": "Rejected - this direction loses; the mirror is the candidate",
+   "stake": "No stake on this side.",
+   "verdict": "REJECTED - this direction loses against our own line",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": true,
+     "value": "n = 100",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 783",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": false,
+     "value": "p = 0.3682",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": true,
+     "value": "first 0.460, second 0.440",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -22.0% to -5.7%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge -5.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+   ],
+   "mirror_of": "ST-24",
+   "mirror_note": "Complement of ST-24: same games, opposite side. ST-24 wins 55.0% of them, so this direction loses. The signal, if any, is on the other side.",
+   "rank": 15
   },
   {
    "id": "ST-07",
@@ -1222,7 +2009,7 @@
    "roi_pct": -14.090909,
    "p_two_sided": 0.434042,
    "p_one_sided": 0.842847,
-   "q_value": 1.0,
+   "q_value": 0.998297,
    "p_family": 1.0,
    "ci_low": 0.376623,
    "ci_high": 0.534247,
@@ -1244,7 +2031,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1278,8 +2065,8 @@
      "id": "G6",
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
-     "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "value": "q = 0.9983",
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1299,8 +2086,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge -5.0 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge -5.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1327,7 +2114,7 @@
    ],
    "mirror_of": "ST-08",
    "mirror_note": "Complement of ST-08: same games, opposite side. ST-08 wins 55.0% of them, so this direction loses. The signal, if any, is on the other side.",
-   "rank": 10
+   "rank": 16
   },
   {
    "id": "ST-15",
@@ -1366,7 +2153,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1401,7 +2188,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1421,8 +2208,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge -2.9 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge -2.9 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1453,7 +2240,128 @@
    ],
    "mirror_of": "",
    "mirror_note": "",
-   "rank": 11
+   "rank": 17
+  },
+  {
+   "id": "ST-20",
+   "family": "Single bet - form",
+   "name": "Back the team off a 20+ point win",
+   "market": "spread",
+   "rule": "Mirror of ST-19: the same games, the other side (momentum).",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 28,
+   "wins": 12,
+   "rate": 0.428571,
+   "edge_pp": -7.142857,
+   "roi_pct": -18.181818,
+   "p_two_sided": 0.571588,
+   "p_one_sided": 0.827536,
+   "q_value": 1.0,
+   "p_family": 1.0,
+   "ci_low": 0.291667,
+   "ci_high": 0.56,
+   "roi_ci_low": -44.318182,
+   "roi_ci_high": 6.909091,
+   "n_required": 382.228731,
+   "half_first": 0.357143,
+   "half_second": 0.5,
+   "stable": false,
+   "directional": false,
+   "score": 2.4,
+   "tier": "T4",
+   "tier_label": "Rejected - this direction loses; the mirror is the candidate",
+   "stake": "No stake on this side.",
+   "verdict": "REJECTED - this direction loses against our own line",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": false,
+     "value": "n = 28",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 382",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": false,
+     "value": "p = 0.5716",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 1.0000",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": false,
+     "value": "first 0.357, second 0.500",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -44.3% to 6.9%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge -7.1 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12"
+   ],
+   "mirror_of": "ST-19",
+   "mirror_note": "Complement of ST-19: same games, opposite side. ST-19 wins 57.1% of them, so this direction loses. The signal, if any, is on the other side.",
+   "rank": 18
   },
   {
    "id": "ST-NUL",
@@ -1472,10 +2380,10 @@
    "p_one_sided": 0.663622,
    "q_value": 1.0,
    "p_family": 1.0,
-   "ci_low": 0.413174,
-   "ci_high": 0.574627,
-   "roi_ci_low": -21.121394,
-   "roi_ci_high": 9.701493,
+   "ci_low": 0.409091,
+   "ci_high": 0.575221,
+   "roi_ci_low": -21.900826,
+   "roi_ci_high": 9.814964,
    "n_required": 9612.51947,
    "half_first": 0.485714,
    "half_second": 0.485714,
@@ -1492,7 +2400,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1527,7 +2435,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1540,15 +2448,15 @@
      "id": "G8",
      "name": "Return interval excludes zero at an assumed price",
      "passed": false,
-     "value": "95% interval -21.1% to 9.7%",
+     "value": "95% interval -21.9% to 9.8%",
      "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
     },
     {
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge -1.4 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge -1.4 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1579,7 +2487,130 @@
    ],
    "mirror_of": "",
    "mirror_note": "",
-   "rank": 12
+   "rank": 19
+  },
+  {
+   "id": "ST-18",
+   "family": "Single bet - form",
+   "name": "Fade the team off a 15+ point loss",
+   "market": "spread",
+   "rule": "Mirror of ST-17: the same games, the other side (the continued-slump hypothesis).",
+   "baseline": 0.5,
+   "payout": 0.909091,
+   "n": 42,
+   "wins": 20,
+   "rate": 0.47619,
+   "edge_pp": -2.380952,
+   "roi_pct": -9.090909,
+   "p_two_sided": 0.877614,
+   "p_one_sided": 0.678016,
+   "q_value": 1.0,
+   "p_family": 1.0,
+   "ci_low": 0.371429,
+   "ci_high": 0.575,
+   "roi_ci_low": -29.090909,
+   "roi_ci_high": 9.772727,
+   "n_required": 3458.997155,
+   "half_first": 0.52381,
+   "half_second": 0.428571,
+   "stable": false,
+   "directional": false,
+   "score": 0.6,
+   "tier": "T4",
+   "tier_label": "Rejected - this direction loses; the mirror is the candidate",
+   "stake": "No stake on this side.",
+   "verdict": "REJECTED - this direction loses against our own line",
+   "gates": [
+    {
+     "id": "G1",
+     "name": "Every input has an official or reproducible source",
+     "passed": true,
+     "value": "pass",
+     "note": "183 games official final scores; ratings refit per date."
+    },
+    {
+     "id": "G2",
+     "name": "No look-ahead: every feature exists before tip-off",
+     "passed": true,
+     "value": "pass",
+     "note": "Ratings refit from games with a strictly earlier date."
+    },
+    {
+     "id": "G3",
+     "name": "Out-of-sample sample size n >= 100",
+     "passed": false,
+     "value": "n = 42",
+     "note": "Threshold proposed by this session, not approved by the owner."
+    },
+    {
+     "id": "G4",
+     "name": "Observed effect is powered at 80%",
+     "passed": false,
+     "value": "n needed 3459",
+     "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+    },
+    {
+     "id": "G5",
+     "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+     "passed": false,
+     "value": "p = 0.8776",
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "name": "Survives Benjamini-Hochberg FDR 0.05",
+     "passed": false,
+     "value": "q = 1.0000",
+     "note": "Adjusted across the 23 scored rules on this board."
+    },
+    {
+     "id": "G7",
+     "name": "Direction stable in both halves of the sample",
+     "passed": false,
+     "value": "first 0.524, second 0.429",
+     "note": "Both halves must sit on the same side of the 50% fair-line rate."
+    },
+    {
+     "id": "G8",
+     "name": "Return interval excludes zero at an assumed price",
+     "passed": false,
+     "value": "95% interval -29.1% to 9.8%",
+     "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+    },
+    {
+     "id": "G9",
+     "name": "Beats the best edge this board can produce by luck alone",
+     "passed": false,
+     "value": "edge -2.4 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
+    }
+   ],
+   "blocked": false,
+   "block_reason": "",
+   "note": "",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "dates": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-04",
+    "2026-11-06",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+   ],
+   "mirror_of": "ST-17",
+   "mirror_note": "Complement of ST-17: same games, opposite side. ST-17 wins 52.4% of them, so this direction loses. The signal, if any, is on the other side.",
+   "rank": 20
   },
   {
    "id": "ST-03",
@@ -1618,7 +2649,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1653,7 +2684,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1673,8 +2704,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 0.0 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 0.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1697,7 +2728,7 @@
    ],
    "mirror_of": "ST-04",
    "mirror_note": "Complement of ST-04: same games, opposite side. ST-04 wins 50.0% of them, so this direction loses. The signal, if any, is on the other side.",
-   "rank": 13
+   "rank": 21
   },
   {
    "id": "ST-04",
@@ -1736,7 +2767,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1771,7 +2802,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1791,8 +2822,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge 0.0 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge 0.0 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1815,7 +2846,7 @@
    ],
    "mirror_of": "ST-03",
    "mirror_note": "Complement of ST-03: same games, opposite side. ST-03 wins 50.0% of them. These are one finding, not two.",
-   "rank": 14
+   "rank": 22
   },
   {
    "id": "ST-10",
@@ -1854,7 +2885,7 @@
      "name": "Every input has an official or reproducible source",
      "passed": true,
      "value": "pass",
-     "note": "174 official final scores; ratings refit per date."
+     "note": "183 games official final scores; ratings refit per date."
     },
     {
      "id": "G2",
@@ -1889,7 +2920,7 @@
      "name": "Survives Benjamini-Hochberg FDR 0.05",
      "passed": false,
      "value": "q = 1.0000",
-     "note": "Adjusted across the 15 scored rules on this board."
+     "note": "Adjusted across the 23 scored rules on this board."
     },
     {
      "id": "G7",
@@ -1909,8 +2940,8 @@
      "id": "G9",
      "name": "Beats the best edge this board can produce by luck alone",
      "passed": false,
-     "value": "edge -2.6 pp vs luck threshold 28.9 pp",
-     "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+     "value": "edge -2.6 pp vs luck threshold 30.6 pp",
+     "note": "95th percentile of the largest edge across 23 rules simulated under the fair-line null, 5000 iterations."
     }
    ],
    "blocked": false,
@@ -1933,7 +2964,7 @@
    ],
    "mirror_of": "ST-09",
    "mirror_note": "Complement of ST-09: same games, opposite side. ST-09 wins 52.6% of them, so this direction loses. The signal, if any, is on the other side.",
-   "rank": 15
+   "rank": 23
   }
  ],
  "prop_combos": [
@@ -2020,6 +3051,110 @@
     "note": "Joint hit rate 0.2214 vs 0.2351 under independence; dependence ratio 0.942. A ratio above 1.0 means the two legs land together more often than independent pricing assumes, which is how a book protects itself on same-game parlays."
    },
    {
+    "pair": "Same-night games: margin residuals of one game vs the other",
+    "stat": "Pearson r (within-date pairs)",
+    "value": -0.012861,
+    "ci95": [
+     -0.093622,
+     0.068067
+    ],
+    "n": 588,
+    "verified": true,
+    "source": "https://www.nba.com/games?date=",
+    "note": "Derived (our arithmetic on the official final scores), not an official statistic. 588 same-night game pairs. Permutation p = 0.571 from 400 within-date reshuffles. A value near 0 is what cross-game parlay pricing assumes; the interval, not the point estimate, is the finding."
+   },
+   {
+    "pair": "Same-night games: total residuals of one game vs the other",
+    "stat": "Pearson r (within-date pairs)",
+    "value": -0.061709,
+    "ci95": [
+     -0.141859,
+     0.019244
+    ],
+    "n": 588,
+    "verified": true,
+    "source": "https://www.nba.com/games?date=",
+    "note": "Derived (our arithmetic on the official final scores), not an official statistic. 588 same-night game pairs. Permutation p = 0.873 from 400 within-date reshuffles. A value near 0 is what cross-game parlay pricing assumes; the interval, not the point estimate, is the finding."
+   },
+   {
+    "pair": "Rest-days differential vs actual home margin",
+    "stat": "Pearson r",
+    "value": 0.064178,
+    "ci95": [
+     -0.10282,
+     0.227657
+    ],
+    "n": 140,
+    "verified": true,
+    "source": "https://www.nba.com/games?date=",
+    "note": "Derived. Rest days are counted from the official schedule and the official results log; the margin is the official final score. The interval is the result to read: if it covers 0 the sample cannot support a rest-based angle, whatever the point estimate says."
+   },
+   {
+    "pair": "Our margin error on a team's previous game vs on its next game",
+    "stat": "Pearson r",
+    "value": 0.038745,
+    "ci95": [
+     -0.085734,
+     0.162033
+    ],
+    "n": 250,
+    "verified": true,
+    "source": "https://www.nba.com/games?date=",
+    "note": "Derived: the engine's own out-of-sample residuals, paired across consecutive games of the same team. A positive value means our line is slow - the team we under-rated last game is likely to beat it again - which is a defect to fix in the estimator, not an edge over any bookmaker (we are our own counterparty here)."
+   },
+   {
+    "pair": "A team's margin in its previous game vs in its next game",
+    "stat": "Pearson r",
+    "value": 0.163628,
+    "ci95": [
+     0.057643,
+     0.265966
+    ],
+    "n": 336,
+    "verified": true,
+    "source": "https://www.nba.com/games?date=",
+    "note": "Derived. The number the let-down and bounce-back rules implicitly assume: how much of a team's margin carries from one game to the next. Near zero means recent-result rules are choosing noise."
+   },
+   {
+    "pair": "Margin in the game after an overtime game vs after a normal game (within 3 days)",
+    "stat": "mean difference (points)",
+    "value": -0.438126,
+    "ci95": [
+     null,
+     null
+    ],
+    "n": 328,
+    "verified": true,
+    "source": "https://www.nba.com/games?date=",
+    "note": "Derived. n = 14 after OT vs 314 after a regulation game; permutation p = 0.920 on a 3-day window. This is the input a 'tired team' angle needs; the window choice is ours, not the league's, and a different cut-off is a different number."
+   },
+   {
+    "pair": "Net-rating differential (official advanced table) vs actual home margin",
+    "stat": "Pearson r",
+    "value": 0.622411,
+    "ci95": [
+     0.52473,
+     0.703915
+    ],
+    "n": 183,
+    "verified": true,
+    "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "note": "Descriptive, NOT a forecast: the ratings are season-to-date as of the capture, so they already contain the games being compared. It says the official rating spread tracks the scoreboard; it does not say a line built from it would have been right before tip-off."
+   },
+   {
+    "pair": "Pace sum (official advanced table) vs actual game total",
+    "stat": "Pearson r",
+    "value": 0.432247,
+    "ci95": [
+     0.306402,
+     0.543242
+    ],
+    "n": 183,
+    "verified": true,
+    "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "note": "Descriptive, NOT a forecast, for the same reason as the net-rating row."
+   },
+   {
     "pair": "Player A points vs player B points, same team, same game",
     "stat": "Pearson r",
     "value": null,
@@ -2030,7 +3165,7 @@
     "n": null,
     "verified": false,
     "source": "",
-    "note": "Needs per-player game logs. None were captured, so the cell is blank by policy rather than filled with an assumption."
+    "note": "Needs per-player game logs. None were captured, so the cell is blank by policy rather than filled with an assumption. Probed again on 2026-11-14 by session arena/df301475-nba3: stats.nba.com is unreachable from this environment (fetch error), and the nba.com/stats game-log routes (players/gamelog, players/boxscoregamelog, teams/boxsrctraditional, teams/boxscoretraditional) all answer 'Content Unavailable'. The only official per-player game data reachable here is the per-game box-score page (https://www.nba.com/game/<slug>/<game_id>/box-score), which is one page per game and cannot be transcribed at the sample size a correlation needs without hand-keying numbers - which this project does not do."
    },
    {
     "pair": "Player points vs player rebounds, same player, same game",
@@ -2082,7 +3217,7 @@
     "n": null,
     "verified": false,
     "source": "",
-    "note": "Not measured on this sample. Independence is an ASSUMPTION used to price cross-game parlays, not a verified result. Treat as unverified."
+    "note": "Assumption, not measurement, for the pricing itself: the two same-night rows measured above (margin residuals r = -0.013, total residuals r = -0.062, 588 same-night pairs) do not reject independence, but failing to reject is not the same as establishing a factorisation, so cross-game parlays keep their independent pricing and their caveat. Re-measure as the log grows."
    }
   ],
   "parlay_joint_rate": 0.221429,
@@ -2123,9 +3258,14 @@
    "p_ot": 0.054645,
    "p_blowout_15": 0.369659,
    "pace": 99.83,
-   "out_count_home": null,
+   "out_count_home": 4,
    "out_count_away": 4,
-   "out_players_home": [],
+   "out_players_home": [
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte",
+    "Watford, Trendon"
+   ],
    "out_players_away": [
     "Holmes II, DaRon",
     "Nembhard, Ryan",
@@ -2134,11 +3274,11 @@
    ],
    "questionable_home": [],
    "questionable_away": [],
-   "home_reported": false,
+   "home_reported": true,
    "away_reported": true,
-   "availability_state_home": "NOT_YET_DUE",
+   "availability_state_home": "FILED",
    "availability_state_away": "FILED",
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "reprice_after_home": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "reprice_after_away": "2026-11-13 17:00 local, the day before the game",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
@@ -2174,23 +3314,32 @@
    "p_ot": 0.054645,
    "p_blowout_15": 0.349419,
    "pace": 100.1,
-   "out_count_home": null,
-   "out_count_away": 3,
-   "out_players_home": [],
+   "out_count_home": 4,
+   "out_count_away": 4,
+   "out_players_home": [
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
    "out_players_away": [
     "Biberovic, Tarik",
-    "de Larrea, Sergio",
-    "Lively II, Dereck"
+    "Christie, Max",
+    "Lively II, Dereck",
+    "de Larrea, Sergio"
    ],
-   "questionable_home": [],
-   "questionable_away": [
-    "Christie, Max"
+   "questionable_home": [
+    "Allen, Jarrett",
+    "Harden, James",
+    "Mitchell, Donovan",
+    "Watson, Peyton"
    ],
-   "home_reported": false,
+   "questionable_away": [],
+   "home_reported": true,
    "away_reported": true,
-   "availability_state_home": "NOT_YET_DUE",
+   "availability_state_home": "FILED",
    "availability_state_away": "FILED",
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "reprice_after_home": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "reprice_after_away": "2026-11-13 17:00 local, the day before the game",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
@@ -2226,9 +3375,12 @@
    "p_ot": 0.054645,
    "p_blowout_15": 0.357856,
    "pace": 100.805,
-   "out_count_home": null,
+   "out_count_home": 2,
    "out_count_away": 5,
-   "out_players_home": [],
+   "out_players_home": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
    "out_players_away": [
     "Duren, Jalen",
     "Joe, Isaiah",
@@ -2237,15 +3389,12 @@
     "Onyenso, Ugonna"
    ],
    "questionable_home": [],
-   "questionable_away": [
-    "Harkless, Elijah",
-    "Jones, Isaac"
-   ],
-   "home_reported": false,
+   "questionable_away": [],
+   "home_reported": true,
    "away_reported": true,
-   "availability_state_home": "NOT_YET_DUE",
+   "availability_state_home": "FILED",
    "availability_state_away": "FILED",
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "reprice_after_home": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "reprice_after_away": "2026-11-13 17:00 local, the day before the game",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
@@ -2291,9 +3440,7 @@
     "Saraf, Ben"
    ],
    "questionable_home": [],
-   "questionable_away": [
-    "Brown Jr., Mikel"
-   ],
+   "questionable_away": [],
    "home_reported": false,
    "away_reported": true,
    "availability_state_home": "NOT_YET_DUE",
@@ -2335,19 +3482,28 @@
    "p_blowout_15": 0.53374,
    "pace": 102.455,
    "out_count_home": 2,
-   "out_count_away": null,
+   "out_count_away": 4,
    "out_players_home": [
     "DiVincenzo, Donte",
     "Edwards, Anthony"
    ],
-   "out_players_away": [],
+   "out_players_away": [
+    "Awaka, Tobe",
+    "Sellers, Jaylin",
+    "Swain, Dailyn",
+    "Wilson, Caleb"
+   ],
    "questionable_home": [],
-   "questionable_away": [],
+   "questionable_away": [
+    "Claxton, Nic",
+    "Powell, Norman",
+    "Smith, Jalen"
+   ],
    "home_reported": true,
-   "away_reported": false,
+   "away_reported": true,
    "availability_state_home": "FILED",
-   "availability_state_away": "NOT_YET_DUE",
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_state_away": "FILED",
+   "availability_basis": "both teams listed on the newest official report",
    "reprice_after_home": "2026-11-13 17:00 local, the day before the game",
    "reprice_after_away": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
@@ -3384,13 +4540,13 @@
    "p_home_win": 0.381074,
    "side_lean": "DEN +4.8",
    "totals_lean": "Over 234.9",
-   "availability_flag": "PARTIAL_REPORT_NOT_DUE_YET",
-   "availability_detail": "NOP: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "availability_flag": "REPORTED",
+   "availability_detail": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
    "availability_states": {
-    "home": "NOT_YET_DUE",
+    "home": "FILED",
     "away": "FILED"
    },
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "pricing_note": "These are our own fair prices against our own originated line. No licensed odds feed is connected, so no expected value against a bookmaker can be stated and none is claimed.",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
    "strategy_selections": []
@@ -3410,13 +4566,13 @@
    "p_home_win": 0.531324,
    "side_lean": "CLE -1.3",
    "totals_lean": "Over 228.9",
-   "availability_flag": "PARTIAL_REPORT_NOT_DUE_YET",
-   "availability_detail": "CLE: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "availability_flag": "REPORTED",
+   "availability_detail": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
    "availability_states": {
-    "home": "NOT_YET_DUE",
+    "home": "FILED",
     "away": "FILED"
    },
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "pricing_note": "These are our own fair prices against our own originated line. No licensed odds feed is connected, so no expected value against a bookmaker can be stated and none is claimed.",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
    "strategy_selections": []
@@ -3436,13 +4592,13 @@
    "p_home_win": 0.41931,
    "side_lean": "DET +3.3",
    "totals_lean": "Over 230.2",
-   "availability_flag": "PARTIAL_REPORT_NOT_DUE_YET",
-   "availability_detail": "MIA: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "availability_flag": "REPORTED",
+   "availability_detail": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
    "availability_states": {
-    "home": "NOT_YET_DUE",
+    "home": "FILED",
     "away": "FILED"
    },
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "pricing_note": "These are our own fair prices against our own originated line. No licensed odds feed is connected, so no expected value against a bookmaker can be stated and none is claimed.",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
    "strategy_selections": []
@@ -3488,13 +4644,13 @@
    "p_home_win": 0.828732,
    "side_lean": "MIN -15.2",
    "totals_lean": "Over 233.5",
-   "availability_flag": "PARTIAL_REPORT_NOT_DUE_YET",
-   "availability_detail": "CHI: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "availability_flag": "REPORTED",
+   "availability_detail": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
    "availability_states": {
     "home": "FILED",
-    "away": "NOT_YET_DUE"
+    "away": "FILED"
    },
-   "availability_basis": "one side only: the other team is not on the newest official report",
+   "availability_basis": "both teams listed on the newest official report",
    "pricing_note": "These are our own fair prices against our own originated line. No licensed odds feed is connected, so no expected value against a bookmaker can be stated and none is claimed.",
    "source": "https://www.nba.com/schedule?date=2026-11-14",
    "strategy_selections": []
@@ -4097,7 +5253,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4123,7 +5279,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4149,7 +5305,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4175,7 +5331,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4201,7 +5357,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4227,7 +5383,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4253,7 +5409,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4279,7 +5435,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4305,7 +5461,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4331,7 +5487,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-14",
@@ -4357,7 +5513,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4383,7 +5539,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4409,7 +5565,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4435,7 +5591,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4461,7 +5617,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4487,7 +5643,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4513,7 +5669,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4539,7 +5695,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4565,7 +5721,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4591,7 +5747,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4617,7 +5773,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4643,7 +5799,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4669,7 +5825,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4695,7 +5851,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4721,7 +5877,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4747,7 +5903,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4773,7 +5929,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4799,7 +5955,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-15",
@@ -4825,7 +5981,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -4851,7 +6007,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -4877,7 +6033,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -4903,7 +6059,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -4929,7 +6085,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -4955,7 +6111,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -4981,7 +6137,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5007,7 +6163,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5033,7 +6189,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5059,7 +6215,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5085,7 +6241,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5111,7 +6267,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5137,7 +6293,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5163,7 +6319,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5189,7 +6345,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5215,7 +6371,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5241,7 +6397,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5267,7 +6423,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-16",
@@ -5293,7 +6449,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5319,7 +6475,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5345,7 +6501,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5371,7 +6527,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5397,7 +6553,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5423,7 +6579,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5449,7 +6605,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5475,7 +6631,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "date": "2026-11-17",
@@ -5501,7 +6657,7 @@
    "verified": false,
    "verification_note": "Season averages are official. The projection is the season average with no minutes or usage adjustment, because there are no per-player game logs. The market line and the over probability are left BLANK: no licensed prop prices are connected and the scoring distribution cannot be estimated without game logs. Nothing here is a bet.",
    "source_player": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   }
  ],
  "parlays": [
@@ -6381,20 +7537,25 @@
    "game_id": "0022600231",
    "side": "NOP",
    "team": "NOP",
-   "reported": false,
-   "rows_listed": 0,
-   "out": [],
+   "reported": true,
+   "rows_listed": 5,
+   "out": [
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte",
+    "Watford, Trendon"
+   ],
    "questionable": [],
-   "availability_state": "NOT_YET_DUE",
-   "minutes_vacuum": null,
-   "pts_vacuum": null,
-   "reb_vacuum": null,
-   "ast_vacuum": null,
-   "players_without_official_minutes": 0,
-   "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
+   "availability_state": "FILED",
+   "minutes_vacuum": 0.0,
+   "pts_vacuum": 0.0,
+   "reb_vacuum": 0.0,
+   "ast_vacuum": 0.0,
+   "players_without_official_minutes": 4,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6419,10 +7580,10 @@
    "reb_vacuum": 0.0,
    "ast_vacuum": 0.0,
    "players_without_official_minutes": 4,
-   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured top-31 minutes table, so their minutes are unknown and are not counted.",
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6432,20 +7593,30 @@
    "game_id": "0022600232",
    "side": "CLE",
    "team": "CLE",
-   "reported": false,
-   "rows_listed": 0,
-   "out": [],
-   "questionable": [],
-   "availability_state": "NOT_YET_DUE",
-   "minutes_vacuum": null,
-   "pts_vacuum": null,
-   "reb_vacuum": null,
-   "ast_vacuum": null,
-   "players_without_official_minutes": 0,
-   "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
+   "reported": true,
+   "rows_listed": 8,
+   "out": [
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "questionable": [
+    "Allen, Jarrett",
+    "Harden, James",
+    "Mitchell, Donovan",
+    "Watson, Peyton"
+   ],
+   "availability_state": "FILED",
+   "minutes_vacuum": 0.0,
+   "pts_vacuum": 0.0,
+   "reb_vacuum": 0.0,
+   "ast_vacuum": 0.0,
+   "players_without_official_minutes": 4,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6459,22 +7630,21 @@
    "rows_listed": 6,
    "out": [
     "Biberovic, Tarik",
-    "de Larrea, Sergio",
-    "Lively II, Dereck"
+    "Christie, Max",
+    "Lively II, Dereck",
+    "de Larrea, Sergio"
    ],
-   "questionable": [
-    "Christie, Max"
-   ],
+   "questionable": [],
    "availability_state": "FILED",
    "minutes_vacuum": 0.0,
    "pts_vacuum": 0.0,
    "reb_vacuum": 0.0,
    "ast_vacuum": 0.0,
-   "players_without_official_minutes": 3,
-   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 3 listed player(s) are outside the captured top-31 minutes table, so their minutes are unknown and are not counted.",
+   "players_without_official_minutes": 4,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6484,20 +7654,23 @@
    "game_id": "0022600233",
    "side": "MIA",
    "team": "MIA",
-   "reported": false,
-   "rows_listed": 0,
-   "out": [],
+   "reported": true,
+   "rows_listed": 4,
+   "out": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
    "questionable": [],
-   "availability_state": "NOT_YET_DUE",
-   "minutes_vacuum": null,
-   "pts_vacuum": null,
-   "reb_vacuum": null,
-   "ast_vacuum": null,
-   "players_without_official_minutes": 0,
-   "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
+   "availability_state": "FILED",
+   "minutes_vacuum": 0.0,
+   "pts_vacuum": 0.0,
+   "reb_vacuum": 0.0,
+   "ast_vacuum": 0.0,
+   "players_without_official_minutes": 2,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 2 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6516,20 +7689,17 @@
     "Okorie, Ebuka",
     "Onyenso, Ugonna"
    ],
-   "questionable": [
-    "Harkless, Elijah",
-    "Jones, Isaac"
-   ],
+   "questionable": [],
    "availability_state": "FILED",
    "minutes_vacuum": 0.0,
    "pts_vacuum": 0.0,
    "reb_vacuum": 0.0,
    "ast_vacuum": 0.0,
    "players_without_official_minutes": 5,
-   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 5 listed player(s) are outside the captured top-31 minutes table, so their minutes are unknown and are not counted.",
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 5 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6552,7 +7722,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6563,26 +7733,24 @@
    "side": "away",
    "team": "BKN",
    "reported": true,
-   "rows_listed": 5,
+   "rows_listed": 6,
    "out": [
     "Bilodeau, Tyler",
     "Jefferson, Joshua",
     "Nelson, Grant",
     "Saraf, Ben"
    ],
-   "questionable": [
-    "Brown Jr., Mikel"
-   ],
+   "questionable": [],
    "availability_state": "FILED",
    "minutes_vacuum": 0.0,
    "pts_vacuum": 0.0,
    "reb_vacuum": 0.0,
    "ast_vacuum": 0.0,
    "players_without_official_minutes": 4,
-   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured top-31 minutes table, so their minutes are unknown and are not counted.",
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6600,15 +7768,15 @@
    ],
    "questionable": [],
    "availability_state": "FILED",
-   "minutes_vacuum": 0.0,
-   "pts_vacuum": 0.0,
-   "reb_vacuum": 0.0,
-   "ast_vacuum": 0.0,
-   "players_without_official_minutes": 2,
-   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 2 listed player(s) are outside the captured top-31 minutes table, so their minutes are unknown and are not counted.",
+   "minutes_vacuum": 33.7,
+   "pts_vacuum": 33.3,
+   "reb_vacuum": 4.8,
+   "ast_vacuum": 3.5,
+   "players_without_official_minutes": 1,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 1 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-13 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6618,20 +7786,29 @@
    "game_id": "0022600235",
    "side": "away",
    "team": "CHI",
-   "reported": false,
-   "rows_listed": 0,
-   "out": [],
-   "questionable": [],
-   "availability_state": "NOT_YET_DUE",
-   "minutes_vacuum": null,
-   "pts_vacuum": null,
-   "reb_vacuum": null,
-   "ast_vacuum": null,
-   "players_without_official_minutes": 0,
-   "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
+   "reported": true,
+   "rows_listed": 7,
+   "out": [
+    "Awaka, Tobe",
+    "Sellers, Jaylin",
+    "Swain, Dailyn",
+    "Wilson, Caleb"
+   ],
+   "questionable": [
+    "Claxton, Nic",
+    "Powell, Norman",
+    "Smith, Jalen"
+   ],
+   "availability_state": "FILED",
+   "minutes_vacuum": 0.0,
+   "pts_vacuum": 0.0,
+   "reb_vacuum": 0.0,
+   "ast_vacuum": 0.0,
+   "players_without_official_minutes": 4,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out. It is a FLOOR: 4 listed player(s) are outside the captured 31-player minutes table, so their minutes are unknown and are not counted.",
    "reprice_after": "2026-11-14 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6654,7 +7831,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6677,7 +7854,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6700,7 +7877,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6723,7 +7900,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6746,7 +7923,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6769,7 +7946,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6792,7 +7969,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6815,7 +7992,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6838,7 +8015,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6861,7 +8038,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6884,7 +8061,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6907,7 +8084,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6930,7 +8107,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6953,7 +8130,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6976,7 +8153,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -6999,7 +8176,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7022,7 +8199,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7045,7 +8222,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-14 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7068,7 +8245,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7091,7 +8268,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7114,7 +8291,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7137,7 +8314,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7160,7 +8337,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7183,7 +8360,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7206,7 +8383,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7229,7 +8406,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7252,7 +8429,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7275,7 +8452,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7298,7 +8475,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7321,7 +8498,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7344,7 +8521,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7367,7 +8544,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7390,7 +8567,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-15 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7413,7 +8590,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7436,7 +8613,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7459,7 +8636,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7482,7 +8659,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-17 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7505,7 +8682,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-17 13:00 local, game day (second game of a back-to-back)",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7528,7 +8705,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7551,7 +8728,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7574,7 +8751,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7597,7 +8774,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7620,7 +8797,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   },
@@ -7643,7 +8820,7 @@
    "minutes_note": "No usable official report for this team at this date, so the minutes vacated are UNKNOWN and are published blank rather than as zero.",
    "reprice_after": "2026-11-16 17:00 local, the day before the game",
    "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
    "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
   }
@@ -7670,10 +8847,10 @@
    "p_ot": 0.054645,
    "p_blowout_15": 0.369659,
    "margin_sd": 15.981104,
-   "out_home": null,
+   "out_home": 4,
    "out_away": 4,
    "availability_states": {
-    "home": "NOT_YET_DUE",
+    "home": "FILED",
     "away": "FILED"
    },
    "availability_note": "Absence counts cover only the side that has filed.",
@@ -7702,10 +8879,10 @@
    "p_ot": 0.054645,
    "p_blowout_15": 0.349419,
    "margin_sd": 15.981104,
-   "out_home": null,
-   "out_away": 3,
+   "out_home": 4,
+   "out_away": 4,
    "availability_states": {
-    "home": "NOT_YET_DUE",
+    "home": "FILED",
     "away": "FILED"
    },
    "availability_note": "Absence counts cover only the side that has filed.",
@@ -7734,10 +8911,10 @@
    "p_ot": 0.054645,
    "p_blowout_15": 0.357856,
    "margin_sd": 15.981104,
-   "out_home": null,
+   "out_home": 2,
    "out_away": 5,
    "availability_states": {
-    "home": "NOT_YET_DUE",
+    "home": "FILED",
     "away": "FILED"
    },
    "availability_note": "Absence counts cover only the side that has filed.",
@@ -7799,10 +8976,10 @@
    "p_blowout_15": 0.53374,
    "margin_sd": 15.981104,
    "out_home": 2,
-   "out_away": null,
+   "out_away": 4,
    "availability_states": {
     "home": "FILED",
-    "away": "NOT_YET_DUE"
+    "away": "FILED"
    },
    "availability_note": "Absence counts cover only the side that has filed.",
    "notes": [],

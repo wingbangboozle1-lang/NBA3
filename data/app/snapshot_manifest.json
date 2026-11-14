@@ -48,15 +48,26 @@
   "retrieved_stamp": "2026-11-14T09:45Z"
  },
  "injuries": {
-  "path": "data/app/official_injuries_2026-11-14_0415AM.json",
-  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
-  "report_stamp": "2026-11-14 04:15 AM ET",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "path": "data/app/official_injuries_2026-11-14_1330PM.json",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+  "report_stamp": "2026-11-14 01:30 PM ET",
+  "retrieved_stamp": "2026-11-14T18:47Z",
+  "reverified_on": "2026-11-14",
+  "reverified_by": "scripts/capture_official_2026_11_14e.py: C1 the 01:15 PM ET report agrees row for row; C2 the parser agrees with an independent hand transcription; C4 every 11/14 and 11/15 team slot of the stored official slate is present exactly once; C5/C5b every tip time, printed or carried, equals the slate; C6 the delta against the 04:15 AM snapshot reconciles",
+  "supersedes": {
+   "path": "data/app/official_injuries_2026-11-14_0415AM.json",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+   "report_stamp": "2026-11-14 04:15 AM ET",
+   "retrieved_stamp": "2026-11-14T09:45Z"
+  },
+  "game_day_delta": "data/app/injury_delta_game_day.json",
+  "why_this_one": "The official rule requires a game-day report between 11 a.m. and 1 p.m. local time, so 01:30 PM ET on 11/14 is the first report of the day written after that window closed. The 04:15 AM ET report it replaces was a pre-filing document: 23 of its 49 rows were 'NOT YET SUBMITTED'. The game-day report adds 25 rows and changes 4 statuses for games that tip in five hours; publishing it is the difference between pricing tonight on who is actually out and pricing tonight on who had said something at four in the morning."
  },
  "superseded": {
   "ratings": "data/app/official_team_ratings_2026-11-14b.json",
   "injuries": "data/app/official_injuries_2026-11-13_0745PM.json",
-  "reason": "The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row."
+  "reason": "The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay was the 11/14 04:15 AM ET report until session arena/df301475-nba3 repointed it to the 11/14 01:30 PM ET game-day report; the 04:15 AM file is retained as the pre-filing baseline that the game-day delta is measured against, and data/app/injury_delta_game_day.json publishes the row-by-row difference.",
+  "injuries_prior_game_day": "data/app/official_injuries_2026-11-14_0415AM.json"
  },
  "checks": {
   "C1_gp_w_l_reconcile": true,
@@ -90,7 +101,10 @@
   "C7_second_capture_agrees": true,
   "C7_rows_compared": 183,
   "C8_parallel_injury_report_agrees": false,
-  "C8_rows_compared": 26
+  "C8_rows_compared": 26,
+  "C9_game_day_report_replaces_prefiling": true,
+  "C9_rows_compared": 49,
+  "C10_two_consecutive_game_day_reports_agree": true
  },
  "parallel_capture": {
   "what": "Two sessions refreshed the same inputs within about 40 minutes of each other on 2026-11-14, from the same official pages, with different file names and different code. This block records where they agree and where one of them is newer, so the overlap becomes corroboration instead of a fork.",
@@ -185,5 +199,6 @@
   "2026-11-16": 8,
   "2026-11-17": 5
  },
- "november_official_total": 215
+ "november_official_total": 215,
+ "last_touched_by": "arena/df301475-nba3"
 }

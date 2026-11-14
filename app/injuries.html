@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -28,39 +28,47 @@
   </div>
 
 <p>Transcribed from the official NBA injury report
-<strong>2026-11-14 04:15 AM ET</strong> (<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF</a>).
-49 rows: 26 player rows and
-23 team rows printed “NOT YET SUBMITTED”. A team that has not filed
-is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
+<strong>2026-11-14 01:30 PM ET</strong> (<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF</a>).
+69 rows: 50 player rows and
+19 team rows printed &ldquo;NOT YET SUBMITTED&rdquo;. A team that has not filed
+is published as such rather than treated as healthy &mdash; &ldquo;unknown&rdquo; and &ldquo;fit&rdquo; are not the same thing,
 and every downstream number respects the difference.</p>
 <div class="callout ok">
-<p><strong>Freshness check.</strong> This is the newest report on the
-<a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>
-(2026-11-14 04:15 AM ET), so there is no later file to reconcile it
-with. The comparison that exists is against the report it supersedes
-(2026-11-13 07:45 PM ET):
-<strong>31 rows in common on the 2026-11-14 slate,
-0 status changes</strong>. An overnight gap of nine hours
-and one slate-turning set of games produced no movement at all, which is why these rows can be
-published as settled for today. The build fails if a future report disagrees. The earlier
-row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
-as change request <strong>CR-53653a5c-A</strong>) is published at
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
-(17/17 attributed rows identical; 29 fragmented rows listed unverified, never counted), and
-session 26fd5f6f independently matched <strong>31/31</strong> rows — see
-<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>.
-Correction CR-26fd5f6f-A is applied: the seven games once miscounted as a gap in the 11/14 slate
-are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
+<p><strong>Why this report, and how it was checked.</strong> The official rule requires a game-day
+report between 11 a.m. and 1 p.m. local time, so this is the first document of the day written after
+that window closed; the report the site published before this refresh
+(2026-11-14 04:15 AM ET) was a pre-filing document. Newest report on the
+<a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a> at
+read time; a probe of the next quarter-hour file
+(<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_45PM.pdf" target="_blank"
+rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_45PM.pdf</a>) returned
+S3 AccessDenied (no such report), which is how &ldquo;newest&rdquo; is known
+rather than assumed. Two consecutive reports (01:15 PM ET and 01:30 PM ET) were read independently and
+agree row for row, 0 differences; the parse also agrees with an independent hand transcription of the
+same document, and both raw fetches are committed
+(<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_1330PM_raw.md"
+target="_blank" rel="noopener noreferrer">01:30 PM raw</a>,
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_1315PM_raw.md"
+target="_blank" rel="noopener noreferrer">01:15 PM raw</a>), so a reader can check every cell against
+the same source. Capture and checks:
+<code>scripts/capture_official_2026_11_14e.py</code> (C1&ndash;C7).</p>
+</div>
 
 <div class="callout warn">
-<p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and
-2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
-Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
-is <a href="flagged.html">NF-53</a> and the corrected reading is
-<a href="flagged.html">NF-56</a>.</p>
+<p><strong>Filing coverage at this stamp.</strong> Of the 54 team-sides in
+the window, <strong>9</strong> appear on this report with player rows,
+0 are overdue, 19 have a deadline the document
+has not reached, and 26 belong to dates no official report covers
+yet (11/16 and 11/17). On the 2026-11-14 slate itself 9 of 10
+team-sides have filed; the 1 that have not (MEM)
+is playing the second game of a back-to-back, whose game-day
+deadline is 1 p.m. local &mdash; a rule-driven timing gap, not a failure to file. Games whose
+availability is fully priced on both sides: <strong>0
+of 27</strong>, because every 11/14 game with one filed side has the other side still
+waiting, and 11/15&ndash;11/17 have no player rows at all. Full per-game timeline on the
+<a href="freshness.html">Report-availability page</a>; flags
+<a href="flagged.html">NF-53</a> (corrected by <a href="flagged.html">NF-56</a>) and
+<a href="flagged.html">F-DF3-06</a>.</p>
 </div>
 
 <h2>1. The report, row by row</h2>
@@ -82,7 +90,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Denver Nuggets</td>
 <td>Holmes II, DaRon</td>
 <td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -91,7 +99,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Denver Nuggets</td>
 <td>Nembhard, Ryan</td>
 <td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -100,7 +108,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Denver Nuggets</td>
 <td>Strawther, Julian</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Left Knee Sprain</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -109,16 +117,124 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Denver Nuggets</td>
 <td>Whitmore, Cam</td>
 <td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>07:00</td>
 <td>DEN@NOP</td>
 <td>New Orleans Pelicans</td>
-<td><span class="unverified">NOT YET SUBMITTED</span></td>
-<td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>McGowens, Bryce</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Elbow Infection</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Missi, Yves</td>
+<td><span class="chip chip-ok">Probable</span> Injury/Illness - Left Knee Contusion / Bone Bruise</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Murphy III, Trey</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Bilateral Patellar Tendinopathy</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Murray, Dejounte</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Watford, Trendon</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Allen, Jarrett</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Right Knee Injury</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Harden, James</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Lower Leg/Calf Tightness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Merrill, Sam</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Elbow Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Mitchell, Donovan</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Knee Contusion/Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Mobley, Evan</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Great Toe Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Tomlin, Nae&#x27;Qwan</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Low Back Stress Reaction</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Udeh, Jr., Ernest</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Watson, Peyton</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Right Hamstring Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -127,7 +243,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Dallas Mavericks</td>
 <td>Biberovic, Tarik</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Right Heel Bursitis</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -135,17 +251,8 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>DAL@CLE</td>
 <td>Dallas Mavericks</td>
 <td>Christie, Max</td>
-<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Ankle Sprain</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
-</tr>
-<tr>
-<td>11/14/2026</td>
-<td>07:30</td>
-<td>DAL@CLE</td>
-<td>Dallas Mavericks</td>
-<td>de Larrea, Sergio</td>
-<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Sprain</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><span class="chip chip-warn">Doubtful</span> Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -154,7 +261,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Dallas Mavericks</td>
 <td>Johnson Jr., Morez</td>
 <td><span class="chip chip-ok">Probable</span> Injury/Illness - Left Shin / Tibia Contusion</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -163,7 +270,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Dallas Mavericks</td>
 <td>Lively II, Dereck</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Right Foot Surgery</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -172,16 +279,16 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Dallas Mavericks</td>
 <td>Martin, Caleb</td>
 <td><span class="chip chip-ok">Available</span> Injury/Illness - Right Thumb Splint</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>07:30</td>
 <td>DAL@CLE</td>
-<td>Cleveland Cavaliers</td>
-<td><span class="unverified">NOT YET SUBMITTED</span></td>
-<td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Dallas Mavericks</td>
+<td>de Larrea, Sergio</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -190,7 +297,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Brooklyn Nets</td>
 <td>Bilodeau, Tyler</td>
 <td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -198,8 +305,8 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>BKN@MEM</td>
 <td>Brooklyn Nets</td>
 <td>Brown Jr., Mikel</td>
-<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Illness</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><span class="chip chip-ok">Probable</span> Injury/Illness - Illness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -208,7 +315,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Brooklyn Nets</td>
 <td>Jefferson, Joshua</td>
 <td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -217,7 +324,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Brooklyn Nets</td>
 <td>Nelson, Grant</td>
 <td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -226,16 +333,16 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Brooklyn Nets</td>
 <td>Saraf, Ben</td>
 <td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>08:00</td>
 <td>BKN@MEM</td>
-<td></td>
+<td>Brooklyn Nets</td>
 <td>Traore, Nolan</td>
 <td><span class="chip chip-ok">Probable</span> Injury/Illness - Right Calf Tightness / Soreness</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -244,16 +351,70 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Memphis Grizzlies</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>08:00</td>
 <td>CHI@MIN</td>
 <td>Chicago Bulls</td>
-<td><span class="unverified">NOT YET SUBMITTED</span></td>
-<td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Awaka, Tobe</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Disc Irritation</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Claxton, Nic</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Hamstring Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Powell, Norman</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Low Back Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Sellers, Jaylin</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Smith, Jalen</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Finger Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Swain, Dailyn</td>
+<td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Wilson, Caleb</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Metacarpal Fracture</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -262,7 +423,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Minnesota Timberwolves</td>
 <td>Beringer, Joan</td>
 <td><span class="chip chip-ok">Available</span> Injury/Illness - Face Mask</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -271,7 +432,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Minnesota Timberwolves</td>
 <td>DiVincenzo, Donte</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Right Achilles Tendon Repair / Surgery</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -280,7 +441,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Minnesota Timberwolves</td>
 <td>Edwards, Anthony</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Arthroscopy</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -289,7 +450,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Detroit Pistons</td>
 <td>Duren, Jalen</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Right Hamstring Strain</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -297,8 +458,8 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>DET@MIA</td>
 <td>Detroit Pistons</td>
 <td>Harkless, Elijah</td>
-<td><span class="chip chip-neutral">Questionable</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><span class="chip chip-ok">Available</span> G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -307,7 +468,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Detroit Pistons</td>
 <td>Joe, Isaiah</td>
 <td><span class="chip chip-warn">Out</span> Injury/Illness - Right Hip Contusion</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -315,8 +476,8 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>DET@MIA</td>
 <td>Detroit Pistons</td>
 <td>Jones, Isaac</td>
-<td><span class="chip chip-neutral">Questionable</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><span class="chip chip-ok">Available</span> G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -325,7 +486,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Detroit Pistons</td>
 <td>Lanier, Chaz</td>
 <td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -334,7 +495,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Detroit Pistons</td>
 <td>Okorie, Ebuka</td>
 <td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -343,16 +504,43 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Detroit Pistons</td>
 <td>Onyenso, Ugonna</td>
 <td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>08:00</td>
 <td>DET@MIA</td>
 <td>Miami Heat</td>
-<td><span class="unverified">NOT YET SUBMITTED</span></td>
-<td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Antetokounmpo, Giannis</td>
+<td><span class="chip chip-ok">Probable</span> Injury/Illness - Right Wrist Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>DET@MIA</td>
+<td>Miami Heat</td>
+<td>Goldin, Vladislav</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>DET@MIA</td>
+<td>Miami Heat</td>
+<td>Larsson, Pelle</td>
+<td><span class="chip chip-warn">Doubtful</span> Injury/Illness - Illness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>08:00</td>
+<td>DET@MIA</td>
+<td>Miami Heat</td>
+<td>Thompson, Klay</td>
+<td><span class="chip chip-ok">Probable</span> Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -361,7 +549,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Indiana Pacers</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -370,7 +558,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Philadelphia 76ers</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -379,7 +567,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Los Angeles Lakers</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -388,7 +576,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Phoenix Suns</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -397,7 +585,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Charlotte Hornets</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -406,7 +594,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>LA Clippers</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -415,7 +603,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>San Antonio Spurs</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -424,16 +612,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Utah Jazz</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
-</tr>
-<tr>
-<td>11/15/2026</td>
-<td>06:00</td>
-<td>DAL@BOS</td>
-<td>Dallas Mavericks</td>
-<td><span class="unverified">NOT YET SUBMITTED</span></td>
-<td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -442,7 +621,16 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Boston Celtics</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>DAL@BOS</td>
+<td>Dallas Mavericks</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -451,7 +639,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>New York Knicks</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -460,7 +648,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Toronto Raptors</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -469,7 +657,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Houston Rockets</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -478,7 +666,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Washington Wizards</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -487,7 +675,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Atlanta Hawks</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -496,7 +684,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Milwaukee Bucks</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -505,7 +693,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Oklahoma City Thunder</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/15/2026</td>
@@ -514,16 +702,417 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td>Sacramento Kings</td>
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 </tbody></table></div>
 
-<h2>2. What the absences do to a rotation</h2>
+<h2>2. What the game-day filing window changed</h2>
+<p>The site was pricing tonight from <strong>2026-11-14 04:15 AM ET</strong>; the newest official
+report is <strong>2026-11-14 01:30 PM ET</strong>. Between those two documents the report grew from
+49 rows to 69 &mdash; 25 rows added,
+4 status or reason changes, 5 rows no longer
+printed &mdash; and every one of those movements is listed below rather than folded into a total.
+Row identity is (game date, matchup, team, player), so a row that vanishes is published as a
+finding, not as a diff to be smoothed away. The machine-readable version is
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_game_day.json"
+target="_blank" rel="noopener noreferrer">data/app/injury_delta_game_day.json</a>.</p>
+<div class="callout"><p><strong>What this does to a pick.</strong> A status change is only a
+pricing event when it moves a player into or out of the Out/Doubtful set: Christie
+(Questionable &rarr; Doubtful) is, the two Detroit Questionables becoming Available are not, and a
+Probable (Giannis Antetokounmpo, Anthony Davis-tier availability notes on this slate) has never
+moved a line here &mdash; the model prices on ratings and rest and publishes the absence list
+beside it. See <a href="flagged.html">F-DF3-02</a>&rsquo;s sibling decision on
+<a href="lines.html">the lines page</a>.</p></div>
+<h3>2a. Statuses that moved between the two official reports</h3>
+<div class="table-wrap"><table>
+<caption id="injury-changes"></caption>
+<thead><tr>
+<th>Game date</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Player</th>
+<th>Was</th>
+<th>Now</th>
+<th>Reason (newest)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>11/14/2026</td>
+<td>BKN@MEM</td>
+<td>BKN</td>
+<td>Brown Jr., Mikel</td>
+<td>Questionable</td>
+<td><span class="chip chip-ok">Probable</span></td>
+<td>Injury/Illness - Illness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest report / the one it replaces</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>DAL</td>
+<td>Christie, Max</td>
+<td>Questionable</td>
+<td><span class="chip chip-warn">Doubtful</span></td>
+<td>Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest report / the one it replaces</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>DET</td>
+<td>Harkless, Elijah</td>
+<td>Questionable</td>
+<td><span class="chip chip-ok">Available</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest report / the one it replaces</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>DET</td>
+<td>Jones, Isaac</td>
+<td>Questionable</td>
+<td><span class="chip chip-ok">Available</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest report / the one it replaces</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+</tbody></table></div>
+<h3>2b. Rows the game-day window added</h3>
+<div class="table-wrap"><table>
+<caption id="injury-added"></caption>
+<thead><tr>
+<th>Game date</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Player</th>
+<th>Status</th>
+<th>Reason</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>11/14/2026</td>
+<td>BKN@MEM</td>
+<td>BKN</td>
+<td>Traore, Nolan</td>
+<td><span class="chip chip-ok">Probable</span></td>
+<td>Injury/Illness - Right Calf Tightness / Soreness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Awaka, Tobe</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Disc Irritation</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Claxton, Nic</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Left Hamstring Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Powell, Norman</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Low Back Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Sellers, Jaylin</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Smith, Jalen</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Left Finger Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Swain, Dailyn</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>G League - On Assignment</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>Wilson, Caleb</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Right Metacarpal Fracture</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Allen, Jarrett</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Right Knee Injury</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Harden, James</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Left Lower Leg/Calf Tightness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Merrill, Sam</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Right Elbow Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Mitchell, Donovan</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Left Knee Contusion/Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Mobley, Evan</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Left Great Toe Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Tomlin, Nae&#x27;Qwan</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Low Back Stress Reaction</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Udeh, Jr., Ernest</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>Watson, Peyton</td>
+<td><span class="chip chip-ok">Questionable</span></td>
+<td>Injury/Illness - Right Hamstring Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>McGowens, Bryce</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Left Elbow Infection</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>Missi, Yves</td>
+<td><span class="chip chip-ok">Probable</span></td>
+<td>Injury/Illness - Left Knee Contusion / Bone Bruise</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>Murphy III, Trey</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Bilateral Patellar Tendinopathy</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>Murray, Dejounte</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>Watford, Trendon</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>Injury/Illness - Right Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>Antetokounmpo, Giannis</td>
+<td><span class="chip chip-ok">Probable</span></td>
+<td>Injury/Illness - Right Wrist Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>Goldin, Vladislav</td>
+<td><span class="chip chip-warn">Out</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>Larsson, Pelle</td>
+<td><span class="chip chip-warn">Doubtful</span></td>
+<td>Injury/Illness - Illness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>Thompson, Klay</td>
+<td><span class="chip chip-ok">Probable</span></td>
+<td>Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">newest official PDF</a></td>
+</tr>
+</tbody></table></div>
+<h3>2c. Rows the newer report no longer prints</h3>
+<div class="table-wrap"><table>
+<caption id="injury-dropped"></caption>
+<thead><tr>
+<th>Game date</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Player</th>
+<th>Was</th>
+<th>Kind</th>
+<th>Why it is explained</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>11/14/2026</td>
+<td>BKN@MEM</td>
+<td>(blank)</td>
+<td>Traore, Nolan</td>
+<td>Probable</td>
+<td>reattributed</td>
+<td>the same player row is present with a different team attribution (the older snapshot left a cell blank that this rendering prints)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">both reports</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>CHI</td>
+<td>team slot</td>
+<td>NOT YET SUBMITTED</td>
+<td>team-slot-filed</td>
+<td>the team filed 7 player rows in the newer report, so its NOT-YET-SUBMITTED slot is gone</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">both reports</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>CLE</td>
+<td>team slot</td>
+<td>NOT YET SUBMITTED</td>
+<td>team-slot-filed</td>
+<td>the team filed 8 player rows in the newer report, so its NOT-YET-SUBMITTED slot is gone</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">both reports</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>NOP</td>
+<td>team slot</td>
+<td>NOT YET SUBMITTED</td>
+<td>team-slot-filed</td>
+<td>the team filed 5 player rows in the newer report, so its NOT-YET-SUBMITTED slot is gone</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">both reports</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>MIA</td>
+<td>team slot</td>
+<td>NOT YET SUBMITTED</td>
+<td>team-slot-filed</td>
+<td>the team filed 4 player rows in the newer report, so its NOT-YET-SUBMITTED slot is gone</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">both reports</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+</tbody></table></div>
+<p class="sub">Unattached fragment cells the PDF text extraction printed but that belong to no row:
+1 (see <a href="flagged.html">F-DF3-02</a>). Cells the
+document prints once per block and the parser therefore carries down:
+38 rows carry a
+date, 23 carry
+a matchup and 13
+carry a team code — each one checked against the stored official schedule by the capture (C4/C5b),
+not trusted. Rows re-expanded out of a merged table cell:
+2 tagged by the
+parser (see <a href="flagged.html">F-DF3-01</a>, which names all three slots). Nothing here is
+tidied away.</p>
+
+
+<h2>3. What the absences do to a rotation</h2>
 <p>The table below sums the <strong>official season minutes</strong> — and the official season
-points, rebounds and assists — of every player listed Out for a team. It is a
-<strong>floor, not an estimate</strong>: only the top 31 players by minutes were captured, so an
-injured player outside that table contributes nothing to the sum, and the count of such players is
-shown alongside. See <a href="flagged.html">NF-52</a>.</p>
+points, rebounds and assists — of every player listed Out or Doubtful for a team. It is a
+<strong>floor, not an estimate</strong>: the captured statistics table is the league's top
+31 players by
+minutes, so an injured player outside that table contributes nothing to the sum, and the count of such
+players is shown alongside. See <a href="flagged.html">NF-52</a>.</p>
+<div class="callout warn">
+<p><strong>Read the zeros carefully — this column changed on 2026-11-14.</strong> Until this round the
+roll-up compared the injury report's <code>Lastname, Firstname</code> against the statistics table's
+<code>Firstname Lastname</code> with a rule that could never match, so <em>every</em> row published
+0.0 or blank and the feature was dead behind a table that looked correct. The matching is fixed
+(sorted name tokens, generational suffixes dropped, and the team code must agree before a match is
+credited — flag <a href="flagged.html">F-DF3-03</a>), which is why rows can now show a real vacuum.
+What is left is an <em>input-coverage</em> limit, stated as a number:
+1 of
+9 filed team-sides on
+this slate has a quantifiable vacuum, because most players listed Out or Doubtful tonight sit outside
+a top-31 minutes table. The fix is to capture a rotation-depth table, which is
+<a href="suggestions.html">CS-48</a>.</p>
+</div>
 
 <div class="callout warn">
 <p><strong>Who absorbs those minutes, and how much of the vacated production they replace, is not
@@ -556,15 +1145,15 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>DEN@NOP</td>
 <td>NOP</td>
 <td>NOP</td>
-<td><span class="chip chip-warn">NOT FILED</span></td>
-<td>0</td>
-<td>[]</td>
-<td>—</td>
-<td>—</td>
-<td>—</td>
-<td>0</td>
+<td><span class="chip chip-ok">filed</span></td>
+<td>5</td>
+<td>[&#x27;McGowens, Bryce&#x27;, &#x27;Murphy III, Trey&#x27;, &#x27;Murray, Dejounte&#x27;, &#x27;Watford, Trendon&#x27;]</td>
+<td>McGowens, Bryce; Murphy III, Trey; Murray, Dejounte; Watford, Trendon</td>
+<td>0.0</td>
+<td>0.0 / 0.0 / 0.0</td>
+<td>4</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -579,22 +1168,22 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>0.0 / 0.0 / 0.0</td>
 <td>4</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
 <td>DAL@CLE</td>
 <td>CLE</td>
 <td>CLE</td>
-<td><span class="chip chip-warn">NOT FILED</span></td>
-<td>0</td>
-<td>[]</td>
-<td>—</td>
-<td>—</td>
-<td>—</td>
-<td>0</td>
+<td><span class="chip chip-ok">filed</span></td>
+<td>8</td>
+<td>[&#x27;Merrill, Sam&#x27;, &#x27;Mobley, Evan&#x27;, &quot;Tomlin, Nae&#x27;Qwan&quot;, &#x27;Udeh, Jr., Ernest&#x27;]</td>
+<td>Merrill, Sam; Mobley, Evan; Tomlin, Nae&#x27;Qwan; Udeh, Jr., Ernest</td>
+<td>0.0</td>
+<td>0.0 / 0.0 / 0.0</td>
+<td>4</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -603,28 +1192,28 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>DAL</td>
 <td><span class="chip chip-ok">filed</span></td>
 <td>6</td>
-<td>[&#x27;Biberovic, Tarik&#x27;, &#x27;de Larrea, Sergio&#x27;, &#x27;Lively II, Dereck&#x27;]</td>
-<td>Biberovic, Tarik; de Larrea, Sergio; Lively II, Dereck</td>
+<td>[&#x27;Biberovic, Tarik&#x27;, &#x27;Christie, Max&#x27;, &#x27;Lively II, Dereck&#x27;, &#x27;de Larrea, Sergio&#x27;]</td>
+<td>Biberovic, Tarik; Christie, Max; Lively II, Dereck; de Larrea, Sergio</td>
 <td>0.0</td>
 <td>0.0 / 0.0 / 0.0</td>
-<td>3</td>
+<td>4</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
 <td>DET@MIA</td>
 <td>MIA</td>
 <td>MIA</td>
-<td><span class="chip chip-warn">NOT FILED</span></td>
-<td>0</td>
-<td>[]</td>
-<td>—</td>
-<td>—</td>
-<td>—</td>
-<td>0</td>
+<td><span class="chip chip-ok">filed</span></td>
+<td>4</td>
+<td>[&#x27;Goldin, Vladislav&#x27;, &#x27;Larsson, Pelle&#x27;]</td>
+<td>Goldin, Vladislav; Larsson, Pelle</td>
+<td>0.0</td>
+<td>0.0 / 0.0 / 0.0</td>
+<td>2</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -639,7 +1228,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>0.0 / 0.0 / 0.0</td>
 <td>5</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -654,7 +1243,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -662,14 +1251,14 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>away</td>
 <td>BKN</td>
 <td><span class="chip chip-ok">filed</span></td>
-<td>5</td>
+<td>6</td>
 <td>[&#x27;Bilodeau, Tyler&#x27;, &#x27;Jefferson, Joshua&#x27;, &#x27;Nelson, Grant&#x27;, &#x27;Saraf, Ben&#x27;]</td>
 <td>Bilodeau, Tyler; Jefferson, Joshua; Nelson, Grant; Saraf, Ben</td>
 <td>0.0</td>
 <td>0.0 / 0.0 / 0.0</td>
 <td>4</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -680,26 +1269,26 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>3</td>
 <td>[&#x27;DiVincenzo, Donte&#x27;, &#x27;Edwards, Anthony&#x27;]</td>
 <td>DiVincenzo, Donte; Edwards, Anthony</td>
-<td>0.0</td>
-<td>0.0 / 0.0 / 0.0</td>
-<td>2</td>
+<td>33.7</td>
+<td>33.3 / 4.8 / 3.5</td>
+<td>1</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
 <td>CHI@MIN</td>
 <td>away</td>
 <td>CHI</td>
-<td><span class="chip chip-warn">NOT FILED</span></td>
-<td>0</td>
-<td>[]</td>
-<td>—</td>
-<td>—</td>
-<td>—</td>
-<td>0</td>
+<td><span class="chip chip-ok">filed</span></td>
+<td>7</td>
+<td>[&#x27;Awaka, Tobe&#x27;, &#x27;Sellers, Jaylin&#x27;, &#x27;Swain, Dailyn&#x27;, &#x27;Wilson, Caleb&#x27;]</td>
+<td>Awaka, Tobe; Sellers, Jaylin; Swain, Dailyn; Wilson, Caleb</td>
+<td>0.0</td>
+<td>0.0 / 0.0 / 0.0</td>
+<td>4</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -714,7 +1303,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -729,7 +1318,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -744,7 +1333,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -759,7 +1348,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -774,7 +1363,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -789,7 +1378,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -804,7 +1393,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -819,7 +1408,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -834,7 +1423,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -849,7 +1438,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -864,7 +1453,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -879,7 +1468,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -894,7 +1483,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -909,7 +1498,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -924,7 +1513,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -939,7 +1528,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -954,7 +1543,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -969,7 +1558,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -984,7 +1573,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -999,7 +1588,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1014,7 +1603,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1029,7 +1618,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1044,7 +1633,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1059,7 +1648,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1074,7 +1663,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1089,7 +1678,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1104,7 +1693,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1119,7 +1708,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1134,7 +1723,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1149,7 +1738,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1164,7 +1753,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1179,7 +1768,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1194,7 +1783,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-16</td>
@@ -1209,7 +1798,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1224,7 +1813,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1239,7 +1828,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1254,7 +1843,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1269,7 +1858,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1284,7 +1873,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1299,7 +1888,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1314,7 +1903,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1329,7 +1918,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1344,7 +1933,7 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 <tr>
 <td>2026-11-17</td>
@@ -1359,10 +1948,10 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>—</td>
 <td>0</td>
 <td><span class="unverified">UNVERIFIED — no game logs</span></td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF + minutes</a> · <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
 </tr>
 </tbody></table></div>
-<h2>3. Questionable players</h2>
+<h2>4. Questionable players</h2>
 <div class="table-wrap"><table>
 <caption id="questionable"></caption>
 <thead><tr>
@@ -1376,12 +1965,57 @@ the kind of number that gets a bankroll staked on it.</p>
 </tr></thead><tbody>
 <tr>
 <td>11/14/2026</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Missi, Yves</td>
+<td><span class="chip chip-neutral">Probable</span></td>
+<td>Injury/Illness - Left Knee Contusion / Bone Bruise</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Allen, Jarrett</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Right Knee Injury</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Harden, James</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Left Lower Leg/Calf Tightness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Mitchell, Donovan</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Left Knee Contusion/Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Watson, Peyton</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Right Hamstring Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
 <td>DAL@CLE</td>
 <td>Dallas Mavericks</td>
 <td>Christie, Max</td>
-<td><span class="chip chip-neutral">Questionable</span></td>
+<td><span class="chip chip-neutral">Doubtful</span></td>
 <td>Injury/Illness - Left Ankle Sprain</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
@@ -1390,43 +2024,79 @@ the kind of number that gets a bankroll staked on it.</p>
 <td>Johnson Jr., Morez</td>
 <td><span class="chip chip-neutral">Probable</span></td>
 <td>Injury/Illness - Left Shin / Tibia Contusion</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>BKN@MEM</td>
 <td>Brooklyn Nets</td>
 <td>Brown Jr., Mikel</td>
-<td><span class="chip chip-neutral">Questionable</span></td>
+<td><span class="chip chip-neutral">Probable</span></td>
 <td>Injury/Illness - Illness</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>BKN@MEM</td>
-<td></td>
+<td>Brooklyn Nets</td>
 <td>Traore, Nolan</td>
 <td><span class="chip chip-neutral">Probable</span></td>
 <td>Injury/Illness - Right Calf Tightness / Soreness</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Claxton, Nic</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Left Hamstring Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Powell, Norman</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Low Back Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>CHI@MIN</td>
+<td>Chicago Bulls</td>
+<td>Smith, Jalen</td>
+<td><span class="chip chip-neutral">Questionable</span></td>
+<td>Injury/Illness - Left Finger Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>DET@MIA</td>
-<td>Detroit Pistons</td>
-<td>Harkless, Elijah</td>
-<td><span class="chip chip-neutral">Questionable</span></td>
-<td>G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Miami Heat</td>
+<td>Antetokounmpo, Giannis</td>
+<td><span class="chip chip-neutral">Probable</span></td>
+<td>Injury/Illness - Right Wrist Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>11/14/2026</td>
 <td>DET@MIA</td>
-<td>Detroit Pistons</td>
-<td>Jones, Isaac</td>
-<td><span class="chip chip-neutral">Questionable</span></td>
-<td>G League - Two-Way</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Miami Heat</td>
+<td>Larsson, Pelle</td>
+<td><span class="chip chip-neutral">Doubtful</span></td>
+<td>Injury/Illness - Illness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>DET@MIA</td>
+<td>Miami Heat</td>
+<td>Thompson, Klay</td>
+<td><span class="chip chip-neutral">Probable</span></td>
+<td>Injury/Illness - Left Ankle Sprain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 </tbody></table></div>
 </main>

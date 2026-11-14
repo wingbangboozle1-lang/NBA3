@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -34,19 +34,19 @@
       <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></div>
 <div class="card"><div class="k">Strategies funded</div>
       <div class="v">0</div>
-      <div class="s">of 15 scored rules. 0 provisional,
+      <div class="s">of 23 scored rules. 0 provisional,
       the rest rejected or blocked.</div>
       <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
 <div class="card"><div class="k">Luck threshold for this board</div>
-      <div class="v">28.9 pp</div>
-      <div class="s">The best edge a board of 15 rules throws up by chance.
+      <div class="v">30.6 pp</div>
+      <div class="s">The best edge a board of 23 rules throws up by chance.
       The largest edge any rule actually posted is
-      10.7 pp.</div>
+      15.1 pp.</div>
       <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
 <div class="card"><div class="k">Official injury rows</div>
-      <div class="v">49</div>
-      <div class="s">2026-11-14 04:15 AM ET — the newest report listed on the official index</div>
-      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
+      <div class="v">69</div>
+      <div class="s">2026-11-14 01:30 PM ET — the newest report listed on the official index</div>
+      <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
 </div>
 
 <h2>1. What this project is, in one paragraph</h2>
@@ -63,9 +63,9 @@ value zero by construction. The backtest therefore does not look for profit — 
 <ul>
   <li><strong>Zero strategies are funded.</strong> Nothing on the board passes all nine gates.</li>
   <li><strong>Nothing beats luck.</strong> Simulating the whole board under the fair-line null,
-      the best-looking rule clears <strong>28.9 percentage points</strong>
+      the best-looking rule clears <strong>30.6 percentage points</strong>
       of edge 5% of the time. The largest edge any real rule posted is
-      <strong>10.7 pp</strong>.</li>
+      <strong>15.1 pp</strong>.</li>
   <li><strong>The margin model is honest but weak.</strong> Out-of-sample RMSE
       15.94 against a 16.92 constant
       baseline, and it is unbiased (0.81 points).</li>
@@ -81,10 +81,13 @@ value zero by construction. The backtest therefore does not look for profit — 
 </ul>
 
 <h2>3. What has been verified, and against what</h2>
-<p>Every official page below was read on <strong>2026-11-14</strong> at 01:05 UTC and compared
-programmatically with the values earlier sessions had stored. The comparison is
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py">scripts/capture_official_2026_11_14b.py</a>;
-it prints every disagreement and the build fails on a mismatch.</p>
+<p>Every official page below was read on <strong>2026-11-14</strong> and compared
+programmatically with the values earlier sessions had stored; each row names the capture that
+produced it, because they were not all read at the same minute — the injury report was re-read at
+<strong>18:47 UTC</strong> on 2026-11-14 by
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14e.py">scripts/capture_official_2026_11_14e.py</a>,
+after the game-day filing window, and it is that file the engine prices from. Each comparison script
+prints every disagreement and the build fails on a mismatch.</p>
 
 <div class="table-wrap"><table>
 <caption id="verification"></caption>
@@ -104,14 +107,19 @@ it prints every disagreement and the build fails on a mismatch.</p>
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats</a></td>
 </tr>
 <tr>
-<td>Official injury report 2026-11-14 04:15 AM ET — 49 rows (26 player rows + 23 team “NOT YET SUBMITTED” rows)</td>
-<td>31 rows of the 2026-11-14 slate compared with the report it supersedes (2026-11-13 07:45 PM ET): 0 status changes.</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>Official injury report 2026-11-14 01:30 PM ET — 69 rows (50 player rows + 19 team “NOT YET SUBMITTED” rows)</td>
+<td>25 rows of the 2026-11-14 slate compared with the report it supersedes (2026-11-14 04:15 AM ET): 4 status changes.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 <tr>
 <td>Official final scores — 183 games, 366 team-games</td>
 <td>0 mismatch against the official games-played column for all 30 teams.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+</tr>
+<tr>
+<td>Game-day refresh, measured on the published numbers</td>
+<td>0 of 27 originated lines moved — the models do not consume availability — while 25 injury rows and 4 status changes did move the availability picture. Stated as a number rather than described: <a href="freshness.html">freshness §5b</a>.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_delta_game_day.json" target="_blank" rel="noopener noreferrer">artefact diff</a></td>
 </tr>
 <tr>
 <td>Walk-forward engine — refit for every date from strictly earlier games</td>
@@ -135,17 +143,22 @@ downstream has seen the future.</p>
   <li><strong>Exact binomial tests</strong> against the fair-line rate for the market — 50% for a
       single bet, 25% for a two-leg parlay. This is gate G5.</li>
   <li><strong>Benjamini–Hochberg FDR</strong> across every scored rule on the board, because a
-      board of 15 rules will throw up one “significant” result by chance.
+      board of 23 rules will throw up one “significant” result by chance.
       This is gate G6.</li>
   <li><strong>A whole-board Monte Carlo</strong>: every rule is simulated under its own fair-line
       null, the largest edge anywhere on the board is recorded, and that is repeated
       5,000 times. The 95th percentile —
-      28.9 pp — is the edge a rule must beat before it is called
+      30.6 pp — is the edge a rule must beat before it is called
       anything. This is gate G9, and nothing on the board beats it.</li>
 </ul>
-<p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big home favourite /
-fade it). They select the same games and are exact complements, so they are one finding, not two.
-And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
+<p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big move / fade it).
+That they select the same games and are exact complements is now <em>checked</em>, not asserted:
+9 of
+9 declared pairs share an identical selection set
+and complementary outcomes, published in <code>lab.json</code> → <code>mirror_audit</code>; so a pair
+is one finding, not two, and the effective board is
+14 rules, not
+23. And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
 it fails every gate, which is the check that the gates themselves work.</p>
 
 <h2>6. What is still missing, and what it blocks</h2>

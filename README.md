@@ -38,9 +38,13 @@ could not be confirmed against an official source is left blank and listed on th
 review** page.
 
 **The headline result: zero strategies are funded, and nothing on the leaderboard beats the luck
-threshold.** A board of 15 rules, simulated under the fair-line null 5,000 times, produces a
-best-looking edge of **31.2 percentage points** 5% of the time; the largest edge any real rule posted
-is **18.0 pp**. That is the honest state of the project, and it is the first thing the site tells you.
+threshold.** A board of 23 rules, simulated under the fair-line null 5,000 times, produces a
+best-looking edge of **30.6 percentage points** 5% of the time; the largest absolute edge any real
+rule posted on the game-day build is **15.1 pp** (ST-21, n = 63, p = 0.023, q = 0.26 — tier T3,
+watch-only, no stake). That is the honest state of the project, and it is the first thing the site
+tells you. The numbers in this paragraph are read from `data/app/lab.json` (`luck_test.threshold_pp`,
+`strategies[].edge_pp`); they were stale in this file until 2026-11-14, which is flag
+`F-DF3-04` — do not retype them, regenerate them.
 
 | Page | What it holds | Built from |
 |---|---|---|
@@ -51,17 +55,17 @@ is **18.0 pp**. That is the honest state of the project, and it is the first thi
 | `/app/picks.html` | Our own fair prices for every game in the window — **not bets**, see the caveat on the page | same |
 | `/app/parlays.html` | Same-game and cross-game parlay cards, and the four prop combos that cannot be priced | same |
 | `/app/props.html` | Player-prop projections, with the market line and probability **left blank** | same |
-| `/app/leaderboard.html` | The strategy competition: 15 rules, nine gates, skill score, reward tiers, luck threshold, mirror pairs, null control | same |
+| `/app/leaderboard.html` | The strategy competition: 23 rules, nine gates, skill score, reward tiers, luck threshold, mirror pairs (now machine-audited), null control | same |
 | `/app/strategies.html` | The gate rule book and the per-rule gate grid | same |
-| `/app/correlations.html` | 4 measured correlations with intervals, and 5 pairs left blank and why | same |
-| `/app/injuries.html` | The official report row by row, plus the minutes and production each team's absences vacate | `data/app/official_injuries_2026-11-14_0445AM.json` |
+| `/app/correlations.html` | 11 measured correlations with intervals, and 5 pairs left blank with the endpoint probe that explains each one | same |
+| `/app/injuries.html` | The game-day official report row by row, the filing delta against the report it supersedes, and the minutes and production each team's absences vacate | `data/app/official_injuries_2026-11-14_1330PM.json` + `data/app/injury_delta_game_day.json` |
 | `/app/gameflow.html` | Rest, back-to-backs, pace, projected totals, overtime and blowout risk per game | `data/app/lab.json` |
-| `/app/questions.html` | 40 open questions: known / missing / how to discover | merged from the earlier sessions |
-| `/app/suggestions.html` | 38 site-improvement suggestions with options and a recommendation — **nothing implemented without a decision** | merged |
+| `/app/questions.html` | 50 questions: known / missing / how to discover | merged from the earlier sessions |
+| `/app/suggestions.html` | 50 site-improvement suggestions with options and a recommendation — **nothing implemented without a decision** | merged |
 | `/app/verification.html` | Verification log | merged |
 | `/app/sources.html` | Source register | merged |
-| `/app/review.html` | Repository review, line by line (40 findings) | merged |
-| `/app/flagged.html` | Flagged for review — 55 unverified values and irregularities, with source links | merged |
+| `/app/review.html` | Repository review, line by line (43 findings) | merged |
+| `/app/flagged.html` | Flagged for review — 78 unverified values and irregularities, with source links | merged |
 | `/review.html` | Cross-workstream audit (R-01 – R-13) | hand-maintained |
 | `/hub/` | **Consolidated dashboard (session 99eabb04)**: 18 pages — landing, executive summary, slate, originated lines, picks, strategy leaderboard, correlations, injuries, game flow, player props, data and integrity, sources, repository review, questions, suggestions, flagged for review, verification log, methodology. One identifier namespace, one set of numbers, every published row linked to its source. | `data/hub/**` via `scripts/build_hub_data.py` + `scripts/build_hub.py` (generated; do not edit `hub/` by hand) |
 | `/executive-summary.html` | **Cross-site consolidated executive summary** (arena/3bf92fcc-nba3): verified data foundation, model results, gates, measured correlations, picks window, compliance flags, owner decisions — every number linked to its source; reconciled with the FX corrections. | Hand-maintained; verification performed 2026-11-14 |
@@ -86,6 +90,21 @@ disagreement.
 | Every table row on the canonical pages carries an `https` source link | **0** rows fail; the build exits non-zero otherwise | `scripts/build_app.py` |
 | Determinism | `strategy_lab.py` is seeded; two consecutive runs produce byte-identical output, which is what makes the CI drift gate meaningful | `scripts/strategy_lab.py` |
 
+### Game-day refresh, 2026-11-14 18:47Z (session `arena/df301475-nba3`)
+
+| Check | Result | Source |
+|---|---|---|
+| Newest official injury report read | **11/14 01:30 PM ET** game-day report: 69 rows (50 player + 19 `NOT YET SUBMITTED`); the 04:15 AM ET report the site had been using is retained as the pre-filing baseline | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf |
+| Two consecutive official reports agree | **0 differences** over 69 rows against the 01:15 PM ET file, read independently | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_15PM.pdf |
+| Parser vs independent hand transcription | **0 differences**; both raw PDF extractions committed next to the JSON so a reader can check the same text | `data/app/official_injuries_2026-11-14_1330PM_raw.md` |
+| Every 11/14 and 11/15 team slot present exactly once | **28 slots** — 10 team-sides across the five 11/14 games, 18 across the nine 11/15 games — each appearing exactly once, no duplicates, nothing missing (`C4`) | `scripts/capture_official_2026_11_14e.py` |
+| Tip times, printed or carried by the parser | **all** equal to the official slate value (C5/C5b), including the continuation rows that print no time | https://www.nba.com/schedule?date=2026-11-14 |
+| Game-day filing delta | 49 → 69 rows: **25 added, 4 status changes, 5 slots withdrawn**, each attributed in `injury_delta_game_day.json` | `data/app/injury_delta_game_day.json` |
+| Injury → rotation-minutes join | **was broken, now fixed**: the report's `Lastname, Firstname` never matched the stats table's `Firstname Lastname`, so every published vacuum was 0 (flag `F-DF3-03`) | `scripts/strategy_lab.py`, `tests/test_strategy_lab_df301475.py` |
+| Mirror pairs | machine-audited: 9 declared pairs, **9 identical selection sets, 9 complementary outcome sets** — a mirror is one finding, not two | `data/app/lab.json` → `mirror_audit` |
+| Per-player data reachability | 4 official endpoints probed, **all unreachable** (`Content Unavailable` / fetch error); the per-game box-score page works but cannot be transcribed at sample size, so the 4 player-level correlation cells stay blank (`CQ-48`) | https://www.nba.com/stats/players/traditional?Season=2026-27 |
+| Effect of the refresh on the published numbers | **0 of 27** originated lines moved — the margin and totals models consume ratings, the results log and rest, *not* availability. What did move: absence counts on 4 games, availability flags on 4, one quantifiable rotation vacuum where there had been none, and the luck threshold **28.95 → 30.56 pp** because the board grew from 15 to 23 rules (gate G9 measures the board, not the sport) | `data/app/snapshot_delta_game_day.json` via `scripts/snapshot_delta.py` |
+
 ### The engine
 
 A **Massey least-squares margin model** (one rating per team plus a home-court term) and a **totals
@@ -95,14 +114,17 @@ most recent 20% of past games only**, never on the games being forecast. Every d
 engine refitted on strictly earlier dates; games are batched by date so a game cannot see another game
 tipped off the same night.
 
-Out-of-sample results on 131 forecasts, scored against a constant baseline:
+Out-of-sample results on the 140 forecasts the walk-forward engine can score (the 183-game
+official log minus the burn-in each date needs), scored against a constant baseline — the values
+below are `data/app/lab.json` → `residuals`, refreshed 2026-11-14:
 
 | Measure | Our model | Baseline | Verdict |
 |---|---|---|---|
-| Margin RMSE | 15.900 | 16.866 | ours is better |
-| Total RMSE | 19.636 | 19.464 | **ours is worse** — published as such |
-| Margin bias | +0.006 pts | 0 | unbiased |
-| Total bias | −1.465 pts | 0 | our totals run 1.5 points high |
+| Margin RMSE | 15.945 | 16.921 | ours is better |
+| Total RMSE | 19.449 | 19.386 | **ours is worse** — published as such |
+| Margin bias | +0.811 pts | 0 | we under-call the home margin by about a point |
+| Total bias | −1.517 pts | 0 | our totals run 1.5 points high |
+| Home-win Brier | 0.2166 | 0.2500 | better than the constant baseline |
 * **31/31** games of the window agree with the schedule snapshot captured on 2026-11-13
   (date, tip time, teams, NBA game id) — source: https://www.nba.com/schedule?date=2026-11-14
 * **210/210** team-statistics field comparisons agree with the stored table

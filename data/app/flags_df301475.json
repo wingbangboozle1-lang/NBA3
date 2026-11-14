@@ -1,0 +1,112 @@
+[
+ {
+  "id": "F-DF3-01",
+  "area": "Injury-report transcription",
+  "severity": "medium",
+  "item": "The last three 11/15 team slots (Milwaukee, Oklahoma City, Sacramento) are printed by the PDF text extraction inside ONE merged table row, not as three rows. Both the 01:15 PM and the 01:30 PM ET reports render them identically, and the expansion is cross-checked against the stored official slate (check C4: every 11/14 and 11/15 team slot must appear exactly once), but the column grid the document intended cannot be recovered from the extraction, so the pairing of Milwaukee's slot to the ATL@MIL block rather than to OKC@SAC rests on document order. Two of the three re-expanded rows carry the parser's 'merged-table fragment' provenance tag; the third (Sacramento) lands where a page break also explains its missing cells and is tagged 'page-break gap', so the count the injuries page prints (2) counts tags, not slots.",
+  "why": "Three rows in the newest official report. All three are 'NOT YET SUBMITTED', so no availability value and no published line depends on which team the slot belongs to - the state each team ends up with is 'has not filed' either way. Recorded because a future reader must know these three rows are re-expanded from a merged cell rather than read off a grid, and because a tag count and a slot count are different numbers that look like the same thing.",
+  "action_needed": "Owner may accept the pairing as-is or ask for these three slots to be published with the team left blank. No engine change: report_availability.py derives the not-filed state from the official filing rule and the schedule, not from these rows.",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_15PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_1330PM_raw.md",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14e.py"
+  ]
+ },
+ {
+  "id": "F-DF3-02",
+  "area": "Injury-report transcription",
+  "severity": "low",
+  "item": "The word 'Management' is printed as a one-cell row on page 2 of both game-day reports, immediately after the page break that splits the Cleveland block, in the column the extraction gives the Player cell. It is the tail of a wrapped reason string, but nothing in the document says whose. The likeliest host is the row that ends just above the break - 'Allen, Jarrett | Questionable | Injury/Illness - Right Knee Injury' - which would read 'Right Knee Injury Management', and the reading is supported by three other rows in the same game block whose printed reasons do end with that word (Merrill, Mitchell, Watson). The connection is NOT made: the fragment is published in unattached_fragments with the row it follows and that corroborating count (same_block_rows_ending_in_this_word = 3), and no player's reason is altered.",
+  "why": "Appending the word to the preceding row would change a published official value for a Questionable player on the strength of an extraction artefact - exactly the inference the project's rules forbid. Leaving it unattached costs nothing: statuses, not reasons, drive every number on the site. It is also the clearest example in this repository that the PDF-to-text grid is not a table: the same word the report printed inside a reason cell reappears one page break later in the wrong column.",
+  "action_needed": "If the owner wants reasons transcribed with wrapped-cell repair, write the rule down first (attach a lone fragment to the preceding row only when other rows in the same game block print a reason ending with the same word), because it would apply to every capture in the repository. The parser already computes the count the rule would need.",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "precedent: F-DD1-01 (a Team cell left blank rather than filled from a heading)",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_1330PM_raw.md"
+  ]
+ },
+ {
+  "id": "F-DF3-03",
+  "area": "Engine defect, fixed by this session",
+  "severity": "high",
+  "item": "The injury-to-rotation-minutes roll-up could never match a player. The official injury report prints 'Edwards, Anthony'; the official minutes table prints 'Anthony Edwards'. strategy_lab.py indexed the statistics table with (first token, last token) of the COMMA form and looked up the comma form the same way, so the two keys never met: for every one of the 54 published team-game rows, minutes_vacuum / pts_vacuum / reb_vacuum / ast_vacuum were 0.0 or blank and players_without_official_minutes equalled the whole Out list. The feature the owner asked for - 'track how injuries could affect rotation minutes and production' - was present in the UI and dead in the data.",
+  "why": "Found by reading the artefact, not the code: all 54 rows of data/app/canonical.json -> injury_impact had a zero or blank vacuum, including rows for teams that had filed and had a top-2 minutes player listed Out. Nothing in the page said so, because a blank reads like 'nothing is out' and a 0.0 reads like 'quantified as zero'. After the fix (sorted name tokens, generational suffixes removed, team code must also match) the Minnesota row publishes 33.7 minutes and 33.3 points vacated by Anthony Edwards, with the one unmatched name (DiVincenzo) counted as unknown exactly as the policy requires.",
+  "action_needed": "Review the fix in scripts/strategy_lab.py (player_key) and the regression test tests/test_strategy_lab_df301475.py. The remaining limitation is input coverage, not matching: 1 of 9 filed team-sides on the 11/14 slate can be quantified today because the captured statistics table is the top 31 players by minutes, not a rotation-depth table - see CS-48.",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json",
+   "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  ]
+ },
+ {
+  "id": "F-DF3-04",
+  "area": "Published numbers vs the artefact",
+  "severity": "medium",
+  "item": "Four published statements did not match the artefact they describe. (a) README.md said the luck threshold is '31.2 percentage points' and the largest real rule edge '18.0 pp'; data/app/lab.json, regenerated byte-for-byte on arrival, said threshold_pp 28.947368 and max |edge| 10.714286 pp. (b) scripts/strategy_lab.py::apply_gates wrote gate G1's evidence as '174 official final scores' while the results log the manifest names holds 183 games - the number was a literal typed in an earlier round, not a read of the data. (c) The correlations page stated that cross-game parlay independence was 'Not measured on this sample', while the independent audit tree (audit_dd1eb1f1) had already measured it and reported -0.0147 / -0.0695 with permutation p-values; the canonical site never picked those numbers up. (d) README's out-of-sample table (n '131 forecasts', margin bias '+0.006') did not match lab.json (n 140, margin_bias 0.811362) even though the file it quotes is regenerated deterministically.",
+  "why": "Each is a case of prose ageing faster than the pipeline. (a) and (d) are now corrected in README.md with the instruction to regenerate rather than retype. (b) is now derived from the log the manifest names. (c) is now measured inside the canonical lab itself (within-date residual dependence computed from the committed walk-forward sample), so the number and the page come from one build instead of two.",
+  "action_needed": "Decide whether the audit tree's rest-correlation rows should also be pulled into the canonical build (this session did not duplicate them; it added the rows the canonical artefact was missing), and whether a CI step should grep the README for numbers that appear in lab.json (CS-49's sibling).",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "CR-DD1-03 records the same class of coupling between a checker and a landing page",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/README.md",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit_dd1eb1f1/pages/correlations.html"
+  ]
+ },
+ {
+  "id": "F-DF3-05",
+  "area": "Refresh mechanics",
+  "severity": "medium",
+  "item": "scripts/report_availability.py hard-coded both its injury input path (the 04:15 AM ET file) and its 'as of' moment (04:45 on 11/14), while every other consumer of the same snapshot resolves it through data/app/snapshot_manifest.json. Repointing the manifest at a newer report therefore left the availability state machine reasoning about a stale document at a stale clock reading - and its 11/14 assertion ('the unfiled set must EQUAL the back-to-back set', exit 1 otherwise) would have failed the build the moment more teams filed, i.e. when the data got better.",
+  "why": "The manifest was made the single place inputs are decided precisely so a refresh is a data change (question CQ-47, suggestion CS-45); a module outside that rule is how two sessions end up publishing different states for the same game. The equality test was an observation about the pre-filing 04:15 report promoted into a gate, and a gate that fails on improvement is worse than no gate.",
+  "action_needed": "Review the two changes made here: the module now reads its paths from the manifest and derives its as-of clock from the report's own printed stamp, and the correspondence test is now 'every unfiled side is explained by the back-to-back clause' with the exact-set equality published as an observation. A CI step that re-runs this module is recommended (CS-49).",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "CQ-47, CS-45",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/report_availability.py",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json",
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ]
+ },
+ {
+  "id": "F-DF3-06",
+  "area": "Freshness",
+  "severity": "info",
+  "item": "The game-day report this session captured is a moving target on purpose. The official index lists 11/14 reports from 12:00 a.m. through 1:30 p.m. ET and states 'Reports are updated on a continual basis throughout the day'; five games tip between 7:00 and 8:00 p.m. ET, and further reports (typically late afternoon ET, and late scratches on top) will supersede what the site now publishes.",
+  "why": "This is not a data error, it is the nature of the document. It is flagged so the owner reads the picks page as 'availability as of 01:30 PM ET' and not as a settled pre-game picture, and so a later session knows the next capture is worth doing after the afternoon editions land.",
+  "action_needed": "Optional: re-capture after the next report lands and re-run the pipeline; the manifest makes that a two-file change now that every consumer reads it.",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "F-DD1-05 (a canonical snapshot 15 minutes behind the newest file)",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  ]
+ },
+ {
+  "id": "F-DF3-07",
+  "area": "Register coverage",
+  "severity": "info",
+  "item": "This session's flagged items live in data/app/flags_df301475.json and are loaded by build_round_df301475_flags() in scripts/assemble_canonical.py, so the register on app/flagged.html is complete rather than half in the register and half in prose. Precedent for the mechanism: flags_44e0c051.json and flags_8e199e09.json.",
+  "why": "A flag that exists only in COORDINATION.md is invisible to a reader of the site, and the project's rule is that every flagged item appears on the Flagged-for-Review page.",
+  "action_needed": "None - mechanism note for the next session, so nobody re-invents it. If the integration session merges these rows into a single register file, delete the per-session file in the same commit so the counts cannot diverge.",
+  "status": "needs review",
+  "found_on": "2026-11-14",
+  "legacy_ref": "",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/flags_df301475.json"
+  ]
+ }
+]

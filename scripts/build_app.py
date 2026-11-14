@@ -385,10 +385,13 @@ value zero by construction. The backtest therefore does not look for profit — 
 </ul>
 
 <h2>3. What has been verified, and against what</h2>
-<p>Every official page below was read on <strong>{BUILD_DATE}</strong> at 01:05 UTC and compared
-programmatically with the values earlier sessions had stored. The comparison is
-<a href="{REPO_URL}/blob/main/scripts/capture_official_2026_11_14b.py">scripts/capture_official_2026_11_14b.py</a>;
-it prints every disagreement and the build fails on a mismatch.</p>
+<p>Every official page below was read on <strong>{BUILD_DATE}</strong> and compared
+programmatically with the values earlier sessions had stored; each row names the capture that
+produced it, because they were not all read at the same minute — the injury report was re-read at
+<strong>18:47 UTC</strong> on {BUILD_DATE} by
+<a href="{REPO_URL}/blob/main/scripts/capture_official_2026_11_14e.py">scripts/capture_official_2026_11_14e.py</a>,
+after the game-day filing window, and it is that file the engine prices from. Each comparison script
+prints every disagreement and the build fails on a mismatch.</p>
 """)
 
     ver_rows = [
@@ -414,6 +417,16 @@ it prints every disagreement and the build fails on a mismatch.</p>
          f"{m['model']['mismatch']} mismatch against the official games-played column "
          "for all 30 teams.",
          src_cell([lab["meta"]["source_games"]], "nba.com/games")],
+        ["Game-day refresh, measured on the published numbers",
+         (f"{(d.get('line_delta_game_day') or {}).get('counts', {}).get('lines_moved', 0)} of "
+          f"{(d.get('line_delta_game_day') or {}).get('counts', {}).get('lines_compared', 0)} "
+          f"originated lines moved — the models do not consume availability — while "
+          f"{(d.get('injury_game_day_delta') or {}).get('counts', {}).get('added', 0)} injury rows "
+          f"and {(d.get('injury_game_day_delta') or {}).get('counts', {}).get('status_or_reason_changed', 0)} "
+          f"status changes did move the availability picture. Stated as a number rather than "
+          f"described: <a href=\"freshness.html\">freshness §5b</a>."),
+         src_cell([REPO_URL + "/blob/main/data/app/snapshot_delta_game_day.json"],
+                  "artefact diff")],
         ["Walk-forward engine — refit for every date from strictly earlier games",
          f"{res.get('n')} out-of-sample forecasts after a {m['model']['burn_in']}-game burn-in; "
          "no game can see its own date.",
@@ -445,9 +458,14 @@ downstream has seen the future.</p>
       {num(luck.get('threshold_pp'), 1)} pp — is the edge a rule must beat before it is called
       anything. This is gate G9, and nothing on the board beats it.</li>
 </ul>
-<p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big home favourite /
-fade it). They select the same games and are exact complements, so they are one finding, not two.
-And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
+<p>On top of that, rules are published in <strong>mirror pairs</strong> (back a big move / fade it).
+That they select the same games and are exact complements is now <em>checked</em>, not asserted:
+{(lab.get('mirror_audit') or {}).get('identical_selection', 0)} of
+{(lab.get('mirror_audit') or {}).get('checked', 0)} declared pairs share an identical selection set
+and complementary outcomes, published in <code>lab.json</code> → <code>mirror_audit</code>; so a pair
+is one finding, not two, and the effective board is
+{len(lab['strategies']) - (lab.get('mirror_audit') or {}).get('checked', 0)} rules, not
+{len(lab['strategies'])}. And a <strong>null control</strong> — back the home team in every game — is scored alongside them;
 it fails every gate, which is the check that the gates themselves work.</p>
 
 <h2>6. What is still missing, and what it blocks</h2>
@@ -860,13 +878,27 @@ Nothing clears the bar. Gate G9 is the formal version of this test and no rule p
                            "decides whether this is a prize contest, a pool or internal scoring, "
                            "“unit” means a paper unit."))
 
+    ma = d.get("mirror_audit") or lab.get("mirror_audit") or {}
+    n_pairs = ma.get("checked", 0)
+    ident = ma.get("identical_selection", 0)
+    comp = ma.get("complementary_outcomes", 0)
+    audit_ok = bool(n_pairs) and ident == comp == n_pairs and not (ma.get("detail") or [])
     body.append("<h2>3. Mirror pairs</h2>")
-    body.append("""
-<p>Six of the rules are exact complements of another rule: same games, opposite side. If one wins
-68% the other wins 32%. They are <strong>one finding, not two</strong>, and a board of 15 rows is
-therefore closer to nine independent pieces of evidence. Both directions are published so the loser
-is visible — hiding it is how a backtest flatters itself — but only the winning direction can carry
-a score.</p>
+    body.append(f"""
+<p>{2 * n_pairs if n_pairs else sum(1 for x in strategies if x.get('mirror_of'))} of the
+{len(strategies)} rules are exact complements of another rule: same games, opposite side. If one wins
+68% the other wins 32%. They are <strong>one finding, not two</strong>, and a board of
+{len(strategies)} rows is therefore closer to {len(strategies) - n_pairs} independent pieces of
+evidence. Both directions are published so the loser is visible — hiding it is how a backtest
+flatters itself — but only the winning direction can carry a score.</p>
+<div class="callout {'ok' if audit_ok else 'warn'}">
+<p><strong>This is checked, not asserted.</strong> {n_pairs} declared pairs
+(<code>MIRROR_PAIRS</code> in <code>scripts/strategy_lab.py</code>) were compared on their own
+selection sets: <strong>{ident} of {n_pairs}</strong> select exactly the same games and
+<strong>{comp} of {n_pairs}</strong> have exactly complementary outcomes. Published in
+<code>data/app/lab.json</code> → <code>mirror_audit</code>.
+{esc('; '.join(ma.get('detail') or [])[:400]) if ma.get('detail') else 'So the sentence above — that a mirror pair is one finding — is a measured property of this board, which is what an earlier repository review said was missing (a claim made in prose with no check behind it).'}</p>
+</div>
 """)
     mrows = [[
         esc(s["id"]), esc(s.get("mirror_of") or "—"), num(s["n"], 0),
@@ -1106,42 +1138,57 @@ listed with what would unblock them on the
 def page_injuries(d):
     inj = d["injuries"]
     lab = d["lab"]
+    av = d.get("availability") or {}
+    ac = av.get("counts") or {}
+    corr = av.get("b2b_correspondence_1114") or {}
+    dv = d.get("injury_game_day_delta") or {}
+    dc = dv.get("counts") or {}
     body = []
+    n_unfiled = len(corr.get("teams_that_have_not") or [])
+    unfiled_txt = ", ".join(corr.get("teams_that_have_not") or []) or "nobody"
     body.append(f"""
 <p>Transcribed from the official NBA injury report
 <strong>{esc(inj['report_stamp'])}</strong> (<a href="{esc(inj['source_url'])}" target="_blank" rel="noopener noreferrer">PDF</a>).
 {inj['count']} rows: {inj.get('player_rows', 0)} player rows and
-{inj.get('not_submitted_rows', 0)} team rows printed “NOT YET SUBMITTED”. A team that has not filed
-is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
+{inj.get('not_submitted_rows', 0)} team rows printed &ldquo;NOT YET SUBMITTED&rdquo;. A team that has not filed
+is published as such rather than treated as healthy &mdash; &ldquo;unknown&rdquo; and &ldquo;fit&rdquo; are not the same thing,
 and every downstream number respects the difference.</p>
 <div class="callout ok">
-<p><strong>Freshness check.</strong> This is the newest report on the
-<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
-({esc(inj.get('newest_report_listed_on_index', 'n/a'))}), so there is no later file to reconcile it
-with. The comparison that exists is against the report it supersedes
-({esc(inj.get('prior_report_stamp', 'n/a'))}):
-<strong>{inj.get('prior_report_compared_rows', 0)} rows in common on the 2026-11-14 slate,
-{inj.get('prior_report_status_changes', 0)} status changes</strong>. An overnight gap of nine hours
-and one slate-turning set of games produced no movement at all, which is why these rows can be
-published as settled for today. The build fails if a future report disagrees. The earlier
-row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
-as change request <strong>CR-53653a5c-A</strong>) is published at
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
-(17/17 attributed rows identical; 29 fragmented rows listed unverified, never counted), and
-session 26fd5f6f independently matched <strong>31/31</strong> rows — see
-<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>.
-Correction CR-26fd5f6f-A is applied: the seven games once miscounted as a gap in the 11/14 slate
-are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
+<p><strong>Why this report, and how it was checked.</strong> The official rule requires a game-day
+report between 11 a.m. and 1 p.m. local time, so this is the first document of the day written after
+that window closed; the report the site published before this refresh
+({esc(inj.get('prior_report_stamp', 'n/a'))}) was a pre-filing document. Newest report on the
+<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a> at
+read time; a probe of the next quarter-hour file
+(<a href="{esc((inj.get('negative_probe') or {}).get('url', inj['source_url']))}" target="_blank"
+rel="noopener noreferrer">{esc((inj.get('negative_probe') or {}).get('url', ''))}</a>) returned
+{esc((inj.get('negative_probe') or {}).get('result', 'n/a'))}, which is how &ldquo;newest&rdquo; is known
+rather than assumed. Two consecutive reports (01:15 PM ET and 01:30 PM ET) were read independently and
+agree row for row, 0 differences; the parse also agrees with an independent hand transcription of the
+same document, and both raw fetches are committed
+(<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/{esc(inj.get('raw_file') or 'data/app/official_injuries_2026-11-14_1330PM_raw.md')}"
+target="_blank" rel="noopener noreferrer">01:30 PM raw</a>,
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_1315PM_raw.md"
+target="_blank" rel="noopener noreferrer">01:15 PM raw</a>), so a reader can check every cell against
+the same source. Capture and checks:
+<code>scripts/capture_official_2026_11_14e.py</code> (C1&ndash;C7).</p>
+</div>
 
 <div class="callout warn">
-<p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and
-2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
-Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
-is <a href="flagged.html">NF-53</a> and the corrected reading is
-<a href="flagged.html">NF-56</a>.</p>
+<p><strong>Filing coverage at this stamp.</strong> Of the {ac.get('team_side_rows', 0)} team-sides in
+the window, <strong>{ac.get('filed', 0)}</strong> appear on this report with player rows,
+{ac.get('due_and_not_filed', 0)} are overdue, {ac.get('not_yet_due', 0)} have a deadline the document
+has not reached, and {ac.get('no_report_covers_date', 0)} belong to dates no official report covers
+yet (11/16 and 11/17). On the 2026-11-14 slate itself {len(corr.get('teams_that_filed') or [])} of 10
+team-sides have filed; the {n_unfiled} that have not ({esc(unfiled_txt)})
+{esc('is' if n_unfiled == 1 else 'are')} playing the second game of a back-to-back, whose game-day
+deadline is 1 p.m. local &mdash; a rule-driven timing gap, not a failure to file. Games whose
+availability is fully priced on both sides: <strong>{ac.get('games_fully_priced_on_availability', 0)}
+of {ac.get('games', 0)}</strong>, because every 11/14 game with one filed side has the other side still
+waiting, and 11/15&ndash;11/17 have no player rows at all. Full per-game timeline on the
+<a href="freshness.html">Report-availability page</a>; flags
+<a href="flagged.html">NF-53</a> (corrected by <a href="flagged.html">NF-56</a>) and
+<a href="flagged.html">F-DF3-06</a>.</p>
 </div>
 """)
 
@@ -1169,13 +1216,101 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
     body.append(table(["Game date", "Time (ET)", "Matchup", "Team", "Player",
                        "Status and reason", "Source"], rows, "injury-rows"))
 
+    # ---- game-day filing delta (session arena/df301475-nba3) -------------
+    rows_added = []
+    for r in dv.get("added") or []:
+        rows_added.append([
+            esc(r["game_date"]), esc(r["matchup"]), esc(r["team"]),
+            esc(r["player"] or "&mdash;"),
+            chip(esc(r["status"]), "warn" if r["status"] in ("Out", "Doubtful") else "ok")
+            if not r.get("is_team_not_submitted") else '<span class="unverified">team slot</span>',
+            esc(r.get("reason") or ""),
+            src_cell([dv.get("to_source") or inj["source_url"]], "newest official PDF"),
+        ])
+    rows_changed = []
+    for r in dv.get("changed") or []:
+        rows_changed.append([
+            esc(r["game_date"]), esc(r["matchup"]), esc(r["team"]), esc(r["player"]),
+            esc(r["stored_status"] or "&mdash;"),
+            chip(esc(r["new_status"]), "warn" if r["new_status"] in ("Out", "Doubtful") else "ok"),
+            esc(r["new_reason"] or ""),
+            src_cell([dv.get("to_source") or inj["source_url"],
+                      inj.get("prior_report_url") or (
+                          "https://ak-static.cms.nba.com/referee/injury/"
+                          "Injury-Report_2026-11-14_04_15AM.pdf")], "newest report / the one it replaces"),
+        ])
+    rows_dropped = []
+    for r in dv.get("dropped") or []:
+        rows_dropped.append([
+            esc(r["game_date"]), esc(r["matchup"]), esc(r["team"] or "(blank)"),
+            esc(r["player"] or "team slot"), esc(r["stored_status"] or "NOT YET SUBMITTED"),
+            esc(r.get("kind") or ""), esc(r.get("why") or ""),
+            src_cell([inj["source_url"], dv.get("to_source") or inj["source_url"]],
+                     "both reports"),
+        ])
+    if dv:
+        body.append(f"""
+<h2>2. What the game-day filing window changed</h2>
+<p>The site was pricing tonight from <strong>{esc(dv.get('from_stamp'))}</strong>; the newest official
+report is <strong>{esc(dv.get('to_stamp'))}</strong>. Between those two documents the report grew from
+{dc.get('rows_from')} rows to {dc.get('rows_to')} &mdash; {dc.get('added')} rows added,
+{dc.get('status_or_reason_changed')} status or reason changes, {dc.get('dropped')} rows no longer
+printed &mdash; and every one of those movements is listed below rather than folded into a total.
+Row identity is (game date, matchup, team, player), so a row that vanishes is published as a
+finding, not as a diff to be smoothed away. The machine-readable version is
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_game_day.json"
+target="_blank" rel="noopener noreferrer">data/app/injury_delta_game_day.json</a>.</p>
+<div class="callout"><p><strong>What this does to a pick.</strong> A status change is only a
+pricing event when it moves a player into or out of the Out/Doubtful set: Christie
+(Questionable &rarr; Doubtful) is, the two Detroit Questionables becoming Available are not, and a
+Probable (Giannis Antetokounmpo, Anthony Davis-tier availability notes on this slate) has never
+moved a line here &mdash; the model prices on ratings and rest and publishes the absence list
+beside it. See <a href="flagged.html">F-DF3-02</a>&rsquo;s sibling decision on
+<a href="lines.html">the lines page</a>.</p></div>
+<h3>2a. Statuses that moved between the two official reports</h3>
+{table(["Game date", "Matchup", "Team", "Player", "Was", "Now", "Reason (newest)", "Source"],
+       rows_changed, "injury-changes") if rows_changed else "<p>No status changed between the two reports.</p>"}
+<h3>2b. Rows the game-day window added</h3>
+{table(["Game date", "Matchup", "Team", "Player", "Status", "Reason", "Source"],
+       rows_added, "injury-added") if rows_added else "<p>The newer report adds no rows.</p>"}
+<h3>2c. Rows the newer report no longer prints</h3>
+{table(["Game date", "Matchup", "Team", "Player", "Was", "Kind", "Why it is explained", "Source"],
+       rows_dropped, "injury-dropped") if rows_dropped else "<p>No row disappeared.</p>"}
+<p class="sub">Unattached fragment cells the PDF text extraction printed but that belong to no row:
+{len(inj.get("unattached_fragments") or [])} (see <a href="flagged.html">F-DF3-02</a>). Cells the
+document prints once per block and the parser therefore carries down:
+{sum(1 for r in inj["rows"] if not (r.get("printed_on_row") or {}).get("date", True))} rows carry a
+date, {sum(1 for r in inj["rows"] if not (r.get("printed_on_row") or {}).get("matchup", True))} carry
+a matchup and {sum(1 for r in inj["rows"] if not (r.get("printed_on_row") or {}).get("team", True))}
+carry a team code — each one checked against the stored official schedule by the capture (C4/C5b),
+not trusted. Rows re-expanded out of a merged table cell:
+{sum(1 for r in inj["rows"] if r.get("cell_provenance") == "merged-table fragment")} tagged by the
+parser (see <a href="flagged.html">F-DF3-01</a>, which names all three slots). Nothing here is
+tidied away.</p>
+""")
+
     body.append(f"""
-<h2>2. What the absences do to a rotation</h2>
+<h2>3. What the absences do to a rotation</h2>
 <p>The table below sums the <strong>official season minutes</strong> — and the official season
-points, rebounds and assists — of every player listed Out for a team. It is a
-<strong>floor, not an estimate</strong>: only the top 31 players by minutes were captured, so an
-injured player outside that table contributes nothing to the sum, and the count of such players is
-shown alongside. See <a href="flagged.html">NF-52</a>.</p>
+points, rebounds and assists — of every player listed Out or Doubtful for a team. It is a
+<strong>floor, not an estimate</strong>: the captured statistics table is the league's top
+{len([1 for _ in open(os.path.join(ROOT, 'data/app/players_top31_2026-11-14c.csv'))]) - 1} players by
+minutes, so an injured player outside that table contributes nothing to the sum, and the count of such
+players is shown alongside. See <a href="flagged.html">NF-52</a>.</p>
+<div class="callout warn">
+<p><strong>Read the zeros carefully — this column changed on 2026-11-14.</strong> Until this round the
+roll-up compared the injury report's <code>Lastname, Firstname</code> against the statistics table's
+<code>Firstname Lastname</code> with a rule that could never match, so <em>every</em> row published
+0.0 or blank and the feature was dead behind a table that looked correct. The matching is fixed
+(sorted name tokens, generational suffixes dropped, and the team code must agree before a match is
+credited — flag <a href="flagged.html">F-DF3-03</a>), which is why rows can now show a real vacuum.
+What is left is an <em>input-coverage</em> limit, stated as a number:
+{sum(1 for r in d['injury_impact'] if (r.get('minutes_vacuum') or 0) > 0)} of
+{sum(1 for r in d['injury_impact'] if r.get('availability_state') == 'FILED')} filed team-sides on
+this slate has a quantifiable vacuum, because most players listed Out or Doubtful tonight sit outside
+a top-31 minutes table. The fix is to capture a rotation-depth table, which is
+<a href="suggestions.html">CS-48</a>.</p>
+</div>
 
 <div class="callout warn">
 <p><strong>Who absorbs those minutes, and how much of the vacated production they replace, is not
@@ -1210,7 +1345,7 @@ the kind of number that gets a bankroll staked on it.</p>
              "Out. “Unquantified players” is how many of them are outside the captured minutes "
              "table and therefore contribute zero to the sum."))
 
-    body.append("<h2>3. Questionable players</h2>")
+    body.append("<h2>4. Questionable players</h2>")
     qrows = []
     seen = set()
     for r in inj["rows"]:
@@ -1366,7 +1501,7 @@ replaced.</p>""")
                f"{_pclog.get('rows', '?')} in data/app/games_2026-11-14c.csv, compared as "
                "(date, game id, teams, both scores, overtime flag) — two sessions extending the same "
                "nine finals from the same official page, with no shared code")
-    pc_inj_note = (f"{_pcinj.get('rows_this_capture', '?')} player rows in the 04:15 AM capture "
+    pc_inj_note = (f"{_pcinj.get('rows_this_capture', '?')} player rows in the 04:15 AM capture "  # noqa: E501  (the comparison is of the two parallel sessions' captures; the canonical input is now the 01:30 PM game-day report)
                    f"against {_pcinj.get('rows_parallel', '?')} in the 04:45 AM capture the parallel "
                    "session transcribed; the difference is published in full rather than resolved "
                    "silently")
@@ -1492,9 +1627,11 @@ merely yesterday's.</p>""")
 
     # ----------------------------------------------------- 5. line movement
     body.append("<h2>5. Every line this refresh moved</h2>")
-    body.append("""<p>Before and after, from the two published artefacts
-(<code>data/app/lab_snapshot_2026-11-14T0105Z.json</code> and <code>data/app/lab.json</code>), not
-from a re-derivation — so this table cannot disagree with the rest of the site.</p>""")
+    _scope = (delta.get("scope_note") or "")
+    body.append(f"""<p>Before and after, from the two published artefacts
+(<code>{esc(delta.get('before_file') or 'data/app/lab_snapshot_2026-11-14T0105Z.json')}</code> and
+<code>{esc(delta.get('after_file') or 'data/app/lab.json')}</code>), not from a re-derivation — so
+this table cannot disagree with the rest of the site.{' <em>' + esc(_scope) + '</em>' if _scope else ''}</p>""")
     l_rows = []
     for l in delta.get("lines", []):
         l_rows.append([
@@ -1510,6 +1647,73 @@ from a re-derivation — so this table cannot disagree with the rest of the site
     body.append(table(["Date", "Matchup", "Spread before", "Spread after", "Move",
                        "Total before", "Total after", "Move", "P(home win)",
                        "What drove it", "Source"], l_rows, "line-movement"))
+
+    # ------------------------------------------- 5b. the game-day refresh delta
+    gd = d.get("line_delta_game_day") or {}
+    if gd:
+        gcc = gd.get("counts") or {}
+        ghead = (gd.get("headline") or {}).get("luck_test") or {}
+        moved = gcc.get("lines_moved", 0)
+        compared = gcc.get("lines_compared", 0)
+        _ru = ghead.get("rules") or {}
+        rules_delta = int(_ru.get("after") or 0) - int(_ru.get("before") or 0)
+        rows_gd = []
+        for l in gd.get("lines", []):
+            changed = ((l.get("outs_before_home"), l.get("outs_before_away"))
+                       != (l.get("outs_after_home"), l.get("outs_after_away")))
+            if not changed:
+                continue
+            rows_gd.append([
+                esc(l["date"]),
+                f'<a href="{esc(l["game_url"])}" target="_blank" rel="noopener noreferrer">'
+                f'{esc(l["matchup"])}</a>',
+                ("blank — not filed" if l["outs_before_home"] is None
+                 else num(l["outs_before_home"], 0)),
+                num(l["outs_after_home"], 0),
+                ("blank — not filed" if l["outs_before_away"] is None
+                 else num(l["outs_before_away"], 0)),
+                num(l["outs_after_away"], 0),
+                num(l["spread_move"], 1), num(l["total_move"], 1),
+                "; ".join(esc(x) for x in l["drivers"]) or "—",
+                src_cell(l["sources"], "both reports"),
+            ])
+        body.append(f"""
+<h2>5b. What the game-day report changed, measured</h2>
+<p>Same tool, same rule — a diff of two published artefacts, never a re-derivation:
+<code>{esc((gd.get('before_file') or ''))}</code> (what the site priced with at 18:31&nbsp;Z) against
+<code>{esc(gd.get('after_file') or 'data/app/lab.json')}</code>. It answers the question a refresh
+round should always answer: <strong>what did the new document actually do to the numbers?</strong></p>
+<div class="callout warn">
+<p><strong>{moved} of {compared} originated lines moved. Zero.</strong> Median
+<span>|spread|</span> move {num(gcc.get('median_abs_spread_move'), 1)} points, max
+{num(gcc.get('max_abs_spread_move'), 1)}; totals identical to 4 decimals. The margin and totals
+models consume the ratings table, the results log and rest days — <em>not</em> availability — so a
+game-day injury report cannot move a line here even when it is the most important document of the
+day. What it does move is the published availability picture: absence counts changed on
+{len(rows_gd)} of {compared} games (below), availability flags on
+{gcc.get('availability_flags_changed', 0)}, and the rotation vacuum went from no quantifiable rows to
+one (see <a href="injuries.html">the injuries page</a> and
+<a href="flagged.html">F-DF3-03</a>). A line that ignores who is out is a design choice, and it is
+the single biggest thing standing between this project and a line anyone could bet —
+<a href="questions.html">CQ-50</a> and <a href="suggestions.html">CS-50</a> are the decision.</p>
+</div>
+<div class="callout"><p><strong>The leaderboard moved for a different reason.</strong> The luck
+threshold went {num((ghead.get('threshold_pp') or {}).get('before'), 2)}&nbsp;pp →
+{num((ghead.get('threshold_pp') or {}).get('after'), 2)}&nbsp;pp while every pre-existing rule kept
+its exact hit rate ({gcc.get('strategies_whose_n_changed', 0)} of
+{gcc.get('strategies_compared', 0)} changed sample size at all, because the results log did not
+grow). The threshold is a property of <em>the board&rsquo;s size</em>, not of the sport: adding
+{rules_delta:+d}
+rules raised the bar the whole board has to clear. That is the point of gate G9.</p></div>
+{table(["Date", "Matchup", "Home outs before", "Home outs after", "Away outs before",
+        "Away outs after", "Spread move", "Total move", "What drove it", "Source"],
+       rows_gd, "gameday-movement") if rows_gd else "<p>No game&rsquo;s absence counts changed.</p>"}
+<p class="sub">Machine-readable:
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_delta_game_day.json"
+target="_blank" rel="noopener noreferrer">data/app/snapshot_delta_game_day.json</a>; reproduce with
+<code>python3 scripts/snapshot_delta.py --before
+data/app/lab_snapshot_2026-11-14T1831Z.json --out data/app/snapshot_delta_game_day.json</code>.</p>
+""")
 
     # ------------------------------------------- 6. availability states table
     body.append("<h2>6. Report availability, game by game</h2>")
@@ -1746,14 +1950,25 @@ the audit trail for every number published on this site.</p>""")
         ["Injury report", d["injuries"].get("report_stamp", "2026-11-14"),
          src_cell([d["injuries"]["source_url"]], "official PDF"),
          f"{d['injuries']['count']} rows: {d['injuries'].get('player_rows', 0)} player rows + "
-         f"{d['injuries'].get('not_submitted_rows', 0)} team report statuses; the 11/14 player rows "
-         "re-compared against the 11/13 07:45 PM snapshot; 5 of 10 11/14 teams had not filed, "
-         "18 11/15 placeholders",
+         f"{d['injuries'].get('not_submitted_rows', 0)} team report statuses; compared row for row "
+         f"with the report it supersedes ({d['injuries'].get('prior_report_stamp', 'n/a')}): "
+         f"{len(d['injuries'].get('prior_report_rows_only_in_newest') or [])} rows added, "
+         f"{d['injuries'].get('prior_report_status_changes', 0)} status changes, "
+         f"{len(d['injuries'].get('prior_report_rows_only_in_prior') or [])} rows no longer printed; "
+         f"{len(((d.get('availability') or {}).get('b2b_correspondence_1114') or {}).get('teams_that_filed') or [])}"
+         f" of 10 11/14 team-sides have filed and "
+         f"{d['injuries'].get('not_submitted_by_game_date', {}).get('2026-11-15', 18)} 11/15 slots "
+         "are NOT-YET-SUBMITTED placeholders",
          chip("Verified", "ok")],
         ["Injury report index (which reports exist)", "2026-11-14",
          src_cell(["https://official.nba.com/nba-injury-report-2026-27-season/"], "official index"),
-         "The index lists the 2026-11-14 game-day reports (up to 04:15 AM ET); the canonical report "
-         "transcribed here is the newest one listed on it",
+         f"The index's last 11/14 link is the file transcribed here "
+         f"({d['injuries'].get('report_stamp', 'n/a')}); the next quarter-hour file "
+         f"({(d['injuries'].get('negative_probe') or {}).get('url', 'not probed')}) returned "
+         f"{(d['injuries'].get('negative_probe') or {}).get('result', 'n/a')}, which is how "
+         f"\"newest\" is established rather than assumed. The index also states reports are "
+         f"\"updated on a continual basis throughout the day\", so this is a snapshot of one "
+         f"minute, not a settled pre-game picture (flag F-DF3-06)",
          chip("Verified", "ok")],
         ["Historical results log", "2026-11-14 (refreshed)",
          src_cell(["https://www.nba.com/games?date="], "nba.com/games"),

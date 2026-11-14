@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -549,6 +549,50 @@ questions</a> page.</p>
 <td>Depends on the results-log consolidation decision (CQ-42); extends CS-43. ID note: first logged as CS-45 by session 8e199e09; renumbered CS-46 because session 3bf80157&#x27;s CS-45 (manifest-only input resolution) landed on main first.</td>
 <td>Awaiting owner review</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>CS-47</td>
+<td>Site - injury freshness</td>
+<td>Publish the game-day filing delta on the injuries page: the row-by-row difference between the snapshot the site was pricing with and the newest official report (rows added, statuses changed, slots withdrawn), with the reason each change matters for tonight&#x27;s lines.</td>
+<td>Until now the site showed one injury snapshot with no before/after, so &#x27;we refreshed&#x27; was a claim in COORDINATION.md rather than something the decision-maker could see. A 04:15 AM report and a 1:30 PM game-day report differ by 25 rows and 4 status changes - and a user comparing &#x27;what the site said&#x27; with &#x27;what the league filed today&#x27; had no way to see which one any pick was built on.</td>
+<td>A: add a dated delta table to app/injuries.html built from data/app/injury_delta_game_day.json; B: only mention it in the freshness page; C: nothing.</td>
+<td>A</td>
+<td>presentation only; the delta file is produced by the capture script and the page reads it, so no published number changes</td>
+<td>Implemented 2026-11-14, recommended option A, presentation only: app/injuries.html carries a dated &#x27;game-day filing delta&#x27; table built from data/app/injury_delta_game_day.json, produced by scripts/capture_official_2026_11_14e.py. No published number changed. Revert on request.</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_game_day.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_game_day.json</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>CS-48</td>
+<td>Data - rotation depth</td>
+<td>Capture a rotation-depth player table instead of the league&#x27;s top 31 by minutes - e.g. the same official traditional table at PerPage=150, or each team&#x27;s roster page for the ten clubs in the window - so the vacated-minutes floor stops being 1 team-game row out of 54.</td>
+<td>With F-DF3-03 fixed the matching works, and the coverage limit is now the visible thing: 33 players are listed Out or Doubtful for tonight and exactly one of them (Anthony Edwards) is in the captured table, because a top-31-by-minutes list holds roughly one player per team. Every other &#x27;minutes vacated&#x27; figure is a floor of zero by construction, which reads like a quantified answer and is not one.</td>
+<td>A: re-capture the same official page with a larger PerPage and store it as a new dated artefact; B: per-team roster captures for the 10 teams of the live window only; C: leave it and keep publishing the floor with its caveat.</td>
+<td>A, with the same double-entry transcription control the injury captures use</td>
+<td>needs a capture round; a hand-keyed 150-row table is the risk to manage, not the page</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+</tr>
+<tr>
+<td>CS-49</td>
+<td>Process - refresh cadence</td>
+<td>Add a CI (or scheduled) step that re-reads the official report index, and when a newer report exists for a date inside the live window, records it as an open &#x27;capture due&#x27; item on the freshness page instead of letting the site publish a snapshot whose age is only visible in a provenance line.</td>
+<td>The 01:30 PM ET capture happened because this session read the index by hand. The gap between &#x27;the newest report the league has published&#x27; and &#x27;the report the site prices with&#x27; is the single most decision-relevant number on a pre-game dashboard, and today it is computed only when someone remembers to look (F-DF3-06).</td>
+<td>A: a build-time check that fails when a newer report exists for a live-window date; B: a published &#x27;newest report at build time vs ours&#x27; row on the freshness page, no failure; C: nothing, accept manual refresh.</td>
+<td>B, because a CI job cannot fetch and a failing build on a network fact is a false alarm</td>
+<td>the capture scripts already print the index read; only the comparison is new</td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CS-50</td>
+<td>Model - engine drift</td>
+<td>Decide what to do with the ST-21 finding (CQ-50): fit a short-window form term into the walk-forward engine and re-run the harness, or record the slow-rating behaviour as a known property of the estimator and leave the model alone.</td>
+<td>This is the only place in the project where a rule looks strong and the correct response is to change the model rather than to bet. It also decides the leaderboard&#x27;s meaning: as long as ST-21 stands at the top, the board is measuring our engine&#x27;s lag, not the market&#x27;s error, and the executive summary has to keep saying so.</td>
+<td>A: fit the form term, re-run walk-forward, and expect ST-21&#x27;s edge to collapse - if it does not, the model is wrong somewhere else; B: leave it and publish the caveat; C: add an engine-drift chart (residual autocorrelation by date) to the methodology page.</td>
+<td>A, gated on the same nine gates and the same luck threshold; it is the only option that can prove the fix rather than assert it</td>
+<td>touches scripts/strategy_lab.py&#x27;s engine and every number downstream - deliberately not done in a refresh round, and not done at all without a decision</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/lab.json</a></td>
 </tr>
 </tbody></table></div>
 </main>

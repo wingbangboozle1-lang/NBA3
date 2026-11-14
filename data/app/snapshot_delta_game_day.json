@@ -1,0 +1,1098 @@
+{
+ "schema": "nba3.snapshot_delta/v1",
+ "session": "arena/df301475-nba3",
+ "built_on": "2026-11-14",
+ "before_file": "data/app/lab_snapshot_2026-11-14T1831Z.json",
+ "after_file": "data/app/lab.json",
+ "before_inputs": {
+  "results_log_games": 183,
+  "ratings_retrieved_stamp": "2026-11-14T09:45Z (post-slate re-read, unchanged by this round)",
+  "injury_report": "2026-11-14 04:15 AM ET (pre-filing)"
+ },
+ "after_inputs": {
+  "results_log_games": 183,
+  "ratings_retrieved_stamp": "2026-11-14T09:45Z",
+  "injury_report": "2026-11-14 01:30 PM ET"
+ },
+ "counts": {
+  "lines_compared": 27,
+  "lines_moved": 0,
+  "median_abs_spread_move": 0.0,
+  "max_abs_spread_move": 0.0,
+  "median_abs_total_move": 0.0,
+  "max_abs_total_move": 0.0,
+  "availability_flags_changed": 4,
+  "strategies_compared": 15,
+  "strategies_whose_n_changed": 0
+ },
+ "headline": {
+  "accuracy": {
+   "n": {
+    "before": 140.0,
+    "after": 140.0
+   },
+   "margin_rmse": {
+    "before": 15.9446,
+    "after": 15.9446
+   },
+   "margin_baseline_rmse": {
+    "before": 16.9208,
+    "after": 16.9208
+   },
+   "total_rmse": {
+    "before": 19.4486,
+    "after": 19.4486
+   },
+   "total_baseline_rmse": {
+    "before": 19.3864,
+    "after": 19.3864
+   },
+   "margin_bias": {
+    "before": 0.8114,
+    "after": 0.8114
+   },
+   "total_bias": {
+    "before": -1.5167,
+    "after": -1.5167
+   },
+   "home_win_rate": {
+    "before": 0.5246,
+    "after": 0.5246
+   },
+   "ot_rate": {
+    "before": 0.0546,
+    "after": 0.0546
+   },
+   "avg_total": {
+    "before": 226.9836,
+    "after": 226.9836
+   },
+   "brier": {
+    "before": 0.2166,
+    "after": 0.2166
+   }
+  },
+  "luck_test": {
+   "threshold_pp": {
+    "before": 28.9474,
+    "after": 30.5556
+   },
+   "median_pp": {
+    "before": 19.4444,
+    "after": 20.0
+   },
+   "max_pp": {
+    "before": 50.0,
+    "after": 44.4444
+   },
+   "rules": {
+    "before": 15.0,
+    "after": 23.0
+   },
+   "iterations": {
+    "before": 5000.0,
+    "after": 5000.0
+   }
+  }
+ },
+ "lines": [
+  {
+   "date": "2026-11-14",
+   "matchup": "BKN@MEM",
+   "game_id": "0022600234",
+   "spread_before": -8.0621,
+   "spread_after": -8.0621,
+   "spread_move": 0.0,
+   "total_before": 228.7011,
+   "total_after": 228.7011,
+   "total_move": 0.0,
+   "p_home_before": 0.693,
+   "p_home_after": 0.693,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": 4,
+   "outs_after_away": 4,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/bkn-vs-mem-0022600234"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "CHI@MIN",
+   "game_id": "0022600235",
+   "spread_before": -15.1687,
+   "spread_after": -15.1687,
+   "spread_move": 0.0,
+   "total_before": 233.4648,
+   "total_after": 233.4648,
+   "total_move": 0.0,
+   "p_home_before": 0.8287,
+   "p_home_after": 0.8287,
+   "p_home_move": 0.0,
+   "outs_before_home": 2,
+   "outs_after_home": 2,
+   "outs_before_away": null,
+   "outs_after_away": 4,
+   "drivers": [
+    "the 01:30 PM ET game-day report replaced the 04:15 AM ET pre-filing report: 25 rows added, 4 status changes, 5 slots withdrawn"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/chi-vs-min-0022600235"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DAL@CLE",
+   "game_id": "0022600232",
+   "spread_before": -1.2561,
+   "spread_after": -1.2561,
+   "spread_move": 0.0,
+   "total_before": 228.9319,
+   "total_after": 228.9319,
+   "total_move": 0.0,
+   "p_home_before": 0.5313,
+   "p_home_after": 0.5313,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": 4,
+   "outs_before_away": 3,
+   "outs_after_away": 4,
+   "drivers": [
+    "the 01:30 PM ET game-day report replaced the 04:15 AM ET pre-filing report: 25 rows added, 4 status changes, 5 slots withdrawn"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DEN@NOP",
+   "game_id": "0022600231",
+   "spread_before": 4.8369,
+   "spread_after": 4.8369,
+   "spread_move": 0.0,
+   "total_before": 234.9162,
+   "total_after": 234.9162,
+   "total_move": 0.0,
+   "p_home_before": 0.3811,
+   "p_home_after": 0.3811,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": 4,
+   "outs_before_away": 4,
+   "outs_after_away": 4,
+   "drivers": [
+    "the 01:30 PM ET game-day report replaced the 04:15 AM ET pre-filing report: 25 rows added, 4 status changes, 5 slots withdrawn"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/den-vs-nop-0022600231"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DET@MIA",
+   "game_id": "0022600233",
+   "spread_before": 3.2547,
+   "spread_after": 3.2547,
+   "spread_move": 0.0,
+   "total_before": 230.1906,
+   "total_after": 230.1906,
+   "total_move": 0.0,
+   "p_home_before": 0.4193,
+   "p_home_after": 0.4193,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": 2,
+   "outs_before_away": 5,
+   "outs_after_away": 5,
+   "drivers": [
+    "the 01:30 PM ET game-day report replaced the 04:15 AM ET pre-filing report: 25 rows added, 4 status changes, 5 slots withdrawn"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/det-vs-mia-0022600233"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "ATL@MIL",
+   "game_id": "0022600243",
+   "spread_before": 5.4655,
+   "spread_after": 5.4655,
+   "spread_move": 0.0,
+   "total_before": 230.5583,
+   "total_after": 230.5583,
+   "total_move": 0.0,
+   "p_home_before": 0.3662,
+   "p_home_after": 0.3662,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/atl-vs-mil-0022600243"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "CHA@LAC",
+   "game_id": "0022600238",
+   "spread_before": -5.8322,
+   "spread_after": -5.8322,
+   "spread_move": 0.0,
+   "total_before": 219.9398,
+   "total_after": 219.9398,
+   "total_move": 0.0,
+   "p_home_before": 0.6424,
+   "p_home_after": 0.6424,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/cha-vs-lac-0022600238"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "DAL@BOS",
+   "game_id": "0022600240",
+   "spread_before": -5.7917,
+   "spread_after": -5.7917,
+   "spread_move": 0.0,
+   "total_before": 221.2884,
+   "total_after": 221.2884,
+   "total_move": 0.0,
+   "p_home_before": 0.6415,
+   "p_home_after": 0.6415,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/dal-vs-bos-0022600240"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "HOU@WAS",
+   "game_id": "0022600242",
+   "spread_before": 7.3705,
+   "spread_after": 7.3705,
+   "spread_move": 0.0,
+   "total_before": 224.5782,
+   "total_after": 224.5782,
+   "total_move": 0.0,
+   "p_home_before": 0.3223,
+   "p_home_after": 0.3223,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/hou-vs-was-0022600242"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "IND@PHI",
+   "game_id": "0022600236",
+   "spread_before": -4.2302,
+   "spread_after": -4.2302,
+   "spread_move": 0.0,
+   "total_before": 222.6167,
+   "total_after": 222.6167,
+   "total_move": 0.0,
+   "p_home_before": 0.6044,
+   "p_home_after": 0.6044,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/ind-vs-phi-0022600236"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "LAL@PHX",
+   "game_id": "0022600237",
+   "spread_before": 4.2308,
+   "spread_after": 4.2308,
+   "spread_move": 0.0,
+   "total_before": 231.6298,
+   "total_after": 231.6298,
+   "total_move": 0.0,
+   "p_home_before": 0.3956,
+   "p_home_after": 0.3956,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/lal-vs-phx-0022600237"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "NYK@TOR",
+   "game_id": "0022600241",
+   "spread_before": -0.2144,
+   "spread_after": -0.2144,
+   "spread_move": 0.0,
+   "total_before": 220.4867,
+   "total_after": 220.4867,
+   "total_move": 0.0,
+   "p_home_before": 0.5054,
+   "p_home_after": 0.5054,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600241"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "OKC@SAC",
+   "game_id": "0022600244",
+   "spread_before": 7.3615,
+   "spread_after": 7.3615,
+   "spread_move": 0.0,
+   "total_before": 224.0911,
+   "total_after": 224.0911,
+   "total_move": 0.0,
+   "p_home_before": 0.3225,
+   "p_home_after": 0.3225,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/okc-vs-sac-0022600244"
+  },
+  {
+   "date": "2026-11-15",
+   "matchup": "SAS@UTA",
+   "game_id": "0022600239",
+   "spread_before": 10.5033,
+   "spread_after": 10.5033,
+   "spread_move": 0.0,
+   "total_before": 225.6673,
+   "total_after": 225.6673,
+   "total_move": 0.0,
+   "p_home_before": 0.2555,
+   "p_home_after": 0.2555,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/sas-vs-uta-0022600239"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "CHI@CLE",
+   "game_id": "0022600246",
+   "spread_before": -8.6657,
+   "spread_after": -8.6657,
+   "spread_move": 0.0,
+   "total_before": 237.2052,
+   "total_after": 237.2052,
+   "total_move": 0.0,
+   "p_home_before": 0.7062,
+   "p_home_after": 0.7062,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/chi-vs-cle-0022600246"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "GSW@NOP",
+   "game_id": "0022600251",
+   "spread_before": 6.8818,
+   "spread_after": 6.8818,
+   "spread_move": 0.0,
+   "total_before": 235.4258,
+   "total_after": 235.4258,
+   "total_move": 0.0,
+   "p_home_before": 0.3334,
+   "p_home_after": 0.3334,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/gsw-vs-nop-0022600251"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "HOU@MIA",
+   "game_id": "0022600249",
+   "spread_before": 5.0378,
+   "spread_after": 5.0378,
+   "spread_move": 0.0,
+   "total_before": 230.2427,
+   "total_after": 230.2427,
+   "total_move": 0.0,
+   "p_home_before": 0.3763,
+   "p_home_after": 0.3763,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/hou-vs-mia-0022600249"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "MEM@WAS",
+   "game_id": "0022600247",
+   "spread_before": 5.3968,
+   "spread_after": 5.3968,
+   "spread_move": 0.0,
+   "total_before": 228.4495,
+   "total_after": 228.4495,
+   "total_move": 0.0,
+   "p_home_before": 0.3678,
+   "p_home_after": 0.3678,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/mem-vs-was-0022600247"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "ORL@BOS",
+   "game_id": "0022600245",
+   "spread_before": -9.361,
+   "spread_after": -9.361,
+   "spread_move": 0.0,
+   "total_before": 219.4508,
+   "total_after": 219.4508,
+   "total_move": 0.0,
+   "p_home_before": 0.721,
+   "p_home_after": 0.721,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/orl-vs-bos-0022600245"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "PHI@BKN",
+   "game_id": "0022600248",
+   "spread_before": 1.5359,
+   "spread_after": 1.5359,
+   "spread_move": 0.0,
+   "total_before": 223.2095,
+   "total_after": 223.2095,
+   "total_move": 0.0,
+   "p_home_before": 0.4617,
+   "p_home_after": 0.4617,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/phi-vs-bkn-0022600248"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "PHX@DEN",
+   "game_id": "0022600252",
+   "spread_before": -4.6097,
+   "spread_after": -4.6097,
+   "spread_move": 0.0,
+   "total_before": 227.8998,
+   "total_after": 227.8998,
+   "total_move": 0.0,
+   "p_home_before": 0.6135,
+   "p_home_after": 0.6135,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/phx-vs-den-0022600252"
+  },
+  {
+   "date": "2026-11-16",
+   "matchup": "POR@MIN",
+   "game_id": "0022600250",
+   "spread_before": -4.196,
+   "spread_after": -4.196,
+   "spread_move": 0.0,
+   "total_before": 227.8507,
+   "total_after": 227.8507,
+   "total_move": 0.0,
+   "p_home_before": 0.6036,
+   "p_home_after": 0.6036,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600250"
+  },
+  {
+   "date": "2026-11-17",
+   "matchup": "CHA@LAL",
+   "game_id": "0022600256",
+   "spread_before": -12.5042,
+   "spread_after": -12.5042,
+   "spread_move": 0.0,
+   "total_before": 223.0623,
+   "total_after": 223.0623,
+   "total_move": 0.0,
+   "p_home_before": 0.783,
+   "p_home_after": 0.783,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/cha-vs-lal-0022600256"
+  },
+  {
+   "date": "2026-11-17",
+   "matchup": "DET@SAS",
+   "game_id": "0022600255",
+   "spread_before": -5.45,
+   "spread_after": -5.45,
+   "spread_move": 0.0,
+   "total_before": 224.2954,
+   "total_after": 224.2954,
+   "total_move": 0.0,
+   "p_home_before": 0.6335,
+   "p_home_after": 0.6335,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/det-vs-sas-0022600255"
+  },
+  {
+   "date": "2026-11-17",
+   "matchup": "NYK@TOR",
+   "game_id": "0022600253",
+   "spread_before": -0.2144,
+   "spread_after": -0.2144,
+   "spread_move": 0.0,
+   "total_before": 220.4867,
+   "total_after": 220.4867,
+   "total_move": 0.0,
+   "p_home_before": 0.5054,
+   "p_home_after": 0.5054,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600253"
+  },
+  {
+   "date": "2026-11-17",
+   "matchup": "POR@MIN",
+   "game_id": "0022600254",
+   "spread_before": -4.196,
+   "spread_after": -4.196,
+   "spread_move": 0.0,
+   "total_before": 227.8507,
+   "total_after": 227.8507,
+   "total_move": 0.0,
+   "p_home_before": 0.6036,
+   "p_home_after": 0.6036,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600254"
+  },
+  {
+   "date": "2026-11-17",
+   "matchup": "UTA@LAC",
+   "game_id": "0022600257",
+   "spread_before": -4.6581,
+   "spread_after": -4.6581,
+   "spread_move": 0.0,
+   "total_before": 228.3449,
+   "total_after": 228.3449,
+   "total_move": 0.0,
+   "p_home_before": 0.6147,
+   "p_home_after": 0.6147,
+   "p_home_move": 0.0,
+   "outs_before_home": null,
+   "outs_after_home": null,
+   "outs_before_away": null,
+   "outs_after_away": null,
+   "drivers": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257"
+  }
+ ],
+ "availability_flag_changes": [
+  {
+   "date": "2026-11-14",
+   "matchup": "CHI@MIN",
+   "game_id": "0022600235",
+   "flag_before": "PARTIAL_REPORT_NOT_DUE_YET",
+   "flag_after": "REPORTED",
+   "detail_before": "CHI: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "detail_after": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://www.nba.com/game/chi-vs-min-0022600235"
+   ]
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DAL@CLE",
+   "game_id": "0022600232",
+   "flag_before": "PARTIAL_REPORT_NOT_DUE_YET",
+   "flag_after": "REPORTED",
+   "detail_before": "CLE: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "detail_after": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://www.nba.com/game/dal-vs-cle-0022600232"
+   ]
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DEN@NOP",
+   "game_id": "0022600231",
+   "flag_before": "PARTIAL_REPORT_NOT_DUE_YET",
+   "flag_after": "REPORTED",
+   "detail_before": "NOP: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "detail_after": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://www.nba.com/game/den-vs-nop-0022600231"
+   ]
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DET@MIA",
+   "game_id": "0022600233",
+   "flag_before": "PARTIAL_REPORT_NOT_DUE_YET",
+   "flag_after": "REPORTED",
+   "detail_before": "MIA: not yet due (re-price after 2026-11-14 13:00 local, game day (second game of a back-to-back)) -- availability is unresolved at capture time, so this game cannot be treated as a final selection, and its absence count is published blank rather than as zero.",
+   "detail_after": "Both teams appear as filed on the newest official report (2026-11-14 01:30 PM ET), so the absence counts below are real.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://www.nba.com/game/det-vs-mia-0022600233"
+   ]
+  }
+ ],
+ "strategies": [
+  {
+   "id": "ST-01",
+   "name": "Back big home favourites",
+   "n_before": 30,
+   "n_after": 30,
+   "rate_before": 0.4,
+   "rate_after": 0.4,
+   "edge_before_pp": -10.0,
+   "edge_after_pp": -10.0,
+   "p_after": 0.3616,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-02",
+   "name": "Fade big home favourites",
+   "n_before": 30,
+   "n_after": 30,
+   "rate_before": 0.6,
+   "rate_after": 0.6,
+   "edge_before_pp": 10.0,
+   "edge_after_pp": 10.0,
+   "p_after": 0.3616,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-03",
+   "name": "Back big road favourites",
+   "n_before": 18,
+   "n_after": 18,
+   "rate_before": 0.5,
+   "rate_after": 0.5,
+   "edge_before_pp": 0.0,
+   "edge_after_pp": 0.0,
+   "p_after": 1.0,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-04",
+   "name": "Fade big road favourites",
+   "n_before": 18,
+   "n_after": 18,
+   "rate_before": 0.5,
+   "rate_after": 0.5,
+   "edge_before_pp": 0.0,
+   "edge_after_pp": 0.0,
+   "p_after": 1.0,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-05",
+   "name": "Unders in the highest-projected totals",
+   "n_before": 28,
+   "n_after": 28,
+   "rate_before": 0.6071,
+   "rate_after": 0.6071,
+   "edge_before_pp": 10.7143,
+   "edge_after_pp": 10.7143,
+   "p_after": 0.3449,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-06",
+   "name": "Overs in the highest-projected totals",
+   "n_before": 28,
+   "n_after": 28,
+   "rate_before": 0.3929,
+   "rate_after": 0.3929,
+   "edge_before_pp": -10.7143,
+   "edge_after_pp": -10.7143,
+   "p_after": 0.3449,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-07",
+   "name": "Overs in the lowest-projected totals",
+   "n_before": 80,
+   "n_after": 80,
+   "rate_before": 0.45,
+   "rate_after": 0.45,
+   "edge_before_pp": -5.0,
+   "edge_after_pp": -5.0,
+   "p_after": 0.434,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-08",
+   "name": "Unders in the lowest-projected totals",
+   "n_before": 80,
+   "n_after": 80,
+   "rate_before": 0.55,
+   "rate_after": 0.55,
+   "edge_before_pp": 5.0,
+   "edge_after_pp": 5.0,
+   "p_after": 0.434,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-09",
+   "name": "Back the better-rested team",
+   "n_before": 19,
+   "n_after": 19,
+   "rate_before": 0.5263,
+   "rate_after": 0.5263,
+   "edge_before_pp": 2.6316,
+   "edge_after_pp": 2.6316,
+   "p_after": 1.0,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-10",
+   "name": "Fade the better-rested team",
+   "n_before": 19,
+   "n_after": 19,
+   "rate_before": 0.4737,
+   "rate_after": 0.4737,
+   "edge_before_pp": -2.6316,
+   "edge_after_pp": -2.6316,
+   "p_after": 1.0,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-11",
+   "name": "Back home against a road back-to-back",
+   "n_before": 22,
+   "n_after": 22,
+   "rate_before": 0.5455,
+   "rate_after": 0.5455,
+   "edge_before_pp": 4.5455,
+   "edge_after_pp": 4.5455,
+   "p_after": 0.8318,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-12",
+   "name": "Fade the home team on no rest",
+   "n_before": 26,
+   "n_after": 26,
+   "rate_before": 0.5385,
+   "rate_after": 0.5385,
+   "edge_before_pp": 3.8462,
+   "edge_after_pp": 3.8462,
+   "p_after": 0.845,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-15",
+   "name": "Side covers AND over",
+   "n_before": 140,
+   "n_after": 140,
+   "rate_before": 0.2214,
+   "rate_after": 0.2214,
+   "edge_before_pp": -2.8571,
+   "edge_after_pp": -2.8571,
+   "p_after": 0.4947,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-16",
+   "name": "Two cross-game model sides",
+   "n_before": 18,
+   "n_after": 18,
+   "rate_before": 0.2778,
+   "rate_after": 0.2778,
+   "edge_before_pp": 2.7778,
+   "edge_after_pp": 2.7778,
+   "p_after": 0.787,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "FAILS - no evidence of skill",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  },
+  {
+   "id": "ST-NUL",
+   "name": "Back the home team in every game",
+   "n_before": 140,
+   "n_after": 140,
+   "rate_before": 0.4857,
+   "rate_after": 0.4857,
+   "edge_before_pp": -1.4286,
+   "edge_after_pp": -1.4286,
+   "p_after": 0.8,
+   "tier_before": "T4",
+   "tier_after": "T4",
+   "verdict_after": "REJECTED - this direction loses against our own line",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ]
+  }
+ ]
+}

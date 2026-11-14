@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -470,6 +470,17 @@ value back to the page that produced it.</p>
 <td>gh api (authenticated)</td>
 <td>Verified against API output at retrieval time.</td>
 <td>Repository facts change; re-check before relying on them.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-40</td>
+<td>NBA (official)</td>
+<td>NBA official injury report PDF - 11/14/26 01:30 PM ET (game-day report)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, 1 chunk, hasMore false (PDF text extraction); the 01:15 PM ET report read independently as a cross-check; the next quarter-hour file probed and absent</td>
+<td>69 rows (50 player, 19 team NOT YET SUBMITTED). C1 the two consecutive reports agree row for row (0 differences); C2 the parse agrees with an independent hand transcription (0 differences); C4 all ten 11/14 and eighteen 11/15 team slots of the official slate present exactly once; C5/C5b every tip time, printed or carried, equals the official slate; C6 the 49-&gt;69 delta reconciles (25 added, 4 status changes, 5 withdrawn, each explained); C7 fragment accounting. Both raw extractions committed beside the JSON.</td>
+<td>A snapshot of one minute of a continually updated document: further 11/14 reports publish this afternoon and tonight&#x27;s tips are 7:00-8:00 PM ET (F-DF3-06). It prints no rows at all for 2026-11-16 or 2026-11-17, which is not the same as nobody being out. No official minutes-per-game is available beyond the captured top-31 table, so every vacuum figure built from it is a floor.</td>
 <td></td>
 </tr>
 </tbody></table></div>

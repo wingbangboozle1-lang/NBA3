@@ -12,7 +12,7 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 9 of 54 team-sides · 11/14 9/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -89,13 +89,93 @@ official NBA statistic.</p>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
+<td>Same-night games: margin residuals of one game vs the other</td>
+<td>Pearson r (within-date pairs)</td>
+<td>-0.0129</td>
+<td>-0.094 … 0.068</td>
+<td>588</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Derived (our arithmetic on the official final scores), not an official statistic. 588 same-night game pairs. Permutation p = 0.571 from 400 within-date reshuffles. A value near 0 is what cross-game parlay pricing assumes; the interval, not the point estimate, is the finding.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Same-night games: total residuals of one game vs the other</td>
+<td>Pearson r (within-date pairs)</td>
+<td>-0.0617</td>
+<td>-0.142 … 0.019</td>
+<td>588</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Derived (our arithmetic on the official final scores), not an official statistic. 588 same-night game pairs. Permutation p = 0.873 from 400 within-date reshuffles. A value near 0 is what cross-game parlay pricing assumes; the interval, not the point estimate, is the finding.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Rest-days differential vs actual home margin</td>
+<td>Pearson r</td>
+<td>0.0642</td>
+<td>-0.103 … 0.228</td>
+<td>140</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Derived. Rest days are counted from the official schedule and the official results log; the margin is the official final score. The interval is the result to read: if it covers 0 the sample cannot support a rest-based angle, whatever the point estimate says.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Our margin error on a team&#x27;s previous game vs on its next game</td>
+<td>Pearson r</td>
+<td>0.0387</td>
+<td>-0.086 … 0.162</td>
+<td>250</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Derived: the engine&#x27;s own out-of-sample residuals, paired across consecutive games of the same team. A positive value means our line is slow - the team we under-rated last game is likely to beat it again - which is a defect to fix in the estimator, not an edge over any bookmaker (we are our own counterparty here).</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>A team&#x27;s margin in its previous game vs in its next game</td>
+<td>Pearson r</td>
+<td>0.1636</td>
+<td>0.058 … 0.266</td>
+<td>336</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Derived. The number the let-down and bounce-back rules implicitly assume: how much of a team&#x27;s margin carries from one game to the next. Near zero means recent-result rules are choosing noise.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Margin in the game after an overtime game vs after a normal game (within 3 days)</td>
+<td>mean difference (points)</td>
+<td>-0.4381</td>
+<td>—</td>
+<td>328</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Derived. n = 14 after OT vs 314 after a regulation game; permutation p = 0.920 on a 3-day window. This is the input a &#x27;tired team&#x27; angle needs; the window choice is ours, not the league&#x27;s, and a different cut-off is a different number.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Net-rating differential (official advanced table) vs actual home margin</td>
+<td>Pearson r</td>
+<td>0.6224</td>
+<td>0.525 … 0.704</td>
+<td>183</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Descriptive, NOT a forecast: the ratings are season-to-date as of the capture, so they already contain the games being compared. It says the official rating spread tracks the scoreboard; it does not say a line built from it would have been right before tip-off.</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Pace sum (official advanced table) vs actual game total</td>
+<td>Pearson r</td>
+<td>0.4322</td>
+<td>0.306 … 0.543</td>
+<td>183</td>
+<td><span class="chip chip-ok">measured</span></td>
+<td>Descriptive, NOT a forecast, for the same reason as the net-rating row.</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
 <td>Player A points vs player B points, same team, same game</td>
 <td>Pearson r</td>
 <td><span class="unverified">UNVERIFIED — left blank</span></td>
 <td>—</td>
 <td>—</td>
 <td><span class="chip chip-warn">not measurable</span></td>
-<td>Needs per-player game logs. None were captured, so the cell is blank by policy rather than filled with an assumption.</td>
+<td>Needs per-player game logs. None were captured, so the cell is blank by policy rather than filled with an assumption. Probed again on 2026-11-14 by session arena/df301475-nba3: stats.nba.com is unreachable from this environment (fetch error), and the nba.com/stats game-log routes (players/gamelog, players/boxscoregamelog, teams/boxsrctraditional, teams/boxscoretraditional) all answer &#x27;Content Unavailable&#x27;. The only official per-player game data reachable here is the per-game box-score page (https://www.nba.com/game/&lt;slug&gt;/&lt;game_id&gt;/box-score), which is one page per game and cannot be transcribed at the sample size a correlation needs without hand-keying numbers - which this project does not do.</td>
 <td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
@@ -135,7 +215,7 @@ official NBA statistic.</p>
 <td>—</td>
 <td>—</td>
 <td><span class="chip chip-warn">not measurable</span></td>
-<td>Not measured on this sample. Independence is an ASSUMPTION used to price cross-game parlays, not a verified result. Treat as unverified.</td>
+<td>Assumption, not measurement, for the pricing itself: the two same-night rows measured above (margin residuals r = -0.013, total residuals r = -0.062, 588 same-night pairs) do not reject independence, but failing to reject is not the same as establishing a factorisation, so cross-game parlays keep their independent pricing and their caveat. Re-measure as the log grows.</td>
 <td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 </tbody></table></div>

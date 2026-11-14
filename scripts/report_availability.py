@@ -50,6 +50,7 @@ lab and the canonical assembler read it without being edited at each refresh)
 import csv
 import json
 import os
+import re
 from collections import defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -61,6 +62,30 @@ GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
 INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0415AM.json")
 RESULTS_1113_JSON = os.path.join(APP, "official_results_2026-11-13.json")
 MANIFEST_JSON = os.path.join(APP, "snapshot_manifest.json")
+
+
+def _apply_manifest():
+    """Read the injury/slate paths the manifest names, exactly as the lab does.
+
+    Until session arena/df301475-nba3 this module hard-coded its injury input
+    while every other consumer of the same snapshot resolved it through
+    data/app/snapshot_manifest.json.  The manifest is the project's stated rule
+    for which capture the dashboard publishes (question CQ-47, suggestion
+    CS-45); a module that ignores it silently re-prices availability off a stale
+    report after any refresh.  Now a refresh moves this module with it.
+    """
+    global SLATE_JSON, INJURY_JSON
+    if not os.path.exists(MANIFEST_JSON):
+        return
+    with open(MANIFEST_JSON, encoding="utf-8") as fh:
+        man = json.load(fh)
+    for block, name in (("slate", "SLATE_JSON"), ("injuries", "INJURY_JSON")):
+        rel = ((man.get(block) or {}).get("path") or "").strip()
+        if rel:
+            globals()[name] = os.path.join(ROOT, *rel.split("/"))
+
+
+_apply_manifest()
 
 RULE_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
 RULE_QUOTE = (
@@ -117,6 +142,29 @@ AS_OF_DATE = "2026-11-14"
 AS_OF_LOCAL_HOUR = 4 + 45 / 60.0     # 04:45 on the as-of date, in local terms
 EARLIEST_LOCAL_1PM_OFFSET_HOURS = 1.0
 LATEST_LOCAL_5PM_OFFSET_HOURS = 3.0  # Pacific is 3 h behind ET; ET venues 0 h
+
+
+def set_as_of(report_stamp):
+    """Take the as-of moment from the report's own printed stamp.
+
+    ``report_stamp`` is the string the NBA prints, e.g. "2026-11-14 01:30 PM ET".
+    Reasoning about who has filed must be anchored to the document, not to a
+    constant another session typed: at 04:15 ET nothing on the as-of date can be
+    overdue, and at 13:30 ET the game-day 1 p.m. LOCAL deadline is still not
+    certainly past, because the earliest it can fall in Eastern time is 2 p.m.
+    (a venue one hour behind ET).  Both facts come from the same ordering
+    argument, so the conclusion for 11/14 does not change -- but the number now
+    travels with the capture instead of being maintained beside it.
+    """
+    global AS_OF_DATE, AS_OF_LOCAL_HOUR
+    m = re.match(r"(\d{4}-\d{2}-\d{2})\s+(\d{1,2}):(\d{2})\s*(AM|PM)\s*ET",
+                 (report_stamp or "").strip(), re.IGNORECASE)
+    if not m:
+        return False
+    hh = int(m.group(2)) % 12 + (12 if m.group(4).upper() == "PM" else 0)
+    AS_OF_DATE = m.group(1)
+    AS_OF_LOCAL_HOUR = hh + int(m.group(3)) / 60.0
+    return True
 
 
 def deadline_passed(date, clause):
@@ -178,6 +226,7 @@ def load_played_dates():
 def main():
     slate = read_json(SLATE_JSON)
     injury = read_json(INJURY_JSON)
+    anchored = set_as_of(injury.get("report_stamp", ""))
     played = load_played_dates()
 
     def iso_from_pdf(gd):          # '11/14/2026' -> '2026-11-14'
@@ -248,28 +297,58 @@ def main():
                 "source_game": g["nba_game_url"],
             })
 
-    # ---- the 11/14 correspondence: filed vs not-filed, explained by b2b ----
-    day1 = [r for r in rows if r["date"] == "2026-11-14"]
+    # ---- the as-of-date correspondence: filed vs not-filed, explained by b2b ----
+    # This block used to hard-code a prose claim about the 2026-11-14 slate ("the five
+    # teams whose rows are missing are exactly the five teams on a back-to-back") and
+    # to exit 1 unless the two sets were EQUAL.  That claim was an observation about one
+    # document -- the 04:15 AM ET report, taken before the game-day filing window opened,
+    # when half the league had nothing to say.  Repointing the manifest at the 01:30 PM
+    # ET game-day report, nine of the ten 11/14 team sides have filed and only Memphis is
+    # still waiting on its own deadline, so an equality test on a stale accident would
+    # fail the build while the data got BETTER.  It is now computed, and only a real
+    # anomaly (a team that is unexplained by the back-to-back clause) is an error.
+    day1 = [r for r in rows if r["date"] == AS_OF_DATE]
     filed = sorted(r["team"] for r in day1 if r["state"] == STATE_FILED)
     unfiled = sorted(r["team"] for r in day1 if r["state"] != STATE_FILED)
     on_b2b = sorted(r["team"] for r in day1 if r["played_previous_day"])
     not_on_b2b = sorted(r["team"] for r in day1 if not r["played_previous_day"])
+    unfiled_explained = set(unfiled) <= set(on_b2b)
+    if not day1:
+        interp = (f"No game on {AS_OF_DATE} in the stored official slate, so there is no "
+                  f"as-of-date correspondence to report.")
+    elif not unfiled:
+        interp = (f"Every team-side on the {AS_OF_DATE} slate appears on the newest official "
+                  f"report with player rows: the game-day filing window has closed and all "
+                  f"{len(filed)} teams have filed, so absence counts are real for every game "
+                  f"that day.")
+    elif unfiled_explained:
+        interp = (f"On the {AS_OF_DATE} slate the team-sides still without player rows "
+                  f"({', '.join(unfiled)}) are all playing the second game of a "
+                  f"back-to-back, whose report deadline is 1:00 PM local on game day -- not "
+                  f"yet reached at the {injury.get('report_stamp', '')} stamp of this "
+                  f"document. That is a rule-driven timing gap, not a failure to file, and "
+                  f"it closes hours before tip-off: recoverable by waiting, not by guessing.")
+    else:
+        interp = ("ANOMALY: " + ", ".join(sorted(set(unfiled) - set(on_b2b))) +
+                  f" printed no rows on the newest report for {AS_OF_DATE} and is not on a "
+                  "back-to-back, so the official rule says it should have filed. The "
+                  "availability of its game is unknown, and the site publishes it blank.")
     correspondence = {
-        "date": "2026-11-14",
+        "date": AS_OF_DATE,
         "teams_that_filed": filed,
         "teams_that_have_not": unfiled,
         "teams_on_a_back_to_back": on_b2b,
         "teams_not_on_a_back_to_back": not_on_b2b,
         "unfiled_are_exactly_the_b2b_teams": unfiled == on_b2b,
         "filed_are_exactly_the_rest": filed == not_on_b2b,
-        "interpretation": (
-            "On the 2026-11-14 slate the five teams whose rows are missing from the "
-            "newest official report are exactly the five teams playing the second game "
-            "of a back-to-back, whose report deadline is 1:00 PM local on game day. "
-            "Their absence is a rule-driven timing gap, not a failure to file, and it "
-            "closes hours before tip-off -- so these games are recoverable by waiting, "
-            "not by guessing."
-        ),
+        "every_unfiled_side_is_explained_by_the_back_to_back_clause": unfiled_explained,
+        "as_of_local_hour_et_terms": AS_OF_LOCAL_HOUR,
+        "interpretation": interp,
+        "interpretation_note": (
+            "The equality of the two sets is published as an observation, not asserted as a "
+            "rule: it held for the 04:15 AM ET pre-filing report and is not expected to hold "
+            "for a game-day report, where most teams file whether or not they are on a "
+            "back-to-back. Only the subset test is treated as a correctness condition."),
         "source_rule": RULE_URL,
         "source_injury": injury["source_url"],
         "source_results": ("https://www.nba.com/games?date=2026-11-13"),
@@ -350,10 +429,10 @@ def main():
           f"| no official report covers the date {c['no_report_covers_date']}")
     print(f"  games whose availability is fully priced: "
           f"{c['games_fully_priced_on_availability']} of {c['games']}")
-    ok = correspondence["unfiled_are_exactly_the_b2b_teams"] and \
-        correspondence["filed_are_exactly_the_rest"]
-    print(f"  11/14 back-to-back correspondence: "
-          f"{'exact 5/5 -- unfiled set == back-to-back set' if ok else 'DOES NOT LINE UP'}")
+    ok = correspondence["every_unfiled_side_is_explained_by_the_back_to_back_clause"]
+    print(f"  {AS_OF_DATE} filing correspondence: "
+          f"{'every unfiled side is a back-to-back side -- explained by the rule' if ok else 'ANOMALY: a team that should have filed has no rows'}"
+          f" (exact 5/5 set match: {correspondence['unfiled_are_exactly_the_b2b_teams']})")
     for row in coverage:
         print(f"    {row['date']} ({row['lead_days']}): filed {row['filed']}, "
               f"due-and-not-filed {row['due_and_not_filed']}, not yet due {row['not_yet_due']}, "

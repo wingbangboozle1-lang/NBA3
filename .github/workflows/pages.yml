@@ -188,6 +188,20 @@ jobs:
           # and that the whole 27-game slate window matches its live re-read.
           python3 scripts/capture_official_2026_11_14d.py
           git diff --exit-code -- data/app/official_injuries_2026-11-14_0515AM.json
+      - name: Game-day injury capture - two consecutive official reports, row by row (arena/df301475)
+        run: |
+          # Offline and deterministic, like the step above it: it parses the two verbatim
+          # fetches committed beside it (the 01:30 PM ET game-day report and the 01:15 PM
+          # ET one), re-derives the row-by-row delta against the 04:15 AM ET snapshot the
+          # site used before this refresh, and rewrites its two artefacts. Non-zero exit if
+          # any of checks C1-C7 fails; the drift check below is what makes the artefacts in
+          # the tree the ones this script produces.
+          python3 scripts/capture_official_2026_11_14e.py
+          git diff --exit-code -- data/app/official_injuries_2026-11-14_1330PM.json data/app/injury_delta_game_day.json
+      - name: Game-day refresh tests (arena/df301475) - name join, mirror audit, availability states
+        run: python3 -m unittest tests/test_strategy_lab_df301475.py
+      - name: Manifest is the only input selector (arena/df301475, CQ-47 / CS-45 / F-DF3-05)
+        run: python3 -m unittest tests/test_manifest_inputs.py
       - name: Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)
         run: |
           python3 scripts/strategy_lab.py

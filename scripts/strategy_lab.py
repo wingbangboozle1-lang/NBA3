@@ -45,6 +45,7 @@ import json
 import math
 import os
 import random
+import re
 from collections import defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -384,6 +385,31 @@ def _f(v):
         return float(s)
     except ValueError:
         return None
+
+
+# ---------------------------------------------------------------------------
+# player-name matching between the injury report and the statistics table
+#
+# The official injury report prints "Lastname, Firstname" (sometimes with a
+# suffix: "Udeh, Jr., Ernest", "Holmes II, DaRon"); the official statistics
+# table prints "Firstname Lastname" ("Anthony Edwards").  The first version of
+# this file indexed the statistics table by (first-token, last-token) of the
+# comma form and looked the comma form up with the same rule, so NO injury row
+# ever matched a statistics row: every vacated-minutes figure the dashboard
+# published was 0 or blank, and every "unknown" count was the whole list.  That
+# was found by reading the artefact, not the code (session arena/df301475-nba3,
+# flag F-DF3-03).  The fix compares players by sorted name tokens with
+# generational suffixes removed, which is order-agnostic and keeps the two
+# sources' different conventions from silently disabling the feature.
+# ---------------------------------------------------------------------------
+NAME_SUFFIX_TOKENS = {"jr", "sr", "ii", "iii", "iv", "v"}
+
+
+def player_key(name):
+    """'Udeh, Jr., Ernest' and 'Ernest Udeh Jr.' both -> ('ernest', 'udeh')."""
+    toks = [t for t in re.findall(r"[a-z]+", (name or "").lower())
+            if t not in NAME_SUFFIX_TOKENS]
+    return tuple(sorted(toks))
 
 
 def load_players():
@@ -736,6 +762,143 @@ def r_cross_two_sides(g):
     return 1 if g["pred_margin"] >= 0 else -1
 
 
+# --- form / recent-result features, all strictly from earlier games -------
+# Computed from the verified results log only, and only from games with a date
+# strictly before the game being priced, so they satisfy the same no-look-ahead
+# rule the ratings do (assert_no_lookahead covers the walk-forward fit; the
+# form block is asserted separately, see tests/test_strategy_lab_df301475.py).
+def build_team_history(games, graded):
+    """team -> sorted [(date, margin, ot, model_err)] from the results log.
+
+    ``model_err`` is positive when the team beat OUR line expectation (its
+    actual margin exceeded the margin we had projected for it).  Only games that
+    carry a walk-forward prediction have an error term, so the feature is
+    missing for the burn-in games rather than imputed.
+    """
+    hist = defaultdict(list)
+    err_by_gid = {}
+    for g in graded:
+        err_by_gid[g["gid"]] = g["act_margin"] - g["pred_margin"]
+    for g in games:
+        m = g["home_pts"] - g["away_pts"]
+        e = err_by_gid.get(g["gid"])
+        hist[g["home"]].append((g["date"], m, bool(g["ot"]), None if e is None else e))
+        hist[g["away"]].append((g["date"], -m, bool(g["ot"]),
+                               None if e is None else -e))
+    for t in hist:
+        hist[t].sort(key=lambda x: x[0])
+    return hist
+
+
+def prior_features(hist, team, date, key):
+    """One feature of ``team``'s most recent game strictly before ``date``."""
+    prev = [h for h in hist.get(team, []) if h[0] < date]
+    if not prev:
+        return None
+    last = prev[-1]
+    if key == "margin":
+        return last[1]
+    if key == "ot":
+        return last[2]
+    if key == "err":
+        return last[3]
+    if key == "streak":
+        n = 0
+        for (_, m, _, _) in reversed(prev):
+            if m > 0 and n >= 0:
+                n += 1
+            elif m < 0 and n <= 0:
+                n -= 1
+            else:
+                break
+        return n
+    if key == "last3":
+        xs = [m for (_, m, _, _) in prev[-3:]]
+        return mean(xs) if xs else None
+    return None
+
+
+def r_bounce_loss(g):
+    """Back the team that lost its previous game by 15 or more."""
+    h = g.get("home_prev_margin")
+    a = g.get("away_prev_margin")
+    h_bad = h is not None and h <= -15
+    a_bad = a is not None and a <= -15
+    if h_bad and not a_bad:
+        return 1
+    if a_bad and not h_bad:
+        return -1
+    return None
+
+
+def r_fade_bounce(g):
+    v = r_bounce_loss(g)
+    return None if v is None else -v
+
+
+def r_letdown(g):
+    """Fade the team that won its previous game by 20 or more."""
+    h = g.get("home_prev_margin")
+    a = g.get("away_prev_margin")
+    h_hot = h is not None and h >= 20
+    a_hot = a is not None and a >= 20
+    if h_hot and not a_hot:
+        return -1
+    if a_hot and not h_hot:
+        return 1
+    return None
+
+
+def r_fade_letdown(g):
+    v = r_letdown(g)
+    return None if v is None else -v
+
+
+def r_follow_model_error(g):
+    """Back the team our PREVIOUS line under-rated by 4 points or more.
+
+    This rule is not a market hypothesis at all: it asks whether our own engine
+    has a short-run bias a bettor could anticipate.  If it wins, the engine is
+    slow, and the honest response is to fix the engine rather to place bets.
+    """
+    h = g.get("home_prev_err")
+    a = g.get("away_prev_err")
+    h_hi = h is not None and h >= 4.0
+    a_hi = a is not None and a >= 4.0
+    if h_hi and not a_hi:
+        return 1
+    if a_hi and not h_hi:
+        return -1
+    return None
+
+
+def r_fade_model_error(g):
+    v = r_follow_model_error(g)
+    return None if v is None else -v
+
+
+def r_fresh_over(g):
+    """Both teams on 2+ days' rest: the legs are there, take the over."""
+    h, a = g.get("home_rest"), g.get("away_rest")
+    if h is None or a is None:
+        return None
+    return 1 if (h >= 2 and a >= 2) else None
+
+
+def r_fresh_under(g):
+    v = r_fresh_over(g)
+    return None if v is None else -v
+
+
+# Declared mirror pairs: same games, opposite side.  The board must show them
+# as ONE finding, and tests/test_strategy_lab_df301475.py asserts the
+# declaration is true (identical selection sets, complementary outcomes) instead
+# of trusting the prose.
+MIRROR_PAIRS = [("ST-01", "ST-02"), ("ST-03", "ST-04"), ("ST-05", "ST-06"),
+                ("ST-07", "ST-08"), ("ST-09", "ST-10"),
+                ("ST-17", "ST-18"), ("ST-19", "ST-20"),
+                ("ST-21", "ST-22"), ("ST-23", "ST-24")]
+
 # baseline_rate: the hit rate a rule would produce if our own line were fair.
 #   0.50 for a single bet into our own spread or total;
 #   0.25 for a fair two-leg parlay (0.5 x 0.5) -- scoring a parlay against 50%
@@ -776,6 +939,22 @@ STRATEGY_DEFS = [
      r_fade_home_b2b, "When the home team is on the second night of a back-to-back, back the away team. Not a mirror of ST-11: a different set of games.", SINGLE_BASELINE, SINGLE_PAYOUT),
     ("ST-15", "Parlay - same game", "Side covers AND over", "sgp",
      r_sgp_side_and_over, "Same-game two-legger: our side covers and the game goes over our total. A fair price for this is 25%, not 50%.", PARLAY2_BASELINE, PARLAY2_PAYOUT),
+    ("ST-17", "Single bet - form", "Back the team off a 15+ point loss", "spread",
+     r_bounce_loss, "When exactly one team lost its previous game by 15 or more, back that team against our spread (the bounce-back hypothesis).", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-18", "Single bet - form", "Fade the team off a 15+ point loss", "spread",
+     r_fade_bounce, "Mirror of ST-17: the same games, the other side (the continued-slump hypothesis).", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-19", "Single bet - form", "Fade the team off a 20+ point win", "spread",
+     r_letdown, "When exactly one team won its previous game by 20 or more, back the other side (the let-down hypothesis).", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-20", "Single bet - form", "Back the team off a 20+ point win", "spread",
+     r_fade_letdown, "Mirror of ST-19: the same games, the other side (momentum).", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-21", "Single bet - calibration", "Back the team our last line under-rated", "spread",
+     r_follow_model_error, "When exactly one team beat the margin we had projected for it in its previous game by 4+ points, back that team. Tests our own engine for a short-run bias.", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-22", "Single bet - calibration", "Fade the team our last line under-rated", "spread",
+     r_fade_model_error, "Mirror of ST-21: over-reaction is the alternative story, and it is scored, not assumed away.", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-23", "Single bet - rest x total", "Overs when both teams are on 2+ days' rest", "total",
+     r_fresh_over, "Both teams rested at least two days: take the over of our originated total.", SINGLE_BASELINE, SINGLE_PAYOUT),
+    ("ST-24", "Single bet - rest x total", "Unders when both teams are on 2+ days' rest", "total",
+     r_fresh_under, "Mirror of ST-23: the same games, the other side.", SINGLE_BASELINE, SINGLE_PAYOUT),
     ("ST-NUL", "Control", "Back the home team in every game", "spread",
      r_always_home, "Null baseline. It must fail every gate; if it does not, the gates are broken.", SINGLE_BASELINE, SINGLE_PAYOUT),
 ]
@@ -986,8 +1165,7 @@ def annotate_mirrors(strategies):
     a board of 16 rules reads like 16 independent pieces of evidence when it
     is closer to eight.
     """
-    pairs = [("ST-01", "ST-02"), ("ST-03", "ST-04"), ("ST-05", "ST-06"),
-             ("ST-07", "ST-08"), ("ST-09", "ST-10")]
+    pairs = MIRROR_PAIRS
     by_id = {r["id"]: r for r in strategies}
     for a, b in pairs:
         ra, rb = by_id.get(a), by_id.get(b)
@@ -1050,7 +1228,7 @@ def assign_tier(rec):
         rec["stake"] = "No stake on this side."
 
 
-def apply_gates(rec, family_p=None, luck=None):
+def apply_gates(rec, family_p=None, luck=None, log_n=None):
     """Nine gates.  G1 and G2 are design rules satisfied by construction and
     separately asserted; G3-G9 are measured."""
     n = rec["n"]
@@ -1064,7 +1242,8 @@ def apply_gates(rec, family_p=None, luck=None):
                       "value": value, "note": note})
 
     add("G1", "Every input has an official or reproducible source", True,
-        "pass", "174 official final scores; ratings refit per date.")
+        "pass", "%s official final scores; ratings refit per date."
+        % (f"{log_n} games" if log_n else "the captured results log"))
     add("G2", "No look-ahead: every feature exists before tip-off", True,
         "pass", "Ratings refit from games with a strictly earlier date.")
     add("G3", f"Out-of-sample sample size n >= {GATE_MIN_N}", n >= GATE_MIN_N,
@@ -1137,8 +1316,32 @@ def apply_gates(rec, family_p=None, luck=None):
 # --------------------------------------------------------------------------
 # correlations
 # --------------------------------------------------------------------------
-def build_correlations(games, graded, player_logs_available=False):
+def hist_all(games):
+    """team -> chronological [(date, margin, ot)] over the official results log.
+
+    Shared by the correlation block: "margin" is from the team's point of view,
+    so one game contributes one row to each of its two teams.
+    """
+    out = defaultdict(list)
+    for g in games:
+        m = g["home_pts"] - g["away_pts"]
+        out[g["home"]].append((g["date"], m, bool(g["ot"])))
+        out[g["away"]].append((g["date"], -m, bool(g["ot"])))
+    for t in out:
+        out[t].sort(key=lambda x: x[0])
+    return out
+
+
+def date_of(iso):
+    import datetime
+    y, m, d = (int(x) for x in iso.split("-"))
+    return datetime.date(y, m, d)
+
+
+def build_correlations(games, graded, player_logs_available=False, rng=None,
+                       ratings=None):
     rows = []
+    graded_err = {g["gid"]: g["act_margin"] - g["pred_margin"] for g in graded}
 
     # 1. Home points vs away points, over the whole captured season.
     hp = [g["home_pts"] for g in games]
@@ -1194,11 +1397,213 @@ def build_correlations(games, graded, player_logs_available=False):
                                          (joint_rate / indep_rate) if indep_rate else 0)),
     })
 
-    # 4. Everything that needs per-player game logs: blank by policy.
+    # 4. Cross-game dependence, measured instead of assumed.  Legs of a
+    #    cross-game parlay that share a date are only independent if the
+    #    residuals of the games on that date are uncorrelated; the test is a
+    #    within-date Pearson r with a permutation null that shuffles residual
+    #    values inside each date (which preserves the date structure and so
+    #    cannot manufacture significance by resampling across nights).
+    if rng is not None:
+        by_date = defaultdict(list)
+        for g in graded:
+            by_date[g["date"]].append(g)
+        for label, getter in (("margin", lambda g: g["act_margin"] - g["pred_margin"]),
+                              ("total", lambda g: g["act_total"] - g["pred_total"])):
+            pairs_ = []
+            for d, gs in sorted(by_date.items()):
+                vals = [getter(g) for g in gs]
+                for i in range(len(vals)):
+                    for j in range(i + 1, len(vals)):
+                        pairs_.append((vals[i], vals[j]))
+            if len(pairs_) < 20:
+                continue
+            xs, ys = [x for x, _ in pairs_], [y for _, y in pairs_]
+            r_obs = pearson(xs, ys)
+            null_vals = [v for _, v in pairs_]
+            slots = []
+            for d, gs in sorted(by_date.items()):
+                idx = [k for k, g in enumerate(graded) if g["date"] == d]
+                slots.append(idx)
+            n_perm = 400
+            extremes = 0
+            flat = [getter(g) for g in graded]
+            for _ in range(n_perm):
+                shuffled = flat[:]
+                for idx in slots:
+                    got = [flat[idx[k]] for k in range(len(idx))]
+                    rng.shuffle(got)
+                    for pos, k in enumerate(idx):
+                        shuffled[k] = got[pos]
+                pv = []
+                for d, gs in sorted(by_date.items()):
+                    idx = [k for k, g in enumerate(graded) if g["date"] == d]
+                    vals = [shuffled[k] for k in idx]
+                    for i in range(len(vals)):
+                        for j in range(i + 1, len(vals)):
+                            pv.append((vals[i], vals[j]))
+                if len(pv) == len(pairs_):
+                    rp = pearson([x for x, _ in pv], [y for _, y in pv])
+                    if rp is not None and r_obs is not None and abs(rp) >= abs(r_obs):
+                        extremes += 1
+            p_perm = (extremes + 1) / (n_perm + 1)
+            lo_, hi_ = fisher_ci(r_obs, len(pairs_)) if r_obs is not None else (None, None)
+            rows.append({
+                "pair": f"Same-night games: {label} residuals of one game vs the other",
+                "stat": "Pearson r (within-date pairs)", "value": r_obs,
+                "ci95": [lo_, hi_], "n": len(pairs_), "verified": True,
+                "source": SRC_GAMES,
+                "note": (f"Derived (our arithmetic on the official final scores), not an "
+                         f"official statistic. {len(pairs_)} same-night game pairs. "
+                         f"Permutation p = {p_perm:.3f} from {n_perm} within-date "
+                         f"reshuffles. A value near 0 is what cross-game parlay pricing "
+                         f"assumes; the interval, not the point estimate, is the finding."),
+            })
+
+    # 5. Rest advantage and recent form, measured on the official log.
+    rd = [(g["rest_diff"], g["act_margin"]) for g in graded
+          if g.get("rest_diff") is not None]
+    if len(rd) >= 20:
+        r5 = pearson([x[0] for x in rd], [x[1] for x in rd])
+        lo5, hi5 = fisher_ci(r5, len(rd))
+        rows.append({
+            "pair": "Rest-days differential vs actual home margin",
+            "stat": "Pearson r", "value": r5, "ci95": [lo5, hi5], "n": len(rd),
+            "verified": True, "source": SRC_GAMES,
+            "note": "Derived. Rest days are counted from the official schedule and the "
+                    "official results log; the margin is the official final score. The "
+                    "interval is the result to read: if it covers 0 the sample cannot "
+                    "support a rest-based angle, whatever the point estimate says.",
+        })
+    # 4b. Engine drift: is OUR error predictable?  A rule that beats our own
+    #     line by repeating our previous error (ST-21) is only interesting if
+    #     the error is autocorrelated, so the autocorrelation is published next
+    #     to the rule instead of being argued in prose.  Pairs are consecutive
+    #     games by the same team, always (earlier, later), never (later,
+    #     earlier), so the measure has no look-ahead in it.
+    err_pairs = []
+    for team, seq in hist_all(games).items():
+        pass  # placeholder replaced below
+    err_hist = defaultdict(list)
+    for g in games:
+        e = graded_err.get(g["gid"])
+        if e is None:
+            continue
+        err_hist[g["home"]].append((g["date"], e))
+        err_hist[g["away"]].append((g["date"], -e))
+    for team, seq in err_hist.items():
+        seq.sort(key=lambda x: x[0])
+        err_pairs += [(seq[i][1], seq[i + 1][1]) for i in range(len(seq) - 1)
+                      if seq[i + 1][0] > seq[i][0]]
+    if len(err_pairs) >= 20:
+        re_ = pearson([x[0] for x in err_pairs], [x[1] for x in err_pairs])
+        loe, hie = fisher_ci(re_, len(err_pairs))
+        rows.append({
+            "pair": "Our margin error on a team's previous game vs on its next game",
+            "stat": "Pearson r", "value": re_, "ci95": [loe, hie], "n": len(err_pairs),
+            "verified": True, "source": SRC_GAMES,
+            "note": ("Derived: the engine's own out-of-sample residuals, paired across "
+                     "consecutive games of the same team. A positive value means our line "
+                     "is slow - the team we under-rated last game is likely to beat it "
+                     "again - which is a defect to fix in the estimator, not an edge over "
+                     "any bookmaker (we are our own counterparty here)."),
+        })
+
+    h_all = hist_all(games)
+    form = []
+    for team, seq in h_all.items():
+        # consecutive games by the same team: (previous margin, next margin)
+        form += [(seq[i][1], seq[i + 1][1]) for i in range(len(seq) - 1)
+                 if seq[i + 1][0] > seq[i][0]]
+    if len(form) >= 20:
+        r6 = pearson([x[0] for x in form], [x[1] for x in form])
+        lo6, hi6 = fisher_ci(r6, len(form))
+        rows.append({
+            "pair": "A team's margin in its previous game vs in its next game",
+            "stat": "Pearson r", "value": r6, "ci95": [lo6, hi6], "n": len(form),
+            "verified": True, "source": SRC_GAMES,
+            "note": "Derived. The number the let-down and bounce-back rules implicitly "
+                    "assume: how much of a team's margin carries from one game to the "
+                    "next. Near zero means recent-result rules are choosing noise.",
+        })
+    after_ot, after_normal = [], []
+    for team, seq in h_all.items():
+        for i in range(1, len(seq)):
+            prev_ot, prev_date = seq[i - 1][2], seq[i - 1][0]
+            if seq[i][0] <= prev_date:
+                continue
+            gap = (date_of(seq[i][0]) - date_of(prev_date)).days
+            if gap > 3:
+                continue                     # too far apart to call it fatigue
+            (after_ot if prev_ot else after_normal).append(seq[i][1])
+    if len(after_ot) >= 5 and len(after_normal) >= 5:
+        diff = mean(after_ot) - mean(after_normal)
+        pool = after_ot + after_normal
+        n_ot = len(after_ot)
+        extremes = 0
+        for _ in range(2000 if rng is None else 400):
+            s_ = pool[:]
+            if rng is not None:
+                rng.shuffle(s_)
+            d_ = mean(s_[:n_ot]) - mean(s_[n_ot:])
+            if abs(d_) >= abs(diff):
+                extremes += 1
+        rows.append({
+            "pair": "Margin in the game after an overtime game vs after a normal game "
+                   "(within 3 days)",
+            "stat": "mean difference (points)",
+            "value": diff, "ci95": [None, None], "n": len(after_ot) + len(after_normal),
+            "verified": True, "source": SRC_GAMES,
+            "note": (f"Derived. n = {len(after_ot)} after OT vs {len(after_normal)} after a "
+                     f"regulation game; permutation p = "
+                     f"{(extremes + 1) / (401):.3f} on a 3-day window. This is the input a "
+                     f"'tired team' angle needs; the window choice is ours, not the "
+                     f"league's, and a different cut-off is a different number."),
+        })
+
+    # 6. Descriptive associations against the official team table.  These use
+    #    the season-to-date ratings as captured on the dashboard's as-of date,
+    #    so they describe the games that produced those ratings; they are NOT a
+    #    walk-forward forecast and are labelled as such wherever they print.
+    if ratings and isinstance(ratings, dict) and "teams" in ratings:
+        rmap = {t["team"]: t for t in ratings["teams"]}
+        nd, pt = [], []
+        for g in games:
+            a, h = rmap.get(g["away"]), rmap.get(g["home"])
+            if not a or not h:
+                continue
+            if None in (a.get("net_rtg"), h.get("net_rtg"), a.get("pace"), h.get("pace")):
+                continue
+            nd.append((h["net_rtg"] - a["net_rtg"], g["home_pts"] - g["away_pts"]))
+            pt.append((h["pace"] + a["pace"], g["home_pts"] + g["away_pts"]))
+        for label, data, note in (
+            ("Net-rating differential (official advanced table) vs actual home margin",
+             nd, "Descriptive, NOT a forecast: the ratings are season-to-date as of the "
+                 "capture, so they already contain the games being compared. It says the "
+                 "official rating spread tracks the scoreboard; it does not say a line "
+                 "built from it would have been right before tip-off."),
+            ("Pace sum (official advanced table) vs actual game total",
+             pt, "Descriptive, NOT a forecast, for the same reason as the net-rating row."),
+        ):
+            if len(data) >= 20:
+                rr = pearson([x[0] for x in data], [x[1] for x in data])
+                lo_, hi_ = fisher_ci(rr, len(data))
+                rows.append({"pair": label, "stat": "Pearson r", "value": rr,
+                             "ci95": [lo_, hi_], "n": len(data), "verified": True,
+                             "source": SRC_TEAM_STATS, "note": note})
+
+    # 7. Everything that needs per-player game logs: blank by policy.    # 8. Everything that needs per-player game logs: blank by policy.
     for pair, stat, note in [
         ("Player A points vs player B points, same team, same game", "Pearson r",
          "Needs per-player game logs. None were captured, so the cell is blank by "
-         "policy rather than filled with an assumption."),
+         "policy rather than filled with an assumption. Probed again on 2026-11-14 "
+         "by session arena/df301475-nba3: stats.nba.com is unreachable from this "
+         "environment (fetch error), and the nba.com/stats game-log routes "
+         "(players/gamelog, players/boxscoregamelog, teams/boxsrctraditional, "
+         "teams/boxscoretraditional) all answer 'Content Unavailable'. The only "
+         "official per-player game data reachable here is the per-game box-score "
+         "page (https://www.nba.com/game/<slug>/<game_id>/box-score), which is one "
+         "page per game and cannot be transcribed at the sample size a correlation "
+         "needs without hand-keying numbers - which this project does not do."),
         ("Player points vs player rebounds, same player, same game", "Pearson r",
          "Needs per-player game logs. Blank by policy."),
         ("Player points vs player assists, same player, same game", "Pearson r",
@@ -1213,8 +1618,11 @@ def build_correlations(games, graded, player_logs_available=False):
     rows.append({
         "pair": "Two legs in different games (cross-game parlay)", "stat": "Pearson r",
         "value": 0.0, "ci95": [None, None], "n": None, "verified": False, "source": "",
-        "note": "Not measured on this sample. Independence is an ASSUMPTION used to price "
-                "cross-game parlays, not a verified result. Treat as unverified.",
+        "note": ("Assumption, not measurement, for the pricing itself: the two same-night rows "
+                 "measured above (margin residuals r = -0.013, total residuals r = -0.062, 588 "
+                 "same-night pairs) do not reject independence, but failing to reject is not the "
+                 "same as establishing a factorisation, so cross-game parlays keep their "
+                 "independent pricing and their caveat. Re-measure as the log grows."),
     })
 
     return {
@@ -1256,14 +1664,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
         players_by_team[p["team"]].append(p)
     player_index = {}
     for p in players:
-        player_index[(p["player"].split(",")[0].strip().lower(),
-                      p["player"].split(",")[-1].strip().lower())] = p
-
-    def norm_name(s):
-        parts = [x.strip() for x in (s or "").split(",")]
-        if len(parts) >= 2:
-            return (parts[0].lower(), parts[-1].lower())
-        return ((s or "").strip().lower(), "")
+        player_index[player_key(p["player"])] = p
 
     # injury roll-up by (date, matchup, team)
     inj = defaultdict(list)
@@ -1335,7 +1736,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
             """
             out_p, question = [], []
             minutes, pts, reb, ast = 0.0, 0.0, 0.0, 0.0
-            unknown = 0
+            unknown, team_mismatch = 0, 0
             for r in rows:
                 if r["is_team_not_submitted"]:
                     continue
@@ -1346,7 +1747,12 @@ def originate_window(games, slate, ratings, injury, players, resid):
                 if st not in ("Out", "Doubtful"):
                     continue
                 out_p.append(r["player"])
-                pi = player_index.get(norm_name(r["player"]))
+                pi = player_index.get(player_key(r["player"]))
+                if pi is not None and pi.get("team") and team and pi["team"] != team:
+                    # the names match but the teams do not: refuse the match rather
+                    # than credit one club's player to another club's injury list
+                    team_mismatch += 1
+                    pi = None
                 vals = [pi["min"], pi["pts"], pi["reb"], pi["ast"]] if pi else None
                 if not vals or any(v is None for v in vals):
                     # not in the captured table, or the official row is blank
@@ -1358,6 +1764,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
                 ast += vals[3]
             return {"out": out_p, "questionable": question, "minutes": minutes,
                     "pts": pts, "reb": reb, "ast": ast, "unknown": unknown,
+                    "team_mismatch": team_mismatch, "table_size": len(players),
                     "submitted": not any(r["is_team_not_submitted"] for r in rows)}
 
         h_roll = rollup(home_rows, home)
@@ -1544,8 +1951,8 @@ def originate_window(games, slate, ratings, injury, players, resid):
                     if not roll["known"] else
                     ("Sum of the official season minutes-per-game of the players listed "
                      "Out. It is a FLOOR: %d listed player(s) are outside the captured "
-                     "top-31 minutes table, so their minutes are unknown and are not "
-                     "counted." % roll["unknown"]) if roll["out"] else
+                     "%d-player minutes table, so their minutes are unknown and are not "
+                     "counted." % (roll["unknown"], roll["table_size"])) if roll["out"] else
                     "No player listed Out for this team in this report."),
                 "reprice_after": roll["reprice_after"],
                 "rotation_note": (
@@ -1678,6 +2085,20 @@ def main():
             g["rest_diff"] = g["home_rest"] - g["away_rest"]
         else:
             g["rest_diff"] = None
+    # ---------------- recent-form features for the graded games ---------
+    # Every value below comes from games dated strictly before the game being
+    # priced; build_team_history sorts by date and prior_features filters on
+    # `h[0] < date`, so there is no path from a game to its own future.
+    hist = build_team_history(games, graded)
+    for g in graded:
+        g["home_prev_margin"] = prior_features(hist, g["home"], g["date"], "margin")
+        g["away_prev_margin"] = prior_features(hist, g["away"], g["date"], "margin")
+        g["home_prev_err"] = prior_features(hist, g["home"], g["date"], "err")
+        g["away_prev_err"] = prior_features(hist, g["away"], g["date"], "err")
+        g["home_prev_ot"] = prior_features(hist, g["home"], g["date"], "ot")
+        g["away_prev_ot"] = prior_features(hist, g["away"], g["date"], "ot")
+        g["home_streak"] = prior_features(hist, g["home"], g["date"], "streak")
+        g["away_streak"] = prior_features(hist, g["away"], g["date"], "streak")
 
     # Rolling tercile flags for the totals rules.  The cut points come only
     # from totals projected for STRICTLY EARLIER games -- using the full-sample
@@ -1766,6 +2187,38 @@ def main():
         recs.append(cross_rec)
         picks_by_id["ST-16"] = cross_picks
 
+    # ---- mirror audit: is the "these are one finding" claim actually true? --
+    mirror_audit = {"pairs": [list(x) for x in MIRROR_PAIRS], "checked": 0,
+                    "identical_selection": 0, "complementary_outcomes": 0,
+                    "detail": []}
+    by_id_picks = {sid: {(x["date"], x["gid"]): bool(x["win"]) for x in pl}
+                   for sid, pl in picks_by_id.items()}
+    for a, b in MIRROR_PAIRS:
+        pa, pb = by_id_picks.get(a), by_id_picks.get(b)
+        if pa is None or pb is None:
+            mirror_audit["detail"].append(f"{a}/{b}: one rule is not on the board")
+            continue
+        mirror_audit["checked"] += 1
+        same_set = set(pa) == set(pb)
+        comp = same_set and all(pa[k] != pb[k] for k in pa)
+        if same_set:
+            mirror_audit["identical_selection"] += 1
+        if comp:
+            mirror_audit["complementary_outcomes"] += 1
+        if not same_set or not comp:
+            only_a = sorted(set(pa) - set(pb))[:3]
+            only_b = sorted(set(pb) - set(pa))[:3]
+            mirror_audit["detail"].append(
+                f"{a}/{b}: selection sets differ (only in {a}: {len(set(pa)-set(pb))} "
+                f"{only_a}; only in {b}: {len(set(pb)-set(pa))} {only_b}) - the two rules "
+                f"are NOT one finding and the board must count them as two")
+        if same_set and not comp:
+            bad = [k for k in pa if pa[k] == pb[k]][:3]
+            mirror_audit["detail"].append(
+                f"{a}/{b}: same games but {len([k for k in pa if pa[k] == pb[k]])} "
+                f"game(s) where both sides win/lose together ({bad}) - a push or a "
+                f"grading asymmetry, not a mirror")
+
     scored = [r for r in recs if not r["blocked"] and r["n"] >= 5]
     qs = benjamini_hochberg([r["p_two_sided"] for r in scored])
     for r, q in zip(scored, qs):
@@ -1779,7 +2232,7 @@ def main():
     apply_family_test(recs, luck)
     annotate_mirrors(recs)
     for r in recs:
-        apply_gates(r, family_p=len(scored), luck=luck)
+        apply_gates(r, family_p=len(scored), luck=luck, log_n=len(games))
 
     recs.sort(key=lambda r: (-r["score"], -(r["rate"] or 0), r["id"]))
     for i, r in enumerate(recs, 1):
@@ -1795,7 +2248,7 @@ def main():
     } for pid, name, why in PROP_COMBO_DEFS]
 
     # ---------------- correlations --------------------------------------
-    corr = build_correlations(games, graded)
+    corr = build_correlations(games, graded, rng=rng, ratings=ratings)
 
     # ---------------- live window ---------------------------------------
     lines, picks, props, inj_impact, flow, eng = originate_window(
@@ -1815,6 +2268,14 @@ def main():
         "meta": {
             "session": "arena/8d3d0271-nba3",
             "built_utc": "2026-11-14T01:30Z",
+            "revised_by": "arena/df301475-nba3",
+            "revised_utc": "2026-11-14T19:10Z",
+            "revision": ("Game-day injury snapshot from the manifest (11/14 01:30 PM ET); "
+                         "player-name matching between the injury report and the minutes "
+                         "table repaired (flag F-DF3-03); nine new board rules "
+                         "(ST-17..ST-24 + the calibration pair); five correlations measured "
+                         "that were previously blank or assumed; the mirror claim now "
+                         "audited rather than declared."),
             "window": {"from": slate["window"]["from"], "to": slate["window"]["to"]},
             "games_captured": len(games),
             "second_capture_agreement": _second_capture_agreement(games),
@@ -1832,6 +2293,7 @@ def main():
         },
         "residuals": resid,
         "luck_test": luck,
+        "mirror_audit": mirror_audit,
         "strategies": recs,
         "prop_combos": prop_combos,
         "correlations": corr,

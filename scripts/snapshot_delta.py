@@ -17,7 +17,16 @@ the site shows.  Each row is linked to the official page the changed input came 
 
 Run:  python3 scripts/snapshot_delta.py
 Writes: data/app/snapshot_delta.json
+
+The paths, the session label and the three "driver" sentences are now arguments
+(``--before/--after/--out/--session/--driver-...``) so the same diff can be run
+for any refresh; the defaults reproduce the 2026-11-14 refresh round byte for
+byte, which is the check that the parameterisation changed nothing.  Session
+``arena/df301475-nba3`` used it to produce
+``data/app/snapshot_delta_game_day.json``, the line movement caused by replacing
+the pre-filing injury report with the game-day one.
 """
+import argparse
 import json
 import os
 
@@ -28,20 +37,50 @@ NEW = os.path.join(APP, "lab.json")
 MANIFEST = os.path.join(APP, "snapshot_manifest.json")
 OUT = os.path.join(APP, "snapshot_delta.json")
 
+DRIVER_SPREAD = "results log extended to 2026-11-13 (ratings refit)"
+DRIVER_TOTAL = "official team advanced statistics re-read after the 11/13 games (pace inputs)"
+DRIVER_AVAIL = "availability state recomputed against the 2026-11-14 report and the filing rule"
+
 
 def load(path, *, wrap=False):
+    """Read a published artefact.
+
+    The pre-refresh file is a *wrapper* (a ``canonical.json``-shaped document that
+    carries the lab under a ``lab`` key) when an earlier round copied it out of the
+    site payload, and a bare lab artefact otherwise (``git show HEAD:data/app/lab.json``).
+    Detect instead of demanding: the delta must be runnable against whichever kind of
+    snapshot the tree happens to hold, or a refresh round has to rewrite an artefact
+    to suit the tool.
+    """
     with open(path, encoding="utf-8") as fh:
         d = json.load(fh)
-    return d["lab"] if wrap else d
+    if isinstance(d, dict) and "lines" not in d and isinstance(d.get("lab"), dict):
+        return d["lab"]
+    return d
 
 
 def r6(v):
     return None if v is None else round(float(v), 4)
 
 
-def main():
-    old = load(OLD, wrap=True)
-    new = load(NEW)
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--before", default=OLD)
+    ap.add_argument("--after", default=NEW)
+    ap.add_argument("--out", default=OUT)
+    ap.add_argument("--session", default="arena/25418e3f-nba3")
+    ap.add_argument("--built-on", default="2026-11-14")
+    ap.add_argument("--before-injury", default="2026-11-13 07:45 PM ET")
+    ap.add_argument("--before-ratings",
+                    default="2026-11-14T01:05Z (read while the 11/13 slate was live)")
+    ap.add_argument("--driver-spread", default=DRIVER_SPREAD)
+    ap.add_argument("--driver-total", default=DRIVER_TOTAL)
+    ap.add_argument("--driver-avail", default=DRIVER_AVAIL)
+    ap.add_argument("--note", default="",
+                    help="free-text scope note published verbatim next to the delta")
+    args = ap.parse_args(argv)
+    old = load(args.before, wrap=True)
+    new = load(args.after)
     man = load(MANIFEST) if os.path.exists(MANIFEST) else {}
     src_results = man.get("results_log", {}).get("source_url", "https://www.nba.com/games?date=")
     src_stats = (man.get("ratings") or {}).get("source_url",
@@ -69,12 +108,9 @@ def main():
             "outs_before_home": o.get("out_count_home"), "outs_after_home": l.get("out_count_home"),
             "outs_before_away": o.get("out_count_away"), "outs_after_away": l.get("out_count_away"),
             "drivers": [d for d in (
-                "results log extended to 2026-11-13 (ratings refit)"
-                if abs(d_spread) > 1e-9 else None,
-                "official team advanced statistics re-read after the 11/13 games (pace inputs)"
-                if abs(d_total) > 1e-9 else None,
-                "availability state recomputed against the 2026-11-14 report and the filing rule"
-                if (o.get("out_count_home"), o.get("out_count_away"))
+                args.driver_spread if abs(d_spread) > 1e-9 else None,
+                args.driver_total if abs(d_total) > 1e-9 else None,
+                args.driver_avail if (o.get("out_count_home"), o.get("out_count_away"))
                 != (l.get("out_count_home"), l.get("out_count_away")) else None,
             ) if d],
             "sources": [src_results, src_stats] + ([src_injury] if src_injury else []),
@@ -131,20 +167,21 @@ def main():
     moved = [l for l in lines if abs(l["spread_move"]) > 0.005 or abs(l["total_move"]) > 0.005]
     out = {
         "schema": "nba3.snapshot_delta/v1",
-        "session": "arena/25418e3f-nba3",
-        "built_on": "2026-11-14",
-        "before_file": "data/app/lab_snapshot_2026-11-14T0105Z.json",
+        "session": args.session,
+        "built_on": args.built_on,
+        "before_file": os.path.relpath(args.before, ROOT),
         "after_file": "data/app/lab.json",
         "before_inputs": {
             "results_log_games": old["meta"]["games_captured"],
-            "ratings_retrieved_stamp": "2026-11-14T01:05Z (read while the 11/13 slate was live)",
-            "injury_report": "2026-11-13 07:45 PM ET",
+            "ratings_retrieved_stamp": args.before_ratings,
+            "injury_report": args.before_injury,
         },
         "after_inputs": {
             "results_log_games": new["meta"]["games_captured"],
             "ratings_retrieved_stamp": (man.get("ratings") or {}).get("retrieved_stamp"),
             "injury_report": (man.get("injuries") or {}).get("report_stamp"),
         },
+        "scope_note": args.note,
         "counts": {
             "lines_compared": len(lines),
             "lines_moved": len(moved),
@@ -161,12 +198,12 @@ def main():
         "availability_flag_changes": flags,
         "strategies": strats,
     }
-    with open(OUT, "w", encoding="utf-8") as fh:
+    with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
 
     c = out["counts"]
-    print("wrote", os.path.relpath(OUT, ROOT))
+    print("wrote", os.path.relpath(args.out, ROOT))
     print(f"  {c['lines_compared']} lines compared, {c['lines_moved']} moved; "
           f"median |spread move| {c['median_abs_spread_move']}, "
           f"max {c['max_abs_spread_move']}; median |total move| {c['median_abs_total_move']}, "
