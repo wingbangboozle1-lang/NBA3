@@ -150,6 +150,16 @@
    "used_for": "where the site is published and from which source",
    "verified": "Read with gh api at integration time.",
    "result": "checked this session"
+  },
+  {
+   "id": "E-S16",
+   "title": "verify/ cross-pipeline verification layer (session 3655c68d)",
+   "url": "https://github.com/wingbangboozle1-lang/NBA3/tree/main/verify/pages",
+   "publisher": "wingbangboozle1-lang/NBA3 (repo fact)",
+   "retrieved": "2026-11-14",
+   "used_for": "contradiction register C-01..C-09 and corrections FX-01..FX-05 folded into E-F-01, E-F-03, E-F-04 and the reconciliation page",
+   "verified": "Their corrections.json and contradictions.json were read this session and compared with this build's independent findings; they agree where they overlap.",
+   "result": "re-read this session"
   }
  ],
  "flags": [
@@ -158,9 +168,10 @@
    "area": "Repository integrity",
    "severity": "high",
    "item": "Two build scripts write into the same output directory, so one session's rebuild silently mutates another session's published data",
-   "detail": "pipeline/build_site_data.py (session 0a016df8) has OUT = f'{ROOT}/site/data' at line 6, which is the data directory of the site owned by session 7c532e8c. Running it during this session's verification modified site/data/injuries.json, picks.json, props.json and schedule.json and added 6 files that were not in the committed tree. These were reverted with git checkout, so main is unaffected, but any CI run or any future session that rebuilds edge/ will overwrite 7c532e8c's site data with different content.",
-   "action_needed": "Owner to decide: retarget pipeline/build_site_data.py to edge/data only, or merge the two sites so there is one owner of site/data. Do not run pipeline/build_site_data.py until decided.",
-   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/build_site_data.py"
+   "detail": "pipeline/build_site_data.py (session 0a016df8) has OUT = f'{ROOT}/site/data' at line 6, which is the data directory of the site owned by session 7c532e8c. Running it during this session's verification modified site/data/injuries.json, picks.json, props.json and schedule.json and added 6 files that were not in the committed tree. These were reverted with git checkout, so main is unaffected, but any CI run or any future session that rebuilds edge/ will overwrite 7c532e8c's site data with different content. UPDATE: session 3655c68d independently found the same defect (their V-F-02) and fixed it in commit d83801c by repointing OUT to edge/data. Both sessions hit the bug within an hour of each other; this session's revert and their fix are consistent. The CI step 'Output-tree ownership audit' now prints which side of that path a build writes to, so a future session cannot reintroduce it silently. The flag is kept here as a process lesson rather than an open defect.",
+   "action_needed": "None for the data. Owner should still decide whether shared output trees get a locking convention in COORDINATION.md, since the fix was a courtesy, not an enforced rule.",
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/build_site_data.py",
+   "status": "FIXED upstream after this session's finding"
   },
   {
    "id": "E-F-02",
@@ -176,7 +187,7 @@
    "area": "Site structure",
    "severity": "high",
    "item": "Six independent dashboards are published side by side with five incompatible ID namespaces",
-   "detail": "docs/ (f879620b), site/ (7c532e8c), research/ (9ed6085f), lab/ (5697caaf), edge/ (0a016df8) and origin/ (e22a2831) each publish their own landing page, their own flags and their own injury snapshot. Flags F01, SG-01, Q-01 etc. mean different things in each tree, so a reader comparing two pages can reach opposite conclusions from identical-looking IDs. The root page cannot be used as a decision document because it is not clear which numbers are current.",
+   "detail": "docs/ (f879620b), site/ (7c532e8c), research/ (9ed6085f), lab/ (5697caaf), edge/ (0a016df8) and origin/ (e22a2831) each publish their own landing page, their own flags and their own injury snapshot. Flags F01, SG-01, Q-01 etc. mean different things in each tree, so a reader comparing two pages can reach opposite conclusions from identical-looking IDs. The root page cannot be used as a decision document because it is not clear which numbers are current. Session 3655c68d has since added a seventh tree, verify/, whose contradiction register (C-01..C-09) independently lists the same six-dashboards and ID-collision problems as E-F-03 and C-09; dash/ is the eighth tree and the first that renders from a single artefact.",
    "action_needed": "This round publishes dash/ as the single entry point and the root page now routes there. Owner decision needed on whether the six trees are archived read-only (recommended) or consolidated further.",
    "source_url": "https://github.com/wingbangboozle1-lang/NBA3/tree/main"
   },
@@ -185,7 +196,7 @@
    "area": "Model comparability",
    "severity": "high",
    "item": "The three engines' headline RMSE figures are not comparable, and two of them quote different correlations for the same quantity",
-   "detail": "On the spread model: origin reports 16.18 vs baseline 17.30 over 114 out-of-sample games; edge reports 14.95 for its consensus model over 138 games with 'baseline' defined as the population standard deviation of all margins in the full log; this build reports 15.48 vs 16.73 over the same 114 games as origin. Different windows and different baseline definitions, not different models. On spread/total residual correlation origin publishes r=+0.091, edge publishes -0.018 and this build measures +0.023 - all three are inside zero's interval, so they agree statistically but not numerically, and none of them is a usable input to a parlay price.",
+   "detail": "On the spread model: origin reports 16.18 vs baseline 17.30 over 114 out-of-sample games; edge reports 14.95 for its consensus model over 138 games with 'baseline' defined as the population standard deviation of all margins in the full log; this build reports 15.48 vs 16.73 over the same 114 games as origin. Different windows and different baseline definitions, not different models. On spread/total residual correlation origin publishes r=+0.091, edge publishes -0.018 and this build measures +0.023 - all three are inside zero's interval, so they agree statistically but not numerically, and none of them is a usable input to a parlay price. Also relevant: 3655c68d's FX-01 found the edge/ parlay_joint routine was returning a marginal probability instead of the joint, and FX-04 corrected the published example that carried it - so the parlay figures in edge/ before commit d83801c should not be compared with anything.",
    "action_needed": "Publish one headline metric per model, computed on one agreed window and one agreed baseline. Owner to choose the window (this build uses 60-game burn-in to match origin) and the baseline definition.",
    "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
   },
@@ -290,6 +301,15 @@
    "detail": "A leaderboard that pays the top strategies needs a score. Profit is unavailable (E-F-05) and no strategy clears the sample gate (largest gradable sample is 18 bets against a floor of 100), so the only rankable quantity today is forecast quality against actual outcomes - which is what this build publishes - and it is not the same thing as making money.",
    "action_needed": "Owner to choose the scoreboard metric explicitly: forecast skill (available now) or realised PnL (needs prices).",
    "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/strategies.csv"
+  },
+  {
+   "id": "E-F-16",
+   "area": "Cross-session corroboration",
+   "severity": "low",
+   "item": "Two sessions reached the same reconciliation results independently, which is the strongest evidence in the repo",
+   "detail": "This session and session 3655c68d both found that the 174-game sets agree (174/174), that site/data was being clobbered by pipeline/build_site_data.py, and that the pick-card spread sign convention is easy to invert. Their verify/ site audits claims; dash/ supplies rebuilt numbers from one artefact. Nothing here was inherited from them - both findings were produced in parallel and agree.",
+   "action_needed": "Owner: treat the 174-game reconciliation as verified, and treat a second independent capture as a required step for any future results set.",
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/summary.json"
   }
  ],
  "questions": [
@@ -524,6 +544,16 @@
    "decision_needed": "Approve extending the checker.",
    "status": "awaiting owner choice",
    "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py"
+  },
+  {
+   "id": "E-SG-13",
+   "area": "Governance",
+   "priority": "2",
+   "suggestion": "Adopt an explicit owner-of-path table and forbid any build writing outside it",
+   "detail": "site/data was clobbered twice this week by two different sessions (E-F-01 and their V-F-02). The CI 'Output-tree ownership audit' step added this round covers integrate/; extend it to every generator once the owner approves the path table.",
+   "decision_needed": "Approve the path table in COORDINATION.md as binding.",
+   "status": "awaiting owner choice",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml"
   }
  ]
 }

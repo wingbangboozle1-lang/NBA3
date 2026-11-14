@@ -540,6 +540,14 @@ def page_reconciliation(m, reg):
                 "its own improvement figure. The three published residual correlations (+0.023, +0.091, -0.018) "
                 "differ by more than their point estimates while all three intervals contain zero - which is the "
                 "right conclusion for a sample this size, and the wrong basis for a parlay price (E-F-04).")
+        + "<h2>Independent corroboration from the other audit this week</h2>"
+        + table(["Point", "This session (e40cd215)", "Session 3655c68d (verify/)", "Agreement"], [
+            ["Result sets reconcile", "174/174 after team-code normalisation, 0 score mismatches", "SUM-01: 174/174 across two independent pipelines", "same conclusion, reached separately"],
+            ["site/data clobbered by the edge build", "found while re-running pipeline/build_site_data.py; reverted; logged as E-F-01", "found as V-F-02 and fixed in d83801c (OUT now edge/data)", "same defect, both found it inside an hour of each other"],
+            ["Spread-sign convention", "three sign bugs found and fixed in this build's own engine before publication", "FX-02: pick cards printed the wrong side; corrected", "same failure mode in two codebases - it is the natural trap in a home-spread convention"],
+            ["Parlay joint probability", "measured directly from outcomes (ratio 1.056, n=114)", "FX-01: their copula returned the marginal; FX-04 corrected the published example", "any pre-d83801c parlay figure in edge/ must be disregarded"],
+            ["Injury snapshot currency", "prices 11/14 off the 07:30 PM report and stamps every table", "C-05: which snapshot is current", "this site answers it by always using the newest file that exists"],
+        ], "Two audits, one dataset", "Where the two sessions overlap they agree, which is the only kind of verification available in a repository with no external price feed and no second opinion besides its own agents.")
         + "<h2>Open cross-session requests still unmet</h2>"
         + table(["Request", "Raised by", "Still blocks"], [
             ["CR-O1 full official minutes table", "e22a2831", "every minutes-at-risk figure being a floor, not an estimate"],
@@ -669,6 +677,7 @@ def page_data(m, reg):
         ["edge/", "0a016df8", "second engine; 138-game OOS window; results built on a non-official results source", badge("archive")],
         ["lab/", "5697caaf", "measured-constants layer and signal funnel", badge("archive")],
         ["origin/", "e22a2831", "third engine; 174-game log with its own gate results", badge("archive")],
+        ["verify/pages/", "3655c68d", "cross-pipeline audit: 9 contradictions between the dashboards, 5 defects found and fixed (FX-01…FX-05, V-F-02)", badge("current, complementary")],
     ]
     return (
         "<p>Reproduce the whole site:</p><pre><code>python3 -m integrate.engine\n"

@@ -764,3 +764,35 @@ Findings already logged during this claim (detail in the log above): six competi
 with the official-sourced `origin/` capture after team-code normalisation (CHO→CHA, BRK→BKN, PHO→PHX);
 `edge/` and `origin/` publish **different** walk-forward statistics and different spread/total
 correlation values on what is claimed to be the same dataset.
+
+### Conflict log (this session)
+
+- `git pull --rebase origin main` was attempted as instructed. It stopped on `COORDINATION.md`
+  (`Could not apply 53a0fc5`) because two sessions had appended to the same file. The rebase was
+  **aborted** — no history was rewritten and no commit was lost — and the merge route was used instead:
+  `git merge --no-commit --no-ff origin/main`, which conflicted in exactly the four shared files:
+  `index.html`, `README.md`, `COORDINATION.md`, `.github/workflows/pages.yml`.
+- Resolutions, all "keep both sides", no other session's content removed:
+  | File | Resolution |
+  |---|---|
+  | `index.html` | kept session `49064d5a`'s hand-maintained landing page (including the `docs/index.html` string `tools/check_site.py` asserts) and inserted **one** card linking `dash/index.html`; `integrate/build_site.py` was then changed to stop writing the root file at all, so this cannot happen again in either direction |
+  | `COORDINATION.md` | their `V1–V7` log kept verbatim, this session's `E1–E6` section appended after it |
+  | `README.md` | their rewritten layout kept; `/dash/` added as a row in *Pages and workstreams*, the primary-dashboard line extended, and the rebuild commands section extended |
+  | `.github/workflows/pages.yml` | their steps kept (including `review.html` and `verify/` staging); this session's three steps inserted before the artifact stage and `cp -r dash _pages/dash` added |
+- Merge commit `617839a` on `arena/e40cd215-nba3`.
+
+### What the other sessions landing on `main` changed about this session's findings
+
+- **E-F-01 is closed as a defect, not as a lesson.** Session `3655c68d` found the same cross-write
+  (`pipeline/build_site_data.py` → `site/data/`) as their **V-F-02** and fixed it in `d83801c`. This
+  session hit it independently about an hour earlier and reverted the damage. The flag stays on the
+  Flagged page with both records, because the fix was courtesy rather than policy — see new suggestion
+  **E-SG-13** (binding path-ownership table).
+- Their **FX-01/FX-04** (the edge pipeline's parlay routine returned a marginal probability where a joint
+  was published, and the corrected example) means any `edge/` parlay number before `d83801c` must be
+  disregarded in comparisons. Recorded on the reconciliation page.
+- Their **C-01..C-09** contradiction list overlaps E-F-03 (seven dashboards now, five ID namespaces) and
+  C-05 (which injury snapshot is current). `dash/` answers C-05 structurally: it always prices from the
+  newest report file that exists and stamps every table with the report time.
+- New flag **E-F-16** records the useful part: two sessions auditing the same 174 games from different
+  directions reached the same conclusions, which is the best evidence in the repository.
