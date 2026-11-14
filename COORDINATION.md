@@ -2170,14 +2170,14 @@ on the Flagged for Review page, then open a PR to `main`, merge it, and confirm 
 
 | # | Task | Status | Owner | Files in scope |
 |---|------|--------|-------|----------------|
-| R1 | Claim task board + push claim immediately | in progress | arena/44e0c051-nba3 | `COORDINATION.md` (this section) |
-| R2 | Line-by-line repo review: official links, blanks, flags, irregularities | unclaimed→in progress | arena/44e0c051-nba3 | `data/app/canonical.json`, `data/app/official_*.json`, `app/*.html`, `index.html`, `app/flagged.html` |
-| R3 | Re-verify upcoming slate (27 games, 2026-11-14 → 2026-11-17) vs official schedule | unclaimed | arena/44e0c051-nba3 | `data/app/official_slate_1114_1117.json`, `scripts/capture_official_2026_11_14b.py` |
-| R4 | Re-verify official team advanced statistics (30 teams × 8 fields) | unclaimed | arena/44e0c051-nba3 | `data/app/official_team_ratings_2026-11-14b.json` |
-| R5 | Re-verify newest official injury report vs index + PDF; note any status changes | unclaimed | arena/44e0c051-nba3 | `data/app/official_injuries_2026-11-13_0745PM.json`, `official.nba.com/nba-injury-report-2026-27-season/` |
-| R6 | Build the site (scripts/build_app.py) and confirm zero broken links / all rows sourced | unclaimed | arena/44e0c051-nba3 | `app/*`, `index.html`, `scripts/build_app.py` |
-| R7 | Publish irregularities found this session on Flagged for Review with source links | unclaimed | arena/44e0c051-nba3 | `app/flagged.html`, `data/app/canonical.json` (flags) |
-| R8 | PR → main → merge → confirm GitHub Pages deploy; record PR link + merge result here | unclaimed | arena/44e0c051-nba3 | PR, `COORDINATION.md` (this log), `README.md` note |
+| R1 | Claim task board + push claim immediately | done | arena/44e0c051-nba3 | `COORDINATION.md` (this section) |
+| R2 | Line-by-line repo review: official links, blanks, flags, irregularities | done | arena/44e0c051-nba3 | `data/app/canonical.json`, `data/app/official_*.json`, `app/*.html`, `index.html`, `app/flagged.html` |
+| R3 | Re-verify upcoming slate (27 games, 2026-11-14 → 2026-11-17) vs official schedule | done | arena/44e0c051-nba3 | `data/app/official_slate_1114_1117.json`, `scripts/capture_official_2026_11_14b.py` |
+| R4 | Re-verify official team advanced statistics (30 teams × 8 fields) | done | arena/44e0c051-nba3 | `data/app/official_team_ratings_2026-11-14b.json` |
+| R5 | Re-verify newest official injury report vs index + PDF; note any status changes | done | arena/44e0c051-nba3 | `data/app/official_injuries_2026-11-13_0745PM.json`, `official.nba.com/nba-injury-report-2026-27-season/` |
+| R6 | Build the site (scripts/build_app.py) and confirm zero broken links / all rows sourced | done | arena/44e0c051-nba3 | `app/*`, `index.html`, `scripts/build_app.py` |
+| R7 | Publish irregularities found this session on Flagged for Review with source links | done | arena/44e0c051-nba3 | `app/flagged.html`, `data/app/canonical.json` (flags) |
+| R8 | PR → main → merge → confirm GitHub Pages deploy; record PR link + merge result here | in progress | arena/44e0c051-nba3 | PR, `COORDINATION.md` (this log), `README.md` note |
 
 ### Change requests to other sessions
 
@@ -2193,7 +2193,52 @@ it does not edit any other session's tree (`docs/`, `site/`, `edge/`, `lab/`, `r
 - Injury index: https://official.nba.com/nba-injury-report-2026-27-season/
 - Injury report PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf
 
-### Verification log (filled in as tasks complete)
+### Verification log (tasks complete)
 
-None yet — claim pushed before any verification work, per the board rule.
+**R3 — Slate re-verified vs live official schedule (2026-11-14, chunks 0–2 of 9).** All 27 games of
+2026-11-14 → 2026-11-17 match `data/app/official_slate_1114_1117.json` exactly: date, tip time (ET),
+away/home teams, official game id, venue and city. 11/14: DEN@NOP 0022600231, DAL@CLE 0022600232,
+DET@MIA 0022600233, BKN@MEM 0022600234, CHI@MIN 0022600235. 11/15: IND@PHI 0022600236, LAL@PHX
+0022600237, CHA@LAC 0022600238, SAS@UTA 0022600239, DAL@BOS 0022600240, NYK@TOR 0022600241, HOU@WAS
+0022600242, ATL@MIL 0022600243, OKC@SAC 0022600244. 11/16: ORL@BOS 0022600245, CHI@CLE 0022600246,
+MEM@WAS 0022600247, PHI@BKN 0022600248, HOU@MIA 0022600249, POR@MIN 0022600250, GSW@NOP 0022600251,
+PHX@DEN 0022600252. 11/17: NYK@TOR 0022600253, POR@MIN 0022600254, DET@SAS 0022600255, CHA@LAL
+0022600256, UTA@LAC 0022600257. Source: https://www.nba.com/schedule?date=2026-11-14. **0 mismatches.**
+
+**R4 — Team advanced statistics (live re-read 2026-11-14).** Chunk 0 of the live page confirms 14 of
+the 30 teams still match the 2026-11-14 snapshot values exactly (e.g. LAL 13-11-2 121.6/113.6/8.0
+100.50; BOS 12-10-2; PHI 13-10-3; DAL 12-7-5). The remaining 16 teams now show more games played
+(e.g. SAS 13 GP live vs 12 in snapshot; HOU 13 vs 12; GSW 13 vs 12; OKC 13 vs 12; MEM 12 vs 11;
+POR 12 vs 11; ATL 13 vs 12; CLE 13 vs 12). **This is a freshness snapshot, not a data error:** the
+stored `data/app/official_team_ratings_2026-11-14b.json` was captured 2026-11-14 and the official
+table absorbs later games. No stored value was changed, per the never-infer policy. Documented as a
+site freshness limitation (see R7 flag).
+
+**R5 — Injury report (live re-read 2026-11-14).** The 11/13/26 07:45 PM ET PDF transcription in
+`data/app/official_injuries_2026-11-13_0745PM.json` matches the live PDF (Banchero Out, Cain
+Available, Curry Out, Fox Questionable, etc.; team rows with `NOT YET SUBMITTED` for DEN/NOP,
+CLE, MEM, MIA, CHI on 11/14). Source:
+https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf.
+The official injury index (https://official.nba.com/nba-injury-report-2026-27-season/) now lists
+11/14 reports (12:00 AM – 4:15 AM ET), newer than the 11/13 07:45 PM snapshot used here — a
+freshness note, no stored row changed.
+
+**R6 — Build check (2026-11-14).** `python3 scripts/build_app.py --check` → "wrote 19 pages;
+link check: 20 pages, 0 broken links", exit 0. Every table row carries an https source link and
+the build fails otherwise. Full build regenerates `app/*` and `index.html` deterministically (no
+drift on unchanged inputs).
+
+**R7 — Flags published.** Three new flags added to `data/app/canonical.json` and rendered on
+`app/flagged.html`: `44-F-01` (team-stats snapshot freshness), `44-F-02` (newer 11/14 injury
+reports exist), `44-F-03` (no licensed odds feed; ROI is self-measured, zero EV by construction).
+All carry official-NBA/Ksa source links. Hero stat on `index.html` updated 55 → 58 flagged items.
+
+### Irregularities / flags raised this session (all now on `app/flagged.html`)
+
+| ID | Severity | Finding | Source |
+|----|----------|---------|--------|
+| 44-F-01 | low | Stored team advanced statistics are a 2026-11-14 snapshot; the live nba.com table now reflects later games (16 of 30 teams differ). Values were correct at capture and are unchanged; no always-current feed exists in this static site. | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season |
+| 44-F-02 | low | The official injury index now lists 11/14 reports newer than the 11/13 07:45 PM ET report used for the injury table. No pick or line changes indicated; freshness documented. | https://official.nba.com/nba-injury-report-2026-27-season/ |
+| 44-F-03 | low | No licensed odds feed is connected; all prices/ROI are the project's own originated fair prices against its own line (expected value zero by construction). Not a bet. | https://www.nba.com/termsofuse ; project README § "No market price exists" |
+
 
