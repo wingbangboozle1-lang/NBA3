@@ -1062,3 +1062,144 @@ Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessi
   at ρ=0.3, fair decimal 2.61; pick spread labels FX-02: 22/22 corrected, example now DEN −8.6; moneyline
   caveat on STRAT1/2 ROI) and with the 7:30 PM injury report captured by 2b9f1ae1. Zero drift after
   `scripts/build_app.py`, `verify/build.py` and all site rebuilds.
+## Session arena/99eabb04-nba3 — unified dashboard round (integration)
+
+Session ID: `99eabb04`. Branch: `arena/99eabb04-nba3` (from `main` @ `e591b67`, PR #16 merged).
+Claimed: 2026-11-14 (UTC). No other session claims were present on `origin/main` at claim time
+(`e591b67`). Platform constraint: one assigned branch, so per-task file scopes are enforced inside
+this branch and recorded here instead of `session-<id>/<task>` branches.
+
+| ID | Task | Status | Files in scope |
+|---|---|---|---|
+| T1 | Coordination board claim + repo inventory (line-by-line) | in progress | COORDINATION.md (this section) |
+| T2 | Official-source re-verification: schedule slate, injury reports, results | unclaimed | data/hub/sources.json |
+| T3 | Unified data consolidation (single namespace, blanks kept blank) | unclaimed | data/hub/*.json |
+| T4 | Unified dashboard build (landing + category subpages) | unclaimed | hub/**, scripts/build_hub.py |
+| T5 | Verification gate: every row has a source link; unverified => blank + flag | unclaimed | scripts/build_hub.py |
+| T6 | Executive summary, questions, suggestions, flagged-for-review pages | unclaimed | hub/*.html |
+| T7 | Integration: PR to main, merge, Pages deploy verification | unclaimed | root index.html, pages.yml, README.md |
+
+Claimed files for this session: `hub/**`, `data/hub/**`, `scripts/build_hub.py`,
+`scripts/check_hub.py`, root `index.html`, `.github/workflows/pages.yml`, `README.md`,
+`COORDINATION.md` (this section only). Other sessions' trees (`docs/`, `site/`, `lab/`,
+`research/`, `edge/`, `origin/`, `data/*.json`, `pipeline/`, `model/`, `tools/`, `tests/`) are
+read-only for this session and are not modified.
+
+### Task log — session arena/99eabb04-nba3
+
+All tasks below were carried out in this session on branch `arena/99eabb04-nba3` (base `main` @ `e591b67`,
+PR #16 merged). File scope claimed: `hub/**`, `data/hub/**`, `scripts/build_hub_data.py`, `scripts/build_hub.py`,
+root `index.html`, `.github/workflows/pages.yml`, `README.md`, and this section of `COORDINATION.md`. No other
+session's tree was modified.
+
+| ID | Task | Status | Files |
+|---|---|---|---|
+| T1 | Coordination board claim and repository inventory | done | COORDINATION.md |
+| T2 | Official-source re-verification (schedule, injury report, team table) | done | data/hub/*.tsv, data/hub/sources.json |
+| T3 | Unified data consolidation (single namespace, blanks kept blank) | done | data/hub/*.json, scripts/build_hub_data.py |
+| T4 | Unified dashboard build (landing + category subpages) | done | scripts/build_hub.py, hub/** |
+| T5 | Verification gate (every row sourced, unverified => blank + flag) | done | scripts/build_hub.py |
+| T6 | Executive summary, questions, suggestions, flagged-for-review, verification log | done | hub/*.html, data/hub/*.json |
+| T7 | Integration: landing page, workflow, PR, merge, Pages verification | done (see below) | index.html, pages.yml, README.md |
+
+#### Sources fetched and read in this session (2026-11-14)
+
+| Source | URL | What it was used for |
+|---|---|---|
+| NBA official injury report index, 2026-27 | https://official.nba.com/nba-injury-report-2026-27-season/ | Confirmed the newest published report is 11/13 07:30 PM; read the reporting deadlines; confirmed no report exists yet for the 11/15 or 11/16 games |
+| Injury Report 11/13/26 07:30 PM (PDF) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf | Transcribed 122 rows (117 player rows across 21 team-games, 5 NOT YET SUBMITTED team rows) into `data/hub/injuries.tsv` |
+| Injury Report 11/13/26 05:00 PM (PDF) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf | Cross-check of the transcription; recovered one reason string lost at a page break |
+| NBA.com schedule | https://www.nba.com/schedule | Date, ET start time, venue and city (home team), broadcast and NBA game id for all 31 games |
+| 2026-27 schedule by date (PDF) | https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf | Schedule game numbers, local and ET times, national TV, competition marker; header reads "AS OF AUGUST 13, 2026 \| SUBJECT TO CHANGE" |
+| NBA.com teams advanced | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season | Official GP, W, L and ratings for all 30 teams; re-verified the 348 team-games claim |
+| NBA.com game page | https://www.nba.com/game/den-vs-nop-0022600231 | "AWAY @ HOME" header with venue and last matchups |
+| NBA.com games, 2026-11-13/16 | https://www.nba.com/games?date=2026-11-13 | Live state of the 11/13 slate at fetch time (two games in progress) |
+| ESPN scoreboard API, 2026-11-14 | https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261114 | Independent venue and home/away confirmation for DEN at NO |
+| Basketball-Reference, November 2026-27 | https://www.basketball-reference.com/leagues/NBA_2027_games-november.html | Results cross-check (scores, visiting/home order, overtime markers). Trusted secondary, not the NBA |
+| NBA CDN schedule JSON | https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json | Attempted; returned HTTP 500 (F-17) |
+| NBA.com terms of use, Kansspelautoriteit | https://www.nba.com/termsofuse , https://kansspelautoriteit.nl/online-kansspel-aanbieden | Licensing flags F-02 and F-03 (read by an earlier session, carried forward) |
+
+#### Verification performed (see also the published Verification log, V-01…V-20)
+
+- **Slate (31 games).** Date, ET start time and both teams confirmed against two official sources; the home
+  team confirmed from the venue printed on nba.com/schedule for all 31; the 11/13 games additionally confirmed
+  from the away@home matchup column of the official injury report, the 11/14 games from the same column of the
+  07:30 PM report, and DEN at NO from the ESPN venue.
+- **Injury report.** 122 rows transcribed from the official PDF. Cross-checked against the earlier session's
+  independent transcription of the 05:15 PM report: **59 of 62 team-games agree exactly**; the three differences
+  are all on 11/14 games and are explained by the report version (Denver had not submitted at 05:15 PM and had
+  submitted four players by 07:30 PM; Cleveland listed one player at 05:15 PM and had not submitted at 07:30 PM;
+  Dallas listed five at 05:15 PM and six at 07:30 PM). The 11/13 slate agrees row for row.
+- **Transcription vs the earlier 05:00 PM report.** 99 rows align (81 identical statuses, 18 rows that the
+  earlier session had left unattributed and that are now attributed to the right team and game, 1 status changed
+  from Questionable to Available); 12 statuses changed between the two official reports; 6 rows are new.
+- **One reconstructed cell.** Sacramento Kings Maxime Raynaud's reason lost the segment "rain/Subl" at a PDF
+  page break. It is published as "Right Patella Sprain/Subluxation", corroborated by the 05:00 PM report, and
+  flagged in the row itself (F-09, F-23).
+- **Integrity.** The official GP column of all 30 teams sums to 348 team-games, equal to the model's captured
+  348 with zero mismatch; the claim reproduces from the official table.
+- **Cross-engine comparison (correction).** An earlier cut of this session reported the repository's two
+  origination engines as picking different favourites in three of the seventeen games they share. That was
+  **wrong**, and it was caught before merge. The two engines publish a spread field under almost the same name
+  with opposite sign conventions: `model/build.py` writes `orig_spread_home = -m_primary` (a sportsbook-style
+  line, negative = home favoured) while `pipeline/run_model.py` writes `origin_spread_home = predC` (a projected
+  home margin, positive = home favoured). Comparing the raw fields reads a large spurious disagreement. After
+  normalising both to one home-margin scale the engines **agree on the favourite in all 17 shared games**;
+  the median absolute spread gap is 3.1 points, the largest 11.8 points (CHI at MIN), and one gap exceeds ten
+  points. The hub now normalises before comparing, the finding is published as **F-24** (high), **V-21** and
+  **R-26**, and the earlier claim has been removed from every page, from `README.md` and from this log.
+  The upstream Edge Lab pipeline had already hit this same trap in its own pick labels and fixed it
+  (`pipeline/make_picks.py`, defect FX-02), which is why the corrected spread signs appear in
+  `data/picks/picks_2026-11-14_to_16.json` after upstream PR #23.
+- **Build gates.** `scripts/build_hub.py` fails if a published row has no source id, if a source is not an https
+  URL, or if an internal link is broken. It passes for all 18 pages. The four earlier trees still build and pass
+  their own checks (`scripts/build_site.py --check`, `tools/check_site.py`, `pipeline/verify.py`,
+  `pipeline/check_site.py`, `scripts/validate_site.py`, 42 unit tests in total).
+
+#### Irregularities found and published (Flagged for Review, F-01…F-24)
+
+Blockers: F-01 no licensed odds feed; F-02 NBA Terms of Use section 9 restricts gambling use of NBA statistics;
+F-03 Dutch art. 31a licence requirement. High: F-04 no strategy passes every gate; F-05 player-level
+correlations not measurable; F-06 no injury report yet for 11/15 and 11/16; F-07 five team-games had not
+submitted at 07:30 PM; F-10 the totals model is worse than its baseline; F-24 **the repository's two origination
+engines publish the same spread field with opposite sign conventions**, so any cross-engine number has to be
+normalised before it is read (after normalising, they agree on the favourite in all 17 shared games). Medium/low: F-08
+minutes quantified only inside the captured set; F-09/F-23 one reconstructed reason string; F-11 three snapshots
+of the same injury report across the trees; F-12 seven site trees with incompatible identifier namespaces;
+F-13 unused `requests` pin; F-14 no LICENSE; F-15 the schedule PDF is subject to change; F-16 unknown meaning of
+the schedule marker column; F-17 the NBA CDN schedule JSON returns HTTP 500; F-18 official team numbers move
+during the season; F-19 results come from a trusted secondary source, not the NBA; F-20 the older market-price
+picks page is tier C and paper only; F-21 no bankroll or staking policy; F-22 the three-day window is hard coded.
+
+#### Defects in the upstream `main` branch found and fixed by this session
+
+`main` was not deployable when this session started. Three defects were found while integrating:
+
+1. **`.github/workflows/pages.yml` contained committed conflict markers.** The merge commit of upstream PR #23
+   (`4e9dec4`) left `<<<<<<< HEAD` / `>>>>>>> origin/main` blocks inside the workflow file, so the Pages
+   workflow could not be parsed and the run failed with "This run likely failed because of a workflow file
+   issue" (run `43538020346`). This branch rewrote the file with both upstream step groups intact and the
+   conflict markers removed. Upstream later fixed the same file in PR #25; this branch rebased onto that fix
+   and kept the `hub/` build and `cp -r hub _pages/hub` steps.
+2. **The root `index.html` was hand-edited but is generated by `scripts/build_app.py`.** Upstream had inserted a
+   link to `dash/` straight into the committed `index.html`; the next CI run regenerates that file and the
+   drift check `git diff --exit-code -- ... index.html` would have failed. Upstream fixed this by moving the
+   link into the generator (`build_app.py` now emits it inside the NF-23 flag). This branch rebased onto that
+   fix, added the `hub/` and `executive-summary.html` tiles to the same generator, and regenerated
+   `index.html` so the committed page and the built page are identical again.
+3. **`scripts/build_hub.py --check` was not side-effect free.** Its docstring promised "validate only, write
+   nothing" but it still rewrote `hub/assets/style.css`. It now writes nothing, and additionally fails when a
+   published page differs from the build output, so a stale dashboard fails the build instead of passing
+   silently.
+
+All three were fixed in this branch and verified by running every workflow step locally in order. Two further
+rebase conflicts were resolved by keeping both sides: `COORDINATION.md` (each session appends its own section)
+and `README.md` (the published-site table gained a row from each session).
+
+#### What this session did not do
+
+- No strategy was promoted, no bet was recommended, and no market price was compared (there is no feed).
+- No player-level correlation, points impact of an injury or expected value was invented; those cells are blank.
+- The earlier trees were not edited; they remain as provenance and are listed in the repository review.
+- No suggestion was implemented: the suggestion page is a decision queue for the owner.
+
