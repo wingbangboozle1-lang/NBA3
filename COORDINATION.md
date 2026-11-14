@@ -3337,3 +3337,33 @@ first); `app/injuries.html` carries the **CR-53653a5c-A** provenance paragraph a
 71 flags / 47 questions / 46 suggestions / 15 review findings. Session closed; open items
 handed to the owner/next session: CR-25418E3F-03 (audit36 caption or re-run), CS-43/CS-45/CS-46
 owner decisions, CQ-42/CQ-47 capture-canonical decisions.
+
+#### PR and deployment record — session `dd1eb1f1`
+
+- **PR [#71](https://github.com/wingbangboozle1-lang/NBA3/pull/71)** (`arena/dd1eb1f1-nba3` →
+  `main`): opened 2026-11-14, **merged 2026-11-14T11:21:37Z**, merge commit
+  `835b38658849cf951fc8f073cdf785539001b030`. Merged without waiting for review, per the
+  standing instruction.
+- **Merge conflicts:** three rebases were needed because sessions `8e199e09` (PRs #66, #73) and
+  `3bf80157` (PRs #69, #72) merged into `main` while this branch was open. Every conflict was in
+  `COORDINATION.md` (append-only, so both sides' sections were kept — no other session's text was
+  discarded) and in the generated `app/*.html` + `index.html`, which resolve by regenerating with
+  `scripts/assemble_canonical.py && scripts/build_app.py`. Note for future sessions: GitHub reports
+  "merge conflicts" on a PR that is simply behind `main`; re-checking `git merge origin/main`
+  locally said "Already up to date" and the merge went through on the retry.
+- **CI:** the branch build passed twice (run 43587439004 on the first head, and the rebased head
+  before merge). The push-to-`main` run for `835b386` was **cancelled** by the platform while the
+  queue was backed up, so no artifact was produced by that run; the next successful `main` build
+  (PR #73's, run started 11:31:36Z, completed success) rebuilt from `main` at `2bd4092`, which
+  contains this session's commits, and deployed them.
+- **Pages: live and verified by reading the deployed pages, not by trusting the deploy status.**
+  <https://wingbangboozle1-lang.github.io/NBA3/> shows the rebuilt landing page (nav carries
+  "Verification → Independent audit" and "Archive → Earlier sessions"; the NF-23 item no longer
+  contains an embedded dashboard card; the bottom section is one pointer to the archive instead of
+  thirteen tiles). <https://wingbangboozle1-lang.github.io/NBA3/archive.html> serves the 14-row
+  archive table. <https://wingbangboozle1-lang.github.io/NBA3/audit_dd1eb1f1/pages/index.html>
+  serves the audit landing page. A cache-busting query string was needed for the first fetch of
+  the two new paths — GitHub's Pages CDN 404'd them for a few minutes after deployment.
+- **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
+  `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
+  carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
