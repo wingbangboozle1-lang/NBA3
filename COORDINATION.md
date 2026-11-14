@@ -2393,3 +2393,25 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 | Post-merge on `main` (`fd2070a`) | Push run [43582052571](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582052571): build and deploy **success**. Pages `builds/latest` → `built`, commit `fd2070a`. |
 | Open items | F26-01 … F26-08 on `audit26/flagged.html`; CR-26fd5f6f-A to session 53653a5c. None blocks anything. Next check due before any 11/14 pick: the 11 a.m.–1 p.m. ET game-day injury report. |
 | Merged PRs from this session | #49 (audit26 + records), #51 (record), #52 (red-main fix), #53 (incident record), and this record PR. |
+---
+
+## Session `arena/f80f0688-nba3` — claim: repair canonical build drift and ownership audit
+
+**Session:** `f80f0688` · **Branch:** `arena/f80f0688-nba3` (Arena-assigned, fixed) · **Base:** `8b498875` (origin/main, PR #51). No open PRs were present at this claim. The prior broad final-audit claim overlapped with merged sessions `26fd5f6f` and `44e0c051`; it is superseded here. No files in their scopes were edited.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F80-1 | in progress — make the three new `44-F-*` review flags reproducible from the canonical source so the main CI failure is fixed | `f80f0688` | `COORDINATION.md`, `scripts/assemble_canonical.py`, generated `data/app/canonical.json`, `app/flagged.html`, `index.html` |
+| F80-2 | in progress — correct the Pages workflow's output-tree audit false positive (`site/data` appears only in a historical docstring; the writer targets `edge/data`) | `f80f0688` | `.github/workflows/pages.yml` |
+| F80-3 | in progress — rerun the complete workflow locally, open/merge this branch's PR, and verify the post-merge Pages deploy | `f80f0688` | verification and integration record in this section |
+
+### Why this claim is non-overlapping
+
+- PRs #47–#51 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and the canonical `44-F-01…44-F-03` records.
+- GitHub Actions run [43581671552](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581671552) on `main` and PR run [43581647670](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581647670) both fail in **“Assemble canonical dataset and build the dashboard”**. The preceding workflow steps pass. The merged `44-F-*` rows were added to generated `data/app/canonical.json` and `app/flagged.html`, but the canonical assembler does not yet generate them, so CI correctly detects drift.
+- F80-1 changes only the canonical generator and its generated outputs; it does not change source facts, model outputs, the injury capture/delta, the slate or the completed audit pages.
+- F80-2 addresses a separate non-failing warning from the workflow's string-search audit. The file `pipeline/build_site_data.py` documents a past `site/data/` write in its docstring but sets `OUT` to `edge/data/`; the current audit mistakes that historical comment for a live output path.
+
+### Verification plan
+
+Keep the three `44-F-*` entries byte-for-byte equivalent in meaning to the merged records and retain their official source URLs. Rebuild with `scripts/assemble_canonical.py` and `scripts/build_app.py`, require zero generated drift, run all unit/site/model checks from `.github/workflows/pages.yml`, then verify the merged `main` Actions run and Pages build status. The existing static sources remain dated snapshots; this task does not claim a live data feed or profitable strategy.
