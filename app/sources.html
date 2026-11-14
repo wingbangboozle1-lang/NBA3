@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html" class="active">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html" class="active">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -418,6 +418,50 @@ value back to the page that produced it.</p>
 </tr>
 <tr>
 <td>SRC-35</td>
+<td>NBA (official)</td>
+<td>NBA Games &amp; Scores — 2026-11-13 (final scoreboard + November calendar)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunks 0-1 of 2</td>
+<td>Read. 9 games transcribed. Cross-checked three ways: the official GP column (30 teams, sum 366 = 2 x 183), the official W and L columns (183 and 183), and the 18 post-game records printed on the same scoreboard page. All three reconcile with the extended log.</td>
+<td>Read after all nine games had finished, so &#x27;Final&#x27; is settled state, not a live score. The calendar counts games, it does not name them.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-36</td>
+<td>NBA (official)</td>
+<td>NBA Stats — Teams Advanced (Regular Season 2026-27), re-read after the 11/13 slate</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunks 0-1 of 2</td>
+<td>Read. Compared with the snapshot stored by the previous session: 18 of 30 teams gained a game, and those 18 are exactly the 18 teams that played on 11/13, which is what shows the stored snapshot had been read mid-slate. 123 of the 240 stored fields differ.</td>
+<td>A rolling snapshot; any page read during a live slate is stale for the teams playing.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-37</td>
+<td>NBA (official)</td>
+<td>NBA official injury report PDF — 11/14/26 04:15 AM ET</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunk 0 of 1 (PDF text extraction, two printed pages)</td>
+<td>Read. 49 rows. Compared row for row with the 11/13 07:45 PM ET report on the 2026-11-14 slate: 31 rows in common, 0 status changes, 0 rows added or dropped.</td>
+<td>Prints no rows at all for 2026-11-16 or 2026-11-17: those dates are outside every published report, which is not the same as nobody being out.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-38</td>
+<td>NBA (official)</td>
+<td>NBA Injury Report — 2026-27 season index (filing rule and report list)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page</td>
+<td>Read. Index lists 11/14 reports from 12:00 a.m. to 04:15 a.m. ET; 04:15 a.m. is the newest, and it is the file captured above.</td>
+<td>The index lists reports by publication time; it does not state when each team&#x27;s deadline falls. That is derived from the rule text and the official schedule.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-39</td>
 <td>GitHub (repository API)</td>
 <td>wingbangboozle1-lang/NBA3 — repository, Pages and PR facts</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">open</a></td>

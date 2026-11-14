@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report availability &amp; freshness — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html" class="active">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Game context</div>
+    <h1>Report availability &amp; freshness</h1>
+    
+  </div>
+
+<p>Every number on this site is a snapshot of an official page that keeps moving. This page is the
+audit of that movement: which official capture each figure comes from, what the previous capture
+said, what changed between them, and — for injuries — <strong>when a report for a given game is
+allowed to exist at all</strong>. The last question is the one that mattered: before this round the
+picks table asserted “both teams had filed” on 22 of 27 games for which no official report existed,
+and printed an absence count of zero. See
+<a href="flagged.html">NF-56</a>.</p>
+<div class="cards">
+  <div class="card"><div class="k">Team-games with availability</div>
+    <div class="v">5</div>
+    <div class="s">of 54 team-sides in the window — the rest are
+    blank by policy, never zero</div>
+    <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official report + rule</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></div>
+  <div class="card"><div class="k">Overdue reports</div>
+    <div class="v">0</div>
+    <div class="s">no team in the window is past its deadline without filing — every missing row is
+    explained by a deadline that has not arrived</div>
+    <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">filing rule</a></div>
+  <div class="card"><div class="k">Lines that moved on the refresh</div>
+    <div class="v">27</div>
+    <div class="s">of 27; median
+    1.1051 points, max
+    4.893</div>
+    <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></div>
+  <div class="card"><div class="k">Verified official rows, this capture</div>
+    <div class="v">49</div>
+    <div class="s">injury rows, plus 9 final scores and
+    30 team-stat rows, each cross-checked field by field</div>
+    <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official pages</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></div>
+</div>
+
+<h2>1. The capture chain</h2>
+<p>The canonical engine reads whatever the snapshot manifest names, so a refresh
+is a data change rather than an edit of the engine. These are the four inputs and what each one
+replaced.</p>
+<div class="table-wrap"><table>
+<caption id="chain"></caption>
+<thead><tr>
+<th>Input</th>
+<th>Read at (this capture)</th>
+<th>Artifact</th>
+<th>Superseded snapshot</th>
+<th>Why it was replaced</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Results log (walk-forward fit)</td>
+<td>—</td>
+<td>183</td>
+<td>—</td>
+<td>unchanged by this refresh</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+<tr>
+<td>Team advanced statistics (pace, ratings inputs)</td>
+<td>2026-11-14T09:45Z</td>
+<td>official_team_ratings_2026-11-14c.json</td>
+<td>2026-11-14T01:05Z</td>
+<td>The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row.</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>Injury report (availability overlay)</td>
+<td>2026-11-14T09:45Z</td>
+<td>official_injuries_2026-11-14_0415AM.json</td>
+<td>2026-11-14T01:05Z</td>
+<td>The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row.</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">source</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf</a></td>
+</tr>
+<tr>
+<td>Schedule / slate (the window itself)</td>
+<td>2026-11-14T01:05Z</td>
+<td>official_slate_1114_1117.json</td>
+<td>—</td>
+<td>unchanged by this refresh</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">source</a></td>
+</tr>
+</tbody></table></div>
+<h2>2. The six checks this capture ran against official sources</h2>
+<div class="table-wrap"><table>
+<caption id="checks"></caption>
+<thead><tr>
+<th>Check</th>
+<th>What was compared</th>
+<th>Result</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>C1 — the extended log reproduces the official games-played, wins and losses columns</td>
+<td>366 team-games = 2 × 183; 30 GP values, 30 W values, 30 L values compared</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">official stats</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>C2 — the same 183, reached from the official per-date game counts</td>
+<td>88 October games in our own log + 95 games the November calendar lists for 11/01–11/13</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">scoreboard calendar</a></td>
+</tr>
+<tr>
+<td>C3 — the W–L record printed under each team on the scoreboard</td>
+<td>18 team records compared with the records recomputed from the extended log</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">scoreboard</a></td>
+</tr>
+<tr>
+<td>C4 — the 2026-11-14 rows of the newest report vs the report it supersedes</td>
+<td>31 rows compared, 0 status changes, 0 added, 0 dropped</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">both PDFs</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf</a></td>
+</tr>
+<tr>
+<td>C5 — the previous ratings snapshot is stale for exactly the teams that played on 11/13</td>
+<td>18 teams gained a game; the 18 teams that played that night are the same 18 — 123 of 240 stored fields differ</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats page + scoreboard</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>C6 — per-date game counts of the stored slate vs the official calendar</td>
+<td>11/14 → 5, 11/15 → 9, 11/16 → 8, 11/17 → 5 = 27 games, matching the slate file</td>
+<td><span class="chip chip-ok">pass</span></td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">schedule + scores</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+</tbody></table></div>
+<div class="callout"><p><strong>Why C1 and C2 are run separately.</strong> Both
+end in the number 183, and that is the point: one route counts team-games off the official
+statistics page, the other counts games off the scoreboard calendar and adds our own October rows.
+Two independent official readings agreeing is what lets the extended log be called verified rather
+than merely transcribed. The rebuild fails if either route disagrees.</p></div>
+<h2>3. The nine results added to the canonical log</h2>
+<p>Flag <a href="flagged.html">F36-03</a> asked a later session to carry the
+2026-11-13 finals into <code>data/origin/games.csv</code>. They are here: 174 →
+183 games. The note predicted 184; the log holds 183, and C1, C2 and C3
+all say 183 — recorded as <a href="flagged.html">NF-58</a> so nobody “fixes” the data to match the note.</p>
+<div class="table-wrap"><table>
+<caption id="new-results"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Game id</th>
+<th>Matchup</th>
+<th>Score (away–home)</th>
+<th>State</th>
+<th>Competition</th>
+<th>W–L printed on the card after the game</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-13</td>
+<td>0022600034</td>
+<td><a href="https://www.nba.com/game/nyk-vs-ind-0022600034" target="_blank" rel="noopener noreferrer">NYK @ IND</a></td>
+<td>104 – 106</td>
+<td>Final</td>
+<td>Emirates NBA Cup East Group B</td>
+<td>6-6 (0-2) / 5-8 (1-1)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600035</td>
+<td><a href="https://www.nba.com/game/mil-vs-orl-0022600035" target="_blank" rel="noopener noreferrer">MIL @ ORL</a></td>
+<td>99 – 107</td>
+<td>Final</td>
+<td>Emirates NBA Cup East Group A</td>
+<td>1-12 (0-2) / 5-7 (2-0)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600036</td>
+<td><a href="https://www.nba.com/game/cle-vs-mia-0022600036" target="_blank" rel="noopener noreferrer">CLE @ MIA</a></td>
+<td>121 – 133</td>
+<td>Final</td>
+<td>Emirates NBA Cup East Group A</td>
+<td>6-7 (1-1) / 6-6 (2-0)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600037</td>
+<td><a href="https://www.nba.com/game/atl-vs-chi-0022600037" target="_blank" rel="noopener noreferrer">ATL @ CHI</a></td>
+<td>117 – 125</td>
+<td>Final/OT</td>
+<td>Emirates NBA Cup East Group C</td>
+<td>7-6 (1-1) / 2-9 (1-1)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600038</td>
+<td><a href="https://www.nba.com/game/mem-vs-nop-0022600038" target="_blank" rel="noopener noreferrer">MEM @ NOP</a></td>
+<td>142 – 111</td>
+<td>Final</td>
+<td>Emirates NBA Cup West Group B</td>
+<td>8-4 (1-1) / 4-9 (0-2)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600039</td>
+<td><a href="https://www.nba.com/game/uta-vs-hou-0022600039" target="_blank" rel="noopener noreferrer">UTA @ HOU</a></td>
+<td>118 – 125</td>
+<td>Final</td>
+<td>Emirates NBA Cup West Group A</td>
+<td>1-12 (0-2) / 10-3 (1-1)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600040</td>
+<td><a href="https://www.nba.com/game/gsw-vs-sas-0022600040" target="_blank" rel="noopener noreferrer">GSW @ SAS</a></td>
+<td>85 – 123</td>
+<td>Final</td>
+<td>Emirates NBA Cup West Group C</td>
+<td>8-5 (1-1) / 11-2 (2-0)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600041</td>
+<td><a href="https://www.nba.com/game/por-vs-sac-0022600041" target="_blank" rel="noopener noreferrer">POR @ SAC</a></td>
+<td>120 – 107</td>
+<td>Final</td>
+<td>Emirates NBA Cup West Group C</td>
+<td>9-3 (1-1) / 1-11 (0-2)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>0022600042</td>
+<td><a href="https://www.nba.com/game/okc-vs-lac-0022600042" target="_blank" rel="noopener noreferrer">OKC @ LAC</a></td>
+<td>112 – 113</td>
+<td>Final</td>
+<td>Emirates NBA Cup West Group B</td>
+<td>8-5 (1-1) / 3-8 (1-1)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official scoreboard</a></td>
+</tr>
+</tbody></table></div>
+<h2>4. What the mid-slate ratings snapshot cost us</h2>
+<p>The previous capture read the official team-statistics page at
+2026-11-14T01:05Z — while three games of the 11/13 slate were still live. The table below is the
+difference between that snapshot and this one, for the teams it touched. Every field is compared
+programmatically; nothing is inferred.</p>
+<div class="table-wrap"><table>
+<caption id="ratings-staleness"></caption>
+<thead><tr>
+<th>Team</th>
+<th>GP</th>
+<th>W–L</th>
+<th>OffRtg</th>
+<th>DefRtg</th>
+<th>NetRtg</th>
+<th>PACE</th>
+<th>Fields that moved</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>SAS</td>
+<td>12 → 13</td>
+<td>10-2 → 11-2</td>
+<td>119.3 → 119.6</td>
+<td>108.3 → 106.6</td>
+<td>11.0 → 13.0</td>
+<td>98.97 → 98.94</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>HOU</td>
+<td>12 → 13</td>
+<td>9-3 → 10-3</td>
+<td>118.5 → 119.3</td>
+<td>109.3 → 110.2</td>
+<td>9.2 → 9.1</td>
+<td>97.42 → 97.42</td>
+<td>6</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>POR</td>
+<td>11 → 12</td>
+<td>8-3 → 9-3</td>
+<td>118.5 → 118.8</td>
+<td>111.4 → 111.1</td>
+<td>7.1 → 7.7</td>
+<td>100.86 → 100.67</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>GSW</td>
+<td>12 → 13</td>
+<td>8-4 → 8-5</td>
+<td>118.4 → 116.1</td>
+<td>110.9 → 112.0</td>
+<td>7.5 → 4.1</td>
+<td>99.76 → 99.66</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>MEM</td>
+<td>11 → 12</td>
+<td>7-4 → 8-4</td>
+<td>116.4 → 117.8</td>
+<td>110.6 → 110.0</td>
+<td>5.8 → 7.8</td>
+<td>100.28 → 100.87</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>OKC</td>
+<td>12 → 13</td>
+<td>8-4 → 8-5</td>
+<td>112.5 → 112.7</td>
+<td>108.3 → 109.0</td>
+<td>4.2 → 3.7</td>
+<td>98.75 → 98.58</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>ATL</td>
+<td>12 → 13</td>
+<td>7-5 → 7-6</td>
+<td>114.3 → 113.3</td>
+<td>112.2 → 111.9</td>
+<td>2.1 → 1.4</td>
+<td>103.46 → 103.55</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CLE</td>
+<td>12 → 13</td>
+<td>6-6 → 6-7</td>
+<td>115.6 → 116.1</td>
+<td>113.6 → 115.2</td>
+<td>2.1 → 0.9</td>
+<td>99.80 → 99.70</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>MIA</td>
+<td>11 → 12</td>
+<td>5-6 → 6-6</td>
+<td>111.3 → 113.2</td>
+<td>115.9 → 116.4</td>
+<td>-4.6 → -3.2</td>
+<td>102.80 → 102.44</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>NYK</td>
+<td>11 → 12</td>
+<td>6-5 → 6-6</td>
+<td>115.7 → 114.5</td>
+<td>109.0 → 108.6</td>
+<td>6.7 → 5.9</td>
+<td>95.09 → 95.63</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>IND</td>
+<td>12 → 13</td>
+<td>4-8 → 5-8</td>
+<td>110.6 → 110.1</td>
+<td>112.5 → 111.7</td>
+<td>-1.9 → -1.5</td>
+<td>101.13 → 101.15</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>ORL</td>
+<td>11 → 12</td>
+<td>4-7 → 5-7</td>
+<td>109.7 → 109.7</td>
+<td>114.6 → 113.4</td>
+<td>-5.0 → -3.7</td>
+<td>98.25 → 98.23</td>
+<td>6</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>NOP</td>
+<td>12 → 13</td>
+<td>4-8 → 4-9</td>
+<td>112.1 → 111.4</td>
+<td>119.2 → 120.2</td>
+<td>-7.1 → -8.8</td>
+<td>101.64 → 102.08</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>LAC</td>
+<td>10 → 11</td>
+<td>2-8 → 3-8</td>
+<td>110.0 → 110.7</td>
+<td>115.8 → 115.8</td>
+<td>-5.8 → -5.1</td>
+<td>100.95 → 100.55</td>
+<td>6</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CHI</td>
+<td>10 → 11</td>
+<td>1-9 → 2-9</td>
+<td>109.2 → 109.0</td>
+<td>124.2 → 122.0</td>
+<td>-15.1 → -12.9</td>
+<td>103.75 → 103.83</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>MIL</td>
+<td>12 → 13</td>
+<td>1-11 → 1-12</td>
+<td>106.2 → 105.7</td>
+<td>120.7 → 120.0</td>
+<td>-14.5 → -14.2</td>
+<td>100.50 → 100.31</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>SAC</td>
+<td>11 → 12</td>
+<td>1-10 → 1-11</td>
+<td>107.2 → 107.3</td>
+<td>119.3 → 119.5</td>
+<td>-12.1 → -12.2</td>
+<td>101.23 → 101.00</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>UTA</td>
+<td>12 → 13</td>
+<td>1-11 → 1-12</td>
+<td>103.8 → 105.0</td>
+<td>115.4 → 116.4</td>
+<td>-11.6 → -11.3</td>
+<td>100.75 → 100.50</td>
+<td>7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">new read / superseded read</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+</tbody></table></div>
+<p><strong>18 of 30 teams changed</strong> — and they are exactly
+the teams that played on 11/13. That coincidence is the verification: it is what a mid-slate capture
+has to look like. A page read at the wrong hour does not fail loudly; it publishes numbers that are
+merely yesterday's.</p>
+<h2>5. Every line this refresh moved</h2>
+<p>Before and after, from the two published artefacts
+(<code>data/app/lab_snapshot_2026-11-14T0105Z.json</code> and <code>data/app/lab.json</code>), not
+from a re-derivation — so this table cannot disagree with the rest of the site.</p>
+<div class="table-wrap"><table>
+<caption id="line-movement"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Matchup</th>
+<th>Spread before</th>
+<th>Spread after</th>
+<th>Move</th>
+<th>Total before</th>
+<th>Total after</th>
+<th>Move</th>
+<th>P(home win)</th>
+<th>What drove it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">BKN@MEM</a></td>
+<td>-8.4</td>
+<td>-8.1</td>
+<td>0.4</td>
+<td>227.1</td>
+<td>228.7</td>
+<td>1.6</td>
+<td>70.1% → 69.3%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">CHI@MIN</a></td>
+<td>-20.1</td>
+<td>-15.2</td>
+<td>4.9</td>
+<td>230.1</td>
+<td>233.5</td>
+<td>3.4</td>
+<td>89.6% → 82.9%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">DAL@CLE</a></td>
+<td>-1.6</td>
+<td>-1.3</td>
+<td>0.3</td>
+<td>227.4</td>
+<td>228.9</td>
+<td>1.6</td>
+<td>53.9% → 53.1%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">DEN@NOP</a></td>
+<td>6.1</td>
+<td>4.8</td>
+<td>-1.2</td>
+<td>230.6</td>
+<td>234.9</td>
+<td>4.3</td>
+<td>35.2% → 38.1%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">DET@MIA</a></td>
+<td>5.3</td>
+<td>3.3</td>
+<td>-2.1</td>
+<td>228.1</td>
+<td>230.2</td>
+<td>2.0</td>
+<td>36.9% → 41.9%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">ATL@MIL</a></td>
+<td>8.4</td>
+<td>5.5</td>
+<td>-2.9</td>
+<td>229.2</td>
+<td>230.6</td>
+<td>1.3</td>
+<td>29.9% → 36.6%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">CHA@LAC</a></td>
+<td>-6.9</td>
+<td>-5.8</td>
+<td>1.1</td>
+<td>223.1</td>
+<td>219.9</td>
+<td>-3.1</td>
+<td>66.8% → 64.2%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">DAL@BOS</a></td>
+<td>-6.1</td>
+<td>-5.8</td>
+<td>0.3</td>
+<td>224.0</td>
+<td>221.3</td>
+<td>-2.7</td>
+<td>64.8% → 64.1%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">HOU@WAS</a></td>
+<td>11.4</td>
+<td>7.4</td>
+<td>-4.0</td>
+<td>225.4</td>
+<td>224.6</td>
+<td>-0.8</td>
+<td>23.7% → 32.2%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">IND@PHI</a></td>
+<td>-5.0</td>
+<td>-4.2</td>
+<td>0.8</td>
+<td>225.0</td>
+<td>222.6</td>
+<td>-2.4</td>
+<td>62.3% → 60.4%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">LAL@PHX</a></td>
+<td>5.6</td>
+<td>4.2</td>
+<td>-1.4</td>
+<td>229.5</td>
+<td>231.6</td>
+<td>2.1</td>
+<td>36.3% → 39.6%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">NYK@TOR</a></td>
+<td>0.7</td>
+<td>-0.2</td>
+<td>-0.9</td>
+<td>223.6</td>
+<td>220.5</td>
+<td>-3.1</td>
+<td>48.4% → 50.5%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">OKC@SAC</a></td>
+<td>10.7</td>
+<td>7.4</td>
+<td>-3.4</td>
+<td>225.4</td>
+<td>224.1</td>
+<td>-1.3</td>
+<td>25.1% → 32.2%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">SAS@UTA</a></td>
+<td>12.5</td>
+<td>10.5</td>
+<td>-2.0</td>
+<td>226.5</td>
+<td>225.7</td>
+<td>-0.9</td>
+<td>21.6% → 25.6%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">CHI@CLE</a></td>
+<td>-12.4</td>
+<td>-8.7</td>
+<td>3.7</td>
+<td>231.6</td>
+<td>237.2</td>
+<td>5.6</td>
+<td>78.1% → 70.6%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">GSW@NOP</a></td>
+<td>10.5</td>
+<td>6.9</td>
+<td>-3.6</td>
+<td>231.4</td>
+<td>235.4</td>
+<td>4.1</td>
+<td>25.6% → 33.3%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">HOU@MIA</a></td>
+<td>8.9</td>
+<td>5.0</td>
+<td>-3.8</td>
+<td>227.8</td>
+<td>230.2</td>
+<td>2.5</td>
+<td>28.9% → 37.6%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">MEM@WAS</a></td>
+<td>6.5</td>
+<td>5.4</td>
+<td>-1.1</td>
+<td>227.4</td>
+<td>228.4</td>
+<td>1.0</td>
+<td>34.3% → 36.8%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">ORL@BOS</a></td>
+<td>-10.8</td>
+<td>-9.4</td>
+<td>1.4</td>
+<td>223.3</td>
+<td>219.5</td>
+<td>-3.9</td>
+<td>75.0% → 72.1%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">PHI@BKN</a></td>
+<td>2.6</td>
+<td>1.5</td>
+<td>-1.1</td>
+<td>225.0</td>
+<td>223.2</td>
+<td>-1.8</td>
+<td>43.5% → 46.2%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">PHX@DEN</a></td>
+<td>-5.0</td>
+<td>-4.6</td>
+<td>0.4</td>
+<td>227.3</td>
+<td>227.9</td>
+<td>0.6</td>
+<td>62.3% → 61.4%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">POR@MIN</a></td>
+<td>-4.7</td>
+<td>-4.2</td>
+<td>0.5</td>
+<td>227.5</td>
+<td>227.9</td>
+<td>0.4</td>
+<td>61.6% → 60.4%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td><a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">CHA@LAL</a></td>
+<td>-15.6</td>
+<td>-12.5</td>
+<td>3.1</td>
+<td>224.3</td>
+<td>223.1</td>
+<td>-1.3</td>
+<td>83.6% → 78.3%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td><a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">DET@SAS</a></td>
+<td>-4.7</td>
+<td>-5.5</td>
+<td>-0.7</td>
+<td>225.9</td>
+<td>224.3</td>
+<td>-1.6</td>
+<td>61.6% → 63.3%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">NYK@TOR</a></td>
+<td>0.7</td>
+<td>-0.2</td>
+<td>-0.9</td>
+<td>223.6</td>
+<td>220.5</td>
+<td>-3.1</td>
+<td>48.4% → 50.5%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">POR@MIN</a></td>
+<td>-4.7</td>
+<td>-4.2</td>
+<td>0.5</td>
+<td>227.5</td>
+<td>227.9</td>
+<td>0.4</td>
+<td>61.6% → 60.4%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td><a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">UTA@LAC</a></td>
+<td>-5.5</td>
+<td>-4.7</td>
+<td>0.8</td>
+<td>227.2</td>
+<td>228.3</td>
+<td>1.1</td>
+<td>63.5% → 61.5%</td>
+<td>results log extended to 2026-11-13 (ratings refit); official team advanced statistics re-read after the 11/13 games (pace inputs); availability state recomputed against the 2026-11-14 report and the filing rule</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official sources</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+</tbody></table></div>
+<h2>6. Report availability, game by game</h2>
+<div class="callout"><p><strong>The rule, verbatim from the official
+index:</strong> “By 5 p.m. local time the day before a game (other than the second day of a back-to-back), teams must designate a participation status and identify a specific injury, illness, other medical condition, or other reason for any player whose participation in the game may be affected for any reason. For the second game of a back-to-back, teams must report the above information by 1 p.m. local time on the day of the game. In addition, teams are required to submit a game-day injury report between 11 a.m. and 1 p.m. local time (and between 8 and 10 a.m. for tip-offs 5 p.m. or earlier) on game days (besides the second game of a back-to-back).” — <a href="https://official.nba.com/nba-injury-report-2026-27-season/"
+target="_blank" rel="noopener noreferrer">official.nba.com/nba-injury-report-2026-27-season/</a>.
+Deadlines are published in local time exactly as the rule words them; no Eastern-time equivalent is
+asserted, because the offset between a venue's clock and ET is not printed on any official page this
+project reads (<a href="questions.html">CQ-43</a>).</p></div>
+<p class="note">“blank” means the count is unknown because no official report lists that team — it does not mean nobody is out.</p>
+<div class="table-wrap"><table>
+<caption id="availability"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Tip (ET)</th>
+<th>Matchup</th>
+<th>Away team</th>
+<th>Home team</th>
+<th>Out (away)</th>
+<th>Out (home)</th>
+<th>Away report exists after</th>
+<th>Home report exists after</th>
+<th>Pick flag</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-14</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">BKN@MEM</a></td>
+<td>BKN <span class="chip chip-ok">FILED</span></td>
+<td>MEM <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>4</td>
+<td>—</td>
+<td>2026-11-13 17:00 local, the day before the game</td>
+<td>2026-11-14 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bkn-vs-mem-0022600234</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">CHI@MIN</a></td>
+<td>CHI <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>MIN <span class="chip chip-ok">FILED</span></td>
+<td>—</td>
+<td>2</td>
+<td>2026-11-14 13:00 local, game day (second game of a back-to-back)</td>
+<td>2026-11-13 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-min-0022600235</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">DAL@CLE</a></td>
+<td>DAL <span class="chip chip-ok">FILED</span></td>
+<td>CLE <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>3</td>
+<td>—</td>
+<td>2026-11-13 17:00 local, the day before the game</td>
+<td>2026-11-14 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-cle-0022600232</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">DEN@NOP</a></td>
+<td>DEN <span class="chip chip-ok">FILED</span></td>
+<td>NOP <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>4</td>
+<td>—</td>
+<td>2026-11-13 17:00 local, the day before the game</td>
+<td>2026-11-14 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/den-vs-nop-0022600231</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">DET@MIA</a></td>
+<td>DET <span class="chip chip-ok">FILED</span></td>
+<td>MIA <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>5</td>
+<td>—</td>
+<td>2026-11-13 17:00 local, the day before the game</td>
+<td>2026-11-14 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-mia-0022600233</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">ATL@MIL</a></td>
+<td>ATL <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>MIL <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>4:30 PM</td>
+<td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">CHA@LAC</a></td>
+<td>CHA <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>LAC <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lac-0022600238</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>6:00 PM</td>
+<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">DAL@BOS</a></td>
+<td>DAL <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>BOS <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-15 13:00 local, game day (second game of a back-to-back)</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-bos-0022600240</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">HOU@WAS</a></td>
+<td>HOU <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>WAS <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-was-0022600242</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>1:00 PM</td>
+<td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">IND@PHI</a></td>
+<td>IND <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>PHI <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-phi-0022600236</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>4:00 PM</td>
+<td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">LAL@PHX</a></td>
+<td>LAL <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>PHX <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lal-vs-phx-0022600237</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>6:00 PM</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">NYK@TOR</a></td>
+<td>NYK <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>TOR <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600241</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>9:00 PM</td>
+<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">OKC@SAC</a></td>
+<td>OKC <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>SAC <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/okc-vs-sac-0022600244</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>5:00 PM</td>
+<td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">SAS@UTA</a></td>
+<td>SAS <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>UTA <span class="chip chip-warn">NOT_YET_DUE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td>2026-11-14 17:00 local, the day before the game</td>
+<td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sas-vs-uta-0022600239</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">CHI@CLE</a></td>
+<td>CHI <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>CLE <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-cle-0022600246</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">GSW@NOP</a></td>
+<td>GSW <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>NOP <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">HOU@MIA</a></td>
+<td>HOU <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>MIA <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-mia-0022600249</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">MEM@WAS</a></td>
+<td>MEM <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>WAS <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td>2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:00 PM</td>
+<td><a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">ORL@BOS</a></td>
+<td>ORL <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>BOS <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td>2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bos-0022600245</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">PHI@BKN</a></td>
+<td>PHI <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>BKN <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-bkn-0022600248</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>9:00 PM</td>
+<td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">PHX@DEN</a></td>
+<td>PHX <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>DEN <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">POR@MIN</a></td>
+<td>POR <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>MIN <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td>2026-11-15 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600250</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>11:00 PM</td>
+<td><a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">CHA@LAL</a></td>
+<td>CHA <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>LAL <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lal-0022600256</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">DET@SAS</a></td>
+<td>DET <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>SAS <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-sas-0022600255</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>7:30 PM</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">NYK@TOR</a></td>
+<td>NYK <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>TOR <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600253</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>8:00 PM</td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">POR@MIN</a></td>
+<td>POR <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>MIN <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-17 13:00 local, game day (second game of a back-to-back)</td>
+<td>2026-11-17 13:00 local, game day (second game of a back-to-back)</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600254</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>10:30 PM</td>
+<td><a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">UTA@LAC</a></td>
+<td>UTA <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>LAC <span class="chip chip-bad">NO_OFFICIAL_REPORT_COVERS_THIS_DATE</span></td>
+<td>—</td>
+<td>—</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td>2026-11-16 17:00 local, the day before the game</td>
+<td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + rule + game</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lac-0022600257</a></td>
+</tr>
+</tbody></table></div>
+<h2>7. How far ahead the availability picture reaches</h2>
+<div class="table-wrap"><table>
+<caption id="coverage"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Lead time</th>
+<th>Games</th>
+<th>Team-sides filed</th>
+<th>Due and not filed</th>
+<th>Deadline not reached</th>
+<th>No report covers the date</th>
+<th>Reading</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-14</td>
+<td>today</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>5</td>
+<td>0</td>
+<td>the newest official report covers this date and teams have filed</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + schedule</a> · <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>game day is 1 day ahead</td>
+<td>9</td>
+<td>0</td>
+<td>0</td>
+<td>18</td>
+<td>0</td>
+<td>the newest official report does not cover this date at all</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + schedule</a> · <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>game day is 2 days ahead</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>16</td>
+<td>the newest official report does not cover this date at all</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + schedule</a> · <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>game day is 3 days ahead</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>the newest official report does not cover this date at all</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report + schedule</a> · <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+</tbody></table></div>
+<div class="callout warn"><p><strong>Zero teams in the window are overdue. Every missing row is explained by a deadline that has not arrived yet: the five back-to-back teams on 2026-11-14 file by 1 p.m. local today, every 2026-11-15 team files by 5 p.m. local tomorrow&#x27;s-eve, and no official report exists yet for 2026-11-16 or 2026-11-17. So a 3-day-ahead line is priced on ratings and rest alone, and the injury overlay can only be applied to the day it is filed for.</strong></p>
+<p>This is the structural limit on “picks up to three days ahead”: on day 0 the overlay is usable for
+the teams whose deadline has passed, on day 1 nothing is due yet, and on days 2 and 3 no published
+report covers the games at all. A three-day-ahead line is therefore priced on ratings and rest, and
+becomes an availability-informed line only as each deadline passes.</p></div>
+<h2>8. The one clean test of the rule on this slate</h2>
+<p>If the filing rule really explains the holes in the data, then on the
+2026-11-14 slate the teams that have <em>not</em> filed should be exactly the teams playing the
+second game of a back-to-back. They are:</p>
+<div class="table-wrap"><table>
+<caption id="b2b-proof"></caption>
+<thead><tr>
+<th>Set</th>
+<th>Members</th>
+<th>Note</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Teams that filed on the newest report</td>
+<td>BKN, DAL, DEN, DET, MIN</td>
+<td>5 teams</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report</a></td>
+</tr>
+<tr>
+<td>Teams printed as NOT YET SUBMITTED</td>
+<td>CHI, CLE, MEM, MIA, NOP</td>
+<td>5 teams</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">report</a></td>
+</tr>
+<tr>
+<td>Teams playing the second game of a back-to-back on 11/14</td>
+<td>CHI, CLE, MEM, MIA, NOP</td>
+<td>detected from the official results log, which is why the 11/13 finals had to be captured first</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">log + schedule</a> · <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>Do the two sets match?</td>
+<td><span class="chip chip-ok">exact: the unfiled set IS the back-to-back set</span></td>
+<td>On the 2026-11-14 slate the five teams whose rows are missing from the newest official report are exactly the five teams playing the second game of a back-to-back, whose report deadline is 1:00 PM local on game day. Their absence is a rule-driven timing gap, not a failure to file, and it closes hours before tip-off -- so these games are recoverable by waiting, not by guessing.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">rule + report</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+</tbody></table></div>
+<div class="callout ok"><p>Five of ten team-sides are missing tonight, and none
+of them is late. Their deadline is 1 p.m. local on game day, hours before tip — so tonight's games
+are <em>recoverable by waiting</em>, not by guessing. Suggestion
+<a href="suggestions.html">CS-39</a> turns that into a column on the picks page;
+<a href="questions.html">CQ-41</a> asks whether the engine should re-price itself when each deadline
+passes.</p></div>
+<h2>9. What this page still cannot answer</h2>
+<div class="table-wrap"><table>
+<caption id="still-blank"></caption>
+<thead><tr>
+<th>Still blank</th>
+<th>Why</th>
+<th>What would settle it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>The team for one injury row</td>
+<td>Traore, Nolan (Probable, right calf) sits on a page-break where the PDF prints no Team cell. Left blank rather than attributed; it changes no line, because a Probable is not an absence.</td>
+<td>second read of the PDF, or the official roster page</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>Eastern-time equivalents of the local deadlines</td>
+<td>Not printed on any official page this project reads, so the column is local-only.</td>
+<td>accept an external time-zone source, or keep the blank (CQ-43)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">rule</a></td>
+</tr>
+<tr>
+<td>Who absorbs the vacated minutes</td>
+<td>Needs per-player game logs and on/off splits. This repository has a season-averaged top-31 minutes table only, so the vacuum is a floor and the replacement is blank.</td>
+<td>capture official player game logs (still the same ask as before this round)</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">player table</a></td>
+</tr>
+<tr>
+<td>Whether a Probable or Available-with-injury row should move a line</td>
+<td>Nine such rows exist on tonight's slate and none of them has any effect today.</td>
+<td>owner decision CQ-45</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

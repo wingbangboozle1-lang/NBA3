@@ -6,7 +6,9 @@ Session arena/3655c68d-nba3. This builder:
 
   1. loads every JSON file in verify/data/,
   2. re-runs the numerical self-tests in verify/tests/ (parlay copula, pick-card signs),
-  3. cross-checks the published artefacts it depends on (174-game logs, injury rows),
+  3. cross-checks the published artefacts it depends on (the 174-game shared span of
+     the two independent game logs, the canonical log's extended games and their provenance,
+     injury rows),
   4. refuses to write the site if any check fails or any row is missing an official source,
   5. writes static HTML with no JavaScript and no external assets.
 
@@ -160,7 +162,18 @@ def test_pick_spread_signs():
 
 
 def test_game_logs_agree():
-    """The two independent 174-game captures must agree game by game."""
+    """The two independent captures must agree game by game on every game they share.
+
+    Updated by session arena/25418e3f-nba3 (change request CR-25418E3F-01).  This test
+    used to assert `len(origin) == 174` and `set(origin) == set(edge)`, which was right
+    while both captures ended on 2026-11-12 and became wrong the moment flag F36-03 was
+    executed: the canonical log now also carries the nine official 2026-11-13 finals,
+    which the older `data/raw/results_*.csv` capture never claimed to cover.  Equality
+    of the two sets is the WRONG requirement -- it would force a later refresh to
+    delete verified games.  What must hold is: the shared span agrees exactly, the
+    canonical log is a superset, and every extra game is traceable to a provenance file
+    naming an official source.  All three are checked below.
+    """
     import csv
     MAP = {'CHO': 'CHA', 'BRK': 'BKN', 'PHO': 'PHX'}
     origin = {}
@@ -179,13 +192,33 @@ def test_game_logs_agree():
             note = parts[5] if len(parts) > 5 else ''
             edge[(date, MAP.get(aw, aw), MAP.get(h, h))] = \
                 (int(awp), int(hp), 'OT' in note)
-    if len(origin) != 174:
-        fail(f'origin log has {len(origin)} games, expected 174')
-    if set(origin) != set(edge):
-        fail(f'game logs cover different games: {len(set(origin) ^ set(edge))} differ')
+    if len(edge) != 174:
+        fail(f'raw capture has {len(edge)} games, expected the 174 it was built from')
+    if len(origin) < len(edge):
+        fail(f'origin log ({len(origin)}) is shorter than the raw capture ({len(edge)})')
+    missing = set(edge) - set(origin)
+    if missing:
+        fail(f'raw-capture games absent from the canonical log: {sorted(missing)[:5]}')
     for k in set(origin) & set(edge):
         if origin[k] != edge[k]:
             fail(f'game logs disagree on {k}: {origin[k]} vs {edge[k]}')
+    extra = set(origin) - set(edge)
+    if extra:
+        prov_path = os.path.join(ROOT, 'data/origin/games_extended_provenance.json')
+        if not os.path.exists(prov_path):
+            fail(f'{len(extra)} games are in the canonical log but not in the raw capture '
+                 f'and no provenance file explains them')
+        else:
+            with open(prov_path, encoding='utf-8') as fh:
+                prov = json.load(fh)
+            if prov.get('rows_added') != len(extra):
+                fail(f'provenance says {prov.get("rows_added")} rows were added; '
+                     f'{len(extra)} are unexplained')
+            if not str(prov.get('source_url', '')).startswith('https://www.nba.com/'):
+                fail('the extension provenance does not name an official NBA source')
+            if prov.get('games_after') != len(origin):
+                fail(f'provenance claims {prov.get("games_after")} games after the extension; '
+                     f'the log holds {len(origin)}')
 
 
 def test_injury_rows_match_official():
@@ -247,7 +280,8 @@ def run_checks():
         ('no VERIFIED claim has a blank value', check_no_blank_verified_values),
         ('parlay copula (FX-01)', test_parlay_copula),
         ('pick-card spread signs (FX-02)', test_pick_spread_signs),
-        ('two 174-game logs agree', test_game_logs_agree),
+        ('two independent logs agree on all 174 shared games; extras carry provenance',
+         test_game_logs_agree),
         ('injury rows match the official PDF', test_injury_rows_match_official),
         ('settlement ledger integrity', test_ledger_integrity),
     ]
@@ -605,6 +639,9 @@ printed by the league and what was added by us.</div>
 def build_results(d):
     r = d['results']
     games = r['agreed_games']
+    # Canonical log size, read live so this sentence cannot go stale (added 2026-11-14).
+    with open(os.path.join(ROOT, 'data/origin/games.csv'), encoding='utf-8') as _fh:
+        _canon = sum(1 for line in _fh if line.strip()) - 1
     rows = ''.join(
         f'<tr><td class="id">{esc(g["date"])}</td><td><code>{esc(g["matchup"])}</code></td>'
         f'<td class="num">{g["away_pts"]}&ndash;{g["home_pts"]}</td>'
@@ -615,7 +652,8 @@ def build_results(d):
 <p class="sub">Two sessions captured the 2026-27 season from different pages with different code. This page tests
 whether they actually agree.</p>
 <div class="metric">
-<div class="m"><b>{r['n_games']}</b><span>games in each log</span><small>20 Oct - 12 Nov 2026</small></div>
+<div class="m"><b>{r['n_games']}</b><span>games in the shared span</span><small>20 Oct - 12 Nov 2026</small></div>
+<div class="m"><b>{_canon}</b><span>games in the canonical log today</span><small>20 Oct - 13 Nov 2026</small></div>
 <div class="m"><b>{r['score_mismatches']}</b><span>score mismatches</span></div>
 <div class="m"><b>{r['ot_mismatches']}</b><span>overtime mismatches</span></div>
 <div class="m"><b>{r['n_ot']}</b><span>overtime games, agreed</span><small>8 OT, 1 double OT</small></div>
@@ -624,6 +662,15 @@ whether they actually agree.</p>
 <b>zero</b> disagreements on teams, dates, exact final scores or overtime classification. The probability of that
 agreement happening by accident across two independent transcription errors is negligible, so the log is treated as
 the root of truth for everything else.</div>
+<div class="note"><b>Scope, updated 2026-11-14.</b> The canonical log has since been extended to
+<b>{_canon} games</b> (through 2026-11-13) by session <code>arena/25418e3f-nba3</code>, executing flag F36-03.
+The {r['n_games']} games listed below are the span <em>both</em> captures cover and they still agree exactly; the
+nine additions were transcribed from the official scoreboard and cross-checked against the official
+games-played column (30 teams, 366 team-games = 2 &times; 183) with provenance recorded in
+<code>data/origin/games_extended_provenance.json</code> and the six checks on
+<a href="https://wingbangboozle1-lang.github.io/NBA3/app/freshness.html">the Report-availability page</a>. The check that used to require the two
+logs to hold identical game sets now requires agreement on the shared span plus provenance for every
+extra game — equality of the sets would have forced a refresh to delete verified games.</div>
 <div class="note"><b>One official spot check.</b> The first game of the season was verified directly against
 <a href="{esc(r['official_spot_check']['url'])}">NBA.com</a>: line score
 <b>{esc(r['official_spot_check']['official_line'])}</b> against the repository's

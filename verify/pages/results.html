@@ -59,7 +59,8 @@ Nothing on this site is eligible for staking.</p></header>
 <p class="sub">Two sessions captured the 2026-27 season from different pages with different code. This page tests
 whether they actually agree.</p>
 <div class="metric">
-<div class="m"><b>174</b><span>games in each log</span><small>20 Oct - 12 Nov 2026</small></div>
+<div class="m"><b>174</b><span>games in the shared span</span><small>20 Oct - 12 Nov 2026</small></div>
+<div class="m"><b>183</b><span>games in the canonical log today</span><small>20 Oct - 13 Nov 2026</small></div>
 <div class="m"><b>0</b><span>score mismatches</span></div>
 <div class="m"><b>0</b><span>overtime mismatches</span></div>
 <div class="m"><b>9</b><span>overtime games, agreed</span><small>8 OT, 1 double OT</small></div>
@@ -68,6 +69,15 @@ whether they actually agree.</p>
 <b>zero</b> disagreements on teams, dates, exact final scores or overtime classification. The probability of that
 agreement happening by accident across two independent transcription errors is negligible, so the log is treated as
 the root of truth for everything else.</div>
+<div class="note"><b>Scope, updated 2026-11-14.</b> The canonical log has since been extended to
+<b>183 games</b> (through 2026-11-13) by session <code>arena/25418e3f-nba3</code>, executing flag F36-03.
+The 174 games listed below are the span <em>both</em> captures cover and they still agree exactly; the
+nine additions were transcribed from the official scoreboard and cross-checked against the official
+games-played column (30 teams, 366 team-games = 2 &times; 183) with provenance recorded in
+<code>data/origin/games_extended_provenance.json</code> and the six checks on
+<a href="https://wingbangboozle1-lang.github.io/NBA3/app/freshness.html">the Report-availability page</a>. The check that used to require the two
+logs to hold identical game sets now requires agreement on the shared span plus provenance for every
+extra game — equality of the sets would have forced a refresh to delete verified games.</div>
 <div class="note"><b>One official spot check.</b> The first game of the season was verified directly against
 <a href="https://www.nba.com/game/bos-vs-det-0022600001">NBA.com</a>: line score
 <b>DET 121, BOS 113 (quarters BOS 28-30-30-25, DET 27-18-37-39)</b> against the repository's

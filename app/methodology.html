@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html" class="active">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html" class="active">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -53,7 +53,7 @@ output, which is what lets the CI workflow detect drift.</p>
 </ul>
 
 <h2>3. How it performed out of sample</h2>
-<p>131 out-of-sample forecasts, after a 40-game burn-in. Each is
+<p>140 out-of-sample forecasts, after a 40-game burn-in. Each is
 scored against a naive constant baseline (league-average home margin, league-average total) on the
 same games.</p>
 
@@ -67,37 +67,37 @@ same games.</p>
 </tr></thead><tbody>
 <tr>
 <td>Margin RMSE</td>
-<td>15.900</td>
-<td>16.866</td>
+<td>15.945</td>
+<td>16.921</td>
 <td>ours is better<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Total RMSE</td>
-<td>19.636</td>
-<td>19.464</td>
+<td>19.449</td>
+<td>19.386</td>
 <td>ours is WORSE — reported as such<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Margin bias</td>
-<td>0.516 pts</td>
+<td>0.811 pts</td>
 <td>0</td>
 <td>effectively unbiased<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Total bias</td>
-<td>-1.756 pts</td>
+<td>-1.517 pts</td>
 <td>0</td>
-<td>our totals run 1.8 points high<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+<td>our totals run 1.5 points high<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Brier (home win)</td>
-<td>0.2157</td>
+<td>0.2166</td>
 <td>0.2500</td>
 <td>better than unskilled, but scored on the same residuals — see the note below<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Margin residual sd</td>
-<td>15.952 pts</td>
+<td>15.981 pts</td>
 <td>—</td>
 <td>the width behind every probability on this site<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
@@ -122,7 +122,7 @@ project uses four mechanisms, because one is not enough:</p>
   <li><strong>A whole-board Monte Carlo.</strong> Every rule is simulated under its own fair-line
       null, the largest edge anywhere on the board is recorded, and that is repeated
       5,000 times. The 95th percentile —
-      <strong>31.2 percentage points</strong> — is the edge a rule
+      <strong>28.9 percentage points</strong> — is the edge a rule
       must beat before it is called anything. This is the test that catches the fact that the
       <em>best</em> rule on a large board is biased upward even after FDR correction. (Gate G9.)
       <strong>Nothing on the board beats it.</strong></li>

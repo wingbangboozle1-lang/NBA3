@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -481,6 +481,61 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Confirm the policy: a bias found against our own line is published as a model defect to fix, never as a betting edge.</td>
 <td>Owner</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CQ-41</td>
+<td>Freshness</td>
+<td>Should a line that is priced before a filing deadline be re-priced automatically when the deadline passes, or held and marked stale?</td>
+<td>Open - owner decision</td>
+<td>Known: the deadline for every team-game in the window is computable from the official rule and the official schedule, and scripts/report_availability.py already publishes it per game. Five of tonight&#x27;s ten team-sides settle at 1 p.m. local today. Known: nothing re-pulls today.</td>
+<td>Missing: whether an automatic re-price is wanted (it changes published numbers without a human in the loop) or whether the site should only show the age and let the reader decide.</td>
+<td>Pick one: (a) re-pull and re-price on the deadline, (b) re-pull and publish as a shadow line next to the original, (c) leave as it is. (b) keeps an audit trail and is what the leaderboard would need anyway to score strategies fairly.</td>
+<td>Owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CQ-42</td>
+<td>Data</td>
+<td>Should there be one canonical result log for the whole repository?</td>
+<td>Open - owner decision</td>
+<td>Known: data/origin/games.csv now holds 183 verified games (through 2026-11-13); final/data/games.csv still holds 174 (through 2026-11-12) and the /dashboard/ tree is built from it, so two pages on the live site describe two different seasons-to-date.</td>
+<td>Missing: a decision on which log is canonical, and whether the older trees are re-cut or labelled as dated snapshots.</td>
+<td>Either point every tree at data/origin/games.csv and re-run their builders, or add a &#x27;snapshot of 2026-11-13&#x27; banner to the trees that keep their own copy. Re-cutting is the cleaner option; it also re-opens their own verification numbers.</td>
+<td>Owner</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>CQ-43</td>
+<td>Method</td>
+<td>Is a venue time-zone table acceptable as an input?</td>
+<td>Open - owner decision</td>
+<td>Known: the official rule states deadlines in LOCAL time; the official schedule prints tip times in ET. The offset between the two is not printed on any official page this project reads, so &#x27;re-price at 13:00 local&#x27; is shown as local and the ET equivalent is left blank.</td>
+<td>Missing: permission to use a published time-zone reference (which would let the site print &#x27;1:00 p.m. local = 2:00 p.m. ET&#x27; and rank tonight&#x27;s games by when each becomes priceable).</td>
+<td>Either accept an external time-zone source and record it in the source register, or keep the blank and accept that the ordering, not the clock time, is what the site can promise.</td>
+<td>Owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CQ-44</td>
+<td>Availability</td>
+<td>Does a game with an unresolved side belong in a parlay at all?</td>
+<td>Open - owner decision</td>
+<td>Known: same-game parlays on the site are priced with a measured dependence ratio of 0.942 whose interval includes 1.0, so independence is not established; and 22 of 27 games have no usable availability. The flag that said every game was a valid leg is now derived from availability instead of being a literal.</td>
+<td>Missing: the owner&#x27;s policy on leg eligibility — zero legs is a defensible answer for tonight, but not for a whole slate.</td>
+<td>Choose a rule: exclude any leg whose team has not filed; or allow pre-deadline legs and mark them; or gate legs on strategy funding instead of availability. The first is the strictest and the easiest to defend.</td>
+<td>Owner</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>CQ-45</td>
+<td>Injuries</td>
+<td>How should a Probable or Available-with-injury row affect a line?</td>
+<td>Open - owner decision</td>
+<td>Known: the engine counts Out and Doubtful as absences and treats Questionable as &#x27;listed but not counted&#x27;; Probable and Available (9 rows on the 11/14 slate, e.g. Caleb Martin with a thumb splint, Nolan Traore with a calf) currently have no effect at all.</td>
+<td>Missing: a measured minute-donation model for game-time decisions, which needs per-player game logs this repository does not have.</td>
+<td>Either state on the page that Probable/Available rows are ignored and why, or capture player game logs and measure how minutes actually shift for splint/mask cases. The first costs nothing.</td>
+<td>Owner</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
 </tr>
 </tbody></table></div>
 </main>

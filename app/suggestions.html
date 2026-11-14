@@ -16,7 +16,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -460,6 +460,61 @@ questions</a> page.</p>
 <td>CQ-36</td>
 <td>Awaiting owner review</td>
 <td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CS-39</td>
+<td>Decision support</td>
+<td>Put a &#x27;re-price at&#x27; column on the picks table, driven by the availability artefact that now exists (data/app/report_availability.json).</td>
+<td>The single most actionable fact about a pre-deadline game is when it stops being pre-deadline. It is already computed and is only shown on the freshness page today.</td>
+<td>A: add the column to the picks table; B: add a countdown to the header of each date group; C: leave it on the freshness page only.</td>
+<td>A — one column, no new data, and it makes the PARTIAL_REPORT chips self-explanatory.</td>
+<td>None; the data is in the build already.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CS-40</td>
+<td>Site architecture</td>
+<td>Let the twelve site trees share one availability renderer instead of each deciding what &#x27;no rows captured&#x27; means.</td>
+<td>The defect behind NF-56 was possible because each tree re-implemented the same judgement. A fix applied to the canonical pages leaves the same wrong reading live in the other trees.</td>
+<td>A: extract one module that every tree calls; B: freeze the older trees as dated snapshots with a banner; C: delete the older trees from the Pages artifact.</td>
+<td>B now, A when the site is consolidated. Freezing with a banner costs nothing and stops a reader treating an old tree as current.</td>
+<td>Owner decision on consolidation (CQ-42 is the same fork in the road).</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CS-41</td>
+<td>Trust</td>
+<td>Print the snapshot age on every page: which capture timestamp the page was built from, and how many hours ago.</td>
+<td>Every number on the site is correct as of a moment that is now hours old, and only the verification page says so. A reader who lands on the lines page has no signal that the availability picture may already have moved.</td>
+<td>A: age string in the page header; B: colour the header grey when the snapshot is older than the next deadline; C: nothing.</td>
+<td>B — it is the same data the freshness page already has, and it makes staleness impossible to miss rather than merely documented.</td>
+<td>None.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>CS-42</td>
+<td>Decision discipline</td>
+<td>Render the unfunded state of the leaderboard into the picks page itself: no funded strategy means no game in the window is a selection, and the page should say that in its first line.</td>
+<td>The picks page currently leads with 27 priced games and buries &#x27;nothing here is a bet&#x27; in a callout below. The honest headline is that the board has funded no rule, so the prices are research output, not a slip.</td>
+<td>A: lead with the funded-strategy count and gate the table behind it; B: keep the layout and strengthen the warning; C: split research prices from actionable picks into two pages.</td>
+<td>A — one line at the top, no new page, and it matches what the leaderboard page already says.</td>
+<td>None.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CS-43</td>
+<td>Verification</td>
+<td>Promote the official per-date game count into every capture script as a standing check.</td>
+<td>This session caught nothing wrong with it — but only because it ran the check: the scoreboard calendar prints a game count per date, so &#x27;5 / 9 / 8 / 5 games&#x27; confirms a 27-game slate without reading a single matchup row. It is a free tripwire for a truncated capture.</td>
+<td>A: add the count check to each capture script; B: keep it in this session&#x27;s capture only; C: build one shared capture module for all trees.</td>
+<td>A now, C when the trees are consolidated.</td>
+<td>None.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
 </tr>
 </tbody></table></div>
 </main>
