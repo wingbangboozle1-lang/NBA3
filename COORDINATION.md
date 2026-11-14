@@ -2889,3 +2889,17 @@ Scope of this claim: verification and reporting only. Files claimed: `COORDINATI
 - IR-E1 (fixed): `main` CI red at the lab drift gate since the bd90ce16 merge (see above).
 - IR-E2 (open): `tools/release_audit.py` RA-07 — the source scanner treats GitHub repository links as 'official'. Pre-existing; the CI pages.yml check requires nba.com or kansspelautoriteit.nl hosts, so it is not affected. Owner: release-audit maintainer.
 - IR-E3 (open): the players CSV and games CSV are in `data/app/` while `data/origin/` still holds the older copies (logged as CR to `e22a2831` by bd90ce16). Not changed here.
+
+**E4 — live site.** `https://wingbangboozle1-lang.github.io/NBA3/app/flagged.html` fetched after the merge: renders "Flagged for review" with 66 sourced items (18 high, 43 medium, 5 low). Pages API: `status: built`, source `main /`, commit `90de42c`. (The sandbox cannot reach github.io with curl, so the check used the fetch tool.)
+
+**E5 — PR, merge, deploy.**
+
+| Item | Result |
+|---|---|
+| Fix PR | [#64](https://github.com/wingbangboozle1-lang/NBA3/pull/64) `arena/8efd914d-nba3` → `main`; PR-time run [43584925557](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584925557): build **success** |
+| Merge | `gh pr merge 64 --merge`; merge commit `90de42cda123279a8a68fb47c51a07dfd7d5115f` (2026-11-14T10:22:18Z) |
+| Post-merge CI on `main` | run [43584967092](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584967092): build **success**, deploy **success**, report **success**. This clears the red `main` from run 43584459385. |
+| Pages | `builds/latest` → `built` at `90de42c` |
+| Record PR | this section (appended on `arena/8efd914d-nba3`; merged to `main` by a follow-up PR) |
+
+**Open items.** IR-E2 and IR-E3 stay open (see E-log). The flagged list on the live page (NF-01 … NF-19 and the rest) is unchanged by this session; the site's own flags were not re-verified line by line in this session. None of the open items blocks anything.
