@@ -3377,9 +3377,9 @@ Session ID: `arena/240bc29b-nba3`. Branch: `arena/240bc29b-nba3` (branched from 
 | # | Task | Status | Owner | File scope |
 |---|------|--------|-------|------------|
 | T1 | Session claim + coordination board setup | in progress | arena/240bc29b-nba3 | `COORDINATION.md` (append-only) |
-| T2 | Independent line-by-line repo review with official links + flagged irregularities | unclaimed | arena/240bc29b-nba3 | `240bc29b/review/` only |
-| T3 | Independent verification vs live official NBA sources (schedule, injury report, team advanced stats) | unclaimed | arena/240bc29b-nba3 | `240bc29b/verify/` only |
-| T4 | Clean GitHub Pages site under `240bc29b/`: landing + category subpages, dashboard UI, tables with source links, unverified values left blank + flagged | unclaimed | arena/240bc29b-nba3 | `240bc29b/site/` only |
+| T2 | Independent line-by-line repo review with official links + flagged irregularities | done | arena/240bc29b-nba3 | `240bc29b/review/` only |
+| T3 | Independent verification vs live official NBA sources (schedule, injury report, team advanced stats) | done | arena/240bc29b-nba3 | `240bc29b/verify/` only |
+| T4 | Clean GitHub Pages site under `240bc29b/`: landing + category subpages, dashboard UI, tables with source links, unverified values left blank + flagged | in progress | arena/240bc29b-nba3 | `240bc29b/site/` only |
 | T5 | Executive summary + suggestions register (review queue) + Q&A register under `240bc29b/` | unclaimed | arena/240bc29b-nba3 | `240bc29b/site/` only |
 | T6 | PR → main → merge → confirm GitHub Pages deploy → record PR link + merge result here | unclaimed | arena/240bc29b-nba3 | `COORDINATION.md` + PR |
 
