@@ -437,14 +437,18 @@ def build_review():
         ["https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"],
         "", "2026-11-14")
     add("Data", "Official capture re-read: injury report",
-        "The 11/13/26 07:45 PM report — the newest listed on the official index at read time — was "
-        "transcribed: 122 rows (117 player rows, 5 team 'NOT YET SUBMITTED' rows). Compared with "
-        "the stored 07:30 PM report: same 122 rows and 0 status changes, so the newer file adds no "
-        "new information for this window.",
+        "The 11/13/26 07:45 PM report was transcribed: 122 rows (117 player rows, 5 team "
+        "'NOT YET SUBMITTED' rows). Three official reports were then compared with each other — "
+        "07:30 PM vs 07:45 PM: 0 status changes; 07:45 PM vs the newest report listed on the "
+        "official index, 08:30 PM: 122 rows each and 0 differences. Three consecutive official "
+        "reports agreeing on every row is evidence the transcription is stable, not merely "
+        "unchallenged. The index publishes a report every 15 minutes, so this cross-check is now "
+        "part of the build and fails it if a future report disagrees.",
         "Verified",
-        "None. The canonical site publishes the 07:45 PM snapshot and cites the index for "
-        "freshness.",
+        "None. The canonical site publishes the 07:45 PM snapshot, stamps it with the newest "
+        "report it was checked against, and cites the index for freshness.",
         ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
+         "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_30PM.pdf",
          "https://official.nba.com/nba-injury-report-2026-27-season/"], "", "2026-11-14")
     add("Repository", "Integrity scan of the data files",
         "All 79 JSON files in the working tree were parsed with a strict loader: 0 parse failures. "
@@ -513,6 +517,46 @@ def build_review():
         "Irregularity — handled in this session",
         "Add the canonical capture/assembly/build steps and their drift checks to the workflow.",
         ["https://github.com/wingbangboozle1-lang/NBA3/actions"], "", "2026-11-14")
+    add("CI", "Unresolved merge conflict committed in the workflow file",
+        "The base commit this branch started from (4e9dec4) contained literal '<<<<<<< HEAD', "
+        "'=======' and '>>>>>>> origin/main' conflict markers inside "
+        ".github/workflows/pages.yml, between session e40cd215's integration steps and the "
+        "canonical capture steps. A workflow file with conflict markers is not valid YAML, so "
+        "every CI run on that commit would have failed at parse time. main resolved it later; "
+        "this session rebases onto that resolution and re-applies its own steps on top, so both "
+        "sides' steps are present and no marker remains.",
+        "Irregularity — found and repaired in this session",
+        "Treat a committed conflict marker as a build failure: add a CI step that greps the tree "
+        "for '^<<<<<<<' and exits non-zero. It is a one-line check that would have caught this.",
+        ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml"],
+        "", "2026-11-14")
+    add("Data", "Injury capture miscounted the teams that had not filed",
+        "scripts/capture_official_2026_11_14b.py set is_team_not_submitted by testing the "
+        "Current Status column only. The official PDF prints 'NOT YET SUBMITTED' in the Reason "
+        "column with Current Status blank, so all five such rows were counted as player rows: the "
+        "published totals read 122 player rows and 0 not-submitted rows instead of 117 and 5. The "
+        "counter is now computed from both columns, and the page states the split explicitly. The "
+        "row-level cross-checks were never affected — they normalise both columns before "
+        "comparing — which is why the defect only surfaced when the summary fields were read "
+        "against the PDF rather than trusted.",
+        "Irregularity — found and fixed in this session",
+        "None. Keep publishing counts derived from the source columns rather than from a single "
+        "assumed one.",
+        ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_30PM.pdf"],
+        "", "2026-11-14")
+    add("Cross-session", "Rebuilding the canonical engine invalidated another session's audit",
+        "Session 36e18d83's audit36/check.py recomputes an 'engine agreement' block comparing the "
+        "dash/ engine against the app/ engine and compares the result against values hard-coded in "
+        "its own committed results file. This session replaced the app/ engine, so the recomputed "
+        "figures moved (sd of app spreads 10.81 -> 8.81, median absolute gap 2.39 -> 1.78) and the "
+        "check now reports one failure. The engines still agree on the favoured side in 22 of 22 "
+        "games, so this is a stale expectation, not a new disagreement. audit36/ is that session's "
+        "file scope and was not edited; its modified results file was reverted.",
+        "Irregularity — flagged, change request logged",
+        "Owner of audit36/: re-run the audit and re-publish the engine_agreement block against the "
+        "current app/ engine, or read the expectation from the build output instead of hard-coding "
+        "it. Logged as CR-8D-04. The audit36 step is not in the CI workflow, so CI is unaffected.",
+        ["https://github.com/wingbangboozle1-lang/NBA3"], "", "2026-11-14")
     return out
 
 

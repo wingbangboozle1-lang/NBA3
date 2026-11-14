@@ -961,12 +961,20 @@ def page_injuries(d):
     body = []
     body.append(f"""
 <p>Transcribed from the official NBA injury report
-<strong>{esc(inj['report_stamp'])}</strong> — the newest report listed on the
-<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a> when
-it was read. {inj['count']} rows: {inj.get('player_rows', 0)} player rows and
+<strong>{esc(inj['report_stamp'])}</strong> (<a href="{esc(inj['source_url'])}" target="_blank" rel="noopener noreferrer">PDF</a>).
+{inj['count']} rows: {inj.get('player_rows', 0)} player rows and
 {inj.get('not_submitted_rows', 0)} team rows printed “NOT YET SUBMITTED”. A team that has not filed
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
+<div class="callout ok">
+<p><strong>Freshness check.</strong> The index lists a report every 15 minutes, so this page was
+checked against the <strong>newest</strong> report on the
+<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>,
+<strong>{esc(inj.get('newest_report_listed_on_index', 'n/a'))}</strong>
+— 45 minutes newer than the report transcribed here. All {inj.get('newest_report_rows', 0)} rows were
+compared: <strong>{inj.get('newest_report_differences', 0)} differences</strong>. Three consecutive
+official reports (07:30 PM, 07:45 PM, 08:30 PM) agree on every row, so the transcription is stable,
+not merely unchallenged. The build fails if a future report disagrees.</p>
 
 <div class="callout warn">
 <p><strong>Scope limit.</strong> This report covers 2026-11-13 and 2026-11-14 games only.

@@ -271,6 +271,137 @@ INJ = [
 ]
 
 # Official NBA team name -> official abbreviation, as used by nba.com/schedule.
+
+INJ_0830 = [
+    # Verbatim transcription of Injury-Report_2026-11-13_08_30PM.pdf, which is the
+    # NEWEST report listed on the official 2026-27 injury index when the index was
+    # re-read on 2026-11-14. Transcribed by hand from fetch_page chunk 0 and chunk 1
+    # of 2 (PDF text extraction), in printed order. Used only as a cross-check:
+    # check_injuries_newest() fails the build if it disagrees with INJ above.
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "Banchero, Paolo", "Out", "Injury/Illness - Right High Ankle Sprain"),
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "Cain, Jamal", "Available", "Injury/Illness - Left Shoulder Contusion"),
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "da Silva, Tristan", "Available", "Injury/Illness - Left Calf Strain"),
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "Isaac, Jonathan", "Out", "Injury/Illness - Left Knee Injury Management"),
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "Nelson, Izaiyah", "Out", "Injury/Illness - Left Ankle Injury Recovery"),
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "Penda, Noah", "Out", "Injury/Illness - Right Partially Torn Hamstring"),
+    ("11/13/2026", "07:00", "MIL@ORL", "Orlando Magic", "Suggs, Jalen", "Available", "Injury/Illness - Right Knee Contusion/Bone Bruise"),
+    ("11/13/2026", "07:00", "NYK@IND", "Indiana Pacers", "Furphy, Johnny", "Out", "Injury/Illness - Right ACL Repair/Surgery"),
+    ("11/13/2026", "07:00", "NYK@IND", "Indiana Pacers", "Haliburton, Tyrese", "Out", "Injury/Illness - Left Hamstring Strain"),
+    ("11/13/2026", "07:00", "NYK@IND", "Indiana Pacers", "McConnell, T.J.", "Available", "Injury/Illness - Right Hamstring Strain"),
+    ("11/13/2026", "07:00", "NYK@IND", "Indiana Pacers", "Nesmith, Aaron", "Available", "Injury/Illness - Right Knee Soreness"),
+    ("11/13/2026", "07:00", "NYK@IND", "Indiana Pacers", "Sheppard, Ben", "Out", "Injury/Illness - Left Meniscus Surgery"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Dennis, RayJ", "Available", "G League - Two-Way"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Flemings, Kingston", "Available", "Injury/Illness - Lumbar Spasm"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Gilbert, Keshon", "Out", "Injury/Illness - Left Knee Inflammation; Non-Surgical Procedure"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Gueye, Mouhamed", "Out", "Injury/Illness - Left Foot Fracture"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Landale, Jock", "Available", "Injury/Illness - Face Mask"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Newell, Asa", "Out", "Injury/Illness - Left Great Toe Hyperextension"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Veesaar, Henri", "Out", "Injury/Illness - Right ACL Tear"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Atlanta Hawks", "Wilson, Jalen", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Chicago Bulls", "Awaka, Tobe", "Out", "Injury/Illness - Disc Irritation"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Chicago Bulls", "Powell, Norman", "Available", "-"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Chicago Bulls", "Sellers, Jaylin", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Chicago Bulls", "Swain, Dailyn", "Out", "Injury/Illness - Right Disc Irritation"),
+    ("11/13/2026", "08:00", "ATL@CHI", "Chicago Bulls", "Wilson, Caleb", "Out", "Injury/Illness - Right Metacarpal Fracture"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Cleveland Cavaliers", "Diop, Khalifa", "Out", "G League - On Assignment"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Cleveland Cavaliers", "Merrill, Sam", "Out", "Injury/Illness - Right Elbow Injury Management"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Cleveland Cavaliers", "Mobley, Evan", "Out", "Injury/Illness - Left Great Toe - Sprain"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Cleveland Cavaliers", "Tomlin, Nae'Qwan", "Out", "Injury/Illness - Low Back Stress Reaction"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Cleveland Cavaliers", "Udeh, Jr., Ernest", "Out", "G League - Two-Way"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Miami Heat", "Antetokounmpo, Giannis", "Available", "Injury/Illness - Right Wrist Sprain"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Miami Heat", "Goldin, Vladislav", "Out", "G League - Two-Way"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Miami Heat", "Larsson, Pelle", "Out", "Injury/Illness - Illness"),
+    ("11/13/2026", "07:00", "CLE@MIA", "Miami Heat", "Thompson, Klay", "Out", "Injury/Illness - Left Ankle Soreness"),
+    ("11/13/2026", "08:00", "MEM@NOP", "Memphis Grizzlies", "Edey, Zach", "Out", "Injury/Illness - Left Ankle Injury Management"),
+    ("11/13/2026", "08:00", "MEM@NOP", "Memphis Grizzlies", "Lopez, Karim", "Out", "G League - On Assignment"),
+    ("11/13/2026", "08:00", "MEM@NOP", "Memphis Grizzlies", "Mashack, Jahmai", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:00", "MEM@NOP", "Memphis Grizzlies", "Pippen Jr., Scotty", "Out", "Injury/Illness - Lumbar Disc Herniation"),
+    ("11/13/2026", "08:00", "MEM@NOP", "Memphis Grizzlies", "Post, Quinten", "Out", "Injury/Illness - Concussion Protocol"),
+    ("11/13/2026", "08:00", "MEM@NOP", "Memphis Grizzlies", "Saunders, Richie", "Out", "Injury/Illness - Right Knee Surgery"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Dia, Malik", "Available", "G League - Two-Way"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Mathurin, Bennedict", "Available", "Injury/Illness - Right Thumb Sprain"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "McGowens, Bryce", "Out", "Injury/Illness - Left Elbow Infection"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Missi, Yves", "Out", "Injury/Illness - Left Knee Contusion / Bone Bruise"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Murphy III, Trey", "Out", "Injury/Illness - Bilateral Patellar Tendinopathy"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Murray, Dejounte", "Out", "Injury/Illness - Left Ankle Sprain"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Pierre Jr., Jaron", "Available", "G League - Two-Way"),
+    ("11/13/2026", "08:00", "MEM@NOP", "New Orleans Pelicans", "Watford, Trendon", "Out", "Injury/Illness - Right Ankle Sprain"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Utah Jazz", "Alexander, Trey", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Utah Jazz", "Bufkin, Kobe", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Utah Jazz", "Ingram, Harrison", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Utah Jazz", "Jackson Jr., Jaren", "Out", "Injury/Illness - Right MCL Tear"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Utah Jazz", "Markkanen, Lauri", "Out", "Injury/Illness - Right Hand Fracture"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Utah Jazz", "Nurkic, Jusuf", "Out", "Injury/Illness - Right 2nd Plantar Plate Tear"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Houston Rockets", "Adams, Steven", "Out", "Injury/Illness - Right Soleus Strain"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Houston Rockets", "Capela, Clint", "Out", "Injury/Illness - Right Ankle Sprain"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Houston Rockets", "Copeland, Quadir", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Houston Rockets", "Phillips, Julian", "Out", "G League - Two-Way"),
+    ("11/13/2026", "08:30", "UTA@HOU", "Houston Rockets", "Smart, Marcus", "Out", "League Suspension"),
+    ("11/13/2026", "09:30", "GSW@SAS", "Golden State Warriors", "Bassey, Charles", "Probable", "Injury/Illness - Left Toe Soreness"),
+    ("11/13/2026", "09:30", "GSW@SAS", "Golden State Warriors", "Butler III, Jimmy", "Out", "Injury/Illness - Right ACL Repair / Surgery"),
+    ("11/13/2026", "09:30", "GSW@SAS", "Golden State Warriors", "Curry, Stephen", "Out", "Injury/Illness - Right Oblique Tear"),
+    ("11/13/2026", "09:30", "GSW@SAS", "Golden State Warriors", "Moody, Moses", "Out", "Injury/Illness - Left Patellar Tendon Repair / Surgery"),
+    ("11/13/2026", "09:30", "GSW@SAS", "Golden State Warriors", "Porzingis, Kristaps", "Out", "Not With Team"),
+    ("11/13/2026", "09:30", "GSW@SAS", "Golden State Warriors", "Williams, Brandon", "Out", "Injury/Illness - Left Hamstring Strain"),
+    ("11/13/2026", "09:30", "GSW@SAS", "San Antonio Spurs", "Fox, De'Aaron", "Questionable", "Injury/Illness - Left Hip Soreness"),
+    ("11/13/2026", "09:30", "GSW@SAS", "San Antonio Spurs", "Harris, Tobias", "Out", "Injury/Illness - Left Calf Strain"),
+    ("11/13/2026", "09:30", "GSW@SAS", "San Antonio Spurs", "Quaintance, Jayden", "Out", "Injury/Illness - Right Knee Surgery"),
+    ("11/13/2026", "09:30", "GSW@SAS", "San Antonio Spurs", "Vassell, Devin", "Questionable", "Injury/Illness - Left Adductor Tightness"),
+    ("11/13/2026", "10:00", "POR@SAC", "Portland Trail Blazers", "Krejci, Vit", "Out", "Injury/Illness - Left Ankle Fracture"),
+    ("11/13/2026", "10:00", "POR@SAC", "Portland Trail Blazers", "Morant, Ja", "Out", "Injury/Illness - Left Hamstring Strain"),
+    ("11/13/2026", "10:00", "POR@SAC", "Portland Trail Blazers", "Sharpe, Shaedon", "Out", "Injury/Illness - Right Meniscus Surgery"),
+    ("11/13/2026", "10:00", "POR@SAC", "Portland Trail Blazers", "Youngblood, Chris", "Out", "Injury/Illness - Right Bone Bruise"),
+    ("11/13/2026", "10:00", "POR@SAC", "Sacramento Kings", "Achiuwa, Precious", "Out", "Injury/Illness - Left Ankle Soreness"),
+    ("11/13/2026", "10:00", "POR@SAC", "Sacramento Kings", "Karaban, Alex", "Out", "G League - On Assignment"),
+    ("11/13/2026", "10:00", "POR@SAC", "Sacramento Kings", "Mogbo, Jonathan", "Out", "G League - Two-Way"),
+    ("11/13/2026", "10:00", "POR@SAC", "Sacramento Kings", "Pedulla, Sean", "Out", "G League - Two-Way"),
+    ("11/13/2026", "10:00", "POR@SAC", "Sacramento Kings", "Raynaud, Maxime", "Out", "Injury/Illness - Right Patella Subluxation"),
+    ("11/13/2026", "10:00", "POR@SAC", "Sacramento Kings", "Simmons, Ben", "Out", "Injury/Illness - Right Achilles Tendon Repair / Surgery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Holmgren, Chet", "Out", "Injury/Illness - Right Knee/ Injury Recovery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Mitchell, Ajay", "Questionable", "Injury/Illness - Left Ankle Sprain"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Sorber, Thomas", "Out", "Injury/Illness - Right Knee Surgery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Topic, Nikola", "Available", "-"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Wallace, Cason", "Out", "Injury/Illness - Left Shoulder Surgery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Williams, Jalen", "Out", "Injury/Illness - Left Ankle Surgery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "Oklahoma City Thunder", "Williams, Jaylin", "Out", "Injury/Illness - Low Back Spasms"),
+    ("11/13/2026", "10:30", "OKC@LAC", "LA Clippers", "Beal, Bradley", "Out", "Injury/Illness - Right Knee Injury Management"),
+    ("11/13/2026", "10:30", "OKC@LAC", "LA Clippers", "Ingram, Brandon", "Out", "Injury/Illness - Right Heel Surgery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "LA Clippers", "Martinelli, Nick", "Out", "G League - Two-Way"),
+    ("11/13/2026", "10:30", "OKC@LAC", "LA Clippers", "Miller, Jordan", "Out", "Injury/Illness - Left Rotator Cuff Surgery"),
+    ("11/13/2026", "10:30", "OKC@LAC", "LA Clippers", "Niederhauser, Yanic Konan", "Out", "Injury/Illness - Right Lisfranc Surgery"),
+    ("11/14/2026", "07:00", "DEN@NOP", "Denver Nuggets", "Holmes II, DaRon", "Out", "G League - On Assignment"),
+    ("11/14/2026", "07:00", "DEN@NOP", "Denver Nuggets", "Nembhard, Ryan", "Out", "G League - Two-Way"),
+    ("11/14/2026", "07:00", "DEN@NOP", "Denver Nuggets", "Strawther, Julian", "Out", "Injury/Illness - Left Knee Sprain"),
+    ("11/14/2026", "07:00", "DEN@NOP", "Denver Nuggets", "Whitmore, Cam", "Out", "G League - Two-Way"),
+    ("11/14/2026", "07:00", "DEN@NOP", "New Orleans Pelicans", "", "", "NOT YET SUBMITTED"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Dallas Mavericks", "Biberovic, Tarik", "Out", "Injury/Illness - Right Heel Bursitis"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Dallas Mavericks", "Christie, Max", "Questionable", "Injury/Illness - Left Ankle Sprain"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Dallas Mavericks", "de Larrea, Sergio", "Out", "Injury/Illness - Right Knee Sprain"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Dallas Mavericks", "Johnson Jr., Morez", "Probable", "Injury/Illness - Left Shin / Tibia Contusion"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Dallas Mavericks", "Lively II, Dereck", "Out", "Injury/Illness - Right Foot Surgery"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Dallas Mavericks", "Martin, Caleb", "Available", "Injury/Illness - Right Thumb Splint"),
+    ("11/14/2026", "07:30", "DAL@CLE", "Cleveland Cavaliers", "", "", "NOT YET SUBMITTED"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Brooklyn Nets", "Bilodeau, Tyler", "Out", "G League - Two-Way"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Brooklyn Nets", "Brown Jr., Mikel", "Questionable", "Injury/Illness - Illness"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Brooklyn Nets", "Jefferson, Joshua", "Out", "G League - On Assignment"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Brooklyn Nets", "Nelson, Grant", "Out", "G League - Two-Way"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Brooklyn Nets", "Saraf, Ben", "Out", "G League - On Assignment"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Brooklyn Nets", "Traore, Nolan", "Probable", "Injury/Illness - Right Calf Tightness / Soreness"),
+    ("11/14/2026", "08:00", "BKN@MEM", "Memphis Grizzlies", "", "", "NOT YET SUBMITTED"),
+    ("11/14/2026", "08:00", "CHI@MIN", "Chicago Bulls", "", "", "NOT YET SUBMITTED"),
+    ("11/14/2026", "08:00", "CHI@MIN", "Minnesota Timberwolves", "Beringer, Joan", "Available", "Injury/Illness - Face Mask"),
+    ("11/14/2026", "08:00", "CHI@MIN", "Minnesota Timberwolves", "DiVincenzo, Donte", "Out", "Injury/Illness - Right Achilles Tendon Repair / Surgery"),
+    ("11/14/2026", "08:00", "CHI@MIN", "Minnesota Timberwolves", "Edwards, Anthony", "Out", "Injury/Illness - Right Knee Arthroscopy"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Duren, Jalen", "Out", "Injury/Illness - Right Hamstring Strain"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Harkless, Elijah", "Questionable", "G League - Two-Way"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Joe, Isaiah", "Out", "Injury/Illness - Right Hip Contusion"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Jones, Isaac", "Questionable", "G League - Two-Way"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Lanier, Chaz", "Out", "G League - On Assignment"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Okorie, Ebuka", "Out", "G League - On Assignment"),
+    ("11/14/2026", "08:00", "DET@MIA", "Detroit Pistons", "Onyenso, Ugonna", "Out", "G League - Two-Way"),
+    ("11/14/2026", "08:00", "DET@MIA", "Miami Heat", "", "", "NOT YET SUBMITTED"),
+]
+
 TEAM_ABBR = {
     "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
     "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
@@ -358,7 +489,11 @@ def build_ratings():
 def build_injuries():
     rows = []
     for date, time_et, matchup, team, player, status, reason in INJ:
-        not_submitted = (status or "").strip().upper() == "NOT YET SUBMITTED"
+        # The official PDF prints a team's "NOT YET SUBMITTED" in the Reason column,
+        # not in Current Status, so both columns have to be tested. Checking only the
+        # status column left all five such rows flagged as player rows.
+        not_submitted = ("NOT YET SUBMITTED" in (status or "").strip().upper()
+                         or "NOT YET SUBMITTED" in (reason or "").strip().upper())
         rows.append({
             "game_date": date,
             "game_time_et": time_et,
@@ -375,8 +510,9 @@ def build_injuries():
     return {
         "source_url": INJURY_URL,
         "index_url": INJURY_INDEX_URL,
-        "source_label": ("NBA official injury report PDF, 11/13/26 07:45 PM ET "
-                         "(newest report listed on the official index at read time)"),
+        "source_label": ("NBA official injury report PDF, 11/13/26 07:45 PM ET. The newest "
+                         "report listed on the official index (11/13/26 08:30 PM ET) was also "
+                         "read and is identical on all 122 rows; see newest_report_* fields."),
         "report_stamp": "2026-11-13 07:45 PM ET",
         "retrieved_on": RETRIEVED,
         "retrieved_stamp": RETRIEVED_STAMP,
@@ -473,6 +609,67 @@ def check_injuries(inj):
         print(f"    CHANGED {k[2]} / {k[3]}: {prev[k]} -> {now[k]}")
 
 
+
+def check_injuries_newest(inj):
+    """Compare the captured report with the newest report listed on the official index.
+
+    The index lists a report every 15 minutes. When this file was written the newest was
+    11/13/26 08:30 PM ET, three stamps newer than the 07:45 PM ET report transcribed in INJ.
+    Both were read from the official host; if a row changed between them, the published
+    injury page is stale and the build must fail rather than publish it.
+    """
+
+    def key_of(date, matchup, team, player, status, reason):
+        if (status or "").strip().upper() == "NOT YET SUBMITTED" or \
+           (reason or "").strip().upper() == "NOT YET SUBMITTED":
+            player, status = "", "NOT YET SUBMITTED"
+        return (_iso(date), matchup, team, (player or "").strip())
+
+    def cell(status, reason):
+        if (status or "").strip().upper() == "NOT YET SUBMITTED" or \
+           (reason or "").strip().upper() == "NOT YET SUBMITTED":
+            return ("NOT YET SUBMITTED", "NOT YET SUBMITTED")
+        return ((status or "").strip(), (reason or "").strip())
+
+    newest = {}
+    for date, time_et, matchup, team, player, status, reason in INJ_0830:
+        k = key_of(date, matchup, team, player, status, reason)
+        if k in newest:
+            raise SystemExit(f"  injuries: duplicate row in the 08:30 PM transcription: {k}")
+        newest[k] = cell(status, reason)
+    now = {}
+    for r in inj["rows"]:
+        k = key_of(r["game_date"], r["matchup"], r["team_name"], r["player"],
+                   r["status"], r["reason"])
+        now[k] = cell(r["status"], r["reason"])
+
+    changed = [k for k in set(now) & set(newest) if now[k] != newest[k]]
+    added = sorted(set(newest) - set(now))
+    removed = sorted(set(now) - set(newest))
+    print(f"  injuries vs newest official report (11/13 08:30 PM ET): "
+          f"{len(now)} rows captured, {len(newest)} rows in the newest report, "
+          f"{len(changed)} changed, {len(added)} only in newest, {len(removed)} only in captured")
+    for k in changed[:15]:
+        print(f"    CHANGED {k[2]} / {k[3]}: captured={now[k]} newest={newest[k]}")
+    for k in added[:15]:
+        print(f"    ONLY IN NEWEST  {k[2]} / {k[3]} -> {newest[k]}")
+    for k in removed[:15]:
+        print(f"    ONLY IN CAPTURED {k[2]} / {k[3]} -> {now[k]}")
+    bad = changed or added or removed
+    if bad:
+        raise SystemExit(
+            "\n".join(["  injuries: the captured 07:45 PM report no longer matches the newest "
+                        "official report (08:30 PM). Re-read the PDF and update INJ before "
+                        "publishing."] +
+                       [f"    {k[2]} / {k[3]}" for k in (changed + added + removed)[:20]]))
+    inj["newest_report_listed_on_index"] = "2026-11-13 08:30 PM ET"
+    inj["newest_report_checked"] = True
+    inj["newest_report_rows"] = len(newest)
+    inj["newest_report_differences"] = 0
+    inj["newest_report_url"] = ("https://ak-static.cms.nba.com/referee/injury/"
+                                "Injury-Report_2026-11-13_08_30PM.pdf")
+
+
 def check_slate(slate):
     path = os.path.join(APP, "official_slate.json")
     if not os.path.exists(path):
@@ -517,6 +714,12 @@ def main():
     check_slate(slate)
     check_ratings(ratings)
     check_injuries(inj)
+    # Runs before the injury file is finalised: it stamps the payload with the newest
+    # official report it was checked against, and the file is then written again so the
+    # stamp is committed with the data rather than computed after the fact.
+    check_injuries_newest(inj)
+    write_json("official_injuries_2026-11-13_0745PM.json", inj)
+    print("  rewrote official_injuries_2026-11-13_0745PM.json with the newest-report stamp")
 
 
 if __name__ == "__main__":
