@@ -2191,11 +2191,11 @@ folding it into the canonical dashboard is a change request to the integration o
 | NBA official injury report 11/14/26 04:15 AM ET (PDF) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf | Stored verbatim: `data/app/official_injuries_2026-11-14_0415AM_raw.md` |
 | NBA official injury report 11/13/26 07:30 PM ET (PDF, stored earlier) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf | Comparison baseline, `data/app/official_injuries_2026-11-13_0730PM.json` |
 
-**Result on the 17 fully attributed 11/14 rows** (game date, matchup and team printed on the row; DEN@NOP 4 + NYS, DAL@CLE 6 + NYS, BKN@MEM 5):
+**Result on the 17 fully attributed 11/14 rows** (game date, matchup and team printed on the row: 15 player rows in DEN@NOP 4, DAL@CLE 6, BKN@MEM 5, plus 2 team rows marked NOT YET SUBMITTED for NOP and CLE):
 
 | Comparison | Count |
 |---|---|
-| Same player, same status and same reason as the 07:30 PM snapshot | **17** |
+| Same player (or same NOT YET SUBMITTED team row), same status and same reason as the 07:30 PM snapshot | **17** (15 players + 2 team rows) |
 | Status changed | 0 |
 | Reason changed | 0 |
 | Stored player missing from the 04:15 AM report | 0 (see the 11 unattributed rows below) |
