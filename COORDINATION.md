@@ -684,3 +684,15 @@ recorded above under "Merge conflict resolved".
 ### Merge and deploy
 
 See the PR link and merge result appended below once the PR is merged.
+
+---
+
+## Session `ff830c8f` (`arena/ff830c8f-nba3`) — cross-site audit and integration reconciliation
+
+### Claim (in progress)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Audit the merged repository's site, source, model, and deployment claims; reconcile the top-level landing/README with verified current repository state and publish any remaining limitations | in progress | `arena/ff830c8f-nba3` | `COORDINATION.md`, `README.md`, `index.html` |
+
+This task is a post-integration audit of the already-merged outputs. The current Arena-assigned branch is fixed as `arena/ff830c8f-nba3`; no other branch or worktree is used. Existing data-generation outputs and subsite files remain outside this scope. No other in-progress claim was present when this claim was added.
