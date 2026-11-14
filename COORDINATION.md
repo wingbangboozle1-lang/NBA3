@@ -685,6 +685,137 @@ recorded above under "Merge conflict resolved".
 
 See the PR link and merge result appended below once the PR is merged.
 
+## Session `e40cd215` (`arena/e40cd215-nba3`) — CLAIM (integration + reconciliation round)
+
+Session ID `e40cd215`. Arena binds this workspace to branch `arena/e40cd215-nba3` (base `e591b671`,
+which is `main` HEAD), so the `session-<id>/<task>` branch scheme in the brief cannot be used here —
+scope is enforced by file list inside this one branch, as prior sessions recorded.
+
+All prior sessions (49064d5a, f879620b, 7c532e8c, 9ed6085f, 5697caaf, 0a016df8, e22a2831) are merged
+and closed; none has an open claim. This session therefore acts as the **final integration session**
+and is the only writer for shared outputs (root `index.html`, `README.md`, `COORDINATION.md`,
+`.github/workflows/pages.yml`). No prior session's site directory is deleted or edited: `docs/`,
+`site/`, `edge/`, `lab/`, `research/`, `origin/` stay byte-identical and are linked as per-session
+archives.
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| E1 | Cross-session reconciliation: 174-game result sets, injury snapshots, slate counts, ID namespaces | in progress | `data/integration/`, `integrate/` |
+| E2 | Independent official re-verification of results, upcoming slate, injury reports | in progress | `data/integration/verify_*.json`, `integrate/verify.py` |
+| E3 | Line origination for the live 72-hour window (11/14–11/16) + picks, gates, correlations | unclaimed | `integrate/lines.py`, `data/integration/lines_*.json` |
+| E4 | Single unified dashboard site (`dash/`) + root landing page with category nav | unclaimed | `dash/`, `index.html`, `integrate/build_site.py` |
+| E5 | Executive summary, open questions, suggestions queue, Flagged-for-Review page | unclaimed | `dash/*.html`, `data/integration/*.json` |
+| E6 | PR → merge → Pages deploy verification | unclaimed | PR, `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` |
+
+## Results (session e40cd215)
+
+| # | Task | Status | Evidence |
+|---|------|--------|----------|
+| E1 | Cross-session reconciliation of the 174-game result sets, injury snapshots, slate counts and ID namespaces | done | 174/174 scores agree between the `origin/` and `edge/` captures after normalising team codes (CHO→CHA, BRK→BKN, PHO→PHX); the only structural difference is the vocabulary |
+| E2 | Independent official re-verification | done | W-L recomputed from the 174 games matches the records displayed on [nba.com/games?date=2026-11-14](https://www.nba.com/games?date=2026-11-14) for all 5 teams not playing on 11/13; 11/14 slate 5/5 and 11/15 slate 9/9 verified against the official pages; the 11/13 slate was live during the build and was therefore excluded rather than half-used |
+| E3 | Line origination for the live window + gates + correlations | done | `data/integration/model.json`: 22 originated lines (11/14–11/16), margin RMSE 15.48 vs baseline 16.73 on 114 OOS games (paired t p=0.017), total 18.90 vs 19.30 (p=0.291, **not** significant); measured same-game parlay dependence ratio 1.056; cross-game dependence left blank by design |
+| E4 | Unified dashboard | done | `dash/` — 15 pages, generated from one artefact; root `index.html` rewritten as the landing page; no other session's tree edited |
+| E5 | Registers | done | 15 flags (E-F-01…15), 10 questions, 12 suggestions, 15 sources with retrieval state, all in `data/integration/registers.json` |
+| E6 | PR → merge → Pages | see PR record below | — |
+
+### Two disputes between earlier sessions, settled with primary evidence
+
+1. **The 05:00 PM vs 05:15 PM status difference** (Cain, da Silva, Suggs: Questionable → Available).
+   Both PDFs were read this round: [05:00 PM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf)
+   prints Questionable, [05:15 PM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf)
+   prints Available. Both captures were correct for their own stamp — a genuine report update, not a
+   transcription error. `9ed6085f`'s integration log and `7c532e8c`'s data can both stand.
+2. **The "Miami rows carry a CLE@MIA matchup the PDF does not show" note.** CLE@MIA is a real 11/13 game
+   on the official slate ([game 0022600036](https://www.nba.com/game/cle-vs-mia-0022600036)), and the DET@MIA
+   rows in the same file are the 11/14 day-before block (game 0022600233). The attribution is correct; the
+   PDF simply prints the matchup once per block. The related open question is now *freshness*, not accuracy:
+   the newest report for 11/13 is the **07:30 PM** file, which moves Klay Thompson Probable→Out and
+   Pelle Larsson Doubtful→Out, and for 11/14 shows 5 of 10 teams as NOT YET SUBMITTED.
+
+### New irregularities found this round (all on `dash/flagged.html`, none blocks merge)
+
+- **E-F-01 (high)** `pipeline/build_site_data.py` line 6 has `OUT = f'{ROOT}/site/data'`, i.e. the `edge/`
+  build writes into `site/data/`, which belongs to session `7c532e8c`. Running it during this session
+  modified `site/data/{injuries,picks,props,schedule}.json` and added 6 files; all were reverted with
+  `git checkout` and `main` was never affected, but any future rebuild of `edge/` will silently overwrite
+  that site's data. CI now emits a warning (non-blocking) and an ownership audit for new sessions.
+- **E-F-02 (high)** `data/raw/results_2026-27_*.csv`, the results source behind `/edge/`, cites
+  Basketball-Reference — not an official NBA property — and its header comment documents an 8-column
+  format while each row has 5 fields. The values are fine (they agree with the official capture); the
+  citation does not meet the project's own rule, so this build uses `data/origin/games.csv` as canonical.
+- **E-F-03 (high)** six published dashboards with five incompatible ID namespaces (`F01`, `7C-F-01`,
+  `7C-F-01`, `IR-01`, `E-F-01` …) — same-shaped IDs, different meanings.
+- **E-F-04 (high)** three engines quote incomparable headline RMSEs and three different values for one
+  correlation (+0.023 here, +0.091 in `origin/`, −0.018 in `edge/`); `edge/`'s baseline uses the population
+  sd of all margins *including* test games (`pipeline/run_model.py` line 299), which flatters its improvement
+  figure. Numbers were not reconciled before publication by any earlier session.
+- **E-F-14 (low)** a 3-day horizon skips 11/17 (5 games) and 11/18 (12 games) per the official month grid.
+
+### Files written this session
+
+`data/integration/{model.json,registers.json,injuries_2026-11-13_0730PM_1114.json}`,
+`integrate/{engine.py,build_site.py,check.py}`, `dash/` (15 pages + assets + data copies),
+root `index.html` (regenerated as the landing page), `.github/workflows/pages.yml` (three steps added:
+engine + drift gate, dashboard check, ownership audit; `dash/` added to the Pages artifact),
+`README.md` (site table + state correction), `COORDINATION.md` (this section).
+
+Findings already logged during this claim (detail in the log above): six competing site trees;
+`edge/` results sourced from Basketball-Reference (not an official NBA source) — 174/174 scores agree
+with the official-sourced `origin/` capture after team-code normalisation (CHO→CHA, BRK→BKN, PHO→PHX);
+`edge/` and `origin/` publish **different** walk-forward statistics and different spread/total
+correlation values on what is claimed to be the same dataset.
+
+### Conflict log (this session)
+
+- `git pull --rebase origin main` was attempted as instructed. It stopped on `COORDINATION.md`
+  (`Could not apply 53a0fc5`) because two sessions had appended to the same file. The rebase was
+  **aborted** — no history was rewritten and no commit was lost — and the merge route was used instead:
+  `git merge --no-commit --no-ff origin/main`, which conflicted in exactly the four shared files:
+  `index.html`, `README.md`, `COORDINATION.md`, `.github/workflows/pages.yml`.
+- Resolutions, all "keep both sides", no other session's content removed:
+  | File | Resolution |
+  |---|---|
+  | `index.html` | kept session `49064d5a`'s hand-maintained landing page (including the `docs/index.html` string `tools/check_site.py` asserts) and inserted **one** card linking `dash/index.html`; `integrate/build_site.py` was then changed to stop writing the root file at all, so this cannot happen again in either direction |
+  | `COORDINATION.md` | their `V1–V7` log kept verbatim, this session's `E1–E6` section appended after it |
+  | `README.md` | their rewritten layout kept; `/dash/` added as a row in *Pages and workstreams*, the primary-dashboard line extended, and the rebuild commands section extended |
+  | `.github/workflows/pages.yml` | their steps kept (including `review.html` and `verify/` staging); this session's three steps inserted before the artifact stage and `cp -r dash _pages/dash` added |
+- Merge commit `617839a` on `arena/e40cd215-nba3`.
+
+### What the other sessions landing on `main` changed about this session's findings
+
+- **E-F-01 is closed as a defect, not as a lesson.** Session `3655c68d` found the same cross-write
+  (`pipeline/build_site_data.py` → `site/data/`) as their **V-F-02** and fixed it in `d83801c`. This
+  session hit it independently about an hour earlier and reverted the damage. The flag stays on the
+  Flagged page with both records, because the fix was courtesy rather than policy — see new suggestion
+  **E-SG-13** (binding path-ownership table).
+- Their **FX-01/FX-04** (the edge pipeline's parlay routine returned a marginal probability where a joint
+  was published, and the corrected example) means any `edge/` parlay number before `d83801c` must be
+  disregarded in comparisons. Recorded on the reconciliation page.
+- Their **C-01..C-09** contradiction list overlaps E-F-03 (seven dashboards now, five ID namespaces) and
+  C-05 (which injury snapshot is current). `dash/` answers C-05 structurally: it always prices from the
+  newest report file that exists and stamps every table with the report time.
+- New flag **E-F-16** records the useful part: two sessions auditing the same 174 games from different
+  directions reached the same conclusions, which is the best evidence in the repository.
+
+---
+
+## Merge note — `arena/2b9f1ae1-nba3` (integration, second merge)
+
+`main` advanced again while this session was working (PR [#20](https://github.com/wingbangboozle1-lang/NBA3/pull/20)
+and PR [#22](https://github.com/wingbangboozle1-lang/NBA3/pull/22) from session `arena/3655c68d-nba3`, the
+verification layer). This session merged `origin/main` again and resolved the conflicts without
+discarding the other session's work:
+
+* `COORDINATION.md` — all three sessions' logs are kept, in full.
+* `index.html` — the generated canonical dashboard (this session). The verification layer published at
+  `/verify/pages/` and the cross-workstream audit at `/review.html` are **kept** and are linked from the
+  landing page.
+* `README.md` and `.github/workflows/pages.yml` — merged automatically; both sides' content is kept.
+
+The findings of the other two sessions are reachable from the canonical Flagged for Review page:
+R-01 – R-13 (session 2e50a71a) are merged there under their original IDs, and the verification layer's
+corrections and ledger live at `/verify/pages/`.
+
 ---
 
 ## PR and deploy record — session `arena/3655c68d-nba3`
@@ -728,6 +859,136 @@ was restored to its committed state after an accidental overwrite (V-F-02) and c
 Note on process: this record was first committed and pushed directly to `main` in error, which violates the
 one-branch rule; that commit was reverted with `git reset --hard 239a023` before any follow-up, and the record is
 being delivered through a pull request instead.
+
+---
+
+## Session `arena/2b9f1ae1-nba3` — final integration: canonical dashboard, official re-verification, PR → merge → Pages
+
+Branch: `arena/2b9f1ae1-nba3` (branched from `main` @ `e591b67`). The workspace fixes the branch to
+this one, so — as in the earlier sessions — the branch naming rule in the brief (`session-<id>/<task>`)
+cannot be used; all work stayed on the assigned branch and no other session's files were edited
+apart from the shared root `index.html`, `README.md`, `COORDINATION.md` and the Pages workflow, which
+are the integration surface.
+
+### Task board (this session)
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| I1 | Read COORDINATION.md and map the seven existing dashboards, four ID namespaces and six data trees | done | — |
+| I2 | Re-read the official NBA sources for the live slate and cross-check them against the stored data | done | `scripts/capture_official_2026_11_14.py`, `data/app/official_*.json` |
+| I3 | Canonical dataset: one namespace, one source of truth, every row carrying its source | done | `scripts/assemble_canonical.py`, `data/app/canonical.json` |
+| I4 | Canonical dashboard: clean landing page + category sub-pages, all findings in tables | done | `scripts/build_app.py`, `app/**`, `index.html` |
+| I5 | Merged flags / questions / suggestions / sources / review into the canonical pages | done | `data/app/canonical.json` |
+| I6 | Build gates: every table row needs an https source link; no broken link or anchor | done | `scripts/build_app.py` |
+| I7 | CI: capture cross-check + canonical build + drift checks | done | `.github/workflows/pages.yml` |
+| I8 | PR → merge → Pages deploy verification | in progress | `COORDINATION.md` |
+
+### Official sources read on 2026-11-14 (all links are to the pages actually read)
+
+| Source | URL | What it established |
+|---|---|---|
+| NBA schedule | https://www.nba.com/schedule?date=2026-11-14 | The 31 games of the 2026-11-13 → 2026-11-16 window: date, tip time (ET), teams, NBA game id, venue, city, competition label |
+| NBA team advanced stats | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season | GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE for all 30 teams |
+| NBA official injury report PDF (11/13/26 07:30 PM ET) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf | Newest injury snapshot: 117 player rows + 5 team report statuses |
+| NBA official injury report index | https://official.nba.com/nba-injury-report-2026-27-season/ | Which reports exist; confirms 07:30 PM on 11/13 is the newest listed and that no 11/14 report is listed yet |
+| GitHub API | https://github.com/wingbangboozle1-lang/NBA3 | Pages build type/source, branches, pull requests, licence |
+
+### Verification performed (this session)
+
+* **Schedule:** 31 games transcribed by hand from the official page and compared with
+  `data/slates.csv` (captured 2026-11-13 by an earlier session): **31/31 agree** on date, tip time,
+  teams and NBA game id.
+* **Team statistics:** all 30 teams transcribed by hand and compared with
+  `data/origin/teams_advanced.csv`: **210/210 field comparisons agree** (GP, W, L, OffRtg, DefRtg,
+  NetRtg, PACE).
+* **Injury report:** 117 player rows + 5 team report statuses; diffed against the stored 11/13 05:15 PM
+  snapshot: **9 status changes** (e.g. T.J. McConnell Probable → Available, Klay Thompson Probable → Out),
+  **Denver's report newly present** for the 11/14 game, **5 teams still NOT YET SUBMITTED** for 11/14.
+* **Published rows:** the build fails if any table row has no `https` source link; 0 rows fail.
+* **Links:** 18 pages checked, 0 broken links and 0 broken anchors.
+* **Determinism:** capture → assemble → build produces byte-identical output on a second run, so the
+  CI drift check is meaningful.
+
+### Irregularities found by this session (published on the Flagged for Review page)
+
+| ID | Finding | Where it is published |
+|---|---|---|
+| NF-43 | Pages is still served from the legacy `main /` source, so the whole public repository is published. The Actions workflow runs and uploads an artifact, but the published site is the branch build. | Flagged for review + Repository review |
+| NF-44 | Seven dashboards were published side by side with four ID namespaces and different injury snapshots. The canonical dashboard is now the entry point; the earlier ones are kept and labelled as snapshots. | Flagged for review + Repository review |
+| NF-45 | Two official injury snapshots were stored with different timestamps (05:00 PM, 05:15 PM) and could be read as contradictory. The canonical site publishes the 07:30 PM report and shows the diff. | Flagged for review |
+| NF-46 | No official injury report exists yet for the 2026-11-15 and 2026-11-16 games; five teams had not submitted for 2026-11-14. | Flagged for review + Injuries page |
+| NF-47 | One earlier pipeline printed `BRK`, `CHO` and `PHO` instead of the official `BKN`, `CHA` and `PHX`; the canonical pages use the official abbreviations. | Flagged for review |
+| NF-48 | The first manual transcription of the official team-stats page produced 8 misread values (MIA, TOR, CHA, NOP, UTA). A second read confirmed the stored values; the automated cross-check caught all eight and is now part of the build. | Verification log + Flagged for review |
+
+### Cross-session notes
+
+* The `/edge/` pipeline (arena-0a016df8) remains the only place where market prices are compared
+  against our lines. Those prices are not official NBA values and are not published on the canonical
+  pages; the canonical pages show our own fair prices only.
+* `data/origin/` (session e22a2831) is the official-sourced model the canonical pages read from: 174
+  official final scores, 30 teams of official advanced statistics, walk-forward backtest, 7 gates.
+* Nothing in `docs/`, `site/`, `lab/`, `research/`, `edge/` or `origin/` was edited by this session.
+
+### Deployment / PR status
+
+* PR: pending (see below, updated after the merge).
+
+---
+
+## Session `arena/a459dadf-nba3` — window refresh, line-by-line re-verification, canonical site integration
+
+Session ID: `a459dadf`. Arena fixes this session to branch `arena/a459dadf-nba3` (based on `main` @
+`3367762`, the merge of PR #19). The brief's `session-<id>/<task>` branch naming conflicts with the
+Arena one-branch rule, so all work stays on the assigned branch; per-task scopes are kept below and
+in the file list, which are non-overlapping with every earlier session's scope.
+
+Claimed at 2026-11-14 (UTC). No other session had an open claim on the files listed below.
+
+| Task | Status | Owner | Files in scope |
+|---|---|---|---|
+| A1 Repo review, line by line, with official links and irregularities | in progress | a459dadf | `data/repo_review.csv`, `data/repo_review.json`, `scripts/build_app.py` (repo-review section only) |
+| A2 Official capture refresh: slate 2026-11-14 → 2026-11-17, newest official injury report, official team stats re-check | in progress | a459dadf | `scripts/capture_official_2026_11_14.py`, `data/app/official_*.json` |
+| A3 Origination engine re-run on the refreshed window (lines, props, gates, correlations) | in progress | a459dadf | `data/origin/*`, `model/build.py`, `origin/**` (generated) |
+| A4 Canonical dataset + dashboard rebuild (every table row sourced, blanks flagged) | in progress | a459dadf | `data/app/canonical.json`, `app/**`, `index.html` |
+| A5 Picks for every game in the 3-day window (singles, parlay combos, player props) | in progress | a459dadf | `data/picks/**`, `scripts/build_app.py` (picks section) |
+| A6 Executive summary, questions, suggestions refresh | in progress | a459dadf | `data/questions.*`, `data/suggestions.*`, `data/flags.*`, `app/summary.html`, `app/questions.html`, `app/suggestions.html`, `app/flagged.html` (generated) |
+| A7 Integration: verify, link check, PR to `main`, merge, Pages deploy verification | in progress | a459dadf | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` |
+
+**Change requests to other sessions:** none. No file owned by an earlier session is edited by hand;
+`origin/**`, `app/**`, `index.html` are regenerated from their generators only.
+
+---
+
+### Second merge round and what comparing engines found (this session)
+
+`main` moved twice more while this section was being written. Both merges were resolved keeping every
+session's content; `index.html` now carries both `/app/` (session 2b9f1ae1, PR #19) and `/dash/`
+links, and `integrate/build_site.py` no longer writes the root file at all so the two generators can
+never collide on it again.
+
+New flags from this round: **E-F-17** (two unified dashboards built an hour apart — owner to name one
+canonical), **E-F-18** (this build's own defect, disclosed), **E-F-19** (engine agreement is not
+independent confirmation), **E-F-20** (calibration: spread correctly scaled, totals over-dispersed).
+New suggestion **E-SG-14** (make "the predictor that prices the slate is the predictor that was
+validated" a CI assertion).
+
+| Item | Before the fix | After the fix |
+|---|---|---|
+| dash/ vs app/ agree on the favoured side | 7 of 22 | **22 of 22** |
+| median absolute spread gap | 11.48 points | **2.39 points** |
+| games differing by more than 6.5 points | 16 of 22 | **0** |
+| sd of originated spreads | 2.38 (far too timid) | 10.81 (vs 16.89 for actual margins) |
+| engines matching the better-record side | mine 5/22, theirs 20/22 | mine 20/22, theirs 20/22 |
+
+Cause: `originate()` recomputed its own prediction instead of reusing the variant the online selector
+had chosen, so the published lines came from a model the walk-forward backtest had rejected. The
+symptom was a large apparent disagreement with another session's engine; had I reported that as a
+research finding instead of tracing it, the site would have published a false contradiction and the
+project would have "fixed" a model that was fine. Recorded as E-F-18 with the numbers both ways.
+
+Verification of this round: `integrate.check` PASS (15 pages, 22 lines, 9 gates, 20 flags, every table
+row sourced or flagged); all seven other sessions' suites re-run and green; the CI drift gate proves
+`data/integration/model.json` and `dash/` match the committed code byte-for-byte.
 
 ---
 
@@ -788,6 +1049,8 @@ Status values: `unclaimed` | `in progress` | `done` | `needs review`
 | 2026-11-13 | d01ae7e2 | Path correction: T04/T10 suggestions live in `data/questions.json → suggestions` (single review register), not a separate file. |
 | 2026-11-13 | d01ae7e2 | **MERGE CONFLICT with `origin/main` (16 add/add files)** while opening PR #24: sessions `49064d5a`, `f879620b`, `7c532e8c`, `5697caaf`, `9ed6085f`, `0a016df8`, `e22a2831`, `2e50a71a`, `3655c68d` had already merged work into `main` (workstreams `/`, `/docs/`, `/site/`, `/lab/`, `/research/`, `/edge/`, `/origin/`, `/verify/`). **Resolution — nothing discarded:**<br>• `main`'s versions kept at every canonical path (`.gitignore` union-merged; `COORDINATION.md`/`README.md` content-merged with this session's sections appended; `data/{injuries,picks,questions,sources,strategies}.json`, `docs/{flagged,index,questions,slate,sources,strategies,suggestions}.html`, `scripts/build_site.py` kept as `main`'s so their `/site/` build and `tools/check_site.py` behave exactly as on `main`)<br>• this session's artifacts moved to the **`d01ae7e2/`** namespace (29 files), preserving both sessions' full content<br>• one **additive** line in `.github/workflows/pages.yml` staging step publishes `d01ae7e2/`<br>• `main`'s pick rows cite `espn_odds+bbr_advanced` inputs — outside this session's official-NBA-only allowlist; **not modified**, recorded here as a cross-session discrepancy for reviewer triage (this session does not verify those inputs). |
 | 2026-11-13 | d01ae7e2 | Namespace adjustment (not a conflict): this session's promised paths (`data/slate.json`, `docs/index.html`, …) are delivered at `d01ae7e2/...` per the resolution above; task board rows updated to the real paths. |
+| 2026-11-13 | d01ae7e2 | **`git pull --rebase` aborted deliberately** before push: after the merge commit, rebase would have flattened the merge and replayed 56 commits (including main-side ones like `4fcea12`) with conflicts, undoing the16-file resolution. Verified `git rev-list HEAD..FETCH_HEAD --count` = 0 (no foreign push to this branch), then pushed the merge as a fast-forward instead. Rebase rule deviation logged here, purpose of the rule (don't clobber others' pushes) confirmed satisfied. |
+| 2026-11-13 | d01ae7e2 | **MERGE CONFLICT round 2** with `origin/main` (now `a5fc736`; +20 commits from sessions e40cd215, a459dadf incl. their own `pages.yml` indentation fix and a 07:30 PM injury-report refresh). Only `COORDINATION.md` conflicted (content): resolution = new-main's version (all prior + new session records) as base + this session's block re-appended; `pages.yml` and `README.md` auto-merged with both sides intact (verified: my `/d01ae7e2/` staging lines and their canonical-assembly steps coexist). |
 
 ## Task completion log
 

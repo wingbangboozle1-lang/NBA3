@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brief coverage — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Overview</div>
+    <h1>Brief coverage</h1>
+    
+  </div>
+
+<p>Coverage of the brief as written, with the verification status of each item.</p>
+<div class="table-wrap"><table>
+<caption id="requirements"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Category</th>
+<th>Status</th>
+<th>How it is addressed</th>
+<th>Blocker or gap</th>
+<th>Verification</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>RQ01</td>
+<td>Collect, organise and analyse NBA data</td>
+<td>Data</td>
+<td>Partly done</td>
+<td>Official schedule for Nov 13-16 (31 games) and one official injury snapshot are in data/. No historical box scores or game logs.</td>
+<td>stats.nba.com and cdn.nba.com are not reachable from this environment (Q-DATA-01).</td>
+<td>Page reachable; no statistical values extracted (S07)</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional</a></td>
+</tr>
+<tr>
+<td>RQ02</td>
+<td>Originate own NBA lines</td>
+<td>Models</td>
+<td>Not started</td>
+<td>No line model exists. The method and gate definitions are in data/gates.csv and data/strategies.csv.</td>
+<td>No verified training data and no licensed odds feed (Q-DATA-01, Q-DATA-02).</td>
+<td>Schedule read; it shows no odds values (S05)</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>RQ03</td>
+<td>Research and develop strategies that generate useful signals</td>
+<td>Models</td>
+<td>Partly done</td>
+<td>11 strategy hypotheses (ST01-ST11) with inputs and test designs. None is evaluated.</td>
+<td>No data to evaluate them.</td>
+<td>Definitions read (S06); no predictive claim made</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>RQ04</td>
+<td>Run as a leaderboard competition with rewards for top strategies</td>
+<td>Governance</td>
+<td>Structure only</td>
+<td>Leaderboard section on strategies.html is empty by design. Rule: no ranking unless every gate passes.</td>
+<td>No eligible strategy. Reward design raises gambling-law questions (Q-LEG-02).</td>
+<td>Statute Art. 1 read (S12); no reward rule verified</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">https://wetten.overheid.nl/BWBR0002469/2025-02-12/0</a></td>
+</tr>
+<tr>
+<td>RQ05</td>
+<td>Single bets, parlays and player prop combos</td>
+<td>Models</td>
+<td>Catalogue only</td>
+<td>ST01-ST11 cover single games, props, a parlay, a prop combo and a same-game combo, plus a control.</td>
+<td>No prices and no historical outcomes for any market.</td>
+<td>Read (S10): sports bets need a licence</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>RQ06</td>
+<td>Each strategy must pass validation gates</td>
+<td>Validation</td>
+<td>Gates defined; all blocked</td>
+<td>11 gates in data/gates.csv. Every strategy is BLOCKED. pipeline/gates.py returns BLOCKED when evidence is missing.</td>
+<td>Thresholds are proposals; owner approval needed (Q-GATE-01).</td>
+<td>Exact binomial method read (S16)</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm</a></td>
+</tr>
+<tr>
+<td>RQ07</td>
+<td>Determine correlation values</td>
+<td>Validation</td>
+<td>Blocked (no values)</td>
+<td>data/correlations.csv lists 8 market pairs with blank value cells and the reason for each.</td>
+<td>No matched outcome or price data, so correlations cannot be measured (Q-MODEL-01).</td>
+<td>NIST index read (S14); no correlation method page cited</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+</tr>
+<tr>
+<td>RQ08</td>
+<td>Remove luck; build selectively skill-based strategies</td>
+<td>Validation</td>
+<td>Method defined; not applied</td>
+<td>Null control (ST11), cluster bootstrap by date, Holm correction, leakage check, and a prospective paper trial (G02-G11).</td>
+<td>Needs data; cannot be demonstrated here.</td>
+<td>Bootstrap read (S17); permutation method page not located</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
+</tr>
+<tr>
+<td>RQ09</td>
+<td>Generate picks for every upcoming slate up to 3 days ahead, using originated lines</td>
+<td>Picks</td>
+<td>Blocked: no picks</td>
+<td>picks.html lists all 31 games with blank line and pick cells, flagged.</td>
+<td>No validated strategy and no originated lines. Publishing picks may be restricted (Q-LEG-01).</td>
+<td>Schedule read (S05)</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>RQ10</td>
+<td>Track how injuries affect rotation minutes and production</td>
+<td>Injuries</td>
+<td>Partly done</td>
+<td>Official 11/13 11:00 AM snapshot transcribed with flags (98 rows). pipeline/rotation.py redistributes minutes for Out players, with unit tests.</td>
+<td>No minutes or production data, so no effect is estimated (Q-MODEL-02). The snapshot is not the newest report (F01).</td>
+<td>Report rules read (S01); PDF read (S02)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>RQ11</td>
+<td>Game flow analysis</td>
+<td>Game flow</td>
+<td>Method only</td>
+<td>gameflow.html documents 7 factors, the data each needs, and the definition source.</td>
+<td>No play-by-play or score-state data.</td>
+<td>Definitions read (S06)</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>RQ12</td>
+<td>Executive summary of key details</td>
+<td>Reporting</td>
+<td>Done (generated)</td>
+<td>exec-summary.html, generated from the data files by pipeline/build_site.py.</td>
+<td>None.</td>
+<td>Built and checked by pipeline/verify.py</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/pipeline/build_site.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/pipeline/build_site.py</a></td>
+</tr>
+<tr>
+<td>RQ13</td>
+<td>Site improvement suggestions for review before any change</td>
+<td>Reporting</td>
+<td>Done (generated)</td>
+<td>suggestions.html lists 14 options with a recommendation and a decision column left at &#x27;Awaiting owner review&#x27;.</td>
+<td>Nothing is implemented until an option is chosen.</td>
+<td>Generated from data/suggestions.csv</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/suggestions.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/suggestions.csv</a></td>
+</tr>
+<tr>
+<td>RQ14</td>
+<td>Clear list of questions, information needed and answers</td>
+<td>Reporting</td>
+<td>Done (generated)</td>
+<td>questions.html lists 18 questions with status, current answer, missing information and a discovery step.</td>
+<td>Several items need owner or legal decisions.</td>
+<td>Generated from data/questions.csv</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv</a></td>
+</tr>
+<tr>
+<td>RQ15</td>
+<td>Suggestions for discovering missing information</td>
+<td>Reporting</td>
+<td>Done (generated)</td>
+<td>Each open question has a discovery step.</td>
+<td>None.</td>
+<td>Generated from data/questions.csv</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv</a></td>
+</tr>
+<tr>
+<td>RQ16</td>
+<td>No manual input needed from the owner to finish</td>
+<td>Process</td>
+<td>Partly done</td>
+<td>Data, site and checks are generated in the repository without owner input.</td>
+<td>Blocked decisions (legal, thresholds, data access) are recorded as questions, not worked around.</td>
+<td>Checked against the question register</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv</a></td>
+</tr>
+<tr>
+<td>RQ17</td>
+<td>Repository review line by line with official links and flagged irregularities</td>
+<td>Repo review</td>
+<td>Done (generated)</td>
+<td>repo-review.html lists 17 items with GitHub evidence links and statuses.</td>
+<td>Irregular items need owner action.</td>
+<td>Generated from data/repo_review.csv</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/repo_review.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/repo_review.csv</a></td>
+</tr>
+<tr>
+<td>RQ18</td>
+<td>GitHub Pages live site: clean landing page and category subpages</td>
+<td>Site</td>
+<td>Done (generated); publish path limited</td>
+<td>Landing page plus 14 category subpages are generated from data/ by pipeline/build_site.py and committed at the repository root. The Pages source is still the legacy branch build from main /; the switch to GitHub Actions failed with a 403 permission error.</td>
+<td>Pages source switch to GitHub Actions is blocked by the session token (403). The site is served from main / instead (Q-REPO-02).</td>
+<td>GitHub Docs read (S18)</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
+</tr>
+<tr>
+<td>RQ19</td>
+<td>Every table row has an official source link; unverified values left blank and flagged</td>
+<td>Verification</td>
+<td>Done (checked by tool)</td>
+<td>pipeline/verify.py checks every table row for a source link on an allowed official host, flags every blank, and checks internal links.</td>
+<td>Rows citing non-official hosts fail the build.</td>
+<td>Unit-tested in pipeline/tests</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/pipeline/verify.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/pipeline/verify.py</a></td>
+</tr>
+<tr>
+<td>RQ20</td>
+<td>Coordinate parallel sessions through COORDINATION.md</td>
+<td>Process</td>
+<td>Done (single branch)</td>
+<td>Claims, handoff notes and logs are in COORDINATION.md.</td>
+<td>The session-per-branch scheme is not used: this session is bound to one branch.</td>
+<td>File read</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/COORDINATION.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/COORDINATION.md</a></td>
+</tr>
+<tr>
+<td>RQ21</td>
+<td>Pull request from the integration branch to main with summary, sources and flagged irregularities</td>
+<td>Release</td>
+<td>Pending</td>
+<td>To be opened after checks pass.</td>
+<td>None known.</td>
+<td>Pending</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/pulls" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pulls</a></td>
+</tr>
+<tr>
+<td>RQ22</td>
+<td>Merge without waiting for approval; confirm Pages deploy; record PR and merge result</td>
+<td>Release</td>
+<td>Pending</td>
+<td>To be done after the PR is opened and checks pass. Pages publishes the merged commit from main / automatically.</td>
+<td>None known.</td>
+<td>Pending</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions</a></td>
+</tr>
+<tr>
+<td>RQ23</td>
+<td>Flagged for Review page with source links</td>
+<td>Reporting</td>
+<td>Done (generated)</td>
+<td>flagged.html lists 25 flags from data/flags.csv, each with a source link.</td>
+<td>None.</td>
+<td>Generated from data/flags.csv</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/flags.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/flags.csv</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

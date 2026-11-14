@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correlations &amp; dependence — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Model output</div>
+    <h1>Correlations &amp; dependence</h1>
+    
+  </div>
+
+<p>Correlations are measured on the official results log where possible. Where a correlation could
+<strong>not</strong> be measured (player-level pairs need per-player game logs that were never
+captured), the value is left blank and the row says so — it is never estimated.</p>
+<div class="table-wrap"><table>
+<caption id="corr"></caption>
+<thead><tr>
+<th>Pair</th>
+<th>Statistic</th>
+<th>Value</th>
+<th>95% interval</th>
+<th>n</th>
+<th>Status</th>
+<th>Note</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Home points vs away points (same game)</td>
+<td>Pearson r</td>
+<td>0.128</td>
+<td>[-0.021, 0.271]</td>
+<td>174</td>
+<td><span class="chip chip-ok">Measured</span></td>
+<td>Computed from the 174 verified final scores.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>Originated-spread residual vs originated-total residual</td>
+<td>Pearson r</td>
+<td>0.091</td>
+<td>[-0.094, 0.270]</td>
+<td>114</td>
+<td><span class="chip chip-ok">Measured</span></td>
+<td>Residuals are out-of-sample (walk-forward). This is the key input for same-game parlays that combine a side with a total.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>Cover (vs our spread) AND over (vs our total)</td>
+<td>phi (binary)</td>
+<td>0.109</td>
+<td><span class="unverified">not measurable</span></td>
+<td>114</td>
+<td><span class="chip chip-ok">Measured</span></td>
+<td>Joint hit rate 0.246 vs 0.219 under independence.</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>Player A points vs Player B points, same team, same game (PTS-PTS)</td>
+<td>Pearson r</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">not measurable</span></td>
+<td>—</td>
+<td><span class="chip chip-bad">Unverified</span></td>
+<td>Requires per-player game logs, which were not captured. Left blank by policy.</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+</tr>
+<tr>
+<td>Player points vs player rebounds, same player, same game</td>
+<td>Pearson r</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">not measurable</span></td>
+<td>—</td>
+<td><span class="chip chip-bad">Unverified</span></td>
+<td>Requires per-player game logs. Left blank by policy.</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+</tr>
+<tr>
+<td>Player points vs player assists, same player, same game (combo SGP)</td>
+<td>Pearson r</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">not measurable</span></td>
+<td>—</td>
+<td><span class="chip chip-bad">Unverified</span></td>
+<td>Requires per-player game logs. Left blank by policy.</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+</tr>
+<tr>
+<td>Two legs in different games (cross-game parlay)</td>
+<td>Pearson r</td>
+<td>0.000</td>
+<td><span class="unverified">not measurable</span></td>
+<td>—</td>
+<td><span class="chip chip-bad">Unverified</span></td>
+<td>Not measured on this sample. Independence is an ASSUMPTION, not a verified result; treat as unverified.</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+</tr>
+</tbody></table></div>
+<h2>What the correlation numbers mean for combinations</h2>
+
+<ul>
+<li><strong>Same-game parlay (side + total).</strong> Measured joint hit rate
+0.246 against 0.219
+if the legs were independent. The difference is inside the noise of a 114-game
+sample, so no dependence premium is claimed either way.</li>
+<li><strong>Player-prop combinations.</strong> Not measurable without per-player game logs: the three
+player-level rows above are blank by policy.</li>
+<li><strong>Cross-game parlays.</strong> Independence is an assumption, not a result. It is priced as
+an assumption and flagged.</li>
+</ul>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

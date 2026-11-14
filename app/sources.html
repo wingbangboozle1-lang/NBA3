@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Source register — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html" class="active">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Verification</div>
+    <h1>Source register</h1>
+    
+  </div>
+
+<p>Every source used by this project, with the publisher, the official status, the retrieval method
+and the verification result. Legacy IDs from earlier sessions are kept so a reviewer can trace a
+value back to the page that produced it.</p>
+<div class="table-wrap"><table>
+<caption id="sources"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Publisher</th>
+<th>Title</th>
+<th>Link</th>
+<th>Retrieved</th>
+<th>Method</th>
+<th>Verification result</th>
+<th>Limits / notes</th>
+<th>Legacy ID</th>
+</tr></thead><tbody>
+<tr>
+<td>SRC-01</td>
+<td>NBA (official)</td>
+<td>NBA Injury Report 2026-27 season index</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, 2 chunks</td>
+<td>Read: deadline and report-timing rules; index lists 11/13 reports from 12:00 a.m. to 5:15 p.m. ET</td>
+<td>Index page only. Later PDFs were not transcribed (see F01).</td>
+<td>S01</td>
+</tr>
+<tr>
+<td>SRC-02</td>
+<td>NBA (official)</td>
+<td>Injury Report 11/13/26 11:00 AM ET (PDF)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunks 0 and 1 of 2 (text extraction)</td>
+<td>Read. One reason split across chunks was joined (Simmons, Ben). Rows without a team or matchup cell are blank and flagged</td>
+<td>Text extraction of a multi-column PDF. Team and matchup cells missing on about 27 rows (F02, F03). Miami rows on DET@MIA absent (F07).</td>
+<td>S02</td>
+</tr>
+<tr>
+<td>SRC-03</td>
+<td>NBA (official)</td>
+<td>Injury Report 11/11/26 5:00 PM ET (PDF)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-11_05_00PM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunk 0</td>
+<td>Resolves and is readable (historical report)</td>
+<td>Not used for any current value.</td>
+<td>S03</td>
+</tr>
+<tr>
+<td>SRC-04</td>
+<td>NBA (official)</td>
+<td>2025-26 injury index slug (cited by the prior dashboard)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Irregular: the 2025-26 slug returns the 2026-27 season content</td>
+<td>Do not cite as the 2025-26 page (F06).</td>
+<td>S04</td>
+</tr>
+<tr>
+<td>SRC-05</td>
+<td>NBA (official)</td>
+<td>NBA Schedule (Week 4 Nov 9-15; Week 5 Nov 16-22)</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunks 0-2 of 9</td>
+<td>Verified: Nov 13 = 9 games; Nov 14 = 5; Nov 15 = 9; Nov 16 = 8; total 31. Each row in data/slates.csv matches the page</td>
+<td>Times in ET as printed (7:00 PM ET). Nov 17 onward not used. Odds toggle not used.</td>
+<td>S05</td>
+</tr>
+<tr>
+<td>SRC-06</td>
+<td>NBA (official)</td>
+<td>Stat Glossary</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunk 0 of 10</td>
+<td>Read: definitions</td>
+<td>Definitions only. They do not grant data-use rights.</td>
+<td>S06</td>
+</tr>
+<tr>
+<td>SRC-07</td>
+<td>NBA (official)</td>
+<td>NBA Stats - Players Traditional</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunk 0 of 10</td>
+<td>Reachable; no statistical values extracted</td>
+<td>Table data is client-rendered; no values taken.</td>
+<td>S07</td>
+</tr>
+<tr>
+<td>SRC-08</td>
+<td>NBA (official)</td>
+<td>NBA.com Terms of Use</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunks 0, 3, 4, 8, 9 of 10</td>
+<td>Read: s.1, s.9, s.11, s.17-18 (arbitration, class waiver), s.19 (New York law; New York County courts). Page states LAST UPDATED: July 13, 2026</td>
+<td>Chunks 1, 2, 5, 6, 7 not re-read in this round. Arbitration text is not summarised here.</td>
+<td>S08</td>
+</tr>
+<tr>
+<td>SRC-09</td>
+<td>Kansspelautoriteit (Ksa)</td>
+<td>Kansspelautoriteit home</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Read</td>
+<td>Home page only.</td>
+<td>S09</td>
+</tr>
+<tr>
+<td>SRC-10</td>
+<td>Kansspelautoriteit (Ksa)</td>
+<td>Online kansspel aanbieden (licensing)</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Read: sports bets listed as remote games needing a licence under Art. 31a</td>
+<td>Summary page, not binding; statute governs.</td>
+<td>S10</td>
+</tr>
+<tr>
+<td>SRC-11</td>
+<td>Kansspelautoriteit (Ksa)</td>
+<td>Belangrijkste regels voor kansspelreclame</td>
+<td><a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, 2 chunks (old slug redirected)</td>
+<td>Read</td>
+<td>Summary, not binding. Does not settle the minimum age (F16).</td>
+<td>S11</td>
+</tr>
+<tr>
+<td>SRC-12</td>
+<td>Overheid.nl (Government of the Netherlands)</td>
+<td>Wet op de kansspelen (BWBR0002469), in force 12-02-2025</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunk 0 of 39</td>
+<td>Read: Art. 1 letters a-d; licensing articles</td>
+<td>Only chunk 0 read; minimum age not yet located in the text.</td>
+<td>S12</td>
+</tr>
+<tr>
+<td>SRC-13</td>
+<td>Gokstop (Ksa-linked)</td>
+<td>Gokstop self-exclusion</td>
+<td><a href="https://www.gokstop.nl/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Read</td>
+<td>Registrant count stated on the page is not used (unverified).</td>
+<td>S13</td>
+</tr>
+<tr>
+<td>SRC-14</td>
+<td>NIST / SEMATECH</td>
+<td>e-Handbook of Statistical Methods (root)</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page (root)</td>
+<td>Read: index only</td>
+<td>The DOI cited in an earlier draft was not read on this page and has been removed.</td>
+<td>S14</td>
+</tr>
+<tr>
+<td>SRC-15</td>
+<td>NIST / SEMATECH</td>
+<td>7.2.4 Does the proportion of defectives meet requirements?</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Read</td>
+<td>Normal approximation is not used for gate G05, which uses the exact binomial.</td>
+<td>S15</td>
+</tr>
+<tr>
+<td>SRC-16</td>
+<td>NIST / SEMATECH</td>
+<td>7.2.7.1 Confidence limits (exact binomial bounds)</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Read</td>
+<td>Basis for the exact binomial tail in pipeline/gates.py.</td>
+<td>S16</td>
+</tr>
+<tr>
+<td>SRC-17</td>
+<td>NIST / SEMATECH</td>
+<td>1.3.3.4 Bootstrap plot</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Read</td>
+<td>Describes the simple bootstrap. The cluster bootstrap in pipeline/gates.py is an extension and is labelled as such.</td>
+<td>S17</td>
+</tr>
+<tr>
+<td>SRC-18</td>
+<td>GitHub Docs</td>
+<td>Configuring a publishing source for GitHub Pages</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page, chunk 0 of 2</td>
+<td>Read</td>
+<td>Documentation only; repository setting is separate.</td>
+<td>S18</td>
+</tr>
+<tr>
+<td>SRC-19</td>
+<td>GitHub (repository API)</td>
+<td>wingbangboozle1-lang/NBA3 facts (metadata, Pages, branches, PRs)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>gh api and gh pr list (authenticated)</td>
+<td>Verified against API output at retrieval time</td>
+<td>Reflects state at retrieval time only.</td>
+<td>S19</td>
+</tr>
+<tr>
+<td>SRC-20</td>
+<td>NBA.com</td>
+<td>NBA.com/Stats — Stat Glossary</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (chunk 1 of 10 read)</td>
+<td>Definitions only; no predictive value; remaining chunks not yet reviewed (7C-F-13).</td>
+<td>S01</td>
+</tr>
+<tr>
+<td>SRC-21</td>
+<td>NBA Official</td>
+<td>NBA Official — Injury Report: 2026-27 Season</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (2 chunks read)</td>
+<td>Index of files only. Statuses are not minutes forecasts.</td>
+<td>S02</td>
+</tr>
+<tr>
+<td>SRC-22</td>
+<td>NBA Official</td>
+<td>NBA Official — Injury Report: 2025-26 Season (superseded)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (resolves; prior season)</td>
+<td>Superseded by S02 for the 2026-27 season (7C-F-07).</td>
+<td>S03</td>
+</tr>
+<tr>
+<td>SRC-23</td>
+<td>NBA Official (ak-static.cms.nba.com)</td>
+<td>NBA Injury Report PDF — 11/13/26 05:00 PM</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (2 text chunks read in full)</td>
+<td>PDF text extraction drops some team/matchup cells (18 rows left blank) and joins some words (kept as printed). No minutes field.</td>
+<td>S04</td>
+</tr>
+<tr>
+<td>SRC-24</td>
+<td>NBA Official (cdn.nba.com)</td>
+<td>2026-27 NBA Regular Season Schedule — By Date (PDF)</td>
+<td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (13 chunks; chunks 0–3 read; all 31 games for 11/13–11/16 found in chunks 1–2)</td>
+<td>Subject to change. The meaning of the &#x27;R&#x27; and &#x27;#&#x27; (C) markers has no legend in the text read (7C-F-11).</td>
+<td>S05</td>
+</tr>
+<tr>
+<td>SRC-25</td>
+<td>NBA.com</td>
+<td>NBA.com — NBA announces schedule for 2026-27 regular season (team-by-team index)</td>
+<td><a href="https://www.nba.com/news/2026-27-schedule-team-by-team-index" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (first of 3 chunks read)</td>
+<td>Used only to locate the by-date PDF (S05).</td>
+<td>S06</td>
+</tr>
+<tr>
+<td>SRC-26</td>
+<td>NBA.com</td>
+<td>NBA.com Terms of Use</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (3 of 10 chunks read: opening, §8, §9–§11)</td>
+<td>Other sections not read in full this session; not legal advice (7C-F-01).</td>
+<td>S07</td>
+</tr>
+<tr>
+<td>SRC-27</td>
+<td>Kansspelautoriteit (Dutch gambling regulator)</td>
+<td>Kansspelautoriteit (Ksa) — homepage</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (Dutch)</td>
+<td>Homepage summary only.</td>
+<td>S08</td>
+</tr>
+<tr>
+<td>SRC-28</td>
+<td>Kansspelautoriteit</td>
+<td>Ksa — Online kansspel aanbieden (offering online gambling)</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Retrieved (Dutch)</td>
+<td>Official guidance page; not legal advice (7C-F-02).</td>
+<td>S09</td>
+</tr>
+<tr>
+<td>SRC-29</td>
+<td>NBA Official (cdn.nba.com)</td>
+<td>NBA CDN — todaysScoreboard_00.json (live scoreboard)</td>
+<td><a href="https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>FAILED — HTTP 500 from the fetch tool</td>
+<td>Live feed not available in this session (7C-F-12).</td>
+<td>S10</td>
+</tr>
+<tr>
+<td>SRC-30</td>
+<td>NBA.com</td>
+<td>NBA.com — 2026-27 NBA regular season schedule (news article)</td>
+<td><a href="https://www.nba.com/news/2026-27-nba-regular-season-schedule" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-13</td>
+<td>fetch_page</td>
+<td>Search snippet only (not fetched)</td>
+<td>Not used as evidence for any game or value.</td>
+<td>S11</td>
+</tr>
+<tr>
+<td>SRC-31</td>
+<td>NBA (official)</td>
+<td>NBA Schedule — Week 4 (Nov 13-15) and Week 5 (Nov 16-22)</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunks 0-2 of 9</td>
+<td>Read. 31 games transcribed. Cross-checked against data/slates.csv (captured 2026-11-13): 31/31 agree on date, tip time, teams and game id.</td>
+<td>Tip times are as printed on the page (ET). Games can be rescheduled; re-read before publishing a new slate.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-32</td>
+<td>NBA (official)</td>
+<td>NBA Stats — Teams Advanced (Regular Season 2026-27)</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunks 0-1 of 2</td>
+<td>Read. 30 teams transcribed. Cross-checked against data/origin/teams_advanced.csv: 210/210 field comparisons agree.</td>
+<td>Values change as games are played; this snapshot is dated 2026-11-14.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-33</td>
+<td>NBA (official)</td>
+<td>NBA official injury report PDF — 11/13/26 07:30 PM ET</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunks 0-1 of 2 (PDF text extraction)</td>
+<td>Read. Compared with the 11/13 05:15 PM snapshot stored in data/origin/injuries.csv: 9 status changes, Denver&#x27;s report newly present.</td>
+<td>PDF text extraction drops some spaces inside reason text; spacing corroborated against the 05:15 PM report where the same player appears.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-34</td>
+<td>NBA (official)</td>
+<td>NBA Injury Report — 2026-27 season index</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>fetch_page, chunks 0-1 of 2</td>
+<td>Read. The index lists 11/13 reports from 12:00 a.m. to 07:30 p.m. ET. No 11/14 report is listed yet.</td>
+<td>No report exists yet for the 2026-11-15 and 2026-11-16 games; teams report by 5 p.m. local time the day before a game.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-35</td>
+<td>GitHub (repository API)</td>
+<td>wingbangboozle1-lang/NBA3 — repository, Pages and PR facts</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-14</td>
+<td>gh api (authenticated)</td>
+<td>Verified against API output at retrieval time.</td>
+<td>Repository facts change; re-check before relying on them.</td>
+<td></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

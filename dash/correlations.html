@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correlation · NBA Edge Lab</title>
+<meta name="description" content="Measured dependence between markets - the parlay input">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="top">
+  <div class="brand"><a href="index.html"><strong>NBA Edge Lab</strong><span>integrated build · session e40cd215</span></a></div>
+  <div class="stamp">results through 2026-11-12 · availability from the 11/13/26 07:30 PM ET official report · pricing window 2026-11-14 to 2026-11-16</div>
+</header>
+<nav class="nav" aria-label="sections"><a class="nav-i" href="index.html">Executive summary</a>
+<a class="nav-i" href="lines.html">Originated lines</a>
+<a class="nav-i" href="picks.html">Picks &amp; parlays</a>
+<a class="nav-i" href="leaderboard.html">Strategy leaderboard</a>
+<a class="nav-i" href="gates.html">Validation gates</a>
+<a class="nav-i" href="correlations.html" aria-current="page">Correlation</a>
+<a class="nav-i" href="injuries.html">Injuries &amp; rotations</a>
+<a class="nav-i" href="gameflow.html">Game flow</a>
+<a class="nav-i" href="reconciliation.html">Cross-engine reconciliation</a>
+<a class="nav-i" href="verification.html">Verification log</a>
+<a class="nav-i" href="questions.html">Open questions</a>
+<a class="nav-i" href="suggestions.html">Site improvements</a>
+<a class="nav-i" href="flagged.html">Flagged for review</a>
+<a class="nav-i" href="sources.html">Source register</a>
+<a class="nav-i" href="data.html">Data &amp; reproduction</a></nav>
+<main>
+<h1>Correlation</h1>
+<p class="sub">Measured dependence between markets - the parlay input</p>
+<p>Correlation is what decides whether a multi-leg ticket is affordable. These are measured on the 114 out-of-sample games; where the sample cannot support an estimate the cell is blank and the row says why, instead of defaulting to zero.</p><div class="tw"><table data-rows="6"><caption>Measured correlations</caption><thead><tr><th>Key</th><th>Pair</th><th>r</th><th>95% CI (Fisher)</th><th>n</th><th>Interpretation</th><th>Source</th></tr></thead><tbody><tr><td>margin_total_residual</td><td>Residual of our spread forecast vs residual of our total forecast, same game</td><td>+0.023</td><td>[-0.16, +0.21]</td><td>114</td><td>CI includes 0 - no measurable dependence. A parlay that pairs a spread leg and a total leg from the same game is therefore treated as near-independent by this data, which is the opposite of the usual assumption.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">code</a></td></tr><tr><td>same_game_parlay_joint</td><td>P(over our total AND home covers our spread) vs the product of the two marginals</td><td><span class="blank" title="not verified - left blank on purpose">—</span></td><td>—</td><td>114</td><td>A ratio above 1 means the same-game parlay pays out more often than independent legs imply; below 1, less often.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">code</a></td></tr><tr><td>same_slate_cross_game</td><td>Do games on the same date share a forecast error?</td><td><span class="blank" title="not verified - left blank on purpose">—</span></td><td>—</td><td>439</td><td>Not estimated: with 114 out-of-sample games the within-date pairs are few and a meaningful interval is not reachable. Left blank rather than assumed to be 0 (flag E-F-06). This is the quantity a multi-game parlay depends on most.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">code</a></td></tr><tr><td>spread_moneyline</td><td>Our spread vs our moneyline, same game</td><td>+1.000</td><td>[+1.00, +1.00]</td><td>114</td><td>Exactly 1 by construction: both are derived from one predicted margin. Correlation here is mechanical, not empirical, and must not be quoted as a measured value.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">code</a></td></tr><tr><td>rest_edge_margin</td><td>Rest-day advantage (home minus away) vs actual home margin</td><td>+0.134</td><td>[-0.14, +0.39]</td><td>55</td><td>Direction and size as measured on this sample only.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">code</a></td></tr><tr><td>player_points_minutes</td><td>Player points vs player minutes, same player-game</td><td><span class="blank" title="not verified - left blank on purpose">—</span></td><td>—</td><td>0</td><td>BLOCKED. Only the 31 highest-minute players in the league were captured and there are no player game logs in the repository, so no player-level correlation can be estimated (flag E-F-07).</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">code</a></td></tr></tbody></table></div><p class="note">Note the one that is exactly 1.000: our spread and our moneyline are the same number re-expressed, so that correlation is mechanical and must never be quoted as evidence of redundancy between markets.</p><h2>Parlay arithmetic from these numbers</h2><div class="tw"><table data-rows="3"><caption>What the measured dependence does to a ticket</caption><thead><tr><th>Ticket</th><th>Independence implies</th><th>Observed</th><th>Adjustment a fair price needs</th></tr></thead><tbody><tr><td>2 legs, same game (our over + our home cover)</td><td>21.6%</td><td>22.8%</td><td>× 1.056 on the hit probability - i.e. the market convention prices this ticket slightly too cheap on our data</td></tr><tr><td>2 legs, different games</td><td>—</td><td>—</td><td>cannot be adjusted: cross-game dependence is unestimated (E-F-06)</td></tr><tr><td>3+ legs, any combination</td><td>—</td><td>—</td><td>blocked by gate proposal E-SG-07 until the above is measured</td></tr></tbody></table></div><p class="note">A dependence ratio of 1.06 on 114 games is not a pricing rule; it is the first honest measurement of a quantity that was previously assumed. The number worth acting on is that it is *near* 1, which means same-game parlays are not as correlated as sportsbook risk models usually pretend - and that cross-game correlation, the one that matters for a 4-leg ticket, is still unknown.</p>
+</main>
+<footer>
+<p><b>Not betting advice.</b> Lines on this site are model output from verified NBA.com results, not
+market prices; no licensed odds feed exists in this repository. Strategy results are out-of-sample
+backtests on 114 games and none of them clears the eligibility gates. Follow local law and
+responsible-gambling practice.</p>
+<p>Rebuilt by <code>python3 -m integrate.engine &amp;&amp; python3 -m integrate.build_site</code> ·
+<a href="data.html">data &amp; reproduction</a> ·
+<a href="flagged.html">flagged for review</a> ·
+<a href="../index.html">root landing</a></p>
+</footer>
+<script src="app.js"></script>
+</body></html>
