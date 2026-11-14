@@ -1,0 +1,162 @@
+[
+ {
+  "id": "V-01",
+  "when": "2026-11-14",
+  "what": "Repository inventory and clean-tree check",
+  "method": "git status --short --branch, full file listing, git log --oneline, gh pr list --state all",
+  "result": "Clean tree on branch arena/99eabb04-nba3 at e591b67 (main). 17 merged pull requests from eight prior sessions. 13 top-level content directories.",
+  "source": "S18"
+ },
+ {
+  "id": "V-02",
+  "when": "2026-11-14",
+  "what": "Every prior generator and checker still runs",
+  "method": "python3 scripts/build_site.py --check; python3 tools/check_site.py; python3 pipeline/verify.py; python3 pipeline/check_site.py; python3 -m unittest tests/test_validate_gates.py; python3 -m unittest discover -s pipeline/tests; python3 model/build.py + model/build_docs.py + model/build_site.py; python3 scripts/model.py + scripts/build_lab.py + scripts/validate_site.py",
+  "result": "All pass. 553 links across 12 pages (site/), 10 pages 77 injury rows (docs/), VERIFY OK (research/), 13 pages 10 data files (edge/), 13 unit tests, 7 strategies and 8 line origins reproduced byte for byte (origin/), lab/ validator exits 0.",
+  "source": "S18"
+ },
+ {
+  "id": "V-03",
+  "when": "2026-11-14",
+  "what": "Slate of 31 games: dates, ET times, home team, venue, NBA game ID",
+  "method": "Read nba.com/schedule (chunks 0-2) and the official 2026-27 schedule-by-date PDF (chunks 1-2); compared both against the 31 games in the origin engine",
+  "result": "All 31 games agree on date, ET start time and the two teams, in both official sources. Home team confirmed for every game from the venue printed on nba.com/schedule (for example Smoothie King Center for DEN at NOP). Game IDs 0022600034 to 0022600252 confirmed from the official links.",
+  "source": "S04"
+ },
+ {
+  "id": "V-04",
+  "when": "2026-11-14",
+  "what": "Home/away orientation of the 11/13 games",
+  "method": "Official injury report prints the matchup as away@home; compared with the venue on nba.com/schedule",
+  "result": "9 of 9 agree (for example MIL@ORL at Kia Center, Orlando; GSW@SAS at Frost Bank Center, San Antonio).",
+  "source": "S02"
+ },
+ {
+  "id": "V-05",
+  "when": "2026-11-14",
+  "what": "Home/away orientation of the 11/14 games",
+  "method": "The 07:30 PM official report prints DEN@NOP, DAL@CLE, DET@MIA, BKN@MEM, CHI@MIN with the team column; compared with the venues on nba.com/schedule",
+  "result": "5 of 5 agree (for example PHI@BKN at Barclays Center, Brooklyn).",
+  "source": "S02"
+ },
+ {
+  "id": "V-06",
+  "when": "2026-11-14",
+  "what": "Independent confirmation of one 11/14 game's venue",
+  "method": "ESPN scoreboard API for 2026-11-14",
+  "result": "Event 401909980 'Denver Nuggets at New Orleans Pelicans', venue Smoothie King Center, New Orleans, Pelicans flagged home. Agrees with nba.com.",
+  "source": "S15"
+ },
+ {
+  "id": "V-07",
+  "when": "2026-11-14",
+  "what": "Injury report transcription, 07:30 PM edition",
+  "method": "Read the official PDF (2 chunks) and transcribed every row into data/hub/injuries.tsv",
+  "result": "122 rows: 117 player rows across 21 team-games and 5 'NOT YET SUBMITTED' team rows covering the 11/13 slate and the five 11/14 games. The 11/15 and 11/16 games have no published report yet.",
+  "source": "S02"
+ },
+ {
+  "id": "V-08",
+  "when": "2026-11-14",
+  "what": "Cross-check of the injury transcription against an independent earlier transcription",
+  "method": "Compared per-team-game player counts in data/hub/injuries.tsv with the counts in data/origin/model_output.json, which a separate session produced from the 11/13 05:15 PM report through a different parsing path",
+  "result": "59 of 62 team-games agree exactly. The 3 differences are all on 11/14 games and are explained by the report version: at 05:15 PM Denver had not submitted (0 rows), Cleveland listed one player (Caleb Martin, Available) and Dallas listed five; by 07:30 PM Denver had submitted four players, Cleveland had not submitted and Dallas listed six. Nothing in the 11/13 slate disagrees.",
+  "source": "S18"
+ },
+ {
+  "id": "V-09",
+  "when": "2026-11-14",
+  "what": "Cross-check of the injury transcription against the earlier 05:00 PM report",
+  "method": "Joined the 117 rows of this session on date, matchup, team and player against data/injuries.json",
+  "result": "99 rows align (81 identical statuses, 18 rows that the earlier session had left unattributed and that are now attributed to the right team and game, 1 status changed from Questionable to Available). 12 statuses changed between the 05:00 PM and 07:30 PM official reports. The 18 previously unattributed rows and the 11/14 rows are the only differences; the 11/13 slate is otherwise identical.",
+  "source": "S03"
+ },
+ {
+  "id": "V-10",
+  "when": "2026-11-14",
+  "what": "Reason string that was split by a page break",
+  "method": "Compared the two extractions of the 05:00 PM and 07:30 PM reports for the same player",
+  "result": "Sacramento Kings Maxime Raynaud: the 07:30 PM extraction lost 'rain/Subl' between chunks; the 05:00 PM report reads 'Right Patella Subluxation'. The row is published as 'Right Patella Sprain/Subluxation' and is flagged in the row itself (F-09, F-23).",
+  "source": "S03"
+ },
+ {
+  "id": "V-11",
+  "when": "2026-11-14",
+  "what": "Official team table for all 30 teams",
+  "method": "Read nba.com/stats/teams/advanced (2 chunks) and transcribed to data/hub/teams_official.tsv",
+  "result": "30 teams, GP, W, L, MIN, OffRtg, DefRtg, NetRtg, AST%, AST/TO, AST ratio, OREB%, DREB%, REB%, TOV%, eFG%, TS%, PACE, PIE, POSS transcribed. The values match the ratings already used by the origin engine.",
+  "source": "S06"
+ },
+ {
+  "id": "V-12",
+  "when": "2026-11-14",
+  "what": "Re-verification of the 348 team-games integrity claim",
+  "method": "Summed the official GP column of the 30 rows and compared with the model's captured team-games",
+  "result": "Official GP sums to exactly 348 team-games, equal to the model's captured 348 with 0 mismatch. The claim reproduces from the official table.",
+  "source": "S06"
+ },
+ {
+  "id": "V-13",
+  "when": "2026-11-14",
+  "what": "Newest published injury report",
+  "method": "Read the 2026-27 injury report index page (2 chunks)",
+  "result": "The index ends at the 11/13 07:30 PM report, which is therefore the newest published file. No report exists yet for the 11/15 or 11/16 games, so availability for those 17 games is blank by policy.",
+  "source": "S01"
+ },
+ {
+  "id": "V-14",
+  "when": "2026-11-14",
+  "what": "Live state of the 11/13 slate at fetch time",
+  "method": "Read nba.com/games?date=2026-11-13 and the nba.com game pages",
+  "result": "Two 11/13 games were in progress (Bucks 15 - Magic 23 in the second quarter; Knicks 26 - Pacers 24 with 19.8 seconds left in the first). The official team table therefore does not yet count those games.",
+  "source": "S20"
+ },
+ {
+  "id": "V-15",
+  "when": "2026-11-14",
+  "what": "Official machine-readable schedule",
+  "method": "Fetched cdn.nba.com scheduleLeagueV2_1.json",
+  "result": "HTTP 500. The endpoint could not be used from this environment; flagged (F-17).",
+  "source": "S16"
+ },
+ {
+  "id": "V-16",
+  "when": "2026-11-14",
+  "what": "Game results cross-check",
+  "method": "Read the Basketball-Reference November schedule page for scores, visiting/home order and overtime markers",
+  "result": "The page renders the completed games with scores and venues and matches the structure of the model's results log. Basketball-Reference is a trusted secondary source, not the NBA, so per-game confirmation against official box scores stays open (Q-10, F-19).",
+  "source": "S13"
+ },
+ {
+  "id": "V-17",
+  "when": "2026-11-14",
+  "what": "Line-by-line reading of the repository",
+  "method": "Read every tracked file and recorded what it is, what was run and what is wrong with it (25 rows in data/hub/repo_review.json)",
+  "result": "No missing files, no broken build, no failing test. Five substantive findings: seven overlapping trees with incompatible namespaces (F-12), two snapshots of the same injury report (F-11, F-24), an unused dependency pin (F-13), no licence (F-14), and a hard-coded picks window (F-22).",
+  "source": "S18"
+ },
+ {
+  "id": "V-18",
+  "when": "2026-11-14",
+  "what": "Consistency of the consolidated tables against their source artefacts",
+  "method": "Re-read the origin model output, the edge picks file and the site/ picks file; recomputed every number that appears on the consolidated pages",
+  "result": "31 originated lines, 8 strategies with 7 gate results each, 7 correlation rows, 62 injury-impact rows, 31 prop rows and 22 picks all reproduce from the committed artefacts.",
+  "source": "S18"
+ },
+ {
+  "id": "V-19",
+  "when": "2026-11-14",
+  "what": "Permission to use NBA data for gambling",
+  "method": "Read NBA Terms of Use sections read by an earlier session and the Dutch regulator page",
+  "result": "Both are restrictions, not permissions: NBA section 9 restricts gambling use of NBA Statistics and article 31a requires a Koa licence for online sports-betting offers in the Netherlands. Nothing here clears commercial use.",
+  "source": "S10"
+ },
+ {
+  "id": "V-20",
+  "when": "2026-11-14",
+  "what": "Link and source integrity of this dashboard",
+  "method": "scripts/check_hub.py: every data row must reference a source id that resolves to an https URL; every internal link must resolve to a file; every value that is not verified must be blank and carry a flag",
+  "result": "All checks pass at build time; the check runs inside the Pages workflow.",
+  "source": "S19"
+ }
+]
