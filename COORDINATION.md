@@ -2168,3 +2168,17 @@ Why this task: the newest official injury report on the [official injury index](
 | F1 | Transcribe the 11/14 04:15 AM official report rows for the 11/14 games, keep the raw extraction, diff against the 11/13 07:45 PM rows in `data/app/official_injuries_2026-11-13_0745PM.json` | in progress | 26fd5f6f | `audit26/**` |
 | F2 | Re-check the 11/14 tip times and matchups against the official schedule | in progress | 26fd5f6f | `audit26/**` |
 | F3 | Publish the diff and any irregularities on `audit26/flagged.html` (Flagged for Review), with source links; do not edit `app/`, `data/app/`, `index.html`, or `pages.yml` | in progress | 26fd5f6f | `audit26/**`, `COORDINATION.md` |
+
+### Results — session 26fd5f6f (2026-11-14, ~09:30–09:50 UTC)
+
+| # | Status | Result |
+|---|---|---|
+| F1 | done | 31 official rows for the five 11/14 games transcribed verbatim into `audit26/data/official_injury_report_2026-11-14_0415AM_raw.md` from the [11/14/26 04:15 AM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf). Diffed against the repo snapshot `data/app/official_injuries_2026-11-13_0745PM.json`: **31/31 match** on status, reason and NOT YET SUBMITTED state, 0 unmatched repo rows. Three rows are matched by name or team only, because the extraction dropped the matchup or team cell (Traore, Nolan; Memphis NOT YET SUBMITTED row; also date/time columns on six-cell fragments). |
+| F2 | done | Official [nba.com schedule](https://www.nba.com/schedule) read this session: 5 games on Sat 11/14 (7:00, 7:30, 8:00, 8:00, 8:00 PM ET; IDs 0022600231–235) and 9 games on Sun 11/15 (1:00 PM–9:00 PM ET; IDs 0022600236–244). **14/14 match** the repo slate (`data/app/official_slate_1114_1117.json`) on time and game ID. 11/16–11/17 not re-read this session. |
+| F3 | done | Page: `audit26/index.html` (comparison table, schedule table, self-checks). Flags: `audit26/flagged.html` (F26-01 … F26-06). `audit26/build.py` is deterministic; it exits 1 if any self-check fails. |
+
+**Sources read this session:** [official injury report index](https://official.nba.com/nba-injury-report-2026-27-season/) (re-checked just before the write-up; newest 11/14 report listed is still 04:15 AM ET); [11/14/26 04:15 AM ET injury report PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf); [nba.com schedule](https://www.nba.com/schedule) (chunks 0 and 1); the game pages linked from it (`nba.com/game/...-002260023x`).
+
+**Irregularities (none changes a repo value; published on `audit26/flagged.html`):** F26-01 Traore team/matchup not printed; F26-02 Memphis NOT YET SUBMITTED matchup not printed; F26-03 the report prints times without AM/PM, so `04:30 (ET)` reads as 4:30 AM but is the 4:30 PM ET game on 11/15; F26-04 no 11/14 game-day report is listed yet (the official rule window is 11 a.m.–1 p.m. local time), so the 11/14 injury picture must be re-checked before tip-off; F26-05 `official_injuries_2026-11-13_0745PM.json` still says 08:30 PM is the newest report on the index (stale metadata, no value affected); F26-06 Pages `build_type` is `legacy` from `main /` (confirmed via the [Pages API](https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages)), while `pages.yml` builds a separate artifact from a fixed copy list.
+
+**Not done in this session (left to the owners, no claim taken):** the 11/16–11/17 slate and every line, pick, strategy and leaderboard row were not re-verified; no new model output was produced; `app/`, `data/app/`, `index.html`, and `pages.yml` were not edited.

@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Flagged for Review | NBA3 audit26</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1d2433;background:#f6f7fb}
+header{background:#14213d;color:#fff;padding:18px 24px}
+header a{color:#ffd166}
+main{max-width:1200px;margin:0 auto;padding:20px 24px}
+h1{font-size:1.5rem;margin:.2rem 0}
+h2{font-size:1.15rem;margin-top:28px}
+.card{background:#fff;border:1px solid #dfe3ee;border-radius:10px;padding:14px 18px;margin:12px 0}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9rem}
+th,td{border-bottom:1px solid #e6e9f2;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eef1f8;position:sticky;top:0}
+.ok{color:#17703a;font-weight:600}.bad{color:#b42318;font-weight:600}.flag{color:#8a5a00}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#eef1f8;margin-right:6px}
+small{color:#4a5568}
+</style></head><body>
+<header><div>NBA3 &middot; session 26fd5f6f &middot; 11/14 injury-freshness and slate re-check</div>
+<div style="margin-top:6px"><a href="index.html">Verification summary</a> &middot; <strong>Flagged for Review</strong> &middot; <a href="../index.html">Repo home</a></div></header>
+<main>
+<h1>Flagged for Review &mdash; session 26fd5f6f</h1>
+<p>Each item is a source-level irregularity or a limit of this check. None changes a value in the repo, and none blocks a merge.
+Owner decisions are listed in the table. Source links point to the official NBA PDF or index.</p>
+<div class="card" style="overflow-x:auto"><table>
+<thead><tr><th>ID</th><th>Finding</th><th>Detail</th><th>Source</th></tr></thead>
+<tbody><tr><td>F26-01</td><td>Traore, Nolan (BKN): team and matchup not printed in the extracted text of the 04:15 AM report</td><td>The row sits after the BKN@MEM block with its matchup and team cells empty. It was matched by name to the one repo row with that name (BKN@MEM). Status Probable and reason Right Calf Tightness / Soreness agree.</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf">official source</a></td></tr><tr><td>F26-02</td><td>NOT YET SUBMITTED row for Memphis Grizzlies: matchup not printed</td><td>The extraction shows the team name and the status but drops the matchup. It was matched by team name within the 11/14 rows of the repo snapshot, where MEM appears only in BKN@MEM.</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf">official source</a></td></tr><tr><td>F26-03</td><td>The report prints times without AM/PM (e.g. 04:30 (ET))</td><td>Read carelessly, 04:30 (ET) looks like 4:30 AM. The nba.com schedule lists CHA@LAC at 4:30 PM ET on 11/15, and the 11/15 rows of the report follow the same pattern. In the extracted text the 11/15 rows from CHA@LAC onward have no date column, so this check does not use them.</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf">official source</a></td></tr><tr><td>F26-04</td><td>No game-day report for 11/14 yet; the 04:15 AM ET report is the newest one listed</td><td>The official index says game-day reports are submitted between 11 a.m. and 1 p.m. local time, and that reports are updated continually. Pick decisions for the 11/14 slate (7:00 PM ET tip-off) need the last report before tip-off, not this one.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">official source</a></td></tr><tr><td>F26-05</td><td>Repo snapshot metadata is out of date</td><td>data/app/official_injuries_2026-11-13_0745PM.json still records 08:30 PM as the newest report on the index. The 11/14 rows agree with the 04:15 AM report, so no value changes, but the field is stale.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">official source</a></td></tr><tr><td>F26-06</td><td>Pages configuration: the live site is served from the branch, not from the workflow artifact</td><td>GitHub Pages reports build_type &#x27;legacy&#x27; with source branch main and path /. Visitors therefore see the repository root as committed on main. The deploy job in pages.yml uploads a separate _pages artifact that is built from a fixed copy list, and it does not list audit26/ or other late additions. Anything a new session adds outside the copy list is still served once it is on main. The two mechanisms should be reconciled by an owner.</td><td><a href="https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages">official source</a></td></tr></tbody></table></div>
+<h2>Decisions for the owner</h2>
+<div class="card"><ol>
+<li>Re-run <code>python3 audit26/build.py</code> after the 11 a.m.–1 p.m. ET game-day report is published, and before any 11/14 line or pick is used.</li>
+<li>Decide whether the repo should store the report's team and matchup for the Traore and Memphis rows, which the extraction did not print (F26-01, F26-02).</li>
+</ol></div>
+</main></body></html>
