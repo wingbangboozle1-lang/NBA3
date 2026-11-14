@@ -553,6 +553,35 @@ were restored to `main`'s content before this section was appended.
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| Cross-site consistency audit, correct root executive summary/navigation, publish reconciliation flags, document verified limitations | in progress | arena/2e50a71a-nba3 | `COORDINATION.md`, `README.md`, `index.html`, `review.html`, `.github/workflows/pages.yml` |
+| Cross-site consistency audit, correct root executive summary/navigation, publish reconciliation flags, document verified limitations | done (residuals published as review flags R-01–R-13) | arena/2e50a71a-nba3 | `COORDINATION.md`, `README.md`, `index.html`, `review.html`, `.github/workflows/pages.yml` |
 
 Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df84b475f4ced13c2`, which is the current `main` base. The task text's session-specific branch naming conflicts with the fixed Arena branch; no branch was created or switched. This integration task audits the existing published artifacts rather than modifying files scoped to prior completed sessions.
+
+### Completion and verification log — 2026-11-14 UTC
+
+**Scope completed:** Replaced stale root landing/README claims with an accurate executive summary of the extant parallel workstreams; added a dedicated root `review.html` (R-01–R-13); connected it to the Pages artifact; and added a CI rule requiring each table-body row on the root dashboard and review page to contain a direct HTTPS NBA/Ksa official-host link. This session did not change the older independently owned sub-sites or alter their model outputs.
+
+**Official pages fetched and checked for the specific statements used:**
+- [NBA Official 2026–27 injury report index](https://official.nba.com/nba-injury-report-2026-27-season/): reporting deadlines, continual updates, dated reports; not a minutes projection.
+- [NBA 2026–27 schedule by-date PDF](https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf): header identifies season and says “subject to change”; inspected schedule chunks 0 and 2 (the latter includes Nov. 16–18 rows).
+- [NBA 2026–27 schedule announcement](https://www.nba.com/news/2026-27-nba-regular-season-schedule): official schedule announcement and schedule resources.
+- [NBA Terms of Use](https://www.nba.com/termsofuse): fetched §9 text; it includes restrictions on use of NBA Statistics in connection with gambling activity, commercial products and certain comprehensive regularly updated databases. The site explicitly leaves legal application to counsel.
+- [NBA Stats glossary](https://www.nba.com/stats/help/glossary): fetched glossary entries; cited only for official terminology, not predictive validity or data rights.
+- [Kansspelautoriteit online gambling guidance](https://kansspelautoriteit.nl/online-kansspel-aanbieden): official Dutch regulator page states online sports-betting offers are among licensed online gambling offerings. No legal conclusion about this research site is made.
+
+**Repository inspection and validation:**
+- Inspected current git/base state, root README, root landing, Pages workflow, source manifests, inputs and outputs across `data/`, plus `pipeline/`, `scripts/`, `site/`, `docs/`, `research/`, `lab/`, `edge/`, and `origin/`.
+- Found `data/raw/results_2026-27_october.csv` explicitly identifies Basketball-Reference as its source; `data/lines.json` includes `bbr_advanced` and `espn_odds` source labels; `data/picks.json` and `lab/picks.html` expose candidate picks/positive-EV labels. These were recorded as repository facts, not as confirmed underlying sports data or permission.
+- A mechanical scan of the repository's 73 HTML files counted 1,521 `<tbody><tr>` rows. 423 lacked a direct HTTPS link to an NBA or Ksa official host (389 excluding the root `research-dashboard.html` archive). By folder: docs 5/10; edge 10/10; lab 184/256; origin 73/594; research 81/313; site 36/262 lacked a direct NBA/Ksa-host link; the revised root index has 0/25 and `review.html` has 0/13. This is a conservative automated screen, not a judgment that every methodology row needs NBA evidence. It demonstrates the full repository does **not** meet the strict official-source-per-row requirement; R-13 publishes this limitation. No irrelevant official URLs were attached to old data rows to make the scan pass.
+- Root page/review page were separately checked: 25/25 and 12/12 table rows respectively have direct NBA/Ksa official links; all local/anchor targets resolve.
+- Checks passed: `python3 -m unittest tests/test_validate_gates.py` (13); `python3 -m unittest discover -s pipeline/tests` (29); `python3 tools/check_site.py`; `python3 scripts/build_site.py --check`; `python3 pipeline/check_site.py`; `python3 pipeline/verify.py`; `python3 scripts/model.py`; `python3 scripts/build_lab.py`; `python3 scripts/validate_site.py`; `python3 pipeline/build_site.py`; `git diff --check`. Generated tracked outputs remained unchanged.
+- Workflow's configured static checks are scoped validators and are not proof of data truth, rights, forecast validity, or overall row-level official source compliance. The full-source correction is an explicit unresolved review item, not marked verified.
+
+**Irregularities and outstanding work:**
+- R-01–R-07: competing workstreams, secondary-source/rights issues, published price/EV outputs, stale contradictory README, non-current injury/schedule snapshots, and unreconciled correlations.
+- R-08 / R-13: checks have limited scope; repository-wide direct official-source criterion remains unmet (counts above).
+- R-09 / R-10: NBA-statistics terms and Netherlands intended-use/compliance require qualified counsel and written permissions; not decided here.
+- No current live feed, full player-minutes source, authorized odds contract, reconciled sample or prospective record is verified. Consequently, this work does not establish active current picks, injury-minute effects, strategy profitability, or a skill-based leaderboard winner. These blockers are surfaced rather than fabricated or resolved by assumption.
+- Files kept within this integration session's claimed scope. Existing strategy/model files were not edited.
+
+**PR/deployment:** pending final branch checks and integration. This session can verify CI after PR but cannot claim a live publication until deployment evidence is available.

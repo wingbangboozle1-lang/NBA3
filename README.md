@@ -1,134 +1,89 @@
 # NBA3 / NBA Edge Lab
 
-Research-first NBA line-origination project: official-source data, validation gates, injury workflow, open decision questions, and items flagged for review.
+Research repository for NBA line origination, strategy evaluation, injuries, game flow, and decision support. The repository contains **multiple independently built analysis/site workstreams**. They are not a single reconciled model. This overview intentionally does not endorse any line, pick, market edge, correlation, ROI, or leaderboard result.
 
-## Published site (GitHub Pages)
+## Current status — read before using an output
 
-Base: https://wingbangboozle1-lang.github.io/NBA3/
+- Experimental line, pick, prop, correlation, backtest, and injury-analysis artifacts exist under `lab/`, `edge/`, `origin/`, `data/`, and related sub-sites. Their snapshots, inputs, assumptions, samples, and gate statuses differ.
+- Some artifacts identify Basketball-Reference and ESPN data among their inputs. The repository does not establish the necessary license or rights for use of those data in the intended product. NBA Terms of Use also include restrictions on NBA Statistics. Obtain qualified legal advice and written permission/provider terms before using or distributing these outputs.
+- Some pages contain betting prices and “positive EV” labels. These are experimental derived outputs, not official NBA facts, proven edges, or betting advice. Do not act on them.
+- Dates and injury reports are static snapshots. The NBA describes its schedule as subject to change and its injury reports as continually updated. There is no verified always-current production feed in this static Pages site.
+- Local tests/builds validate selected code, data shape, source-link presence and internal links. They do **not** prove that every historical row matches an official NBA primary record, that sources are licensed, or that a model predicts profitably. A mechanical repository-wide HTML scan counted 1,521 table-body rows; 423 lacked a direct official NBA/Ksa link (389 excluding the archived `research-dashboard.html`). This is not a manual classification of whether every row is factual, but confirms the strict source-per-row requirement is not yet satisfied across all sub-sites; see [R-13](review.html).
+- The 2026–27 NBA Terms and use of NBA-derived statistics, distribution to others, and Dutch regulatory obligations remain review items. This repository is not legal advice.
 
-| Path | What it is | Built from |
+**Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/<br>
+**Flagged for Review:** https://wingbangboozle1-lang.github.io/NBA3/review.html<br>
+**Repository audit log:** [`COORDINATION.md`](COORDINATION.md)
+
+## Pages and workstreams
+
+| URL path | Contents | Caution |
 |---|---|---|
-| `/` (`index.html`) | Research dashboard: strategy framework, gates, questions, suggestions, flags, sources. Links to both data sites below. | Hand-maintained (f879620b); nav link added by integration |
-| `/site/` | **Edge Lab site** (arena/7c532e8c): landing page, executive summary, injuries, game-flow, 3-day slate, strategies, validation, questions, suggestions, sources, flagged items, repo review. Every table row links to an official source. | `data/*.json` via `scripts/build_site.py` (generated; do not edit `site/` by hand) |
-| `/docs/` | Data site (arena/f879620b): injuries (11/11 report), slate, rules extracts, questions, gates, suggestions, flags. | `docs/data/data.json` (hand-maintained) |
-| `/edge/` | **Edge Lab dashboard (arena-0a016df8)**: verified 174-game log, originated lines/spreads/totals/fair MLs, walk-forward-validated strategies with published gate results, 3-day picks with availability flags, official injury report tables, game-flow metrics, verification log. | `data/raw|model|processed|picks/**` via `pipeline/` (build_data → run_model → make_picks → make_props → build_site_data) |
+| `/` | Executive summary, readiness, categories, questions, suggestions and official-source references | Cross-workstream overview, not a canonical model |
+| `/review.html` | Source-linked inconsistencies, legal/data-rights questions, freshness and validation limits | Resolve before relying on outputs |
+| `/site/` | Data dashboard, schedule/injury tables, sources and review material | Its files and ID namespace are distinct from the other dashboards |
+| `/docs/` | Documentation tables, questions, validation framework and suggestions | Uses separate dated data snapshots |
+| `/research/` | Research and requirements tables, source register, flags and questions | Build checks cover this site’s configured data and link rules, not the truth of every source value |
+| `/lab/` | Experimental line origination, picks, player props and strategy tests | Not a vetted betting system; some outputs carry market/EV labels |
+| `/edge/` | Independent line, pick, strategy, injury and game-flow dashboard | Separate pipeline and assumptions; not reconciled with `/lab/` or `/origin/` |
+| `/origin/` | Independent lines, correlation, props, injury analysis and walk-forward outputs | Separate dataset/model; not reconciled with `/edge/` |
 
-The two data sites are separate snapshots and use separate ID schemes. See *ID namespaces* below.
+Treat these as independent work products. Do not compare metrics across them without aligning source data, snapshots, dates, definitions, evaluation splits, odds, settlement, and statistical methods.
 
-## Current state (research only)
+## Decision-ready strategy framework
 
-- **Update (arena-0a016df8 round):** originated lines, win probabilities, correlation measurements and strategy gate results ARE now published on the `/edge/` dashboard — clearly labeled as model outputs, with STRAT3/STRAT4 marked **not eligible** (failed gates) and STRAT1/STRAT2 **provisional** (fail only the minimum-sample gate). ROI is measured against our own line at an assumed −110 because no licensed odds feed exists. Blocking items remain on the [Flagged for Review](site/flagged.html) page (site/) and [edge/flagged.html](edge/flagged.html) (edge/):
-  - **7C-F-01**: NBA Terms §9 bars using NBA Statistics for gambling (source: https://www.nba.com/termsofuse).
-  - **7C-F-02**: Dutch online sports-betting offers need a Koa licence under art. 31a of the Betting and Gaming Act (source: https://kansspelautoriteit.nl/online-kansspel-aanbieden).
-  - **7C-F-03**: no licensed odds data is in the repository.
-- The 3-day slate (11/13–11/16/2026) comes from the official schedule PDF, which is labelled "subject to change".
-- Injury rows (site/) come from the official 11/13/26 5:00 PM report. The report has no minutes field, so no minutes effect is estimated. The docs/ site uses the earlier 11/11/26 7:00 PM report.
+The desired system is feasible only after the dependencies below are resolved. The current repository can support methodology review and reproducibility checks; it cannot presently establish a unified, licensed, current pick feed or a skill-based winner.
 
-## Repository layout
+1. **Data and rights first:** establish an authorized historical results/player/lineup source and, separately, timestamped licensed odds/prop prices and settlement rules. Store provenance, retrieval time (UTC), version/hash, corrections and missingness.
+2. **One canonical source of truth:** select one dataset, one forecast timestamp policy, one model pipeline and one set of market definitions. Reproduce each artifact from a versioned release before merging results.
+3. **Singles before combinations:** build calibrated distributions and probabilities for one market at a time. Use opponent/time-aware, leakage-resistant chronological validation and benchmark against simple baselines and an appropriate no-vig market reference where licensed.
+4. **Correlation and combos:** calculate matched-sample dependence with uncertainty and conditional context. Evaluate the joint distribution and payout/settlement directly; never multiply marginal probabilities as if independent without testing.
+5. **Injuries and game flow:** preserve each official report version; use authorized historical rotations, minutes and lineup outcomes to fit conditional ranges. An injury status alone does not quantify a minutes or production change.
+6. **Separate skill from variance:** pre-register metrics, sample floors and gates; report proper scoring/calibration, confidence intervals, multiple-testing control, drawdown and net economics. Freeze model versions and conduct a prospective shadow/paper trial. Luck cannot be removed from individual outcomes.
+7. **3-day slate:** refresh the official schedule and latest injury information at request time; emit forecasts only for confirmed games within 72 hours and suppress output on stale/missing data. A static file does not satisfy this operational requirement.
+8. **Leaderboard only after gates:** publish strategy ranking only when all candidates share inputs, timestamp cutoffs, settlement rules, costs and validation. Display sample size and uncertainty; do not rank by raw win count.
 
-| Path | Purpose |
-|---|---|
-| `data/*.json` | Editable content for `site/`: sources (S01–S11), schedule, injuries, flags (7C-F-…), questions, suggestions, strategies, gates, repo review. |
-| `scripts/build_site.py` | Validates every row and renders `site/`. Fails on a missing official source, an unflagged blank, or a broken link. |
-| `scripts/archive/` | One-shot generators used once to create `data/`. Do not re-run (they overwrite `data/`). |
-| `site/` | Generated static site. Do not edit by hand. |
-| `docs/`, `docs/data/data.json` | f879620b data site (unchanged by integration). |
-| `edge/`, `data/raw|model|processed|picks|injuries`, `pipeline/{build_data,run_model,make_picks,make_props,build_site_data,check_site}.py`, `docs/{methodology,executive_summary,open_questions,suggestions,injuries_gameflow,verification_log}.md` | arena-0a016df8 Edge Lab round: verified data, origination engine, gated picks, dashboard. |
-| `tools/validate_gates.py`, `tools/check_site.py` | Statistics module (Benjamini–Hochberg, Wilson interval, binomial test, etc.) and docs/ data/link checker (f879620b). |
-| `tests/test_validate_gates.py` | Unit tests for the statistics module (f879620b). |
-| `.github/workflows/pages.yml` | Runs unit tests, `tools/check_site.py`, root link check, `scripts/build_site.py` plus drift check, and deploys `/`, `/docs/`, `/site/` as one artifact. |
-| `COORDINATION.md` | Shared task board, claims, verification logs, and PR/deploy status for all sessions. |
+## Open questions and suggested order
 
-## Rebuild and check
+The dashboard links the detailed question and suggestions pages. The blocking unknowns include:
 
-```bash
-python3 -m unittest tests/test_validate_gates.py   # statistics tests
-python3 tools/check_site.py                         # docs/ data + link check
-python3 scripts/build_site.py                       # validate data, render site/, check site links
-python3 scripts/build_site.py --check               # validate and check links only (no files written)
-python3 -m pipeline.run_model                        # arena-0a016df8: re-run origination + validation (data/ → data/model/)
-python3 pipeline/build_site_data.py                  # arena-0a016df8: emit edge/data/*.json
-python3 pipeline/check_site.py                       # arena-0a016df8: edge/ link & JSON check
-```
+- Does the project have written NBA-statistics permission or a suitable licensed provider agreement? What use, derived output and distribution are covered?
+- Which authorized provider supplies historical game/player/rotation outcomes, odds, prop markets, line movement and settlements? What timestamps, history and terms apply?
+- Is the product for private research, or will lines/picks be offered to others? What jurisdictions and compliance rules apply? Obtain qualified Dutch counsel’s assessment.
+- What is the pre-registered leaderboard objective, baseline, minimum sample, uncertainty threshold, cost model and retirement rule?
+- What data can support injury-to-minutes and game-flow scenarios, and how will those ranges be validated?
+- What exact schedule/injury freshness SLA and fail-closed behavior support a maximum 72-hour forecast horizon?
+- What risk limits, user protections and responsible-gambling policy are appropriate before any product use?
 
-Standard library only (Python 3.11+). No network access is needed to build.
+**Suggested sequence (awaiting decision):** (1) legal/data-rights review; (2) choose one canonical authorized source/pipeline; (3) establish immutable timestamped snapshots; (4) independently reconcile the data and existing outputs; (5) pre-register shared gates and conduct prospective paper validation; (6) consider props/parlays only after player opportunity and joint-probability evidence passes. See [Suggestions](docs/suggestions.html) and [Flagged for Review](review.html). These are proposals; no additional product behavior has been approved by this audit.
 
-## ID namespaces
+## Official references reviewed
 
-Both sessions used `F-01…` and other short IDs with different meanings. Mapping:
+- [NBA.com Terms of Use](https://www.nba.com/termsofuse) — includes the NBA Statistics section; not a legal determination about this project.
+- [NBA Official 2026–27 injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/) — reporting process and dated reports; updates continually, not a minutes forecast.
+- [NBA official 2026–27 schedule by date (PDF)](https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf) — marked “subject to change.”
+- [NBA 2026–27 schedule release](https://www.nba.com/news/2026-27-nba-regular-season-schedule) — official release and schedule links.
+- [NBA Stats glossary](https://www.nba.com/stats/help/glossary) — definitions, not validation or data rights.
+- [Kansspelautoriteit: online gambling offerings](https://kansspelautoriteit.nl/online-kansspel-aanbieden) — official Dutch regulator guidance; does not decide this project’s legal classification.
 
-| Session | Flags | Suggestions | Questions | Sources |
-|---|---|---|---|---|
-| arena/7c532e8c (site/) | `7C-F-01…7C-F-17` | `SG-01…SG-11` | `Q-01…Q-14` | `S01…S11` |
-| arena/f879620b (docs/) | `F-01…F-15` | `SG01…SG09` | `Q01…Q12` | `S1…S9` |
+Sources fetched for the 14 November 2026 audit. Check current terms/reports at implementation time; old copies are not live evidence.
 
-Do not compare IDs across the two sites without this table.
+## Rebuild and verification commands
 
-## Verification rules
-
-1. Every data row carries an official `https` source (NBA, Ksa, or GitHub for repository facts), or it is flagged as unverified and left blank.
-2. Source IDs must exist in `data/sources.json` (site/) or in `docs/data/data.json` (docs/).
-3. Injury rows are attributed R (printed), S (team printed, matchup via official schedule pairing), U (not extracted, left blank), or T (team status row). Non-R rows carry a flag.
-4. External links are not fetched during the build (scheduled link checking is proposed as SG-07).
-
-## Important limits
-
-No licensed odds feed, historical results, or validated picks are in this repository. No betting lines, correlations, player projections, or performance claims are shown. Candidate strategies are hypotheses. All validation gates are blocked until verified inputs exist. Check the Flagged for Review pages and the open questions before any decision.
-
-Nothing in this repository is betting advice. Follow local law and responsible-gambling practice.
-
-## Research site (`/research/`, session arena/9ed6085f)
-
-Generated from `data/*.csv` by `pipeline/build_site.py` into `research/` (not the repository root). Checked by `pipeline/verify.py`.
-
-| Item | Value |
-|---|---|
-| Slates | 31 games, Nov 13–16 2026 (ET), verified against `nba.com/schedule` (chunks 0–2 of 9) |
-| Injury snapshot | 11/13/26 11:00 AM ET (98 rows, transcribed from PDF text). `site/` uses the later 5:00 PM report (117 rows), so the two sites show different snapshots. Owner to choose the current one (flag F01). |
-| Picks / lines / correlations | None published (blank by design; flags F13, F14, F21) |
-| Strategies / gates | 11 strategies and 11 gates; all BLOCKED. Thresholds are proposals. |
-
-**ID namespaces (this site):** flags `F01–F25`, sources `S01–S19`, questions `Q-…`, suggestions `SG-01–SG-14`, gates `G01–G11`, strategies `ST01–ST11`, requirements `RQ01–RQ23`, repo review `R01–R17`. These do not match the namespaces in the table above. Compare IDs across sites only with a mapping.
-
-Rebuild and check:
+These commands are for repository/code consistency. Passing them does not verify statistical truth, data licensing, or profitability.
 
 ```bash
+python3 -m unittest tests/test_validate_gates.py
 python3 -m unittest discover -s pipeline/tests
+python3 tools/check_site.py
+python3 scripts/build_site.py --check
+python3 pipeline/verify.py
+python3 pipeline/check_site.py
+python3 scripts/model.py
+python3 scripts/build_lab.py
+python3 scripts/validate_site.py
 python3 pipeline/build_site.py
 python3 pipeline/verify.py
 ```
 
----
-
-## Session `e22a2831` — independent line-origination engine (`/origin/`)
-
-An independently built line-origination and strategy-validation engine, published **alongside**
-the sites above rather than over them. It shares no code or data with `/edge/`, `/site/`,
-`/docs/`, `/lab/` or `/research/`.
-
-| Path | What it is |
-|---|---|
-| [`/origin/`](origin/index.html) | 11-page dashboard: originated lines, strategy leaderboard, correlations, injury impact, player props, game flow, data & sources, flagged for review, site improvements, open questions |
-| `origin/notes/` | The same material in Markdown, generated from the same model artefact |
-| `data/origin/` | Verified inputs (174 games) + `model_output.json`, the single source of truth |
-| `model/` | `nbastats.py` (stdlib statistics), `build.py`, `build_docs.py` |
-
-### Results
-
-| | |
-|---|---|
-| Games verified, 20 Oct – 12 Nov | **174** — 348 team-games, **zero** discrepancy against the official GP column, all 30 teams; recomputed W-L matches official W-L |
-| Margin model (walk-forward, 114 OOS games) | RMSE **16.18** vs 17.30 baseline |
-| Total model | RMSE **20.35** vs 19.56 baseline — **no improvement**, reported as such |
-| Strategies passing all 7 gates | **0 of 8** (two provisionals, both under-powered) |
-
-Built with the standard library only (`numpy`/`scipy`/`pandas` are unavailable in this
-workspace). Reproduce with:
-
-```bash
-python3 model/build.py && python3 model/build_docs.py && python3 model/build_site.py
-```
-
-See [`COORDINATION.md`](COORDINATION.md#session-e22a2831-arenae22a2831-nba3--line-origination-walk-forward-validation-origin-site)
-for the task board, cross-session change requests and the note on how `/origin/` and `/edge/`
-overlap.
+GitHub Pages combines static site folders in `.github/workflows/pages.yml`. Static publication is not a live feed or automated daily data refresh.
