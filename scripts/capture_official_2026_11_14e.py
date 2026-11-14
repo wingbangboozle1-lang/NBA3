@@ -405,6 +405,7 @@ def main():
         return (r["game_date"], r["game_time_et"], r["matchup"], r["team"],
                 r["player"], r["status"], r["reason"], r["is_team_not_submitted"])
     a, b = [sig(r) for r in rows_0130], [sig(r) for r in rows_0115]
+    n_rows_0130 = len(a)          # captured before the delta loop reuses names
     if a != b:
         for i, (x, y) in enumerate(zip(a, b)):
             if x != y:
@@ -681,7 +682,7 @@ def main():
         ("checks", OrderedDict([
             ("F1_two_consecutive_reports_agree",
              "PASS - parse(01:30 PM) == parse(01:15 PM), %d rows each, every field"
-             % len(a)),
+             % n_rows_0130),
             ("F2_parse_equals_embedded_transcription",
              "PASS - %d rows" % len(embedded)),
             ("F3_cell_provenance",
