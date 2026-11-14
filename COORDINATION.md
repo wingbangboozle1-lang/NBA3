@@ -1,6 +1,6 @@
 # Coordination board
 
-Session: `arena/49064d5a-nba3` (current Arena-owned branch; branch names are fixed by the workspace).
+Originally created in session `arena/49064d5a-nba3`; current session ownership and branch scopes are recorded in the appended session sections.
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
@@ -696,3 +696,23 @@ See the PR link and merge result appended below once the PR is merged.
 | Audit the merged repository's site, source, model, and deployment claims; reconcile the top-level landing/README, publish remaining limitations, and ensure the consolidated pages are included and link-checked in Pages | in progress | `arena/ff830c8f-nba3` | `COORDINATION.md`, `README.md`, `index.html`, `research-dashboard.html`, `review.html`, `.github/workflows/pages.yml` |
 
 This task is a post-integration audit of the already-merged outputs. The current Arena-assigned branch is fixed as `arena/ff830c8f-nba3`; no other branch or worktree is used. Existing data-generation outputs and subsite files remain outside this scope. No other in-progress claim was present when this claim was added. Scope updates: add a root-level consolidated Flagged for Review page, retire the duplicate stale `research-dashboard.html` via redirect, and include/check those root pages in the Pages artifact.
+
+### Verification record — 2026-11-14 UTC (PR/deployment pending)
+
+**Scope checked:** Re-read the root files after PR #17 merged. Its reconciled `index.html`, `README.md`, and R-01–R-13 register are retained rather than overwritten by the older pre-merge drafts. Updated the root landing and review register to remove now-stale “no picks/no outputs” wording and mark the root-level contradiction as resolved; documented the remaining cross-site source audit as open. Replaced the stale `research-dashboard.html` content with an automatic and manual redirect to `index.html`, and extended `.github/workflows/pages.yml` to link-check and include that redirect in the Pages artifact. No sub-site data, model outputs, or other workstreams were changed.
+
+**Official source boundary:** The NBA schedule was previously fetched for this audit; the retrieved page showed 5 games on Nov 14, 9 on Nov 15, and 8 on Nov 16, while the checked-in slate also includes Nov 13 and is static. The NBA Terms of Use §9 and Ksa online-gambling guidance were reviewed as recorded above; their application to this project remains for qualified counsel. The official NBA Stats player-boxscores page displayed 3,933 rows, but only the first of seven fetched chunks was reviewed, so full coverage/history and permitted use are unverified. The Nov 13 injury PDFs were only partially parsed (chunk 0 of 2); no player status, minutes, prop estimate, or injury effect was inferred from the incomplete extraction.
+
+**Checks passed on the current worktree:**
+- `git diff --check`.
+- `python3 -m unittest tests/test_validate_gates.py -v` — 13 tests.
+- `python3 tools/check_site.py` — 10 pages; source IDs and internal links pass.
+- `python3 -m unittest discover -s pipeline/tests -v` — 29 tests.
+- `python3 pipeline/build_site.py`, `python3 pipeline/verify.py`, and `python3 pipeline/check_site.py` — verify passed; checker reports 13 pages, 10 data files, and 97 references.
+- `python3 scripts/build_site.py`, `python3 scripts/model.py`, `python3 scripts/build_lab.py`, and `python3 scripts/validate_site.py` — pass; the builder reports 117 injury rows, 31 games, 11 sources, and 553 links across 12 pages; the validator reports all 10 pages and its configured checks pass.
+- Root in-page/local-link and official-host row check: `index.html` 25 table-body rows, `review.html` 13 rows, and `research-dashboard.html` zero data rows; all local and fragment links resolve, and the legacy page includes both automatic and manual links to `index.html`.
+- Rebuilds left generated `site/`, `lab/`, and `research/` outputs unchanged.
+
+**Outstanding:** R-13 records the repository-wide mechanical scan: after the 34 rows in the retired dashboard are excluded, 389 other table rows still lack a direct NBA/Ksa official-host link. This is not represented as line-by-line verified; do not attach irrelevant citations or infer unavailable values. Rights/jurisdiction, authorized odds and complete player histories, current data refresh, and prospective model validation remain unresolved.
+
+**PR/deployment:** pending PR checks and merge for this branch. Pages deployment and public redirect verification are not yet claimed.

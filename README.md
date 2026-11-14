@@ -8,7 +8,7 @@ Research repository for NBA line origination, strategy evaluation, injuries, gam
 - Some artifacts identify Basketball-Reference and ESPN data among their inputs. The repository does not establish the necessary license or rights for use of those data in the intended product. NBA Terms of Use also include restrictions on NBA Statistics. Obtain qualified legal advice and written permission/provider terms before using or distributing these outputs.
 - Some pages contain betting prices and “positive EV” labels. These are experimental derived outputs, not official NBA facts, proven edges, or betting advice. Do not act on them.
 - Dates and injury reports are static snapshots. The NBA describes its schedule as subject to change and its injury reports as continually updated. There is no verified always-current production feed in this static Pages site.
-- Local tests/builds validate selected code, data shape, source-link presence and internal links. They do **not** prove that every historical row matches an official NBA primary record, that sources are licensed, or that a model predicts profitably. A mechanical repository-wide HTML scan counted 1,521 table-body rows; 423 lacked a direct official NBA/Ksa link (389 excluding the archived `research-dashboard.html`). This is not a manual classification of whether every row is factual, but confirms the strict source-per-row requirement is not yet satisfied across all sub-sites; see [R-13](review.html).
+- Local tests/builds validate selected code, data shape, source-link presence and internal links. They do **not** prove that every historical row matches an official NBA primary record, that sources are licensed, or that a model predicts profitably. A mechanical repository-wide HTML scan, before the legacy-dashboard redirect, counted 1,521 table-body rows; 423 lacked a direct official NBA/Ksa link, including 34 rows on the stale `research-dashboard.html`. That URL now redirects to the root dashboard; the other 389 unlinked rows remain. This is not a manual classification of whether every row is factual, but confirms the strict source-per-row requirement is not yet satisfied across all sub-sites; see [R-13](review.html).
 - The 2026–27 NBA Terms and use of NBA-derived statistics, distribution to others, and Dutch regulatory obligations remain review items. This repository is not legal advice.
 
 **Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/<br>
@@ -20,6 +20,7 @@ Research repository for NBA line origination, strategy evaluation, injuries, gam
 | URL path | Contents | Caution |
 |---|---|---|
 | `/` | Executive summary, readiness, categories, questions, suggestions and official-source references | Cross-workstream overview, not a canonical model |
+| `/research-dashboard.html` | Legacy URL; automatically redirects to `/` | Kept only for compatibility; the canonical dashboard is `/` |
 | `/review.html` | Source-linked inconsistencies, legal/data-rights questions, freshness and validation limits | Resolve before relying on outputs |
 | `/site/` | Data dashboard, schedule/injury tables, sources and review material | Its files and ID namespace are distinct from the other dashboards |
 | `/docs/` | Documentation tables, questions, validation framework and suggestions | Uses separate dated data snapshots |
