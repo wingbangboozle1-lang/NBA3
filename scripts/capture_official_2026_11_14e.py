@@ -385,6 +385,12 @@ def _to_24h(text):
 
 
 def main():
+    # The 01:30 PM verbatim fetch is the one committed by session 965fbd17
+    # (data/app/official_injuries_2026-11-14_0130PM_raw.md).  It is reused, not
+    # re-transcribed: two independent transcriptions of the same PDF are a
+    # cross-check, but two *files* of the same name are a merge conflict.  This
+    # script's own independent transcription is EMBEDDED_0130 below, so the
+    # two-representation check (F2) still holds.
     raw_0130 = os.path.join(APP, "official_injuries_2026-11-14_0130PM_raw.md")
     raw_0115 = os.path.join(APP, "official_injuries_2026-11-14_0115PM_raw.md")
     for p in (raw_0130, raw_0115):
