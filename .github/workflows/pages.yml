@@ -109,6 +109,32 @@ jobs:
           test -z "$(git status --porcelain -- verify/pages/)" || { echo 'verify/pages/ is out of date; run verify/build.py and commit'; git status --porcelain -- verify/pages/; exit 1; }
       - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
         run: python3 pipeline/check_site.py
+<<<<<<< HEAD
+      - name: Integration engine and unified dashboard (session e40cd215)
+        run: |
+          python3 -m integrate.engine
+          git diff --exit-code -- data/integration/model.json
+          python3 -m integrate.build_site
+          python3 -m integrate.check
+          test -z "$(git status --porcelain -- dash/ data/integration/)" || { echo 'dash/ is stale; run python3 -m integrate.build_site and commit'; git status --porcelain -- dash/ data/integration/; exit 1; }
+          grep -q "dash/index.html" index.html || { echo "root index.html lost its link to dash/"; exit 1; }
+      - name: Output-tree ownership audit (session e40cd215)
+        run: |
+          python3 - <<'PY'
+          import re, pathlib
+          src = pathlib.Path('integrate/build_site.py').read_text()
+          assert 'DASH = ROOT / "dash"' in src, "dash/ path changed"
+          bad = [l for l in src.splitlines() if re.search(r'(ROOT / "(?!dash|index)[a-zA-Z_]+")', l) and 'write' in l]
+          if bad:
+              raise SystemExit("integrate/build_site.py writes outside its claim: " + "; ".join(bad[:3]))
+          other = pathlib.Path('pipeline/build_site_data.py').read_text()
+          if 'site/data' in other:
+              print("WARNING: pipeline/build_site_data.py writes into site/data/ (owned by 7c532e8c).")
+          else:
+              print("pipeline/build_site_data.py now writes to edge/data only (fixed by 3655c68d, V-F-02).")
+          print("Ownership audit: integrate/ writes only into dash/, data/integration/ and index.html.")
+          PY
+=======
       - name: Canonical official-source capture + cross-check (arena/2b9f1ae1)
         run: |
           python3 scripts/capture_official_2026_11_14.py
@@ -118,6 +144,7 @@ jobs:
           python3 scripts/assemble_canonical.py
           python3 scripts/build_app.py
           git diff --exit-code -- data/app/canonical.json app/ index.html
+>>>>>>> origin/main
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -130,6 +157,7 @@ jobs:
           cp -r research _pages/research
           cp -r edge _pages/edge
           cp -r origin _pages/origin
+          cp -r dash _pages/dash
           cp -r verify _pages/verify
       - uses: actions/upload-pages-artifact@v3
         with:

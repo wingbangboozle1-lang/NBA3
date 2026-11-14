@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verification log · NBA Edge Lab</title>
+<meta name="description" content="Line-by-line checks run this round, each with its official link">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="top">
+  <div class="brand"><a href="index.html"><strong>NBA Edge Lab</strong><span>integrated build · session e40cd215</span></a></div>
+  <div class="stamp">results through 2026-11-12 · availability from the 11/13/26 07:30 PM ET official report · pricing window 2026-11-14 to 2026-11-16</div>
+</header>
+<nav class="nav" aria-label="sections"><a class="nav-i" href="index.html">Executive summary</a>
+<a class="nav-i" href="lines.html">Originated lines</a>
+<a class="nav-i" href="picks.html">Picks &amp; parlays</a>
+<a class="nav-i" href="leaderboard.html">Strategy leaderboard</a>
+<a class="nav-i" href="gates.html">Validation gates</a>
+<a class="nav-i" href="correlations.html">Correlation</a>
+<a class="nav-i" href="injuries.html">Injuries &amp; rotations</a>
+<a class="nav-i" href="gameflow.html">Game flow</a>
+<a class="nav-i" href="reconciliation.html">Cross-engine reconciliation</a>
+<a class="nav-i" href="verification.html" aria-current="page">Verification log</a>
+<a class="nav-i" href="questions.html">Open questions</a>
+<a class="nav-i" href="suggestions.html">Site improvements</a>
+<a class="nav-i" href="flagged.html">Flagged for review</a>
+<a class="nav-i" href="sources.html">Source register</a>
+<a class="nav-i" href="data.html">Data &amp; reproduction</a></nav>
+<main>
+<h1>Verification log</h1>
+<p class="sub">Line-by-line checks run this round, each with its official link</p>
+<p>What was checked this round, what it was checked against, and the result. Items marked RESOLVED were open disagreements between earlier sessions and are settled with primary evidence.</p><div class="tw"><table data-rows="14"><caption>Verification log - 2026-11-14</caption><thead><tr><th>Area</th><th>Check run</th><th>Result</th><th>Status</th><th>Source</th></tr></thead><tbody><tr><td>Results set</td><td>174 games 2026-10-20 → 2026-11-12, row-by-row against an independent capture</td><td>174 keys matched, 0 score mismatches</td><td><span class="b b-ok">PASS</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv" target="_blank" rel="noopener">games.csv</a></td></tr><tr><td>Team codes</td><td>three-code alias set (CHO/CHA, BRK/BKN, PHO/PHX) identified as the only structural difference</td><td>142 rows differed by code alone; 0 by score</td><td><span class="b b-info">RESOLVED</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv" target="_blank" rel="noopener">results_2026-27_october.csv</a></td></tr><tr><td>Official records</td><td>recomputed W-L from our 174 games vs the records displayed on nba.com/games for the 11/14 slate</td><td>5/5 verifiable teams exact; 5 excluded (game in progress)</td><td><span class="b b-ok">PASS</span></td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener">nba.com/games?date=2026-11-14</a></td></tr><tr><td>Slate 11/14</td><td>teams, ET tip times and game IDs vs the official page</td><td>5/5 match data/origin/schedule_upcoming.csv</td><td><span class="b b-ok">PASS</span></td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener">official page</a></td></tr><tr><td>Slate 11/15</td><td>same</td><td>9/9 match, both chunks read</td><td><span class="b b-ok">PASS</span></td><td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener">official page</a></td></tr><tr><td>Slate month grid</td><td>game counts for 11/13-11/17 read off the official calendar grid</td><td>9, 5, 9, 8, 5 - matches the per-day captures</td><td><span class="b b-ok">PASS</span></td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener">calendar</a></td></tr><tr><td>Injury report 11/13 07:30 PM</td><td>transcribed the 11/14 block: 26 player rows + 5 team NOT-YET-SUBMITTED rows</td><td>all 5 matchups present on the official slate</td><td><span class="b b-ok">PASS</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener">PDF</a></td></tr><tr><td>Injury status dispute</td><td>three rows where the repo's two captures disagreed, checked against both PDFs</td><td>05:00 PM says Questionable, 05:15 PM says Available - genuine update, not an error</td><td><span class="b b-info">RESOLVED</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">05:00 PM PDF</a></td></tr><tr><td>Matchup-attribution dispute</td><td>prior note claimed Miami's CLE@MIA was inferred from row position</td><td>CLE@MIA is a real 11/13 game on the official slate; attribution is correct</td><td><span class="b b-info">RESOLVED</span></td><td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener">official slate</a></td></tr><tr><td>Report-index currency</td><td>newest report listed for 11/13</td><td>07:30 PM ET; the repo's captures were 05:00 and 05:15 PM - both stale by 2h15m</td><td><span class="b b-info">FLAGGED</span></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">index</a></td></tr><tr><td>Model leakage</td><td>every prediction fitted on strictly earlier games</td><td>114/114 by construction; asserted in code</td><td><span class="b b-ok">PASS</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">engine.py</a></td></tr><tr><td>Gate logic</td><td>E-G03 recomputed per market with the shared baseline</td><td>margin significant, total not → PARTIAL</td><td><span class="b b-ok">PASS</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/engine.py" target="_blank" rel="noopener">engine.py</a></td></tr><tr><td>Cross-session write hazard</td><td>running another session's build script mutated site/data</td><td>4 files modified, 6 added; reverted with git checkout, main untouched</td><td><span class="b b-info">FLAGGED</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/build_site_data.py" target="_blank" rel="noopener">build_site_data.py line 6</a></td></tr><tr><td>Site build</td><td>python3 -m integrate.check</td><td>row-source and link check on every page</td><td><span class="b b-ok">PASS</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py" target="_blank" rel="noopener">check.py</a></td></tr></tbody></table></div><p class="note">Only official NBA properties (nba.com, official.nba.com PDFs) and this repository's own git history were treated as verification sources. Nothing was accepted from a search snippet.</p><h2>What was deliberately not verified</h2><ul><li>The 11/13 in-progress scores - not final at build time, so excluded rather than half-used.</li><li>NBA Terms of Use and the Ksa licence page: cited from two earlier sessions' reading, not re-read this round (E-F-12).</li><li>Player minutes beyond the captured top 31 (E-F-07).</li><li>Any claim about market prices - there are none in the repository (E-F-05).</li></ul>
+</main>
+<footer>
+<p><b>Not betting advice.</b> Lines on this site are model output from verified NBA.com results, not
+market prices; no licensed odds feed exists in this repository. Strategy results are out-of-sample
+backtests on 114 games and none of them clears the eligibility gates. Follow local law and
+responsible-gambling practice.</p>
+<p>Rebuilt by <code>python3 -m integrate.engine &amp;&amp; python3 -m integrate.build_site</code> ·
+<a href="data.html">data &amp; reproduction</a> ·
+<a href="flagged.html">flagged for review</a> ·
+<a href="../index.html">root landing</a></p>
+</footer>
+<script src="app.js"></script>
+</body></html>
