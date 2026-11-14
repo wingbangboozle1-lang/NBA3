@@ -2241,4 +2241,83 @@ All carry official-NBA/Ksa source links. Hero stat on `index.html` updated 55 �
 | 44-F-02 | low | The official injury index now lists 11/14 reports newer than the 11/13 07:45 PM ET report used for the injury table. No pick or line changes indicated; freshness documented. | https://official.nba.com/nba-injury-report-2026-27-season/ |
 | 44-F-03 | low | No licensed odds feed is connected; all prices/ROI are the project's own originated fair prices against its own line (expected value zero by construction). Not a bet. | https://www.nba.com/termsofuse ; project README § "No market price exists" |
 
+---
 
+## Session `arena/53653a5c-nba3` (current) — CLAIM: injury-report freshness delta (11/13 07:30 PM → 11/14 04:15 AM)
+
+Session ID `53653a5c`. Branch `arena/53653a5c-nba3` (Arena fixes the branch name), branched from `main` @ `57762d5`
+(PR #46). Claim pushed before any analysis work.
+
+**Why this task.** The canonical injury snapshot is the 11/13 **07:30 PM ET** report (`data/app/official_injuries_2026-11-13_0730PM.json`).
+The official index (https://official.nba.com/nba-injury-report-2026-27-season/, read 2026-11-14) lists newer
+11/14 reports; the **04:15 AM ET** PDF is readable and was not stored by any earlier session (F36-01 named only the 08:00 PM
+report). The 05:00 PM ET PDF returns `AccessDenied` from the source host and is recorded as unavailable.
+
+**Task board (this session)**
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| J1 | Claim + push | done | `COORDINATION.md` |
+| J2 | Store the 04:15 AM report verbatim (raw text, source URL, retrieval note) | done | `data/app/official_injuries_2026-11-14_0415AM_raw.md` |
+| J3 | Parse only fully-attributed rows; list fragmented rows as unverified (no inference) | done | `scripts/injury_delta_0415am.py`, `data/app/injury_delta_0415am.json` |
+| J4 | Status-change table vs. the stored 07:30 PM snapshot, with official source links | done | `data/app/injury_delta_0415am.json` (results below) |
+| J5 | Test + log + PR → merge → Pages check | done (see record below) | `tests/test_injury_delta.py`, `COORDINATION.md` |
+
+**Not in scope (owned by others / blocked):** `app/**`, `data/app/canonical.json`, `index.html`, `dash/`, `final/`, `hub/`,
+`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`, `verify/`, `audit36/`. The delta is published as a data file;
+folding it into the canonical dashboard is a change request to the integration owner (CR-53653a5c-A).
+
+### Results (session 53653a5c)
+
+**Sources (all read 2026-11-14):**
+
+| Source | Link | What was used |
+|---|---|---|
+| NBA official injury report index | https://official.nba.com/nba-injury-report-2026-27-season/ | Lists the 11/14 reports, 12:00 AM through 04:15 AM ET |
+| NBA official injury report 11/14/26 04:15 AM ET (PDF) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf | Stored verbatim: `data/app/official_injuries_2026-11-14_0415AM_raw.md` |
+| NBA official injury report 11/13/26 07:30 PM ET (PDF, stored earlier) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf | Comparison baseline, `data/app/official_injuries_2026-11-13_0730PM.json` |
+
+**Result on the 17 fully attributed 11/14 rows** (game date, matchup and team printed on the row: 15 player rows in DEN@NOP 4, DAL@CLE 6, BKN@MEM 5, plus 2 team rows marked NOT YET SUBMITTED for NOP and CLE):
+
+| Comparison | Count |
+|---|---|
+| Same player (or same NOT YET SUBMITTED team row), same status and same reason as the 07:30 PM snapshot | **17** (15 players + 2 team rows) |
+| Status changed | 0 |
+| Reason changed | 0 |
+| Stored player missing from the 04:15 AM report | 0 (see the 11 unattributed rows below) |
+
+This is a freshness check of the status and reason columns for those rows only. It does not re-evaluate any pick, line or strategy.
+
+**Not counted (unverified):** 29 continuation fragments. 11 of them name stored players for CHI@MIN, DET@MIA and BKN@MEM (Traore, Nolan; Beringer, Joan; DiVincenzo, Donte; Edwards, Anthony; Duren, Jalen; Harkless, Elijah; Joe, Isaiah; Jones, Isaac; Lanier, Chaz; Okorie, Ebuka; Onyenso, Ugonna). Their status and reason match the stored snapshot, but the text prints no date on the row, so they are not counted. 18 more rows are "not yet submitted" team rows or player rows for 7 games (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC) whose date is not printed on the row.
+
+**Outside the window:** 3 rows dated 11/15 (IND@PHI ×2, LAL@PHX ×1), all "not yet submitted".
+
+### Irregularities (flagged; none blocks merge)
+
+| ID | Severity | Finding |
+|---|---|---|
+| F53-01 | medium | The 05:00 PM ET PDF for 11/14 (`Injury-Report_2026-11-14_05_00PM.pdf`) returns `AccessDenied` from the source host on 2026-11-14. It is not used. Its status is unknown. |
+| F53-02 | medium | The official index page, as fetched, lists 11/14 reports only up to 04:15 AM ET. Whether later 11/14 reports exist could not be confirmed from the index. |
+| F53-03 | medium | The stored 07:30 PM snapshot has no rows for 7 games that the 04:15 AM report lists (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC). The stored snapshot is therefore incomplete for the 11/14 slate. |
+| F53-04 | low | Continuation rows in the PDF text drop the date, and some drop the team. 11 rows could not be attributed by the row alone; they are listed in `unverified_fragments`. |
+| F53-05 | low | `Traore, Nolan` is stored under Brooklyn Nets (BKN@MEM, Probable). In the 04:15 AM text, the row appears just before a Memphis "NOT YET SUBMITTED" line, which suggests Brooklyn but does not prove it. Not counted. |
+
+**Change request CR-53653a5c-A** (to the integration owner of `app/**`, `data/app/canonical.json`, `index.html`): optionally surface `data/app/injury_delta_0415am.json` on the injuries page, and decide whether the 04:15 AM report should replace the 07:30 PM snapshot as the canonical injury source. Not edited here (file scope not claimed).
+
+### Verification performed (session 53653a5c)
+
+- `python3 scripts/injury_delta_0415am.py` reproduces `data/app/injury_delta_0415am.json` (deterministic).
+- `python3 -m unittest tests/test_injury_delta.py` — 3 tests pass. They pin the counts (17 same, 0 changed, 11 not attributed) and assert that fragments are never counted.
+- Existing gates unaffected: no workflow step reads the new files. The canonical build still reports zero drift (`python3 scripts/build_app.py`, run before the changes).
+- Official-host check: both raw and index URLs are on `*.nba.com` and `official.nba.com`.
+
+### Merge and deploy record (session 53653a5c)
+
+| Item | Result |
+|---|---|
+| PR | [#47](https://github.com/wingbangboozle1-lang/NBA3/pull/47) `arena/53653a5c-nba3` → `main`; merged with `gh pr merge 47 --merge` |
+| Merge commit | `169ea10dfbc5c29c07c9181eedb476727eb883ee` (merged 2026-11-14) |
+| Post-merge CI | run [43581202967](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581202967) on `main` — **build: success, deploy: success** (non-fatal runner-image notice only) |
+| Pages | `pages/builds/latest` → status **`built`**, commit `169ea10` |
+| Live check | https://wingbangboozle1-lang.github.io/NBA3/ fetched 2026-11-14 — renders the canonical dashboard (27 games, 122 official injury rows, 55 flagged items) |
+| Flags | F53-01…F53-05 and CR-53653a5c-A are open and published in this section for owner review; none blocks anything. |
