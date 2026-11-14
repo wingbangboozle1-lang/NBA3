@@ -818,6 +818,25 @@ corrections and ledger live at `/verify/pages/`.
 
 ---
 
+## Merge note — `arena/2b9f1ae1-nba3` (integration, second merge)
+
+`main` advanced again while this session was working (PR [#20](https://github.com/wingbangboozle1-lang/NBA3/pull/20)
+and PR [#22](https://github.com/wingbangboozle1-lang/NBA3/pull/22) from session `arena/3655c68d-nba3`, the
+verification layer). This session merged `origin/main` again and resolved the conflicts without
+discarding the other session's work:
+
+* `COORDINATION.md` — all three sessions' logs are kept, in full.
+* `index.html` — the generated canonical dashboard (this session). The verification layer published at
+  `/verify/pages/` and the cross-workstream audit at `/review.html` are **kept** and are linked from the
+  landing page.
+* `README.md` and `.github/workflows/pages.yml` — merged automatically; both sides' content is kept.
+
+The findings of the other two sessions are reachable from the canonical Flagged for Review page:
+R-01 – R-13 (session 2e50a71a) are merged there under their original IDs, and the verification layer's
+corrections and ledger live at `/verify/pages/`.
+
+---
+
 ## PR and deploy record — session `arena/3655c68d-nba3`
 
 | Item | Result |
@@ -1817,3 +1836,20 @@ nothing in this round changed any canonical value, line, pick or strategy — it
 
 Nothing else changed in this record commit. The flags F36-01…F36-07 remain published at
 `/NBA3/audit36/pages/flagged.html` for owner review and do not block anything.
+* PR: [#19](https://github.com/wingbangboozle1-lang/NBA3/pull/19) `arena/2b9f1ae1-nba3` → `main`,
+  merged 2026-11-14T00:56:48Z with merge commit `3367762bd0602b6ae78ff16ad67b06ab8481da42`
+  (`gh pr merge 19 --merge`).
+* PR-time CI: run [43537385859](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537385859)
+  — `build` **success**, all 17 steps (including the new capture cross-check, the canonical assembly and
+  the canonical site build); `deploy` skipped on pull requests by design.
+* Post-merge CI: run [43537485796](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537485796)
+  — `completed success` (build + deploy); pages-build-deployment run
+  [43537485401](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537485401) — `completed success`.
+* Pages: `gh api repos/wingbangboozle1-lang/NBA3/pages/builds/latest` → status `built`, commit `3367762`;
+  the Pages source is still the legacy `main /` (see NF-43).
+* Live check (cache-busted with the merge SHA): the canonical dashboard, `app/flagged.html` and
+  `app/lines.html` all render with their tables and source links at
+  https://wingbangboozle1-lang.github.io/NBA3/.
+* Merge conflicts: `main` advanced twice while this session worked (PRs #17/#18 and #20/#22 from the
+  other integration sessions). Both merges were resolved without discarding the other sessions' work —
+  see the merge notes above and the final conflict resolutions in the commit messages.

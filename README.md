@@ -156,6 +156,7 @@ Do not compare IDs across sites without this table. The `/dashboard/` build uses
 and supersedes nothing: it is an independently verified alternative to `/` + `/app/` and `/dash/`.
 
 **Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/ (root landing) · **current numbers in one place:** https://wingbangboozle1-lang.github.io/NBA3/dash/<br>
+**Published:** PR [#19](https://github.com/wingbangboozle1-lang/NBA3/pull/19) merged 2026-11-14 (merge commit `3367762`); Pages build `built` for that commit.
 **Flagged for Review:** https://wingbangboozle1-lang.github.io/NBA3/review.html<br>
 **Repository audit log:** [`COORDINATION.md`](COORDINATION.md)
 
