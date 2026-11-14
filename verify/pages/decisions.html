@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Decisions needed - NBA3 verification</title>
+<style>
+:root{--ink:#17203a;--muted:#5b6780;--line:#dfe5ee;--bg:#f6f8fb;--card:#fff;
+--navy:#111d33;--blue:#1f5be0;--red:#b3261e;--amber:#8a5a00;--green:#1c6b45}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+header{background:var(--navy);color:#fff;padding:22px max(20px,calc((100vw - 1240px)/2))}
+header .eyebrow{color:#9fb6ff;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+header h1{margin:4px 0 2px;font-size:26px;font-weight:700}
+header p{margin:3px 0 0;color:#c9d6ef;font-size:13.5px;max-width:900px}
+.wrap{max-width:1240px;margin:0 auto;padding:20px;display:grid;grid-template-columns:212px 1fr;gap:22px}
+nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;height:max-content;position:sticky;top:14px}
+nav .grp{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 8px 4px}
+nav a{display:block;padding:7px 9px;border-radius:6px;color:var(--ink);font-size:14px}
+nav a:hover{background:#eef3fd}nav a.on{background:#e4ecfd;color:var(--blue);font-weight:650}
+main{min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:19px}
+.card h2+.sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+.card h3{font-size:15px;margin:18px 0 6px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{background:#f1f5fb;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:#3c4a63;font-weight:700;white-space:nowrap}
+tbody tr:hover td{background:#fafcff}
+td.id{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;font-size:12.5px}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;border:1px solid}
+.t-verified{color:var(--green);border-color:#bfe0cf;background:#eaf6ef}
+.t-disc{color:var(--red);border-color:#f0c8c4;background:#fdeceb}
+.t-unv{color:var(--amber);border-color:#ecd9ae;background:#fdf5e4}
+.t-info{color:#2c3f63;border-color:#d5deee;background:#eef2f9}
+.metric{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:14px 0}
+.m{background:#f8fafd;border:1px solid var(--line);border-radius:9px;padding:14px}
+.m b{display:block;font-size:23px;font-weight:750;letter-spacing:-.01em}
+.m span{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.m small{display:block;color:var(--muted);font-size:11.5px;margin-top:6px}
+.note{border-left:3px solid var(--blue);background:#f2f6fe;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+.warn{border-left:3px solid var(--red);background:#fdf0ef;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+.good{border-left:3px solid var(--green);background:#eef8f2;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+code{background:#eef1f6;padding:1.5px 5px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+footer{color:var(--muted);font-size:12.5px;padding:8px 0 26px;border-top:1px solid var(--line);margin-top:8px}
+ul.tight{margin:6px 0 0;padding-left:18px}ul.tight li{margin:3px 0}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;padding:14px}nav{position:static;display:flex;flex-wrap:wrap;gap:2px}
+nav .grp{width:100%}nav a{white-space:nowrap}}
+</style></head>
+<body>
+<header><div class="eyebrow">NBA3 / session 3655c68d / verification layer</div>
+<h1>Decisions needed</h1>
+<p>Cross-pipeline verification of the six dashboards already in this repository. Research only, not betting advice.
+Nothing on this site is eligible for staking.</p></header>
+<div class="wrap"><nav aria-label="Sections"><div class="grp">Overview</div><a href="index.html">Verification hub</a><a href="executive.html">Executive summary</a><a href="contradictions.html">Contradictions (9)</a><div class="grp">Evidence</div><a href="claims.html">Claim ledger</a><a href="injuries.html">Injury verification</a><a href="results.html">Game-log verification</a><a href="corrections.html">Corrections made</a><div class="grp">Decision</div><a href="decisions.html" class="on">Decisions needed</a><a href="questions.html">Questions ledger</a><a href="suggestions.html">Suggestions</a><div class="grp">Record</div><a href="ledger.html">Settlement ledger</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a></nav><main>
+
+<section class="card"><h2>Decisions needed</h2>
+<p class="sub">Every question that has to be answered before a decision can reasonably be made, split into what the
+repository already establishes, what is missing, and how the missing part would be discovered. No question is
+answered here by inference.</p>
+<div class="warn"><b>Nothing on the rest of this site can become a staking recommendation until Q-01 is answered.</b>
+That is a legal question about the jurisdiction and the NBA's terms, and no amount of modelling substitutes for it.</div>
+<div class="note">Ranked so that the questions which freeze the most downstream work come first. The first five are the
+ones worth spending time on; the rest follow from them.</div>
+<div class="scroll"><table><thead><tr><th>#</th><th>ID</th><th>Question, what we have, what is missing, how to get it</th><th>Source</th></tr></thead>
+<tbody><tr><td class="num">1</td><td class="id">Q-01</td>
+<td><b>Legal basis for publishing betting content</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes - blocks every staking recommendation, and blocks any public leaderboard that ranks real money outcomes.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Dutch Betting and Gaming Act art. 31a requires a licence from the Kansspelautoriteit to offer online sports betting in the Netherlands (source 1). NBA.com Terms of Use section 9 restricts use of NBA Statistics for gambling purposes (source 2). Both were read directly in prior sessions and the quoted requirement is reproduced in the flagged register.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Whether this project offers, promotes or merely analyses betting content, and from which jurisdiction it is operated. Whether the owner holds or will obtain a Koa licence. Whether the NBA terms prohibit even a private, non-monetised model.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Written legal opinion covering (a) the licence question for the intended jurisdiction and (b) the NBA terms question. Nothing in this repository can substitute for it.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>Operating without a licence in the Netherlands is an offence under the Betting and Gaming Act; the NBA terms question creates separate contractual exposure.</div></td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">source</a> &middot; <a href="https://www.nba.com/termsofuse">also</a></td></tr><tr><td class="num">2</td><td class="id">Q-02</td>
+<td><b>Is this a pool or a competition with prizes?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes - the reward rule cannot be defined without it.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Nothing. No rule set, no entry mechanism, no eligibility, no prize terms, no terms of service exist in the repository.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Whether &#x27;leaderboard that rewards top performing strategies&#x27; means internal research scoring, a public contest, or something with money changing hands. Each has a different legal and tax treatment and a different definition of cheating.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>One page of written product intent from the owner. This is the single cheapest unblocking action available and it constrains everything on the strategies page.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>Any leaderboard built now may have to be discarded.</div></td>
+<td><span class="tag t-unv">no official source</span></td></tr><tr><td class="num">3</td><td class="id">Q-03</td>
+<td><b>Which market prices may be recorded?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes - without it, profitability cannot be measured, only self-consistency.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>One pipeline (/lab/) records a single-book DraftKings price relayed by an ESPN endpoint and classifies it TRUSTED-2, explicitly &#x27;not an NBA source&#x27;. Every other pipeline has no prices at all and assumes -110.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>A licensed odds feed with historical depth: open, current and closing prices, per book, per market, timestamped. Also whether a sportsbook&#x27;s terms permit storing and republishing their prices.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Procure a feed (or a documented free source) and record the licence terms. Then re-run the backtests with real prices. Until then no ROI figure in this repository is an economic result.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>Every ROI number here is measured against a price nobody offered. The strategy leaderboard rewards a number that cannot be earned.</div></td>
+<td><a href="https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/events/401909296/competitions/401909296/odds">source</a></td></tr><tr><td class="num">4</td><td class="id">Q-04</td>
+<td><b>What exactly counts as a winning strategy?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes - the leaderboard has no meaning until one rule is agreed.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Three different gate systems exist: /origin/ with 7 gates, /edge/ with 6, /lab/ with 7. They disagree on thresholds and on whether an ineligible strategy may hold a rank.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>A single agreed metric, a single minimum sample, and a rule for what happens to a strategy that passes some gates and not others.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Choose one gate set and one scoring rule before looking at any more results. The recommendation is on the Suggestions page as SG-01.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>Three dashboards will keep publishing three leaderboards.</div></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json">source</a></td></tr><tr><td class="num">5</td><td class="id">Q-05</td>
+<td><b>Which injury snapshot is authoritative, and how often is it refreshed?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes for props and for anything that depends on who is playing.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Established directly from the official index: teams must report by 5:00 PM local the day before a game and between 11:00 AM and 1:00 PM on game day, and reports update continually in 15-minute steps. The index lists 80 reports for 11/13 alone.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Which snapshot the site should key on (probably the last one before tip-off), and an automated refresh. The repository currently holds three different snapshots on three different pages, none of them the latest.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Pick a cutoff per game (for example, the last report published at least 30 minutes before tip-off), then automate the pull. The 11/14 11:00 AM report returned an access-denied error from this environment, so the pull must be tested from the production environment.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The site will present an availability picture that is hours out of date and inverts as late scratches land.</div></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">source</a> &middot; <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf">also</a></td></tr><tr><td class="num">6</td><td class="id">Q-06</td>
+<td><b>How does an injury change minutes and usage?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes for player props and for the injury-impact claim in the brief.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Official status labels (Out, Doubtful, Questionable, Probable, Available) and, in /origin/, the top 31 players by minutes.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Per-game player box scores for every player, so that the minutes vacuum left by an absence can be measured rather than guessed. The repository has no player game logs at all.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Capture player box scores by date from an official or licensed endpoint. /origin/ logged this as cross-session request CR-O2 and it remains open. Until then any minutes figure published here would be fabricated.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The brief asks for rotation-minute impact; nothing in the repository can produce it honestly.</div></td>
+<td><a href="https://www.nba.com/stats/players/boxscores">source</a> &middot; <a href="https://www.nba.com/stats/help/glossary">also</a></td></tr><tr><td class="num">7</td><td class="id">Q-07</td>
+<td><b>What is the bankroll and staking policy?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes for any staking output.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Nothing. Every pipeline books a flat 1-unit stake as a simplifying assumption and labels it so.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Bankroll, maximum stake, maximum daily exposure, drawdown stop, and responsible-gambling controls.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Write the policy before any staking figure is published. Kelly-style sizing cannot be recommended before the edge itself is measurable (Q-03).</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>A leaderboard that rewards unconstrained growth will be won by whoever takes the most risk, not by skill.</div></td>
+<td><span class="tag t-unv">no official source</span></td></tr><tr><td class="num">8</td><td class="id">Q-08</td>
+<td><b>What does the site do when data goes stale?</b>
+<div style="margin-top:6px"><span class="tag t-info">No, but it is the difference between research output and usable output.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Several pages already label staleness partially (PARTIAL_REPORT, NO_REPORT, &#x27;subject to change&#x27;), but nothing suppresses output.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>An explicit rule: if the newest report is older than N minutes, or an input is missing, the pick is withdrawn rather than shown with a warning.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Decide the rule, then implement it as a build failure rather than a label. This session already demonstrated the failure mode: the 11/14 11:00 AM report was not retrievable at build time and nothing stopped the site from publishing.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>A user will act on a stale number displayed with a small warning.</div></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">source</a></td></tr><tr><td class="num">9</td><td class="id">Q-09</td>
+<td><b>Which of the six dashboards is the product?</b>
+<div style="margin-top:6px"><span class="tag t-info">No, but it blocks any improvement to decision making, because a user cannot tell which page to believe.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Six independent trees built by six sessions, each complete, each with its own ID scheme. Two of them still claim that no picks are published while four publish picks.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>A decision on whether to consolidate into one site or keep them as an archive, and who owns the consolidated one.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>See SG-02. The cheapest correct answer is to make the root page a truthful index and mark the stale trees as archived.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The site keeps contradicting itself. This session found nine such contradictions.</div></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/contradictions.json">source</a></td></tr><tr><td class="num">10</td><td class="id">Q-10</td>
+<td><b>What sample is large enough to call a strategy proven?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes - without a floor, the leaderboard can be won on 20 lucky bets.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Three different floors: 100 bets in /origin/ and /edge/, 30 in /lab/. /lab/ also reports a power calculation needing 778 games to detect a 5% edge.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>One pre-registered answer, stated before the data is seen, with the effect size it is powered to detect.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>The measured out-of-sample standard deviation is 16.15 points on margin and 20.23 on total, recomputed from /origin/&#x27;s walk-forward file. Those two numbers alone allow a power calculation for any proposed edge. The 778-game figure reported by /lab/ is reproducible as a starting point, not as an answer.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The best-performing strategy will be the one with the fewest bets.</div></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/validation_report.json">source</a> &middot; <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json">also</a></td></tr><tr><td class="num">11</td><td class="id">Q-11</td>
+<td><b>Who verifies a settlement?</b>
+<div style="margin-top:6px"><span class="tag t-info">No, until picks are settled for a leaderboard.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>A 174-game log that two independent pipelines agree on, game by game, including overtime classification.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>An owner for the settlement step once picks go live, and a rule for what happens when a game is postponed or a stat is corrected.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Assign the role and write the rule. The ledger on this site is append-only and already records the official game page for each pick.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>A corrected stat silently changes a historical pick, and a leaderboard becomes unauditable.</div></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv">source</a></td></tr><tr><td class="num">12</td><td class="id">Q-12</td>
+<td><b>Do we have the right to store and republish the inputs?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes for any public deployment that displays the underlying data rather than derived statistics.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>The repository stores game scores, team ratings and injury rows, partly transcribed from Basketball-Reference and partly from NBA-hosted PDFs.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Written terms for Basketball-Reference (which has its own terms of use) and confirmation of the NBA redistribution position. The repository contains no licence file at all.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Add a licence for the code, obtain written terms for the data, and remove anything that cannot be redistributed. This is related to Q-01 but is a separate question.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The public GitHub Pages deployment currently republishes third-party data with no stated basis.</div></td>
+<td><a href="https://www.basketball-reference.com/about/terms.html">source</a> &middot; <a href="https://www.nba.com/termsofuse">also</a></td></tr><tr><td class="num">13</td><td class="id">Q-13</td>
+<td><b>Is the model good enough to originate a line at all?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes for the brief&#x27;s central goal of originating lines.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>Margin model RMSE 16.18 points on 114 out-of-sample games against a 17.30 baseline, and a total model at 20.35 that loses to a 19.56 baseline.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Any comparison to a market closing line. A model can beat its own baseline and still be far worse than the market, which is the only benchmark that matters for line origination.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Q-03 supplies the benchmark. Until then &#x27;our line&#x27; should be described as a naive estimate, not as an originated line competing with a bookmaker.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The project will believe it has an edge when it has only out-performed a weak baseline.</div></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json">source</a></td></tr><tr><td class="num">14</td><td class="id">Q-14</td>
+<td><b>What is the promotion rule for the leaderboard?</b>
+<div style="margin-top:6px"><span class="tag t-disc">Yes for the leaderboard competition in the brief.</span></div>
+<div style="margin-top:8px"><b style="font-size:12px;color:var(--muted)">HAVE</b><br>A proposed promotion rule on this site: 100 settled picks and a bootstrap interval on Brier skill that excludes zero.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">MISSING</b><br>Owner approval, and a decision on whether the leaderboard is public, internal, or tied to a prize (Q-02).</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">HOW TO GET IT</b><br>Approve or amend the rule on the Suggestions page, then it can be implemented as a build gate.</div>
+<div style="margin-top:6px"><b style="font-size:12px;color:var(--muted)">RISK IF IGNORED</b><br>The leaderboard will reward luck, which is precisely what the brief asks to avoid.</div></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/ledger.json">source</a></td></tr></tbody></table></div>
+</section>
+<section class="card"><h2>The shortest path to a usable product</h2>
+<div class="scroll"><table><thead><tr><th>Step</th><th>Action</th><th>Suggestion</th><th>Blocked by</th></tr></thead><tbody>
+<tr><td class="num">1</td><td>Decide the legal position: jurisdiction, licence, and whether the NBA terms permit this at all.</td><td>SG-09</td><td>Nothing &mdash; this is a human decision</td></tr>
+<tr><td class="num">2</td><td>Choose one dashboard, one gate set and one leaderboard rule; archive the other five.</td><td>SG-01, SG-02, SG-06</td><td>Nothing</td></tr>
+<tr><td class="num">3</td><td>Obtain a licensed price feed and record prices before tip-off.</td><td>SG-06</td><td>Q-03</td></tr>
+<tr><td class="num">4</td><td>Run the prospective ledger until 100 picks have settled.</td><td>SG-04</td><td>Steps 2 and 3</td></tr>
+<tr><td class="num">5</td><td>Only then decide whether to publish anything as staking-eligible.</td><td>SG-05</td><td>Steps 1 and 4</td></tr>
+</tbody></table></div></section>
+<footer>Built by <code>python3 verify/build.py</code> from <code>verify/data/*.json</code>. Every table row links to its source.
+Values that could not be confirmed against an official source are left blank and flagged.</footer>
+</main></div></body></html>

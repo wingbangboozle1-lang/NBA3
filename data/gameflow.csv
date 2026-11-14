@@ -1,0 +1,8 @@
+factor_id,factor,why_it_may_matter (hypothesis only),data_needed,definition_source_url,definition_checked,status
+GF01,Pace (possessions per game),Faster games can add possessions and change totals,Possessions by team and game,https://www.nba.com/stats/help/glossary,No (glossary chunk 0 of 10 read; PACE entry not opened),Blocked - no game data
+GF02,Score margin and blowout risk,Large leads can shorten starter minutes and change prop minutes,Quarter scores and minutes by player,https://www.nba.com/stats/help/glossary,No,Blocked - no score-state data
+GF03,Foul trouble,Players with fouls may play fewer minutes,Personal fouls and minutes by quarter,https://www.nba.com/stats/help/glossary,No,Blocked - no data
+GF04,Back-to-back schedule,Second games of a back-to-back are an official reporting category; rest effects are unmeasured,Game dates for each team from the official schedule,https://official.nba.com/nba-injury-report-2026-27-season/,Yes (term and reporting deadline read on the injury-report index),Partly available (schedule dates in slates.csv)
+GF05,Injury-driven rotation change,Official status changes can shift minutes to other players,Injury status history; minutes; roster,https://official.nba.com/nba-injury-report-2026-27-season/,Yes (report rules read),Blocked - no history or minutes
+GF06,Overtime and close finishes,Close games change minutes and late-game usage,Final score and minutes by player,https://www.nba.com/stats/help/glossary,No,Blocked - no data
+GF07,Schedule context for the 3-day window,The 3-day window contains 4 slates with 31 games,Official schedule for each date,https://www.nba.com/schedule,Yes (schedule pages read),Available for Nov 13-16

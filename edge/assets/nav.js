@@ -1,0 +1,2 @@
+const PAGES=[['index.html','Overview'],['picks.html','Picks (3-day)'],['lines.html','Originated Lines'],['strategies.html','Strategies & Gates'],['injuries.html','Injuries'],['gameflow.html','Game Flow'],['data.html','Data Tables'],['questions.html','Open Questions'],['suggestions.html','Suggestions'],['flagged.html','Flagged for Review'],['verification.html','Verification'],['methodology.html','Methodology']];
+document.write(`<header class="site"><a class="brand" href="../index.html">NBA3 · Edge Lab</a>${PAGES.map(p=>`<a href="${p[0]}">${p[1]}</a>`).join('')}</header>`);

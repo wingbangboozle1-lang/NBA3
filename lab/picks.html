@@ -1,0 +1,513 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signals &amp; picks — NBA Line Lab</title>
+<meta name="description" content="Source-linked NBA line origination, validation gates and decision support.">
+<style>
+:root{--navy:#0d1b2e;--navy2:#13263d;--blue:#2f6df6;--blue-d:#1f4fc4;--bg:#f5f7fb;
+--ink:#16233a;--muted:#66748c;--line:#dde4ef;--white:#fff;--amber:#fff5dd;
+--amber-b:#e2a52c;--green:#e7f6ee;--green-b:#1d8a55;--red:#fdecec;--red-b:#c0392b;
+--chip:#eef3ff;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue-d)}
+header{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 0 0}
+.hwrap{max-width:1280px;margin:auto;padding:0 22px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.2px}
+.brand .tag{color:#9fb4d8;font-size:13px}
+nav.top{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #21364f}
+nav.top a{color:#c3d2e8;text-decoration:none;padding:9px 12px;font-size:13.5px;
+border-radius:8px 8px 0 0;white-space:nowrap}
+nav.top a:hover{background:#1b3149;color:#fff}
+nav.top a.on{background:var(--bg);color:var(--navy);font-weight:700}
+.shell{max-width:1280px;margin:auto;padding:22px}
+h2{font-size:22px;margin:26px 0 6px;letter-spacing:-.2px}
+h3{font-size:17px;margin:22px 0 8px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;
+padding:20px;margin-bottom:16px;box-shadow:0 1px 3px #17294b0a}
+.lead{color:var(--muted);max-width:88ch}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.metric{background:#f8fafd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.metric b{display:block;font-size:23px;line-height:1.2;letter-spacing:-.5px}
+.metric small{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.metric .sub{font-size:11.5px;color:var(--muted);margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
+vertical-align:top}
+th{background:#f3f6fb;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+color:#4d5e78;position:sticky;top:0;z-index:1;white-space:nowrap}
+tbody tr:hover{background:#fafcff}
+.scroll{overflow:auto;max-height:none;border:1px solid var(--line);border-radius:10px}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;
+white-space:nowrap}
+.src{font-size:11.5px;white-space:nowrap}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:11px;
+font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.c-ok{background:#e7f6ee;color:#12603c}
+.c-warn{background:var(--amber);color:#8a5b00}
+.c-bad{background:var(--red);color:#8f2318}
+.c-info{background:var(--chip);color:#1f47a8}
+.c-neutral{background:#eef1f6;color:#4c5a72}
+.note{background:var(--amber);border-left:4px solid var(--amber-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.good{background:var(--green);border-left:4px solid var(--green-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.danger{background:var(--red);border-left:4px solid var(--red-b);padding:12px 14px;
+border-radius:6px;margin:12px 0}
+.mono{font-family:var(--mono);font-size:12.5px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+ul.tight{margin:8px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+details{border:1px solid var(--line);border-radius:9px;padding:10px 14px;margin:10px 0;
+background:#fbfcfe}
+details>summary{cursor:pointer;font-weight:650}
+footer{color:var(--muted);font-size:12.5px;padding:26px 22px 40px;max-width:1280px;
+margin:auto}
+.formula{background:#0f1e31;color:#dbe7f7;padding:12px 14px;border-radius:8px;
+font-family:var(--mono);font-size:12.5px;overflow:auto;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+@media(max-width:640px){.kv{grid-template-columns:1fr}th{position:static}}
+</style></head><body>
+<header><div class="hwrap"><div class="brand"><h1>NBA Line Lab</h1>
+<span class="tag">originated lines · validation gates · source-linked research</span></div>
+<nav class="top"><a href="index.html">Executive summary</a><a href="lines.html">Originated lines &amp; slate</a><a href="picks.html" class="on">Signals &amp; picks</a><a href="props.html">Player props &amp; correlation</a><a href="strategies.html">Strategies &amp; leaderboard</a><a href="injuries.html">Injuries &amp; game flow</a><a href="methodology.html">Method &amp; validation gates</a><a href="questions.html">Decision questions</a><a href="suggestions.html">Suggestions queue</a><a href="review.html">Flagged for review</a></nav></div></header>
+<div class="shell">
+<h2>Signals, screening and picks</h2>
+<p class="lead">The model produces a probability for every market on every priced game.
+A raw probability difference is not a pick: it has to clear a screen that asks whether
+the disagreement is defensible at all. Here is the whole funnel, including the
+rejections.</p>
+
+<div class="grid g4">
+<div class="metric"><b>20</b><small>raw signals</small>
+  <div class="sub">model probability above de-vigged market</div></div>
+<div class="metric"><b>12</b><small>rejected — too far from market</small>
+  <div class="sub">gap above 4 pts (spread) / 5 pts (total)</div></div>
+<div class="metric"><b>7</b><small>rejected — injury exposure</small>
+  <div class="sub">official report lists players Out</div></div>
+<div class="metric"><b>1</b><small>survived both screens</small>
+  <div class="sub">still not "validated" — see below</div></div>
+</div>
+
+<div class="danger">
+<b>Why most signals are thrown away.</b> A model that ignores injuries will disagree with a market that prices them, and every disagreement looks like edge. The screens exist to throw most of those disagreements away rather than to package them as picks.
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">The screening rules, stated before the results</h3>
+<ol class="tight">
+<li><b>De-vig first.</b> No comparison is made against a raw implied probability. The
+two-way price has the book's margin removed, so a 4.5% hold cannot masquerade as edge.</li>
+<li><b>Divergence cap.</b> A modelled spread more than 4
+points from the listed spread (or a total more than 5
+points away) is rejected. With no injury adjustment, a gap that wide is far more likely
+to be our blind spot than the market's.</li>
+<li><b>Injury exposure cap.</b> If the official report lists any player Out on either
+side beyond a threshold, the signal is rejected outright. We cannot defend a probability
+we know is computed from a stale roster.</li>
+<li><b>Value is EV, not edge.</b> A probability edge with no price advantage is not a
+bet. Ranked by expected value per unit staked at the listed price.</li>
+</ol>
+</div>
+
+<h3>The one signal that survived</h3>
+<div class="card">
+<p><b>OKC@LAC</b> — Total <b>Under 222.5</b> at
+    <span class="mono">-112</span>. Model 55.5% versus
+    de-vigged market 50.4%, expected value
+    <span class="mono">+0.051</span> per unit. Both sides of this
+    game were clean on the official report at the time of the snapshot.</p>
+    <div class="good" style="margin-bottom:0">It survived screening. That is not the same as
+    being validated: it has not been through a single validation gate. Treat it as a
+    hypothesis with a number attached.</div>
+</div>
+
+<h3>Full funnel — every signal, kept or killed</h3>
+<div class="card" style="padding:0"><div class="scroll"><table>
+<thead><tr><th>#</th><th>Date</th><th>Game</th><th>Market</th><th>Selection</th>
+<th class="num">Model p</th><th class="num">Market p</th><th class="num">Edge (pp)</th>
+<th class="num">Price</th><th class="num">EV / unit</th><th class="num">Divergence</th>
+<th>Injury risk</th><th>Screen</th><th>Source</th></tr></thead>
+<tbody><tr style="background:#f2fbf6">
+<td class="num">1</td>
+<td class="tiny">2026-11-13<br><span class="mono">22:30</span></td>
+<td><b>OKC</b> @ <b>LAC</b></td>
+<td>Total</td>
+<td><b>Under 222.5</b></td>
+<td class="num">55.5%</td>
+<td class="num">50.4%</td>
+<td class="num">+5.1</td>
+<td class="num">-112</td>
+<td class="num"><b>+0.051</b></td>
+<td class="num">2.6</td>
+<td><span class="chip c-ok">low</span></td>
+<td class="tiny"><span class="chip c-ok">KEPT</span>
+  <div class="muted tiny" style="max-width:230px">Divergence is within the screen and injury exposure is not elevated. Still TIER C: screens are not the same as validation gates.</div></td>
+<td class="src"><a href="https://www.nba.com/game/okc-vs-lac-0022600042" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">2</td>
+<td class="tiny">2026-11-13<br><span class="mono">21:30</span></td>
+<td><b>GSW</b> @ <b>SAS</b></td>
+<td>Moneyline</td>
+<td><b>GSW ML</b></td>
+<td class="num">38.6%</td>
+<td class="num">16.4%</td>
+<td class="num">+22.2</td>
+<td class="num">487</td>
+<td class="num"><b>+1.266</b></td>
+<td class="num">7.5</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 7.5, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/gsw-vs-sas-0022600040" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">3</td>
+<td class="tiny">2026-11-13<br><span class="mono">21:30</span></td>
+<td><b>GSW</b> @ <b>SAS</b></td>
+<td>Total</td>
+<td><b>Over 217.5</b></td>
+<td class="num">74.0%</td>
+<td class="num">50.6%</td>
+<td class="num">+23.4</td>
+<td class="num">-113</td>
+<td class="num"><b>+0.395</b></td>
+<td class="num">12.0</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 12.0, above the 5-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/gsw-vs-sas-0022600040" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">4</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>ATL</b> @ <b>CHI</b></td>
+<td>Spread</td>
+<td><b>ATL -7.5</b></td>
+<td class="num">69.3%</td>
+<td class="num">48.4%</td>
+<td class="num">+21.0</td>
+<td class="num">-103</td>
+<td class="num"><b>+0.367</b></td>
+<td class="num">8.7</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 8.7, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/atl-vs-chi-0022600037" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">5</td>
+<td class="tiny">2026-11-13<br><span class="mono">22:00</span></td>
+<td><b>POR</b> @ <b>SAC</b></td>
+<td>Spread</td>
+<td><b>POR -10.5</b></td>
+<td class="num">68.3%</td>
+<td class="num">48.9%</td>
+<td class="num">+19.4</td>
+<td class="num">-105</td>
+<td class="num"><b>+0.334</b></td>
+<td class="num">8.2</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 8.2, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/por-vs-sac-0022600041" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">6</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>MEM</b> @ <b>NOP</b></td>
+<td>Spread</td>
+<td><b>MEM -3.5</b></td>
+<td class="num">68.5%</td>
+<td class="num">49.6%</td>
+<td class="num">+18.9</td>
+<td class="num">-108</td>
+<td class="num"><b>+0.320</b></td>
+<td class="num">8.3</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 8.3, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/mem-vs-nop-0022600038" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">7</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>CLE</b> @ <b>MIA</b></td>
+<td>Moneyline</td>
+<td><b>CLE ML</b></td>
+<td class="num">61.0%</td>
+<td class="num">44.9%</td>
+<td class="num">+16.1</td>
+<td class="num">114</td>
+<td class="num"><b>+0.305</b></td>
+<td class="num">7.3</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 7.3, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/cle-vs-mia-0022600036" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">8</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>CLE</b> @ <b>MIA</b></td>
+<td>Spread</td>
+<td><b>CLE +2.5</b></td>
+<td class="num">66.5%</td>
+<td class="num">50.4%</td>
+<td class="num">+16.0</td>
+<td class="num">-112</td>
+<td class="num"><b>+0.258</b></td>
+<td class="num">7.3</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 7.3, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/cle-vs-mia-0022600036" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">9</td>
+<td class="tiny">2026-11-13<br><span class="mono">21:30</span></td>
+<td><b>GSW</b> @ <b>SAS</b></td>
+<td>Spread</td>
+<td><b>GSW +12.5</b></td>
+<td class="num">67.0%</td>
+<td class="num">51.1%</td>
+<td class="num">+15.9</td>
+<td class="num">-115</td>
+<td class="num"><b>+0.252</b></td>
+<td class="num">7.5</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 7.5, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/gsw-vs-sas-0022600040" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">10</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:30</span></td>
+<td><b>UTA</b> @ <b>HOU</b></td>
+<td>Spread</td>
+<td><b>HOU -15.5</b></td>
+<td class="num">63.6%</td>
+<td class="num">49.6%</td>
+<td class="num">+14.0</td>
+<td class="num">-108</td>
+<td class="num"><b>+0.224</b></td>
+<td class="num">6.0</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 6.0, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/uta-vs-hou-0022600039" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">11</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>MEM</b> @ <b>NOP</b></td>
+<td>Moneyline</td>
+<td><b>MEM ML</b></td>
+<td class="num">75.4%</td>
+<td class="num">59.3%</td>
+<td class="num">+16.0</td>
+<td class="num">-162</td>
+<td class="num"><b>+0.219</b></td>
+<td class="num">8.3</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 8.3, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/mem-vs-nop-0022600038" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">12</td>
+<td class="tiny">2026-11-13<br><span class="mono">19:00</span></td>
+<td><b>NYK</b> @ <b>IND</b></td>
+<td>Moneyline</td>
+<td><b>IND ML</b></td>
+<td class="num">32.6%</td>
+<td class="num">25.9%</td>
+<td class="num">+6.7</td>
+<td class="num">271</td>
+<td class="num"><b>+0.209</b></td>
+<td class="num">0.8</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 3 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/nyk-vs-ind-0022600034" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">13</td>
+<td class="tiny">2026-11-13<br><span class="mono">19:00</span></td>
+<td><b>MIL</b> @ <b>ORL</b></td>
+<td>Moneyline</td>
+<td><b>MIL ML</b></td>
+<td class="num">27.4%</td>
+<td class="num">23.3%</td>
+<td class="num">+4.1</td>
+<td class="num">312</td>
+<td class="num"><b>+0.129</b></td>
+<td class="num">0.8</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 4 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/mil-vs-orl-0022600035" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">14</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>ATL</b> @ <b>CHI</b></td>
+<td>Moneyline</td>
+<td><b>ATL ML</b></td>
+<td class="num">82.7%</td>
+<td class="num">70.6%</td>
+<td class="num">+12.1</td>
+<td class="num">-277</td>
+<td class="num"><b>+0.126</b></td>
+<td class="num">8.7</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 8.7, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/atl-vs-chi-0022600037" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">15</td>
+<td class="tiny">2026-11-13<br><span class="mono">22:00</span></td>
+<td><b>POR</b> @ <b>SAC</b></td>
+<td>Total</td>
+<td><b>Over 229.5</b></td>
+<td class="num">58.9%</td>
+<td class="num">50.4%</td>
+<td class="num">+8.4</td>
+<td class="num">-112</td>
+<td class="num"><b>+0.114</b></td>
+<td class="num">4.2</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 8 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/por-vs-sac-0022600041" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">16</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>ATL</b> @ <b>CHI</b></td>
+<td>Total</td>
+<td><b>Under 245.5</b></td>
+<td class="num">57.4%</td>
+<td class="num">49.7%</td>
+<td class="num">+7.7</td>
+<td class="num">-108</td>
+<td class="num"><b>+0.105</b></td>
+<td class="num">3.5</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 8 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/atl-vs-chi-0022600037" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">17</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:00</span></td>
+<td><b>CLE</b> @ <b>MIA</b></td>
+<td>Total</td>
+<td><b>Under 236.5</b></td>
+<td class="num">58.3%</td>
+<td class="num">50.6%</td>
+<td class="num">+7.7</td>
+<td class="num">-113</td>
+<td class="num"><b>+0.099</b></td>
+<td class="num">3.9</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 6 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/cle-vs-mia-0022600036" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">18</td>
+<td class="tiny">2026-11-13<br><span class="mono">22:00</span></td>
+<td><b>POR</b> @ <b>SAC</b></td>
+<td>Moneyline</td>
+<td><b>POR ML</b></td>
+<td class="num">86.2%</td>
+<td class="num">79.2%</td>
+<td class="num">+7.0</td>
+<td class="num">-468</td>
+<td class="num"><b>+0.046</b></td>
+<td class="num">8.2</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">Model differs from the market by 8.2, above the 4-point screen. With no injury adjustment in the model, a gap this wide is far more likely to be a missed-availability effect than genuine edge.</div></td>
+<td class="src"><a href="https://www.nba.com/game/por-vs-sac-0022600041" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">19</td>
+<td class="tiny">2026-11-13<br><span class="mono">19:00</span></td>
+<td><b>NYK</b> @ <b>IND</b></td>
+<td>Total</td>
+<td><b>Under 219.5</b></td>
+<td class="num">55.2%</td>
+<td class="num">50.6%</td>
+<td class="num">+4.6</td>
+<td class="num">-113</td>
+<td class="num"><b>+0.041</b></td>
+<td class="num">2.4</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 3 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/nyk-vs-ind-0022600034" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr><tr>
+<td class="num">20</td>
+<td class="tiny">2026-11-13<br><span class="mono">20:30</span></td>
+<td><b>UTA</b> @ <b>HOU</b></td>
+<td>Total</td>
+<td><b>Under 220.5</b></td>
+<td class="num">52.4%</td>
+<td class="num">49.4%</td>
+<td class="num">+3.0</td>
+<td class="num">-107</td>
+<td class="num"><b>+0.014</b></td>
+<td class="num">1.1</td>
+<td><span class="chip c-bad">high</span></td>
+<td class="tiny"><span class="chip c-bad">rejected</span>
+  <div class="muted tiny" style="max-width:230px">The official report lists 11 players Out across the two teams. The model does not adjust for that, so the probability cannot be defended even though it clears the divergence screen.</div></td>
+<td class="src"><a href="https://www.nba.com/game/uta-vs-hou-0022600039" target="_blank" rel="noopener">NBA.com</a><br>
+<a href="https://www.basketball-reference.com/leagues/NBA_2027.html" target="_blank" rel="noopener">ratings</a>
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">injury</a></td>
+</tr></tbody></table></div></div>
+<p class="tiny muted">"Edge (pp)" is model probability minus de-vigged market probability,
+in percentage points. "EV / unit" is the expected profit per 1 unit staked at the listed
+American price: <span class="mono">p x (decimal - 1) - (1 - p)</span>. Divergence is the
+absolute gap between the modelled and listed number for that market, in points.</p>
+
+<div class="note"><b>Combination bets.</b> No parlay or same-game parlay is offered as a
+pick. A parlay needs leg prices for the combined product, and none were captured. What
+<i>was</i> measured is the dependence between legs — see
+<a href="props.html">Player props &amp; correlation</a> — which is the part most parlay
+content skips entirely.</div>
+</div>
+<footer>Snapshot <span class="mono">2026-11-13T22:30Z</span> ·
+season 2026-27 · research and paper evaluation only, not betting advice ·
+every published figure links to its source; anything without one is marked unverified.
+</footer></body></html>

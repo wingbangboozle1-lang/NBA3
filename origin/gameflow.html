@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Game Flow &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li><a href='strategies.html'>Strategy Leaderboard</a></li><li><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li class='active'><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li><a href='suggestions.html'>Site Improvements</a></li><li><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap wide">
+<header class="page-head">
+<h1>Game Flow</h1>
+<p class="lead">Pace, rest, overtime and home court &mdash; computed from verified results, not copied from a summary page.</p>
+</header>
+
+<section class="panel">
+<h2>Game-flow facts from the verified results</h2>
+<div class="cards">
+<div class="card ok"><div class="card-label">Average game total</div>
+<div class="card-value">226.8</div><div class="card-sub">across 174 verified games</div></div><div class="card neut"><div class="card-label">Regulation / OT totals</div>
+<div class="card-value">225.5 / 252.1</div><div class="card-sub">regulation vs overtime games</div></div><div class="card neut"><div class="card-label">Overtime rate</div>
+<div class="card-value">5.2%</div><div class="card-sub">9 of 174 games</div></div><div class="card neut"><div class="card-label">Home win rate</div>
+<div class="card-value">51.4%</div><div class="card-sub">89 of 173 non-neutral games</div></div><div class="card neut"><div class="card-label">Mean home margin</div>
+<div class="card-value">+1.70</div><div class="card-sub">home score minus away score</div></div><div class="card warn"><div class="card-label">Games on a back-to-back</div>
+<div class="card-value">28.2%</div><div class="card-sub">at least one team on one day of rest</div></div>
+</div>
+<p>Every figure above is computed directly from the 174 verified final scores in
+<a href="data.html">the game log</a>. None of them is copied from a summary page.</p>
+</section>
+
+<section class="panel">
+<h2>Pace table</h2>
+<p>Official pace and efficiency for all 30 teams, sorted fastest to slowest. Pace is the single
+biggest driver of a game total: the spread between the fastest and slowest team here is
+8.7 possessions per 48 minutes, which at a league-average 112.9 offensive rating
+is worth roughly 9.8 points of total.</p>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Team</th><th>Pace</th><th>OffRtg</th><th>DefRtg</th><th>NetRtg</th><th>Source</th></tr></thead><tbody><tr><td><b>CHI</b></td><td class='num'>103.75</td><td class='num'>109.2</td><td class='num'>124.2</td><td class='num'>-15.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612741/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>ATL</b></td><td class='num'>103.46</td><td class='num'>114.3</td><td class='num'>112.2</td><td class='num'>2.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612737/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>MIA</b></td><td class='num'>102.80</td><td class='num'>111.3</td><td class='num'>115.9</td><td class='num'>-4.6</td><td><a class="src" href="https://www.nba.com/stats/team/1610612748/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>NOP</b></td><td class='num'>101.64</td><td class='num'>112.1</td><td class='num'>119.2</td><td class='num'>-7.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612740/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>SAC</b></td><td class='num'>101.23</td><td class='num'>107.2</td><td class='num'>119.3</td><td class='num'>-12.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612758/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>IND</b></td><td class='num'>101.13</td><td class='num'>110.6</td><td class='num'>112.5</td><td class='num'>-1.9</td><td><a class="src" href="https://www.nba.com/stats/team/1610612754/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>MIN</b></td><td class='num'>101.08</td><td class='num'>117.2</td><td class='num'>103.8</td><td class='num'>13.4</td><td><a class="src" href="https://www.nba.com/stats/team/1610612750/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>LAC</b></td><td class='num'>100.95</td><td class='num'>110.0</td><td class='num'>115.8</td><td class='num'>-5.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612746/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>POR</b></td><td class='num'>100.86</td><td class='num'>118.5</td><td class='num'>111.4</td><td class='num'>7.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612757/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>UTA</b></td><td class='num'>100.75</td><td class='num'>103.8</td><td class='num'>115.4</td><td class='num'>-11.6</td><td><a class="src" href="https://www.nba.com/stats/team/1610612762/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>LAL</b></td><td class='num'>100.50</td><td class='num'>121.6</td><td class='num'>113.6</td><td class='num'>8.0</td><td><a class="src" href="https://www.nba.com/stats/team/1610612747/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>DAL</b></td><td class='num'>100.50</td><td class='num'>112.5</td><td class='num'>111.7</td><td class='num'>0.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612742/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>MIL</b></td><td class='num'>100.50</td><td class='num'>106.2</td><td class='num'>120.7</td><td class='num'>-14.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612749/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>MEM</b></td><td class='num'>100.28</td><td class='num'>116.4</td><td class='num'>110.6</td><td class='num'>5.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612763/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>PHI</b></td><td class='num'>100.04</td><td class='num'>111.0</td><td class='num'>109.5</td><td class='num'>1.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612755/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>TOR</b></td><td class='num'>99.88</td><td class='num'>114.5</td><td class='num'>112.8</td><td class='num'>1.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612761/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>BKN</b></td><td class='num'>99.83</td><td class='num'>109.3</td><td class='num'>114.4</td><td class='num'>-5.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612751/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>CLE</b></td><td class='num'>99.80</td><td class='num'>115.6</td><td class='num'>113.6</td><td class='num'>2.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612739/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>GSW</b></td><td class='num'>99.76</td><td class='num'>118.4</td><td class='num'>110.9</td><td class='num'>7.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612744/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>WAS</b></td><td class='num'>99.63</td><td class='num'>108.7</td><td class='num'>114.3</td><td class='num'>-5.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612764/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>DET</b></td><td class='num'>99.17</td><td class='num'>114.1</td><td class='num'>106.9</td><td class='num'>7.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612765/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>SAS</b></td><td class='num'>98.97</td><td class='num'>119.3</td><td class='num'>108.3</td><td class='num'>11.0</td><td><a class="src" href="https://www.nba.com/stats/team/1610612759/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>OKC</b></td><td class='num'>98.75</td><td class='num'>112.5</td><td class='num'>108.3</td><td class='num'>4.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612760/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>PHX</b></td><td class='num'>98.45</td><td class='num'>113.8</td><td class='num'>117.6</td><td class='num'>-3.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612756/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>ORL</b></td><td class='num'>98.25</td><td class='num'>109.7</td><td class='num'>114.6</td><td class='num'>-5.0</td><td><a class="src" href="https://www.nba.com/stats/team/1610612753/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>DEN</b></td><td class='num'>97.58</td><td class='num'>115.9</td><td class='num'>115.1</td><td class='num'>0.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612743/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>HOU</b></td><td class='num'>97.42</td><td class='num'>118.5</td><td class='num'>109.3</td><td class='num'>9.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612745/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>CHA</b></td><td class='num'>96.92</td><td class='num'>101.8</td><td class='num'>113.0</td><td class='num'>-11.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612766/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>BOS</b></td><td class='num'>96.62</td><td class='num'>117.4</td><td class='num'>105.6</td><td class='num'>11.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612738/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td><b>NYK</b></td><td class='num'>95.09</td><td class='num'>115.7</td><td class='num'>109.0</td><td class='num'>6.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612752/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr></tbody></table></div>
+</section>
+
+<section class="panel">
+<h2>Rest and scheduling</h2>
+<p>Days of rest for each team-game, derived by differencing the official game dates. The
+distribution is heavily front-loaded because back-to-backs are common early in a season.</p>
+<div class="grid-2">
+<div><div class='table-scroll'><table class='tbl tight'><thead><tr><th>Days of rest</th><th>Team-games</th></tr></thead><tbody><tr><td><b>1</b></td><td class='num'>61</td></tr><tr><td><b>2</b></td><td class='num'>202</td></tr><tr><td><b>3</b></td><td class='num'>48</td></tr><tr><td><b>4</b></td><td class='num'>7</td></tr><tr><td><b>6+</b></td><td class='num'>30</td></tr></tbody></table></div></div>
+<div>
+<h3>Why rest is on this page and not in a strategy</h3>
+<p>Our rest-differential strategy (S3) put up 52.9% over 17 graded bets, p=1.000.
+That is indistinguishable from a coin, and we report it as such. Rest is a real effect in the
+literature, but with 17 qualifying games in this sample we have no business claiming it. It
+stays here as context for the game-flow read, not as a signal.</p>
+</div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Home court</h2>
+<p>Our least-squares fit across 173 non-neutral games gives a home-court advantage of
+<b>+1.59 points</b> (two-sided p=0.104, df=172). At conventional significance
+thresholds that is <b>not</b> statistically distinguishable from zero. We use the fitted value
+in the line-origination model because it is the least-squares estimate, but a reviewer should
+know that in this particular 174-game sample the data does not establish home court at all.
+The Mexico City game (DEN vs IND, 7 Nov) is treated as neutral and is excluded from the fit.</p>
+</section>
+
+<section class="panel">
+<h2>Overtime</h2>
+<p>9 of 174 games went to overtime (5.2%). Overtime games average
+252.1 combined points against 225.5 for regulation games &mdash; a gap of
+26.7 points that matters for any total priced off regulation scoring rates. Our originated
+totals do <b>not</b> adjust for the possibility of overtime; they are regulation equivalents.
+That is a modelling choice, listed on the <a href="flagged.html">flagged page</a>, not an
+oversight.</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T23:10:29Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>

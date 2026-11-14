@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Tables | NBA3</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><script src="assets/nav.js"></script><main>
+<div class="crumb"><a href="../index.html">Overview</a> / Data Tables</div>
+<h1>Data tables (every row sourced)</h1>
+<p class="sub">2026-27 season, through Nov 12 (174 games). Records cross-verified 30/30 against the <a href="https://www.basketball-reference.com/leagues/NBA_2027_ratings.html" target="_blank" rel="noopener">BBR ratings table</a>. Values we could not confirm from a cited source are blank and listed on <a href="flagged.html">Flagged for Review</a>.</p>
+<h2>Standings & scoring (derived from verified game log)</h2>
+<div id="standings"></div>
+<h2>Game log — all 174 results</h2>
+<div id="games"></div>
+<h2>Upcoming schedule (Nov 13–16)</h2>
+<div id="sched"></div>
+<footer>Sources: <a href="https://www.basketball-reference.com/leagues/NBA_2027_games-october.html" target="_blank" rel="noopener">BBR October</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html" target="_blank" rel="noopener">BBR November</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027_ratings.html" target="_blank" rel="noopener">BBR ratings (cross-check)</a>.</footer>
+</main>
+<script src="assets/app.js"></script>
+<script>
+(async()=>{
+ const st=await jget('standings.json');
+ const rows=Object.entries(st).sort((a,b)=>b[1].w-a[1].w).map(([t,v])=>[
+   td(t),td(v.w+'–'+v.l),td(v.pct,'num'),td(v.ppg,'num'),td(v.papg,'num'),
+   td(srcLink('https://www.basketball-reference.com/teams/'+t+'/2027.html','team page'))]);
+ document.getElementById('standings').appendChild(table([{h:'Team'},{h:'W–L'},{h:'Win%',cls:'num'},{h:'PPG',cls:'num'},{h:'Opp PPG',cls:'num'},{h:'Source'}],rows));
+ const games=await jget('games.json');
+ const grows=games.map(g=>[td(g.date),td(g.away),td(g.aps,'num'),td(g.home),td(g.hps,'num'),
+   td(g.ot?(g.note==='2OT'?'2OT':'OT'):''),td(g.note&&!g.ot?g.note:''),
+   td(srcLink(BBR_BOX(g.date,g.home),'box score'))]);
+ document.getElementById('games').appendChild(table([{h:'Date'},{h:'Away'},{h:'Pts',cls:'num'},{h:'Home'},{h:'Pts',cls:'num'},{h:'OT'},{h:'Note'},{h:'Source'}],grows));
+ const sch=await jget('schedule.json');
+ const srows=sch.map(s=>[td(s.date),td(s.start_et),td(s.away+' @ '+s.home),td(s.note||''),
+   td(srcLink(s.date<='2026-11-13'?BBR_NOV:BBR_NOV,'schedule'))]);
+ document.getElementById('sched').appendChild(table([{h:'Date'},{h:'Tip (ET)'},{h:'Matchup'},{h:'Note'},{h:'Source'}],srows));
+})().catch(e=>{document.body.appendChild(el('p','note red','Failed to load data: '+e));});
+</script></body></html>

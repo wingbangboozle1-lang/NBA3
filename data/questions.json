@@ -1,232 +1,147 @@
-{
-  "meta": {
-    "task": "T09, T10",
-    "rule": "Questions must be answered before the decisions they gate. Suggestions are queued for a reviewer to choose a path BEFORE any implementation — nothing in the suggestions queue has been implemented.",
-    "generated_at": "2026-11-13T23:30:00Z"
-  },
-  "questions": [
-    {
-      "id": "Q-01",
-      "question": "Which injury report will cover 11/14's NOT YET SUBMITTED teams, and when does it post?",
-      "why_it_matters": "G4 freshness gate blocks scored picks for 7 of 10 teams on the 11/14 slate. Until a report exists, those picks stay PROVISIONAL.",
-      "we_have": "Official reports exist at ak-static.cms.nba.com/referee/injury/ with a stable filename pattern; today's stamps were 01:00/01:15/04:15/05:00 PM ET.",
-      "we_do_not_have": "The 11/14-submission report itself (not yet published at data cut) and a reliable cadence (observed times differ from documented 1:30/5:30/8:30 — see fl-05).",
-      "needed_to_decide": "A re-run trigger: watch for Injury-Report_2026-11-14_*.pdf and regenerate 11/14 picks against it.",
-      "answer": null,
-      "answer_status": "UNANSWERED - blocks scoring of 11/14 injury-adjusted picks",
-      "owner": "pipeline (automated re-run)"
-    },
-    {
-      "id": "Q-02",
-      "question": "Do we fetch the remaining team rosters (CHI, HOU, POR, MIA, DAL, BKN, DET, ATL, NOP remaining players) to complete season PPGs for every OUT player?",
-      "why_it_matters": "13 injury rows have season_ppg = null (fl-13). Production-at-risk totals for those teams are under-counted; injury impact analysis rows are marked INCOMPLETE.",
-      "we_have": "Confirmed roster endpoints render season PPG for GSW, IND, ORL, MIL, CLE, MEM, NOP, UTA, SAS, OKC, LAC, SAC, POR (partial), HOU (no stats view).",
-      "we_do_not_have": "PPG rows for the null entries.",
-      "needed_to_decide": "Reviewer approves one more collection pass (~8 roster fetches) before injury analysis is declared complete.",
-      "answer": null,
-      "answer_status": "UNANSWERED - gates completeness claim on injury analysis",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-03",
-      "question": "What home-court advantage constant should the line-origination model use?",
-      "why_it_matters": "HCA directly shifts every originated spread/total. Current value (2.5 pts) is a flagged assumption (hca-01); only 5 teams' location splits were captured and they show no stable signal.",
-      "we_have": "Official Home/Road split rows for WAS, IND, MIL, ORL, CLE (both records and PTS by location).",
-      "we_do_not_have": "League-wide home win% or home point-differential across all 30 teams (standings page JS-only, fl-03).",
-      "needed_to_decide": "Either (a) a collection pass over 30 team location splits to compute league HCA from official data, or (b) explicit reviewer sign-off on the 2.5-pt assumption for v1.",
-      "answer": null,
-      "answer_status": "UNANSWERED - every line row carries hca-01 until resolved",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-04",
-      "question": "Is there an official/authorized market-odds source we may use for closing-line-value (CLV) validation?",
-      "why_it_matters": "CLV is the standard anti-luck gate for betting skill. Without it, S1-S4 validation relies only on win-rate confidence intervals over settled paper picks (slower to distinguish skill from luck).",
-      "we_have": "nba.com/schedule exposes an odds toggle but values are client-rendered only (fl-16).",
-      "we_do_not_have": "Any odds feed from an NBA-official or explicitly authorized source.",
-      "needed_to_decide": "Reviewer names an authorized source (or accepts CLV-blocked validation design).",
-      "answer": null,
-      "answer_status": "UNANSWERED - CLV gate marked BLOCKED",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-05",
-      "question": "What does the schedule PDF 'R' flag mean?",
-      "why_it_matters": "Game 40 (GSW@SAS 11/13) carries it; if it indicates a special circumstance (e.g., restricted/rest-related note) it could matter to picks. Not in the official legend (fl-04).",
-      "we_have": "Legend defines C, A, B, D, E only; R appears on rows 27, 40, 50.",
-      "we_do_not_have": "Definition.",
-      "needed_to_decide": "Ask source owner or find a legend page that defines R; until then do not act on it.",
-      "answer": null,
-      "answer_status": "UNANSWERED - ignored by model, flagged on row 40",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-06",
-      "question": "Should player-prop strategies use Pinnacle-style median baselines instead of season PPG?",
-      "why_it_matters": "S3 currently sets prop lines from season PPG (official, verifiable). Sharper prop lines need shot/distribution data we have not collected.",
-      "we_have": "Season PPG + last-5 logs from official player pages for 8 key players.",
-      "we_do_not_have": "Full-season game logs (gamelog endpoint returns 'No data available' server-side).",
-      "needed_to_decide": "Reviewer chooses: stay on PPG baselines (current) or authorize a game-log collection design.",
-      "answer": null,
-      "answer_status": "UNANSWERED - S3 runs on PPG baselines meanwhile",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-07",
-      "question": "Which license should this repository carry?",
-      "why_it_matters": "fl-01: repo has no LICENSE. Reuse/derivative terms are undefined.",
-      "we_have": "Nothing yet.",
-      "we_do_not_have": "A decision.",
-      "needed_to_decide": "Reviewer picks (MIT / Apache-2.0 / none). Not added autonomously.",
-      "answer": null,
-      "answer_status": "UNANSWERED - no LICENSE file added on purpose",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-08",
-      "question": "Should CI (.github/workflows) run scripts/verify.py on every push/PR?",
-      "why_it_matters": "Keeps every future row source-linked automatically; currently verification is manual (run locally).",
-      "we_have": "scripts/verify.py that performs schema + source-link + blank/flag consistency checks offline.",
-      "we_do_not_have": "A workflow file — deliberately not added because repo tooling changes are queued as suggestions requiring review (per brief: reviewer chooses path before implementation).",
-      "needed_to_decide": "Reviewer approves CI addition (suggestion SG-01).",
-      "answer": null,
-      "answer_status": "UNANSWERED - blocks SG-01",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-09",
-      "question": "What stake-sizing policy does the reviewer want for the leaderboard rewards?",
-      "why_it_matters": "Rewards currently scale paper units 2x/1x by rank with a 2% cap. Real-money guidance is out of scope; if the leaderboard should stay purely points-based, the unit scaling can be dropped.",
-      "we_have": "Current rules in data/strategies.json leaderboard block.",
-      "we_do_not_have": "Reviewer preference.",
-      "needed_to_decide": "Reviewer confirms points-only vs unit-scaling paper book.",
-      "answer": null,
-      "answer_status": "UNANSWERED - default = unit-scaling paper book (clearly labelled paper)",
-      "owner": "reviewer"
-    },
-    {
-      "id": "Q-10",
-      "question": "For 11/15-16 slate rows, do we publish provisional lines before injury reports exist?",
-      "why_it_matters": "The brief requires auto-generated picks up to 3 days ahead with no manual input. Publishing provisional lines satisfies that; scoring them would violate freshness gate G4.",
-      "we_have": "Full team strength + rest inputs for all 31 games; injury inputs blank for 13 games (fl-06).",
-      "we_do_not_have": "Injury reports for 11/15-16 (not yet published anywhere official).",
-      "needed_to_decide": "Confirm design: publish PROVISIONAL lines + picks now, auto-refresh on report publication, never score provisional rows.",
-      "answer": "Design confirmed in PICKS_PIPELINE.md: provisional rows are generated, labelled, and excluded from scoring until G4 passes.",
-      "answer_status": "ANSWERED (design decision recorded in pipeline doc)",
-      "owner": "d01ae7e2"
-    },
-    {
-      "id": "Q-11",
-      "question": "Do completed-game results need to be ingested daily to grade settled picks?",
-      "why_it_matters": "Leaderboard rewards and all CI gates require settled results (final scores). Today's slate results start arriving ~19:15 ET.",
-      "we_have": "Official game summary pages with linescores (e.g., CLE 115-107 NYK on 11/11 verified).",
-      "we_do_not_have": "An automated grading step (out of scope for this session; grading begins once results exist).",
-      "needed_to_decide": "Schedule a grading run after each slate completes; script hook documented in PICKS_PIPELINE.md.",
-      "answer": "Grading hook documented: scripts/grade_picks.py (design in PICKS_PIPELINE.md; implemented in a later session).",
-      "answer_status": "ANSWERED (design), implementation pending",
-      "owner": "d01ae7e2"
-    },
-    {
-      "id": "Q-12",
-      "question": "Correlation sample sizes are n=5 (teammate PTS) — acceptable for v1 gates?",
-      "why_it_matters": "S2/S3 gates require measured rho with n>=5. n=5 correlations are noisy; rho values are published with sample size and confidence caveat but may still pass G2_corr_measured.",
-      "we_have": "Official Last-5 logs for Brunson, Towns, SGA, Wemby, Giannis, Morant, Sengun, Trae.",
-      "we_do_not_have": "Season-long game logs (gamelog endpoint dead, fl-12 family).",
-      "needed_to_decide": "Reviewer accepts n=5 rho for v1 or raises the gate to n>=10 (which blocks all current parlays/stacks).",
-      "answer": null,
-      "answer_status": "UNANSWERED - current rho published with n and 'noisy' label",
-      "owner": "reviewer"
-    }
-  ],
-  "suggestions": [
-    {
-      "id": "SG-01",
-      "title": "Add CI workflow running scripts/verify.py + build check on push/PR",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "Add .github/workflows/verify.yml running python scripts/verify.py (offline checks only)", "pros": "future rows guaranteed source-linked", "cons": "adds repo tooling without explicit approval (Q-08)"},
-        {"path": "B", "label": "Keep verification manual/local only", "pros": "zero tooling risk", "cons": "drift possible over time"}
-      ],
-      "recommended_path": "A",
-      "decision": null,
-      "reviewer_note": "Per brief, no implementation until reviewer chooses."
-    },
-    {
-      "id": "SG-02",
-      "title": "Expand injury collection to complete all OUT-player PPGs (Q-02)",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "Fetch remaining ~8 roster pages now and fill nulls", "pros": "completes production-at-risk totals", "cons": "more fetch volume; some rosters may render without stats (HOU/POR did)"},
-        {"path": "B", "label": "Leave nulls flagged indefinitely", "pros": "zero effort", "cons": "injury analysis stays INCOMPLETE for 13 rows"}
-      ],
-      "recommended_path": "A",
-      "decision": null
-    },
-    {
-      "id": "SG-03",
-      "title": "Compute league-wide HCA from all 30 teams' official location splits (Q-03)",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "Fetch 30 team traditional-stats pages, take Home/Road rows, compute league home win% and average home margin", "pros": "replaces hca-01 assumption with official-data-derived constant", "cons": "~30 fetches"},
-        {"path": "B", "label": "Keep 2.5-pt assumption, document only", "pros": "fast", "cons": "every line carries an unverified constant"}
-      ],
-      "recommended_path": "A",
-      "decision": null
-    },
-    {
-      "id": "SG-04",
-      "title": "Auto-refresh pipeline on injury-report publication (Q-01)",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "Cron/GitHub Action polling ak-static.cms.nba.com/referee/injury/ filename pattern every 30 min during game days, regenerating picks.json", "pros": "true no-manual-input requirement met end-to-end", "cons": "external network polling in CI (rate-limit/ToS care needed)"},
-        {"path": "B", "label": "Manual re-run of scripts/generate_picks.py when a new report is noticed", "pros": "simple", "cons": "violates 'no manual input' in the limit"}
-      ],
-      "recommended_path": "A (with polite intervals + user-agent)",
-      "decision": null
-    },
-    {
-      "id": "SG-05",
-      "title": "Add interactive slate filter (date/TV/Cup/rest) to the dashboard",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "Client-side JS filter on slate.html table", "pros": "fast, no backend", "cons": "JS required; tables stay server-rendered as fallback"},
-        {"path": "B", "label": "Static tables only (current)", "pros": "works with JS disabled, simplest link-check", "cons": "31 rows harder to scan manually"}
-      ],
-      "recommended_path": "A",
-      "decision": null
-    },
-    {
-      "id": "SG-06",
-      "title": "Add a 'how to verify any row' walkthrough page",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "docs/VERIFYING.md + site page walking through 3 example rows end-to-end (slate row -> PDF+schedule page; injury row -> report PDF; pick row -> inputs)", "pros": "makes manual review trivial for the reviewer", "cons": "small maintenance cost"},
-        {"path": "B", "label": "Rely on sources.json only", "pros": "less doc surface", "cons": "reviewer must reverse-engineer the chain"}
-      ],
-      "recommended_path": "A",
-      "decision": null
-    },
-    {
-      "id": "SG-07",
-      "title": "Record settled results automatically (Q-11)",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "scripts/grade_picks.py parsing official game-summary linescores into data/results.json + leaderboard update", "pros": "closes the loop for rewards/CI gates", "cons": "requires running after every slate"},
-        {"path": "B", "label": "Manual grading entries", "pros": "no script", "cons": "slow, error-prone, contradicts automation goal"}
-      ],
-      "recommended_path": "A",
-      "decision": null
-    },
-    {
-      "id": "SG-08",
-      "title": "Visualise originated line vs baseline on each slate row",
-      "status": "AWAITING REVIEW - not implemented",
-      "paths_considered": [
-        {"path": "A", "label": "Small bar/delta indicator in slate table (our line minus neutral baseline)", "pros": "shows where edge comes from at a glance", "cons": "needs careful colour-blind-safe styling"},
-        {"path": "B", "label": "Numeric delta column only (current)", "pros": "plain, accessible", "cons": "less visual"}
-      ],
-      "recommended_path": "B then A (numeric first, visual later)",
-      "decision": null
-    }
+[
+ {
+  "id": "Q-01",
+  "q": "Is the owner planning to offer lines or picks to other people in NL?",
+  "status": "Not answered",
+  "known": "Ksa: online sports betting offers need a Koa licence (S09).",
+  "missing": "Whether anyone other than the owner will receive lines or picks; operator status; entity and licence.",
+  "next": "SG-01 (legal)",
+  "src": [
+   "S09"
   ]
-}
+ },
+ {
+  "id": "Q-02",
+  "q": "May NBA statistics be used to build betting lines?",
+  "status": "Answered — restricted",
+  "known": "NBA Terms §9 bars gambling use of NBA Statistics and a regularly updated statistics database without express prior consent.",
+  "missing": "Any written permission from NBA.",
+  "next": "SG-02",
+  "src": [
+   "S07"
+  ]
+ },
+ {
+  "id": "Q-03",
+  "q": "Which games are in the next 3 days (11/13–11/16)?",
+  "status": "Answered (subject to change)",
+  "known": "31 games across 4 dates in the official by-date schedule (S05).",
+  "missing": "Confirmation of changes after August 13, 2026.",
+  "next": "Re-pull at query time",
+  "src": [
+   "S05",
+   "S06"
+  ]
+ },
+ {
+  "id": "Q-04",
+  "q": "Who is listed as out or questionable for those games?",
+  "status": "Partly answered",
+  "known": "Official 11/13 5:00 PM report transcribed (117 rows) and 11/14 rows partly submitted (S04). The report index shows later updates through 5:15 PM on 11/13 (S02).",
+  "missing": "Later report updates not retrieved; 18 rows lack team text.",
+  "next": "Re-pull reports (SG-03)",
+  "src": [
+   "S04",
+   "S02"
+  ]
+ },
+ {
+  "id": "Q-05",
+  "q": "Do official injury reports quantify minutes or production impact?",
+  "status": "Answered — no",
+  "known": "Report fields: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason (S04). Index describes status reporting only (S02).",
+  "missing": "Any authorized minutes or production model.",
+  "next": "SG-06",
+  "src": [
+   "S04",
+   "S02"
+  ]
+ },
+ {
+  "id": "Q-06",
+  "q": "What are the official injury reporting deadlines?",
+  "status": "Answered",
+  "known": "Status by 5 p.m. local the day before (except 2nd game of a back-to-back: 1 p.m. local on game day); game-day report 11 a.m.–1 p.m. local (8–10 a.m. for tip-offs at 5 p.m. or earlier) (S02).",
+  "missing": "None for this question.",
+  "next": "Use as cut-off rules",
+  "src": [
+   "S02"
+  ]
+ },
+ {
+  "id": "Q-07",
+  "q": "Which odds and prop data are licensed and available?",
+  "status": "Not answered",
+  "known": "None in the repository; no provider or licence verified.",
+  "missing": "Provider, markets, timestamps, history depth, licence and display rights, cost.",
+  "next": "SG-02",
+  "src": []
+ },
+ {
+  "id": "Q-08",
+  "q": "What historical data can be used, and under what terms?",
+  "status": "Not answered",
+  "known": "NBA Terms §9 restrict NBA statistics (S07). No other dataset identified.",
+  "missing": "Authorized sources, schema, provenance, and missingness.",
+  "next": "SG-02, SG-03",
+  "src": [
+   "S07"
+  ]
+ },
+ {
+  "id": "Q-09",
+  "q": "What minutes projection source is available?",
+  "status": "Not answered",
+  "known": "None verified.",
+  "missing": "Authorized rotation or minutes data and its terms.",
+  "next": "SG-06",
+  "src": []
+ },
+ {
+  "id": "Q-10",
+  "q": "What defines a 'useful signal' and the leaderboard winner?",
+  "status": "Not answered",
+  "known": "Not specified by owner in the repository.",
+  "missing": "Metric, threshold, minimum sample, horizon. Proposal in SG-04 for owner choice.",
+  "next": "SG-04",
+  "src": []
+ },
+ {
+  "id": "Q-11",
+  "q": "What bankroll and risk limits apply?",
+  "status": "Not answered",
+  "known": "Not in repository.",
+  "missing": "Risk tolerance, stake rules, drawdown cap.",
+  "next": "SG-09",
+  "src": []
+ },
+ {
+  "id": "Q-12",
+  "q": "What are the correlation values between markets or players?",
+  "status": "Not answered — no data",
+  "known": "No outcomes, prices or samples in the repository.",
+  "missing": "Matched outcomes, prices, and samples; measurement window.",
+  "next": "7C-F-06 / G7",
+  "src": []
+ },
+ {
+  "id": "Q-13",
+  "q": "Where can problem-gambling help be found in NL?",
+  "status": "Partly answered",
+  "known": "Ksa publicises the Gokstop (self-exclusion) campaign (S08).",
+  "missing": "Confirmation of the Gokstop URL and any other official resource (not fetched).",
+  "next": "Verify before publishing",
+  "src": [
+   "S08"
+  ]
+ },
+ {
+  "id": "Q-14",
+  "q": "Does the repository have a live site with the correct source?",
+  "status": "Answered",
+  "known": "GitHub Pages is enabled for the repo (RR-04). Site will be rebuilt by T7/T8.",
+  "missing": "Post-deploy verification (T8).",
+  "next": "T8",
+  "src": []
+ }
+]

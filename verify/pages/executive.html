@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary - NBA3 verification</title>
+<style>
+:root{--ink:#17203a;--muted:#5b6780;--line:#dfe5ee;--bg:#f6f8fb;--card:#fff;
+--navy:#111d33;--blue:#1f5be0;--red:#b3261e;--amber:#8a5a00;--green:#1c6b45}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+header{background:var(--navy);color:#fff;padding:22px max(20px,calc((100vw - 1240px)/2))}
+header .eyebrow{color:#9fb6ff;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+header h1{margin:4px 0 2px;font-size:26px;font-weight:700}
+header p{margin:3px 0 0;color:#c9d6ef;font-size:13.5px;max-width:900px}
+.wrap{max-width:1240px;margin:0 auto;padding:20px;display:grid;grid-template-columns:212px 1fr;gap:22px}
+nav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;height:max-content;position:sticky;top:14px}
+nav .grp{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 8px 4px}
+nav a{display:block;padding:7px 9px;border-radius:6px;color:var(--ink);font-size:14px}
+nav a:hover{background:#eef3fd}nav a.on{background:#e4ecfd;color:var(--blue);font-weight:650}
+main{min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:19px}
+.card h2+.sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+.card h3{font-size:15px;margin:18px 0 6px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{background:#f1f5fb;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:#3c4a63;font-weight:700;white-space:nowrap}
+tbody tr:hover td{background:#fafcff}
+td.id{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;font-size:12.5px}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;border:1px solid}
+.t-verified{color:var(--green);border-color:#bfe0cf;background:#eaf6ef}
+.t-disc{color:var(--red);border-color:#f0c8c4;background:#fdeceb}
+.t-unv{color:var(--amber);border-color:#ecd9ae;background:#fdf5e4}
+.t-info{color:#2c3f63;border-color:#d5deee;background:#eef2f9}
+.metric{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:14px 0}
+.m{background:#f8fafd;border:1px solid var(--line);border-radius:9px;padding:14px}
+.m b{display:block;font-size:23px;font-weight:750;letter-spacing:-.01em}
+.m span{color:var(--muted);font-size:12.5px;display:block;margin-top:2px}
+.m small{display:block;color:var(--muted);font-size:11.5px;margin-top:6px}
+.note{border-left:3px solid var(--blue);background:#f2f6fe;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+.warn{border-left:3px solid var(--red);background:#fdf0ef;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+.good{border-left:3px solid var(--green);background:#eef8f2;padding:11px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px}
+code{background:#eef1f6;padding:1.5px 5px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+footer{color:var(--muted);font-size:12.5px;padding:8px 0 26px;border-top:1px solid var(--line);margin-top:8px}
+ul.tight{margin:6px 0 0;padding-left:18px}ul.tight li{margin:3px 0}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;padding:14px}nav{position:static;display:flex;flex-wrap:wrap;gap:2px}
+nav .grp{width:100%}nav a{white-space:nowrap}}
+</style></head>
+<body>
+<header><div class="eyebrow">NBA3 / session 3655c68d / verification layer</div>
+<h1>Executive summary</h1>
+<p>Cross-pipeline verification of the six dashboards already in this repository. Research only, not betting advice.
+Nothing on this site is eligible for staking.</p></header>
+<div class="wrap"><nav aria-label="Sections"><div class="grp">Overview</div><a href="index.html">Verification hub</a><a href="executive.html" class="on">Executive summary</a><a href="contradictions.html">Contradictions (9)</a><div class="grp">Evidence</div><a href="claims.html">Claim ledger</a><a href="injuries.html">Injury verification</a><a href="results.html">Game-log verification</a><a href="corrections.html">Corrections made</a><div class="grp">Decision</div><a href="decisions.html">Decisions needed</a><a href="questions.html">Questions ledger</a><a href="suggestions.html">Suggestions</a><div class="grp">Record</div><a href="ledger.html">Settlement ledger</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a></nav><main>
+
+<section class="card"><h2>Executive summary</h2>
+<p class="sub">What the repository establishes, what it contradicts, and what has to be decided. Written to be read
+in five minutes.</p>
+
+<div class="good"><b>The one thing that is solid.</b> Two sessions captured the 2026-27 season independently, from
+different sources, with different code. They agree on all <b>174 games</b>: same dates, same teams, same exact final
+scores, same <b>9 overtime games</b>. That log is trustworthy and it is the foundation everything else should be
+built on.</div>
+
+<div class="warn"><b>The one thing that is not.</b> The repository publishes <b>six dashboards</b> that answer the same
+questions differently. This session found <b>9 contradictions</b>. Two are outright defects: a parlay
+price function that silently returned the wrong quantity for every input, and every pick card naming the wrong side
+of the market. Both are fixed and covered by tests, but they were live on a public GitHub Pages site.</div>
+
+<h3>Numbers that survived re-audit</h3>
+<div class="scroll"><table><thead><tr><th>Claim</th><th>Status</th></tr></thead><tbody>
+<tr><td>174-game log agrees between two independent captures</td><td><span class="tag t-verified">VERIFIED</span> 174/174</td></tr>
+<tr><td>Injury table rows agree with the official NBA PDF</td><td><span class="tag t-verified">VERIFIED</span> 110/110 named players</td></tr>
+<tr><td>Strategy records reproduce from their own bet logs</td><td><span class="tag t-verified">VERIFIED</span> 4/4</td></tr>
+<tr><td>Strategies passing every validation gate</td><td><span class="tag t-verified">VERIFIED</span> 0 of 8</td></tr>
+<tr><td>Claim ledger, 27 published numbers rechecked</td><td><span class="tag t-verified">VERIFIED</span> 20 verified,
+4 discrepancies, 3 unverifiable</td></tr>
+</tbody></table></div>
+
+<h3>What the numbers do not support</h3>
+<ul class="tight">
+<li><b>No strategy is proven.</b> Zero of eight pass all gates. The two best candidates rest on 24 and 28 bets
+against a 100-bet floor, so they are noise candidates, not signals.</li>
+<li><b>No profit figure is real.</b> Every ROI in the repository is measured against an assumed flat -110 price.
+For the moneyline strategies that price was never available, and for everything else no market price was ever
+recorded. The best published "edge" (+48% ROI) is an artefact of pricing a moneyline bet as a spread bet.</li>
+<li><b>No injury effect has been modelled.</b> The official report states availability, not minutes. The repository
+has no player game logs, so any minutes number would be invented. None is published.</li>
+<li><b>No line has been compared to a bookmaker.</b> "Originated lines" here are naive estimates that beat their own
+baseline. A model can beat a weak baseline and still be far behind the market.</li>
+</ul>
+
+<h3>The decision in front of you</h3>
+<p>11 of the 14 open questions are marked blocking. They are not technical questions. In order of
+what they unblock:</p>
+<div class="scroll"><table><thead><tr><th>#</th><th>Question</th><th>Why it blocks</th></tr></thead><tbody>
+<tr><td class="num">1</td><td><b>Legal basis for publishing betting content</b></td><td>Yes - blocks every staking recommendation, and blocks any public leaderboard that ranks real money outcomes.</td></tr><tr><td class="num">2</td><td><b>Is this a pool or a competition with prizes?</b></td><td>Yes - the reward rule cannot be defined without it.</td></tr><tr><td class="num">3</td><td><b>Which market prices may be recorded?</b></td><td>Yes - without it, profitability cannot be measured, only self-consistency.</td></tr><tr><td class="num">4</td><td><b>What exactly counts as a winning strategy?</b></td><td>Yes - the leaderboard has no meaning until one rule is agreed.</td></tr><tr><td class="num">5</td><td><b>Which injury snapshot is authoritative, and how often is it refreshed?</b></td><td>Yes for props and for anything that depends on who is playing.</td></tr>
+</tbody></table></div>
+<p><a href="decisions.html">All decisions, ranked by what they unblock &rarr;</a></p>
+
+<h3>Recommendation</h3>
+<div class="note">Do not add another model. The repository already has six. The highest-value next step is to
+<b>pick one dashboard, one gate set and one price source</b>, mark the other five as archived, and start a
+prospective ledger. Until a price is recorded before tip-off and settled by an official source, no amount of
+modelling can distinguish skill from luck &mdash; which is exactly the distinction the brief asks for.</div>
+</section>
+<footer>Built by <code>python3 verify/build.py</code> from <code>verify/data/*.json</code>. Every table row links to its source.
+Values that could not be confirmed against an official source are left blank and flagged.</footer>
+</main></div></body></html>

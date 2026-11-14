@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Questions &middot; NBA3</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<nav class="nav"><div class="nav-inner"><a class="brand" href="index.html"><span class="brand-mark">NBA3</span><span class="brand-sub">Line Origination &amp; Strategy System</span></a><button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')">&#9776;</button><ul class="nav-list"><li><a href='index.html'>Overview</a></li><li><a href='lines.html'>Originated Lines</a></li><li><a href='strategies.html'>Strategy Leaderboard</a></li><li><a href='correlations.html'>Correlations</a></li><li><a href='injuries.html'>Injury Impact</a></li><li><a href='props.html'>Player Props</a></li><li><a href='gameflow.html'>Game Flow</a></li><li><a href='data.html'>Data &amp; Sources</a></li><li><a href='flagged.html'>Flagged for Review</a></li><li><a href='suggestions.html'>Site Improvements</a></li><li class='active'><a href='questions.html'>Open Questions</a></li></ul></div></nav>
+<main class="wrap wide">
+<header class="page-head">
+<h1>Open Questions</h1>
+<p class="lead">What we have, what we don't, and the decisions that are blocked until someone answers.</p>
+</header>
+
+<section class="panel">
+<h2>What we have, what we don't, and what's blocked</h2>
+<p>This page is the answer to "what do you need from me?". The first table is what is already
+verified and in the repository. The second is what is missing, why it matters, and exactly how
+to go about getting it. The third is the small set of decisions only a human can make.</p>
+</section>
+
+<section class="panel">
+<h2>We have this, verified</h2>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Asset</th><th>Detail</th><th>Source</th></tr></thead><tbody><tr><td><b>Every final score, 20 Oct to 12 Nov</b></td><td>174 games, each read off nba.com/games for its own date</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Official team efficiency and pace, all 30 teams</b></td><td>OffRtg, DefRtg, NetRtg, Pace, four factors, GP, W-L</td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Season per-game player production, top 31 by minutes</b></td><td>Minutes, points, rebounds, assists, threes, shooting splits</td><td><a class="src" href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Official injury report for 13-14 Nov</b></td><td>Player, team, status, reason</td><td><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>Upcoming schedule with game IDs and tip times</b></td><td>31 games across three slates, including NBA Cup groupings</td><td><a class="src" href="https://www.nba.com/schedule" target="_blank" rel="noopener">nba.com &#8599;</a></td></tr><tr><td><b>A working, sourced line-origination model</b></td><td>Beats the baseline on the side, RMSE 16.18 vs 17.30</td><td class="muted">derived</td></tr><tr><td><b>A validation harness with seven gates</b></td><td>Walk-forward, exact binomial tests, Benjamini-Hochberg correction</td><td class="muted">derived</td></tr></tbody></table></div>
+</section>
+
+<section class="panel">
+<h2>We need this, and here is how to get it</h2>
+<div class='table-scroll'><table class='tbl'><thead><tr><th>Missing</th><th>What it blocks</th><th>How to get it</th><th>Priority</th></tr></thead><tbody><tr><td><b>Per-player game logs</b></td><td>Blocks player-prop pricing and every player-level correlation. Four correlation cells are blank because of it.</td><td>Scrape nba.com/stats/players/boxscores by date; see suggestion A2 on the improvements page.</td><td><span class="badge badge-bad">HIGH</span></td></tr><tr><td><b>More graded games</b></td><td>No strategy reaches the 100-bet gate; the out-of-sample set is only 114 games.</td><td>Wait. Re-run the identical pipeline after another 150-200 games; no code changes needed.</td><td><span class="badge badge-bad">HIGH</span></td></tr><tr><td><b>Possession-level team inputs per game</b></td><td>The total model loses to a naive baseline and the obvious fix needs better inputs.</td><td>Capture boxscores-advanced per date (suggestion E3).</td><td><span class="badge badge-bad">HIGH</span></td></tr><tr><td><b>Injury report at tip-off, not 05:15 PM</b></td><td>5 team reports were &#x27;NOT YET SUBMITTED&#x27;.</td><td>Schedule a second pull 90 minutes before first tip (suggestion E2).</td><td><span class="badge badge-warn">MEDIUM</span></td></tr><tr><td><b>A decision on whether sportsbook prices may be used at all</b></td><td>The brief says to originate lines rather than copy books. It does not say whether we may ever &lt;em&gt;compare&lt;/em&gt; against them, which is how any edge gets sized.</td><td>Reviewer decision. Until it is answered, every strategy is graded against our own line, which measures self-consistency rather than profit.</td><td><span class="badge badge-bad">HIGH</span></td></tr><tr><td><b>A decision on bankroll and staking</b></td><td>The brief mentions rewards for top strategies but says nothing about stake sizing, which determines whether a 53% strategy is worth running.</td><td>Reviewer decision; a flat-stake default can be assumed and documented if no answer.</td><td><span class="badge badge-warn">MEDIUM</span></td></tr><tr><td><b>Confirmation that the unexpected rosters are correct</b></td><td>Giannis on Miami, Anthony Davis on Washington, Paul George on Boston, LaMelo Ball on Minnesota. If the source pages are wrong, the ratings inherit the error.</td><td>Spot-check against official team roster pages.</td><td><span class="badge badge-warn">MEDIUM</span></td></tr><tr><td><b>Whether overtime counts for totals</b></td><td>Our totals are regulation equivalents, which biases them low by about 1.4 points.</td><td>Reviewer decision; both conventions are defensible but must be consistent.</td><td><span class="badge badge-neut">LOW</span></td></tr></tbody></table></div>
+</section>
+
+<section class="panel">
+<h2>Decisions that need a human</h2>
+<ol class="summary">
+<li><b>May we look at sportsbook prices at all?</b> Not to copy them &mdash; the brief rules that
+out &mdash; but to compare. Without a market price there is no such thing as an edge, only
+self-consistency. Every strategy on the leaderboard today is graded against our own line, which
+is the honest thing to do but is not the same as being profitable.</li>
+<li><b>Do we want the leaderboard open to outside contributors?</b> A competition with rewards
+implies yes, which implies a sandboxed runner. Option D1 on the improvements page.</li>
+<li><b>How should a "reward" be defined?</b> Raw hit rate, return on a flat stake, or
+risk-adjusted return? The gates currently test hit rate only.</li>
+<li><b>What is the stake?</b> Nothing is deployable on the current evidence, but the harness
+needs a staking rule before it can report anything a reviewer would act on.</li>
+</ol>
+<p class="callout">Until the first question is answered, the most accurate description of this
+system is: <b>a verified, self-consistent line-origination engine with an unproven strategy
+layer.</b> That is a real achievement, and it is not yet a betting system.</p>
+</section>
+
+</main>
+<footer class="foot">
+<p>Generated 2026-11-13T23:10:29Z &middot; Season 2026-27 &middot; results verified through 2026-11-12.</p>
+<p class="foot-note">Every row on this site links to the official NBA source it was taken from.
+Values that could not be confirmed are left blank and marked UNVERIFIED, and are collected on
+the <a href="flagged.html">Flagged for Review</a> page. Nothing on this site is betting advice.</p>
+</footer>
+</body></html>

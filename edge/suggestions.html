@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suggestions | NBA3</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><script src="assets/nav.js"></script><main>
+<div class="crumb"><a href="../index.html">Overview</a> / Suggestions</div>
+<h1>Suggestions — review before implementing</h1>
+<p class="sub">Section A: proposed improvements to the site and decision-making. Section B: the dedicated review queue — a reviewer sets Status and notes, and only accepted items are implemented (claimed in <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">COORDINATION.md</a> like any other task).</p>
+<h2>Section A — proposed improvements</h2>
+<div id="sug"></div>
+<h2>Section B — intake / review queue</h2>
+<div id="queue"></div>
+<h2>How a suggestion becomes a change</h2>
+<p>1. Listed here with status <span class="badge">proposed</span> → 2. reviewer (repo owner) sets <span class="badge ok">accepted</span> / <span class="badge bad">rejected</span> with notes → 3. accepted items are claimed in COORDINATION.md → 4. implemented on a session branch with the same verification rules → 5. merged by an integration session. Nothing skips review.</p>
+<footer>Full text: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/suggestions.md" target="_blank" rel="noopener">docs/suggestions.md</a>.</footer>
+</main>
+<script src="assets/app.js"></script>
+<script>
+const SUG=[
+ ["S1","Add an odds/CLV module (daily market lines next to ours)","Converts model skill into measurable market edge; unlocks bet/no-bet decisions","M","P0"],
+ ["S2","Daily auto-regeneration of picks after the injury report (~5:30 PM ET)","Picks age fast; +2/+3-day injury flags go stale","M","P0"],
+ ["S3","Equity-curve charts per strategy","Makes drawdown and luck visible","S","P1"],
+ ["S4","Per-game pages with quarter flow + rest context","Deeper game-flow decisions","M","P1"],
+ ["S5","Player form pages (rolling 5-game) before originating props","Props lines currently use season averages only","M","P1"],
+ ["S6","Weekly data-integrity report (re-reconcile, re-check flags)","Catches pipeline drift (this session caught a corrupted fetch)","S","P1"],
+ ["S7","Decision log (every pick: model said / what happened)","Audit trail to re-evaluate gates monthly","S","P2"],
+ ["S8","Mobile-first table polish","Dashboard usability","S","P2"],
+ ["S9","CSV/JSON export on every table","Owner-side analysis","S","P2"],
+ ["S10","Alerts when availability flags change after publish","Prevents acting on stale picks","M","P2"]];
+document.getElementById('sug').appendChild(table([{h:'#'},{h:'Suggestion'},{h:'Why it improves decisions'},{h:'Effort'},{h:'Priority'}],
+ SUG.map(s=>[td(s[0]),td('<b>'+s[1]+'</b>'),td(s[2]),td(s[3]),td(s[4])])));
+const Q=[
+ ["S1","arena-0a016df8","Odds/CLV module",badge('proposed','warn'),"Needs owner decision on feed vs manual logging (blocked by Q2)"],
+ ["S2","arena-0a016df8","Daily post-injury-report regeneration",badge('proposed','warn'),"Needs scheduled Actions enabled"],
+ ["S3","arena-0a016df8","Equity curves",badge('proposed','warn'),"—"],
+ ["S4","arena-0a016df8","Per-game flow pages",badge('proposed','warn'),"Depends on quarter data"],
+ ["S5","arena-0a016df8","Player form pages for props",badge('proposed','warn'),"Depends on Q4 data"],
+ ["S6","arena-0a016df8","Weekly integrity report",badge('proposed','warn'),"—"],
+ ["S7","arena-0a016df8","Decision log",badge('proposed','warn'),"—"],
+ ["S8","arena-0a016df8","Mobile table polish",badge('proposed','warn'),"—"],
+ ["S9","arena-0a016df8","Table exports",badge('proposed','warn'),"—"],
+ ["S10","arena-0a016df8","Availability-change alerts",badge('proposed','warn'),"—"]];
+document.getElementById('queue').appendChild(table([{h:'ID'},{h:'Submitted by'},{h:'Suggestion'},{h:'Status'},{h:'Reviewer notes'}],
+ Q.map(q=>[td(q[0]),td(q[1]),td(q[2]),td(q[3]),td(q[4])])));
+</script></body></html>

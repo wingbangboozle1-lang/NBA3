@@ -1,0 +1,112 @@
+[
+ {
+  "id": "S01",
+  "title": "NBA.com/Stats — Stat Glossary",
+  "url": "https://www.nba.com/stats/help/glossary",
+  "publisher": "NBA.com",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (chunk 1 of 10 read)",
+  "checked": "Official definitions of stat labels (e.g., %3PA, %FTA). Only the first chunk was read line by line this session.",
+  "limit": "Definitions only; no predictive value; remaining chunks not yet reviewed (7C-F-13)."
+ },
+ {
+  "id": "S02",
+  "title": "NBA Official — Injury Report: 2026-27 Season",
+  "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "publisher": "NBA Official",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (2 chunks read)",
+  "checked": "Reporting rules: status by 5 p.m. local the day before a game (except 2nd game of back-to-back, due 1 p.m. local on game day); game-day report 11 a.m.–1 p.m. local (8–10 a.m. for tip-offs at 5 p.m. or earlier); reports updated continually. Lists 11/13/2026 report files (12:00 a.m. to 5:15 p.m. ET).",
+  "limit": "Index of files only. Statuses are not minutes forecasts."
+ },
+ {
+  "id": "S03",
+  "title": "NBA Official — Injury Report: 2025-26 Season (superseded)",
+  "url": "https://official.nba.com/nba-injury-report-2025-26-season/",
+  "publisher": "NBA Official",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (resolves; prior season)",
+  "checked": "Confirms the 2025-26 index still exists. The prior dashboard linked this season's index.",
+  "limit": "Superseded by S02 for the 2026-27 season (7C-F-07)."
+ },
+ {
+  "id": "S04",
+  "title": "NBA Injury Report PDF — 11/13/26 05:00 PM",
+  "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+  "publisher": "NBA Official (ak-static.cms.nba.com)",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (2 text chunks read in full)",
+  "checked": "Player rows with columns: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason. 117 rows transcribed in data/injuries.json. Team-level 'NOT YET SUBMITTED' rows included.",
+  "limit": "PDF text extraction drops some team/matchup cells (18 rows left blank) and joins some words (kept as printed). No minutes field."
+ },
+ {
+  "id": "S05",
+  "title": "2026-27 NBA Regular Season Schedule — By Date (PDF)",
+  "url": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
+  "publisher": "NBA Official (cdn.nba.com)",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (13 chunks; chunks 0–3 read; all 31 games for 11/13–11/16 found in chunks 1–2)",
+  "checked": "Game #, day, date, Team 1, Team 2, local and ET tip times, national TV, and two marker columns (R, #). Header reads 'AS OF AUGUST 13, 2026 | SUBJECT TO CHANGE'.",
+  "limit": "Subject to change. The meaning of the 'R' and '#' (C) markers has no legend in the text read (7C-F-11)."
+ },
+ {
+  "id": "S06",
+  "title": "NBA.com — NBA announces schedule for 2026-27 regular season (team-by-team index)",
+  "url": "https://www.nba.com/news/2026-27-schedule-team-by-team-index",
+  "publisher": "NBA.com",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (first of 3 chunks read)",
+  "checked": "Links to the by-date, by-team and team-calendar schedule PDFs; the page states the schedule was released August 13, 2026.",
+  "limit": "Used only to locate the by-date PDF (S05)."
+ },
+ {
+  "id": "S07",
+  "title": "NBA.com Terms of Use",
+  "url": "https://www.nba.com/termsofuse",
+  "publisher": "NBA.com",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (3 of 10 chunks read: opening, §8, §9–§11)",
+  "checked": "§1: Services for personal, non-commercial use. §9 NBA Statistics: NBA Statistics may not be used 'in connection with any gambling activity (including legal gambling activity)', nor in a comprehensive, regularly updated statistics database 'without the Operator's express prior consent'.",
+  "limit": "Other sections not read in full this session; not legal advice (7C-F-01)."
+ },
+ {
+  "id": "S08",
+  "title": "Kansspelautoriteit (Ksa) — homepage",
+  "url": "https://kansspelautoriteit.nl/",
+  "publisher": "Kansspelautoriteit (Dutch gambling regulator)",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (Dutch)",
+  "checked": "Ksa supervises the Dutch gambling market. Recent items: market scan (29 Oct 2026), Gokstop (self-exclusion) campaign (2 Nov 2026).",
+  "limit": "Homepage summary only."
+ },
+ {
+  "id": "S09",
+  "title": "Ksa — Online kansspel aanbieden (offering online gambling)",
+  "url": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+  "publisher": "Kansspelautoriteit",
+  "retrieved": "2026-11-13",
+  "result": "Retrieved (Dutch)",
+  "checked": "Ksa grants licences for risky online games, including 'weddenschappen op een sportwedstrijd' (bets on a sports match). 'Alleen met een vergunning op grond van artikel 31a van de Wet op de kansspelen (de Koa-vergunning) mag u online kansspelen aanbieden.' (Only with a licence under art. 31a of the Betting and Gaming Act — the Koa licence — may you offer online games of chance.)",
+  "limit": "Official guidance page; not legal advice (7C-F-02)."
+ },
+ {
+  "id": "S10",
+  "title": "NBA CDN — todaysScoreboard_00.json (live scoreboard)",
+  "url": "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json",
+  "publisher": "NBA Official (cdn.nba.com)",
+  "retrieved": "2026-11-13",
+  "result": "FAILED — HTTP 500 from the fetch tool",
+  "checked": "Attempted to use as a same-day cross-check of the slate. Not used.",
+  "limit": "Live feed not available in this session (7C-F-12)."
+ },
+ {
+  "id": "S11",
+  "title": "NBA.com — 2026-27 NBA regular season schedule (news article)",
+  "url": "https://www.nba.com/news/2026-27-nba-regular-season-schedule",
+  "publisher": "NBA.com",
+  "retrieved": "2026-11-13",
+  "result": "Search snippet only (not fetched)",
+  "checked": "Search result shows an NBA.com release dated August 13, 2026. Used only as corroboration of the release date.",
+  "limit": "Not used as evidence for any game or value."
+ }
+]

@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flagged for Review | NBA3</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><script src="assets/nav.js"></script><main>
+<div class="crumb"><a href="../index.html">Overview</a> / Flagged for Review</div>
+<h1>Flagged for Review</h1>
+<p class="sub">Everything below is either <b>unverified</b> (left blank elsewhere — never inferred) or an <b>irregularity</b> found during the line-by-line verification pass. None of these block the site; they block decisions.</p>
+<h2>Unverified / missing information (blank by rule)</h2>
+<div id="flags"></div>
+<h2>Irregularities found &amp; handled during verification</h2>
+<div id="irr"></div>
+<h2>Strategy caveats carried on every pick</h2>
+<div class="note red">
+<b>1.</b> No licensed odds feed is connected: ROI figures are vs <i>our own line</i> at assumed −110 — market eligibility unproven.<br>
+<b>2.</b> STRAT1/STRAT2 are <i>provisional</i>: they fail the minimum-sample gate (85/68 bets vs ≥100 required).<br>
+<b>3.</b> STRAT3 (totals) and STRAT4 (parlays) <b>failed</b> validation and are not eligible.<br>
+<b>4.</b> Player props are an unvalidated prototype (no backtest sample).<br>
+<b>5.</b> Injury reports for 11/15–11/16 were not yet published at generation time; picks for those days carry "report pending".<br>
+<b>6.</b> This season shows unusual variance (blowout rate 25.3%, home win 51.1%, home margin +1.6) — possibly noise; monitored.
+</div>
+<footer>Full log: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/verification_log.md" target="_blank" rel="noopener">docs/verification_log.md</a> · questions: <a href="questions.html">Open Questions</a>.</footer>
+</main>
+<script src="assets/app.js"></script>
+<script>
+const FLAGS=[
+ ["Market odds / closing lines / CLV","—","No licensed odds feed connected; nothing to verify against.","Open Questions Q2"],
+ ["Player rotation minutes & on/off impact","—","No player-level data ingested; injury impact is flagged, never numerically adjusted.","Open Questions Q4"],
+ ["Official injury report for 2026-11-15 games","—","Not yet published at retrieval (day-before ~5 PM ET).","official.nba.com"],
+ ["Official injury report for 2026-11-16 games","—","Not yet published at retrieval.","official.nba.com"],
+ ["11/14 team submissions (DEN, NOP, CLE, MEM, CHI, MIN, MIA)","—","Marked NOT YET SUBMITTED in the official report at publication time.","official PDF"],
+ ["Data redistribution rights (NBA.com / Sports-Reference terms)","—","Terms not legally reviewed; site links sources and attributes.","Open Questions Q1"],
+ ["Pace/possessions per team-game","—","No data; totals model fails gates partly for this reason.","Open Questions Q9"],
+ ["Bankroll / risk policy / jurisdiction","—","Owner input not on record.","Open Questions Q7"]];
+const IRR=[
+ ["Corrupted fetch row (Nov 6 TOR@MIL)","Score cells dropped at a page-content boundary during collection; an initial value was inferred, flagged immediately, then re-verified from the daily boxscores page: TOR 121 @ MIL 107.","https://www.basketball-reference.com/boxscores/?month=11&day=6&year=2026"],
+ ["OT vs game-note conflation","Quick-stats script initially counted 'NBA Cup' notes as OT (16.7%). Fixed in pipeline; true OT rate 9/174 = 5.2%.","https://www.basketball-reference.com/leagues/NBA_2027_games-november.html"],
+ ["ROI accounting bug in backtest","First backtest subtracted winning stakes twice (−30% ROI on a 76% win-rate strategy — impossible). Fixed; audit trail in git history.","https://github.com/wingbangboozle1-lang/NBA3/commits/main"],
+ ["Same-day leakage in walk-forward","Initial engine updated ratings after each game; games within a slate are simultaneous. Fixed to date-batch updates and re-run.","https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/run_model.py"],
+ ["Date-label drift on aggregator sites","Some aggregator pages label Nov 12 games as Nov 13 (timezone/caching). BBR per-day boxscore links used as tiebreaker.","https://www.basketball-reference.com/boxscores/"],
+ ["Team abbreviation drift (BKN/BRK, CHO/CHA, PHO)","Official injury PDF vs Basketball-Reference naming differs; normalized with an explicit note.","https://www.basketball-reference.com/leagues/NBA_2027_games-november.html"]];
+document.getElementById('flags').appendChild(table([{h:'Item'},{h:'Value'},{h:'Why blank'},{h:'Related'}],FLAGS.map(f=>[td('<b>'+f[0]+'</b>'),td(f[1]),td(f[2]),td(f[3])])));
+document.getElementById('irr').appendChild(table([{h:'Irregularity'},{h:'What happened / resolution'},{h:'Reference'}],IRR.map(f=>[td('<b>'+f[0]+'</b>'),td(f[1]),td(srcLink(f[2],'link'))])));
+</script></body></html>

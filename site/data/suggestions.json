@@ -1,0 +1,157 @@
+[
+ {
+  "id": "SG-01",
+  "priority": 1,
+  "suggestion": "Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.",
+  "why": "7C-F-02: Ksa requires a Koa licence for online sports betting offers.",
+  "dependency": "Counsel opinion",
+  "src": [
+   "S09",
+   "S08"
+  ],
+  "options": [
+   "A — private analysis only",
+   "B — pursue Koa licence",
+   "C — pause betting features"
+  ]
+ },
+ {
+  "id": "SG-02",
+  "priority": 2,
+  "suggestion": "Choose a data rights path: (A) written permission from NBA for statistics use under §9, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.",
+  "why": "7C-F-01, 7C-F-03, 7C-F-04.",
+  "dependency": "Owner decision; vendor or NBA contact",
+  "src": [
+   "S07",
+   "S05",
+   "S04"
+  ],
+  "options": [
+   "A — NBA written permission",
+   "B — licensed provider",
+   "C — official NBA reports only"
+  ]
+ },
+ {
+  "id": "SG-03",
+  "priority": 3,
+  "suggestion": "Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.",
+  "why": "7C-F-09 (schedule changes), Q-04 (updates through the day).",
+  "dependency": "Engineering time",
+  "src": [
+   "S02",
+   "S05"
+  ],
+  "options": [
+   "Approve",
+   "Defer"
+  ]
+ },
+ {
+  "id": "SG-04",
+  "priority": 4,
+  "suggestion": "Pre-register the leaderboard before any modelling: primary metric (e.g., Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with bootstrap CI), minimum sample, horizon, and gate thresholds.",
+  "why": "Q-10. Separates skill from luck and from backtest selection.",
+  "dependency": "Owner sets thresholds",
+  "src": [],
+  "options": [
+   "Approve as drafted",
+   "Owner edits"
+  ]
+ },
+ {
+  "id": "SG-05",
+  "priority": 5,
+  "suggestion": "Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2–G7.",
+  "why": "Props and parlays depend on minutes and on correlation, neither of which is measured yet (7C-F-05, 7C-F-06).",
+  "dependency": "SG-02 done",
+  "src": [],
+  "options": [
+   "Approve",
+   "Defer"
+  ]
+ },
+ {
+  "id": "SG-06",
+  "priority": 6,
+  "suggestion": "Model injury effects on minutes only from authorized minutes data. Use the official status as an input, with uncertainty bands, and show 'not quantified' where data is missing.",
+  "why": "Q-05: official reports carry status and reason only.",
+  "dependency": "SG-02 (minutes data)",
+  "src": [
+   "S04",
+   "S02"
+  ],
+  "options": [
+   "Approve",
+   "Defer"
+  ]
+ },
+ {
+  "id": "SG-07",
+  "priority": 7,
+  "suggestion": "Add CSV export, a 'last verified' date on every table, and an external-link checker that runs on a schedule (the current CI checks only in-page anchors).",
+  "why": "RR-03. Keeps the source trail current.",
+  "dependency": "None",
+  "src": [],
+  "options": [
+   "Approve",
+   "Defer"
+  ]
+ },
+ {
+  "id": "SG-08",
+  "priority": 8,
+  "suggestion": "Keep the Flagged-for-Review page and COORDINATION board as the review trail. Fail CI when a row lacks a source or a 'verified' flag.",
+  "why": "Brief: no unverified value may appear without a flag.",
+  "dependency": "None",
+  "src": [],
+  "options": [
+   "Approve"
+  ]
+ },
+ {
+  "id": "SG-09",
+  "priority": 9,
+  "suggestion": "Before any betting content: set bankroll and loss limits, add a responsible-gambling section with Ksa Gokstop information (after verifying the link), and an age gate as counsel advises.",
+  "why": "Q-11, Q-13.",
+  "dependency": "SG-01",
+  "src": [
+   "S08"
+  ],
+  "options": [
+   "Approve",
+   "Defer"
+  ]
+ },
+ {
+  "id": "SG-10",
+  "priority": 10,
+  "suggestion": "Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.",
+  "why": "7C-F-07.",
+  "dependency": "None (done in T7)",
+  "src": [
+   "S02",
+   "S03"
+  ],
+  "options": [
+   "Approve"
+  ]
+ },
+ {
+  "id": "SG-11",
+  "priority": 11,
+  "suggestion": "Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).",
+  "why": "Q-04, Q-07, Q-08, Q-09, 7C-F-01 to 7C-F-03: the missing items cannot be filled from the repository alone.",
+  "dependency": "Owner approval for outreach; counsel",
+  "src": [
+   "S07",
+   "S02",
+   "S09"
+  ],
+  "options": [
+   "Approve all",
+   "Approve parts (list)",
+   "Defer"
+  ]
+ }
+]

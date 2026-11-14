@@ -1,631 +1,698 @@
 #!/usr/bin/env python3
+"""Build the NBA Edge Lab static site from data/*.json.
+
+Usage:
+    python3 scripts/build_site.py          # validate, render site/, check links
+    python3 scripts/build_site.py --check  # validate and check links only
+
+The build FAILS (non-zero exit) when:
+  * a data row has no official https source and is not flagged as unverified,
+  * a source link points outside the allow-list of official domains,
+  * a referenced source id (S01...) does not exist,
+  * a generated internal link or in-page anchor is broken.
+Only Python 3 standard library is used.
 """
-T12 — Static site builder for NBA3 GitHub Pages (docs/).
-Renders every HTML page from data/*.json so no table can drift from the verified data.
-Every rendered data row ends with a Source column linking the official NBA source it
-came from. Run: python3 scripts/build_site.py
-"""
-import html as H
-import json, os, datetime
+import html
+import json
+import os
+import re
+import sys
+from datetime import date
+from html.parser import HTMLParser
+from urllib.parse import urlparse
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-D = os.path.join(ROOT, "data")
-SITE = os.path.join(ROOT, "docs")
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DATA = os.path.join(ROOT, "data")
+SITE = os.path.join(ROOT, "site")
+BUILD_DATE = "2026-11-13"
+REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 
-NAV = [
-    ("index.html", "Dashboard"),
-    ("slate.html", "Slate & Picks"),
-    ("strategies.html", "Strategies & Gates"),
-    ("leaderboard.html", "Leaderboard"),
-    ("injury-impact.html", "Injury Impact"),
-    ("game-flow.html", "Game Flow"),
-    ("analysis.html", "Analysis"),
-    ("repo-review.html", "Repo Review"),
-    ("flagged.html", "Flagged"),
-    ("questions.html", "Questions"),
-    ("suggestions.html", "Suggestions"),
-    ("sources.html", "Sources"),
-]
+# Official / primary domains allowed as sources (NBA, Dutch regulator, GitHub for repo facts).
+OFFICIAL_DOMAINS = {
+    "nba.com", "www.nba.com", "cdn.nba.com", "ak-static.cms.nba.com", "official.nba.com",
+    "kansspelautoriteit.nl", "www.kansspelautoriteit.nl", "github.com", "api.github.com",
+}
 
-CSS = """
-:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--txt:#e6edf3;--mut:#9da7b3;
---acc:#4da3ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;--prov:#a371f7}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--txt);
-font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-a{color:var(--acc);text-decoration:none}
-a:hover{text-decoration:underline}
-header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 22px;
-position:sticky;top:0;z-index:9}
-header h1{margin:0;font-size:18px;display:inline-block}
-header .tag{color:var(--mut);font-size:12px;margin-left:10px}
-nav{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
-nav a{padding:5px 11px;border-radius:6px;color:var(--txt);font-size:13px}
-nav a:hover{background:#21262d;text-decoration:none}
-nav a.on{background:var(--acc);color:#04121f;font-weight:600}
-main{max-width:1240px;margin:0 auto;padding:22px}
-h2{font-size:20px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-top:34px}
-h3{font-size:16px;margin-top:26px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:16px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
-.card .n{font-size:26px;font-weight:700}
-.card .l{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
-.badge{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:600;
-border:1px solid transparent;white-space:nowrap}
-.b-rel{background:rgba(63,185,80,.15);color:var(--good);border-color:rgba(63,185,80,.4)}
-.b-prov{background:rgba(163,113,247,.15);color:var(--prov);border-color:rgba(163,113,247,.4)}
-.b-flag{background:rgba(210,153,34,.15);color:var(--warn);border-color:rgba(210,153,34,.45)}
-.b-off{background:rgba(77,163,255,.13);color:var(--acc);border-color:rgba(77,163,255,.4)}
-.b-bad{background:rgba(248,81,73,.13);color:var(--bad);border-color:rgba(248,81,73,.4)}
-table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;
-background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{background:#21262d;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);
-position:sticky;top:0}
-tr:last-child td{border-bottom:none}
-tr:nth-child(even) td{background:rgba(255,255,255,.015)}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-.src{font-size:11.5px;white-space:nowrap}
-.src a{margin-right:6px}
-.note{background:var(--card);border-left:3px solid var(--acc);padding:10px 14px;
-border-radius:0 8px 8px 0;margin:14px 0;font-size:14px;color:var(--mut)}
-.note.warn{border-left-color:var(--warn)}
-.note.prov{border-left-color:var(--prov)}
-code{background:#21262d;padding:1px 6px;border-radius:5px;font-size:13px}
-footer{color:var(--mut);font-size:12.5px;padding:26px 0;text-align:center;border-top:1px solid var(--line);margin-top:40px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:900px){.grid2{grid-template-columns:1fr}}
-.scroll{overflow-x:auto}
-ul.compact{margin:6px 0;padding-left:20px}
-ul.compact li{margin:3px 0}
-"""
+ERRORS = []
 
-STAMP = "2026-11-13 (data cut 18:28 ET / 23:30 UTC)"
+
+def err(msg):
+    ERRORS.append(msg)
 
 
 def load(name):
-    with open(os.path.join(D, name)) as f:
+    with open(os.path.join(DATA, name), encoding="utf-8") as f:
         return json.load(f)
 
 
-def esc(x):
-    return H.escape(str(x)) if x is not None else ""
+def esc(s):
+    return html.escape("" if s is None else str(s), quote=True)
 
 
-def page(name, title, body, on):
-    links = "\n".join(
-        f'<a href="{u}" class="{"on" if u == on else ""}">{esc(l)}</a>' for u, l in NAV
-    )
-    doc = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{esc(title)} · NBA3 Research</title>
-<style>{CSS}</style>
-</head>
-<body>
-<header>
-  <h1>NBA3 · Line-Origination &amp; Betting Strategy Research</h1>
-  <span class="tag">Official NBA sources only · data cut {STAMP} · every row source-linked · blanks are flagged, never inferred</span>
-  <nav>{links}</nav>
-</header>
+def is_official(url):
+    if not url:
+        return False
+    p = urlparse(url)
+    return p.scheme == "https" and p.netloc.lower() in OFFICIAL_DOMAINS
+
+
+def link(url, label=None):
+    if not url:
+        return '<span class="flag">UNVERIFIED — no official link</span>'
+    return f'<a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(label or url)}</a>'
+
+
+def src_links(ids, sources):
+    if not ids:
+        return '<span class="muted">none</span>'
+    out = []
+    for i in ids:
+        s = sources.get(i)
+        if s:
+            out.append(f'<a href="sources.html#{esc(i)}" title="{esc(s["title"])}">{esc(i)}</a> ' + link(s["url"], "↗"))
+    return " · ".join(out)
+
+
+def chip(text, kind="neutral"):
+    return f'<span class="chip chip-{kind}">{esc(text)}</span>'
+
+
+def table(headers, rows, table_id=None, filterable=False):
+    attrs = f' id="{table_id}"' if table_id else ""
+    cls = ' class="tbl"'
+    head = "".join(f"<th>{esc(h)}</th>" for h in headers)
+    body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
+    filt = ""
+    if filterable:
+        filt = (f'<div class="filterbar"><input type="search" placeholder="Filter rows (team, player, status, game)…" '
+                f'data-filter-table="{esc(table_id)}" aria-label="Filter table"></div>')
+    return f'{filt}<div class="table-wrap"><table{attrs}{cls}><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>'
+
+
+NAV = [
+    ("Overview", [("index.html", "Home"), ("executive-summary.html", "Executive summary")]),
+    ("Data", [("slate.html", "3-day slate"), ("injuries.html", "Injury tracker"), ("game-flow.html", "Game flow")]),
+    ("Research", [("strategies.html", "Strategies"), ("validation.html", "Validation & correlation")]),
+    ("Decisions", [("questions.html", "Questions"), ("suggestions.html", "Suggestions")]),
+    ("Governance", [("sources.html", "Sources"), ("repo-review.html", "Repo review"), ("flagged.html", "Flagged for Review")]),
+]
+PAGES = [p for _, items in NAV for p, _ in items]
+
+
+def nav_html(active):
+    parts = []
+    for group, items in NAV:
+        links = ""
+        for p, l in items:
+            cur = ' class="on" aria-current="page"' if p == active else ""
+            links += f'<a href="{p}"{cur}>{esc(l)}</a>'
+
+        parts.append(f'<div class="navgroup"><div class="navlabel">{esc(group)}</div>{links}</div>')
+    return "".join(parts)
+
+
+CSS = """
+:root{--ink:#152033;--muted:#5d6b82;--line:#dfe6f1;--bg:#f5f7fb;--card:#fff;--navy:#0f1e38;--blue:#2457d6;--red:#b42318;--redbg:#fef3f2;--amber:#8a5a00;--amberbg:#fff7e0;--green:#0f7a4a;--greenbg:#e8f7ef;--grey:#eef1f6}
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:#1d4fc0}header.top{background:var(--navy);color:#fff;padding:18px 24px}header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}header.top .sub{color:#c9d6ee;font-size:13px}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:22px;max-width:1280px;margin:0 auto;padding:20px}
+nav.side{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;height:max-content;position:sticky;top:12px}
+.navgroup{margin-bottom:10px}.navlabel{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700;padding:6px 8px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);text-decoration:none}nav.side a:hover{background:#edf2ff}nav.side a.on{background:#e6edff;color:#143b9e;font-weight:700}
+main{min-width:0}section.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+h1{font-size:26px;margin:4px 0 6px}h2{font-size:19px;margin:0 0 10px}h3{font-size:15px;margin:14px 0 6px}
+.lede{color:var(--muted);margin:0 0 6px;max-width:860px}.muted{color:var(--muted)}
+.banner{border-radius:10px;padding:12px 14px;margin:0 0 14px;border:1px solid}.banner.warn{background:var(--amberbg);border-color:#f0d58a;color:#5b3d00}.banner.stop{background:var(--redbg);border-color:#fecdca;color:#7a1a12}.banner.ok{background:var(--greenbg);border-color:#b7e4c9;color:#0b5333}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.metric{background:#f8faff;border:1px solid var(--line);border-radius:10px;padding:14px}.metric b{display:block;font-size:24px}.metric small{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.cardlink{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink)}.cardlink:hover{border-color:#9db7f5;box-shadow:0 2px 10px #1d4fc01a}.cardlink b{color:#143b9e}.cardlink span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}table.tbl{border-collapse:collapse;width:100%;font-size:13.5px}table.tbl th,table.tbl td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.tbl th{background:#f3f6fc;position:sticky;top:0;font-weight:700;white-space:nowrap}table.tbl tr:last-child td{border-bottom:0}table.tbl tbody tr:hover{background:#fbfcff}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.filterbar{margin:0 0 8px}.filterbar input{width:100%;max-width:420px;padding:8px 10px;border:1px solid #c8d3e6;border-radius:8px;font:inherit}
+.chip{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;white-space:nowrap}
+.chip-blocker{background:var(--redbg);color:var(--red)}.chip-unverified{background:var(--amberbg);color:var(--amber)}.chip-irregular{background:#eef2ff;color:#2c3f8f}.chip-ok{background:var(--greenbg);color:var(--green)}.chip-neutral{background:var(--grey);color:#34405a}
+.flag{color:var(--amber);font-weight:700}
+footer{max-width:1280px;margin:0 auto;padding:4px 20px 30px;color:var(--muted);font-size:12.5px}
+ul.tight li{margin:3px 0}code{background:#eef1f6;padding:1px 5px;border-radius:4px;font-size:12.5px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}nav.side{position:static}}
+"""
+
+JS = """
+document.querySelectorAll('input[data-filter-table]').forEach(function(inp){
+  var t=document.getElementById(inp.getAttribute('data-filter-table'));
+  if(!t)return;
+  inp.addEventListener('input',function(){
+    var q=inp.value.toLowerCase();
+    t.querySelectorAll('tbody tr').forEach(function(tr){
+      tr.style.display = tr.textContent.toLowerCase().indexOf(q)>-1 ? '' : 'none';
+    });
+  });
+});
+"""
+
+
+def page(filename, title, body, desc=""):
+    active = filename
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{esc(title)} · NBA Edge Lab</title>
+<meta name="description" content="{esc(desc or 'NBA Edge Lab research dashboard')}">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="brand">NBA Edge Lab</div><div class="sub">Research dashboard · data as of {BUILD_DATE} · research only, not betting advice</div></header>
+<div class="layout">
+<nav class="side" aria-label="Site sections">{nav_html(active)}</nav>
 <main>
 {body}
-<footer>Generated by <code>scripts/build_site.py</code> from <code>data/*.json</code> · Verify: <code>python3 scripts/verify.py</code> ·
-All statistics © NBA (via official NBA sources) · Research/paper-trading only — not betting advice.</footer>
 </main>
-</body>
-</html>
-"""
-    with open(os.path.join(SITE, name), "w") as f:
-        f.write(doc)
-
-
-def badges(status):
-    m = {
-        "PAPER_RELEASED": ("b-rel", "RELEASED (paper)"),
-        "PROVISIONAL_INJURY_PENDING": ("b-prov", "PROVISIONAL · injury report pending"),
-        "PROVISIONAL_PARTIAL_INJURY": ("b-prov", "PROVISIONAL · partial injury data"),
-        "NO_BET_LOW_EDGE": ("b-flag", "NO BET · edge below gate"),
-    }
-    cls, lbl = m.get(status, ("b-flag", esc(status)))
-    return f'<span class="badge {cls}">{lbl}</span>'
-
-
-def src(*urls):
-    parts = []
-    seen = set()
-    for u in urls:
-        if u and u not in seen:
-            seen.add(u)
-            host = u.split("/")[2].replace("www.", "")
-            parts.append(f'<a class="src" href="{esc(u)}" target="_blank" rel="noopener">{esc(host)}</a>')
-    return " ".join(parts)
-
-
-def build():
-    os.makedirs(SITE, exist_ok=True)
-    teams = {t["abbr"]: t for t in load("teams.json")["teams"]}
-    slate = load("slate.json")
-    injuries = load("injuries.json")
-    players = load("players.json")["players"]
-    strategies = load("strategies.json")
-    picks = load("picks.json")
-    flagged = load("flagged.json")["flags"]
-    questions = load("questions.json")
-    sources = load("sources.json")
-    corr = load("correlations.json")
-
-    pick_by_id = {p["game_id"]: p for p in picks["picks"]}
-    inj_by_mu = {g["matchup"]: g for g in injuries["games"]}
-
-    # ---------------- index ----------------
-    rel = sum(1 for p in picks["picks"] if p["strategy_status"] == "PAPER_RELEASED")
-    prov = sum(1 for p in picks["picks"] if p["strategy_status"].startswith("PROVISIONAL"))
-    openq = sum(1 for q in questions["questions"] if q["answer_status"].startswith("UNANSWERED"))
-    open_sug = sum(1 for s in questions["suggestions"] if s["decision"] is None)
-    body = f"""
-<h2>Executive dashboard</h2>
-<div class="cards">
-  <div class="card"><div class="n">{len(slate['games'])}</div><div class="l">Games in slate (Nov 13–16)</div></div>
-  <div class="card"><div class="n">{rel}</div><div class="l">Released paper picks</div></div>
-  <div class="card"><div class="n">{prov}</div><div class="l">Provisional (injury pending)</div></div>
-  <div class="card"><div class="n">{len(flagged)}</div><div class="l">Flagged items</div></div>
-  <div class="card"><div class="n">{openq}</div><div class="l">Open questions</div></div>
-  <div class="card"><div class="n">{open_sug}</div><div class="l">Suggestions awaiting review</div></div>
 </div>
-
-<div class="note"><b>Auto-generated, no manual input.</b> This dashboard is rebuilt from
-<code>data/*.json</code> by <code>scripts/generate_picks.py</code> + <code>scripts/build_site.py</code>.
-Every data row links the official NBA source it came from. Unconfirmable values are left blank and
-flagged — see <a href="flagged.html">Flagged</a>. Provisional rows are never scored.</div>
-
-<h2>Today's slate at a glance (2026-11-13)</h2>
-<div class="scroll">
-<table>
-<tr><th>Time (ET)</th><th>Matchup</th><th class="num">Our fair spread (home)</th><th class="num">Our fair total</th><th>Pick</th><th>Status</th><th>Source</th></tr>
+<footer>Generated from <code>data/*.json</code> by <code>scripts/build_site.py</code>. Values with no official source are left blank and flagged (see <a href="flagged.html">Flagged for Review</a>). Source of this site: <a href="{REPO_URL}" target="_blank" rel="noopener">GitHub repository</a> · <a href="{REPO_URL}/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.</footer>
+<script src="assets/site.js"></script>
+</body></html>
 """
-    for g in slate["games"]:
-        if g["date"] != "2026-11-13":
+
+
+def banner_research():
+    return ('<div class="banner stop"><b>No lines, picks, or correlation values are published.</b> '
+            'Blocking items: NBA Terms §9 (7C-F-01), Dutch licence requirement (7C-F-02), and no licensed odds data (7C-F-03). '
+            'Everything shown is either sourced to an official link or flagged.</div>')
+
+
+def load_all():
+    d = {}
+    d["sources"] = load("sources.json")
+    d["schedule"] = load("schedule.json")
+    d["injuries"] = load("injuries.json")
+    d["flags"] = load("flags.json")
+    d["repo"] = load("repo_review.json")
+    d["questions"] = load("questions.json")
+    d["suggestions"] = load("suggestions.json")
+    d["strategies"] = load("strategies.json")
+    d["gates"] = load("validation_gates.json")
+    return d
+
+
+def validate(d):
+    sources = {s["id"]: s for s in d["sources"]}
+    if len(sources) != len(d["sources"]):
+        err("duplicate source ids")
+    for s in d["sources"]:
+        if not is_official(s["url"]):
+            err(f"{s['id']}: source URL not https or not on allow-list: {s['url']}")
+    sched_url = d["schedule"]["source_url"]
+    if not is_official(sched_url):
+        err("schedule source_url not official")
+    for g in d["schedule"]["games"]:
+        if not g.get("team_1") or not g.get("team_2"):
+            err(f"schedule game {g.get('game_no')} missing teams")
+    seen_ids = set()
+    for r in d["injuries"]:
+        if r["id"] in seen_ids:
+            err(f"duplicate injury id {r['id']}")
+        seen_ids.add(r["id"])
+        if not is_official(r["report_source"]):
+            err(f"{r['id']}: report source not official")
+        if r.get("schedule_source") and not is_official(r["schedule_source"]):
+            err(f"{r['id']}: schedule source not official")
+        if r["attribution"] not in {"R", "S", "U", "T"}:
+            err(f"{r['id']}: bad attribution")
+        if r["attribution"] == "U" and (r["team"] or r["matchup"]):
+            err(f"{r['id']}: unattributed row must leave team/matchup blank")
+        if r["attribution"] in {"U", "S"} and not r.get("flag"):
+            err(f"{r['id']}: attributed-by-inference row missing flag")
+    for f in d["flags"]:
+        for i in f["sources"]:
+            if i not in sources:
+                err(f"{f['id']}: unknown source {i}")
+        if f["type"] not in {"Blocker", "Unverified", "Irregularity"}:
+            err(f"{f['id']}: bad flag type")
+    for r in d["repo"]:
+        if not is_official(r["src"]):
+            err(f"{r['id']}: source not official: {r['src']}")
+    for q in d["questions"]:
+        for i in q["src"]:
+            if i not in sources:
+                err(f"{q['id']}: unknown source {i}")
+    for s in d["suggestions"]:
+        for i in s["src"]:
+            if i not in sources:
+                err(f"{s['id']}: unknown source {i}")
+    for s in d["strategies"]:
+        if s["official"] and not is_official(s["official"]):
+            err(f"{s['id']}: strategy source not official")
+        if not s["official"] and "Blocked" not in s["status"]:
+            err(f"{s['id']}: row without official source must be flagged as blocked/unverified")
+    for g in d["gates"]:
+        for i in g["src"]:
+            if i not in sources:
+                err(f"{g['id']}: unknown source {i}")
+    # Reference check across all text fields for S\d+ ids
+    text_blob = json.dumps(d, ensure_ascii=False)
+    for ref in set(re.findall(r'"(S\d{2})"', text_blob)):
+        if ref not in sources:
+            err(f"reference to unknown source {ref}")
+
+
+def team_matches(key, team):
+    return bool(team) and key in team
+
+
+def game_flow_rows(d):
+    rows = []
+    inj = d["injuries"]
+    for g in d["schedule"]["games"]:
+        if g["date"] not in ("2026-11-13", "2026-11-14"):
             continue
-        p = pick_by_id[g["game_id"]]
-        pick_txt = f'<b>{esc(p["pick_side"])}</b>' if p["pick_side"] else '<span class="badge b-flag">pass</span>'
-        body += (f'<tr><td>{esc(g["time_et"])}</td><td>{esc(g["matchup"])}</td>'
-                 f'<td class="num">{p["our_fair_spread_home"]:+.1f}</td>'
-                 f'<td class="num">{p["our_fair_total"]:.1f}</td>'
-                 f'<td>{pick_txt}</td><td>{badges(p["strategy_status"])}</td>'
-                 f'<td class="src">{src(g["source_url"], g["preview_url"], p["source_urls"]["injury_report"])}</td></tr>\n')
-    body += """</table></div>
-
-<h2>What's where</h2>
-<div class="grid2">
-<div>
-<h3>Research &amp; process</h3>
-<ul class="compact">
-<li><a href="repo-review.html">Repo review (line-by-line)</a> — irregularities at base commit</li>
-<li><a href="flagged.html">Flagged for Review</a> — 17 items, blank+flagged policy</li>
-<li><a href="questions.html">Open questions</a> — must be answered before gated decisions</li>
-<li><a href="suggestions.html">Suggestions queue</a> — reviewer picks a path before anything is implemented</li>
-<li><a href="sources.html">Source registry</a> — every official source + dead-end endpoints</li>
-</ul>
-</div>
-<div>
-<h3>Strategy &amp; picks</h3>
-<ul class="compact">
-<li><a href="slate.html">Full slate (31 games)</a> — originated lines + picks + sources</li>
-<li><a href="strategies.html">Strategies &amp; validation gates</a> — S1–S4, gates, luck controls</li>
-<li><a href="leaderboard.html">Leaderboard &amp; rewards</a> — paper book rules</li>
-<li><a href="analysis.html">Analysis</a> — measured correlations, league findings</li>
-<li><a href="injury-impact.html">Injury → production impact</a></li>
-<li><a href="game-flow.html">Game flow &amp; rest analysis</a></li>
-</ul>
-</div>
-</div>
-"""
-    page("index.html", "Dashboard", body, "index.html")
-
-    # ---------------- slate ----------------
-    body = f"""
-<h2>Full slate — Nov 13–16, 2026 (3-day advance window)</h2>
-<div class="note">Window = today + 3 days max, per brief: {len(slate['games'])} games, every row
-cross-verified against <b>both</b> the official schedule PDF and nba.com/schedule. Rest days computed from the
-official schedule only. "Our fair spread" is negative when the <i>home</i> team is model-favored.</div>
-<div class="note prov">⚠ <b>Provisional rows</b> (11/14 partial reports, 11/15–16 not yet published): model line uses team
-strength + rest only, injury input blank. Never scored until an official report covers that game (Q-10).</div>
-<div class="scroll">
-<table>
-<tr><th>Date</th><th>ET</th><th>Matchup</th><th>Venue / TV</th><th class="num">Rest (a/h)</th>
-<th class="num">Our spread (h)</th><th class="num">Our total</th><th class="num">P(home)</th>
-<th>Pick</th><th>Status</th><th>Source</th></tr>
-"""
-    for g in slate["games"]:
-        p = pick_by_id[g["game_id"]]
-        b2b = ""
-        if g.get("b2b_home"):
-            b2b += ' <span class="badge b-flag">home B2B</span>'
-        if g.get("b2b_away"):
-            b2b += ' <span class="badge b-flag">away B2B</span>'
-        cup = f'<br><span class="badge b-off">{esc(g["cup_group"])}</span>' if g.get("cup_group") else ""
-        pick_txt = f'<b>{esc(p["pick_side"])}</b>' if p["pick_side"] else '<span class="badge b-flag">pass</span>'
-        tv = esc(g["tv"])
-        body += (f'<tr><td>{esc(g["date"][5:])}</td><td>{esc(g["time_et"])}</td>'
-                 f'<td><b>{esc(g["away"])}</b> @ <b>{esc(g["home"])}</b>{cup}<br>'
-                 f'<span style="color:var(--mut);font-size:12px">{esc(g["venue"])}</span></td>'
-                 f'<td>{tv}{b2b}</td>'
-                 f'<td class="num">{g["rest_away"]} / {g["rest_home"]}</td>'
-                 f'<td class="num">{p["our_fair_spread_home"]:+.1f}</td>'
-                 f'<td class="num">{p["our_fair_total"]:.1f}</td>'
-                 f'<td class="num">{p["model_p_home"]:.2f}</td>'
-                 f'<td>{pick_txt}</td><td>{badges(p["strategy_status"])}</td>'
-                 f'<td class="src">{src(g["source_url"], g["preview_url"], p["source_urls"]["injury_report"], g["pdf_source_url"])}</td></tr>\n')
-    body += "</table></div>\n"
-
-    body += "<h2>Parlays (S2) &amp; prop stacks (S3)</h2><div class='scroll'><table>"
-    body += "<tr><th>Type</th><th>Legs / players</th><th class='num'>ρ</th><th class='num'>Joint p (indep.)</th><th class='num'>Joint p (corrected)</th><th>Gate</th><th>Source</th></tr>"
-    for q in picks["parlays_s2"]:
-        st = badges(q["strategy_status"]) if q["strategy_status"] in (
-            "PAPER_RELEASED", "NO_BET_LOW_EDGE") else '<span class="badge b-flag">' + esc(q["strategy_status"]) + "</span>"
-        body += (f'<tr><td>S2 parlay</td><td>{" + ".join(esc(l) for l in q["legs"])}</td>'
-                 f'<td class="num">{q["rho"]:.2f}</td><td class="num">{q["joint_prob_naive"]:.3f}</td>'
-                 f'<td class="num">{q["joint_prob_corrected"]:.3f}</td><td>{st}</td>'
-                 f'<td class="src">{src(q["source_urls"]["leg1"], q["source_urls"]["leg2"])}</td></tr>')
-    for s in picks["prop_stacks_s3"]:
-        gcls = "b-rel" if s["gate"] == "RELEASE_PAPER" else "b-flag"
-        body += (f'<tr><td>S3 prop stack</td><td>{esc(s["team"])}: {esc(s["players"][0])} + {esc(s["players"][1])}'
-                 f' <span style="color:var(--mut)">(lines {s["line_a_ppg"]}/{s["line_b_ppg"]} PPG)</span></td>'
-                 f'<td class="num">{s["rho_pts"] if s["rho_pts"] is not None else "—"}</td>'
-                 f'<td class="num">n={s["n_common_games"]}</td><td>—</td>'
-                 f'<td><span class="badge {gcls}">{esc(s["gate"])}</span></td>'
-                 f'<td class="src">{src(*s["source_urls"])}</td></tr>')
-    body += "</table></div><div class='note'>ρ = Pearson correlation on official Last-5 PTS logs. "
-    body += "n=5 samples are noisy (Q-12 open). S3 lines are season PPG baselines from official player pages.</div>"
-    page("slate.html", "Slate & Picks", body, "slate.html")
-
-    # ---------------- strategies ----------------
-    body = "<h2>Strategies, validation gates &amp; luck controls</h2>\n"
-    body += f'<div class="note">Full methodology write-up: <a href="STRATEGIES.md">docs/STRATEGIES.md</a> · '
-    body += f'Pipeline: <a href="PICKS_PIPELINE.md">docs/PICKS_PIPELINE.md</a></div>\n'
-    for s in strategies["strategies"]:
-        st_cls = "b-flag"
-        body += f'<h3>{esc(s["id"])} · {esc(s["name"])} <span class="badge {st_cls}">{esc(s["status"])}</span></h3>'
-        body += f'<p>{esc(s["description"])}</p>'
-        body += '<div class="scroll"><table><tr><th>Gate</th><th>Rule</th><th>State</th><th>Source</th></tr>'
-        for g in s["validation_gates"]:
-            state = esc(g["state"])
-            scls = "b-rel" if state.startswith("PASS") or state.startswith("ENFORCED") else (
-                "b-bad" if state.startswith("FAIL") or state.startswith("BLOCKED") else "b-prov")
-            gsrc = src(*(s.get("source_refs") or []))
-            body += f'<tr><td><code>{esc(g["gate"])}</code></td><td>{esc(g["rule"])}</td>' \
-                    f'<td><span class="badge {scls}">{state}</span></td>' \
-                    f'<td class="src">{gsrc}</td></tr>'
-        body += "</table></div>"
-        body += "<p><b>Assumptions:</b> " + ", ".join(f"<code>{esc(p)}</code>" for p in s.get("parameters", {}).keys()) + "</p>"
-        body += "<p><b>Luck controls:</b> " + "; ".join(esc(x) for x in s["luck_controls"]) + "</p>"
-        body += '<p class="src">Sources: ' + src(*s["source_refs"]) + "</p>"
-    rev = strategies["strategies"][0].get("parameter_revision", "")
-    if rev:
-        body += f'<div class="note warn"><b>Parameter revision log:</b> {esc(rev)}</div>'
-    body += "<h2>Measured correlations (data/correlations.json)</h2><div class='scroll'><table>"
-    body += "<tr><th>Pair</th><th class='num'>r</th><th class='num'>n</th><th>Basis</th><th>Source</th></tr>"
-    for c in corr["league"]:
-        body += f'<tr><td>{esc(c["pair"])}</td><td class="num">{c["r"]:+.3f}</td><td class="num">{c["n"]}</td>' \
-                f'<td>Pearson, official league table</td><td class="src">{src(c["source_url"])}</td></tr>'
-    for t in corr["teammates"]:
-        body += f'<tr><td>teammate PTS: {esc(t["players"][0])} &amp; {esc(t["players"][1])} ({esc(t["team"])})</td>' \
-                f'<td class="num">{t["rho_pts"]:+.3f}</td><td class="num">{t["n_common_games"]}</td>' \
-                f'<td>Pearson on official Last-5 logs <span class="badge b-flag">noisy (Q-12)</span></td>' \
-                f'<td class="src">{src(*t["source_urls"])}</td></tr>'
-    body += f'<tr><td>cross-game parlay legs</td><td class="num">0.00</td><td class="num">—</td>' \
-            f'<td>independence by design <span class="badge b-flag">assumption w-01</span></td>' \
-            f'<td class="src">{src("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/strategies.json")}</td></tr>'
-    body += "</table></div>"
-    for b in corr["blocked"]:
-        body += f'<div class="note warn">⛔ <b>Blocked correlation:</b> {esc(b["what"])} — {esc(b["why"])}</div>'
-    page("strategies.html", "Strategies & Gates", body, "strategies.html")
-
-    # ---------------- leaderboard ----------------
-    lb = strategies["leaderboard"]
-    body = "<h2>Leaderboard &amp; rewards (paper book)</h2>\n"
-    body += '<div class="note">Status after generation: <b>0 settled picks</b> — no strategy may claim skill yet. '
-    body += "All four strategies sit at the bottom rung until their sample-size gates pass.</div>"
-    body += "<div class='scroll'><table><tr><th>Strategy</th><th>Type</th><th>Status</th>" \
-            "<th class='num'>Settled</th><th class='num'>Released</th><th>Gates passed</th><th>Source</th></tr>"
-    n_rel_by = {"S1": rel}
-    for s in strategies["strategies"]:
-        gates_passed = sum(1 for g in s["validation_gates"]
-                           if g["state"].startswith("PASS") or g["state"].startswith("ENFORCED"))
-        n_rel_s = len(picks["picks"]) if s["id"] == "S1" else (
-            len(picks["parlays_s2"]) if s["id"] == "S2" else
-            sum(1 for st in picks["prop_stacks_s3"] if st["gate"] == "RELEASE_PAPER") if s["id"] == "S3" else
-            sum(1 for p in picks["picks"] if p["strategy_status"] == "PAPER_RELEASED"
-                and abs(p["rest_home"] - p["rest_away"]) >= 2))
-        sref = src(*(s.get("source_refs") or ["https://github.com/wingbangboozle1-lang/NBA3"]))
-        body += f'<tr><td>{esc(s["id"])} {esc(s["name"])}</td><td>{esc(s["type"])}</td>' \
-                f'<td><span class="badge b-prov">{esc(s["status"])}</span></td>' \
-                f'<td class="num">0</td><td class="num">{n_rel_s}</td>' \
-                f'<td class="num">{gates_passed}/{len(s["validation_gates"])}</td>' \
-                f'<td class="src">{sref}</td></tr>'
-    body += "</table></div>"
-    body += "<h3>Reward rules (pre-registered)</h3><ul class='compact'>"
-    for r in lb["rules"]:
-        body += f"<li>{esc(r)}</li>"
-    body += "</ul>"
-    body += '<p class="src">Sources: ' + src("https://github.com/wingbangboozle1-lang/NBA3",
-                                             "https://www.nba.com/schedule") + "</p>"
-    page("leaderboard.html", "Leaderboard", body, "leaderboard.html")
-
-    # ---------------- injury impact ----------------
-    body = "<h2>Injury → rotation &amp; production impact</h2>\n"
-    body += ('<div class="note">Official statuses from the latest report '
-             '(05:00 PM ET, 11/13). <b>Production at risk</b> = Σ season PPG of players with status <i>Out</i> '
-             'who meet the rotation gate (GP ≥ 60% of team GP). Players with GP=0 or uncollected PPG contribute '
-             'nothing and are flagged — totals are lower bounds when <code>incomplete</code> = yes.</div>')
-    body += "<div class='scroll'><table><tr><th>Game</th><th>Team</th><th>Player</th><th>Status</th>" \
-            "<th>Reason</th><th class='num'>PPG</th><th class='num'>GP</th><th>Counts?</th><th>Source</th></tr>"
-    for g in injuries["games"]:
-        if g["report_state"] == "not_yet_published":
-            continue
-        for t in g["teams"]:
-            for pl in t.get("players", []):
-                counts = "—"
-                cls = ""
-                if pl.get("status") == "Out":
-                    if pl.get("season_ppg") and (pl.get("season_gp") or 0) >= 0.6 * next(
-                            (tm["gp"] for tm in teams.values() if tm["abbr"] == t["team"]), 12):
-                        counts, cls = "✓ in at-risk", "b-rel"
-                    elif pl.get("season_gp") == 0:
-                        counts, cls = "✗ GP=0", "b-flag"
-                    elif pl.get("season_ppg") and (pl.get("season_gp") or 0) < 0.6 * 12:
-                        counts, cls = "✗ <60% games", "b-flag"
-                    else:
-                        counts, cls = "? missing PPG", "b-bad"
-                elif pl.get("status") in ("Questionable", "Probable"):
-                    counts, cls = "monitor", "b-prov"
-                elif pl.get("status") == "Doubtful":
-                    counts, cls = "monitor (D)", "b-prov"
+        for side, key in (("team_1", g["team_1"]), ("team_2", g["team_2"])):
+            # injury rows store ISO dates (YYYY-MM-DD), matching the schedule's date field
+            matched = [r for r in inj if r["attribution"] in {"R", "S", "T"} and r["team"] and team_matches(key, r["team"]) and r["game_date"] == g["date"]]
+            unatt = [r for r in inj if r["attribution"] == "U" and r["game_date"] == g["date"]]
+            cnt = {"Out": 0, "Questionable/Doubtful": 0, "Probable": 0, "Available": 0, "Other": 0}
+            not_sub = False
+            for r in matched:
+                st = r["status_as_printed"]
+                if st == "NOT YET SUBMITTED":
+                    not_sub = True
+                elif st == "Out":
+                    cnt["Out"] += 1
+                elif st in ("Questionable", "Doubtful"):
+                    cnt["Questionable/Doubtful"] += 1
+                elif st == "Probable":
+                    cnt["Probable"] += 1
+                elif st == "Available":
+                    cnt["Available"] += 1
                 else:
-                    counts, cls = "available", "b-off"
-                ppg = f'{pl["season_ppg"]:.1f}' if pl.get("season_ppg") is not None else \
-                    ('<span class="badge b-bad">blank</span>' if pl.get("season_ppg") is None else "0")
-                gp = pl.get("season_gp")
-                gp_s = str(gp) if gp is not None else "?"
-                body += (f'<tr><td>{esc(g["matchup"])}</td><td>{esc(t["team"])}</td>'
-                         f'<td>{esc(pl["player"])}</td><td><b>{esc(pl["status"])}</b></td>'
-                         f'<td style="font-size:12.5px">{esc(pl.get("reason", ""))}</td>'
-                         f'<td class="num">{ppg}</td><td class="num">{gp_s}</td>'
-                         f'<td><span class="badge {cls}">{counts}</span></td>'
-                         f'<td class="src">{src(pl["source_url"], pl.get("ppg_source_url"))}</td></tr>')
-    body += "</table></div>"
-    body += '<div class="note warn">Not-yet-submitted teams (11/14) and unpublished dates (11/15–16): ' \
-            'blank by policy — see <a href="flagged.html">fl-06</a> and <a href="questions.html">Q-01</a>.</div>'
-    page("injury-impact.html", "Injury Impact", body, "injury-impact.html")
+                    cnt["Other"] += 1
+            rows.append({
+                "game_no": g["game_no"], "date": g["date"], "tip_et": g["tip_et"],
+                "matchup": f"{g['team_1']} @ {g['team_2']}", "team": key, "side": side,
+                "out": cnt["Out"], "q": cnt["Questionable/Doubtful"], "prob": cnt["Probable"], "avail": cnt["Available"],
+                "other": cnt["Other"], "not_submitted": not_sub, "rows": len(matched),
+                "unattributed_rows_same_day": len(unatt),
+            })
+    return rows
 
-    # ---------------- game flow ----------------
-    body = "<h2>Game flow inputs: rest, back-to-backs, venues</h2>\n"
-    body += ('<div class="note">All rest values derived only from the official schedule PDF '
-             '(previous-game dates). No proprietary tracking data used.</div>')
-    body += "<h3>Back-to-backs in window</h3><div class='scroll'><table>" \
-            "<tr><th>Date</th><th>Team</th><th>Side</th><th>Rest days</th><th>Source</th></tr>"
-    slate_srcs = slate["meta"]["sources"]
-    for date, lst in slate["b2b_summary"].items():
-        if date == "note":
-            continue
-        for item in lst:
-            side = "home" if "(home)" in item else "away"
-            team = item.split(" ")[0]
-            body += f'<tr><td>{esc(date)}</td><td><b>{esc(team)}</b></td><td>{side}</td>' \
-                    f'<td class="num">0</td><td class="src">{src(*slate_srcs)}</td></tr>'
-    body += "</table></div>"
-    body += "<h3>Rest matrix (all 31 games)</h3><div class='scroll'><table>" \
-            "<tr><th>Date</th><th>Matchup</th><th class='num'>Rest away</th><th class='num'>Rest home</th>" \
-            "<th>Previous games (official schedule)</th><th>Source</th></tr>"
-    for g in slate["games"]:
-        body += (f'<tr><td>{esc(g["date"][5:])}</td><td>{esc(g["away"])} @ {esc(g["home"])}</td>'
-                 f'<td class="num">{g["rest_away"]}</td><td class="num">{g["rest_home"]}</td>'
-                 f'<td style="font-size:12px">away: {esc(g["prev_game_away"])}<br>home: {esc(g["prev_game_home"])}</td>'
-                 f'<td class="src">{src(g["pdf_source_url"], g["source_url"])}</td></tr>')
-    body += "</table></div>"
-    body += ("<h3>Game-flow worked example (official linescore)</h3>"
-             "<p>Most recent completed result fetched from an official game page: "
-             "<b>CLE 115 – 107 NYK</b>, 11/11/2026 — quarters 33-23, 26-30, 23-23, 33-31; "
-             "3 lead changes, 6 times tied (source below). Used only to demonstrate flow-metric capture, "
-             "not as a pick input.</p>"
-             '<p class="src">Sources: ' + src("https://www.nba.com/game/cle-vs-nyk-0022600218") + "</p>")
-    page("game-flow.html", "Game Flow", body, "game-flow.html")
 
-    # ---------------- analysis ----------------
-    body = "<h2>Analysis &amp; findings</h2>\n"
-    body += "<h3>League-level measured relationships (n=30, official table)</h3><ul class='compact'>"
-    for c in corr["league"]:
-        strength = "strong" if abs(c["r"]) > 0.7 else ("moderate" if abs(c["r"]) > 0.4 else "weak")
-        body += f'<li><b>{esc(c["pair"])}</b>: r = <b>{c["r"]:+.3f}</b> ({strength}, n={c["n"]}) — ' \
-                f'<span class="src">{src(c["source_url"])}</span></li>'
-    body += """</ul>
-<ul class="compact">
-<li>Win% is far more explained by <b>margin</b> (r=0.94) than by scoring alone (r=0.64) or defense alone
-(r=-0.75): two-way differential is the right strength signal for line origination — this is why S1 uses
-net rating (PTS − OPPG) as its core input.</li>
-<li>Margin vs OPPG (r=-0.80): teams that defend better win more — supports including OPPG directly in totals.</li>
-</ul>
-<h3>Player-level</h3>
-<ul class="compact">
-<li>Brunson–Towns teammate PTS ρ = <b>+0.569</b> (n=5, official logs) → S3 stack released with noisy-sample badge.</li>
-<li>Cross-game parlay legs modelled with ρ=0 (separate contests) — flagged as assumption w-01, not a measurement.</li>
-</ul>
-<h3>Findings worth acting on</h3>
-<ul class="compact">
-<li><b>7 of 31</b> games cleared the S1 edge+confidence gate today; <b>22</b> are provisional pending injury
-reports — the data-freshness gate, not the model, is currently the binding constraint (fl-06).</li>
-<li>Five home teams sit on back-to-backs on 11/14 — rest-adjustment moves those lines materially; S4 is
-pre-registered to isolate this factor.</li>
-<li>Production-at-risk is concentrated in UTA (Markkanen+JJJ), GSW (Curry+Williams), NOP (Murphy+Murray),
-OKC (Holmgren+J.Williams — but see rotation gate) — all verified from official rosters.</li>
-<li>CLV validation remains BLOCKED without an authorized odds source (Q-04/fl-16); CI-on-settled-picks is
-the fallback luck-removal mechanism until then.</li>
-</ul>
-<p class="src">Sources: """ + src(*[c["source_url"] for c in corr["league"]],
-                                     "https://www.nba.com/schedule") + "</p>"
-    page("analysis.html", "Analysis", body, "analysis.html")
+def render_pages(d):
+    S = {s["id"]: s for s in d["sources"]}
+    out = {}
+    sched = d["schedule"]
+    inj = d["injuries"]
+    flags = d["flags"]
+    blockers = [f for f in flags if f["type"] == "Blocker"]
+    n_unv = len([f for f in flags if f["type"] == "Unverified"])
+    n_irr = len([f for f in flags if f["type"] == "Irregularity"])
+    n_u = len([r for r in inj if r["attribution"] == "U"])
+    n_s = len([r for r in inj if r["attribution"] == "S"])
+    n_nys = len([r for r in inj if r["status_as_printed"] == "NOT YET SUBMITTED"])
+    n_games = len(sched["games"])
+    n_dates = len({g["date"] for g in sched["games"]})
 
-    # ---------------- repo review ----------------
-    body = """
-<h2>Repository review (line-by-line)</h2>
-<div class="note">Scope: every file at the base commit <code>6c3004d</code> (main) plus current branch state.
-Full narrative: <a href="REPO_REVIEW.md">docs/REPO_REVIEW.md</a>.</div>
-<h3>Base commit 6c3004d — file inventory</h3>
-<div class="scroll"><table>
-<tr><th>File</th><th>Size / content</th><th>Finding</th><th>Severity</th><th>Source</th></tr>
-<tr><td><code>README.md</code></td><td>6 bytes: <code># NBA3</code></td>
-<td>Only file in the repo. No description, no structure, no usage, no license pointer.</td>
-<td><span class="badge b-bad">irregular</span></td>
-<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
-<tr><td><code>.gitignore</code></td><td>absent</td><td>No ignore rules (no artifacts to ignore yet, but gaps as data grows).</td>
-<td><span class="badge b-flag">minor</span></td>
-<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
-<tr><td><code>LICENSE</code></td><td>absent</td><td>Reuse terms undefined. Not added autonomously — Q-07 awaits reviewer.</td>
-<td><span class="badge b-flag">minor</span></td>
-<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
-<tr><td><code>.github/workflows</code></td><td>absent</td><td>No CI. Suggestion SG-01 awaits review (Q-08).</td>
-<td><span class="badge b-flag">minor</span></td>
-<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
-<tr><td>git history</td><td>3 commits, 1 author, 2 email forms</td>
-<td>Initial commit used a personal email; later commits use the GitHub noreply address; timezones differ (+0900 vs +0000).</td>
-<td><span class="badge b-flag">informational</span></td>
-<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
-</table></div>
-<h3>Irregularities flagged during review</h3>
-<ul class="compact">
-<li>Repo advertises an NBA betting-research project but contained <b>zero</b> research, data or code — all content in this branch is new.</li>
-<li>Initial-commit timestamp (2026-11-14 07:17 +0900) is <i>after</i> the later commits' UTC dates due to the timezone offset — sequencing is correct, display is confusing (fl-02).</li>
-<li>No CODEOWNERS / PR template / issue templates (recorded, not fixed — tooling changes route through Suggestions).</li>
+    # ---------- Landing ----------
+    cards = [
+        ("executive-summary.html", "Executive summary", "Key facts, blockers, and what can and cannot be decided yet."),
+        ("slate.html", "3-day slate", f"{n_games} games, 11/13–11/16/2026, from the official schedule PDF."),
+        ("injuries.html", "Injury tracker", f"{len(inj)} rows from the official 11/13/26 5:00 PM injury report."),
+        ("game-flow.html", "Game flow", "Team status counts for games with a report; models not built."),
+        ("strategies.html", "Strategies", f"{len(d['strategies'])} candidate single bets, props, parlays, and combos. All blocked."),
+        ("validation.html", "Validation & correlation", f"{len(d['gates'])} gates, none run. Correlation values left blank."),
+        ("questions.html", "Questions", f"{len(d['questions'])} questions: what is answered, partly answered, or missing."),
+        ("suggestions.html", "Suggestions", f"{len(d['suggestions'])} proposals. Awaiting your selection; nothing is implemented."),
+        ("sources.html", "Sources", f"{len(d['sources'])} official sources, with retrieval status and limits."),
+        ("repo-review.html", "Repo review", f"{len(d['repo'])} repository findings with source links."),
+        ("flagged.html", "Flagged for Review", f"{len(flags)} items: {len(blockers)} blockers, {n_unv} unverified, {n_irr} irregularities."),
+    ]
+    card_html = "".join(f'<a class="cardlink" href="{p}"><b>{esc(t)}</b><span>{esc(x)}</span></a>' for p, t, x in cards)
+    metrics = [
+        (str(n_games), f"games in the window (official schedule, {n_dates} dates)"),
+        (str(len(inj)), "injury-report rows (11/13 5:00 PM official report)"),
+        ("0", "originated lines published"),
+        ("0", "picks published"),
+        (str(len(blockers)), "open blockers (7C-F-01 to 7C-F-03)"),
+        (str(len(flags)), "items flagged for review"),
+    ]
+    met_html = "".join(f'<div class="metric"><b>{esc(a)}</b><small>{esc(b)}</small></div>' for a, b in metrics)
+    body = f"""
+<section class="card">
+<h1>NBA Edge Lab</h1>
+<p class="lede">A research dashboard for originating NBA line ideas, testing them, and tracking the official inputs behind them. It shows the official slate and injury report and the open legal and data blockers. It publishes no lines, picks, or correlation values yet.</p>
+{banner_research()}
+<div class="grid">{met_html}</div>
+</section>
+<section class="card">
+<h2>Sections</h2>
+<div class="cards">{card_html}</div>
+</section>
+<section class="card">
+<h2>Verified at a glance</h2>
+<ul class="tight">
+<li>Injury-report deadlines: teams report status by 5 p.m. local the day before a game (2nd game of a back-to-back: 1 p.m. local on game day); the game-day report runs 11 a.m.–1 p.m. local. {link(S['S02']['url'], 'NBA Official, 2026-27 injury report index')}</li>
+<li>The official injury PDF lists status and reason only; it has no minutes field. {link(S['S04']['url'], 'Injury report 11/13/26 5:00 PM')}</li>
+<li>NBA Terms §9: NBA Statistics may not be used in connection with any gambling activity, including legal gambling. {link(S['S07']['url'], 'NBA.com Terms of Use')}</li>
+<li>Dutch online sports betting requires a Koa licence under art. 31a of the Betting and Gaming Act. {link(S['S09']['url'], 'Kansspelautoriteit: online kansspel aanbieden')}</li>
+<li>The 2026-27 schedule was released August 13, 2026 and is labelled "subject to change". {link(S['S05']['url'], 'Schedule PDF')}</li>
 </ul>
-<p class="src">Sources: <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></p>
+</section>
 """
-    page("repo-review.html", "Repo Review", body, "repo-review.html")
+    out["index.html"] = ("Home", body, "NBA Edge Lab home: status, metrics, and sections.")
 
-    # ---------------- flagged ----------------
-    body = "<h2>Flagged for review</h2>\n"
-    body += ('<div class="note">Policy: <b>blank + flagged, never inferred</b>. Nothing here was silently '
-             'corrected; each entry links its evidence.</div>')
-    body += "<div class='scroll'><table><tr><th>ID</th><th>Sev</th><th>Category</th><th>Title</th>" \
-            "<th>Detail</th><th>Status</th><th>Source</th></tr>"
-    sev_map = {"high": "b-bad", "medium": "b-flag", "low": "b-off"}
-    for f in flagged:
-        st = "RESOLVED" if f["status"].startswith("RESOLVED") else "OPEN"
-        scls = "b-rel" if st == "RESOLVED" else sev_map.get(f["severity"], "b-flag")
-        body += (f'<tr><td><code>{esc(f["id"])}</code></td>'
-                 f'<td><span class="badge {sev_map.get(f["severity"], "b-flag")}">{esc(f["severity"])}</span></td>'
-                 f'<td>{esc(f["category"])}</td><td><b>{esc(f["title"])}</b></td>'
-                 f'<td style="font-size:12.5px">{esc(f["detail"])}</td>'
-                 f'<td><span class="badge {scls}">{st}</span></td>'
-                 f'<td class="src">{src(f.get("source_url"))}</td></tr>')
-    body += "</table></div>"
-    page("flagged.html", "Flagged", body, "flagged.html")
+    # ---------- Executive summary ----------
+    body = f"""
+<section class="card">
+<h1>Executive summary</h1>
+<p class="lede">Prepared {BUILD_DATE}. Scope: repository review, official-source verification, the official 3-day slate, injury tracking, strategy design, validation gates, questions, and suggestions.</p>
+{banner_research()}
+<h2>Bottom line</h2>
+<ul class="tight">
+<li><b>Picks for the next 3 days cannot yet be responsibly generated.</b> No licensed odds, no authorized statistics, and no validated model are in place. Picks would be unsupported.</li>
+<li><b>Two legal items must be resolved first.</b> (1) NBA Terms §9 bars using NBA Statistics for gambling. (2) Dutch online sports-betting offers require a Koa licence. Both are flagged as blockers; neither is a finding of unlawfulness.</li>
+<li><b>The official 3-day slate is confirmed:</b> {n_games} games across {n_dates} dates (11/13–11/16/2026), from the official schedule. It is subject to change.</li>
+<li><b>Injury tracking is possible from official reports, but not minutes.</b> The 11/13 5:00 PM report yields {len(inj)} rows. {n_nys} rows are 'NOT YET SUBMITTED'. The report does not quantify minutes or production.</li>
+<li><b>Correlation values and ROI are blank</b> by policy. Nothing has been measured.</li>
+</ul>
+<h2>What is verified (with links)</h2>
+<div class="table-wrap"><table class="tbl"><thead><tr><th>Fact</th><th>Source</th><th>Status</th></tr></thead><tbody>
+<tr><td>2026-27 schedule: 31 games 11/13–11/16 (Team 1 / Team 2 as printed)</td><td>{link(S['S05']['url'], 'Schedule PDF')}</td><td>{chip('Verified to source', 'ok')} subject to change</td></tr>
+<tr><td>11/13/26 5:00 PM injury report: {len(inj)} rows transcribed</td><td>{link(S['S04']['url'], 'Injury PDF')}</td><td>{chip('Verified to source', 'ok')} {n_u} rows left blank</td></tr>
+<tr><td>Injury reporting deadlines</td><td>{link(S['S02']['url'], 'Injury report index')}</td><td>{chip('Verified to source', 'ok')}</td></tr>
+<tr><td>NBA Statistics restricted for gambling use (§9)</td><td>{link(S['S07']['url'], 'Terms of Use')}</td><td>{chip('Verified to source', 'ok')} read in part</td></tr>
+<tr><td>Online sports betting offers need a Koa licence</td><td>{link(S['S09']['url'], 'Ksa')}</td><td>{chip('Verified to source', 'ok')} (Dutch)</td></tr>
+</tbody></table></div>
+<h2>What is not known (and why it blocks decisions)</h2>
+<ul class="tight">
+<li>Odds and prop prices, with timestamps, under a licence (7C-F-03).</li>
+<li>Authorized historical statistics and minutes (7C-F-01, 7C-F-04, 7C-F-05).</li>
+<li>Any measured correlation (7C-F-06) or any out-of-sample result.</li>
+<li>Your leaderboard metric, thresholds, and risk limits (Q-10, Q-11).</li>
+</ul>
+<h2>Decisions needed from you</h2>
+<p>See the <a href="suggestions.html">Suggestions</a> page. Each proposal has options (for example SG-01: legal path A, B, or C; SG-02: data-rights path A, B, or C). Nothing is implemented until you choose.</p>
+</section>
+"""
+    out["executive-summary.html"] = ("Executive summary", body, "Executive summary of NBA Edge Lab.")
 
-    # ---------------- questions ----------------
-    Q_REF = {
-        "Q-01": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
-        "Q-02": "https://www.nba.com/teams",
-        "Q-03": "https://www.nba.com/stats/team/1610612739/traditional",
-        "Q-04": "https://www.nba.com/schedule",
-        "Q-05": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
-        "Q-06": "https://www.nba.com/player/1628973/jalen-brunson",
-        "Q-07": "https://github.com/wingbangboozle1-lang/NBA3",
-        "Q-08": "https://github.com/wingbangboozle1-lang/NBA3",
-        "Q-09": "https://github.com/wingbangboozle1-lang/NBA3",
-        "Q-10": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
-        "Q-11": "https://www.nba.com/games",
-        "Q-12": "https://www.nba.com/player/1628973/jalen-brunson",
-    }
-    body = "<h2>Open questions — what must be answered before decisions</h2>\n"
-    body += '<div class="note">Each question lists what we have, what we lack, and exactly what is needed. '
-    body += 'Nothing gated by an open question has been decided.</div>'
-    body += "<div class='scroll'><table><tr><th>ID</th><th>Question</th><th>Why it matters</th>" \
-            "<th>We have</th><th>We lack</th><th>Needed to decide</th><th>Answer</th><th>Ref</th></tr>"
-    for q in questions["questions"]:
-        ans = f'<span class="badge b-bad">UNANSWERED</span>'
-        if q["answer"]:
-            ans = f'<span class="badge b-rel">ANSWERED</span> {esc(q["answer"])}'
-        ref = Q_REF.get(q["id"])
-        body += (f'<tr><td><code>{esc(q["id"])}</code></td><td><b>{esc(q["question"])}</b></td>'
-                 f'<td style="font-size:12.5px">{esc(q["why_it_matters"])}</td>'
-                 f'<td style="font-size:12.5px">{esc(q["we_have"])}</td>'
-                 f'<td style="font-size:12.5px">{esc(q["we_do_not_have"])}</td>'
-                 f'<td style="font-size:12.5px">{esc(q["needed_to_decide"])}</td>'
-                 f'<td style="font-size:12.5px">{ans}</td>'
-                 f'<td class="src">{src(ref) if ref else ""}</td></tr>')
-    body += "</table></div>"
-    body += '<p class="src">Related: <a href="flagged.html">Flagged</a> · ' \
-            '<a href="questions.html#sug">Suggestions queue ↓</a></p>'
-    page("questions.html", "Questions", body, "questions.html")
+    # ---------- Slate ----------
+    rows = []
+    for g in sched["games"]:
+        orient = g["orientation"]
+        conf = orient.startswith("Confirmed")
+        rows.append([
+            esc(g["game_no"]),
+            esc(g["day"]) + " " + esc(g["date"]),
+            esc(g["team_1"]) + " @ " + esc(g["team_2"]) if conf else esc(g["team_1"]) + " vs " + esc(g["team_2"]) + ' <span class="muted">(printed order)</span>',
+            esc(g["tip_et"]),
+            esc(g["national_tv"]) or '<span class="muted">—</span>',
+            esc(g["hash_col"]) or '<span class="muted">—</span>',
+            chip("Orientation confirmed", "ok") if conf else chip("Unverified order", "unverified"),
+            '<span class="muted">No pick — gates not passed (7C-F-03)</span>',
+            link(sched["source_url"], "S05 schedule PDF"),
+        ])
+    body = f"""
+<section class="card">
+<h1>3-day slate (11/13–11/16/2026)</h1>
+<p class="lede">Source: {link(sched['source_url'], sched['source_title'])}. Release page: {link(sched['release_page'], 'NBA.com schedule release')}. Tip times are the ET column. {esc(sched['times_note'])}</p>
+{banner_research()}
+<div class="banner warn"><b>Subject to change.</b> The PDF is labelled as of August 13, 2026. Re-pull before use (7C-F-09). "@" marks away @ home only where the injury report confirms it (11/13 and 11/14). For 11/15 and 11/16 the order is as printed (7C-F-10). The marker column (C/R) has no legend in the text read (7C-F-11).</div>
+{table(["Game #", "Day / date", "Matchup", "Tip (ET)", "National TV", "Marker", "Orientation", "Pick / line", "Source"], rows, "slate", True)}
+</section>
+"""
+    out["slate.html"] = ("3-day slate", body, "Official 2026-27 schedule for 11/13–11/16/2026.")
 
-    # ---------------- suggestions ----------------
-    body = '<h2>Suggestions — reviewer chooses a path before anything is implemented</h2>\n'
-    body += ('<div class="note warn"><b>Nothing in this queue has been implemented.</b> Per the brief, '
-             'a reviewer picks a path first; the <i>decision</i> field stays <code>null</code> until they do.</div>')
-    body += '<div id="sug"><h3>Queue</h3></div>'
-    body += "<div class='scroll'><table><tr><th>ID</th><th>Suggestion</th><th>Status</th>" \
-            "<th>Path A</th><th>Path B</th><th>Recommended</th><th>Decision</th><th>Ref</th></tr>"
-    SG_REF = {
-        "SG-01": "https://github.com/wingbangboozle1-lang/NBA3",
-        "SG-02": "https://www.nba.com/teams",
-        "SG-03": "https://www.nba.com/stats/team/1610612739/traditional",
-        "SG-04": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
-        "SG-05": "https://www.nba.com/schedule",
-        "SG-06": "https://github.com/wingbangboozle1-lang/NBA3",
-        "SG-07": "https://www.nba.com/games",
-        "SG-08": "https://github.com/wingbangboozle1-lang/NBA3",
-    }
-    for s in questions["suggestions"]:
-        paths = {p["path"]: p for p in s["paths_considered"]}
-        a = paths.get("A")
-        b = paths.get("B")
-        ref = SG_REF.get(s["id"])
-        body += (f'<tr><td><code>{esc(s["id"])}</code></td><td><b>{esc(s["title"])}</b></td>'
-                 f'<td><span class="badge b-prov">{esc(s["status"])}</span></td>'
-                 f'<td style="font-size:12.5px"><b>{esc(a["label"]) if a else "—"}</b><br>'
-                 f'<span style="color:var(--mut)">+ {esc(a["pros"]) if a else ""} · − {esc(a["cons"]) if a else ""}</span></td>'
-                 f'<td style="font-size:12.5px"><b>{esc(b["label"]) if b else "—"}</b><br>'
-                 f'<span style="color:var(--mut)">+ {esc(b["pros"]) if b else ""} · − {esc(b["cons"]) if b else ""}</span></td>'
-                 f'<td>{esc(s["recommended_path"])}</td>'
-                 f'<td><span class="badge b-bad">AWAITING REVIEW</span></td>'
-                 f'<td class="src">{src(ref) if ref else ""}</td></tr>')
-    body += "</table></div>"
-    body += "<h3>Process for reviewers</h3><ul class='compact'>" \
-            "<li>Read the two paths and the recommendation.</li>" \
-            "<li>Record the choice in <code>data/questions.json → suggestions[].decision</code> " \
-            "(or reply in the PR) — <b>that</b> authorizes implementation.</li>" \
-            "<li>Implementation happens in a follow-up change referencing the suggestion ID.</li></ul>"
-    page("suggestions.html", "Suggestions", body, "suggestions.html")
+    # ---------- Injuries ----------
+    rows = []
+    attr_chip = {"R": chip("R · printed", "ok"), "S": chip("S · via schedule", "unverified"), "U": chip("U · blank", "blocker"), "T": chip("T · team row", "neutral")}
+    for r in inj:
+        matchup = esc(r["matchup"]) if r["matchup"] else '<span class="flag">blank</span>'
+        team = esc(r["team"]) if r["team"] else '<span class="flag">blank</span>'
+        player = esc(r["player"]) if r["player"] else '<span class="muted">— (team row)</span>'
+        rows.append([
+            esc(r["id"]), esc(r["game_date"]), esc(r["game_time_et"]) or '<span class="muted">—</span>', matchup, team,
+            player, esc(r["status_as_printed"]), esc(r["reason_as_printed"]) or '<span class="muted">—</span>',
+            attr_chip.get(r["attribution"], esc(r["attribution"])), esc(r["flag"]) or '<span class="muted">—</span>',
+            link(r["report_source"], "S04 PDF"),
+        ])
+    body = f"""
+<section class="card">
+<h1>Injury tracker — official report 11/13/26 5:00 PM</h1>
+<p class="lede">Every player row printed in the official report, transcribed as printed. Source: {link(inj[0]['report_source'], 'Injury Report PDF, 11/13/26 05:00 PM')}. Index: {link(S['S02']['url'], 'NBA Official injury report 2026-27')}.</p>
+{banner_research()}
+<div class="banner warn"><b>What this does not show.</b> The report has no minutes or production fields, so no effect on rotation minutes is estimated (7C-F-05). Blank cells are values the PDF text did not attribute (7C-F-08). Reports are updated through the day (S02); this is a single snapshot.</div>
+<h3>Attribution key</h3>
+<ul class="tight">
+<li><b>R</b>: team and matchup printed in the same row or block.</li>
+<li><b>S</b>: team printed; matchup linked to the official schedule pairing (S05). Confirm in the PDF.</li>
+<li><b>U</b>: team and matchup not extracted from the PDF text. Left blank.</li>
+<li><b>T</b>: team-level row printed as "NOT YET SUBMITTED".</li>
+</ul>
+<p class="muted">Counts: {len(inj)} rows · {n_u} unattributed · {n_s} schedule-linked · {n_nys} team rows not yet submitted.</p>
+{table(["ID", "Date", "Time (ET)", "Matchup", "Team", "Player (as printed)", "Status", "Reason (as printed)", "Attribution", "Flag", "Source"], rows, "injuries", True)}
+</section>
+"""
+    out["injuries.html"] = ("Injury tracker", body, "Official 11/13/26 5:00 PM NBA injury report, transcribed.")
 
-    # ---------------- sources ----------------
-    body = "<h2>Source registry</h2>\n"
-    body += ('<div class="note">Every source below was fetched during this session. '
-             'Dead/blocked endpoints are recorded too so nobody retries them.</div>')
-    body += "<div class='scroll'><table><tr><th>ID</th><th>Title</th><th>Publisher</th>" \
-            "<th>Fetched</th><th>Used for</th><th>Link</th></tr>"
-    for s in sources["sources"]:
-        surl = src(s["url"])
-        note_html = ""
-        if s.get("notes"):
-            note_html = '<br><span style="color:var(--mut);font-size:12px">' + esc(s["notes"]) + "</span>"
-        body += (f'<tr><td><code>{esc(s["id"])}</code></td><td><b>{esc(s["title"])}</b>{note_html}</td>'
-                 f'<td>{esc(s["publisher"])}</td><td>{esc(s["fetched_at"])}</td>'
-                 f'<td style="font-size:12.5px">{esc(", ".join(s.get("used_for", [])))}</td>'
-                 f'<td class="src">{surl}</td></tr>')
-    body += "</table></div>"
-    body += "<h3>Dead ends (do not retry)</h3><div class='scroll'><table>" \
-            "<tr><th>URL</th><th>Result</th><th>Action taken</th></tr>"
-    for d in sources["blocked_or_dead_sources"]:
-        body += (f'<tr><td style="font-size:12px">{esc(d["url"])}</td>'
-                 f'<td><span class="badge b-bad">{esc(d["result"])}</span></td>'
-                 f'<td style="font-size:12.5px">{esc(d["action"])}</td></tr>')
-    body += "</table></div>"
-    page("sources.html", "Sources", body, "sources.html")
+    # ---------- Game flow ----------
+    gf = game_flow_rows(d)
+    rows = []
+    for g in gf:
+        status_cell = (chip("NOT YET SUBMITTED", "neutral") if g["not_submitted"] else "")
+        if g["rows"] == 0:
+            status_cell += ' <span class="muted">no player rows for this team in the report</span>'
+        rows.append([
+            esc(g["game_no"]), esc(g["date"]), esc(g["matchup"]), esc(g["team"]),
+            f'<span class="num">{g["out"]}</span>', f'<span class="num">{g["q"]}</span>',
+            f'<span class="num">{g["prob"]}</span>', f'<span class="num">{g["avail"]}</span>', f'<span class="num">{g["rows"]}</span>',
+            status_cell or '<span class="muted">—</span>',
+            f'<span class="flag">not estimated</span>', f'<span class="flag">not estimated</span>',
+            link(sched["source_url"], "S05") + " · " + link(inj[0]["report_source"], "S04"),
+        ])
+    body = f"""
+<section class="card">
+<h1>Game flow and injury impact (11/13–11/14)</h1>
+<p class="lede">Counts below come only from attributed rows of the official 11/13 5:00 PM report (attribution R or S). Unattributed rows (U) are excluded and noted. Games on 11/15–11/16 have no report in this snapshot.</p>
+{banner_research()}
+<div class="banner warn"><b>Game-flow analysis is not built.</b> Pace, possessions, scoring model, lineup and minutes data are not verified (7C-F-04, 7C-F-05). The two rightmost columns stay blank until authorized data exists. Counts are facts about the report, not impact estimates.</div>
+{table(["Game #", "Date", "Matchup (schedule order)", "Team", "Out", "Questionable / Doubtful", "Probable", "Available", "Rows", "Team status", "Rotation minutes effect", "Production effect", "Sources"], rows, "gameflow", True)}
+<h3>Unattributed rows excluded</h3>
+<p class="muted">{n_u} rows (U) carry no team or matchup text in the PDF extraction. They are on the Injury tracker, left blank, and not assigned to any game here.</p>
+</section>
+"""
+    out["game-flow.html"] = ("Game flow", body, "Team status counts from the official 11/13 injury report.")
 
-    print(f"Built {len(NAV)} pages into docs/")
+    # ---------- Strategies ----------
+    rows = []
+    for s in d["strategies"]:
+        off = link(s["official"], "official source") if s["official"] else '<span class="flag">UNVERIFIED — none</span>'
+        kind = "blocker" if "Blocked" in s["status"] else "unverified"
+        rows.append([
+            esc(s["id"]), esc(s["cat"]), esc(s["name"]), esc(s["hyp"]), esc(s["inputs"]),
+            off, chip(s["status"], kind),
+            '<span class="flag">blank (unmeasured)</span>', '<span class="flag">blank</span>', '<span class="flag">blank</span>',
+        ])
+    body = f"""
+<section class="card">
+<h1>Strategy research</h1>
+<p class="lede">Candidate strategies for single bets, player props, parlays, and combos, plus injury and context signals. These are hypotheses to test. None has passed a gate, and none is a claimed edge.</p>
+{banner_research()}
+<h2>Candidates</h2>
+{table(["ID", "Type", "Strategy", "Hypothesis", "Inputs needed", "Official source for inputs", "Gate status", "Correlation", "ROI", "CLV / calibration"], rows, "strategies", True)}
+<h2>Leaderboard rules (proposal only)</h2>
+<p>Pre-registration is proposed as SG-04: a primary metric (for example Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with a bootstrap interval), a minimum sample, a horizon, and thresholds. Owner-set values are required before any evaluation. No thresholds are set here.</p>
+<h2>Parlay and combo policy</h2>
+<ul class="tight">
+<li>A parlay's probability is not the product of its legs unless independence is tested (G7).</li>
+<li>Same-game correlations are unmeasured. Blank by policy (7C-F-06).</li>
+<li>Player-prop combos need minutes data (7C-F-05) and price data (7C-F-03).</li>
+</ul>
+</section>
+"""
+    out["strategies.html"] = ("Strategies", body, "Candidate strategies and blocked status.")
+
+    # ---------- Validation ----------
+    rows = []
+    for g in d["gates"]:
+        rows.append([esc(g["id"]), esc(g["name"]), esc(g["crit"]), src_links(g["src"], S) if g["src"] else '<span class="flag">UNVERIFIED — methodology proposal, no official source</span>', chip(g["status"], "blocker" if "Blocked" in g["status"] else "unverified")])
+    body = f"""
+<section class="card">
+<h1>Validation gates and correlation</h1>
+<p class="lede">Each strategy must pass these gates in order before it can be ranked. None has been run. Thresholds are owner-set (SG-04).</p>
+{banner_research()}
+{table(["Gate", "Name", "Pass criterion (what must be shown)", "Official source", "Status"], rows, "gates", False)}
+<h2>Correlation values</h2>
+<p>No correlation values are published. Correlations between markets, players, or games are blank until measured out-of-sample with an interval and sample count (G7). Estimates are not filled in.</p>
+</section>
+"""
+    out["validation.html"] = ("Validation & correlation", body, "Validation gates and correlation policy.")
+
+    # ---------- Questions ----------
+    rows = []
+    for q in d["questions"]:
+        st = q["status"]
+        kind = "ok" if st.startswith("Answered") and "restricted" not in st and "no" not in st.lower() else ("blocker" if st.startswith("Answered — restricted") else "unverified")
+        if st == "Answered — no":
+            kind = "neutral"
+        rows.append([esc(q["id"]), esc(q["q"]), chip(st, kind), esc(q["known"]), esc(q["missing"]), esc(q["next"]), src_links(q["src"], S) if q["src"] else '<span class="flag">UNVERIFIED — none</span>'])
+    body = f"""
+<section class="card">
+<h1>Questions — what is known and what is missing</h1>
+<p class="lede">Each question is answered only from the sources listed. "Not answered" means the information is not in the repository and no official source provides it. Answers are not inferred.</p>
+{banner_research()}
+{table(["ID", "Question", "Status", "Known (sourced)", "Missing", "Next step", "Sources"], rows, "questions", True)}
+</section>
+"""
+    out["questions.html"] = ("Questions", body, "Questions, answers, and gaps.")
+
+    # ---------- Suggestions ----------
+    rows = []
+    for s in d["suggestions"]:
+        opts = "<br>".join(esc(o) for o in s["options"])
+        rows.append([esc(s["id"]), esc(str(s["priority"])), esc(s["suggestion"]), esc(s["why"]), esc(s["dependency"]), opts,
+                     src_links(s["src"], S) if s["src"] else '<span class="muted">none</span>',
+                     chip("Awaiting your selection", "neutral")])
+    body = f"""
+<section class="card">
+<h1>Suggestions — choose a path before anything changes</h1>
+<p class="lede">These are proposals. Nothing is implemented until you choose an option. To decide, reply with the ID and option (for example, "SG-01: A").</p>
+{banner_research()}
+{table(["ID", "Priority", "Suggestion", "Why", "Dependency", "Options", "Sources", "Decision"], rows, "suggestions", True)}
+<h2>Suggested review order</h2>
+<ol class="tight"><li>SG-01 (legal) and SG-02 (data rights): they gate everything else.</li><li>SG-03 and SG-04: provenance and pre-registration.</li><li>SG-05 and SG-06: scope the models after data is in place.</li><li>SG-07 to SG-10: site and governance.</li></ol>
+</section>
+"""
+    out["suggestions.html"] = ("Suggestions", body, "Suggestion queue for owner decisions.")
+
+    # ---------- Sources ----------
+    rows = []
+    for s in d["sources"]:
+        rows.append([f'<span id="{esc(s["id"])}">{esc(s["id"])}</span>', esc(s["title"]), esc(s["publisher"]), link(s["url"]), esc(s["retrieved"]), esc(s["result"]), esc(s["checked"]), esc(s["limit"])])
+    body = f"""
+<section class="card">
+<h1>Official sources</h1>
+<p class="lede">Every source used in this site, with the date checked, what was read, and what it does not support. A source marked FAILED or 'search snippet only' is not used as evidence.</p>
+{table(["ID", "Source", "Publisher", "Link", "Checked", "Result", "What it supports (as read)", "Limits"], rows, "sources", True)}
+</section>
+"""
+    out["sources.html"] = ("Sources", body, "Official source register with verification notes.")
+
+    # ---------- Repo review ----------
+    rows = []
+    for r in d["repo"]:
+        rows.append([esc(r["id"]), esc(r["item"]), esc(r["obs"]), link(r["src"], "source"), esc(r["status"])])
+    body = f"""
+<section class="card">
+<h1>Repository review</h1>
+<p class="lede">Findings from reviewing the repository, with the GitHub or API source for each. Irregularities are flagged for owner review (see <a href="flagged.html">Flagged for Review</a>).</p>
+{table(["ID", "Item", "Observation", "Source", "Status"], rows, "repo", True)}
+</section>
+"""
+    out["repo-review.html"] = ("Repo review", body, "Repository review with source links.")
+
+    # ---------- Flagged ----------
+    rows = []
+    kind_map = {"Blocker": "blocker", "Unverified": "unverified", "Irregularity": "irregular"}
+    for f in flags:
+        rows.append([esc(f["id"]), chip(f["type"], kind_map[f["type"]]), esc(f["item"]), esc(f["why"]), esc(f["action"]), src_links(f["sources"], S) if f["sources"] else '<span class="flag">none</span>'])
+    body = f"""
+<section class="card" id="flagged">
+<h1>Flagged for Review</h1>
+<p class="lede">Published for owner review after go-live. These items do not block the merge. Each has its source link where one exists. Request changes by ID.</p>
+<div class="banner warn"><b>Blockers:</b> 7C-F-01 (NBA Terms §9) and 7C-F-02 (Dutch licence) prevent the betting features from being built. 7C-F-03 blocks lines and picks. Everything else is unverified or an irregularity.</div>
+{table(["ID", "Type", "Item", "Why flagged", "Action / review", "Sources"], rows, "flags", True)}
+</section>
+"""
+    out["flagged.html"] = ("Flagged for Review", body, "Flagged for Review: blockers, unverified items, irregularities.")
+
+    return out
+
+
+def write_site(pages, site_dir):
+    os.makedirs(os.path.join(site_dir, "assets"), exist_ok=True)
+    os.makedirs(os.path.join(site_dir, "data"), exist_ok=True)
+    with open(os.path.join(site_dir, "assets", "site.css"), "w", encoding="utf-8") as f:
+        f.write(CSS.strip() + "\n")
+    with open(os.path.join(site_dir, "assets", "site.js"), "w", encoding="utf-8") as f:
+        f.write(JS.strip() + "\n")
+    for name, (title, body, desc) in pages.items():
+        with open(os.path.join(site_dir, name), "w", encoding="utf-8") as f:
+            f.write(page(name, title, body, desc))
+    # Downloadable copies of the data (JSON)
+    for fn in sorted(os.listdir(DATA)):
+        if fn.endswith(".json"):
+            with open(os.path.join(DATA, fn), encoding="utf-8") as src, open(os.path.join(site_dir, "data", fn), "w", encoding="utf-8") as dst:
+                dst.write(src.read())
+    with open(os.path.join(site_dir, ".nojekyll"), "w") as f:
+        f.write("")
+
+
+class LinkCheck(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.ids = set()
+        self.hrefs = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if "id" in a and a["id"]:
+            self.ids.add(a["id"])
+        if tag == "a" and a.get("href"):
+            self.hrefs.append(a["href"])
+        if tag in ("link", "script") and (a.get("href") or a.get("src")):
+            self.hrefs.append(a.get("href") or a.get("src"))
+
+
+def check_links(site_dir):
+    pages = {}
+    for fn in sorted(os.listdir(site_dir)):
+        if fn.endswith(".html"):
+            p = LinkCheck()
+            with open(os.path.join(site_dir, fn), encoding="utf-8") as f:
+                p.feed(f.read())
+            pages[fn] = p
+    n = 0
+    for fn, p in pages.items():
+        for h in p.hrefs:
+            n += 1
+            if h.startswith(("http://", "https://", "mailto:")):
+                continue
+            if h.startswith("#"):
+                if h[1:] and h[1:] not in p.ids:
+                    err(f"{fn}: broken in-page anchor {h}")
+                continue
+            target, _, frag = h.partition("#")
+            path = os.path.normpath(os.path.join(site_dir, target))
+            if not os.path.exists(path):
+                err(f"{fn}: broken link {h}")
+                continue
+            if frag and target.endswith(".html"):
+                tp = pages.get(os.path.basename(target))
+                if tp and frag not in tp.ids:
+                    err(f"{fn}: broken anchor {h}")
+    return n, len(pages)
+
+
+def main():
+    check_only = "--check" in sys.argv
+    d = load_all()
+    validate(d)
+    if ERRORS:
+        print("VALIDATION FAILED:")
+        for e in ERRORS:
+            print(" -", e)
+        sys.exit(1)
+    import tempfile
+    pages = render_pages(d)
+    target = tempfile.mkdtemp() if check_only else SITE
+    write_site(pages, target)
+    n, np_ = check_links(target)
+    if ERRORS:
+        print("LINK CHECK FAILED:")
+        for e in ERRORS:
+            print(" -", e)
+        sys.exit(1)
+    print(f"OK: validated {len(d['injuries'])} injury rows, {len(d['schedule']['games'])} games, {len(d['sources'])} sources; "
+          f"checked {n} links across {np_} pages.")
 
 
 if __name__ == "__main__":
-    build()
+    main()

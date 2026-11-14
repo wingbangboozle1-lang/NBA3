@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Questions | NBA3</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><script src="assets/nav.js"></script><main>
+<div class="crumb"><a href="../index.html">Overview</a> / Open Questions</div>
+<h1>Open questions — information needed before decisions</h1>
+<p class="sub">Decisions below cannot responsibly be made until the missing information exists. Nothing is inferred to fill gaps. Full text: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/open_questions.md" target="_blank" rel="noopener">docs/open_questions.md</a>.</p>
+<div id="q"></div>
+</main>
+<script src="assets/app.js"></script>
+<script>
+const QS=[
+ ["Q1","May we redistribute source data on a public site?","Source URLs + attribution","Legal review of NBA.com & Sports-Reference terms of use","Publishing data-heavy pages","https://www.nba.com/termsofuse"],
+ ["Q2","Is the STRAT1/STRAT2 edge real vs the market (not just vs our own line)?","ROI vs own line at assumed −110; permutation tests","Market odds feed (closing/opening lines) or daily manually recorded lines","Any real-money decision; CLV tracking",null],
+ ["Q3","Are picks for Nov 15–16 final?","Schedule; partial 11/14 injury submissions","Official injury reports (published day-before ~5 PM ET)","Final bet decisions on those dates","https://official.nba.com/"],
+ ["Q4","How much do injured players affect rotation minutes and production?","Official Out/Doubtful/Questionable lists","Player-level minutes, usage, on/off impact data","Quantitative injury adjustment; real props model","https://www.basketball-reference.com/leagues/NBA_2027_per_game.html"],
+ ["Q5","Do STRAT1/STRAT2 pass the ≥100-bet sample gate?","85 and 68 rated bets this season","Game-level history from earlier seasons (2025-26 etc.)","Promoting strategies to 'eligible'",null],
+ ["Q6","How should NBA Cup games be modeled?","31 Cup games flagged in the log","Evidence on Cup-specific rotation/motivation effects","Whether Cup games need an adjustment",null],
+ ["Q7","What is the bankroll, risk policy and jurisdiction?","Nothing on record","Owner's risk tolerance, bankroll, jurisdiction","Any staking plan or bet sizing",null],
+ ["Q8","When should picks be finalized relative to lineups?","Report timing (~5 PM ET day before)","Owner's decision deadline","Pick-release schedule",null],
+ ["Q9","Can the totals model be fixed? (currently fails gates)","RMSE 19.3 ≈ naive","Possessions/pace per team-game","STRAT3 eligibility",null],
+ ["Q10","Is this season's extreme variance real or noise?","174-game sample (blowouts 25.3%, home win 51.1%)","Longer window / prior seasons","Recalibration choices (slope, HCA)",null]];
+document.getElementById('q').appendChild(table([{h:'#'},{h:'Question / decision'},{h:'What we HAVE'},{h:'What we LACK'},{h:'Blocks'},{h:'Discovery link'}],
+ QS.map(q=>[td(q[0]),td('<b>'+q[1]+'</b>'),td(q[2]),td(q[3]),td(q[4]),td(q[5]?srcLink(q[5],'open source'):'—')]));
+</script></body></html>

@@ -1,0 +1,78 @@
+[
+ {
+  "id": "G0",
+  "name": "Legal and data rights",
+  "crit": "Written confirmation of the licence (NL) and data rights (NBA §9) for every input and output.",
+  "src": [
+   "S07",
+   "S09"
+  ],
+  "status": "Blocked (7C-F-01, 7C-F-02)"
+ },
+ {
+  "id": "G1",
+  "name": "Data provenance and completeness",
+  "crit": "Each input has a URL, retrieval time (UTC), hash, and missingness report.",
+  "src": [
+   "S02",
+   "S05"
+  ],
+  "status": "Partly met for official schedule/injury files; no provenance pipeline yet"
+ },
+ {
+  "id": "G2",
+  "name": "Leakage-free walk-forward backtest",
+  "crit": "Features use only information available at each prediction time.",
+  "src": [],
+  "status": "Not run (no data)"
+ },
+ {
+  "id": "G3",
+  "name": "Calibration against a baseline",
+  "crit": "Proper scoring rule (Brier or log loss) with interval, versus a no-vig market baseline.",
+  "src": [],
+  "status": "Not run"
+ },
+ {
+  "id": "G4",
+  "name": "Closing-line value against timestamped market",
+  "crit": "Price taken vs. closing price, if lawfully available.",
+  "src": [],
+  "status": "Not run (no odds)"
+ },
+ {
+  "id": "G5",
+  "name": "Net return after costs with bootstrap interval",
+  "crit": "ROI after vig, fees and limits, with an interval.",
+  "src": [],
+  "status": "Not run"
+ },
+ {
+  "id": "G6",
+  "name": "Prospective paper trial",
+  "crit": "Frozen model, pre-registered sample size, logged before games.",
+  "src": [],
+  "status": "Not run"
+ },
+ {
+  "id": "G7",
+  "name": "Correlation and parlay joint calibration",
+  "crit": "Measured joint probabilities versus the product of legs, with interval and sample count. Values blank until measured.",
+  "src": [],
+  "status": "Not run (no correlation data)"
+ },
+ {
+  "id": "G8",
+  "name": "Luck control across strategies",
+  "crit": "Multiple-testing correction across all strategies tested (threshold set by owner, SG-04).",
+  "src": [],
+  "status": "Not run"
+ },
+ {
+  "id": "G9",
+  "name": "Stability by season and segment",
+  "crit": "Results hold across seasons and segments (prop family, team, horizon).",
+  "src": [],
+  "status": "Not run"
+ }
+]
