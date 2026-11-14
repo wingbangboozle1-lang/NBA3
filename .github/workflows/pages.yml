@@ -47,6 +47,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Fail on unresolved git conflict markers (CR-8D-05)
+        run: |
+          if grep -rn '^<<<<<<<' --exclude-dir=.git . ; then
+            echo "::error::Unresolved git conflict markers found in the tree — resolve them before merging"
+            exit 1
+          fi
+          echo "No unresolved conflict markers."
       - name: Unit tests (statistics module, f879620b)
         run: python3 -m unittest tests/test_validate_gates.py
       - name: Data site checks (docs/ rows, sources, links)

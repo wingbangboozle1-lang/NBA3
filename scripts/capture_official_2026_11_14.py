@@ -220,7 +220,7 @@ INJ = [
         ("Adams, Steven", "Out", "Injury/Illness - Right Soleus Strain"),
         ("Capela, Clint", "Out", "Injury/Illness - Right Ankle Sprain"),
         ("Copeland, Quadir", "Out", "G League - Two-Way"),
-        ("Phillips, Julian", "Out", "Injury/Illness - Right Ankle Sprain"),
+        ("Phillips, Julian", "Out", "G League - Two-Way"),
         ("Smart, Marcus", "Out", "League Suspension"),
     ], "header"),
     ("2026-11-13", "09:30 (ET)", "GSW@SAS", "Golden State Warriors", [
@@ -248,7 +248,7 @@ INJ = [
         ("Karaban, Alex", "Out", "G League - On Assignment"),
         ("Mogbo, Jonathan", "Out", "G League - Two-Way"),
         ("Pedulla, Sean", "Out", "G League - Two-Way"),
-        ("Raynaud, Maxime", "Out", "Injury/Illness - Right Patella Sprain/Subluxation"),
+        ("Raynaud, Maxime", "Out", "Injury/Illness - Right Patella Subluxation"),
         ("Simmons, Ben", "Out", "Injury/Illness - Right Achilles Tendon Repair / Surgery"),
     ], "header"),
     ("2026-11-13", "10:30 (ET)", "OKC@LAC", "Oklahoma City Thunder", [
@@ -256,7 +256,7 @@ INJ = [
         ("Mitchell, Ajay", "Questionable", "Injury/Illness - Left Ankle Sprain"),
         ("Sorber, Thomas", "Out", "Injury/Illness - Right Knee Surgery"),
         ("Topic, Nikola", "Available", "-"),
-        ("Wallace, Cason", "Out", "Injury/Illness - Right Shoulder Surgery"),
+        ("Wallace, Cason", "Out", "Injury/Illness - Left Shoulder Surgery"),
         ("Williams, Jalen", "Out", "Injury/Illness - Left Ankle Surgery"),
         ("Williams, Jaylin", "Out", "Injury/Illness - Low Back Spasms"),
     ], "printed"),

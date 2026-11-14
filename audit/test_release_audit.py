@@ -41,14 +41,21 @@ class RowParserTests(unittest.TestCase):
         self.assertIn("UNVERIFIED", " ".join(rows[1]["text"]))
 
     def test_pages_staging_parser_surfaces_literal_merge_markers(self):
-        text = """      - name: Stage
-        run: |
-          cp index.html _pages/
-          cp -r dash _pages/dash
-<<<<<<< HEAD
-=======
->>>>>>> origin/main
-"""
+        # The marker text is built from variables so no source line begins with the
+        # literal `<<<<<<<` — that keeps the tree-wide conflict-marker CI guard
+        # (CR-8D-05) from tripping on this intentional fixture while still exercising
+        # the parser against markers at line start in the *simulated* workflow text.
+        open_marker = "<" * 7
+        close_marker = ">" * 7
+        text = (
+            "      - name: Stage\n"
+            "        run: |\n"
+            "          cp index.html _pages/\n"
+            "          cp -r dash _pages/dash\n"
+            f"{open_marker} HEAD\n"
+            "=======\n"
+            f"{close_marker} origin/main\n"
+        )
         sources, markers = _staged_sources(text)
         self.assertEqual(sources, ["index.html", "dash"])
         self.assertEqual(len(markers), 3)

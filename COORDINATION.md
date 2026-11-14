@@ -2434,3 +2434,107 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 | Pages | [Deployment run 43582308184](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582308184) **success**; `pages/builds/latest` status **`built`**, commit `10352c0`. |
 | Live check | Fetched `https://wingbangboozle1-lang.github.io/NBA3/?v=10352c0` and `/app/flagged.html?v=10352c0` on 2026-11-14. Root showed the current canonical dashboard (27 official games, 27 originated lines, 122 injury rows, 58 flagged items); flagged page rendered 58 sourced review items. |
 | Scope | `.github/workflows/pages.yml` and this coordination record only. No NBA data, source captures, model outputs, picks, canonical pages, or site artifacts were changed. F80-1 remains superseded by PR #52. |
+
+---
+
+---
+
+---
+
+## Session `arena/2ddb217c-nba3` (current) — independent re-verification & defect repair
+
+Session ID: `2ddb217c`. Branch is fixed by Arena to `arena/2ddb217c-nba3` (branched from
+`main` @ `57762d5`, the tip of `main`; shallow checkout). Role: **independent re-verification
+and defect-repair session**. Every earlier session's board section, site directory and PR history
+is preserved append-only. Nothing owned by another session is deleted; files touched are listed
+per task and the change is documented in the task log below.
+
+### Claim (committed before work began)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| V1 Independent line-by-line re-verification of the canonical dataset against official NBA sources | in progress | 2ddb217c | `data/app/*.json`, `final/data/*` (read-only verification) |
+| V2 Repair CR-8D-04: engine publishes `median_abs_gap` from pre-rounded gaps (1.77) vs full-precision 1.78 | in progress | 2ddb217c | `integrate/engine.py`, `data/integration/model.json`, `dash/**` (regenerated) |
+| V3 Add CI guard: fail the build on unresolved `<<<<<<<` conflict markers (CR-8D-05) | in progress | 2ddb217c | `.github/workflows/pages.yml` |
+| V4 Verify CR-94-04: 3 injury reason strings in the canonical 07:30 PM snapshot vs the official report | in progress | 2ddb217c | `data/app/official_injuries_2026-11-13_0730PM.json`, `data/app/canonical.json`, `app/injuries.html` |
+| V5 Re-run the full local check suite; confirm zero drift; PR → merge → Pages deploy verification | pending | 2ddb217c | full tree (verification only) + `COORDINATION.md`, `README.md` |
+
+### Environment facts confirmed at start
+
+- HEAD = `57762d5` = `main` = `origin/main` (this branch is at `main`'s tip; shallow clone).
+- No open PRs at claim time. GitHub Pages: `status: built`, source `main /`, live at
+  https://wingbangboozle1-lang.github.io/NBA3/ .
+- Bash network is restricted to github.com / npm / pypi; official NBA pages are reachable through
+  the fetch tool, so line-by-line verification is performed against live official pages, not only
+  stored snapshots.
+- Full local check suite baseline: every CI step passes **except** `audit36/check.py`, which
+  reports `recomputed engine claims disagree with the published engine_agreement block`
+  (CR-8D-04). All other suites (tests, canonical drift, lab, research, verify, edge, hub,
+  dashboard, integrate) are green with zero drift.
+
+### V1 — Independent line-by-line re-verification (2026-11-14, live official sources)
+
+Official pages read this session via the fetch tool (bash network is host-restricted): the live
+NBA schedule (chunks 0–2 of `https://www.nba.com/schedule?date=2026-11-14`, which renders the full
+Week 4 + Week 5 grid), and the team advanced-stats table
+(`https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season`, chunks 0–1).
+
+| Check | Method | Result |
+|---|---|---|
+| Slate (27 games, 11/14–11/17) | Every game transcribed from the live schedule page and compared on `(date, time_et, away, home, game_id)` | **27/27 match, 0 mismatches**; game-id sets identical |
+| Team advanced stats (30 teams × 8 fields) | All 240 fields transcribed from the live stats table and compared to `data/app/official_team_ratings_2026-11-14b.json` | **12 teams that did NOT play 11/13 match exactly (0 mismatches)**; the 18 teams that DID play 11/13 show ageing drift (GP/W/L/MIN/ratings advanced by one game). This is the documented "stored snapshot predates the 11/13 games" drift, not an error — confirmed by the same pattern audit36/check.py reports as `expected_drift_only`. |
+| Injury report (07:30 PM snapshot) | 3 reason strings re-read from the official PDF `Injury-Report_2026-11-13_07_30PM.pdf` | Confirmed the 3 CR-94-04 defects (see V4); all other 117 rows already verified 117/117 by `audit36/check.py` |
+
+Sources for manual review: schedule https://www.nba.com/schedule?date=2026-11-14 · advanced stats
+https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season · injury PDF
+https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf
+
+### V2 — Repair CR-8D-04 (engine publishes summary from pre-rounded gaps) — done
+
+`integrate/engine.py` computed `median_abs_gap`, `max_abs_gap` and the dispersion sds from per-row
+gaps/spreads that were **pre-rounded to 2 dp**. The full-precision median is 1.7769 → rounds to
+**1.78**; the pre-rounded median is 1.775 → rounds to **1.77** (banker's rounding on the boundary).
+The independent `audit36/check.py` recomputes at full precision and correctly flagged the published
+1.77 as a discrepancy. Fix: collect full-precision `gaps_fp` / `my_spreads_fp` / `their_spreads_fp`
+in the loop and compute the summary from them. Regenerated `data/integration/model.json`
+(`median_abs_gap` 1.77 → 1.78) and `dash/` (`dash/data/model.json`, `dash/reconciliation.html`).
+`audit36/check.py` now reports `ok: true`, `agree: true`. No side changed — the engines still agree
+on the favoured side in 22/22 games; only the published summary dispersion is now full-precision
+accurate.
+
+### V3 — CI conflict-marker guard (CR-8D-05) — done
+
+Added a build step to `.github/workflows/pages.yml` that fails if any line in the tree (excluding
+`.git`) starts with `<<<<<<<`. The guard immediately caught a **false positive**: an intentional test
+fixture in `audit/test_release_audit.py` embedded literal markers to test `_staged_sources`. Fixed the
+fixture to build the `<<<<<<<` line from a variable so it is at line start in the *simulated*
+workflow text but never at line start in the source file — the test's intent (assert 3 markers
+detected) is preserved, and the tree-wide guard is now clean. `audit/test_release_audit.py`: 7/7 tests
+pass.
+
+### V4 — Repair CR-94-04 (3 wrong injury reason strings in the 07:30 PM snapshot) — done
+
+Confirmed against the official PDF (chunk 0–1) that the canonical
+`data/app/official_injuries_2026-11-13_0730PM.json` carried 3 wrong `reason` values, and fixed them
+at the source in `scripts/capture_official_2026_11_14.py` (the rows are hardcoded transcriptions):
+
+| Player | Matchup | Wrong (07:30 PM snapshot) | Official PDF |
+|---|---|---|---|
+| Phillips, Julian | UTA@HOU | Injury/Illness - Right Ankle Sprain | **G League - Two-Way** |
+| Raynaud, Maxime | POR@SAC | Injury/Illness - Right Patella Sprain/Subluxation | **Injury/Illness - Right Patella Subluxation** |
+| Wallace, Cason | OKC@LAC | Injury/Illness - Right Shoulder Surgery | **Injury/Illness - Left Shoulder Surgery** |
+
+Note: the **published** `/app/injuries.html` is generated from the **07:45 PM** snapshot
+(`data/app/official_injuries_2026-11-13_0745PM.json`), which already carried the correct values — so
+the live site was never wrong. The defect was in the 07:30 PM snapshot and its capture script, both
+now repaired for data integrity. Cross-session note: these files were owned by the now-closed session
+`2b9f1ae1`/`8d3d0271`; CR-94-04 was a logged change request to that owner, which this integration
+session fulfills. `integrate/check`'s ownership audit flags the edit until committed; it clears on a
+clean tree.
+
+### V5 — Full suite, PR, merge, deploy — in progress
+
+All 19 local check suites pass; all generated-artifact drift checks are clean except the three
+intentional fixes above (engine, dash, 07:30 PM injuries), which are committed together. YAML of the
+workflow validated structurally. `audit36` pages regenerated (`engine-claims.html` now shows
+`agree: true`).
