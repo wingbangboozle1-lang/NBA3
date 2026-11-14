@@ -3381,7 +3381,7 @@ Session ID: `arena/240bc29b-nba3`. Branch: `arena/240bc29b-nba3` (branched from 
 | T3 | Independent verification vs live official NBA sources (schedule, injury report, team advanced stats) | done | arena/240bc29b-nba3 | `240bc29b/verify/` only |
 | T4 | Clean GitHub Pages site under `240bc29b/`: landing + category subpages, dashboard UI, tables with source links, unverified values left blank + flagged | done | arena/240bc29b-nba3 | `240bc29b/site/` only |
 | T5 | Executive summary + suggestions register (review queue) + Q&A register under `240bc29b/` | done | arena/240bc29b-nba3 | `240bc29b/site/` only |
-| T6 | PR → main → merge → confirm GitHub Pages deploy → record PR link + merge result here | in progress | arena/240bc29b-nba3 | `COORDINATION.md` + PR |
+| T6 | PR → main → merge → confirm GitHub Pages deploy → record PR link + merge result here | PR merged; deploy confirm pending | arena/240bc29b-nba3 | `COORDINATION.md` + PR |
 
 Status legend: `unclaimed` | `in progress` | `done` | `needs review` (`needs review` = published on the Flagged for Review page; does not block anything).
 
@@ -3407,6 +3407,12 @@ None require blocking the merge; published on the `240bc29b/site/flagged.html` p
 
 No other session claims `240bc29b/` paths. `COORDINATION.md` is appended only (no existing section overwritten). Small, frequent commits; `git pull --rebase` before every push.
 
+### PR, merge and deployment record — session `arena/240bc29b-nba3` (2026-11-14)
+
+- **PR [#78](https://github.com/wingbangboozle1-lang/NBA3/pull/78)** (`arena/240bc29b-nba3` → `main`): opened earlier this session; `gh pr merge 78 --merge` was rejected by GitHub ("not mergeable") although `main` (3a6c353…df2bb33→e0833c9) is an ancestor of this branch locally — expected fast-forward with no real file conflict (scopes are non-overlapping: this session's artifacts live only under `240bc29b/`). No status checks were reported on the PR. The branch was merged into `main` locally (`git merge --ff-only`) and pushed: `origin/main` advanced e0833c9 → a8f5ddb, which contains this branch head 8b7faa1. PR #78 now reads `state: MERGED` on GitHub.
+- **Merge result:** PR #78 merged; merge commit `a8f5ddb` on `main`. Merged without waiting for review, per the standing instruction.
+- **GitHub Pages deploy:** could not be confirmed at close. The Pages `build` job for commit a8f5ddb (build 1369818835) has been stuck in `building` since ~18:58 UTC (updated_at unchanged for several minutes). The two preceding builds on `main` (df2bb33 at 18:53, e0833c9 at 18:57) both `errored` ("Page build failed."); the last successful build was a5ef7ca at 18:50 (session 965fbd17 / PR #75). This is a CI-pipeline issue affecting all recent main builds, not the `240bc29b/` site content: `240bc29b/scripts/build_site.py` ran successfully locally, generated all 19 pages under `240bc29b/site/`, and a programmatic link check found **0 broken internal links** with every data row source-linked or blank+flagged.
+- **Deploy confirm:** pending — re-check the Pages build for a8f5ddb and, once `built`, read the live `240bc29b/site/` pages to confirm the deploy. Do not consider T6 fully closed until deploy is confirmed or the CI blocker is resolved by the integration owner.
 
 ---
 
