@@ -484,6 +484,17 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
 </tr>
 <tr>
+<td>CQ-50</td>
+<td>Scope</td>
+<td>Does &quot;up to three days in advance&quot; mean calendar dates, or a strict 72 hours from the moment the line is generated?</td>
+<td>Open - owner decision</td>
+<td>Known: the two definitions differ, and the published artefact already breaches the stricter one. data/picks/picks_2026-11-14_to_16.json was generated at 2026-11-14T00:49:56Z and its 2026-11-16 rows tip at 7:00-9:00 PM ET, i.e. 72.17 to 73.17 hours later. tools/release_audit.py reports those three rows as PICK_OUTSIDE_MAX_HORIZON (RA-04). The brief asks for three days; a 72-hour clock is stricter by up to a day for a late-evening generation run.</td>
+<td>Missing: which rule the product is held to, and therefore whether the pick generator should truncate a slate to the strict horizon (fewer rows, no violation) or whether the 72-hour audit is the wrong instrument for a date-based product.</td>
+<td>Either (a) keep calendar dates and have the audit measure calendar-day distance, or (b) keep the 72-hour rule and drop any row whose tip is beyond 72 hours at generation time. (b) is cheaper and matches the audit that already exists; (a) matches the brief&#x27;s wording.</td>
+<td>Owner</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tools/release_audit.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/tools/release_audit.py</a></td>
+</tr>
+<tr>
 <td>CQ-47</td>
 <td>Data ownership</td>
 <td>Which injury capture is canonical now that two exist, and does the site move to the newer 04:45 AM stamp?</td>

@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 85 items: 22 high, 51 medium, 12 low severity.
+<em>decisions</em>. 86 items: 22 high, 52 medium, 12 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -835,6 +835,17 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-95</td>
+<td>Horizon</td>
+<td>The repository&#x27;s own release audit reports 3 published picks outside the strict 72-hour horizon (RA-04), and it is right: data/picks/picks_2026-11-14_to_16.json was generated at 2026-11-14T00:49:56Z and its 11/16 rows tip 72.17 to 73.17 hours later. The product&#x27;s stated contract is &quot;up to three days in advance&quot;, which is a calendar-date contract, so the two rules disagree by up to a day for a late-evening run.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Not silently repaired. Truncating the rows would hide a genuine definitional conflict, and the audit is doing exactly what it was built to do. Raised as CQ-50 for an owner decision; until then both readings are published and neither is presented as compliant.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tools/release_audit.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/tools/release_audit.py</a></td>
 </tr>
 <tr>
 <td>44-F-01</td>

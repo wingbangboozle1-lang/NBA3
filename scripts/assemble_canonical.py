@@ -1101,6 +1101,26 @@ SESSION_FLAGS += [
 ]
 
 SESSION_QUESTIONS += [
+    ("CQ-50", "Scope", "Does \"up to three days in advance\" mean calendar dates, or a strict "
+     "72 hours from the moment the line is generated?", "Open - owner decision",
+     "Known: the two definitions differ, and the published artefact already breaches the stricter "
+     "one. data/picks/picks_2026-11-14_to_16.json was generated at 2026-11-14T00:49:56Z and its "
+     "2026-11-16 rows tip at 7:00-9:00 PM ET, i.e. 72.17 to 73.17 hours later. "
+     "tools/release_audit.py reports those three rows as PICK_OUTSIDE_MAX_HORIZON (RA-04). The "
+     "brief asks for three days; a 72-hour clock is stricter by up to a day for a late-evening "
+     "generation run.",
+     "Missing: which rule the product is held to, and therefore whether the pick generator should "
+     "truncate a slate to the strict horizon (fewer rows, no violation) or whether the 72-hour "
+     "audit is the wrong instrument for a date-based product.",
+     "Either (a) keep calendar dates and have the audit measure calendar-day distance, or (b) keep "
+     "the 72-hour rule and drop any row whose tip is beyond 72 hours at generation time. (b) is "
+     "cheaper and matches the audit that already exists; (a) matches the brief's wording.",
+     ["https://www.nba.com/schedule?date=2026-11-14",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/tools/release_audit.py"],
+     "Owner"),
+]
+
+SESSION_QUESTIONS += [
     ("CQ-47", "Data ownership",
      "Which injury capture is canonical now that two exist, and does the site move to the newer "
      "04:45 AM stamp?",
@@ -1374,6 +1394,17 @@ SESSION_FLAGS += [
      "the Atlanta Hawks' own trailing row on 11/15, so ATL is not listed on the 11/15 report at "
      "all — the 11/15 coverage is 8 of 9 games in the printed rows plus this one merged line.",
      ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"]),
+    ("NF-95", "Horizon", "medium",
+     "The repository's own release audit reports 3 published picks outside the strict 72-hour "
+     "horizon (RA-04), and it is right: data/picks/picks_2026-11-14_to_16.json was generated at "
+     "2026-11-14T00:49:56Z and its 11/16 rows tip 72.17 to 73.17 hours later. The product's stated "
+     "contract is \"up to three days in advance\", which is a calendar-date contract, so the two "
+     "rules disagree by up to a day for a late-evening run.",
+     "Not silently repaired. Truncating the rows would hide a genuine definitional conflict, and "
+     "the audit is doing exactly what it was built to do. Raised as CQ-50 for an owner decision; "
+     "until then both readings are published and neither is presented as compliant.",
+     ["https://www.nba.com/schedule?date=2026-11-14",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/tools/release_audit.py"]),
 ]
 
 SESSION_QUESTIONS += [
