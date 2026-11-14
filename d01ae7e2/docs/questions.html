@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Questions · NBA3 Research</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--txt:#e6edf3;--mut:#9da7b3;
+--acc:#4da3ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;--prov:#a371f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 22px;
+position:sticky;top:0;z-index:9}
+header h1{margin:0;font-size:18px;display:inline-block}
+header .tag{color:var(--mut);font-size:12px;margin-left:10px}
+nav{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
+nav a{padding:5px 11px;border-radius:6px;color:var(--txt);font-size:13px}
+nav a:hover{background:#21262d;text-decoration:none}
+nav a.on{background:var(--acc);color:#04121f;font-weight:600}
+main{max-width:1240px;margin:0 auto;padding:22px}
+h2{font-size:20px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-top:34px}
+h3{font-size:16px;margin-top:26px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card .n{font-size:26px;font-weight:700}
+.card .l{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+.badge{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:600;
+border:1px solid transparent;white-space:nowrap}
+.b-rel{background:rgba(63,185,80,.15);color:var(--good);border-color:rgba(63,185,80,.4)}
+.b-prov{background:rgba(163,113,247,.15);color:var(--prov);border-color:rgba(163,113,247,.4)}
+.b-flag{background:rgba(210,153,34,.15);color:var(--warn);border-color:rgba(210,153,34,.45)}
+.b-off{background:rgba(77,163,255,.13);color:var(--acc);border-color:rgba(77,163,255,.4)}
+.b-bad{background:rgba(248,81,73,.13);color:var(--bad);border-color:rgba(248,81,73,.4)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;
+background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#21262d;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);
+position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.src{font-size:11.5px;white-space:nowrap}
+.src a{margin-right:6px}
+.note{background:var(--card);border-left:3px solid var(--acc);padding:10px 14px;
+border-radius:0 8px 8px 0;margin:14px 0;font-size:14px;color:var(--mut)}
+.note.warn{border-left-color:var(--warn)}
+.note.prov{border-left-color:var(--prov)}
+code{background:#21262d;padding:1px 6px;border-radius:5px;font-size:13px}
+footer{color:var(--mut);font-size:12.5px;padding:26px 0;text-align:center;border-top:1px solid var(--line);margin-top:40px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto}
+ul.compact{margin:6px 0;padding-left:20px}
+ul.compact li{margin:3px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>NBA3 · Line-Origination &amp; Betting Strategy Research</h1>
+  <span class="tag">Official NBA sources only · data cut 2026-11-13 (data cut 18:28 ET / 23:30 UTC) · every row source-linked · blanks are flagged, never inferred</span>
+  <nav><a href="index.html" class="">Dashboard</a>
+<a href="slate.html" class="">Slate &amp; Picks</a>
+<a href="strategies.html" class="">Strategies &amp; Gates</a>
+<a href="leaderboard.html" class="">Leaderboard</a>
+<a href="injury-impact.html" class="">Injury Impact</a>
+<a href="game-flow.html" class="">Game Flow</a>
+<a href="analysis.html" class="">Analysis</a>
+<a href="repo-review.html" class="">Repo Review</a>
+<a href="flagged.html" class="">Flagged</a>
+<a href="questions.html" class="on">Questions</a>
+<a href="suggestions.html" class="">Suggestions</a>
+<a href="sources.html" class="">Sources</a></nav>
+</header>
+<main>
+<h2>Open questions — what must be answered before decisions</h2>
+<div class="note">Each question lists what we have, what we lack, and exactly what is needed. Nothing gated by an open question has been decided.</div><div class='scroll'><table><tr><th>ID</th><th>Question</th><th>Why it matters</th><th>We have</th><th>We lack</th><th>Needed to decide</th><th>Answer</th><th>Ref</th></tr><tr><td><code>Q-01</code></td><td><b>Which injury report will cover 11/14&#x27;s NOT YET SUBMITTED teams, and when does it post?</b></td><td style="font-size:12.5px">G4 freshness gate blocks scored picks for 7 of 10 teams on the 11/14 slate. Until a report exists, those picks stay PROVISIONAL.</td><td style="font-size:12.5px">Official reports exist at ak-static.cms.nba.com/referee/injury/ with a stable filename pattern; today&#x27;s stamps were 01:00/01:15/04:15/05:00 PM ET.</td><td style="font-size:12.5px">The 11/14-submission report itself (not yet published at data cut) and a reliable cadence (observed times differ from documented 1:30/5:30/8:30 — see fl-05).</td><td style="font-size:12.5px">A re-run trigger: watch for Injury-Report_2026-11-14_*.pdf and regenerate 11/14 picks against it.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>Q-02</code></td><td><b>Do we fetch the remaining team rosters (CHI, HOU, POR, MIA, DAL, BKN, DET, ATL, NOP remaining players) to complete season PPGs for every OUT player?</b></td><td style="font-size:12.5px">13 injury rows have season_ppg = null (fl-13). Production-at-risk totals for those teams are under-counted; injury impact analysis rows are marked INCOMPLETE.</td><td style="font-size:12.5px">Confirmed roster endpoints render season PPG for GSW, IND, ORL, MIL, CLE, MEM, NOP, UTA, SAS, OKC, LAC, SAC, POR (partial), HOU (no stats view).</td><td style="font-size:12.5px">PPG rows for the null entries.</td><td style="font-size:12.5px">Reviewer approves one more collection pass (~8 roster fetches) before injury analysis is declared complete.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://www.nba.com/teams" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>Q-03</code></td><td><b>What home-court advantage constant should the line-origination model use?</b></td><td style="font-size:12.5px">HCA directly shifts every originated spread/total. Current value (2.5 pts) is a flagged assumption (hca-01); only 5 teams&#x27; location splits were captured and they show no stable signal.</td><td style="font-size:12.5px">Official Home/Road split rows for WAS, IND, MIL, ORL, CLE (both records and PTS by location).</td><td style="font-size:12.5px">League-wide home win% or home point-differential across all 30 teams (standings page JS-only, fl-03).</td><td style="font-size:12.5px">Either (a) a collection pass over 30 team location splits to compute league HCA from official data, or (b) explicit reviewer sign-off on the 2.5-pt assumption for v1.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://www.nba.com/stats/team/1610612739/traditional" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>Q-04</code></td><td><b>Is there an official/authorized market-odds source we may use for closing-line-value (CLV) validation?</b></td><td style="font-size:12.5px">CLV is the standard anti-luck gate for betting skill. Without it, S1-S4 validation relies only on win-rate confidence intervals over settled paper picks (slower to distinguish skill from luck).</td><td style="font-size:12.5px">nba.com/schedule exposes an odds toggle but values are client-rendered only (fl-16).</td><td style="font-size:12.5px">Any odds feed from an NBA-official or explicitly authorized source.</td><td style="font-size:12.5px">Reviewer names an authorized source (or accepts CLV-blocked validation design).</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://www.nba.com/schedule" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>Q-05</code></td><td><b>What does the schedule PDF &#x27;R&#x27; flag mean?</b></td><td style="font-size:12.5px">Game 40 (GSW@SAS 11/13) carries it; if it indicates a special circumstance (e.g., restricted/rest-related note) it could matter to picks. Not in the official legend (fl-04).</td><td style="font-size:12.5px">Legend defines C, A, B, D, E only; R appears on rows 27, 40, 50.</td><td style="font-size:12.5px">Definition.</td><td style="font-size:12.5px">Ask source owner or find a legend page that defines R; until then do not act on it.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener">cdn.nba.com</a></td></tr><tr><td><code>Q-06</code></td><td><b>Should player-prop strategies use Pinnacle-style median baselines instead of season PPG?</b></td><td style="font-size:12.5px">S3 currently sets prop lines from season PPG (official, verifiable). Sharper prop lines need shot/distribution data we have not collected.</td><td style="font-size:12.5px">Season PPG + last-5 logs from official player pages for 8 key players.</td><td style="font-size:12.5px">Full-season game logs (gamelog endpoint returns &#x27;No data available&#x27; server-side).</td><td style="font-size:12.5px">Reviewer chooses: stay on PPG baselines (current) or authorize a game-log collection design.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://www.nba.com/player/1628973/jalen-brunson" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>Q-07</code></td><td><b>Which license should this repository carry?</b></td><td style="font-size:12.5px">fl-01: repo has no LICENSE. Reuse/derivative terms are undefined.</td><td style="font-size:12.5px">Nothing yet.</td><td style="font-size:12.5px">A decision.</td><td style="font-size:12.5px">Reviewer picks (MIT / Apache-2.0 / none). Not added autonomously.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com</a></td></tr><tr><td><code>Q-08</code></td><td><b>Should CI (.github/workflows) run scripts/verify.py on every push/PR?</b></td><td style="font-size:12.5px">Keeps every future row source-linked automatically; currently verification is manual (run locally).</td><td style="font-size:12.5px">scripts/verify.py that performs schema + source-link + blank/flag consistency checks offline.</td><td style="font-size:12.5px">A workflow file — deliberately not added because repo tooling changes are queued as suggestions requiring review (per brief: reviewer chooses path before implementation).</td><td style="font-size:12.5px">Reviewer approves CI addition (suggestion SG-01).</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com</a></td></tr><tr><td><code>Q-09</code></td><td><b>What stake-sizing policy does the reviewer want for the leaderboard rewards?</b></td><td style="font-size:12.5px">Rewards currently scale paper units 2x/1x by rank with a 2% cap. Real-money guidance is out of scope; if the leaderboard should stay purely points-based, the unit scaling can be dropped.</td><td style="font-size:12.5px">Current rules in data/strategies.json leaderboard block.</td><td style="font-size:12.5px">Reviewer preference.</td><td style="font-size:12.5px">Reviewer confirms points-only vs unit-scaling paper book.</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com</a></td></tr><tr><td><code>Q-10</code></td><td><b>For 11/15-16 slate rows, do we publish provisional lines before injury reports exist?</b></td><td style="font-size:12.5px">The brief requires auto-generated picks up to 3 days ahead with no manual input. Publishing provisional lines satisfies that; scoring them would violate freshness gate G4.</td><td style="font-size:12.5px">Full team strength + rest inputs for all 31 games; injury inputs blank for 13 games (fl-06).</td><td style="font-size:12.5px">Injury reports for 11/15-16 (not yet published anywhere official).</td><td style="font-size:12.5px">Confirm design: publish PROVISIONAL lines + picks now, auto-refresh on report publication, never score provisional rows.</td><td style="font-size:12.5px"><span class="badge b-rel">ANSWERED</span> Design confirmed in PICKS_PIPELINE.md: provisional rows are generated, labelled, and excluded from scoring until G4 passes.</td><td class="src"><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td><code>Q-11</code></td><td><b>Do completed-game results need to be ingested daily to grade settled picks?</b></td><td style="font-size:12.5px">Leaderboard rewards and all CI gates require settled results (final scores). Today&#x27;s slate results start arriving ~19:15 ET.</td><td style="font-size:12.5px">Official game summary pages with linescores (e.g., CLE 115-107 NYK on 11/11 verified).</td><td style="font-size:12.5px">An automated grading step (out of scope for this session; grading begins once results exist).</td><td style="font-size:12.5px">Schedule a grading run after each slate completes; script hook documented in PICKS_PIPELINE.md.</td><td style="font-size:12.5px"><span class="badge b-rel">ANSWERED</span> Grading hook documented: scripts/grade_picks.py (design in PICKS_PIPELINE.md; implemented in a later session).</td><td class="src"><a class="src" href="https://www.nba.com/games" target="_blank" rel="noopener">nba.com</a></td></tr><tr><td><code>Q-12</code></td><td><b>Correlation sample sizes are n=5 (teammate PTS) — acceptable for v1 gates?</b></td><td style="font-size:12.5px">S2/S3 gates require measured rho with n&gt;=5. n=5 correlations are noisy; rho values are published with sample size and confidence caveat but may still pass G2_corr_measured.</td><td style="font-size:12.5px">Official Last-5 logs for Brunson, Towns, SGA, Wemby, Giannis, Morant, Sengun, Trae.</td><td style="font-size:12.5px">Season-long game logs (gamelog endpoint dead, fl-12 family).</td><td style="font-size:12.5px">Reviewer accepts n=5 rho for v1 or raises the gate to n&gt;=10 (which blocks all current parlays/stacks).</td><td style="font-size:12.5px"><span class="badge b-bad">UNANSWERED</span></td><td class="src"><a class="src" href="https://www.nba.com/player/1628973/jalen-brunson" target="_blank" rel="noopener">nba.com</a></td></tr></table></div><p class="src">Related: <a href="flagged.html">Flagged</a> · <a href="questions.html#sug">Suggestions queue ↓</a></p>
+<footer>Generated by <code>d01ae7e2/scripts/build_site.py</code> from <code>d01ae7e2/data/*.json</code> · Verify: <code>python3 d01ae7e2/scripts/verify.py</code> ·
+All statistics © NBA (via official NBA sources) · Research/paper-trading only — not betting advice.</footer>
+</main>
+</body>
+</html>

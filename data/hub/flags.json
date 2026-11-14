@@ -1,0 +1,218 @@
+[
+ {
+  "id": "F-01",
+  "severity": "blocker",
+  "area": "licensing",
+  "item": "No licensed odds or price feed exists in this repository",
+  "detail": "Every published line is originated by this project. Nothing has been compared against a bookmaker's price, so no return-on-stake, no market edge and no de-vigged market probability can be computed.",
+  "action": "Decide whether a licensed feed is connected, or whether the project stays a paper/origination research system.",
+  "source": "S18"
+ },
+ {
+  "id": "F-02",
+  "severity": "blocker",
+  "area": "legal",
+  "item": "NBA Terms of Use section 9 restricts gambling use of NBA Statistics and data",
+  "detail": "The model is built on nba.com statistics and official NBA injury reports. Commercial or wagering use of that data is restricted by the NBA's own terms.",
+  "action": "Obtain legal review before any public, commercial or wagering use. This dashboard is research output only.",
+  "source": "S10"
+ },
+ {
+  "id": "F-03",
+  "severity": "blocker",
+  "area": "legal",
+  "item": "Dutch rules for offering online sports betting",
+  "detail": "Article 31a of the Betting and Gaming Act requires a Koa licence to offer online sports betting to residents of the Netherlands. Nothing in this repository constitutes a licensed offer.",
+  "action": "Legal review before publishing picks to end users. Owner decision required.",
+  "source": "S11"
+ },
+ {
+  "id": "F-04",
+  "severity": "high",
+  "area": "validation",
+  "item": "No strategy passes every validation gate",
+  "detail": "0 of 8 strategies pass all seven gates. The two strongest (S5 fade totals of 235+, S4b back road favourites of 8+) rest on 24 and 28 observations and are under-powered rather than disproven.",
+  "action": "Treat every strategy as a research candidate. Do not deploy on the strength of the leaderboard.",
+  "source": "S18"
+ },
+ {
+  "id": "F-05",
+  "severity": "high",
+  "area": "correlation",
+  "item": "Player-level correlations cannot be measured",
+  "detail": "Per-player game logs were never captured, so player points-vs-points, points-vs-rebounds and points-vs-assists correlations for same-game player props are left blank. They are the correlations that decide same-game player-prop parlays.",
+  "action": "Capture per-player game logs (nba.com/stats) to enable player-prop correlation work and SGP combo sizing.",
+  "source": "S09"
+ },
+ {
+  "id": "F-06",
+  "severity": "high",
+  "area": "availability",
+  "item": "No injury report exists yet for the 11/15 and 11/16 games",
+  "detail": "The NBA index publishes reports only for games whose report window has opened. As of 2026-11-14 the newest report is the 11/13 07:30 PM file, which covers the 11/13 slate and the five 11/14 games. Availability for the 17 games on 11/15 and 11/16 is unknown and is left blank.",
+  "action": "Re-run the pipeline on each report release. Until then, availability for those games is blank by policy.",
+  "source": "S01"
+ },
+ {
+  "id": "F-07",
+  "severity": "high",
+  "area": "availability",
+  "item": "Five team-games had not submitted a report at 07:30 PM on 11/13",
+  "detail": "New Orleans (vs DEN), Cleveland (vs DAL), Memphis (vs BKN), Chicago (vs MIN) and Miami (vs DET) show the printed status NOT YET SUBMITTED. No availability or minutes effect can be stated for them.",
+  "action": "Re-read those teams' rows from the next published report.",
+  "source": "S02"
+ },
+ {
+  "id": "F-08",
+  "severity": "medium",
+  "area": "availability",
+  "item": "Minutes-at-risk is only quantified for players inside the captured minutes set",
+  "detail": "Season minutes per game were captured for the top 31 players per team. A player outside that set has a blank minutes-at-risk cell and an explicit UNVERIFIED note, rather than an estimate.",
+  "action": "Widen the minutes capture to the full rotation of every team to remove the blanks.",
+  "source": "S09"
+ },
+ {
+  "id": "F-09",
+  "severity": "low",
+  "area": "transcription",
+  "item": "One injury reason string was split by a page break in the PDF extraction",
+  "detail": "Sacramento Kings forward Maxime Raynaud's reason reads 'Right Patella Sprain/Subluxation'; the extracted PDF text lost the middle segment 'rain/Subl' between chunks. The wording is corroborated by the 11/13 05:00 PM report ('Right Patella Subluxation').",
+  "action": "Re-check against the next published report to confirm the exact wording.",
+  "source": "S03"
+ },
+ {
+  "id": "F-10",
+  "severity": "high",
+  "area": "model",
+  "item": "The totals model is worse than its baseline",
+  "detail": "Walk-forward RMSE for the total is 20.35 against a 19.56 baseline (league-average total). The margin model improves on its baseline (16.18 vs 17.30). The totals side of the book is not usable.",
+  "action": "Rebuild the totals model, or restrict the system to sides until it beats baseline.",
+  "source": "S18"
+ },
+ {
+  "id": "F-11",
+  "severity": "medium",
+  "area": "consistency",
+  "item": "Three snapshots of the same injury report are published in different trees",
+  "detail": "The /site/ tree carries the 11/13 05:00 PM report (117 rows, 18 of them unattributed); the origin engine's minutes-at-risk analysis used the 11/13 05:15 PM report; this dashboard carries the newer 11/13 07:30 PM report (117 player rows fully attributed plus 5 team rows). 12 statuses changed between 05:00 PM and 07:30 PM, and three team-games on 11/14 changed between 05:15 PM and 07:30 PM.",
+  "action": "Owner picks one snapshot per slate and the other trees are regenerated or retired. This dashboard uses the newest report.",
+  "source": "S02"
+ },
+ {
+  "id": "F-12",
+  "severity": "medium",
+  "area": "repository",
+  "item": "Seven parallel site trees with different identifier namespaces",
+  "detail": "/, /docs/, /site/, /lab/, /research/, /edge/ and /origin/ were produced by seven sequential sessions and use incompatible ID namespaces (7C-F-xx, F-xx, F01-xx, IR-xx, Q-xx, S1x, S0x, ...). The same subject can carry different numbers in different trees.",
+  "action": "This dashboard is the consolidation; decide whether to retire the older trees to avoid conflicting numbers.",
+  "source": "S18"
+ },
+ {
+  "id": "F-13",
+  "severity": "low",
+  "area": "repository",
+  "item": "requirements.txt pins a dependency that nothing imports",
+  "detail": "requirements.txt lists requests==2.31.0, but every generator in the repository is standard-library only (Python 3.11+).",
+  "action": "Delete the pin or document why it is kept.",
+  "source": "S18"
+ },
+ {
+  "id": "F-14",
+  "severity": "low",
+  "area": "repository",
+  "item": "No LICENSE file",
+  "detail": "The repository has no licence, so reuse rights are undefined for a project that publishes derived NBA statistics.",
+  "action": "Add a licence, or keep the repository private.",
+  "source": "S18"
+ },
+ {
+  "id": "F-15",
+  "severity": "medium",
+  "area": "schedule",
+  "item": "The official schedule PDF is marked subject to change",
+  "detail": "The PDF header reads 'AS OF AUGUST 13, 2026 | SUBJECT TO CHANGE'. Dates, times and the game numbering can still move.",
+  "action": "Re-verify the slate from nba.com/schedule before acting on any date beyond today.",
+  "source": "S05"
+ },
+ {
+  "id": "F-16",
+  "severity": "low",
+  "area": "schedule",
+  "item": "The schedule PDF marker column has no published legend",
+  "detail": "Rows carry markers such as C and R whose meaning is not documented in the PDF. C matches the NBA Cup games confirmed on nba.com/schedule; R could not be confirmed.",
+  "action": "Ask the NBA or leave the marker unexplained.",
+  "source": "S05"
+ },
+ {
+  "id": "F-17",
+  "severity": "low",
+  "area": "tooling",
+  "item": "The official NBA CDN schedule JSON returns HTTP 500",
+  "detail": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json could not be fetched from this environment, so the machine-readable official game list was unavailable.",
+  "action": "Retry from a normal network; it would give game IDs and home/away in one call.",
+  "source": "S16"
+ },
+ {
+  "id": "F-18",
+  "severity": "medium",
+  "area": "staleness",
+  "item": "Official team statistics move during the season",
+  "detail": "The 30-team table in this dashboard was read at 2026-11-14 while two 11/13 games were still in progress, so it is a season-to-date snapshot, not a fixed constant.",
+  "action": "Re-fetch before every publication; every row carries the retrieval date.",
+  "source": "S06"
+ },
+ {
+  "id": "F-19",
+  "severity": "medium",
+  "area": "provenance",
+  "item": "Game results are sourced from a secondary site, not from the NBA",
+  "detail": "The 174-game training log behind the model was assembled from Basketball-Reference result pages. Basketball-Reference is a trusted secondary source but is not the NBA. The aggregate check against the official GP column reconciles exactly, which is the strongest statement available.",
+  "action": "Re-source results from nba.com box scores, or document the reliance.",
+  "source": "S14"
+ },
+ {
+  "id": "F-20",
+  "severity": "medium",
+  "area": "publication",
+  "item": "Market-price picks in an older tree are tier C and paper only",
+  "detail": "data/picks.json (served by /site/) publishes picks with positive expected value against an ESPN odds feed. Those picks are labelled 'TIER C - pre-validation, paper only', they carry the same licensing flags as F-02 and F-03, and no strategy behind them has passed the gates.",
+  "action": "Owner decides whether that page stays public. This dashboard publishes only originated prices.",
+  "source": "S18"
+ },
+ {
+  "id": "F-21",
+  "severity": "medium",
+  "area": "risk",
+  "item": "No bankroll, staking or ruin policy is defined",
+  "detail": "Nothing in the repository defines stake sizing, bankroll, drawdown limits or when to stop a strategy.",
+  "action": "Define the policy before any strategy is traded, even on paper.",
+  "source": "S18"
+ },
+ {
+  "id": "F-22",
+  "severity": "medium",
+  "area": "automation",
+  "item": "The three-day window is hard coded",
+  "detail": "The picks generator targets 2026-11-14 to 2026-11-16 as literals, so it does not roll forward on its own as new games arrive.",
+  "action": "Derive the window from the official schedule at run time.",
+  "source": "S18"
+ },
+ {
+  "id": "F-23",
+  "severity": "medium",
+  "area": "verification",
+  "item": "A worked example of the PDF page-break loss is published as a transcription",
+  "detail": "One reason string in the injury table is a reconstruction rather than a literal copy. It is marked in the row itself so a reviewer can see exactly which cell was reconstructed.",
+  "action": "Confirm against the next published report.",
+  "source": "S03"
+ },
+ {
+  "id": "F-24",
+  "severity": "high",
+  "area": "model",
+  "item": "The repository's two origination engines publish the same spread field with opposite sign conventions",
+  "detail": "The origin engine (model/build.py) stores a sportsbook-style line in orig_spread_home, where a negative value means the home team is favoured; the Edge Lab engine (pipeline/run_model.py) stores a projected home margin in origin_spread_home, where a positive value means the home team is favoured. The two field names are almost identical and the conventions are opposite, so any code that compares them without normalising first reads a large spurious disagreement. This was found in this session: an early version of the hub dashboard reported the engines as picking different favourites in three games, which was an artefact of this sign error, not a modelling difference. After normalising both to a single home-margin scale the two engines agree on the favourite in all 17 games they share, with a median spread gap of 3.1 points and one gap above 10 points (CHI at MIN, 11.8). Note also that the origin engine publishes 174 games while the Edge Lab engine publishes a different number of rows, so their overlap is only 17 games.",
+  "action": "Normalise the sign convention in every comparison, store the convention next to the value, and keep the agreement metric published on the Lines page. Until the field names or the conventions are unified, treat any cross-engine number as unsafe to compare by eye.",
+  "source": "S18"
+ }
+]
