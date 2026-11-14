@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repo Review · NBA3 Research</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--txt:#e6edf3;--mut:#9da7b3;
+--acc:#4da3ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;--prov:#a371f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 22px;
+position:sticky;top:0;z-index:9}
+header h1{margin:0;font-size:18px;display:inline-block}
+header .tag{color:var(--mut);font-size:12px;margin-left:10px}
+nav{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
+nav a{padding:5px 11px;border-radius:6px;color:var(--txt);font-size:13px}
+nav a:hover{background:#21262d;text-decoration:none}
+nav a.on{background:var(--acc);color:#04121f;font-weight:600}
+main{max-width:1240px;margin:0 auto;padding:22px}
+h2{font-size:20px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-top:34px}
+h3{font-size:16px;margin-top:26px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card .n{font-size:26px;font-weight:700}
+.card .l{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+.badge{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:600;
+border:1px solid transparent;white-space:nowrap}
+.b-rel{background:rgba(63,185,80,.15);color:var(--good);border-color:rgba(63,185,80,.4)}
+.b-prov{background:rgba(163,113,247,.15);color:var(--prov);border-color:rgba(163,113,247,.4)}
+.b-flag{background:rgba(210,153,34,.15);color:var(--warn);border-color:rgba(210,153,34,.45)}
+.b-off{background:rgba(77,163,255,.13);color:var(--acc);border-color:rgba(77,163,255,.4)}
+.b-bad{background:rgba(248,81,73,.13);color:var(--bad);border-color:rgba(248,81,73,.4)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;
+background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#21262d;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);
+position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.src{font-size:11.5px;white-space:nowrap}
+.src a{margin-right:6px}
+.note{background:var(--card);border-left:3px solid var(--acc);padding:10px 14px;
+border-radius:0 8px 8px 0;margin:14px 0;font-size:14px;color:var(--mut)}
+.note.warn{border-left-color:var(--warn)}
+.note.prov{border-left-color:var(--prov)}
+code{background:#21262d;padding:1px 6px;border-radius:5px;font-size:13px}
+footer{color:var(--mut);font-size:12.5px;padding:26px 0;text-align:center;border-top:1px solid var(--line);margin-top:40px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto}
+ul.compact{margin:6px 0;padding-left:20px}
+ul.compact li{margin:3px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>NBA3 · Line-Origination &amp; Betting Strategy Research</h1>
+  <span class="tag">Official NBA sources only · data cut 2026-11-13 (data cut 18:28 ET / 23:30 UTC) · every row source-linked · blanks are flagged, never inferred</span>
+  <nav><a href="index.html" class="">Dashboard</a>
+<a href="slate.html" class="">Slate &amp; Picks</a>
+<a href="strategies.html" class="">Strategies &amp; Gates</a>
+<a href="leaderboard.html" class="">Leaderboard</a>
+<a href="injury-impact.html" class="">Injury Impact</a>
+<a href="game-flow.html" class="">Game Flow</a>
+<a href="analysis.html" class="">Analysis</a>
+<a href="repo-review.html" class="on">Repo Review</a>
+<a href="flagged.html" class="">Flagged</a>
+<a href="questions.html" class="">Questions</a>
+<a href="suggestions.html" class="">Suggestions</a>
+<a href="sources.html" class="">Sources</a></nav>
+</header>
+<main>
+
+<h2>Repository review (line-by-line)</h2>
+<div class="note">Scope: every file at the base commit <code>6c3004d</code> (main) plus current branch state.
+Full narrative: <a href="REPO_REVIEW.md">docs/REPO_REVIEW.md</a>.</div>
+<h3>Base commit 6c3004d — file inventory</h3>
+<div class="scroll"><table>
+<tr><th>File</th><th>Size / content</th><th>Finding</th><th>Severity</th><th>Source</th></tr>
+<tr><td><code>README.md</code></td><td>6 bytes: <code># NBA3</code></td>
+<td>Only file in the repo. No description, no structure, no usage, no license pointer.</td>
+<td><span class="badge b-bad">irregular</span></td>
+<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+<tr><td><code>.gitignore</code></td><td>absent</td><td>No ignore rules (no artifacts to ignore yet, but gaps as data grows).</td>
+<td><span class="badge b-flag">minor</span></td>
+<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+<tr><td><code>LICENSE</code></td><td>absent</td><td>Reuse terms undefined. Not added autonomously — Q-07 awaits reviewer.</td>
+<td><span class="badge b-flag">minor</span></td>
+<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+<tr><td><code>.github/workflows</code></td><td>absent</td><td>No CI. Suggestion SG-01 awaits review (Q-08).</td>
+<td><span class="badge b-flag">minor</span></td>
+<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+<tr><td>git history</td><td>3 commits, 1 author, 2 email forms</td>
+<td>Initial commit used a personal email; later commits use the GitHub noreply address; timezones differ (+0900 vs +0000).</td>
+<td><span class="badge b-flag">informational</span></td>
+<td class="src"><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+</table></div>
+<h3>Irregularities flagged during review</h3>
+<ul class="compact">
+<li>Repo advertises an NBA betting-research project but contained <b>zero</b> research, data or code — all content in this branch is new.</li>
+<li>Initial-commit timestamp (2026-11-14 07:17 +0900) is <i>after</i> the later commits' UTC dates due to the timezone offset — sequencing is correct, display is confusing (fl-02).</li>
+<li>No CODEOWNERS / PR template / issue templates (recorded, not fixed — tooling changes route through Suggestions).</li>
+</ul>
+<p class="src">Sources: <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">github.com/wingbangboozle1-lang/NBA3</a></p>
+
+<footer>Generated by <code>scripts/build_site.py</code> from <code>data/*.json</code> · Verify: <code>python3 scripts/verify.py</code> ·
+All statistics © NBA (via official NBA sources) · Research/paper-trading only — not betting advice.</footer>
+</main>
+</body>
+</html>
