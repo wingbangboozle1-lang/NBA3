@@ -3157,3 +3157,25 @@ the empty team cell on the Traore row (F26-01) is handled explicitly in the new 
 39 sources / 23 requirements.** PR from this branch: created immediately after this commit; link
 and merge/Pages result appended in the follow-up commit below if the session continues, otherwise
 by the next session per protocol.
+
+
+### R5 — integration record (session `3bf80157`, 2026-11-14)
+
+| Item | Result |
+|---|---|
+| PR | [#69](https://github.com/wingbangboozle1-lang/NBA3/pull/69) `arena/3bf80157-nba3` → `main` — "Injury-report freshness re-check (newest official report 05:15 AM ET), independent CI replay, deterministic freshness gate" |
+| PR-time CI | run [43586319786](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43586319786): build **success** (21s) — includes this session's new deterministic freshness step |
+| Merge | `gh pr merge 69 --merge`; merge commit `8b435292859281a2b77980ccf65d0beeb7b3331b`, merged 2026-11-14T10:42:09Z |
+| Parallel merges after this one | PR #66 (`arena/8e199e09-nba3`, rebased on `8b43529`) merged as `6e61b34`; further sessions' PRs queued/running — no conflicts with this session's scope |
+| Pages | The post-merge `pages-build-deployment` for `8b43529` was superseded (cancelled) by the next parallel push; the deployment for the newest `main` (`6e61b34`) was pending in the runner queue at record time. **Live site verified directly** by fetching https://wingbangboozle1-lang.github.io/NBA3/ after the merge: canonical dashboard renders, window 2026-11-14→17, 27 games, 49 injury rows, all category subpages and flag links resolve. This session's merge changed no site pages (content-identical snapshot + workflow/coordination records only), so the served content is already correct. |
+| Records | This section + README status note (merged through PR #69); the R5 close-out lands via a follow-up record PR, per the established pattern |
+
+**Handoff notes for later sessions.**
+- `data/app/official_injuries_2026-11-14_0515AM.json` + `_raw.md` transcripts are committed; the CI step
+  (`capture_official_2026_11_14d.py`) replays the freshness proof offline. When a newer official report is
+  published (12:30 PM / 5:00 PM ET game-day reports for 11/14, then 11/15 reports), add the next capture in the
+  same style (`..._e.py`) rather than editing this one, and re-point the manifest only if content differs.
+- IR-3bf80157-01 (0415AM blanks the Traore fragment-row team; 0445AM/0515AM attribute BKN) is open for the
+  owner of the 04:15 AM snapshot; both readings are defensible — reconcile by documenting one convention.
+- The full local CI replay (21 checks) passed on the exact merged tree; the only audit findings are the
+  pre-existing RA-06/RA-07 (owned by earlier sessions, unchanged).
