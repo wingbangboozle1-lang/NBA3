@@ -29,8 +29,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 OUT = os.path.join(APP, "canonical.json")
 
-BUILD_UTC = "2026-11-14T02:10Z"
-SESSION = "arena/2b9f1ae1-nba3"
+BUILD_UTC = "2026-11-14T01:00Z"
+SESSION = "arena/a459dadf-nba3"
 REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 PAGES_DOCS = ("https://docs.github.com/en/pages/getting-started-with-github-pages/"
               "configuring-a-publishing-source-for-your-github-pages-site")
