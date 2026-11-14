@@ -152,12 +152,23 @@ jobs:
       - name: Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)
         run: |
           python3 scripts/strategy_lab.py
-          git diff --exit-code -- data/app/lab.json
+          git diff --exit-code -- data/app/lab.json || {
+            echo "data/app/lab.json drifted from the committed artefact."
+            echo "The lab is seeded and rounds every published float to 6 decimals (PUBLISH_DP),"
+            echo "so a difference here means a real input changed, not machine noise."
+            git --no-pager diff -- data/app/lab.json | head -60
+            exit 1
+          }
       - name: Assemble canonical dataset and build the dashboard (fails on a row without a source link or a broken link)
         run: |
           python3 scripts/assemble_canonical.py
           python3 scripts/build_app.py
-          git diff --exit-code -- data/app/canonical.json app/ index.html
+          git diff --exit-code -- data/app/canonical.json app/ index.html || {
+            echo "The canonical dataset or the generated pages drifted from what is committed."
+            git --no-pager diff --stat -- data/app/canonical.json app/ index.html | tail -20
+            git --no-pager diff -- data/app/canonical.json | head -40
+            exit 1
+          }
       - name: Build and verify the consolidated dashboard (hub/)
         run: |
           python3 scripts/build_hub_data.py
