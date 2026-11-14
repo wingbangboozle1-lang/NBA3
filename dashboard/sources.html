@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Sources">
+<title>Sources &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="" href="questions.html">Questions</a><a class="" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="on" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Sources</h1>
+<p class="lede">Every official reference used, with its retrieval method and limits.</p>
+
+<div class="card"><h2>Official sources</h2>
+<p>13 references. Every table row on this site resolves to one of them. Where an earlier
+session read a page that this session did not re-read, the <b>read by</b> column says so
+&mdash; nothing is claimed as verified here that was not checked against the official page.</p>
+<div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Publisher</th><th class="">Title</th><th class="">URL</th><th class="">Used for</th><th class="">Read by</th><th class="">Method</th><th class="">Result</th><th class="">Limits</th></tr></thead><tbody><tr><td><b>S-01</b></td><td>NBA (official)</td><td>NBA Injury Report - 2026-27 season index</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">https://official.nba.com/nba-injury-report-2026-27-season/</a></td><td>Reporting deadlines; list of timestamped 11/13 PDFs used to pick the newest report</td><td>this session</td><td>fetch_page, chunks 0-1 of 2</td><td>Read. Deadlines confirmed (5pm local day before a game; 1pm game day for the 2nd night of a back-to-back; game-day report 11am-1pm local). Index lists 11/13 reports from 12:00 AM through 07:30 PM ET.</td><td>Index page only. Later reports published after retrieval are not included.</td></tr><tr><td><b>S-02</b></td><td>NBA (official)</td><td>Injury Report 11/13/26 07:30 PM ET (PDF)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td><td>All 122 injury rows on the Injuries page; availability input to the originated lines</td><td>this session</td><td>fetch_page, chunks 0-1 of 2 (PDF text extraction)</td><td>Read. Newest report listed on the official index at retrieval time. Covers 11/13 games and the 11/14 slate only.</td><td>Multi-column PDF. Team and matchup cells are merged (printed once per group), so 60 of 122 rows carry them by inheritance - see F-07. Some reason strings are split across a page break in the PDF text.</td></tr><tr><td><b>S-03</b></td><td>NBA (official)</td><td>NBA Games &amp; Scores - 2026-11-13</td><td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener">https://www.nba.com/games?date=2026-11-13</a></td><td>Confirmed that nine games were in progress at capture time; not used as final results</td><td>this session</td><td>fetch_page, chunks 0-1 of 2</td><td>Read. All nine 11/13 games were live or pre-game at retrieval (approx. 18:40 ET).</td><td>No final scores taken from this page.</td></tr><tr><td><b>S-04</b></td><td>NBA (official)</td><td>NBA Games &amp; Scores - 2026-11-14</td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener">https://www.nba.com/games?date=2026-11-14</a></td><td>Slate D+1: five games with game IDs and ET tip times</td><td>this session</td><td>fetch_page, chunk 0 of 1</td><td>Read. 5 games: DEN@NOP 7:00p, DAL@CLE 7:30p, BKN@MEM 8:00p, DET@MIA 8:00p, CHI@MIN 8:00p.</td><td>Tip times as printed in ET. Venue and competition/round not printed on this page.</td></tr><tr><td><b>S-05</b></td><td>NBA (official)</td><td>NBA Games &amp; Scores - 2026-11-15</td><td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener">https://www.nba.com/games?date=2026-11-15</a></td><td>Slate D+2: nine games with game IDs and ET tip times</td><td>this session</td><td>fetch_page, chunks 0-1 of 2</td><td>Read. 9 games: IND@PHI 1:00p, LAL@PHX 4:00p, CHA@LAC 4:30p, SAS@UTA 5:00p, NYK@TOR 6:00p, DAL@BOS 6:00p, HOU@WAS 7:00p, ATL@MIL 8:00p, OKC@SAC 9:00p.</td><td>Venue and competition/round not printed on this page.</td></tr><tr><td><b>S-06</b></td><td>NBA (official)</td><td>NBA Games &amp; Scores - 2026-11-16</td><td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener">https://www.nba.com/games?date=2026-11-16</a></td><td>Slate D+3: eight games with game IDs and ET tip times</td><td>this session</td><td>fetch_page, chunks 0-1 of 2</td><td>Read. 8 games: ORL@BOS 7:00p, MEM@WAS 7:00p, CHI@CLE 7:00p, HOU@MIA 7:30p, PHI@BKN 7:30p, GSW@NOP 8:00p, POR@MIN 8:00p, PHX@DEN 9:00p.</td><td>Venue and competition/round not printed on this page.</td></tr><tr><td><b>S-07</b></td><td>NBA (official)</td><td>NBA Games &amp; Scores - 2026-11-12</td><td><a href="https://www.nba.com/games?date=2026-11-12" target="_blank" rel="noopener">https://www.nba.com/games?date=2026-11-12</a></td><td>Independent score spot-check of four completed games against the stored game log</td><td>this session</td><td>fetch_page, chunk 0 of 1</td><td>All four stored rows matched the official page exactly: TOR 112 @ PHI 123; DET 144 @ WAS 140 (OT); DAL 94 @ MIN 133; CHA 96 @ PHX 101.</td><td>One date of 24 checked directly. The remaining 23 dates are covered by the GP/W-L reconciliation (see Data &amp; sources page).</td></tr><tr><td><b>S-08</b></td><td>NBA (official)</td><td>NBA Stats - Teams Advanced, 2026-27 Regular Season</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td><td>Official GP, W, L and advanced team rates; the reference for the game-log reconciliation</td><td>this session</td><td>fetch_page, chunks 0-1 of 2</td><td>Read. 30 rows. All 19 columns of all 30 rows matched the stored copy cell-for-cell (570 checks).</td><td>Season-to-date through 2026-11-12. The page had not yet incorporated the in-progress 11/13 games.</td></tr><tr><td><b>S-09</b></td><td>NBA (official)</td><td>NBA Stats - Players Traditional, 2026-27 Regular Season (sorted by MIN desc)</td><td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td><td>Season minutes and production rates for the injury-impact and player-projection modules</td><td>this session</td><td>fetch_page, chunks 2-8 of 9</td><td>Read. The captured top 31 rows by minutes matched the official table on team, age, GP, W, L, MIN, PTS, 3PM, REB, AST (310 checks). One row (rank 31, Yaxel Lendeborg) was incomplete in the stored copy and was completed from this page.</td><td>Only the top 31 rows are held. Players outside that set have no official minutes in this project - see F-12.</td></tr><tr><td><b>S-10</b></td><td>NBA (official)</td><td>NBA.com Terms of Use</td><td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">https://www.nba.com/termsofuse</a></td><td>Rights determination for publishing NBA Statistics</td><td>this session</td><td>fetch_page, chunks 0, 3, 4 of 10</td><td>Read. Section 1 and Section 9 quoted verbatim on the Flagged for Review page. Section 9(iv) states NBA Statistics may not be used in connection with any gambling activity, including legal gambling activity.</td><td>Chunks 1, 2, 5, 6, 7, 8, 9 were not re-read in this session. Section 15 (compliance with laws) and Sections 17-19 (arbitration, class waiver, New York law and forum) were read by an earlier session and are not restated here.</td></tr><tr><td><b>S-11</b></td><td>NBA (official)</td><td>NBA Injury Report - 2025-26 season slug</td><td><a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener">https://official.nba.com/nba-injury-report-2025-26-season/</a></td><td>Cross-check of a link cited by an earlier dashboard</td><td>this session</td><td>fetch_page, chunk 0 of 2</td><td>Resolves, but serves the 2026-27 season page (page title: &#x27;NBA Injury Report: 2026-27 Season&#x27;).</td><td>Must not be cited as the 2025-26 report - see F-06.</td></tr><tr><td><b>S-12</b></td><td>NBA (official)</td><td>NBA Stats Glossary</td><td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener">https://www.nba.com/stats/help/glossary</a></td><td>Official definitions of the statistical labels used on this site</td><td>session 9ed6085f on 2026-11-13</td><td>fetch_page, chunk 0 of 10 (earlier session)</td><td>Official definitions only.</td><td>Definitions do not grant data rights and do not establish predictive value. Not re-read by this session.</td></tr><tr><td><b>S-13</b></td><td>Kansspelautoriteit (Dutch regulator)</td><td>Kansspelautoriteit - online kansspel aanbieden</td><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td><td>Licensing position for offering or promoting remote sports betting from the Netherlands</td><td>session 9ed6085f on 2026-11-13</td><td>fetch_page (earlier session)</td><td>Earlier session read that remote sports bets require a licence under Art. 31a of the Wet op de kansspelen.</td><td>Summary page, not binding; the statute governs. Not re-read by this session.</td></tr></tbody></table></div>
+</div>
+
+<div class="card"><h2>How values were verified</h2>
+<ul>
+<li><b>Copied, not derived.</b> Team and player statistics are copied from the official NBA
+stats tables and compared cell by cell (570 and 310 checks respectively).</li>
+<li><b>Reconciled.</b> The game log is recomputed into games played, wins and losses for all
+30 teams and compared with the official columns (91 checks).</li>
+<li><b>Spot-checked directly.</b> One date of final scores was compared score by score with
+the official games page.</li>
+<li><b>Structurally checked.</b> Slate and injury rows are checked for uniqueness, known team
+abbreviations, and official status vocabularies (334 checks).</li>
+<li><b>Left blank when uncheckable.</b> Where no official source exists for a value, the cell
+is blank and flagged. It is never filled in.</li>
+</ul>
+<p class="mut">Run <code>python3 final/verify.py</code> to reproduce all 1,305 checks.</p>
+</div>
+
+<div class="card"><h2>Attribution</h2>
+<p>Per section 9(i) of the NBA.com Terms of Use, any use, display or publication of NBA
+Statistics must include a prominent attribution to NBA.com. Every page on this site carries
+that attribution in its footer and in the banner below the content.</p>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

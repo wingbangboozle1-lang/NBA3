@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Game flow">
+<title>Game flow &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="on" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="" href="questions.html">Questions</a><a class="" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Game flow</h1>
+<p class="lede">Pace, rest, overtime and home court, measured on the verified game log.</p>
+
+<div class="card"><h2>Game flow, measured on 174 verified games</h2>
+<div class="grid g4" style="margin-bottom:16px">
+<div class="kpi"><b>9</b><small>overtime games (5.2% of all games)</small></div>
+<div class="kpi"><b>89 / 173</b><small>home wins / non-neutral games</small></div>
+<div class="kpi"><b>226.8</b><small>mean game total</small></div>
+<div class="kpi"><b>49</b><small>games with a team on the second night of a back-to-back
+(28.2%)</small></div>
+</div>
+<div class="tw"><table id=""><thead><tr><th class="">Measure</th><th class="n">Value</th><th class="">Basis</th><th class="">Source</th></tr></thead><tbody><tr><td>Mean home margin</td><td>1.70</td><td>Home points minus away points, 173 non-neutral games.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>Fitted home-court advantage</td><td>1.59 pts</td><td>Least squares with team ratings. Two-sided p = 0.104, df = 172. Not significant at this sample.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>Mean total, regulation</td><td>225.46</td><td>165 games.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>Mean total, overtime</td><td>252.11</td><td>9 games.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>League pace</td><td>99.85</td><td>Mean of the official PACE column, 30 teams.</td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">stats &#8599;</a></td></tr><tr><td>League offensive rating</td><td>112.92</td><td>Possession-weighted mean of the official OffRtg column.</td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">stats &#8599;</a></td></tr><tr><td>Margin residual SD</td><td>16.18</td><td>Out-of-sample, n = 114.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>Total residual SD</td><td>20.35</td><td>Out-of-sample, n = 114.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr></tbody></table></div>
+</div>
+
+<div class="card"><h2>Pace and efficiency</h2>
+<p>From the official team advanced table, season to date. Pace is possessions per 48 minutes;
+offensive and defensive rating are points per 100 possessions. A high-pace, high-offence
+matchup is where a totals forecast has the most room to be wrong &mdash; which matters, because
+our totals model is currently worse than its baseline.</p>
+<div style="margin-bottom:8px"><input class="src" data-filter="pace" placeholder="Filter rows&hellip;" style="padding:6px 10px;border:1px solid var(--line);border-radius:6px;min-width:240px"></div><div class="tw"><table id="pace"><thead><tr><th class="">Team</th><th class="">Name</th><th class="n">Pace</th><th class="n">OffRtg</th><th class="n">DefRtg</th><th class="n">NetRtg</th><th class="">Source</th></tr></thead><tbody><tr><td>CHI</td><td>Chicago Bulls</td><td>103.75</td><td>109.2</td><td>124.2</td><td>-15.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612741/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>ATL</td><td>Atlanta Hawks</td><td>103.46</td><td>114.3</td><td>112.2</td><td>2.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612737/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>MIA</td><td>Miami Heat</td><td>102.80</td><td>111.3</td><td>115.9</td><td>-4.6</td><td><a class="src" href="https://www.nba.com/stats/team/1610612748/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>NOP</td><td>New Orleans Pelicans</td><td>101.64</td><td>112.1</td><td>119.2</td><td>-7.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612740/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>SAC</td><td>Sacramento Kings</td><td>101.23</td><td>107.2</td><td>119.3</td><td>-12.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612758/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>IND</td><td>Indiana Pacers</td><td>101.13</td><td>110.6</td><td>112.5</td><td>-1.9</td><td><a class="src" href="https://www.nba.com/stats/team/1610612754/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>MIN</td><td>Minnesota Timberwolves</td><td>101.08</td><td>117.2</td><td>103.8</td><td>13.4</td><td><a class="src" href="https://www.nba.com/stats/team/1610612750/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>LAC</td><td>LA Clippers</td><td>100.95</td><td>110.0</td><td>115.8</td><td>-5.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612746/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>POR</td><td>Portland Trail Blazers</td><td>100.86</td><td>118.5</td><td>111.4</td><td>7.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612757/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>UTA</td><td>Utah Jazz</td><td>100.75</td><td>103.8</td><td>115.4</td><td>-11.6</td><td><a class="src" href="https://www.nba.com/stats/team/1610612762/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>LAL</td><td>Los Angeles Lakers</td><td>100.50</td><td>121.6</td><td>113.6</td><td>8.0</td><td><a class="src" href="https://www.nba.com/stats/team/1610612747/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>DAL</td><td>Dallas Mavericks</td><td>100.50</td><td>112.5</td><td>111.7</td><td>0.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612742/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>MIL</td><td>Milwaukee Bucks</td><td>100.50</td><td>106.2</td><td>120.7</td><td>-14.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612749/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>MEM</td><td>Memphis Grizzlies</td><td>100.28</td><td>116.4</td><td>110.6</td><td>5.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612763/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>PHI</td><td>Philadelphia 76ers</td><td>100.04</td><td>111.0</td><td>109.5</td><td>1.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612755/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>TOR</td><td>Toronto Raptors</td><td>99.88</td><td>114.5</td><td>112.8</td><td>1.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612761/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>BKN</td><td>Brooklyn Nets</td><td>99.83</td><td>109.3</td><td>114.4</td><td>-5.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612751/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>CLE</td><td>Cleveland Cavaliers</td><td>99.80</td><td>115.6</td><td>113.6</td><td>2.1</td><td><a class="src" href="https://www.nba.com/stats/team/1610612739/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>GSW</td><td>Golden State Warriors</td><td>99.76</td><td>118.4</td><td>110.9</td><td>7.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612744/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>WAS</td><td>Washington Wizards</td><td>99.63</td><td>108.7</td><td>114.3</td><td>-5.5</td><td><a class="src" href="https://www.nba.com/stats/team/1610612764/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>DET</td><td>Detroit Pistons</td><td>99.17</td><td>114.1</td><td>106.9</td><td>7.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612765/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>SAS</td><td>San Antonio Spurs</td><td>98.97</td><td>119.3</td><td>108.3</td><td>11.0</td><td><a class="src" href="https://www.nba.com/stats/team/1610612759/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>OKC</td><td>Oklahoma City Thunder</td><td>98.75</td><td>112.5</td><td>108.3</td><td>4.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612760/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>PHX</td><td>Phoenix Suns</td><td>98.45</td><td>113.8</td><td>117.6</td><td>-3.8</td><td><a class="src" href="https://www.nba.com/stats/team/1610612756/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>ORL</td><td>Orlando Magic</td><td>98.25</td><td>109.7</td><td>114.6</td><td>-5.0</td><td><a class="src" href="https://www.nba.com/stats/team/1610612753/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>DEN</td><td>Denver Nuggets</td><td>97.58</td><td>115.9</td><td>115.1</td><td>0.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612743/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>HOU</td><td>Houston Rockets</td><td>97.42</td><td>118.5</td><td>109.3</td><td>9.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612745/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>CHA</td><td>Charlotte Hornets</td><td>96.92</td><td>101.8</td><td>113.0</td><td>-11.2</td><td><a class="src" href="https://www.nba.com/stats/team/1610612766/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>BOS</td><td>Boston Celtics</td><td>96.62</td><td>117.4</td><td>105.6</td><td>11.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612738/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr><tr><td>NYK</td><td>New York Knicks</td><td>95.09</td><td>115.7</td><td>109.0</td><td>6.7</td><td><a class="src" href="https://www.nba.com/stats/team/1610612752/traditional" target="_blank" rel="noopener">team &#8599;</a></td></tr></tbody></table></div>
+</div>
+
+<div class="card"><h2>Rest</h2>
+<p>Derived from the official game dates: days since each team's previous game.</p>
+<div class="tw"><table id=""><thead><tr><th class="">Rest days</th><th class="n">Team-games</th><th class="n">Share</th><th class="">Source</th></tr></thead><tbody><tr><td>1</td><td>61</td><td>17.5%</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>2</td><td>202</td><td>58.0%</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>3</td><td>48</td><td>13.8%</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>4</td><td>7</td><td>2.0%</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>6+</td><td>30</td><td>8.6%</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr></tbody></table></div>
+<p class="mut">S3 (rest differential of two days or more) produced 17 qualifying games out
+of 114 out-of-sample, at 53%. It fails both raw significance and split-half
+stability. Rest is measured; it is not yet shown to be an edge.</p>
+</div>
+
+<div class="card"><h2>Score state and rotation</h2>
+<p>Blowouts and close games change minutes in ways this project cannot yet measure: no
+play-by-play and no rotation data are held. What is measured is the overtime effect on the
+total: regulation games average 225.5 points, overtime games average 252.1.
+Nine of 174 games went to overtime.</p>
+<p class="mut">Every total on the <a href="lines.html">lines page</a> includes overtime
+scoring, because that is how the source scores are recorded. If a settlement rule settles on
+regulation only, this is a material difference &mdash; see question Q-10.</p>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

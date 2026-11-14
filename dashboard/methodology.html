@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Methodology">
+<title>Methodology &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="on" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="" href="questions.html">Questions</a><a class="" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Methodology</h1>
+<p class="lede">The engines, the walk-forward design, and the statistics behind the gates.</p>
+
+<div class="card"><h2>How a line is originated</h2>
+<p>Two margin engines and two totals engines are fitted on completed games only, then
+selected on out-of-sample RMSE. The <b>primary published line</b> is the model that won the
+walk-forward comparison; the efficiency-based estimate is shown beside it as a cross-check
+only, because it uses season-to-date ratings and putting it in a backtest would leak future
+games.</p>
+<ol>
+<li><b>LM-A additive.</b> Each team's points for and points against per game, league-centred,
+combined into a margin.</li>
+<li><b>LM-B Massey.</b> Least-squares net ratings plus a home-court constant, fitted by OLS
+with a sum-to-zero constraint row to make the system identifiable.</li>
+<li><b>LM-C blend.</b> The mean of A and B margins, with the T2 totals estimator.</li>
+<li><b>Totals T1.</b> Points-for plus points-against, league-centred.</li>
+<li><b>Totals T2.</b> The sum of the two teams' own scoring rates.</li>
+</ol>
+<p>A team must have at least 3 completed games before it is rated; the first 60 games
+are burn-in and produce no out-of-sample prediction.</p>
+</div>
+
+<div class="card"><h2>Walk-forward results</h2>
+<p class="mut">Expanding window, strictly chronological. Each game is predicted using only
+games that finished before it. n = 114.</p>
+<div class="tw"><table id=""><thead><tr><th class="">Model</th><th class="n">n</th><th class="n">Margin RMSE</th><th class="n">Margin baseline</th><th class="n">Margin bias p</th><th class="n">Totals RMSE</th><th class="n">Totals baseline</th><th class="">Source</th></tr></thead><tbody><tr><td>LM-A additive points model</td><td>114</td><td>16.65</td><td>17.30</td><td>0.196</td><td>21.28</td><td>19.56</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>LM-B Massey least-squares margin model</td><td>114</td><td>16.45</td><td>17.30</td><td>0.929</td><td>20.35</td><td>19.56</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>LM-C blend (A+B margins, T2 total)</td><td>114</td><td>16.18</td><td>17.30</td><td>0.536</td><td>20.35</td><td>19.56</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr></tbody></table></div>
+</div>
+
+<div class="card"><h2>Derived constants</h2>
+<div class="tw"><table id=""><thead><tr><th class="">Constant</th><th class="n">Value</th><th class="">How derived</th><th class="">Source</th></tr></thead><tbody><tr><td>Home-court advantage</td><td>1.59 pts</td><td>Least squares over 173 non-neutral verified games; two-sided p = 0.104. Not significant at this sample size.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>Margin residual SD</td><td>16.18</td><td>Root-mean-square of out-of-sample margin errors (n=114).</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>Total residual SD</td><td>20.35</td><td>Root-mean-square of out-of-sample total errors (n=114).</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr><tr><td>League offensive rating</td><td>112.92</td><td>Possession-weighted mean of the official OffRtg column.</td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">stats &#8599;</a></td></tr><tr><td>League pace</td><td>99.85</td><td>Unweighted mean of the official PACE column across 30 teams.</td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">stats &#8599;</a></td></tr><tr><td>Overtime rate</td><td>0.052</td><td>9 of 174 verified games went to overtime.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">games &#8599;</a></td></tr></tbody></table></div>
+<p class="mut">Every constant above is derived by arithmetic from the verified game log.
+None of them is an official NBA statistic.</p>
+</div>
+
+<div class="card"><h2>Removing luck</h2>
+<p>Luck cannot be removed from a single outcome. It is controlled in the evaluation:</p>
+<ul>
+<li>Expanding-window walk-forward with a 60-game burn-in; no future game ever enters a fit.</li>
+<li>Exact binomial test against the correct null. For the two-leg parlay the null is the
+joint rate implied by the observed leg rates under independence
+(0.219), not 0.50 &mdash; testing a parlay against 50% would be a category error.</li>
+<li>Benjamini&ndash;Hochberg false-discovery-rate control at 0.05 across the eight-strategy family.</li>
+<li>Split-half stability: the direction of the effect must hold in both halves of the sample.</li>
+<li>A hard minimum sample of 100 bets before anything can be called deployable.</li>
+<li>Required n for 80% power at the observed effect size, printed next to every result.</li>
+<li>Proper scoring and calibration are the recommended primary metric, not raw win rate
+(see suggestion SG-06).</li>
+</ul>
+</div>
+
+<div class="card"><h2>Reproducing this</h2>
+<pre style="background:var(--grey);padding:14px;border-radius:8px;overflow:auto"><code>python3 final/verify.py        # 1,305 line-by-line checks vs official pages
+python3 final/build_model.py   # walk-forward, strategies, lines, injury impact
+python3 final/build_site.py    # regenerate every page on this site
+python3 final/check_site.py    # links, sources, and table integrity</code></pre>
+<p class="mut">Standard library only. numpy, scipy and pandas are not available in this
+environment.</p>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>
