@@ -3179,3 +3179,146 @@ by the next session per protocol.
   owner of the 04:15 AM snapshot; both readings are defensible — reconcile by documenting one convention.
 - The full local CI replay (21 checks) passed on the exact merged tree; the only audit findings are the
   pre-existing RA-06/RA-07 (owned by earlier sessions, unchanged).
+
+---
+
+## Session `arena/dd1eb1f1-nba3` (current) — CLAIM: unbreak CI, clean consolidated site, line-by-line re-verification, integration
+
+Session ID: `dd1eb1f1`. Workspace branch `arena/dd1eb1f1-nba3`, branched from `main` @ `1938a0a`
+(merge of PR #63). Claim written and pushed before any other work started (2026-11-14 ~10:2x UTC).
+
+Reason this round exists: the `main` workflow run **43584459385** is **red** — step 19,
+`Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)`,
+fails because the committed `data/app/lab.json` no longer reproduces from the committed inputs
+(`data/app/players_top31_2026-11-14c.csv`, `data/app/games_2026-11-14c.csv`). Everything after
+that step is skipped, so **no Pages artifact has been produced since `1938a0a`**. The only reason a
+site is still served is the legacy `main /` Pages build.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| D1 | Reproduce the red gate locally, identify the input change, regenerate `data/app/lab.json` and every dependent artefact (`data/app/canonical.json`, `app/**`, `index.html`) so the tree builds green | in progress | `data/app/lab.json`, `data/app/canonical.json`, `app/**`, `index.html` (shared — see overlap note) |
+| D2 | Independent line-by-line verification against the official NBA pages read today; publish the comparison and every irregularity | in progress | `audit_dd1eb1f1/` (**new tree, this session only**) |
+| D3 | Clean site: landing page + subpages by category; move the 12 superseded workstream trees off the landing page into one dated `archive.html`; add a page-level "what is current" banner | in progress | `index.html`, `archive.html` (**new**), `app/assets/app.css` |
+| D4 | Registers, executive summary, questions, suggestions, flagged: refresh figures from the rebuilt artefacts and add this session's findings | in progress | `data/flags.csv`-driven content lives in `scripts/assemble_canonical.py` / `scripts/build_app.py` (shared) |
+| D5 | Run every existing check suite; PR to `main`, merge, confirm Pages deploy, record here | pending | `COORDINATION.md`, `README.md` |
+
+### Overlap note (important for any session reading this)
+
+Session `25418e3f` has **PR #62 open** touching `COORDINATION.md`, `app/flagged.html`,
+`app/requirements.html`, `app/review.html`, `app/verification.html`, `data/app/canonical.json`,
+`data/requirements.csv`, `index.html`, `research/requirements.html`, `scripts/assemble_canonical.py`,
+`scripts/build_app.py`. D1 forces the same shared surfaces, because the lab artefact feeds them.
+This session will **rebase onto `origin/main` before every push and keep both sides** of any
+conflict (it will not discard or revert another session's rows, flags or wording). If `25418e3f`
+is still working, it should push to its branch; this session rebases rather than edits that tree.
+
+Own-scope files this session creates: `audit_dd1eb1f1/**` (new), `archive.html` (new, links only,
+no other tree is modified).
+
+### Completion record — session `dd1eb1f1` (2026-11-14)
+
+**D1 — the red gate.** Reproduced locally before touching anything: `scripts/strategy_lab.py`
+rewrote `data/app/lab.json` with 312 insertions / 234 deletions, i.e. the committed artefact no
+longer reproduced from the committed inputs. Diagnosed as a stale artefact left by the bd90ce16
+merge (the players and games CSVs moved without a regeneration). While this session was writing
+the claim, session `8efd914d` merged the same repair in PR #64/#65, so **D1 closed as a
+cross-session duplicate, not as this session's fix** — recorded here because a red `main` is an
+irregularity worth a permanent entry (F-DD1-04). Verified fixed: `strategy_lab.py`,
+`assemble_canonical.py` and `build_app.py` now rebuild with no drift.
+
+**D2 — independent official re-read.** Captures transcribed by this session from pages read on
+2026-11-14, stored under `audit_dd1eb1f1/data/`:
+- `official_slate_2026-11-14.json` — 27 games, 2026-11-14 → 2026-11-17, from
+  [nba.com/schedule?date=2026-11-14](https://www.nba.com/schedule?date=2026-11-14) (chunks 0-2
+  of 9; chunk 2 ends inside 11/18, which is outside the window).
+- `official_injury_report_2026-11-14_0430AM.json` — 49 rows (26 player, 23 NOT YET SUBMITTED),
+  from [Injury-Report_2026-11-14_04_30AM.pdf](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_30AM.pdf),
+  the newest report the [official index](https://official.nba.com/nba-injury-report-2026-27-season/)
+  listed at read time.
+- `official_injury_index_2026-11-14.md` — the verbatim reporting rule, the list of 11/14 reports,
+  and the negative probe of `Injury-Report_2026-11-14_05_30AM.pdf` (S3 `AccessDenied`, i.e. no
+  newer report existed).
+
+`audit_dd1eb1f1/checks.py` compares them field by field against `data/app/canonical.json`:
+**532 field checks, 0 mismatches** (27 slate rows × 7 fields, 49 injury rows × 7 fields). It also
+recomputes the results-log integrity facts from `data/app/games_2026-11-14c.csv`: 183 games,
+366 team-games, 96 home wins / 87 home losses, 10 overtimes — all four published checks agree.
+
+**D2b — the one mismatch, and why it was this audit that was wrong (F-DD1-01).** Row 18 of the
+injury report prints *Traore, Nolan, Probable, Injury/Illness - Right Calf Tightness / Soreness*
+with the Team cell empty (it is the first row of the PDF's second table, which drops the date,
+time, matchup and team columns). This audit's first transcription filled the cell in as `BKN`
+from the block heading. The canonical artefact leaves it empty. Empty is correct under the
+project's no-inference rule, so the capture was corrected to blank and the value is published
+blank. Recording the correction rather than quietly applying it is deliberate.
+
+**D3 — clean landing page.** The root `index.html` advertised thirteen superseded dashboards as
+tiles next to the current numbers. They now live on one dated `archive.html`, and the landing
+page carries a single pointer to it. Also: the `NF-23` flag list item had a navigation card
+embedded inside it, so a dashboard tile rendered as if it were an eighth flagged item
+(F-DD1-08) — the cross-reference now sits below the list. The `dashboard/` tree was being
+deployed and rebuilt in CI but was missing from that list entirely (F-DD1-09); it is on the
+archive page now. `scripts/build_app.py`'s nav-target logic was generalised so a nav entry that
+does not live under `app/` resolves correctly (it used to strip the first four characters of
+every href unconditionally).
+
+**D4 — measured correlations for cells the site publishes blank.** `audit_dd1eb1f1/analysis.py`
+computes, from the official 183-game log and the site's own 140-game out-of-sample sample:
+- Rest: rest differential vs home margin r = **0.0949**, 95% CI −0.058…0.243, n = 167,
+  permutation p = 0.225. Away team on a back-to-back with the home team rested: n = 17, mean home
+  margin +8.88, home win rate 70.6%, Welch p = 0.0397 — **BH-adjusted to 0.119 across the three
+  rest tests, i.e. not a finding.** Publishable as "no rest signal this sample can support".
+- Model ordering: originated spread vs official margin r = **0.354** (CI 0.200…0.491) against
+  −0.118 for the baseline; originated total vs official total r = **0.034** (CI −0.132…0.199)
+  against −0.032 for the baseline — the totals model adds nothing to ordering, which is the same
+  verdict the RMSE comparison gives.
+- Cross-game parlay dependence, previously an assumption: within-slate correlation of margin
+  residuals **−0.0147** (permutation p 0.73) and of total residuals **−0.0695** (permutation p
+  0.073). Neither rejects independence; the totals direction is negative and worth re-measuring.
+  Per-night hit-rate overdispersion: observed variance 0.0359 vs null median 0.0396, p = 0.61.
+- Four player-level pairs stay blank, each with the official page that holds the missing input.
+
+All of it is labelled *Derived*: it is our arithmetic on official results, not an official NBA
+statistic. The canonical correlations page now links to it.
+
+**Tests.** `audit_dd1eb1f1/test_audit.py` (13 tests, all green): section counts, zero mismatches,
+results-log consistency, per-row official links, Pearson ranges, BH monotonicity, determinism of
+the analysis across two runs, and the two page rules (every tbody row sourced, no broken internal
+links). Wired into `.github/workflows/pages.yml`; `archive.html` and `audit_dd1eb1f1/` are staged
+into the Pages artifact.
+
+**Local check suites run on the final tree** (all pass): `tests/test_validate_gates.py` (13),
+`tools/check_site.py` PASS, `pipeline/tests` (29), `scripts/build_site.py` (562 links, 12 pages),
+lab build + validate, research build + verify, `verify.tests` + build, `pipeline/check_site.py`
+(edge), `integrate.engine` + `build_site` + `check`, `scripts/build_hub_data.py` + `build_hub.py`,
+`final/verify.py` (1305 checks, 0 mismatch), `final/build_site.py` (no drift),
+`final/check_site.py` PASSED, `scripts/strategy_lab.py` + `assemble_canonical.py` + `build_app.py`
+(no drift, 21 pages, 0 broken links), and the workflow's root-dashboard link/row-source check
+over `index.html`, `review.html` and `archive.html`. Not replayable here: the four capture steps
+that fetch nba.com (they run on the GitHub runner, which has network access).
+
+**Change requests logged, not executed (other sessions' scope).**
+- **CR-DD1-01 → owner of `scripts/assemble_canonical.py` (25418e3f / 8e199e09):** the eight
+  flags raised by this session (F-DD1-01 … F-DD1-09) live on
+  `audit_dd1eb1f1/pages/flags.html` with their evidence links. If the shared register is the
+  right home for them, import them; this session did not edit `data/app/flags_*.json` or the
+  assembler because both are claimed.
+- **CR-DD1-02 → owner of `scripts/build_app.py` (8d3d0271, edited by 25418e3f and 8e199e09):**
+  this session edited that file for the landing-page cleanup and the nav-target generalisation.
+  Those edits are the minimum needed for the archive split; if a later round restructures the
+  landing page, `ARCHIVE_TREES_ROWS` in `page_archive()` is the list to update (it is the single
+  source for both the archive page and the count printed on the landing page).
+- **CR-DD1-03 → `tools/check_site.py` (f879620b):** it fails the build unless the root
+  `index.html` contains the string `docs/index.html`. That couples a data-site checker to whoever
+  owns the landing page — when this session moved the legacy tiles off the landing page the
+  check went red and had to be satisfied by keeping one `docs/` link in the archive paragraph. A
+  cleaner rule would be "the root index links to every published tree, or to an index of them".
+
+**Irregularities, none blocking.** F-DD1-01 (blank Team cell — canonical right, audit corrected),
+F-DD1-02 (NYK@TOR and POR@MIN each printed twice inside the window), F-DD1-03 (two 11/17 game ids
+out of chronological order), F-DD1-04 (`main` CI red on arrival, fixed by 8efd914d),
+F-DD1-05 (canonical snapshot 15 minutes behind the newest file; the index page itself is cached),
+F-DD1-06 (cross-game independence: assumption, now measured, not rejected), F-DD1-07 (twelve-plus
+superseded dashboards on the landing page — fixed here by the archive page), F-DD1-08 (NF-23
+tile embedded in a flag list — fixed here), F-DD1-09 (`dashboard/` deployed but unlisted — fixed
+here). Full text and evidence links: `audit_dd1eb1f1/pages/flags.html`.
