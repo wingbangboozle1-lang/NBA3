@@ -591,3 +591,10 @@ as the **final integration session** for the round and therefore also owns the s
 - Official per-team player table — <https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&TeamID=1610612737>
   — the `TeamID` filter **is** honoured on this endpoint (unlike `GameID`/`PlayerID` on the box-score
   endpoint), which makes a complete, official rotation table for any team reachable.
+
+## fa03eba6 — integration update (2026-11-14)
+- Official board refreshed to Nov 14–17 (27 games); injury register uses the Nov 13 7:30 PM report (166 rows, unpublished entries flagged UNVERIFIED).
+- `model/build_shared.py` regenerates shared JSON (schedule, injuries, lines, props; picks intentionally empty — no market prices, 0/8 strategies pass gates).
+- `scripts/build_site.py` labels updated to the current window; `data/sources.json` S04 points to the 7:30 PM report.
+- All checks pass: unit tests (13 + 29), tools/check_site.py, build_site, build_lab, validate_site, pipeline build/verify/check_site.
+- Still open: complete per-team rotation tables; locate the unexplained 50-row Nov 12 extraction; reconcile Basketball-Reference result files with official data. No merge performed.
