@@ -3367,3 +3367,57 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+---
+
+## Session `arena/df301475-nba3` (current) — CLAIM: game-day injury refresh → re-origination, deeper signal board, player-level correlations
+
+Session ID for this log: `df301475` (branch `arena/df301475-nba3`, branched from `main` @ `3a6c353`, the
+merge of PR #74). No other session claim was open when this board was read (the last section, session
+`dd1eb1f1`, records its own close).
+
+### Why this session exists
+
+Three concrete gaps were verified on arrival, not assumed:
+
+1. **The published injury snapshot is stale for tonight.** The manifest points the engine at the
+   11/14 **04:15 AM ET** report (49 rows: 26 player + 23 NOT YET SUBMITTED). The official index now
+   lists reports up to **01:30 PM ET on 11/14**, and the game-day filing window (11 a.m.–1 p.m. local)
+   has closed. The 01:30 PM ET report is a different document with materially different availability
+   for tonight's five games. No line, pick or injury page on the site reflects it.
+2. **Two published numbers do not match the artefact they describe.** `README.md` states the luck
+   threshold is "31.2 pp" and the largest real rule edge "18.0 pp"; `data/app/lab.json` (regenerated
+   byte-for-byte on arrival, zero drift) says `threshold_pp` 28.947368 and max |edge| 10.714286 pp.
+   `scripts/strategy_lab.py::apply_gates` also hard-codes "174 official final scores" while the log
+   the manifest names holds 183 games.
+3. **Four correlation cells are blank** because no per-player game log had been captured. Whether an
+   official game-log page is reachable has not been tested by any earlier session — this session will
+   probe it and either fill the cells with measured values or publish the probe result as the reason
+   they stay blank.
+
+### Task board (this session)
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| N1 | Capture the newest official injury report (11/14 01:30 PM ET) verbatim + the 01:15 PM ET cross-read; parse to the stored schema; prove the 01:45 PM ET report does not exist | in progress | df301475 | `data/app/official_injuries_2026-11-14_1330PM.json`, `data/app/official_injuries_2026-11-14_1330PM_raw.md`, `data/app/official_injuries_2026-11-14_1315PM_raw.md`, `scripts/capture_official_2026_11_14e.py` |
+| N2 | Repoint the manifest at the game-day report; publish the row-by-row delta vs the pre-game snapshot; re-verify the 27-game window tip times | in progress | df301475 | `data/app/snapshot_manifest.json`, `data/app/injury_delta_0415am.json` (read-only), new `data/app/injury_delta_game_day.json` |
+| N3 | Re-run the engine on the refreshed input; new lines/picks/props/parlays for 11/14–11/17; add testable rules to the board from the verified 183-game log | in progress | df301475 | `data/app/lab.json`, `scripts/strategy_lab.py` |
+| N4 | Correlation cells: measure what the results log supports; probe an official per-player game-log page and record the outcome either way | in progress | df301475 | `scripts/strategy_lab.py`, `data/app/lab.json` |
+| N5 | Rebuild the canonical site (21 pages), fix the two stale published numbers + the stale gate string, publish this session's flags/questions/suggestions | in progress | df301475 | `data/app/canonical.json`, `app/*.html`, `index.html`, `README.md`, `scripts/assemble_canonical.py`, `scripts/build_app.py`, `data/app/flags_df301475.json` |
+| N6 | Wire the new capture into CI, run every local suite, PR → merge → verify Pages deploy from the live site | in progress | df301475 | `.github/workflows/pages.yml`, `COORDINATION.md` |
+
+### Rules I will follow
+
+- Nothing is inferred. A cell the official document does not print stays blank and is flagged
+  (`NF-66`/`F-DD1-01` precedent: the Traore team cell).
+- `lab.json` and `canonical.json` are regenerated, never hand-edited; CI's byte-drift gate must pass.
+- Append-only to `COORDINATION.md`; conflicts resolved by keeping both sides.
+- Claims older than 60 minutes with no commits may be taken over — this claim carries a commit
+  immediately.
+
+### Log (running)
+
+- 2026-11-14T18:42Z baseline on arrival: `strategy_lab.py`, `assemble_canonical.py`, `build_app.py`
+  all reproduce with **zero drift**; `tests/test_validate_gates.py` (13), `pipeline/tests` (29),
+  `audit_dd1eb1f1` (13), `verify.tests.test_verification` (16) all green; link check 21 pages,
+  0 broken links. `main` was green, so nothing here is a repair of a broken base.
