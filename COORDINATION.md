@@ -2154,3 +2154,42 @@ choice, and none has been implemented. The decisions that actually gate progress
 CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
+
+---
+
+## Session `arena/29a9022f-nba3` (this session) — CLAIM
+
+Session ID `arena/29a9022f-nba3`. Branched from `main` @ `57762d5` (PR #46 merge, the current
+tip of `main` at claim time). Arena binds this workspace to one branch, so the
+`session-<id>/<task>` naming from the brief is again not available; scope is enforced by the
+file list below, as every prior session recorded. Claim committed and pushed before any work.
+
+**Open PRs / active claims seen at claim time:** none — `gh pr list --state open` is empty and
+no session section in this board shows an unfinished claim newer than PR #46's merge. Prior
+sessions' boards are all marked done. Takeover rules therefore do not apply; nothing is being
+taken over without note.
+
+**Files this session claims:**
+
+| Path | Purpose |
+|---|---|
+| `COORDINATION.md` | appended section only (this board is append-only across sessions) |
+| `data/app/official_injuries_2026-11-14_*.json`, `data/app/official_slate*.json` | freshness refresh of the official capture to the newest published NBA injury report |
+| `scripts/capture_official_2026_11_14c.py` (**new**) | this round's capture + cross-check script |
+| `data/app/canonical.json`, `data/app/lab.json`, `app/**`, `index.html` | regenerated downstream of any capture change (owned by closed session `8d3d0271`, PR #46 merged; regenerated per its own rebuild path, not edited by hand) |
+| `hub/**`, `data/hub/**`, `dashboard/**`, `final/data/**` | regenerated only if their drift gates require it (owners `99eabb04` / `925439ca`, both closed) |
+| `.github/workflows/pages.yml` | change request **CR-8D-05** (conflict-marker grep step) — owner session closed; takeover noted here |
+| `audit36/**` | change request **CR-8D-04** (stale hard-coded expectation) — owner session `36e18d83` closed; takeover noted here |
+| `README.md`, `COORDINATION.md` | integration/deploy record |
+
+### Task board (this session)
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| S1 | Read COORDINATION.md, map claims, claim non-overlapping scope, push the claim | in progress | `COORDINATION.md` |
+| S2 | Baseline: reproduce the full CI check suite locally on this branch | in progress | none (verification only) |
+| S3 | Freshness: capture the newest official NBA injury report (11/14) and cross-check against the committed 11/13 07:45 PM capture; refresh downstream if the report changed | in progress | capture script, `data/app/official_injuries_*` |
+| S4 | Line-by-line verification of published rows against official sources (slate, injuries, team stats) | in progress | verification record |
+| S5 | CR-8D-05: add conflict-marker grep step to CI | in progress | `.github/workflows/pages.yml` |
+| S6 | CR-8D-04: repair or re-run `audit36/check.py` stale expectation | in progress | `audit36/**` |
+| S7 | Integration: PR → `main` → merge → Pages deploy verification → record | in progress | `COORDINATION.md`, `README.md`, PR |
