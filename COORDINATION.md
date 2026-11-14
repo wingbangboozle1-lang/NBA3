@@ -1203,6 +1203,37 @@ and `README.md` (the published-site table gained a row from each session).
 - The earlier trees were not edited; they remain as provenance and are listed in the repository review.
 - No suggestion was implemented: the suggestion page is a decision queue for the owner.
 
+### Second merge round and what comparing engines found (this session)
+
+`main` moved twice more while this section was being written. Both merges were resolved keeping every
+session's content; `index.html` now carries both `/app/` (session 2b9f1ae1, PR #19) and `/dash/`
+links, and `integrate/build_site.py` no longer writes the root file at all so the two generators can
+never collide on it again.
+
+New flags from this round: **E-F-17** (two unified dashboards built an hour apart — owner to name one
+canonical), **E-F-18** (this build's own defect, disclosed), **E-F-19** (engine agreement is not
+independent confirmation), **E-F-20** (calibration: spread correctly scaled, totals over-dispersed).
+New suggestion **E-SG-14** (make "the predictor that prices the slate is the predictor that was
+validated" a CI assertion).
+
+| Item | Before the fix | After the fix |
+|---|---|---|
+| dash/ vs app/ agree on the favoured side | 7 of 22 | **22 of 22** |
+| median absolute spread gap | 11.48 points | **2.39 points** |
+| games differing by more than 6.5 points | 16 of 22 | **0** |
+| sd of originated spreads | 2.38 (far too timid) | 10.81 (vs 16.89 for actual margins) |
+| engines matching the better-record side | mine 5/22, theirs 20/22 | mine 20/22, theirs 20/22 |
+
+Cause: `originate()` recomputed its own prediction instead of reusing the variant the online selector
+had chosen, so the published lines came from a model the walk-forward backtest had rejected. The
+symptom was a large apparent disagreement with another session's engine; had I reported that as a
+research finding instead of tracing it, the site would have published a false contradiction and the
+project would have "fixed" a model that was fine. Recorded as E-F-18 with the numbers both ways.
+
+Verification of this round: `integrate.check` PASS (15 pages, 22 lines, 9 gates, 20 flags, every table
+row sourced or flagged); all seven other sessions' suites re-run and green; the CI drift gate proves
+`data/integration/model.json` and `dash/` match the committed code byte-for-byte.
+
 ---
 
 # Session d01ae7e2 (`arena/d01ae7e2-nba3`) — official-slate pipeline, picks, dashboard, integration
@@ -1329,3 +1360,7 @@ On 2026-11-14, after the claim was pushed, `origin/main` advanced through PR #23
 ### Request logged for the integration owner
 
 Please keep the workflow step for `scripts/capture_official_2026_11_14.py` clearly labeled as an offline, hard-coded snapshot comparison, not as a live re-fetch or independent verification of the official NBA source. This session found that the script writes fixed transcription constants and the CI job reruns those constants; it cannot establish current source freshness. No change to the workflow is made here because PR #25 owns that file.
+
+### Rebase conflict correction
+
+The first scripted conflict resolution did not preserve the other side's appended PR #23 findings. This was detected immediately in the post-rebase diff and corrected by restoring the complete `origin/main` board verbatim before re-appending this session's section. No push was made with the omitted text.
