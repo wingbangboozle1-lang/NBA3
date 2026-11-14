@@ -1203,6 +1203,37 @@ and `README.md` (the published-site table gained a row from each session).
 - The earlier trees were not edited; they remain as provenance and are listed in the repository review.
 - No suggestion was implemented: the suggestion page is a decision queue for the owner.
 
+### Second merge round and what comparing engines found (this session)
+
+`main` moved twice more while this section was being written. Both merges were resolved keeping every
+session's content; `index.html` now carries both `/app/` (session 2b9f1ae1, PR #19) and `/dash/`
+links, and `integrate/build_site.py` no longer writes the root file at all so the two generators can
+never collide on it again.
+
+New flags from this round: **E-F-17** (two unified dashboards built an hour apart — owner to name one
+canonical), **E-F-18** (this build's own defect, disclosed), **E-F-19** (engine agreement is not
+independent confirmation), **E-F-20** (calibration: spread correctly scaled, totals over-dispersed).
+New suggestion **E-SG-14** (make "the predictor that prices the slate is the predictor that was
+validated" a CI assertion).
+
+| Item | Before the fix | After the fix |
+|---|---|---|
+| dash/ vs app/ agree on the favoured side | 7 of 22 | **22 of 22** |
+| median absolute spread gap | 11.48 points | **2.39 points** |
+| games differing by more than 6.5 points | 16 of 22 | **0** |
+| sd of originated spreads | 2.38 (far too timid) | 10.81 (vs 16.89 for actual margins) |
+| engines matching the better-record side | mine 5/22, theirs 20/22 | mine 20/22, theirs 20/22 |
+
+Cause: `originate()` recomputed its own prediction instead of reusing the variant the online selector
+had chosen, so the published lines came from a model the walk-forward backtest had rejected. The
+symptom was a large apparent disagreement with another session's engine; had I reported that as a
+research finding instead of tracing it, the site would have published a false contradiction and the
+project would have "fixed" a model that was fine. Recorded as E-F-18 with the numbers both ways.
+
+Verification of this round: `integrate.check` PASS (15 pages, 22 lines, 9 gates, 20 flags, every table
+row sourced or flagged); all seven other sessions' suites re-run and green; the CI drift gate proves
+`data/integration/model.json` and `dash/` match the committed code byte-for-byte.
+
 ---
 
 # Session d01ae7e2 (`arena/d01ae7e2-nba3`) — official-slate pipeline, picks, dashboard, integration
@@ -1300,3 +1331,74 @@ python3 d01ae7e2/scripts/verify.py           # exit 0 = all checks pass
 Expected: `All verification checks passed.` Every pick row carries 6 source links; every HTML
 table row carries an inline official-NBA source link; nulls require an adjacent flag.
 Workstream-scope only — it does not vouch for other sessions' artifacts (see README cautions).
+
+---
+
+## Session `arena/c4b7b751-nba3` — post-merge source and decision-safety audit
+
+Branch: `arena/c4b7b751-nba3` (Arena-assigned active branch; base `3367762bd0602b6ae78ff16ad67b06ab8481da42`).
+This workspace is fixed to the assigned branch. The initial status was clean, and `origin/main` was at the
+same commit as this branch. Existing session records above are historical; no active in-progress claim was
+present.
+
+### Claim (2026-11-14 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| I1 | Independently reproduce checks and audit decision claims, source links, model/strategy gates, and release scope; publish new defects as review flags without inventing values | in progress | `COORDINATION.md` (log only), `tools/release_audit.py`, `audit/**` |
+
+No model/data rows will be changed unless a value can be independently verified against a cited official source. Any unsupported items will remain blank or be marked unverified and flagged. This claim is pushed before starting the audit.
+
+---
+
+
+
+### Coordination update after rebase
+
+On 2026-11-14, after the claim was pushed, `origin/main` advanced through PR #23 and PRs #21, #24, and #25 were open. PR #25 owns the shared `README.md`, root `index.html`, `.github/workflows/pages.yml`, `executive-summary.html`, and coordination integration notes; PR #24 and #21 have overlapping data/pipeline scopes. To avoid conflicts, this session will not edit those files or any claimed data/model files. The audit is narrowed to a new standalone checker and report. A rebase conflict occurred only because PR #23 appended its integration findings to this shared board while the claim commit appended this session; both sections were retained.
+
+### Request logged for the integration owner
+
+Please keep the workflow step for `scripts/capture_official_2026_11_14.py` clearly labeled as an offline, hard-coded snapshot comparison, not as a live re-fetch or independent verification of the official NBA source. This session found that the script writes fixed transcription constants and the CI job reruns those constants; it cannot establish current source freshness. No change to the workflow is made here because PR #25 owns that file.
+
+### Rebase conflict correction
+
+The first scripted conflict resolution did not preserve the other side's appended PR #23 findings. This was detected immediately in the post-rebase diff and corrected by restoring the complete `origin/main` board verbatim before re-appending this session's section. No push was made with the omitted text.
+
+### I1 audit results (2026-11-14 UTC; snapshot based on `origin/main` 4e9dec4 / PR #23)
+
+**Artifacts created within this session's narrowed scope:**
+- `tools/release_audit.py` — offline, standard-library-only checker for the Pages staging list, direct source links on each table row, exact 72-hour pick timing, workflow conflict markers, the existing page-wide citation gate, and the fixed official-capture script.
+- `audit/release-audit.html` and `.md` — human-readable report with links for manual review.
+- `audit/release-audit.json`, `audit/table-source-audit.csv`, `audit/pick-horizon-audit.csv` — machine-readable report and row-by-row evidence; no values are filled in where sources are absent.
+- `audit/test_release_audit.py` — regression tests for host boundaries, row-scoped links, staging markers, ET-to-UTC conversion, the exact 72-hour boundary, and legacy tricode matching.
+
+**Findings (all left open; no model output edited):**
+1. `RA-01` — `.github/workflows/pages.yml` in `origin/main` contains literal merge markers at lines 112, 137 and 147. The current staging commands name 117 HTML files, but a workflow with unresolved markers is not a valid release definition. Official workflow-syntax reference: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions ; repository evidence: https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml .
+2. `RA-02` — `integrate/check.py` tests for an `href="https://` anywhere in the page (`blob`), not a link inside each table row. The independent row parser found 869 staged rows without a direct NBA/regulator/statistical-authority link and without an explicit unverified marker. Repository evidence: https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py .
+3. `RA-03` — 117 staged HTML files contain 2,785 `<tbody>` rows. 1,791 rows have a direct NBA, regulator/statute or statistical-authority link (1,678 have an NBA-domain link); 994 rows have no such direct official link, of which 125 include an explicit unverified marker and 869 do not. GitHub links are counted only as repository evidence, not as NBA data provenance. The full 2,785-row audit is in `audit/table-source-audit.csv`.
+4. `RA-04` — the timestamped pick file `data/picks/picks_2026-11-14_to_16.json` declares a three-day limit but 3 of its 22 game picks fall outside a strict 72-hour horizon from its generation time `2026-11-14T00:49:56Z`: POR@MIN and GSW@NOP (11/16 8:00 PM ET) are 72h10m ahead; PHX@DEN (11/16 9:00 PM ET) is 73h10m ahead. Game time and game ID references: official schedule https://www.nba.com/schedule?date=2026-11-14 and official game pages https://www.nba.com/game/por-vs-min-0022600250, https://www.nba.com/game/gsw-vs-nop-0022600251, https://www.nba.com/game/phx-vs-den-0022600252 . They should be excluded under a strict 72-hour rule, or the product policy must clearly define a calendar-date window instead.
+5. `RA-05` — `scripts/capture_official_2026_11_14.py` contains fixed `SLATE`, `TEAM_RATINGS` and `INJ` transcription constants and no HTTP client imports. Its CI comparison is offline/reproducibility checking; it is not a live fetch and does not independently establish source freshness. Official sources for manual recheck: https://www.nba.com/schedule?date=2026-11-14 , https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season , https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf and https://official.nba.com/nba-injury-report-2026-27-season/ .
+6. `RA-06` — `data/integration/model.json` has 22 originated lines and a date-level `horizon_days`, but no timezone-aware generation timestamp. Its exact 72-hour cutoff cannot be reproduced from that artifact alone.
+7. `RA-07` — legacy `scripts/scan_table_sources.py` includes `github.com` in `OFFICIAL_HOSTS`. Repository evidence is not the same as an official NBA source; the new audit reports the categories separately.
+
+**Verification performed:** `python3 -m unittest tests/test_validate_gates.py` (13 pass); `python3 -m unittest discover -s pipeline/tests` (29 pass); `python3 -m unittest verify.tests.test_verification` (16 pass, with pre-existing unclosed-file `ResourceWarning`s); `python3 -m unittest audit.test_release_audit` (7 pass); `python3 tools/check_site.py` (pass); `python3 scripts/build_site.py --check` (117 injury rows, 31 games, 11 sources, 553 links); `python3 pipeline/check_site.py` (pass); `python3 pipeline/verify.py` (pass); `python3 scripts/validate_site.py` (all listed legacy lab pages/links/data pass); `python3 scripts/build_app.py --check` (18 pages, 0 broken links); `git diff --check` (pass). `python3 -m integrate.check` was run while this session's audit files were untracked and failed only its session-specific dirty-scope check for `audit/` and `tools/release_audit.py`; re-run after committing the claimed files. No live NBA fetch was performed by this session; source links are provided for manual review, and no NBA value is newly marked verified here.
+
+### Requests to the active final-integration owner (PR #25 / session `3bf92fcc`)
+
+PR #25 currently owns the workflow, root navigation and executive summary. Please, when reconciling its dirty merge state, preserve both `/app/` and `/dash/` checks, remove the three literal conflict-marker lines in the current `main` workflow, add `python3 tools/release_audit.py --write-report` plus `cp -r audit _pages/audit` (and a visible navigation link) if the report should be public, and label the official-capture job as an offline snapshot check rather than a live source re-fetch. Please also decide how the 994 rows without direct official citations are to be removed, sourced, or explicitly flagged, and enforce link checks per row rather than page-wide. The exact 72-hour pick violations above should be corrected by the owner of the pick-generation scope before claiming a strict 72-hour slate. This session does not edit PR #25's files or other sessions' model/data/page files; the requested integration changes are logged here per the coordination rule.
+
+---
+
+### Post-integration status update (2026-11-14 UTC)
+
+This section supersedes the earlier pending-request wording where PRs have since merged. The audit findings remain open unless explicitly marked resolved below.
+
+- PR [#25](https://github.com/wingbangboozle1-lang/NBA3/pull/25) merged at 01:11:44Z (merge commit `5a3ca36b63aef6dd9e79b0466e07fc7f9d17270b`); its Pages build/deploy run [43539080173](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539080173) succeeded.
+- PR [#27](https://github.com/wingbangboozle1-lang/NBA3/pull/27) merged at 01:14:38Z (merge commit `c4623a05def6adbd1ae776141c7dde7779e50427`); it resolved the main-branch workflow conflict markers and added the `/hub/` dashboard. Build run [43539301045](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539301045), post-merge Pages workflow [43539385929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539385929), and Pages build [43539385149](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539385149) succeeded. **RA-01 (workflow conflict markers) is resolved in main.**
+- PR [#24](https://github.com/wingbangboozle1-lang/NBA3/pull/24) merged at 01:17Z to `fa2617ac552558da5baa2e46653edbc6c135bf5d`; PR build [43539640651](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539640651) and post-merge build/deploy [43539655404](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539655404) succeeded. GitHub Pages API reports `built` at https://wingbangboozle1-lang.github.io/NBA3/ .
+- PR #21 (`arena/fa03eba6-nba3`) remains open and dirty as of this note. This session does not take over its claimed slate/injury/model scope.
+- The prior `audit/release-audit.*` snapshot was generated against `c4623a0` before PR #24 merged and is superseded. It is being regenerated against `fa2617a`; the resolved workflow-marker finding will be removed, while all remaining findings will be recalculated.
+- PR #25 did not stage this session's new `audit/` report directory. The row-level audit is currently a repository deliverable, not a live Pages subpage. The staging/navigation request is therefore handed off to the next authorized final integrator, along with the still-open row-citation, exact-horizon, and offline-source-capture findings.
+
+---
