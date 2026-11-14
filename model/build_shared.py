@@ -15,6 +15,7 @@ import csv
 import datetime as dt
 import json
 import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
@@ -49,6 +50,43 @@ def write_json(path, obj):
 upcoming = read_csv(os.path.join(ORIGIN, "schedule_upcoming.csv"))
 injuries = read_csv(os.path.join(ORIGIN, "injuries.csv"))
 line_by_gid = {l["gid"]: l for l in M["lines"]}
+
+# ------------------------------------------------------- official status overlay
+# data/origin/injuries.csv is the 05:15 PM extract (session e22a2831), but this script
+# stamps its output as the 07:30 PM report.  Every named row's status, printed name and
+# (when the content differs) reason are therefore overlaid from the official 07:30 PM
+# transcript at verify/data/official_injury_report_2026-11-13_0730PM.txt, fetched from
+# https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf by
+# session arena/9456a8ab-nba3 and cross-checked 117/117 on status, team and matchup
+# against data/app/official_injuries_2026-11-13_0730PM.json.  Without this overlay the
+# output mislabelled nine statuses as 07:30 PM values (rows INJ-010, INJ-011, INJ-013,
+# INJ-014, INJ-022, INJ-024, INJ-033, INJ-034, INJ-042) - fixed by session 9456a8ab.
+_TRANSCRIPT = os.path.join(ROOT, "verify", "data",
+                           "official_injury_report_2026-11-13_0730PM.txt")
+
+
+def _nm(s):
+    return re.sub(r"[^a-z]", "", s.lower())
+
+
+def _flat(s):
+    return re.sub(r"\s", "", s).lower()
+
+
+official_by_nm = {}
+official_by_game = {}
+for _line in open(_TRANSCRIPT, encoding="utf-8"):
+    if not _line.startswith("| 11/1"):
+        continue
+    _p = [x.strip() for x in _line.strip().strip("|").split("|")]
+    if len(_p) < 7 or not _p[4]:
+        continue
+    _row = {
+        "game_date": dt.datetime.strptime(_p[0], "%m/%d/%Y").date().isoformat(),
+        "matchup": _p[2], "player": _p[4], "status": _p[5], "reason": _p[6],
+    }
+    official_by_nm[_nm(_row["player"])] = _row
+    official_by_game.setdefault((_row["game_date"], _row["matchup"]), []).append(_row)
 
 # ---------------------------------------------------------------- schedule
 schedule_games = []
@@ -87,11 +125,33 @@ for n, r in enumerate(injuries, start=1):
         player_fmt = "{}, {}".format(last, first)          # match the official "Last, First" style
     else:
         player_fmt = player
+    # overlay from the official 07:30 PM transcript (see block above)
+    status_out, reason_out = r["status"], r["reason"]
+    if player_fmt:
+        hit = official_by_nm.get(_nm(player_fmt))
+        if hit is None:
+            _toks = player.split()
+            _surname = None
+            if _toks:
+                _i = len(_toks) - 1
+                while _i > 0 and _toks[_i].rstrip(".").lower() in ("jr", "sr", "ii", "iii", "iv", "v"):
+                    _i -= 1
+                _surname = _toks[_i]
+            if _surname:
+                _cands = [c for c in official_by_game.get((r["game_date"], r["matchup"]), [])
+                          if _surname in c["player"].replace(",", " ").split()]
+                if len(_cands) == 1:
+                    hit = _cands[0]
+        if hit:
+            player_fmt = hit["player"]
+            status_out = hit["status"]
+            if _flat(hit["reason"]) != _flat(r["reason"]):
+                reason_out = hit["reason"]                 # content differs: official wins
     inj_json.append({
         "id": "INJ-{:03d}".format(n), "game_date": r["game_date"],
         "game_time_et": "",                                  # not captured in the verified extract
         "matchup": r["matchup"], "team": team, "player": player_fmt or None,
-        "reason_as_printed": r["reason"], "status_as_printed": r["status"],
+        "reason_as_printed": reason_out, "status_as_printed": status_out,
         "attribution": "S" if unpub else "R",
         "schedule_source": SCHEDULE_URL if unpub else None,
         "report_stamp": REPORT_STAMP, "report_source": REPORT_URL,
@@ -101,7 +161,7 @@ for n, r in enumerate(injuries, start=1):
     inj_csv.append({
         "row_type": "player" if player else "team", "game_date": r["game_date"],
         "matchup": r["matchup"], "team": team, "player": player_fmt,
-        "status": r["status"], "reason": r["reason"],
+        "status": status_out, "reason": reason_out,
         "availability_verified": "no" if unpub else "yes",
         "source_url": SCHEDULE_URL if unpub else REPORT_URL,
     })
