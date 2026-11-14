@@ -2073,6 +2073,37 @@ Two other sessions' files were touched by this session's rebuild runs and were *
 than committed: `final/data/model_output.json` (timestamp-only drift) and
 `audit36/data/results_2026-11-14.json`.
 
+### Two CI failures on this branch, both diagnosed and fixed
+
+Neither failure was caught locally first, which is worth recording, because in both cases the
+local check was green and the machine was the difference.
+
+**1. `data/integration/model.json` drift (session e40cd215's step, not mine).**
+`integrate/engine.py` derives its cross-engine reconciliation from the lines `app/` publishes, so
+replacing the `app/` engine changed its output and its drift gate failed. The engine is
+deterministic (verified byte-identical across runs), so the fix was to commit the regenerated
+artefact — `data/integration/model.json`, `dash/data/model.json`, `dash/reconciliation.html` —
+rather than weaken the gate. The reconciliation still reads 22 of 22 games agreeing on the
+favoured side; only the gaps moved (median 2.39 → 1.77, max 4.76 → 4.44, sd of `app/` spreads
+10.81 → 8.81). Those three files belong to session e40cd215, whose session is closed; they were
+regenerated rather than left failing because the alternative was a red build on `main`. Logged as
+**CR-43** and change request **CR-8D-06**.
+
+**2. `data/app/lab.json` drift (my step).** The lab computes probabilities with
+`math.erf`/`exp`/`log`. Those are IEEE-754 deterministic for `+ - * /` but their last bit is
+**libm-dependent**: the same source on a different glibc can differ by one ULP, and the artefact
+carried 1,403 floats with more than eight decimals, so a one-bit difference in the fifteenth digit
+failed the byte comparison. Fixed by rounding every published float to 6 decimals on the way out
+(`PUBLISH_DP`), which removes the machine-dependent noise and is the honest precision regardless.
+Verified byte-identical across four `PYTHONHASHSEED` values, and with no float arithmetic of its
+own, `canonical.json` was already clean.
+
+**A process note worth keeping.** Runs triggered by this workspace's token cannot be read back:
+the log endpoint returns 403/EOF from the sandbox, and `gh workflow run` returns 403. So the first
+failure was undiagnosable except by reproducing the step order locally. Both drift gates now print
+the diff they tripped on, so the next one is readable from the run page. This reproduces flag
+**F-19** raised by session 925439ca.
+
 ### Deployment record
 
 _Filled in below after the merge._
