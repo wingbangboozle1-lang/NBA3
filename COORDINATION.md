@@ -1012,7 +1012,7 @@ builds with no broken links, then open a PR to `main`, merge, and verify the Git
 | I-2 | Line-by-line re-verification of combined data vs official sources (schedule, injuries, ratings spot-checks) | done | arena/3bf92fcc-nba3 | COORDINATION.md log only |
 | I-3 | Verify/resolve carried-forward cross-session irregularities that do NOT need owner decisions (Miami `CLE@MIA` injury matchup; anything falsified) | done — RESOLVED | arena/3bf92fcc-nba3 | `data/injuries.json` NOT modified (verified correct as-is) |
 | I-4 | Shared-output refresh: root `index.html` status + README final-state note | done (revised after rebase — see I-4 note) | arena/3bf92fcc-nba3 | `executive-summary.html` (new), `README.md` (final-state block + table row), `.github/workflows/pages.yml` (artifact staging line only) |
-| I-5 | PR to `main`, merge, confirm Pages deploy, record PR link + merge result here | in progress | arena/3bf92fcc-nba3 | COORDINATION.md, PR |
+| I-5 | PR to `main`, merge, confirm Pages deploy, record PR link + merge result here | done — PR [#25](https://github.com/wingbangboozle1-lang/NBA3/pull/25) merged | arena/3bf92fcc-nba3 | COORDINATION.md, PR |
 
 Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessions' scopes touched.
 
@@ -1402,3 +1402,17 @@ This section supersedes the earlier pending-request wording where PRs have since
 - PR #25 did not stage this session's new `audit/` report directory. The row-level audit is currently a repository deliverable, not a live Pages subpage. The staging/navigation request is therefore handed off to the next authorized final integrator, along with the still-open row-citation, exact-horizon, and offline-source-capture findings.
 
 ---
+### I-5 · PR, merge and deploy record (session arena/3bf92fcc-nba3)
+
+| Item | Result |
+|---|---|
+| PR | [#25](https://github.com/wingbangboozle1-lang/NBA3/pull/25) `arena/3bf92fcc-nba3` → `main` |
+| PR-time CI | run [43538922908](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43538922908) — `build` **pass** in 13s (all steps incl. verify tests, canonical/app/dash drift checks); `deploy` skipped on PRs by design |
+| Merge | `gh pr merge 25 --merge`; merge commit `5a3ca36b63aef6dd9e79b0466e07fc7f9d17270b`; merged 2026-11-14T01:11:44Z |
+| Post-merge CI | run [43539079798](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539079798) — `completed success` in 27s (`build` ✓ 8s + `deploy` ✓ 9s). Non-fatal platform notices only (Node.js 20 deprecation, ubuntu-latest migration). |
+| Pages (Actions) | pages-build-deployment run [43539080173](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539080173) — `completed success` |
+| Pages API | `repos/.../pages` → status `built`, legacy build type, html_url https://wingbangboozle1-lang.github.io/NBA3/ |
+| Live check | `https://wingbangboozle1-lang.github.io/NBA3/executive-summary.html` fetched post-deploy: renders with all source links (4 content chunks); root, `app/`, `dash/`, `verify/pages/` unchanged from main |
+| Rebase rounds | 3 (concurrent merges #17–#31 landed while this session worked); conflicts resolved keeping both sides each time; `index.html` taken wholesale from main (canonical generator; verified zero drift after `scripts/build_app.py`) |
+| CI incident observed on main | PR #23 (e40cd215) merged `pages.yml` with unresolved conflict markers; main CI failed (runs 43538502999, 43538566529); fixed by session a459dadf in PRs #29/#30 (kept both step groups) and PR #31 (build_app.py single source of truth for index.html). Not repaired by this session — a459dadf's fix landed first; recorded here for the audit trail. |
+| Carried forward | Owner decisions unchanged: 7C-F-01/02/03, F13/Q-LEG-01, CR-O1…CR-O5, canonical-site choice (Q2 — five surfaces now live: `app/`, `dash/`, `verify/pages/`, six legacy sub-sites, this summary), leaderboard rewards (Q3). PR #27 (99eabb04, `/hub/` dashboard) was still OPEN at merge time. |
