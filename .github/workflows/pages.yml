@@ -9,6 +9,7 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /research/       -> arena/9ed6085f research site (generated from data/*.csv by pipeline/build_site.py)
 #   /edge/           -> arena-0a016df8 Edge Lab dashboard (verified game log, originated lines, gated picks)
 #   /origin/         -> arena/e22a2831 origination engine (174-game verified log, walk-forward backtest, 7-gate leaderboard)
+#   /verify/pages/   -> arena/3655c68d verification & decision layer (cross-pipeline reconciliation, corrections, decision queue)
 # Pull requests run every check but never deploy.
 
 on:
@@ -97,6 +98,12 @@ jobs:
           python3 pipeline/build_site.py
           python3 pipeline/verify.py
           test -z "$(git status --porcelain -- research/)" || { echo 'research/ is stale; run pipeline/build_site.py and commit'; git status --porcelain -- research/; exit 1; }
+      - name: Verification layer self-tests (session 3655c68d)
+        run: python3 -m unittest verify.tests.test_verification
+      - name: Build verification site and check its links
+        run: |
+          python3 verify/build.py
+          test -z "$(git status --porcelain -- verify/pages/)" || { echo 'verify/pages/ is out of date; run verify/build.py and commit'; git status --porcelain -- verify/pages/; exit 1; }
       - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
         run: python3 pipeline/check_site.py
       - name: Stage combined Pages artifact
@@ -110,6 +117,7 @@ jobs:
           cp -r research _pages/research
           cp -r edge _pages/edge
           cp -r origin _pages/origin
+          cp -r verify _pages/verify
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "what": "Defects this session fixed in the repository, with the reproducible before/after. Every fix is covered by an automated test so it cannot silently regress.",
+  "rule": "A fix is listed only if `python3 verify/build.py --self-test` reproduces the corrected value."
+ },
+ "corrections": [
+  {
+   "id": "FX-01",
+   "file": "pipeline/run_model.py",
+   "function": "parlay_joint",
+   "defect": "The bivariate-normal integration loop varied x over the full real line (-4 to +4) and never used the first-leg threshold a1. The function therefore returned the second leg's marginal probability for any input.",
+   "before": "parlay_joint(0.58, 0.58, 0.3) = 0.58 -> fair decimal odds 1.72",
+   "after": "parlay_joint(0.58, 0.58, 0.3) = 0.3832 -> fair decimal odds 2.61",
+   "test": "verify/tests/test_verification.py::test_parlay_joint_no_longer_returns_the_marginal",
+   "cross_check": "200,000-draw Monte Carlo on the same parameters gives 0.3830, so the corrected closed form is independently confirmed rather than merely different.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/run_model.py"
+  },
+  {
+   "id": "FX-02",
+   "file": "pipeline/make_picks.py",
+   "function": "spread label",
+   "defect": "The label was built as `away team + '+' + (-origin_spread_home)`. Because origin_spread_home is a projected HOME MARGIN (positive = home wins), this printed the AWAY team as a plus-handicap underdog on every card, including the 10 cards where the away team was in fact the favourite. The sign therefore never matched the card's own moneyline.",
+   "before": "PHO @ DEN -> 'DEN +6.1' with fair moneyline DEN -167 (28 of 28 printed labels were on the wrong side; 0 of 22 were correct)",
+   "after": "PHO @ DEN -> 'DEN -6.1' with fair moneyline DEN -167 (favourite carries the minus; 22 of 22 correct)",
+   "test": "verify/tests/test_verification.py::test_pick_spread_sign_matches_moneyline",
+   "cross_check": "The test derives the favourite two independent ways - from the sign of the projected home margin and from model_p_home > 0.5 - and requires them to agree before checking the label, so a lines-file defect cannot be mistaken for a label defect.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/make_picks.py"
+  },
+  {
+   "id": "FX-03",
+   "file": "pipeline/run_model.py + pipeline/make_picks.py",
+   "function": "strategy market labelling",
+   "defect": "STRAT1 and STRAT2 settle on the game winner but were described and priced as spread bets at -110, which produced an unusable '+48.24% ROI' headline.",
+   "before": "STRAT1 labelled 'Favourite-side spread (model vs market)', booked at -110",
+   "after": "STRAT1 and STRAT2 relabelled as moneyline strategies; ROI now reported against a market price of 0 (not measured), with the -110 figure kept only as a clearly-marked arithmetic artefact",
+   "test": "verify/tests/test_verification.py::test_moneyline_strategies_are_not_priced_at_minus_110",
+   "cross_check": "The re-audit shows 66 of 85 wins at a mean implied probability of 0.768, which is a moneyline hit rate, not a spread hit rate.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/run_model.py"
+  },
+  {
+   "id": "FX-04",
+   "file": "data/model/correlation_report.json",
+   "function": "parlay_example",
+   "defect": "The published example carried the defective 0.58 joint probability and derived a 1.72 fair price from it.",
+   "before": "copula_prob 0.58, fair_joint_price 1.72",
+   "after": "copula_prob 0.3832, fair_joint_price 2.61, plus a table of corrected values for five correlation levels",
+   "test": "verify/tests/test_verification.py::test_correlation_report_matches_recomputation",
+   "cross_check": "Recomputed from the corrected function at run time, not hard-coded.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json"
+  },
+  {
+   "id": "FX-05",
+   "file": "data/picks/picks_2026-11-14_to_16.json",
+   "function": "origin_spread field",
+   "defect": "Ten of 22 pick cards showed a spread label whose sign contradicted the same card's moneyline and model probability.",
+   "before": "10 of 22 cards inconsistent",
+   "after": "0 of 22 cards inconsistent",
+   "test": "verify/tests/test_verification.py::test_pick_spread_sign_matches_moneyline",
+   "cross_check": "The test parses the published JSON, not the generator, so a stale regeneration also fails.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json"
+  }
+ ],
+ "parlay_table": {
+  "legs": "two legs at 0.58 each",
+  "note": "Corrected joint probabilities. The previously published row was rho=+0.3 -> 0.58.",
+  "rows": [
+   {
+    "rho": -0.3,
+    "joint": 0.2902,
+    "fair_decimal": 3.446,
+    "fair_american": 245
+   },
+   {
+    "rho": 0.0,
+    "joint": 0.3364,
+    "fair_decimal": 2.973,
+    "fair_american": 197
+   },
+   {
+    "rho": 0.3,
+    "joint": 0.3832,
+    "fair_decimal": 2.61,
+    "fair_american": 161
+   },
+   {
+    "rho": 0.6,
+    "joint": 0.4356,
+    "fair_decimal": 2.296,
+    "fair_american": 130
+   },
+   {
+    "rho": 0.9,
+    "joint": 0.5097,
+    "fair_decimal": 1.962,
+    "fair_american": -104
+   }
+  ],
+  "bounds": "For two 0.58 legs the joint probability cannot leave [0.16, 0.58]. The old published value sat exactly on the upper bound, which is only possible at rho = 1."
+ }
+}

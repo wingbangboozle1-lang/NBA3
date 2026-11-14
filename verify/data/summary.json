@@ -1,0 +1,85 @@
+{
+ "meta": {
+  "session": "arena/3655c68d-nba3",
+  "generated_utc": "2026-11-14",
+  "purpose": "Cross-pipeline verification and decision layer over the six pre-existing NBA3 dashboards.",
+  "position": "This site adds no new prediction model. It measures whether the models already published in this repository can be trusted, and it resolves the places where they contradict each other.",
+  "verification_rule": "A claim is marked VERIFIED only when it was recomputed from the repository artefact or checked against the official source named in its `source` field. A claim that could not be checked against an official source is marked UNVERIFIED with the reason. No value is inferred or filled in.",
+  "date_note": "Today is 2026-11-14 (UTC). The newest data in this repository is from 2026-11-13, so all 3-day slate and injury content is 1 day old.",
+  "disclaimer": "Research only. Not betting advice. No picks, lines or prices on this site are eligible for staking. See the open legal questions page."
+ },
+ "summary": [
+  {
+   "id": "SUM-01",
+   "label": "Game results reconciled across two independent pipelines",
+   "value": "174 / 174",
+   "detail": "Two sessions captured the 2026-27 game log from different sources and different code. Date, teams and exact final score agree on every game.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv",
+   "extra": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv"
+  },
+  {
+   "id": "SUM-02",
+   "label": "Overtime classification, independent recount",
+   "value": "9 / 9",
+   "detail": "Both logs contain the same 9 overtime games (8 OT, 1 double OT). No game is classified as OT in one log and regulation in the other.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv",
+   "extra": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-11-13_to_16.csv"
+  },
+  {
+   "id": "SUM-03",
+   "label": "Injury rows checked against the official NBA PDF",
+   "value": "110 / 110",
+   "detail": "Every named player in the published 11/13/26 5:00 PM injury table was compared to the official PDF. Status and matchup match on every row. See the injury page for the 12 rows whose matchup column the PDF text does not expose.",
+   "status": "VERIFIED",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+   "extra": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/injuries.json"
+  },
+  {
+   "id": "SUM-04",
+   "label": "Strategy passing every validation gate",
+   "value": "0 of 8",
+   "detail": "The /origin/ pipeline runs 8 candidate strategies through 7 gates. None passes all 7. The two best are under-powered: 24 and 28 bets against a 100-bet floor.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json",
+   "extra": ""
+  },
+  {
+   "id": "SUM-05",
+   "label": "Contradictions between dashboards that must be resolved",
+   "value": "9 open",
+   "detail": "Nine places where two dashboards publish different answers to the same question from the same data. Three were blocking, two of them arithmetic defects, and both of those are now fixed in the repository and pinned by tests. See the Contradictions page.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/contradictions.json",
+   "extra": ""
+  },
+  {
+   "id": "SUM-06",
+   "label": "Published strategy records re-audited from their own bet logs",
+   "value": "4 of 4",
+   "detail": "Each strategy record was recomputed from the individual bets behind it. Reported ROI, sample size and win count reproduce exactly. The label attached to one of them does not.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/backtest_bets.json",
+   "extra": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/validation_report.json"
+  },
+  {
+   "id": "SUM-07",
+   "label": "Injury table is one snapshot, not the latest one",
+   "value": "2.5 hours stale",
+   "detail": "A 7:30 PM official report existed before publication of the 5:00 PM snapshot. 11 players changed status in it, including two Probable/Doubtful players becoming Out.",
+   "status": "VERIFIED",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+   "extra": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+  },
+  {
+   "id": "SUM-08",
+   "label": "Lines that can be compared to a real market price",
+   "value": "0 of 22",
+   "detail": "The repository holds no licensed odds feed. Every profit figure assumes a flat -110 price. No published line has ever been compared with what a bookmaker actually offered.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json",
+   "extra": ""
+  }
+ ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "what": "A reviewable list of site improvements. Each item states the problem, the options, a recommendation, the cost, and exactly what decision is needed from the owner. Nothing here is implemented except where marked 'implemented this session'.",
+    "decision_states": ["Awaiting your decision", "Implemented this session", "Recommended - needs approval", "Deferred"],
+    "rules": "A suggestion is only marked implemented when the change is live and covered by a test. Everything else stays in the decision queue so the owner can choose the best path before anything else changes."
+  },
+  "suggestions": [
+    {
+      "id": "SG-01",
+      "priority": 1,
+      "area": "Strategy evaluation",
+      "problem": "Three dashboards run three different gate sets (7 gates in /origin/, 6 in /edge/, 7 different gates in /lab/), so 'proven strategy' means three things and none of them is comparable.",
+      "options": [
+        "Keep three gate sets and publish three leaderboards.",
+        "Adopt the /origin/ 7-gate set as canonical and retire the other two.",
+        "Adopt the /origin/ 7-gate set, plus require the promotion rule from this site (100 settled picks and a bootstrap interval on Brier skill that excludes zero)."
+      ],
+      "recommendation": "Option 3. It keeps the most complete gate set and adds the one control none of the three has: an interval, not a point estimate.",
+      "cost": "One afternoon of work. No new data needed.",
+      "decision_needed": "Approve the gate set and the promotion rule, or name a different one.",
+      "status": "Awaiting your decision",
+      "impact": "High - the leaderboard has no meaning without it.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+    },
+    {
+      "id": "SG-02",
+      "priority": 2,
+      "area": "Site structure",
+      "problem": "Six dashboards disagree with each other and two of them still tell the reader that no picks exist. A visitor cannot tell which page is authoritative.",
+      "options": [
+        "Keep all six and add a warning banner to each.",
+        "Consolidate into one generated site with the other five moved to an /archive/ path marked read-only.",
+        "Consolidate and delete the other five."
+      ],
+      "recommendation": "Option 2. Deleting evidence loses the audit trail; keeping six live sites guarantees continued contradiction. Marking the old trees as archived preserves the record without inviting belief.",
+      "cost": "One day, mostly moving files and rewriting the root index.",
+      "decision_needed": "Choose the consolidation target, or confirm the six stay.",
+      "status": "Awaiting your decision",
+      "impact": "High - the site currently contradicts itself in nine places.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/contradictions.json"
+    },
+    {
+      "id": "SG-03",
+      "priority": 3,
+      "area": "Decision support",
+      "problem": "Every page shows results but no page shows what to do next. The owner has to read six sites to work out which single decision unblocks the most work.",
+      "options": [
+        "Leave the pages as they are.",
+        "Add a single 'decisions' page ranked by what it unblocks, with the questions and the suggested action on one screen."
+      ],
+      "recommendation": "Option 2, which is what the Decisions page on this site does. It ranks each question by the number of downstream tasks it freezes.",
+      "cost": "Already built.",
+      "decision_needed": "None.",
+      "status": "Implemented this session",
+      "impact": "Medium - it turns reading into choosing.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/decisions.html"
+    },
+    {
+      "id": "SG-04",
+      "priority": 4,
+      "area": "Correctness control",
+      "problem": "Two of the most visible published numbers in the repository were wrong (the parlay joint probability and every pick-card spread label) and nothing caught them before publication.",
+      "options": [
+        "Rely on review.",
+        "Add a numerical self-test to the build that recomputes published values from first principles and fails the build on a mismatch."
+      ],
+      "recommendation": "Option 2. A recomputation that runs on every push is the only control that survives a rushed session. This site implements it.",
+      "cost": "Already built.",
+      "decision_needed": "None.",
+      "status": "Implemented this session",
+      "impact": "High - it is the reason the two defects were found.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/build.py"
+    },
+    {
+      "id": "SG-05",
+      "priority": 5,
+      "area": "Data freshness",
+      "problem": "The injury page shows a snapshot that was already superseded when it was published, and nothing stops a stale build from deploying.",
+      "options": [
+        "Show the report timestamp and let the reader judge.",
+        "Refuse to publish a slate whose newest injury report is older than a fixed cutoff before tip-off."
+      ],
+      "recommendation": "Option 2, with the cutoff set per game at the last report published at least 30 minutes before tip-off.",
+      "cost": "Small code change; the hard part is the automated pull (Q-05).",
+      "decision_needed": "Approve the cutoff rule.",
+      "status": "Awaiting your decision",
+      "impact": "High for anything that depends on who is playing.",
+      "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+    },
+    {
+      "id": "SG-06",
+      "priority": 6,
+      "area": "Leaderboard design",
+      "problem": "The brief asks for a leaderboard that rewards top strategies, but no page defines what is being rewarded, and the current dashboards would rank ineligible entries.",
+      "options": [
+        "Rank by raw win rate.",
+        "Rank by ROI at an assumed price.",
+        "Rank by Brier skill against a baseline, multiplied by a confidence factor, with sample size and an interval shown on every row, and no rank for anything that fails a gate."
+      ],
+      "recommendation": "Option 3. Raw win rate is a measure of variance, and ROI at an assumed price is a measure of an assumption. Brier skill with an interval is the only one of the three that measures forecasting ability.",
+      "cost": "Small once the gate set is fixed (SG-01).",
+      "decision_needed": "Approve the ranking rule, or name a different one.",
+      "status": "Awaiting your decision",
+      "impact": "High - this is the core of the brief.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/ledger.json"
+    },
+    {
+      "id": "SG-07",
+      "priority": 7,
+      "area": "Provenance",
+      "problem": "Source links are shown but never checked. A dead or redirected link is invisible until a reader clicks it.",
+      "options": [
+        "Leave links unchecked.",
+        "Add a scheduled link check that fails when an official source stops resolving."
+      ],
+      "recommendation": "Option 2. This environment cannot reach most external hosts from the shell, so the check must run in GitHub Actions where outbound access exists.",
+      "cost": "Small.",
+      "decision_needed": "Approve adding a scheduled workflow.",
+      "status": "Recommended - needs approval",
+      "impact": "Medium - keeps the verification claim honest.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/data/sources.json"
+    },
+    {
+      "id": "SG-08",
+      "priority": 8,
+      "area": "Presentation",
+      "problem": "Numbers are shown to four decimals on some pages and to two on others, and probability, decimal and American odds are mixed freely.",
+      "options": [
+        "Leave as is.",
+        "Standardise on one convention per quantity and state it once on a methodology page."
+      ],
+      "recommendation": "Option 2. Probability to three decimals, prices in American with decimal in brackets, points to one decimal.",
+      "cost": "Trivial.",
+      "decision_needed": "None.",
+      "status": "Recommended - needs approval",
+      "impact": "Low, but it removes a source of misreading.",
+      "source": ""
+    },
+    {
+      "id": "SG-09",
+      "priority": 9,
+      "area": "Risk controls",
+      "problem": "No page has a responsible-gambling control, and no page states a staking limit.",
+      "options": [
+        "Add a footer disclaimer only.",
+        "Add a visible responsible-gambling notice, a self-exclusion link, and a hard statement that no pick is staking-eligible until the gates pass."
+      ],
+      "recommendation": "Option 2. A footer is not a control.",
+      "cost": "Trivial.",
+      "decision_needed": "Approve the wording and confirm the jurisdiction (Q-01).",
+      "status": "Recommended - needs approval",
+      "impact": "Medium - legal exposure where the site is readable.",
+      "source": "https://kansspelautoriteit.nl/"
+    },
+    {
+      "id": "SG-10",
+      "priority": 10,
+      "area": "Reproducibility",
+      "problem": "Six pipelines recompute overlapping artefacts and no two agree. A reader cannot tell which artefact is upstream of which.",
+      "options": [
+        "Leave the six pipelines independent.",
+        "Declare one pipeline canonical for game results and one for ratings, have the rest consume those artefacts, and let the origin of every number be traceable to one file."
+      ],
+      "recommendation": "Option 2. The 174-game log is already agreed between two independent captures, so it is the natural root of the dependency graph.",
+      "cost": "Two days.",
+      "decision_needed": "Approve the canonical choice.",
+      "status": "Awaiting your decision",
+      "impact": "Medium - it makes the contradictions go away structurally rather than one at a time.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv"
+    }
+  ]
+}
