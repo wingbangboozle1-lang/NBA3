@@ -1,0 +1,440 @@
+{
+ "session": "arena/1823b910-nba3",
+ "convention": "Vacated = players listed Out or Doubtful (the engine's own convention in scripts/strategy_lab.py::rollup). At risk = players listed Questionable; they are NOT counted as absent. Both sums use only official season per-game figures the repository has captured (top 31 by minutes per game), so every total is a FLOOR.",
+ "unknown_policy": "A player with no captured official minutes figure is counted in players_without_official_minutes and contributes 0, never an estimate. A team that had not filed produces None, never 0.",
+ "replacement_not_quantified": "Who absorbs the vacated minutes, and what share of the vacated production the replacement returns, is NOT modelled. It needs per-player game logs and on/off splits, which this repository does not have. Publishing a replacement rate would be a guess, so the cell is left blank.",
+ "rows": [
+  {
+   "date": "2026-11-14",
+   "matchup": "BKN@MEM",
+   "team": "BKN",
+   "published_state": "FILED",
+   "published_out_count": 4,
+   "published_minutes_vacuum": 0.0,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 6,
+   "refreshed_out": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Saraf, Ben"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [],
+   "refreshed_probable": [
+    "Brown Jr., Mikel",
+    "Traore, Nolan"
+   ],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Saraf, Ben"
+   ],
+   "players_without_official_minutes_count": 4,
+   "changed": false,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 4 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "BKN@MEM",
+   "team": "MEM",
+   "published_state": "NOT_YET_DUE",
+   "published_out_count": 0,
+   "published_minutes_vacuum": null,
+   "refreshed_state": "NOT_YET_SUBMITTED",
+   "refreshed_rows_listed": 0,
+   "refreshed_out": [],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [],
+   "refreshed_probable": [],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": null,
+   "refreshed_pts_vacuum": null,
+   "refreshed_reb_vacuum": null,
+   "refreshed_ast_vacuum": null,
+   "at_risk_minutes": null,
+   "at_risk_pts": null,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [],
+   "players_without_official_minutes_count": 0,
+   "changed": true,
+   "minutes_note": "UNKNOWN - the team had not filed at this report time, so the minutes vacated are published blank rather than as zero.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "CHI@MIN",
+   "team": "CHI",
+   "published_state": "NOT_YET_DUE",
+   "published_out_count": 0,
+   "published_minutes_vacuum": null,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 7,
+   "refreshed_out": [
+    "Awaka, Tobe",
+    "Sellers, Jaylin",
+    "Swain, Dailyn",
+    "Wilson, Caleb"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [
+    "Claxton, Nic",
+    "Powell, Norman",
+    "Smith, Jalen"
+   ],
+   "refreshed_probable": [],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Awaka, Tobe",
+    "Sellers, Jaylin",
+    "Swain, Dailyn",
+    "Wilson, Caleb"
+   ],
+   "players_without_official_minutes_count": 4,
+   "changed": true,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 4 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "CHI@MIN",
+   "team": "MIN",
+   "published_state": "FILED",
+   "published_out_count": 2,
+   "published_minutes_vacuum": 0.0,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 3,
+   "refreshed_out": [
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [],
+   "refreshed_probable": [],
+   "refreshed_available": [
+    "Beringer, Joan"
+   ],
+   "refreshed_minutes_vacuum": 33.7,
+   "refreshed_pts_vacuum": 33.3,
+   "refreshed_reb_vacuum": 4.8,
+   "refreshed_ast_vacuum": 3.5,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [
+    "Edwards, Anthony"
+   ],
+   "players_without_official_minutes": [
+    "DiVincenzo, Donte"
+   ],
+   "players_without_official_minutes_count": 1,
+   "changed": false,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 1 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DAL@CLE",
+   "team": "CLE",
+   "published_state": "NOT_YET_DUE",
+   "published_out_count": 0,
+   "published_minutes_vacuum": null,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 8,
+   "refreshed_out": [
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [
+    "Allen, Jarrett",
+    "Harden, James",
+    "Mitchell, Donovan",
+    "Watson, Peyton"
+   ],
+   "refreshed_probable": [],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 33.0,
+   "at_risk_pts": 23.0,
+   "at_risk_players_known": [
+    "Mitchell, Donovan"
+   ],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "players_without_official_minutes_count": 4,
+   "changed": true,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 4 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DAL@CLE",
+   "team": "DAL",
+   "published_state": "FILED",
+   "published_out_count": 3,
+   "published_minutes_vacuum": 0.0,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 6,
+   "refreshed_out": [
+    "Biberovic, Tarik",
+    "Christie, Max",
+    "Lively II, Dereck",
+    "de Larrea, Sergio"
+   ],
+   "refreshed_doubtful": [
+    "Christie, Max"
+   ],
+   "refreshed_questionable": [],
+   "refreshed_probable": [
+    "Johnson Jr., Morez"
+   ],
+   "refreshed_available": [
+    "Martin, Caleb"
+   ],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Biberovic, Tarik",
+    "Christie, Max",
+    "Lively II, Dereck",
+    "de Larrea, Sergio"
+   ],
+   "players_without_official_minutes_count": 4,
+   "changed": true,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 4 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DEN@NOP",
+   "team": "DEN",
+   "published_state": "FILED",
+   "published_out_count": 4,
+   "published_minutes_vacuum": 0.0,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 4,
+   "refreshed_out": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [],
+   "refreshed_probable": [],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
+   ],
+   "players_without_official_minutes_count": 4,
+   "changed": false,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 4 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DEN@NOP",
+   "team": "NOP",
+   "published_state": "NOT_YET_DUE",
+   "published_out_count": 0,
+   "published_minutes_vacuum": null,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 5,
+   "refreshed_out": [
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte",
+    "Watford, Trendon"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [],
+   "refreshed_probable": [
+    "Missi, Yves"
+   ],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte",
+    "Watford, Trendon"
+   ],
+   "players_without_official_minutes_count": 4,
+   "changed": true,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 4 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DET@MIA",
+   "team": "DET",
+   "published_state": "FILED",
+   "published_out_count": 5,
+   "published_minutes_vacuum": 0.0,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 7,
+   "refreshed_out": [
+    "Duren, Jalen",
+    "Joe, Isaiah",
+    "Lanier, Chaz",
+    "Okorie, Ebuka",
+    "Onyenso, Ugonna"
+   ],
+   "refreshed_doubtful": [],
+   "refreshed_questionable": [],
+   "refreshed_probable": [],
+   "refreshed_available": [
+    "Harkless, Elijah",
+    "Jones, Isaac"
+   ],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Duren, Jalen",
+    "Joe, Isaiah",
+    "Lanier, Chaz",
+    "Okorie, Ebuka",
+    "Onyenso, Ugonna"
+   ],
+   "players_without_official_minutes_count": 5,
+   "changed": false,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 5 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "date": "2026-11-14",
+   "matchup": "DET@MIA",
+   "team": "MIA",
+   "published_state": "NOT_YET_DUE",
+   "published_out_count": 0,
+   "published_minutes_vacuum": null,
+   "refreshed_state": "FILED",
+   "refreshed_rows_listed": 4,
+   "refreshed_out": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
+   "refreshed_doubtful": [
+    "Larsson, Pelle"
+   ],
+   "refreshed_questionable": [],
+   "refreshed_probable": [
+    "Antetokounmpo, Giannis",
+    "Thompson, Klay"
+   ],
+   "refreshed_available": [],
+   "refreshed_minutes_vacuum": 0.0,
+   "refreshed_pts_vacuum": 0.0,
+   "refreshed_reb_vacuum": 0.0,
+   "refreshed_ast_vacuum": 0.0,
+   "at_risk_minutes": 0.0,
+   "at_risk_pts": 0.0,
+   "at_risk_players_known": [],
+   "out_players_known": [],
+   "players_without_official_minutes": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
+   "players_without_official_minutes_count": 2,
+   "changed": true,
+   "minutes_note": "Sum of the official season minutes-per-game of the players listed Out or Doubtful (the engine's convention). It is a FLOOR: 2 listed player(s) are outside the captured official minutes table, so their minutes are unknown and are not counted.",
+   "rotation_note": "Who absorbs those minutes, and how much of the vacated production they replace, is NOT quantified. Answering it needs per-player game logs and on/off splits, which this repository does not have. The vacuum is published; the replacement is deliberately left blank.",
+   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "source_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "source_minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  }
+ ],
+ "sources": {
+  "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+  "index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "minutes": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+ }
+}
