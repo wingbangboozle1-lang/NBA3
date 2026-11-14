@@ -251,6 +251,24 @@ jobs:
             exit 1
           }
           python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'
+      - name: Independent audit tree (session 7f3b89af) - fresh captures, checks, analysis, pages
+        run: |
+          python3 audit_7f3b89af/checks.py
+          python3 audit_7f3b89af/analysis.py
+          python3 audit_7f3b89af/build.py
+          python3 -m unittest discover -s audit_7f3b89af -p 'test_*.py'
+          git diff --exit-code -- audit_7f3b89af/data audit_7f3b89af/pages || {
+            echo "audit_7f3b89af/ drifted: the committed captures, report, analysis or pages do not"
+            echo "reproduce. The captures are transcriptions of official pages and must not be"
+            echo "regenerated silently by a build."
+            git status --porcelain -- audit_7f3b89af/data audit_7f3b89af/pages
+            exit 1
+          }
+          test -z "$(git status --porcelain -- audit_7f3b89af/data audit_7f3b89af/pages)" || {
+            echo 'audit_7f3b89af/ has uncommitted changes'
+            git status --porcelain -- audit_7f3b89af/data audit_7f3b89af/pages
+            exit 1
+          }
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -260,6 +278,7 @@ jobs:
           cp archive.html _pages/archive.html
           cp -r audit_dd1eb1f1 _pages/audit_dd1eb1f1
           cp -r audit_736efb4b _pages/audit_736efb4b
+          cp -r audit_7f3b89af _pages/audit_7f3b89af
           cp executive-summary.html _pages/
           cp -r dashboard _pages/dashboard
           cp -r docs _pages/docs

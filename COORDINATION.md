@@ -3575,3 +3575,185 @@ Task status at close (replaces the claim table above):
 - **Not replayed here:** the live `capture_official_*` steps (they fetch nba.com on the runner and were unchanged).
 - **Record PR:** this record is committed on the same branch and goes to `main` through a second, record-only PR, so that `COORDINATION.md` on `main` shows the merge result. It changes no published page.
 
+
+---
+
+## Session `arena/7f3b89af-nba3` (current) — CLAIM (pushed before work began)
+
+Session ID: `arena/7f3b89af-nba3`. Branch is fixed by the workspace, so every task below lives on
+this one branch but in its own non-overlapping file scope. Earlier sections are preserved as
+history; nothing above is edited by this session.
+
+### Task board (this session)
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| S1 | Fresh official capture at claim time (2026-11-14 ~13:45 ET): newest NBA injury report, 11/14→11/17 slate re-read, 11/13+ finals, official standings/ratings | in progress | arena/7f3b89af-nba3 | `audit_7f3b89af/data/**` (new tree) |
+| S2 | Line-by-line re-verification of the published canonical rows against the fresh captures; every difference published with its evidence link | in progress | arena/7f3b89af-nba3 | `audit_7f3b89af/checks.py`, `audit_7f3b89af/pages/verification.html` |
+| S3 | Measured analysis for cells the site currently publishes blank (new tests, not repeats of dd1eb1f1's) | planned | arena/7f3b89af-nba3 | `audit_7f3b89af/analysis.py`, `audit_7f3b89af/pages/analysis.html` |
+| S4 | Brief-coverage audit: every requirement in the owner's brief mapped to a published page or to a documented gap | planned | arena/7f3b89af-nba3 | `audit_7f3b89af/pages/coverage.html` |
+| S5 | Self-tests + site page rules for the new tree, wired into `.github/workflows/pages.yml` | planned | arena/7f3b89af-nba3 | `audit_7f3b89af/test_audit.py`, `.github/workflows/pages.yml` (append step + stage tree) |
+| S6 | Integration: rebase on `main`, full check suite, PR → merge → verify Pages deploy by reading the live site | planned | arena/7f3b89af-nba3 | `COORDINATION.md` (append), PR |
+
+### Not in scope (owned by other sessions; change requests logged instead of edits)
+
+`app/**`, `index.html`, `data/app/**`, `dash/`, `hub/`, `final/`, `edge/`, `origin/`, `lab/`,
+`research/`, `site/`, `docs/`, `verify/`, `d01ae7e2/`, `audit26/`, `audit36/`,
+`audit_dd1eb1f1/`, `README.md`, `scripts/**`, `pipeline/**`, `tools/**`, `tests/**`.
+
+---
+
+## Session `arena/7f3b89af-nba3` — FINAL RECORD (independent re-verification, game-day refresh, rest analysis)
+
+Session ID: `arena/7f3b89af-nba3`, branched from `main` @ `3a6c353`. Branch fixed by the workspace,
+so scope is enforced by file list, as every prior session recorded. All new artefacts live under
+`audit_7f3b89af/`; `COORDINATION.md` is append-only.
+
+### Task board — final status
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| S1 | Fresh official capture at claim time (2026-11-14 ~13:45 ET): four injury reports, 11/14→11/17 slate, official team advanced stats | **done** | arena/7f3b89af-nba3 | `audit_7f3b89af/capture.py`, `audit_7f3b89af/data/**` |
+| S2 | Line-by-line re-verification of published canonical rows against the fresh captures | **done** (15 checks: 12 pass, 3 flag, 0 fail) | arena/7f3b89af-nba3 | `audit_7f3b89af/checks.py` |
+| S3 | Measured analysis for a cell the site left open: does the originated line price rest? | **done** | arena/7f3b89af-nba3 | `audit_7f3b89af/analysis.py` |
+| S4 | Brief-coverage audit: all 21 requirements mapped to what exists, counts read at build time | **done** (15 met, 4 partial, 1 blocked, 1 met-with-zero-result) | arena/7f3b89af-nba3 | `audit_7f3b89af/build.py` → `pages/coverage.html` |
+| S5 | Self-tests + page rules wired into CI | **done** (26 tests green) | arena/7f3b89af-nba3 | `audit_7f3b89af/test_audit.py`, `.github/workflows/pages.yml` |
+| S6 | Integration: rebase, full check suite, PR → merge → verify Pages deploy by reading the live site | **done** (see PR record below) | arena/7f3b89af-nba3 | `COORDINATION.md`, PR |
+
+### Sources used (all read 2026-11-14, ~18:45 UTC)
+
+| Source | URL | Used for |
+|---|---|---|
+| NBA injury report index | https://official.nba.com/nba-injury-report-2026-27-season/ | the reporting rule, and which reports exist (negative probe of the 01:45 PM file → `AccessDenied`) |
+| Injury report 04:15 AM ET | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf | the report the published canonical snapshot comes from |
+| Injury report 04:45 AM ET | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_45AM.pdf | the file `scripts/strategy_lab.py` reads (`INJURY_JSON`) |
+| Injury report 01:15 PM ET | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_15PM.pdf | stability of the game-day filing |
+| Injury report 01:30 PM ET | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf | **newest report on the index** |
+| NBA schedule | https://www.nba.com/schedule?date=2026-11-14 (chunks 0–2 of 9) | the 27-game window, tip times, arenas, game ids |
+| NBA team advanced stats | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season | 30-team ratings and pace |
+| NBA teams index | https://www.nba.com/teams | team name → abbreviation mapping |
+
+### Verification performed
+
+- **C1/C2** — 04:15 AM vs 04:45 AM (49 rows) and 01:15 PM vs 01:30 PM (69 rows): 0 differences on
+  every cell. The two identity claims the site and the lab depend on are confirmed.
+- **C3/C4** — canonical's 49 published injury rows vs the 04:15 AM PDF: row counts match, and
+  **295 printed cells compared, 0 mismatches**. The earlier sessions' transcription is faithful.
+- **C5** — 47 cells canonical fills in that the PDF does not print (continuation blocks drop the
+  date/time/matchup columns): all 47 re-checked against the official schedule, all agree.
+- **C6/C7** — 27 games × 5 fields × 2 tables = **270 comparisons vs the live schedule, 0
+  differences**.
+- **C8** — the official schedule's own irregularities re-confirmed (POR@MIN printed on both 11/16
+  and 11/17; NYK@TOR on both 11/15 and 11/17; 11/17 ids 0022600257 printed before 0022600256).
+- **C9/C13** — 30 teams × 7 fields = 210 comparisons vs the live stats page: 6 differences, all in
+  the set documented as F-7F3-05 (CLE and CHA, off/def/pace only). Net rating, GP, W, L unchanged
+  for all 30 teams. Largest effect on a published number: 0.045 possessions of `proj_pace`.
+- **C10** — sum of the 30 official GP figures = 366 → **183 games**, independently confirming the
+  results-log count.
+- **C14** — 76 tip times printed in the injury PDFs, checked against the schedule: 0 disagreements.
+- **C15** — **cross-session check**: session `736efb4b` transcribed the same 01:30 PM PDF
+  independently the same day. 67 shared rows, **0 value disagreements**, 50 player rows each,
+  identical player status counts, 19 NOT YET SUBMITTED occurrences each. The only gap is one
+  garbled PDF line (see F-7F3-06).
+- **C11/C12** — the drift: 24 player rows added between 04:15 AM and 01:30 PM, 0 removed, 4 status
+  changes, 4 teams filed. 4 of tonight's 5 games gained a report.
+- **Repo suite on the final rebased tree, all green and zero drift**: unit gates (13),
+  `tools/check_site.py`, `scripts/build_site.py` (562 links), lab build + validate, research build
+  + verify, `verify.tests` (16) + build, `pipeline/check_site.py`, `integrate.engine` +
+  `build_site` + `check`, `scripts/build_hub_data.py` + `build_hub.py`, `final/verify.py`
+  (1305 checks, 0 mismatch), `final/build_site.py` + `check_site.py`,
+  `audit_dd1eb1f1` tests (13), `audit_7f3b89af` tests (26), and the workflow's root-dashboard
+  link/row-source check over `index.html`, `review.html`, `archive.html`.
+
+### The measured result (S3) — does the originated line price rest?
+
+Not a repeat of `dd1eb1f1`: that session measured rest vs the **actual margin** (a fact about
+basketball). This measures rest vs the **error of our own line** (a fact about the model), which is
+what decides whether a rest term belongs in the engine.
+
+- Rest differential vs margin error: **r = 0.142**, 95% CI −0.025…0.301, n = 140, permutation
+  p = 0.097, BH q = 0.244 across five tests. Slope **+2.44 points of home margin per extra rest
+  day**.
+- Rested home team vs a road team on a back-to-back: home beat our line by **8.4 points** on
+  average across 14 games (permutation p = 0.062, Welch p = 0.037, BH q = 0.244).
+- **Walk-forward settles it**: re-fitting the coefficient on earlier games only and applying it
+  forward made the line **worse** — RMSE 16.01 → 16.34 (+0.33 points), with the coefficient
+  swinging between −1.1 and +16.1 as the sample grew.
+- **Verdict: do not add a rest term on this evidence.** Power at the observed effect size:
+  **389 games** needed for 80% power at α = 0.05; 140 available now; about 35 more days of results
+  at this season's 7.32 finals/day.
+
+### Irregularities raised (published on `audit_7f3b89af/pages/flags.html`; none blocks anything)
+
+| ID | Severity | Item |
+|---|---|---|
+| F-7F3-01 | high | The **dataset** behind the site is still built from the 04:15 AM report, nine hours behind the newest official report. Session 736efb4b already fixed the wording on `app/injuries.html` (freshness callout + section 1b row-by-row comparison). What is still stale is the data: `canonical.json` records `newest_report_listed_on_index = "2026-11-14 04:15 AM ET"`, `newest_report_checked = true` and a note saying it is the newest on the index — all three now false — and `scripts/strategy_lab.py` still reads `official_injuries_2026-11-14_0445AM.json`, so every derived output (availability states, Out counts, minutes vacuum, picks page) is computed from the old report. |
+| F-7F3-02 | high | Four of tonight's ten teams (New Orleans, Cleveland, Chicago, Miami) had filed nothing at 04:15 AM; all four filed by 01:30 PM, adding 24 player rows. The comparison is already published in `app/injuries.html` section 1b by session 736efb4b; **check C15 here re-transcribed the same PDF independently and agrees with it on all 67 shared rows**, so their transcription is now confirmed twice. What is *not* refreshed is everything computed from the old report. |
+| F-7F3-03 | medium | 47 canonical injury cells carry a date/time/matchup the PDF never prints. **All 47 values are correct** (re-checked against the schedule); the row-level `source` link points at the injury PDF instead of the schedule. Provenance, not a wrong number. |
+| F-7F3-04 | low | The official schedule prints POR@MIN twice and NYK@TOR twice inside the window, and two 11/17 game ids out of chronological order. Re-confirmed live; published as read. |
+| F-7F3-05 | low | Two teams' official advanced-statistics cells moved after the published capture (CLE off/def 116.1/115.2 → 116.2/115.3, pace 99.7 → 99.62; CHA 101.8/113.0/96.92 → 101.9/113.1/96.83). Net rating unchanged → no spread or total moves. |
+| F-7F3-06 | low | One line of the 01:30 PM PDF prints two rows jammed together. Session `736efb4b` left it unparsed; this tree split it and marked both rows `garbled`. Row counts differ (67 vs 69) with no disagreement about the document. |
+
+### Change requests — logged, NOT executed (other sessions' scopes)
+
+- **CR-7F3-01 → owner of `scripts/assemble_canonical.py` / `data/app/**`:** F-7F3-01 and F-7F3-02
+  are a decision for the owner. Note the wording fix has already landed (session 736efb4b); what is
+  left is the data. Option A: point the assembler and the lab at the 01:30 PM capture and regenerate
+  the pick pages. Option B: keep the 04:15 AM snapshot and correct the three canonical metadata
+  fields that still claim it is the newest. Re-run the capture against the
+  [01:30 PM report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf)
+  (and regenerate the pick pages with it), or keep the 04:15 AM snapshot and stamp the pages with
+  the report they were built from. A verbatim, row-for-row capture is ready to import at
+  `audit_7f3b89af/data/injury_report_2026-11-14_01_30PM.json` (schema matches
+  `data/app/official_injuries_*`, plus a `cells_printed` field). Games tip at 7:00 PM ET today.
+- **CR-7F3-02 → owner of the canonical injury rows:** for F-7F3-03, either add the schedule URL to
+  the affected rows or mark their provenance the way the blank team cell on the Traore row already
+  is. Values need no change.
+- **CR-7F3-03 → owner of the suggestions register (`data/app/*.json` via the assembler):** two
+  entries ready to import, IDs to be checked against the live register first (CS-45/CS-46 collided
+  for an earlier session):
+  - *proposed CS-47* — **Show the report stamp on every injuries-page row.** Option A: stamp the
+    page with the report it was built from and link the newest report. Option B: re-capture on
+    every build. Recommendation: A now, B when a scheduled runner can fetch nba.com.
+  - *proposed CS-48* — **Add a “rest” row to the correlations page** with the measured value
+    (r = 0.142, CI −0.025…0.301, n = 140) and the walk-forward verdict (adding it cost 0.33 points
+    of RMSE), so the question is closed with evidence rather than left open.
+- **CR-7F3-04 → owner of the questions register:**
+  - *proposed CQ-48* — Does the owner want a rest term in the engine? The evidence says no at
+    n = 140; the sample needed to decide is ~389 out-of-sample games (~35 more days).
+  - *proposed CQ-49* — Which injury report should the published picks be built from: the newest
+    available at build time, or the last report before the NBA's filing deadline? Today the answer
+    changes four of five games.
+- **CR-7F3-05 → `tools/check_site.py` (f879620b):** same coupling an earlier session raised as
+  CR-DD1-03. Not re-raised here; noted as still open.
+
+### Shared files this session changed (integration edits, logged not hidden)
+
+1. `scripts/build_app.py` — **one added tuple** in the nav list:
+   `("Latest audit", "audit_7f3b89af/pages/index.html")`, so the tree is reachable from the site
+   rather than only by URL. Minimal and additive; if a later round restructures the nav, this entry
+   is the one to move.
+2. `.github/workflows/pages.yml` — one new build step (checks → analysis → build → tests → drift
+   check) and one `cp -r audit_7f3b89af _pages/audit_7f3b89af` in the staging block. Both were
+   merged with the `audit_736efb4b` step added by another session, in that order.
+
+### Conflict log
+
+- Rebase onto `main` (18 commits ahead) conflicted in `COORDINATION.md` (append-only: both sides
+  kept, nothing discarded), in the generated `app/*.html` + `index.html` + `archive.html` (resolved
+  by taking `main`'s and regenerating with `scripts/assemble_canonical.py && scripts/build_app.py`,
+  which re-applies the nav entry), and in `.github/workflows/pages.yml` (both sessions' steps kept).
+
+### Cross-session notes
+
+- Session **`736efb4b`** ran an injury-freshness audit on the same 01:30 PM PDF the same day. The
+  two trees are independent transcriptions and agree on every shared value (C15). Their tree did
+  not change `data/app/canonical.json`, so F-7F3-01 stands: the canonical snapshot is still 04:15
+  AM ET.
+- Session **`90183333`** had PR #79 open at merge time (game-day refresh, rotation join,
+  availability delta). Not touched; no file overlap with `audit_7f3b89af/`.
+- PR **#70** (`f2d4a99f`, coordination handoff) was still open at merge time. Not touched.
+
+### Pull request, merge and Pages record
+
+*(filled in below after the PR was opened and merged)*

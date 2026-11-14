@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Does the originated line price rest? — independent audit — NBA3</title>
+<meta name="description" content="Independent re-verification of the NBA3 dashboard against official NBA pages read on 2026-11-14.">
+<link rel="stylesheet" href="../../app/assets/app.css">
+<link rel="stylesheet" href="../assets/audit.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">NBA3</span> Independent audit</a>
+    <div class="stamp">Session <strong>arena/7f3b89af-nba3</strong> · official pages read 2026-11-14 18:45 UTC ·
+      everything below is checked against an official page, never inferred</div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="index.html">Overview</a> <a href="flags.html">Flagged</a></span></div><div class="nav-group"><span class="nav-cat">Findings</span><span class="nav-links"><a href="injuries.html">Injuries</a> <a href="slate.html">Slate</a> <a href="ratings.html">Ratings</a> <a href="analysis.html" class="on">Rest analysis</a></span></div><div class="nav-group"><span class="nav-cat">Checks</span><span class="nav-links"><a href="verification.html">Verification</a> <a href="coverage.html">Brief coverage</a></span></div><div class="nav-group"><span class="nav-cat">Back to site</span><span class="nav-links"><a href="../../index.html">Canonical dashboard</a> <a href="../../app/flagged.html">Site flags</a> <a href="../audit_dd1eb1f1/pages/index.html">Earlier audit</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb"><a href="../../index.html">NBA3</a> · <a href="index.html">Independent audit</a></div>
+    <h1>Does the originated line price rest?</h1>
+    <p class="lead">A measured answer, with the sample size needed to settle it.</p>
+  </div>
+<section class="panel"><h2>The question</h2>
+<p class="lead-strong">Does our originated line already price rest, or does its error still carry a rest signal that a bettor could harvest?</p>
+<p>An earlier session asked whether rest correlates with the <em>actual</em> margin. That is a fact
+about basketball. This asks whether rest correlates with the <em>error of our own line</em>, which is
+the question that decides whether a rest term belongs in the engine: if the line already prices
+rest, the correlation is zero and there is nothing to add.</p>
+<p>DERIVED -- our arithmetic on official results, not an official NBA statistic.</p><p class="note">Inputs: data/app/games_2026-11-14c.csv (183 official finals) and data/app/canonical.json -&gt; oos_sample (140 out-of-sample games). Games used: 140.</p></section><section class="panel"><h2>Verdict</h2><p class="verdict">The originated line does not price rest, and the rest signal shows up in its error in the expected direction: +2.44 points of home margin per extra day of home rest (r = 0.142, 95% CI -0.025 to 0.301, permutation p = 0.097, BH-adjusted q = 0.244 over five tests). In the classic spot -- rested home team against a road team on a back-to-back -- the home side beat our line by 8.4 points on average across 14 games. Neither survives correction for testing five hypotheses at once, and the walk-forward test settles it: fitting the rest coefficient on earlier games only and applying it forward made the line WORSE by 0.33 points of RMSE (16.01 to 16.34), with the coefficient swinging between -1.1 and 16.1 points per day as the sample grew. Conclusion: do not add a rest term on this evidence. Re-test when the out-of-sample sample reaches roughly 389 games.</p><p class="note">Method: Rest is days since that team&#x27;s previous game in the official log. Error is actual home margin minus our predicted home margin. Permutation p-values are two-sided with 20000 shuffles, seed 20261114. Multiple comparisons across the five tests are controlled with Benjamini-Hochberg at q &lt; 0.05.</p></section><section class="panel"><h2>The five tests</h2><div class="table-scroll"><table><thead><tr><th>ID</th><th>Question</th><th>Statistic</th><th>Value</th><th>95% CI</th><th>n</th><th>p (permutation)</th><th>q (BH)</th><th>Survives BH at 0.05</th><th>How to read it</th><th>Source</th></tr></thead><tbody><tr><td>T1</td><td>Rest differential (home rest - away rest) vs the originated line&#x27;s margin error</td><td>Pearson r</td><td>0.1417</td><td>-0.025 … 0.301</td><td>140</td><td>0.0974</td><td>0.2436</td><td><span class="pill">no</span></td><td>A non-zero slope is points of margin error per extra day of home rest. If the line already prices rest, this is zero.</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>T2</td><td>Same test on the baseline (constant home-court margin) -- control</td><td>Pearson r</td><td>0.0661</td><td>-0.101 … 0.229</td><td>140</td><td>0.4394</td><td>0.6919</td><td><span class="pill">no</span></td><td>The baseline knows nothing about rest, so this is what &#x27;unpriced rest&#x27; looks like. It is the yardstick for T1.</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>T3</td><td>Mean margin error when the away team is on a back-to-back and the home team is rested, vs every other game</td><td>difference in mean residual (points)</td><td>8.4306</td><td><span class="blank">—</span></td><td>14</td><td>0.0617</td><td>0.2436</td><td><span class="pill">no</span></td><td>If the model over-rates a rested road team the mean error here is negative. This is the subgroup a bettor would actually bet.</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>T4</td><td>Combined rest (home + away) vs the originated total&#x27;s error</td><td>Pearson r</td><td>0.0506</td><td>-0.116 … 0.215</td><td>140</td><td>0.5535</td><td>0.6919</td><td><span class="pill">no</span></td><td>Tired teams scoring less is the theory. If the totals model ignores it, this shows up here.</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>T5</td><td>Walk-forward: would adding a rest term have reduced out-of-sample margin error? (coefficient fitted on earlier games only)</td><td>RMSE, points</td><td>16.3381</td><td><span class="blank">—</span></td><td>138</td><td><span class="blank">—</span></td><td>1.0000</td><td><span class="pill">no</span></td><td>The coefficient is re-fitted before every game using only games already played, so a positive improvement is achievable in real time. A negative improvement means the rest term is noise that would have made the line worse.</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr></tbody></table></div></section><section class="panel"><h2>Margin error by rest differential</h2><div class="table-scroll"><table><thead><tr><th>Rest differential (home rest − away rest)</th><th>Games</th><th>Mean error (points)</th><th>Mean absolute error (points)</th><th>Source</th></tr></thead><tbody><tr><td>&lt;=-2 (road team much fresher)</td><td>10</td><td>0.62</td><td>11.88</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>-1</td><td>19</td><td>-4.13</td><td>11.27</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>0 (equal rest)</td><td>77</td><td>-0.37</td><td>12.35</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>+1</td><td>25</td><td>7.98</td><td>16.02</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr><tr><td>&gt;=+2 (home team much fresher)</td><td>9</td><td>1.66</td><td>11.28</td><td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">official results</a></td></tr></tbody></table></div><p class="note">Positive error means the home team did better than our line expected. The extremes carry few games, which is exactly why the walk-forward test below is the one that matters.</p></section><section class="panel"><h2>What the walk-forward test actually did</h2>
+<p>For each game, in date order, the rest coefficient was re-fitted using <strong>only games already
+played</strong>, then applied to that game. Nothing from the future reached the coefficient, so this
+is something that could have been done in real time. It is the honest version of “would this have
+helped”.</p>
+<div class="cards">
+  <div class="card"><div class="k">RMSE, originated line as published</div>
+    <div class="v">16.009</div><div class="s">out-of-sample margin error, points</div></div>
+  <div class="card"><div class="k">RMSE with a rest term added</div>
+    <div class="v">16.338</div><div class="s">worse by 0.329 points</div></div>
+  <div class="card"><div class="k">Coefficient range as the sample grew</div>
+    <div class="v">-1.08 … 16.09</div><div class="s">points of home margin per rest day; a signal this
+    unstable is not a signal</div></div>
+</div><p class="note">Games scored: 138.</p></section><section class="panel"><h2>How much more data would settle it</h2>
+<div class="cards">
+  <div class="card"><div class="k">Games needed for 80% power</div><div class="v">389</div>
+    <div class="s">at the effect size actually observed (|r| = 0.142), alpha 0.05, two-sided</div></div>
+  <div class="card"><div class="k">Games available now</div><div class="v">140</div>
+    <div class="s">out-of-sample predictions</div></div>
+  <div class="card"><div class="k">Still needed</div><div class="v">249</div>
+    <div class="s">about 35 more days of results at this season's rate of 7.32 finals per day</div></div>
+</div><p class="note">Two-sided test on a Pearson r, alpha 0.05, 80% power, using the effect size actually observed. It answers &#x27;how much more data before this is worth re-testing&#x27;, not &#x27;is the effect real&#x27;.</p></section>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <p>Independent audit tree, session <code>arena/7f3b89af-nba3</code>. Built from official NBA pages
+  read on 2026-11-14. Cells an official page does not print are left empty and are never filled by
+  inference. Every table row links to the page it came from.</p>
+</div></footer>
+</body>
+</html>

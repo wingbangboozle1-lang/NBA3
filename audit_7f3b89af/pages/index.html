@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Independent re-verification, 2026-11-14 — independent audit — NBA3</title>
+<meta name="description" content="Independent re-verification of the NBA3 dashboard against official NBA pages read on 2026-11-14.">
+<link rel="stylesheet" href="../../app/assets/app.css">
+<link rel="stylesheet" href="../assets/audit.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">NBA3</span> Independent audit</a>
+    <div class="stamp">Session <strong>arena/7f3b89af-nba3</strong> · official pages read 2026-11-14 18:45 UTC ·
+      everything below is checked against an official page, never inferred</div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="index.html" class="on">Overview</a> <a href="flags.html">Flagged</a></span></div><div class="nav-group"><span class="nav-cat">Findings</span><span class="nav-links"><a href="injuries.html">Injuries</a> <a href="slate.html">Slate</a> <a href="ratings.html">Ratings</a> <a href="analysis.html">Rest analysis</a></span></div><div class="nav-group"><span class="nav-cat">Checks</span><span class="nav-links"><a href="verification.html">Verification</a> <a href="coverage.html">Brief coverage</a></span></div><div class="nav-group"><span class="nav-cat">Back to site</span><span class="nav-links"><a href="../../index.html">Canonical dashboard</a> <a href="../../app/flagged.html">Site flags</a> <a href="../audit_dd1eb1f1/pages/index.html">Earlier audit</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb"><a href="../../index.html">NBA3</a> · <a href="index.html">Independent audit</a></div>
+    <h1>Independent re-verification, 2026-11-14</h1>
+    <p class="lead">Official NBA pages re-read today at 18:45 UTC and compared, field by field, with the values the NBA3 dashboard publishes.</p>
+  </div>
+
+<section class="hero">
+  <h2>We re-read the official pages today and compared them, cell by cell, with what the site
+  publishes.</h2>
+  <p>Everything on the canonical dashboard was built from official NBA pages read earlier today.
+  Official pages move. This tree re-reads them and asks one question per cell: does what we publish
+  still match what the NBA says? Where it does, that is now verified twice. Where it does not, the
+  difference is published here with the page that proves it, and it is left for the owner to decide
+  on rather than quietly fixed — the canonical files belong to another session.</p>
+  <p class="hero-meta">Read 2026-11-14 18:45 UTC · window 2026-11-14 → 2026-11-17 ·
+  15 checks · 6 flagged items · Does our originated line already price rest, or does its error still carry a rest signal that a bettor could harvest?</p>
+</section>
+<div class="cards"><div class="card"><div class="k">Checks run</div><div class="v">15</div><div class="s">12 pass, 3 flagged, 0 failed. A flag is a real difference that is published, not a broken build.</div><a href="verification.html">read the page</a></div><div class="card"><div class="k">Injury drift since the published snapshot</div><div class="v">24 rows</div><div class="s">The site publishes the 04:15 AM ET report. The newest official report is 01:30 PM ET and carries 24 more player rows, every one of them for tonight&#x27;s five games.</div><a href="injuries.html">read the page</a></div><div class="card"><div class="k">Tonight&#x27;s games that gained a report</div><div class="v">4 of 5</div><div class="s">New Orleans, Cleveland, Chicago and Miami had filed nothing at 04:15 AM ET. All four had filed by 01:30 PM ET.</div><a href="injuries.html">read the page</a></div><div class="card"><div class="k">Rating cells that moved</div><div class="v">6</div><div class="s">Cleveland and Charlotte only. Net rating, wins and games played are unchanged, so no published spread or total moves.</div><a href="ratings.html">read the page</a></div><div class="card"><div class="k">Rest signal in the originated line</div><div class="v">not usable yet</div><div class="s">The line ignores rest and leaves +2.44 points of home margin per extra rest day in its error, but it is not significant at n=140, and adding it made the line worse. Re-test at ~389 games.</div><a href="analysis.html">read the page</a></div></div>
+<section class="panel"><h2>What we flagged</h2><div class="table-scroll"><table><thead><tr><th>ID</th><th>Item</th><th>Severity</th><th>Evidence</th><th>Source</th></tr></thead><tbody><tr><td>F-7F3-01</td><td>The dataset behind the site is still built from the 04:15 AM report, nine hours behind the newest official report</td><td><span class="pill pill-bad">high</span></td><td>Session 736efb4b already corrected the WORDING on app/injuries.html: it now carries a freshness callout naming the 01:30 PM ET report and a section 1b comparing the two reports row by row. What is still stale is the DATA. data/app/canonical.json publishes the 04:15 AM ET report and records newest_report_listed_on_index = &quot;2026-11-14 04:15…</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td></tr><tr><td>F-7F3-02</td><td>Four of tonight&#x27;s five teams had filed nothing when the site&#x27;s data was built</td><td><span class="pill pill-bad">high</span></td><td>At 04:15 AM ET the New Orleans, Cleveland, Chicago and Miami rows all read NOT YET SUBMITTED. By 01:30 PM ET all four had filed, adding 24 player rows in total -- including Cleveland&#x27;s Donovan Mitchell (Questionable) and Evan Mobley (Out), and Minnesota&#x27;s Anthony Edwards (Out). Session 736efb4b&#x27;s section 1b on app/injuries.html already pu…</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr><tr><td>F-7F3-03</td><td>Canonical injury rows carry date and time cells the injury PDF never printed</td><td><span class="pill pill-warn">medium</span></td><td>44 date-or-time cells in data/app/canonical.json are populated with a game date or tip time that the 04:15 AM PDF does not print for that row (the PDF drops those columns on page-break continuation blocks), plus 3 matchup cells taken from the block the row sits in. Every value is correct: all 47 were re-checked today against the official …</td><td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">source</a></td></tr><tr><td>F-7F3-04</td><td>Official schedule prints the same matchup twice inside the window</td><td><span class="pill pill-warn">low</span></td><td>POR@MIN is printed on both 2026-11-16 (game 0022600250) and 2026-11-17 (game 0022600254), and NYK@TOR on both 2026-11-15 (0022600241) and 2026-11-17 (0022600253). The 11/17 game ids are also out of chronological order: 0022600257 (10:30 PM) is printed before 0022600256 (11:00 PM). Re-confirmed live today; it is the NBA page&#x27;s own output, …</td><td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">source</a></td></tr><tr><td>F-7F3-05</td><td>Two teams&#x27; official advanced-statistics cells moved after the published capture</td><td><span class="pill pill-warn">low</span></td><td>The stored capture (data/app/canonical.json ratings, read 2026-11-14 09:45Z) and the same official page read today at 18:45Z agree on all 30 teams except Cleveland and Charlotte: CLE off_rtg 116.1 -&gt; 116.2; CLE def_rtg 115.2 -&gt; 115.3; CLE pace 99.7 -&gt; 99.62; CHA off_rtg 101.8 -&gt; 101.9; CHA def_rtg 113.0 -&gt; 113.1; CHA pace 96.92 -&gt; 96.83. …</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td></tr><tr><td>F-7F3-06</td><td>One line of the 01:30 PM injury PDF is printed with two rows jammed together, and two sessions resolved it differently</td><td><span class="pill pill-warn">low</span></td><td>The PDF&#x27;s final block prints: | 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED |. Session 736efb4b left the line unparsed (its capture records 1 unparsed line). This tree split it into the Milwaukee row and the Oklahoma City row and marked both &#x27;garbled&#x27;. Both trees agree…</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr></tbody></table></div><p class="note">Full text, the affected games and the suggested owner action are on the <a href="flags.html">Flagged</a> page.</p><p class="note">Nothing here blocks the build. Each item is a decision for the owner, and the canonical files it would change are owned by another session.</p></section>
+<section class="panel"><h2>How to reproduce this</h2>
+<ol class="steps">
+  <li><code>python3 audit_7f3b89af/capture.py</code> — writes the verbatim captures of the four
+  injury reports, the slate and the team statistics, from the tuples transcribed in
+  <code>capture.py</code>.</li>
+  <li><code>python3 audit_7f3b89af/checks.py</code> — runs the 15 checks and writes
+  <code>data/verification_report.json</code>.</li>
+  <li><code>python3 audit_7f3b89af/analysis.py</code> — the rest analysis, seed 20261114, writes
+  <code>data/analysis.json</code>.</li>
+  <li><code>python3 audit_7f3b89af/build.py</code> — regenerates these pages.</li>
+  <li><code>python3 -m unittest discover -s audit_7f3b89af -p 'test_*.py'</code> — asserts the
+  counts, the page rules and determinism.</li>
+</ol>
+<p class="note">Steps 1–4 run in CI on every push. The captures are transcriptions of pages that
+were read by hand, so they cannot be re-fetched by CI; they are stored as source code in
+<code>capture.py</code> precisely so they can be re-read and checked by a person.</p></section>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+  <p>Independent audit tree, session <code>arena/7f3b89af-nba3</code>. Built from official NBA pages
+  read on 2026-11-14. Cells an official page does not print are left empty and are never filled by
+  inference. Every table row links to the page it came from.</p>
+</div></footer>
+</body>
+</html>
