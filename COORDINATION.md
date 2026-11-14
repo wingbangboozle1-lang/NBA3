@@ -54,7 +54,13 @@ Status values: `unclaimed` | `in progress` | `done` | `needs review`
 
 ## Integration record (T15)
 
-_Filled in after PR creation, merge and Pages deployment. See rows appended below._
+| Step | Result | When |
+|---|---|---|
+| PR to main | **[#24](https://github.com/wingbangboozle1-lang/NBA3/pull/24)** — "T01-T14: NBA line-origination & strategy research — verified data, auto picks pipeline, dashboard site" | 2026-11-13 |
+| Merge policy | merge without waiting (per brief); flagged items do not block | pending |
+| GitHub Pages | source = branch `main`, path `/docs`, `.nojekyll` present | pending |
+| Deploy verification | (recorded post-merge below) | pending |
+| PR link + merge result recorded here | (updated after merge) | pending |
 
 ## Verification instructions (for reviewers)
 
