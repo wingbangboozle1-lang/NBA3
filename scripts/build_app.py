@@ -1503,9 +1503,20 @@ def build_index(d):
         cats.append(f'<div class="cat"><h3>{esc(cat)}</h3><div class="tiles">{"".join(cards)}</div></div>')
     flags = d["flags"]
     top = [f for f in flags if f["severity"] == "high"][:6]
-    flist = "\n".join(
-        f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
-        f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}</li>' for f in top)
+    flist_parts = []
+    for f in top:
+        tail = ""
+        # Cross-reference to the independent integration round (session e40cd215, PR #23).
+        if f["id"] == "NF-23":
+            tail = (
+                '\n<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>'
+                'Second, independent integration round: 174-game re-verification, 22 originated '
+                'lines from a separate engine, 9 gates, measured parlay dependence, '
+                'cross-engine reconciliation and a flagged register</a>')
+        flist_parts.append(
+            f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
+            f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}{tail}</li>')
+    flist = "\n".join(flist_parts)
     res = _res(d)
     luck = _luck(d)
     strategies = d["strategies"]
@@ -1563,7 +1574,7 @@ def build_index(d):
 </section>
 <section class="cat">
   <h3>Earlier dashboards (kept for audit, not current)</h3>
-  <p>Eight dashboards were published by earlier sessions of this project and are still reachable.
+  <p>Eleven dashboards were published by earlier sessions of this project and are still reachable.
   They use different ID namespaces, different injury snapshots and different model variants, so
   <strong>the pages above are the current numbers</strong> and these are history. Consolidation is
   queued as an owner decision (<a href="app/suggestions.html">CS-35</a>).</p>
@@ -1578,6 +1589,9 @@ def build_index(d):
     <a class="tile" href="verify/pages/index.html"><span class="tile-t">/verify/pages — verification &amp; decision layer (2026-11-14)</span></a>
     <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
     <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
+    <a class="tile" href="hub/index.html"><span class="tile-t">/hub — consolidated dashboard (session 99eabb04): one namespace, slate, injuries, lines, leaderboard, review pages</span></a>
+    <a class="tile" href="d01ae7e2/docs/index.html"><span class="tile-t">/d01ae7e2 — official-slate line origination &amp; gated picks (session d01ae7e2): 31-game slate, provisional-safe pipeline, sources per row</span></a>
+    <a class="tile" href="executive-summary.html"><span class="tile-t">/executive-summary.html — cross-site consolidated executive summary (session 3bf92fcc)</span></a>
   </div>
 </section>
 """)
