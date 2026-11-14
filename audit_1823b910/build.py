@@ -272,6 +272,18 @@ def page_index(refresh, inv, rot, flow, review, flags):
           "the official source that shows it.</li>")
     p.add('<li><a href="sources.html">Sources</a> - every official page this session read.</li>')
     p.add("</ul>")
+    p.h2("A parallel session read the same report")
+    p.p("Sessions <code>arena/965fbd17-nba3</code> and <code>arena/736efb4b-nba3</code> fetched "
+        "and published the same 01:30 PM ET PDF while this session was running. The two "
+        "transcriptions are identical table-for-table, which is a useful check on the "
+        "transcription step. They differ in one respect: this session attributes 13 "
+        "page-fragment rows to Cleveland and Chicago, using the official 01:00 PM report as the "
+        "cross-check; the parallel session leaves them unattributed by its stated rule. Both "
+        "readings are published and the difference is "
+        '<a href="flags.html#F-1823b910-07">flagged</a> rather than silently resolved. '
+        'Their audit: <a href="../../audit_736efb4b/index.html">audit_736efb4b/index.html</a>.')
+    p.add("<ul class='tight'>")
+    p.add("</ul>")
     return p
 
 
@@ -353,6 +365,49 @@ def page_refresh(refresh):
     p.table(["Matchup", "Team", "Venue city", "Clause", "Due (venue local)",
              "Due (ET, derived)", "Published state", "In the newest report", "Source"],
             rows, srcs, label="deadlines")
+
+    cs = jload("cross_session.json") if os.path.exists(os.path.join(DATA, "cross_session.json")) \
+        else None
+    if cs:
+        p.h2("Cross-session check: two independent readings of the same PDF")
+        p.p("While this session was running, session <code>arena/965fbd17-nba3</code> fetched "
+            "and transcribed the same 01:30 PM ET PDF, and session "
+            "<code>arena/736efb4b-nba3</code> published it. Both transcriptions are kept in the "
+            "repository and both parse to the same 69 rows under "
+            "<code>scripts/capture_official_2026_11_14e.py</code> (check E0), so the "
+            "transcription step is reproducible. The two published readings differ in exactly "
+            "one respect.")
+        p.note(esc(cs["transcription_agreement"]))
+        p.p("<b>Their rule.</b> " + esc(cs["their_rule"]) +
+            "<br><b>Our rule.</b> " + esc(cs["our_rule"]))
+        rows, srcs = [], []
+        for r in cs["by_team"]:
+            rows.append([
+                esc(r["team_name"]), esc(r["team"]),
+                esc(r["session_736efb4b_rows"]), esc(r["session_1823b910_rows"]),
+                esc(r["difference"]) if r["difference"] else "0",
+                '<span class="tag ok">agrees</span>' if r["agrees"]
+                else '<span class="tag md">differs</span>',
+                link(r["source"], "report") + " &middot; " + link(REPORT_PREV, "cross-check"),
+            ])
+            srcs.append([r["source"], REPORT_PREV, INDEX_URL])
+        p.table(["Team", "Abbr", "Rows (736efb4b)", "Rows (1823b910)", "Diff", "Agrees",
+                 "Source"], rows, srcs, label="cross-session")
+        p.p("<b>The " + esc(cs["rows_unattributed_by_736efb4b_count"]) +
+            " rows session 736efb4b leaves unattributed:</b> " +
+            esc(", ".join(cs["rows_unattributed_by_736efb4b"])) + ".")
+        p.note(
+            "<b>Why this matters for one game in particular.</b> Under the 736efb4b reading, "
+            "Cleveland lists a single Questionable player (Jarrett Allen) for DAL@CLE. Under "
+            "this session's reading, Cleveland lists eight rows: Evan Mobley <b>Out</b>, and "
+            "Allen, Harden, Mitchell and Watson Questionable. The "
+            + link(REPORT_PREV, "official 01:00 PM ET report") +
+            " prints <code>Cleveland Cavaliers</code> on every one of those rows, which is why "
+            "this session attributes them. See flag "
+            '<a href="flags.html#F-1823b910-07">F-1823b910-07</a>.', "warn")
+        p.p('<span class="small muted">Their audit: '
+            '<a href="../../audit_736efb4b/index.html">audit_736efb4b/index.html</a>. Both pages '
+            "link to the same official PDF; neither changes the other.</span>")
     return p
 
 

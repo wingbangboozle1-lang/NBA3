@@ -84,6 +84,10 @@ class TestPageRules(unittest.TestCase):
                     f"{name} tbody row {i} has no official-source link: {hrefs}")
 
     def test_no_broken_internal_links(self):
+        # Links within this tree must name a page this build emits. A link that
+        # walks out of the tree ("../../...") is resolved against the repository
+        # root and must exist there; audit_1823b910/pages/ links to the parallel
+        # session's audit that way.
         known = set(self.page_names())
         for name in self.page_names():
             p = RowParser()
@@ -93,6 +97,11 @@ class TestPageRules(unittest.TestCase):
                 if href.startswith(("https://", "http://", "mailto:", "#", "/")):
                     continue
                 target = href.split("#")[0]
+                if target.startswith("../"):
+                    self.assertTrue(
+                        os.path.exists(os.path.normpath(os.path.join(PAGES, target))),
+                        f"{name}: broken out-of-tree link {href}")
+                    continue
                 self.assertIn(target, known, f"{name}: broken internal link {href}")
 
     def test_in_page_anchors_resolve(self):

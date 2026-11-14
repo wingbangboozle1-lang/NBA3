@@ -13,7 +13,7 @@
 <div class="card"><div class="n">24</div><div class="l">new player rows</div></div>
 <div class="card"><div class="n">4</div><div class="l">status changes on players already listed</div></div>
 <div class="card"><div class="n">0 / 17</div><div class="l">price fields the refresh moved</div></div>
-<div class="card"><div class="n">6</div><div class="l">items flagged for review</div></div>
+<div class="card"><div class="n">7</div><div class="l">items flagged for review</div></div>
 </div>
 <h2>What this session found</h2>
 <div class="note"><b>The published injury snapshot is stale by 8h15m and 24 report versions.</b> The dashboard publishes the <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf">05:15 AM ET report</a> (49 rows). The official index now lists the November 14 reports through 1:30 PM ET, and the <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf">1:30 PM ET report</a> has 69 rows. The 01:45 PM probe returns AccessDenied, so 1:30 PM is the newest that exists.</div>
@@ -32,6 +32,10 @@
 <li><a href="suggestions.html">Suggestions</a> - six decisions with the paths considered and a recommendation. None of them have been implemented.</li>
 <li><a href="flags.html">Flagged for review</a> - what is wrong, who owns it, and the official source that shows it.</li>
 <li><a href="sources.html">Sources</a> - every official page this session read.</li>
+</ul>
+<h2>A parallel session read the same report</h2>
+<p>Sessions <code>arena/965fbd17-nba3</code> and <code>arena/736efb4b-nba3</code> fetched and published the same 01:30 PM ET PDF while this session was running. The two transcriptions are identical table-for-table, which is a useful check on the transcription step. They differ in one respect: this session attributes 13 page-fragment rows to Cleveland and Chicago, using the official 01:00 PM report as the cross-check; the parallel session leaves them unattributed by its stated rule. Both readings are published and the difference is <a href="flags.html#F-1823b910-07">flagged</a> rather than silently resolved. Their audit: <a href="../../audit_736efb4b/index.html">audit_736efb4b/index.html</a>.</p>
+<ul class='tight'>
 </ul>
 <footer>
 Session arena/1823b910-nba3 &middot; built 2026-11-14 &middot; every table row links to the official page it

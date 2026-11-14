@@ -31,6 +31,20 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 DATA = os.path.join(os.path.dirname(__file__), "data")
 
+TEAM_ABBR = {
+    "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
+    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
+    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
+    "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
+    "LA Clippers": "LAC", "Los Angeles Lakers": "LAL", "Memphis Grizzlies": "MEM",
+    "Miami Heat": "MIA", "Milwaukee Bucks": "MIL", "Minnesota Timberwolves": "MIN",
+    "New Orleans Pelicans": "NOP", "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC",
+    "Orlando Magic": "ORL", "Philadelphia 76ers": "PHI", "Phoenix Suns": "PHX",
+    "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
+    "San Antonio Spurs": "SAS", "Toronto Raptors": "TOR", "Utah Jazz": "UTA",
+    "Washington Wizards": "WAS",
+}
+
 SESSION = "arena/1823b910-nba3"
 REPORT_NEW = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
 REPORT_PREV = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_00PM.pdf"
@@ -622,6 +636,72 @@ def build_repo_review():
 # ---------------------------------------------------------------------------
 # 6. flags.json
 # ---------------------------------------------------------------------------
+def build_cross_session():
+    """Compare this session's reading with session 736efb4b's independent one.
+
+    Both sessions fetched and transcribed the same 01:30 PM ET PDF. The table
+    text is identical (check E0). The readings differ in exactly one respect:
+    which team the thirteen page-fragment rows belong to.
+    """
+    import collections
+    their_path = os.path.join(ROOT, "audit_736efb4b", "data",
+                              "delta_1330PM_vs_canonical.json")
+    if not os.path.exists(their_path):
+        return None
+    theirs = jload(their_path)
+    mine = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
+
+    def counts(rows, key):
+        c = collections.Counter(r[key] for r in rows)
+        return dict(c)
+
+    t_rows = [r for r in theirs["player_outcomes"]]
+    m_rows = [r for r in mine["rows"]
+              if not r["is_team_not_submitted"] and r["game_date"] == "11/14/2026"]
+    t_by = counts(t_rows, "team_name_1330")
+    m_by = counts(m_rows, "team_name")
+
+    teams = sorted(set(t_by) | set(m_by))
+    rows = []
+    for team in teams:
+        if team == "":
+            continue
+        a, b = t_by.get(team, 0), m_by.get(team, 0)
+        rows.append({
+            "team_name": team,
+            "team": TEAM_ABBR.get(team, ""),
+            "session_736efb4b_rows": a,
+            "session_1823b910_rows": b,
+            "difference": b - a,
+            "agrees": a == b,
+            "source": REPORT_NEW,
+        })
+    unattributed = [r["player"] for r in t_rows if not r["team_name_1330"]]
+    out = {
+        "session": SESSION,
+        "shared_file": "data/app/official_injuries_2026-11-14_0130PM_raw.md "
+                       "(transcribed by arena/965fbd17-nba3, re-parsed here)",
+        "independent_file": "audit_1823b910/data/independent_transcription_0130PM_raw.md "
+                            "(transcribed by arena/1823b910-nba3)",
+        "transcription_agreement": (
+            "The two verbatim transcriptions are identical table-for-table; both parse to the "
+            "same 69 rows under scripts/capture_official_2026_11_14e.py (check E0). The "
+            "difference below is therefore an attribution difference, not a reading "
+            "difference."),
+        "their_rule": ("session 736efb4b states: 'Rows with no team printed are never "
+                       "attributed.'"),
+        "our_rule": ("this session carries the row's game block forward from the same document "
+                     "and then cross-checks every carried attribution against the official "
+                     "01:00 PM ET report, which prints the team on all thirteen rows."),
+        "rows_unattributed_by_736efb4b": sorted(unattributed),
+        "rows_unattributed_by_736efb4b_count": len(unattributed),
+        "by_team": rows,
+        "sources": {"newest": REPORT_NEW, "cross_check": REPORT_PREV, "index": INDEX_URL},
+    }
+    jdump("cross_session.json", out)
+    return out
+
+
 def build_flags():
     new = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
     delta = new["delta_vs_published_canonical"]
@@ -735,6 +815,39 @@ def build_flags():
             "owner": "next session",
             "source": "https://github.com/wingbangboozle1-lang/NBA3/pull/70",
         },
+        {
+            "id": "F-1823b910-07",
+            "severity": "medium",
+            "area": "cross-session attribution",
+            "title": "Two sessions read the same 01:30 PM PDF and disagree about which team "
+                     "thirteen page-fragment rows belong to",
+            "evidence": ("Session arena/965fbd17-nba3 transcribed the report first and session "
+                         "736efb4b published it under the rule 'rows with no team printed are "
+                         "never attributed', leaving 13 player rows unattributed (Cleveland 1 "
+                         "of 8, Chicago 1 of 7). Session arena/1823b910-nba3 transcribed the "
+                         "same PDF independently - the two transcriptions are identical "
+                         "table-for-table (check E0) - and attributes all 13 by carrying the "
+                         "row's game block and cross-checking against the official 01:00 PM "
+                         "report, which prints the team on every one of them."),
+            "values": {
+                "rows_unattributed_by_736efb4b": 13,
+                "cleveland_rows": "1 (Allen) vs 8 (Allen, Harden, Merrill, Mitchell, Mobley, "
+                                  "Tomlin, Udeh, Watson)",
+                "chicago_rows": "1 (Awaka) vs 7 (Awaka, Claxton, Powell, Sellers, Smith, Swain, "
+                                "Wilson)",
+                "effect_on_dal_cle": ("Under the 736efb4b reading Cleveland lists one "
+                                      "Questionable player; under this session's reading it "
+                                      "lists Evan Mobley Out plus four Questionables including "
+                                      "Donovan Mitchell and James Harden."),
+            },
+            "impact": ("Two pages on the same site now publish different absence lists for the "
+                       "same game from the same official document. Neither is a guess, but the "
+                       "reader has to reconcile them, so the difference is flagged rather than "
+                       "silently resolved."),
+            "blocking": False,
+            "owner": "repository owner - pick one convention and apply it to both trees",
+            "source": f"{REPORT_NEW} + {REPORT_PREV} (the 01:00 PM report prints the team)",
+        },
     ]
     out = {"session": SESSION, "built_on": "2026-11-14",
            "note": ("Flagged items do not block anything. Each names an owner and the "
@@ -758,7 +871,14 @@ def main():
     print(f"rotation_impact.json    : {len(ri['rows'])} team-games")
     gf = build_gameflow()
     print(f"gameflow.json           : {len(gf['rows'])} games")
+    try:
+        cs = build_cross_session()
+    except Exception:                                          # noqa: BLE001
+        cs = None
     rr = build_repo_review()
+    if cs:
+        print(f"cross_session.json     : {cs['rows_unattributed_by_736efb4b_count']} rows the "
+              f"parallel session left unattributed")
     print(f"repo_review.json        : {len(rr['findings'])} findings "
           f"({[f['result'] for f in rr['findings']]})")
     fl = build_flags()

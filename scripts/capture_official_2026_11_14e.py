@@ -432,6 +432,33 @@ def main():
           f"player rows={sum(1 for r in r0100 if not r['is_team_not_submitted'])}, "
           f"NYS rows={sum(1 for r in r0100 if r['is_team_not_submitted'])}")
 
+    # ---- E0: two independent verbatim transcriptions of the same PDF -------
+    # Session arena/965fbd17-nba3 transcribed the same 01:30 PM PDF first and
+    # stored it at data/app/official_injuries_2026-11-14_0130PM_raw.md.  Session
+    # arena/1823b910-nba3 transcribed it again, independently, before seeing that
+    # file, and keeps its own copy at
+    # audit_1823b910/data/independent_transcription_0130PM_raw.md.  Parsing both
+    # and comparing proves the transcription step itself is reproducible.
+    indep = os.path.join(ROOT, "audit_1823b910", "data",
+                         "independent_transcription_0130PM_raw.md")
+    indep_note = ""
+    if os.path.exists(indep):
+        rindep = parse_raw(indep)
+        same = (len(r0130) == len(rindep)
+                and all(a == b for a, b in zip(
+                    sorted(map(repr, r0130)), sorted(map(repr, rindep)))))
+        indep_note = (
+            "Two independent verbatim transcriptions of the same PDF agree row for row "
+            f"({len(rindep)} rows)." if same else
+            f"the two independent transcriptions differ ({len(r0130)} vs {len(rindep)} rows)")
+        print(f"E0  independent second transcription: "
+              f"{'PASS (0 differences)' if same else 'FAIL'} "
+              f"({len(rindep)} rows, session arena/965fbd17-nba3 vs arena/1823b910-nba3)")
+        if not same:
+            failures.append("E0 independent transcriptions differ")
+    else:
+        print("E0  independent second transcription: SKIP (file not present)")
+
     slate_times, slate_by_date, slate_games = load_slate()
     t0130 = norm(r0130, slate_times)
     t0100 = norm(r0100, slate_times)
@@ -636,6 +663,17 @@ def main():
             "01:45 PM ET": "AccessDenied (does not exist at capture time)",
         },
         "index_listed_through": "2026-11-14 01:30 PM ET (page text at read time)",
+        "independent_transcription": {
+            "path": "audit_1823b910/data/independent_transcription_0130PM_raw.md",
+            "transcribed_by": "arena/1823b910-nba3",
+            "shared_file_transcribed_by": "arena/965fbd17-nba3",
+            "result": indep_note,
+            "note": ("Both sessions fetched the same PDF with the same tool and transcribed it "
+                     "without seeing the other's file. The table text is identical, so any "
+                     "difference between the two sessions' published tables is an ATTRIBUTION "
+                     "difference (which team a page-fragment row belongs to), not a "
+                     "transcription difference."),
+        },
         "cross_check_report": {
             "url": URL_0100,
             "stamp": "2026-11-14 01:00 PM ET",

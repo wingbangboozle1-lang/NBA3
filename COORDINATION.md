@@ -3880,8 +3880,10 @@ injury-blind, and that is now proven by the engine rather than asserted in prose
 RR-01 every JSON parses (PASS) · RR-02 no conflict markers (PASS) · RR-03 the published snapshot
 is 8h15m / 24 versions stale (FAIL) · RR-04 the availability state and the injury rows come from
 different files and now disagree (FAIL) · RR-05 an injury refresh cannot move a line (FAIL) ·
-RR-06 most vacated minutes cannot be computed (PARTIAL, 32 players) · RR-07 register sizes (INFO:
-71 flags / 47 questions / 46 suggestions / 15 review findings) · RR-08 four of the five
+RR-06 most vacated minutes cannot be computed (PARTIAL, 32 of 33 players) · RR-07 register
+sizes (INFO: 80 flags / 47 questions / 46 suggestions / 15 review findings, read from the
+canonical dataset at build time — the flag count rose to 80 when session 965fbd17's flags landed
+on `main` mid-rebase) · RR-08 four of the five
 root-level HTML pages are staged (REVIEW: `research-dashboard.html` exists at the repository
 root and is not copied into the Pages artifact — pre-existing, not this session's, and logged for
 the owner).

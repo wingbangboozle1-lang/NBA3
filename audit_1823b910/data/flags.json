@@ -102,6 +102,23 @@
    "blocking": false,
    "owner": "next session",
    "source": "https://github.com/wingbangboozle1-lang/NBA3/pull/70"
+  },
+  {
+   "id": "F-1823b910-07",
+   "severity": "medium",
+   "area": "cross-session attribution",
+   "title": "Two sessions read the same 01:30 PM PDF and disagree about which team thirteen page-fragment rows belong to",
+   "evidence": "Session arena/965fbd17-nba3 transcribed the report first and session 736efb4b published it under the rule 'rows with no team printed are never attributed', leaving 13 player rows unattributed (Cleveland 1 of 8, Chicago 1 of 7). Session arena/1823b910-nba3 transcribed the same PDF independently - the two transcriptions are identical table-for-table (check E0) - and attributes all 13 by carrying the row's game block and cross-checking against the official 01:00 PM report, which prints the team on every one of them.",
+   "values": {
+    "rows_unattributed_by_736efb4b": 13,
+    "cleveland_rows": "1 (Allen) vs 8 (Allen, Harden, Merrill, Mitchell, Mobley, Tomlin, Udeh, Watson)",
+    "chicago_rows": "1 (Awaka) vs 7 (Awaka, Claxton, Powell, Sellers, Smith, Swain, Wilson)",
+    "effect_on_dal_cle": "Under the 736efb4b reading Cleveland lists one Questionable player; under this session's reading it lists Evan Mobley Out plus four Questionables including Donovan Mitchell and James Harden."
+   },
+   "impact": "Two pages on the same site now publish different absence lists for the same game from the same official document. Neither is a guess, but the reader has to reconcile them, so the difference is flagged rather than silently resolved.",
+   "blocking": false,
+   "owner": "repository owner - pick one convention and apply it to both trees",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf + https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_00PM.pdf (the 01:00 PM report prints the team)"
   }
  ]
 }
