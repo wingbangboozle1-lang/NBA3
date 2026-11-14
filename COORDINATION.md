@@ -2997,8 +2997,78 @@ the open PR). Append-only overlap on `COORDINATION.md` is the accepted shared-su
 
 | Task | Status | Owner (session) | Files in scope |
 |---|---|---|---|
-| R1 | Claim + sync `main` (PR #64 included), review parallel-session state | in progress | `COORDINATION.md` |
-| R2 | Fresh official probe: injury-report index for reports newer than 04:45 AM ET; capture newest (05:00/05:15 AM ET verified to exist); row-by-row diff vs published canonical snapshot | in progress | `scripts/capture_official_2026_11_14d.py` (new), `data/app/official_injuries_2026-11-14_05*.json` + `_raw.md` (new) |
-| R3 | Independent verification: full local CI replay (unit tests, `tools/check_site.py`, `tools/validate_gates.py`, `tools/release_audit.py`, site builders) + independent spot-checks of published rows against official pages | pending | `COORDINATION.md` record (no other files) |
-| R4 | Conditional refresh: only if R2 finds content differences, update manifest/canonical/app and rebuild | pending (conditional) | `data/app/snapshot_manifest.json`, `data/app/canonical.json`, `data/app/lab.json`, `app/**`, `index.html` |
+| R1 | Claim + sync `main` (PR #64 included), review parallel-session state | done | `COORDINATION.md` |
+| R2 | Fresh official probe: injury-report index for reports newer than 04:45 AM ET; capture newest (05:00/05:15 AM ET verified to exist); row-by-row diff vs published canonical snapshot | done | `scripts/capture_official_2026_11_14d.py` (new), `data/app/official_injuries_2026-11-14_05*.json` + `_raw.md` (new) |
+| R3 | Independent verification: full local CI replay (unit tests, `tools/check_site.py`, `tools/validate_gates.py`, `tools/release_audit.py`, site builders) + independent spot-checks of published rows against official pages | done | `COORDINATION.md` record (no other files); + `.github/workflows/pages.yml` (added this session's capture step, following the existing capture-step pattern) |
+| R4 | Conditional refresh: only if R2 finds content differences, update manifest/canonical/app and rebuild | done — NOT REQUIRED (content-identical; no canonical/app rebuild, no overlap with merged PR #62/#64/#67 content) | n/a |
 | R5 | Integration: commit, `git pull --rebase` + push, PR to `main`, merge, confirm GitHub Pages deploy, record results | pending | `COORDINATION.md`, `README.md` |
+
+### Verification & integration record — session `3bf80157` (2026-11-14)
+
+**R2 — freshness probe and capture (DONE, all checks pass).** Read with the Arena fetch tool on
+2026-11-14 ~10:30–10:50 UTC (05:30–05:50 ET):
+
+- Official index [official.nba.com/nba-injury-report-2026-27-season/](https://official.nba.com/nba-injury-report-2026-27-season/)
+  re-read: page text listed the November 14 reports through 4:30 AM ET at read time and states
+  "Reports are updated on a continual basis throughout the day."
+- Probed newer stamps on the official CDN: [05:30 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_30AM.pdf)
+  and [05:45 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_45AM.pdf)
+  return S3 `AccessDenied` (do not exist); [05:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_00AM.pdf)
+  and [05:15 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf)
+  fetched OK. **Newest existing official report at capture time: 11/14/26 05:15 AM ET.**
+- `scripts/capture_official_2026_11_14d.py` (new) performs, and fails non-zero on any violation:
+  - **C1** parse of the 05:15 raw fetch == parse of the 05:00 raw fetch, row for row (49/49, 0
+    differences) — two consecutive official reports agree;
+  - **C2** parse == embedded verbatim transcription (two independent representations of the fetch);
+  - **C3** the 05:15 rows are content-identical to the published canonical snapshot
+    (`official_injuries_2026-11-14_0415AM.json`) and **C4** to the 04:45 AM verification snapshot —
+    49/49 rows aligned, 0 unexplained field differences;
+  - **C5** the report's 11/14 rows cover exactly the five stored 11/14 games and its 11/15 rows pair
+    into exactly the nine stored 11/15 games, every tip time matching the stored official slate;
+  - **C6** an independent live re-read of the whole 2026-11-14→17 window from
+    [nba.com/schedule?date=2026-11-15](https://www.nba.com/schedule?date=2026-11-15) (chunks 0–2:
+    27 games × date/tip/matchup/game-id/venue = 135 fields) matches the stored slate snapshot, 0
+    differences.
+- **Conclusion: the published canonical data is current as of the newest official report; no
+  rebuild needed (R4 not required).** The 05:15 AM verification snapshot is committed
+  (`data/app/official_injuries_2026-11-14_0515AM.json` + two `_raw.md` fetch transcripts) and is
+  now replayed as a deterministic offline CI step in `.github/workflows/pages.yml`.
+
+**Irregularity found and logged (does not block anything): IR-3bf80157-01.** The stored 04:15 AM
+snapshot leaves `team`/`team_name` blank on the BKN@MEM fragment row for Traore, Nolan (the PDF
+text prints no team on that row); the 04:45 AM snapshot and this session's 05:15 capture attribute
+it to BKN via the same document's game-block structure. Pre-existing inconsistency between the two
+stored snapshots; published canonical rows derive from the 04:15 AM file. Recorded in the written
+JSON's `irregularities_logged` and flagged here for the owner of
+`data/app/official_injuries_2026-11-14_0415AM.json` (session `25418e3f`) to reconcile on a future
+pass. Also: an initial C5c "NYK@TOR 11/15 06:00 vs slate 07:30" alarm during development was a bug
+in this session's checker (matchup-only keying; the window contains NYK@TOR twice, 11/15 6:00 PM
+and 11/17 7:30 PM) — re-verified against the live schedule; the stored slate is correct.
+
+**R3 — independent CI replay (DONE, everything green).** Every step of
+`.github/workflows/pages.yml` executed locally on the final tree:
+
+| # | Step | Result |
+|---|---|---|
+| 1 | conflict-marker guard | PASS (0 markers) |
+| 2 | `tests/test_validate_gates.py` | OK |
+| 3 | `tools/check_site.py` | PASS (10 pages, 77 injury rows, 24 slate rows, all sources resolve) |
+| 4 | `pipeline/tests` | OK |
+| 5 | `verify.tests.test_verification` | OK |
+| 6 | `scripts/build_site.py` + drift gate | PASS (site/ byte-identical) |
+| 7 | `scripts/model.py` + `build_lab.py` + `validate_site.py` | PASS (lab/ byte-identical) |
+| 8 | `pipeline/build_site.py` + `verify.py` | PASS (research/ byte-identical) |
+| 9 | `verify/build.py` | PASS (verify/pages/ byte-identical) |
+| 10 | `pipeline/check_site.py` | PASS |
+| 11 | `integrate.engine`/`build_site`/`check` | PASS (15 pages, 22 lines, 9 gates, every row sourced or flagged) |
+| 12–13 | `capture_official_2026_11_14.py` / `...b.py` + byte-identity | PASS |
+| 14 | `strategy_lab.py` byte-identity (seeded) | PASS |
+| 15 | `assemble_canonical.py` + `build_app.py` + drift gate | PASS (canonical/app/index byte-identical) |
+| 16 | hub build | PASS |
+| 17–19 | `final/verify.py`, `final/build_site.py`, `final/check_site.py` | PASS |
+| 20 | `tools/release_audit.py` | only the two pre-existing medium findings (RA-06 timestamp, RA-07 GitHub-link scanner) — known, logged by prior sessions |
+| 21 | root dashboard in-page link check | PASS |
+| — | this session's `capture_official_2026_11_14d.py` | PASS (see R2) |
+
+Working tree after all builders re-ran: **completely clean** (every generated artefact reproduces
+byte for byte from committed inputs).
