@@ -16,6 +16,7 @@ it, and leaves the decision to the owner.
 | F-7F3-03 | 47 canonical injury cells carry a date or time the injury PDF never prints. Values are correct (all re-checked against the schedule); the row-level source link points at the wrong page | medium |
 | F-7F3-04 | The official schedule prints POR@MIN twice and NYK@TOR twice inside the window, and two 11/17 game ids out of chronological order | low |
 | F-7F3-05 | Two teams' official advanced-statistics cells moved after the published capture (CLE, CHA). Net rating unchanged, so no spread or total moves | low |
+| F-7F3-06 | One line of the 01:30 PM PDF prints two rows jammed together. Session 736efb4b left it unparsed; this tree split it and marked both rows `garbled`. Row counts therefore differ (67 vs 69) with no disagreement about the document | low |
 
 The measured analysis on the Analysis page answers a question the site had not asked: **does the
 originated line price rest?** Answer — no, but the signal it leaves is not yet usable: the line's
@@ -32,10 +33,10 @@ counts read from the published dataset at build time.
 |---|---|
 | `capture.py` | Verbatim transcriptions of the four injury reports, the 27-game slate and the 30 team ratings, as source code. This is the step that cannot be automated: the pages were read by a person and typed in. |
 | `data/*.json` | Generated from `capture.py`. Cells the official page does not print are empty strings, never inferred. |
-| `checks.py` | The 14 checks. Writes `data/verification_report.json`. |
+| `checks.py` | The 15 checks, including a cross-session comparison against `audit_736efb4b`, which transcribed the same 01:30 PM PDF independently on the same day. Writes `data/verification_report.json`. |
 | `analysis.py` | The rest analysis. Seeded (20261114), 20,000 permutations. Writes `data/analysis.json`. |
 | `build.py` | Generates `pages/*.html` and enforces both page rules. |
-| `test_audit.py` | 25 tests; run by CI. |
+| `test_audit.py` | 26 tests; run by CI. |
 | `pages/*.html` | The published pages. Generated — do not edit by hand. |
 | `assets/audit.css` | Only the classes the shared stylesheet does not define. |
 
@@ -43,7 +44,7 @@ counts read from the published dataset at build time.
 
 ```sh
 python3 audit_7f3b89af/capture.py     # writes data/ from the transcribed tuples
-python3 audit_7f3b89af/checks.py      # 14 checks -> data/verification_report.json
+python3 audit_7f3b89af/checks.py      # 15 checks -> data/verification_report.json
 python3 audit_7f3b89af/analysis.py    # rest analysis -> data/analysis.json
 python3 audit_7f3b89af/build.py       # -> pages/
 python3 -m unittest discover -s audit_7f3b89af -p 'test_*.py'

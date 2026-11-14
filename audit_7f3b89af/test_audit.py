@@ -103,7 +103,7 @@ class TestChecks(unittest.TestCase):
         ids = [c["id"] for c in self.report["checks"]]
         self.assertEqual(len(ids), len(set(ids)))
         self.assertIn("C1", ids)
-        self.assertEqual(len(ids), 14)
+        self.assertEqual(len(ids), 15)
 
     def test_canonical_matches_the_pdf_it_came_from(self):
         by = {c["id"]: c for c in self.report["checks"]}
@@ -142,11 +142,22 @@ class TestChecks(unittest.TestCase):
             self.assertNotEqual(c["status_04_15AM"], c["status_01_30PM"])
 
     def test_flags_are_sourced(self):
-        self.assertEqual(len(self.report["flags"]), 5)
+        self.assertEqual(len(self.report["flags"]), 6)
+        ids = sorted(f["id"] for f in self.report["flags"])
+        self.assertEqual(ids, ["F-7F3-01", "F-7F3-02", "F-7F3-03",
+                               "F-7F3-04", "F-7F3-05", "F-7F3-06"])
         for f in self.report["flags"]:
             self.assertTrue(f["source"].startswith("https://"))
             self.assertIn(f["severity"], ("high", "medium", "low"))
             self.assertTrue(f["owner_action"])
+
+    def test_cross_session_transcription_agreement(self):
+        """Session 736efb4b transcribed the same PDF independently on the same day."""
+        c = self.report.get("cross_session")
+        if c is None:
+            self.skipTest("audit_736efb4b is not on this branch")
+        self.assertEqual(c["diffs"], [])
+        self.assertEqual(c["mine_status_counts"], c["theirs_status_counts"])
 
     def test_checks_are_deterministic(self):
         a = json.dumps(self.report["checks"], sort_keys=True)

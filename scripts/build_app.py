@@ -66,6 +66,7 @@ NAV = [
         ("Repository review", "app/review.html"),
         ("Flagged for review", "app/flagged.html"),
         ("Independent audit", "audit_dd1eb1f1/pages/index.html"),
+        ("Latest audit", "audit_7f3b89af/pages/index.html"),
     ]),
     ("Archive", [
         ("Earlier sessions", "archive.html"),

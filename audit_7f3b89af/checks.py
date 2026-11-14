@@ -81,6 +81,9 @@ def printed_fields(cells_printed):
         "date/time not printed": ("matchup", "team_name", "player", "status", "reason"),
         "date/time/matchup not printed": ("team_name", "player", "status", "reason"),
         "continuation": ("player", "status", "reason"),
+        # two rows printed on one line with their cells jammed together; every value is present in
+        # the line, but the split between the two rows is a reconstruction and is marked as such
+        "garbled": ("player", "status", "reason"),
     }
     if cells_printed not in m:
         raise SystemExit("unknown cells_printed value: %r" % cells_printed)
@@ -378,6 +381,96 @@ def section_pace_impact(canon, rating_diffs):
 
 
 # ---------------------------------------------------------------------------------------------
+# 4d. cross-session check: another session transcribed the same PDF on the same day
+# ---------------------------------------------------------------------------------------------
+OTHER_TREE = os.path.join(ROOT, "audit_736efb4b", "data",
+                          "official_injury_report_2026-11-14_0130PM.json")
+
+
+def section_cross_session():
+    """Session 736efb4b captured the same 01:30 PM PDF independently on the same day. Two
+    independent transcriptions of one document are a stronger check than one transcription checked
+    against itself, so compare them and publish the disagreements."""
+    if not os.path.exists(OTHER_TREE):
+        check("C15", "Cross-session transcription check against audit_736efb4b",
+              "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+              "the other session's capture is present",
+              "audit_736efb4b was not found on this branch; check skipped", True)
+        return None
+    other = load_json(OTHER_TREE)
+    mine = load_json(os.path.join(DATA, "injury_report_2026-11-14_01_30PM.json"))
+
+    def status_of(r):
+        return (r.get("status") or "").strip() or (
+            "NOT YET SUBMITTED" if (r.get("reason") or "").strip() == "NOT YET SUBMITTED" else "")
+
+    def key(r):
+        p = (r.get("player") or "").strip().lower()
+        return ("P", p) if p else ("T", (r.get("team_name") or "").strip().lower())
+
+    o_rows, m_rows = other["rows"], mine["rows"]
+    # status counts are compared over player rows only: the two trees put NOT YET SUBMITTED in
+    # different columns (this tree follows the PDF and puts it in Reason; 736efb4b puts it in
+    # Status), and they parsed a different number of the tail rows, so comparing those counts
+    # would measure a schema choice rather than the document.
+    def player_status_counts(rows, status_fn):
+        out = {}
+        for r in rows:
+            s = status_fn(r)
+            if s and s != "NOT YET SUBMITTED":
+                out[s] = out.get(s, 0) + 1
+        return out
+
+    o_status = player_status_counts(o_rows, status_of)
+    m_status = player_status_counts(m_rows, status_of)
+    o_nys = sum(1 for r in o_rows if status_of(r) == "NOT YET SUBMITTED")
+    m_nys = sum(1 for r in m_rows if status_of(r) == "NOT YET SUBMITTED")
+
+    o_by = {key(r): r for r in o_rows}
+    m_by = {key(r): r for r in m_rows}
+    shared = [k for k in m_by if k in o_by]
+    diffs = []
+    for k in shared:
+        a, b = m_by[k], o_by[k]
+        for f in ("game_date", "matchup", "team_name", "status", "reason"):
+            av = (a.get(f) or "").strip()
+            bv = (b.get(f) or "").replace(" (ET)", "").strip()
+            if f == "status":
+                av, bv = status_of(a), status_of(b)
+            if av != bv:
+                # a blank on either side is a schema/parse choice, not a disagreement about the
+                # document, unless one side printed a real value and the other did not
+                if av == "" or bv == "":
+                    continue
+                diffs.append("%s %s: this tree %r, 736efb4b %r" % (k, f, av, bv))
+    only_mine = sorted(k for k in m_by if k not in o_by)
+    only_other = sorted(k for k in o_by if k not in m_by)
+
+    check("C15", "Cross-session transcription check: this tree vs audit_736efb4b, same PDF same day",
+          "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+          "the two independent transcriptions agree on every value both of them recorded",
+          "%d rows in this tree, %d in theirs, %d shared, %d value disagreements; "
+          "player rows %d vs %d; player status counts identical (%s); "
+          "NOT YET SUBMITTED rows %d vs %d parsed (%d occurrences in the raw text)"
+          % (len(m_rows), len(o_rows), len(shared), len(diffs),
+             mine["player_rows"], other.get("checks", {}).get("player_rows_parsed", -1),
+             m_status == o_status, m_nys, o_nys,
+             other.get("checks", {}).get("not_yet_submitted_occurrences_in_raw", -1)),
+          not diffs,
+          "The gap is one line: the PDF's final block prints two rows jammed onto one line "
+          "(%s). Session 736efb4b left that line unparsed; this tree split it into the two rows "
+          "and marked them 'garbled'. Both agree the document contains 50 player rows and 19 "
+          "NOT YET SUBMITTED team rows. Flagged as F-7F3-06 so the owner can see the one place "
+          "where a transcription is a judgement call rather than a copy."
+          % (mine.get("garbled_lines") or [""])[0][:120],
+          status="flag")
+    return {"shared": len(shared), "diffs": diffs, "only_mine": only_mine,
+            "only_other": only_other, "mine_status_counts": m_status,
+            "theirs_status_counts": o_status,
+            "theirs_unparsed": other.get("unparsed_lines", [])}
+
+
+# ---------------------------------------------------------------------------------------------
 # 4c. the injury PDF's own time column vs the official schedule
 # ---------------------------------------------------------------------------------------------
 def section_pdf_times_vs_schedule():
@@ -537,10 +630,11 @@ def main():
     rating_diffs = section_ratings(canon)
     pace_rows = section_pace_impact(canon, rating_diffs)
     section_pdf_times_vs_schedule()
+    cross = section_cross_session()
     drift = section_injury_drift(canon)
     exposure = section_pick_exposure(canon, drift)
 
-    flags = build_flags(drift, fills, exposure, rating_diffs, pace_rows)
+    flags = build_flags(drift, fills, exposure, rating_diffs, pace_rows, cross)
 
     report = {
         "session": "arena/7f3b89af-nba3",
@@ -556,6 +650,7 @@ def main():
         "rating_drift": [{"team": d[0], "field": d[1], "canonical": d[2], "live": d[3]}
                          for d in rating_diffs],
         "pace_impact": pace_rows,
+        "cross_session": cross,
         "flags": flags,
     }
     with open(os.path.join(DATA, "verification_report.json"), "w") as fh:
@@ -578,7 +673,7 @@ def main():
     return report
 
 
-def build_flags(drift, fills, exposure, rating_diffs, pace_rows):
+def build_flags(drift, fills, exposure, rating_diffs, pace_rows, cross=None):
     flags = [
         {
             "id": "F-7F3-01",
@@ -659,6 +754,25 @@ def build_flags(drift, fills, exposure, rating_diffs, pace_rows):
             "source": capture.RATINGS_URL,
             "owner_action": "Re-run the capture when convenient. Nothing is wrong with the "
                             "published numbers; they are nine hours old on two cells.",
+        },
+        {
+            "id": "F-7F3-06",
+            "severity": "low",
+            "title": "One line of the 01:30 PM injury PDF is printed with two rows jammed together, "
+                     "and two sessions resolved it differently",
+            "evidence": ("The PDF's final block prints: " +
+                         ((cross or {}).get("theirs_unparsed") or [{}])[0].get(
+                             "raw", "| 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks "
+                                    "Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED |")
+                         + ". Session 736efb4b left the line unparsed (its capture records 1 "
+                           "unparsed line). This tree split it into the Milwaukee row and the "
+                           "Oklahoma City row and marked both 'garbled'. Both trees agree that the "
+                           "document holds 50 player rows and 19 NOT YET SUBMITTED team rows, and "
+                           "every value both trees recorded matches."),
+            "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+            "owner_action": "None needed. Recorded so the one reconstructed row is visibly a "
+                            "reconstruction and not a clean copy, and so the row-count difference "
+                            "between the two audit trees (69 vs 67) is explained.",
         },
     ]
     return flags

@@ -544,6 +544,15 @@
    "status": "pass"
   },
   {
+   "detail": "The gap is one line: the PDF's final block prints two rows jammed onto one line (| 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED |). Session 736efb4b left that line unparsed; this tree split it into the two rows and marked them 'garbled'. Both agree the document contains 50 player rows and 19 NOT YET SUBMITTED team rows. Flagged as F-7F3-06 so the owner can see the one place where a transcription is a judgement call rather than a copy.",
+   "expected": "the two independent transcriptions agree on every value both of them recorded",
+   "id": "C15",
+   "name": "Cross-session transcription check: this tree vs audit_736efb4b, same PDF same day",
+   "observed": "69 rows in this tree, 67 in theirs, 67 shared, 0 value disagreements; player rows 50 vs 50; player status counts identical (True); NOT YET SUBMITTED rows 19 vs 17 parsed (19 occurrences in the raw text)",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "status": "flag"
+  },
+  {
    "detail": "Not a pass/fail: the snapshot is faithful to the 04:15 AM report, which is exactly the problem. The newest official report is 01:30 PM ET. Flagged as F-7F3-01.",
    "expected": "the published snapshot still matches the report it was taken from",
    "id": "C11",
@@ -562,8 +571,44 @@
    "status": "pass"
   }
  ],
+ "cross_session": {
+  "diffs": [],
+  "mine_status_counts": {
+   "Available": 4,
+   "Doubtful": 2,
+   "Out": 31,
+   "Probable": 6,
+   "Questionable": 7
+  },
+  "only_mine": [
+   [
+    "T",
+    "milwaukee bucks"
+   ],
+   [
+    "T",
+    "oklahoma city thunder"
+   ]
+  ],
+  "only_other": [],
+  "shared": 67,
+  "theirs_status_counts": {
+   "Available": 4,
+   "Doubtful": 2,
+   "Out": 31,
+   "Probable": 6,
+   "Questionable": 7
+  },
+  "theirs_unparsed": [
+   {
+    "raw": "| 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED |",
+    "raw_line": 103,
+    "reason": "garbled cell (two NOT YET SUBMITTED on one line; team names merged)"
+   }
+  ]
+ },
  "fail": 0,
- "flag": 2,
+ "flag": 3,
  "flags": [
   {
    "evidence": "data/app/canonical.json publishes the 04:15 AM ET report and records newest_report_listed_on_index = \"2026-11-14 04:15 AM ET\" and newest_report_checked = true. The official index now lists reports through 01:30 PM ET; the 01:45 PM file returns AccessDenied.",
@@ -619,6 +664,14 @@
    "severity": "low",
    "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
    "title": "Two teams' official advanced-statistics cells moved after the published capture"
+  },
+  {
+   "evidence": "The PDF's final block prints: | 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED |. Session 736efb4b left the line unparsed (its capture records 1 unparsed line). This tree split it into the Milwaukee row and the Oklahoma City row and marked both 'garbled'. Both trees agree that the document holds 50 player rows and 19 NOT YET SUBMITTED team rows, and every value both trees recorded matches.",
+   "id": "F-7F3-06",
+   "owner_action": "None needed. Recorded so the one reconstructed row is visibly a reconstruction and not a clean copy, and so the row-count difference between the two audit trees (69 vs 67) is explained.",
+   "severity": "low",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "title": "One line of the 01:30 PM injury PDF is printed with two rows jammed together, and two sessions resolved it differently"
   }
  ],
  "injury_drift": {

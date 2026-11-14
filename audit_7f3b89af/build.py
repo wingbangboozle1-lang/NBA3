@@ -659,7 +659,7 @@ def build_coverage(rep, ana):
              where="index.html", src=REPO + ".github/workflows/pages.yml",
              gap="The official pages are fetched by a person and stored as transcription, because "
                  "the build runner cannot read nba.com. That step is manual by necessity and is "
-                 "labelled as such (F-7F3-06)."),
+                 "labelled as such in the audit README."),
         dict(id="B21", req="Coordinate parallel sessions without clashing", status="Met",
              evidence="Shared board with claims, file scopes, verification logs and a merge record",
              where=None, src=REPO + "COORDINATION.md", gap=""),

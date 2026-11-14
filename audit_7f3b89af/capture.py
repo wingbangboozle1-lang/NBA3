@@ -180,9 +180,22 @@ ROWS_0115PM = [
     ("11/15/2026", "07:00", "HOU@WAS", "Houston Rockets", "", "", NYS, "full"),
     ("11/15/2026", "07:00", "HOU@WAS", "Washington Wizards", "", "", NYS, "full"),
     ("11/15/2026", "08:00", "ATL@MIL", "Atlanta Hawks", "", "", NYS, "full"),
-    ("11/15/2026", "08:00", "ATL@MIL", "Milwaukee Bucks", "", "", NYS, "full"),
-    ("11/15/2026", "09:00", "OKC@SAC", "Oklahoma City Thunder", "", "", NYS, "full"),
+    # The next two rows are printed by the PDF on ONE line, with the cells jammed together:
+    #   | 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder |
+    #     NOT YET SUBMITTED NOT YET SUBMITTED |
+    # Every value below is present in that line; what is reconstructed is which cells belong to
+    # which of the two rows, plus the date and time of the Milwaukee row, which come from the
+    # block the line continues. Recorded as `garbled` so a reader can see it is not a clean row.
+    ("11/15/2026", "08:00", "ATL@MIL", "Milwaukee Bucks", "", "", NYS, "garbled"),
+    ("11/15/2026", "09:00", "OKC@SAC", "Oklahoma City Thunder", "", "", NYS, "garbled"),
     ("11/15/2026", "09:00", "OKC@SAC", "Sacramento Kings", "", "", NYS, "full"),
+]
+
+# The two PDF lines whose text extraction jammed cells together, kept verbatim so a reader can
+# check the reconstruction above against the document.
+GARBLED_LINES = [
+    "| 09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | "
+    "NOT YET SUBMITTED NOT YET SUBMITTED |",
 ]
 
 # Read separately from the 01:15 PM PDF, not copied, so the identity claim is a real check.
@@ -338,6 +351,7 @@ def build():
             "player_rows": sum(1 for d in rows if not d["is_not_yet_submitted"]),
             "not_submitted_rows": sum(1 for d in rows if d["is_not_yet_submitted"]),
             "rows": rows,
+            "garbled_lines": GARBLED_LINES if "01_30PM" in key or "01_15PM" in key else [],
         }
         path = os.path.join(DATA, "injury_report_%s.json" % key)
         with open(path, "w") as fh:
