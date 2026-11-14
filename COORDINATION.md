@@ -1570,8 +1570,53 @@ expected value appears anywhere on the site.
 | CR-925439ca-C | owner | Decide SG-08: consolidate the seven dashboards or keep all seven. This session built the consolidated one and left the six session directories in place. | open |
 | CR-925439ca-D | owner | Switch Pages from the legacy `main /` build to the GitHub Actions source (SG-09). Earlier sessions got HTTP 403; needs a repository owner. | open |
 | CR-925439ca-E | owner | **Five** dashboard-family trees now coexist on this site: `/` + `/app/` (a459dadf), `/dash/` (2b9f1ae1 / e40cd215), `/hub/` (99eabb04), `/d01ae7e2/` (d01ae7e2) and `/dashboard/` (this session). Name one canonical and archive the rest, or merge them. This session's build is self-contained under `dashboard/` and `final/`, so deleting it removes nothing else. | open |
+| CR-925439ca-G | repository owner | The GitHub connection used by these sessions is an integration token, so **pushes do not trigger workflow runs and `gh workflow run` returns 403**. Per-PR checks are therefore invisible in the PR UI. Switching to a user PAT, or granting the app `actions: write`, would restore per-PR CI. Logged as **F-19**. | open |
 | CR-925439ca-F | a459dadf | If the canonical dashboard is kept, consider folding `final/verify.py` into the canonical build: it is 1,305 line-by-line checks against the official pages (570 team cells, 310 player cells, 91 game-log reconciliation, 89 slate, 245 injury structure) and runs in under a second with no dependencies. | open |
 
 ### Integration / PR log
 
+**PR:** https://github.com/wingbangboozle1-lang/NBA3/pull/34
+**Merged:** 2026-11-14T01:23:45Z, merge commit `1993f4f`, `main` head after merge `1993f4f`.
+**Merged without approval**, per the brief; nothing was left waiting on review.
+
+Rebase history (main moved four times during this session):
+
+| Base at rebase | What had to be kept alongside |
+|---|---|
+| `a5fc736` | first attempt; abandoned and squashed to get one resolvable conflict set |
+| `567aba8` (PR #33) | `/hub/` (session 99eabb04) build step and staging line |
+| `a883e43` (PR #36) | audit PR's `COORDINATION.md` section |
+
+Every conflict was resolved as a **union**. No other session's content was dropped.
+`README.md`, `COORDINATION.md` and `.github/workflows/pages.yml` were the only
+contested files; `dashboard/`, `final/` are new paths with no prior owner.
+
+CI on `main`, run https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43540337304
+— **all 23 build steps success, deploy success.** Including this session's three new
+steps (19 `Verify the /dashboard/ dataset`, 20 `Rebuild the /dashboard/ site and fail
+on drift`, 21 `Check /dashboard/ links and per-row sources`).
+
+Pages deploy verified by fetching the live URL, not by assuming:
+
+| Checked | Result |
+|---|---|
+| https://wingbangboozle1-lang.github.io/NBA3/dashboard/ | 200, home page renders the 22 originated lines for 11/14–11/16 |
+| https://wingbangboozle1-lang.github.io/NBA3/dashboard/flagged.html | reachable from the home page |
+
+**One irregularity about how this was merged, disclosed:** the GitHub connection used by
+this workspace is an *integration* token. Pushes from it do **not** trigger workflow
+runs — `actions/runs?branch=arena/925439ca-nba3` returns `total_count: 0` — and
+`gh workflow run` fails with `HTTP 403: Resource not accessible by integration`. So PR #34
+shows **no check runs** in its own UI. Every check was therefore run **locally, on the
+exact rebased tree**, before merging, and the same checks ran green on `main` after the
+merge (run 43540337304). Merges to `main` *do* trigger the push workflow, which is why
+the post-merge run exists. Logged as **F-19**; a repository owner using a user token
+would see per-PR checks normally.
+
+### Nothing left undone by this session
+
+All nine tasks I1–I9 are `done`. The four blocking questions (Q-01 intended use, Q-03 odds
+feed, Q-06 player game logs, Q-13 publication rights) and all 14 suggestions SG-01…SG-14
+remain **awaiting your choice** — they are decisions, not code, and the brief forbids
+implementing a suggestion before it is chosen.
 (filled in below once the PR is opened and merged)
