@@ -544,3 +544,33 @@ were restored to `main`'s content before this section was appended.
 - `www.nba.com/standings` returns no data (client-rendered); use `/stats/teams/advanced`.
 - `/games?date=` truncates at chunk boundaries — a slate is incomplete until the last chunk is
   read (1 chunk ≤4 games, 2 for 7–11, 3 for 14–15).
+
+---
+
+## Session `e40cd215` (`arena/e40cd215-nba3`) — CLAIM (integration + reconciliation round)
+
+Session ID `e40cd215`. Arena binds this workspace to branch `arena/e40cd215-nba3` (base `e591b671`,
+which is `main` HEAD), so the `session-<id>/<task>` branch scheme in the brief cannot be used here —
+scope is enforced by file list inside this one branch, as prior sessions recorded.
+
+All prior sessions (49064d5a, f879620b, 7c532e8c, 9ed6085f, 5697caaf, 0a016df8, e22a2831) are merged
+and closed; none has an open claim. This session therefore acts as the **final integration session**
+and is the only writer for shared outputs (root `index.html`, `README.md`, `COORDINATION.md`,
+`.github/workflows/pages.yml`). No prior session's site directory is deleted or edited: `docs/`,
+`site/`, `edge/`, `lab/`, `research/`, `origin/` stay byte-identical and are linked as per-session
+archives.
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| E1 | Cross-session reconciliation: 174-game result sets, injury snapshots, slate counts, ID namespaces | in progress | `data/integration/`, `integrate/` |
+| E2 | Independent official re-verification of results, upcoming slate, injury reports | in progress | `data/integration/verify_*.json`, `integrate/verify.py` |
+| E3 | Line origination for the live 72-hour window (11/14–11/16) + picks, gates, correlations | unclaimed | `integrate/lines.py`, `data/integration/lines_*.json` |
+| E4 | Single unified dashboard site (`dash/`) + root landing page with category nav | unclaimed | `dash/`, `index.html`, `integrate/build_site.py` |
+| E5 | Executive summary, open questions, suggestions queue, Flagged-for-Review page | unclaimed | `dash/*.html`, `data/integration/*.json` |
+| E6 | PR → merge → Pages deploy verification | unclaimed | PR, `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` |
+
+Findings already logged during this claim (detail in the log below): six competing site trees;
+`edge/` results sourced from Basketball-Reference (not an official NBA source) — 174/174 scores agree
+with the official-sourced `origin/` capture after team-code normalisation (CHO→CHA, BRK→BKN, PHO→PHX);
+`edge/` and `origin/` publish **different** walk-forward statistics and different spread/total
+correlation values on what is claimed to be the same dataset.
