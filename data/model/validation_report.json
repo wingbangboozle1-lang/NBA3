@@ -73,6 +73,13 @@
   }
  ],
  "pricing_assumption": "standard -110 (no licensed odds feed available)",
+ "strategy_market": {
+  "STRAT1": "moneyline (settles on the game winner, not on covering a spread)",
+  "STRAT2": "moneyline (settles on the game winner, not on covering a spread)",
+  "STRAT3": "game total",
+  "STRAT4": "2-leg same-day parlay of STRAT1 moneyline legs"
+ },
+ "roi_caveat": "ROI for STRAT1 and STRAT2 is computed at an assumed -110. Because both settle on the moneyline, a -110 price is not obtainable on these sides; the recorded model probabilities imply fair prices near -330 for STRAT1. Treat every ROI here as an arithmetic artefact, not an economic result, until a real price feed exists (Q-03).",
  "strategies": {
   "STRAT1": {
    "gates": [

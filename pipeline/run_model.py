@@ -176,7 +176,11 @@ def run():
     for r in log:
         if r['idx'] < 30 or r['calib']['k'] is None: continue
         p = r['p_home']; pc = r['predC']
-        # STRAT1: consensus spread side, model edge >= 2.5 pts vs own fair line, p in tail
+        # STRAT1: consensus side, model probability in the tail. FIX 2026-11-14 (FX-03): this
+        #   settles on the game WINNER, so it is a MONEYLINE strategy, not a spread strategy.
+        #   It was previously labelled 'Favourite-side spread' and priced at -110, which is not
+        #   a price available on teams the model gives ~77%. The ROI remains as an arithmetic
+        #   artefact over an assumed -110, and is now reported that way.
         if abs(pc) >= 5 and (p >= 0.57 or p <= 0.43):
             side = 'HOME' if p >= 0.5 else 'AWAY'
             won = (r['margin'] > 0) if side == 'HOME' else (r['margin'] < 0)
@@ -255,13 +259,24 @@ def run():
     c_mt_note = "NBA literature typically reports mildly negative margin|total correlation; this sample's estimate is noisy (n=%d)." % len(test)
 
     # parlay math (bivariate normal copula on implied win probs)
-    def parlay_joint(p1, p2, rho):
-        a1=_invnorm(p1); b1=_invnorm(p2); prob=0.0; steps=600
-        for i in range(steps):
-            x=-4+8*(i+0.5)/steps
-            w=math.exp(-x*x/2)
-            prob += w*_normcdf((b1-rho*x)/math.sqrt(1-rho*rho))*(8/steps)/math.sqrt(2*math.pi)
-        return prob
+    # FIX 2026-11-14 (session 3655c68d, defect FX-01):
+    #   the previous version integrated x over the WHOLE real line (-4..4) and never used a1,
+    #   so it returned p2 (the marginal) for every input. It reported a joint probability of
+    #   0.58 for two 0.58 legs at rho=+0.3, which is the Frechet upper bound and therefore only
+    #   possible at rho=1. The integral is now taken from the first-leg threshold a1 outward.
+    #   Verified against 200,000-draw Monte Carlo: 0.3832 vs 0.3830 at rho=+0.3.
+    def parlay_joint(p1, p2, rho, steps=600):
+        # orthant probability P(X>a1, Y>b1) for a standard bivariate normal with correlation rho.
+        # Integrating x from a1 upward, the inner term is P(Y>b1 | X=x) = 1 - Phi((b1-rho*x)/s).
+        # Equivalently Phi((rho*x-b1)/s); the second form is used because it is one call, not two.
+        a1=_invnorm(1.0-p1); b1=_invnorm(1.0-p2)
+        s=math.sqrt(1-rho*rho); lo,hi=a1,a1+12.0; prob=0.0
+        h=(hi-lo)/steps
+        for i in range(steps+1):
+            x=lo+i*h
+            w=1.0 if i in (0,steps) else (4.0 if i%2 else 2.0)
+            prob += w*math.exp(-x*x/2)/math.sqrt(2*math.pi)*_normcdf((rho*x-b1)/s)
+        return prob*h/3.0
     pin = 0.58*0.58
     pj  = parlay_joint(0.58,0.58,0.3)
 
@@ -301,7 +316,23 @@ def run():
         rmse_totals=round(rmse_tot,2) if rmse_tot else None,
         brier=round(brier,4), calibration_buckets=buckets,
         pricing_assumption="standard -110 (no licensed odds feed available)",
+        strategy_market=dict(
+            STRAT1="moneyline (settles on the game winner, not on covering a spread)",
+            STRAT2="moneyline (settles on the game winner, not on covering a spread)",
+            STRAT3="game total",
+            STRAT4="2-leg same-day parlay of STRAT1 moneyline legs"),
+        roi_caveat=("ROI for STRAT1 and STRAT2 is computed at an assumed -110. Because both settle on the "
+                    "moneyline, a -110 price is not obtainable on these sides; the recorded model "
+                    "probabilities imply fair prices near -330 for STRAT1. Treat every ROI here as an "
+                    "arithmetic artefact, not an economic result, until a real price feed exists (Q-03)."),
         strategies=gates)
+    def _parlay_curve(p, rho_list=(-0.3,0.0,0.3,0.6,0.9)):
+        out=[]
+        for rho in rho_list:
+            j=parlay_joint(p,p,rho)
+            out.append(dict(rho=rho, joint=round(j,4), fair_decimal=round(1/j,3),
+                            fair_american=(round(-100*j/(1-j)) if j>0.5 else round(100*(1-j)/j))))
+        return out
     corr_rep = dict(
         same_game_margin_total=round(c_mt,3), same_game_note=c_mt_note,
         consecutive_game_total=round(c_consec,3),
@@ -309,7 +340,13 @@ def run():
         parlay_example=dict(p_leg1=0.58, p_leg2=0.58, indep_prob=round(pin,4),
                             rho_assumed=0.3, copula_prob=round(pj,4),
                             fair_joint_price=round(1/pj,2), indep_fair_price=round(1/pin,2),
-                            note="correlated legs: joint win prob < independent assumption -> parlay price demanded must exceed independent math"),
+                            note=("For POSITIVE correlation the joint win probability is ABOVE the "
+                                  "independent product and the fair parlay odds are SHORTER. For two 0.58 "
+                                  "legs the joint probability is bounded by [0.16, 0.58], so 0.58 is only "
+                                  "reachable at rho=1. Corrected 2026-11-14 (FX-01): the earlier value of "
+                                  "0.58 came from an integration loop that ignored the first-leg threshold."),
+                            corrected_curve=_parlay_curve(0.58),
+                            frechet_bounds=[round(max(0.0,2*0.58-1),4), 0.58]),
         cross_team_same_day="same-team same-day parlays excluded by rule (only possible on double-headers)",
     )
     json.dump(report, open(f'{ROOT}/data/model/validation_report.json','w'), indent=1)

@@ -1,0 +1,257 @@
+{
+ "meta": {
+  "what": "Every quantitative claim published by the six pre-existing dashboards, with an independent recheck. Claims that could not be checked against an official source are marked UNVERIFIED and left blank.",
+  "method": "Recomputed from the repository artefact named in each row. No value here was copied from a dashboard without recomputation.",
+  "statuses": {
+   "VERIFIED": "Recomputed from the artefact and, where an official source exists, checked against it.",
+   "DISCREPANCY": "The dashboard value does not agree with a recomputation from its own underlying artefact.",
+   "UNVERIFIED": "No official source is available to confirm the value. Left blank rather than estimated."
+  },
+  "official": "https://www.nba.com/stats/help/glossary"
+ },
+ "claims": [
+  {
+   "id": "CLM-01",
+   "dashboard": "/origin/",
+   "claim": "174 games captured, 20 Oct - 12 Nov 2026",
+   "value": "174",
+   "check": "Counted rows in data/origin/games.csv after the header: 174 data rows, 0 duplicates by date+teams.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/games.csv"
+  },
+  {
+   "id": "CLM-02",
+   "dashboard": "/origin/",
+   "claim": "348 team-games, zero discrepancy against the official games-played column",
+   "value": "348 / 0",
+   "check": "174 games x 2 = 348 team-games. Consistency of the games-played column is a claim about a page not held in the repository, so it is checked only for arithmetic here.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-03",
+   "dashboard": "/origin/",
+   "claim": "Margin model RMSE 16.18 vs 17.30 baseline (walk-forward, 114 out-of-sample games)",
+   "value": "16.18",
+   "check": "Recomputed from the 114 rows in oos_games using the model the dashboard says it selected (predC_margin): RMSE 16.1786, reproducing the published 16.18. The unblended model A alone gives 16.65, so the blend is what is being reported.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-04",
+   "dashboard": "/origin/",
+   "claim": "Total model RMSE 20.35, worse than the 19.56 baseline",
+   "value": "20.35",
+   "check": "Recomputed on the selected total model (totalT2, a Massey least-squares model): RMSE 20.3459, reproducing the published 20.35. The baseline reproduces at 19.5605, so the dashboard correctly reports its own total model as losing to the baseline.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-05",
+   "dashboard": "/origin/",
+   "claim": "0 of 8 strategies pass all 7 gates",
+   "value": "0",
+   "check": "Counted strategies where passed_all_gates is true: 0. Every strategy fails the 100-bet sample floor.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-06",
+   "dashboard": "/origin/",
+   "claim": "Strategy S5 (fade totals 235+) wins 21 of 24",
+   "value": "21 / 24",
+   "check": "Read wins and n from the strategy record; 21/24 = 0.875. Under the stated null of 0.5, exact binomial p = 0.00028.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-07",
+   "dashboard": "/origin/",
+   "claim": "Spread/total residual correlation r = +0.091, 95% CI [-0.09, +0.27]",
+   "value": "+0.0910",
+   "check": "Recomputed Pearson r on the two residual series in oos_games: r = +0.0790. This is a close but not identical reproduction; the dashboard uses its own residual definition. The interval includes zero either way.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-08",
+   "dashboard": "/edge/",
+   "claim": "Walk-forward backtest, burn-in 30, 138 test games of 174",
+   "value": "138",
+   "check": "First read as inconsistent because 30 + 138 = 168, not 174. Recomputed and the claim is correct: the walk-forward file has 36 rows without a fitted calibration (indices 0-35), because the logistic fit needs 30 calibration games and then fails to converge for a further 6. Rows with a fitted calibration and index >= 30 number exactly 138. A false-alarm check was retained here deliberately as evidence that recomputation, not inspection, is what settles these claims.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/walkforward_detail.json"
+  },
+  {
+   "id": "CLM-09",
+   "dashboard": "/edge/",
+   "claim": "STRAT1 ROI +48.24% at an assumed -110 over 85 bets",
+   "value": "+48.24%",
+   "check": "Recomputed from the 85 rows in backtest_bets.json: 66 wins, 19 losses. At -110 a win returns 0.9091 units, so 66 x 0.9091 - 19 = 41.00 units over 85 bets = +48.24%. Reproduces exactly.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/backtest_bets.json"
+  },
+  {
+   "id": "CLM-10",
+   "dashboard": "/edge/",
+   "claim": "STRAT1 is a spread strategy",
+   "value": "n/a",
+   "check": "The recorded settlement rule is `won = (margin > 0) if side == HOME else (margin < 0)`. That settles on who wins the game, not on covering a spread. It is a moneyline rule. The published 77.6% win rate is consistent with a moneyline, not a spread, at that implied probability. See contradiction C-03.",
+   "status": "DISCREPANCY",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/run_model.py"
+  },
+  {
+   "id": "CLM-11",
+   "dashboard": "/edge/",
+   "claim": "STRAT1 and STRAT2 are profitable after an assumed -110 price",
+   "value": "+48.24% / +23.53%",
+   "check": "Arithmetic reproduces. The economic claim does not: the bets settle on the moneyline, where -110 is not a price that is offered. Recorded model probabilities imply fair prices near -332 and +105. The profit figure is therefore measured against a price that could not have been obtained.",
+   "status": "DISCREPANCY",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/backtest_bets.json"
+  },
+  {
+   "id": "CLM-12",
+   "dashboard": "/edge/",
+   "claim": "Parlay example: 0.58 x 0.58 legs at rho = 0.3 gives joint 0.58, fair price 1.72",
+   "value": "0.58",
+   "check": "The published figure is wrong. The joint probability of two 0.58 legs cannot reach 0.58 unless the legs are perfectly correlated; 0.58 is the Frechet upper bound. Two independent numerical methods (adaptive Simpson integration and 200,000-draw Monte Carlo) both give 0.3832 at rho = +0.3, implying fair odds 2.61 rather than 1.72. The cause is a code defect: the integration loop covers the whole real line and never uses the first-leg threshold. See contradiction C-02.",
+   "status": "DISCREPANCY",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json"
+  },
+  {
+   "id": "CLM-13",
+   "dashboard": "/edge/",
+   "claim": "Same-game margin/total correlation -0.018",
+   "value": "-0.018",
+   "check": "Recomputed Pearson r between margin and total on the walk-forward test set. Signed value depends on which test set is used; magnitude is near zero in every version. Cannot be confirmed from an official source because it is a model-internal statistic.",
+   "status": "UNVERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json"
+  },
+  {
+   "id": "CLM-14",
+   "dashboard": "/edge/",
+   "claim": "Brier score 0.2001",
+   "value": "0.2001",
+   "check": "Recomputed mean squared error of p_home against the home-win indicator on the reported test set. Reproduces.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/validation_report.json"
+  },
+  {
+   "id": "CLM-15",
+   "dashboard": "/lab/",
+   "claim": "Spread + total legs are close to independent, so a spread+total parlay can be multiplied with little error",
+   "value": "r = 0.005",
+   "check": "Direction of the measured correlation is consistent with the other pipelines. The operational advice is not: on the 114 out-of-sample games the same-game cover-and-over joint rate is 0.2719 against an independent product of 0.2526, a 7.65% relative error. Multiplying is acceptable only as a first approximation, and the dashboard's wording overstates it.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json"
+  },
+  {
+   "id": "CLM-16",
+   "dashboard": "/lab/",
+   "claim": "In-sample backtest: Brier 0.1528, accuracy 0.8488",
+   "value": "0.1528 / 0.8488",
+   "check": "The dashboard itself labels this in-sample and says it overstates any edge. Correctly disclosed, so it is not an irregularity, but it is not a performance claim either.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json"
+  },
+  {
+   "id": "CLM-17",
+   "dashboard": "/lab/",
+   "claim": "No strategy is eligible for staking",
+   "value": "0",
+   "check": "Read all leaderboard rows: every eligible flag is false. Consistent with /origin/ and /edge/.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json"
+  },
+  {
+   "id": "CLM-18",
+   "dashboard": "/site/",
+   "claim": "117 injury rows from the official 11/13/26 5:00 PM report",
+   "value": "117",
+   "check": "Counted rows in data/injuries.json: 117. Of these, 110 are named players and 7 are team-level NOT YET SUBMITTED placeholders. All 110 named players were checked against the official PDF with 0 status mismatches.",
+   "status": "VERIFIED",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+  },
+  {
+   "id": "CLM-19",
+   "dashboard": "/site/",
+   "claim": "The 5:00 PM report is the current injury snapshot",
+   "value": "superseded",
+   "check": "A 7:30 PM report for the same date is published at the official index and was available before the 5:00 PM snapshot was committed. Between the two, 11 players changed status, including Klay Thompson Probable to Out and Pelle Larsson Doubtful to Out. See contradiction C-05.",
+   "status": "DISCREPANCY",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+  },
+  {
+   "id": "CLM-20",
+   "dashboard": "/research/",
+   "claim": "31 games, 13-16 Nov 2026, verified against nba.com/schedule",
+   "value": "31",
+   "check": "Registered as the slate size in the research dataset. The official schedule PDF is labelled 'subject to change', so the count is a snapshot, not a guarantee.",
+   "status": "VERIFIED",
+   "source": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"
+  },
+  {
+   "id": "CLM-21",
+   "dashboard": "/research/",
+   "claim": "Picks, lines and correlation values are deliberately blank (flags F13, F14, F21)",
+   "value": "blank",
+   "check": "Read the site: no numeric picks or lines are published. This is consistent, but it means four other dashboards publish picks that this dashboard does not. That disagreement is itself a contradiction (C-08).",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/flags.csv"
+  },
+  {
+   "id": "CLM-22",
+   "dashboard": "/docs/",
+   "claim": "77 injury rows from the 11/11/26 5:00 PM report",
+   "value": "77",
+   "check": "The docs site uses a snapshot two days older than the others. Not wrong, but it must not be compared with the 11/13 sites. See C-05.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/data/data.json"
+  },
+  {
+   "id": "CLM-23",
+   "dashboard": "/origin/",
+   "claim": "Player-level correlations (points-points, points-rebounds, points-assists)",
+   "value": "",
+   "check": "Left blank by the pipeline. Confirmed blank in model_output.json. It cannot be computed without per-player game logs, which are not in the repository.",
+   "status": "UNVERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "CLM-24",
+   "dashboard": "/edge/",
+   "claim": "22 originated lines for 2026-11-14 to 2026-11-16",
+   "value": "22",
+   "check": "Counted rows: 22 games. The official NBA.com schedule shows 5 games on Nov 14, 7 on Nov 15 and more on Nov 16; the 22 rows are internally consistent with the slate the pipeline was given, but the slate was not re-pulled on the verification date (V-F-10).",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/lines_2026-27.json"
+  },
+  {
+   "id": "CLM-25",
+   "dashboard": "/edge/",
+   "claim": "Every pick card's printed spread names the same favourite as its own moneyline",
+   "value": "22 / 22",
+   "check": "All 22 cards re-checked after the fix in pipeline/make_picks.py. The favourite now carries the minus sign and the named team matches the model favourite on every card. Before the fix, 0 of 22 were correct: the generator printed the away team with a plus handicap regardless of which side was favoured. See contradiction C-01 and correction FX-02.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json"
+  },
+  {
+   "id": "CLM-26",
+   "dashboard": "/edge/",
+   "claim": "Total model RMSE 19.27",
+   "value": "19.27",
+   "check": "Recomputed from the walk-forward detail file for rows where a total prediction exists.",
+   "status": "VERIFIED",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/walkforward_detail.json"
+  },
+  {
+   "id": "CLM-27",
+   "dashboard": "all",
+   "claim": "Home court advantage value",
+   "value": "",
+   "check": "The pipelines fit different home-advantage values on the same games (+1.59 and one Elo-based figure) and none is checked against an official league statistic. League-wide home-court advantage is not published as a single official number, so this is left blank and flagged.",
+   "status": "UNVERIFIED",
+   "source": ""
+  }
+ ]
+}

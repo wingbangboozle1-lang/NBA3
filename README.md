@@ -64,7 +64,7 @@ comparing the official pages read on 2026-11-14 with the values already stored i
 - Some artifacts identify Basketball-Reference and ESPN data among their inputs. The repository does not establish the necessary license or rights for use of those data in the intended product. NBA Terms of Use also include restrictions on NBA Statistics. Obtain qualified legal advice and written permission/provider terms before using or distributing these outputs.
 - Some pages contain betting prices and “positive EV” labels. These are experimental derived outputs, not official NBA facts, proven edges, or betting advice. Do not act on them.
 - Dates and injury reports are static snapshots. The NBA describes its schedule as subject to change and its injury reports as continually updated. There is no verified always-current production feed in this static Pages site.
-- Local tests/builds validate selected code, data shape, source-link presence and internal links. They do **not** prove that every historical row matches an official NBA primary record, that sources are licensed, or that a model predicts profitably. A mechanical repository-wide HTML scan (session 2e50a71a) counted 1,521 table-body rows; 423 lacked a direct official NBA/Ksa link (389 excluding the archived `research-dashboard.html`). A second, independent scan on 2026-11-14 (`scripts/scan_table_sources.py`) counted 2,091 rows in 89 files, 369 without a direct official-host link; the canonical pages contribute 0 and the remainder sit in the earlier sub-sites. Neither scan is a manual classification of whether every row is factual, but both confirm the strict source-per-row requirement is met on the canonical pages and is still open across the earlier sub-sites; see [R-13](review.html) and the [Flagged for review](app/flagged.html) page.
+- Local tests/builds validate selected code, data shape, source-link presence and internal links. They do **not** prove that every historical row matches an official NBA primary record, that sources are licensed, or that a model predicts profitably. A mechanical repository-wide HTML scan (session 2e50a71a) counted 1,521 table-body rows; 423 lacked a direct official NBA/Ksa link (389 excluding the archived `research-dashboard.html`). A second, independent scan on 2026-11-14 (`scripts/scan_table_sources.py`) counted 2,111 rows in 90 files, 369 without a direct official-host link; the canonical pages contribute 0 and the remainder sit in the earlier sub-sites. Neither scan is a manual classification of whether every row is factual, but both confirm the strict source-per-row requirement is met on the canonical pages and is still open across the earlier sub-sites; see [R-13](review.html) and the [Flagged for review](app/flagged.html) page.
 - The 2026–27 NBA Terms and use of NBA-derived statistics, distribution to others, and Dutch regulatory obligations remain review items. This repository is not legal advice.
 
 **Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/<br>
@@ -148,3 +148,57 @@ python3 scripts/scan_table_sources.py
 ```
 
 GitHub Pages combines static site folders in `.github/workflows/pages.yml`. Static publication is not a live feed or automated daily data refresh.
+
+---
+
+## Session `3655c68d` — verification & decision layer (`/verify/pages/`)
+
+Adds **no new model**. It measures whether the six models already in this repository can be trusted,
+and resolves the places where they contradict each other. Published at
+[`/verify/pages/`](verify/pages/index.html).
+
+| Path | What it is |
+|---|---|
+| [`verify/pages/`](verify/pages/index.html) | 13 pages: verification hub, executive summary, contradictions, claim ledger, injury verification, game-log verification, corrections, decisions, questions, suggestions, settlement ledger, sources, flagged for review |
+| `verify/data/` | Editable content, plus the verbatim official injury-report transcript used for the line-by-line check |
+| `verify/build.py` | Validates every row, runs the numerical self-tests, renders the site, checks links, fails on a missing source |
+| `verify/tests/test_verification.py` | 16 regression tests pinning the defects found this session |
+
+### Results
+
+| | |
+|---|---|
+| 174-game log, two independent captures | **174 / 174 agree** on date, teams, exact score and overtime |
+| Injury table vs official NBA PDF | **110 / 110 named players** match, 0 status mismatches |
+| Published strategy records re-audited from their own bet logs | **4 / 4 reproduce exactly** |
+| Strategies passing every validation gate | **0 of 8** |
+| Contradictions found between dashboards | **9** (3 blocking) |
+| Claims rechecked | **27** — 20 verified, 4 discrepancies, 3 unverifiable |
+
+### Defects found and fixed
+
+1. **FX-01 — parlay copula returned the marginal.** `parlay_joint()` integrated over the whole real
+   line and never applied the first-leg threshold, so it returned the second leg's probability for
+   every input. The published "joint win probability" of 0.58 for two 0.58 legs at ρ=+0.3 is the
+   Fréchet upper bound and only reachable at ρ=1. Corrected value **0.3832** (fair odds 2.61),
+   confirmed against a 200,000-draw Monte Carlo.
+2. **FX-02 — every pick card named the wrong side.** Labels were built from `away + '+' + (-home_margin)`,
+   which printed the away team as the underdog on all 22 cards, including the 10 where it was the
+   favourite. **0 of 22 were correct; now 22 of 22.**
+3. **FX-03 — moneyline strategies labelled as spread bets.** STRAT1/STRAT2 settle on the game winner,
+   so pricing them at −110 produced an unearnable "+48.24% ROI". Relabelled, with the −110 figure kept
+   only as a marked arithmetic artefact.
+4. **FX-04/FX-05 —** the correction propagated into `data/model/correlation_report.json` and the picks.
+5. **V-F-02 — `pipeline/build_site_data.py` overwrote `site/data/`.** The edge pipeline wrote into
+   session 7c532e8c's generated tree. Output moved to `edge/data/`; the affected files were restored.
+
+### Reproduce
+
+```bash
+python3 -m unittest verify.tests.test_verification   # 16 tests
+python3 verify/build.py                              # validate + render + link check
+python3 verify/build.py --check                      # validate only
+```
+
+Standard library only. `verify/build.py` refuses to write the site if any self-test fails, any
+VERIFIED claim lacks an https source, or a settled ledger row lacks an official settlement source.
