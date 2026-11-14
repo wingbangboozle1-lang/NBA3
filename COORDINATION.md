@@ -2903,3 +2903,32 @@ Scope of this claim: verification and reporting only. Files claimed: `COORDINATI
 | Record PR | this section (appended on `arena/8efd914d-nba3`; merged to `main` by a follow-up PR) |
 
 **Open items.** IR-E2 and IR-E3 stay open (see E-log). The flagged list on the live page (NF-01 … NF-19 and the rest) is unchanged by this session; the site's own flags were not re-verified line by line in this session. None of the open items blocks anything.
+---
+
+## Session `arena/f2d4a99f-nba3` (current) — CLAIM: final integration (verify + merge open PR #62, confirm Pages deploy, record)
+
+Session ID: `arena/f2d4a99f-nba3`. Branch: `arena/f2d4a99f-nba3` (Arena-fixed; at `main` @ `1938a0a`,
+the merge of PR #63). No open claim on the board at claim time (2026-11-14, ~10:30 UTC): every prior
+`in progress` / `pending` / `unclaimed` line above is closed by a merged PR. The only open PR is **#62**
+(session `25418e3f`), whose `build` check is green. This session is the **final integration session**:
+independently verify PR #62's changes line by line against the official sources and the canonical data,
+merge it to `main`, confirm GitHub Pages deploys, and record the PR / merge / deploy result here.
+
+**Task board (this session)**
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| I1 | Claim scope, push claim before work | done | `COORDINATION.md` |
+| I2 | Independently verify PR #62: read its diff, reproduce the refreshed figures from `data/app/lab.json` / `data/app/canonical.json`, confirm no drift, run the check suites on the merged result | in progress | read-only for `25418e3f`'s trees; `COORDINATION.md` |
+| I3 | Merge PR #62 to `main` (`gh pr merge 62 --merge`) | pending | merge action |
+| I4 | Confirm GitHub Pages deploy succeeds on the merged `main` | pending | read-only verification |
+| I5 | Record PR / merge / deploy + irregularities in `COORDINATION.md`; refresh the `README.md` status block | pending | `COORDINATION.md`, `README.md` |
+
+**Files claimed:** `COORDINATION.md` (append-only) and the `README.md` status block (the shared
+integration surface). PR #62's own files (`app/**`, `data/app/canonical.json`, `data/requirements.csv`,
+`index.html`, `research/requirements.html`, `scripts/assemble_canonical.py`, `scripts/build_app.py`,
+`app/flagged.html`, `app/review.html`, `app/verification.html`) are owned by session `25418e3f` and are
+**merged, not edited**, here. All other session trees (`docs/`, `site/`, `lab/`, `research/`, `edge/`,
+`origin/`, `hub/`, `dash/`, `dashboard/`, `d01ae7e2/`, `final/`, `verify/`, `model/`, `pipeline/`,
+`tools/`, `tests/`, `audit/`, `audit26/`, `audit36/`, `data/**` outside `app/`) are read-only for this
+session; requests to their owners are logged below, not edited.
