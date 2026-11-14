@@ -1,0 +1,1684 @@
+{
+ "meta": {
+  "session": "arena/36e18d83-nba3",
+  "purpose": "Independent freshness re-verification round: official pages re-read on 2026-11-14 ~01:40-01:50 UTC and transcribed by hand. Values are copied verbatim from the fetched pages; nothing is inferred.",
+  "retrieved_utc": "2026-11-14T01:40:00Z/2026-11-14T01:50:00Z",
+  "method": "fetch_page tool, chunks as listed per source; PDF text extracted by the same tool",
+  "sources": {
+   "schedule": "https://www.nba.com/schedule?date=2026-11-14",
+   "schedule_chunks": [
+    0,
+    1,
+    2
+   ],
+   "injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "injury_index_chunks": [
+    0,
+    1
+   ],
+   "injury_newest_pdf": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_00PM.pdf",
+   "injury_newest_pdf_chunks": [
+    0,
+    1
+   ],
+   "team_stats": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+   "team_stats_chunks": [
+    0,
+    1
+   ]
+  }
+ },
+ "checks": {
+  "slate": {
+   "rows": [
+    {
+     "gid": "0022600231",
+     "game": "DEN@NOP",
+     "date": "2026-11-14",
+     "time_et": "7:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/den-vs-nop-0022600231"
+    },
+    {
+     "gid": "0022600232",
+     "game": "DAL@CLE",
+     "date": "2026-11-14",
+     "time_et": "7:30 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/dal-vs-cle-0022600232"
+    },
+    {
+     "gid": "0022600233",
+     "game": "DET@MIA",
+     "date": "2026-11-14",
+     "time_et": "8:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/det-vs-mia-0022600233"
+    },
+    {
+     "gid": "0022600234",
+     "game": "BKN@MEM",
+     "date": "2026-11-14",
+     "time_et": "8:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/bkn-vs-mem-0022600234"
+    },
+    {
+     "gid": "0022600235",
+     "game": "CHI@MIN",
+     "date": "2026-11-14",
+     "time_et": "8:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/chi-vs-min-0022600235"
+    },
+    {
+     "gid": "0022600236",
+     "game": "IND@PHI",
+     "date": "2026-11-15",
+     "time_et": "1:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236"
+    },
+    {
+     "gid": "0022600237",
+     "game": "LAL@PHX",
+     "date": "2026-11-15",
+     "time_et": "4:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/lal-vs-phx-0022600237"
+    },
+    {
+     "gid": "0022600238",
+     "game": "CHA@LAC",
+     "date": "2026-11-15",
+     "time_et": "4:30 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/cha-vs-lac-0022600238"
+    },
+    {
+     "gid": "0022600239",
+     "game": "SAS@UTA",
+     "date": "2026-11-15",
+     "time_et": "5:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/sas-vs-uta-0022600239"
+    },
+    {
+     "gid": "0022600240",
+     "game": "DAL@BOS",
+     "date": "2026-11-15",
+     "time_et": "6:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/dal-vs-bos-0022600240"
+    },
+    {
+     "gid": "0022600241",
+     "game": "NYK@TOR",
+     "date": "2026-11-15",
+     "time_et": "6:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/nyk-vs-tor-0022600241"
+    },
+    {
+     "gid": "0022600242",
+     "game": "HOU@WAS",
+     "date": "2026-11-15",
+     "time_et": "7:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/hou-vs-was-0022600242"
+    },
+    {
+     "gid": "0022600243",
+     "game": "ATL@MIL",
+     "date": "2026-11-15",
+     "time_et": "8:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/atl-vs-mil-0022600243"
+    },
+    {
+     "gid": "0022600244",
+     "game": "OKC@SAC",
+     "date": "2026-11-15",
+     "time_et": "9:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/okc-vs-sac-0022600244"
+    },
+    {
+     "gid": "0022600245",
+     "game": "ORL@BOS",
+     "date": "2026-11-16",
+     "time_et": "7:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/orl-vs-bos-0022600245"
+    },
+    {
+     "gid": "0022600246",
+     "game": "CHI@CLE",
+     "date": "2026-11-16",
+     "time_et": "7:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/chi-vs-cle-0022600246"
+    },
+    {
+     "gid": "0022600247",
+     "game": "MEM@WAS",
+     "date": "2026-11-16",
+     "time_et": "7:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/mem-vs-was-0022600247"
+    },
+    {
+     "gid": "0022600248",
+     "game": "PHI@BKN",
+     "date": "2026-11-16",
+     "time_et": "7:30 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/phi-vs-bkn-0022600248"
+    },
+    {
+     "gid": "0022600249",
+     "game": "HOU@MIA",
+     "date": "2026-11-16",
+     "time_et": "7:30 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/hou-vs-mia-0022600249"
+    },
+    {
+     "gid": "0022600250",
+     "game": "POR@MIN",
+     "date": "2026-11-16",
+     "time_et": "8:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/por-vs-min-0022600250"
+    },
+    {
+     "gid": "0022600251",
+     "game": "GSW@NOP",
+     "date": "2026-11-16",
+     "time_et": "8:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/gsw-vs-nop-0022600251"
+    },
+    {
+     "gid": "0022600252",
+     "game": "PHX@DEN",
+     "date": "2026-11-16",
+     "time_et": "9:00 PM",
+     "matches_stored_slate": true,
+     "matches_published_line": true,
+     "source_url": "https://www.nba.com/game/phx-vs-den-0022600252"
+    }
+   ],
+   "summary": {
+    "official_window_games": 22,
+    "published_lines": 22,
+    "mismatches_stored": 0,
+    "mismatches_published": 0
+   },
+   "source_url": "https://www.nba.com/schedule?date=2026-11-14"
+  },
+  "team_stats": {
+   "rows": [
+    {
+     "team": "LAL",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "BOS",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "PHI",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "SAS",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "HOU",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "MIN",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "DET",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "GSW",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "OKC",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "POR",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "ATL",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "DAL",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "MEM",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "CLE",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "DEN",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "NYK",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "MIA",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "PHX",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "TOR",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "CHA",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "IND",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "NOP",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "ORL",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "WAS",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "BKN",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": false,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "LAC",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "CHI",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "MIL",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "SAC",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    },
+    {
+     "team": "UTA",
+     "match": true,
+     "changed_fields": "\u2014",
+     "played_2026-11-13": true,
+     "explanation": "\u2014",
+     "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+    }
+   ],
+   "summary": {
+    "teams": 30,
+    "fields_per_team": 7,
+    "all_fields_match": 30,
+    "expected_drift_only": 0,
+    "unexpected_mismatch": 0,
+    "note": "stored snapshot captured before the 2026-11-13 games; drift on playing teams is ageing, not error"
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  "injuries": {
+   "rows": [
+    {
+     "matchup": "MIL@ORL",
+     "player": "Banchero, Paolo",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MIL@ORL",
+     "player": "Cain, Jamal",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MIL@ORL",
+     "player": "da Silva, Tristan",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MIL@ORL",
+     "player": "Isaac, Jonathan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MIL@ORL",
+     "player": "Nelson, Izaiyah",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MIL@ORL",
+     "player": "Penda, Noah",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MIL@ORL",
+     "player": "Suggs, Jalen",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "NYK@IND",
+     "player": "Furphy, Johnny",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "NYK@IND",
+     "player": "Haliburton, Tyrese",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "NYK@IND",
+     "player": "McConnell, T.J.",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "NYK@IND",
+     "player": "Nesmith, Aaron",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "NYK@IND",
+     "player": "Sheppard, Ben",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Dennis, RayJ",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Flemings, Kingston",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Gilbert, Keshon",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Gueye, Mouhamed",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Landale, Jock",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Newell, Asa",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Veesaar, Henri",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Wilson, Jalen",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Awaka, Tobe",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Powell, Norman",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Sellers, Jaylin",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Swain, Dailyn",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "ATL@CHI",
+     "player": "Wilson, Caleb",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Diop, Khalifa",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Merrill, Sam",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Mobley, Evan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Tomlin, Nae'Qwan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Udeh, Jr., Ernest",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Antetokounmpo, Giannis",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Goldin, Vladislav",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Larsson, Pelle",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CLE@MIA",
+     "player": "Thompson, Klay",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Edey, Zach",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Lopez, Karim",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Mashack, Jahmai",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Pippen Jr., Scotty",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Post, Quinten",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Saunders, Richie",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Dia, Malik",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Mathurin, Bennedict",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "McGowens, Bryce",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Missi, Yves",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Murphy III, Trey",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Murray, Dejounte",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Pierre Jr., Jaron",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "MEM@NOP",
+     "player": "Watford, Trendon",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Alexander, Trey",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Bufkin, Kobe",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Ingram, Harrison",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Jackson Jr., Jaren",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Markkanen, Lauri",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Nurkic, Jusuf",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Adams, Steven",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Capela, Clint",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Copeland, Quadir",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Phillips, Julian",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "UTA@HOU",
+     "player": "Smart, Marcus",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Bassey, Charles",
+     "status_0800pm": "Probable",
+     "status_0730pm_stored": "Probable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Butler III, Jimmy",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Curry, Stephen",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Moody, Moses",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Porzingis, Kristaps",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Williams, Brandon",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Fox, De'Aaron",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Harris, Tobias",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Quaintance, Jayden",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "GSW@SAS",
+     "player": "Vassell, Devin",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Krejci, Vit",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Morant, Ja",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Sharpe, Shaedon",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Youngblood, Chris",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Achiuwa, Precious",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Karaban, Alex",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Mogbo, Jonathan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Pedulla, Sean",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Raynaud, Maxime",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "POR@SAC",
+     "player": "Simmons, Ben",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Holmgren, Chet",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Mitchell, Ajay",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Sorber, Thomas",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Topic, Nikola",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Wallace, Cason",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Williams, Jalen",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Williams, Jaylin",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Beal, Bradley",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Ingram, Brandon",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Martinelli, Nick",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Miller, Jordan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "OKC@LAC",
+     "player": "Niederhauser, Yanic Konan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DEN@NOP",
+     "player": "Holmes II, DaRon",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DEN@NOP",
+     "player": "Nembhard, Ryan",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DEN@NOP",
+     "player": "Strawther, Julian",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DEN@NOP",
+     "player": "Whitmore, Cam",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DAL@CLE",
+     "player": "Biberovic, Tarik",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DAL@CLE",
+     "player": "Christie, Max",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DAL@CLE",
+     "player": "de Larrea, Sergio",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DAL@CLE",
+     "player": "Johnson Jr., Morez",
+     "status_0800pm": "Probable",
+     "status_0730pm_stored": "Probable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DAL@CLE",
+     "player": "Lively II, Dereck",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DAL@CLE",
+     "player": "Martin, Caleb",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "BKN@MEM",
+     "player": "Bilodeau, Tyler",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "BKN@MEM",
+     "player": "Brown Jr., Mikel",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "BKN@MEM",
+     "player": "Jefferson, Joshua",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "BKN@MEM",
+     "player": "Nelson, Grant",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "BKN@MEM",
+     "player": "Saraf, Ben",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "BKN@MEM",
+     "player": "Traore, Nolan",
+     "status_0800pm": "Probable",
+     "status_0730pm_stored": "Probable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CHI@MIN",
+     "player": "Beringer, Joan",
+     "status_0800pm": "Available",
+     "status_0730pm_stored": "Available",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CHI@MIN",
+     "player": "DiVincenzo, Donte",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "CHI@MIN",
+     "player": "Edwards, Anthony",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Duren, Jalen",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Harkless, Elijah",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Joe, Isaiah",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Jones, Isaac",
+     "status_0800pm": "Questionable",
+     "status_0730pm_stored": "Questionable",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Lanier, Chaz",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Okorie, Ebuka",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    },
+    {
+     "matchup": "DET@MIA",
+     "player": "Onyenso, Ugonna",
+     "status_0800pm": "Out",
+     "status_0730pm_stored": "Out",
+     "match": true,
+     "note": "\u2014",
+     "flag": false
+    }
+   ],
+   "summary": {
+    "spot_rows": 117,
+    "matched": 117,
+    "status_mismatch": 0,
+    "not_in_stored": 0,
+    "newest_report_listed_on_index": "2026-11-13 08:00 PM ET",
+    "newest_stored_snapshot": "11/13/26 07:30 PM ET",
+    "not_yet_submitted_2026-11-14_stored": [
+     "CHI",
+     "CLE",
+     "MEM",
+     "MIA",
+     "NOP"
+    ],
+    "not_yet_submitted_2026-11-14_fresh": [
+     "CHI",
+     "CLE",
+     "MEM",
+     "MIA",
+     "NOP"
+    ]
+   },
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_00PM.pdf",
+   "index_source_url": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  },
+  "engine_claims": {
+   "published": {
+    "games_compared": 22,
+    "same_side_favoured": 22,
+    "median_abs_gap": 2.39,
+    "max_abs_gap": 4.76,
+    "sd_of_dash_spreads": 10.81,
+    "sd_of_app_spreads": 13.01,
+    "sd_of_actual_margins": 16.89
+   },
+   "recomputed": {
+    "games_compared": 22,
+    "same_side_favoured": 22,
+    "median_abs_gap": 2.39,
+    "max_abs_gap": 4.76,
+    "sd_of_dash_spreads_pstdev": 10.81,
+    "sd_of_app_spreads_pstdev": 13.01,
+    "sd_of_actual_margins_pstdev": 16.89,
+    "sd_of_dash_spreads_sample": 11.07,
+    "sd_of_app_spreads_sample": 13.32,
+    "sd_of_actual_margins_sample": 16.94
+   },
+   "agree": true,
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+  },
+  "fx01_montecarlo": {
+   "published_corrected_joint": 0.3832,
+   "montecarlo_n": 200000,
+   "montecarlo_joint": 0.3833,
+   "agree": true,
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/verify/pages/corrections.html"
+  },
+  "gates": {
+   "rows": [
+    {
+     "id": "E-G01",
+     "name": "Data provenance",
+     "status": "PASS",
+     "threshold": "Zero unsourced rows",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G02",
+     "name": "Leakage",
+     "status": "PASS",
+     "threshold": "Zero features stamped at or after tip-off",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G03",
+     "name": "Beats a naive baseline",
+     "status": "PARTIAL",
+     "threshold": "Paired t-test p < 0.05 and negative mean error difference",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G04",
+     "name": "Minimum sample",
+     "status": "FAIL",
+     "threshold": "At least 100 graded bets per strategy",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G05",
+     "name": "Beats the break-even hurdle",
+     "status": "FAIL",
+     "threshold": "Wilson 95% lower bound > 0.5213",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G06",
+     "name": "Luck removed",
+     "status": "FAIL",
+     "threshold": "Permutation p < 0.05",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G07",
+     "name": "Multiple-comparison control",
+     "status": "FAIL",
+     "threshold": "Benjamini-Hochberg, FDR 10%",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G08",
+     "name": "Temporal stability",
+     "status": "NOT EVALUATED",
+     "threshold": "Both halves above break-even",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    },
+    {
+     "id": "E-G09",
+     "name": "Forward paper tracking",
+     "status": "NOT STARTED",
+     "threshold": "200 graded forward picks",
+     "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json"
+    }
+   ],
+   "summary": {
+    "pass": 2,
+    "partial": 1,
+    "fail": 4
+   }
+  }
+ },
+ "verdict": {
+  "failures": [],
+  "ok": true
+ }
+}

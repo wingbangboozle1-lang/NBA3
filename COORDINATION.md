@@ -1620,3 +1620,63 @@ feed, Q-06 player game logs, Q-13 publication rights) and all 14 suggestions SG-
 remain **awaiting your choice** — they are decisions, not code, and the brief forbids
 implementing a suggestion before it is chosen.
 (filled in below once the PR is opened and merged)
+
+---
+
+## Session `arena/36e18d83-nba3` — CLAIM + RESULTS (CI repair attempt, independent freshness & engine-claims verification)
+
+Session ID `36e18d83`. Workspace branch `arena/36e18d83-nba3` (Arena fixes the branch name; the brief's
+`session-<id>/<task>` scheme cannot be used, as every prior session also recorded). Claim pushed at
+~01:10 UTC before work began. During this round, five other sessions merged to `main` (PRs #24, #27,
+#30, #31, #33/#35, #36); every pull was rebased and both sides kept.
+
+| # | Task | Status | Evidence |
+|---|------|--------|----------|
+| N1 | Repair `.github/workflows/pages.yml` (CI red on `main`: run [43538020346](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43538020346) failed at 0s on unresolved PR #23 conflict markers) | done — **withdrawn as superseded** | Session `a459dadf` merged PR [#30](https://github.com/wingbangboozle1-lang/NBA3/pull/30) (same marker repair) and PR [#31](https://github.com/wingbangboozle1-lang/NBA3/pull/31) (`build_app.py` made the single source of truth for `index.html`) while this claim was open. This session had produced the same two repairs independently, confirmed them byte-identical/duplicate after rebase, and dropped its code commit rather than overriding an active claim. `main` CI green again: run [43538766518](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43538766518). |
+| N2 | Run every workflow step locally on the final base | done | All 12 steps green at `40b1bc7` + claim: unit tests ×3, docs/lab/research/verify/edge builds with zero drift, `integrate.engine` + `integrate.check` PASS (15 pages, 22 lines, 9 gates, 20 flags), canonical capture + `build_app.py` zero drift. |
+| N3 | Freshness re-verification against official NBA sources | done | New namespace **`audit36/`** (`audit36/check.py`, `audit36/build.py`, hand-transcribed `audit36/data/official_refetch_2026-11-14.json`, results json, rendered `audit36/pages/` — 4 pages). Verdict **PASS**, zero hard failures. The `audit/` namespace was taken mid-round by session `3bf92fcc` (release audit, PR #35); this round renamed its namespace to `audit36/` to keep scopes non-overlapping (flag F36-07). |
+| N4 | Line-by-line review of the newest round (`dash/`, `integrate/`, `data/integration/`) | done | The published engine-agreement claims were **recomputed from raw values** (not from the summary block) — all reproduce; gates table matches `data/integration/model.json`. |
+| N5 | PR → merge → CI + Pages verification | in progress | Record appended below after the merge. |
+
+### Official sources re-read 2026-11-14 ~01:40–01:55 UTC (fetched with the fetch tool; transcribed by hand)
+
+| Source | URL | Result |
+|---|---|---|
+| NBA schedule page (chunks 0–2) | https://www.nba.com/schedule?date=2026-11-14 | **22/22** games of the 11/14–16 window match both the stored capture and the 22 published originated lines (date, tip time, teams, NBA game id); 11/17 (5 games) and 11/18 (12 games) also observed |
+| NBA team advanced stats (chunks 0–1) | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season | **210/210** field comparisons (30 teams × GP/W/L/OffRtg/DefRtg/NetRtg/PACE) match the stored capture exactly; the in-progress 11/13 games were not yet absorbed by the official table |
+| Official injury-report index (chunks 0–1) | https://official.nba.com/nba-injury-report-2026-27-season/ | Newest listed report is **11/13/26 08:00 PM ET**, newer than the newest stored snapshot (07:30 PM ET) — flag F36-01 |
+| Official injury report 08:00 PM ET PDF (chunks 0–1) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_00PM.pdf | **117/117** readable player rows match the stored 07:30 PM snapshot; not-yet-submitted set identical (CHI, CLE, MEM, MIA, NOP); unattributable fragmented rows excluded rather than guessed |
+
+### Published engine claims, independently recomputed (dash/ vs app/)
+
+| Claim | Published (e40cd215) | Recomputed here |
+|---|---|---|
+| Games compared / same side favoured | 22 / 22 | 22 / 22 |
+| Median / max absolute spread gap | 2.39 / 4.76 | 2.39 / 4.76 |
+| sd of dash / app originated spreads | 10.81 / 13.01 | 10.81 / 13.01 (population estimator) |
+| sd of actual margins (174 games) | 16.89 | 16.89 (population estimator) |
+| FX-01 corrected joint (two 0.58 legs, ρ=+0.3) | 0.3832 | 0.3833 via 200k-draw Monte Carlo — agree |
+
+### Flags published this round (`audit36/pages/flagged.html`, none blocks merge)
+
+| ID | Severity | Finding |
+|---|---|---|
+| F36-01 | medium | A newer official injury report exists (11/13 08:00 PM ET) than the newest stored snapshot (07:30 PM ET); zero status changes across 117 readable rows, so no pick change is indicated. Re-capture owned by the refresh session (task A2) — change request below. |
+| F36-02 | info | Published dispersion uses the **population** standard deviation without naming the estimator (sample sd: 11.07 / 13.32 / 16.94 on the same data). Label the estimator. |
+| F36-03 | info | The 9 games of 2026-11-13 are not yet in the canonical 174-game log (two were live at verification time). Capture confirmed finals only. |
+| F36-04 | open | E-F-17 carried: owner to name one canonical between `/app/` and `/dash/`. |
+| F36-05 | resolved | CI red on `main` between PR #23 and PRs #30/#31 (invalid workflow YAML, then index drift) — fixed by a459dadf; this session's duplicate repair withdrawn (process record for E-SG-13/E-SG-14). |
+| F36-06 | info | 3-day horizon intentionally skips 11/17 (5 games) and 11/18 (12 games) — confirmed on the official page (carries E-F-14). |
+| F36-07 | info | Namespace note: `audit/` = session 3bf92fcc's offline release audit (PR #35); `audit36/` = this session's official-source freshness verification. Separate registers, do not conflate. |
+
+### Change requests to the owner / refresh session (files not edited by this session)
+
+1. **Task A2 owner**: store the newest injury report (08:00 PM ET or later) before regenerating the availability overlay — F36-01.
+2. **Task A4 owner**: label the sd estimator next to the dispersion figures — F36-02.
+3. **Task A7 owner (optional)**: wire `python3 audit36/check.py && python3 audit36/build.py` into the Pages workflow; writes only `audit36/pages/`, and the legacy Pages source (`main /`) already publishes `audit36/` automatically.
+
+### Scope note
+
+This session wrote only `COORDINATION.md` and the new `audit36/` namespace. No file owned by another session
+was edited. The code repair this session produced (N1) was dropped after `a459dadf`'s identical fixes merged;
+nothing in this round changed any canonical value, line, pick or strategy — it verified them.
