@@ -3483,3 +3483,64 @@ rounds resolved the generated-file overlap. No other session is running as of th
   carried forward, not silently dropped — see S6.
 - Re-ran the full local CI replay on the arrival tree before touching anything: all suites green and
   every generated artefact reproduced byte for byte (no pre-existing drift).
+
+### S2–S6 log — game-day refresh, verification, registers (session 90183333)
+
+**S2 — capture.** Read with the Arena fetch tool on 2026-11-14T18:44Z (= 01:44 PM ET):
+- Official index <https://official.nba.com/nba-injury-report-2026-27-season/> listed the 11/14 reports
+  through **01:30 PM ET**. Probed the next likely stamp and the next day:
+  <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_07_30PM.pdf> → S3 AccessDenied;
+  <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf> → S3 AccessDenied.
+  **No 11/15 report exists yet**, so the three-day horizon has no availability data at all.
+- Captured <.../Injury-Report_2026-11-14_01_30PM.pdf> (newest) and <.../Injury-Report_2026-11-14_01_15PM.pdf>
+  (second copy), both verbatim in `data/app/official_injuries_2026-11-14_0130PM_raw.md` and
+  `..._0115PM_raw.md`. F1: the two reports agree row for row (68 rows). F2: parse == embedded
+  transcription. F5/F5b: the report's 11/14 games and all 10 team-sides are the stored slate's.
+  F6: the schedule page still prints 5 / 9 / 8 / 5 games on 11/14–11/17.
+- `scripts/capture_official_2026_11_14e.py` writes `data/app/official_injuries_2026-11-14_0130PM.json`
+  and `data/app/availability_delta_0130PM.json`; wired into `.github/workflows/pages.yml` with a
+  `git diff --exit-code` drift gate, plus `tests/test_capture_e.py` (7 tests).
+
+**S3 — what moved.** 49 rows → 68. Four team-sides went NOT YET SUBMITTED → filed (CHI, CLE, NOP, MIA;
+7/8/5/4 player rows). 22 player rows unchanged, 28 changed, of which 4 are status changes on existing
+rows: Christie Questionable→Doubtful, Brown Jr. Questionable→Probable, Harkless and Jones
+Questionable→Available. 9 of 10 team-sides on tonight's slate had filed; Memphis had not. Nine of the
+ten players newly listed are Out, and none of it reaches a price (NF-92).
+
+**S4 — independent re-verification of the other published inputs at the new timestamp.**
+- `nba.com/stats/teams/advanced` team row LAL reads 13 GP, 11–2, MIN 624.0, OffRtg 121.6, DefRtg 113.6,
+  NetRtg 8.0, PACE 100.50 — identical to `data/app/official_team_ratings_2026-11-14c.json`. Spot-checked
+  against five further teams across both fetched chunks; all identical.
+- `nba.com/stats/players/traditional` rows 1–8 (Dončić 11 GP / 35.9 MIN / 38.6 PTS … Maxey 13 / 36.2 /
+  26.7) identical to `data/app/players_top31_2026-11-14c.csv`.
+- Schedule page re-read: **27 games** for 11/14–11/17, game ids 0022600231–0022600257, matching the
+  stored slate; 11/14 has 5 games, 11/15 nine, 11/16 eight, 11/17 five.
+
+**S5 — defect found and fixed (NF-90).** `scripts/strategy_lab.py` built its player index by splitting
+the player name on a comma. The injury report prints “Edwards, Anthony”; the players table prints
+“Anthony Edwards”. Every key was therefore `("anthony edwards","anthony edwards")`, a form the
+injury-report lookup cannot produce: **0 of 18** Out/Doubtful players resolved, and every published
+minutes-vacuum figure was `0.0` while the page described the cause as players being outside the top-31
+table. Both forms now normalise to `(first, last)`; Anthony Edwards (MIN, 33.7 MIN / 33.3 PTS, listed
+Out) now resolves. Pinned by `tests/test_capture_e.py::TestNameJoin`.
+
+**S6 — registers.** Added NF-90 … NF-95 and CQ-48, CQ-49, CQ-50, S-90, S-91 to the shared assembler
+(append-only; no other session's rows edited). NF-95 / CQ-50 record a conflict the repo's own audit
+already flags: `tools/release_audit.py` reports 3 picks outside the strict 72-hour horizon (RA-04),
+because `data/picks/picks_2026-11-14_to_16.json` was generated 2026-11-14T00:49:56Z and its 11/16 rows
+tip 72.17–73.17 h later. Left as a decision, not silently truncated.
+
+**Irregularities, none blocking.** NF-93 (Traore row still prints no Team cell on the 01:30 PM report,
+so the blank is faithful — it supersedes NF-59's proposed attribution). NF-94 (the final page merges
+ATL@MIL and OKC@SAC into one printed line; recorded, never split; that line also leaves ATL unlisted on
+the 11/15 report, whose printed coverage is therefore 8 of 9 games plus the merged row).
+
+**Local CI replay on the final tree — all green.** conflict-marker guard; `tests/test_validate_gates.py`
+13; `tests/test_injury_delta.py` 3; `tests/test_capture_c.py` 5; `tests/test_capture_e.py` 7;
+`tools/check_site.py` PASS; `pipeline/tests` 29; `verify.tests` 16; `pipeline/check_site.py` PASS;
+`audit_dd1eb1f1` 13; `scripts/strategy_lab.py` + `assemble_canonical.py` + `build_app.py` (21 pages,
+0 broken links, no drift); `scripts/build_site.py` (562 links, 12 pages); lab build + validate; research
+build + verify; `verify/build.py` (13 pages); `integrate.engine` + `build_site` + `check` (15 pages);
+`build_hub_data.py` + `build_hub.py` (18 pages); `final/verify.py` (all checks passed);
+`tools/release_audit.py` (the pre-existing RA-02…RA-07 findings, now with NF-95 as the register entry
+for RA-04). Not replayable here: the four capture steps that fetch nba.com (they run on the runner).
