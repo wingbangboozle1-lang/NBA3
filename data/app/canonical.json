@@ -22567,13 +22567,13 @@
   {
    "id": "SRC-23",
    "publisher": "NBA Official (ak-static.cms.nba.com)",
-   "title": "NBA Injury Report PDF — 11/13/26 05:00 PM",
-   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+   "title": "NBA Injury Report PDF — 11/13/26 07:30 PM ET",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
    "official_status": "NBA Official (ak-static.cms.nba.com)",
-   "used_for": "Player rows with columns: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason. 117 rows transcribed in data/injuries.json. Team-level 'NOT YET SUBMITTED' rows included.",
+   "used_for": "Player rows with columns: Game Date, Game Time, Matchup, Team, Player Name, Current Status, Reason. 166-row register in data/origin/injuries.csv (91 Nov 13, 31 Nov 14, 44 NOT YET PUBLISHED Nov 15-17 placeholders, flagged unverified).",
    "retrieval_method": "fetch_page",
-   "retrieved_on": "2026-11-13",
-   "verification_result": "Retrieved (2 text chunks read in full)",
+   "retrieved_on": "2026-11-14",
+   "verification_result": "Retrieved (text read); latest official report available. Nov 14 11:00 AM report not accessible (AccessDenied).",
    "limits_or_notes": "PDF text extraction drops some team/matchup cells (18 rows left blank) and joins some words (kept as printed). No minutes field.",
    "legacy_ref": "S04"
   },
@@ -22586,7 +22586,7 @@
    "used_for": "Game #, day, date, Team 1, Team 2, local and ET tip times, national TV, and two marker columns (R, #). Header reads 'AS OF AUGUST 13, 2026 | SUBJECT TO CHANGE'.",
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
-   "verification_result": "Retrieved (13 chunks; chunks 0–3 read; all 31 games for 11/13–11/16 found in chunks 1–2)",
+   "verification_result": "Retrieved (chunks read). Superseded for the Nov 14-17 window by the live nba.com/schedule read on 2026-11-14 (27 games, IDs 0022600231-0022600257).",
    "limits_or_notes": "Subject to change. The meaning of the 'R' and '#' (C) markers has no legend in the text read (7C-F-11).",
    "legacy_ref": "S05"
   },
@@ -23150,7 +23150,7 @@
    "action_needed": "Build from authorized minutes data after 7C-F-01 and 7C-F-02 are resolved. Nothing is estimated here.",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
    ],
    "status": "Open — owner review",
    "severity": "medium",
@@ -23193,7 +23193,7 @@
    "why": "18 of 117 rows have no team or matchup in the extracted text (attribution 'U'). 19 rows take their matchup from the official schedule pairing (attribution 'S'). Some matchups have no game time printed.",
    "action_needed": "Check these rows against the PDF before relying on them.",
    "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
     "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf"
    ],
    "status": "Open — owner review",
@@ -23223,7 +23223,7 @@
    "action_needed": "Confirm orientation against nba.com/schedule before use.",
    "sources": [
     "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
    ],
    "status": "Open — owner review",
    "severity": "medium",
@@ -23321,7 +23321,7 @@
    "why": "'NOT YET SUBMITTED' appears as a status for team rows (7 rows).",
    "action_needed": "Shown as printed. Do not read as a player status.",
    "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
    ],
    "status": "Open — owner review",
    "severity": "medium",
@@ -23975,7 +23975,7 @@
    "next_step": "Re-pull reports (SG-03)",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
    ],
    "owner": "Owner",
    "legacy_ref": "Q-04"
@@ -23990,7 +23990,7 @@
    "next_step": "SG-06",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
    ],
    "owner": "Owner",
    "legacy_ref": "Q-05"
@@ -24467,7 +24467,7 @@
    "dependency": "",
    "decision": "Awaiting owner review",
    "sources": [
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
     "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf",
     "https://www.nba.com/termsofuse"
    ],
@@ -24539,7 +24539,7 @@
    "decision": "Awaiting owner review",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
-    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf"
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
    ],
    "legacy_ref": "SG-06"
   },
