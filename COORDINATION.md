@@ -585,3 +585,8 @@ Arena assigned this branch (`arena/2e50a71a-nba3`) at `e591b671d6ae013294335a5df
 - Files kept within this integration session's claimed scope. Existing strategy/model files were not edited.
 
 **PR/deployment:** pending final branch checks and integration. This session can verify CI after PR but cannot claim a live publication until deployment evidence is available.
+
+### Pull request record — before merge
+
+- PR [#17](https://github.com/wingbangboozle1-lang/NBA3/pull/17) opened from `arena/2e50a71a-nba3` to `main` with the official-source list, tests, and unresolved findings in its description.
+- PR check run [43536268753](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43536268753): build passed; deploy skipped as expected for a pull request. Merge and Pages deploy were pending when this note was written.
