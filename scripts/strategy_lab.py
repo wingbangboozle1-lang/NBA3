@@ -48,6 +48,7 @@ import random
 from collections import defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+PUBLISH_DP = 6   # decimals kept in lab.json; see _round_floats()
 OUT = os.path.join(ROOT, "data", "app", "lab.json")
 
 GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
@@ -1420,6 +1421,29 @@ def assert_no_lookahead(wf_runs):
 # --------------------------------------------------------------------------
 # main
 # --------------------------------------------------------------------------
+def _round_floats(obj, nd=PUBLISH_DP):
+    """Round every published float so the artefact is reproducible off this machine.
+
+    The lab computes probabilities with math.erf/exp/log. Those are IEEE-754
+    deterministic for + - * / but their last bit is libm-dependent: the same source on a
+    different glibc can differ by one ULP, which is enough to make a byte-comparison
+    drift gate fail on a machine that is not wrong. Rounding to PUBLISH_DP removes the
+    difference and is the honest precision anyway - nobody should read a projected
+    margin of 15.899785527728284 as if the 15th digit carried information.
+    """
+    if isinstance(obj, dict):
+        return {k: _round_floats(v, nd) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_round_floats(v, nd) for v in obj]
+    if isinstance(obj, bool) or obj is None:
+        return obj
+    if isinstance(obj, float):
+        if obj != obj or obj in (float("inf"), float("-inf")):
+            return None          # NaN/inf never belong in a published artefact
+        return round(obj, nd)
+    return obj
+
+
 def main():
     games = load_games()
     players = load_players()
@@ -1629,6 +1653,7 @@ def main():
                        for g in graded],
     }
 
+    payload = _round_floats(payload)
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=1, sort_keys=False)
         fh.write("\n")
