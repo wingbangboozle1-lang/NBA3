@@ -1,0 +1,44 @@
+[
+ {
+  "id": "44-F-01",
+  "area": "Data freshness",
+  "item": "Team advanced statistics are a 2026-11-14 snapshot; the live table now reflects later games.",
+  "why": "Re-reading the official team advanced table on 2026-11-14 shows 16 of 30 teams with more games played than the captured snapshot (e.g. San Antonio 13 GP live vs 12 captured; Golden State 13 vs 12; Oklahoma City 13 vs 12). Values were correct at capture time and are left unchanged per the never-infer policy; no always-current feed exists in this static Pages site.",
+  "action_needed": "Re-capture the team advanced table before publishing a new slate, model run or originated line; treat stored values as a dated snapshot.",
+  "sources": [
+   "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  ],
+  "status": "Open - owner review",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "44-F-02",
+  "area": "Data freshness",
+  "item": "The official injury index now lists 11/14 reports newer than the 11/13 07:45 PM ET report used.",
+  "why": "The official injury index (re-read 2026-11-14) lists 11/14 reports from 12:00 a.m. to 4:15 a.m. ET, newer than the 11/13 07:45 PM ET snapshot used for the injury table. No stored row changed and no pick or line change is indicated; the newer reports were not transcribed.",
+  "action_needed": "Re-read the newest report before publishing picks for a new slate and mark any snapshot older than the latest report as potentially stale.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ],
+  "status": "Open - owner review",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "44-F-03",
+  "area": "Prices / economics",
+  "item": "No licensed odds feed is connected; all prices and ROI are the project's own originated fair prices against its own line.",
+  "why": "Every ROI figure is measured against the project's own originated line at an assumed -110 price. Expected value is zero by construction; nothing here is an economic result, a positive-EV signal, or a bet.",
+  "action_needed": "Connect a licensed, timestamped price feed before any ROI or EV figure is used for a decision, or stop publishing ROI.",
+  "sources": [
+   "https://www.nba.com/termsofuse"
+  ],
+  "status": "Open - owner review",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ }
+]
