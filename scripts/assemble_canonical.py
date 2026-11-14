@@ -243,6 +243,14 @@ REVIEW_FINDINGS = [
      "This is a conservative automated screen, not a manual judgment that each row needs NBA evidence. For any row whose value cannot be confirmed from an official/authorized source, leave the value blank, label it unverified, and add an appropriate source before reuse. A full page-by-page source correction of the earlier sub-sites remains outstanding.",
      ["https://www.nba.com/stats/help/glossary"],
      "Open for the earlier sub-sites (lab 184, origin 73, site 29, edge 10, docs 5 rows without a direct official link; the archived root dashboard 34). The canonical pages contribute 0."),
+    ("R-14", "Medium", "Generated artefacts were hand-patched in an earlier round: flags 44-F-01..03 were written directly into data/app/canonical.json (a generated file) rather than into its generator, so a rebuild would have silently dropped them.",
+     "Never edit a generated file by hand; add the data to the generator or to a data file it loads, then rebuild.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/actions"],
+     "Resolved on main by PR #52 (flags now live in data/app/flags_44e0c051.json and are reproduced by the assembler). Session arena/8e199e09-nba3 followed the same pattern for the CR-26fd5f6f-A correction flag (data/app/flags_8e199e09.json)."),
+    ("R-15", "Low", "data/origin/games.csv carried no in-file source annotation, unlike the data/raw/ results CSVs which cite Basketball-Reference (flagged as CR-36).",
+     "Keep a source note with every raw data file, or a single documented capture script per file.",
+     ["https://www.nba.com/games?date=2026-11-13"],
+     "Partially improved: the appended 11/13 rows are documented in data/app/official_results_2026-11-13.json and data/origin/games_extended_provenance.json (official games pages, official game ids, session 25418e3f), and the log is reconciled against the official team table. Full historical row-level sourcing for the pre-11/12 rows remains open (CR-36)."),
 ]
 
 # ---------------------------------------------------------------- flags
@@ -1253,6 +1261,21 @@ SESSION_SUGGESTIONS += [
      "injuries, players): scripts/strategy_lab.py resolves every path through the manifest, and the "
      "canonical log is named there, so a session can no longer move the engine by editing a default.",
      ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"]),
+    ("CS-46", "Engine inputs",
+     "Add a results-log freshness gate to the build: fail when data/origin/games.csv ends before the day before the priced window, and append any missing finals from the newest official capture in the same step.",
+     "The 11/13 finals gap (flag F36-03) was open for half a day and priced into the 11/14 lines "
+     "until session 25418e3f closed it by hand; nothing in the build would have failed. CS-43 puts "
+     "the per-date count check inside capture scripts; this gate makes the LOG itself a build-time "
+     "contract, so pricing can never run one day behind the official record again.",
+     "A: manual append per slate (current); B: build step that appends any missing finals from "
+     "the newest data/app/official_results_*.json capture, re-runs the seeded lab and fails if the "
+     "log still ends before the window minus one day; C: scheduled nightly re-capture.",
+     "B, with the capture cross-checks (records reconcile against the official team table) as the "
+     "gate. Determinism is preserved by committing the regenerated artefacts.",
+     "Depends on the results-log consolidation decision (CQ-42); extends CS-43. ID note: first "
+     "logged as CS-45 by session 8e199e09; renumbered CS-46 because session 3bf80157's CS-45 "
+     "(manifest-only input resolution) landed on main first.",
+     ["https://www.nba.com/games?date=2026-11-13"]),
 ]
 
 
@@ -1272,6 +1295,15 @@ def build_round44_flags():
     canonical.json; they now live in data/app/flags_44e0c051.json so this assembler reproduces them.
     Loaded verbatim; nothing is recomputed."""
     with open(os.path.join(APP, "flags_44e0c051.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def build_round8e_flags():
+    """Flag 8E-F-03 from session arena/8e199e09-nba3, loaded verbatim from
+    data/app/flags_8e199e09.json (same pattern as build_round44_flags).
+    It publishes the CR-26fd5f6f-A correction (F53-03 wording), which no earlier
+    round carried into the flag register."""
+    with open(os.path.join(APP, "flags_8e199e09.json"), encoding="utf-8") as fh:
         return json.load(fh)
 
 
@@ -1529,7 +1561,7 @@ def main():
         "oos_sample": lab["oos_sample"],
         "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags() + build_session_flags() + build_round44_flags(),
+        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags(),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}

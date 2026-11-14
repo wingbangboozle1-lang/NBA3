@@ -1,0 +1,14 @@
+[
+ {
+  "id": "8E-F-03",
+  "area": "Cross-session corrections",
+  "item": "CR-26fd5f6f-A applied: F53-03 wording corrected - the 7 games it names are 11/15 games, not missing 11/14 games.",
+  "why": "Session 53653a5c's flag F53-03 said the stored snapshot was 'incomplete for the 11/14 slate' because it had no rows for CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC. The official schedule lists all seven on Sunday 11/15 (the report prints times without AM/PM). The 11/14 snapshot is complete for the five 11/14 games. No earlier round carried this correction into the flag register; the 2026-11-14 refresh round (25418e3f) superseded the underlying snapshot question by switching the injury overlay to the 04:15 AM ET report, which contains the 11/15 NOT-YET-SUBMITTED rows.",
+  "action_needed": "None - correction published here for the register; treat any 'incomplete 11/14 slate' phrasing in earlier logs as corrected by CR-26fd5f6f-A.",
+  "sources": ["https://www.nba.com/schedule", "https://official.nba.com/nba-injury-report-2026-27-season/"],
+  "status": "Correction published (CR-26fd5f6f-A executed by session arena/8e199e09-nba3)",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ }
+]
