@@ -2154,3 +2154,17 @@ choice, and none has been implemented. The decisions that actually gate progress
 CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
+
+---
+
+## Session `26fd5f6f` (`arena/26fd5f6f-nba3`) — CLAIM: 11/14 injury-freshness and slate re-check
+
+Claimed 2026-11-14 ~09:35 UTC from branch `arena/26fd5f6f-nba3` (base `main` @ `57762d5`, PR #46). No open claim on the board at claim time: every prior `in progress` line above is closed by a merged PR. Single branch only; no `session-<id>/<task>` branches (Arena rule).
+
+Why this task: the newest official injury report on the [official injury index](https://official.nba.com/nba-injury-report-2026-27-season/) is now the **11/14/26 04:15 AM ET** PDF ([source](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf)). The canonical injury snapshot on `main` is the 11/13 07:45 PM report, so the 11/14 games (tip 7:00 PM ET today) may now be stale.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| F1 | Transcribe the 11/14 04:15 AM official report rows for the 11/14 games, keep the raw extraction, diff against the 11/13 07:45 PM rows in `data/app/official_injuries_2026-11-13_0745PM.json` | in progress | 26fd5f6f | `audit26/**` |
+| F2 | Re-check the 11/14 tip times and matchups against the official schedule | in progress | 26fd5f6f | `audit26/**` |
+| F3 | Publish the diff and any irregularities on `audit26/flagged.html` (Flagged for Review), with source links; do not edit `app/`, `data/app/`, `index.html`, or `pages.yml` | in progress | 26fd5f6f | `audit26/**`, `COORDINATION.md` |
