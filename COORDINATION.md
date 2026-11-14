@@ -2403,11 +2403,11 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 |---|---|---|---|
 | F80-1 | withdrawn as superseded — session `26fd5f6f` completed PR #52, making the `44-F-*` records reproducible and restoring the main CI build | `f80f0688` | no files touched; see PR #52 |
 | F80-2 | implemented — the workflow AST audit checks the actual `OUT` assignment and writer path; the historical `site/data/` docstring is not treated as an output | `f80f0688` | `.github/workflows/pages.yml` |
-| F80-3 | local verification passed; PR, merge and post-merge Pages verification pending | `f80f0688` | workflow check and integration record in this section |
+| F80-3 | done — PR #55 merged with green checks; post-merge build, Pages deploy, Pages API and live dashboard verified | `f80f0688` | workflow check and integration record in this section |
 
 ### Why this claim is non-overlapping
 
-- PRs #47–#54 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and reproducible canonical `44-F-01…44-F-03` records.
+- PRs #47–#55 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and reproducible canonical `44-F-01…44-F-03` records.
 - The two failures [43581671552](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581671552) (main) and [43581647670](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581647670) (PR #50) were both at **“Assemble canonical dataset and build the dashboard”**. Session `26fd5f6f` resolved the generator drift in PR [#52](https://github.com/wingbangboozle1-lang/NBA3/pull/52); the main run [43581910516](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581910516) now reports success.
 - F80-1 was withdrawn as soon as that overlapping repair merged; no canonical data, model, injury capture, slate, or page files were changed by this session.
 - F80-2 is a separate non-failing warning from the workflow's string-search audit. `pipeline/build_site_data.py` documents a past `site/data/` write in its docstring but sets `OUT` to `edge/data/`; the current audit mistakes that historical comment for a live output path.
@@ -2421,5 +2421,16 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 
 ### Handoff / rebase log — session f80f0688
 
-- `origin/main` advanced repeatedly while the initial claim was being prepared (PRs #47–#54). The append-only `COORDINATION.md` produced conflicts on rebase; both sides' substantive sections were retained. A first conflict resolution briefly staged markers, which were detected before further work; the local claim was then rebuilt on the latest `origin/main`. On the later rebase to `6345baa` (after PR #54), the `26fd5f6f` incident/final records and the F80 claim were both preserved. No other session's files or content were removed.
+- `origin/main` advanced repeatedly while the initial claim was being prepared (PRs #47–#54). The append-only `COORDINATION.md` produced conflicts on rebase; both sides' substantive sections were retained. A first conflict resolution briefly staged markers, which were detected before further work; the local claim was then rebuilt on the latest `origin/main`. On the later rebase to `6345baa` (after PR #54), the `26fd5f6f` incident/final records and the F80 claim were both preserved. No other session's files or content were removed. After PR #55 merged, the branch was fast-forwarded to `10352c0` before adding this final deployment record.
 - The original broad integration and injury-page ideas overlapped with PRs #49–#52 and were withdrawn before editing those files. F80-1 is recorded as superseded by PR #52. Only F80-2 (the workflow's false-positive ownership warning) remains in this session's code scope.
+
+### Merge and deployment record — session f80f0688
+
+| Item | Result |
+|---|---|
+| PR-time CI | [Run 43582269539](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582269539) on head `2b40fec`: build **success**; deploy **skipped** on pull requests by design. All workflow steps passed, including the AST output-tree audit. |
+| PR #55 | [fix(ci): validate the actual pipeline output path](https://github.com/wingbangboozle1-lang/NBA3/pull/55), `arena/f80f0688-nba3` → `main`; merged 2026-11-14T09:48:46Z as `10352c011f19f6471915af9f9d7fc3bfc8335019`. |
+| Post-merge CI | [Run 43582308510](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582308510) on `10352c0`: build and deploy **success**. The only annotations were non-fatal Node.js 20 deprecation and upcoming `ubuntu-latest` image notices. |
+| Pages | [Deployment run 43582308184](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582308184) **success**; `pages/builds/latest` status **`built`**, commit `10352c0`. |
+| Live check | Fetched `https://wingbangboozle1-lang.github.io/NBA3/?v=10352c0` and `/app/flagged.html?v=10352c0` on 2026-11-14. Root showed the current canonical dashboard (27 official games, 27 originated lines, 122 injury rows, 58 flagged items); flagged page rendered 58 sourced review items. |
+| Scope | `.github/workflows/pages.yml` and this coordination record only. No NBA data, source captures, model outputs, picks, canonical pages, or site artifacts were changed. F80-1 remains superseded by PR #52. |
