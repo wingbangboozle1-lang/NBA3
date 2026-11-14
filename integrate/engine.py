@@ -1039,6 +1039,11 @@ def main():
                 if sp is not None:
                     theirs[(r["date"], r["away"], r["home"])] = (float(sp), None if to is None else float(to))
         rows, agree, big = [], 0, 0
+        # Full-precision copies of the inputs, kept so the published SUMMARY statistics are
+        # computed from the same precision an independent verifier would recompute from.
+        # (Rounding each row's gap to 2dp before taking the median/max/dispersion shifts the
+        # published summary at the .005 boundary — see CR-8D-04 / session 2ddb217c.)
+        gaps_fp, my_spreads_fp, their_spreads_fp = [], [], []
         for l in lines:
             k = (l["date"], l["away"], l["home"])
             if k not in theirs:
@@ -1055,6 +1060,9 @@ def main():
             m_fav, t_fav = fav(mine_s), fav(tsp)
             same_fav = m_fav == t_fav
             d = abs(mine_s - tsp)
+            gaps_fp.append(d)
+            my_spreads_fp.append(mine_s)
+            their_spreads_fp.append(tsp)
             agree += 1 if same_fav else 0
             big += 1 if d > 6.5 else 0
             rows.append({
@@ -1073,14 +1081,14 @@ def main():
             "games_compared": len(rows),
             "same_side_favoured": agree,
             "spread_gap_over_6_5_points": big,
-            "max_abs_gap": max((r["abs_spread_gap"] for r in rows), default=None),
-            "median_abs_gap": round(statistics.median([r["abs_spread_gap"] for r in rows]), 2) if rows else None,
+            "max_abs_gap": round(max(gaps_fp), 2) if gaps_fp else None,
+            "median_abs_gap": round(statistics.median(gaps_fp), 2) if gaps_fp else None,
             "mine_matches_record_favourite": sum(1 for r in rows if r["mine_matches_record"]),
             "theirs_matches_record_favourite": sum(1 for r in rows if r["theirs_matches_record"]),
             "n_rows": len(rows),
             "dispersion": {
-                "sd_of_my_spreads": round(statistics.pstdev([r["my_spread_home"] for r in rows]), 2) if rows else None,
-                "sd_of_their_spreads": round(statistics.pstdev([r["their_spread_home"] for r in rows]), 2) if rows else None,
+                "sd_of_my_spreads": round(statistics.pstdev(my_spreads_fp), 2) if my_spreads_fp else None,
+                "sd_of_their_spreads": round(statistics.pstdev(their_spreads_fp), 2) if their_spreads_fp else None,
                 "sd_of_actual_margins": round(statistics.pstdev([g["home_pts"] - g["away_pts"] for g in results]), 2),
                 "my_max_abs": max((abs(r["my_spread_home"]) for r in rows), default=None),
                 "their_max_abs": max((abs(r["their_spread_home"]) for r in rows), default=None),
