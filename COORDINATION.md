@@ -931,7 +931,11 @@ are the integration surface.
 
 ### Deployment / PR status
 
-* PR: pending (see below, updated after the merge).
+* PR #28 (arena/a459dadf-nba3 → main): merged 2026-11-14T01:04:57Z, merge commit `511c2c12317b7a25b542117d0b196f8e7be1ddd2`. Summary, sources, and flagged irregularities included in PR body.
+* PR #29 (arena/a459dadf-nba3 → main): CI workflow fix (pages.yml conflict markers from PR #23). Merged 2026-11-14T01:06:05Z.
+* PR #31 (arena/a459dadf-nba3 → main): build_app.py single-source-of-truth fix so index.html is regenerated deterministically. Merged 2026-11-14T01:08:40Z; CI success.
+* GitHub Pages: status `built`, source `branch: main, path: /`, URL `https://wingbangboozle1-lang.github.io/NBA3/`. Deploy confirmed after PR #31 merge.
+* All tasks A1–A7 marked done. No strategies pass all 7 gates (2 provisional; rest failed or untestable) — this is a verified result, not a blocker. 48 flagged items published on the Flagged for Review page.
 
 ---
 
@@ -1029,3 +1033,69 @@ inside this one branch, as every prior session recorded. Claim pushed before any
 |---|---|---|---|
 | CR-94-01 | owner of `scripts/build_app.py` (`arena/8d3d0271-nba3`) | `main`'s CI fails at the canonical build step: committed `index.html` carries a hand-merged `dash/index.html` card inside the NF-23 `<li>`, and `python3 scripts/build_app.py` regenerates `index.html` without it, so `git diff --exit-code -- … index.html` fails (reproduced locally on `a5fc736`). Simply committing the regenerated file would then fail the workflow's `grep -q "dash/index.html" index.html` step. The fix must make the generator emit the dash card (or move the card out of the generated region) — their file, their claim. | open |
 | CR-94-02 | owner of N1 (`arena/36e18d83-nba3`) | Their branch `f1eb4c5` still contains the conflict markers; the markers were removed from `main` by `arena/a459dadf-nba3` PRs #29/#30 instead. N1 can be closed against that record; N5 should then verify, not re-repair. | open |
+---
+
+## Session `arena/3bf92fcc-nba3` (current) — FINAL INTEGRATION & VERIFICATION round
+
+Session ID: `arena/3bf92fcc-nba3`. Branch: `arena/3bf92fcc-nba3` (fixed by the workspace; branched
+from `main` @ `e591b67`, which already contains all 16 merged PRs from sessions 49064d5a, f879620b,
+7c532e8c, 9ed6085f, 5697caaf, 0a016df8 and e22a2831). Because every prior task is merged, this
+session acts as the **final integration session**: re-verify the combined data, confirm every site
+builds with no broken links, then open a PR to `main`, merge, and verify the GitHub Pages deploy.
+
+| ID | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| I-1 | Full rebuild + check suite on merged state (all unit tests, all site builders, drift checks, link checks) | done | arena/3bf92fcc-nba3 | no file edits (verification only) |
+| I-2 | Line-by-line re-verification of combined data vs official sources (schedule, injuries, ratings spot-checks) | done | arena/3bf92fcc-nba3 | COORDINATION.md log only |
+| I-3 | Verify/resolve carried-forward cross-session irregularities that do NOT need owner decisions (Miami `CLE@MIA` injury matchup; anything falsified) | done — RESOLVED | arena/3bf92fcc-nba3 | `data/injuries.json` NOT modified (verified correct as-is) |
+| I-4 | Shared-output refresh: root `index.html` status + README final-state note | done (revised after rebase — see I-4 note) | arena/3bf92fcc-nba3 | `executive-summary.html` (new), `README.md` (final-state block + table row), `.github/workflows/pages.yml` (artifact staging line only) |
+| I-5 | PR to `main`, merge, confirm Pages deploy, record PR link + merge result here | in progress | arena/3bf92fcc-nba3 | COORDINATION.md, PR |
+
+Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessions' scopes touched.
+
+### I-1 · Build/check suite on merged state `e591b67` (all PASS, zero drift)
+
+| Check | Result |
+|---|---|
+| `python3 -m unittest tests/test_validate_gates.py` | 13 tests OK |
+| `python3 -m unittest discover -s pipeline/tests` | 29 tests OK |
+| `python3 tools/check_site.py` (docs/ rows, sources, links) | PASS (10 pages, 77 injury rows, 24 slate rows, 9 sources) |
+| `python3 scripts/build_site.py` + drift | PASS (117 injury rows, 31 games, 11 sources; 553 links across 12 pages; `git diff -- site/` empty) |
+| `scripts/model.py` + `build_lab.py` + `validate_site.py` + drift | PASS (all pages built, all links resolve, all data rows sourced; `git diff -- lab/` empty) |
+| `pipeline/build_site.py` + `verify.py` + drift | VERIFY OK; `git diff -- research/` empty |
+| `pipeline/check_site.py` (edge/) | PASS (13 pages, 10 data files, 109 refs) |
+
+### I-2 · Line-by-line re-verification vs official sources (2026-11-14)
+
+1. **Injury report, 117/117 exact.** Both chunks of `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf` were re-fetched and every row diffed programmatically against `data/injuries.json` on (game_date, team, player, status, reason). All 117 rows match. Detail findings:
+   - 17 continuation rows where the PDF prints **no team cell** (e.g. the Flemings/Gilbert/Gueye ATL block, NOP Pierre/Watford, GSW B.Williams, OKC Mitchell/Sorber/Topic/Wallace/Williams×2, DAL Martin) correctly carry `team: ""` in the JSON — faithful to print, per the never-infer policy. Their team is derivable from PDF section context but stays blank by policy.
+   - The row for `Udeh, Jr., Ernest` (team cell blank in the PDF) is likewise blank in the JSON.
+   - The `Raynaud, Maxime` row: the PDF prints "Sacramento Kings" split across a page boundary ("Sacra|mento Kings" in the fetched text); the JSON correctly carries "Sacramento Kings".
+   - First-diff false alarm on `Lanier, Chaz` / `Okorie, Ebuka` reasons ("Injury/Illness - On Assignment" vs JSON "G League - On Assignment") was resolved by re-fetch: the PDF says **"G League - On Assignment"**; the repo is right, the diff script was wrong. Three independent in-repo transcriptions (`data/injuries.json`, `data/injuries/injury_report_2026-11-13.json`, `data/origin/injuries.csv`) agree with the PDF.
+2. **Slate, 31/31 exact.** Live `https://www.nba.com/schedule?date=2026-11-15` (chunks 0–2) re-fetched 2026-11-14: 11/13 = 9 games, 11/14 = 5, 11/15 = 9, 11/16 = 8. Diffed against `data/schedule.json` (official by-date PDF capture) — dates, matchups (away@home), and tip times all match, 0 mismatches. `data/origin/schedule_upcoming.csv` also 0 mismatches. `data/raw/schedule_2026-11-13_to_16.csv` matches modulo tricodes (BRK=BKN, PHO=PHX, CHO=CHA) and time format ("7:00p" vs "7:00 PM"). The 5-game 11/14 slate matches the injury report's 11/14 section exactly.
+3. **Picks, 22/22 inside the verified slate.** `data/picks/picks_2026-11-14_to_16.json`: window 11/14–16, max_lookahead_days 3, every pick's matchup/date resolves to a live-verified slate game; every window game has ≥1 pick; strategy_status labels (STRAT1/2 provisional, STRAT3/4 not eligible) and the pricing note ("Fair prices are OUR originated prices. No licensed odds feed is connected") are present and correct. Props file labeled "NOT VALIDATED — research only".
+4. **Model numbers re-computed from raw rows.** From `data/origin/model_output.json` (114 OOS rows): margin model C RMSE 16.1786 vs baseline 17.3003; total model RMSE 20.3459 vs baseline 19.5605 (worse — matches the published honest claim). `data/model/validation_report.json`: n_test=138, Brier 0.2001, consensus_C RMSE 14.95, STRAT1 n=85 ROI +0.4824 perm p≈0, STRAT2 n=68 ROI +0.2353 perm p=0.011, STRAT3/4 fail G3/G4. `lab/data/model.json`: home +1.51 CI [−2.17, +5.19], margin SD 17.15, Brier 0.1528 (in-sample caveat), luck p=0.4294, 1 of 20 signals survive screening. Correlations: origin home-pts/away-pts r=+0.1277 CI [−0.0215, +0.2713] n=174; spread/total residuals r=+0.091 CI [−0.0945, +0.2704] n=114; edge margin|total −0.018, consecutive totals +0.117, portfolio P&L +0.019.
+
+### I-3 · Carried-forward irregularities — resolution record
+
+| Irregularity (from session 0a016df8 log) | Resolution |
+|---|---|
+| "Miami rows in `data/injuries.json` carry matchup `CLE@MIA` that the PDF does not show" | **Resolved — no defect.** The official PDF *does* print `CLE@MIA` (Cleveland Cavaliers rows, verified in the re-fetch). The Miami Heat team section prints no matchup cell, which is why those rows are attributed `S` with the flag "Team printed; matchup linked via official schedule pairing". Attribution rules were followed exactly. No file change made. |
+| Root `index.html` hero said "0 verified model outputs published" (stale from the first session) | **Corrected** (I-4): hero now states 174 verified games, 0 of 12 strategies pass all gates, market comparison blocked. |
+| Open owner decisions (CR-O1…CR-O5, F13/Q-LEG-01, deploy consolidation) | **Unchanged — owner review required.** All published on the consolidated executive summary §8–§10 and the per-site flagged pages. |
+
+### I-4 · Shared outputs updated
+
+- New: `executive-summary.html` (repo root) — consolidated current-state summary; every number linked to its data file or official source; internal-link check passes (106 links, 0 broken).
+- `README.md`: final-integration status block + site-table row for `/executive-summary.html`.
+- `.github/workflows/pages.yml`: `cp executive-summary.html _pages/` added to artifact staging so the page is served. No check steps changed.
+- **I-4 note (revised after concurrent merges):** while this session worked, five more sessions merged
+  (2e50a71a #17/#18, 3655c68d #20/#22, 2b9f1ae1 #19) and three more PRs opened (#21 fa03eba6, #23 e40cd215,
+  #24 d01ae7e2). This branch was rebased onto `origin/main` @ `3367762`; conflicts in `COORDINATION.md`,
+  `README.md`, `index.html` and `pages.yml` were resolved by keeping both sides, and `index.html` was taken
+  **wholesale from main** (the canonical generated dashboard from 2b9f1ae1) — the stale-hero correction this
+  session had made to the old hand-maintained dashboard is superseded by that canonical rebuild. The
+  consolidated summary was then reconciled with the FX fixes from 3655c68d (parlay maths FX-01: joint 0.3832
+  at ρ=0.3, fair decimal 2.61; pick spread labels FX-02: 22/22 corrected, example now DEN −8.6; moneyline
+  caveat on STRAT1/2 ROI) and with the 7:30 PM injury report captured by 2b9f1ae1. Zero drift after
+  `scripts/build_app.py`, `verify/build.py` and all site rebuilds.

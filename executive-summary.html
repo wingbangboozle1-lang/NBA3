@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NBA3 consolidated executive summary: verified data foundation, model results, validation gates, measured correlations, luck removal, picks, and open owner decisions — every number linked to its source.">
+<title>NBA3 — Consolidated Executive Summary (final integration, 2026-11-14)</title>
+<style>
+:root{--navy:#101d35;--blue:#2457d6;--bg:#f4f7fb;--ink:#19243a;--muted:#65738a;--line:#dce4ef;--amber:#fff3d6;--green:#e4f5ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}header{background:var(--navy);color:white;padding:28px max(22px,calc((100vw - 1180px)/2)) 22px}header .eyebrow{color:#a9c0ff;text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:700}h1{margin:5px 0;font-size:30px}header p{margin:5px 0;color:#d7e0f0;max-width:860px}.wrap{max-width:1180px;margin:auto;padding:22px}.card{background:white;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px #17294b08}.card h2{margin:0 0 12px;font-size:20px}.card h3{font-size:16px;margin:15px 0 6px}.muted{color:var(--muted)}.pill{display:inline-block;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:700;background:#edf2ff;color:#234bb2}.warn{background:var(--amber);border-left:4px solid #e8ad32;padding:12px 14px;border-radius:5px}.ok{background:var(--green);padding:12px 14px;border-radius:5px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{background:#f7f9fd;border:1px solid var(--line);padding:14px;border-radius:9px}.metric b{display:block;font-size:20px}.metric small{color:var(--muted)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}th{background:#f5f7fb}a{color:#2053c5}code{background:#eff2f7;padding:2px 5px;border-radius:4px}.table-scroll{overflow:auto}.foot{color:var(--muted);font-size:13px;padding:12px 0}@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><div class="eyebrow">NBA3 • Final integration round (session arena/3bf92fcc-nba3)</div>
+<h1>Consolidated Executive Summary</h1>
+<p>Single source of truth for the project state as of <b>2026-11-14</b>, reconciled with the canonical dashboard (<a href="index.html">landing</a> · <a href="app/summary.html">executive summary</a>), the verification layer (<a href="verify/pages/index.html">/verify/pages/</a>, incl. <a href="verify/pages/corrections.html">corrections</a> and <a href="verify/pages/decisions.html">decisions</a>) and the cross-workstream audit (<a href="review.html">review.html</a>). Every number below was re-verified line by line against the data files in the repository and, where marked <b>official</b>, against the linked NBA source. Nothing is inferred: values that cannot be confirmed are left blank and flagged on the <a style="color:#a9c0ff" href="app/flagged.html">Flagged for Review</a> pages.</p></header>
+<div class="wrap">
+
+<section class="card">
+<h2>1 · Mission and where it is delivered</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>Requirement</th><th>Delivered by</th><th>Status</th></tr></thead><tbody>
+<tr><td>Originate own NBA lines (spreads, totals, fair MLs)</td><td><a href="origin/lines.html">origin/lines.html</a> (22 lines) · <a href="edge/index.html">edge/ dashboard</a> · <a href="lab/index.html">lab/</a> · <a href="site/index.html">site/</a></td><td><span class="pill">Published as model outputs</span> No market comparison exists (no licensed odds feed).</td></tr>
+<tr><td>Research strategies &amp; signals; leaderboard with rewards</td><td><a href="origin/strategies.html">origin/strategies.html</a> (8 strategies, 7 gates) · <a href="edge/index.html">edge/ leaderboard</a> · <a href="research/strategies.html">research/strategies.html</a> · reward scheme proposed on <a href="site/suggestions.html">site/suggestions.html</a></td><td><span class="pill">Framework live</span> 0 of 8 strategies pass all gates; reward values are an owner decision.</td></tr>
+<tr><td>Single bets, parlays, player-prop combos</td><td><a href="edge/index.html">edge/</a> (singles + 1 parlay combo, correlation-capped) · <a href="origin/props.html">origin/props.html</a> · <a href="lab/props.html">lab/props.html</a></td><td><span class="pill">Research only</span> Prop strategy not validated (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/props_2026-11-14_to_16.json">props JSON</a>: "NOT VALIDATED").</td></tr>
+<tr><td>Validation gates; remove luck; skill-based selection</td><td><a href="origin/strategies.html">7 gates incl. minimum-sample, permutation p, split-half, BH-FDR</a> · luck-adjusted leaderboard in <a href="lab/strategies.html">lab/strategies.html</a></td><td><span class="pill">Enforced in CI</span> Two provisionals published with fail-reasons, nothing promoted.</td></tr>
+<tr><td>Determine correlation values</td><td><a href="origin/correlations.html">origin/correlations.html</a> · <a href="edge/index.html">edge/ correlation report</a> · table in §6 below</td><td><span class="pill">Measured where data allows</span> Player-level correlations blocked (no minutes data).</td></tr>
+<tr><td>Picks for every slate ≤3 days ahead from originated lines</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json">data/picks/picks_2026-11-14_to_16.json</a> → <a href="edge/index.html">edge/</a> picks page</td><td><span class="pill">Generated 2026-11-13, verified 2026-11-14</span> All 22 window games (11/14–16) covered; strategy-status labels carried on every pick.</td></tr>
+<tr><td>Injuries → rotation minutes &amp; production</td><td><a href="site/injuries.html">site/injuries.html</a> · <a href="origin/injuries.html">origin/injuries.html</a> · <a href="lab/injuries.html">lab/injuries.html</a> · method: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/injuries_gameflow.md">docs/injuries_gameflow.md</a></td><td><span class="pill">Statuses verified</span> Minutes/production impact NOT quantified — no player-minutes data exists in the repo (open request CR-O1).</td></tr>
+<tr><td>Game flow analysis</td><td><a href="origin/gameflow.html">origin/gameflow.html</a> · <a href="research/gameflow.html">research/gameflow.html</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/injuries_gameflow.md">docs/injuries_gameflow.md</a></td><td><span class="pill">Framework + measured factors</span> Rest/pace/OT/home-court factors from verified results only.</td></tr>
+<tr><td>Executive summary</td><td>This page, plus <a href="app/summary.html">app/summary.html</a> (canonical) and <a href="verify/pages/executive.html">verify/pages/executive.html</a> (verification layer)</td><td><span class="pill">Current</span></td></tr>
+<tr><td>Reconciled dashboards</td><td><a href="index.html">Canonical landing</a> (<a href="app/summary.html">app/</a> from 2b9f1ae1) · <a href="dash/index.html">dash/</a> unified dashboard (<a href="dash/reconciliation.html">engine reconciliation</a> from e40cd215) · <a href="verify/pages/index.html">verify/pages/</a> claims/contradictions/corrections layer (3655c68d) · <a href="review.html">review.html</a> cross-workstream audit</td><td><span class="pill">Live</span> Which single site is canonical remains owner decision Q2</td></tr>
+<tr><td>Suggestions section for review before changes</td><td><a href="site/suggestions.html">site/suggestions.html</a> · <a href="docs/suggestions.html">docs/suggestions.html</a> · <a href="research/suggestions.html">research/suggestions.html</a> · <a href="origin/suggestions.html">origin/suggestions.html</a></td><td><span class="pill">Queued, nothing auto-applied</span></td></tr>
+<tr><td>Questions/answers needed before decisions</td><td><a href="site/questions.html">site/questions.html</a> · <a href="docs/questions.html">docs/questions.html</a> · <a href="research/questions.html">research/questions.html</a> · <a href="origin/questions.html">origin/questions.html</a></td><td><span class="pill">Open</span> See §9 below for the consolidated shortlist.</td></tr>
+<tr><td>Live GitHub Pages site</td><td><a href="https://wingbangboozle1-lang.github.io/NBA3/">wingbangboozle1-lang.github.io/NBA3/</a></td><td><span class="pill">Deployed</span> Verified by workflow runs on main (see <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">COORDINATION.md</a>).</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="card">
+<h2>2 · Verified data foundation (re-verified line by line on 2026-11-14)</h2>
+<div class="grid">
+<div class="metric"><b>174 / 174</b><small>Results Oct 20–Nov 12 reconcile vs official GP &amp; W-L (two independent builds)</small></div>
+<div class="metric"><b>31 / 31</b><small>Slate games 11/13–16 match the live official schedule (0 mismatches)</small></div>
+<div class="metric"><b>117 / 117</b><small>Injury-report rows match the official 5PM PDF (0 mismatches)</small></div>
+<div class="metric"><b>22</b><small>Originated lines; 22/22 pick games inside the verified slate</small></div>
+</div>
+<div class="table-scroll" style="margin-top:12px"><table>
+<thead><tr><th>Dataset</th><th>Rows</th><th>Verification performed</th><th>Official source</th></tr></thead><tbody>
+<tr><td>2026-27 results log (edge pipeline)</td><td>174</td><td>Every team-game reconciled to the official GP column; recomputed W-L matches official W-L for all 30 teams; one corrupted fetch caught and re-verified from daily box scores (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">session 0a016df8 log</a>)</td><td><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-november.html">BBR Nov 2026-27</a> · <a href="https://www.basketball-reference.com/leagues/NBA_2027_ratings.html">BBR ratings cross-check</a></td></tr>
+<tr><td>Results log (independent origin build)</td><td>174</td><td>Same reconciliation performed independently; 0 discrepancies, 0 duplicate game IDs, 0 blank scores (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">session e22a2831 log</a>)</td><td><a href="https://www.basketball-reference.com/leagues/NBA_2027_games-october.html">BBR Oct 2026-27</a></td></tr>
+<tr><td>Upcoming slate 11/13–11/16</td><td>31</td><td>Three independent captures (schedule.json, origin CSV, raw CSV) cross-checked against the live official schedule on 2026-11-14: dates, matchups, tip times all match (0 mismatches; raw CSV differs only in tricode spelling BRK/PHO/CHO and "7:00p" format)</td><td><a href="https://www.nba.com/schedule">NBA.com schedule</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf">official by-date PDF (subject to change)</a></td></tr>
+<tr><td>Injury report 11/13/26 5:00 PM ET</td><td>117</td><td>Every row diffed against the official PDF on 2026-11-14: 117/117 match, including statuses, reasons, and the 18 team-level "NOT YET SUBMITTED" rows. 17 continuation rows print no team cell in the PDF, so <code>team</code> is left blank there (policy: never infer). Carried-forward "Miami CLE@MIA" irregularity <b>resolved</b>: the PDF prints CLE@MIA in the Cleveland section; Miami rows are correctly attributed "team printed, matchup via official schedule pairing".</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf">Official injury report PDF</a> · index: <a href="https://official.nba.com/nba-injury-report-2026-27-season/">official.nba.com</a></td></tr>
+<tr><td>Picks 11/14–16 (singles, parlay combo, props)</td><td>22 + 1 + 10</td><td>All pick games verified to be inside the live-verified slate; window = 11/14–16 (≤3-day rule); every pick carries its strategy status and availability flags. Re-checked after the FX fixes (session 3655c68d corrected all 22 spread labels — every card had carried a plus handicap on the away team): the corrected file (generated 2026-11-14T00:49:56Z) shows 22/22 labels re-derived from <code>origin_spread_home</code> as correct.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json">picks JSON</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/props_2026-11-14_to_16.json">props JSON</a></td></tr>
+</tbody></table></div>
+<p class="muted">Freshness note: this session's 117-row line-by-line diff was made against the official <b>5:00 PM ET</b> report. A newer official <b>7:30 PM ET</b> report exists (<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf">PDF</a>, captured in-repo as <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-13_0730PM.json"><code>data/app/official_injuries_2026-11-13_0730PM.json</code></a>) and supersedes it for pick availability; the concurrent sessions recorded status changes against it (Klay Thompson Probable→Out, Pelle Larsson Doubtful→Out among them; the two sessions' change counts differ by baseline — 2b9f1ae1 diffed 9 changes vs the stored snapshot, 3655c68d counted 11 vs the 5:00 PM report). The results log ends 11/12 because 11/13 games were in progress at generation time. Regenerating picks uses <code>python3 -m pipeline.run_model</code> + <code>pipeline/build_site_data.py</code> (edge) or <code>python3 model/build.py</code> (origin).</p>
+</section>
+
+<section class="card">
+<h2>3 · Line origination: three independent engines, honestly scored</h2>
+<p>Three separate builds originate lines from verified inputs. None uses a betting market; all prices are <b>our own fair prices</b>.</p>
+<div class="table-scroll"><table>
+<thead><tr><th>Engine</th><th>Trained on</th><th>Margin model (out-of-sample)</th><th>Total model (out-of-sample)</th><th>Win-probability quality</th><th>Where</th></tr></thead><tbody>
+<tr><td>origin/ (e22a2831)</td><td>174 verified results; 114 out-of-sample (walk-forward, 60-game burn-in)</td><td>RMSE <b>16.18</b> vs 17.30 baseline (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json">model_output.json</a>, recomputed this session from 114 OOS rows)</td><td>RMSE <b>20.35</b> vs 19.56 baseline — <b>worse than baseline, reported as such</b></td><td>—</td><td><a href="origin/lines.html">lines</a> · <a href="origin/notes/methodology.md">methodology</a></td></tr>
+<tr><td>edge/ (0a016df8)</td><td>174 verified results; 138 out-of-sample (30-game burn-in)</td><td>Best of three rating models: consensus_C RMSE <b>14.95</b> (prior_A 15.36, elo_B 16.09)</td><td>RMSE <b>19.27</b></td><td>Brier <b>0.2001</b> (vs 0.25 coin-flip)</td><td><a href="edge/index.html">dashboard</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/validation_report.json">validation_report.json</a></td></tr>
+<tr><td>lab/ (5697caaf)</td><td>86 results (in-sample diagnostic, caveat published)</td><td>Home-margin mean <b>+1.51</b> pts, 95% CI <b>[−2.17, +5.19]</b> — interval spans zero</td><td>League total mean 225.98, CI [221.98, 229.97]; margin SD measured <b>17.15</b></td><td>Brier <b>0.1528</b> (in-sample; explicitly not claimed as validated)</td><td><a href="lab/methodology.html">methodology</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json">model.json</a></td></tr>
+<tr><td>integrate/ (e40cd215, PR #23 — reconciled dashboard at <a href="dash/index.html">dash/</a>)</td><td>Same 174-game log; adds per-game variant selection from trailing-30 OOS errors</td><td>Calibrated margin RMSE <b>15.477</b> vs 16.728 baseline, n=114, paired t p=<b>0.017</b> — the only margin model so far that beats its baseline with a significant paired test (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/dash/data/model.json">dash/data/model.json</a>)</td><td>—</td><td>Engine agreement vs canonical: <b>22/22 games favour the same side</b>, median |gap| 2.39 pts, max 4.76 (<a href="dash/reconciliation.html">dash/reconciliation.html</a>)</td></tr>
+</tbody></table></div>
+<p>Measured home-court values differ by sample (+1.59, p=0.104 in origin/ 174 games; +1.51 CI-spanning-zero in lab/ 86 games). <b>No engine claims a market-beating line:</b> the decisive test — comparing an originated price to a real timestamped market price — is impossible until a licensed odds feed exists (flag <a href="site/flagged.html">7C-F-03</a>).</p>
+</section>
+
+<section class="card">
+<h2>4 · Validation gates and luck removal (what "skill-based" means here)</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>Gate</th><th>Purpose (luck it removes)</th></tr></thead><tbody>
+<tr><td>G1 Provenance — every input official or derived</td><td>Blocks unsourced numbers entering a signal</td></tr>
+<tr><td>G2 No lookahead (walk-forward only)</td><td>Blocks hindsight bias</td></tr>
+<tr><td>G3 Minimum sample n ≥ 100</td><td>Blocks small-sample flukes</td></tr>
+<tr><td>G4 Power / observed-effect sample check</td><td>Blocks under-powered "signals"</td></tr>
+<tr><td>G5 Raw p &lt; 0.05 (exact binomial)</td><td>Blocks chance-level hit rates</td></tr>
+<tr><td>G6 Survives Benjamini–Hochberg FDR (α=0.05)</td><td>Blocks multiple-testing luck (testing 8+ strategies inflates false positives)</td></tr>
+<tr><td>G7 Split-half direction stability</td><td>Blocks first-half-only luck</td></tr>
+<tr><td>Permutation test (2,000 shuffles, edge/)</td><td>Blocks ROI that shuffling the schedule reproduces</td></tr>
+<tr><td>Luck-adjusted leaderboard score (lab/)</td><td>Multiplies skill by (1 − luck-p) so a lucky run cannot top the board (measured p=0.4294 → treated as pure luck)</td></tr>
+</tbody></table></div>
+<h3>Gate results across engines</h3>
+<div class="table-scroll"><table>
+<thead><tr><th>Engine</th><th>Strategies</th><th>Pass all gates</th><th>Provisional (fail only the n≥100 gate)</th><th>Not eligible</th></tr></thead><tbody>
+<tr><td>origin/</td><td>8</td><td><b>0 of 8</b></td><td>S5 "Fade totals 235+" — 21/24, p=0.0003 (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json">model_output.json</a>) · S4b "Back road favourites 8+" — 20/28, p=0.0357 (also fails BH-FDR)</td><td>remaining 6 (insufficient evidence)</td></tr>
+<tr><td>edge/</td><td>4</td><td><b>0 of 4</b></td><td>STRAT1 n=85, ROI +48.2% at assumed −110, perm p&lt;0.0001 · STRAT2 n=68, ROI +23.5%, perm p=0.011 (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/validation_report.json">validation_report.json</a>). <b>Moneyline caveat (added by the FX fixes):</b> both strategies settle on the game winner, so a −110 price is not obtainable on these sides — the recorded probabilities imply fair prices near −330 for STRAT1. Treat every ROI here as an arithmetic artefact, not an economic result, until a real price feed exists.</td><td>STRAT3 (ROI −4.6%, p=0.588) · STRAT4 (p=0.292)</td></tr>
+<tr><td>lab/</td><td>20 signals screened</td><td>1 of 20 survives divergence+injury screen</td><td>leaderboard publishes luck-adjusted scores only; no strategy passes all 7 gates</td><td>19 rejected with printed reasons (12 model-market divergence, 7 injury-blindness)</td></tr>
+</tbody></table></div>
+<div class="warn"><b>ROI is measured against our own originated line at an assumed −110.</b> No licensed odds feed exists, so market eligibility is unproven. The honest headline: the pipeline works end to end, but <b>no strategy has yet demonstrated skill against a real market</b>, and none is promoted from provisional until n≥100.</div>
+</section>
+
+<section class="card">
+<h2>5 · Current picks window (11/14–11/16, ≤3-day rule)</h2>
+<p>Generated 2026-11-13T22:43Z from the verified 174-game log and the official injury report; re-verified 2026-11-14 against the live official schedule. <b>22 of 22 window games covered</b> — 14 singles selections plus a correlation-capped parlay combo and 10 research-only props.</p>
+<div class="table-scroll"><table>
+<thead><tr><th>Item</th><th>Value</th><th>Source</th></tr></thead><tbody>
+<tr><td>Window</td><td>2026-11-14 .. 2026-11-16 (max lookahead 3 days, enforced in the JSON)</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json">picks JSON</a></td></tr>
+<tr><td>Games with originated lines &amp; picks</td><td>22 (5 on 11/14, 9 on 11/15, 8 on 11/16) — every game has at least one model side</td><td><a href="https://www.nba.com/schedule">official schedule</a> (verified this session)</td></tr>
+<tr><td>Availability flags</td><td>11/14 picks carry "PARTIAL_REPORT": both teams in all five 11/14 games were "NOT YET SUBMITTED" in the 5PM ET report; 11/15–16 injury data not yet published</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf">official PDF</a></td></tr>
+<tr><td>Strategy status labels</td><td>STRAT1/STRAT2 "provisional", STRAT3/STRAT4 "not eligible" — printed on every pick row</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json">picks JSON</a></td></tr>
+<tr><td>Pricing note</td><td>"Fair prices are OUR originated prices. No licensed odds feed is connected; no market comparison has been performed."</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json">picks JSON</a></td></tr>
+</tbody></table></div>
+<p class="muted">Example of the transparent labeling (11/14 DEN @ NOP): originated spread <b>DEN −8.6</b> (label corrected by the FX fixes — favourite carries the minus), originated total 232.9, model p(home)=0.327, confidence HIGH, availability PARTIAL_REPORT, singles view names the strategy status. Nothing on the site is presented as a market-beating price.</p>
+</section>
+
+<section class="card">
+<h2>6 · Measured correlation values (from verified results only)</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>Pair</th><th>r</th><th>95% CI</th><th>n</th><th>Engine</th><th>Link</th></tr></thead><tbody>
+<tr><td>Home points vs away points (same game)</td><td>+0.1277</td><td>[−0.0215, +0.2713]</td><td>174</td><td>origin/</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json">model_output.json</a></td></tr>
+<tr><td>Originated-spread residual vs originated-total residual</td><td>+0.091</td><td>[−0.0945, +0.2704]</td><td>114</td><td>origin/</td><td><a href="origin/correlations.html">origin/correlations.html</a></td></tr>
+<tr><td>Same-game margin | total correlation</td><td>−0.018</td><td>noisy (published with caveat)</td><td>138</td><td>edge/</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json">correlation_report.json</a></td></tr>
+<tr><td>Consecutive-game totals correlation</td><td>+0.117</td><td>—</td><td>138</td><td>edge/</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json">correlation_report.json</a></td></tr>
+<tr><td>STRAT1 vs STRAT3 daily P&amp;L (portfolio dependence)</td><td>+0.019</td><td>—</td><td>138</td><td>edge/</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json">correlation_report.json</a></td></tr>
+<tr><td>Away totals vs home totals</td><td>+0.082</td><td>[−0.132, +0.289]</td><td>86</td><td>lab/</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json">model.json</a></td></tr>
+<tr><td>Player-level correlations (props)</td><td colspan="4"><b>Not measured — blocked.</b> Needs the official player box-score/minutes tables (open requests <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">CR-O1, CR-O2</a>).</td><td><a href="origin/props.html">origin/props.html</a></td></tr>
+</tbody></table></div>
+<p class="muted">All measured same-game intervals include zero: same-game correlations in this sample are statistically indistinguishable from independence, which means <b>same-game parlay pricing cannot yet be adjusted for dependence with confidence</b>. The edge/ engine's parlay example is published with the corrected arithmetic (defect FX-01 fixed 2026-11-14 — the earlier value of 0.58 came from an integration loop that ignored the first-leg threshold): for two 0.58 legs at an assumed ρ=+0.3 the corrected joint probability is <b>0.3832</b> (fair decimal <b>2.61</b>), which is ABOVE the independent-product 0.3364 (fair 2.97) — for positive correlation the joint win probability rises and the fair parlay odds shorten; the joint probability is bounded by [0.16, 0.58] and reaches 0.58 only at ρ=1. The correction was checked three ways (closed form at ρ=0, adaptive Simpson, 200k-draw Monte Carlo). One same-day parlay combo is published, with legs from different games to avoid same-game dependence (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json">correlation_report.json</a> · <a href="verify/pages/corrections.html">corrections page</a>).</p>
+</section>
+
+<section class="card">
+<h2>7 · Injuries, rotation minutes, and game flow</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>Capability</th><th>State</th><th>Evidence</th></tr></thead><tbody>
+<tr><td>Official availability tracking</td><td><span class="pill">Done</span> 117 rows transcribed from the official 5PM report, attributed R (printed), S (team printed, matchup paired via official schedule), or blank+flagged</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf">official PDF</a> → <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/injuries.json">data/injuries.json</a></td></tr>
+<tr><td>Pick-level availability flags</td><td><span class="pill">Done</span> every pick carries out/doubtful/questionable lists or PARTIAL_REPORT</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json">picks JSON</a></td></tr>
+<tr><td>Rotation minutes &amp; production impact</td><td><span class="pill">Blocked</span> no player-minutes/on-off dataset exists in the repo; only the top-31 players by minutes are captured (floor, not projection). Numeric impact deliberately NOT produced.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">CR-O1</a> · <a href="origin/injuries.html">origin/injuries.html</a></td></tr>
+<tr><td>Game-flow factors</td><td><span class="pill">Measured where sourced</span> rest differentials, pace, OT frequency, home court from 174 verified games; blowout/garbage-time risk noted for props</td><td><a href="origin/gameflow.html">origin/gameflow.html</a> · <a href="research/gameflow.html">research/gameflow.html</a></td></tr>
+<tr><td>Market-movement cross-check (lab/)</td><td><span class="pill">Snapshot only</span> one captured example (NYK@IND spread −2.5 → +8.5 after official outs) demonstrates the injury→line link the market prices; no continuous feed</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json">model.json "movement"</a></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="card">
+<h2>8 · Compliance and integrity flags (do not block research; block money)</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>ID</th><th>Flag</th><th>Source</th></tr></thead><tbody>
+<tr><td>7C-F-01</td><td>NBA Terms of Use §9 restricts use of NBA Statistics for gambling; research framing maintained pending owner counsel</td><td><a href="https://www.nba.com/termsofuse">nba.com/termsofuse</a></td></tr>
+<tr><td>7C-F-02</td><td>Online sports betting offered to persons in the Netherlands requires a Koa licence (art. 31a Wet op de kansspelen); owner is Amsterdam-based — no betting offer is made by this project</td><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">Kansspelautoriteit</a></td></tr>
+<tr><td>7C-F-03</td><td>No licensed odds data in the repository → no market comparison, no ROI-vs-market claims anywhere</td><td><a href="site/flagged.html">site/flagged.html</a></td></tr>
+<tr><td>F13 / Q-LEG-01</td><td>lab/ publishes captured book prices with "positive EV" labels pending legal review — flagged for owner review, not deleted (data provenance is documented on its sources page)</td><td><a href="lab/review.html">lab/review.html</a></td></tr>
+</tbody></table></div>
+<p class="muted">Nothing here is betting advice. The site publishes model outputs, verified data, and decision queues only.</p>
+</section>
+
+<section class="card">
+<h2>9 · Questions that must be answered before decisions (consolidated shortlist)</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>#</th><th>Question</th><th>What we have</th><th>What's missing</th><th>Suggested way to discover it</th></tr></thead><tbody>
+<tr><td>Q1</td><td>Is comparing our originated prices to licensed sportsbook prices permitted for your use case?</td><td>Full methodology; no odds feed</td><td>Legal/procurement decision (7C-F-01/02/03)</td><td>Owner + counsel review; then license a feed (e.g., a licensed odds API) and record the licence in COORDINATION.md</td></tr>
+<tr><td>Q2</td><td>Which of the six sub-sites is the product of record?</td><td>Three independent engines publish overlapping outputs with different ID schemes</td><td>Owner choice</td><td>Compare origin/ vs edge/ vs lab/ side by side; keep one as canonical, archive the rest as appendices</td></tr>
+<tr><td>Q3</td><td>What are the leaderboard rewards and scoring weights?</td><td>Luck-adjusted scoring implemented (skill × (1−p)); ROI/Brier/CLV fields exist</td><td>Reward values, eligibility rules</td><td>Decide after Q1; require n≥100 and positive CLV before any payout tier</td></tr>
+<tr><td>Q4</td><td>May we capture the official player-minutes/box-score tables to unblock injury→production and prop correlations?</td><td>Only top-31 players by minutes (floor)</td><td>~4,000-row official box-score pull (CR-O2)</td><td>Grant data-capture approval; pipeline captures <a href="https://www.nba.com/stats/players/boxscores">nba.com/stats/players/boxscores</a> by date</td></tr>
+<tr><td>Q5</td><td>Which deploy mechanism is canonical (Actions artifact vs legacy Pages build)?</td><td>Both currently serve identical content</td><td>Owner choice</td><td>Keep the Actions workflow; disable legacy branch build after one verified deploy</td></tr>
+<tr><td>Q6</td><td>Bankroll/stake policy if any strategy is ever promoted?</td><td>Fractional-Kelly proposals exist in suggestions queues</td><td>Owner risk policy</td><td>Decide caps (unit size, max exposure, correlation caps) before any promotion</td></tr>
+</tbody></table></div>
+<p class="muted">Full registers with IDs: <a href="site/questions.html">site/</a> (Q-01…Q-14), <a href="docs/questions.html">docs/</a> (Q01…Q12), <a href="research/questions.html">research/</a>, <a href="origin/questions.html">origin/</a>, <a href="lab/questions.html">lab/</a>.</p>
+</section>
+
+<section class="card">
+<h2>10 · Suggestions awaiting review (nothing implemented without your choice)</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>Area</th><th>Suggestion</th><th>Why it improves decisions</th><th>Queue</th></tr></thead><tbody>
+<tr><td>Site consolidation</td><td>Merge the six sub-sites into one canonical dashboard with one ID namespace</td><td>Removes cross-site ID confusion and duplicate figures</td><td><a href="origin/suggestions.html">origin/</a> · <a href="site/suggestions.html">site/ SG-07 etc.</a></td></tr>
+<tr><td>Data freshness</td><td>Scheduled daily re-pull of results + injury reports + slate before pick generation</td><td>Picks regenerate with game-day report updates instead of 5PM-day-before data</td><td><a href="site/suggestions.html">site/suggestions.html</a></td></tr>
+<tr><td>Market comparison</td><td>Connect a licensed odds feed; add CLV tracking per pick</td><td>CLV is the standard luck-robust skill metric; currently impossible (7C-F-03)</td><td><a href="origin/questions.html">origin/questions.html</a></td></tr>
+<tr><td>Injury model</td><td>Capture official minutes tables → rotation-weighted production deltas</td><td>Converts availability rows into point impacts instead of flags</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">CR-O1/CR-O2</a></td></tr>
+<tr><td>Link checking</td><td>Scheduled external-link verification (currently internal links only)</td><td>Keeps every table row's source link live</td><td><a href="site/suggestions.html">site/ SG-07</a></td></tr>
+<tr><td>Pick UX</td><td>One "today's board" view: game, originated line, availability, strategy status, stake cap</td><td>Single glanceable decision surface for the daily slate</td><td><a href="origin/suggestions.html">origin/</a></td></tr>
+</tbody></table></div>
+<p class="muted">Each queue shows status "awaiting your choice"; nothing was applied without review.</p>
+</section>
+
+<section class="card">
+<h2>11 · Verification record for this integration session (2026-11-14)</h2>
+<div class="table-scroll"><table>
+<thead><tr><th>Check</th><th>Result</th></tr></thead><tbody>
+<tr><td>All unit tests (statistics module 13; research pipeline 29)</td><td>PASS</td></tr>
+<tr><td>All site builders + drift checks (site/, lab/, research/, edge/, docs/)</td><td>PASS — zero drift after regeneration</td></tr>
+<tr><td>Link checks (553 links in site/, 13 pages in edge/, docs/ rows+links, lab, research)</td><td>PASS — no broken internal links</td></tr>
+<tr><td>Injury report 117 rows vs official PDF (fetched 2026-11-14)</td><td>117/117 exact; Miami CLE@MIA carried flag RESOLVED (PDF prints CLE@MIA in Cleveland section)</td></tr>
+<tr><td>Slate 31 games vs live official schedule (fetched 2026-11-14)</td><td>31/31 exact (schedule.json and origin CSV); raw CSV matches modulo tricodes BRK/PHO/CHO</td></tr>
+<tr><td>Picks 22 games vs verified slate</td><td>22/22 inside slate; all window games covered; status labels correct</td></tr>
+<tr><td>Headline model numbers re-computed from raw OOS rows (origin: RMSE 16.1786 vs 17.3003 margin; 20.3459 vs 19.5605 totals)</td><td>Match published figures</td></tr>
+<tr><td>Concurrency: five further sessions (2e50a71a, 3655c68d, 2b9f1ae1, and open PRs #21/#23/#24) merged or opened while this session worked</td><td>Branch rebased onto <code>origin/main</code> (3367762); conflicts in COORDINATION.md / README.md / index.html / pages.yml resolved by keeping both sides (index.html taken wholesale from the canonical generated dashboard); this page's numbers then re-checked against the FX-corrected data (spread labels, parlay maths, moneyline caveat) and updated</td></tr>
+<tr><td>Defect fixes by session 3655c68d (FX-01…FX-05) reviewed for consistency with this page</td><td>Parlay example updated to corrected values (joint 0.3832 at ρ=0.3, fair 2.61); STRAT1/2 ROI published with the moneyline caveat; pick example updated to DEN −8.6</td></tr>
+</tbody></table></div>
+<p class="foot">Session arena/3bf92fcc-nba3 · branch <code>arena/3bf92fcc-nba3</code> · full logs in <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">COORDINATION.md</a>. Research only — not betting advice. Follow local law and responsible-gambling practice.</p>
+</section>
+
+</div></body></html>
