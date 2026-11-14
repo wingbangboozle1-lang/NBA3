@@ -3442,3 +3442,44 @@ Task status at close (replaces the claim table above):
   - `https://wingbangboozle1-lang.github.io/NBA3/app/flagged.html` shows **80 items** (19 high, 50 medium, 11 low), including the 965-F rows.
 - **Not replayed here:** the live `capture_official_*` steps (they fetch nba.com on the runner and were unchanged).
 - **Record PR:** this record is committed on the same branch and goes to `main` through a second, record-only PR, so that `COORDINATION.md` on `main` shows the merge result. It changes no published page.
+
+---
+
+## Session `arena/90183333-nba3` — CLAIM: intraday refresh, independent verification, integration (2026-11-14 18:45Z)
+
+Session ID: `90183333`. Branch `arena/90183333-nba3`, branched from `3a6c353` (= `main`, merge of PR #74).
+At claim time the only open PR is **#70** (`arena/f2d4a99f-nba3`, `COORDINATION.md` only, +55/−0 append
+of an already-completed handoff record). That file is append-only, so this session's own section is
+appended below the end of the file and cannot collide with it except in the newline between the two
+sections; a rebase keeps both sides if it does.
+
+**What this session adds that no prior round has:** the prior rounds all captured the official
+injury report at or before **05:15 AM ET** on 2026-11-14. At this session's start (18:45Z = 1:45 PM ET)
+the official index lists reports through **1:30 PM ET**, i.e. every game-day report required by the
+NBA's own timeline has now been filed. The published canonical dashboard therefore prices a slate
+whose game-day availability is unresolved. This session re-captures the newest official report,
+measures the delta, re-prices the window with the same seeded engine, and re-verifies the published
+rows against the official pages at the new stamp.
+
+| # | Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|---|
+| S1 | Claim on the board (this section) + push claim commit | in progress | 90183333 | `COORDINATION.md` |
+| S2 | Fresh official capture: newest injury report (game-day), official slate re-read, official results through 11/13 | in progress | 90183333 | `scripts/capture_official_2026_11_14e.py` (new), `data/app/official_injuries_2026-11-14_*.json` + `_raw.md` (new) |
+| S3 | Availability delta: which published rows change, which stay, quantified | in progress | 90183333 | `data/app/availability_delta_*.json` (new) |
+| S4 | Re-price the window: re-run the seeded lab against the refreshed availability, measure change in lines/picks | in progress | 90183333 | `scripts/strategy_lab.py`, `data/app/lab.json` |
+| S5 | Re-assemble + rebuild the canonical dashboard and re-run every CI check on the final tree | in progress | 90183333 | `scripts/assemble_canonical.py`, `data/app/canonical.json`, `app/**`, `index.html` |
+| S6 | Add this session's flags/questions to the shared registers (append-only, own IDs) | in progress | 90183333 | `data/app/flags_90183333.json`, `data/app/questions_90183333.json` (new) |
+| S7 | Integration: `git pull --rebase`, push, PR to `main`, merge, confirm the Pages deploy by reading the live site, record here | pending | 90183333 | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` (step wiring only) |
+
+**Disjointness.** S2–S4 reuse the existing capture/engine entry points rather than editing other
+sessions' page builders; every published page is regenerated from the assembler, which is how prior
+rounds resolved the generated-file overlap. No other session is running as of the claim check
+(`gh pr list` shows only #70).
+
+### S1 log
+- Read `COORDINATION.md` in full (314 KB, ~20 session sections) before claiming; the most recent
+  section on `main` is `dd1eb1f1`, which merged as PR #74 and recorded a green CI and a live Pages
+  deployment. Its open handoffs (CR-25418E3F-03, CS-43/45/46 owner decisions, CQ-42/CQ-47) are
+  carried forward, not silently dropped — see S6.
+- Re-ran the full local CI replay on the arrival tree before touching anything: all suites green and
+  every generated artefact reproduced byte for byte (no pre-existing drift).
