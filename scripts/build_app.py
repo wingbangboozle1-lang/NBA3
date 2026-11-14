@@ -64,8 +64,14 @@ NAV = [
         ("Source register", "app/sources.html"),
         ("Repository review", "app/review.html"),
         ("Flagged for review", "app/flagged.html"),
+        ("Independent audit", "audit_dd1eb1f1/pages/index.html"),
+    ]),
+    ("Archive", [
+        ("Earlier sessions", "archive.html"),
     ]),
 ]
+
+ARCHIVE_TREES = 14
 
 ERRORS = []
 
@@ -185,7 +191,13 @@ def layout(title, category, body, subtitle="", active="", root_page=False):
         links = []
         for label, href in items:
             cls = ' class="active"' if href == active else ""
-            target = href if root_page else href[len("app/"):]
+            if root_page:
+                target = href
+            elif href.startswith("app/"):
+                target = href[len("app/"):]
+            else:
+                # a root-level page linked from inside app/ needs to step up one directory
+                target = "../" + href
             links.append(f'<a href="{target}"{cls}>{esc(label)}</a>')
         nav_html.append(f'<div class="nav-group"><span class="nav-cat">{esc(cat)}</span>'
                         f'<span class="nav-links">{" ".join(links)}</span></div>')
@@ -2064,18 +2076,17 @@ def build_index(d):
     top = [f for f in flags if f["severity"] == "high"][:6]
     flist_parts = []
     for f in top:
-        tail = ""
-        # Cross-reference to the independent integration round (session e40cd215, PR #23).
-        if f["id"] == "NF-23":
-            tail = (
-                '\n<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>'
-                'Second, independent integration round: 174-game re-verification, 22 originated '
-                'lines from a separate engine, 9 gates, measured parlay dependence, '
-                'cross-engine reconciliation and a flagged register</a>')
         flist_parts.append(
             f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
-            f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}{tail}</li>')
+            f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}</li>')
     flist = "\n".join(flist_parts)
+    # Cross-reference to the independent integration round (session e40cd215, PR #23).
+    # It used to be appended inside the NF-23 list item, which made a navigation tile render as
+    # if it were an eighth flagged item (flagged as F-DD1-08). It now sits below the list.
+    xref = ('<p class="small">Related work: <a href="dash/index.html"><b>Unified dashboard '
+            '(session e40cd215)</b></a> — a second, independent integration round: 174-game '
+            're-verification, 22 originated lines from a separate engine, 9 gates, measured '
+            'parlay dependence, cross-engine reconciliation and a flagged register.</p>')
     res = _res(d)
     luck = _luck(d)
     strategies = d["strategies"]
@@ -2130,34 +2141,103 @@ def build_index(d):
   <ul class="flag-list">
   {flist}
   </ul>
+  {xref}
 </section>
 <section class="cat">
-  <h3>Earlier dashboards (kept for audit, not current)</h3>
-  <p>Eleven dashboards were published by earlier sessions of this project and are still reachable.
-  They use different ID namespaces, different injury snapshots and different model variants, so
-  <strong>the pages above are the current numbers</strong> and these are history. Consolidation is
-  queued as an owner decision (<a href="app/suggestions.html">CS-35</a>).</p>
-  <div class="tiles">
-    <a class="tile" href="docs/index.html"><span class="tile-t">/docs — data site (session f879620b)</span></a>
-    <a class="tile" href="site/index.html"><span class="tile-t">/site — data site (session 7c532e8c)</span></a>
-    <a class="tile" href="lab/index.html"><span class="tile-t">/lab — line lab (session 5697caaf)</span></a>
-    <a class="tile" href="research/index.html"><span class="tile-t">/research — research site (session 9ed6085f)</span></a>
-    <a class="tile" href="edge/index.html"><span class="tile-t">/edge — Edge Lab (session 0a016df8)</span></a>
-    <a class="tile" href="origin/index.html"><span class="tile-t">/origin — origination engine (session e22a2831)</span></a>
-    <a class="tile" href="dash/index.html"><span class="tile-t">/dash — unified dashboard (session e40cd215)</span></a>
-    <a class="tile" href="verify/pages/index.html"><span class="tile-t">/verify/pages — verification &amp; decision layer (2026-11-14)</span></a>
-    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
-    <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
-    <a class="tile" href="hub/index.html"><span class="tile-t">/hub — consolidated dashboard (session 99eabb04): one namespace, slate, injuries, lines, leaderboard, review pages</span></a>
-    <a class="tile" href="d01ae7e2/docs/index.html"><span class="tile-t">/d01ae7e2 — official-slate line origination &amp; gated picks (session d01ae7e2): 31-game slate, provisional-safe pipeline, sources per row</span></a>
-    <a class="tile" href="executive-summary.html"><span class="tile-t">/executive-summary.html — cross-site consolidated executive summary (session 3bf92fcc)</span></a>
-  </div>
+  <h3>Archive — earlier sessions</h3>
+  <p>{ARCHIVE_TREES} complete dashboards built by earlier sessions are still reachable, from the
+  first data site at <a href="docs/index.html">docs/index.html</a> onwards; the full dated list is
+  on the <a href="archive.html">archive page</a>. Each uses its own ID namespace, its own injury
+  snapshot and its own model variant, so <strong>the pages above are the current numbers</strong>
+  and the archive is history. They are kept because the audit trail is worth something: a reader
+  can see what an earlier round concluded and what changed.</p>
 </section>
 """)
     return layout("NBA Edge Lab — canonical dashboard", "Home", "\n".join(body),
                   subtitle="Official-source research dashboard. Every table row links to its source; "
                           "anything that could not be confirmed is left blank and flagged.",
                   root_page=True)
+
+
+ARCHIVE_TREES_ROWS = [
+    # path, session, what it is, why it is no longer current
+    ("docs/", "f879620b",
+     "First data site: an 11/11 injury snapshot, the 11/13-11/16 slate and the 2026-27 rules, "
+     "with the validation-gate and link-checking scripts (tools/, tests/)."),
+    ("site/", "7c532e8c",
+     "Generated from data/*.json: one page per category, every row carrying a source id."),
+    ("lab/", "5697caaf",
+     "Line lab — the first originated-lines engine (scripts/model.py) and its pages."),
+    ("research/", "9ed6085f",
+     "Research site generated from data/*.csv, with the requirements, questions and "
+     "suggestions registers as CSV."),
+    ("edge/", "0a016df8",
+     "Edge Lab: verified game log, originated lines and gated picks as JSON plus pages."),
+    ("origin/", "e22a2831",
+     "Origination engine: the verified results log, a walk-forward backtest and a seven-gate "
+     "leaderboard."),
+    ("dash/", "e40cd215",
+     "Unified dashboard: a second integration round with its own engine (integrate/), "
+     "cross-engine reconciliation and a 9-gate leaderboard."),
+    ("verify/pages/", "3655c68d",
+     "Verification and decision layer: cross-pipeline reconciliation, corrections and a "
+     "decision queue."),
+    ("review.html", "2e50a71a",
+     "Cross-workstream audit R-01 to R-13, comparing the outputs of every session side by side."),
+    ("app/legacy/", "8d3d0271",
+     "The previous root dashboard, kept as it was on 2026-11-13 so the change is auditable."),
+    ("hub/", "99eabb04",
+     "Consolidated dashboard: one namespace, one set of numbers, every row sourced."),
+    ("d01ae7e2/docs/", "d01ae7e2",
+     "Official-slate line origination and gated picks for a 31-game slate, with a "
+     "provisional-safe pipeline."),
+    ("executive-summary.html", "3bf92fcc",
+     "Cross-site consolidated executive summary."),
+    ("dashboard/", "925439ca",
+     "Independently verified build: 17 pages generated by final/build_site.py, every stored "
+     "value re-checked by final/verify.py against the official NBA pages."),
+]
+
+ARCHIVE_OFFICIAL = [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://www.nba.com/schedule",
+]
+
+
+def page_archive(d):
+    """Every earlier session's site, in one dated list, off the landing page.
+
+    Added by session dd1eb1f1 (flag F-DD1-07): thirteen trees were being advertised as tiles on
+    the landing page next to the current numbers, which is the opposite of a clean front door.
+    They are still worth keeping - the audit trail is the point of the repository - so they move
+    here and the landing page links here once.
+    """
+    rows = []
+    for path, session, what in ARCHIVE_TREES_ROWS:
+        rows.append([
+            f'<a href="{esc(path)}"><code>{esc(path)}</code></a>',
+            esc(session),
+            esc(what),
+            src_cell(ARCHIVE_OFFICIAL, "official basis"),
+            link(f"https://github.com/wingbangboozle1-lang/NBA3/tree/main/{path.rstrip('/')}",
+                 "repository"),
+        ])
+    body = [
+        '<p class="lead">Every dashboard built by an earlier session of this project, in the order '
+        'it was published. None of these is current: they use different ID namespaces, different '
+        'injury snapshots and different model variants. <strong>The canonical pages linked in the '
+        'navigation are the current numbers.</strong></p>',
+        '<p>They are kept, not deleted, because being able to read what an earlier round '
+        'concluded - and what a later round changed - is the audit trail. Each row links to the '
+        'tree itself and to the official pages it was built from; the exact snapshot inside each '
+        'tree is recorded inside that tree.</p>',
+        table(["Tree", "Session", "What it is", "Official basis", "In the repository"], rows,
+              "archive"),
+        '<p class="note">The <code>dashboard/</code> row is the one tree that was being deployed '
+        'to the site and rebuilt in CI but was missing from the landing page list entirely. '
+        'Recording it here is what surfaced the gap (flag F-DD1-09).</p>',
+    ]
+    return "\n".join(body)
 
 
 def build_requirements_page(d):
@@ -2221,6 +2301,12 @@ def main():
         with open(ROOT_INDEX, "w", encoding="utf-8") as fh:
             fh.write(build_index(d))
         written.append("index.html")
+        with open(os.path.join(ROOT, "archive.html"), "w", encoding="utf-8") as fh:
+            fh.write(layout("Archive — earlier sessions", "Archive", page_archive(d),
+                            subtitle="Every dashboard built by an earlier session, dated and "
+                                     "linked. None of these is current.",
+                            active="archive.html", root_page=True))
+        written.append("archive.html")
 
     # ---- link + anchor check over every generated page
     class P(HTMLParser):

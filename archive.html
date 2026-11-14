@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archive — earlier sessions — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="app/freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="app/summary.html">Executive summary</a> <a href="app/methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="app/lines.html">Originated lines</a> <a href="app/picks.html">Prices for the window</a> <a href="app/parlays.html">Parlay &amp; prop combos</a> <a href="app/props.html">Player props</a> <a href="app/leaderboard.html">Strategy leaderboard</a> <a href="app/strategies.html">Validation gates</a> <a href="app/correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="app/injuries.html">Injuries &amp; rotation</a> <a href="app/freshness.html">Report availability</a> <a href="app/gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="app/questions.html">Open questions</a> <a href="app/suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="app/verification.html">Verification log</a> <a href="app/sources.html">Source register</a> <a href="app/review.html">Repository review</a> <a href="app/flagged.html">Flagged for review</a> <a href="audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="archive.html" class="active">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Archive</div>
+    <h1>Archive — earlier sessions</h1>
+    <p class="lead">Every dashboard built by an earlier session, dated and linked. None of these is current.</p>
+  </div>
+<p class="lead">Every dashboard built by an earlier session of this project, in the order it was published. None of these is current: they use different ID namespaces, different injury snapshots and different model variants. <strong>The canonical pages linked in the navigation are the current numbers.</strong></p>
+<p>They are kept, not deleted, because being able to read what an earlier round concluded - and what a later round changed - is the audit trail. Each row links to the tree itself and to the official pages it was built from; the exact snapshot inside each tree is recorded inside that tree.</p>
+<div class="table-wrap"><table>
+<caption id="archive"></caption>
+<thead><tr>
+<th>Tree</th>
+<th>Session</th>
+<th>What it is</th>
+<th>Official basis</th>
+<th>In the repository</th>
+</tr></thead><tbody>
+<tr>
+<td><a href="docs/"><code>docs/</code></a></td>
+<td>f879620b</td>
+<td>First data site: an 11/11 injury snapshot, the 11/13-11/16 slate and the 2026-27 rules, with the validation-gate and link-checking scripts (tools/, tests/).</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/docs" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="site/"><code>site/</code></a></td>
+<td>7c532e8c</td>
+<td>Generated from data/*.json: one page per category, every row carrying a source id.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/site" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="lab/"><code>lab/</code></a></td>
+<td>5697caaf</td>
+<td>Line lab — the first originated-lines engine (scripts/model.py) and its pages.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/lab" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="research/"><code>research/</code></a></td>
+<td>9ed6085f</td>
+<td>Research site generated from data/*.csv, with the requirements, questions and suggestions registers as CSV.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/research" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="edge/"><code>edge/</code></a></td>
+<td>0a016df8</td>
+<td>Edge Lab: verified game log, originated lines and gated picks as JSON plus pages.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/edge" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="origin/"><code>origin/</code></a></td>
+<td>e22a2831</td>
+<td>Origination engine: the verified results log, a walk-forward backtest and a seven-gate leaderboard.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/origin" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="dash/"><code>dash/</code></a></td>
+<td>e40cd215</td>
+<td>Unified dashboard: a second integration round with its own engine (integrate/), cross-engine reconciliation and a 9-gate leaderboard.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/dash" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="verify/pages/"><code>verify/pages/</code></a></td>
+<td>3655c68d</td>
+<td>Verification and decision layer: cross-pipeline reconciliation, corrections and a decision queue.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/verify/pages" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="review.html"><code>review.html</code></a></td>
+<td>2e50a71a</td>
+<td>Cross-workstream audit R-01 to R-13, comparing the outputs of every session side by side.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/review.html" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="app/legacy/"><code>app/legacy/</code></a></td>
+<td>8d3d0271</td>
+<td>The previous root dashboard, kept as it was on 2026-11-13 so the change is auditable.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/app/legacy" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="hub/"><code>hub/</code></a></td>
+<td>99eabb04</td>
+<td>Consolidated dashboard: one namespace, one set of numbers, every row sourced.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/hub" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="d01ae7e2/docs/"><code>d01ae7e2/docs/</code></a></td>
+<td>d01ae7e2</td>
+<td>Official-slate line origination and gated picks for a 31-game slate, with a provisional-safe pipeline.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/d01ae7e2/docs" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="executive-summary.html"><code>executive-summary.html</code></a></td>
+<td>3bf92fcc</td>
+<td>Cross-site consolidated executive summary.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/executive-summary.html" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+<tr>
+<td><a href="dashboard/"><code>dashboard/</code></a></td>
+<td>925439ca</td>
+<td>Independently verified build: 17 pages generated by final/build_site.py, every stored value re-checked by final/verify.py against the official NBA pages.</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official basis</a> · <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/dashboard" target="_blank" rel="noopener noreferrer">repository</a></td>
+</tr>
+</tbody></table></div>
+<p class="note">The <code>dashboard/</code> row is the one tree that was being deployed to the site and rebuilt in CI but was missing from the landing page list entirely. Recording it here is what surfaced the gap (flag F-DD1-09).</p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="app/flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>
