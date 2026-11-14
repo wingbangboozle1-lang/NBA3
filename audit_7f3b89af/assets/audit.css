@@ -1,0 +1,54 @@
+/* Extra classes used by the arena/7f3b89af-nba3 audit pages.
+   Loaded after the site's shared stylesheet (app/assets/app.css), which supplies the layout,
+   cards, tables and footer. Only what that stylesheet does not define lives here. */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 18px 0;
+}
+.panel > h2:first-child { margin-top: 0; }
+.panel p { max-width: 88ch; }
+
+.note {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin: 10px 0 0;
+  max-width: 92ch;
+}
+
+.table-scroll { overflow-x: auto; margin: 12px 0; }
+
+.pill {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 650;
+  background: #eef1f6;
+  color: #35445a;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+.pill-ok { background: var(--ok-soft); color: var(--ok); border-color: #bfe3d0; }
+.pill-warn { background: var(--warn-soft); color: var(--warn); border-color: #ecd9a8; }
+.pill-bad { background: var(--bad-soft); color: var(--bad); border-color: #f0c0c0; }
+
+.blank { color: #97a3b4; font-style: italic; }
+
+.lead-strong { font-weight: 620; color: var(--ink); font-size: 15.5px; }
+
+.verdict {
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  border-radius: 6px;
+  max-width: 92ch;
+}
+
+.steps { max-width: 88ch; padding-left: 22px; }
+.steps li { margin: 6px 0; }
+
+.on { font-weight: 700; }

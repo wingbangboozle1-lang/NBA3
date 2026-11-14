@@ -1,0 +1,161 @@
+{
+ "buckets": [
+  {
+   "bucket": "<=-2 (road team much fresher)",
+   "mean_abs_error_points": 11.883951699999997,
+   "mean_error_points": 0.6158404999999997,
+   "n": 10
+  },
+  {
+   "bucket": "-1",
+   "mean_abs_error_points": 11.269231000000001,
+   "mean_error_points": -4.128535421052631,
+   "n": 19
+  },
+  {
+   "bucket": "0 (equal rest)",
+   "mean_abs_error_points": 12.351300870129872,
+   "mean_error_points": -0.3728588961038964,
+   "n": 77
+  },
+  {
+   "bucket": "+1",
+   "mean_abs_error_points": 16.01540308,
+   "mean_error_points": 7.98499404,
+   "n": 25
+  },
+  {
+   "bucket": ">=+2 (home team much fresher)",
+   "mean_abs_error_points": 11.278604000000001,
+   "mean_error_points": 1.6621873333333328,
+   "n": 9
+  }
+ ],
+ "games_excluded_no_prior_game": 0,
+ "games_used": 140,
+ "inputs": {
+  "official_source": "https://www.nba.com/games?date=",
+  "predictions": "data/app/canonical.json -> oos_sample (140 out-of-sample games)",
+  "results_log": "data/app/games_2026-11-14c.csv (183 official finals)"
+ },
+ "label": "DERIVED -- our arithmetic on official results, not an official NBA statistic.",
+ "method": "Rest is days since that team's previous game in the official log. Error is actual home margin minus our predicted home margin. Permutation p-values are two-sided with 20000 shuffles, seed 20261114. Multiple comparisons across the five tests are controlled with Benjamini-Hochberg at q < 0.05.",
+ "power": {
+  "days_of_results_still_needed": 35,
+  "games_available_now": 140,
+  "games_needed_for_80pct_power_at_alpha_0.05": 389,
+  "games_still_needed": 249,
+  "log_span": {
+   "days": 25,
+   "from": "2026-10-20",
+   "games": 183,
+   "to": "2026-11-13"
+  },
+  "method": "Two-sided test on a Pearson r, alpha 0.05, 80% power, using the effect size actually observed. It answers 'how much more data before this is worth re-testing', not 'is the effect real'.",
+  "observed_abs_r": 0.14174747099766702,
+  "official_finals_per_day_this_season": 7.32
+ },
+ "question": "Does our originated line already price rest, or does its error still carry a rest signal that a bettor could harvest?",
+ "seed": 20261114,
+ "session": "arena/7f3b89af-nba3",
+ "tests": [
+  {
+   "ci95": [
+    -0.024737547068683353,
+    0.3005821505321625
+   ],
+   "extra": {
+    "intercept": 0.7416705038131557,
+    "slope_points_per_rest_day": 2.43919086653956
+   },
+   "id": "T1",
+   "n": 140,
+   "p_perm": 0.09744512774361282,
+   "q_bh": 0.24361281935903203,
+   "question": "Rest differential (home rest - away rest) vs the originated line's margin error",
+   "reading": "A non-zero slope is points of margin error per extra day of home rest. If the line already prices rest, this is zero.",
+   "significant_after_bh": false,
+   "stat": "Pearson r",
+   "value": 0.14174747099766702
+  },
+  {
+   "ci95": [
+    -0.10092817194483897,
+    0.22946917470757802
+   ],
+   "extra": {},
+   "id": "T2",
+   "n": 140,
+   "p_perm": 0.43942802859857005,
+   "q_bh": 0.6919029048547574,
+   "question": "Same test on the baseline (constant home-court margin) -- control",
+   "reading": "The baseline knows nothing about rest, so this is what 'unpriced rest' looks like. It is the yardstick for T1.",
+   "significant_after_bh": false,
+   "stat": "Pearson r",
+   "value": 0.06608159991442523
+  },
+  {
+   "ci95": [
+    null,
+    null
+   ],
+   "extra": {
+    "mean_residual_b2b_road": 8.398927,
+    "mean_residual_other": -0.031701142857142914,
+    "welch_p": 0.03703936135122543
+   },
+   "id": "T3",
+   "n_group": 14,
+   "n_other": 126,
+   "p_perm": 0.06169691515424229,
+   "q_bh": 0.24361281935903203,
+   "question": "Mean margin error when the away team is on a back-to-back and the home team is rested, vs every other game",
+   "reading": "If the model over-rates a rested road team the mean error here is negative. This is the subgroup a bettor would actually bet.",
+   "significant_after_bh": false,
+   "stat": "difference in mean residual (points)",
+   "value": 8.430628142857143
+  },
+  {
+   "ci95": [
+    -0.11631079973817346,
+    0.21467057820999552
+   ],
+   "extra": {
+    "slope_points_per_rest_day": 1.0295621730423017
+   },
+   "id": "T4",
+   "n": 140,
+   "p_perm": 0.5535223238838058,
+   "q_bh": 0.6919029048547574,
+   "question": "Combined rest (home + away) vs the originated total's error",
+   "reading": "Tired teams scoring less is the theory. If the totals model ignores it, this shows up here.",
+   "significant_after_bh": false,
+   "stat": "Pearson r",
+   "value": 0.0505682635788595
+  },
+  {
+   "ci95": [
+    null,
+    null
+   ],
+   "extra": {
+    "coefficient_max": 16.0906955,
+    "coefficient_min": -1.078381542626728,
+    "final_coefficient": 2.4075031821921153,
+    "improvement_points": -0.3290912165888429,
+    "rmse_originated_line": 16.009043507965092,
+    "rmse_with_rest_term": 16.338134724553935
+   },
+   "id": "T5",
+   "n": 138,
+   "p_perm": null,
+   "q_bh": 1.0,
+   "question": "Walk-forward: would adding a rest term have reduced out-of-sample margin error? (coefficient fitted on earlier games only)",
+   "reading": "The coefficient is re-fitted before every game using only games already played, so a positive improvement is achievable in real time. A negative improvement means the rest term is noise that would have made the line worse.",
+   "significant_after_bh": false,
+   "stat": "RMSE, points",
+   "value": 16.338134724553935
+  }
+ ],
+ "verdict": "The originated line does not price rest, and the rest signal shows up in its error in the expected direction: +2.44 points of home margin per extra day of home rest (r = 0.142, 95% CI -0.025 to 0.301, permutation p = 0.097, BH-adjusted q = 0.244 over five tests). In the classic spot -- rested home team against a road team on a back-to-back -- the home side beat our line by 8.4 points on average across 14 games. Neither survives correction for testing five hypotheses at once, and the walk-forward test settles it: fitting the rest coefficient on earlier games only and applying it forward made the line WORSE by 0.33 points of RMSE (16.01 to 16.34), with the coefficient swinging between -1.1 and 16.1 points per day as the sample grew. Conclusion: do not add a rest term on this evidence. Re-test when the out-of-sample sample reaches roughly 389 games."
+}
