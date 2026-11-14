@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html" class="active">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -31,6 +31,20 @@
 <strong>measured</strong> on official results; five could not be measured and are
 <strong>left blank</strong> rather than assumed. A blank on this page is a statement, not an
 omission.</p>
+<div class="callout">
+<p><strong>Measured since this page was written — see the
+<a href="../audit_dd1eb1f1/pages/correlations.html">independent audit</a>.</strong>
+Session <code>dd1eb1f1</code> measured the dependence this page prices as an assumption: within
+one slate, the correlation between two games' margin residuals is <strong>-0.0147</strong>
+(permutation p 0.73) and between two games' total residuals <strong>-0.0695</strong>
+(permutation p 0.073). Neither rejects independence at 5%, so the cross-game assumption stands
+for now; the totals figure is negative and is the one to re-measure when the out-of-sample log
+is larger. The same pass measured rest effects on the official results — rest differential vs
+home margin r = 0.0949, 95% interval -0.058 to 0.243, n = 167 — and found that the one raw p
+below 0.05 (0.0397) becomes 0.119 after Benjamini-Hochberg correction, i.e. no rest signal this
+sample can support. Every number here is <em>derived</em> from the official results log, not an
+official NBA statistic.</p>
+</div>
 
 <div class="table-wrap"><table>
 <caption id="corr"></caption>

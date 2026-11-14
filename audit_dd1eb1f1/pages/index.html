@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Independent audit — session dd1eb1f1 — NBA3 session dd1eb1f1 audit</title>
+<meta name="description" content="Independent verification and measured correlations for the NBA3 / NBA Edge Lab project. Every row links to its official source.">
+<link rel="stylesheet" href="../assets/audit.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="../../index.html"><span class="brand-mark">NBA3</span> Independent audit — session dd1eb1f1</a>
+  <div class="stamp">Generated 2026-11-14T10:32Z · official pages read 2026-11-14</div>
+</div></header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="../../index.html">Canonical dashboard</a> <a href="../../app/summary.html">Executive summary</a></span></div><div class="nav-group"><span class="nav-cat">This audit</span><span class="nav-links"><a href="index.html">What this session did</a> <a href="verification.html">Line-by-line verification</a> <a href="correlations.html">Measured correlations</a> <a href="flags.html">Flagged for review</a></span></div><div class="nav-group"><span class="nav-cat">Canonical site</span><span class="nav-links"><a href="../../app/flagged.html">Flagged for review</a> <a href="../../app/verification.html">Verification log</a> <a href="../../app/sources.html">Source register</a></span></div></div></nav>
+<main class="wrap">
+  <div class="crumb small">Independent audit</div>
+  <h1>Independent audit — session dd1eb1f1</h1>
+  <p class="lead">A second pass over the canonical NBA3 dataset by a session that did not build it: re-read the official pages, compare every value, measure what was left blank, and publish the findings.</p>
+
+<h2>What this session did</h2>
+<p>Three things, in this order: it re-read the official NBA pages for the current window and
+compared every published value against them; it measured the correlations the canonical site
+leaves blank; and it recorded what it found, including the parts that are not good news.</p>
+
+<div class="cards">
+  <div class="card"><div class="k">Field checks</div><div class="v">532</div>
+    <div class="s">0 mismatches between the official pages read today and the
+    values the site publishes</div>
+    <div style="margin-top:6px"><a href="verification.html">line-by-line results →</a></div></div>
+  <div class="card"><div class="k">Correlations measured</div><div class="v">7</div>
+    <div class="s">plus 4 still left blank, with the official page that holds each missing input</div>
+    <div style="margin-top:6px"><a href="correlations.html">measured values →</a></div></div>
+  <div class="card"><div class="k">Flagged</div><div class="v">8</div>
+    <div class="s">irregularities, each with its evidence link</div>
+    <div style="margin-top:6px"><a href="flags.html">flagged for review →</a></div></div>
+  <div class="card"><div class="k">Rest tests surviving adjustment</div>
+    <div class="v">0 of 3</div>
+    <div class="s">on 167 games. One raw p (0.0397) sits below 0.05 on its own
+    and becomes 0.119045 after
+    Benjamini-Hochberg — that is what removing luck looks like</div></div>
+</div>
+
+<h2>The three questions, and the straight answers</h2>
+<table><thead><tr><th>Question</th><th>Answer on this data</th><th>Where</th>
+<th>Official basis</th></tr></thead><tbody>
+<tr><td>Are the published numbers the same as the official pages?</td>
+    <td>Yes. 532 field checks across the 27-game slate and the 49-row injury
+    report, 0 mismatches. One apparent mismatch turned out to be this audit
+    filling in a cell the official PDF leaves blank — the canonical site was right to leave it
+    empty.</td>
+    <td><a href="verification.html">Verification</a></td>
+    <td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td></tr>
+<tr><td>Does rest carry a signal?</td>
+    <td>Not one this sample can support. Rest differential vs home margin: r = 0.094933,
+    95% interval -0.057764 to 0.243289, n = 167,
+    permutation p = 0.224555.</td>
+    <td><a href="correlations.html">Rest</a></td>
+    <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td></tr>
+<tr><td>Can a cross-game parlay of our own picks be priced as independent?</td>
+    <td>Not rejected. Within-night correlation of margin residuals -0.014657
+    (p = 0.730454); totals
+    -0.06954 (p = 0.072985),
+    negative and worth re-measuring on a bigger log.</td>
+    <td><a href="correlations.html">Slate clustering</a></td>
+    <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td></tr>
+</tbody></table>
+
+<h2>How to reproduce this</h2>
+<p class="mono">python3 audit_dd1eb1f1/checks.py<br>python3 audit_dd1eb1f1/analysis.py<br>python3 audit_dd1eb1f1/build.py</p>
+<p>Neither <span class="mono">checks.py</span> nor <span class="mono">analysis.py</span> touches
+the network: they read the captures in <span class="mono">audit_dd1eb1f1/data/</span> and the
+artefacts already in the repository, so a reader with the checkout gets the same numbers. The
+captures themselves were transcribed from the official pages listed on each page.</p>
+
+<h2>What this audit does not cover</h2>
+<ul>
+  <li>Team and player statistics were not re-read: <span class="mono">stats.nba.com</span> is not
+      reachable from this workspace. The schedule pages and the injury PDFs are.</li>
+  <li>The 183-game results log was checked for internal consistency, not re-transcribed game by
+      game. A full re-transcription is a separate job.</li>
+  <li>No market odds were compared, because no licensed odds source is connected to this
+      repository. Every price on the site is our own originated number.</li>
+</ul>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+  <p><strong>NBA3 — independent audit by session <code>arena/dd1eb1f1-nba3</code></strong>.
+  Every table row links to the official page the value was read from. Values that could not be
+  confirmed are left blank and marked unverified — nothing is inferred. Model outputs are
+  labelled <em>Derived</em> and are not official NBA statistics. Research, not betting advice.</p>
+  <p>Repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">github.com/wingbangboozle1-lang/NBA3</a>
+  · canonical dashboard <a href="../../index.html">/</a></p>
+</div></footer>
+</body>
+</html>
