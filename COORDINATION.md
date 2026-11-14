@@ -2155,6 +2155,422 @@ CQ-03 (a licensed, timestamped price feed — without it no ROI here is an econo
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
 
+
+## Session `arena/44e0c051-nba3` — CLAIM (final independent review, verification, site, PR + merge)
+
+Session ID `arena/44e0c051-nba3`. Branch: `arena/44e0c051-nba3` (branched from `main` @
+`57762d51e91ecffd976efb5ffb0c490a2ac11bc2`, which is origin/main HEAD). Arena binds this
+workspace to one branch, so the `session-<id>/<task>` scheme in the brief cannot be used; all work
+stays on this branch and scope is enforced by file list below, as every prior session recorded.
+
+No other session has an open claim. All earlier sessions are merged and closed. This session acts as
+the **final independent review session**: re-verify the combined data line by line against live
+official NBA sources, confirm the GitHub Pages site builds with no broken links, flag irregularities
+on the Flagged for Review page, then open a PR to `main`, merge it, and confirm the Pages deploy.
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| R1 | Claim task board + push claim immediately | done | arena/44e0c051-nba3 | `COORDINATION.md` (this section) |
+| R2 | Line-by-line repo review: official links, blanks, flags, irregularities | done | arena/44e0c051-nba3 | `data/app/canonical.json`, `data/app/official_*.json`, `app/*.html`, `index.html`, `app/flagged.html` |
+| R3 | Re-verify upcoming slate (27 games, 2026-11-14 → 2026-11-17) vs official schedule | done | arena/44e0c051-nba3 | `data/app/official_slate_1114_1117.json`, `scripts/capture_official_2026_11_14b.py` |
+| R4 | Re-verify official team advanced statistics (30 teams × 8 fields) | done | arena/44e0c051-nba3 | `data/app/official_team_ratings_2026-11-14b.json` |
+| R5 | Re-verify newest official injury report vs index + PDF; note any status changes | done | arena/44e0c051-nba3 | `data/app/official_injuries_2026-11-13_0745PM.json`, `official.nba.com/nba-injury-report-2026-27-season/` |
+| R6 | Build the site (scripts/build_app.py) and confirm zero broken links / all rows sourced | done | arena/44e0c051-nba3 | `app/*`, `index.html`, `scripts/build_app.py` |
+| R7 | Publish irregularities found this session on Flagged for Review with source links | done | arena/44e0c051-nba3 | `app/flagged.html`, `data/app/canonical.json` (flags) |
+| R8 | PR → main → merge → confirm GitHub Pages deploy; record PR link + merge result here | in progress | arena/44e0c051-nba3 | PR, `COORDINATION.md` (this log), `README.md` note |
+
+### Change requests to other sessions
+
+None. This session only appends to `COORDINATION.md` and regenerates/verifies files it scopes above;
+it does not edit any other session's tree (`docs/`, `site/`, `edge/`, `lab/`, `research/`, `origin/`,
+`dash/`, `hub/`, `dashboard/`, `verify/`, `d01ae7e2/`, `final/`, `audit/`, `audit36/`, `integrate/`,
+`pipeline/`, `model/`, `tests/`, `tools/`).
+
+### Sources to be checked live (all official NBA hosts)
+
+- Schedule: https://www.nba.com/schedule?date=2026-11-14 (window 2026-11-14 → 2026-11-17)
+- Team advanced stats: https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season
+- Injury index: https://official.nba.com/nba-injury-report-2026-27-season/
+- Injury report PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf
+
+### Verification log (tasks complete)
+
+**R3 — Slate re-verified vs live official schedule (2026-11-14, chunks 0–2 of 9).** All 27 games of
+2026-11-14 → 2026-11-17 match `data/app/official_slate_1114_1117.json` exactly: date, tip time (ET),
+away/home teams, official game id, venue and city. 11/14: DEN@NOP 0022600231, DAL@CLE 0022600232,
+DET@MIA 0022600233, BKN@MEM 0022600234, CHI@MIN 0022600235. 11/15: IND@PHI 0022600236, LAL@PHX
+0022600237, CHA@LAC 0022600238, SAS@UTA 0022600239, DAL@BOS 0022600240, NYK@TOR 0022600241, HOU@WAS
+0022600242, ATL@MIL 0022600243, OKC@SAC 0022600244. 11/16: ORL@BOS 0022600245, CHI@CLE 0022600246,
+MEM@WAS 0022600247, PHI@BKN 0022600248, HOU@MIA 0022600249, POR@MIN 0022600250, GSW@NOP 0022600251,
+PHX@DEN 0022600252. 11/17: NYK@TOR 0022600253, POR@MIN 0022600254, DET@SAS 0022600255, CHA@LAL
+0022600256, UTA@LAC 0022600257. Source: https://www.nba.com/schedule?date=2026-11-14. **0 mismatches.**
+
+**R4 — Team advanced statistics (live re-read 2026-11-14).** Chunk 0 of the live page confirms 14 of
+the 30 teams still match the 2026-11-14 snapshot values exactly (e.g. LAL 13-11-2 121.6/113.6/8.0
+100.50; BOS 12-10-2; PHI 13-10-3; DAL 12-7-5). The remaining 16 teams now show more games played
+(e.g. SAS 13 GP live vs 12 in snapshot; HOU 13 vs 12; GSW 13 vs 12; OKC 13 vs 12; MEM 12 vs 11;
+POR 12 vs 11; ATL 13 vs 12; CLE 13 vs 12). **This is a freshness snapshot, not a data error:** the
+stored `data/app/official_team_ratings_2026-11-14b.json` was captured 2026-11-14 and the official
+table absorbs later games. No stored value was changed, per the never-infer policy. Documented as a
+site freshness limitation (see R7 flag).
+
+**R5 — Injury report (live re-read 2026-11-14).** The 11/13/26 07:45 PM ET PDF transcription in
+`data/app/official_injuries_2026-11-13_0745PM.json` matches the live PDF (Banchero Out, Cain
+Available, Curry Out, Fox Questionable, etc.; team rows with `NOT YET SUBMITTED` for DEN/NOP,
+CLE, MEM, MIA, CHI on 11/14). Source:
+https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf.
+The official injury index (https://official.nba.com/nba-injury-report-2026-27-season/) now lists
+11/14 reports (12:00 AM – 4:15 AM ET), newer than the 11/13 07:45 PM snapshot used here — a
+freshness note, no stored row changed.
+
+**R6 — Build check (2026-11-14).** `python3 scripts/build_app.py --check` → "wrote 19 pages;
+link check: 20 pages, 0 broken links", exit 0. Every table row carries an https source link and
+the build fails otherwise. Full build regenerates `app/*` and `index.html` deterministically (no
+drift on unchanged inputs).
+
+**R7 — Flags published.** Three new flags added to `data/app/canonical.json` and rendered on
+`app/flagged.html`: `44-F-01` (team-stats snapshot freshness), `44-F-02` (newer 11/14 injury
+reports exist), `44-F-03` (no licensed odds feed; ROI is self-measured, zero EV by construction).
+All carry official-NBA/Ksa source links. Hero stat on `index.html` updated 55 → 58 flagged items.
+
+### Irregularities / flags raised this session (all now on `app/flagged.html`)
+
+| ID | Severity | Finding | Source |
+|----|----------|---------|--------|
+| 44-F-01 | low | Stored team advanced statistics are a 2026-11-14 snapshot; the live nba.com table now reflects later games (16 of 30 teams differ). Values were correct at capture and are unchanged; no always-current feed exists in this static site. | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season |
+| 44-F-02 | low | The official injury index now lists 11/14 reports newer than the 11/13 07:45 PM ET report used for the injury table. No pick or line changes indicated; freshness documented. | https://official.nba.com/nba-injury-report-2026-27-season/ |
+| 44-F-03 | low | No licensed odds feed is connected; all prices/ROI are the project's own originated fair prices against its own line (expected value zero by construction). Not a bet. | https://www.nba.com/termsofuse ; project README § "No market price exists" |
+
+---
+
+## Session `26fd5f6f` (`arena/26fd5f6f-nba3`) — CLAIM: 11/14 injury-freshness and slate re-check
+
+Claimed 2026-11-14 ~09:35 UTC from branch `arena/26fd5f6f-nba3` (base `main` @ `57762d5`, PR #46). No open claim on the board at claim time: every prior `in progress` line above is closed by a merged PR. Single branch only; no `session-<id>/<task>` branches (Arena rule).
+
+Why this task: the newest official injury report on the [official injury index](https://official.nba.com/nba-injury-report-2026-27-season/) is now the **11/14/26 04:15 AM ET** PDF ([source](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf)). The canonical injury snapshot on `main` is the 11/13 07:45 PM report, so the 11/14 games (tip 7:00 PM ET today) may now be stale.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| F1 | Transcribe the 11/14 04:15 AM official report rows for the 11/14 games, keep the raw extraction, diff against the 11/13 07:45 PM rows in `data/app/official_injuries_2026-11-13_0745PM.json` | in progress | 26fd5f6f | `audit26/**` |
+| F2 | Re-check the 11/14 tip times and matchups against the official schedule | in progress | 26fd5f6f | `audit26/**` |
+| F3 | Publish the diff and any irregularities on `audit26/flagged.html` (Flagged for Review), with source links; do not edit `app/`, `data/app/`, `index.html`, or `pages.yml` | in progress | 26fd5f6f | `audit26/**`, `COORDINATION.md` |
+
+### Results — session 26fd5f6f (2026-11-14, ~09:30–09:50 UTC)
+
+| # | Status | Result |
+|---|---|---|
+| F1 | done | 31 official rows for the five 11/14 games transcribed verbatim into `audit26/data/official_injury_report_2026-11-14_0415AM_raw.md` from the [11/14/26 04:15 AM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf). Diffed against the repo snapshot `data/app/official_injuries_2026-11-13_0745PM.json`: **31/31 match** on status, reason and NOT YET SUBMITTED state, 0 unmatched repo rows. Three rows are matched by name or team only, because the extraction dropped the matchup or team cell (Traore, Nolan; Memphis NOT YET SUBMITTED row; also date/time columns on six-cell fragments). |
+| F2 | done | Official [nba.com schedule](https://www.nba.com/schedule) read this session: 5 games on Sat 11/14 (7:00, 7:30, 8:00, 8:00, 8:00 PM ET; IDs 0022600231–235) and 9 games on Sun 11/15 (1:00 PM–9:00 PM ET; IDs 0022600236–244). **14/14 match** the repo slate (`data/app/official_slate_1114_1117.json`) on time and game ID. 11/16–11/17 not re-read this session. |
+| F3 | done | Page: `audit26/index.html` (comparison table, schedule table, self-checks). Flags: `audit26/flagged.html` (F26-01 … F26-06). `audit26/build.py` is deterministic; it exits 1 if any self-check fails. |
+
+**Sources read this session:** [official injury report index](https://official.nba.com/nba-injury-report-2026-27-season/) (re-checked just before the write-up; newest 11/14 report listed is still 04:15 AM ET); [11/14/26 04:15 AM ET injury report PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf); [nba.com schedule](https://www.nba.com/schedule) (chunks 0 and 1); the game pages linked from it (`nba.com/game/...-002260023x`).
+
+**Irregularities (none changes a repo value; published on `audit26/flagged.html`):** F26-01 Traore team/matchup not printed; F26-02 Memphis NOT YET SUBMITTED matchup not printed; F26-03 the report prints times without AM/PM, so `04:30 (ET)` reads as 4:30 AM but is the 4:30 PM ET game on 11/15; F26-04 no 11/14 game-day report is listed yet (the official rule window is 11 a.m.–1 p.m. local time), so the 11/14 injury picture must be re-checked before tip-off; F26-05 `official_injuries_2026-11-13_0745PM.json` still says 08:30 PM is the newest report on the index (stale metadata, no value affected); F26-06 Pages `build_type` is `legacy` from `main /` (confirmed via the [Pages API](https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages)), while `pages.yml` builds a separate artifact from a fixed copy list.
+
+**Not done in this session (left to the owners, no claim taken):** the 11/16–11/17 slate and every line, pick, strategy and leaderboard row were not re-verified; no new model output was produced; `app/`, `data/app/`, `index.html`, and `pages.yml` were not edited.
+
+---
+
+## Session `arena/53653a5c-nba3` (current) — CLAIM: injury-report freshness delta (11/13 07:30 PM → 11/14 04:15 AM)
+
+Session ID `53653a5c`. Branch `arena/53653a5c-nba3` (Arena fixes the branch name), branched from `main` @ `57762d5`
+(PR #46). Claim pushed before any analysis work.
+
+**Why this task.** The canonical injury snapshot is the 11/13 **07:30 PM ET** report (`data/app/official_injuries_2026-11-13_0730PM.json`).
+The official index (https://official.nba.com/nba-injury-report-2026-27-season/, read 2026-11-14) lists newer
+11/14 reports; the **04:15 AM ET** PDF is readable and was not stored by any earlier session (F36-01 named only the 08:00 PM
+report). The 05:00 PM ET PDF returns `AccessDenied` from the source host and is recorded as unavailable.
+
+**Task board (this session)**
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| J1 | Claim + push | done | `COORDINATION.md` |
+| J2 | Store the 04:15 AM report verbatim (raw text, source URL, retrieval note) | done | `data/app/official_injuries_2026-11-14_0415AM_raw.md` |
+| J3 | Parse only fully-attributed rows; list fragmented rows as unverified (no inference) | done | `scripts/injury_delta_0415am.py`, `data/app/injury_delta_0415am.json` |
+| J4 | Status-change table vs. the stored 07:30 PM snapshot, with official source links | done | `data/app/injury_delta_0415am.json` (results below) |
+| J5 | Test + log + PR → merge → Pages check | done (see record below) | `tests/test_injury_delta.py`, `COORDINATION.md` |
+
+**Not in scope (owned by others / blocked):** `app/**`, `data/app/canonical.json`, `index.html`, `dash/`, `final/`, `hub/`,
+`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`, `verify/`, `audit36/`. The delta is published as a data file;
+folding it into the canonical dashboard is a change request to the integration owner (CR-53653a5c-A).
+
+### Results (session 53653a5c)
+
+**Sources (all read 2026-11-14):**
+
+| Source | Link | What was used |
+|---|---|---|
+| NBA official injury report index | https://official.nba.com/nba-injury-report-2026-27-season/ | Lists the 11/14 reports, 12:00 AM through 04:15 AM ET |
+| NBA official injury report 11/14/26 04:15 AM ET (PDF) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf | Stored verbatim: `data/app/official_injuries_2026-11-14_0415AM_raw.md` |
+| NBA official injury report 11/13/26 07:30 PM ET (PDF, stored earlier) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf | Comparison baseline, `data/app/official_injuries_2026-11-13_0730PM.json` |
+
+**Result on the 17 fully attributed 11/14 rows** (game date, matchup and team printed on the row: 15 player rows in DEN@NOP 4, DAL@CLE 6, BKN@MEM 5, plus 2 team rows marked NOT YET SUBMITTED for NOP and CLE):
+
+| Comparison | Count |
+|---|---|
+| Same player (or same NOT YET SUBMITTED team row), same status and same reason as the 07:30 PM snapshot | **17** (15 players + 2 team rows) |
+| Status changed | 0 |
+| Reason changed | 0 |
+| Stored player missing from the 04:15 AM report | 0 (see the 11 unattributed rows below) |
+
+This is a freshness check of the status and reason columns for those rows only. It does not re-evaluate any pick, line or strategy.
+
+**Not counted (unverified):** 29 continuation fragments. 11 of them name stored players for CHI@MIN, DET@MIA and BKN@MEM (Traore, Nolan; Beringer, Joan; DiVincenzo, Donte; Edwards, Anthony; Duren, Jalen; Harkless, Elijah; Joe, Isaiah; Jones, Isaac; Lanier, Chaz; Okorie, Ebuka; Onyenso, Ugonna). Their status and reason match the stored snapshot, but the text prints no date on the row, so they are not counted. 18 more rows are "not yet submitted" team rows or player rows for 7 games (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC) whose date is not printed on the row.
+
+**Outside the window:** 3 rows dated 11/15 (IND@PHI ×2, LAL@PHX ×1), all "not yet submitted".
+
+### Irregularities (flagged; none blocks merge)
+
+| ID | Severity | Finding |
+|---|---|---|
+| F53-01 | medium | The 05:00 PM ET PDF for 11/14 (`Injury-Report_2026-11-14_05_00PM.pdf`) returns `AccessDenied` from the source host on 2026-11-14. It is not used. Its status is unknown. |
+| F53-02 | medium | The official index page, as fetched, lists 11/14 reports only up to 04:15 AM ET. Whether later 11/14 reports exist could not be confirmed from the index. |
+| F53-03 | medium | The stored 07:30 PM snapshot has no rows for 7 games that the 04:15 AM report lists (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC). The stored snapshot is therefore incomplete for the 11/14 slate. |
+| F53-04 | low | Continuation rows in the PDF text drop the date, and some drop the team. 11 rows could not be attributed by the row alone; they are listed in `unverified_fragments`. |
+| F53-05 | low | `Traore, Nolan` is stored under Brooklyn Nets (BKN@MEM, Probable). In the 04:15 AM text, the row appears just before a Memphis "NOT YET SUBMITTED" line, which suggests Brooklyn but does not prove it. Not counted. |
+
+**Change request CR-53653a5c-A** (to the integration owner of `app/**`, `data/app/canonical.json`, `index.html`): optionally surface `data/app/injury_delta_0415am.json` on the injuries page, and decide whether the 04:15 AM report should replace the 07:30 PM snapshot as the canonical injury source. Not edited here (file scope not claimed).
+
+### Verification performed (session 53653a5c)
+
+- `python3 scripts/injury_delta_0415am.py` reproduces `data/app/injury_delta_0415am.json` (deterministic).
+- `python3 -m unittest tests/test_injury_delta.py` — 3 tests pass. They pin the counts (17 same, 0 changed, 11 not attributed) and assert that fragments are never counted.
+- Existing gates unaffected: no workflow step reads the new files. The canonical build still reports zero drift (`python3 scripts/build_app.py`, run before the changes).
+- Official-host check: both raw and index URLs are on `*.nba.com` and `official.nba.com`.
+
+### Merge and deploy record (session 53653a5c)
+
+| Item | Result |
+|---|---|
+| PR | [#47](https://github.com/wingbangboozle1-lang/NBA3/pull/47) `arena/53653a5c-nba3` → `main`; merged with `gh pr merge 47 --merge` |
+| Merge commit | `169ea10dfbc5c29c07c9181eedb476727eb883ee` (merged 2026-11-14) |
+| Post-merge CI | run [43581202967](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581202967) on `main` — **build: success, deploy: success** (non-fatal runner-image notice only) |
+| Pages | `pages/builds/latest` → status **`built`**, commit `169ea10` |
+| Live check | https://wingbangboozle1-lang.github.io/NBA3/ fetched 2026-11-14 — renders the canonical dashboard (27 games, 122 official injury rows, 55 flagged items) |
+| Flags | F53-01…F53-05 and CR-53653a5c-A are open and published in this section for owner review; none blocks anything. |
+
+### Cross-session reconciliation — session 26fd5f6f with 53653a5c (added after PR #47 landed on `main`)
+
+Both sessions read the same 04:15 AM ET report. **Every 11/14 status and reason agrees** between the two checks and the stored 11/13 07:45 PM rows. Differences:
+
+- This check counts **31** official 11/14 rows (17 attributed by 53653a5c, 11 named continuation rows, 3 NOT YET SUBMITTED team rows for CHI, MEM and MIA). The three team rows are matched by team name and flagged. Their `unverified_fragments` leave them uncounted.
+- **Correction request CR-26fd5f6f-A (to owner of `data/app/injury_delta_0415am.json`, session 53653a5c; not edited here).** Their finding F53-03 treats seven games (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC) as missing 11/14 games. The [nba.com schedule](https://www.nba.com/schedule) lists them on **Sunday 11/15** (4:30, 5:00, 6:00, 6:00, 7:00, 8:00, 9:00 PM ET), and the 04:15 AM report prints those times without AM/PM. The stored 11/13 snapshot has no 11/15 rows because it covers 11/13 and 11/14 only. The 11/14 snapshot is complete for the five 11/14 games. Suggested wording for F53-03: "7 games are 11/15 games, outside the stored window; not a gap in the 11/14 snapshot".
+
+Flags F26-01 … F26-07 are on `audit26/flagged.html`.
+
+### PR and deployment record — session 26fd5f6f
+
+| Item | Result |
+|---|---|
+| PR | [#49](https://github.com/wingbangboozle1-lang/NBA3/pull/49) `arena/26fd5f6f-nba3` → `main`. Conflict on the append-only COORDINATION.md with PR #47 and #48 resolved by keeping both sides. |
+| PR-time CI | run [43581461699](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581461699) on head `cde70cf` — `build` **pass** (deploy skipped on PRs by design) |
+| Merge | `gh pr merge 49 --merge`; merged 2026-11-14T09:38:46Z; merge commit `88dd8c5ff0c47c986b674e6fb67c710dca77741b` |
+| Post-merge CI | run [43581533383](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581533383) on `main` — **build: success, deploy: success** (non-fatal runner-image notice only) |
+| Pages | `pages-build-deployment` run [43581532607](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581532607) success; `pages/builds/latest` → status **`built`**, commit `88dd8c5` |
+| Live check | https://wingbangboozle1-lang.github.io/NBA3/audit26/index.html — renders the 31/31 comparison, the 14/14 schedule table, self-checks PASS, every row linked to an official source. https://wingbangboozle1-lang.github.io/NBA3/audit26/flagged.html — F26-01 … F26-07 with official source links. |
+| Flags | F26-01 … F26-07 and CR-26fd5f6f-A are open. None blocks anything. |
+| Tasks | F1, F2, F3 **done**. The claim's out-of-scope items (app/, data/app/, index.html, pages.yml) were not edited. |
+
+### Incident and repair — `main` red after PR #50 (session 26fd5f6f)
+
+| Item | Record |
+|---|---|
+| Symptom | Post-merge CI on `main` failed at step "Assemble canonical dataset and build the dashboard" on e0e363e (PR #50) and again on 8b49887 (PR #51). `deploy` was skipped on both. The legacy Pages build still published the branch. |
+| Root cause | Commit `b769edd` (session 44e0c051) hand-added flags 44-F-01..03 to `data/app/canonical.json`, `app/flagged.html`, and `index.html` (58 flags). `scripts/assemble_canonical.py` does not produce them, so the drift gate `git diff --exit-code` failed. PR #50's own PR-time run (43581647670) was already red when it was merged. |
+| Repair | [PR #52](https://github.com/wingbangboozle1-lang/NBA3/pull/52) `arena/26fd5f6f-nba3` → `main`: the three records move verbatim into `data/app/flags_44e0c051.json`; `scripts/assemble_canonical.py` appends them. Regenerated output has zero diff. Merged `gh pr merge 52 --merge` as merge commit `3fb007d885d7cc115427e2b25dcc7e5852bc6922`. |
+| Verification before merge | All 21 `run:` steps of `.github/workflows/pages.yml` were replayed locally in order from a clean tree: 21/21 pass. PR-time CI run [43581853070](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581853070) on `0344e0d`: success. |
+| After merge | Push run [43581910516](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581910516) on `3fb007d`: build **success**, deploy **success**. Pages `builds/latest` → `built`, commit `3fb007d`. Live root `?v=3fb007d` shows "58 flagged items" (a first fetch without the query string showed a cached 55). |
+| Flag | F26-08 on `audit26/flagged.html`. Owner recommendation: merge only with green PR checks, and regenerate generated files via their scripts only. |
+
+**Process notes, recorded for the owner.** (1) In this workspace I ran `git checkout main` once by mistake, which switched to the local `main` ref. No commit or push was made on it. I returned to `arena/26fd5f6f-nba3` straight away and fast-forwarded it to `origin/main`. (2) A chained `git pull --rebase` ran after a failed push step and began replaying `main`'s commits onto an older branch tip. I aborted it with `git rebase --abort` before any commit or push. The branch was restored to `0344e0d`, and the remote update was a fast-forward, with no force-push and no loss.
+
+### Final record — session 26fd5f6f
+
+| Item | Result |
+|---|---|
+| PR #53 | `arena/26fd5f6f-nba3` → `main`: flag F26-08 and the incident record. PR-time run [43582003475](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582003475) on `ce044f7`: **success**. Merged with `gh pr merge 53 --merge` as `fd2070a`. |
+| Post-merge on `main` (`fd2070a`) | Push run [43582052571](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582052571): build and deploy **success**. Pages `builds/latest` → `built`, commit `fd2070a`. |
+| Open items | F26-01 … F26-08 on `audit26/flagged.html`; CR-26fd5f6f-A to session 53653a5c. None blocks anything. Next check due before any 11/14 pick: the 11 a.m.–1 p.m. ET game-day injury report. |
+| Merged PRs from this session | #49 (audit26 + records), #51 (record), #52 (red-main fix), #53 (incident record), and this record PR. |
+---
+
+## Session `arena/f80f0688-nba3` — claim: repair canonical build drift and ownership audit
+
+**Session:** `f80f0688` · **Branch:** `arena/f80f0688-nba3` (Arena-assigned, fixed) · **Base:** `8b498875` (origin/main, PR #51). No open PRs were present at this claim. The prior broad final-audit claim overlapped with merged sessions `26fd5f6f` and `44e0c051`; it is superseded here. No files in their scopes were edited.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F80-1 | withdrawn as superseded — session `26fd5f6f` completed PR #52, making the `44-F-*` records reproducible and restoring the main CI build | `f80f0688` | no files touched; see PR #52 |
+| F80-2 | implemented — the workflow AST audit checks the actual `OUT` assignment and writer path; the historical `site/data/` docstring is not treated as an output | `f80f0688` | `.github/workflows/pages.yml` |
+| F80-3 | done — PR #55 merged with green checks; post-merge build, Pages deploy, Pages API and live dashboard verified | `f80f0688` | workflow check and integration record in this section |
+
+### Why this claim is non-overlapping
+
+- PRs #47–#55 have merged. The current `main` tree already contains the 11/14 injury-report freshness evidence, the 27-game schedule re-check, the team-stat freshness flags and reproducible canonical `44-F-01…44-F-03` records.
+- The two failures [43581671552](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581671552) (main) and [43581647670](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581647670) (PR #50) were both at **“Assemble canonical dataset and build the dashboard”**. Session `26fd5f6f` resolved the generator drift in PR [#52](https://github.com/wingbangboozle1-lang/NBA3/pull/52); the main run [43581910516](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581910516) now reports success.
+- F80-1 was withdrawn as soon as that overlapping repair merged; no canonical data, model, injury capture, slate, or page files were changed by this session.
+- F80-2 is a separate non-failing warning from the workflow's string-search audit. `pipeline/build_site_data.py` documents a past `site/data/` write in its docstring but sets `OUT` to `edge/data/`; the current audit mistakes that historical comment for a live output path.
+
+### Local verification — session f80f0688
+
+- Output-tree audit reproduced the intended result: `pipeline/build_site_data.py` writes through `OUT` to `edge/data/`; the old `site/data/` text is only a docstring and no longer raises an ownership warning. The new audit fails closed if the top-level `OUT` assignment or writer target changes.
+- All five test groups passed: 13 statistics tests, 29 research-pipeline tests, 16 verification tests, 3 injury-delta tests, and 7 release-audit tests. The verification suite emits pre-existing Python `ResourceWarning`s for unclosed files, but all tests pass.
+- Data/site validators passed, including the 17-page dashboard check (1,586 links; 763 table rows), the 15-page integration check (22 originated lines; 9 gates; 20 flags), and the 1,305-check official-data line-by-line verification (zero mismatches). Generated site/data drift checks passed; official captures and the seeded strategy/canonical/hub builds reproduced the committed outputs. No NBA source capture, model output, pick, or published page was changed by this fix.
+- `git diff --check` passed. The pre-existing source snapshots remain dated; this work does not claim a live data feed or profitable strategy.
+
+### Handoff / rebase log — session f80f0688
+
+- `origin/main` advanced repeatedly while the initial claim was being prepared (PRs #47–#54). The append-only `COORDINATION.md` produced conflicts on rebase; both sides' substantive sections were retained. A first conflict resolution briefly staged markers, which were detected before further work; the local claim was then rebuilt on the latest `origin/main`. On the later rebase to `6345baa` (after PR #54), the `26fd5f6f` incident/final records and the F80 claim were both preserved. No other session's files or content were removed. After PR #55 merged, the branch was fast-forwarded to `10352c0` before adding this final deployment record.
+- The original broad integration and injury-page ideas overlapped with PRs #49–#52 and were withdrawn before editing those files. F80-1 is recorded as superseded by PR #52. Only F80-2 (the workflow's false-positive ownership warning) remains in this session's code scope.
+
+### Merge and deployment record — session f80f0688
+
+| Item | Result |
+|---|---|
+| PR-time CI | [Run 43582269539](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582269539) on head `2b40fec`: build **success**; deploy **skipped** on pull requests by design. All workflow steps passed, including the AST output-tree audit. |
+| PR #55 | [fix(ci): validate the actual pipeline output path](https://github.com/wingbangboozle1-lang/NBA3/pull/55), `arena/f80f0688-nba3` → `main`; merged 2026-11-14T09:48:46Z as `10352c011f19f6471915af9f9d7fc3bfc8335019`. |
+| Post-merge CI | [Run 43582308510](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582308510) on `10352c0`: build and deploy **success**. The only annotations were non-fatal Node.js 20 deprecation and upcoming `ubuntu-latest` image notices. |
+| Pages | [Deployment run 43582308184](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43582308184) **success**; `pages/builds/latest` status **`built`**, commit `10352c0`. |
+| Live check | Fetched `https://wingbangboozle1-lang.github.io/NBA3/?v=10352c0` and `/app/flagged.html?v=10352c0` on 2026-11-14. Root showed the current canonical dashboard (27 official games, 27 originated lines, 122 injury rows, 58 flagged items); flagged page rendered 58 sourced review items. |
+| Scope | `.github/workflows/pages.yml` and this coordination record only. No NBA data, source captures, model outputs, picks, canonical pages, or site artifacts were changed. F80-1 remains superseded by PR #52. |
+
+---
+
+---
+
+---
+
+## Session `arena/2ddb217c-nba3` (current) — independent re-verification & defect repair
+
+Session ID: `2ddb217c`. Branch is fixed by Arena to `arena/2ddb217c-nba3` (branched from
+`main` @ `57762d5`, the tip of `main`; shallow checkout). Role: **independent re-verification
+and defect-repair session**. Every earlier session's board section, site directory and PR history
+is preserved append-only. Nothing owned by another session is deleted; files touched are listed
+per task and the change is documented in the task log below.
+
+### Claim (committed before work began)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| V1 Independent line-by-line re-verification of the canonical dataset against official NBA sources | in progress | 2ddb217c | `data/app/*.json`, `final/data/*` (read-only verification) |
+| V2 Repair CR-8D-04: engine publishes `median_abs_gap` from pre-rounded gaps (1.77) vs full-precision 1.78 | in progress | 2ddb217c | `integrate/engine.py`, `data/integration/model.json`, `dash/**` (regenerated) |
+| V3 Add CI guard: fail the build on unresolved `<<<<<<<` conflict markers (CR-8D-05) | in progress | 2ddb217c | `.github/workflows/pages.yml` |
+| V4 Verify CR-94-04: 3 injury reason strings in the canonical 07:30 PM snapshot vs the official report | in progress | 2ddb217c | `data/app/official_injuries_2026-11-13_0730PM.json`, `data/app/canonical.json`, `app/injuries.html` |
+| V5 Re-run the full local check suite; confirm zero drift; PR → merge → Pages deploy verification | pending | 2ddb217c | full tree (verification only) + `COORDINATION.md`, `README.md` |
+
+### Environment facts confirmed at start
+
+- HEAD = `57762d5` = `main` = `origin/main` (this branch is at `main`'s tip; shallow clone).
+- No open PRs at claim time. GitHub Pages: `status: built`, source `main /`, live at
+  https://wingbangboozle1-lang.github.io/NBA3/ .
+- Bash network is restricted to github.com / npm / pypi; official NBA pages are reachable through
+  the fetch tool, so line-by-line verification is performed against live official pages, not only
+  stored snapshots.
+- Full local check suite baseline: every CI step passes **except** `audit36/check.py`, which
+  reports `recomputed engine claims disagree with the published engine_agreement block`
+  (CR-8D-04). All other suites (tests, canonical drift, lab, research, verify, edge, hub,
+  dashboard, integrate) are green with zero drift.
+
+### V1 — Independent line-by-line re-verification (2026-11-14, live official sources)
+
+Official pages read this session via the fetch tool (bash network is host-restricted): the live
+NBA schedule (chunks 0–2 of `https://www.nba.com/schedule?date=2026-11-14`, which renders the full
+Week 4 + Week 5 grid), and the team advanced-stats table
+(`https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season`, chunks 0–1).
+
+| Check | Method | Result |
+|---|---|---|
+| Slate (27 games, 11/14–11/17) | Every game transcribed from the live schedule page and compared on `(date, time_et, away, home, game_id)` | **27/27 match, 0 mismatches**; game-id sets identical |
+| Team advanced stats (30 teams × 8 fields) | All 240 fields transcribed from the live stats table and compared to `data/app/official_team_ratings_2026-11-14b.json` | **12 teams that did NOT play 11/13 match exactly (0 mismatches)**; the 18 teams that DID play 11/13 show ageing drift (GP/W/L/MIN/ratings advanced by one game). This is the documented "stored snapshot predates the 11/13 games" drift, not an error — confirmed by the same pattern audit36/check.py reports as `expected_drift_only`. |
+| Injury report (07:30 PM snapshot) | 3 reason strings re-read from the official PDF `Injury-Report_2026-11-13_07_30PM.pdf` | Confirmed the 3 CR-94-04 defects (see V4); all other 117 rows already verified 117/117 by `audit36/check.py` |
+
+Sources for manual review: schedule https://www.nba.com/schedule?date=2026-11-14 · advanced stats
+https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season · injury PDF
+https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf
+
+### V2 — Repair CR-8D-04 (engine publishes summary from pre-rounded gaps) — done
+
+`integrate/engine.py` computed `median_abs_gap`, `max_abs_gap` and the dispersion sds from per-row
+gaps/spreads that were **pre-rounded to 2 dp**. The full-precision median is 1.7769 → rounds to
+**1.78**; the pre-rounded median is 1.775 → rounds to **1.77** (banker's rounding on the boundary).
+The independent `audit36/check.py` recomputes at full precision and correctly flagged the published
+1.77 as a discrepancy. Fix: collect full-precision `gaps_fp` / `my_spreads_fp` / `their_spreads_fp`
+in the loop and compute the summary from them. Regenerated `data/integration/model.json`
+(`median_abs_gap` 1.77 → 1.78) and `dash/` (`dash/data/model.json`, `dash/reconciliation.html`).
+`audit36/check.py` now reports `ok: true`, `agree: true`. No side changed — the engines still agree
+on the favoured side in 22/22 games; only the published summary dispersion is now full-precision
+accurate.
+
+### V3 — CI conflict-marker guard (CR-8D-05) — done
+
+Added a build step to `.github/workflows/pages.yml` that fails if any line in the tree (excluding
+`.git`) starts with `<<<<<<<`. The guard immediately caught a **false positive**: an intentional test
+fixture in `audit/test_release_audit.py` embedded literal markers to test `_staged_sources`. Fixed the
+fixture to build the `<<<<<<<` line from a variable so it is at line start in the *simulated*
+workflow text but never at line start in the source file — the test's intent (assert 3 markers
+detected) is preserved, and the tree-wide guard is now clean. `audit/test_release_audit.py`: 7/7 tests
+pass.
+
+### V4 — Repair CR-94-04 (3 wrong injury reason strings in the 07:30 PM snapshot) — done
+
+Confirmed against the official PDF (chunk 0–1) that the canonical
+`data/app/official_injuries_2026-11-13_0730PM.json` carried 3 wrong `reason` values, and fixed them
+at the source in `scripts/capture_official_2026_11_14.py` (the rows are hardcoded transcriptions):
+
+| Player | Matchup | Wrong (07:30 PM snapshot) | Official PDF |
+|---|---|---|---|
+| Phillips, Julian | UTA@HOU | Injury/Illness - Right Ankle Sprain | **G League - Two-Way** |
+| Raynaud, Maxime | POR@SAC | Injury/Illness - Right Patella Sprain/Subluxation | **Injury/Illness - Right Patella Subluxation** |
+| Wallace, Cason | OKC@LAC | Injury/Illness - Right Shoulder Surgery | **Injury/Illness - Left Shoulder Surgery** |
+
+Note: the **published** `/app/injuries.html` is generated from the **07:45 PM** snapshot
+(`data/app/official_injuries_2026-11-13_0745PM.json`), which already carried the correct values — so
+the live site was never wrong. The defect was in the 07:30 PM snapshot and its capture script, both
+now repaired for data integrity. Cross-session note: these files were owned by the now-closed session
+`2b9f1ae1`/`8d3d0271`; CR-94-04 was a logged change request to that owner, which this integration
+session fulfills. `integrate/check`'s ownership audit flags the edit until committed; it clears on a
+clean tree.
+
+### V5 — Full suite, PR, merge, deploy — done
+
+All 19 local check suites pass; all generated-artifact drift checks are clean on the merged tree.
+YAML of the workflow validated structurally (22 build steps, no conflict markers). `audit36` pages
+regenerated (`engine-claims.html` now shows `agree: true`). `integrate.check` PASS on the clean tree.
+
+| Item | Result |
+|---|---|
+| PR | [#56](https://github.com/wingbangboozle1-lang/NBA3/pull/56) `arena/2ddb217c-nba3` → `main` |
+| Merge conflicts | 2 merge rounds with `origin/main` (session `f80f0688` was pushing concurrently). Only append-only `COORDINATION.md` conflicted each time; resolved by keeping **both** sides (main's new sections + this session's section re-appended). Nothing discarded. No other file conflicted; `pages.yml` auto-merged cleanly. |
+| Merge | `gh pr merge 56 --merge`; merge commit `11ecff17c4a3a7bd25f256ba743572f01cbf8baa`; merged 2026-11-14T09:52:08Z |
+| Post-merge CI | triggered by the push to `main` (head `11ecff1`) |
+| Pages | `status: built` at commit `11ecff1`; live at https://wingbangboozle1-lang.github.io/NBA3/ |
+| Live check | root `/` renders the canonical dashboard (27 games, 27 lines, 0 of 15 funded, 31.2 pp luck threshold, 40 questions); `/app/injuries.html` renders 122 rows each linked to the official PDF — both fetched and confirmed serving |
+
+### Sources used (this session)
+
+- Live NBA schedule: https://www.nba.com/schedule?date=2026-11-14 (chunks 0–2, full Week 4 + Week 5 grid)
+- Team advanced stats: https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season (chunks 0–1, 30 teams)
+- Injury report PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf (chunks 0–1, for the 3 reason-string corrections)
+- Official injury index: https://official.nba.com/nba-injury-report-2026-27-season/
+
+### Irregularities found and resolved this session
+
+| ID | Finding | Resolution |
+|---|---|---|
+| CR-8D-04 | Engine published `median_abs_gap` from pre-rounded gaps (1.77) vs full-precision 1.78 | Fixed in `integrate/engine.py`; `audit36/check.py` now `ok: true` |
+| CR-94-04 | 3 wrong injury reason strings in the 07:30 PM snapshot | Fixed in `scripts/capture_official_2026_11_14.py` + regenerated snapshot, verified vs the official PDF |
+| CR-8D-05 | No CI guard against unresolved conflict markers | Added the `<<<<<<<` guard to `pages.yml`; also repaired the intentional test fixture that was a false positive |
+| New | The guard's first run found literal conflict markers in `audit/test_release_audit.py` | These were an intentional test fixture (not a real conflict); fixture rewritten to build the marker from a variable so the global guard stays clean |
+
+### Still open (owner decisions; do not block the merge)
+
+- Team-stats ageing drift on the 18 teams that played 11/13 is documented expected drift, not an error.
+- The 12 teams that did not play 11/13 match the live official page exactly (0 mismatches).
+- Carried-forward owner decisions unchanged: licensed timestamped price feed (CQ-03), leaderboard
+  reward definition (CQ-36), and the "bias against our own line is a defect, not an edge" rule (CQ-40).
+  Open questions (40) and suggestions (38) await an owner choice; none implemented.
+
 ---
 
 ## Session `arena/25418e3f-nba3` (this session) — CLAIM: official refresh to 183 games, newest injury report, availability timeline

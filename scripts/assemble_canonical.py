@@ -1126,6 +1126,14 @@ def build_session_flags():
     return out
 
 
+def build_round44_flags():
+    """Flags 44-F-01..03 from session 44e0c051 (commit b769edd). They were first hand-added to
+    canonical.json; they now live in data/app/flags_44e0c051.json so this assembler reproduces them.
+    Loaded verbatim; nothing is recomputed."""
+    with open(os.path.join(APP, "flags_44e0c051.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def build_session_questions():
     out = []
     for qid, cat, q, status, known, missing, nxt, sources, owner in SESSION_QUESTIONS:
@@ -1360,7 +1368,7 @@ def main():
         "oos_sample": lab["oos_sample"],
         "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags() + build_session_flags(),
+        "flags": build_flags() + build_session_flags() + build_round44_flags(),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}
