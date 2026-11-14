@@ -51,11 +51,11 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PUBLISH_DP = 6   # decimals kept in lab.json; see _round_floats()
 OUT = os.path.join(ROOT, "data", "app", "lab.json")
 
-GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
-PLAYERS_CSV = os.path.join(ROOT, "data", "origin", "players_top_minutes.csv")
-SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate_1114_1117.json")
-RATINGS_JSON = os.path.join(ROOT, "data", "app", "official_team_ratings_2026-11-14b.json")
-INJURY_JSON = os.path.join(ROOT, "data", "app", "official_injuries_2026-11-13_0745PM.json")
+GAMES_CSV = os.path.join(ROOT, "data", "app", "games_2026-11-14c.csv")
+PLAYERS_CSV = os.path.join(ROOT, "data", "app", "players_top31_2026-11-14c.csv")
+SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate_1114_1117_c.json")
+RATINGS_JSON = os.path.join(ROOT, "data", "app", "official_team_ratings_2026-11-14c.json")
+INJURY_JSON = os.path.join(ROOT, "data", "app", "official_injuries_2026-11-14_0445AM.json")
 PRIOR_SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate.json")
 
 # --------------------------------------------------------------------------
@@ -68,6 +68,12 @@ PRIOR_SLATE_JSON = os.path.join(ROOT, "data", "app", "official_slate.json")
 # in it, so lab.json stays byte-reproducible, which the CI drift gate relies on.
 # --------------------------------------------------------------------------
 MANIFEST_JSON = os.path.join(ROOT, "data", "app", "snapshot_manifest.json")
+
+# Set by _apply_manifest when the manifest names a second capture of the same official page.
+# Session arena/bd90ce16 appended the same nine 2026-11-13 finals to its own copy of the log
+# while this session was extending the canonical file, so the two are cross-checked on every
+# build rather than reconciled by prose. See flag NF-66 and question CQ-47.
+SECOND_CAPTURE_GAMES_CSV = None
 AVAILABILITY_JSON = os.path.join(ROOT, "data", "app", "report_availability.json")
 
 # The four availability states, defined by scripts/report_availability.py and
@@ -79,7 +85,7 @@ AV_STATES = (AV_FILED, "DUE_AND_NOT_FILED", "NOT_YET_DUE",
 
 
 def _apply_manifest():
-    global SLATE_JSON, RATINGS_JSON, INJURY_JSON
+    global SLATE_JSON, RATINGS_JSON, INJURY_JSON, GAMES_CSV, PLAYERS_CSV, SECOND_CAPTURE_GAMES_CSV
     if not os.path.exists(MANIFEST_JSON):
         return None
     with open(MANIFEST_JSON, encoding="utf-8") as fh:
@@ -91,7 +97,57 @@ def _apply_manifest():
         path = resolve(block)
         if path:
             globals()[setter + "_JSON"] = path
+    # CS-45, option A: every input the lab reads is named by the manifest, so a refresh is a data
+    # change and two sessions cannot silently disagree about which file the engine uses.
+    path = resolve("players")
+    if path:
+        PLAYERS_CSV = path
+    # The results log is the canonical file, not a per-session copy (CQ-42). Any session may
+    # capture the same official page again; that copy is registered as a cross-check instead of
+    # silently becoming the engine's input.
+    rel = (man.get("results_log") or {}).get("path")
+    if rel:
+        GAMES_CSV = os.path.join(ROOT, *rel.split("/"))
+    rel = (man.get("results_log") or {}).get("cross_check_copy")
+    if rel:
+        SECOND_CAPTURE_GAMES_CSV = os.path.join(ROOT, *rel.split("/"))
     return man
+
+
+def _second_capture_agreement(games):
+    """Row-set agreement between the canonical result log and a second capture of the same page.
+
+    Returns a published dict either way: when the second file is absent the entry says UNVERIFIED
+    rather than defaulting to agreement.
+    """
+    key = lambda g: (g["date"], g["gid"], g["away"], g["away_pts"], g["home"], g["home_pts"], bool(g["ot"]))
+    out = {"canonical": os.path.relpath(GAMES_CSV, ROOT), "second_capture": None,
+           "rows_canonical": len(games), "rows_second": None, "identical": None, "detail": []}
+    if not SECOND_CAPTURE_GAMES_CSV or not os.path.exists(SECOND_CAPTURE_GAMES_CSV):
+        out["detail"] = ["no second capture registered - agreement UNVERIFIED, not assumed"]
+        return out
+    rows = []
+    with open(SECOND_CAPTURE_GAMES_CSV, encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            rows.append({"date": r["date"], "gid": r["game_id"], "away": r["away"],
+                         "home": r["home"], "away_pts": int(r["away_pts"]),
+                         "home_pts": int(r["home_pts"]),
+                         "ot": r["ot"] not in ("", "0", "None")})
+    a, b = {key(g) for g in games}, {key(g) for g in rows}
+    out["second_capture"] = os.path.relpath(SECOND_CAPTURE_GAMES_CSV, ROOT)
+    out["rows_second"] = len(rows)
+    out["identical"] = (a == b)
+    if a - b:
+        out["detail"].append("only in canonical: " + "; ".join("/".join(map(str, x)) for x in sorted(a - b)[:5]))
+    if b - a:
+        out["detail"].append("only in second capture: " + "; ".join("/".join(map(str, x)) for x in sorted(b - a)[:5]))
+    if not (a - b) and not (b - a):
+        out["detail"].append(
+            "two sessions extended data/origin/games.csv and data/app/games_2026-11-14c.csv "
+            "independently from the official scoreboard; the row sets agree exactly, including "
+            "game id, both scores and the overtime flag. Row order differs (each file appends "
+            "where it likes); the engine sorts by date and game id, so order is not a finding.")
+    return out
 
 
 MANIFEST = _apply_manifest()
@@ -291,8 +347,13 @@ def american_from_prob(p):
 # data loading
 # --------------------------------------------------------------------------
 def load_games():
-    """174 official final scores captured from nba.com/games by an earlier
-    session and re-verified there (348 team-games, 0 mismatch vs official GP)."""
+    """Every official final score in the result log the manifest names.
+
+    The count is not restated here on purpose: a hard-coded figure in a docstring is a claim that
+    goes stale the moment the log is extended, which is exactly what happened to the previous
+    wording ("174 official final scores"). The reconciliation against the official games-played
+    column is check C1 in data/app/snapshot_manifest.json, and the cross-capture agreement is
+    published as second_capture_agreement below."""
     rows = []
     with open(GAMES_CSV, encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
@@ -1756,6 +1817,7 @@ def main():
             "built_utc": "2026-11-14T01:30Z",
             "window": {"from": slate["window"]["from"], "to": slate["window"]["to"]},
             "games_captured": len(games),
+            "second_capture_agreement": _second_capture_agreement(games),
             "oos_games": len(graded),
             "burn_in": BURN_IN,
             "seed": SEED,

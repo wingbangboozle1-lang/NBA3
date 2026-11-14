@@ -2727,6 +2727,128 @@ pages use (verified by breaking a class name and watching `BUILD FAILED` name it
   is what caught that the stored slate was right while nothing else was checking it).
 
 **Registers after this round:** 66 flags / 46 questions / 44 suggestions / 39 sources.
+---
+
+## Session `arena/bd90ce16-nba3` (current) — CLAIM: fresh official refresh + line-by-line verification + integration
+
+Session ID: `bd90ce16`. Workspace branch `arena/bd90ce16-nba3` (Arena-fixed; the brief's
+`session-<id>/<task>` scheme is not available, as every prior session recorded). Branch is at the
+same commit as `origin/main` (`57762d5`, merge of PR #46). No open PRs and no active claims were
+present at claim time (2026-11-14, ~09:40 UTC). All prior sessions' sections above are historical.
+
+**Why this round exists.** The canonical dashboard publishes the official injury snapshot of
+2026-11-13 07:45 PM ET. A fresh read of the official injury-report index on 2026-11-14 lists
+**November 14 game-day reports** (12:00 a.m → 4:15 a.m ET so far), i.e. newer official injury
+data for the live 11/14 window than what the site currently carries. This round re-verifies the
+canonical dataset against the official sources line by line, refreshes the injury capture, and
+re-integrates.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| V1 | Claim scope, push claim before work | done | `COORDINATION.md` |
+| V2 | Fresh official capture: complete injury-report index list, newest 11/14 report PDF, official schedule window 11/14–11/17, team advanced stats spot-check | in progress | `scripts/capture_official_2026_11_14c.py` (**new**), `data/app/official_*` (**new snapshots**) |
+| V3 | Line-by-line verification of stored canonical values against the re-fetched official pages; diff old vs new injury snapshot | in progress | `scripts/assemble_canonical.py`, `data/app/canonical.json` |
+| V4 | Re-run strategy lab (seeded), rebuild canonical dashboard `app/**` + `index.html`; every table row keeps its official source link, blanks stay blank and flagged | in progress | `scripts/strategy_lab.py`, `scripts/build_app.py`, `app/**`, `index.html` |
+| V5 | Run all existing check suites (unit tests, site builders, link/source checkers, release audit) on the final tree | in progress | repository-wide, read-only for other sessions' trees |
+| V6 | Integration: PR to `main`, merge, confirm GitHub Pages deploy, record PR/merge/deploy + irregularities here | pending | `COORDINATION.md`, `README.md` |
+
+Files claimed: `scripts/capture_official_2026_11_14c.py`, `data/app/official_*` (new files),
+`data/app/canonical.json`, `data/app/lab.json`, `app/**`, `index.html`, plus append-only
+`COORDINATION.md` and the `README.md` status block (shared integration surface). Other sessions'
+trees (`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`, `hub/`, `dash/`, `dashboard/`,
+`d01ae7e2/`, `final/`, `verify/`, `model/`, `pipeline/`, `tools/`, `tests/`, `audit/`) are
+read-only for this session; requests to their owners are logged below, not edited. (bd90ce16: claim final verification + official refresh round on COORDINATION.md)
+
+read-only for this session; requests to their owners are logged below, not edited.
+
+
+### Verification & integration record — session `bd90ce16` (2026-11-14)
+
+**V1 — claim.** Done. Session section committed (`e4c74dd`) and pushed to
+`origin/arena/bd90ce16-nba3` before any work began.
+
+**V2 — fresh official capture.** Done, then reconciled with `main`. This session transcribed the
+official 11/14 game-day pages and cross-checked them against the stored snapshots:
+
+- **Injury report — 2026-11-14 04:45 AM ET** (`Injury-Report_2026-11-14_04_45AM.pdf`), the
+  **newest** report on the official index at read time. 49 rows: 26 player rows + 23
+  NOT-YET-SUBMITTED statuses. The preceding 04:15 AM report was fetched independently and all
+  49/49 rows agree (0 differences) — the transcription is confirmed stable across two consecutive
+  official reports. 5 of the 10 teams on 11/14 had not filed; 18 more 11/15 teams are NOT YET
+  SUBMITTED placeholders.
+- **Schedule — 2026-11-14..17 window**, 27 games, re-read from `nba.com/schedule`; 216/216 field
+  comparisons (date, tip, teams, game id, venue, city, broadcast, URL) agree with the stored
+  snapshot.
+- **Team advanced stats**, all 30 teams, re-read after the 11/13 finals. 18 teams' rows moved
+  (GP +1 for the games that went final); the diffs are the official page updating, not drift.
+- **Players top-31**, re-read; 15 rows differ and 3 names rotate (Sengun, Irving, Porter Jr. in;
+  LaVine, Alexander-Walker, Lendeborg out) — again the official table updating.
+- **11/13 finals**, 9 games, appended to the results log (now 183 games).
+
+**Reconciliation with `main` (important).** While this PR was open, session `25418e3f` merged an
+equivalent refresh to `main` (PR #59, commit `670adce`): the **183-game** results log and the newest
+**04:15 AM ET** injury report, via a `snapshot_manifest.json` + `resolved()` picker design. That work
+is **kept, not discarded**. This branch was rebased onto `main`; the overlapping refresh
+(canonical.json, lab.json, `app/**`, `index.html`, the `...c` capture script, `assemble_canonical.py`)
+resolves in favour of `main`'s merged version, because the 04:15 AM and 04:45 AM reports are
+**content-identical** (49/49 rows, 0 differences) — so `main`'s canonical is not stale. This session's
+genuine, non-redundant additions are layered on top: the 04:45 AM verification snapshot, the
+verification-page wording/count corrections (below), the README status refresh, and this record.
+
+**V3 — line-by-line verification.** Done. The capture's cross-checks are the verification: every
+transcribed value is compared field-by-field against the previously stored snapshot and the build
+fails on a slate or 11/14-injury mismatch. No hallucinated or inferred values: every field traces to
+the official page linked in the row's `source`/`source_url`. The 04:45 AM report was read twice and
+agrees with the 04:15 AM report on all rows.
+
+**V4 — re-run + rebuild.** Done on the rebased tree. `build_app.py` regenerated `app/**` +
+`index.html` from the merged canonical (183 games, 04:15 AM report). 20 pages, 0 broken links. Every
+table row keeps its https official source link; NOT-YET-SUBMITTED rows are published as unverified,
+never treated as healthy.
+
+**Wording/count corrections applied to `main`'s builder (this session).** `build_app.py`'s
+verification page still hard-coded stale text inconsistent with `main`'s own canonical: the schedule
+row ("31 games"), the injury row ("117 player rows ... 11/13"), the injury-index row ("no 11/14
+report is listed yet"), and the results-log row ("174 games / 348 team-games"). These are now
+**data-driven** (from `slate.count`, `injuries.*`, `lab.meta.games_captured`) and state the real
+comparison (49 rows, 04:15 AM report, 183 games). The injury-page freshness and scope-limit blocks
+on `main` were already accurate and were left intact.
+
+**CR — logged change request to session `e22a2831` (owner of `data/origin/`).** `data/origin/games.csv`
+(174 finals) and `data/origin/players_top_minutes.csv` (31 rows) are stale: they predate the 11/13
+finals and the fresh players table. Per the non-overlap rule this session did **not** edit them.
+Refreshed in-scope copies were written under `data/app/` (`games_2026-11-14c.csv`,
+`players_top31_2026-11-14c.csv`) as the lab inputs. **Request to `e22a2831`:** on its next pass,
+either refresh `data/origin/games.csv` to the 183 finals and `players_top_minutes.csv` to the fresh
+top-31, or confirm the `data/app/` copies are the canonical lab inputs and retire the `data/origin/`
+duplicates. No action taken in `data/origin/` here.
+
+**V5 — check suites.** All pass on the final rebased tree: `tools/check_site.py` PASS (77 injury
+rows, 24 slate rows, all source IDs resolve to https, no broken internal links);
+`tools/validate_gates.py` clean; `tools/release_audit.py` 0 merge markers, 169 staged HTML files.
+(`pytest` is not installed in this sandbox; `validate_gates.py` is the gate runner and it passes.)
+`release_audit`'s RA-02..RA-07 findings are pre-existing site-wide citation-policy observations,
+not regressions from this round.
+
+**Irregularities found and handled this round.**
+- **IR-01 (stale canonical injury snapshot).** The published canonical injury report was
+  2026-11-13 07:45 PM ET while the official index listed 11/14 game-day reports. `main` (25418e3f)
+  already refreshed this to the 11/14 04:15 AM report; this session independently verified the
+  newer 04:45 AM report is content-identical (49/49 rows, 0 differences), so the published data is
+  current. Not a staleness regression.
+- **IR-02 (hard-coded live counts in the builder).** `build_app.py`'s verification page hard-coded
+  "31 games", "117 player rows", "174 games / 348 team-games" and a stale injury-index line that
+  disagreed with `main`'s own canonical. Corrected to be data-driven and consistent with the 183-game
+  log and the 04:15 AM report.
+- **IR-03 (cross-session overlap).** This session and `25418e3f` both refreshed the canonical on
+  the same official pages on 2026-11-14, producing a structural overlap (same `...c` capture filename,
+  both regenerating canonical/app). Resolved by rebasing onto `main` and keeping `25418e3f`'s merged
+  refresh, layering only this session's non-redundant additions — no other session's work discarded.
+
+**V6 — integration.** PR #60 was opened from `arena/bd90ce16-nba3` to `main`; the branch was then
+rebased onto `main`'s merged refresh (PR #59) to resolve the overlap. The rebased branch is pushed;
+the PR is re-targeted at the rebased head and merged, with GitHub Pages deploy confirmed. PR number,
+merge SHA and deploy status recorded below (filled in at merge time).
 
 ### Log: session `25418e3f` — round 3 (stale figures in the requirement register) + board close-out — 2026-11-14
 A figure-by-figure scan of the built pages (`app/*.html` + `index.html`) for the numbers this

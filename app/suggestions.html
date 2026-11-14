@@ -528,6 +528,17 @@ questions</a> page.</p>
 <td>Awaiting owner review</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
 </tr>
+<tr>
+<td>CS-45</td>
+<td>Data pipeline</td>
+<td>Make the snapshot manifest the only place an input path is decided: capture scripts write files and update the manifest, engines read the manifest, and no engine carries a default pointing at one session&#x27;s capture.</td>
+<td>The 2026-11-14 near-miss came from exactly that. A parallel refresh re-pointed scripts/strategy_lab.py&#x27;s GAMES_CSV at its own copy of the log, and the committed artefact was not rebuilt, so main&#x27;s build went red while both data sets were correct. CQ-42 asked for one canonical log; this is the mechanism that keeps it canonical.</td>
+<td>A: manifest-only resolution, with an engine default that raises instead of guessing; B: keep the defaults and add a CI check that every engine path equals the manifest path; C: nothing.</td>
+<td>A — the drift gate caught a broken build but not a broken choice; removing the second source of truth stops the argument recurring on every refresh.</td>
+<td>Depends on CQ-42 (one canonical log) and CQ-47 (which capture is canonical). PARTLY IMPLEMENTED 2026-11-14 as option A for all five engine inputs (results log, slate, ratings, injuries, players): scripts/strategy_lab.py resolves every path through the manifest, and the canonical log is named there, so a session can no longer move the engine by editing a default.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
