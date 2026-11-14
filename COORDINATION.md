@@ -3072,3 +3072,88 @@ and 11/17 7:30 PM) — re-verified against the live schedule; the stored slate i
 
 Working tree after all builders re-ran: **completely clean** (every generated artefact reproduces
 byte for byte from committed inputs).
+## Session `arena/8e199e09-nba3` — integration round: additive register items on the merged
+refresh rounds (25418e3f, bd90ce16, 8efd914d, 3bf80157) — 2026-11-14
+
+**Claim (first logged in commit `c7ae95b`, dropped as already-upstream during rebase, re-logged here).**
+Scope: fold CR-53653a5c-A's injury-delta provenance into the canonical site, close the slate
+remainder of the 2026-11-14 refresh, re-pin engine freshness, executive summary, integration.
+Session ID `8e199e09`; no other session's claimed files edited.
+
+**Overlap disclosure (read this first).** While this session was running its own capture-c round
+(fresh team advanced stats read 10:25Z, official 11/12+11/13 finals, 174→183 games.csv extension,
+refit engine), the parallel session `25418e3f` executed **the same core refresh** and merged it
+first (PRs #59 and #61). Deterministic convergence check before deciding anything: both rounds'
+engines produced **identical** numbers (margin RMSE 15.9446 vs constant 16.9208; totals 19.4486 vs
+19.3864; 140 out-of-sample forecasts; luck threshold 28.947 pp vs best real edge +10.7 pp; zero
+funded rules), i.e. same inputs + same seed. This session therefore **adopted the 25418e3f tree
+wholesale** for every shared/conflicting file (`scripts/strategy_lab.py`,
+`scripts/assemble_canonical.py`, `scripts/build_app.py`, `verify/build.py`, `verify/pages/`,
+`data/app/official_results_2026-11-13.json`, `official_injuries_2026-11-14_0415AM.json`,
+`official_team_ratings_2026-11-14c.json`, `official_counts_2026-11-14.json`,
+`data/origin/games_extended_provenance.json`, `app/freshness.html`, `app/assets/app.css`,
+`data/app/snapshot_manifest.json`) and dropped its own superseded capture artifacts
+(`official_finals_2026-11-12_13.json` and the duplicate ratings JSON): one capture chain on main,
+not two competing ones. The pre-push `git pull --rebase origin main` wedged on COORDINATION.md
+(both sessions append to the same file); resolved by `git rebase -X ours origin/main` (all content
+conflicts resolved in favour of upstream text) followed by a clean re-add of this session's purely
+additive items below. Nothing authored by another session was rewritten.
+
+**What this round adds on top of PRs #59/#61 (all additive, no overlap):**
+- **CR-26fd5f6f-A executed in the register**: new flag **8E-F-03** (data/app/flags_8e199e09.json,
+  loaded by a new `build_round8e_flags()` in the assembler, same pattern as
+  `build_round44_flags`) — corrects session 53653a5c's F53-03 wording: the seven games it counted
+  as a missing-11/14 gap are 11/15 games; the 11/14 snapshot was complete for the five 11/14 games.
+- **CR-53653a5c-A executed on the site**: the injuries page's freshness callout now cites
+  `data/app/injury_delta_0415am.json` (17/17 attributed rows identical, 29 fragmented rows
+  unverified-never-counted) and `audit26/` (31/31), and applies the CR-26fd5f6f-A correction
+  inline, linking 8E-F-03.
+- **CS-46** (new suggestion, Engine inputs; ID note: first logged as CS-45 in this session's
+  earlier commits, renumbered because session 3bf80157's CS-45 — manifest-only input resolution —
+  landed on main first): make the results log itself a build-time contract —
+  fail the build when `data/origin/games.csv` ends before the priced window minus one day, and
+  append missing finals from the newest official capture in the same step; extends CS-43, depends
+  on CQ-42. Awaiting owner review (no implementation without it).
+- **R-14 / R-15** (new review findings; renumbered from the session's earlier R-15/R-16 after
+  the rebase onto `8b43529` showed R-14 free): generated-file hand-patching (resolved by PR #52's
+  pattern) and the missing in-file source note on `data/origin/games.csv` (partially improved by
+  the provenance file; pre-11/12 rows remain CR-36).
+- **`tests/test_capture_c.py` rewritten as data-level pins** (5 tests, all passing) because
+  25418e3f's capture script exposes a different API than the dropped duplicate: league arithmetic
+  (sum GP/2 = 183 = log rows), full 30-team W/L reconciliation vs the whole log, the nine official
+  11/13 finals vs the log (scores + OT), 04:15 AM rows equal to the stored 07:45 PM rows on the
+  11/14 slate (join keyed date+matchup+player because of the documented empty-team-cell
+  irregularity F26-01 — Traore, Nolan), and the provenance file's exact 174→183/9-row extension.
+- **CI wiring fix**: the capture-c step this session had added for its own duplicate now runs
+  `scripts/capture_official_2026_11_14c.py` (25418e3f's script) and drift-gates that script's four
+  committed outputs; the unit-test step keeps `test_capture_c.py`.
+- **Slate remainder of the refresh — closed by verification, no drift to apply.**
+  `data/app/official_slate_1114_1117.json` (27 games, 5/9/8/5, retrieved 01:05Z) is now validated
+  against the official scoreboard calendar by capture-c's standing C6 check in CI; the stored
+  slate was already correct, so nothing was rewritten.
+- **Executive summary refreshed** to the post-refresh state: section 2 metrics (183/183,
+  27/27 slate, 49-row 04:15 AM overlay, 27 originated lines / 0 funded), a dated refresh paragraph
+  superseding the 174-era freshness note (kept for provenance), and a section-5 lead describing the
+  canonical pricing state; all earlier rows retained below the new ones.
+- **audit36 CR-25418E3F-03 remains open** (owner choice: re-run vs dated caption) — not this
+  session's scope, not executed.
+
+**Verification record (all run locally this round, exit 0):** 5/5 `tests/test_capture_c.py`,
+3/3 `tests/test_injury_delta.py`, 13/13 `tests/test_validate_gates.py`; capture-c all six checks
+(C1–C6) pass with zero drift on the committed artifacts; assembler → 67 flags / 46 questions /
+45 suggestions / 15 review findings / 39 sources / 23 requirements, all consumers rebuilt;
+`build_app.py` → 20 pages, link check 21 pages 0 broken; `integrate.engine` + `build_site` green
+(15 dash pages); `integrate.check` failures were only its uncommitted-tree warnings and cleared on
+commit. Sources for the underlying transcription are the official pages recorded inside the
+adopted artifacts (nba.com/stats/teams/advanced, nba.com/games?date=2026-11-12 and -13,
+official.nba.com injury-report index and its 04:15 AM PDF) — read and persisted by session
+25418e3f, re-validated by the six capture checks rather than re-fetched.
+
+**Irregularities:** none new. Inherited and documented, not fixed (not this session's files):
+the empty team cell on the Traore row (F26-01) is handled explicitly in the new unit test;
+`audit36/build.py:205` present-tense F36-03 text is CR-25418E3F-03's item (1), still open.
+
+**Register after this round: 67 flags / 46 questions / 45 suggestions / 15 review findings /
+39 sources / 23 requirements.** PR from this branch: created immediately after this commit; link
+and merge/Pages result appended in the follow-up commit below if the session continues, otherwise
+by the next session per protocol.

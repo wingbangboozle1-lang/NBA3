@@ -56,6 +56,10 @@ jobs:
           echo "No unresolved conflict markers."
       - name: Unit tests (statistics module, f879620b)
         run: python3 -m unittest tests/test_validate_gates.py
+      - name: Unit tests (injury-delta and capture-c cross-check rules, 8e199e09)
+        run: |
+          python3 -m unittest tests/test_injury_delta.py
+          python3 -m unittest tests/test_capture_c.py
       - name: Data site checks (docs/ rows, sources, links)
         run: python3 tools/check_site.py
       - name: Unit tests (research pipeline, 9ed6085f)
@@ -166,6 +170,10 @@ jobs:
         run: |
           python3 scripts/capture_official_2026_11_14b.py
           git diff --exit-code -- data/app/official_slate_1114_1117.json data/app/official_team_ratings_2026-11-14b.json data/app/official_injuries_2026-11-13_0745PM.json
+      - name: Official capture c - fresh ratings, finals capture, results-log cross-check (25418e3f, step wired by 8e199e09)
+        run: |
+          python3 scripts/capture_official_2026_11_14c.py
+          git diff --exit-code -- data/app/official_results_2026-11-13.json data/app/official_injuries_2026-11-14_0415AM.json data/app/official_team_ratings_2026-11-14c.json data/app/official_counts_2026-11-14.json
       - name: Injury-report freshness re-check vs the newest official report (arena/3bf80157)
         run: |
           # Parses the committed verbatim fetch of the newest official injury

@@ -29877,6 +29877,21 @@
    "severity": "low",
    "legacy_ref": "",
    "found_on": "2026-11-14"
+  },
+  {
+   "id": "8E-F-03",
+   "area": "Cross-session corrections",
+   "item": "CR-26fd5f6f-A applied: F53-03 wording corrected - the 7 games it names are 11/15 games, not missing 11/14 games.",
+   "why": "Session 53653a5c's flag F53-03 said the stored snapshot was 'incomplete for the 11/14 slate' because it had no rows for CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC. The official schedule lists all seven on Sunday 11/15 (the report prints times without AM/PM). The 11/14 snapshot is complete for the five 11/14 games. No earlier round carried this correction into the flag register; the 2026-11-14 refresh round (25418e3f) superseded the underlying snapshot question by switching the injury overlay to the 04:15 AM ET report, which contains the 11/15 NOT-YET-SUBMITTED rows.",
+   "action_needed": "None - correction published here for the register; treat any 'incomplete 11/14 slate' phrasing in earlier logs as corrected by CR-26fd5f6f-A.",
+   "sources": [
+    "https://www.nba.com/schedule",
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "Correction published (CR-26fd5f6f-A executed by session arena/8e199e09-nba3)",
+   "severity": "low",
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
   }
  ],
  "review_findings": [
@@ -30034,6 +30049,30 @@
    ],
    "handling": "Open for the earlier sub-sites (lab 184, origin 73, site 29, edge 10, docs 5 rows without a direct official link; the archived root dashboard 34). The canonical pages contribute 0.",
    "legacy_ref": "R-13",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "R-14",
+   "severity": "Medium",
+   "finding": "Generated artefacts were hand-patched in an earlier round: flags 44-F-01..03 were written directly into data/app/canonical.json (a generated file) rather than into its generator, so a rebuild would have silently dropped them.",
+   "next_action": "Never edit a generated file by hand; add the data to the generator or to a data file it loads, then rebuild.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions"
+   ],
+   "handling": "Resolved on main by PR #52 (flags now live in data/app/flags_44e0c051.json and are reproduced by the assembler). Session arena/8e199e09-nba3 followed the same pattern for the CR-26fd5f6f-A correction flag (data/app/flags_8e199e09.json).",
+   "legacy_ref": "R-14",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "R-15",
+   "severity": "Low",
+   "finding": "data/origin/games.csv carried no in-file source annotation, unlike the data/raw/ results CSVs which cite Basketball-Reference (flagged as CR-36).",
+   "next_action": "Keep a source note with every raw data file, or a single documented capture script per file.",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
+   ],
+   "handling": "Partially improved: the appended 11/13 rows are documented in data/app/official_results_2026-11-13.json and data/origin/games_extended_provenance.json (official games pages, official game ids, session 25418e3f), and the log is reconciled against the official team table. Full historical row-level sourcing for the pre-11/12 rows remains open (CR-36).",
+   "legacy_ref": "R-15",
    "found_on": "2026-11-14"
   }
  ],
@@ -31375,6 +31414,20 @@
    "decision": "Awaiting owner review",
    "sources": [
     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"
+   ],
+   "legacy_ref": ""
+  },
+  {
+   "id": "CS-46",
+   "area": "Engine inputs",
+   "suggestion": "Add a results-log freshness gate to the build: fail when data/origin/games.csv ends before the day before the priced window, and append any missing finals from the newest official capture in the same step.",
+   "why": "The 11/13 finals gap (flag F36-03) was open for half a day and priced into the 11/14 lines until session 25418e3f closed it by hand; nothing in the build would have failed. CS-43 puts the per-date count check inside capture scripts; this gate makes the LOG itself a build-time contract, so pricing can never run one day behind the official record again.",
+   "options": "A: manual append per slate (current); B: build step that appends any missing finals from the newest data/app/official_results_*.json capture, re-runs the seeded lab and fails if the log still ends before the window minus one day; C: scheduled nightly re-capture.",
+   "recommended_option": "B, with the capture cross-checks (records reconcile against the official team table) as the gate. Determinism is preserved by committing the regenerated artefacts.",
+   "dependency": "Depends on the results-log consolidation decision (CQ-42); extends CS-43. ID note: first logged as CS-45 by session 8e199e09; renumbered CS-46 because session 3bf80157's CS-45 (manifest-only input resolution) landed on main first.",
+   "decision": "Awaiting owner review",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-13"
    ],
    "legacy_ref": ""
   }

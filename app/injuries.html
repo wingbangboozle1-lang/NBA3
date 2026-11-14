@@ -42,7 +42,15 @@ with. The comparison that exists is against the report it supersedes
 <strong>31 rows in common on the 2026-11-14 slate,
 0 status changes</strong>. An overnight gap of nine hours
 and one slate-turning set of games produced no movement at all, which is why these rows can be
-published as settled for today. The build fails if a future report disagrees.</p>
+published as settled for today. The build fails if a future report disagrees. The earlier
+row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
+as change request <strong>CR-53653a5c-A</strong>) is published at
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
+(17/17 attributed rows identical; 29 fragmented rows listed unverified, never counted), and
+session 26fd5f6f independently matched <strong>31/31</strong> rows — see
+<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>.
+Correction CR-26fd5f6f-A is applied: the seven games once miscounted as a gap in the 11/14 slate
+are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
 
 <div class="callout warn">
 <p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and

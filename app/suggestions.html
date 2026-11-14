@@ -539,6 +539,17 @@ questions</a> page.</p>
 <td>Awaiting owner review</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json</a></td>
 </tr>
+<tr>
+<td>CS-46</td>
+<td>Engine inputs</td>
+<td>Add a results-log freshness gate to the build: fail when data/origin/games.csv ends before the day before the priced window, and append any missing finals from the newest official capture in the same step.</td>
+<td>The 11/13 finals gap (flag F36-03) was open for half a day and priced into the 11/14 lines until session 25418e3f closed it by hand; nothing in the build would have failed. CS-43 puts the per-date count check inside capture scripts; this gate makes the LOG itself a build-time contract, so pricing can never run one day behind the official record again.</td>
+<td>A: manual append per slate (current); B: build step that appends any missing finals from the newest data/app/official_results_*.json capture, re-runs the seeded lab and fails if the log still ends before the window minus one day; C: scheduled nightly re-capture.</td>
+<td>B, with the capture cross-checks (records reconcile against the official team table) as the gate. Determinism is preserved by committing the regenerated artefacts.</td>
+<td>Depends on the results-log consolidation decision (CQ-42); extends CS-43. ID note: first logged as CS-45 by session 8e199e09; renumbered CS-46 because session 3bf80157&#x27;s CS-45 (manifest-only input resolution) landed on main first.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
