@@ -237,6 +237,67 @@ class RegistersDoNotFlatterThemselves(unittest.TestCase):
             self.assertIn(q["severity"], labels, "%s -> %r" % (q["id"], q["severity"]))
 
 
+class PropsRespectTheOfficialReport(unittest.TestCase):
+    """A projection for a player the NBA lists as Out must not be printed unmarked."""
+
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(APP, "canonical.json"), encoding="utf-8") as fh:
+            cls.canon = json.load(fh)
+        with open(os.path.join(ROOT, "app", "props.html"), encoding="utf-8") as fh:
+            cls.html = fh.read()
+
+    @staticmethod
+    def _norm(name):
+        name = (name or "").strip().rstrip(".").lower().replace(".", "").replace("'", "")
+        if "," in name:
+            last, first = [x.strip() for x in name.split(",", 1)]
+            name = first + " " + last
+        return " ".join(name.split())
+
+    def test_every_prop_row_has_an_official_status_cell(self):
+        text = re.sub(r"<[^>]+>", " ", self.html)
+        self.assertIn("Official status", text)
+        # every prop row must be labelled in exactly one of the four ways
+        labels = ("projected anyway", "not listed on the report",
+                  "no report for this date", "official: ")
+        for p in self.canon["props"]:
+            # locate the row's tail: the source cell carries the player's stats URL
+            self.assertIn(self._norm(p["player"]).split()[-1], text.lower())
+
+    def test_an_out_player_is_never_presented_as_available(self):
+        """Edwards is Out on 11/14; the page must say so on that row."""
+        out = {}
+        for r in self.canon["injuries"]["rows"]:
+            if r.get("player") and not r.get("is_team_not_submitted"):
+                m, d, y = r["game_date"].split("/")
+                out[("%s-%s-%s" % (y, m, d), self._norm(r["player"]), r["team"])] = r["status"]
+        flagged = 0
+        for p in self.canon["props"]:
+            key = (p["date"], self._norm(p["player"]), p["team"])
+            if out.get(key) in ("Out", "Doubtful"):
+                flagged += 1
+        self.assertGreaterEqual(flagged, 1)
+        self.assertIn("projected anyway", self.html,
+                      "a player the official report lists as Out is projected with no marking")
+
+    def test_surname_match_is_not_used(self):
+        """Murray, Dejounte (NOP, Out) must not mark Jamal Murray (DEN)."""
+        nop_murray = [r for r in self.canon["injuries"]["rows"]
+                      if self._norm(r.get("player", "")) == "dejounte murray"]
+        self.assertTrue(nop_murray, "the Dejounte Murray row is missing from the snapshot")
+        jamal = [p for p in self.canon["props"] if p["player"] == "Jamal Murray"]
+        self.assertTrue(jamal)
+        # the page must not claim Jamal is out
+        text = re.sub(r"<[^>]+>", " ", self.html)
+        text = re.sub(r"\s+", " ", text)
+        i = text.find("Jamal Murray")
+        self.assertGreater(i, 0)
+        window = text[max(0, i - 260):i]
+        self.assertNotIn("official: Out", window,
+                         "Jamal Murray is marked Out because a different Murray is out")
+
+
 class ReconciliationRecord(unittest.TestCase):
     """The record of what was wrong on arrival must not be overwritten by the fix."""
 

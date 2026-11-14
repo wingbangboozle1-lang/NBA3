@@ -1163,11 +1163,72 @@ columns are therefore blank, and blank is the truthful value.</p>
 <p>What the page <em>can</em> show honestly: the official season averages of the highest-minute
 players on each team in the window, and our projection, which for now is simply that average with
 no adjustment. Both are labelled for what they are.</p>
+<p><strong>Every row is cross-checked against the official injury report this build publishes</strong>,
+by full name and team on the same date — surname matching is not used, because the 11/14 report
+carries <em>Murray, Dejounte</em> (NOP, Out) and a surname match would mark Jamal Murray (DEN) as
+unavailable. The result of that join is the first column: __OUT__ player__OUTS__ the NBA lists as
+<strong>Out or Doubtful</strong> __OUTIS__ projected here anyway, marked <em>UNVERIFIED — projected
+anyway</em>; __NOLIST__ rows are players no official report for that date lists at all, which is
+<em>not</em> a clean bill of health, and __NOREP__ rows are dates no report covers yet.</p>
 """)
+    # Cross-check every projected player against the official injury report this
+    # build publishes. A player the NBA lists as Out cannot be projected to play
+    # 33 minutes on that date; printing him unmarked was the defect. The page shows
+    # the official status in its own column rather than dropping the row, so a
+    # reader can see the contradiction instead of a silently shorter table.
+    def _norm(name):
+        """'Duren, Jalen' and 'Jalen Duren' both become 'jalen duren'.
+
+        Matching on surname alone is not safe: the official 11/14 report carries
+        'Murray, Dejounte' (NOP, Out) and a surname match would mark the projection
+        for 'Jamal Murray' (DEN) as unavailable, which is a fabricated finding. The
+        match is therefore the full normalised name AND the same team.
+        """
+        name = (name or "").strip().rstrip(".").lower()
+        name = name.replace(".", "").replace("'", "")
+        if "," in name:
+            last, first = [x.strip() for x in name.split(",", 1)]
+            name = first + " " + last
+        return " ".join(name.split())
+
+    _inj = {}
+    for r in (d.get("injuries") or {}).get("rows", []):
+        if r.get("is_team_not_submitted") or not r.get("player"):
+            continue
+        try:
+            _m, _day, _y = r["game_date"].split("/")
+        except (KeyError, ValueError, AttributeError):
+            continue
+        _inj.setdefault("%s-%s-%s" % (_y, _m.zfill(2), _day.zfill(2)), []).append(r)
+
+    def _official_status(date_iso, player, team):
+        for r in _inj.get(date_iso, []):
+            if r.get("team") != team:
+                continue
+            if _norm(r["player"]) == _norm(player):
+                return r["status"], r["reason"]
+        return None, None
+
+    flagged_out = 0
     rows = []
     for p in d["props"]:
+        _status, _reason = _official_status(p["date"], p["player"], p["team"])
+        if _status in ("Out", "Doubtful"):
+            flagged_out += 1
+            _st = ('<span class="unverified">UNVERIFIED — projected anyway</span><br>'
+                   '<span class="badge warn">official: %s</span>'
+                   % esc(_status))
+        elif _status:
+            _st = '<span class="badge ok">official: %s</span>' % esc(_status)
+        elif not _inj.get(p["date"]):
+            # No report covers this date at all, which is not the same as the
+            # player being cleared. "Not listed" would read as a clean bill of
+            # health that no official page has issued.
+            _st = '<span class="unverified">UNVERIFIED - no report for this date</span>'
+        else:
+            _st = '<span class="badge neutral">not listed on the report</span>'
         rows.append([
-            esc(p["date"]), esc(p["matchup"]), esc(p["team"]), esc(p["player"]),
+            _st, esc(p["date"]), esc(p["matchup"]), esc(p["team"]), esc(p["player"]),
             num(p["gp"], 0), num(p["official_min"], 1),
             num(p["official_pts"], 1), num(p["official_reb"], 1),
             num(p["official_ast"], 1),
@@ -1176,8 +1237,16 @@ no adjustment. Both are labelled for what they are.</p>
             '<span class="unverified">UNVERIFIED — no distribution</span>',
             src_cell([p["source_player"]], "official stats"),
         ])
+    _n_nolist = sum(1 for p in d["props"] if _official_status(p["date"], p["player"], p["team"])[0]
+                    is None and _inj.get(p["date"]))
+    _n_norep = sum(1 for p in d["props"] if not _inj.get(p["date"]))
+    body = [b.replace("__OUTS__", "" if flagged_out == 1 else "s")
+             .replace("__OUTIS__", "is" if flagged_out == 1 else "are")
+             .replace("__OUT__", str(flagged_out))
+             .replace("__NOLIST__", str(_n_nolist))
+             .replace("__NOREP__", str(_n_norep)) for b in body]
     body.append(table(
-        ["Date", "Game", "Team", "Player", "GP", "MIN", "PTS", "REB", "AST",
+        ["Official status", "Date", "Game", "Team", "Player", "GP", "MIN", "PTS", "REB", "AST",
          "Proj PTS", "Proj REB", "Proj AST", "Market line", "P(over)", "Source"],
         rows, "props",
         note="MIN, PTS, REB and AST are official season averages. The projection repeats them "

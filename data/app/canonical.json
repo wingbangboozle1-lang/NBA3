@@ -29187,6 +29187,20 @@
   },
   {
    "id": "NF-31",
+   "area": "Player props",
+   "item": "A player the official report lists as Out was published with a 33-minute projection, unmarked",
+   "why": "Anthony Edwards (MIN) appears in the 2026-11-14 player-prop table with 33.7 projected minutes and 33.3 projected points. The 11/14 01:30 PM ET official report lists him Out (right knee arthroscopy). The props page had no join against the injury report at all, so the row was printed as if he would play. Nothing on the page marked the contradiction.",
+   "action_needed": "Added an official-status column to every props row, joined by full normalised name and team on the same date (surname-only matching produced a false positive: Murray, Dejounte vs Jamal Murray). Out/Doubtful players are marked UNVERIFIED - projected anyway; players no report lists are marked so; dates no report covers are marked so. Rows were kept, not deleted, so the contradiction stays visible.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "status": "Resolved 2026-11-14 (session a399d8a9); published on the props page",
+   "severity": "high",
+   "legacy_ref": "F31",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-32",
    "area": "Blocker",
    "item": "Use of NBA statistics for betting models and lines",
    "why": "NBA Terms §9 says NBA Statistics may not be used in connection with any gambling activity, including legal gambling, and may not feed a comprehensive regularly updated statistics database without express prior consent.",
@@ -29200,7 +29214,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-32",
+   "id": "NF-33",
    "area": "Blocker",
    "item": "Offering online sports betting or betting lines to Dutch customers",
    "why": "Ksa says only holders of a Koa licence under art. 31a of the Betting and Gaming Act may offer online gambling, including bets on sports matches. The owner is located in Naaldwijk, NL.",
@@ -29215,7 +29229,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-33",
+   "id": "NF-34",
    "area": "Blocker",
    "item": "Originated lines and picks for 11/13–11/16",
    "why": "The repository has no licensed odds feed, no historical dataset, and no validated model. Without these, no line can be originated or validated, and no pick can be responsibly generated.",
@@ -29229,7 +29243,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-34",
+   "id": "NF-35",
    "area": "Unverified",
    "item": "Historical box scores, minutes, play-by-play, and prop outcomes",
    "why": "No authorized dataset is in the repository. The NBA terms restrict statistics use (7C-F-01).",
@@ -29243,7 +29257,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-35",
+   "id": "NF-36",
    "area": "Unverified",
    "item": "Injury effect on rotation minutes and production",
    "why": "The official report gives status and reason only; it has no minutes or production fields (S04 header). No minutes projection source is verified.",
@@ -29258,7 +29272,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-36",
+   "id": "NF-37",
    "area": "Unverified",
    "item": "All correlation values and parlay joint probabilities",
    "why": "No outcomes, prices, or samples are available. Blank by policy.",
@@ -29272,7 +29286,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-37",
+   "id": "NF-38",
    "area": "Irregularity",
    "item": "Prior dashboard linked the 2025-26 NBA injury index",
    "why": "The current season index is the 2026-27 page (S02). The 2025-26 page (S03) still resolves but is superseded.",
@@ -29287,7 +29301,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-38",
+   "id": "NF-39",
    "area": "Irregularity",
    "item": "Injury PDF rows with missing team or matchup text",
    "why": "18 of 117 rows have no team or matchup in the extracted text (attribution 'U'). 19 rows take their matchup from the official schedule pairing (attribution 'S'). Some matchups have no game time printed.",
@@ -29302,7 +29316,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-39",
+   "id": "NF-40",
    "area": "Irregularity",
    "item": "Schedule may change",
    "why": "The by-date PDF is labelled 'as of August 13, 2026 | subject to change'.",
@@ -29316,7 +29330,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-40",
+   "id": "NF-41",
    "area": "Unverified",
    "item": "Home/away orientation for 11/15 and 11/16",
    "why": "Home/away is confirmed only for 11/13 and 11/14 (injury report labels). For 11/15 and 11/16 the PDF gives printed order only.",
@@ -29331,7 +29345,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-41",
+   "id": "NF-42",
    "area": "Unverified",
    "item": "Meaning of schedule markers 'R' and '#' (C)",
    "why": "The PDF text shows 'R' and 'C' in marker columns with no legend in the text read.",
@@ -29345,7 +29359,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-42",
+   "id": "NF-43",
    "area": "Irregularity",
    "item": "NBA live scoreboard JSON unavailable",
    "why": "The fetch tool returned HTTP 500 for the CDN scoreboard JSON (S10).",
@@ -29359,7 +29373,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-43",
+   "id": "NF-44",
    "area": "Unverified",
    "item": "NBA Stat Glossary coverage",
    "why": "Only the first of 10 chunks was read line by line.",
@@ -29373,7 +29387,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-44",
+   "id": "NF-45",
    "area": "Irregularity",
    "item": "Coordination protocol branch naming",
    "why": "The brief asks for session-<id>/<task> branches; Arena policy fixes the branch as arena/7c532e8c-nba3.",
@@ -29387,7 +29401,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-45",
+   "id": "NF-46",
    "area": "Irregularity",
    "item": "Two deployment mechanisms existed on GitHub Pages",
    "why": "Pages API reported a legacy build from main at '/' while the repo also had a GitHub Actions workflow (pages.yml).",
@@ -29401,7 +29415,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-46",
+   "id": "NF-47",
    "area": "Unverified",
    "item": "Dutch rules on publishing picks or tips (without offering a bet)",
    "why": "Ksa's page covers offering online gambling. It does not address free tips or analysis content.",
@@ -29415,7 +29429,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-47",
+   "id": "NF-48",
    "area": "Irregularity",
    "item": "Injury report status vocabulary includes a team-level value",
    "why": "'NOT YET SUBMITTED' appears as a status for team rows (7 rows).",
@@ -29429,7 +29443,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-48",
+   "id": "NF-49",
    "area": "Deployment",
    "item": "GitHub Pages is still served from the legacy 'main /' source",
    "why": "gh api reports build_type=legacy with source branch main, path /. The whole public repository is therefore published, including raw JSON and CSVs. The Actions workflow also runs and uploads an artifact, but the published site is the branch build.",
@@ -29443,7 +29457,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-49",
+   "id": "NF-50",
    "area": "Site",
    "item": "Seven separate dashboards were published from earlier sessions",
    "why": "The repository contained /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards plus a root dashboard. They use different ID namespaces and some publish the same facts with different injury snapshots, which makes the site confusing and easy to misread.",
@@ -29457,7 +29471,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-50",
+   "id": "NF-51",
    "area": "Data",
    "item": "Two official injury snapshots are stored with different timestamps",
    "why": "data/injuries.json holds the 11/13 05:00 PM report (117 rows) while data/origin/injuries.csv holds the 11/13 05:15 PM report (118 rows) and data/app holds the 11/13 07:30 PM report (122 rows). A reader could easily compare a 7:30 PM status with a 5:00 PM status and read it as a contradiction.",
@@ -29471,7 +29485,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-51",
+   "id": "NF-52",
    "area": "Data",
    "item": "No official injury report exists yet for the 2026-11-15 and 2026-11-16 games",
    "why": "The newest report listed on the official index (11/13 07:30 PM ET) covers the 11/13 and 11/14 games only. Five teams had not submitted their report for the 11/14 game at that time.",
@@ -29485,7 +29499,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-52",
+   "id": "NF-53",
    "area": "Data",
    "item": "Player abbreviations in one earlier pipeline are not NBA abbreviations",
    "why": "data/picks/picks_2026-11-14_to_16.json prints 'BRK @ MEM'; the official NBA abbreviation is BKN (Brooklyn Nets). The same file also carries a generated timestamp and an availability flag computed from the 11/13 report.",
@@ -29499,7 +29513,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-53",
+   "id": "NF-54",
    "area": "Verification",
    "item": "First manual transcription of the official team stats page produced 8 misread values",
    "why": "An independent manual transcription of nba.com/stats/teams/advanced on 2026-11-14 differed from the stored values for MIA, TOR, CHA, NOP and UTA. A second read of the same page confirmed the stored values and the first read was wrong. The automated cross-check caught all eight.",
@@ -30322,6 +30336,20 @@
   },
   {
    "id": "CQ-22",
+   "category": "Player props",
+   "question": "Should a player the official report lists as Out or Doubtful be shown at all in the prop tables, or shown with the official status beside the projection?",
+   "status": "Open - decision",
+   "known": "The join now exists and the status is printed beside every row (F31). No licensed lines are connected, so nothing on that page is a bet under any rule.",
+   "missing": "Whether the owner wants unavailable players suppressed from the tables entirely, or kept visible with the contradiction flagged as it is now.",
+   "next_step": "Owner decision. The rule cannot be inferred from the data: suppressing the row is defensible, and so is showing it, because the page is a research table rather than a bet slip.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   ],
+   "owner": "Owner",
+   "legacy_ref": "Q-PROP-01"
+  },
+  {
+   "id": "CQ-23",
    "category": "General",
    "question": "Is the owner planning to offer lines or picks to other people in NL?",
    "status": "Not answered",
@@ -30335,7 +30363,7 @@
    "legacy_ref": "Q-01"
   },
   {
-   "id": "CQ-23",
+   "id": "CQ-24",
    "category": "General",
    "question": "May NBA statistics be used to build betting lines?",
    "status": "Answered — restricted",
@@ -30349,7 +30377,7 @@
    "legacy_ref": "Q-02"
   },
   {
-   "id": "CQ-24",
+   "id": "CQ-25",
    "category": "General",
    "question": "Which games are in the next 3 days (11/13–11/16)?",
    "status": "Answered (subject to change)",
@@ -30364,7 +30392,7 @@
    "legacy_ref": "Q-03"
   },
   {
-   "id": "CQ-25",
+   "id": "CQ-26",
    "category": "General",
    "question": "Who is listed as out or questionable for those games?",
    "status": "Partly answered",
@@ -30379,7 +30407,7 @@
    "legacy_ref": "Q-04"
   },
   {
-   "id": "CQ-26",
+   "id": "CQ-27",
    "category": "General",
    "question": "Do official injury reports quantify minutes or production impact?",
    "status": "Answered — no",
@@ -30394,7 +30422,7 @@
    "legacy_ref": "Q-05"
   },
   {
-   "id": "CQ-27",
+   "id": "CQ-28",
    "category": "General",
    "question": "What are the official injury reporting deadlines?",
    "status": "Answered",
@@ -30408,7 +30436,7 @@
    "legacy_ref": "Q-06"
   },
   {
-   "id": "CQ-28",
+   "id": "CQ-29",
    "category": "General",
    "question": "Which odds and prop data are licensed and available?",
    "status": "Not answered",
@@ -30423,7 +30451,7 @@
    "legacy_ref": "Q-07"
   },
   {
-   "id": "CQ-29",
+   "id": "CQ-30",
    "category": "General",
    "question": "What historical data can be used, and under what terms?",
    "status": "Not answered",
@@ -30437,7 +30465,7 @@
    "legacy_ref": "Q-08"
   },
   {
-   "id": "CQ-30",
+   "id": "CQ-31",
    "category": "General",
    "question": "What minutes projection source is available?",
    "status": "Not answered",
@@ -30451,7 +30479,7 @@
    "legacy_ref": "Q-09"
   },
   {
-   "id": "CQ-31",
+   "id": "CQ-32",
    "category": "General",
    "question": "What defines a 'useful signal' and the leaderboard winner?",
    "status": "Not answered",
@@ -30465,7 +30493,7 @@
    "legacy_ref": "Q-10"
   },
   {
-   "id": "CQ-32",
+   "id": "CQ-33",
    "category": "General",
    "question": "What bankroll and risk limits apply?",
    "status": "Not answered",
@@ -30479,7 +30507,7 @@
    "legacy_ref": "Q-11"
   },
   {
-   "id": "CQ-33",
+   "id": "CQ-34",
    "category": "General",
    "question": "What are the correlation values between markets or players?",
    "status": "Not answered — no data",
@@ -30493,7 +30521,7 @@
    "legacy_ref": "Q-12"
   },
   {
-   "id": "CQ-34",
+   "id": "CQ-35",
    "category": "General",
    "question": "Where can problem-gambling help be found in NL?",
    "status": "Partly answered",
@@ -30507,7 +30535,7 @@
    "legacy_ref": "Q-13"
   },
   {
-   "id": "CQ-35",
+   "id": "CQ-36",
    "category": "General",
    "question": "Does the repository have a live site with the correct source?",
    "status": "Answered",
@@ -30521,7 +30549,7 @@
    "legacy_ref": "Q-14"
   },
   {
-   "id": "CQ-36",
+   "id": "CQ-37",
    "category": "Data",
    "question": "Do you want the site to publish model-derived numbers that no official source confirms?",
    "status": "Answered (policy applied)",
@@ -30535,7 +30563,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CQ-37",
+   "id": "CQ-38",
    "category": "Legal",
    "question": "Will the project be used commercially in the Netherlands, and by whom?",
    "status": "Answered (no) — awaiting counsel",
@@ -30550,7 +30578,7 @@
    "legacy_ref": ""
   },
   {
-   "id": "CQ-38",
+   "id": "CQ-39",
    "category": "Strategy",
    "question": "What sample size and decision rule should gate a strategy as deployable?",
    "status": "Answered (proposed, not approved)",

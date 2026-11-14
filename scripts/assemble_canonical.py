@@ -302,10 +302,15 @@ def build_flags():
             "severity": severity, "legacy_ref": legacy, "found_on": found,
         })
 
+    # Severity by area, with the reason stated: Legal and Data affect whether a
+    # published number is lawful or true, so they are high. Player props is high
+    # too, and the reason is specific - a prop row is the closest thing on this
+    # site to a selection a reader might act on, so a contradiction with the
+    # official report (F31: a player listed Out shown with a 33-minute
+    # projection) is not a cosmetic defect. Anything else defaults to medium.
+    SEVERITY_BY_AREA = {"Legal": "high", "Data": "high", "Player props": "high"}
     for r in cload("data", "flags.csv"):
-        sev = "medium"
-        if r["area"] in ("Legal", "Data"):
-            sev = "high"
+        sev = SEVERITY_BY_AREA.get(r["area"], "medium")
         add(r["area"], r["item"], r["why_flagged"], r["action_needed"], [r["source_url"]],
             r["status"], sev, r["flag_id"], "2026-11-13")
     site_sources = {s["id"]: s["url"] for s in jload("data", "sources.json")}
