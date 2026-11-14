@@ -17,8 +17,8 @@ import json
 import math
 import os
 import statistics
-from collections import defaultdict
-from datetime import date, datetime
+from collections import Counter, defaultdict
+from datetime import date, datetime, timedelta
 
 import sys
 
@@ -38,7 +38,9 @@ SRC = {
     "team_boxscores": "https://www.nba.com/stats/teams/boxscores-traditional?Season=2026-27&SeasonType=Regular%20Season",
     "players": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
     "schedule": "https://www.nba.com/schedule",
-    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+    "injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "schedule_only_games": "https://www.nba.com/schedule",
     "standings": "https://www.nba.com/standings",
 }
 
@@ -113,6 +115,26 @@ players = read_csv(os.path.join(PROC, "players_top_minutes.csv"))
 upcoming = read_csv(os.path.join(PROC, "schedule_upcoming.csv"))
 injuries = read_csv(os.path.join(PROC, "injuries.csv"))
 
+# Official board captured from nba.com/schedule whose final scores are not published on any
+# reachable official endpoint (the Nov 13 board is nine Emirates NBA Cup games; the server
+# rendered nba.com/stats tables expose Regular Season only).  Used for rest-day context only --
+# the score cells are blank and flagged UNVERIFIED, so these games never enter the ratings.
+SCHEDULE_ONLY_PATH = os.path.join(PROC, "games_schedule_only.csv")
+schedule_only = []
+if os.path.exists(SCHEDULE_ONLY_PATH):
+    schedule_only = sorted(
+        ({
+            "date": d(r["date"]), "gid": r["game_id"], "away": r["away"], "home": r["home"],
+            "competition": r["competition"], "time_et": r["time_et"],
+            "away_pts": r.get("away_pts", ""), "home_pts": r.get("home_pts", ""),
+            "note": r.get("note", ""),
+        } for r in read_csv(SCHEDULE_ONLY_PATH)),
+        key=lambda g: (g["date"], g["gid"]),
+    )
+
+# A team report is only "submitted" when the official report actually carries a status for it.
+NOT_SUBMITTED_STATUSES = ("NOT YET SUBMITTED", "NOT YET PUBLISHED")
+
 # --------------------------------------------------------------------------------------
 # 2. league baselines from official season table
 # --------------------------------------------------------------------------------------
@@ -136,6 +158,36 @@ for g in games:
 for g in games:
     g["home_rest"] = rest_days[(g["gid"], g["home"])]
     g["away_rest"] = rest_days[(g["gid"], g["away"])]
+
+# ---- scheduling context for the upcoming slate ----------------------------------------
+# Played dates per team = verified regular-season results + the official schedule-only board.
+played_dates = defaultdict(list)
+for g in games:
+    for side in ("home", "away"):
+        played_dates[g[side]].append(g["date"])
+for g in schedule_only:
+    for side in ("home", "away"):
+        played_dates[g[side]].append(g["date"])
+for t in list(played_dates):
+    played_dates[t] = sorted(set(played_dates[t]))
+
+slate_games_for_team = defaultdict(list)
+for r in upcoming:
+    for side in ("home", "away"):
+        slate_games_for_team[r[side]].append(r)
+
+
+def rest_before(team, day):
+    """Days since the team's most recent game strictly before `day` (None if never seen)."""
+    prior = [pd for pd in played_dates.get(team, []) if pd < day]
+    if not prior:
+        return None
+    return (day - prior[-1]).days
+
+
+def games_in_last_7(team, day):
+    lo = day - timedelta(days=6)
+    return len([pd for pd in played_dates.get(team, []) if lo <= pd < day])
 
 # --------------------------------------------------------------------------------------
 # 4. rating engines
@@ -591,13 +643,25 @@ for r in upcoming:
               and i["status"] in ("Out", "Doubtful")]
     outs_a = [i for i in injuries if i["team"] == a and i["game_date"] == r["date"]
               and i["status"] in ("Out", "Doubtful")]
-    sub_h = any(i["status"] == "NOT YET SUBMITTED" for i in injuries
+    sub_h = any(i["status"] in NOT_SUBMITTED_STATUSES for i in injuries
                 if i["team"] == h and i["game_date"] == r["date"])
-    sub_a = any(i["status"] == "NOT YET SUBMITTED" for i in injuries
+    sub_a = any(i["status"] in NOT_SUBMITTED_STATUSES for i in injuries
                 if i["team"] == a and i["game_date"] == r["date"])
+    day = d(r["date"])
     lines.append({
         "date": r["date"], "gid": r["game_id"], "away": a, "home": h,
         "time_et": r["time_et"], "competition": r["competition"],
+        "home_rest_days": rest_before(h, day),
+        "away_rest_days": rest_before(a, day),
+        "home_games_last_7": games_in_last_7(h, day),
+        "away_games_last_7": games_in_last_7(a, day),
+        "home_slate_games": len(slate_games_for_team[h]),
+        "away_slate_games": len(slate_games_for_team[a]),
+        "home_back_to_back": rest_before(h, day) == 1,
+        "away_back_to_back": rest_before(a, day) == 1,
+        "rest_source": "Verified regular-season results plus the official schedule-only board "
+                       "(data/origin/games_schedule_only.csv); days derived from official game "
+                       "dates.",
         "pace": pace, "poss": pace,
         "exp_home_pts": e_home, "exp_away_pts": e_away,
         "exp_margin": e_margin, "exp_total": e_total,
@@ -643,11 +707,18 @@ for r in upcoming:
     for side in ("home", "away"):
         team = r[side]
         rep = [i for i in injuries if i["team"] == team and i["game_date"] == r["date"]]
-        submitted = bool(rep) and not any(i["status"] == "NOT YET SUBMITTED" for i in rep)
+        submitted = bool(rep) and not any(i["status"] in NOT_SUBMITTED_STATUSES for i in rep)
         captured = pmap.get(team, [])
         vac = 0.0
         details = []
         for i in rep:
+            if i["status"] in NOT_SUBMITTED_STATUSES:
+                details.append({"player": i["player"] or None, "status": i["status"],
+                                "reason": i["reason"], "mpg": None,
+                                "mpg_at_risk": None,
+                                "note": "Official team report for this date has not been "
+                                        "published yet; availability UNVERIFIED."})
+                continue
             match = next((p for p in captured if p["player"].lower() == i["player"].lower()), None)
             w = status_prob_weight.get(i["status"], 1.0)
             if match is None:
@@ -753,6 +824,27 @@ game_flow = {
     "rest_distribution": {str(k): v for k, v in sorted(rest_dist.items(), key=lambda x: str(x[0]))},
     "b2b_games": sum(1 for g in games if g["home_rest"] == 1 or g["away_rest"] == 1),
     "b2b_rate": None,
+    "upcoming_back_to_backs": [
+        {"date": l["date"], "gid": l["gid"], "matchup": "{}@{}".format(l["away"], l["home"]),
+         "home_back_to_back": l["home_back_to_back"], "away_back_to_back": l["away_back_to_back"],
+         "home_rest_days": l["home_rest_days"], "away_rest_days": l["away_rest_days"]}
+        for l in lines if l["home_back_to_back"] or l["away_back_to_back"]],
+    "upcoming_rest_distribution": {
+        str(k): v for k, v in sorted(Counter(
+            [l["home_rest_days"] for l in lines] + [l["away_rest_days"] for l in lines]
+        ).items(), key=lambda x: (x[0] is None, x[0]))},
+    "schedule_only_games_captured": len(schedule_only),
+    "schedule_only_note": "Official NBA Cup board for 2026-11-13 (game IDs 0022600034-0022600042). "
+                           "Final scores are not published on any reachable official endpoint, so "
+                           "the score cells are blank and flagged UNVERIFIED; these games are used "
+                           "for rest-day context only and never enter the ratings.",
+    "schedule_only_games": [
+        {"date": g["date"], "gid": g["gid"], "away": g["away"], "home": g["home"],
+         "time_et": g["time_et"], "competition": g["competition"],
+         "away_pts": g["away_pts"] or None, "home_pts": g["home_pts"] or None,
+         "scores_unverified": not (g["away_pts"] and g["home_pts"]),
+         "source": SRC["schedule_only_games"]}
+        for g in schedule_only],
 }
 game_flow["b2b_rate"] = game_flow["b2b_games"] / len(games)
 

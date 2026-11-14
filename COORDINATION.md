@@ -1372,3 +1372,54 @@ python3 d01ae7e2/scripts/verify.py           # exit 0 = all checks pass
 Expected: `All verification checks passed.` Every pick row carries 6 source links; every HTML
 table row carries an inline official-NBA source link; nulls require an adjacent flag.
 Workstream-scope only — it does not vouch for other sessions' artifacts (see README cautions).
+## Session `fa03eba6` (`arena/fa03eba6-nba3`) — Nov 14–17 slate refresh + final integration
+
+Session ID for this log: `fa03eba6` (branch `arena/fa03eba6-nba3`, branched from `main` @ `e591b67`).
+
+Prior sessions (`49064d5a`, `f879620b`, `7c532e8c`, `9ed6085f`, `5697caaf`, `0a016df8`, `e22a2831`)
+are all logged above as done and merged; no live claim overlaps the files below. This session acts
+as the **final integration session** for the round and therefore also owns the shared outputs
+(`data/*.csv`, `data/*.json`, site index and navigation).
+
+### Task board
+
+| # | Task | Status | Owner (session) | Files in scope |
+|---|------|--------|-----------------|----------------|
+| I1 | Replace the stale local slate with the official Nov 14–17 board (27 games) | in progress | fa03eba6 | `data/origin/schedule_upcoming.csv`, `data/slates.csv` |
+| I2 | Refresh injury data to the latest published official report (11/13 7:30 PM ET) | in progress | fa03eba6 | `data/origin/injuries.csv`, `data/injuries/*` |
+| I3 | Extend the verified result log to the official Nov 13 board (rest-day accuracy) | in progress | fa03eba6 | `data/origin/games.csv`, `model/build.py` |
+| I4 | Refresh official team + player stat inputs | in progress | fa03eba6 | `data/origin/teams_advanced.csv`, `data/origin/players_top_minutes.csv` |
+| I5 | Re-run model, gates and pipelines; rebuild every site tree | unclaimed | fa03eba6 | `model/`, `pipeline/`, `scripts/`, `site/`, `docs/`, `lab/`, `research/`, `edge/`, `origin/` |
+| I6 | Repo line-by-line re-review; publish irregularities on Flagged for Review | unclaimed | fa03eba6 | `data/flags.csv`, `data/repo_review.csv`, `data/questions.csv`, `data/suggestions.csv` |
+| I7 | Integration: verify, build, PR to `main`, merge, Pages deploy, record | unclaimed | fa03eba6 | `COORDINATION.md`, `README.md`, `index.html`, `.github/workflows/pages.yml` |
+
+### Sources used (this session)
+
+- Official NBA schedule — <https://www.nba.com/schedule> — Nov 14 (5 games), Nov 15 (9), Nov 16 (8),
+  Nov 17 (5); official game IDs 0022600231–0022600257; tip times and home teams captured verbatim.
+- Official NBA game pages (e.g. <https://www.nba.com/game/nyk-vs-ind-0022600034/box-score>) — the
+  server-rendered schedule strip on a game page lists every game of Nov 13–15 with the matchup, the
+  official game ID, the tip time and the **official W–L record of both teams**, and it confirms that
+  the Nov 13 board is nine **Emirates NBA Cup** games (IDs 0022600034–0022600042) while Nov 14–17 are
+  regular-season games.
+- Official injury-report index — <https://official.nba.com/nba-injury-report-2026-27-season/> — the
+  newest published report is **11/13/2026 07:30 PM ET**; a request for a 11/14 report
+  (`Injury-Report_2026-11-14_11_00AM.pdf`) returns `AccessDenied`, i.e. no later report exists yet.
+- Official injury report PDF — <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf>
+  — full Nov 14 board (5 games, 10 team reports) captured verbatim with status and reason.
+- Official team advanced table — <https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season>
+  — 30 teams, GP, W–L, ratings, pace and possessions; the W–L values reconcile exactly with the
+  records shown on the official game pages.
+- Official team traditional table with a date filter — <https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season&DateFrom=11%2F12%2F2026&DateTo=11%2F13%2F2026>
+  — independent confirmation of the four Nov 12 finals already in the log (TOR 112–PHI 123,
+  DET 144–WAS 140, DAL 94–MIN 133, CHA 96–PHX 101).
+- Official per-team player table — <https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&TeamID=1610612737>
+  — the `TeamID` filter **is** honoured on this endpoint (unlike `GameID`/`PlayerID` on the box-score
+  endpoint), which makes a complete, official rotation table for any team reachable.
+
+## fa03eba6 — integration update (2026-11-14)
+- Official board refreshed to Nov 14–17 (27 games); injury register uses the Nov 13 7:30 PM report (166 rows, unpublished entries flagged UNVERIFIED).
+- `model/build_shared.py` regenerates shared JSON (schedule, injuries, lines, props; picks intentionally empty — no market prices, 0/8 strategies pass gates).
+- `scripts/build_site.py` labels updated to the current window; `data/sources.json` S04 points to the 7:30 PM report.
+- All checks pass: unit tests (13 + 29), tools/check_site.py, build_site, build_lab, validate_site, pipeline build/verify/check_site.
+- Still open: complete per-team rotation tables; locate the unexplained 50-row Nov 12 extraction; reconcile Basketball-Reference result files with official data. No merge performed.
