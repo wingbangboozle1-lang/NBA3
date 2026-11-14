@@ -18,6 +18,26 @@ import json, os, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+def _spread_label(line):
+    """Human-readable spread, written the way a sportsbook writes it:
+    the FAVOURITE carries the minus sign and the underdog carries the plus.
+
+    FIX 2026-11-14 (session 3655c68d, defect FX-02):
+      the previous expression always emitted a '+' because it used the away spread,
+      which is positive for every home favourite. On 22 of 22 published pick cards the
+      label therefore named the wrong side of the market and contradicted the card's own
+      moneyline (e.g. 'DEN +6.1' next to 'Fair ML DEN -167', where DEN is the favourite).
+    """
+    mh = line['origin_spread_home']          # signed: negative => HOME is the favourite
+    home, away = line['home'], line['away']
+    if abs(mh) < 0.05:
+        return f"{home} 0.0"
+    if mh < 0:
+        return f"{home} {mh:.1f}"            # home favourite: minus
+    return f"{away} {-mh:.1f}"               # away favourite: minus, valued at -mh
+
+
 def main():
     lines = json.load(open(f'{ROOT}/data/model/lines_2026-27.json'))
     val   = json.load(open(f'{ROOT}/data/model/validation_report.json'))
@@ -65,8 +85,7 @@ def main():
         spread_side = L['home'] if p_home >= 0.5 else L['away']
         pick = dict(
             date=L['date'], start_et=L['start_et'], matchup=f"{L['away']} @ {L['home']}",
-            origin_spread=(f"{L['home']} {'+' if L['origin_spread_home']>0 else ''}{L['origin_spread_home']}" if L['origin_spread_home']>=0
-                           else f"{L['away']} +{L['origin_spread_away']}"),
+            origin_spread=_spread_label(L),
             origin_total=L['origin_total'],
             fair_ml_home=L['fair_ml_home'], fair_ml_away=L['fair_ml_away'],
             model_p_home=p_home,
