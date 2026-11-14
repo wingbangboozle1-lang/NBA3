@@ -254,8 +254,8 @@ def flag_row(fid, title, detail, evidence, status):
     return [e(fid), e(title), detail, evidence, chip(status, "warn" if status != "fixed" else "ok")]
 
 flags = [
-    flag_row("F736-01", "Published pages say the 04:15 AM report is the newest one listed",
-             e("The injury page, summary card and freshness table say the 04:15 AM ET report is the newest listed on the official index. At ~13:42 ET the index lists the 1:30 PM ET report. The injury-page and summary claims are corrected in this change; other pages are logged for the owner (see COORDINATION.md, session 736efb4b)."),
+    flag_row("F736-01", "Published pages describe the 04:15 AM report as the newest listed",
+             e("The injury page, the summary card and the sources row said the 04:15 AM ET report was the newest one on the official index. At ~13:42 ET the index lists the 01:30 PM ET report. The injury page, summary card and sources row are corrected in this change. Still stale and logged as CR-736EFB4B-01 for the owner of scripts/assemble_canonical.py: the freshness page (five teams 'not filed', now four of them have filed), the review page, the requirements page and the flagged register."),
              link(INDEX_URL, "official index") + " · " + link(NEW_URL, "1:30 PM PDF"), "fixed in part"),
     flag_row("F736-02", "Four published players have a different status in the 1:30 PM report",
              e("Christie, Max (Dallas): Questionable → Doubtful. Brown Jr., Mikel (Brooklyn): Questionable → Probable. Harkless, Elijah (Detroit): Questionable → Available. Jones, Isaac (Detroit): Questionable → Available. Picks and injury-impact figures were not re-run."),
