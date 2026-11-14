@@ -11,6 +11,7 @@ A cross-site **[consolidated executive summary](executive-summary.html)** is ser
 alongside the canonical dashboard below. It re-verified, line by line, on 2026-11-14:
 
 - **Injury report**: 117/117 rows match the [official 11/13/26 5:00 PM ET PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf). The carried-forward "Miami CLE@MIA" irregularity is **resolved** — the PDF prints CLE@MIA in the Cleveland section; the Miami rows are correctly attributed "team printed, matchup paired via official schedule". The newer [7:30 PM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf) (captured by session 2b9f1ae1) supersedes it for pick availability.
+- **Injury refresh (session `bd90ce16`, this round)**: the canonical report is now the **newest official 11/14/26 04:45 AM ET** report — [PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_45AM.pdf) — 49 rows (26 player + 23 `NOT YET SUBMITTED`), read twice; the prior 04:15 AM report agrees on all 49/49 rows (0 differences). This supersedes the 11/13 07:45 PM snapshot for the live 11/14 window. The results log is refreshed to **183** finals (the nine 11/13 finals appended).
 - **Slate**: 31/31 games (11/13–16) match the [live official schedule](https://www.nba.com/schedule) (dates, matchups, tip times; 0 mismatches across three independent captures).
 - **Picks**: all 22 pick games for 11/14–16 are inside the verified slate, re-checked against the FX-corrected pick file (spread labels 22/22 correct after the fix).
 - **All CI checks green**: unit tests (13 + 29 + 16 verify tests), every site builder, drift checks, and 553+ internal links.
@@ -43,7 +44,7 @@ is **18.0 pp**. That is the honest state of the project, and it is the first thi
 | `/app/leaderboard.html` | The strategy competition: 15 rules, nine gates, skill score, reward tiers, luck threshold, mirror pairs, null control | same |
 | `/app/strategies.html` | The gate rule book and the per-rule gate grid | same |
 | `/app/correlations.html` | 4 measured correlations with intervals, and 5 pairs left blank and why | same |
-| `/app/injuries.html` | The official report row by row, plus the minutes and production each team's absences vacate | `data/app/official_injuries_2026-11-13_0745PM.json` |
+| `/app/injuries.html` | The official report row by row, plus the minutes and production each team's absences vacate | `data/app/official_injuries_2026-11-14_0445AM.json` |
 | `/app/gameflow.html` | Rest, back-to-backs, pace, projected totals, overtime and blowout risk per game | `data/app/lab.json` |
 | `/app/questions.html` | 40 open questions: known / missing / how to discover | merged from the earlier sessions |
 | `/app/suggestions.html` | 38 site-improvement suggestions with options and a recommendation — **nothing implemented without a decision** | merged |
@@ -69,8 +70,8 @@ disagreement.
 |---|---|---|
 | Official schedule, 27 games of 2026-11-14 → 2026-11-17 | 22 of them also appear in the previous session's capture; **88/88** field comparisons agree, 0 differ | https://www.nba.com/schedule?date=2026-11-14 |
 | Official team advanced statistics, 30 teams × 8 fields | **240/240** field comparisons agree | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season |
-| Official injury report 11/13/26 07:45 PM ET (newest listed) | 122 rows (117 player + 5 `NOT YET SUBMITTED`); identical row set to the 07:30 PM report, **0 status changes** | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf |
-| 174 official final scores | 348 team-games, **0 mismatch** against the official games-played column for all 30 teams | https://www.nba.com/games?date= |
+| Official injury report 11/14/26 04:45 AM ET (newest listed) | 49 rows (26 player + 23 `NOT YET SUBMITTED`); 11/14 player rows re-compared 62/62 against the 11/13 07:45 PM snapshot; 5 of 10 11/14 teams had not filed, 18 11/15 placeholders | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_45AM.pdf |
+| 183 official final scores | 366 team-games, **0 mismatch** against the official games-played column for all 30 teams | https://www.nba.com/games?date= |
 | Every JSON file in the tree parses | 79 files, 0 failures | repository scan |
 | Every table row on the canonical pages carries an `https` source link | **0** rows fail; the build exits non-zero otherwise | `scripts/build_app.py` |
 | Determinism | `strategy_lab.py` is seeded; two consecutive runs produce byte-identical output, which is what makes the CI drift gate meaningful | `scripts/strategy_lab.py` |

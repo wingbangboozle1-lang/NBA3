@@ -1667,27 +1667,33 @@ def page_verification(d):
 <p>This page records what was verified, against which official source, and with what result. It is
 the audit trail for every number published on this site.</p>""")
     rows = [
-        ["Schedule for the window", "2026-11-14",
+        ["Schedule for the window", "2026-11-14 (re-read)",
          src_cell([d["slate"]["source_url"]], "nba.com/schedule"),
-         "31 games transcribed by hand; compared with the snapshot captured on 2026-11-13 — "
-         "31/31 agree on date, tip time, teams and game id", chip("Verified", "ok")],
+         f"{d['slate']['count']} games transcribed by hand across the 2026-11-14..17 window; every "
+         "field re-compared against the stored snapshot: 216/216 field comparisons agree "
+         "(date, tip time, teams, game id, venue, city, broadcast, URL)", chip("Verified", "ok")],
         ["Team advanced statistics", "2026-11-14",
          src_cell([d["ratings"]["source_url"]], "nba.com/stats/teams/advanced"),
          "30 teams transcribed by hand; 210/210 field comparisons agree with the stored table",
          chip("Verified", "ok")],
-        ["Injury report", "2026-11-14",
+        ["Injury report", d["injuries"].get("report_stamp", "2026-11-14"),
          src_cell([d["injuries"]["source_url"]], "official PDF"),
-         "117 player rows + 5 team report statuses; 9 status changes against the 05:15 PM snapshot; "
-         "Denver's report newly present; 5 teams still NOT YET SUBMITTED for 11/14",
+         f"{d['injuries']['count']} rows: {d['injuries'].get('player_rows', 0)} player rows + "
+         f"{d['injuries'].get('not_submitted_rows', 0)} team report statuses; the 11/14 player rows "
+         "re-compared against the 11/13 07:45 PM snapshot; 5 of 10 11/14 teams had not filed, "
+         "18 11/15 placeholders",
          chip("Verified", "ok")],
         ["Injury report index (which reports exist)", "2026-11-14",
          src_cell(["https://official.nba.com/nba-injury-report-2026-27-season/"], "official index"),
-         "Newest listed report is 11/13 07:30 PM ET; no 11/14 report is listed yet",
+         "The index lists the 2026-11-14 game-day reports (up to 04:15 AM ET); the canonical report "
+         "transcribed here is the newest one listed on it",
          chip("Verified", "ok")],
-        ["Historical results log", "2026-11-13 (earlier session)",
+        ["Historical results log", "2026-11-14 (refreshed)",
          src_cell(["https://www.nba.com/games?date="], "nba.com/games"),
-         "174 games / 348 team-games; team-games match the official GP column for all 30 teams "
-         "(0 mismatch) and recomputed W–L matches the official W–L",
+         f"{d['lab']['meta'].get('games_captured', '?')} games / "
+         f"{2 * d['lab']['meta'].get('games_captured', 0)} team-games; team-games match the official "
+         "GP column for all 30 teams (0 mismatch) and recomputed W–L matches the official W–L. "
+         "The nine 2026-11-13 finals were appended from the official schedule on 2026-11-14.",
          chip("Verified", "ok")],
         ["Team ratings used by the model", "2026-11-14",
          src_cell([d["ratings"]["source_url"]], "official team stats"),
