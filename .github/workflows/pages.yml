@@ -109,7 +109,6 @@ jobs:
           test -z "$(git status --porcelain -- verify/pages/)" || { echo 'verify/pages/ is out of date; run verify/build.py and commit'; git status --porcelain -- verify/pages/; exit 1; }
       - name: Edge Lab checks (arena-0a016df8 — subpages, internal links, data JSON)
         run: python3 pipeline/check_site.py
-<<<<<<< HEAD
       - name: Integration engine and unified dashboard (session e40cd215)
         run: |
           python3 -m integrate.engine
@@ -134,8 +133,7 @@ jobs:
               print("pipeline/build_site_data.py now writes to edge/data only (fixed by 3655c68d, V-F-02).")
           print("Ownership audit: integrate/ writes only into dash/, data/integration/ and index.html.")
           PY
-=======
-      - name: Canonical official-source capture + cross-check (arena/2b9f1ae1)
+- name: Canonical official-source capture + cross-check (arena/2b9f1ae1)
         run: |
           python3 scripts/capture_official_2026_11_14.py
           git diff --exit-code -- data/app/official_slate.json data/app/official_team_ratings_2026-11-14.json data/app/official_injuries_2026-11-13_0730PM.json
@@ -144,7 +142,6 @@ jobs:
           python3 scripts/assemble_canonical.py
           python3 scripts/build_app.py
           git diff --exit-code -- data/app/canonical.json app/ index.html
->>>>>>> origin/main
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
