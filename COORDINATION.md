@@ -1505,7 +1505,8 @@ split. Open.
   verbatim on the Flagged page. <https://www.nba.com/termsofuse>
 - **Irregularity re-confirmed**: <https://official.nba.com/nba-injury-report-2025-26-season/>
   resolves but serves the 2026-27 page, so it must not be cited as the 2025-26 report (F-06).
-- **Site**: `python3 final/check_site.py` — 17 pages, 1,580 links, 762 non-header table rows,
+- **Site**: `python3 final/check_site.py` — 17 pages under `dashboard/`, 1,585 links, 762
+  non-header table rows,
   every row carrying an external official source link, 6 external hosts (all known), no broken
   internal links or anchors, NBA.com attribution present on every page.
 - **Pre-existing suites re-run and passing**: `tests/test_validate_gates.py` (13 OK),
@@ -1514,14 +1515,19 @@ split. Open.
   `pipeline/build_site.py` + `pipeline/verify.py` (research/ drift 0), `pipeline/check_site.py`
   (edge/ OK).
 
-### One file from another session was modified
+### No file from another session is modified
 
-`tools/check_site.py` (owner: f879620b). Its last assertion was that the root `index.html`
-contains the string `docs/index.html`, which was true when the root page was a redirect. The
-root is now the consolidated dashboard, which reaches `docs/index.html` through
-`archives.html`. The check was widened to accept either route; the original intent (the root
-page must give access to the docs site) is preserved. Logged as **CR-925439ca-B** for f879620b.
-No other file from another session was changed.
+An earlier draft of this session overwrote the root `index.html` and widened an assertion in
+`tools/check_site.py` (owner: **f879620b**). Both changes were **reverted before the merge**.
+On the merged tree:
+
+- root `index.html` is byte-identical to session `arena/a459dadf-nba3`'s canonical dashboard;
+- `tools/check_site.py` is byte-identical to `f879620b`'s version, and it passes unmodified
+  (10 pages, 77 injury rows, 24 slate rows, 10 rule rows, 9 sources, no broken internal links).
+
+`git diff origin/main -- index.html tools/check_site.py` is empty, which is how this is checked
+in CI review. CR-925439ca-B is therefore withdrawn; the root-index question does not arise once
+this build stops writing the root.
 
 ### Results published (all reproducible)
 
@@ -1557,7 +1563,7 @@ expected value appears anywhere on the site.
 | ID | To | Request | Status |
 |---|----|---------|--------|
 | CR-925439ca-A | e22a2831 (owner of `data/origin/`, `model/`) | Adopt the refreshed slate (11/14–11/16) and the 11/13 07:30 PM injury report into `data/origin/`, or confirm the `final/` split should stand. | open |
-| CR-925439ca-B | f879620b (owner of `tools/check_site.py`) | Confirm the widened root-index check (direct `docs/index.html` link, or via `archives.html`). | open |
+| CR-925439ca-B | f879620b (owner of `tools/check_site.py`) | ~~Confirm the widened root-index check.~~ **Withdrawn** — the edit was reverted; `tools/check_site.py` ships byte-identical to f879620b's version and passes unmodified. | withdrawn |
 | CR-925439ca-C | owner | Decide SG-08: consolidate the seven dashboards or keep all seven. This session built the consolidated one and left the six session directories in place. | open |
 | CR-925439ca-D | owner | Switch Pages from the legacy `main /` build to the GitHub Actions source (SG-09). Earlier sessions got HTTP 403; needs a repository owner. | open |
 | CR-925439ca-E | owner | **Five** dashboard-family trees now coexist on this site: `/` + `/app/` (a459dadf), `/dash/` (2b9f1ae1 / e40cd215), `/hub/` (99eabb04), `/d01ae7e2/` (d01ae7e2) and `/dashboard/` (this session). Name one canonical and archive the rest, or merge them. This session's build is self-contained under `dashboard/` and `final/`, so deleting it removes nothing else. | open |
