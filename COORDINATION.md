@@ -2154,3 +2154,29 @@ choice, and none has been implemented. The decisions that actually gate progress
 CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
+
+---
+
+## Session `arena/53653a5c-nba3` (current) — CLAIM: injury-report freshness delta (11/13 07:30 PM → 11/14 04:15 AM)
+
+Session ID `53653a5c`. Branch `arena/53653a5c-nba3` (Arena fixes the branch name), branched from `main` @ `57762d5`
+(PR #46). Claim pushed before any analysis work.
+
+**Why this task.** The canonical injury snapshot is the 11/13 **07:30 PM ET** report (`data/app/official_injuries_2026-11-13_0730PM.json`).
+The official index (https://official.nba.com/nba-injury-report-2026-27-season/, read 2026-11-14) lists newer
+11/14 reports; the **04:15 AM ET** PDF is readable and was not stored by any earlier session (F36-01 named only the 08:00 PM
+report). The 05:00 PM ET PDF returns `AccessDenied` from the source host and is recorded as unavailable.
+
+**Task board (this session)**
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| J1 | Claim + push | done | `COORDINATION.md` |
+| J2 | Store the 04:15 AM report verbatim (raw text, source URL, retrieval note) | in progress | `data/app/official_injuries_2026-11-14_0415AM_raw.md` |
+| J3 | Parse only fully-attributed rows; list fragmented rows as unverified (no inference) | unclaimed | `scripts/injury_delta_0415am.py`, `data/app/injury_delta_0415am.json` |
+| J4 | Status-change table vs. the stored 07:30 PM snapshot, with official source links | unclaimed | `data/app/injury_delta_0415am.json` |
+| J5 | Test + log + PR → merge → Pages check | unclaimed | `COORDINATION.md` |
+
+**Not in scope (owned by others / blocked):** `app/**`, `data/app/canonical.json`, `index.html`, `dash/`, `final/`, `hub/`,
+`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`, `verify/`, `audit36/`. The delta is published as a data file;
+folding it into the canonical dashboard is a change request to the integration owner (CR-53653a5c-A).
