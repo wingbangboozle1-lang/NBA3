@@ -2532,9 +2532,41 @@ now repaired for data integrity. Cross-session note: these files were owned by t
 session fulfills. `integrate/check`'s ownership audit flags the edit until committed; it clears on a
 clean tree.
 
-### V5 — Full suite, PR, merge, deploy — in progress
+### V5 — Full suite, PR, merge, deploy — done
 
-All 19 local check suites pass; all generated-artifact drift checks are clean except the three
-intentional fixes above (engine, dash, 07:30 PM injuries), which are committed together. YAML of the
-workflow validated structurally. `audit36` pages regenerated (`engine-claims.html` now shows
-`agree: true`).
+All 19 local check suites pass; all generated-artifact drift checks are clean on the merged tree.
+YAML of the workflow validated structurally (22 build steps, no conflict markers). `audit36` pages
+regenerated (`engine-claims.html` now shows `agree: true`). `integrate.check` PASS on the clean tree.
+
+| Item | Result |
+|---|---|
+| PR | [#56](https://github.com/wingbangboozle1-lang/NBA3/pull/56) `arena/2ddb217c-nba3` → `main` |
+| Merge conflicts | 2 merge rounds with `origin/main` (session `f80f0688` was pushing concurrently). Only append-only `COORDINATION.md` conflicted each time; resolved by keeping **both** sides (main's new sections + this session's section re-appended). Nothing discarded. No other file conflicted; `pages.yml` auto-merged cleanly. |
+| Merge | `gh pr merge 56 --merge`; merge commit `11ecff17c4a3a7bd25f256ba743572f01cbf8baa`; merged 2026-11-14T09:52:08Z |
+| Post-merge CI | triggered by the push to `main` (head `11ecff1`) |
+| Pages | `status: built` at commit `11ecff1`; live at https://wingbangboozle1-lang.github.io/NBA3/ |
+| Live check | root `/` renders the canonical dashboard (27 games, 27 lines, 0 of 15 funded, 31.2 pp luck threshold, 40 questions); `/app/injuries.html` renders 122 rows each linked to the official PDF — both fetched and confirmed serving |
+
+### Sources used (this session)
+
+- Live NBA schedule: https://www.nba.com/schedule?date=2026-11-14 (chunks 0–2, full Week 4 + Week 5 grid)
+- Team advanced stats: https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season (chunks 0–1, 30 teams)
+- Injury report PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf (chunks 0–1, for the 3 reason-string corrections)
+- Official injury index: https://official.nba.com/nba-injury-report-2026-27-season/
+
+### Irregularities found and resolved this session
+
+| ID | Finding | Resolution |
+|---|---|---|
+| CR-8D-04 | Engine published `median_abs_gap` from pre-rounded gaps (1.77) vs full-precision 1.78 | Fixed in `integrate/engine.py`; `audit36/check.py` now `ok: true` |
+| CR-94-04 | 3 wrong injury reason strings in the 07:30 PM snapshot | Fixed in `scripts/capture_official_2026_11_14.py` + regenerated snapshot, verified vs the official PDF |
+| CR-8D-05 | No CI guard against unresolved conflict markers | Added the `<<<<<<<` guard to `pages.yml`; also repaired the intentional test fixture that was a false positive |
+| New | The guard's first run found literal conflict markers in `audit/test_release_audit.py` | These were an intentional test fixture (not a real conflict); fixture rewritten to build the marker from a variable so the global guard stays clean |
+
+### Still open (owner decisions; do not block the merge)
+
+- Team-stats ageing drift on the 18 teams that played 11/13 is documented expected drift, not an error.
+- The 12 teams that did not play 11/13 match the live official page exactly (0 mismatches).
+- Carried-forward owner decisions unchanged: licensed timestamped price feed (CQ-03), leaderboard
+  reward definition (CQ-36), and the "bias against our own line is a defect, not an edge" rule (CQ-40).
+  Open questions (40) and suggestions (38) await an owner choice; none implemented.
