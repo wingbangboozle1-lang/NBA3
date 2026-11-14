@@ -799,6 +799,25 @@ correlation values on what is claimed to be the same dataset.
 
 ---
 
+## Merge note — `arena/2b9f1ae1-nba3` (integration, second merge)
+
+`main` advanced again while this session was working (PR [#20](https://github.com/wingbangboozle1-lang/NBA3/pull/20)
+and PR [#22](https://github.com/wingbangboozle1-lang/NBA3/pull/22) from session `arena/3655c68d-nba3`, the
+verification layer). This session merged `origin/main` again and resolved the conflicts without
+discarding the other session's work:
+
+* `COORDINATION.md` — all three sessions' logs are kept, in full.
+* `index.html` — the generated canonical dashboard (this session). The verification layer published at
+  `/verify/pages/` and the cross-workstream audit at `/review.html` are **kept** and are linked from the
+  landing page.
+* `README.md` and `.github/workflows/pages.yml` — merged automatically; both sides' content is kept.
+
+The findings of the other two sessions are reachable from the canonical Flagged for Review page:
+R-01 – R-13 (session 2e50a71a) are merged there under their original IDs, and the verification layer's
+corrections and ledger live at `/verify/pages/`.
+
+---
+
 ## PR and deploy record — session `arena/3655c68d-nba3`
 
 | Item | Result |
@@ -840,3 +859,76 @@ was restored to its committed state after an accidental overwrite (V-F-02) and c
 Note on process: this record was first committed and pushed directly to `main` in error, which violates the
 one-branch rule; that commit was reverted with `git reset --hard 239a023` before any follow-up, and the record is
 being delivered through a pull request instead.
+
+---
+
+## Session `arena/2b9f1ae1-nba3` — final integration: canonical dashboard, official re-verification, PR → merge → Pages
+
+Branch: `arena/2b9f1ae1-nba3` (branched from `main` @ `e591b67`). The workspace fixes the branch to
+this one, so — as in the earlier sessions — the branch naming rule in the brief (`session-<id>/<task>`)
+cannot be used; all work stayed on the assigned branch and no other session's files were edited
+apart from the shared root `index.html`, `README.md`, `COORDINATION.md` and the Pages workflow, which
+are the integration surface.
+
+### Task board (this session)
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| I1 | Read COORDINATION.md and map the seven existing dashboards, four ID namespaces and six data trees | done | — |
+| I2 | Re-read the official NBA sources for the live slate and cross-check them against the stored data | done | `scripts/capture_official_2026_11_14.py`, `data/app/official_*.json` |
+| I3 | Canonical dataset: one namespace, one source of truth, every row carrying its source | done | `scripts/assemble_canonical.py`, `data/app/canonical.json` |
+| I4 | Canonical dashboard: clean landing page + category sub-pages, all findings in tables | done | `scripts/build_app.py`, `app/**`, `index.html` |
+| I5 | Merged flags / questions / suggestions / sources / review into the canonical pages | done | `data/app/canonical.json` |
+| I6 | Build gates: every table row needs an https source link; no broken link or anchor | done | `scripts/build_app.py` |
+| I7 | CI: capture cross-check + canonical build + drift checks | done | `.github/workflows/pages.yml` |
+| I8 | PR → merge → Pages deploy verification | in progress | `COORDINATION.md` |
+
+### Official sources read on 2026-11-14 (all links are to the pages actually read)
+
+| Source | URL | What it established |
+|---|---|---|
+| NBA schedule | https://www.nba.com/schedule?date=2026-11-14 | The 31 games of the 2026-11-13 → 2026-11-16 window: date, tip time (ET), teams, NBA game id, venue, city, competition label |
+| NBA team advanced stats | https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season | GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE for all 30 teams |
+| NBA official injury report PDF (11/13/26 07:30 PM ET) | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf | Newest injury snapshot: 117 player rows + 5 team report statuses |
+| NBA official injury report index | https://official.nba.com/nba-injury-report-2026-27-season/ | Which reports exist; confirms 07:30 PM on 11/13 is the newest listed and that no 11/14 report is listed yet |
+| GitHub API | https://github.com/wingbangboozle1-lang/NBA3 | Pages build type/source, branches, pull requests, licence |
+
+### Verification performed (this session)
+
+* **Schedule:** 31 games transcribed by hand from the official page and compared with
+  `data/slates.csv` (captured 2026-11-13 by an earlier session): **31/31 agree** on date, tip time,
+  teams and NBA game id.
+* **Team statistics:** all 30 teams transcribed by hand and compared with
+  `data/origin/teams_advanced.csv`: **210/210 field comparisons agree** (GP, W, L, OffRtg, DefRtg,
+  NetRtg, PACE).
+* **Injury report:** 117 player rows + 5 team report statuses; diffed against the stored 11/13 05:15 PM
+  snapshot: **9 status changes** (e.g. T.J. McConnell Probable → Available, Klay Thompson Probable → Out),
+  **Denver's report newly present** for the 11/14 game, **5 teams still NOT YET SUBMITTED** for 11/14.
+* **Published rows:** the build fails if any table row has no `https` source link; 0 rows fail.
+* **Links:** 18 pages checked, 0 broken links and 0 broken anchors.
+* **Determinism:** capture → assemble → build produces byte-identical output on a second run, so the
+  CI drift check is meaningful.
+
+### Irregularities found by this session (published on the Flagged for Review page)
+
+| ID | Finding | Where it is published |
+|---|---|---|
+| NF-43 | Pages is still served from the legacy `main /` source, so the whole public repository is published. The Actions workflow runs and uploads an artifact, but the published site is the branch build. | Flagged for review + Repository review |
+| NF-44 | Seven dashboards were published side by side with four ID namespaces and different injury snapshots. The canonical dashboard is now the entry point; the earlier ones are kept and labelled as snapshots. | Flagged for review + Repository review |
+| NF-45 | Two official injury snapshots were stored with different timestamps (05:00 PM, 05:15 PM) and could be read as contradictory. The canonical site publishes the 07:30 PM report and shows the diff. | Flagged for review |
+| NF-46 | No official injury report exists yet for the 2026-11-15 and 2026-11-16 games; five teams had not submitted for 2026-11-14. | Flagged for review + Injuries page |
+| NF-47 | One earlier pipeline printed `BRK`, `CHO` and `PHO` instead of the official `BKN`, `CHA` and `PHX`; the canonical pages use the official abbreviations. | Flagged for review |
+| NF-48 | The first manual transcription of the official team-stats page produced 8 misread values (MIA, TOR, CHA, NOP, UTA). A second read confirmed the stored values; the automated cross-check caught all eight and is now part of the build. | Verification log + Flagged for review |
+
+### Cross-session notes
+
+* The `/edge/` pipeline (arena-0a016df8) remains the only place where market prices are compared
+  against our lines. Those prices are not official NBA values and are not published on the canonical
+  pages; the canonical pages show our own fair prices only.
+* `data/origin/` (session e22a2831) is the official-sourced model the canonical pages read from: 174
+  official final scores, 30 teams of official advanced statistics, walk-forward backtest, 7 gates.
+* Nothing in `docs/`, `site/`, `lab/`, `research/`, `edge/` or `origin/` was edited by this session.
+
+### Deployment / PR status
+
+* PR: pending (see below, updated after the merge).

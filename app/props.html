@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Player props — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html" class="active">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Model output</div>
+    <h1>Player props</h1>
+    
+  </div>
+
+<p>Player-prop projections for the games in the window. Season averages are official; the game
+projection uses a pro-rata minutes-redistribution assumption and <strong>no per-player game logs</strong>,
+so there is no distribution behind any of these numbers and no over/under probability can be
+computed. The prop line itself (what a sportsbook would offer) is not an official NBA value and is
+therefore not published here.</p>
+<div class="table-wrap"><table>
+<caption id="props"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>Player</th>
+<th>Injury status</th>
+<th>GP</th>
+<th>Min</th>
+<th>PTS</th>
+<th>REB</th>
+<th>AST</th>
+<th>3PM</th>
+<th>Proj min</th>
+<th>Proj PTS</th>
+<th>Prop line</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-15</td>
+<td>LAL @ PHX</td>
+<td>Luka Doncic</td>
+<td>Not listed</td>
+<td>11</td>
+<td>35.9</td>
+<td>38.6</td>
+<td>7.5</td>
+<td>7.6</td>
+<td>5.5</td>
+<td>35.9</td>
+<td>38.6</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>MIN @ CHI</td>
+<td>Anthony Edwards</td>
+<td>Out</td>
+<td>4</td>
+<td>33.7</td>
+<td>33.3</td>
+<td>4.8</td>
+<td>3.5</td>
+<td>4.5</td>
+<td>33.7</td>
+<td>33.3</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>SAS @ GSW</td>
+<td>Victor Wembanyama</td>
+<td>Not listed</td>
+<td>12</td>
+<td>30.0</td>
+<td>30.3</td>
+<td>11.7</td>
+<td>2.8</td>
+<td>1.9</td>
+<td>30.0</td>
+<td>30.3</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>OKC @ LAC</td>
+<td>Shai Gilgeous-Alexander</td>
+<td>Not listed</td>
+<td>12</td>
+<td>32.8</td>
+<td>29.7</td>
+<td>4.3</td>
+<td>4.5</td>
+<td>2.3</td>
+<td>32.8</td>
+<td>29.7</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>GSW @ SAS</td>
+<td>Stephen Curry</td>
+<td>Out</td>
+<td>10</td>
+<td>26.3</td>
+<td>27.8</td>
+<td>3.7</td>
+<td>3.9</td>
+<td>4.3</td>
+<td>47.8</td>
+<td>50.5</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>MIA @ CLE</td>
+<td>Giannis Antetokounmpo</td>
+<td>Available</td>
+<td>11</td>
+<td>32.6</td>
+<td>27.7</td>
+<td>12.6</td>
+<td>5.2</td>
+<td>0.5</td>
+<td>32.6</td>
+<td>27.7</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>PHI @ IND</td>
+<td>Tyrese Maxey</td>
+<td>Not listed</td>
+<td>13</td>
+<td>36.2</td>
+<td>26.7</td>
+<td>3.4</td>
+<td>5.5</td>
+<td>2.5</td>
+<td>36.2</td>
+<td>26.7</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>BOS @ DAL</td>
+<td>Jayson Tatum</td>
+<td>Not listed</td>
+<td>11</td>
+<td>34.0</td>
+<td>26.3</td>
+<td>6.1</td>
+<td>7.5</td>
+<td>2.4</td>
+<td>34.0</td>
+<td>26.3</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DEN @ NOP</td>
+<td>Jamal Murray</td>
+<td>Not listed</td>
+<td>10</td>
+<td>36.4</td>
+<td>26.2</td>
+<td>5.0</td>
+<td>5.9</td>
+<td>4.0</td>
+<td>36.4</td>
+<td>26.2</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>MEM @ NOP</td>
+<td>Ty Jerome</td>
+<td>Not listed</td>
+<td>10</td>
+<td>30.7</td>
+<td>26.2</td>
+<td>3.5</td>
+<td>4.9</td>
+<td>2.6</td>
+<td>30.7</td>
+<td>26.2</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>SAC @ POR</td>
+<td>Darius Acuff Jr.</td>
+<td>Not listed</td>
+<td>11</td>
+<td>37.3</td>
+<td>26.2</td>
+<td>3.8</td>
+<td>7.3</td>
+<td>3.1</td>
+<td>37.3</td>
+<td>26.2</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>NYK @ IND</td>
+<td>Jalen Brunson</td>
+<td>Not listed</td>
+<td>11</td>
+<td>33.6</td>
+<td>26.0</td>
+<td>3.1</td>
+<td>5.2</td>
+<td>2.6</td>
+<td>33.6</td>
+<td>26.0</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>WAS @ HOU</td>
+<td>Anthony Davis</td>
+<td>Not listed</td>
+<td>11</td>
+<td>34.1</td>
+<td>25.6</td>
+<td>10.5</td>
+<td>2.0</td>
+<td>0.8</td>
+<td>34.1</td>
+<td>25.6</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>PHX @ LAL</td>
+<td>Devin Booker</td>
+<td>Not listed</td>
+<td>11</td>
+<td>34.0</td>
+<td>25.5</td>
+<td>2.5</td>
+<td>5.0</td>
+<td>2.2</td>
+<td>34.0</td>
+<td>25.5</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DET @ MIA</td>
+<td>Cade Cunningham</td>
+<td>Not listed</td>
+<td>11</td>
+<td>34.5</td>
+<td>25.0</td>
+<td>5.2</td>
+<td>7.9</td>
+<td>2.0</td>
+<td>34.5</td>
+<td>25.0</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>LAL @ PHX</td>
+<td>Austin Reaves</td>
+<td>Not listed</td>
+<td>12</td>
+<td>35.3</td>
+<td>24.7</td>
+<td>3.3</td>
+<td>4.7</td>
+<td>2.3</td>
+<td>35.3</td>
+<td>24.7</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DAL @ CLE</td>
+<td>Cooper Flagg</td>
+<td>Not listed</td>
+<td>11</td>
+<td>33.5</td>
+<td>24.6</td>
+<td>6.9</td>
+<td>6.5</td>
+<td>1.4</td>
+<td>33.5</td>
+<td>24.6</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>ORL @ MIL</td>
+<td>Paolo Banchero</td>
+<td>Out</td>
+<td>2</td>
+<td>33.8</td>
+<td>24.5</td>
+<td>6.5</td>
+<td>7.5</td>
+<td>1.5</td>
+<td>64.8</td>
+<td>46.9</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DEN @ NOP</td>
+<td>Nikola Jokic</td>
+<td>Not listed</td>
+<td>10</td>
+<td>36.3</td>
+<td>23.5</td>
+<td>10.8</td>
+<td>9.0</td>
+<td>1.0</td>
+<td>36.3</td>
+<td>23.5</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>TOR @ NYK</td>
+<td>Scottie Barnes</td>
+<td>Not listed</td>
+<td>8</td>
+<td>33.3</td>
+<td>23.5</td>
+<td>7.6</td>
+<td>5.1</td>
+<td>0.5</td>
+<td>33.3</td>
+<td>23.5</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>ORL @ MIL</td>
+<td>Franz Wagner</td>
+<td>Not listed</td>
+<td>11</td>
+<td>36.9</td>
+<td>23.5</td>
+<td>6.5</td>
+<td>7.9</td>
+<td>1.3</td>
+<td>70.7</td>
+<td>45.0</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>POR @ SAC</td>
+<td>Deni Avdija</td>
+<td>Not listed</td>
+<td>11</td>
+<td>32.5</td>
+<td>23.0</td>
+<td>6.1</td>
+<td>6.5</td>
+<td>1.9</td>
+<td>32.5</td>
+<td>23.0</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>CLE @ MIA</td>
+<td>Donovan Mitchell</td>
+<td>Not listed</td>
+<td>12</td>
+<td>33.0</td>
+<td>22.8</td>
+<td>5.0</td>
+<td>5.5</td>
+<td>2.7</td>
+<td>33.0</td>
+<td>22.8</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>IND @ NYK</td>
+<td>Pascal Siakam</td>
+<td>Not listed</td>
+<td>11</td>
+<td>32.1</td>
+<td>22.7</td>
+<td>6.9</td>
+<td>4.4</td>
+<td>1.7</td>
+<td>65.1</td>
+<td>46.0</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>SAC @ POR</td>
+<td>Zach LaVine</td>
+<td>Not listed</td>
+<td>11</td>
+<td>32.7</td>
+<td>22.3</td>
+<td>3.3</td>
+<td>2.5</td>
+<td>2.8</td>
+<td>32.7</td>
+<td>22.3</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>BOS @ DAL</td>
+<td>Paul George</td>
+<td>Not listed</td>
+<td>10</td>
+<td>30.1</td>
+<td>22.0</td>
+<td>5.2</td>
+<td>3.8</td>
+<td>3.7</td>
+<td>30.1</td>
+<td>22.0</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>ATL @ CHI</td>
+<td>Nickeil Alexander-Walker</td>
+<td>Not listed</td>
+<td>12</td>
+<td>31.1</td>
+<td>21.9</td>
+<td>3.3</td>
+<td>2.6</td>
+<td>3.9</td>
+<td>31.1</td>
+<td>21.9</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>MIL @ ORL</td>
+<td>Tyler Herro</td>
+<td>Not listed</td>
+<td>11</td>
+<td>31.0</td>
+<td>21.9</td>
+<td>4.4</td>
+<td>4.5</td>
+<td>3.0</td>
+<td>31.0</td>
+<td>21.9</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>IND @ NYK</td>
+<td>Tyrese Haliburton</td>
+<td>Out</td>
+<td>4</td>
+<td>33.0</td>
+<td>21.8</td>
+<td>4.5</td>
+<td>9.5</td>
+<td>2.5</td>
+<td>66.9</td>
+<td>44.2</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>NOP @ MEM</td>
+<td>Zion Williamson</td>
+<td>Not listed</td>
+<td>11</td>
+<td>32.7</td>
+<td>21.7</td>
+<td>5.2</td>
+<td>2.6</td>
+<td>0.4</td>
+<td>32.7</td>
+<td>21.7</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>GSW @ SAS</td>
+<td>Yaxel Lendeborg</td>
+<td>Not listed</td>
+<td>12</td>
+<td>32.2</td>
+<td>21.7</td>
+<td>—</td>
+<td>—</td>
+<td>2.4</td>
+<td>58.5</td>
+<td>39.4</td>
+<td><span class="chip chip-warn">Distribution not established</span></td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_15PM.pdf</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

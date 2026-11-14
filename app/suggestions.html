@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site improvement suggestions — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Decision support</div>
+    <h1>Site improvement suggestions</h1>
+    
+  </div>
+
+<p>Improvements that could be made to this site and to the decision-making it supports. Each one lists
+the options, a recommendation and the dependency. <strong>Nothing here has been implemented without an
+owner decision</strong> — the decisions are listed on the <a href="questions.html">Open
+questions</a> page.</p>
+<div class="table-wrap"><table>
+<caption id="suggestions"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Area</th>
+<th>Suggestion</th>
+<th>Why</th>
+<th>Options</th>
+<th>Recommendation</th>
+<th>Dependency</th>
+<th>Decision</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CS-01</td>
+<td>Site / legal</td>
+<td>Reduce NBA-derived content on the public site until reproduction rights are confirmed</td>
+<td>NBA Terms s.1 and s.9 restrict reproduction and statistics use; the site currently reproduces an injury snapshot and schedule rows</td>
+<td>A: keep snapshot with attribution (risk remains); B: show links and counts only; C: obtain written permission first</td>
+<td>B now; C if the project proceeds</td>
+<td>Q-DATA-03</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>CS-02</td>
+<td>Legal / product</td>
+<td>Publish no picks or betting recommendations until a Dutch counsel opinion is received</td>
+<td>Art. 1(b) Wet op de kansspelen restricts promoting unlicensed gambling; Ksa says advertising needs a licence</td>
+<td>A: publish nothing (current state); B: publish analysis without bet recommendations; C: private research only</td>
+<td>A</td>
+<td>Q-LEG-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">https://wetten.overheid.nl/BWBR0002469/2025-02-12/0</a></td>
+</tr>
+<tr>
+<td>CS-03</td>
+<td>Data access</td>
+<td>Provide an allowed network path or a dated owner export for historical NBA data</td>
+<td>No historical data can be retrieved from this environment; no strategy can be evaluated without it</td>
+<td>A: allow egress to stats.nba.com and cdn.nba.com; B: owner export of CSVs with provenance notes; C: licensed data vendor</td>
+<td>B short term; C before any publication</td>
+<td>Q-DATA-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional</a></td>
+</tr>
+<tr>
+<td>CS-04</td>
+<td>Odds</td>
+<td>Use a licensed provider with timestamped odds history and written terms</td>
+<td>No official odds source identified; line comparison and ROI need timestamped prices</td>
+<td>A: licensed vendor feed; B: owner-captured prices under the operator&#x27;s terms; C: no prices (research only)</td>
+<td>C until counsel reviews A or B</td>
+<td>Q-DATA-02</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>CS-05</td>
+<td>Validation</td>
+<td>Approve gate thresholds and freeze them before any data is loaded</td>
+<td>Pre-registration limits selection bias and luck-driven leaderboard results</td>
+<td>A: strict proposed defaults (gates.csv); B: looser defaults; C: no thresholds (not recommended)</td>
+<td>A</td>
+<td>Q-GATE-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+</tr>
+<tr>
+<td>CS-06</td>
+<td>Injuries</td>
+<td>Refresh the injury snapshot from the newest official report on a fixed cadence and store each revision</td>
+<td>Reports are updated continually; a stale snapshot can mislead a slate</td>
+<td>A: manual refresh before each slate; B: scheduled job (needs egress); C: no refresh</td>
+<td>B once egress exists; A until then</td>
+<td>Q-OPS-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CS-07</td>
+<td>Scope</td>
+<td>Define the 3-day horizon as calendar dates inclusive (Nov 13-16 for today&#x27;s run)</td>
+<td>Brief says up to 3 days; prior dashboard used 72 hours</td>
+<td>A: calendar dates inclusive; B: 72 hours from run time; C: 3 game-days</td>
+<td>A</td>
+<td>Q-SCOPE-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>CS-08</td>
+<td>Site</td>
+<td>Show an as-of timestamp and a stale-data warning on every table</td>
+<td>Reviewers need to see whether a value is current</td>
+<td>A: timestamp per page; B: timestamp per row; C: none</td>
+<td>A (page) plus B for injuries</td>
+<td>None</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md</a></td>
+</tr>
+<tr>
+<td>CS-09</td>
+<td>Governance</td>
+<td>Commit a hash of each strategy spec before its data is loaded</td>
+<td>Shows the strategy was not changed after seeing results</td>
+<td>A: hash in strategies.csv; B: signed commit; C: none</td>
+<td>A</td>
+<td>Q-GATE-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+</tr>
+<tr>
+<td>CS-10</td>
+<td>Verification</td>
+<td>Run an external-link check on a schedule and not only on deploy</td>
+<td>Prior workflow did not fetch external links; links can rot</td>
+<td>A: weekly scheduled job; B: on every PR; C: manual</td>
+<td>B</td>
+<td>Q-REPO-02</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml</a></td>
+</tr>
+<tr>
+<td>CS-11</td>
+<td>Repository</td>
+<td>Add a LICENSE file</td>
+<td>No licence is declared</td>
+<td>A: MIT; B: all rights reserved (no licence file); C: other</td>
+<td>Owner choice</td>
+<td>Q-REPO-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CS-12</td>
+<td>Repository</td>
+<td>Delete stale remote session branches after owner review</td>
+<td>Four remote arena/* branches exist; three have no PR</td>
+<td>A: delete after review; B: keep; C: archive</td>
+<td>A after review</td>
+<td>None</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/branches</a></td>
+</tr>
+<tr>
+<td>CS-13</td>
+<td>Site</td>
+<td>Add a decision log page where the owner records the chosen option and date</td>
+<td>Keeps choices auditable and separate from implementation</td>
+<td>A: decision log in suggestions.csv; B: issue tracker; C: none</td>
+<td>A</td>
+<td>None</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/suggestions.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/suggestions.csv</a></td>
+</tr>
+<tr>
+<td>CS-14</td>
+<td>Injuries</td>
+<td>Add an injury parser with test fixtures before transcribing later reports</td>
+<td>Manual transcription from extracted PDF text is error-prone</td>
+<td>A: parser with fixtures; B: manual transcription with a second check; C: no injury table</td>
+<td>A</td>
+<td>Q-DATA-01</td>
+<td>Awaiting owner review</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>CS-15</td>
+<td>Site</td>
+<td>Legal path first. Get Dutch counsel to decide between (A) private analysis only, with no lines or picks sent to others, (B) a Koa licence path, or (C) pausing betting features.</td>
+<td>7C-F-02: Ksa requires a Koa licence for online sports betting offers.</td>
+<td>[&#x27;A — private analysis only&#x27;, &#x27;B — pursue Koa licence&#x27;, &#x27;C — pause betting features&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CS-16</td>
+<td>Site</td>
+<td>Choose a data rights path: (A) written permission from NBA for statistics use under §9, (B) a licensed odds and statistics provider with written terms, or (C) official NBA reports only (schedule and injury), which cannot support models alone.</td>
+<td>7C-F-01, 7C-F-03, 7C-F-04.</td>
+<td>[&#x27;A — NBA written permission&#x27;, &#x27;B — licensed provider&#x27;, &#x27;C — official NBA reports only&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>CS-17</td>
+<td>Site</td>
+<td>Build a provenance pipeline for official sources: store each file with URL, retrieval time (UTC), and hash; re-pull schedule and injury reports at query time; suppress picks when a snapshot is stale.</td>
+<td>7C-F-09 (schedule changes), Q-04 (updates through the day).</td>
+<td>[&#x27;Approve&#x27;, &#x27;Defer&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
+</tr>
+<tr>
+<td>CS-18</td>
+<td>Site</td>
+<td>Pre-register the leaderboard before any modelling: primary metric (e.g., Brier or log loss against a no-vig market baseline, closing-line value, or net ROI with bootstrap CI), minimum sample, horizon, and gate thresholds.</td>
+<td>Q-10. Separates skill from luck and from backtest selection.</td>
+<td>[&#x27;Approve as drafted&#x27;, &#x27;Owner edits&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm</a></td>
+</tr>
+<tr>
+<td>CS-19</td>
+<td>Site</td>
+<td>Start with single-game probabilities (moneyline, spread, total). Add player props and parlays only after minutes data and joint calibration pass G2–G7.</td>
+<td>Props and parlays depend on minutes and on correlation, neither of which is measured yet (7C-F-05, 7C-F-06).</td>
+<td>[&#x27;Approve&#x27;, &#x27;Defer&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CS-20</td>
+<td>Site</td>
+<td>Model injury effects on minutes only from authorized minutes data. Use the official status as an input, with uncertainty bands, and show &#x27;not quantified&#x27; where data is missing.</td>
+<td>Q-05: official reports carry status and reason only.</td>
+<td>[&#x27;Approve&#x27;, &#x27;Defer&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf</a></td>
+</tr>
+<tr>
+<td>CS-21</td>
+<td>Site</td>
+<td>Add CSV export, a &#x27;last verified&#x27; date on every table, and an external-link checker that runs on a schedule (the current CI checks only in-page anchors).</td>
+<td>RR-03. Keeps the source trail current.</td>
+<td>[&#x27;Approve&#x27;, &#x27;Defer&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions</a></td>
+</tr>
+<tr>
+<td>CS-22</td>
+<td>Site</td>
+<td>Keep the Flagged-for-Review page and COORDINATION board as the review trail. Fail CI when a row lacks a source or a &#x27;verified&#x27; flag.</td>
+<td>Brief: no unverified value may appear without a flag.</td>
+<td>[&#x27;Approve&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CS-23</td>
+<td>Site</td>
+<td>Before any betting content: set bankroll and loss limits, add a responsible-gambling section with Ksa Gokstop information (after verifying the link), and an age gate as counsel advises.</td>
+<td>Q-11, Q-13.</td>
+<td>[&#x27;Approve&#x27;, &#x27;Defer&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/</a></td>
+</tr>
+<tr>
+<td>CS-24</td>
+<td>Site</td>
+<td>Use only the 2026-27 NBA injury index (S02) in all links. Retire the 2025-26 link (S03) everywhere.</td>
+<td>7C-F-07.</td>
+<td>[&#x27;Approve&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2025-26-season/</a></td>
+</tr>
+<tr>
+<td>CS-25</td>
+<td>Site</td>
+<td>Run a discovery sprint for missing information: (1) written request to NBA for §9 permission; (2) request provider documentation and sample files for odds and minutes data, with timestamps and licence terms; (3) counsel review of 7C-F-02; (4) pull later official injury reports the same day to measure the update cadence (S02).</td>
+<td>Q-04, Q-07, Q-08, Q-09, 7C-F-01 to 7C-F-03: the missing items cannot be filled from the repository alone.</td>
+<td>[&#x27;Approve all&#x27;, &#x27;Approve parts (list)&#x27;, &#x27;Defer&#x27;]</td>
+<td></td>
+<td></td>
+<td>Awaiting owner review</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>CS-26</td>
+<td>Site</td>
+<td>Retire or clearly mark the six earlier dashboards</td>
+<td>The earlier /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards duplicate facts under different ID namespaces and different injury snapshots. A reader can easily compare a 5:00 PM status with a 7:30 PM status and think the site contradicts itself.</td>
+<td>A: keep all six as linked &#x27;earlier snapshots&#x27; (current); B: keep only /origin/ and /edge/ because they carry the model and the gates; C: move all of them to an archive branch and keep only the canonical site live.</td>
+<td>A for now — nothing is deleted without an owner decision; B is the cleanest long-term state.</td>
+<td>None — this is a publishing decision, not a code dependency.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/branches</a></td>
+</tr>
+<tr>
+<td>CS-27</td>
+<td>Site</td>
+<td>Switch GitHub Pages from the legacy &#x27;main /&#x27; source to the Actions workflow</td>
+<td>With the legacy source the whole public repository is published, including raw JSON/CSV data files. That widens the surface of the NBA-derived content that the Terms-of-Use flag concerns.</td>
+<td>A: keep legacy source (current); B: switch to GitHub Actions so only the curated artifact is published.</td>
+<td>B — it publishes only the reviewed pages and removes the raw data files from the public surface.</td>
+<td>Requires a repository admin token with Pages administration rights.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
+</tr>
+<tr>
+<td>CS-28</td>
+<td>Site</td>
+<td>Add a single &#x27;as of&#x27; timestamp and data-freshness badge on every page</td>
+<td>Official sources move during a slate (injury reports every 15 minutes, tip times can change, stats pages update after games). A reader cannot currently tell how old a page is.</td>
+<td>A: keep the current per-table source stamps only; B: add one global snapshot stamp plus a per-table freshness badge.</td>
+<td>B — already implemented in this session for the canonical pages.</td>
+<td>None</td>
+<td>Implemented in this session (open for owner confirmation)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CS-29</td>
+<td>Decision support</td>
+<td>Turn the leaderboard into a scored competition with an explicit prize rule</td>
+<td>The brief asks for a leaderboard competition with rewards for the best strategies. The repository has gates and a ranking, but no reward rule, no capital base and no drawdown limit.</td>
+<td>A: keep gates only (current); B: add a paper-trading prize rule with a fixed stake and a published drawdown stop.</td>
+<td>B, once the legal and data questions (CQ pages) are answered.</td>
+<td>CQ legal answers; a licensed or owner-captured price source for scoring.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CS-30</td>
+<td>Model</td>
+<td>Add possession-level inputs (four factors) to the total model</td>
+<td>The total model does not beat a naive league-average baseline out of sample (RMSE 20.35 vs 19.56), so every total-based strategy rests on a model with no demonstrated skill.</td>
+<td>A: keep the total model as published with the caveat; B: add offensive/defensive ratings and pace matchup before publishing total-based strategies.</td>
+<td>B — the model is already written for it and the inputs are official NBA stats.</td>
+<td>Official team ratings (already captured) and player box scores.</td>
+<td>Awaiting owner review</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

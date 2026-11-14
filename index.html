@@ -1,65 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="NBA line-origination research dashboard with source-linked findings, model limitations, decision questions, and review flags.">
-<title>NBA Edge Lab — Research &amp; Review Dashboard</title>
-<style>
-:root{--navy:#12213b;--blue:#2254bd;--bg:#f3f6fb;--ink:#17243a;--muted:#5e6c82;--line:#dce4ef;--white:#fff;--warn:#fff2d5;--red:#8e2f22;--redbg:#fff0ee;--green:#e9f5ef}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--navy);color:#fff;padding:30px max(22px,calc((100vw - 1200px)/2)) 26px}header .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#b9cbff;font-weight:700}h1{font-size:32px;margin:5px 0}header p{max-width:920px;margin:8px 0 0;color:#e0e8f5}.wrap{max-width:1200px;margin:auto;padding:22px}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px}.nav,.card{background:#fff;border:1px solid var(--line);border-radius:12px}.nav{padding:13px;height:max-content;position:sticky;top:12px}.nav a{display:block;padding:8px 10px;border-radius:7px;text-decoration:none;color:var(--ink)}.nav a:hover{background:#edf2ff;color:var(--blue)}main{min-width:0}.card{padding:20px;margin:0 0 16px;box-shadow:0 2px 8px #17294b08}.card h2{font-size:20px;margin:0 0 10px}.card h3{font-size:16px;margin:17px 0 6px}.callout{padding:13px 15px;border-left:4px solid #d68e12;background:var(--warn);border-radius:5px}.critical{border-color:#bb3b2c;background:var(--redbg)}.good{background:var(--green);padding:12px 14px;border-radius:6px}.muted{color:var(--muted)}.tag{display:inline-block;padding:2px 8px;border-radius:999px;background:#eef2f8;font-size:12px;font-weight:700}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid var(--line)}th{background:#f4f7fb}a{color:#2053bd}ul.compact{margin:6px 0;padding-left:20px}.subnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.subnav a{padding:12px;border:1px solid var(--line);border-radius:8px;text-decoration:none;background:#fafcff}.foot{font-size:13px;color:var(--muted);padding:14px 0}.source{white-space:nowrap}@media(max-width:760px){.layout{grid-template-columns:1fr}.nav{position:static;display:flex;overflow-x:auto;gap:2px}.nav a{white-space:nowrap}.subnav{grid-template-columns:1fr}header{padding:22px}}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NBA Edge Lab — canonical dashboard — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="app/assets/app.css">
 </head>
 <body>
-<header><div class="eyebrow">NBA · research-first decision support</div><h1>NBA Edge Lab</h1><p>One landing page for the repository’s independent NBA forecasting experiments, official-source references, decision questions, and review flags. This is a research dashboard—not a sportsbook, an official NBA product, or betting advice.</p></header>
-<div class="wrap layout">
-<nav class="nav" aria-label="Dashboard navigation">
-<a href="#summary">Executive summary</a><a href="#readiness">What exists now</a><a href="#workstreams">Research categories</a><a href="#questions">Open questions</a><a href="#suggestions">Suggestions to review</a><a href="review.html"><b>Flagged for review →</b></a><a href="#sources">Official sources</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="app/summary.html">Executive summary</a> <a href="app/methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="app/lines.html">Originated lines</a> <a href="app/picks.html">Picks (3-day window)</a> <a href="app/props.html">Player props</a> <a href="app/strategies.html">Strategies &amp; gates</a> <a href="app/correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="app/injuries.html">Injuries &amp; rotation</a> <a href="app/gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="app/questions.html">Open questions</a> <a href="app/suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="app/verification.html">Verification log</a> <a href="app/sources.html">Source register</a> <a href="app/review.html">Repository review</a> <a href="app/flagged.html">Flagged for review</a></span></div>
+  </div>
 </nav>
-<main>
-<section class="card" id="summary"><h2>Executive summary</h2><div class="callout critical"><b>Important: the repository now contains several independent model/data products, not one reconciled system.</b> Some sub-sites publish originated lines, candidate picks, and statistical summaries. Their inputs, date windows, model outputs, and eligibility labels differ. The passing local build/test checks establish software consistency only; they do not establish that the underlying NBA values are official, licensed, current, or predictive. Do not treat any displayed pick, edge, fair price, ROI, correlation, or injury impact as an actionable or verified result until the items on <a href="review.html">Flagged for Review</a> are resolved.</div><p>The best-supported outcome of this audit is a decision-support plan: secure and document permissible data access; select one versioned source of truth; log pre-game forecasts and snapshots; run time-ordered validation and a prospective paper trial; and only then enable a leaderboard or picks. Individual game outcomes remain noisy—validation can quantify uncertainty, not remove luck.</p><p><b>Current site review date:</b> 14 November 2026 (UTC). Fixed snapshots in the repository are not live feeds and may become stale.</p></section>
-<section class="card" id="readiness"><h2>Readiness at a glance</h2><div class="scroll"><table><thead><tr><th>Capability</th><th>What the repository currently contains</th><th>Decision status</th><th>Primary official reference</th></tr></thead><tbody>
-<tr><td>Single-game lines / picks</td><td>Multiple experimental line and pick outputs exist in separate workstreams; they are not reconciled and some use secondary-source inputs or market snapshots whose data rights are not established here.</td><td><b>Unverified; not eligible as a product recommendation.</b></td><td><a href="https://www.nba.com/termsofuse">NBA Terms of Use</a> (source-use review required)</td></tr>
-<tr><td>Player props and combinations</td><td>One workstream has a small props output; no unified player-minute/role dataset or validated joint-probability model is established across the repository.</td><td><b>Blocked pending permitted player/odds inputs and validation.</b></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">NBA Official injury-report index</a> (status reports, not minutes forecasts)</td></tr>
-<tr><td>Parlays and correlation</td><td>Different artifacts report different measurements and sample definitions; the repository has no reconciled correlation registry or approved combo strategy.</td><td><b>Do not use as a combo recommendation.</b></td><td><a href="https://www.nba.com/stats/help/glossary">NBA Stats glossary</a> (definitions only; not validation)</td></tr>
-<tr><td>Injury and rotation workflow</td><td>Several dated injury snapshots and proposed injury analyses exist. An injury report states reported status; it does not supply an estimated minutes replacement effect.</td><td><b>Snapshots only; refresh and validate before any slate use.</b></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">NBA Official injury-report index</a></td></tr>
-<tr><td>Upcoming slate (≤3 days)</td><td>Fixed slate files cover selected November 2026 dates; no continuously updating production feed is verified in this repository.</td><td><b>Historical/static snapshot; refresh at request time.</b></td><td><a href="https://www.nba.com/news/2026-27-nba-regular-season-schedule">NBA official schedule release</a> (schedule subject to change)</td></tr>
-<tr><td>Leaderboard and skill claims</td><td>Experimental backtests and gates exist in distinct implementations, with differing samples and criteria. No common, independently reconciled prospective record exists.</td><td><b>No strategy can be called proven or a winner from this audit.</b></td><td><a href="https://www.nba.com/termsofuse">NBA Terms of Use</a> (data-use review; not a performance source)</td></tr>
-<tr><td>Legal and data rights</td><td>Repository notes identify unresolved NBA statistics terms, odds/provider licensing, and intended distribution/use.</td><td><b>Resolve with counsel and written provider terms before product use.</b></td><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">Dutch Gambling Authority (Ksa)</a></td></tr>
-</tbody></table></div><p class="muted">“Exists” describes files in this repository, not verification of the underlying claim. The review page links to both local evidence and relevant official references.</p></section>
-<section class="card" id="workstreams"><h2>Research categories &amp; sub-sites</h2><p class="muted">These are separate snapshots produced by prior workstreams. They are linked for inspection—not endorsed or merged into a canonical model. Consult the corresponding review flags before relying on their outputs.</p><div class="subnav">
-<a href="site/index.html"><b>Data dashboard</b><br>Tables, source register, injury and schedule data</a>
-<a href="docs/index.html"><b>Documentation &amp; decisions</b><br>Open questions, validation gates, suggestions</a>
-<a href="research/index.html"><b>Research tables</b><br>Requirements, source-linked rows, slate and flag pages</a>
-<a href="lab/index.html"><b>Line Lab</b><br>Experimental originated lines, strategy tests and props</a>
-<a href="edge/index.html"><b>Edge Lab</b><br>Experimental lines, picks, game flow and validation</a>
-<a href="origin/index.html"><b>Origin engine</b><br>Independent model, correlations, props and injury analysis</a>
-<a href="dash/index.html"><b>Unified dashboard →</b><br>One page for the current lines, leaderboard, gates, correlations and injury register, reconciled across the workstreams below and rebuilt from <code>data/integration/model.json</code></a>
-<a href="verify/pages/index.html"><b>Verification &amp; decisions &rarr;</b><br>Cross-checks the six sites, lists 9 contradictions, the corrections made and the decisions that are blocked</a>
-</div><p>For one page with the cross-workstream irregularities and review actions, use <a href="review.html">Flagged for Review</a>. Each sub-site’s analysis should be compared to its source files and current official sources, not assumed to share the same sample or method.</p>
-<h3>How to reduce luck’s influence</h3><ul class="compact"><li>Freeze a model and record each forecast, information cutoff, price, and data snapshot before tip-off.</li><li>Use chronological, leakage-resistant walk-forward tests and a prospective paper phase; do not select thresholds after viewing results.</li><li>Report probability calibration and proper scores as well as uncertainty intervals, sample sizes, drawdowns, and net returns after documented costs.</li><li>Estimate combo/joint probabilities directly; measure dependence on matched samples and disclose uncertainty. Never assume parlay legs are independent without evidence.</li><li>Rank strategies only after common gates and a shared settlement/pricing specification have been applied.</li></ul></section>
-<section class="card" id="questions"><h2>Questions that must be answered before a decision</h2><div class="scroll"><table><thead><tr><th>Question</th><th>Known from repository / official reference</th><th>Missing information</th><th>Discovery action</th><th>Official source</th></tr></thead><tbody>
-<tr><td>May the project use and publish the source statistics in gambling-related analytics?</td><td>NBA Terms §9 text contains restrictions on using NBA Statistics in connection with gambling activity; scope and application to this project require legal review.</td><td>Written permission, data contract, permitted derivative outputs and redistribution.</td><td>Ask qualified counsel and the rights holder; record written permission and approved use.</td><td><a href="https://www.nba.com/termsofuse">NBA Terms of Use</a></td></tr>
-<tr><td>Is the intended activity private analysis or an offering to others in the Netherlands?</td><td>Ksa’s official page says offering online sports bets is a regulated activity requiring a licence; whether this software’s planned function falls within a legal category is not decided here.</td><td>Product distribution, operator identity, audience, monetization and applicable licences.</td><td>Obtain Dutch regulatory counsel’s written assessment before enabling distribution or betting functionality.</td><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">Ksa guidance</a></td></tr>
-<tr><td>Which data provider is authorized for historical results, player outcomes, odds and settlement?</td><td>Repository files name Basketball-Reference and ESPN in some inputs; authorization for this use is not evidenced in the repository.</td><td>Provider, market coverage, history, timestamp precision, terms, costs and retention/display rights.</td><td>Request contract terms and sample data; log hashes, retrieval time, revisions and missingness.</td><td><a href="https://www.nba.com/termsofuse">NBA Terms of Use</a></td></tr>
-<tr><td>What constitutes a skill-based leaderboard winner?</td><td>Different workstreams use different gates and metrics; no shared pre-registered standard is established.</td><td>Primary objective, sample floor, horizon, baseline, correction for multiple testing and uncertainty threshold.</td><td>Pre-register definitions and minimum evidence before running or comparing strategies.</td><td><a href="https://www.nba.com/stats/help/glossary">NBA Stats glossary</a> (metric definitions only)</td></tr>
-<tr><td>How should injuries map to minutes, production and game flow?</td><td>Official reports publish time-stamped participation status and reason; the index notes reports update continually.</td><td>Authorized historical rotation/lineup data, conditional minutes model, effects, uncertainty and validation.</td><td>Archive timestamped reports and authorized outcomes; fit conditional scenarios and validate out of sample.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">NBA injury-report index</a></td></tr>
-<tr><td>How fresh must a slate be, and what if the schedule changes?</td><td>The official schedule PDF is marked “subject to change”; repository slate files are fixed snapshots.</td><td>Refresh cadence, timezone policy, status cutoff and suppression behavior on stale/missing data.</td><td>Re-query the official schedule and injury index on each run; enforce a maximum-age threshold and fail closed.</td><td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf">NBA schedule PDF</a></td></tr>
-<tr><td>What bankroll and responsible-use controls apply?</td><td>No complete product risk policy is demonstrated in the audited repository.</td><td>Geography, user age, bankroll, staking limits, exposure/drawdown controls and support resources.</td><td>Obtain counsel and define risk controls before any product decision; do not infer them from model output.</td><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">Ksa official guidance</a></td></tr>
-</tbody></table></div></section>
-<section class="card" id="suggestions"><h2>Suggestions queue — choose before implementation</h2><p>These are staged proposals, not approvals. The detailed existing queues are available at <a href="docs/suggestions.html">Documentation suggestions</a> and <a href="site/suggestions.html">dashboard suggestions</a>; they should be reconciled with the review findings first.</p><div class="scroll"><table><thead><tr><th>Order</th><th>Recommendation</th><th>Why / dependency</th><th>Decision status</th><th>Official reference</th></tr></thead><tbody>
-<tr><td>1 — gate</td><td>Get legal and data-rights review before further public betting outputs.</td><td>NBA terms and Dutch offering requirements are unresolved for the intended product.</td><td>Awaiting review; no legal conclusion made</td><td><a href="https://www.nba.com/termsofuse">NBA Terms</a> · <a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">Ksa</a></td></tr>
-<tr><td>2 — consolidate</td><td>Choose one canonical, permissioned dataset and one model pipeline; label all others archived/experimental.</td><td>Current parallel workstreams disagree on samples, dates, estimates, and strategy statuses.</td><td>Awaiting owner choice; implementation not made</td><td><a href="https://www.nba.com/news/2026-27-nba-regular-season-schedule">NBA schedule source</a></td></tr>
-<tr><td>3 — instrument</td><td>Build immutable, timestamped schedule, injury, lineup, outcome and licensed-price snapshots.</td><td>Needed for reproducibility, freshness, chronology and missing-data detection.</td><td>Proposed; source contracts required</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">NBA injury-report index</a></td></tr>
-<tr><td>4 — validate</td><td>Define common single-market gates and conduct walk-forward and prospective paper testing before props/parlays.</td><td>Stops model selection on the same sample and avoids assuming market independence.</td><td>Thresholds not approved; pre-register first</td><td><a href="https://www.nba.com/stats/help/glossary">NBA Stats glossary</a> (terminology only)</td></tr>
-<tr><td>5 — publish safely</td><td>Show source timestamp, model version, sample, uncertainty, gate failures and stale-data state for every output; suppress actionable labels until cleared.</td><td>Current pages mix experimental outcomes, unlike the “no picks” README statements.</td><td>Suggested; review before changing other workstream files</td><td><a href="https://www.nba.com/termsofuse">NBA Terms of Use</a></td></tr>
-</tbody></table></div></section>
-<section class="card" id="sources"><h2>Official sources reviewed</h2><div class="scroll"><table><thead><tr><th>Official source</th><th>What it verifies</th><th>Limit</th></tr></thead><tbody>
-<tr><td><a href="https://www.nba.com/termsofuse">NBA.com Terms of Use</a></td><td>Terms text, including the NBA Statistics section and its use restrictions.</td><td>Not legal advice and not a conclusion on this project’s exact use; obtain qualified counsel.</td></tr>
-<tr><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">NBA Official injury-report index (2026–27)</a></td><td>Official injury-report process, reporting cadence and dated report links; says reports update continually.</td><td>A status report is not a minutes or production forecast; dated files can be superseded.</td></tr>
-<tr><td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf">NBA official schedule PDF</a></td><td>The document identifies itself as the 2026–27 schedule and says “subject to change.”</td><td>Static schedule version; refresh and verify before a current slate is shown.</td></tr>
-<tr><td><a href="https://www.nba.com/news/2026-27-nba-regular-season-schedule">NBA schedule-release announcement</a></td><td>NBA’s announcement and link to official schedule resources.</td><td>Release announcement does not establish current changes after publication.</td></tr>
-<tr><td><a href="https://www.nba.com/stats/help/glossary">NBA Stats glossary</a></td><td>NBA statistical terminology.</td><td>Definitions do not establish predictive value, access rights, or results.</td></tr>
-<tr><td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden">Kansspelautoriteit (Ksa): online gambling offerings</a></td><td>Official Dutch regulator’s public guidance on licensed online gambling offers, including sports bets.</td><td>Does not decide how this particular research site is classified; seek legal advice.</td></tr>
-</tbody></table></div><p class="foot">Repository evidence and audit trail: <a href="review.html">Flagged for Review</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md">COORDINATION.md</a>. Source links were fetched during this review on 2026-11-14 UTC. This dashboard is not an official NBA site.</p></section>
-<footer class="foot">NBA Edge Lab · Research and review only. Forecasts are uncertain. No betting advice or guarantee of outcome.</footer>
-</main></div>
-</body></html>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Home</div>
+    <h1>NBA Edge Lab — canonical dashboard</h1>
+    <p class="lead">Official-source research dashboard. Every table row links to its source; anything that could not be confirmed is left blank and flagged.</p>
+  </div>
+
+<section class="hero">
+  <h2>Originated NBA lines, gated strategies, and every source behind them.</h2>
+  <p>One dashboard for the whole research pipeline: lines we originate for the next three days,
+  strategies measured out of sample against seven validation gates, correlations that were actually
+  measured (and the ones left blank), the official injury report with its rotation impact, game-flow
+  analysis, an executive summary, the open questions, improvement suggestions and a review page for
+  everything that is still unverified.</p>
+  <p class="hero-meta">Window 2026-11-13 → 2026-11-16 ·
+  31 official games · 31 originated lines · 22 picks ·
+  122 official injury rows · 48 flagged items ·
+  snapshot 2026-11-14</p>
+</section>
+<div class="cards">
+  <div class="card"><div class="k">Verified official rows</div><div class="v">183</div>
+    <div class="s">schedule + team stats + injury report, each cross-checked against the stored values</div>
+    <a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">official pages</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></div>
+  <div class="card"><div class="k">Strategies passing all gates</div><div class="v">0</div>
+    <div class="s">2 are provisional; the rest failed or are untestable</div>
+    <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/strategies.html" target="_blank" rel="noopener noreferrer">strategies</a></div>
+  <div class="card"><div class="k">Correlation values measured</div>
+    <div class="v">3</div>
+    <div class="s">of 7 pairs — 3 are not measurable and left blank, 1 is an assumption</div>
+    <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/origin/correlations.html" target="_blank" rel="noopener noreferrer">correlations</a></div>
+  <div class="card"><div class="k">Open questions</div><div class="v">35</div>
+    <div class="s">each with what is known, what is missing and how to find it</div>
+    <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repository</a></div>
+</div>
+<section class="cats"><div class="cat"><h3>Overview</h3><div class="tiles"><a class="tile" href="app/summary.html"><span class="tile-t">Executive summary</span></a><a class="tile" href="app/methodology.html"><span class="tile-t">Method &amp; rules</span></a></div></div><div class="cat"><h3>Model output</h3><div class="tiles"><a class="tile" href="app/lines.html"><span class="tile-t">Originated lines</span></a><a class="tile" href="app/picks.html"><span class="tile-t">Picks (3-day window)</span></a><a class="tile" href="app/props.html"><span class="tile-t">Player props</span></a><a class="tile" href="app/strategies.html"><span class="tile-t">Strategies &amp; gates</span></a><a class="tile" href="app/correlations.html"><span class="tile-t">Correlations</span></a></div></div><div class="cat"><h3>Game context</h3><div class="tiles"><a class="tile" href="app/injuries.html"><span class="tile-t">Injuries &amp; rotation</span></a><a class="tile" href="app/gameflow.html"><span class="tile-t">Game flow</span></a></div></div><div class="cat"><h3>Decision support</h3><div class="tiles"><a class="tile" href="app/questions.html"><span class="tile-t">Open questions</span></a><a class="tile" href="app/suggestions.html"><span class="tile-t">Site suggestions</span></a></div></div><div class="cat"><h3>Verification</h3><div class="tiles"><a class="tile" href="app/verification.html"><span class="tile-t">Verification log</span></a><a class="tile" href="app/sources.html"><span class="tile-t">Source register</span></a><a class="tile" href="app/review.html"><span class="tile-t">Repository review</span></a><a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review</span></a></div></div></section>
+<section class="cat">
+  <h3>Highest-severity flags (full list on the <a href="app/flagged.html">Flagged for review</a> page)</h3>
+  <ul class="flag-list">
+  <li><span class="flag-id">NF-12</span> <strong>NBA content reproduction on a public site</strong> — Counsel review; reduce content or obtain permission (SG-01) <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-13</span> <strong>Publishing picks or recommendations</strong> — Counsel opinion (Q-LEG-01) <a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-14</span> <strong>No official odds source identified</strong> — Licensed feed or owner-captured prices under terms (SG-04) <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-15</span> <strong>Historical NBA stats unreachable from this environment</strong> — Network path or owner export with provenance (SG-03) <a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-16</span> <strong>Minimum age for online betting not verified</strong> — Read official age provision and cite it (Q-LEG-03) <a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-23</span> <strong>NBA Terms effective date not visible</strong> — Record the version when counsel reviews <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a>
+<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>Second, independent integration round: 174-game re-verification, 22 originated lines from a separate engine, 9 gates, measured parlay dependence, cross-engine reconciliation and a flagged register</a></li>
+  </ul>
+</section>
+<section class="cat">
+  <h3>Earlier dashboards (kept for audit)</h3>
+  <p>Six dashboards were published by earlier sessions of this project. They are kept in the
+  repository and remain reachable; they use different ID namespaces and different injury snapshots,
+  so the canonical pages above should be used for current values.</p>
+  <div class="tiles">
+    <a class="tile" href="docs/index.html"><span class="tile-t">/docs — data site (session f879620b)</span></a>
+    <a class="tile" href="site/index.html"><span class="tile-t">/site — data site (session 7c532e8c)</span></a>
+    <a class="tile" href="lab/index.html"><span class="tile-t">/lab — line lab (session 5697caaf)</span></a>
+    <a class="tile" href="research/index.html"><span class="tile-t">/research — research site (session 9ed6085f)</span></a>
+    <a class="tile" href="edge/index.html"><span class="tile-t">/edge — Edge Lab (session 0a016df8)</span></a>
+    <a class="tile" href="origin/index.html"><span class="tile-t">/origin — origination engine (session e22a2831)</span></a>
+    <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
+    <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
+    <a class="tile" href="verify/pages/index.html"><span class="tile-t">/verify/pages — verification &amp; decision layer (2026-11-14)</span></a>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="app/flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

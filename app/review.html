@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repository review — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html" class="active">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Verification</div>
+    <h1>Repository review</h1>
+    
+  </div>
+
+<p>A line-by-line review of the repository: what was checked, what was found, and what is flagged.
+Findings dated 2026-11-13 come from the earlier review sessions; findings dated 2026-11-14 were
+produced by this integration session.</p>
+<div class="table-wrap"><table>
+<caption id="review"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Area</th>
+<th>Item reviewed</th>
+<th>Finding</th>
+<th>Status</th>
+<th>Recommended action</th>
+<th>Found on</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CR-01</td>
+<td>Git state</td>
+<td>Local checkout vs origin/main</td>
+<td>Local checkout at the task base commit 6c3004d contained only a 6-byte README. origin/main had advanced to dbb8575 (PRs #1 and #2 merged by session 49064d5a).</td>
+<td><span class="chip chip-neutral">Resolved</span></td>
+<td>Rebased this branch onto origin/main before changing files (no history rewritten).</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/commits/main" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/commits/main</a></td>
+</tr>
+<tr>
+<td>CR-02</td>
+<td>Documentation</td>
+<td>README.md (main)</td>
+<td>README on main is titled NBA Edge Lab (1,133 bytes). It states the repo has no licensed odds feed, historical results, injury ingestion, schedule integration, line model, or validated picks.</td>
+<td><span class="chip chip-neutral">OK</span></td>
+<td>Keep; update to point to the generated site and this register.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/README.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/README.md</a></td>
+</tr>
+<tr>
+<td>CR-03</td>
+<td>Licensing</td>
+<td>Repository licence</td>
+<td>No licence is declared (GitHub licenseInfo = null). Without a licence, others have no permission to reuse the code or content.</td>
+<td><span class="chip chip-neutral">Irregular</span></td>
+<td>Owner to choose a licence or confirm all-rights-reserved. Listed as question Q-LIC-01.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-04</td>
+<td>Repository hygiene</td>
+<td>.gitignore</td>
+<td>No .gitignore file exists. Generated caches or local outputs could be committed by accident.</td>
+<td><span class="chip chip-neutral">Irregular</span></td>
+<td>Add a .gitignore covering __pycache__ and local outputs (added in this round).</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/tree/main</a></td>
+</tr>
+<tr>
+<td>CR-05</td>
+<td>GitHub Pages</td>
+<td>Pages publishing configuration</td>
+<td>Pages build_type is legacy with source branch main, path /. A legacy build serves the repository root while a separate Actions deploy job also publishes; two publishers can overwrite each other.</td>
+<td><span class="chip chip-neutral">Irregular</span></td>
+<td>Owner switches Settings &gt; Pages &gt; Source to GitHub Actions (session token got 403), or accepts the legacy root build. Tracked as Q-REPO-02 and F19.</td>
+<td>2026-11-13</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
+</tr>
+<tr>
+<td>CR-06</td>
+<td>Security / publishing</td>
+<td>pages.yml upload path</td>
+<td>The Pages source is still the legacy branch build from main /, so the whole public repository is served, including COORDINATION.md and .github/. The workflow no longer uploads the repository itself.</td>
+<td><span class="chip chip-neutral">Irregular</span></td>
+<td>Owner switches the Pages source to GitHub Actions (then the workflow can upload only the site folder), or accepts that the repository is public. Tracked as F19.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml</a></td>
+</tr>
+<tr>
+<td>CR-07</td>
+<td>Verification</td>
+<td>pages.yml validation scope</td>
+<td>Previous validation checked only in-page anchors on index.html. The workflow now runs unit tests, rebuilds the pages, runs verify.py (source links, internal links, blank-cell flags) and fails if the committed pages are stale.</td>
+<td><span class="chip chip-neutral">Resolved</span></td>
+<td>None further; extend the external-link check to a scheduled job if the owner chooses (SG-10).</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml</a></td>
+</tr>
+<tr>
+<td>CR-08</td>
+<td>Source accuracy</td>
+<td>Injury index link on prior dashboard</td>
+<td>index.html links to the 2025-26 injury index slug. Fetching that URL returns the 2026-27 season page (title: NBA Injury Report: 2026-27 Season). The label and destination disagree.</td>
+<td><span class="chip chip-neutral">Irregular</span></td>
+<td>Point injury references to https://official.nba.com/nba-injury-report-2026-27-season/ and note the redirect.</td>
+<td>2026-11-13</td>
+<td><a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2025-26-season/</a></td>
+</tr>
+<tr>
+<td>CR-09</td>
+<td>Source accuracy</td>
+<td>Example injury PDF cited on prior dashboard</td>
+<td>The example PDF Injury-Report_2026-11-11_05_00PM.pdf resolves and shows the timestamped report format (game date, game time, matchup, team, player, status, reason).</td>
+<td><span class="chip chip-neutral">OK</span></td>
+<td>Keep as format example only; not current data.</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-11_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-11_05_00PM.pdf</a></td>
+</tr>
+<tr>
+<td>CR-10</td>
+<td>Source accuracy</td>
+<td>NBA Stats glossary link on prior dashboard</td>
+<td>https://www.nba.com/stats/help/glossary resolves (title: Stat Glossary | Stats | NBA.com) and contains per-metric definitions.</td>
+<td><span class="chip chip-neutral">OK</span></td>
+<td>Keep.</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>CR-11</td>
+<td>Process claims</td>
+<td>Prior COORDINATION.md deployment claim</td>
+<td>Prior board says GitHub Actions run 43519089153 succeeded. The API run list shows run 43519089153 &#x27;Deploy static dashboard to GitHub Pages&#x27; with conclusion success.</td>
+<td><span class="chip chip-neutral">OK</span></td>
+<td>Keep; this round creates a new run record after merge.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43519089153" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43519089153</a></td>
+</tr>
+<tr>
+<td>CR-12</td>
+<td>Branches</td>
+<td>Remote session branches</td>
+<td>Remote has four arena/* branches (49064d5a is merged; d01ae7e2, 0a016df8, 7c532e8c have no PR in the list of open or merged pull requests returned by gh pr list).</td>
+<td><span class="chip chip-neutral">Info</span></td>
+<td>Owner to decide whether unmerged session branches should be kept or deleted. Not deleted in this round.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/branches</a></td>
+</tr>
+<tr>
+<td>CR-13</td>
+<td>Pull requests</td>
+<td>PR history</td>
+<td>PR #1 (Build NBA Edge Lab research dashboard) and PR #2 (Record deployment verification) are both merged to main.</td>
+<td><span class="chip chip-neutral">OK</span></td>
+<td>None.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/pulls?q=is%3Apr+is%3Aclosed" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pulls?q=is%3Apr+is%3Aclosed</a></td>
+</tr>
+<tr>
+<td>CR-14</td>
+<td>Metadata</td>
+<td>Commit author timezone</td>
+<td>The base commit author timestamp is +0900 (Japan offset). The owner&#x27;s stated location is the Netherlands. Timestamps in logs are therefore shown as stated by Git, not converted.</td>
+<td><span class="chip chip-neutral">Info</span></td>
+<td>None; noted so timestamps are read correctly.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/commit/6c3004d3d64f1f2cdcfe01b81cbd6aca6d07a9df" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/commit/6c3004d3d64f1f2cdcfe01b81cbd6aca6d07a9df</a></td>
+</tr>
+<tr>
+<td>CR-15</td>
+<td>Naming</td>
+<td>Repository name vs dashboard title</td>
+<td>Repository is named NBA3, but the README and dashboard title are NBA Edge Lab.</td>
+<td><span class="chip chip-neutral">Info</span></td>
+<td>Owner to confirm the public name.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-16</td>
+<td>Scope</td>
+<td>Code, data and tests</td>
+<td>Before this round the repo had no data files, no code, no tests, and no dependency manifests. This round adds stdlib-only Python (no third-party dependencies) with unit tests.</td>
+<td><span class="chip chip-neutral">Info</span></td>
+<td>Keep dependencies at zero unless a reviewed need appears.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/tree/main</a></td>
+</tr>
+<tr>
+<td>CR-17</td>
+<td>Horizon definition</td>
+<td>Slate horizon in prior suggestions</td>
+<td>Prior suggestions queue limits automated slates to 72 hours; the owner&#x27;s brief asks for up to 3 days in advance. These can differ (72 hours from a time of day vs calendar days).</td>
+<td><span class="chip chip-neutral">Irregular</span></td>
+<td>Owner to confirm the horizon definition. This round uses calendar dates Nov 13-16 2026 inclusive. Question Q-SCOPE-03.</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>CR-18</td>
+<td>Repository</td>
+<td>README.md (baseline)</td>
+<td>Baseline README was a six-byte stub (&#x27;# NBA3&#x27;).</td>
+<td><span class="chip chip-neutral">Replaced by site README in T7</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/commit/6c3004d3d64f1f2cdcfe01b81cbd6aca6d07a9df" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/commit/6c3004d3d64f1f2cdcfe01b81cbd6aca6d07a9df</a></td>
+</tr>
+<tr>
+<td>CR-19</td>
+<td>Repository</td>
+<td>index.html (prior session, PR #1/#2)</td>
+<td>Single-page dashboard linking the 2025-26 injury index (7C-F-07). No data tables with per-row sources.</td>
+<td><span class="chip chip-neutral">Replaced by generated site (T7)</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/pull/1" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pull/1</a></td>
+</tr>
+<tr>
+<td>CR-20</td>
+<td>Repository</td>
+<td>.github/workflows/pages.yml</td>
+<td>Validates only in-page anchors; external links are not checked. Uploads the whole repo root as the Pages artifact.</td>
+<td><span class="chip chip-neutral">Rewritten: builds and checks site/ (T7)</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml</a></td>
+</tr>
+<tr>
+<td>CR-21</td>
+<td>Repository</td>
+<td>GitHub Pages configuration</td>
+<td>API reported build_type &#x27;legacy&#x27;, source branch main, path &#x27;/&#x27;, status &#x27;built&#x27;, https_enforced true.</td>
+<td><span class="chip chip-neutral">Verify after switch (T8)</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages" target="_blank" rel="noopener noreferrer">https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages</a></td>
+</tr>
+<tr>
+<td>CR-22</td>
+<td>Repository</td>
+<td>COORDINATION.md</td>
+<td>Prior session&#x27;s board (PR #1/#2) preserved; this session&#x27;s claims appended.</td>
+<td><span class="chip chip-neutral">Done (this session)</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md</a></td>
+</tr>
+<tr>
+<td>CR-23</td>
+<td>Repository</td>
+<td>Merged PRs #1 and #2</td>
+<td>Both from arena/49064d5a-nba3, merged to main. Prior session&#x27;s deploy logged as successful.</td>
+<td><span class="chip chip-neutral">History only</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/pull/2" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pull/2</a></td>
+</tr>
+<tr>
+<td>CR-24</td>
+<td>Repository</td>
+<td>Repository contents</td>
+<td>No product code, datasets, odds, model, or tests at baseline. No licence file (LICENSE) in the repo.</td>
+<td><span class="chip chip-neutral">Flag: no LICENSE (owner to decide)</span></td>
+<td>See the linked item.</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-25</td>
+<td>Deployment</td>
+<td>GitHub Pages configuration</td>
+<td>gh api repos/wingbangboozle1-lang/NBA3/pages returns build_type=legacy, source branch main, path /. The Actions workflow runs and uploads an artifact, but the published site is the branch build of the whole repository.</td>
+<td><span class="chip chip-warn">Irregularity — flagged</span></td>
+<td>Switch the Pages source to GitHub Actions (needs an admin token; earlier attempts returned HTTP 403).</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-26</td>
+<td>Site</td>
+<td>Published information architecture</td>
+<td>Six earlier dashboards (docs, site, lab, research, edge, origin) plus the root dashboard were all reachable from the landing page, with overlapping content under five different ID namespaces.</td>
+<td><span class="chip chip-warn">Irregularity — handled in this session</span></td>
+<td>One canonical dashboard at the root with category sub-pages; earlier dashboards retained and linked as audit snapshots.</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-27</td>
+<td>Data</td>
+<td>Official schedule cross-check</td>
+<td>The 31 games of the 2026-11-13..16 window were re-read from nba.com/schedule on 2026-11-14 and compared with data/slates.csv captured on 2026-11-13: 31/31 agree on date, tip time, teams and NBA game id.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>None. Re-run scripts/capture_official_2026_11_14.py before publishing a new slate.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>CR-28</td>
+<td>Data</td>
+<td>Official team statistics cross-check</td>
+<td>All 30 teams were re-read from nba.com/stats/teams/advanced on 2026-11-14 and compared with data/origin/teams_advanced.csv: 210/210 field comparisons (GP, W, L, OffRtg, DefRtg, NetRtg, PACE) agree.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>None. Re-run the capture script; it fails loudly on any mismatch.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CR-29</td>
+<td>Data</td>
+<td>Official injury report cross-check</td>
+<td>The 11/13 07:30 PM report was read and compared with the stored 11/13 05:15 PM snapshot: 9 status changes (e.g. T.J. McConnell Probable -&gt; Available, Klay Thompson Probable -&gt; Out), 1 team report newly present (Denver for the 11/14 game), and 5 team reports still marked NOT YET SUBMITTED.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>None. The canonical site publishes the 07:30 PM snapshot only.</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>CR-30</td>
+<td>CI</td>
+<td>Workflow coverage</td>
+<td>The workflow ran unit tests, the docs checker, the research pipeline, the edge checker and the site builders, and deployed successfully. It did not cover the canonical dataset assembled in this session.</td>
+<td><span class="chip chip-warn">Irregularity — handled in this session</span></td>
+<td>Add the canonical capture/assembly/build steps and their drift checks to the workflow.</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>
