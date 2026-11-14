@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verification log — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html" class="active">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Verification</div>
+    <h1>Verification log</h1>
+    
+  </div>
+
+<p>This page records what was verified, against which official source, and with what result. It is
+the audit trail for every number published on this site.</p>
+<div class="table-wrap"><table>
+<caption id="vlog"></caption>
+<thead><tr>
+<th>What</th>
+<th>When</th>
+<th>Official source</th>
+<th>How it was verified</th>
+<th>Result</th>
+</tr></thead><tbody>
+<tr>
+<td>Schedule for the window</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td>
+<td>31 games transcribed by hand; compared with the snapshot captured on 2026-11-13 — 31/31 agree on date, tip time, teams and game id</td>
+<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+<tr>
+<td>Team advanced statistics</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats/teams/advanced</a></td>
+<td>30 teams transcribed by hand; 210/210 field comparisons agree with the stored table</td>
+<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+<tr>
+<td>Injury report</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+<td>117 player rows + 5 team report statuses; 9 status changes against the 05:15 PM snapshot; Denver's report newly present; 5 teams still NOT YET SUBMITTED for 11/14</td>
+<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+<tr>
+<td>Injury report index (which reports exist)</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a></td>
+<td>Newest listed report is 11/13 07:30 PM ET; no 11/14 report is listed yet</td>
+<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+<tr>
+<td>Historical results log</td>
+<td>2026-11-13 (earlier session)</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></td>
+<td>174 games / 348 team-games; team-games match the official GP column for all 30 teams (0 mismatch) and recomputed W–L matches the official W–L</td>
+<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+<tr>
+<td>Team ratings used by the model</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">official team stats</a></td>
+<td>Re-read and re-compared; the eight differences found in the first manual pass were transcription errors on my side and were corrected by a second read</td>
+<td><span class="chip chip-warn">Corrected</span></td>
+</tr>
+<tr>
+<td>Tip times for three 11/16 games</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">nba.com/schedule</a></td>
+<td>The first read of the schedule chunk disagreed with the stored tip times for HOU@MIA, GSW@NOP and PHX@DEN; a second read confirmed the stored values and the page</td>
+<td><span class="chip chip-warn">Corrected</span></td>
+</tr>
+<tr>
+<td>Player-prop lines</td>
+<td>—</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">official players page</a></td>
+<td>No official source publishes prop lines; no line is published here and the projection has no distribution behind it</td>
+<td><span class="chip chip-bad">Not publishable</span></td>
+</tr>
+<tr>
+<td>Market prices / ROI</td>
+<td>—</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">NBA Terms of Use</a></td>
+<td>No licensed price feed is connected; every price in this project is our own fair price, never a market quote</td>
+<td><span class="chip chip-bad">Not publishable</span></td>
+</tr>
+<tr>
+<td>Repository and Pages facts</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">GitHub API</a></td>
+<td>Pages build type, source branch, pull requests and licences read from the GitHub API</td>
+<td><span class="chip chip-ok">Verified</span></td>
+</tr>
+</tbody></table></div>
+
+<div class="callout"><strong>Re-running the verification.</strong>
+<code>python3 scripts/capture_official_2026_11_14.py</code> re-reads the three official pages,
+transcribes them and compares every value with the stored dataset. The build fails if any value
+drifts. <code>python3 scripts/build_app.py</code> then checks that every published row carries an
+https source link and that no internal link is broken.</div>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>
