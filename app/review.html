@@ -454,6 +454,16 @@ produced by this integration session.</p>
 <tr>
 <td>CR-42</td>
 <td>Cross-session</td>
+<td>An engine swap tripped another session&#x27;s CI drift gate</td>
+<td>integrate/engine.py (session e40cd215) derives its cross-engine reconciliation from the lines published in app/, so replacing the app/ engine changed its output and its &#x27;git diff --exit-code -- data/integration/model.json&#x27; drift gate failed on this branch&#x27;s first CI run. The engine is deterministic (verified byte-identical across runs), so the correct fix is to commit the regenerated artefact: data/integration/model.json, dash/data/model.json and dash/reconciliation.html. The comparison still reads 22 of 22 games agreeing on the favoured side; only the gaps moved (median 2.39 -&gt; 1.77, max 4.76 -&gt; 4.44, sd of app/ spreads 10.81 -&gt; 8.81). Their gate did its job — it caught that an upstream input changed. Those three files are e40cd215&#x27;s scope and their session is closed; they were regenerated rather than left failing, and the deviation is logged.</td>
+<td><span class="chip chip-warn">Irregularity — repaired, scope deviation disclosed</span></td>
+<td>Session e40cd215: confirm the regenerated reconciliation, or make the comparison read from a pinned snapshot of app/ so an engine swap elsewhere cannot move it. Logged as CR-8D-06. Alternative considered and rejected: weakening the drift gate.</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-43</td>
+<td>Cross-session</td>
 <td>Rebuilding the canonical engine invalidated another session&#x27;s audit</td>
 <td>Session 36e18d83&#x27;s audit36/check.py recomputes an &#x27;engine agreement&#x27; block comparing the dash/ engine against the app/ engine and compares the result against values hard-coded in its own committed results file. This session replaced the app/ engine, so the recomputed figures moved (sd of app spreads 10.81 -&gt; 8.81, median absolute gap 2.39 -&gt; 1.78) and the check now reports one failure. The engines still agree on the favoured side in 22 of 22 games, so this is a stale expectation, not a new disagreement. audit36/ is that session&#x27;s file scope and was not edited; its modified results file was reverted.</td>
 <td><span class="chip chip-warn">Irregularity — flagged, change request logged</span></td>

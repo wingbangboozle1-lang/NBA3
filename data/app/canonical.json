@@ -25353,6 +25353,19 @@
   {
    "id": "CR-42",
    "area": "Cross-session",
+   "item_reviewed": "An engine swap tripped another session's CI drift gate",
+   "finding": "integrate/engine.py (session e40cd215) derives its cross-engine reconciliation from the lines published in app/, so replacing the app/ engine changed its output and its 'git diff --exit-code -- data/integration/model.json' drift gate failed on this branch's first CI run. The engine is deterministic (verified byte-identical across runs), so the correct fix is to commit the regenerated artefact: data/integration/model.json, dash/data/model.json and dash/reconciliation.html. The comparison still reads 22 of 22 games agreeing on the favoured side; only the gaps moved (median 2.39 -> 1.77, max 4.76 -> 4.44, sd of app/ spreads 10.81 -> 8.81). Their gate did its job — it caught that an upstream input changed. Those three files are e40cd215's scope and their session is closed; they were regenerated rather than left failing, and the deviation is logged.",
+   "status": "Irregularity — repaired, scope deviation disclosed",
+   "recommended_action": "Session e40cd215: confirm the regenerated reconciliation, or make the comparison read from a pinned snapshot of app/ so an engine swap elsewhere cannot move it. Logged as CR-8D-06. Alternative considered and rejected: weakening the drift gate.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-43",
+   "area": "Cross-session",
    "item_reviewed": "Rebuilding the canonical engine invalidated another session's audit",
    "finding": "Session 36e18d83's audit36/check.py recomputes an 'engine agreement' block comparing the dash/ engine against the app/ engine and compares the result against values hard-coded in its own committed results file. This session replaced the app/ engine, so the recomputed figures moved (sd of app spreads 10.81 -> 8.81, median absolute gap 2.39 -> 1.78) and the check now reports one failure. The engines still agree on the favoured side in 22 of 22 games, so this is a stale expectation, not a new disagreement. audit36/ is that session's file scope and was not edited; its modified results file was reverted.",
    "status": "Irregularity — flagged, change request logged",
