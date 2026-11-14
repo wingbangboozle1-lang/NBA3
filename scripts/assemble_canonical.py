@@ -177,6 +177,21 @@ def build_sources():
         "newest, and it is the file captured above.",
         "The index lists reports by publication time; it does not state when each team's "
         "deadline falls. That is derived from the rule text and the official schedule.")
+    # Sources read by session arena/965fbd17-nba3 (2026-11-14, ~18:45 UTC).
+    add("NBA (official)", "NBA official injury report PDF — 11/14/26 01:30 PM ET",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+        "Official (NBA)",
+        "Newest injury report listed on the official index at 18:45 UTC. Compared row by row with the 05:15 AM ET snapshot in data/app/injury_delta_0130pm.json",
+        "fetch_page, 1 chunk (PDF text extraction). Verbatim copy: data/app/official_injuries_2026-11-14_0130PM_raw.md",
+        "2026-11-14",
+        "Read at ~18:45 UTC. Counted rows (game date, matchup and team printed): 31, of which 24 unchanged, 1 status change (Christie, Max, DAL: Questionable to Doubtful) and 6 new rows. 14 + 7 + 13 rows and 1 garbled row are listed, not counted.",
+        "Later tables print no game date, matchup or team on some rows, so those rows are not counted. The 01:45 PM ET probe returned AccessDenied. Intermediate reports (05:30 AM to 01:15 PM ET) were not fetched.")
+    add("NBA (official)", "NBA Injury Report — 2026-27 season index, read 18:45 UTC on 2026-11-14",
+        "https://official.nba.com/nba-injury-report-2026-27-season/", "Official (NBA)",
+        "Lists the 11/14 reports; at 18:45 UTC the newest one listed is 01:30 PM ET",
+        "fetch_page, 1 chunk", "2026-11-14",
+        "Read at ~18:45 UTC. The 11/14 list runs from 12:00 a.m. to 1:30 p.m. ET. Earlier entries in this register record the list as it stood at 04:15 AM ET.",
+        "The index gives publication times, not contents.")
     add("GitHub (repository API)", "wingbangboozle1-lang/NBA3 — repository, Pages and PR facts",
         "https://github.com/wingbangboozle1-lang/NBA3", "Platform (GitHub)",
         "Repository review: Pages build type and source, branches, pull requests, licences",
@@ -1307,6 +1322,15 @@ def build_round8e_flags():
         return json.load(fh)
 
 
+def build_round965_flags():
+    """Flags 965-F-01..09 from session arena/965fbd17-nba3, loaded verbatim from
+    data/app/flags_965fbd17.json (same pattern as build_round8e_flags).
+    They record the 01:30 PM ET injury report, the corrected 'newest report' wording and the
+    capture gaps. Nothing is recomputed."""
+    with open(os.path.join(APP, "flags_965fbd17.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def build_session_questions():
     out = []
     for qid, cat, q, status, known, missing, nxt, sources, owner in SESSION_QUESTIONS:
@@ -1379,6 +1403,7 @@ def main():
     delta = optional("snapshot_delta.json")
     results_1113 = optional("official_results_2026-11-13.json")
     counts = optional("official_counts_2026-11-14.json")
+    injury_delta_0130pm = optional("injury_delta_0130pm.json")
     log_provenance = None
     prov_path = os.path.join(ROOT, "data", "origin", "games_extended_provenance.json")
     if os.path.exists(prov_path):
@@ -1551,6 +1576,7 @@ def main():
         "parlays": lab["parlays"],
         "injuries": injuries,
         "injury_impact": lab["injury_impact"],
+        "injury_delta_0130pm": injury_delta_0130pm,
         "ratings": ratings,
         "gameflow": lab["gameflow"],
         "correlations": lab["correlations"],
@@ -1561,7 +1587,7 @@ def main():
         "oos_sample": lab["oos_sample"],
         "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags(),
+        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags() + build_round965_flags(),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}
