@@ -611,13 +611,13 @@
  "flag": 3,
  "flags": [
   {
-   "evidence": "data/app/canonical.json publishes the 04:15 AM ET report and records newest_report_listed_on_index = \"2026-11-14 04:15 AM ET\" and newest_report_checked = true. The official index now lists reports through 01:30 PM ET; the 01:45 PM file returns AccessDenied.",
+   "evidence": "Session 736efb4b already corrected the WORDING on app/injuries.html: it now carries a freshness callout naming the 01:30 PM ET report and a section 1b comparing the two reports row by row. What is still stale is the DATA. data/app/canonical.json publishes the 04:15 AM ET report and records newest_report_listed_on_index = \"2026-11-14 04:15 AM ET\", newest_report_checked = true and newest_report_note = \"This report is the newest listed on the official index at read time\" -- all three are now false. scripts/strategy_lab.py still reads official_injuries_2026-11-14_0445AM.json, so every derived output (availability states, Out counts, the minutes/production vacuum, the picks page) is still computed from the old report. The 01:45 PM probe returns AccessDenied, so 01:30 PM is the newest.",
    "id": "F-7F3-01",
-   "owner_action": "Owner decision: re-run the capture against the 01:30 PM report, or keep the 04:15 AM snapshot and label the pages with the report stamp they were built from. Not executed here -- data/app/** is another session's scope, and the pick pages would have to be regenerated with it.",
+   "owner_action": "Owner decision: point the assembler and the lab at the 01:30 PM capture and regenerate the pick pages, or keep the 04:15 AM snapshot and update the three metadata fields so they stop claiming it is the newest. Not executed here -- data/app/** and scripts/strategy_lab.py are another session's scope. A row-for-row capture in the same schema is ready to import at audit_7f3b89af/data/injury_report_2026-11-14_01_30PM.json.",
    "severity": "high",
    "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
    "source_newest": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
-   "title": "The published injury snapshot is nine hours behind the newest official report",
+   "title": "The dataset behind the site is still built from the 04:15 AM report, nine hours behind the newest official report",
    "what_moved": {
     "added": 24,
     "player_rows_newest": 50,
@@ -633,12 +633,12 @@
     "DEN@NOP",
     "DET@MIA"
    ],
-   "evidence": "At 04:15 AM ET the New Orleans, Cleveland, Chicago and Miami rows all read NOT YET SUBMITTED. By 01:30 PM ET all four had filed, adding 24 player rows in total.",
+   "evidence": "At 04:15 AM ET the New Orleans, Cleveland, Chicago and Miami rows all read NOT YET SUBMITTED. By 01:30 PM ET all four had filed, adding 24 player rows in total -- including Cleveland's Donovan Mitchell (Questionable) and Evan Mobley (Out), and Minnesota's Anthony Edwards (Out). Session 736efb4b's section 1b on app/injuries.html already publishes this comparison; check C15 here re-transcribed the same PDF independently and agrees with it on all 67 shared rows, so the transcription is now confirmed twice.",
    "id": "F-7F3-02",
-   "owner_action": "Any decision taken from the injuries page or the minutes-vacuum table for these games should be taken from the 01:30 PM report, published on this audit tree's Injuries page, until the canonical pages refresh.",
+   "owner_action": "The comparison is already published on app/injuries.html section 1b. What is not yet refreshed is everything COMPUTED from the old report: the availability states, the Out counts on the picks page, and the minutes/production vacuum table. Until that is regenerated, read tonight's absences from the 01:30 PM report rather than from those tables.",
    "severity": "high",
    "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
-   "title": "Three of tonight's five games had no team report at all when the site was built"
+   "title": "Four of tonight's five teams had filed nothing when the site's data was built"
   },
   {
    "evidence": "44 date-or-time cells in data/app/canonical.json are populated with a game date or tip time that the 04:15 AM PDF does not print for that row (the PDF drops those columns on page-break continuation blocks), plus 3 matchup cells taken from the block the row sits in. Every value is correct: all 47 were re-checked today against the official schedule and agree. The problem is attribution: each row's `source` link is the injury PDF, not the schedule page the value actually came from.",

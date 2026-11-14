@@ -3687,8 +3687,8 @@ what decides whether a rest term belongs in the engine.
 
 | ID | Severity | Item |
 |---|---|---|
-| F-7F3-01 | high | The published injury snapshot is nine hours behind the newest official report. canonical.json records `newest_report_listed_on_index = "2026-11-14 04:15 AM ET"` and `newest_report_checked = true`; the index now lists reports through **01:30 PM ET** (01:45 PM returns `AccessDenied`). |
-| F-7F3-02 | high | At 04:15 AM, New Orleans, Cleveland, Chicago and Miami had all filed nothing. By 01:30 PM all four had filed, adding 24 player rows. Any decision taken from the injuries page or the minutes-vacuum table for tonight should use the 01:30 PM report (published on this tree's Injuries page) until the canonical pages refresh. |
+| F-7F3-01 | high | The **dataset** behind the site is still built from the 04:15 AM report, nine hours behind the newest official report. Session 736efb4b already fixed the wording on `app/injuries.html` (freshness callout + section 1b row-by-row comparison). What is still stale is the data: `canonical.json` records `newest_report_listed_on_index = "2026-11-14 04:15 AM ET"`, `newest_report_checked = true` and a note saying it is the newest on the index — all three now false — and `scripts/strategy_lab.py` still reads `official_injuries_2026-11-14_0445AM.json`, so every derived output (availability states, Out counts, minutes vacuum, picks page) is computed from the old report. |
+| F-7F3-02 | high | Four of tonight's ten teams (New Orleans, Cleveland, Chicago, Miami) had filed nothing at 04:15 AM; all four filed by 01:30 PM, adding 24 player rows. The comparison is already published in `app/injuries.html` section 1b by session 736efb4b; **check C15 here re-transcribed the same PDF independently and agrees with it on all 67 shared rows**, so their transcription is now confirmed twice. What is *not* refreshed is everything computed from the old report. |
 | F-7F3-03 | medium | 47 canonical injury cells carry a date/time/matchup the PDF never prints. **All 47 values are correct** (re-checked against the schedule); the row-level `source` link points at the injury PDF instead of the schedule. Provenance, not a wrong number. |
 | F-7F3-04 | low | The official schedule prints POR@MIN twice and NYK@TOR twice inside the window, and two 11/17 game ids out of chronological order. Re-confirmed live; published as read. |
 | F-7F3-05 | low | Two teams' official advanced-statistics cells moved after the published capture (CLE off/def 116.1/115.2 → 116.2/115.3, pace 99.7 → 99.62; CHA 101.8/113.0/96.92 → 101.9/113.1/96.83). Net rating unchanged → no spread or total moves. |
@@ -3697,7 +3697,10 @@ what decides whether a rest term belongs in the engine.
 ### Change requests — logged, NOT executed (other sessions' scopes)
 
 - **CR-7F3-01 → owner of `scripts/assemble_canonical.py` / `data/app/**`:** F-7F3-01 and F-7F3-02
-  are a decision for the owner: re-run the capture against the
+  are a decision for the owner. Note the wording fix has already landed (session 736efb4b); what is
+  left is the data. Option A: point the assembler and the lab at the 01:30 PM capture and regenerate
+  the pick pages. Option B: keep the 04:15 AM snapshot and correct the three canonical metadata
+  fields that still claim it is the newest. Re-run the capture against the
   [01:30 PM report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf)
   (and regenerate the pick pages with it), or keep the 04:15 AM snapshot and stamp the pages with
   the report they were built from. A verbatim, row-for-row capture is ready to import at
