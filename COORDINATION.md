@@ -1062,3 +1062,25 @@ Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessi
   at ρ=0.3, fair decimal 2.61; pick spread labels FX-02: 22/22 corrected, example now DEN −8.6; moneyline
   caveat on STRAT1/2 ROI) and with the 7:30 PM injury report captured by 2b9f1ae1. Zero drift after
   `scripts/build_app.py`, `verify/build.py` and all site rebuilds.
+## Session arena/99eabb04-nba3 — unified dashboard round (integration)
+
+Session ID: `99eabb04`. Branch: `arena/99eabb04-nba3` (from `main` @ `e591b67`, PR #16 merged).
+Claimed: 2026-11-14 (UTC). No other session claims were present on `origin/main` at claim time
+(`e591b67`). Platform constraint: one assigned branch, so per-task file scopes are enforced inside
+this branch and recorded here instead of `session-<id>/<task>` branches.
+
+| ID | Task | Status | Files in scope |
+|---|---|---|---|
+| T1 | Coordination board claim + repo inventory (line-by-line) | in progress | COORDINATION.md (this section) |
+| T2 | Official-source re-verification: schedule slate, injury reports, results | unclaimed | data/hub/sources.json |
+| T3 | Unified data consolidation (single namespace, blanks kept blank) | unclaimed | data/hub/*.json |
+| T4 | Unified dashboard build (landing + category subpages) | unclaimed | hub/**, scripts/build_hub.py |
+| T5 | Verification gate: every row has a source link; unverified => blank + flag | unclaimed | scripts/build_hub.py |
+| T6 | Executive summary, questions, suggestions, flagged-for-review pages | unclaimed | hub/*.html |
+| T7 | Integration: PR to main, merge, Pages deploy verification | unclaimed | root index.html, pages.yml, README.md |
+
+Claimed files for this session: `hub/**`, `data/hub/**`, `scripts/build_hub.py`,
+`scripts/check_hub.py`, root `index.html`, `.github/workflows/pages.yml`, `README.md`,
+`COORDINATION.md` (this section only). Other sessions' trees (`docs/`, `site/`, `lab/`,
+`research/`, `edge/`, `origin/`, `data/*.json`, `pipeline/`, `model/`, `tools/`, `tests/`) are
+read-only for this session and are not modified.
