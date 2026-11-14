@@ -1099,3 +1099,38 @@ Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessi
   at ρ=0.3, fair decimal 2.61; pick spread labels FX-02: 22/22 corrected, example now DEN −8.6; moneyline
   caveat on STRAT1/2 ROI) and with the 7:30 PM injury report captured by 2b9f1ae1. Zero drift after
   `scripts/build_app.py`, `verify/build.py` and all site rebuilds.
+
+### W2 — CI reproduction, per branch (2026-11-14 ~01:15 UTC)
+
+Method: a local runner reproduces every non-network step of `.github/workflows/pages.yml`
+(unit tests, link/row checks, every site build + drift check, integrate engine/check,
+ownership audit, canonical capture determinism, assemble/build drift) on each branch head.
+
+| Branch head | Result | Detail |
+|---|---|---|
+| `main` @ `a5fc736` (before PR #25/#31) | 13/14 PASS, T14 FAIL | T14 = `assemble_canonical` + `build_app` drift: committed `index.html` carried a hand-merged `dash/` card the generator did not emit (reproduced exactly; recorded as CR-94-01) |
+| `origin/arena/fa03eba6-nba3` (PR #21) | T4, T8, T9, T11–T14 FAIL | base `e591b67`, 33 commits behind `main`: `verify/`, `integrate/`, `dash/`, `data/app/` do not exist on the branch yet (missing-tree failures, not regressions); T4 fails on its own root-page row check |
+| `origin/arena/d01ae7e2-nba3` (PR #24) | T1–T4, T6–T14 FAIL | base is the initial commit, 105 commits behind: the branch predates nearly every check; T1–T3 failures show its own test/check edits conflict with current suites — must be revalidated after merging `main` |
+| `origin/arena/3bf92fcc-nba3` (PR #25) | T11, T12 only FAIL | base `3367762`, missing only `integrate/`+`dash/` (pre-#23); everything it owns passes; **merged to `main` at 01:11 UTC while this ran** |
+| `origin/arena/2b9f1ae1-nba3` (PR #26) | T11, T12 only FAIL | same missing-`integrate/` pattern; append-only record PR |
+| `origin/arena/99eabb04-nba3` (PR #27) | T4, T8, T9, T11–T14 FAIL | base `e591b67`, 33 behind; same missing-tree pattern plus its own root-page check |
+| `arena/9456a8ab-nba3` after merging `main` @ `5a3ca36` (PRs #25+#31) | **14/14 PASS** | full suite green, zero drift; working tree clean |
+
+### W3 — line-by-line verification vs official sources (2026-11-14 ~01:15–01:25 UTC)
+
+All three sources re-fetched live this session; every value below was read from the page/PDF
+itself, not from any repository copy.
+
+| Check | Source | Result |
+|---|---|---|
+| Slate 11/14–11/16, game ids + teams + ET tip times (22 rows read directly: 11/14 all 5, 11/15 all 9, 11/16 all 8) | [nba.com/schedule?date=2026-11-14](https://www.nba.com/schedule?date=2026-11-14) chunks 0–2 | **22/22 exact match** against `data/slates.csv` (ids `0022600231`–`0022600252`); window counts 5/9/8 match `data/app/official_slate.json` (31 games total incl. 9 on 11/13) |
+| Team advanced stats spot-check (14 teams × GP, W, L, OffRtg, DefRtg, NetRtg, PACE = 98 field comparisons) | [nba.com/stats/teams/advanced?Season=2026-27](https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season) chunk 0 | **98/98 exact match** against `data/origin/teams_advanced.csv` (LAL, BOS, PHI, SAS, HOU, MIN, DET, GSW, OKC, POR, ATL, DAL, MEM, CLE) |
+| Injury-report freshness: is the canonical 07:30 PM snapshot still the newest? | [official injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/) chunks 0–1 | **Newer report exists:** the index now lists a [08:00 p.m. ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_00PM.pdf) for 11/13; no 11/14 section listed yet (01:20 UTC = 20:20 ET 11/13) |
+| Does the 08:00 PM report change anything? Full diff, both chunks, every visible row | [08:00 PM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_00PM.pdf) vs `data/app/official_injuries_2026-11-13_0730PM.json` | **117/117 player rows identical** (78 chunk-0 + 39 chunk-1): 0 status changes, 0 missing, 0 extra; the same **5 teams NOT YET SUBMITTED** for 11/14 (NOP, CLE, MEM, CHI, MIA). The canonical capture is stale by stamp only, not by content, as of this check |
+
+Irregularities from this round (records, none block merge):
+- **W3-F-01 (freshness, low):** canonical injury snapshot is 07:30 PM while 08:00 PM exists; verified
+  no content difference at check time. Refresh owner: `arena/8d3d0271-nba3` (A2) or next capture round.
+- **W2-F-01 (process):** four of five open PR branches fail most local checks solely because they are
+  33–105 commits behind `main`; merge-base context must be recorded with any per-branch pass/fail,
+  otherwise missing-tree failures read as regressions.
