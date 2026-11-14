@@ -158,5 +158,13 @@
   "method": "scripts/check_hub.py: every data row must reference a source id that resolves to an https URL; every internal link must resolve to a file; every value that is not verified must be blank and carry a flag",
   "result": "All checks pass at build time; the check runs inside the Pages workflow.",
   "source": "S19"
+ },
+ {
+  "id": "V-21",
+  "when": "2026-11-14",
+  "what": "Cross-engine spread comparison on a single normalised scale",
+  "method": "Read the source of both engines: model/build.py writes orig_spread_home = -m_primary (a sportsbook-style line, negative = home favoured) and pipeline/run_model.py writes origin_spread_home = predC (a projected home margin, positive = home favoured). Normalised both to a home-margin scale and compared the favourite and the spread gap on the games the two engines share, keyed on (date, away, home).",
+  "result": "The engines cover 17 common games. They agree on the favourite in all 17; the median absolute spread gap is 3.1 points and the largest is 11.8 points (CHI at MIN); one gap exceeds 10 points. An earlier cut of this dashboard reported three favourite disagreements, which was produced by comparing the two raw fields without normalising them first. The hub now normalises before comparing, and the defect is published as F-24.",
+  "source": "S18"
  }
 ]

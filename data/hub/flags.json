@@ -210,9 +210,9 @@
   "id": "F-24",
   "severity": "high",
   "area": "model",
-  "item": "The repository's two independent origination engines disagree on the favourite",
-  "detail": "On the seventeen games both engines cover, they pick different favourites in three (DAL at CLE, DEN at NOP, IND at PHI) and differ by more than ten points on the spread in most of the rest. Both engines are built from the same official inputs and neither has passed its validation gates, so the disagreement is evidence that the lines are not yet stable enough to act on.",
-  "action": "Reconcile the two engines on one shared input set, publish the disagreement as a standing metric, and treat any game where the engines disagree as un-actionable.",
+  "item": "The repository's two origination engines publish the same spread field with opposite sign conventions",
+  "detail": "The origin engine (model/build.py) stores a sportsbook-style line in orig_spread_home, where a negative value means the home team is favoured; the Edge Lab engine (pipeline/run_model.py) stores a projected home margin in origin_spread_home, where a positive value means the home team is favoured. The two field names are almost identical and the conventions are opposite, so any code that compares them without normalising first reads a large spurious disagreement. This was found in this session: an early version of the hub dashboard reported the engines as picking different favourites in three games, which was an artefact of this sign error, not a modelling difference. After normalising both to a single home-margin scale the two engines agree on the favourite in all 17 games they share, with a median spread gap of 3.1 points and one gap above 10 points (CHI at MIN, 11.8). Note also that the origin engine publishes 174 games while the Edge Lab engine publishes a different number of rows, so their overlap is only 17 games.",
+  "action": "Normalise the sign convention in every comparison, store the convention next to the value, and keep the agreement metric published on the Lines page. Until the field names or the conventions are unified, treat any cross-engine number as unsafe to compare by eye.",
   "source": "S18"
  }
 ]

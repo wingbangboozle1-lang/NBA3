@@ -1,36 +1,129 @@
 {
-"title":"Executive summary",
-"generated":"2026-11-14 (UTC), from sources fetched on 2026-11-14",
-"scope":"Season 2026-27. Results verified through 2026-11-12 (174 games). Slate covered: 2026-11-13 to 2026-11-16 (31 games).",
-"headline":[
-{"label":"Games in the covered slate","value":"31","note":"9 on 11/13, 5 on 11/14, 9 on 11/15, 8 on 11/16. Dates, ET times, teams, venues and NBA game IDs confirmed against nba.com/schedule and the official schedule PDF.","source":"S04"},
-{"label":"Team-games reconciled against the official GP column","value":"348 of 348, mismatch 0","note":"Re-verified in this session by summing the official NBA.com teams-advanced GP column for all 30 teams.","source":"S06"},
-{"label":"Games graded out of sample (walk-forward)","value":"114","note":"No look-ahead: each game is predicted from earlier games only.","source":"S18"},
-{"label":"Margin model RMSE vs baseline","value":"16.18 vs 17.30","note":"The side model beats its baseline by 6.5%.","source":"S18"},
-{"label":"Total model RMSE vs baseline","value":"20.35 vs 19.56","note":"The totals model is worse than the league-average baseline. It is reported, not hidden.","source":"S18"},
-{"label":"Strategies passing all seven gates","value":"0 of 8","note":"Two are under-powered rather than disproven (n = 24 and n = 28).","source":"S18"},
-{"label":"Player rows in the newest official injury report","value":"117","note":"From the 11/13 07:30 PM report, plus 5 team rows marked NOT YET SUBMITTED. Availability for the 17 games on 11/15 and 11/16 is blank because no report exists yet.","source":"S02"},
-{"label":"Player-level correlations measured","value":"0 of 4","note":"No per-player game logs were captured, so player-prop correlations are left blank by policy.","source":"S09"}
-],
-"findings":[
-{"n":1,"title":"The data reconciles exactly against the official NBA tables","text":"348 team-games across 30 teams match the official games-played column with zero mismatch, and every team's wins and losses match the recomputed record. The slate of 31 games matches two independent official sources on date, time, teams and venue."},
-{"n":2,"title":"The side model beats its baseline; the totals model does not","text":"Walk-forward over 114 out-of-sample games, the margin model cuts RMSE from 17.30 to 16.18 points and explains 12.5% of margin variance. The totals model lands at 20.35 against a 19.56 baseline and explains minus 8.2% of variance. Totals should not be traded on the strength of this model."},
-{"n":3,"title":"No strategy survives its own validation gates","text":"0 of 8 pass. The two strongest are fading our own totals of 235 or more (21 of 24, p = 0.0003) and backing road favourites of 8 or more (20 of 28, p = 0.0357). Both fail the minimum-sample gate of 100 and both are under-powered: S4b needs about 76 more games for 80% power. The honest reading is that the sample is too small, not that the effect is real or false."},
-{"n":4,"title":"The measurable parlay correlation is small and the important ones are blank","text":"The correlation between our own spread residual and our own total residual is r = +0.091 with a 95% interval that contains zero, over 114 out-of-sample games. The joint cover-and-over rate is 0.246 against 0.219 under independence. Player-level correlations, the ones that decide same-game player-prop parlays, are blank because per-player game logs were never captured."},
-{"n":5,"title":"Injuries are tracked line by line, and the minutes effect is quantified only where it can be","text":"117 player rows from the newest official report, each with the printed status and reason. Where the player's season minutes per game are in the captured set, minutes at risk are computed from official minutes; where they are not, the cell is blank and says UNVERIFIED. No points impact is estimated anywhere."},
-{"n":6,"title":"Home-court advantage is small and not established this season","text":"Least squares on 174 verified results gives +1.59 points with a two-sided p of 0.104 and 172 degrees of freedom. The fitted value is used because it is the least-squares estimate, but this sample does not establish the effect."},
-{"n":7,"title":"Luck is measured, not assumed","text":"Every strategy is tested with an exact binomial test against its own null, a Benjamini-Hochberg false-discovery correction, and a split-half direction check. A strategy has to survive all three plus a provenance check, a no-look-ahead check, a minimum-sample check and a power check. Nothing has survived all seven."}
-],
-"bottom_line":[
-"The pipeline originates a defensible spread, total and fair moneyline for every one of the 31 games in the next three days, from official NBA inputs only.",
-"It has not produced a strategy that passes its own gates, so nothing here should be traded as if it were an edge.",
-"The largest available gain is not a better model but more games and a licensed price feed, plus a legal answer on whether NBA data may be used this way at all.",
-"Every number on this site carries the source it was checked against, and every value that could not be confirmed is blank and listed on the Flagged for Review page."
-],
-"changed_since_previous_round":[
-{"item":"Injury data","before":"11/13 05:00 PM report, 117 rows of which 18 had no team or matchup","after":"11/13 07:30 PM report, 117 player rows fully attributed plus 5 team rows; the 18 previously unattributed rows are now attributed and cross-checked","source":"S02"},
-{"item":"Slate verification","before":"Transcribed from the official schedule PDF","after":"Every game re-checked against nba.com/schedule for date, ET time, venue and game ID","source":"S04"},
-{"item":"Team table","before":"Held in the origin engine output","after":"Re-read from the official NBA.com teams-advanced table and used to re-verify the 348 team-games claim","source":"S06"},
-{"item":"Presentation","before":"Seven separate site trees","after":"One consolidated dashboard with a single identifier namespace (F-xx, Q-xx, SG-xx, R-xx, V-xx)","source":"S18"}
-]
+ "title": "Executive summary",
+ "generated": "2026-11-14 (UTC), from sources fetched on 2026-11-14",
+ "scope": "Season 2026-27. Results verified through 2026-11-12 (174 games). Slate covered: 2026-11-13 to 2026-11-16 (31 games).",
+ "headline": [
+  {
+   "label": "Games in the covered slate",
+   "value": "31",
+   "note": "9 on 11/13, 5 on 11/14, 9 on 11/15, 8 on 11/16. Dates, ET times, teams, venues and NBA game IDs confirmed against nba.com/schedule and the official schedule PDF.",
+   "source": "S04"
+  },
+  {
+   "label": "Team-games reconciled against the official GP column",
+   "value": "348 of 348, mismatch 0",
+   "note": "Re-verified in this session by summing the official NBA.com teams-advanced GP column for all 30 teams.",
+   "source": "S06"
+  },
+  {
+   "label": "Games graded out of sample (walk-forward)",
+   "value": "114",
+   "note": "No look-ahead: each game is predicted from earlier games only.",
+   "source": "S18"
+  },
+  {
+   "label": "Margin model RMSE vs baseline",
+   "value": "16.18 vs 17.30",
+   "note": "The side model beats its baseline by 6.5%.",
+   "source": "S18"
+  },
+  {
+   "label": "Total model RMSE vs baseline",
+   "value": "20.35 vs 19.56",
+   "note": "The totals model is worse than the league-average baseline. It is reported, not hidden.",
+   "source": "S18"
+  },
+  {
+   "label": "Strategies passing all seven gates",
+   "value": "0 of 8",
+   "note": "Two are under-powered rather than disproven (n = 24 and n = 28).",
+   "source": "S18"
+  },
+  {
+   "label": "Player rows in the newest official injury report",
+   "value": "117",
+   "note": "From the 11/13 07:30 PM report, plus 5 team rows marked NOT YET SUBMITTED. Availability for the 17 games on 11/15 and 11/16 is blank because no report exists yet.",
+   "source": "S02"
+  },
+  {
+   "label": "Player-level correlations measured",
+   "value": "0 of 4",
+   "note": "No per-player game logs were captured, so player-prop correlations are left blank by policy.",
+   "source": "S09"
+  }
+ ],
+ "findings": [
+  {
+   "n": 1,
+   "title": "The data reconciles exactly against the official NBA tables",
+   "text": "348 team-games across 30 teams match the official games-played column with zero mismatch, and every team's wins and losses match the recomputed record. The slate of 31 games matches two independent official sources on date, time, teams and venue."
+  },
+  {
+   "n": 2,
+   "title": "The side model beats its baseline; the totals model does not",
+   "text": "Walk-forward over 114 out-of-sample games, the margin model cuts RMSE from 17.30 to 16.18 points and explains 12.5% of margin variance. The totals model lands at 20.35 against a 19.56 baseline and explains minus 8.2% of variance. Totals should not be traded on the strength of this model."
+  },
+  {
+   "n": 3,
+   "title": "No strategy survives its own validation gates",
+   "text": "0 of 8 pass. The two strongest are fading our own totals of 235 or more (21 of 24, p = 0.0003) and backing road favourites of 8 or more (20 of 28, p = 0.0357). Both fail the minimum-sample gate of 100 and both are under-powered: S4b needs about 76 more games for 80% power. The honest reading is that the sample is too small, not that the effect is real or false."
+  },
+  {
+   "n": 4,
+   "title": "The measurable parlay correlation is small and the important ones are blank",
+   "text": "The correlation between our own spread residual and our own total residual is r = +0.091 with a 95% interval that contains zero, over 114 out-of-sample games. The joint cover-and-over rate is 0.246 against 0.219 under independence. Player-level correlations, the ones that decide same-game player-prop parlays, are blank because per-player game logs were never captured."
+  },
+  {
+   "n": 5,
+   "title": "Injuries are tracked line by line, and the minutes effect is quantified only where it can be",
+   "text": "117 player rows from the newest official report, each with the printed status and reason. Where the player's season minutes per game are in the captured set, minutes at risk are computed from official minutes; where they are not, the cell is blank and says UNVERIFIED. No points impact is estimated anywhere."
+  },
+  {
+   "n": 6,
+   "title": "Home-court advantage is small and not established this season",
+   "text": "Least squares on 174 verified results gives +1.59 points with a two-sided p of 0.104 and 172 degrees of freedom. The fitted value is used because it is the least-squares estimate, but this sample does not establish the effect."
+  },
+  {
+   "n": 7,
+   "title": "Luck is measured, not assumed",
+   "text": "Every strategy is tested with an exact binomial test against its own null, a Benjamini-Hochberg false-discovery correction, and a split-half direction check. A strategy has to survive all three plus a provenance check, a no-look-ahead check, a minimum-sample check and a power check. Nothing has survived all seven."
+  },
+  {
+   "n": 8,
+   "title": "A cross-engine comparison caught a sign-convention defect, not a modelling difference",
+   "text": "The two origination engines in this repository publish a spread field with the same name and opposite sign conventions: the origin engine stores a sportsbook-style line where a negative value means the home team is favoured, while the Edge Lab engine stores a projected home margin where a positive value means the home team is favoured. An earlier cut of this dashboard reported the two engines as picking different favourites in three games; that was an artefact of reading the raw fields, not a modelling difference. Normalised to one scale the engines agree on the favourite in all 17 games they share, with a median spread gap of 3.1 points and one gap above 10 points. The lesson is procedural rather than sporting: cross-engine numbers in this repository must be normalised before they are read, and that requirement is recorded as F-24."
+  }
+ ],
+ "bottom_line": [
+  "The pipeline originates a defensible spread, total and fair moneyline for every one of the 31 games in the next three days, from official NBA inputs only.",
+  "It has not produced a strategy that passes its own gates, so nothing here should be traded as if it were an edge.",
+  "The largest available gain is not a better model but more games and a licensed price feed, plus a legal answer on whether NBA data may be used this way at all.",
+  "Every number on this site carries the source it was checked against, and every value that could not be confirmed is blank and listed on the Flagged for Review page."
+ ],
+ "changed_since_previous_round": [
+  {
+   "item": "Injury data",
+   "before": "11/13 05:00 PM report, 117 rows of which 18 had no team or matchup",
+   "after": "11/13 07:30 PM report, 117 player rows fully attributed plus 5 team rows; the 18 previously unattributed rows are now attributed and cross-checked",
+   "source": "S02"
+  },
+  {
+   "item": "Slate verification",
+   "before": "Transcribed from the official schedule PDF",
+   "after": "Every game re-checked against nba.com/schedule for date, ET time, venue and game ID",
+   "source": "S04"
+  },
+  {
+   "item": "Team table",
+   "before": "Held in the origin engine output",
+   "after": "Re-read from the official NBA.com teams-advanced table and used to re-verify the 348 team-games claim",
+   "source": "S06"
+  },
+  {
+   "item": "Presentation",
+   "before": "Seven separate site trees",
+   "after": "One consolidated dashboard with a single identifier namespace (F-xx, Q-xx, SG-xx, R-xx, V-xx)",
+   "source": "S18"
+  }
+ ]
 }

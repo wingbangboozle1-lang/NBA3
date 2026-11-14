@@ -67,9 +67,12 @@ confirmed against an official source is left blank and listed on the **Flagged f
   reconstructed from the earlier official report and is flagged in the row itself (F-09, F-23).
 * The official GP column of all 30 NBA teams sums to **348 team-games**, equal to the model's captured 348 with
   zero mismatch — the integrity claim was re-derived from the official table rather than trusted.
-* The repository's two independent origination engines disagree on the favourite in **three of the seventeen
-  games they share** (DAL at CLE, DEN at NOP, IND at PHI); published as an explicit disagreement report and as
-  flag **F-24**, not as agreement or calibration.
+* The repository's two independent origination engines publish a spread field under almost the same name with
+  **opposite sign conventions** — the origin engine stores a sportsbook-style line (negative = home favoured),
+  the Edge Lab engine a projected home margin (positive = home favoured). Normalised to one scale they agree on
+  the favourite in all **17** games they share, median spread gap 3.1 points. An earlier cut of this dashboard
+  reported three favourite disagreements; that was the sign error, not a modelling difference. Published as
+  flag **F-24**, verification record **V-21** and repository-review row **R-26**.
 
 ### Rebuild
 
@@ -97,9 +100,9 @@ comparing the official pages read on 2026-11-14 with the values already stored i
   schedule PDF, the official 30-team table, the newest official injury report (11/13 07:30 PM), the originated
   lines, the 8-strategy leaderboard against 7 gates, the measured correlations, game flow, player props, picks
   for the three-day window, and the review pages (repository review, questions, suggestions, flagged,
-  verification). Still true: **no strategy passes every gate (0 of 8)**, **no licensed odds feed is connected**,
-  and the two origination engines in the repository disagree on the favourite in three of the seventeen games
-  they share (`F-24`).
+  verification). Still true: **no strategy passes every gate (0 of 8)** and **no licensed odds feed is connected**.
+  The repository's two origination engines publish a spread field with opposite sign conventions, so any
+  cross-engine number has to be normalised before it is read (`F-24`).
 
 **Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/ (root landing) · **current numbers in one place:** https://wingbangboozle1-lang.github.io/NBA3/dash/<br>
 **Flagged for Review:** https://wingbangboozle1-lang.github.io/NBA3/review.html<br>

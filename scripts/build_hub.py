@@ -332,8 +332,9 @@ edge or de-vigged market probability exists. <a href="flagged.html">F-01</a></li
 never captured. <a href="correlations.html">Correlations</a>, <a href="props.html">Player props</a></li>
 <li>Availability for the 17 games on 11/15 and 11/16: no injury report has been published for them yet.
 <a href="injuries.html">Injuries</a></li>
-<li>Two independent origination engines in this repository disagree on the favourite in three of the seventeen
-games they both cover. <a href="lines.html">Originated lines</a></li>
+<li>Whether the repository's two independent origination engines are telling the same story: they publish the
+same spread field with opposite sign conventions, so any cross-engine number must be normalised first.
+<a href="lines.html">Originated lines</a>, <a href="flagged.html">F-24</a></li>
 <li>Whether NBA data may lawfully be used for wagering purposes. <a href="flagged.html">F-02, F-03</a></li>
 </ul>
 
@@ -425,7 +426,12 @@ estimated anywhere.</p>
         for g in self.d["slate"]:
             if g["line_spread_home"] is None:
                 continue
-            fav = f'{g["fav_origin"]} favoured' if g["fav_origin"] else ""
+            # The favourite follows from our own line: the origin engine stores a
+            # sportsbook-style home line (negative = home favoured).
+            fav = ""
+            if g.get("line_spread_home") is not None:
+                fav = (f'{g["home"]} favoured'
+                       if g["line_spread_home"] < 0 else f'{g["away"]} favoured')
             rows.append({
                 "date": g["date"], "time": g["time_et"],
                 "matchup": f'{html.escape(g["away"])} @ {html.escape(g["home"])}',
@@ -459,6 +465,10 @@ estimated anywhere.</p>
                 "src": ["S18"],
             })
         disagree = [r for r in cmp_rows if "disagree" in r["agree"]]
+        gaps = sorted(g["spread_gap"] for g in self.d["slate"] if g.get("spread_gap") is not None)
+        median_gap = gaps[len(gaps) // 2] if gaps else None
+        max_gap = gaps[-1] if gaps else None
+        over_10 = sum(1 for g in gaps if g > 10)
         body = f"""
 <h2>Originated lines for all {len(rows)} games</h2>
 <p class="small">Our own lines, derived from official NBA statistics and the official injury report; nothing is
@@ -470,19 +480,24 @@ deviation is {num(self.d["gameflow"]["resid_sd_margin"], 1)} points.</p>
              ("P(home)", "p_home", "pct"), ("P(away)", "p_away", "pct"), ("Exp. points H/A", "pts"),
              ("Pace", "pace", "num"), ("Outs H/A", "outs"), ("Game", "link"), ("Source", "src", "src")], rows)}
 
-<h2>Two independent engines in this repository disagree</h2>
+<h2>Two independent engines in this repository, compared</h2>
 <p class="small">The repository holds two separately built origination engines. This dashboard's line table uses
 the walk-forward validated blend (LM-C) from the origin engine. The second engine (the Edge Lab model) publishes
 its own lines and fair prices for the games it covers. Comparing them on the {len(cmp_rows)} games they share:
-{len(disagree)} of them disagree on which team is favoured, and the spread gap is large on most of the rest.
-Neither engine has passed its validation gates, so this table is a disagreement report, not a calibration.</p>
+{len(disagree)} of them disagree on which team is favoured, the median spread gap is {num(median_gap, 1)} points
+and the largest is {num(max_gap, 1)} points; {over_10} of the {len(cmp_rows)} gaps exceed ten points. Neither
+engine has passed its validation gates, so this table is a cross-check on the lines, not a calibration of either
+engine.</p>
+<div class="banner warn"><strong>Read the two spread columns on the same scale.</strong> The engines publish a
+spread field with the same name but opposite sign conventions: the origin engine stores a sportsbook-style line
+(negative = home favoured) and the Edge Lab engine stores a projected home margin (positive = home favoured).
+Both columns above are shown in their published form, and the favourite, the gap and the agreement column are
+all computed after normalising both to one home-margin scale. Comparing the two columns by eye without that
+step would read a large spurious disagreement. This is recorded as <a href="flagged.html">F-24</a>.</div>
 {self.table([("Date", "date"), ("Matchup", "matchup"), ("Line A (home)", "a_spread", "num1"),
              ("Line B (home)", "b_spread", "num1"), ("Favourite A", "a_fav"), ("Favourite B", "b_fav"),
              ("Agree?", "agree"), ("Spread gap", "gap", "num"), ("Total A", "a_total", "num1"),
              ("Total B", "b_total", "num1"), ("Total gap", "t_gap", "num1"), ("Source", "src", "src")], cmp_rows)}
-<div class="banner warn"><strong>What this means for a decision.</strong> When two independent models built from
-the same official data disagree on the favourite, the honest read is that the lines are not yet reliable enough
-to trade. This is recorded as <a href="flagged.html">F-24</a>.</div>
 """
         return self.page("lines.html", "Originated lines", "", body)
 

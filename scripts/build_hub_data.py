@@ -195,17 +195,31 @@ def main() -> None:
             row["edge_fair_ml_away"] = None
             row["edge_p_home"] = None
 
-        # agreement between the two engines (both lines use "negative = home favoured")
-        if row["line_spread_home"] is not None and row["edge_spread_home"] is not None:
-            fav_origin = row["home"] if row["line_spread_home"] < 0 else row["away"]
-            fav_edge = row["home"] if row["edge_spread_home"] < 0 else row["away"]
-            row["fav_origin"] = fav_origin
-            row["fav_edge"] = fav_edge
-            row["engines_agree"] = fav_origin == fav_edge
-            row["spread_gap"] = abs(row["line_spread_home"] - row["edge_spread_home"])
-            row["total_gap"] = abs((row["line_total"] or 0) - (row["edge_total"] or 0))
+        # Agreement between the two engines.
+        #
+        # The two engines publish a spread field with the SAME NAME but OPPOSITE sign
+        # conventions, so they must be normalised before they are compared:
+        #   origin (data/origin/model_output.json, model/build.py):
+        #       orig_spread_home = -m_primary  -> a sportsbook-style LINE,
+        #       negative = home favoured.
+        #   edge (data/model/lines_2026-27.json, pipeline/run_model.py):
+        #       origin_spread_home = predC     -> a projected HOME MARGIN,
+        #       positive = home favoured.
+        # Both are converted here to a single "home margin" scale
+        # (positive = home is favoured) before the favourite is read off.
+        if row["line_spread_home"] is not None:
+            row["fav_origin"] = (row["home"] if row["line_spread_home"] < 0 else row["away"])
         else:
             row["fav_origin"] = None
+        if row["line_spread_home"] is not None and row["edge_spread_home"] is not None:
+            home_margin_origin = -row["line_spread_home"]
+            home_margin_edge = row["edge_spread_home"]
+            fav_edge = row["home"] if home_margin_edge > 0 else row["away"]
+            row["fav_edge"] = fav_edge
+            row["engines_agree"] = row["fav_origin"] == fav_edge
+            row["spread_gap"] = abs(home_margin_origin - home_margin_edge)
+            row["total_gap"] = abs((row["line_total"] or 0) - (row["edge_total"] or 0))
+        else:
             row["fav_edge"] = None
             row["engines_agree"] = None
             row["spread_gap"] = None
