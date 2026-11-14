@@ -3432,3 +3432,13 @@ Task status at close (replaces the claim table above):
 - **CR-965-03 → owner of `scripts/injury_delta_0130pm.py`:** the counting rule is the same as the 04:15 AM delta's, which is strict. Whether to accept a matchup-and-team row inside a dated block is an owner decision (965-F-04).
 
 **Scope note.** This session did not touch the strategy lab, the originated lines, the picks or the leaderboard. Those are unchanged from `main` and remain blocked on the data they need (licensed prop prices, player-level minutes logs), as recorded in the existing Questions page. Open PR #70 (`arena/f2d4a99f-nba3`, COORDINATION.md only) was not touched; this branch's COORDINATION edits are append-only.
+
+### PR, merge and deployment record — session `965fbd17` (2026-11-14)
+
+- **PR [#75](https://github.com/wingbangboozle1-lang/NBA3/pull/75)** (`arena/965fbd17-nba3` → `main`, head `0563404`): opened 2026-11-14, CI `build` **pass** (25 s; the `deploy` job skips on pull requests by design), **merged 2026-11-14T18:50:43Z** as merge commit `a5ef7ca5a48ac8e5f3484e9c47f0281612df9b26`. Merged with `gh pr merge 75 --merge`, without waiting for review, per the standing instruction.
+- **Push run on `main`** (`43628850133`): `build` **success**, `deploy` **success**. Pages API reports `status: built`, source `main /`.
+- **Live verification (read from the deployed pages, not from the status):**
+  - `https://wingbangboozle1-lang.github.io/NBA3/app/injuries.html` shows the corrected **"Freshness check: a newer official report exists"** callout, the **01:30 PM ET** wording, and the section **1b** anchor. Chunk 5 of the page shows the 1b tables with `STATUS CHANGED` on Harkless and Jones (DET) and the per-row PDF and raw-file links.
+  - `https://wingbangboozle1-lang.github.io/NBA3/app/flagged.html` shows **80 items** (19 high, 50 medium, 11 low), including the 965-F rows.
+- **Not replayed here:** the live `capture_official_*` steps (they fetch nba.com on the runner and were unchanged).
+- **Record PR:** this record is committed on the same branch and goes to `main` through a second, record-only PR, so that `COORDINATION.md` on `main` shows the merge result. It changes no published page.
