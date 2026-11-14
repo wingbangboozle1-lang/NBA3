@@ -2154,3 +2154,45 @@ choice, and none has been implemented. The decisions that actually gate progress
 CQ-03 (a licensed, timestamped price feed — without it no ROI here is an economic result),
 CQ-36 (what the leaderboard's reward is, and whether this is a prize contest, a pool or internal
 scoring), and CQ-40 (a bias found against our own line is a defect to repair, not an edge to bet).
+
+---
+
+## Session `arena/25418e3f-nba3` (this session) — CLAIM: official refresh to 183 games, newest injury report, availability timeline
+
+Session ID `25418e3f`. Branch `arena/25418e3f-nba3`, branched from `main` @ `57762d51e91ecffd976efb5ffb0c490a2ac11bc2`
+(the tip of `main`, so this session starts from everything the twelve earlier sessions merged). Arena fixes
+the working branch, so the `session-<id>/<task>` naming in the brief is not available here; tasks are kept
+non-overlapping by file scope inside this one branch. Claim written and pushed **before** any data work.
+
+### Why this round exists
+
+Session `36e18d83` left an explicit hand-off on the board — **F36-03**:
+
+> "2026-11-13 results (9 games) not yet in the canonical 174-game log … Next refresh session: capture the
+> 11/13 finals from the official scoreboard and extend data/origin/games.csv (to 184 games) with provenance."
+
+Nobody has taken it. `data/origin/games.csv` still ends at 2026-11-12, so the engine that originates tonight's
+lines is fitted on a log that is a day short, and the injury overlay it uses is the 11/13 07:45 PM ET report,
+which is no longer the newest one. This session executes that hand-off and refreshes the overlay.
+
+### Task board (this session)
+
+| # | Task | Status | Files in scope |
+|---|------|--------|----------------|
+| N1 | Official capture #3 (2026-11-14, ~04:45 ET): 11/13 finals, newest injury report, per-date scoreboard counts, post-11/13 team advanced ratings | in progress | `scripts/capture_official_2026_11_14c.py`, `data/app/official_results_2026-11-13.json`, `data/app/official_injuries_2026-11-14_0415AM.json`, `data/app/official_team_ratings_2026-11-14c.json`, `data/app/official_counts_2026-11-14.json` |
+| N2 | Extend the canonical result log 174 → 183 games with provenance, per F36-03 | in progress | `data/origin/games.csv`, `data/origin/games_extended_provenance.json` |
+| N3 | Injury-report availability timeline: official filing deadlines per team per game, which games are structurally injury-blind at +1/+2/+3 days | in progress | `scripts/report_availability.py`, `data/app/report_availability_2026-11-14.json` |
+| N4 | Re-run engine, nine gates, leaderboard and the luck null on the refreshed inputs; publish before/after delta | in progress | `scripts/strategy_lab.py`, `data/app/lab.json`, `scripts/assemble_canonical.py`, `data/app/canonical.json`, `app/**`, `index.html`, `scripts/build_app.py` |
+| N5 | New site page: freshness, deltas and the availability timeline; exec summary / questions / suggestions / flags updated | in progress | `app/freshness.html`, `data/app/canonical.json` (same fields), `README.md` |
+| N6 | Cross-tree consistency: regenerate every drift-gated artefact that reads the files N2/N4 change; run all 23 check suites | in progress | `data/integration/model.json`, `dash/**`, `verify/pages/**`, `audit36/**` (read-only check; edits only via logged change request) |
+| N7 | PR → merge → CI → Pages deploy verification; record here | unclaimed (queued behind N1–N6) | PR, `COORDINATION.md`, `README.md` |
+
+### Rules this session follows
+
+- Append-only to `COORDINATION.md`; earlier sessions' text preserved verbatim.
+- No value is published that was not read from an official NBA source in this session or cross-checked
+  field-by-field against one; anything unconfirmable is left blank and flagged, never inferred.
+- `audit36/`, `final/`, `integrate/`, `hub/`, `site/`, `docs/`, `edge/`, `origin/`, `lab/`, `research/`,
+  `d01ae7e2/` belong to earlier sessions. This session regenerates only their *deterministic build
+  outputs* where its own input change forces it (N6), and logs each case here rather than editing their
+  source of truth.
