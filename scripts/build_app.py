@@ -1457,9 +1457,16 @@ replaced.</p>""")
          f"{man.get('injuries', {}).get('report_stamp', '—')}",
          f"{_base(man_sup.get('injuries', ''))} · report stamped "
          f"{(superceded.get('injuries') or {}).get('report_stamp', '—')}",
-         "newest file on the official index. Its 2026-11-14 rows are identical to the report it "
-         "replaces — 31 rows compared, 0 status changes — so the only new information is "
-         "the 2026-11-15 block, which is every team NOT YET SUBMITTED (check C4)",
+         ("superseded in turn by the 11/14 01:30 PM ET report, which the index lists later: "
+          "45 rows compared, 4 status changes, 24 player rows added, 0 rows lost. As originally "
+          "captured, this file differed from the report it replaced only in the 2026-11-15 block, "
+          "which was every team NOT YET SUBMITTED (check C4)"
+          # a stamp comparison across AM/PM cannot be done as string order
+          if (man.get('injuries', {}).get('report_stamp') or '')
+          not in ('', '2026-11-14 04:15 AM ET')
+          else "newest file on the official index. Its 2026-11-14 rows are identical to the report "
+               "it replaces — 31 rows compared, 0 status changes — so the only new information is "
+               "the 2026-11-15 block, which is every team NOT YET SUBMITTED (check C4)"),
          [man.get("injuries", {}).get("source_url"),
           (superceded.get("injuries") or {}).get("source_url")], "both PDFs"],
         ["Schedule / slate (the window itself)",
@@ -1934,7 +1941,17 @@ def page_sources(d):
     body.append("""
 <p>Every source used by this project, with the publisher, the official status, the retrieval method
 and the verification result. Legacy IDs from earlier sessions are kept so a reviewer can trace a
-value back to the page that produced it.</p>""")
+value back to the page that produced it.</p>
+<p><strong>How many distinct sources this is.</strong> The register holds
+<strong>__N__ rows for __D__ distinct URLs</strong>: __R__ rows are a second read of a page already
+listed, and each of those is labelled with the entry it repeats. A repeat is <em>not</em>
+corroboration — two rows for one URL are one source, and the rows are kept rather than merged so no
+other session's provenance is deleted.</p>""")
+    first = (d["sources"] or [{}])[0]
+    body = [b.replace("__N__", str(len(d["sources"])))
+             .replace("__D__", str(first.get("distinct_urls_in_register", "?")))
+             .replace("__R__", str(first.get("repeat_rows_in_register", "?")))
+            for b in body]
     rows = []
     for s in d["sources"]:
         rows.append([
@@ -2181,11 +2198,20 @@ evidence. They are listed so nothing appears to have been silently dropped.</p>"
 
     # ---- questions
     body.append("<h3>Questions that must be answered before a decision is reasonable</h3>")
-    body.append("""<p>For each one: what is already known, what is missing, and the concrete step
-that would discover it. A question with no discovery step is a wish; every row below has one.</p>""")
+    _sev = {}
+    for q in dd["questions"]:
+        _sev[q["severity"]] = _sev.get(q["severity"], 0) + 1
+    body.append(f"""<p>For each one: what is already known, what is missing, and the concrete step
+that would discover it. A question with no discovery step is a wish; every row below has one.
+Of the {len(dd['questions'])} questions, <strong>{_sev.get('answered', 0)} are answered</strong>,
+{_sev.get('blocking', 0) + _sev.get('blocked', 0)} are blocking, {_sev.get('decision', 0)} need an
+owner decision, {_sev.get('partial', 0)} are partly answered and {_sev.get('unverified', 0)}
+{"is" if _sev.get('unverified', 0) == 1 else "are"} open because a value is unverified. Status is the register's own wording, not a label this page
+invented.</p>""")
     rows = [[esc(q["id"]), esc(q["category"]), esc(q["question"]),
              chip(esc(q["severity"]), "bad" if q["severity"] in ("blocking", "blocked") else
-                  "warn" if q["severity"] in ("decision", "unverified", "partial") else "ok"),
+                  "warn" if q["severity"] in ("decision", "unverified", "partial") else
+                  "neutral" if q["severity"] == "tracked" else "ok"),
              esc(q["known"]), esc(q["missing"]), esc(q["how_to_discover"]),
              src_cell(q["sources"], "source")] for q in dd["questions"]]
     body.append(table(["ID", "Category", "Question", "Status", "Known now", "Missing",

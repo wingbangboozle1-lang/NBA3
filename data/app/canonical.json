@@ -14679,7 +14679,7 @@
   "superseded": {
    "ratings": "data/app/official_team_ratings_2026-11-14b.json",
    "injuries": "data/app/official_injuries_2026-11-14_0415AM.json",
-   "reason": "The injury overlay was the 11/14 04:15 AM ET report. Session a399d8a9 re-read the official index on 2026-11-14 at 18:47Z and found reports through 1:30 PM ET; the 04:15 AM stamp is nine hours behind the newest official report and eight of the ten 11/14 teams had not filed on it. The ratings and results entries in this block are unchanged by this session.",
+   "reason": "The injury overlay was the 11/14 04:15 AM ET report. Session a399d8a9 re-read the official index on 2026-11-14 at 18:47Z and found reports through 1:30 PM ET; the 04:15 AM stamp is nine hours behind the newest official report and 5 of the 10 teams playing on 11/14 had filed nothing on it (CHI, CLE, MEM, MIA, NOP). The ratings and results entries in this block are unchanged by this session.",
    "injuries_previous_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   "checks": {
@@ -20395,7 +20395,7 @@
    "path": "data/app/official_injuries_2026-11-14_0415AM.json",
    "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
    "report_stamp": "2026-11-14 04:15 AM ET",
-   "why": "Nine hours older, and read before any game-day filing was due. It prints NOT YET SUBMITTED for eight of the ten teams playing on 11/14; the 01:30 PM report prints their actual player rows. Keeping the older stamp on a game-day slate would publish a stale availability picture on the page the owner reads for picks."
+   "why": "Nine hours older, and read before any game-day filing was due. It prints NOT YET SUBMITTED for 5 of the 10 teams playing on 11/14 (CHI, CLE, MEM, MIA, NOP); the 01:30 PM report prints their actual player rows. Keeping the older stamp on a game-day slate would publish a stale availability picture on the page the owner reads for picks."
   },
   "newest_report_listed_on_index": "2026-11-14 01:30 PM ET",
   "newest_report_checked": true,
@@ -28189,7 +28189,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read: deadline and report-timing rules; index lists 11/13 reports from 12:00 a.m. to 5:15 p.m. ET",
    "limits_or_notes": "Index page only. Later PDFs were not transcribed (see F01).",
-   "legacy_ref": "S01"
+   "legacy_ref": "S01",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-02",
@@ -28202,7 +28204,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read. One reason split across chunks was joined (Simmons, Ben). Rows without a team or matchup cell are blank and flagged",
    "limits_or_notes": "Text extraction of a multi-column PDF. Team and matchup cells missing on about 27 rows (F02, F03). Miami rows on DET@MIA absent (F07).",
-   "legacy_ref": "S02"
+   "legacy_ref": "S02",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-03",
@@ -28215,7 +28219,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Resolves and is readable (historical report)",
    "limits_or_notes": "Not used for any current value.",
-   "legacy_ref": "S03"
+   "legacy_ref": "S03",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-04",
@@ -28228,7 +28234,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Irregular: the 2025-26 slug returns the 2026-27 season content",
    "limits_or_notes": "Do not cite as the 2025-26 page (F06).",
-   "legacy_ref": "S04"
+   "legacy_ref": "S04",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-05",
@@ -28241,7 +28249,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Verified: Nov 13 = 9 games; Nov 14 = 5; Nov 15 = 9; Nov 16 = 8; total 31. Each row in data/slates.csv matches the page",
    "limits_or_notes": "Times in ET as printed (7:00 PM ET). Nov 17 onward not used. Odds toggle not used.",
-   "legacy_ref": "S05"
+   "legacy_ref": "S05",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-06",
@@ -28254,7 +28264,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read: definitions",
    "limits_or_notes": "Definitions only. They do not grant data-use rights.",
-   "legacy_ref": "S06"
+   "legacy_ref": "S06",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-07",
@@ -28267,7 +28279,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Reachable; no statistical values extracted",
    "limits_or_notes": "Table data is client-rendered; no values taken.",
-   "legacy_ref": "S07"
+   "legacy_ref": "S07",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-08",
@@ -28280,7 +28294,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read: s.1, s.9, s.11, s.17-18 (arbitration, class waiver), s.19 (New York law; New York County courts). Page states LAST UPDATED: July 13, 2026",
    "limits_or_notes": "Chunks 1, 2, 5, 6, 7 not re-read in this round. Arbitration text is not summarised here.",
-   "legacy_ref": "S08"
+   "legacy_ref": "S08",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-09",
@@ -28293,7 +28309,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Home page only.",
-   "legacy_ref": "S09"
+   "legacy_ref": "S09",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-10",
@@ -28306,7 +28324,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read: sports bets listed as remote games needing a licence under Art. 31a",
    "limits_or_notes": "Summary page, not binding; statute governs.",
-   "legacy_ref": "S10"
+   "legacy_ref": "S10",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-11",
@@ -28319,7 +28339,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Summary, not binding. Does not settle the minimum age (F16).",
-   "legacy_ref": "S11"
+   "legacy_ref": "S11",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-12",
@@ -28332,7 +28354,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read: Art. 1 letters a-d; licensing articles",
    "limits_or_notes": "Only chunk 0 read; minimum age not yet located in the text.",
-   "legacy_ref": "S12"
+   "legacy_ref": "S12",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-13",
@@ -28345,7 +28369,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Registrant count stated on the page is not used (unverified).",
-   "legacy_ref": "S13"
+   "legacy_ref": "S13",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-14",
@@ -28358,7 +28384,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read: index only",
    "limits_or_notes": "The DOI cited in an earlier draft was not read on this page and has been removed.",
-   "legacy_ref": "S14"
+   "legacy_ref": "S14",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-15",
@@ -28371,7 +28399,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Normal approximation is not used for gate G05, which uses the exact binomial.",
-   "legacy_ref": "S15"
+   "legacy_ref": "S15",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-16",
@@ -28384,7 +28414,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Basis for the exact binomial tail in pipeline/gates.py.",
-   "legacy_ref": "S16"
+   "legacy_ref": "S16",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-17",
@@ -28397,7 +28429,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Describes the simple bootstrap. The cluster bootstrap in pipeline/gates.py is an extension and is labelled as such.",
-   "legacy_ref": "S17"
+   "legacy_ref": "S17",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-18",
@@ -28410,7 +28444,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Read",
    "limits_or_notes": "Documentation only; repository setting is separate.",
-   "legacy_ref": "S18"
+   "legacy_ref": "S18",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-19",
@@ -28423,7 +28459,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Verified against API output at retrieval time",
    "limits_or_notes": "Reflects state at retrieval time only.",
-   "legacy_ref": "S19"
+   "legacy_ref": "S19",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-20",
@@ -28435,8 +28473,10 @@
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (chunk 1 of 10 read)",
-   "limits_or_notes": "Definitions only; no predictive value; remaining chunks not yet reviewed (7C-F-13).",
-   "legacy_ref": "S01"
+   "limits_or_notes": "Definitions only; no predictive value; remaining chunks not yet reviewed (7C-F-13). | repeats SRC-06 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "S01",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-21",
@@ -28448,8 +28488,10 @@
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (2 chunks read)",
-   "limits_or_notes": "Index of files only. Statuses are not minutes forecasts.",
-   "legacy_ref": "S02"
+   "limits_or_notes": "Index of files only. Statuses are not minutes forecasts. | repeats SRC-01 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "S02",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-22",
@@ -28461,8 +28503,10 @@
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (resolves; prior season)",
-   "limits_or_notes": "Superseded by S02 for the 2026-27 season (7C-F-07).",
-   "legacy_ref": "S03"
+   "limits_or_notes": "Superseded by S02 for the 2026-27 season (7C-F-07). | repeats SRC-04 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "S03",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-23",
@@ -28475,7 +28519,9 @@
    "retrieved_on": "2026-11-14",
    "verification_result": "Retrieved (text read); latest official report available. Nov 14 11:00 AM report not accessible (AccessDenied).",
    "limits_or_notes": "PDF text extraction drops some team/matchup cells (18 rows left blank) and joins some words (kept as printed). No minutes field.",
-   "legacy_ref": "S04"
+   "legacy_ref": "S04",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-24",
@@ -28488,7 +28534,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (chunks read). Superseded for the Nov 14-17 window by the live nba.com/schedule read on 2026-11-14 (27 games, IDs 0022600231-0022600257).",
    "limits_or_notes": "Subject to change. The meaning of the 'R' and '#' (C) markers has no legend in the text read (7C-F-11).",
-   "legacy_ref": "S05"
+   "legacy_ref": "S05",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-25",
@@ -28501,7 +28549,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (first of 3 chunks read)",
    "limits_or_notes": "Used only to locate the by-date PDF (S05).",
-   "legacy_ref": "S06"
+   "legacy_ref": "S06",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-26",
@@ -28513,8 +28563,10 @@
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (3 of 10 chunks read: opening, §8, §9–§11)",
-   "limits_or_notes": "Other sections not read in full this session; not legal advice (7C-F-01).",
-   "legacy_ref": "S07"
+   "limits_or_notes": "Other sections not read in full this session; not legal advice (7C-F-01). | repeats SRC-08 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "S07",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-27",
@@ -28526,8 +28578,10 @@
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (Dutch)",
-   "limits_or_notes": "Homepage summary only.",
-   "legacy_ref": "S08"
+   "limits_or_notes": "Homepage summary only. | repeats SRC-09 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "S08",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-28",
@@ -28539,8 +28593,10 @@
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-13",
    "verification_result": "Retrieved (Dutch)",
-   "limits_or_notes": "Official guidance page; not legal advice (7C-F-02).",
-   "legacy_ref": "S09"
+   "limits_or_notes": "Official guidance page; not legal advice (7C-F-02). | repeats SRC-10 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "S09",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-29",
@@ -28553,7 +28609,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "FAILED — HTTP 500 from the fetch tool",
    "limits_or_notes": "Live feed not available in this session (7C-F-12).",
-   "legacy_ref": "S10"
+   "legacy_ref": "S10",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-30",
@@ -28566,7 +28624,9 @@
    "retrieved_on": "2026-11-13",
    "verification_result": "Search snippet only (not fetched)",
    "limits_or_notes": "Not used as evidence for any game or value.",
-   "legacy_ref": "S11"
+   "legacy_ref": "S11",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-31",
@@ -28579,7 +28639,9 @@
    "retrieved_on": "2026-11-14",
    "verification_result": "Read. 31 games transcribed. Cross-checked against data/slates.csv (captured 2026-11-13): 31/31 agree on date, tip time, teams and game id.",
    "limits_or_notes": "Tip times are as printed on the page (ET). Games can be rescheduled; re-read before publishing a new slate.",
-   "legacy_ref": ""
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-32",
@@ -28592,7 +28654,9 @@
    "retrieved_on": "2026-11-14",
    "verification_result": "Read. 30 teams transcribed. Cross-checked against data/origin/teams_advanced.csv: 210/210 field comparisons agree.",
    "limits_or_notes": "Values change as games are played; this snapshot is dated 2026-11-14.",
-   "legacy_ref": ""
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-33",
@@ -28604,8 +28668,10 @@
    "retrieval_method": "fetch_page, chunks 0-1 of 2 (PDF text extraction)",
    "retrieved_on": "2026-11-14",
    "verification_result": "Read. Compared with the 11/13 05:15 PM snapshot stored in data/origin/injuries.csv: 9 status changes, Denver's report newly present.",
-   "limits_or_notes": "PDF text extraction drops some spaces inside reason text; spacing corroborated against the 05:15 PM report where the same player appears.",
-   "legacy_ref": ""
+   "limits_or_notes": "PDF text extraction drops some spaces inside reason text; spacing corroborated against the 05:15 PM report where the same player appears. | repeats SRC-23 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-34",
@@ -28617,8 +28683,10 @@
    "retrieval_method": "fetch_page, chunks 0-1 of 2",
    "retrieved_on": "2026-11-14",
    "verification_result": "Read. The index lists 11/13 reports from 12:00 a.m. to 07:30 p.m. ET. No 11/14 report is listed yet.",
-   "limits_or_notes": "No report exists yet for the 2026-11-15 and 2026-11-16 games; teams report by 5 p.m. local time the day before a game.",
-   "legacy_ref": ""
+   "limits_or_notes": "No report exists yet for the 2026-11-15 and 2026-11-16 games; teams report by 5 p.m. local time the day before a game. | repeats SRC-01 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-35",
@@ -28631,7 +28699,9 @@
    "retrieved_on": "2026-11-14",
    "verification_result": "Read. 9 games transcribed. Cross-checked three ways: the official GP column (30 teams, sum 366 = 2 x 183), the official W and L columns (183 and 183), and the 18 post-game records printed on the same scoreboard page. All three reconcile with the extended log.",
    "limits_or_notes": "Read after all nine games had finished, so 'Final' is settled state, not a live score. The calendar counts games, it does not name them.",
-   "legacy_ref": ""
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-36",
@@ -28643,8 +28713,10 @@
    "retrieval_method": "fetch_page, chunks 0-1 of 2",
    "retrieved_on": "2026-11-14",
    "verification_result": "Read. Compared with the snapshot stored by the previous session: 18 of 30 teams gained a game, and those 18 are exactly the 18 teams that played on 11/13, which is what shows the stored snapshot had been read mid-slate. 123 of the 240 stored fields differ.",
-   "limits_or_notes": "A rolling snapshot; any page read during a live slate is stale for the teams playing.",
-   "legacy_ref": ""
+   "limits_or_notes": "A rolling snapshot; any page read during a live slate is stale for the teams playing. | repeats SRC-32 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-37",
@@ -28655,9 +28727,11 @@
    "used_for": "Newest report at read time: 31 rows for the 2026-11-14 slate and 18 team rows for 2026-11-15, every one of the 11/15 rows reading NOT YET SUBMITTED",
    "retrieval_method": "fetch_page, chunk 0 of 1 (PDF text extraction, two printed pages)",
    "retrieved_on": "2026-11-14",
-   "verification_result": "Read. 49 rows. Compared row for row with the 11/13 07:45 PM ET report on the 2026-11-14 slate: 31 rows in common, 0 status changes, 0 rows added or dropped.",
+   "verification_result": "SUPERSEDED 2026-11-14T19:05Z by the 01:30 PM ET report, which prints player rows for the eight teams that had filed nothing on this one. As read: 49 rows, compared row for row with the 11/13 07:45 PM ET report on the 2026-11-14 slate: 31 rows in common, 0 status changes, 0 rows added or dropped.",
    "limits_or_notes": "Prints no rows at all for 2026-11-16 or 2026-11-17: those dates are outside every published report, which is not the same as nobody being out.",
-   "legacy_ref": ""
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-38",
@@ -28668,9 +28742,11 @@
    "used_for": "The filing rule quoted verbatim on the Report-availability page (5 p.m. local the day before; 1 p.m. local on game day for the second game of a back-to-back) and which timestamped reports exist",
    "retrieval_method": "fetch_page",
    "retrieved_on": "2026-11-14",
-   "verification_result": "Read. Index lists 11/14 reports from 12:00 a.m. to 04:15 a.m. ET; 04:15 a.m. is the newest, and it is the file captured above.",
-   "limits_or_notes": "The index lists reports by publication time; it does not state when each team's deadline falls. That is derived from the rule text and the official schedule.",
-   "legacy_ref": ""
+   "verification_result": "Read at 09:45Z, when the index listed 11/14 reports only to 04:15 a.m. ET. Re-read at 18:47Z by session a399d8a9: the index lists 11/14 reports every 15 minutes to 01:30 p.m. ET. 04:15 a.m. is the newest, and it is the file captured above.",
+   "limits_or_notes": "The index lists reports by publication time; it does not state when each team's deadline falls. That is derived from the rule text and the official schedule. | repeats SRC-01 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   },
   {
    "id": "SRC-39",
@@ -28682,8 +28758,10 @@
    "retrieval_method": "gh api (authenticated)",
    "retrieved_on": "2026-11-14",
    "verification_result": "Verified against API output at retrieval time.",
-   "limits_or_notes": "Repository facts change; re-check before relying on them.",
-   "legacy_ref": ""
+   "limits_or_notes": "Repository facts change; re-check before relying on them. | repeats SRC-19 for the same URL - a second read of one page, not a second source",
+   "legacy_ref": "",
+   "distinct_urls_in_register": 28,
+   "repeat_rows_in_register": 11
   }
  ],
  "flags": [
@@ -29041,7 +29119,7 @@
    "id": "NF-26",
    "area": "Data",
    "item": "Published injury snapshot was 9.25 hours behind the newest official report",
-   "why": "The canonical site priced the 2026-11-14 slate off the 04:15 AM ET report. The official index served at 18:47Z lists 11/14 reports every 15 minutes through 01:30 PM ET. On the 04:15 AM report eight of the ten teams playing that night had filed nothing; on the 01:30 PM report nine of ten have filed. Four players changed status and 24 player rows appear that the older report did not carry.",
+   "why": "The canonical site priced the 2026-11-14 slate off the 04:15 AM ET report. The official index served at 18:47Z lists 11/14 reports every 15 minutes through 01:30 PM ET. On the 04:15 AM report 5 of the 10 teams playing that night had filed nothing (CHI, CLE, MEM, MIA, NOP); on the 01:30 PM report only MEM still had not. Four players changed status and 24 player rows appear that the older report did not carry.",
    "action_needed": "Re-pointed the manifest at the 01:30 PM ET snapshot and rebuilt every artefact (session a399d8a9). Freshness gate FG-1..FG-6 now fails a build if the published stamp is not the newest listed one.",
    "sources": [
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
@@ -30561,8 +30639,8 @@
    "category": "Data ownership",
    "question": "Which injury capture is canonical now that two exist, and does the site move to the newer 04:45 AM stamp?",
    "status": "Answered 2026-11-14 (session a399d8a9) — the question was overtaken by a newer report",
-   "known": "Both captures hold the same 49 rows under the same keys and the same counts. The newer file is the 04:45 AM report, and its only content difference is attributing the Traore row to BKN where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the availability join, the injury page and the impact table are written against that artefact's field names.",
-   "missing": "Nothing further for this slate. The 04:45 AM question was superseded: the official index now lists 11/14 reports through 1:30 PM ET, and that report PRINTS 'Brooklyn Nets' on the Traore row, so the cell is no longer a second transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the freshness gate now fails a build whose published stamp is not the newest listed one. What remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).",
+   "known": "Both captures held the same 49 rows under the same keys and the same counts, and the only content difference between them was attributing the Traore row to BKN where the 04:15 AM read left the cell blank (NF-59). Prepared: the question assumes the choice is between those two captures. It is not. The official index now lists 11/14 reports through 1:30 PM ET, and the site has been re-pointed at that one, which prints the Traore cell itself and adds 24 player rows the 04:15 AM report did not carry.",
+   "missing": "Nothing further for this slate. The 04:45 AM question was overtaken rather than answered: the 01:30 PM report PRINTS 'Brooklyn Nets' on the Traore row, so the cell is no longer a second transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the freshness gate now fails a build whose published stamp is not the newest listed one. What remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).",
    "next_step": "Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until then the build follows 'newest listed', enforced by the gate rather than by argument.",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",

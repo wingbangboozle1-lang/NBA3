@@ -61,6 +61,24 @@ GATE_OUT = os.path.join(HERE, "data", "freshness_gate.json")
 
 SNAPSHOT_OLD_REL = "data/app/official_injuries_2026-11-14_0415AM.json"
 SNAPSHOT_NEW_REL = "data/app/official_injuries_2026-11-14_0130PM.json"
+
+
+def prior_unfiled():
+    """(unfiled teams, team sides) on the 11/14 slate in the report being superseded.
+
+    Read from the committed older snapshot rather than typed into prose: an earlier
+    revision of this file asserted "eight of the ten" for a figure the data puts at
+    five, which is what happens to a number in a sentence that nothing recomputes.
+    A blank team cell is not an eleventh team - the 04:15 AM report leaves the Traore
+    row's team cell empty - so distinct non-empty labels are counted.
+    """
+    with open(os.path.join(ROOT, SNAPSHOT_OLD_REL), encoding="utf-8") as fh:
+        old = json.load(fh)
+    rows = [r for r in old["rows"] if r["game_date"] == "11/14/2026"]
+    unfiled = sorted({r["team"] for r in rows if r["is_team_not_submitted"] and r["team"]})
+    return unfiled, len({r["team"] for r in rows if r["team"]})
+
+
 REPORT_STAMP = "2026-11-14 01:30 PM ET"
 REPORT_STAMP_ET = datetime.datetime(2026, 11, 14, 13, 30)
 NEW_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
@@ -262,9 +280,10 @@ def build_snapshot(mod, recon):
             "report_stamp": "2026-11-14 04:15 AM ET",
             "why": (
                 "Nine hours older, and read before any game-day filing was due. It prints NOT YET "
-                "SUBMITTED for eight of the ten teams playing on 11/14; the 01:30 PM report prints "
+                "SUBMITTED for %d of the %d teams playing on 11/14 (%s); the 01:30 PM report prints "
                 "their actual player rows. Keeping the older stamp on a game-day slate would "
                 "publish a stale availability picture on the page the owner reads for picks."
+                % (len(prior_unfiled()[0]), prior_unfiled()[1], ", ".join(prior_unfiled()[0]))
             ),
         },
         # Keys the injuries page reads to print its freshness paragraph. They are
@@ -423,12 +442,23 @@ def main(argv):
     manifest["manifest_written"] = RETRIEVED_STAMP
     manifest["superseded"]["injuries"] = SNAPSHOT_OLD_REL
     manifest["superseded"]["injuries_previous_source"] = old_injury_block.get("source_url", "")
+    # Counted from the two snapshots, not typed. An earlier revision of this string
+    # asserted "eight of the ten" for a figure the data puts at five; a number in
+    # prose that nothing recomputes is how that happens, so this recomputes it.
+    _sup = json.load(open(os.path.join(ROOT, SNAPSHOT_OLD_REL), encoding="utf-8"))
+    _unfiled_old = sorted({r["team"] for r in _sup["rows"]
+                           if r["is_team_not_submitted"] and r["game_date"] == "11/14/2026"})
+    # A blank team cell is not an eleventh team: the 04:15 AM report leaves the
+    # Traore row's team cell empty. Counting distinct non-empty labels gives 10.
+    _sides_old = len({r["team"] for r in _sup["rows"]
+                      if r["game_date"] == "11/14/2026" and r["team"]})
     manifest["superseded"]["reason"] = (
         "The injury overlay was the 11/14 04:15 AM ET report. Session a399d8a9 re-read the "
         "official index on 2026-11-14 at 18:47Z and found reports through 1:30 PM ET; the "
-        "04:15 AM stamp is nine hours behind the newest official report and eight of the ten "
-        "11/14 teams had not filed on it. The ratings and results entries in this block are "
-        "unchanged by this session."
+        "04:15 AM stamp is nine hours behind the newest official report and "
+        "%d of the %d teams playing on 11/14 had filed nothing on it (%s). The ratings and "
+        "results entries in this block are unchanged by this session."
+        % (len(_unfiled_old), _sides_old, ", ".join(_unfiled_old))
     )
     manifest["injuries"] = {
         "path": SNAPSHOT_NEW_REL,

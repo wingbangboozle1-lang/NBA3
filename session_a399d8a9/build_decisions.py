@@ -170,6 +170,32 @@ SEVERITY_BY_STATUS = {
 }
 
 
+def severity_of(status):
+    """Map a question's status prose onto the four severities the page uses.
+
+    An exact-match table silently degrades to "tracked" the moment a status is
+    written in new words, which is what happened to two questions this session:
+    an answered one was displayed as still tracked, and an owner-rule one that
+    blocks the freshness policy was displayed as tracked too. Matching on the
+    words that carry the meaning, and never silently, avoids both.
+    """
+    s = (status or "").strip()
+    if s in SEVERITY_BY_STATUS:
+        return SEVERITY_BY_STATUS[s]
+    low = s.lower()
+    if low.startswith("answered") or low.startswith("resolved"):
+        return "answered"
+    if "blocking" in low:
+        return "blocking"
+    if "partly" in low or "partial" in low:
+        return "partial"
+    if "unverified" in low:
+        return "unverified"
+    if low.startswith("open"):
+        return "decision"
+    return "tracked"
+
+
 def load():
     with open(CANON, encoding="utf-8") as fh:
         return json.load(fh)
@@ -270,7 +296,7 @@ def main():
     q_items = []
     for q in questions:
         status = q.get("status", "")
-        sev = SEVERITY_BY_STATUS.get(status, "tracked")
+        sev = severity_of(status)
         q_items.append({
             "id": q["id"],
             "category": q.get("category", ""),

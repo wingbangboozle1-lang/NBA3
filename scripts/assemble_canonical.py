@@ -103,6 +103,18 @@ def build_sources():
             "legacy_ref": legacy or "",
         })
 
+    # The register accumulated two namespaces (SRC-01..19 from sources.csv and
+    # SRC-20..39 from sources.json) that list the same official pages twice: 39
+    # entries for 28 distinct URLs. Rather than delete another session's rows, a
+    # duplicate is labelled as one, so a reader can see it is the same source and
+    # not a corroborating second one (session a399d8a9).
+    # A URL may legitimately appear twice in this register: an index page is read
+    # for different facts at different times. What must never happen is a reader
+    # mistaking a second row for a second source, so each repeat names the entry
+    # it repeats. Marking the LATER row is not enough, because the JSON namespace
+    # can register a URL the CSV namespace will register later - so this records
+    # the first occurrence of every URL across the whole source list at the end.
+
     for r in cload("data", "sources.csv"):
         add(r["publisher"], r["title"], r["url"], r["official_status"], r["used_for"],
             r["retrieval_method"], r["retrieved_on"], r["verification_result"],
@@ -163,8 +175,10 @@ def build_sources():
         "Newest report at read time: 31 rows for the 2026-11-14 slate and 18 team rows for "
         "2026-11-15, every one of the 11/15 rows reading NOT YET SUBMITTED",
         "fetch_page, chunk 0 of 1 (PDF text extraction, two printed pages)", "2026-11-14",
-        "Read. 49 rows. Compared row for row with the 11/13 07:45 PM ET report on the 2026-11-14 "
-        "slate: 31 rows in common, 0 status changes, 0 rows added or dropped.",
+        "SUPERSEDED 2026-11-14T19:05Z by the 01:30 PM ET report, which prints player rows for "
+        "the eight teams that had filed nothing on this one. As read: 49 rows, compared row for "
+        "row with the 11/13 07:45 PM ET report on the 2026-11-14 slate: 31 rows in common, 0 "
+        "status changes, 0 rows added or dropped.",
         "Prints no rows at all for 2026-11-16 or 2026-11-17: those dates are outside every "
         "published report, which is not the same as nobody being out.")
     add("NBA (official)", "NBA Injury Report — 2026-27 season index (filing rule and report list)",
@@ -173,7 +187,8 @@ def build_sources():
         "before; 1 p.m. local on game day for the second game of a back-to-back) and which "
         "timestamped reports exist",
         "fetch_page", "2026-11-14",
-        "Read. Index lists 11/14 reports from 12:00 a.m. to 04:15 a.m. ET; 04:15 a.m. is the "
+        "Read at 09:45Z, when the index listed 11/14 reports only to 04:15 a.m. ET. Re-read at "
+     "18:47Z by session a399d8a9: the index lists 11/14 reports every 15 minutes to 01:30 p.m. ET. 04:15 a.m. is the "
         "newest, and it is the file captured above.",
         "The index lists reports by publication time; it does not state when each team's "
         "deadline falls. That is derived from the rule text and the official schedule.")
@@ -183,6 +198,26 @@ def build_sources():
         "gh api (authenticated)", "2026-11-14",
         "Verified against API output at retrieval time.",
         "Repository facts change; re-check before relying on them.")
+
+    # A URL may legitimately appear twice: an index page is read for different
+    # facts at different times. What must never happen is a reader mistaking a
+    # repeat for corroboration, so every repeat names the entry it repeats and
+    # the register states how many distinct URLs it actually holds.
+    _first_of = {}
+    _repeats = 0
+    for e in out:
+        prev = _first_of.get(e["url"])
+        if prev is None:
+            _first_of[e["url"]] = e["id"]
+            continue
+        _repeats += 1
+        note = ("repeats %s for the same URL - a second read of one page, not a second source"
+                % prev)
+        e["limits_or_notes"] = ((e["limits_or_notes"] + " | ") if e.get("limits_or_notes") else "") + note
+    for e in out:
+        e["distinct_urls_in_register"] = len(_first_of)
+        e["repeat_rows_in_register"] = _repeats
+
     return out
 
 
@@ -1090,15 +1125,15 @@ SESSION_QUESTIONS += [
      "Which injury capture is canonical now that two exist, and does the site move to the newer "
      "04:45 AM stamp?",
      "Answered 2026-11-14 (session a399d8a9) — the question was overtaken by a newer report",
-     "Both captures hold the same 49 rows under the same keys and the same counts. The newer file is "
-     "the 04:45 AM report, and its only content difference is attributing the Traore row to BKN "
-     "where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the "
-     "availability join, the injury page and the impact table are written against that artefact's "
-     "field names.",
-     "Nothing further for this slate. The 04:45 AM question was superseded: the official index now "
-     "lists 11/14 reports through 1:30 PM ET, and that report PRINTS 'Brooklyn Nets' on the Traore "
-     "row, so the cell is no longer a second transcription of a blank one - an official page prints "
-     "it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the "
+     "Both captures held the same 49 rows under the same keys and the same counts, and the only "
+     "content difference between them was attributing the Traore row to BKN where the 04:15 AM read "
+     "left the cell blank (NF-59). Prepared: the question assumes the choice is between those two "
+     "captures. It is not. The official index now lists 11/14 reports through 1:30 PM ET, and the "
+     "site has been re-pointed at that one, which prints the Traore cell itself and adds 24 player "
+     "rows the 04:15 AM report did not carry.",
+     "Nothing further for this slate. The 04:45 AM question was overtaken rather than answered: the "
+     "01:30 PM report PRINTS 'Brooklyn Nets' on the Traore row, so the cell is no longer a second "
+     "transcription of a blank one - an official page prints it. The manifest was re-pointed to that report on 2026-11-14 by session a399d8a9, and the "
      "freshness gate now fails a build whose published stamp is not the newest listed one. What "
      "remains is the standing rule for future slates, which is CQ-FRESH-01 (legacy Q-FRESH-01).",
      "Owner: answer CQ-FRESH-01 (newest-always, or one frozen stamp per slate plus deltas). Until "

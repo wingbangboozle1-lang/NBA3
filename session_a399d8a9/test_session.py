@@ -196,6 +196,47 @@ class FreshnessCorrective(unittest.TestCase):
                             "%s is cited as a dependency but is not in the workspace" % qid)
 
 
+class RegistersDoNotFlatterThemselves(unittest.TestCase):
+    """Two ways a register makes itself look better than it is."""
+
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(APP, "canonical.json"), encoding="utf-8") as fh:
+            cls.canon = json.load(fh)
+        cls.decisions = load(os.path.join(ROOT, "session_a399d8a9"), "data", "decisions.json")
+
+    def test_source_register_states_how_many_distinct_sources_it_holds(self):
+        urls = {}
+        repeats = 0
+        for src in self.canon["sources"]:
+            if src["url"] in urls:
+                repeats += 1
+                self.assertIn("repeats " + urls[src["url"]], src["limits_or_notes"] or "",
+                              "%s repeats a URL but does not say so; a reader can mistake it "
+                              "for corroboration" % src["id"])
+            else:
+                urls[src["url"]] = src["id"]
+        first = self.canon["sources"][0]
+        self.assertEqual(first["distinct_urls_in_register"], len(urls))
+        self.assertEqual(first["repeat_rows_in_register"], repeats)
+
+    def test_answered_questions_are_not_displayed_as_tracked(self):
+        """A status written in new words must not fall through to a neutral label."""
+        for q in self.decisions["questions"]:
+            low = q["status"].lower()
+            if low.startswith("answered") or low.startswith("resolved"):
+                self.assertEqual(q["severity"], "answered",
+                                 "%s is answered but is labelled %r" % (q["id"], q["severity"]))
+                self.assertFalse(q["blocks_decisions"], q["id"])
+        blocking = sum(1 for q in self.decisions["questions"] if q["blocks_decisions"])
+        self.assertGreater(blocking, 0)
+
+    def test_no_question_status_is_silently_neutral(self):
+        labels = {"answered", "blocking", "blocked", "decision", "partial", "unverified", "tracked"}
+        for q in self.decisions["questions"]:
+            self.assertIn(q["severity"], labels, "%s -> %r" % (q["id"], q["severity"]))
+
+
 class ReconciliationRecord(unittest.TestCase):
     """The record of what was wrong on arrival must not be overwritten by the fix."""
 
