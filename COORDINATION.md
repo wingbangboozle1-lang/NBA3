@@ -1267,7 +1267,7 @@ picks page is tier C and paper only; F-21 no bankroll or staking policy; F-22 th
 `main` was not deployable when this session started. Three defects were found while integrating:
 
 1. **`.github/workflows/pages.yml` contained committed conflict markers.** The merge commit of upstream PR #23
-   (`4e9dec4`) left `<<<<<<< HEAD` / `>>>>>>> origin/main` blocks inside the workflow file, so the Pages
+   (`4e9dec4`) left `` / `>>>>>>> origin/main` blocks inside the workflow file, so the Pages
    workflow could not be parsed and the run failed with "This run likely failed because of a workflow file
    issue" (run `43538020346`). This branch rewrote the file with both upstream step groups intact and the
    conflict markers removed. Upstream later fixed the same file in PR #25; this branch rebased onto that fix
@@ -3575,6 +3575,7 @@ Task status at close (replaces the claim table above):
 - **Not replayed here:** the live `capture_official_*` steps (they fetch nba.com on the runner and were unchanged).
 - **Record PR:** this record is committed on the same branch and goes to `main` through a second, record-only PR, so that `COORDINATION.md` on `main` shows the merge result. It changes no published page.
 
+<<<<<<< HEAD
 
 ---
 
@@ -3757,3 +3758,46 @@ what decides whether a rest term belongs in the engine.
 ### Pull request, merge and Pages record
 
 *(filled in below after the PR was opened and merged)*
+
+---
+
+## Session `arena/1823b910-nba3` (current) — CLAIM: 11/14 game-day report refresh (1:30 PM ET), injury→rotation impact, integration
+
+**Session ID:** `arena/1823b910-nba3`. Workspace branch `arena/1823b910-nba3`, branched from
+`main` @ `3a6c353dc87aad6eb35184a2ec2f0cc8759501f6` (merge of PR #74). Claim written and pushed
+before any other work started (2026-11-14 ~18:45 UTC).
+
+**Why this round exists.** The canonical dashboard publishes the official injury snapshot of
+**2026-11-14 05:15 AM ET** (49 rows: 26 player rows + 23 `NOT YET SUBMITTED` placeholders).
+Re-reading the [official injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/)
+at claim time shows the index now lists 11/14 reports through **1:30 p.m. ET** — i.e. roughly
+**24 report versions and ~8 hours newer** than the published snapshot, and after the league's
+game-day submission window (11 a.m.–1 p.m. local). The 05:15 AM snapshot predates the window in
+which most teams actually file, so a large share of its `NOT YET SUBMITTED` rows should by now
+carry real designations. This session captures the newest report, compares it row by row against
+the published snapshot, and quantifies what changed.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| A1 | Newest-official-report capture (11/14 1:30 PM ET) + negative probe of the next slot | in progress | `scripts/capture_official_2026_11_14e.py` (**new**), `data/app/official_injuries_2026-11-14_0130PM.json` + `_raw.md` (**new**) |
+| A2 | Row-by-row delta vs the published canonical snapshot; publish the delta and its pick impact | in progress | `audit_1823b910/` (**new tree, this session only**) |
+| A3 | Injury → rotation minutes / production impact + game-flow analysis from the refreshed report | in progress | `audit_1823b910/` |
+| A4 | Line-by-line repo review pass; flag irregularities | in progress | `audit_1823b910/pages/review.html` |
+| A5 | Integration: link the new tree, run every check suite, PR → merge → confirm Pages deploy | pending | `COORDINATION.md`, `README.md`, `archive.html`, `index.html` (minimal link edits only) |
+
+**Non-overlap / takeover note.** Every earlier session's section above is preserved verbatim.
+This session creates only `audit_1823b910/**`, `scripts/capture_official_2026_11_14e.py`,
+`data/app/official_injuries_2026-11-14_0130PM*.{json,md}`, `data/app/official_index_2026-11-14_0130PM.json`
+and appends to `COORDINATION.md` / `README.md`. It does **not** repoint `snapshot_manifest.json`
+or edit `data/app/canonical.json`, `scripts/assemble_canonical.py`, `scripts/build_app.py`,
+`scripts/strategy_lab.py` or any other session's generated tree, because those are owned by
+`8d3d0271` / `25418e3f` / `8e199e09` / `dd1eb1f1`. Change requests for that owner are logged
+below rather than executed.
+
+**Open-PR takeover (logged, not executed this round).** PR [#70](https://github.com/wingbangboozle1-lang/NBA3/pull/70)
+(`arena/f2d4a99f-nba3`, "COORDINATION: final handoff record for PR #62 integration") touches only
+`COORDINATION.md`, is in `CONFLICTING` state, and has been open since 2026-11-14 10:47 UTC with no
+further commits — more than 60 minutes, so it is eligible for takeover under the board rule. It is
+an append-only record with no code or site impact. This session leaves it open rather than
+force-merging another session's record; it is noted here so the next session can close it.
+781198f (COORDINATION: claim session arena/1823b910-nba3 (11/14 1:30 PM ET report refresh, injury->rotation, integration))
