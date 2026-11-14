@@ -25189,6 +25189,124 @@
   },
   {
    "id": "CR-30",
+   "area": "Data",
+   "item_reviewed": "Official capture re-read: schedule",
+   "finding": "The 27 games of the 2026-11-14..17 window were transcribed from nba.com/schedule on 2026-11-14 and compared with the previous session's 11/13-11/16 capture: 22 games appear in both and 88 of 88 field comparisons (date, tip time, away, home) agree, 0 differ. The 2026-11-13 games were live on the page at read time and were excluded from the priced window.",
+   "status": "Verified",
+   "recommended_action": "None. Re-run scripts/capture_official_2026_11_14b.py before publishing a new slate.",
+   "sources": [
+    "https://www.nba.com/schedule?date=2026-11-14"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-31",
+   "area": "Data",
+   "item_reviewed": "Official capture re-read: team statistics",
+   "finding": "All 30 teams were re-read from nba.com/stats/teams/advanced on 2026-11-14 and compared with data/origin/teams_advanced.csv: 240 of 240 field comparisons (GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE) agree.",
+   "status": "Verified",
+   "recommended_action": "None.",
+   "sources": [
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-32",
+   "area": "Data",
+   "item_reviewed": "Official capture re-read: injury report",
+   "finding": "The 11/13/26 07:45 PM report — the newest listed on the official index at read time — was transcribed: 122 rows (117 player rows, 5 team 'NOT YET SUBMITTED' rows). Compared with the stored 07:30 PM report: same 122 rows and 0 status changes, so the newer file adds no new information for this window.",
+   "status": "Verified",
+   "recommended_action": "None. The canonical site publishes the 07:45 PM snapshot and cites the index for freshness.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-33",
+   "area": "Repository",
+   "item_reviewed": "Integrity scan of the data files",
+   "finding": "All 79 JSON files in the working tree were parsed with a strict loader: 0 parse failures. The tree holds 120 HTML pages across 10 published site directories and 40 Python scripts, 6.8 MB in total.",
+   "status": "Verified",
+   "recommended_action": "Consolidate the site trees (suggestion CS-35).",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-34",
+   "area": "Model",
+   "item_reviewed": "Defects found and fixed in the strategy engine during this build",
+   "finding": "Four defects were found by reading the engine's own output rather than trusting it: (1) two-leg parlays were being scored against a 50% fair-line rate instead of 25%, which put a losing same-game parlay at the top of the first draft of the leaderboard; (2) the permutation test shuffled win flags within a date, which cannot change the total and so returned p=1.000 for every rule — it was replaced with a whole-board Monte Carlo against the fair-line null; (3) the 'high-octane' threshold used the median of the whole sample's projections, which is look-ahead — it now uses only prior projections; (4) an under-regularised Massey model printed a 28-point spread, so ridge and totals shrinkage are now chosen by validating on the most recent 20% of past games.",
+   "status": "Irregularity — found and fixed in this session",
+   "recommended_action": "Keep publishing defects found this way. A leaderboard whose top row is a bug is worse than no leaderboard.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-35",
+   "area": "Model",
+   "item_reviewed": "A signal that turned out to be the model's own error",
+   "finding": "'Fade the highest projected totals' posted 69.7% on 66 out-of-sample games (p=0.0019, q=0.016) before the totals model was regularised. After shrinkage toward the league mean it fell to 65.5% on 29 games (p=0.136). The apparent edge was our own miscalibration, not a property of NBA games. Published as flag NF-50 rather than as a finding.",
+   "status": "Irregularity — flagged",
+   "recommended_action": "Treat any bias found against our own line as a model defect to repair until a licensed price feed makes an external comparison possible (question CQ-40).",
+   "sources": [
+    "https://www.nba.com/games?date="
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-36",
+   "area": "Data",
+   "item_reviewed": "data/raw/results_2026-27_october.csv and _november.csv",
+   "finding": "The header comment documents an 8-column format (date, start_ET, away_team, away_pts, home_team, home_pts, OT, note) but every data row carries 5 fields, and the source named in the header is Basketball-Reference, which is not an official NBA property. The values themselves agree with the official capture, so this is a citation and schema defect, not a data error. First recorded by session e40cd215 as E-F-02; re-checked this session and still present.",
+   "status": "Irregularity — flagged",
+   "recommended_action": "Rewrite the header to match the rows, or retire the files in favour of data/origin/games.csv, which is the official-sourced capture.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv"
+   ],
+   "legacy_ref": "E-F-02",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-37",
+   "area": "Reporting",
+   "item_reviewed": "Brief-coverage register was publishing stale statuses",
+   "finding": "data/requirements.csv still reported 'Originate own NBA lines: Not started', 'Picks: blocked, no picks' and 'Correlations: blocked, no values' — statuses written by an earlier session before those outputs existed. Published as-is, the page would have told the owner the project had produced nothing.",
+   "status": "Irregularity — handled in this session",
+   "recommended_action": "The register was rewritten against the current build: what exists, what is measured, what is blocked, and the source for each claim.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/requirements.csv"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-38",
+   "area": "Site",
+   "item_reviewed": "Superseded season links still in the published source register",
+   "finding": "Two entries in the source register point at the 2025-26 NBA injury index (official.nba.com/nba-injury-report-2025-26-season/). Both are marked superseded and are kept deliberately as provenance for an earlier session's defect, but they appear in the same table as live sources.",
+   "status": "Irregularity — flagged",
+   "recommended_action": "Move superseded entries to a separate 'prior-season / historical' section of the register so a reader cannot mistake them for current sources.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "legacy_ref": "",
+   "found_on": "2026-11-14"
+  },
+  {
+   "id": "CR-39",
    "area": "CI",
    "item_reviewed": "Workflow coverage",
    "finding": "The workflow ran unit tests, the docs checker, the research pipeline, the edge checker and the site builders, and deployed successfully. It did not cover the canonical dataset assembled in this session.",
@@ -25206,231 +25324,231 @@
    "req_id": "RQ01",
    "requirement_from_brief": "Collect, organise and analyse NBA data",
    "category": "Data",
-   "status": "Partly done",
-   "how_addressed": "Official schedule for Nov 13-16 (31 games) and one official injury snapshot are in data/. No historical box scores or game logs.",
-   "blocker_or_gap": "stats.nba.com and cdn.nba.com are not reachable from this environment (Q-DATA-01).",
-   "evidence_url": "https://www.nba.com/stats/players/traditional",
-   "verification_status": "Page reachable; no statistical values extracted (S07)"
+   "status": "Done for what is reachable",
+   "how_addressed": "Official schedule for 2026-11-14 to 2026-11-17 (27 games with game id, tip time, venue and city), official team advanced statistics for all 30 teams, official final scores for 174 games, and the official injury report 11/13/26 07:45 PM ET (122 rows) - all captured and compared field by field with the values earlier sessions stored.",
+   "blocker_or_gap": "Historical box scores and per-player game logs were never captured. Those two gaps block the most downstream work. See CQ-39 and NF-52.",
+   "evidence_url": "https://www.nba.com/schedule?date=2026-11-14",
+   "verification_status": "Captured 2026-11-14: 88/88 overlapping slate fields, 240/240 team-stat fields and 122/122 injury rows agree with the stored captures (scripts/capture_official_2026_11_14b.py)"
   },
   {
    "req_id": "RQ02",
    "requirement_from_brief": "Originate own NBA lines",
    "category": "Models",
-   "status": "Not started",
-   "how_addressed": "No line model exists. The method and gate definitions are in data/gates.csv and data/strategies.csv.",
-   "blocker_or_gap": "No verified training data and no licensed odds feed (Q-DATA-01, Q-DATA-02).",
-   "evidence_url": "https://www.nba.com/schedule",
-   "verification_status": "Schedule read; it shows no odds values (S05)"
+   "status": "Done",
+   "how_addressed": "Lines originated for all 27 games of the live window by a walk-forward Massey margin model with ridge shrinkage plus a totals model shrunk toward the league mean. Both shrinkage parameters are chosen by validating on the most recent 20 percent of past games only. Code: scripts/strategy_lab.py, seeded and deterministic.",
+   "blocker_or_gap": "The margin model is only modestly better than a constant baseline and the totals model is worse than one. Both facts are published rather than hidden. See NF-49.",
+   "evidence_url": "https://www.nba.com/games?date=",
+   "verification_status": "131 out-of-sample forecasts; margin RMSE 15.900 vs 16.866 baseline, total RMSE 19.636 vs 19.464 baseline"
   },
   {
    "req_id": "RQ03",
    "requirement_from_brief": "Research and develop strategies that generate useful signals",
    "category": "Models",
-   "status": "Partly done",
-   "how_addressed": "11 strategy hypotheses (ST01-ST11) with inputs and test designs. None is evaluated.",
-   "blocker_or_gap": "No data to evaluate them.",
-   "evidence_url": "https://www.nba.com/stats/help/glossary",
-   "verification_status": "Definitions read (S06); no predictive claim made"
+   "status": "Done as a screened board",
+   "how_addressed": "15 rules across single bets, same-game parlays and cross-game parlays, each scored out of sample against nine gates. Six are exact mirror pairs so the losing direction cannot be hidden, and one is a null control.",
+   "blocker_or_gap": "No rule shows a signal that survives its own p-value, FDR correction and the whole-board luck threshold. See NF-51.",
+   "evidence_url": "https://www.nba.com/games?date=",
+   "verification_status": "Largest edge any rule posted is 18.0 pp; the luck threshold for a board this size is 31.2 pp"
   },
   {
    "req_id": "RQ04",
    "requirement_from_brief": "Run as a leaderboard competition with rewards for top strategies",
    "category": "Governance",
-   "status": "Structure only",
-   "how_addressed": "Leaderboard section on strategies.html is empty by design. Rule: no ranking unless every gate passes.",
-   "blocker_or_gap": "No eligible strategy. Reward design raises gambling-law questions (Q-LEG-02).",
-   "evidence_url": "https://wetten.overheid.nl/BWBR0002469/2025-02-12/0",
-   "verification_status": "Statute Art. 1 read (S12); no reward rule verified"
+   "status": "Structure built; reward schedule unapproved",
+   "how_addressed": "A ranked board with a composite skill score, five reward tiers (T1 funded to T5 blocked) and a stake allocation per tier. Zero rules are currently in T1 or T2, so nothing is funded.",
+   "blocker_or_gap": "The reward schedule itself needs an owner decision: prize contest, pool, or internal scoring. Dutch rules treat these differently. See CQ-36.",
+   "evidence_url": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+   "verification_status": "Statutory position read; no reward rule approved. A unit currently means a paper unit"
   },
   {
    "req_id": "RQ05",
    "requirement_from_brief": "Single bets, parlays and player prop combos",
    "category": "Models",
-   "status": "Catalogue only",
-   "how_addressed": "ST01-ST11 cover single games, props, a parlay, a prop combo and a same-game combo, plus a control.",
-   "blocker_or_gap": "No prices and no historical outcomes for any market.",
-   "evidence_url": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
-   "verification_status": "Read (S10): sports bets need a licence"
+   "status": "Singles and parlays priced; prop combos blocked",
+   "how_addressed": "12 single-bet rules, 1 same-game parlay rule and 1 cross-game parlay rule are scored. Same-game cards for all 27 games and cross-game cards for the four dates are published with fair prices. Four player-prop combos are listed and all four are blocked.",
+   "blocker_or_gap": "Prop combos need per-player game logs to measure the joint distribution. Without them every cell is blank by policy. See NF-52 and CQ-39.",
+   "evidence_url": "https://www.nba.com/stats/players/boxscores",
+   "verification_status": "4 of 4 prop combos published as BLOCKED with the unblocking step; no value invented"
   },
   {
    "req_id": "RQ06",
    "requirement_from_brief": "Each strategy must pass validation gates",
    "category": "Validation",
-   "status": "Gates defined; all blocked",
-   "how_addressed": "11 gates in data/gates.csv. Every strategy is BLOCKED. pipeline/gates.py returns BLOCKED when evidence is missing.",
-   "blocker_or_gap": "Thresholds are proposals; owner approval needed (Q-GATE-01).",
-   "evidence_url": "https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm",
-   "verification_status": "Exact binomial method read (S16)"
+   "status": "Gates defined and applied; nothing passes",
+   "how_addressed": "Nine gates: provenance, look-ahead, sample size, power, significance, FDR, stability, economics at an assumed price, and the whole-board luck threshold. Every rule is scored against all nine and the per-gate grid is published.",
+   "blocker_or_gap": "All thresholds are proposals this project has not had approved. Two further gates are proposed but not built: pre-registration (G10) and price reality (G11). See CQ-38.",
+   "evidence_url": "https://www.itl.nist.gov/div898/handbook/prc/section2/prc24.htm",
+   "verification_status": "Exact binomial tests used, not a normal approximation; Benjamini-Hochberg applied across all 15 rules"
   },
   {
    "req_id": "RQ07",
    "requirement_from_brief": "Determine correlation values",
    "category": "Validation",
-   "status": "Blocked (no values)",
-   "how_addressed": "data/correlations.csv lists 8 market pairs with blank value cells and the reason for each.",
-   "blocker_or_gap": "No matched outcome or price data, so correlations cannot be measured (Q-MODEL-01).",
-   "evidence_url": "https://www.itl.nist.gov/div898/handbook/",
-   "verification_status": "NIST index read (S14); no correlation method page cited"
+   "status": "4 measured; 5 blank by policy",
+   "how_addressed": "Home points vs away points (r=0.128, n=174), spread residual vs total residual (r=0.014, n=131), and the same-game cover-and-over joint rate with its dependence ratio are measured from official results. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.",
+   "blocker_or_gap": "Player-level correlations need per-player game logs. The cross-game independence figure is printed as an assumption, not a measurement. See CQ-39.",
+   "evidence_url": "https://www.nba.com/games?date=",
+   "verification_status": "Values, sample sizes and 95 percent intervals published on the Correlations page; blanks flagged"
   },
   {
    "req_id": "RQ08",
    "requirement_from_brief": "Remove luck; build selectively skill-based strategies",
    "category": "Validation",
-   "status": "Method defined; not applied",
-   "how_addressed": "Null control (ST11), cluster bootstrap by date, Holm correction, leakage check, and a prospective paper trial (G02-G11).",
-   "blocker_or_gap": "Needs data; cannot be demonstrated here.",
-   "evidence_url": "https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm",
-   "verification_status": "Bootstrap read (S17); permutation method page not located"
+   "status": "Method applied; no skill demonstrated",
+   "how_addressed": "Exact binomial tests against the market's fair-line rate; Benjamini-Hochberg across the board; a 5,000-iteration whole-board Monte Carlo producing a 31.2 pp luck threshold; date-block bootstrap for return intervals; split-half stability; mirror pairs so the losing side is visible; and a null control that must fail. It does: 47.3 percent on 131 games, p=0.60.",
+   "blocker_or_gap": "The methods detect luck; they cannot manufacture skill from 174 games. Nothing on the board beats the threshold. See NF-51.",
+   "evidence_url": "https://www.nba.com/games?date=",
+   "verification_status": "Null control ST-NUL fails 8 of 9 gates, which is the check that the gates work"
   },
   {
    "req_id": "RQ09",
    "requirement_from_brief": "Generate picks for every upcoming slate up to 3 days ahead, using originated lines",
    "category": "Picks",
-   "status": "Blocked: no picks",
-   "how_addressed": "picks.html lists all 31 games with blank line and pick cells, flagged.",
-   "blocker_or_gap": "No validated strategy and no originated lines. Publishing picks may be restricted (Q-LEG-01).",
-   "evidence_url": "https://www.nba.com/schedule",
-   "verification_status": "Schedule read (S05)"
+   "status": "Done with an explicit caveat",
+   "how_addressed": "One priced row for every one of the 27 games in the 2026-11-14 to 2026-11-17 window (today plus the maximum three-day horizon) with an originated spread, originated total, fair moneylines, projected score and availability status. Generated by a pipeline that reruns without manual input.",
+   "blocker_or_gap": "These are our own fair prices against our own line, so their expected value is zero by construction. No market price is connected, so nothing here is a bet and no value is claimed. See NF-55 and CS-36.",
+   "evidence_url": "https://www.nba.com/schedule?date=2026-11-14",
+   "verification_status": "27 rows, one per game; 2026-11-13 games excluded because they were live at capture time (NF-54)"
   },
   {
    "req_id": "RQ10",
    "requirement_from_brief": "Track how injuries affect rotation minutes and production",
    "category": "Injuries",
    "status": "Partly done",
-   "how_addressed": "Official 11/13 11:00 AM snapshot transcribed with flags (98 rows). pipeline/rotation.py redistributes minutes for Out players, with unit tests.",
-   "blocker_or_gap": "No minutes or production data, so no effect is estimated (Q-MODEL-02). The snapshot is not the newest report (F01).",
-   "evidence_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
-   "verification_status": "Report rules read (S01); PDF read (S02)"
+   "how_addressed": "The newest official report is transcribed row by row with its timestamp; teams printed NOT YET SUBMITTED are published as unknown rather than as healthy; and the official season minutes, points, rebounds and assists vacated by players listed Out or Doubtful are summed per team-game, with a count of how many listed players fall outside the captured minutes table.",
+   "blocker_or_gap": "Who absorbs the vacated minutes, and how much of the production they replace, is NOT quantified - that needs per-player game logs and on-off splits. The vacuum is published, the replacement is blank. See NF-52.",
+   "evidence_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
+   "verification_status": "54 team-game rows; every minutes figure is labelled a floor"
   },
   {
    "req_id": "RQ11",
    "requirement_from_brief": "Game flow analysis",
    "category": "Game flow",
-   "status": "Method only",
-   "how_addressed": "gameflow.html documents 7 factors, the data each needs, and the definition source.",
-   "blocker_or_gap": "No play-by-play or score-state data.",
-   "evidence_url": "https://www.nba.com/stats/help/glossary",
-   "verification_status": "Definitions read (S06)"
+   "status": "Done for what the data supports",
+   "how_addressed": "Rest days, back-to-back flags and rest differentials from the official schedule and the 174 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags.",
+   "blocker_or_gap": "No possession-level pace projection, no overtime model (a flat measured rate is applied) and no referee, travel or altitude effects - none can be sourced officially. All three are listed as missing rather than estimated.",
+   "evidence_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+   "verification_status": "27 rows; overtime rate 5.17 percent measured from 9 of 174 games; the missing factors are named on the page"
   },
   {
    "req_id": "RQ12",
    "requirement_from_brief": "Executive summary of key details",
    "category": "Reporting",
-   "status": "Done (generated)",
-   "how_addressed": "exec-summary.html, generated from the data files by pipeline/build_site.py.",
+   "status": "Done",
+   "how_addressed": "app/summary.html, generated from the canonical dataset: what the project is, the headline result, what was verified and against what, how the engine works, how luck is removed, and what is still missing with what each gap blocks.",
    "blocker_or_gap": "None.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/pipeline/build_site.py",
-   "verification_status": "Built and checked by pipeline/verify.py"
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/summary.html",
+   "verification_status": "Generated by scripts/build_app.py; every claim on the page traces to a table row with a source link"
   },
   {
    "req_id": "RQ13",
    "requirement_from_brief": "Site improvement suggestions for review before any change",
    "category": "Reporting",
-   "status": "Done (generated)",
-   "how_addressed": "suggestions.html lists 14 options with a recommendation and a decision column left at 'Awaiting owner review'.",
-   "blocker_or_gap": "Nothing is implemented until an option is chosen.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/suggestions.csv",
-   "verification_status": "Generated from data/suggestions.csv"
+   "status": "Done",
+   "how_addressed": "38 suggestions with an area, a reason, two or three named options, a recommended option, the dependency it hinges on, and a decision column left at Awaiting owner review. Nothing has been implemented.",
+   "blocker_or_gap": "None. The queue exists so an owner can choose a path before anything changes.",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/suggestions.html",
+   "verification_status": "Decision column reads Awaiting owner review on every row"
   },
   {
    "req_id": "RQ14",
    "requirement_from_brief": "Clear list of questions, information needed and answers",
    "category": "Reporting",
-   "status": "Done (generated)",
-   "how_addressed": "questions.html lists 18 questions with status, current answer, missing information and a discovery step.",
-   "blocker_or_gap": "Several items need owner or legal decisions.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv",
-   "verification_status": "Generated from data/questions.csv"
+   "status": "Done",
+   "how_addressed": "40 questions, each with a category, what is already known, what is missing, the next step that would settle it, its sources and an owner.",
+   "blocker_or_gap": "Several need an owner or legal decision and cannot be resolved from data alone.",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/questions.html",
+   "verification_status": "Every question carries a status; open ones name the decision needed"
   },
   {
    "req_id": "RQ15",
    "requirement_from_brief": "Suggestions for discovering missing information",
    "category": "Reporting",
-   "status": "Done (generated)",
-   "how_addressed": "Each open question has a discovery step.",
+   "status": "Done",
+   "how_addressed": "Every open question carries a concrete next step, and every blocked prop combination carries the exact capture that would unblock it.",
    "blocker_or_gap": "None.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv",
-   "verification_status": "Generated from data/questions.csv"
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/questions.html",
+   "verification_status": "Discovery steps are per question, not generic"
   },
   {
    "req_id": "RQ16",
    "requirement_from_brief": "No manual input needed from the owner to finish",
    "category": "Process",
-   "status": "Partly done",
-   "how_addressed": "Data, site and checks are generated in the repository without owner input.",
-   "blocker_or_gap": "Blocked decisions (legal, thresholds, data access) are recorded as questions, not worked around.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/questions.csv",
-   "verification_status": "Checked against the question register"
+   "status": "Done",
+   "how_addressed": "Capture, engine, dataset assembly and site generation all run from three commands with no interactive input, and the workflow re-runs them and fails on drift. Files are committed and pushed by the session.",
+   "blocker_or_gap": "Decisions that genuinely need the owner (legal basis, reward schedule, gate thresholds, data rights) are recorded as questions rather than guessed.",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/actions",
+   "verification_status": "Workflow runs unattended; deterministic seeds make the drift gate meaningful"
   },
   {
    "req_id": "RQ17",
    "requirement_from_brief": "Repository review line by line with official links and flagged irregularities",
    "category": "Repo review",
-   "status": "Done (generated)",
-   "how_addressed": "repo-review.html lists 17 items with GitHub evidence links and statuses.",
-   "blocker_or_gap": "Irregular items need owner action.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/repo_review.csv",
-   "verification_status": "Generated from data/repo_review.csv"
+   "status": "Done",
+   "how_addressed": "40 review findings covering git state, data integrity, model defects found and fixed, stale reporting, superseded links, site architecture and CI coverage. Each carries its evidence link and a recommended action.",
+   "blocker_or_gap": "Consolidating the ten published site trees is an owner decision, not something a session should do unilaterally. See CS-35.",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/review.html",
+   "verification_status": "Findings are dated and attributed to the session that produced them"
   },
   {
    "req_id": "RQ18",
    "requirement_from_brief": "GitHub Pages live site: clean landing page and category subpages",
    "category": "Site",
-   "status": "Done (generated); publish path limited",
-   "how_addressed": "Landing page plus 14 category subpages are generated from data/ by pipeline/build_site.py and committed at the repository root. The Pages source is still the legacy branch build from main /; the switch to GitHub Actions failed with a 403 permission error.",
-   "blocker_or_gap": "Pages source switch to GitHub Actions is blocked by the session token (403). The site is served from main / instead (Q-REPO-02).",
+   "status": "Done; publishing path is not ideal",
+   "how_addressed": "A landing page at the repository root with 18 category sub-pages under app/, generated from one dataset, with navigation by category. The build fails on a broken link or on a row without a source.",
+   "blocker_or_gap": "Pages is still served from the legacy main / branch build, so the entire public repository is published rather than just the site. Switching to the Actions artifact needs an admin token; earlier attempts returned HTTP 403. See NF-43.",
    "evidence_url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
-   "verification_status": "GitHub Docs read (S18)"
+   "verification_status": "Pages API confirms build_type=legacy, source branch main, path /"
   },
   {
    "req_id": "RQ19",
    "requirement_from_brief": "Every table row has an official source link; unverified values left blank and flagged",
    "category": "Verification",
-   "status": "Done (checked by tool)",
-   "how_addressed": "pipeline/verify.py checks every table row for a source link on an allowed official host, flags every blank, and checks internal links.",
-   "blocker_or_gap": "Rows citing non-official hosts fail the build.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/pipeline/verify.py",
-   "verification_status": "Unit-tested in pipeline/tests"
+   "status": "Done and enforced",
+   "how_addressed": "The build fails if any table row lacks an https source link. Unverified cells render as an explicit UNVERIFIED marker rather than a blank that could be read as a value, and every one is listed on the Flagged for review page.",
+   "blocker_or_gap": "Some rows legitimately cite a project file rather than an external page because the value is ours and no official page publishes it. Those are labelled Derived.",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py",
+   "verification_status": "Link and source checks run over all 19 generated pages plus the landing page; 0 broken links"
   },
   {
    "req_id": "RQ20",
    "requirement_from_brief": "Coordinate parallel sessions through COORDINATION.md",
    "category": "Process",
-   "status": "Done (single branch)",
-   "how_addressed": "Claims, handoff notes and logs are in COORDINATION.md.",
-   "blocker_or_gap": "The session-per-branch scheme is not used: this session is bound to one branch.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/COORDINATION.md",
-   "verification_status": "File read"
+   "status": "Done",
+   "how_addressed": "The board was read first, four open pull requests from concurrent sessions were mapped, a non-overlapping file scope was claimed and pushed before any work began, and change requests to the other sessions are logged instead of editing their files.",
+   "blocker_or_gap": "The branch-per-task scheme in the brief cannot be used: Arena binds a session to one branch. Scope is enforced by file list inside that branch, as every prior session recorded.",
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md",
+   "verification_status": "Claim committed and pushed 2026-11-14T01:05Z, before any file was edited"
   },
   {
    "req_id": "RQ21",
    "requirement_from_brief": "Pull request from the integration branch to main with summary, sources and flagged irregularities",
    "category": "Release",
-   "status": "Pending",
-   "how_addressed": "To be opened after checks pass.",
-   "blocker_or_gap": "None known.",
+   "status": "In progress",
+   "how_addressed": "Opened from arena/8d3d0271-nba3 with a summary of the changes, the official sources used and the irregularities flagged.",
+   "blocker_or_gap": "Other sessions have pull requests open against the same files; conflicts are resolved by keeping every side.",
    "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/pulls",
-   "verification_status": "Pending"
+   "verification_status": "PR opened after all local checks pass"
   },
   {
    "req_id": "RQ22",
    "requirement_from_brief": "Merge without waiting for approval; confirm Pages deploy; record PR and merge result",
    "category": "Release",
-   "status": "Pending",
-   "how_addressed": "To be done after the PR is opened and checks pass. Pages publishes the merged commit from main / automatically.",
-   "blocker_or_gap": "None known.",
+   "status": "In progress",
+   "how_addressed": "Run the checks, merge, watch the workflow and the Pages build, then fetch the live URL and record the outcome in COORDINATION.md.",
+   "blocker_or_gap": "None known. If the build or the deploy fails it is fixed and retried until the site is live.",
    "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/actions",
-   "verification_status": "Pending"
+   "verification_status": "Deployment is confirmed by fetching the live URL, not by opening the pull request"
   },
   {
    "req_id": "RQ23",
    "requirement_from_brief": "Flagged for Review page with source links",
    "category": "Reporting",
-   "status": "Done (generated)",
-   "how_addressed": "flagged.html lists 25 flags from data/flags.csv, each with a source link.",
+   "status": "Done",
+   "how_addressed": "55 flags with severity, the action needed, its sources and an open or closed status. Nothing on the page blocks a merge; it exists so the owner can review after the site is live.",
    "blocker_or_gap": "None.",
-   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/arena/9ed6085f-nba3/data/flags.csv",
-   "verification_status": "Generated from data/flags.csv"
+   "evidence_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/flagged.html",
+   "verification_status": "Every flag carries at least one source link"
   }
  ],
  "gameflow_factors": [

@@ -418,6 +418,96 @@ def build_review():
         "Verified",
         "None. The canonical site publishes the 07:30 PM snapshot only.",
         ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"], "", "2026-11-14")
+    # ---- session arena/8d3d0271-nba3 (2026-11-14) ----
+    add("Data", "Official capture re-read: schedule",
+        "The 27 games of the 2026-11-14..17 window were transcribed from nba.com/schedule on "
+        "2026-11-14 and compared with the previous session's 11/13-11/16 capture: 22 games appear "
+        "in both and 88 of 88 field comparisons (date, tip time, away, home) agree, 0 differ. The "
+        "2026-11-13 games were live on the page at read time and were excluded from the priced "
+        "window.",
+        "Verified",
+        "None. Re-run scripts/capture_official_2026_11_14b.py before publishing a new slate.",
+        ["https://www.nba.com/schedule?date=2026-11-14"], "", "2026-11-14")
+    add("Data", "Official capture re-read: team statistics",
+        "All 30 teams were re-read from nba.com/stats/teams/advanced on 2026-11-14 and compared "
+        "with data/origin/teams_advanced.csv: 240 of 240 field comparisons (GP, W, L, MIN, OffRtg, "
+        "DefRtg, NetRtg, PACE) agree.",
+        "Verified",
+        "None.",
+        ["https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"],
+        "", "2026-11-14")
+    add("Data", "Official capture re-read: injury report",
+        "The 11/13/26 07:45 PM report — the newest listed on the official index at read time — was "
+        "transcribed: 122 rows (117 player rows, 5 team 'NOT YET SUBMITTED' rows). Compared with "
+        "the stored 07:30 PM report: same 122 rows and 0 status changes, so the newer file adds no "
+        "new information for this window.",
+        "Verified",
+        "None. The canonical site publishes the 07:45 PM snapshot and cites the index for "
+        "freshness.",
+        ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
+         "https://official.nba.com/nba-injury-report-2026-27-season/"], "", "2026-11-14")
+    add("Repository", "Integrity scan of the data files",
+        "All 79 JSON files in the working tree were parsed with a strict loader: 0 parse failures. "
+        "The tree holds 120 HTML pages across 10 published site directories and 40 Python scripts, "
+        "6.8 MB in total.",
+        "Verified",
+        "Consolidate the site trees (suggestion CS-35).",
+        ["https://github.com/wingbangboozle1-lang/NBA3"], "", "2026-11-14")
+    add("Model", "Defects found and fixed in the strategy engine during this build",
+        "Four defects were found by reading the engine's own output rather than trusting it: "
+        "(1) two-leg parlays were being scored against a 50% fair-line rate instead of 25%, which "
+        "put a losing same-game parlay at the top of the first draft of the leaderboard; "
+        "(2) the permutation test shuffled win flags within a date, which cannot change the total "
+        "and so returned p=1.000 for every rule — it was replaced with a whole-board Monte Carlo "
+        "against the fair-line null; (3) the 'high-octane' threshold used the median of the whole "
+        "sample's projections, which is look-ahead — it now uses only prior projections; "
+        "(4) an under-regularised Massey model printed a 28-point spread, so ridge and totals "
+        "shrinkage are now chosen by validating on the most recent 20% of past games.",
+        "Irregularity — found and fixed in this session",
+        "Keep publishing defects found this way. A leaderboard whose top row is a bug is worse "
+        "than no leaderboard.",
+        ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py"],
+        "", "2026-11-14")
+    add("Model", "A signal that turned out to be the model's own error",
+        "'Fade the highest projected totals' posted 69.7% on 66 out-of-sample games (p=0.0019, "
+        "q=0.016) before the totals model was regularised. After shrinkage toward the league mean "
+        "it fell to 65.5% on 29 games (p=0.136). The apparent edge was our own miscalibration, not "
+        "a property of NBA games. Published as flag NF-50 rather than as a finding.",
+        "Irregularity — flagged",
+        "Treat any bias found against our own line as a model defect to repair until a licensed "
+        "price feed makes an external comparison possible (question CQ-40).",
+        ["https://www.nba.com/games?date="], "", "2026-11-14")
+    add("Data", "data/raw/results_2026-27_october.csv and _november.csv",
+        "The header comment documents an 8-column format (date, start_ET, away_team, away_pts, "
+        "home_team, home_pts, OT, note) but every data row carries 5 fields, and the source named "
+        "in the header is Basketball-Reference, which is not an official NBA property. The values "
+        "themselves agree with the official capture, so this is a citation and schema defect, not "
+        "a data error. First recorded by session e40cd215 as E-F-02; re-checked this session and "
+        "still present.",
+        "Irregularity — flagged",
+        "Rewrite the header to match the rows, or retire the files in favour of "
+        "data/origin/games.csv, which is the official-sourced capture.",
+        ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv"],
+        "E-F-02", "2026-11-14")
+    add("Reporting", "Brief-coverage register was publishing stale statuses",
+        "data/requirements.csv still reported 'Originate own NBA lines: Not started', 'Picks: "
+        "blocked, no picks' and 'Correlations: blocked, no values' — statuses written by an earlier "
+        "session before those outputs existed. Published as-is, the page would have told the owner "
+        "the project had produced nothing.",
+        "Irregularity — handled in this session",
+        "The register was rewritten against the current build: what exists, what is measured, what "
+        "is blocked, and the source for each claim.",
+        ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/requirements.csv"],
+        "", "2026-11-14")
+    add("Site", "Superseded season links still in the published source register",
+        "Two entries in the source register point at the 2025-26 NBA injury index "
+        "(official.nba.com/nba-injury-report-2025-26-season/). Both are marked superseded and are "
+        "kept deliberately as provenance for an earlier session's defect, but they appear in the "
+        "same table as live sources.",
+        "Irregularity — flagged",
+        "Move superseded entries to a separate 'prior-season / historical' section of the register "
+        "so a reader cannot mistake them for current sources.",
+        ["https://official.nba.com/nba-injury-report-2026-27-season/"], "", "2026-11-14")
     add("CI", "Workflow coverage",
         "The workflow ran unit tests, the docs checker, the research pipeline, the edge checker and the site builders, and deployed successfully. It did not cover the canonical dataset assembled in this session.",
         "Irregularity — handled in this session",

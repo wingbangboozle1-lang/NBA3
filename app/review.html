@@ -333,6 +333,96 @@ produced by this integration session.</p>
 </tr>
 <tr>
 <td>CR-30</td>
+<td>Data</td>
+<td>Official capture re-read: schedule</td>
+<td>The 27 games of the 2026-11-14..17 window were transcribed from nba.com/schedule on 2026-11-14 and compared with the previous session&#x27;s 11/13-11/16 capture: 22 games appear in both and 88 of 88 field comparisons (date, tip time, away, home) agree, 0 differ. The 2026-11-13 games were live on the page at read time and were excluded from the priced window.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>None. Re-run scripts/capture_official_2026_11_14b.py before publishing a new slate.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>CR-31</td>
+<td>Data</td>
+<td>Official capture re-read: team statistics</td>
+<td>All 30 teams were re-read from nba.com/stats/teams/advanced on 2026-11-14 and compared with data/origin/teams_advanced.csv: 240 of 240 field comparisons (GP, W, L, MIN, OffRtg, DefRtg, NetRtg, PACE) agree.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>None.</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>CR-32</td>
+<td>Data</td>
+<td>Official capture re-read: injury report</td>
+<td>The 11/13/26 07:45 PM report — the newest listed on the official index at read time — was transcribed: 122 rows (117 player rows, 5 team &#x27;NOT YET SUBMITTED&#x27; rows). Compared with the stored 07:30 PM report: same 122 rows and 0 status changes, so the newer file adds no new information for this window.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>None. The canonical site publishes the 07:45 PM snapshot and cites the index for freshness.</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CR-33</td>
+<td>Repository</td>
+<td>Integrity scan of the data files</td>
+<td>All 79 JSON files in the working tree were parsed with a strict loader: 0 parse failures. The tree holds 120 HTML pages across 10 published site directories and 40 Python scripts, 6.8 MB in total.</td>
+<td><span class="chip chip-ok">Verified</span></td>
+<td>Consolidate the site trees (suggestion CS-35).</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>CR-34</td>
+<td>Model</td>
+<td>Defects found and fixed in the strategy engine during this build</td>
+<td>Four defects were found by reading the engine&#x27;s own output rather than trusting it: (1) two-leg parlays were being scored against a 50% fair-line rate instead of 25%, which put a losing same-game parlay at the top of the first draft of the leaderboard; (2) the permutation test shuffled win flags within a date, which cannot change the total and so returned p=1.000 for every rule — it was replaced with a whole-board Monte Carlo against the fair-line null; (3) the &#x27;high-octane&#x27; threshold used the median of the whole sample&#x27;s projections, which is look-ahead — it now uses only prior projections; (4) an under-regularised Massey model printed a 28-point spread, so ridge and totals shrinkage are now chosen by validating on the most recent 20% of past games.</td>
+<td><span class="chip chip-warn">Irregularity — found and fixed in this session</span></td>
+<td>Keep publishing defects found this way. A leaderboard whose top row is a bug is worse than no leaderboard.</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/strategy_lab.py</a></td>
+</tr>
+<tr>
+<td>CR-35</td>
+<td>Model</td>
+<td>A signal that turned out to be the model&#x27;s own error</td>
+<td>&#x27;Fade the highest projected totals&#x27; posted 69.7% on 66 out-of-sample games (p=0.0019, q=0.016) before the totals model was regularised. After shrinkage toward the league mean it fell to 65.5% on 29 games (p=0.136). The apparent edge was our own miscalibration, not a property of NBA games. Published as flag NF-50 rather than as a finding.</td>
+<td><span class="chip chip-warn">Irregularity — flagged</span></td>
+<td>Treat any bias found against our own line as a model defect to repair until a licensed price feed makes an external comparison possible (question CQ-40).</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
+</tr>
+<tr>
+<td>CR-36</td>
+<td>Data</td>
+<td>data/raw/results_2026-27_october.csv and _november.csv</td>
+<td>The header comment documents an 8-column format (date, start_ET, away_team, away_pts, home_team, home_pts, OT, note) but every data row carries 5 fields, and the source named in the header is Basketball-Reference, which is not an official NBA property. The values themselves agree with the official capture, so this is a citation and schema defect, not a data error. First recorded by session e40cd215 as E-F-02; re-checked this session and still present.</td>
+<td><span class="chip chip-warn">Irregularity — flagged</span></td>
+<td>Rewrite the header to match the rows, or retire the files in favour of data/origin/games.csv, which is the official-sourced capture.</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv</a></td>
+</tr>
+<tr>
+<td>CR-37</td>
+<td>Reporting</td>
+<td>Brief-coverage register was publishing stale statuses</td>
+<td>data/requirements.csv still reported &#x27;Originate own NBA lines: Not started&#x27;, &#x27;Picks: blocked, no picks&#x27; and &#x27;Correlations: blocked, no values&#x27; — statuses written by an earlier session before those outputs existed. Published as-is, the page would have told the owner the project had produced nothing.</td>
+<td><span class="chip chip-warn">Irregularity — handled in this session</span></td>
+<td>The register was rewritten against the current build: what exists, what is measured, what is blocked, and the source for each claim.</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/requirements.csv" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/requirements.csv</a></td>
+</tr>
+<tr>
+<td>CR-38</td>
+<td>Site</td>
+<td>Superseded season links still in the published source register</td>
+<td>Two entries in the source register point at the 2025-26 NBA injury index (official.nba.com/nba-injury-report-2025-26-season/). Both are marked superseded and are kept deliberately as provenance for an earlier session&#x27;s defect, but they appear in the same table as live sources.</td>
+<td><span class="chip chip-warn">Irregularity — flagged</span></td>
+<td>Move superseded entries to a separate &#x27;prior-season / historical&#x27; section of the register so a reader cannot mistake them for current sources.</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>CR-39</td>
 <td>CI</td>
 <td>Workflow coverage</td>
 <td>The workflow ran unit tests, the docs checker, the research pipeline, the edge checker and the site builders, and deployed successfully. It did not cover the canonical dataset assembled in this session.</td>
