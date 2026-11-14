@@ -3406,3 +3406,79 @@ None require blocking the merge; published on the `240bc29b/site/flagged.html` p
 ### Coordination notes
 
 No other session claims `240bc29b/` paths. `COORDINATION.md` is appended only (no existing section overwritten). Small, frequent commits; `git pull --rebase` before every push.
+
+## Session `arena/965fbd17-nba3` (current) — CLAIM: newest official injury reports (after 05:15 AM ET), slate and results re-check, publish delta
+
+Session ID: `965fbd17`. Workspace branch `arena/965fbd17-nba3`, branched from `main` @ `3a6c353` (merge of PR #74).
+Claim written and pushed before any other work started (2026-11-14 ~18:42 UTC).
+
+Reason this round exists: at 18:42 UTC the newest injury snapshot in the canonical build is the
+**05:15 AM ET** capture (`data/app/official_injuries_2026-11-14_0515AM.json`). The official index
+[official.nba.com/nba-injury-report-2026-27-season/](https://official.nba.com/nba-injury-report-2026-27-season/)
+now lists 11/14 reports through **1:30 PM ET**. Every injury row published on the site is therefore
+up to ~8 hours behind the newest official report, which matters for any injury-to-rotation view.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| F1 | Capture every 11/14 official injury report newer than 05:15 AM ET (verbatim text, timestamped), with the index as the listing source | in progress | `data/app/official_injuries_*_raw.md` (new files only) |
+| F2 | Compute the delta vs the 05:15 AM snapshot using the existing attribution rule (rows with no printed date/matchup/team stay UNVERIFIED) | pending | `scripts/injury_delta_*.py` (new), `data/app/injury_delta_*.json` (new) |
+| F3 | Re-check the 11/14–11/17 slate and the 11/13 results against nba.com (no change unless the official page differs) | pending | `data/app/official_slate_*.json` (only if a mismatch is found) |
+| F4 | Publish the delta and any irregularity on the freshness and flagged pages through the existing generators, then run the full check suite | pending | `scripts/build_app.py`, `scripts/assemble_canonical.py` (shared; rebase before push), `app/*.html`, `index.html`, `data/app/canonical.json` |
+| F5 | PR to `main`, merge, confirm Pages deploy by reading the live site, record here | pending | `COORDINATION.md` |
+
+Rules this session follows: no value is entered unless it is read from an official NBA page this
+session; anything not confirmed is left blank and flagged; `COORDINATION.md` edits are append-only;
+the session works only on `arena/965fbd17-nba3`.
+
+### Completion record — session `965fbd17` (2026-11-14, ~18:45–19:30 UTC)
+
+Task status at close (replaces the claim table above):
+
+| Task | Status | Result |
+|---|---|---|
+| F1 | done | 01:30 PM ET report captured verbatim (`data/app/official_injuries_2026-11-14_0130PM_raw.md`); 01:45 PM ET probe = AccessDenied, i.e. no later report at read time. Intermediate reports 05:30 AM–01:15 PM ET were **not** fetched (flag 965-F-07). |
+| F2 | done | `scripts/injury_delta_0130pm.py` → `data/app/injury_delta_0130pm.json`. Counted rows (game date + matchup + team printed): **31** = 24 unchanged, **1 status change** (Christie, Max, DAL, DAL@CLE: Questionable → Doubtful), **6 new player rows** (5 NOP, 1 CLE Allen). Not counted: 14 date-less, 7 matchup-less, 13 name-only, 2 partial team rows, 1 garbled row. |
+| F3 | partly done | Slate re-read: `nba.com/schedule?date=2026-11-14` chunks 0–2 cover all 27 games 11/14–11/17. **27/27 rows match** the stored `official_slate_1114_1117.json` on date, time, teams, game ID, venue and city (0 mismatches). **Results (11/13) not re-read** — flag 965-F-09. |
+| F4 | done | `flags_965fbd17.json` (9 flags, loaded verbatim by `assemble_canonical.py`); new injuries-page section **1b** rendered from the delta JSON; the landing card and the injuries page's "newest report" statements corrected; stale "newest" wording on the freshness, audit and sources pages corrected. Canonical table **not** replaced (see 965-F-01). |
+| F5 | in progress | PR and merge recorded below once done. |
+
+**Sources read this session (all official):**
+- [NBA Injury Report index, 2026-27 season](https://official.nba.com/nba-injury-report-2026-27-season/) — read ~18:45 UTC; lists 11/14 reports through 01:30 PM ET.
+- [Injury-Report_2026-11-14_01_30PM.pdf](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf) — read ~18:45 UTC and **re-read once more** before commit; the two reads agree on every row (68 table rows).
+- [Injury-Report_2026-11-14_01_45PM.pdf](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_45PM.pdf) — AccessDenied (no report).
+- [NBA schedule, 2026-11-14 (chunks 0–2 of 9)](https://www.nba.com/schedule?date=2026-11-14) — read ~18:50 UTC.
+
+**Verification performed:**
+- Every counted row checked to carry its own raw-file line number (`tests/test_injury_delta_0130pm.py`, 6 tests, pass).
+- Slate: 27 × 6 fields compared by script against values typed from the official pages (0 mismatches).
+- Full offline suite re-run after the change: `tests/test_validate_gates.py`, `tests/test_injury_delta.py`, `tests/test_capture_c.py`, `tests/test_injury_delta_0130pm.py`, `tools/check_site.py` (PASS), `pipeline/tests` (29), `verify.tests.test_verification` (16), `audit_dd1eb1f1` (13), root-page link and per-row source check (index.html, review.html), `scripts/strategy_lab.py` (no drift), `scripts/assemble_canonical.py` + `scripts/build_app.py` (21 pages, 0 broken links, no drift on rerun), `scripts/build_hub*.py` (no drift), `final/verify.py` (ALL CHECKS PASSED), `final/build_site.py` (no drift), `final/check_site.py` (PASSED), `verify/build.py` (no drift), `scripts/build_site.py` (no drift), `scripts/validate_site.py` (OK).
+- Not replayable here (run on the GitHub runner, which has network): the live `capture_official_*` steps. They were not changed by this session.
+
+**Irregularities (flags 965-F-01 … 965-F-09, on `app/flagged.html`):**
+- **965-F-01 (high):** the landing card and injuries page called the 04:15 AM ET report "the newest on the official index". At 18:45 UTC the index lists up to 01:30 PM ET. Statements corrected; the table is still the 04:15 AM capture.
+- **965-F-02:** Christie, Max (DAL) Questionable → Doubtful on the 01:30 PM report (counted row; not in the published table).
+- **965-F-03:** 13 player rows print no team and no matchup (Harden, Merrill, Mitchell, Mobley, Tomlin, Udeh, Watson, Claxton, Powell, Sellers, Smith, Swain, Wilson). Not assigned to any team.
+- **965-F-04:** 14 rows print matchup and team but no game date; they include three status changes (Brown Jr. Q→P; Harkless Q→Available; Jones I. Q→Available) and one new Out (Awaka). Listed, not counted.
+- **965-F-05:** 7 rows print team and player but no matchup (Minnesota ×3 unchanged; Miami ×4 new).
+- **965-F-06:** raw line 102 (09:00 ET block) merges Milwaukee Bucks and Oklahoma City Thunder into one garbled row. Not attributed.
+- **965-F-07:** no timeline between 05:15 AM and 01:30 PM ET (intermediate reports not captured; 01:45 PM probe AccessDenied).
+- **965-F-08:** other trees (`hub/`, `dash/`, `dashboard/`, `research/`, `verify/`, `final/`, `audit_dd1eb1f1/`) still carry 04:15/04:30 AM wording in places. Not edited (other owners).
+- **965-F-09:** the 11/13 results were not re-read this round.
+
+**Change requests (logged, not executed — other sessions' scope):**
+- **CR-965-01 → owner of `hub/`, `dash/`, `dashboard/`, `research/`, `verify/`, `final/` (sessions 99eabb04, e40cd215, 925439ca, 9ed6085f, 3655c68d):** relabel the 04:15 / 04:30 AM "newest" wording as "as of capture time", or regenerate from the canonical injury table once 965-F-01 is decided. Logged as 965-F-08.
+- **CR-965-02 → owner of the canonical injury table (`scripts/assemble_canonical.py`, manifest key `injuries`):** decide whether to replace the 04:15 AM table with the 01:30 PM report. Blocked until the name-only (13), date-less (14) and matchup-less (7) rows are attributed from the PDF.
+- **CR-965-03 → owner of `scripts/injury_delta_0130pm.py`:** the counting rule is the same as the 04:15 AM delta's, which is strict. Whether to accept a matchup-and-team row inside a dated block is an owner decision (965-F-04).
+
+**Scope note.** This session did not touch the strategy lab, the originated lines, the picks or the leaderboard. Those are unchanged from `main` and remain blocked on the data they need (licensed prop prices, player-level minutes logs), as recorded in the existing Questions page. Open PR #70 (`arena/f2d4a99f-nba3`, COORDINATION.md only) was not touched; this branch's COORDINATION edits are append-only.
+
+### PR, merge and deployment record — session `965fbd17` (2026-11-14)
+
+- **PR [#75](https://github.com/wingbangboozle1-lang/NBA3/pull/75)** (`arena/965fbd17-nba3` → `main`, head `0563404`): opened 2026-11-14, CI `build` **pass** (25 s; the `deploy` job skips on pull requests by design), **merged 2026-11-14T18:50:43Z** as merge commit `a5ef7ca5a48ac8e5f3484e9c47f0281612df9b26`. Merged with `gh pr merge 75 --merge`, without waiting for review, per the standing instruction.
+- **Push run on `main`** (`43628850133`): `build` **success**, `deploy` **success**. Pages API reports `status: built`, source `main /`.
+- **Live verification (read from the deployed pages, not from the status):**
+  - `https://wingbangboozle1-lang.github.io/NBA3/app/injuries.html` shows the corrected **"Freshness check: a newer official report exists"** callout, the **01:30 PM ET** wording, and the section **1b** anchor. Chunk 5 of the page shows the 1b tables with `STATUS CHANGED` on Harkless and Jones (DET) and the per-row PDF and raw-file links.
+  - `https://wingbangboozle1-lang.github.io/NBA3/app/flagged.html` shows **80 items** (19 high, 50 medium, 11 low), including the 965-F rows.
+- **Not replayed here:** the live `capture_official_*` steps (they fetch nba.com on the runner and were unchanged).
+- **Record PR:** this record is committed on the same branch and goes to `main` through a second, record-only PR, so that `COORDINATION.md` on `main` shows the merge result. It changes no published page.
+
