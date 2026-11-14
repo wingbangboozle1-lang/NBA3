@@ -61,7 +61,16 @@ transcription equal the raw counts of each status word in the report text (true)
 <li>Tests: <code>python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'</code> (counts, official-link rule, blank-not-filled rule).</li>
 <li>The official text extraction loses column headers after page 1. This is why several rows print no date, matchup or team.</li>
 </ul>
-<p>See also: <a href="flagged.html">Flagged for Review (F736-01 … F736-10)</a>.</p>
+<h2>7. Reconciliation with PR #75 (session 965fbd17, merged to main first)</h2>
+<p>Both sessions compared the same official 01:30 PM ET report. Where the two differ, the difference is a counting convention, not a conflicting reading of a row.</p>
+<table id="reconcile-965"><thead><tr><th>Item</th><th>This page (736efb4b)</th><th>PR #75 (965fbd17)</th><th>Status</th><th>Source</th></tr></thead><tbody>
+<tr><td>Rows transcribed</td><td>67 (50 player, 17 NOT YET SUBMITTED); 1 garbled line not transcribed</td><td>68 raw table rows parsed; the same garbled line kept as an unattributed fragment</td><td>agree</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">1:30 PM PDF</a></td></tr>
+<tr><td>Status changes vs the stored snapshot</td><td>4: Christie Q→Doubtful; Brown Jr. Q→Probable; Harkless Q→Available; Jones Q→Available</td><td>4 (Christie in the counted tier; Brown Jr., Harkless, Jones in the no-date tier)</td><td>agree</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">1:30 PM PDF</a></td></tr>
+<tr><td>Rows with no team printed</td><td>13, not attributed</td><td>13 name-only rows, not attributed</td><td>agree</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">1:30 PM PDF</a></td></tr>
+<tr><td>Rows with a team but no matchup (Minnesota 3, Miami 4)</td><td>Attributed to CHI@MIN and DET@MIA by the one-game-per-team rule, labelled</td><td>Not counted (team, no matchup)</td><td>convention differs (F736-12)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">1:30 PM PDF</a></td></tr>
+<tr><td>Team filing state, 10 teams on 11/14</td><td>Table in section 2: 9 filed, Memphis not filed</td><td>Not presented as a team-level filing table in its flags</td><td>added here</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">1:30 PM PDF</a></td></tr>
+</tbody></table>
+<p>See also: <a href="flagged.html">Flagged for Review (F736-01 … F736-12)</a>.</p>
 
 </main>
 <footer class="site-footer"><div class="wrap"><p>Built by <code>audit_736efb4b/build.py</code> from the official NBA

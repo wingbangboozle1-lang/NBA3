@@ -169,7 +169,7 @@ class PageTests(unittest.TestCase):
 
     def test_flags_page_lists_all_ten_ids(self):
         text = (HERE / "flagged.html").read_text(encoding="utf-8")
-        for n in range(1, 11):
+        for n in range(1, 13):
             self.assertIn(f"F736-{n:02d}", text)
 
     def test_index_states_the_no_re_run_limit(self):

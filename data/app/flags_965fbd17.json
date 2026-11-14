@@ -1,0 +1,135 @@
+[
+ {
+  "id": "965-F-01",
+  "area": "Injuries",
+  "item": "Two live statements called the 04:15 AM ET injury report the newest on the official index. At 18:45 UTC on 2026-11-14 the index lists 11/14 reports through 01:30 PM ET.",
+  "why": "The landing card and the injuries page said the 04:15 AM ET report was the newest listed and that there was no later file to reconcile it with. Both statements were false when read at 18:45 UTC. The published table still reads the 04:15 AM ET capture, so every injury row on the site is up to about nine hours older than the newest official report.",
+  "action_needed": "Corrected in this round: both statements now name the 01:30 PM ET report and point to the delta. Owner decision still open: replace the canonical injury table with the 01:30 PM ET report. That needs the name-only and date-less rows attributed first (see 965-F-03 to 965-F-06). Until then the table stays labelled 04:15 AM ET.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  ],
+  "status": "Corrected (statements). Table replacement: open - owner decision",
+  "severity": "high",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-02",
+  "area": "Injuries",
+  "item": "Status change since the published table: Christie, Max (DAL, game 07:30 PM ET DAL@CLE) moved from Questionable to Doubtful on the 01:30 PM ET report. The published 04:15 AM ET table still reads Questionable.",
+  "why": "This is one of the 31 rows that print game date, matchup and team, so it is counted. It is the only status change among those rows between 05:15 AM and 01:30 PM ET. The reason text is unchanged (Injury/Illness - Left Ankle Sprain).",
+  "action_needed": "Shown in section 1b of the injuries page. Re-check against the PDF before any use. The 01:30 PM ET value is not yet in the canonical table (see 965-F-01).",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json"
+  ],
+  "status": "Open - shown on injuries page section 1b",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-03",
+  "area": "Injuries",
+  "item": "13 player rows on the 01:30 PM ET report print no team and no matchup: Harden, Merrill, Mitchell, Mobley, Tomlin, Udeh, Watson, Claxton, Powell, Sellers, Smith, Swain, Wilson.",
+  "why": "They sit in the report's later tables, where the team and matchup columns are blank. Their team is not printed on the row, so this round does not assign them to a team or a game. Several are Questionable or Out, and without a team or matchup they cannot be placed on any game.",
+  "action_needed": "Do not assign these rows to a team from their position in the layout. Confirm the team from the PDF table structure or a later official report, then compare them with the 05:15 AM ET snapshot.",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md"
+  ],
+  "status": "Unverified - listed on injuries page section 1b, not attributed",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-04",
+  "area": "Injuries",
+  "item": "14 rows print a matchup and team but no game date (BKN@MEM, CHI@MIN and DET@MIA blocks). Three status changes sit in them: Brown Jr., Mikel (BKN) Questionable to Probable; Harkless, Elijah (DET) Questionable to Available; Jones, Isaac (DET) Questionable to Available. Awaka, Tobe (CHI) is a new Out row.",
+  "why": "The project's attribution rule counts a row only when game date, matchup and team are all printed on it. These rows fail that rule, so the four changes are listed and not counted.",
+  "action_needed": "Confirm the game date of these rows against the PDF before counting them. Then decide whether the rule should accept a matchup-and-team row inside a dated block.",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json"
+  ],
+  "status": "Unverified - listed on injuries page section 1b, not counted",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-05",
+  "area": "Injuries",
+  "item": "7 rows print a team and a player but no matchup: Minnesota (Beringer, DiVincenzo, Edwards: unchanged from 05:15 AM ET) and Miami (Antetokounmpo, Goldin, Larsson, Thompson: new since 05:15 AM ET).",
+  "why": "The Miami rows are new, and the 05:15 AM ET report lists Miami as NOT YET SUBMITTED for the 11/14 DET@MIA game. The matchup is not printed on those rows, so the game is not assigned here.",
+  "action_needed": "Confirm the game for each Miami row from the PDF before any use.",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json"
+  ],
+  "status": "Unverified - listed on injuries page section 1b, not counted",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-06",
+  "area": "Injuries",
+  "item": "One row of the 01:30 PM ET report (09:00 ET block, raw line 102) merges two teams and two NOT YET SUBMITTED markers into single cells: 'Milwaukee Bucks OKC@SAC', 'Milwaukee Bucks Oklahoma City Thunder', 'NOT YET SUBMITTED NOT YET SUBMITTED'.",
+  "why": "The text cannot be split into one row per team without inference. The 05:15 AM ET report lists Milwaukee and Oklahoma City as NOT YET SUBMITTED for 11/15, so this row is consistent with that, but it is not counted.",
+  "action_needed": "Check this row against the PDF. The published table keeps this row out of counts until the layout is confirmed.",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md"
+  ],
+  "status": "Unverified - raw text kept, not attributed",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-07",
+  "area": "Injuries",
+  "item": "No timeline between 05:15 AM ET and 01:30 PM ET. The intermediate reports were not fetched in this round, and the 01:45 PM ET probe returned AccessDenied (no such report at fetch time).",
+  "why": "Only the start state (05:15 AM ET) and the end state (01:30 PM ET) are compared. Whether a change happened early or late, or reversed in between, cannot be known from this round.",
+  "action_needed": "Fetch the intermediate reports (05:30 AM to 01:15 PM ET) if a timeline is needed. Each would be one fetch from the official index.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_45PM.pdf"
+  ],
+  "status": "Open - capture gap, not an error",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-08",
+  "area": "Site consistency",
+  "item": "Other published trees still describe the 04:15 AM or 04:30 AM report as current in places: hub/, dash/, dashboard/, research/, verify/, final/ and audit_dd1eb1f1/.",
+  "why": "They are dated workstream snapshots from earlier sessions. This round edited only the canonical app/ pages and the landing page, so the rest of the site is not consistent with the newest official report.",
+  "action_needed": "Owner decision: either relabel each dated snapshot as 'as of its capture time' or regenerate it from the canonical injury table once 965-F-01 is decided. Other sessions own those trees, so they were not edited here.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ],
+  "status": "Open - owner decision",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ },
+ {
+  "id": "965-F-09",
+  "area": "Results",
+  "item": "The 2026-11-13 results log was not re-read in this round. The last official read recorded in the manifest is 09:45 UTC on 2026-11-14.",
+  "why": "This round checked the official 11/14 to 11/17 slate and the newest injury report. It did not re-open the results pages, so the 183-game log is as of the earlier read.",
+  "action_needed": "Re-read the 11/13 results from nba.com before any result-dependent number is used.",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-13"
+  ],
+  "status": "Not re-verified this round",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-14"
+ }
+]

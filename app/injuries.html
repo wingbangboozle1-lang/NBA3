@@ -33,23 +33,28 @@
 23 team rows printed “NOT YET SUBMITTED”. A team that has not filed
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
-<div class="callout ok">
-<p><strong>Freshness check — superseded.</strong> This is <strong>not</strong> the newest report any more. The <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a> lists a later game-day report, <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">11/14 01:30 PM ET</a> (read 2026-11-14 at about 13:42 ET). This page still shows the snapshot stamped 2026-11-14 04:15 AM ET. The row-by-row comparison with the 01:30 PM report, including the status changes, the new player rows and the teams that have now filed, is in <a href="../audit_736efb4b/index.html">audit_736efb4b/</a>. Nothing on this site has been re-run from it. The comparison with the report it supersedes (2026-11-13 07:45 PM ET) found <strong>31 rows in common on the 2026-11-14 slate and 0 status changes</strong>. The earlier
-row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
-as change request <strong>CR-53653a5c-A</strong>) is published at
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
-(17/17 attributed rows identical; 29 fragmented rows listed unverified, never counted), and
-session 26fd5f6f independently matched <strong>31/31</strong> rows — see
-<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>.
+<div class="callout warn">
+<p><strong>Freshness check: a newer official report exists.</strong> At 18:45 UTC on 2026-11-14 the
+<a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>
+lists 11/14 reports through <strong>01:30 PM ET</strong>. Section 1 below is the
+<strong>2026-11-14 04:15 AM ET</strong> capture and is not replaced in this round. Section
+<a href="#s1b">1b</a> compares the 01:30 PM ET report with it, row by row, under the same counting rule.
+The earlier checks still stand for the report they cover: the 04:15 AM ET report against the 07:30 PM ET
+report (session 53653a5c; <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>,
+17/17 attributed rows identical), and session 26fd5f6f's independent match of <strong>31/31</strong> rows
+(<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>).
 Correction CR-26fd5f6f-A is applied: the seven games once miscounted as a gap in the 11/14 slate
 are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
+</div>
 
 <div class="callout warn">
-<p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and
+<p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
 2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> On the 04:15 AM ET
+snapshot, five of the ten teams playing on 11/14 had not filed. On the 01:30 PM ET report, four of
+them (New Orleans, Cleveland, Chicago, Miami) have printed players; Memphis has not
+(<a href="../audit_736efb4b/index.html">audit_736efb4b</a>, flag F736-11). The back-to-back explanation
+written against the 04:15 AM snapshot has not been re-verified against the schedule in this round.
 Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
 is <a href="flagged.html">NF-53</a> and the corrected reading is
 <a href="flagged.html">NF-56</a>.</p>
@@ -507,6 +512,732 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <td><span class="unverified">NOT YET SUBMITTED</span></td>
 <td><span class="unverified">unknown — no report filed</span></td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+</tbody></table></div>
+
+<h2 id="s1b">1b. Newer report: 01:30 PM ET, compared with the 05:15 AM ET snapshot</h2>
+<p>The newest report listed on the <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>
+at 18:45 UTC is the 11/14 report stamped <strong>01:30 PM ET</strong>
+(<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">PDF</a>). Section 1 is not replaced in this round.
+The comparison uses the rule the earlier deltas used: a row is <em>counted</em> only when its game date,
+matchup and team are all printed on it. Rows that miss one of those are listed below and never counted.</p>
+<div class="callout warn"><p><strong>Counted: 31 rows.</strong>
+24 unchanged, <strong>1 status change</strong>
+(Christie, Max (DAL, DAL@CLE): Questionable to Doubtful), 6 new player rows.
+Not counted: 14 rows with no game date, 7 rows with no matchup,
+13 rows with no team or matchup, 2 partial team rows, and
+1 garbled row. Flags <a href="flagged.html">965-F-01 to 965-F-07</a>.
+Raw text and the parser are in the repository (<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">raw file</a>,
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/injury_delta_0130pm.py" target="_blank" rel="noopener noreferrer">scripts/injury_delta_0130pm.py</a>).</p></div>
+
+<h3>Counted rows (game date, matchup and team printed)</h3>
+<div class="table-wrap"><table>
+<caption id="injury-delta-counted"></caption>
+<thead><tr>
+<th>Game date</th>
+<th>Time (ET)</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Player</th>
+<th>05:15 AM ET (stored)</th>
+<th>01:30 PM ET (official)</th>
+<th>Result</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>Denver Nuggets</td>
+<td>Holmes II, DaRon</td>
+<td>Out — G League - On Assignment</td>
+<td>Out — G League - On Assignment</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 12</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>Denver Nuggets</td>
+<td>Nembhard, Ryan</td>
+<td>Out — G League - Two-Way</td>
+<td>Out — G League - Two-Way</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 13</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>Denver Nuggets</td>
+<td>Strawther, Julian</td>
+<td>Out — Injury/Illness - Left Knee Sprain</td>
+<td>Out — Injury/Illness - Left Knee Sprain</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 14</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>Denver Nuggets</td>
+<td>Whitmore, Cam</td>
+<td>Out — G League - Two-Way</td>
+<td>Out — G League - Two-Way</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 15</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>McGowens, Bryce</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Out — Injury/Illness - Left Elbow Infection</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 16</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Missi, Yves</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Probable — Injury/Illness - Left Knee Contusion / Bone Bruise</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 17</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Murphy III, Trey</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Out — Injury/Illness - Bilateral Patellar Tendinopathy</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 18</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Murray, Dejounte</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Out — Injury/Illness - Left Ankle Sprain</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 19</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:00 (ET)</td>
+<td>DEN@NOP</td>
+<td>New Orleans Pelicans</td>
+<td>Watford, Trendon</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Out — Injury/Illness - Right Ankle Sprain</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 20</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Dallas Mavericks</td>
+<td>Biberovic, Tarik</td>
+<td>Out — Injury/Illness - Right Heel Bursitis</td>
+<td>Out — Injury/Illness - Right Heel Bursitis</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 21</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Dallas Mavericks</td>
+<td>Christie, Max</td>
+<td>Questionable — Injury/Illness - Left Ankle Sprain</td>
+<td>Doubtful — Injury/Illness - Left Ankle Sprain</td>
+<td><span class="chip chip-warn">STATUS CHANGED</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 22</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Dallas Mavericks</td>
+<td>de Larrea, Sergio</td>
+<td>Out — Injury/Illness - Right Knee Sprain</td>
+<td>Out — Injury/Illness - Right Knee Sprain</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 23</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Dallas Mavericks</td>
+<td>Johnson Jr., Morez</td>
+<td>Probable — Injury/Illness - Left Shin / Tibia Contusion</td>
+<td>Probable — Injury/Illness - Left Shin / Tibia Contusion</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 24</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Dallas Mavericks</td>
+<td>Lively II, Dereck</td>
+<td>Out — Injury/Illness - Right Foot Surgery</td>
+<td>Out — Injury/Illness - Right Foot Surgery</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 25</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Dallas Mavericks</td>
+<td>Martin, Caleb</td>
+<td>Available — Injury/Illness - Right Thumb Splint</td>
+<td>Available — Injury/Illness - Right Thumb Splint</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 26</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/14/2026</td>
+<td>07:30 (ET)</td>
+<td>DAL@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td>Allen, Jarrett</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Questionable — Injury/Illness - Right Knee Injury</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 27</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00 (ET)</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 82</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00 (ET)</td>
+<td>IND@PHI</td>
+<td>Philadelphia 76ers</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 83</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00 (ET)</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 84</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00 (ET)</td>
+<td>LAL@PHX</td>
+<td>Phoenix Suns</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 85</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30 (ET)</td>
+<td>CHA@LAC</td>
+<td>Charlotte Hornets</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 86</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30 (ET)</td>
+<td>CHA@LAC</td>
+<td>LA Clippers</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 87</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00 (ET)</td>
+<td>SAS@UTA</td>
+<td>San Antonio Spurs</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 88</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00 (ET)</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 89</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00 (ET)</td>
+<td>DAL@BOS</td>
+<td>Dallas Mavericks</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 90</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00 (ET)</td>
+<td>DAL@BOS</td>
+<td>Boston Celtics</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 91</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00 (ET)</td>
+<td>NYK@TOR</td>
+<td>New York Knicks</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 92</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00 (ET)</td>
+<td>NYK@TOR</td>
+<td>Toronto Raptors</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 93</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00 (ET)</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 94</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00 (ET)</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 95</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00 (ET)</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">NOT YET SUBMITTED</span></td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 96</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+</tbody></table></div>
+<h3>Not counted: matchup and team printed, game date blank on the row</h3>
+<div class="table-wrap"><table>
+<caption id="injury-delta-matchup"></caption>
+<thead><tr>
+<th>Matchup</th>
+<th>Time (ET)</th>
+<th>Team</th>
+<th>Player</th>
+<th>05:15 AM ET (stored)</th>
+<th>01:30 PM ET (official)</th>
+<th>Result (not counted)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>BKN@MEM</td>
+<td>08:00 (ET)</td>
+<td>Brooklyn Nets</td>
+<td>Bilodeau, Tyler</td>
+<td>Out — G League - Two-Way</td>
+<td>Out — G League - Two-Way</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 42</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>BKN@MEM</td>
+<td>08:00 (ET)</td>
+<td>Brooklyn Nets</td>
+<td>Brown Jr., Mikel</td>
+<td>Questionable — Injury/Illness - Illness</td>
+<td>Probable — Injury/Illness - Illness</td>
+<td><span class="chip chip-warn">STATUS CHANGED</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 43</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>BKN@MEM</td>
+<td>08:00 (ET)</td>
+<td>Brooklyn Nets</td>
+<td>Jefferson, Joshua</td>
+<td>Out — G League - On Assignment</td>
+<td>Out — G League - On Assignment</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 44</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>BKN@MEM</td>
+<td>08:00 (ET)</td>
+<td>Brooklyn Nets</td>
+<td>Nelson, Grant</td>
+<td>Out — G League - Two-Way</td>
+<td>Out — G League - Two-Way</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 45</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>BKN@MEM</td>
+<td>08:00 (ET)</td>
+<td>Brooklyn Nets</td>
+<td>Saraf, Ben</td>
+<td>Out — G League - On Assignment</td>
+<td>Out — G League - On Assignment</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 46</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>BKN@MEM</td>
+<td>08:00 (ET)</td>
+<td>Brooklyn Nets</td>
+<td>Traore, Nolan</td>
+<td>Probable — Injury/Illness - Right Calf Tightness / Soreness</td>
+<td>Probable — Injury/Illness - Right Calf Tightness / Soreness</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 47</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>CHI@MIN</td>
+<td>08:00 (ET)</td>
+<td>Chicago Bulls</td>
+<td>Awaka, Tobe</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Out — Injury/Illness - Disc Irritation</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 49</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Duren, Jalen</td>
+<td>Out — Injury/Illness - Right Hamstring Strain</td>
+<td>Out — Injury/Illness - Right Hamstring Strain</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 65</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Harkless, Elijah</td>
+<td>Questionable — G League - Two-Way</td>
+<td>Available — G League - Two-Way</td>
+<td><span class="chip chip-warn">STATUS CHANGED</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 66</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Joe, Isaiah</td>
+<td>Out — Injury/Illness - Right Hip Contusion</td>
+<td>Out — Injury/Illness - Right Hip Contusion</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 67</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Jones, Isaac</td>
+<td>Questionable — G League - Two-Way</td>
+<td>Available — G League - Two-Way</td>
+<td><span class="chip chip-warn">STATUS CHANGED</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 68</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Lanier, Chaz</td>
+<td>Out — G League - On Assignment</td>
+<td>Out — G League - On Assignment</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 69</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Okorie, Ebuka</td>
+<td>Out — G League - On Assignment</td>
+<td>Out — G League - On Assignment</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 70</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>DET@MIA</td>
+<td></td>
+<td>Detroit Pistons</td>
+<td>Onyenso, Ugonna</td>
+<td>Out — G League - Two-Way</td>
+<td>Out — G League - Two-Way</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 71</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+</tbody></table></div>
+<h3>Not counted: team printed, matchup and game date blank on the row</h3>
+<div class="table-wrap"><table>
+<caption id="injury-delta-team"></caption>
+<thead><tr>
+<th>Team</th>
+<th>Player</th>
+<th>05:15 AM ET (stored)</th>
+<th>01:30 PM ET (official)</th>
+<th>Result (not counted)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Memphis Grizzlies</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">same not counted</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 48</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Minnesota Timberwolves</td>
+<td>Beringer, Joan</td>
+<td>Available — Injury/Illness - Face Mask</td>
+<td>Available — Injury/Illness - Face Mask</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 62</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Minnesota Timberwolves</td>
+<td>DiVincenzo, Donte</td>
+<td>Out — Injury/Illness - Right Achilles Tendon Repair / Surgery</td>
+<td>Out — Injury/Illness - Right Achilles Tendon Repair / Surgery</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 63</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Minnesota Timberwolves</td>
+<td>Edwards, Anthony</td>
+<td>Out — Injury/Illness - Right Knee Arthroscopy</td>
+<td>Out — Injury/Illness - Right Knee Arthroscopy</td>
+<td><span class="chip chip-ok">unchanged</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 64</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Miami Heat</td>
+<td>Antetokounmpo, Giannis</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Probable — Injury/Illness - Right Wrist Sprain</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 77</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Miami Heat</td>
+<td>Goldin, Vladislav</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Out — G League - Two-Way</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 79</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Miami Heat</td>
+<td>Larsson, Pelle</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Doubtful — Injury/Illness - Illness</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 80</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Miami Heat</td>
+<td>Thompson, Klay</td>
+<td><span class="unverified">not in the 05:15 AM snapshot</span></td>
+<td>Probable — Injury/Illness - Left Ankle Sprain</td>
+<td><span class="chip chip-neutral">new row</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 81</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Sacramento Kings</td>
+<td><em>team row</em></td>
+<td>NOT YET SUBMITTED</td>
+<td>NOT YET SUBMITTED</td>
+<td><span class="chip chip-neutral">same not counted</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 104</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+</tbody></table></div>
+<h3>Not counted: player printed, team and matchup blank (not assigned to any team)</h3>
+<div class="table-wrap"><table>
+<caption id="injury-delta-nameonly"></caption>
+<thead><tr>
+<th>Player</th>
+<th>01:30 PM ET (official)</th>
+<th>Team and matchup on the row</th>
+<th>05:15 AM ET (stored, same name)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Harden, James</td>
+<td>Questionable — Injury/Illness - Left Lower Leg/Calf Tightness</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 35</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Merrill, Sam</td>
+<td>Out — Injury/Illness - Right Elbow Injury Management</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 36</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Mitchell, Donovan</td>
+<td>Questionable — Injury/Illness - Left Knee Contusion/Injury Management</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 37</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Mobley, Evan</td>
+<td>Out — Injury/Illness - Left Great Toe Sprain</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 38</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Tomlin, Nae&#x27;Qwan</td>
+<td>Out — Injury/Illness - Low Back Stress Reaction</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 39</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Udeh, Jr., Ernest</td>
+<td>Out — G League - Two-Way</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 40</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Watson, Peyton</td>
+<td>Questionable — Injury/Illness - Right Hamstring Injury Management</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 41</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Claxton, Nic</td>
+<td>Questionable — Injury/Illness - Left Hamstring Injury Management</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 55</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Powell, Norman</td>
+<td>Questionable — Injury/Illness - Low Back Injury Management</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 57</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Sellers, Jaylin</td>
+<td>Out — G League - Two-Way</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 58</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Smith, Jalen</td>
+<td>Questionable — Injury/Illness - Left Finger Sprain</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 59</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Swain, Dailyn</td>
+<td>Out — G League - On Assignment</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 60</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+<tr>
+<td>Wilson, Caleb</td>
+<td>Out — Injury/Illness - Right Metacarpal Fracture</td>
+<td>not printed — not assigned</td>
+<td>no match in the 05:15 AM snapshot</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 61</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+</tbody></table></div>
+<h3>Not counted: garbled row kept verbatim</h3>
+<div class="table-wrap"><table>
+<caption id="injury-delta-fragments"></caption>
+<thead><tr>
+<th>Raw line</th>
+<th>Printed cells (verbatim)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>102</td>
+<td>09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 102</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
 </tr>
 </tbody></table></div>
 

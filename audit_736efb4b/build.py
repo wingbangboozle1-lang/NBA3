@@ -246,7 +246,16 @@ transcription equal the raw counts of each status word in the report text ({e(st
 <li>Tests: <code>python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'</code> (counts, official-link rule, blank-not-filled rule).</li>
 <li>The official text extraction loses column headers after page 1. This is why several rows print no date, matchup or team.</li>
 </ul>
-<p>See also: <a href="flagged.html">Flagged for Review (F736-01 … F736-10)</a>.</p>
+<h2>7. Reconciliation with PR #75 (session 965fbd17, merged to main first)</h2>
+<p>Both sessions compared the same official 01:30 PM ET report. Where the two differ, the difference is a counting convention, not a conflicting reading of a row.</p>
+<table id="reconcile-965"><thead><tr><th>Item</th><th>This page (736efb4b)</th><th>PR #75 (965fbd17)</th><th>Status</th><th>Source</th></tr></thead><tbody>
+<tr><td>Rows transcribed</td><td>67 (50 player, 17 NOT YET SUBMITTED); 1 garbled line not transcribed</td><td>68 raw table rows parsed; the same garbled line kept as an unattributed fragment</td><td>agree</td><td>{link(NEW_URL, "1:30 PM PDF")}</td></tr>
+<tr><td>Status changes vs the stored snapshot</td><td>4: Christie Q→Doubtful; Brown Jr. Q→Probable; Harkless Q→Available; Jones Q→Available</td><td>4 (Christie in the counted tier; Brown Jr., Harkless, Jones in the no-date tier)</td><td>agree</td><td>{link(NEW_URL, "1:30 PM PDF")}</td></tr>
+<tr><td>Rows with no team printed</td><td>13, not attributed</td><td>13 name-only rows, not attributed</td><td>agree</td><td>{link(NEW_URL, "1:30 PM PDF")}</td></tr>
+<tr><td>Rows with a team but no matchup (Minnesota 3, Miami 4)</td><td>Attributed to CHI@MIN and DET@MIA by the one-game-per-team rule, labelled</td><td>Not counted (team, no matchup)</td><td>convention differs (F736-12)</td><td>{link(NEW_URL, "1:30 PM PDF")}</td></tr>
+<tr><td>Team filing state, 10 teams on 11/14</td><td>Table in section 2: 9 filed, Memphis not filed</td><td>Not presented as a team-level filing table in its flags</td><td>added here</td><td>{link(NEW_URL, "1:30 PM PDF")}</td></tr>
+</tbody></table>
+<p>See also: <a href="flagged.html">Flagged for Review (F736-01 … F736-12)</a>.</p>
 """
 
 # ---------------------------------------------------------------- flagged page
@@ -255,8 +264,8 @@ def flag_row(fid, title, detail, evidence, status):
 
 flags = [
     flag_row("F736-01", "Published pages describe the 04:15 AM report as the newest listed",
-             e("The injury page, the summary card and the sources row said the 04:15 AM ET report was the newest one on the official index. At ~13:42 ET the index lists the 01:30 PM ET report. The injury page, summary card and sources row are corrected in this change. Still stale and logged as CR-736EFB4B-01 for the owner of scripts/assemble_canonical.py: the freshness page (five teams 'not filed', now four of them have filed), the review page, the requirements page and the flagged register."),
-             link(INDEX_URL, "official index") + " · " + link(NEW_URL, "1:30 PM PDF"), "fixed in part"),
+             e("The injury page, the summary card and the sources row said the 04:15 AM ET report was the newest one on the official index. At ~13:42 ET the index lists the 01:30 PM ET report. Session 965fbd17 corrected these statements and merged to main first (PR #75, flag 965-F-01). Still stale on other canonical pages and logged as CR-736EFB4B-01 (owner of scripts/assemble_canonical.py): the freshness page (five teams 'not filed'; four of them have now filed), the review page, the requirements page and the flagged register."),
+             link(INDEX_URL, "official index") + " · " + link(NEW_URL, "1:30 PM PDF"), "superseded by PR #75 in part"),
     flag_row("F736-02", "Four published players have a different status in the 1:30 PM report",
              e("Christie, Max (Dallas): Questionable → Doubtful. Brown Jr., Mikel (Brooklyn): Questionable → Probable. Harkless, Elijah (Detroit): Questionable → Available. Jones, Isaac (Detroit): Questionable → Available. Picks and injury-impact figures were not re-run."),
              link(NEW_URL, "1:30 PM PDF") + " · " + link(CANON_URL, "04:15 AM PDF"), "open"),
@@ -284,6 +293,12 @@ flags = [
     flag_row("F736-10", "The published snapshot is still the basis of the pick and injury pages",
              e("No model re-run was done in this change. Picks and injury-impact figures remain computed from the 04:15 AM snapshot. Re-running the pipeline is the next step; it needs a human decision on the publication window (CQ-36 and the open CR items in COORDINATION.md)."),
              link(CANON_URL, "04:15 AM PDF"), "open"),
+    flag_row("F736-11", "One stale sentence on the injuries page (fixed here)",
+             e("The paragraph after the injury table said five of the ten 11/14 teams had not filed, and tied that to a back-to-back rule. At 01:30 PM ET four of those five have printed players (New Orleans, Cleveland, Chicago, Miami); Memphis has not. The sentence now gives both readings, and the back-to-back explanation is labelled as not re-verified in this round."),
+             link(NEW_URL, "1:30 PM PDF") + " · " + link(CANON_URL, "04:15 AM PDF"), "fixed"),
+    flag_row("F736-12", "Overlap with PR #75 (session 965fbd17): same report, different counting",
+             e("Both sessions compared the 01:30 PM report with the stored snapshots. The four status changes and the 13 no-team rows agree. The two sessions count differently: this page attributes 7 rows with a team but no matchup (Minnesota, Miami) through the one-game-per-team rule and labels them; PR #75 does not count them. Both are published; neither overwrites the other. See section 7 of the index page."),
+             link(NEW_URL, "1:30 PM PDF") + " · " + link("https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json", "PR #75 delta JSON"), "info"),
 ]
 body_flagged = f"""
 <h1>Flagged for Review</h1>

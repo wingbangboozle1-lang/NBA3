@@ -349,7 +349,7 @@ def page_summary(d):
       {src_cell([lab['meta']['source_games']], 'nba.com/games')}</div>""")
     body.append(f"""<div class="card"><div class="k">Official injury rows</div>
       <div class="v">{d['injuries']['count']}</div>
-      <div class="s">{d['injuries']['report_stamp']} — the snapshot used in this build. A newer report (11/14 01:30 PM ET) is listed on the official index; see <a href="../audit_736efb4b/index.html">the injury freshness audit</a>.</div>
+      <div class="s">{d['injuries']['report_stamp']} — the table this card reads. A newer report (01:30 PM ET) is listed on the official index: see the injuries page, section 1b</div>
       {src_cell([d['injuries']['source_url']], 'official PDF')}</div>""")
     body.append("</div>")
 
@@ -1104,6 +1104,114 @@ listed with what would unblock them on the
     return "\n".join(body)
 
 
+DELTA_PDF_0130 = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+DELTA_RAW_0130 = "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md"
+DELTA_JSON_0130 = "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json"
+DELTA_PY_0130 = "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/injury_delta_0130pm.py"
+
+
+def render_delta_0130(dl):
+    """Section 1b of the injuries page: the 01:30 PM ET report against the 05:15 AM ET snapshot.
+    Every row is produced from data/app/injury_delta_0130pm.json, which scripts/injury_delta_0130pm.py
+    writes from the verbatim raw text. Nothing on this page is typed in by hand."""
+    s = dl["summary"]
+    cnt = s["counted_attributed_result_counts"]
+    tiers = s["tiers"]
+    changed = [c for c in dl["comparisons"] if c["tier"] in ("attributed", "nys_attributed") and c["result"] == "status_changed"]
+    chg_text = "; ".join(
+        f"{esc(c['player'])} ({esc(c['team'])}, {esc(c['matchup'])}): {esc(c['stored_status'])} to {esc(c['raw_status'])}"
+        for c in changed) or "none"
+    n_counted = sum(cnt.values())
+    srcs = [DELTA_PDF_0130, DELTA_RAW_0130, DELTA_JSON_0130]
+
+    def src(line):
+        return src_cell(srcs, f"official PDF 01:30 PM · raw line {line}")
+
+    def result_chip(res):
+        if res == "same":
+            return chip("unchanged", "ok")
+        if res == "status_changed":
+            return chip("STATUS CHANGED", "warn")
+        if res.startswith("new"):
+            return chip("new row", "neutral")
+        return chip(res.replace("_", " "), "neutral")
+
+    def stored(c):
+        if c.get("stored_status"):
+            return esc(c["stored_status"]) + (" — " + esc(c["stored_reason"]) if c.get("stored_reason") else "")
+        return '<span class="unverified">not in the 05:15 AM snapshot</span>'
+
+    def raw(c):
+        st = c.get("raw_status") or ""
+        rs = c.get("raw_reason") or ""
+        return esc(st) + (" — " + esc(rs) if rs else "")
+
+    out = []
+    out.append(f"""
+<h2 id="s1b">1b. Newer report: 01:30 PM ET, compared with the 05:15 AM ET snapshot</h2>
+<p>The newest report listed on the <a href="{esc(dl['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
+at 18:45 UTC is the 11/14 report stamped <strong>01:30 PM ET</strong>
+(<a href="{DELTA_PDF_0130}" target="_blank" rel="noopener noreferrer">PDF</a>). Section 1 is not replaced in this round.
+The comparison uses the rule the earlier deltas used: a row is <em>counted</em> only when its game date,
+matchup and team are all printed on it. Rows that miss one of those are listed below and never counted.</p>
+<div class="callout {'warn' if changed else 'ok'}"><p><strong>Counted: {n_counted} rows.</strong>
+{cnt.get('same', 0)} unchanged, <strong>{len(changed)} status change</strong>
+({chg_text}), {cnt.get('new_in_raw', 0)} new player rows.
+Not counted: {tiers.get('matchup_no_date', 0)} rows with no game date, {tiers.get('team_no_matchup', 0)} rows with no matchup,
+{tiers.get('name_only', 0)} rows with no team or matchup, {tiers.get('nys_partial', 0)} partial team rows, and
+{tiers.get('unattributed_fragment', 0)} garbled row. Flags <a href="flagged.html">965-F-01 to 965-F-07</a>.
+Raw text and the parser are in the repository (<a href="{DELTA_RAW_0130}" target="_blank" rel="noopener noreferrer">raw file</a>,
+<a href="{DELTA_PY_0130}" target="_blank" rel="noopener noreferrer">scripts/injury_delta_0130pm.py</a>).</p></div>
+""")
+
+    counted = [c for c in dl["comparisons"] if c["tier"] in ("attributed", "nys_attributed")]
+    rows = []
+    for c in counted:
+        if c["tier"] == "nys_attributed":
+            rows.append([esc(c["game_date"]), esc(c["time"]), esc(c["matchup"]), esc(c["team_name"]),
+                         "<em>team row</em>", stored(c), '<span class="chip chip-neutral">NOT YET SUBMITTED</span>',
+                         result_chip(c["result"]), src(c["raw_line"])])
+        else:
+            rows.append([esc(c["game_date"]), esc(c["time"]), esc(c["matchup"]), esc(c["team_name"]),
+                         esc(c["player"]), stored(c), raw(c), result_chip(c["result"]), src(c["raw_line"])])
+    out.append("<h3>Counted rows (game date, matchup and team printed)</h3>")
+    out.append(table(["Game date", "Time (ET)", "Matchup", "Team", "Player", "05:15 AM ET (stored)",
+                      "01:30 PM ET (official)", "Result", "Source"], rows, "injury-delta-counted"))
+
+    mnd = [c for c in dl["comparisons"] if c["tier"] == "matchup_no_date"]
+    out.append("<h3>Not counted: matchup and team printed, game date blank on the row</h3>")
+    out.append(table(["Matchup", "Time (ET)", "Team", "Player", "05:15 AM ET (stored)", "01:30 PM ET (official)",
+                      "Result (not counted)", "Source"],
+                     [[esc(c["matchup"]), esc(c["time"]), esc(c["team_name"]), esc(c["player"]), stored(c), raw(c),
+                       result_chip(c["result"]), src(c["raw_line"])] for c in mnd],
+                     "injury-delta-matchup"))
+
+    tnm = [c for c in dl["comparisons"] if c["tier"] in ("team_no_matchup", "nys_partial")]
+    out.append("<h3>Not counted: team printed, matchup and game date blank on the row</h3>")
+    out.append(table(["Team", "Player", "05:15 AM ET (stored)", "01:30 PM ET (official)", "Result (not counted)", "Source"],
+                     [[esc(c["team_name"]),
+                       esc(c["player"]) if c.get("player") else "<em>team row</em>",
+                       stored(c) if c.get("player") else esc(c.get("stored_status") or ""),
+                       raw(c) if c.get("player") else esc("NOT YET SUBMITTED"),
+                       result_chip(c["result"]), src(c["raw_line"])] for c in tnm],
+                     "injury-delta-team"))
+
+    nmo = dl.get("name_only_not_counted", [])
+    out.append("<h3>Not counted: player printed, team and matchup blank (not assigned to any team)</h3>")
+    out.append(table(["Player", "01:30 PM ET (official)", "Team and matchup on the row", "05:15 AM ET (stored, same name)", "Source"],
+                     [[esc(c["player"]), raw(c), "not printed — not assigned",
+                       esc("; ".join(f"{m['team']} {m['status']}" for m in c["stored_matches_by_name"])) or "no match in the 05:15 AM snapshot",
+                       src(c["raw_line"])] for c in nmo],
+                     "injury-delta-nameonly"))
+
+    frag = dl.get("unattributed_fragments", [])
+    out.append("<h3>Not counted: garbled row kept verbatim</h3>")
+    out.append(table(["Raw line", "Printed cells (verbatim)", "Source"],
+                     [[str(c["raw_line"]), esc(" | ".join(c["cells"])), src(c["raw_line"])] for c in frag],
+                     "injury-delta-fragments"))
+    return "\n".join(out)
+
+
 def page_injuries(d):
     inj = d["injuries"]
     lab = d["lab"]
@@ -1115,23 +1223,28 @@ def page_injuries(d):
 {inj.get('not_submitted_rows', 0)} team rows printed “NOT YET SUBMITTED”. A team that has not filed
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
-<div class="callout ok">
-<p><strong>Freshness check — superseded.</strong> This is <strong>not</strong> the newest report any more. The <a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a> lists a later game-day report, <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">11/14 01:30 PM ET</a> (read 2026-11-14 at about 13:42 ET). This page still shows the snapshot stamped {esc(inj.get('newest_report_listed_on_index', 'n/a'))}. The row-by-row comparison with the 01:30 PM report, including the status changes, the new player rows and the teams that have now filed, is in <a href="../audit_736efb4b/index.html">audit_736efb4b/</a>. Nothing on this site has been re-run from it. The comparison with the report it supersedes ({esc(inj.get('prior_report_stamp', 'n/a'))}) found <strong>{inj.get('prior_report_compared_rows', 0)} rows in common on the 2026-11-14 slate and {inj.get('prior_report_status_changes', 0)} status changes</strong>. The earlier
-row-by-row delta between the stored 07:30 PM snapshot and this report (session 53653a5c, executed
-as change request <strong>CR-53653a5c-A</strong>) is published at
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>
-(17/17 attributed rows identical; 29 fragmented rows listed unverified, never counted), and
-session 26fd5f6f independently matched <strong>31/31</strong> rows — see
-<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>.
+<div class="callout warn">
+<p><strong>Freshness check: a newer official report exists.</strong> At 18:45 UTC on 2026-11-14 the
+<a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
+lists 11/14 reports through <strong>01:30 PM ET</strong>. Section 1 below is the
+<strong>{esc(inj['report_stamp'])}</strong> capture and is not replaced in this round. Section
+<a href="#s1b">1b</a> compares the 01:30 PM ET report with it, row by row, under the same counting rule.
+The earlier checks still stand for the report they cover: the 04:15 AM ET report against the 07:30 PM ET
+report (session 53653a5c; <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0415am.json" target="_blank" rel="noopener noreferrer">data/app/injury_delta_0415am.json</a>,
+17/17 attributed rows identical), and session 26fd5f6f's independent match of <strong>31/31</strong> rows
+(<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/audit26" target="_blank" rel="noopener noreferrer">audit26/</a>).
 Correction CR-26fd5f6f-A is applied: the seven games once miscounted as a gap in the 11/14 slate
 are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
+</div>
 
 <div class="callout warn">
-<p><strong>Scope limit.</strong> This report covers 2026-11-14 games (with player detail) and
+<p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
 2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> On the 04:15 AM ET
+snapshot, five of the ten teams playing on 11/14 had not filed. On the 01:30 PM ET report, four of
+them (New Orleans, Cleveland, Chicago, Miami) have printed players; Memphis has not
+(<a href="../audit_736efb4b/index.html">audit_736efb4b</a>, flag F736-11). The back-to-back explanation
+written against the 04:15 AM snapshot has not been re-verified against the schedule in this round.
 Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
 is <a href="flagged.html">NF-53</a> and the corrected reading is
 <a href="flagged.html">NF-56</a>.</p>
@@ -1161,6 +1274,9 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
         ])
     body.append(table(["Game date", "Time (ET)", "Matchup", "Team", "Player",
                        "Status and reason", "Source"], rows, "injury-rows"))
+
+    if d.get("injury_delta_0130pm"):
+        body.append(render_delta_0130(d["injury_delta_0130pm"]))
 
     body.append(f"""
 <h2>2. What the absences do to a rotation</h2>
@@ -1325,7 +1441,7 @@ replaced.</p>""")
          f"{man.get('injuries', {}).get('report_stamp', '—')}",
          f"{_base(man_sup.get('injuries', ''))} · report stamped "
          f"{(superceded.get('injuries') or {}).get('report_stamp', '—')}",
-         "newest file on the official index. Its 2026-11-14 rows are identical to the report it "
+         "newest file on the official index at the time of that capture (04:15 AM ET). At 18:45 UTC a 01:30 PM ET report is listed: see the injuries page, section 1b. Its 2026-11-14 rows are identical to the report it "
          "replaces — 31 rows compared, 0 status changes — so the only new information is "
          "the 2026-11-15 block, which is every team NOT YET SUBMITTED (check C4)",
          [man.get("injuries", {}).get("source_url"),
@@ -1376,7 +1492,7 @@ replaced.</p>""")
          "18 team records compared with the records recomputed from the extended log",
          chip("pass", "ok") if ch.get("C3_scoreboard_records") else chip("fail", "bad"),
          src_cell([results.get("source_url", "")], "scoreboard")],
-        ["C4 — the 2026-11-14 rows of the newest report vs the report it supersedes",
+        ["C4 — the 2026-11-14 rows of the 04:15 AM ET report vs the report it supersedes",
          f"{inj.get('prior_report_compared_rows', 0)} rows compared, "
          f"{inj.get('prior_report_status_changes', 0)} status changes, "
          f"{len(inj.get('prior_report_rows_only_in_newest', []))} added, "
@@ -1573,7 +1689,7 @@ becomes an availability-informed line only as each deadline passes.</p></div>"""
 2026-11-14 slate the teams that have <em>not</em> filed should be exactly the teams playing the
 second game of a back-to-back. They are:</p>""")
     b_rows = [
-        ["Teams that filed on the newest report",
+        ["Teams that filed on the 04:15 AM ET report",
          esc(", ".join(corr.get("teams_that_filed", [])) or "—"),
          f'{len(corr.get("teams_that_filed", []))} teams',
          src_cell([inj["source_url"]], "report")],
@@ -1745,10 +1861,9 @@ the audit trail for every number published on this site.</p>""")
          chip("Verified", "ok")],
         ["Injury report index (which reports exist)", "2026-11-14",
          src_cell(["https://official.nba.com/nba-injury-report-2026-27-season/"], "official index"),
-         "Read 2026-11-14 at about 13:42 ET: the index lists the game-day reports up to 01:30 PM ET. "
-         "The canonical report transcribed here is the 04:15 AM ET one; the 01:30 PM ET report is "
-         "compared row by row in audit_736efb4b/",
-         chip("Superseded in part", "warn")],
+         "Read at 09:45 UTC: the index listed 11/14 reports up to 04:15 AM ET, and the canonical table is that report. "
+         "Read at 18:45 UTC: the index lists up to 01:30 PM ET; see the injuries page, section 1b",
+         chip("Superseded on index", "warn")],
         ["Historical results log", "2026-11-14 (refreshed)",
          src_cell(["https://www.nba.com/games?date="], "nba.com/games"),
          f"{d['lab']['meta'].get('games_captured', '?')} games / "

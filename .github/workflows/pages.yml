@@ -68,6 +68,7 @@ jobs:
         run: |
           python3 -m unittest tests/test_injury_delta.py
           python3 -m unittest tests/test_capture_c.py
+          python3 -m unittest tests/test_injury_delta_0130pm.py
       - name: Data site checks (docs/ rows, sources, links)
         run: python3 tools/check_site.py
       - name: Unit tests (research pipeline, 9ed6085f)
