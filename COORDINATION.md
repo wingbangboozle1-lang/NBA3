@@ -2866,8 +2866,26 @@ Scope of this claim: verification and reporting only. Files claimed: `COORDINATI
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| E1 | Claim scope, push claim before work | in progress | `COORDINATION.md` |
-| E2 | Replay the offline-capable steps of `.github/workflows/pages.yml` on the branch tree; record pass/fail per step | pending | read-only |
-| E3 | Spot-check a sample of stored official values (11/14 injury report, schedule) against the official pages; record any mismatch as an irregularity | pending | read-only |
+| E1 | Claim scope, push claim before work | done | `COORDINATION.md` |
+| E2 | Replay the offline-capable steps of `.github/workflows/pages.yml` on the branch tree; record pass/fail per step | done (one failure found and repaired, see E-log) | `data/app/lab.json`, `data/app/canonical.json`, `app/props.html` (regenerated only) |
+| E3 | Spot-check a sample of stored official values (11/14 injury report, schedule) against the official pages; record any mismatch as an irregularity | done (sample matches; see E-log) | read-only |
 | E4 | Confirm the live Pages site responds and the `Flagged for Review` page exists | pending | read-only |
 | E5 | PR → merge → Pages check; record here | pending | `COORDINATION.md` |
+
+### E-log — session `8efd914d`
+
+**E2 — CI replay (offline-capable steps, run from the branch tree).** Pass: unit tests (`validate_gates`, 13 tests), `tools/check_site.py`, research unit tests (29), edge build + check, lab validate, research build + verify, verify unit tests (16) + build, edge checks, integration engine/build/check, hub build (drift-free on two runs), `final/verify.py` (1305 checks, 0 mismatch), `final/build_site.py` (drift-free), `final/check_site.py`, `tools/release_audit.py` (offline). Not replayable here: the 4 capture steps that fetch nba.com (run on the GitHub runner, which has access).
+
+**Failure found — `main` is red.** Run [43584459385](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584459385) on merge `1938a0a` (PR #63) failed at step *Strategy lab … must reproduce byte for byte* (build failed, deploy skipped). Earlier run [43584287661](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584287661) (PR #60 merge) had the same failure. Cause: `data/app/players_top31_2026-11-14c.csv` and `data/app/games_2026-11-14c.csv` were changed in the bd90ce16 merge without regenerating `data/app/lab.json`, `data/app/canonical.json` and `app/`. The lab is deterministic (two runs, `PYTHONHASHSEED=0`, byte-identical), so the committed artefact was simply stale. The legacy GitHub Pages build still published the branch, which is why the Pages status read `built`.
+
+**Repair (E2).** Ran `scripts/strategy_lab.py`, `scripts/assemble_canonical.py`, `scripts/build_app.py`, twice; second run identical to the first. Changed files: `data/app/lab.json`, `data/app/canonical.json`, `app/props.html`. No input file was edited. Downstream steps (hub, final build) report clean afterwards.
+
+**E3 — official spot-check (2026-11-14).**
+- Injury report [Injury-Report_2026-11-14_04_45AM.pdf](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_45AM.pdf): sampled rows DEN@NOP (Holmes II, Nembhard, Strawther Out/Left Knee Sprain, Whitmore), DAL@CLE (Biberovic, Christie Questionable, de Larrea, Johnson Jr. Probable, Lively II, Martin Available) and BKN@MEM (Bilodeau, Brown Jr. Questionable, Jefferson, Nelson, Saraf) match the stored 04:45 AM snapshot text. Content of the 'NOT YET SUBMITTED' lines matches the PDF.
+- Players traditional stats, [nba.com/stats/players/traditional (2026-27, regular season, by MIN)](https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC): rank 27 Zion Williamson NOP, GP 12, MIN 32.8, PTS 21.8, FG3M 0.3, FG3A 0.8. Matches the regenerated `lab.json`; the previously committed value (GP 11, 32.7 MIN) was stale.
+- Not checked in this session: schedule rows and team advanced ratings (already re-verified by bd90ce16; not repeated).
+
+**Irregularities (flagged, none blocks merge).**
+- IR-E1 (fixed): `main` CI red at the lab drift gate since the bd90ce16 merge (see above).
+- IR-E2 (open): `tools/release_audit.py` RA-07 — the source scanner treats GitHub repository links as 'official'. Pre-existing; the CI pages.yml check requires nba.com or kansspelautoriteit.nl hosts, so it is not affected. Owner: release-audit maintainer.
+- IR-E3 (open): the players CSV and games CSV are in `data/app/` while `data/origin/` still holds the older copies (logged as CR to `e22a2831` by bd90ce16). Not changed here.
