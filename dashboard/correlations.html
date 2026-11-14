@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Correlations">
+<title>Correlations &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="on" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="" href="questions.html">Questions</a><a class="" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Correlations</h1>
+<p class="lede">Measured dependence with intervals, and the rows that cannot be measured yet.</p>
+
+<div class="card"><h2>Correlations</h2>
+<p>Every measured value is reported with its 95% confidence interval. A value whose interval
+contains zero is described as inconclusive. No value is entered where the underlying data does
+not exist.</p>
+<div class="tw"><table id=""><thead><tr><th class="">Pair</th><th class="">Statistic</th><th class="n">Value</th><th class="n">95% CI</th><th class="n">n</th><th class="">Status</th><th class="">Note</th><th class="">Source</th></tr></thead><tbody><tr><td>Home points vs away points (same game)</td><td>Pearson r</td><td>0.128</td><td>-0.021 to 0.271</td><td>174</td><td><span class="b ok">measured</span></td><td>Computed from the 174 verified final scores.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">official &#8599;</a></td></tr><tr><td>Originated-spread residual vs originated-total residual</td><td>Pearson r</td><td>0.091</td><td>-0.094 to 0.270</td><td>114</td><td><span class="b ok">measured</span></td><td>Residuals are out-of-sample (walk-forward). This is the key input for same-game parlays that combine a side with a total.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">official &#8599;</a></td></tr><tr><td>Cover (vs our spread) AND over (vs our total)</td><td>phi (binary)</td><td>0.109</td><td>— to —</td><td>114</td><td><span class="b ok">measured</span></td><td>Joint hit rate 0.246 vs 0.219 under independence.</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">official &#8599;</a></td></tr><tr><td>Player A points vs Player B points, same team, same game (PTS-PTS)</td><td>Pearson r</td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">n/a</span></td><td><span class="b warn">cannot be measured</span></td><td>Requires per-player game logs, which were not captured. Left blank by policy.</td><td><a class="src" href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">needed source &#8599;</a></td></tr><tr><td>Player points vs player rebounds, same player, same game</td><td>Pearson r</td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">n/a</span></td><td><span class="b warn">cannot be measured</span></td><td>Requires per-player game logs. Left blank by policy.</td><td><a class="src" href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">needed source &#8599;</a></td></tr><tr><td>Player points vs player assists, same player, same game (combo SGP)</td><td>Pearson r</td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">n/a</span></td><td><span class="b warn">cannot be measured</span></td><td>Requires per-player game logs. Left blank by policy.</td><td><a class="src" href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">needed source &#8599;</a></td></tr><tr><td>Two legs in different games (cross-game parlay)</td><td>Pearson r</td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">no data</span></td><td><span class="unv">&mdash;</span> <span class="b warn">n/a</span></td><td><span class="b warn">cannot be measured</span></td><td>Not measured on this sample. Independence is an ASSUMPTION, not a verified result; treat as unverified.</td><td><a class="src" href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">needed source &#8599;</a></td></tr></tbody></table></div>
+</div>
+
+<div class="card"><h2>What the numbers say</h2>
+<ul>
+<li><b>Home points vs away points, same game: r = 0.128</b> over 174 games. A game total
+is mildly correlated with how one-sided it is, but the effect is small.</li>
+<li><b>Spread residual vs total residual: r = 0.091</b>, 95% CI -0.094 to 0.270,
+n = 114 out-of-sample. The interval contains zero, so dependence between a side and a
+total in the same game is <b>not established</b> at this sample size.</li>
+<li><b>Joint parlay hit rate 0.246</b> against 0.219 under independence. The two are
+close; a two-leg same-game parlay built on our own spread and total behaves, on this sample,
+about as independence would predict. That is a statement about our lines, not about any
+market price.</li>
+<li><b>Cross-game parlays</b> are marked unverified. Independence across different games is an
+<i>assumption</i>, not a measured result, and no interval is available.</li>
+</ul>
+</div>
+
+<div class="card"><h2>What is blocked, and by what</h2>
+<p>Three rows are blank for the same reason: this project holds season-to-date player
+averages, not per-player game logs. Same-team player-player correlations, and within-player
+stat combinations, cannot be computed from averages alone. Capturing
+<code>nba.com/stats/players/boxscores</code> by date would unblock them &mdash; see question
+Q-06 and suggestion SG-03.</p>
+<div class="warn"><b>Do not multiply marginals.</b> Until leg dependence is measured with an
+interval, any same-game parlay price derived by multiplying independent probabilities is an
+assumption presented as a number.</div>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

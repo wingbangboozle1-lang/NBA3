@@ -1,0 +1,766 @@
+{
+  "session": "arena/925439ca-nba3",
+  "generated_for": "consolidated NBA3 dashboard",
+  "retrieved_on": "2026-11-13 (ET) / 2026-11-14 (UTC)",
+  "sources": [
+    {
+      "id": "S-01",
+      "publisher": "NBA (official)",
+      "title": "NBA Injury Report - 2026-27 season index",
+      "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+      "used_for": "Reporting deadlines; list of timestamped 11/13 PDFs used to pick the newest report",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0-1 of 2",
+      "result": "Read. Deadlines confirmed (5pm local day before a game; 1pm game day for the 2nd night of a back-to-back; game-day report 11am-1pm local). Index lists 11/13 reports from 12:00 AM through 07:30 PM ET.",
+      "limits": "Index page only. Later reports published after retrieval are not included."
+    },
+    {
+      "id": "S-02",
+      "publisher": "NBA (official)",
+      "title": "Injury Report 11/13/26 07:30 PM ET (PDF)",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+      "used_for": "All 122 injury rows on the Injuries page; availability input to the originated lines",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0-1 of 2 (PDF text extraction)",
+      "result": "Read. Newest report listed on the official index at retrieval time. Covers 11/13 games and the 11/14 slate only.",
+      "limits": "Multi-column PDF. Team and matchup cells are merged (printed once per group), so 60 of 122 rows carry them by inheritance - see F-07. Some reason strings are split across a page break in the PDF text."
+    },
+    {
+      "id": "S-03",
+      "publisher": "NBA (official)",
+      "title": "NBA Games & Scores - 2026-11-13",
+      "url": "https://www.nba.com/games?date=2026-11-13",
+      "used_for": "Confirmed that nine games were in progress at capture time; not used as final results",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0-1 of 2",
+      "result": "Read. All nine 11/13 games were live or pre-game at retrieval (approx. 18:40 ET).",
+      "limits": "No final scores taken from this page."
+    },
+    {
+      "id": "S-04",
+      "publisher": "NBA (official)",
+      "title": "NBA Games & Scores - 2026-11-14",
+      "url": "https://www.nba.com/games?date=2026-11-14",
+      "used_for": "Slate D+1: five games with game IDs and ET tip times",
+      "read_by": "this session",
+      "method": "fetch_page, chunk 0 of 1",
+      "result": "Read. 5 games: DEN@NOP 7:00p, DAL@CLE 7:30p, BKN@MEM 8:00p, DET@MIA 8:00p, CHI@MIN 8:00p.",
+      "limits": "Tip times as printed in ET. Venue and competition/round not printed on this page."
+    },
+    {
+      "id": "S-05",
+      "publisher": "NBA (official)",
+      "title": "NBA Games & Scores - 2026-11-15",
+      "url": "https://www.nba.com/games?date=2026-11-15",
+      "used_for": "Slate D+2: nine games with game IDs and ET tip times",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0-1 of 2",
+      "result": "Read. 9 games: IND@PHI 1:00p, LAL@PHX 4:00p, CHA@LAC 4:30p, SAS@UTA 5:00p, NYK@TOR 6:00p, DAL@BOS 6:00p, HOU@WAS 7:00p, ATL@MIL 8:00p, OKC@SAC 9:00p.",
+      "limits": "Venue and competition/round not printed on this page."
+    },
+    {
+      "id": "S-06",
+      "publisher": "NBA (official)",
+      "title": "NBA Games & Scores - 2026-11-16",
+      "url": "https://www.nba.com/games?date=2026-11-16",
+      "used_for": "Slate D+3: eight games with game IDs and ET tip times",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0-1 of 2",
+      "result": "Read. 8 games: ORL@BOS 7:00p, MEM@WAS 7:00p, CHI@CLE 7:00p, HOU@MIA 7:30p, PHI@BKN 7:30p, GSW@NOP 8:00p, POR@MIN 8:00p, PHX@DEN 9:00p.",
+      "limits": "Venue and competition/round not printed on this page."
+    },
+    {
+      "id": "S-07",
+      "publisher": "NBA (official)",
+      "title": "NBA Games & Scores - 2026-11-12",
+      "url": "https://www.nba.com/games?date=2026-11-12",
+      "used_for": "Independent score spot-check of four completed games against the stored game log",
+      "read_by": "this session",
+      "method": "fetch_page, chunk 0 of 1",
+      "result": "All four stored rows matched the official page exactly: TOR 112 @ PHI 123; DET 144 @ WAS 140 (OT); DAL 94 @ MIN 133; CHA 96 @ PHX 101.",
+      "limits": "One date of 24 checked directly. The remaining 23 dates are covered by the GP/W-L reconciliation (see Data & sources page)."
+    },
+    {
+      "id": "S-08",
+      "publisher": "NBA (official)",
+      "title": "NBA Stats - Teams Advanced, 2026-27 Regular Season",
+      "url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+      "used_for": "Official GP, W, L and advanced team rates; the reference for the game-log reconciliation",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0-1 of 2",
+      "result": "Read. 30 rows. All 19 columns of all 30 rows matched the stored copy cell-for-cell (570 checks).",
+      "limits": "Season-to-date through 2026-11-12. The page had not yet incorporated the in-progress 11/13 games."
+    },
+    {
+      "id": "S-09",
+      "publisher": "NBA (official)",
+      "title": "NBA Stats - Players Traditional, 2026-27 Regular Season (sorted by MIN desc)",
+      "url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+      "used_for": "Season minutes and production rates for the injury-impact and player-projection modules",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 2-8 of 9",
+      "result": "Read. The captured top 31 rows by minutes matched the official table on team, age, GP, W, L, MIN, PTS, 3PM, REB, AST (310 checks). One row (rank 31, Yaxel Lendeborg) was incomplete in the stored copy and was completed from this page.",
+      "limits": "Only the top 31 rows are held. Players outside that set have no official minutes in this project - see F-12."
+    },
+    {
+      "id": "S-10",
+      "publisher": "NBA (official)",
+      "title": "NBA.com Terms of Use",
+      "url": "https://www.nba.com/termsofuse",
+      "used_for": "Rights determination for publishing NBA Statistics",
+      "read_by": "this session",
+      "method": "fetch_page, chunks 0, 3, 4 of 10",
+      "result": "Read. Section 1 and Section 9 quoted verbatim on the Flagged for Review page. Section 9(iv) states NBA Statistics may not be used in connection with any gambling activity, including legal gambling activity.",
+      "limits": "Chunks 1, 2, 5, 6, 7, 8, 9 were not re-read in this session. Section 15 (compliance with laws) and Sections 17-19 (arbitration, class waiver, New York law and forum) were read by an earlier session and are not restated here."
+    },
+    {
+      "id": "S-11",
+      "publisher": "NBA (official)",
+      "title": "NBA Injury Report - 2025-26 season slug",
+      "url": "https://official.nba.com/nba-injury-report-2025-26-season/",
+      "used_for": "Cross-check of a link cited by an earlier dashboard",
+      "read_by": "this session",
+      "method": "fetch_page, chunk 0 of 2",
+      "result": "Resolves, but serves the 2026-27 season page (page title: 'NBA Injury Report: 2026-27 Season').",
+      "limits": "Must not be cited as the 2025-26 report - see F-06."
+    },
+    {
+      "id": "S-12",
+      "publisher": "NBA (official)",
+      "title": "NBA Stats Glossary",
+      "url": "https://www.nba.com/stats/help/glossary",
+      "used_for": "Official definitions of the statistical labels used on this site",
+      "read_by": "session 9ed6085f on 2026-11-13",
+      "method": "fetch_page, chunk 0 of 10 (earlier session)",
+      "result": "Official definitions only.",
+      "limits": "Definitions do not grant data rights and do not establish predictive value. Not re-read by this session."
+    },
+    {
+      "id": "S-13",
+      "publisher": "Kansspelautoriteit (Dutch regulator)",
+      "title": "Kansspelautoriteit - online kansspel aanbieden",
+      "url": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+      "used_for": "Licensing position for offering or promoting remote sports betting from the Netherlands",
+      "read_by": "session 9ed6085f on 2026-11-13",
+      "method": "fetch_page (earlier session)",
+      "result": "Earlier session read that remote sports bets require a licence under Art. 31a of the Wet op de kansspelen.",
+      "limits": "Summary page, not binding; the statute governs. Not re-read by this session."
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q-01",
+      "category": "Legal / compliance",
+      "question": "Is the output of this project intended for actual wagering, or for private research only?",
+      "status": "BLOCKING - must be answered first",
+      "known": "NBA.com Terms of Use section 9(iv): 'the NBA Statistics may not be used in connection with any gambling activity (including legal gambling activity).' Read on the official page this session (S-10).",
+      "missing": "The owner's intended use. Everything else depends on it.",
+      "discovery": "Owner decision, then counsel review before any pick, stake, or odds figure is published.",
+      "owner": "Owner / legal counsel",
+      "source": "https://www.nba.com/termsofuse",
+      "source_label": "Terms s.9"
+    },
+    {
+      "id": "Q-02",
+      "category": "Legal / compliance",
+      "question": "Which jurisdiction and licensing position applies?",
+      "status": "Open",
+      "known": "The workspace is located in Amsterdam, Netherlands. An earlier session read that remote sports betting requires a licence under Art. 31a Wet op de kansspelen (S-13).",
+      "missing": "Whether the user intends to wager, from which country, and whether any licence is held.",
+      "discovery": "Legal counsel in the relevant jurisdiction; then encode jurisdiction rules in the site.",
+      "owner": "Owner / legal counsel",
+      "source": "https://kansspelautoriteit.nl/online-kansspel-aanbieden",
+      "source_label": "Ksa"
+    },
+    {
+      "id": "Q-03",
+      "category": "Data rights",
+      "question": "Do we have licensed market prices (odds), and on what terms?",
+      "status": "BLOCKING for any EV / ROI / closing-line claim",
+      "known": "None. This repository contains no odds feed, no price snapshots, and no licence.",
+      "missing": "Provider, markets covered, timestamp granularity, historical depth, permitted display and derivative use, cost.",
+      "discovery": "Procure provider documentation and written rights; run a coverage and latency audit before any economic test.",
+      "owner": "Owner",
+      "source": "https://www.nba.com/termsofuse",
+      "source_label": "Terms s.9"
+    },
+    {
+      "id": "Q-04",
+      "category": "Objective / risk",
+      "question": "What is the objective function and the risk policy?",
+      "status": "Open",
+      "known": "The brief asks for a leaderboard that rewards top-performing, skill-based strategies.",
+      "missing": "Primary metric (Brier / log loss, calibration, or net return), bankroll, stake sizing, drawdown cap, responsible-gambling limits.",
+      "discovery": "Pre-register the metric and the risk policy before looking at further results.",
+      "owner": "Owner",
+      "source": "https://www.nba.com/games?date=",
+      "source_label": "NBA Games"
+    },
+    {
+      "id": "Q-05",
+      "category": "Data coverage",
+      "question": "How much authorised history do we have?",
+      "status": "Partly answered",
+      "known": "This project holds 174 completed games, 2026-10-20 through 2026-11-12, reconciled to official GP and W-L for all 30 teams.",
+      "missing": "Prior seasons, play-by-play, lineups, and possession-level data.",
+      "discovery": "Inventory authorised sources, then extend the archive with immutable dated snapshots.",
+      "owner": "Data engineering",
+      "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+      "source_label": "NBA Stats"
+    },
+    {
+      "id": "Q-06",
+      "category": "Data coverage",
+      "question": "Do we have per-player game logs?",
+      "status": "BLOCKING for player correlations and prop distributions",
+      "known": "No. Only season-to-date averages for the top 31 players by minutes are held (S-09).",
+      "missing": "Player-level game logs (about 4,000 rows for the season to date).",
+      "discovery": "Capture nba.com/stats/players/boxscores by date, if permitted under the terms decision in Q-01.",
+      "owner": "Data engineering",
+      "source": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+      "source_label": "NBA Stats"
+    },
+    {
+      "id": "Q-07",
+      "category": "Model",
+      "question": "What proves a strategy is skill rather than luck?",
+      "status": "Proposed, not approved",
+      "known": "Seven gates are implemented (G1 provenance, G2 no look-ahead, G3 n>=100, G4 power, G5 raw p<0.05, G6 Benjamini-Hochberg FDR 0.05, G7 split-half stability). Zero of eight candidate strategies pass all of them.",
+      "missing": "Owner approval of the thresholds and of the 100-bet minimum.",
+      "discovery": "Approve or amend the gate definitions in writing, then re-run.",
+      "owner": "Owner",
+      "source": "https://www.nba.com/games?date=",
+      "source_label": "NBA Games"
+    },
+    {
+      "id": "Q-08",
+      "category": "Model",
+      "question": "Is the totals model usable at all?",
+      "status": "Answered - no, not yet",
+      "known": "Walk-forward over 114 out-of-sample games: totals RMSE 20.35 against a 19.56 naive baseline. The model is worse than the baseline. Margin RMSE 16.18 against a 17.30 baseline.",
+      "missing": "A totals estimator that beats the naive baseline.",
+      "discovery": "Add pace/opponent-adjusted estimators and re-test walk-forward; do not publish totals bets until then.",
+      "owner": "Modelling",
+      "source": "https://www.nba.com/games?date=",
+      "source_label": "NBA Games"
+    },
+    {
+      "id": "Q-09",
+      "category": "Execution",
+      "question": "What is the prediction cut-off and refresh cadence?",
+      "status": "Partly answered",
+      "known": "The site publishes up to three days ahead (D+1 to D+3). Teams must file by 5pm local the day before a game, so injury data for D+2 and D+3 does not exist yet at publication time (S-01).",
+      "missing": "A fixed cut-off time, a staleness rule, and a suppression rule when inputs are stale.",
+      "discovery": "Define UTC timestamps and suppression rules; do not publish a pick on stale inputs.",
+      "owner": "Owner / engineering",
+      "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+      "source_label": "filing rules"
+    },
+    {
+      "id": "Q-10",
+      "category": "Execution",
+      "question": "What are the settlement rules?",
+      "status": "Open",
+      "known": "None recorded. Overtime is handled in this project by including OT scoring in the game total (9 of 174 games went to overtime, 5.2%).",
+      "missing": "Whether a bet settles on regulation or including OT; void/push rules; player-prop rules when a player does not appear.",
+      "discovery": "Obtain the rule book of whichever venue is used, and record it before scoring anything.",
+      "owner": "Owner",
+      "source": "https://www.nba.com/games?date=",
+      "source_label": "NBA Games"
+    },
+    {
+      "id": "Q-11",
+      "category": "Model",
+      "question": "How dependent are the legs of a same-game parlay?",
+      "status": "Measured, inconclusive",
+      "known": "Spread-residual vs total-residual correlation r = +0.091, 95% CI [-0.094, +0.270], n = 114 out-of-sample. Joint hit rate 0.246 against 0.219 under independence.",
+      "missing": "A sample large enough to separate +0.09 from zero, and any player-level dependence measure at all.",
+      "discovery": "Extend the sample; capture player game logs (Q-06); report intervals, not point values.",
+      "owner": "Modelling",
+      "source": "https://www.nba.com/games?date=",
+      "source_label": "NBA Games"
+    },
+    {
+      "id": "Q-12",
+      "category": "Governance",
+      "question": "Who owns model versioning, promotion, and retirement?",
+      "status": "Open",
+      "known": "No model registry exists. The current build is reproducible by re-running final/build_model.py.",
+      "missing": "Versioning, promotion criteria, drift monitoring, and a retirement rule.",
+      "discovery": "Create a model register with frozen versions before any strategy is promoted.",
+      "owner": "Owner / engineering",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md",
+      "source_label": "board"
+    },
+    {
+      "id": "Q-13",
+      "category": "Legal / compliance",
+      "question": "May this data be published on a public web page at all?",
+      "status": "BLOCKING",
+      "known": "Terms section 1 permits personal, non-commercial use only; section 9(ii) permits legitimate news reporting or private non-commercial use; section 9(vii) restricts a comprehensive, regularly updated statistics database without express prior consent (S-10).",
+      "missing": "Written permission from the NBA, or a licensed commercial data feed.",
+      "discovery": "Seek written consent or switch to a licensed provider. Until then treat this site as internal research.",
+      "owner": "Owner / legal counsel",
+      "source": "https://www.nba.com/termsofuse",
+      "source_label": "Terms s.1, s.9"
+    },
+    {
+      "id": "Q-14",
+      "category": "Site / governance",
+      "question": "Should the six session dashboards be consolidated or kept?",
+      "status": "Open - decision needed",
+      "known": "docs/ (23 files), site/ (29), edge/ (25), lab/ (17), origin/ (22), research/ (16) each publish a separate dashboard with its own ID scheme, plus a seventh root dashboard.",
+      "missing": "The owner's preference: consolidate into one site and archive the rest, or maintain all seven.",
+      "discovery": "Choose an option on the Suggestions page (SG-08).",
+      "owner": "Owner",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3",
+      "source_label": "repository"
+    },
+    {
+      "id": "Q-15",
+      "category": "Data coverage",
+      "question": "Why is data/raw sourced from a non-official site?",
+      "status": "Flagged",
+      "known": "data/raw/results_2026-27_october.csv and _november.csv carry a header stating Basketball-Reference as their source.",
+      "missing": "Whether that source is permitted, and whether it was reconciled to an official source.",
+      "discovery": "Either reconcile those files to nba.com or remove them. The consolidated dataset does not use them.",
+      "owner": "Data engineering",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv",
+      "source_label": "file"
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "SG-01",
+      "area": "Legal path",
+      "suggestion": "Decide, in writing, whether NBA data may be used for this purpose at all.",
+      "why": "Terms section 9(iv) bars use of NBA Statistics in connection with any gambling activity, including legal gambling activity. Every other decision is downstream of this one.",
+      "options": "A. Private research only - keep the site private, publish no picks. B. Obtain the NBA's express written consent. C. Replace NBA data with a licensed commercial feed that grants the needed rights.",
+      "recommended": "A now; evaluate B or C only if wagering is intended.",
+      "dependency": "Q-01, Q-13",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-02",
+      "area": "Data rights and feed",
+      "suggestion": "Procure a licensed odds feed before any economic claim is made.",
+      "why": "Without timestamped prices there is no way to compute expected value, closing-line value, or return. Everything economic on this site is therefore blank.",
+      "options": "A. No feed - score on self-consistency and proper scoring rules only. B. Free/low-cost snapshot capture with manual timestamping. C. Paid provider with historical depth and written rights.",
+      "recommended": "A for now, C if the project moves to live scoring.",
+      "dependency": "Q-03",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-03",
+      "area": "Data capture",
+      "suggestion": "Capture per-player game logs by date.",
+      "why": "Player-level correlations, prop distributions, and the injury-to-production chain are all blocked without them. Three of seven correlation rows are blank for exactly this reason.",
+      "options": "A. Capture nba.com/stats/players/boxscores by date (about 4,000 rows for the season to date). B. Licensed provider. C. Leave blank and do not publish player markets.",
+      "recommended": "C until Q-01 is settled, then A or B.",
+      "dependency": "Q-01, Q-06",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-04",
+      "area": "Data capture",
+      "suggestion": "Capture the full official player minutes table, not only the top 31.",
+      "why": "Every minutes-vacuum figure is currently a floor: an injured player outside the top 31 contributes zero measured minutes. The official table has about 465 rows.",
+      "options": "A. Capture all pages of the official table. B. Capture the top 100 only. C. Keep the top 31 and label all vacuum figures as floors.",
+      "recommended": "A; C is the current state and is flagged (F-12).",
+      "dependency": "Q-01",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-05",
+      "area": "Modelling",
+      "suggestion": "Do not publish totals bets until a totals model beats the naive baseline.",
+      "why": "The walk-forward totals RMSE is 20.35 against a 19.56 baseline. The margin model beats its baseline (16.18 vs 17.30) but explains only 12.5% of margin variance.",
+      "options": "A. Publish margins only. B. Add pace and opponent-adjusted estimators and re-test. C. Publish both and disclose the failure.",
+      "recommended": "B, with A in the meantime.",
+      "dependency": "Q-08",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-06",
+      "area": "Modelling",
+      "suggestion": "Approve the seven validation gates and the 100-bet minimum, or replace them.",
+      "why": "The gates are proposed, not approved. Zero of eight strategies pass, so the thresholds determine the entire leaderboard.",
+      "options": "A. Approve as-is (n>=100, p<0.05, BH-FDR 0.05, split-half stability). B. Lower the sample floor and accept provisional status with disclosure. C. Replace with a proper-scoring-rule leaderboard (Brier / log loss) plus calibration.",
+      "recommended": "C plus A: score calibration first, then admit a strategy to a return leaderboard only after the sample gate.",
+      "dependency": "Q-04, Q-07",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-07",
+      "area": "Injury pipeline",
+      "suggestion": "Automate injury-report capture on a schedule and keep every revision.",
+      "why": "Reports are published 15 minutes apart all day and are overwritten in place at the index. Right now the capture is manual, so D+2 and D+3 slates have no injury data at all.",
+      "options": "A. Scheduled job capturing every report and storing each PDF revision. B. Capture only the 5pm and 1pm deadlines. C. Keep manual capture.",
+      "recommended": "B as a first step, A as the target.",
+      "dependency": "Q-01, Q-09",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-08",
+      "area": "Site architecture",
+      "suggestion": "Consolidate the seven overlapping dashboards into one.",
+      "why": "docs/, site/, edge/, lab/, origin/, research/ and d01ae7e2/ publish similar tables with different ID schemes, and five later unified builds (/ + /app/, /dash/, /hub/, /d01ae7e2/, /dashboard/) each present themselves as the answer. That is the single biggest source of confusion on the live site.",
+      "options": "A. One canonical dashboard; move the six session directories under /archive/ and link them from one page. B. Keep all seven and add a clear landing page that explains each. C. Delete the superseded ones.",
+      "recommended": "A. This session built the consolidated dashboard at the site root and left the six session directories in place, linked from the Archives page.",
+      "dependency": "Q-14",
+      "decision": "Awaiting your choice",
+      "recommendation": "**A. This session did NOT consolidate the site root** — it published its verified build under /dashboard/ instead, because sessions a459dadf (/ + /app/) and 2b9f1ae1 (/dash/) already own their trees and 99eabb04 (/hub/) and d01ae7e2 joined meanwhile. Deleting any of them is an owner decision, not a session decision. See CR-925439ca-E."
+    },
+    {
+      "id": "SG-09",
+      "area": "Deployment",
+      "suggestion": "Pick one GitHub Pages deployment mechanism.",
+      "why": "Two are active: the legacy 'main /' branch build and the Actions workflow artifact. They currently serve the same tree, but they can diverge silently.",
+      "options": "A. Switch Pages to the GitHub Actions source and delete the legacy build. B. Keep the legacy build and drop the workflow deploy job. C. Leave both and add a parity check.",
+      "recommended": "A. Earlier sessions could not change the setting (HTTP 403); the change needs a repository owner.",
+      "dependency": "Owner access to repository settings",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-10",
+      "area": "Repository hygiene",
+      "suggestion": "Add a LICENSE file and a Python project manifest.",
+      "why": "The repository has no LICENSE (so default copyright applies) and no pyproject.toml. requirements.txt pins only requests==2.31.0, which the current pipeline does not import.",
+      "options": "A. Add MIT or Apache-2.0 plus a pyproject.toml. B. Add LICENSE only. C. Leave as is.",
+      "recommended": "A.",
+      "dependency": "Owner choice of licence",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-11",
+      "area": "Repository hygiene",
+      "suggestion": "Remove or reconcile the non-official data files in data/raw/.",
+      "why": "Those CSVs are headed 'source: Basketball-Reference'. Every other table on this site is reconciled to an official NBA page, so they are inconsistent with the verification policy.",
+      "options": "A. Reconcile them to nba.com and record the check. B. Delete them. C. Move them to /archive/.",
+      "recommended": "A if they are still used, otherwise B.",
+      "dependency": "Q-15",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-12",
+      "area": "Governance",
+      "suggestion": "Create a model register with frozen versions before promoting any strategy.",
+      "why": "No versioning, promotion criteria, drift monitoring, or retirement rule exists. A leaderboard without them invites post-hoc selection.",
+      "options": "A. Register with semantic versions, promotion checklist, and a retirement rule. B. Git tags only. C. Nothing yet.",
+      "recommended": "A before any strategy is called deployable.",
+      "dependency": "Q-12",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-13",
+      "area": "Execution",
+      "suggestion": "Define a fixed prediction cut-off, staleness rule, and suppression rule.",
+      "why": "Injury reports arrive up to tip-off. Without a rule, a published line can silently rest on stale availability data - and five of ten team reports for the D+1 slate were still 'NOT YET SUBMITTED' at capture.",
+      "options": "A. Cut off at the 5pm local filing deadline; suppress any game with a missing report. B. Cut off 2 hours before tip; show a staleness badge. C. Publish regardless and show the capture timestamp.",
+      "recommended": "A plus a visible capture timestamp.",
+      "dependency": "Q-09",
+      "decision": "Awaiting your choice"
+    },
+    {
+      "id": "SG-14",
+      "area": "Execution",
+      "suggestion": "Record settlement rules before scoring any result.",
+      "why": "Overtime, pushes, and prop voids change results. Nine of 174 games went to overtime this season, so the OT convention alone moves outcomes.",
+      "options": "A. Record the venue rule book and encode it. B. Assume regulation-only and disclose. C. Assume including OT and disclose.",
+      "recommended": "A. The model currently uses totals including OT, which is disclosed.",
+      "dependency": "Q-10",
+      "decision": "Awaiting your choice"
+    }
+  ],
+  "flags": [
+    {
+      "id": "F-01",
+      "kind": "Blocker",
+      "title": "NBA Terms of Use section 9(iv) bars use of NBA Statistics in connection with gambling",
+      "detail": "Verbatim from the official page: 'the NBA Statistics may not be used in connection with any gambling activity (including legal gambling activity)'. Read this session.",
+      "effect": "No pick, stake, or odds figure derived from NBA Statistics may be published for gambling use until this is resolved.",
+      "source": "https://www.nba.com/termsofuse"
+    },
+    {
+      "id": "F-02",
+      "kind": "Blocker",
+      "title": "Terms section 9(vii) restricts a comprehensive regularly updated statistics database",
+      "detail": "Verbatim: NBA Statistics may not be used in connection with any website, product, or service that features a database of comprehensive, regularly updated statistics from NBA games 'without the Operator's express prior consent'.",
+      "effect": "This repository is exactly such a database. Publishing it publicly needs express consent or a licensed feed.",
+      "source": "https://www.nba.com/termsofuse"
+    },
+    {
+      "id": "F-03",
+      "kind": "Blocker",
+      "title": "No licensed market prices",
+      "detail": "The repository contains no odds feed, no price snapshots, and no licence.",
+      "effect": "Every expected-value, return-on-investment, and closing-line figure on this site is blank by policy. Nothing economic can be claimed.",
+      "source": "https://www.nba.com/termsofuse"
+    },
+    {
+      "id": "F-04",
+      "kind": "Blocker",
+      "title": "No per-player game logs",
+      "detail": "Only season-to-date averages for the top 31 players by minutes are held.",
+      "effect": "Three of seven correlation rows are blank, and no player-prop distribution is established. All player projections on this site are point estimates from season averages and are labelled unverified.",
+      "source": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+    },
+    {
+      "id": "F-05",
+      "kind": "Blocker",
+      "title": "Injury coverage is incomplete for the published slate",
+      "detail": "The newest official report at capture (11/13/26 07:30 PM ET) covers the 11/13 games and the 11/14 slate only. For 11/14, five of ten team reports read 'NOT YET SUBMITTED' (NOP, CLE, MEM, CHI, MIA). No 11/15 or 11/16 report exists yet: teams file by 5pm local the day before a game.",
+      "effect": "Availability inputs for 11/15 and 11/16 are absent, not zero. Lines for those dates carry no injury adjustment.",
+      "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+    },
+    {
+      "id": "F-06",
+      "kind": "Irregularity",
+      "title": "The 2025-26 injury index URL serves 2026-27 content",
+      "detail": "https://official.nba.com/nba-injury-report-2025-26-season/ resolves and returns a page titled 'NBA Injury Report: 2026-27 Season' listing 11/13/2026 reports.",
+      "effect": "An earlier dashboard cited that URL as the 2025-26 report. It must not be cited as such.",
+      "source": "https://official.nba.com/nba-injury-report-2025-26-season/"
+    },
+    {
+      "id": "F-07",
+      "kind": "Irregularity",
+      "title": "Injury PDF uses merged cells, so 60 of 122 rows inherit team and matchup",
+      "detail": "The PDF prints game date, game time, matchup and team once per group. Rows below the first in a group show those cells blank. They were filled forward from the printed value immediately above, inside the same official PDF, and every such row is marked 'inherited' on the Injuries page.",
+      "effect": "Attribution is correct only if no page break splits a group mid-way. Rows are marked so a reviewer can audit them.",
+      "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+    },
+    {
+      "id": "F-08",
+      "kind": "Irregularity",
+      "title": "PDF text extraction concatenates words across line breaks",
+      "detail": "The extracted text contains strings such as 'Right High AnkleSprain', 'Left Knee InjuryManagement' and 'Left Ankle InjuryRecovery'. A single space was inserted where the PDF wraps mid-word during transcription.",
+      "effect": "Reason strings on this site are whitespace-normalised relative to the raw extraction. The underlying words are unchanged.",
+      "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+    },
+    {
+      "id": "F-09",
+      "kind": "Irregularity",
+      "title": "The totals model is worse than a naive baseline",
+      "detail": "Walk-forward, 114 out-of-sample games: totals RMSE 20.35 against a 19.56 naive baseline (variance explained -8.2%). Margin RMSE 16.18 against a 17.30 baseline (variance explained +12.5%).",
+      "effect": "Totals lines are published as research output with the failure disclosed. They are not a validated edge.",
+      "source": "https://www.nba.com/games?date="
+    },
+    {
+      "id": "F-10",
+      "kind": "Irregularity",
+      "title": "Fitted home-court advantage is not statistically significant",
+      "detail": "Least-squares fit over 173 non-neutral games: +1.59 points, two-sided p = 0.104, df = 172. Mean home margin is +1.70 points.",
+      "effect": "The value is used in the model but should not be quoted as an established effect at this sample size.",
+      "source": "https://www.nba.com/games?date="
+    },
+    {
+      "id": "F-11",
+      "kind": "Irregularity",
+      "title": "Zero of eight candidate strategies pass all seven gates",
+      "detail": "Two are provisional: S5 (fade originated totals of 235+) is 21/24, p = 0.0003, survives FDR, split-half stable, but needs n >= 56 for 80% power and the gate floor is 100. S4b (back road favourites of 8+) is 20/28, p = 0.036, does not survive FDR.",
+      "effect": "Nothing is deployable. The leaderboard is empty by design.",
+      "source": "https://www.nba.com/games?date="
+    },
+    {
+      "id": "F-12",
+      "kind": "Irregularity",
+      "title": "Only the top 31 players by minutes are captured",
+      "detail": "The official player table has about 465 rows; this project holds ranks 1-31.",
+      "effect": "Every minutes-vacuum figure is a floor. An injured player outside the top 31 contributes zero measured minutes to the estimate.",
+      "source": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+    },
+    {
+      "id": "F-13",
+      "kind": "Irregularity",
+      "title": "Eleven overlapping dashboards on one Pages site, five of them unified",
+      "detail": "docs/ (23 files), site/ (29), edge/ (25), lab/ (17), origin/ (22), research/ (16) and d01ae7e2/ publish similar tables with different ID schemes. Five later builds each present themselves as the single answer: / + /app/ (session a459dadf), /dash/ (2b9f1ae1 / e40cd215), /hub/ (99eabb04), /d01ae7e2/ (d01ae7e2) and /dashboard/ (this session, 925439ca). This build is published under /dashboard/ precisely so it does not overwrite the site root, which another session owns.",
+      "effect": "Reviewers cannot tell which numbers are canonical. Naming one canonical dashboard is an owner decision, not a session decision — see SG-08 and change request CR-925439ca-E in COORDINATION.md. Nothing on this site claims to supersede the others.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "F-14",
+      "kind": "Irregularity",
+      "title": "Two GitHub Pages deployment mechanisms are active",
+      "detail": "Pages is configured with the legacy 'main /' branch build, and a workflow also uploads and deploys an artifact. They currently serve the same tree.",
+      "effect": "They can diverge silently. Switching to the Actions source returned HTTP 403 for earlier sessions.",
+      "source": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+    },
+    {
+      "id": "F-15",
+      "kind": "Irregularity",
+      "title": "Data runs through 2026-11-12; nine 11/13 games were in progress at capture",
+      "detail": "The official games page for 11/13 showed games in Q2 and at the end of Q1 at retrieval time (about 18:40 ET).",
+      "effect": "The 174-game log stops at 11/12. Lines for 11/14 onward are fitted on it. Re-running final/build_model.py after 11/13 games finish will extend it.",
+      "source": "https://www.nba.com/games?date=2026-11-13"
+    },
+    {
+      "id": "F-16",
+      "kind": "Unverified",
+      "title": "Competition, venue and city are blank for the published slate",
+      "detail": "The official games pages do not print the competition/round for the 11/14-11/16 games, and no venue source was captured.",
+      "effect": "Those columns are left blank and flagged rather than filled in.",
+      "source": "https://www.nba.com/games?date=2026-11-14"
+    },
+    {
+      "id": "F-17",
+      "kind": "Unverified",
+      "title": "Player-prop projections are point estimates, not distributions",
+      "detail": "Projections scale a player's official season averages by a projected-minutes multiple. The minutes redistribution itself uses an unverified pro-rata assumption and no per-player game logs.",
+      "effect": "No over/under probability for any player market is established. Every projection row is labelled unverified.",
+      "source": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+    },
+    {
+      "id": "F-18",
+      "kind": "Unverified",
+      "title": "Overtime probability is a league base rate, not a game-specific estimate",
+      "detail": "Every line carries p(OT) = 0.0517, the observed rate of 9 overtime games in 174. No game-specific OT model was fitted.",
+      "effect": "Treat it as a league average, not a forecast for a particular game.",
+      "source": "https://www.nba.com/games?date="
+    },
+    {
+      "id": "F-19",
+      "kind": "Irregularity",
+      "title": "Per-PR CI checks are invisible: the GitHub connection is an integration token",
+      "detail": "Branch pushes from this workspace create zero workflow runs (actions/runs?branch=arena/925439ca-nba3 returns total_count: 0) and dispatching a workflow manually fails with HTTP 403 'Resource not accessible by integration'. Merges to main do trigger the push workflow, so the post-merge run exists and was green (run 43540337304).",
+      "effect": "PR #34 shows no check runs in its own UI. Every check was run locally on the exact rebased tree before merging, and the same checks ran green on main afterwards. A reviewer using a user token would see per-PR checks normally.",
+      "source": "https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow"
+    }
+  ],
+  "repo_review": [
+    {
+      "id": "R-01",
+      "area": "Root",
+      "file": "index.html",
+      "finding": "Root dashboard from session 49064d5a. Links to six separate sub-sites from its navigation.",
+      "status": "Replaced by this session",
+      "action": "A consolidated dashboard now occupies the root. The previous file was preserved as legacy-dashboard.html.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-02",
+      "area": "Sites",
+      "file": "docs/ site/ edge/ lab/ origin/ research/",
+      "finding": "Six independent dashboards: 23, 29, 25, 17, 22 and 16 files. Each has its own navigation, CSS and flag/question ID scheme.",
+      "status": "Flagged",
+      "action": "See SG-08 and F-13. Left in place and linked from the Archives page.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-03",
+      "area": "CI",
+      "file": ".github/workflows/pages.yml",
+      "finding": "One workflow runs five different sessions' test suites and build scripts, then stages _pages with the root index plus six subdirectories.",
+      "status": "Works, but fragile",
+      "action": "Any session that edits a generated directory with a stale commit breaks the build. A drift check is in place for site/, lab/ and research/.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-04",
+      "area": "Legal",
+      "file": "(repository root)",
+      "finding": "No LICENSE file. Default copyright therefore applies to all contributions.",
+      "status": "Flagged",
+      "action": "See SG-10.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-05",
+      "area": "Dependencies",
+      "file": "requirements.txt",
+      "finding": "Pins only requests==2.31.0. No module in the current pipeline imports requests; numpy, scipy and pandas are not available in this environment and are not declared.",
+      "status": "Flagged",
+      "action": "Replace with a pyproject.toml that declares the standard-library-only constraint actually in force.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/requirements.txt"
+    },
+    {
+      "id": "R-06",
+      "area": "Data provenance",
+      "file": "data/raw/results_2026-27_october.csv, data/raw/results_2026-27_november.csv, data/raw/schedule_2026-11-13_to_16.csv",
+      "finding": "Header lines state the source is Basketball-Reference, not an official NBA page.",
+      "status": "Flagged",
+      "action": "See Q-15 and SG-11. The consolidated dataset in final/data does not use these files.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv"
+    },
+    {
+      "id": "R-07",
+      "area": "Data duplication",
+      "file": "data/origin/games.csv, edge/data/games.json, data/processed/games_2026-27.json, data/raw/*.csv",
+      "finding": "At least four representations of the same 2026-27 game log, with no reconciliation between them.",
+      "status": "Flagged",
+      "action": "Nominate one canonical log. final/data/games.csv is reconciled to official GP and W-L for all 30 teams.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-08",
+      "area": "Published claims",
+      "file": "lab/data/picks.json, lab/data/model.json",
+      "finding": "Contain the string 'positive EV' (case-insensitive) in published picks.",
+      "status": "Flagged",
+      "action": "No odds feed exists in this repository, so no expected-value claim can be sourced. See F-03 and SG-02.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/picks.json"
+    },
+    {
+      "id": "R-09",
+      "area": "Model code",
+      "file": "model/build.py, model/nbastats.py",
+      "finding": "Pure standard-library implementation of OLS, Pearson correlation with Fisher intervals, exact binomial, Student-t via the incomplete beta function, and Benjamini-Hochberg. Runs clean and reproduces the published numbers.",
+      "status": "Verified working",
+      "action": "Adopted as the consolidated engine; a path-patched copy lives at final/build_model.py.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/nbastats.py"
+    },
+    {
+      "id": "R-10",
+      "area": "Test suites",
+      "file": "tests/test_validate_gates.py, pipeline/tests/, tools/check_site.py, pipeline/verify.py, scripts/validate_site.py",
+      "finding": "Five separate verification entry points from five sessions, all executed by the one workflow.",
+      "status": "Works",
+      "action": "Add final/verify.py (1,305 line-by-line checks) alongside them.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-11",
+      "area": "Coordination",
+      "file": "COORDINATION.md",
+      "finding": "546 lines at the start of this session: five session sections, each with its own task board, ID namespace and merge log.",
+      "status": "Works, but long",
+      "action": "Appended, not rewritten. A namespace table is kept in README.md.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"
+    },
+    {
+      "id": "R-12",
+      "area": "Linting",
+      "file": "(repository root)",
+      "finding": "No linter, formatter, type checker, or pre-commit configuration.",
+      "status": "Gap",
+      "action": "Consider ruff and a pre-commit hook (SG-10).",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-13",
+      "area": "Data duplication",
+      "file": "docs/data/data.json, data/*.json, site/data/*.json, edge/data/*.json",
+      "finding": "Four overlapping JSON data registries (injuries, sources, strategies, questions, suggestions, flags) with different schemas.",
+      "status": "Flagged",
+      "action": "The consolidated register lives at final/data/content.json and is the one rendered on this site.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    },
+    {
+      "id": "R-14",
+      "area": "Ignore rules",
+      "file": ".gitignore",
+      "finding": "Ignores __pycache__/, *.pyc, node_modules/, raw_cache/, .DS_Store, Thumbs.db, .venv/. No data or build output is ignored.",
+      "status": "Adequate",
+      "action": "No change needed. Generated site pages are committed deliberately so Pages can serve them.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.gitignore"
+    },
+    {
+      "id": "R-15",
+      "area": "Environment",
+      "file": "(sandbox)",
+      "finding": "No outbound network from the shell (TLS fails); numpy, scipy and pandas unavailable. All external retrieval must go through the fetch_page / web_search tools.",
+      "status": "Constraint, recorded",
+      "action": "Documented so future sessions do not plan around pip installs or curl.",
+      "source": "https://github.com/wingbangboozle1-lang/NBA3"
+    }
+  ]
+}
