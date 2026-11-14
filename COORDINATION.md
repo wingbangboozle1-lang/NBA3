@@ -2857,3 +2857,34 @@ and layering this session's non-redundant additions. Final state:
   27-game slate (216/216 fields), 04:15 AM injury report (49 rows), 183-game results log.
 - Checks green on the merged tree: `check_site.py` PASS, `validate_gates.py` clean,
   `release_audit.py` 0 merge markers.
+
+---
+
+## Session `arena/4a3fd4fd-nba3` (current) — CLAIM: final integration (close the last open PR, re-verify, publish)
+
+Session ID: `arena/4a3fd4fd-nba3`. Branch `arena/4a3fd4fd-nba3` (Arena-fixed; the brief's
+`session-<id>/<task>` naming is not available, as every prior session recorded). Branched from `main`
+@ `1938a0a` (merge of PR #63, the COORDINATION record for bd90ce16). Working tree clean at claim time.
+
+**Why this round exists.** Every prior integration task is merged: the canonical dashboard, the
+183-game verified log, the refreshed injury report, the availability timeline and the registers. The
+only **open** pull request in the repository is **PR #62** (`arena/25418e3f-nba3` → `main`:
+*"Registers: refresh stale requirement figures; NF-65 corrects two overstated self-claims"*), created
+2026-11-14 10:13 UTC and left unmerged by the session that opened it. The board's last entry is PR #60;
+PRs #59, #61, #62 and #63 landed since. This session completes the integration: re-verify the combined
+data line by line, confirm the site builds with no broken links, merge the outstanding PR, confirm the
+GitHub Pages deploy, and record the PR link, merge result, sources, verification and irregularities
+here. Nothing of another session is edited except the shared integration surface (`COORDINATION.md`,
+the merge itself, and any conflict resolution logged below).
+
+| Task | Status | Files in scope |
+|------|--------|----------------|
+| F1 | Claim scope, push the claim before any work | done | `COORDINATION.md` (this section) |
+| F2 | Map the open PR #62 diff; run the full local check suite on `main` and on the PR branch | in progress | `COORDINATION.md` records |
+| F3 | Line-by-line re-verification of the combined published data against official sources (slate, injuries, registers) | in progress | `COORDINATION.md` records |
+| F4 | Confirm the canonical site (`index.html` + `app/**`) builds with no broken links and no drift | in progress | `COORDINATION.md` records |
+| F5 | Merge PR #62 to `main`; re-run checks on the merged tree | pending | PR, `COORDINATION.md` |
+| F6 | Confirm GitHub Pages deploys; record PR link, merge commit, CI, Pages result and any irregularities | pending | `COORDINATION.md` |
+
+Claim written and pushed **before** any data work. `git pull --rebase` before every push; no other
+session's file scope is touched except the shared integration surface.
