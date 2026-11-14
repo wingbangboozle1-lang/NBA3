@@ -989,3 +989,25 @@ project would have "fixed" a model that was fine. Recorded as E-F-18 with the nu
 Verification of this round: `integrate.check` PASS (15 pages, 22 lines, 9 gates, 20 flags, every table
 row sourced or flagged); all seven other sessions' suites re-run and green; the CI drift gate proves
 `data/integration/model.json` and `dash/` match the committed code byte-for-byte.
+
+---
+
+---
+
+## Session `arena/3bf92fcc-nba3` (current) — FINAL INTEGRATION & VERIFICATION round
+
+Session ID: `arena/3bf92fcc-nba3`. Branch: `arena/3bf92fcc-nba3` (fixed by the workspace; branched
+from `main` @ `e591b67`, which already contains all 16 merged PRs from sessions 49064d5a, f879620b,
+7c532e8c, 9ed6085f, 5697caaf, 0a016df8 and e22a2831). Because every prior task is merged, this
+session acts as the **final integration session**: re-verify the combined data, confirm every site
+builds with no broken links, then open a PR to `main`, merge, and verify the GitHub Pages deploy.
+
+| ID | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| I-1 | Full rebuild + check suite on merged state (all unit tests, all site builders, drift checks, link checks) | in progress | arena/3bf92fcc-nba3 | no file edits (verification only) |
+| I-2 | Line-by-line re-verification of combined data vs official sources (schedule, injuries, ratings spot-checks) | in progress | arena/3bf92fcc-nba3 | COORDINATION.md log only |
+| I-3 | Verify/resolve carried-forward cross-session irregularities that do NOT need owner decisions (Miami `CLE@MIA` injury matchup; anything falsified) | in progress | arena/3bf92fcc-nba3 | `data/injuries.json` (only if falsified; fix logged here) |
+| I-4 | Shared-output refresh: root `index.html` status + README final-state note | pending | arena/3bf92fcc-nba3 | README.md |
+| I-5 | PR to `main`, merge, confirm Pages deploy, record PR link + merge result here | pending | arena/3bf92fcc-nba3 | COORDINATION.md, PR |
+
+Claimed 2026-11-14T00:45Z. `git pull --rebase` before every push; no other sessions' scopes touched.
