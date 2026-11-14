@@ -24,18 +24,17 @@ def _spread_label(line):
     the FAVOURITE carries the minus sign and the underdog carries the plus.
 
     FIX 2026-11-14 (session 3655c68d, defect FX-02):
-      the previous expression always emitted a '+' because it used the away spread,
-      which is positive for every home favourite. On 22 of 22 published pick cards the
-      label therefore named the wrong side of the market and contradicted the card's own
-      moneyline (e.g. 'DEN +6.1' next to 'Fair ML DEN -167', where DEN is the favourite).
+      the previous expression emitted the AWAY team with a '+' and the value -origin_spread_home.
+      Because origin_spread_home is a projected home margin, that printed the underdog on the
+      wrong side of the market on all 22 cards (e.g. 'DEN +8.6' where DEN is the -205 favourite).
     """
-    mh = line['origin_spread_home']          # signed: negative => HOME is the favourite
+    mh = line['origin_spread_home']   # projected HOME MARGIN: negative => HOME loses
     home, away = line['home'], line['away']
     if abs(mh) < 0.05:
         return f"{home} 0.0"
-    if mh < 0:
-        return f"{home} {mh:.1f}"            # home favourite: minus
-    return f"{away} {-mh:.1f}"               # away favourite: minus, valued at -mh
+    if mh > 0:
+        return f"{home} -{mh:.1f}"   # HOME wins by mh  -> home is the favourite
+    return f"{away} {mh:.1f}"        # mh<0 => away wins by |mh| -> away is the favourite
 
 
 def main():
