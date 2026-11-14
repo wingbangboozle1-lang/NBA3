@@ -3367,3 +3367,47 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+---
+
+## Session `arena/13cedcaf-nba3` (current) — CLAIM: intra-day injury-designation volatility, freshness refresh to the newest official report, site verification & integration
+
+Session ID: `13cedcaf`. Workspace branch `arena/13cedcaf-nba3`, branched from `main` @ `3a6c353`
+(merge of PR #74, session `dd1eb1f1`). Claim written and pushed before any other work started
+(2026-11-14 ~18:50 UTC).
+
+**Why this round exists.** The canonical injury overlay is the **04:15 AM ET** report
+(`data/app/snapshot_manifest.json` -> `injuries.path`), with 04:45 / 05:00 / 05:15 AM point
+captures alongside it. At the time of this session the newest report listed on the official
+index is **01:30 PM ET** — an 8h15m freshness gap on the single input that moves player
+prop lines and rotation-minute projections most. Nothing in the repository has ever captured
+more than one point in a day's report series, so the **intraday volatility of injury
+designations has never been measured** — every published statement about "how injuries affect
+rotation minutes" rests on a single snapshot and an assumed, unmeasured designation-stability
+assumption.
+
+**Network constraint (important for reviewers).** In this sandbox the shell has egress only to
+`github.com`, `api.github.com`, `codeload.github.com`, `registry.npmjs.org`, `pypi.org`,
+`files.pythonhosted.org`. `nba.com` and `ak-static.cms.nba.com` are **not reachable from bash**
+(`curl` returns `000`). Official reads therefore happen through the agent's page-fetch tool, and
+every capture is committed as a **verbatim raw transcript** so the build can replay it offline
+and deterministically — the pattern sessions `53653a5c` / `3bf80157` / `dd1eb1f1` already use.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| N1 | Coordination setup, claim, push before any other work | in progress | `COORDINATION.md` |
+| N2 | Official freshness refresh: newest injury report (01:30 PM ET) + a stratified intraday report series; re-read the slate; re-verify the results log | unclaimed → claimed on N1 push | `data/app/official_injuries_2026-11-14_*.json`, `data/app/official_injuries_2026-11-14_*_raw.md`, `data/app/snapshot_manifest.json`, `scripts/capture_official_2026_11_14e.py` (new) |
+| N3 | New analysis: intraday designation volatility -> when a designation becomes final; rotation-minute / production impact; game-flow inputs | unclaimed → claimed on N1 push | `scripts/designation_volatility.py` (new), `data/app/designation_volatility.json` (new) |
+| N4 | Canonical refresh + site: rebuild `data/app/canonical.json`, regenerate `app/**` + `index.html`, add the volatility subpage, re-verify every published row against an official link | unclaimed → claimed on N1 push | `scripts/assemble_canonical.py`, `scripts/build_app.py`, `app/**`, `index.html`, `data/app/canonical.json` |
+| N5 | Repo review line by line; irregularities register; suggestions + questions refreshed | unclaimed → claimed on N1 push | `data/repo_review.csv`, `data/flags.csv`, `data/questions.csv`, `data/suggestions.csv`, `app/review.html`, `app/flagged.html`, `app/questions.html`, `app/suggestions.html` |
+| N6 | Integration: re-verify combined data line by line, confirm the site builds with no broken links, PR -> merge -> confirm Pages deploy, record the result here | unclaimed → claimed on N1 push | `COORDINATION.md`, `README.md` |
+
+### Overlap / handoff note for any concurrent session
+
+`git fetch --prune` at the start of this session showed **only `origin/main` and this session's
+branch** on the remote — no other session branch is open, so no claim above overlaps live work.
+PR **#70** (session `f2d4a99f`, coordination-record only, `mergeable: CONFLICTING`) is the only
+open PR on the repository. Its record is **not** present in this file yet, so this session will
+carry its content forward into its own coordination record rather than discard it, and will
+close #70 as superseded by that record during integration (N6).
+
