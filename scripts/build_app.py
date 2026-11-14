@@ -52,6 +52,7 @@ NAV = [
     ]),
     ("Game context", [
         ("Injuries & rotation", "app/injuries.html"),
+        ("Injury freshness audit (1:30 PM ET)", "audit_736efb4b/index.html"),
         ("Report availability", "app/freshness.html"),
         ("Game flow", "app/gameflow.html"),
     ]),
@@ -1239,9 +1240,11 @@ are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
 <div class="callout warn">
 <p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
 2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> Five of the ten
-teams playing on 11/14 have not filed — and those five are exactly the five playing the second game
-of a back-to-back, whose deadline is 1 p.m. local on game day, so the hole is a rule, not an error.
+<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> On the 04:15 AM ET
+snapshot, five of the ten teams playing on 11/14 had not filed. On the 01:30 PM ET report, four of
+them (New Orleans, Cleveland, Chicago, Miami) have printed players; Memphis has not
+(<a href="../audit_736efb4b/index.html">audit_736efb4b</a>, flag F736-11). The back-to-back explanation
+written against the 04:15 AM snapshot has not been re-verified against the schedule in this round.
 Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
 is <a href="flagged.html">NF-53</a> and the corrected reading is
 <a href="flagged.html">NF-56</a>.</p>

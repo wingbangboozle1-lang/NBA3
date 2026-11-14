@@ -3407,6 +3407,93 @@ None require blocking the merge; published on the `240bc29b/site/flagged.html` p
 
 No other session claims `240bc29b/` paths. `COORDINATION.md` is appended only (no existing section overwritten). Small, frequent commits; `git pull --rebase` before every push.
 
+
+---
+
+## Session `736efb4b` (`arena/736efb4b-nba3`) — CLAIM: injury freshness re-check vs the 1:30 PM ET official report, repo check suite, integration
+
+Session ID: `736efb4b`. Workspace branch `arena/736efb4b-nba3`, branched from `main` @ `3a6c353` (merge of PR #74).
+Per the workspace rule, all work stays on this one branch; the per-task scopes below are still kept
+disjoint so they can be merged without overlap. Claim written and pushed before any other edit (2026-11-14 ~18:4x UTC).
+
+Reason this round exists: the official NBA injury-report index, read at ~18:4x UTC (13:4x ET), lists
+game-day reports through **11/14 01:30 PM ET**. The newest canonical injury snapshot in the tree is
+**05:15 AM ET**. The 1:30 PM report is therefore newer than every published injury figure on the site.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| F1 | Capture the 11/14 01:30 PM ET official injury report verbatim, transcribe it, compare it row by row with the canonical 04:15 AM snapshot, publish the delta with source links, flag every row that cannot be confirmed | done (commits c4a8eb7, bec8a7e) | `audit_736efb4b/**` (new); one step + one staging line in `.github/workflows/pages.yml`; one row in `ARCHIVE_TREES_ROWS` in `scripts/build_app.py` (archive link) |
+| F2 | Run the existing local check suites on this branch (CI parity) and record pass/fail and any irregularity | done | `COORDINATION.md` (log only) |
+| F3 | Integration: PR to `main` (only this branch's files), merge without waiting, confirm Pages deploy, record PR link and merge result | pending | `COORDINATION.md` |
+
+Not claimed by this session (no change made, nothing edited): the canonical picks, lines, strategies, gates,
+correlations, questions, suggestions and flags. Those depend on the 05:15 AM snapshot and a full model
+re-run; this session publishes the injury delta as a flagged, sourced finding rather than silently
+re-running the model. Open PR #70 (`arena/f2d4a99f-nba3`, COORDINATION.md only) is not this session's and
+is left as it is.
+
+### Completion record — session `736efb4b` (F1, F2)
+
+**What was found.** The official index, read at ~13:42 ET on 2026-11-14, lists game-day reports up to
+**01:30 PM ET**. The published injury snapshot is the **04:15 AM ET** report (49 rows). The newer report
+changes published facts: four players changed status, 24 players are new to the published data, and four
+of the five 11/14 teams that the published injury-impact block marks `NOT_YET_DUE` (NOP, CLE, CHI, MIA)
+have now printed players.
+
+**Sources (official).**
+- Index: https://official.nba.com/nba-injury-report-2026-27-season/ (lists 12:00 a.m. → 1:30 p.m. ET reports; "updated on a continual basis").
+- Newest report transcribed: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf
+- Next-report probe: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_45PM.pdf → `AccessDenied` (not published at read time).
+- Published snapshot compared: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf (via `data/app/canonical.json`).
+- Schedule cross-check for the 11/14 game set and the one-game-per-team rule: https://www.nba.com/schedule?date=2026-11-14 (5 games on Sat 11/14: DEN@NOP 7:00, DAL@CLE 7:30, DET@MIA, BKN@MEM, CHI@MIN 8:00 PM ET).
+
+**Method (all in `audit_736efb4b/`).**
+- `data/official_injury_report_2026-11-14_0130PM_raw.md` — verbatim fetch output, the source record.
+- `capture.py` — deterministic transcription. 68 data lines seen, **67 rows transcribed** (50 player rows, 17 team rows NOT YET SUBMITTED), **1 line not transcribed** (garbled, F736-06). Status counts equal the raw counts of each status word (Out 31, Questionable 7, Probable 6, Doubtful 2, Available 4).
+- `compare.py` — row-by-row comparison by player name (no duplicate names on either side) and team-level comparison keyed on (matchup, team). Result: 22 unchanged, 4 status changes, 24 new in the 1:30 report, **0 published players missing**.
+- `build.py` — renders `index.html` (landing, all 50 player rows, 10 teams on the 11/14 slate, 18 team NYS rows) and `flagged.html` (F736-01 … F736-10). Every table row links to an official NBA PDF.
+- `test_audit.py` — 16 tests, all green: counts, every printed value present in its raw line, blank-not-filled rule, official-link rule per table row, internal links resolve, the four expected status changes, outcome arithmetic.
+
+**Verification performed.**
+- Each transcribed value is checked against its raw line by the test suite; blank cells are checked against the raw line (no date, time or team printed in the raw line → none kept).
+- The raw status counts are read independently of the parser (`status_counts_match_raw: true`).
+- Team attribution rule (documented on the page): a row is attributed to a team only when the team name is printed; a printed matchup must equal the team's 11/14 game; a blank matchup is attributed to the team's single 11/14 game (the official slate gives one game per team per day). Rows with no team printed (13 rows) are **not** attributed.
+- Team-level result for the 10 teams on the 11/14 slate: 9 filed, 1 not filed (Memphis, still NYS). Changes against the published state: NOP, CLE, CHI and MIA now filed; DAL, DET, BKN lists changed (Christie, Harkless, Jones, Brown Jr.); MIN and DEN unchanged.
+
+**Changes to shared surfaces (small, text-only; `scripts/build_app.py` owner = this session for this round).**
+- `app/injuries.html`: the "Freshness check" paragraph said the 04:15 AM report was the newest on the index. It now says it is superseded and links the audit. The "row-by-row delta" sentence is kept intact.
+- `app/summary.html` and root `index.html` (summary card): "the newest report listed" → "the snapshot used in this build" with a link to the audit.
+- `app/sources.html` row for the injury index: now states the 01:30 PM listing, status "Superseded in part".
+- Navigation: new entry "Injury freshness audit (1:30 PM ET)" under Game context (`audit_736efb4b/index.html`), so it appears on every page and on the landing page.
+- `.github/workflows/pages.yml`: one regeneration + drift + test step for `audit_736efb4b/` and one staging line. Both were checked by parsing the YAML and running the workflow's root-index link check.
+- No canonical data (`data/app/canonical.json`), no picks, no lines, no strategy, gate or correlation value was changed.
+
+**Local check suites run on the committed tree (all `[0]`).** conflict markers; `tests/test_validate_gates.py`; `tests/test_injury_delta.py`; `tests/test_capture_c.py`; `tools/check_site.py`; `pipeline/tests`; `scripts/build_site.py` (site/ no drift); lab build + validate (no drift); research build + verify (no drift); `verify.tests`; `verify/build.py` (no drift); `pipeline/check_site.py`; `integrate.engine` + `build_site` + `check` (no drift); `scripts/strategy_lab.py` (no drift); `assemble_canonical.py` + `build_app.py` (no drift, 21 pages, 0 broken links); `build_hub_data.py` + `build_hub.py` (no drift); `final/verify.py`; `final/build_site.py` (no drift); `final/check_site.py`; `audit_dd1eb1f1` tests; `audit_736efb4b` tests (16) and drift. Not replayable here: the four capture steps that fetch nba.com from the CI runner (`scripts/capture_official_2026_11_14*.py`); they are unchanged in this round.
+
+**Irregularities (publishes on `audit_736efb4b/flagged.html`; none blocks the merge).**
+- **F736-01** Published pages describe the 04:15 AM report as the newest listed. Fixed on the injury page, summary card and sources row. Still stale: the freshness page (lists CHI, CLE, MEM, MIA, NOP as not filed), the review page, the requirements page, the flagged register. → **CR-736EFB4B-01**, owner of `scripts/assemble_canonical.py`.
+- **F736-02** Four status changes (Christie Q→Doubtful; Brown Jr. Q→Probable; Harkless Q→Available; Jones Q→Available). → The picks and injury-impact figures were not re-run. → **CR-736EFB4B-02**.
+- **F736-03** 24 player rows not in the published data (e.g. Mobley Out, Mitchell Q, Harden Q, Antetokounmpo Probable, Allen Q, Thompson Probable).
+- **F736-04** Four teams that were `NOT_YET_DUE` on the published snapshot have now printed players (NOP 5, CLE 1, CHI 1, MIA 4).
+- **F736-05** 13 player rows print no team in the text extraction (7 under the Management block, 6 under the Claxton block). Not attributed. A person must read the PDF team column to confirm them.
+- **F736-06** One garbled line (`Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED`) not transcribed; the Milwaukee and OKC 11/15 statuses are unverified.
+- **F736-07** Game date printed only on the first row of each 11/14 block; the rest are blank.
+- **F736-08** Four Miami rows print no matchup; attributed to DET@MIA by the one-game-per-day rule, labelled.
+- **F736-09** The 01:45 PM probe is `AccessDenied`; the site cannot prove no later report exists.
+- **F736-10** No model re-run; picks and injury-impact pages still read the 04:15 AM snapshot. → **CR-736EFB4B-02**.
+
+**Change requests logged, not executed (other owners' surfaces).**
+- **CR-736EFB4B-01 → owner of `scripts/assemble_canonical.py` (25418e3f / 8e199e09 lineage):** update the freshness, review, requirements and flagged-register text that still treats 04:15 AM as the newest report; the freshness table's "filed" set needs the 01:30 PM result (CHI, MIA, NOP, CLE now filed; MEM not).
+- **CR-736EFB4B-02 → owner of the pick and injury-impact pipeline (`scripts/strategy_lab.py`, `scripts/assemble_canonical.py`):** re-run the availability join on the 01:30 PM report for the 11/14 games (DEN@NOP, DAL@CLE, DET@MIA, BKN@MEM, CHI@MIN). Blocked on the F736-05 team attribution for 13 rows. Decision needed from the owner: publish the 01:30 PM snapshot as the canonical injury snapshot.
+- **CR-736EFB4B-03 → owner of the NBA injury-report capture (`scripts/capture_official_2026_11_14*.py`):** the CI capture steps still pin the 04:15 AM / 04:45 AM / 05:15 AM files. A future step should pin the newest listed report and fail on a newer one.
+
+**Open PR #70** (`arena/f2d4a99f-nba3`, COORDINATION.md only) is in conflict with `main`. Not this session's; left untouched.
+
+
+### PR record — session `736efb4b` (F3, integration)
+
+- PR [#76](https://github.com/wingbangboozle1-lang/NBA3/pull/76) (`arena/736efb4b-nba3` → `main`), opened 2026-11-14 ~18:5x UTC. Scope: the files listed in the F1 claim, the three text corrections in `scripts/build_app.py`, the regenerated `app/`, `index.html`, `archive.html`, and `.github/workflows/pages.yml`. Merge result is recorded below once the PR is merged.
+
 ## Session `arena/965fbd17-nba3` (current) — CLAIM: newest official injury reports (after 05:15 AM ET), slate and results re-check, publish delta
 
 Session ID: `965fbd17`. Workspace branch `arena/965fbd17-nba3`, branched from `main` @ `3a6c353` (merge of PR #74).
