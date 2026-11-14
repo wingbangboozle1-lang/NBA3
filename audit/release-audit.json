@@ -1,6 +1,6 @@
 {
   "report_title": "NBA3 release audit",
-  "baseline_revision": "c4623a05def6",
+  "baseline_revision": "fa2617ac5525",
   "audit_mode": "offline repository audit; no external NBA pages were fetched by this tool",
   "policy": {
     "max_pick_horizon_hours": 72.0,
@@ -24,13 +24,14 @@
       "origin",
       "dash",
       "verify",
+      "d01ae7e2",
       "hub"
     ],
-    "staged_html_pages": 136,
+    "staged_html_pages": 148,
     "missing_staged_sources": []
   },
   "table_source_audit": {
-    "html_pages_scanned": 136,
+    "html_pages_scanned": 148,
     "table_body_rows": 3421,
     "status_counts": {
       "NO_OFFICIAL_LINK_FLAGGED": 136,
@@ -1740,7 +1741,7 @@
       "severity": "high",
       "status": "open",
       "title": "Some published table rows have no direct NBA or authority source link.",
-      "detail": "Across 136 Pages-staged HTML files, 3421 table-body rows were inspected. 1221 rows have no direct NBA, regulator/statute, or statistical-authority link. Repository-code links are classified separately and do not count as NBA data citations.",
+      "detail": "Across 148 Pages-staged HTML files, 3421 table-body rows were inspected. 1221 rows have no direct NBA, regulator/statute, or statistical-authority link. Repository-code links are classified separately and do not count as NBA data citations.",
       "evidence": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv",
       "official_source": "https://www.nba.com/stats/help/glossary"
     },

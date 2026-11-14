@@ -1,6 +1,6 @@
 # NBA3 release audit
 
-> **Audit baseline:** `c4623a05def6`. This is an offline, repository-local audit; no NBA page or PDF was fetched by this tool. Links below are supplied for manual review; stored values are not newly verified against a live official source here.
+> **Audit baseline:** `fa2617ac5525`. This is an offline, repository-local audit; no NBA page or PDF was fetched by this tool. Links below are supplied for manual review; stored values are not newly verified against a live official source here.
 > **Decision status:** Code and data-governance review only. This audit does not establish a profitable strategy or approve a wager.
 
 ## Executive summary
@@ -8,7 +8,7 @@
 | Check | Result | Source / evidence |
 |---|---|---|
 | Pages workflow conflict markers | 0 | [workflow source](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
-| Pages-staged HTML | 136 files | [staging list](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
+| Pages-staged HTML | 148 files | [staging list](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
 | HTML table-body rows | 3421 | [NBA Stats glossary (terminology reference)](https://www.nba.com/stats/help/glossary) |
 | Rows with direct NBA official link | 2083 | [NBA schedule (manual review)](https://www.nba.com/schedule?date=2026-11-14) |
 | Rows without NBA/regulator/statistical-authority links | 1221 | [row-by-row CSV](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) |
@@ -20,7 +20,7 @@
 | ID / severity | Finding | Evidence | Official reference |
 |---|---|---|---|
 | RA-02 / high (open) | **The unified dashboard's citation check is page-wide, not table-row-wide.**<br>`integrate/check.py` looks for an HTTPS link anywhere in a page body for each table; it does not collect links per row. The independent row parser found 1085 staged table rows with no direct NBA, regulator/statute, or statistical-authority link and no explicit unverified marker. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py) | [official reference](https://www.nba.com/stats/help/glossary) |
-| RA-03 / high (open) | **Some published table rows have no direct NBA or authority source link.**<br>Across 136 Pages-staged HTML files, 3421 table-body rows were inspected. 1221 rows have no direct NBA, regulator/statute, or statistical-authority link. Repository-code links are classified separately and do not count as NBA data citations. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) | [official reference](https://www.nba.com/stats/help/glossary) |
+| RA-03 / high (open) | **Some published table rows have no direct NBA or authority source link.**<br>Across 148 Pages-staged HTML files, 3421 table-body rows were inspected. 1221 rows have no direct NBA, regulator/statute, or statistical-authority link. Repository-code links are classified separately and do not count as NBA data citations. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) | [official reference](https://www.nba.com/stats/help/glossary) |
 | RA-04 / high (open) | **3 published pick(s) exceed the exact 72-hour horizon.**<br>POR @ MIN 2026-11-16 8:00 PM ET: 72.17h (+10 min); GSW @ NOP 2026-11-16 8:00 PM ET: 72.17h (+10 min); PHX @ DEN 2026-11-16 9:00 PM ET: 73.17h (+70 min). Keep only picks whose official tip time is within 72 hours of a timezone-aware generation timestamp, or explicitly define a different date-based policy. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json) | [official reference](https://www.nba.com/schedule?date=2026-11-14) |
 | RA-05 / high (open) | **The canonical 'official capture' CI step is an offline hard-coded transcription check, not a live re-fetch.**<br>The script contains static schedule, team-statistics, and injury-report constants and has no HTTP client import. Running it in CI checks the committed snapshot against those same constants; it cannot establish that a source is current or independently re-verify the transcription. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14.py) | [official reference](https://www.nba.com/schedule?date=2026-11-14) |
 | RA-06 / medium (open) | **The unified line artifact has no exact generation timestamp for a strict 72-hour check.**<br>The artifact carries a date window and `horizon_days`, but no timezone-aware generation time. The exact tip-time horizon for its lines therefore cannot be reproduced from the artifact alone. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json) | [official reference](https://www.nba.com/schedule?date=2026-11-14) |
