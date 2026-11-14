@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Verification</div>
+    <h1>Flagged for review</h1>
+    
+  </div>
+
+<div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
+<em>decisions</em>. 48 items: 10 high, 37 medium, 1 low severity.
+Every item keeps its source link so it can be reviewed and closed by the owner.</div>
+
+<div class="table-wrap"><table>
+<caption id="flags"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Area</th>
+<th>Item</th>
+<th>Why it is flagged</th>
+<th>Severity</th>
+<th>Action needed</th>
+<th>Status</th>
+<th>Found on</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>NF-01</td>
+<td>Injuries</td>
+<td>Snapshot is the 11:00 AM ET report for 11/13/26</td>
+<td>The official index lists reports from 12:00 a.m. to 5:15 p.m. ET for 11/13. Later reports were not transcribed, so the snapshot may be out of date.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Transcribe the newest report with the same rules and keep the older one as history</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-02</td>
+<td>Injuries</td>
+<td>Team and matchup cells blank in source extraction</td>
+<td>Several player rows have no team or matchup cell in the PDF text. The team is not inferred from table position.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Check these rows on the PDF and fill team and matchup from the PDF itself</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-03</td>
+<td>Injuries</td>
+<td>Matchup cell blank in source (team shown)</td>
+<td>Rows show a team but no matchup. The matchup is not inferred from the table block.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Confirm matchup on the PDF</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-04</td>
+<td>Injuries</td>
+<td>GSW@SAS block has a time-like value in the game-date cell and blank reason cells</td>
+<td>Two time-like values appear in the first two cells (08:30 and 09:30). The reason cells are blank in the extraction. Game date and time are left blank.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Verify on the PDF; fill reasons and time only from the PDF</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-05</td>
+<td>Injuries</td>
+<td>Simmons Ben reason split across extraction chunks</td>
+<td>The reason text ends one extraction chunk and resumes in the next. Chunk 0 ends &#x27;Right Achille&#x27;; chunk 1 begins &#x27;s Tendon Repair / Surgery&#x27;. Joined text is Injury/Illness - Right Achilles Tendon Repair / Surgery. Reason filled from the PDF text.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Resolved; owner may spot-check on PDF</td>
+<td>Resolved (joined from PDF text)</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-06</td>
+<td>Repository</td>
+<td>Injury index slug on the prior dashboard</td>
+<td>The 2025-26 slug redirects to the 2026-27 season page. The label and destination disagree.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Point injury references to the 2026-27 page</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2025-26-season/</a></td>
+</tr>
+<tr>
+<td>NF-07</td>
+<td>Injuries</td>
+<td>DET@MIA on 11/14 lists only Detroit Pistons</td>
+<td>The Miami Heat row for DET@MIA is missing from the extraction. Not inferred.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Check the PDF for the Miami row</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-08</td>
+<td>Injuries</td>
+<td>Game times written without AM or PM</td>
+<td>Game times in the PDF carry no AM/PM marker (for example 07:00 (ET)). Times are kept exactly as written and not converted.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Confirm the convention from the official report legend if one exists</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>NF-09</td>
+<td>Injuries</td>
+<td>Reason shown as hyphen</td>
+<td>Topic, Nikola is listed as Available with reason &#x27;-&#x27;. The hyphen is kept as written.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>None unless the owner wants a different convention</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-10</td>
+<td>Injuries</td>
+<td>Game date or time blank in source for some rows</td>
+<td>Many rows have no game date or time cell. Times are taken from slates.csv only for the slate table, not copied into injury rows.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>None; rows are shown as written</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>NF-11</td>
+<td>Injuries</td>
+<td>11/14 team reports show NOT YET SUBMITTED</td>
+<td>These are team report statuses, not player injury statuses. They are shown separately.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Recheck after the teams submit</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_11_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-12</td>
+<td>Legal</td>
+<td>NBA content reproduction on a public site</td>
+<td>NBA Terms s.1 and s.9 restrict reproduction and statistics use. The site reproduces a snapshot of injury and schedule rows with attribution and links.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Counsel review; reduce content or obtain permission (SG-01)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>NF-13</td>
+<td>Legal</td>
+<td>Publishing picks or recommendations</td>
+<td>Art. 1(b) of the Wet op de kansspelen restricts promoting unlicensed gambling. No picks are published. Main (PR #8, lab/picks) already publishes odds-based picks with POSITIVE EV labels; owner decides whether to keep them published.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Counsel opinion (Q-LEG-01)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">https://wetten.overheid.nl/BWBR0002469/2025-02-12/0</a></td>
+</tr>
+<tr>
+<td>NF-14</td>
+<td>Data</td>
+<td>No official odds source identified</td>
+<td>No timestamped odds or prop prices can be sourced from an official source reviewed here.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Licensed feed or owner-captured prices under terms (SG-04)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>NF-15</td>
+<td>Data</td>
+<td>Historical NBA stats unreachable from this environment</td>
+<td>stats.nba.com and cdn.nba.com JSON are not reachable from the sandbox. Nothing is computed from historical data.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Network path or owner export with provenance (SG-03)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional</a></td>
+</tr>
+<tr>
+<td>NF-16</td>
+<td>Legal</td>
+<td>Minimum age for online betting not verified</td>
+<td>The official text was not read for age. Third-party sites are not used as sources.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Read official age provision and cite it (Q-LEG-03)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame</a></td>
+</tr>
+<tr>
+<td>NF-17</td>
+<td>Validation</td>
+<td>Gate thresholds are proposals</td>
+<td>Numbers in gates.csv are design proposals, not facts from a source.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner approval before any evaluation (Q-GATE-01)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+</tr>
+<tr>
+<td>NF-18</td>
+<td>Repository</td>
+<td>No licence declared</td>
+<td>GitHub reports no licence on the repository.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner choice (SG-11)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>NF-19</td>
+<td>Deployment</td>
+<td>Pages source is legacy main / and cannot be changed by this session</td>
+<td>Pages builds from main /, so the whole public repository is served. Switching the source to GitHub Actions failed with 403 (token lacks Pages admin rights). The generated pages are committed at the root to match.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner switches the Pages source to GitHub Actions in repository settings, or accepts the root build (SG-08)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
+</tr>
+<tr>
+<td>NF-20</td>
+<td>Scope</td>
+<td>Meaning of &#x27;up to 3 days in advance&#x27;</td>
+<td>Calendar dates Nov 13-16 inclusive are assumed; the prior dashboard used 72 hours.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner confirms (SG-07)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>NF-21</td>
+<td>Correlation</td>
+<td>No correlation values measured</td>
+<td>Every correlation value is blank. None is estimated.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Measure on matched data with intervals</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+</tr>
+<tr>
+<td>NF-22</td>
+<td>Injuries</td>
+<td>Injury effect on minutes and production unquantified</td>
+<td>Official rules give status and reason only. No minutes or production data is used.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Historical event study on authorised data</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-23</td>
+<td>Legal</td>
+<td>NBA Terms effective date not visible</td>
+<td>The fetched text does not show an effective date, so the version reviewed cannot be dated.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Record the version when counsel reviews</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>NF-24</td>
+<td>Metadata</td>
+<td>Local time conversion not performed</td>
+<td>Times are shown in ET as published. No Netherlands-time conversion was verified.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>None unless the owner needs local times</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td>
+</tr>
+<tr>
+<td>NF-25</td>
+<td>Repository</td>
+<td>Remote session branches without a PR</td>
+<td>Three arena/* branches have no PR in the list returned by gh pr list.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner review (SG-12)</td>
+<td>Open - owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/branches" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/branches</a></td>
+</tr>
+<tr>
+<td>NF-26</td>
+<td>Blocker</td>
+<td>Use of NBA statistics for betting models and lines</td>
+<td>NBA Terms §9 says NBA Statistics may not be used in connection with any gambling activity, including legal gambling, and may not feed a comprehensive regularly updated statistics database without express prior consent.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Obtain written permission from NBA, or source statistics from a provider whose terms allow this use. Get legal review before any model that uses NBA.com statistics.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>NF-27</td>
+<td>Blocker</td>
+<td>Offering online sports betting or betting lines to Dutch customers</td>
+<td>Ksa says only holders of a Koa licence under art. 31a of the Betting and Gaming Act may offer online gambling, including bets on sports matches. The owner is located in Naaldwijk, NL.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Get Dutch legal counsel on (a) private analysis versus offering picks or lines to others and (b) licensing. Do not offer betting products to NL residents without a licence.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a> · <a href="https://kansspelautoriteit.nl/" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/</a></td>
+</tr>
+<tr>
+<td>NF-28</td>
+<td>Blocker</td>
+<td>Originated lines and picks for 11/13–11/16</td>
+<td>The repository has no licensed odds feed, no historical dataset, and no validated model. Without these, no line can be originated or validated, and no pick can be responsibly generated.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Decide on a licensed odds and statistics source (SG-02). No picks are published.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>NF-29</td>
+<td>Unverified</td>
+<td>Historical box scores, minutes, play-by-play, and prop outcomes</td>
+<td>No authorized dataset is in the repository. The NBA terms restrict statistics use (7C-F-01).</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Inventory authorized data with provenance and licence terms.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
+</tr>
+<tr>
+<td>NF-30</td>
+<td>Unverified</td>
+<td>Injury effect on rotation minutes and production</td>
+<td>The official report gives status and reason only; it has no minutes or production fields (S04 header). No minutes projection source is verified.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Build from authorized minutes data after 7C-F-01 and 7C-F-02 are resolved. Nothing is estimated here.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-31</td>
+<td>Unverified</td>
+<td>All correlation values and parlay joint probabilities</td>
+<td>No outcomes, prices, or samples are available. Blank by policy.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Measure out-of-sample with uncertainty once data passes G0–G2 (validation page).</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/stats/players/boxscores" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/boxscores</a></td>
+</tr>
+<tr>
+<td>NF-32</td>
+<td>Irregularity</td>
+<td>Prior dashboard linked the 2025-26 NBA injury index</td>
+<td>The current season index is the 2026-27 page (S02). The 2025-26 page (S03) still resolves but is superseded.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Corrected in the rebuilt site. Owner to confirm.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://official.nba.com/nba-injury-report-2025-26-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2025-26-season/</a></td>
+</tr>
+<tr>
+<td>NF-33</td>
+<td>Irregularity</td>
+<td>Injury PDF rows with missing team or matchup text</td>
+<td>18 of 117 rows have no team or matchup in the extracted text (attribution &#x27;U&#x27;). 19 rows take their matchup from the official schedule pairing (attribution &#x27;S&#x27;). Some matchups have no game time printed.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Check these rows against the PDF before relying on them.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf</a> · <a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
+</tr>
+<tr>
+<td>NF-34</td>
+<td>Irregularity</td>
+<td>Schedule may change</td>
+<td>The by-date PDF is labelled &#x27;as of August 13, 2026 | subject to change&#x27;.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Re-pull the schedule at query time. The site shows the pull date.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
+</tr>
+<tr>
+<td>NF-35</td>
+<td>Unverified</td>
+<td>Home/away orientation for 11/15 and 11/16</td>
+<td>Home/away is confirmed only for 11/13 and 11/14 (injury report labels). For 11/15 and 11/16 the PDF gives printed order only.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Confirm orientation against nba.com/schedule before use.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-36</td>
+<td>Unverified</td>
+<td>Meaning of schedule markers &#x27;R&#x27; and &#x27;#&#x27; (C)</td>
+<td>The PDF text shows &#x27;R&#x27; and &#x27;C&#x27; in marker columns with no legend in the text read.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Confirm the legend in the PDF or the NBA schedule page before interpreting.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/manage/2026/08/2026-27-NBA-Regular-Season-Schedule-By-Date.pdf</a></td>
+</tr>
+<tr>
+<td>NF-37</td>
+<td>Irregularity</td>
+<td>NBA live scoreboard JSON unavailable</td>
+<td>The fetch tool returned HTTP 500 for the CDN scoreboard JSON (S10).</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Retry from an environment with access; not used here.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json" target="_blank" rel="noopener noreferrer">https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json</a></td>
+</tr>
+<tr>
+<td>NF-38</td>
+<td>Unverified</td>
+<td>NBA Stat Glossary coverage</td>
+<td>Only the first of 10 chunks was read line by line.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Read remaining chunks before citing any definition beyond those shown.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/help/glossary</a></td>
+</tr>
+<tr>
+<td>NF-39</td>
+<td>Irregularity</td>
+<td>Coordination protocol branch naming</td>
+<td>The brief asks for session-&lt;id&gt;/&lt;task&gt; branches; Arena policy fixes the branch as arena/7c532e8c-nba3.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Recorded in COORDINATION.md. One branch with non-overlapping file scopes is used.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>NF-40</td>
+<td>Irregularity</td>
+<td>Two deployment mechanisms existed on GitHub Pages</td>
+<td>Pages API reported a legacy build from main at &#x27;/&#x27; while the repo also had a GitHub Actions workflow (pages.yml).</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Switch to the workflow deploy from site/ and confirm the deploy (T8).</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</a></td>
+</tr>
+<tr>
+<td>NF-41</td>
+<td>Unverified</td>
+<td>Dutch rules on publishing picks or tips (without offering a bet)</td>
+<td>Ksa&#x27;s page covers offering online gambling. It does not address free tips or analysis content.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Legal counsel to confirm before publishing any picks.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener noreferrer">https://kansspelautoriteit.nl/online-kansspel-aanbieden</a></td>
+</tr>
+<tr>
+<td>NF-42</td>
+<td>Irregularity</td>
+<td>Injury report status vocabulary includes a team-level value</td>
+<td>&#x27;NOT YET SUBMITTED&#x27; appears as a status for team rows (7 rows).</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Shown as printed. Do not read as a player status.</td>
+<td>Open — owner review</td>
+<td>2026-11-13</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-43</td>
+<td>Deployment</td>
+<td>GitHub Pages is still served from the legacy &#x27;main /&#x27; source</td>
+<td>gh api reports build_type=legacy with source branch main, path /. The whole public repository is therefore published, including raw JSON and CSVs. The Actions workflow also runs and uploads an artifact, but the published site is the branch build.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Set Pages source to GitHub Actions (owner/admin token required; previous sessions got HTTP 403) so only the reviewed artifact is published.</td>
+<td>Open — owner action</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>NF-44</td>
+<td>Site</td>
+<td>Seven separate dashboards were published from earlier sessions</td>
+<td>The repository contained /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards plus a root dashboard. They use different ID namespaces and some publish the same facts with different injury snapshots, which makes the site confusing and easy to misread.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>This session publishes one canonical dashboard at the root with category sub-pages; the earlier dashboards are kept and linked as &#x27;earlier snapshots&#x27; for audit. Owner to decide whether to retire any.</td>
+<td>Resolved in this session (canonical site published); owner to confirm retirement of the older snapshots</td>
+<td>2026-11-14</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td>
+</tr>
+<tr>
+<td>NF-45</td>
+<td>Data</td>
+<td>Two official injury snapshots are stored with different timestamps</td>
+<td>data/injuries.json holds the 11/13 05:00 PM report (117 rows) while data/origin/injuries.csv holds the 11/13 05:15 PM report (118 rows) and data/app holds the 11/13 07:30 PM report (122 rows). A reader could easily compare a 7:30 PM status with a 5:00 PM status and read it as a contradiction.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>The canonical site publishes only the 07:30 PM report and lists the status changes against the 05:15 PM snapshot. The older files are kept as history and labelled with their stamps.</td>
+<td>Open — owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>NF-46</td>
+<td>Data</td>
+<td>No official injury report exists yet for the 2026-11-15 and 2026-11-16 games</td>
+<td>The newest report listed on the official index (11/13 07:30 PM ET) covers the 11/13 and 11/14 games only. Five teams had not submitted their report for the 11/14 game at that time.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Re-read the official index before publishing lines for 11/15-11/16, or publish those games with an explicit &#x27;no official report yet&#x27; marker.</td>
+<td>Open — recurs every slate</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-47</td>
+<td>Data</td>
+<td>Player abbreviations in one earlier pipeline are not NBA abbreviations</td>
+<td>data/picks/picks_2026-11-14_to_16.json prints &#x27;BRK @ MEM&#x27;; the official NBA abbreviation is BKN (Brooklyn Nets). The same file also carries a generated timestamp and an availability flag computed from the 11/13 report.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>The canonical site uses the official abbreviation from the official schedule; the earlier file is left as an audit snapshot and the defect is recorded here.</td>
+<td>Open — owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-14</a></td>
+</tr>
+<tr>
+<td>NF-48</td>
+<td>Verification</td>
+<td>First manual transcription of the official team stats page produced 8 misread values</td>
+<td>An independent manual transcription of nba.com/stats/teams/advanced on 2026-11-14 differed from the stored values for MIA, TOR, CHA, NOP and UTA. A second read of the same page confirmed the stored values and the first read was wrong. The automated cross-check caught all eight.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Keep the automated cross-check (scripts/capture_official_2026_11_14.py) in the build so that every official capture is compared with the stored values before publication.</td>
+<td>Resolved in this session (cross-check added to the build)</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

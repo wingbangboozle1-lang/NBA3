@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method &amp; rules — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-13 → 2026-11-16</div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html" class="active">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Picks (3-day window)</a> <a href="props.html">Player props</a> <a href="strategies.html">Strategies &amp; gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Overview</div>
+    <h1>Method &amp; rules</h1>
+    
+  </div>
+
+<h2>1. What is originated here</h2>
+<p>Two numbers per game: a <strong>point spread</strong> (the home team's expected margin) and a
+<strong>total</strong> (expected combined points, regulation-equivalent). Both come from a
+walk-forward model whose inputs are official: the official schedule, official team advanced
+statistics, official final scores and the official injury report. Nothing is copied from a
+sportsbook.</p>
+
+<h2>2. How the model is tested</h2>
+<ul>
+<li><strong>Walk-forward.</strong> The first 60 captured games are a burn-in; every later game is
+scored with a model fitted only on games that had already happened.</li>
+<li><strong>Baselines.</strong> Each model is compared with a naive league-average forecast. The
+margin model beats its baseline (RMSE 16.18 vs 17.30); the total model does not (20.35 vs 19.56)
+and is reported as such.</li>
+<li><strong>Exact binomial tests.</strong> Win rates are tested against 50% with an exact binomial
+test rather than a normal approximation.</li>
+<li><strong>Multiple testing.</strong> When several strategies are tested, Benjamini–Hochberg
+controls the false-discovery rate at 5%.</li>
+<li><strong>Split-half stability.</strong> A strategy must point the same way in the first and the
+second half of the sample.</li>
+<li><strong>Minimum sample.</strong> n ≥ 100 out-of-sample games before a strategy can be eligible.
+No strategy reaches it on the current sample.</li>
+</ul>
+
+<h2>3. Validation gates</h2>
+
+<div class="table-wrap"><table>
+<caption id="methodgates"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Gate</th>
+<th>Proposed threshold</th>
+<th>Status</th>
+<th>Result / note</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>CG-01</td>
+<td>Data provenance</td>
+<td>Zero unsourced rows</td>
+<td><span class="chip chip-warn">Design rule (proposed)</span></td>
+<td>Rule is defined in code: evaluate_gates() returns BLOCKED without evidence</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-02</td>
+<td>Leakage</td>
+<td>Zero features stamped at or after tip-off</td>
+<td><span class="chip chip-warn">Design rule (proposed)</span></td>
+<td>leakage_violations() is unit-tested</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-03</td>
+<td>Beats baselines</td>
+<td>Lower 95% bound of score difference above 0</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Bootstrap per S17 (cluster extension)</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
+</tr>
+<tr>
+<td>CG-04</td>
+<td>Minimum sample</td>
+<td>At least 1000 graded forecasts per strategy</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Owner must approve the number (Q-GATE-01)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-05</td>
+<td>Significance with multiple testing</td>
+<td>Holm-adjusted p at or below 0.05</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Exact binomial tail per S16; Holm step-down in pipeline/gates.py</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/prc/section2/old.prc271.htm</a></td>
+</tr>
+<tr>
+<td>CG-06</td>
+<td>Uncertainty</td>
+<td>95% interval lower bound above 0</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Percentile bootstrap per S17; clustering by date is an extension</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/eda/section3/bootplot.htm</a></td>
+</tr>
+<tr>
+<td>CG-07</td>
+<td>Stability</td>
+<td>Two or more positive blocks</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Owner must define blocks (Q-GATE-01)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-08</td>
+<td>Dependence (combos)</td>
+<td>Model joint inside the measured interval</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Method page for the interval not yet located; cite NIST index only</td>
+<td><a href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener noreferrer">https://www.itl.nist.gov/div898/handbook/</a></td>
+</tr>
+<tr>
+<td>CG-09</td>
+<td>Economic test</td>
+<td>Net return interval above 0 at recorded prices</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>break-even and profit helpers unit-tested</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-10</td>
+<td>Prospective paper trial</td>
+<td>At least 200 forecasts logged before tip-off</td>
+<td><span class="chip chip-warn">Proposed (owner approval needed)</span></td>
+<td>Owner must approve</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-11</td>
+<td>Control check</td>
+<td>Null baseline passes no gate</td>
+<td><span class="chip chip-warn">Design rule (proposed)</span></td>
+<td>Control strategy ST11</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/gates.py</a></td>
+</tr>
+<tr>
+<td>CG-12</td>
+<td>Every input has an official or reproducible source</td>
+<td>all inputs official or reproducible</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>pass</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+<tr>
+<td>CG-13</td>
+<td>No look-ahead (all features exist at tip-off)</td>
+<td>no look-ahead</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>pass</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+<tr>
+<td>CG-14</td>
+<td>Sample size n &gt;= 100 out-of-sample games</td>
+<td>n &gt;= 100</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>fail</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+<tr>
+<td>CG-15</td>
+<td>Effect is powered at the observed rate</td>
+<td>n needed for the observed effect</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>n needed 56</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+<tr>
+<td>CG-16</td>
+<td>Raw p &lt; 0.05 (exact binomial against 50%)</td>
+<td>raw p &lt; 0.05</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>pass</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+<tr>
+<td>CG-17</td>
+<td>Survives Benjamini-Hochberg FDR 0.05</td>
+<td>Benjamini-Hochberg FDR 0.05</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>pass</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+<tr>
+<td>CG-18</td>
+<td>Direction stable in both halves of the sample</td>
+<td>direction stable in both halves</td>
+<td><span class="chip chip-warn">Proposal (owner approval pending)</span></td>
+<td>pass</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/model/build.py</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>4. Removing luck from the evaluation</h2>
+<p>Luck cannot be removed from an individual game result. It can be kept out of the score by:
+scoring strategies out of sample; adjusting for the number of strategies tested; reporting
+confidence intervals rather than point estimates; requiring a direction that is stable across halves
+of the sample; refusing to score a strategy on fewer than 100 out-of-sample games; and never
+re-using a result to tune the rule that produced it. A positive short-run return is not evidence of
+skill, and none of the strategies on this site has demonstrated skill yet.</p>
+
+<h2>5. Injuries and rotation</h2>
+<p>The official injury report publishes a participation status and a reason. It does not publish
+minutes, expected minutes or production impact, and a status is not a medical clearance. The
+pipeline therefore (a) captures the newest report with its timestamp, (b) keeps the previous
+snapshots so status changes can be shown, (c) converts an OUT into a minutes vacuum only when the
+player's official minutes-per-game are captured, and (d) leaves the vacuum blank and flagged when
+they are not. Status-to-availability weights (Out 0.00, Doubtful 0.25, Questionable 0.60,
+Probable 0.90, Available 1.00) are this project's assumption and are flagged as such.</p>
+
+<h2>6. Legal and data-use boundary</h2>
+<ul>
+<li>The NBA Terms of Use restrict the use of NBA Statistics in connection with gambling and restrict
+reproduction. This is a research repository, publishes no market prices and no betting advice, and
+links to every official source it uses. The review points at
+<a href="https://www.nba.com/termsofuse">nba.com/termsofuse</a> are listed on the
+<a href="flagged.html">Flagged for review</a> page.</li>
+<li>Publishing betting-related functionality or recommendations in the Netherlands requires a
+licence under the Betting and Gaming Act and a Ksa licence for online sports-betting offers; the
+statutory position is summarised on the <a href="questions.html">Open questions</a> page.</li>
+<li>No licensed price feed is connected, so no profit, ROI or market comparison can be published
+here. Every price shown is our own fair price.</li>
+</ul>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/2b9f1ae1-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>
