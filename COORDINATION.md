@@ -2371,3 +2371,16 @@ Flags F26-01 … F26-07 are on `audit26/flagged.html`.
 | Live check | https://wingbangboozle1-lang.github.io/NBA3/audit26/index.html — renders the 31/31 comparison, the 14/14 schedule table, self-checks PASS, every row linked to an official source. https://wingbangboozle1-lang.github.io/NBA3/audit26/flagged.html — F26-01 … F26-07 with official source links. |
 | Flags | F26-01 … F26-07 and CR-26fd5f6f-A are open. None blocks anything. |
 | Tasks | F1, F2, F3 **done**. The claim's out-of-scope items (app/, data/app/, index.html, pages.yml) were not edited. |
+
+### Incident and repair — `main` red after PR #50 (session 26fd5f6f)
+
+| Item | Record |
+|---|---|
+| Symptom | Post-merge CI on `main` failed at step "Assemble canonical dataset and build the dashboard" on e0e363e (PR #50) and again on 8b49887 (PR #51). `deploy` was skipped on both. The legacy Pages build still published the branch. |
+| Root cause | Commit `b769edd` (session 44e0c051) hand-added flags 44-F-01..03 to `data/app/canonical.json`, `app/flagged.html`, and `index.html` (58 flags). `scripts/assemble_canonical.py` does not produce them, so the drift gate `git diff --exit-code` failed. PR #50's own PR-time run (43581647670) was already red when it was merged. |
+| Repair | [PR #52](https://github.com/wingbangboozle1-lang/NBA3/pull/52) `arena/26fd5f6f-nba3` → `main`: the three records move verbatim into `data/app/flags_44e0c051.json`; `scripts/assemble_canonical.py` appends them. Regenerated output has zero diff. Merged `gh pr merge 52 --merge` as merge commit `3fb007d885d7cc115427e2b25dcc7e5852bc6922`. |
+| Verification before merge | All 21 `run:` steps of `.github/workflows/pages.yml` were replayed locally in order from a clean tree: 21/21 pass. PR-time CI run [43581853070](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581853070) on `0344e0d`: success. |
+| After merge | Push run [43581910516](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43581910516) on `3fb007d`: build **success**, deploy **success**. Pages `builds/latest` → `built`, commit `3fb007d`. Live root `?v=3fb007d` shows "58 flagged items" (a first fetch without the query string showed a cached 55). |
+| Flag | F26-08 on `audit26/flagged.html`. Owner recommendation: merge only with green PR checks, and regenerate generated files via their scripts only. |
+
+**Process notes, recorded for the owner.** (1) In this workspace I ran `git checkout main` once by mistake, which switched to the local `main` ref. No commit or push was made on it. I returned to `arena/26fd5f6f-nba3` straight away and fast-forwarded it to `origin/main`. (2) A chained `git pull --rebase` ran after a failed push step and began replaying `main`'s commits onto an older branch tip. I aborted it with `git rebase --abort` before any commit or push. The branch was restored to `0344e0d`, and the remote update was a fast-forward, with no force-push and no loss.
