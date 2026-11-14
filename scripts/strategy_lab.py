@@ -1254,16 +1254,25 @@ def originate_window(games, slate, ratings, injury, players, resid):
     players_by_team = defaultdict(list)
     for p in players:
         players_by_team[p["team"]].append(p)
-    player_index = {}
-    for p in players:
-        player_index[(p["player"].split(",")[0].strip().lower(),
-                      p["player"].split(",")[-1].strip().lower())] = p
-
+    # Player-name join between two official pages that print names differently.
+    # The injury PDF prints "Last, First" ("Edwards, Anthony"); the players
+    # table prints "First Last" ("Anthony Edwards").  Until 2026-11-14 this
+    # index was built by splitting on the comma, which made every key a
+    # ("first last","first last") pair for this table, so no injured player
+    # ever matched and every minutes-vacuum figure was silently a floor of
+    # zero (flag F-901-01).  Both forms are normalised to (first, last) here.
     def norm_name(s):
-        parts = [x.strip() for x in (s or "").split(",")]
-        if len(parts) >= 2:
-            return (parts[0].lower(), parts[-1].lower())
-        return ((s or "").strip().lower(), "")
+        """(first, last) in lower case, from either printed form."""
+        s = (s or "").strip()
+        if "," in s:
+            last, first = s.split(",", 1)
+            return (first.strip().lower(), last.strip().lower())
+        parts = s.split()
+        if len(parts) == 1:
+            return (parts[0].lower(), "")
+        return (parts[0].lower(), " ".join(parts[1:]).lower())
+
+    player_index = {norm_name(p["player"]): p for p in players}
 
     # injury roll-up by (date, matchup, team)
     inj = defaultdict(list)

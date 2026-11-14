@@ -189,6 +189,20 @@ jobs:
           # and that the whole 27-game slate window matches its live re-read.
           python3 scripts/capture_official_2026_11_14d.py
           git diff --exit-code -- data/app/official_injuries_2026-11-14_0515AM.json
+      - name: Injury-report game-day capture (arena/90183333) - newest official report, two-report cross-check
+        run: |
+          # Parses the committed verbatim fetch of the 01:30 PM ET official
+          # injury report and proves, offline and deterministically, (F1) that
+          # the 01:15 PM report agrees row for row, (F2) that the parse equals an
+          # independent transcription, (F3) that every cell the PDF does not
+          # print is left empty, (F4) that every row of the previously published
+          # snapshot is accounted for, (F5/F5b) that the report's games and team
+          # sides are the stored slate's, and (F6) that the scoreboard's own
+          # per-date counts match.
+          python3 scripts/capture_official_2026_11_14e.py
+          git diff --exit-code -- data/app/official_injuries_2026-11-14_0130PM.json data/app/availability_delta_0130PM.json
+      - name: Capture and name-join regression tests (arena/90183333)
+        run: python3 -m unittest tests/test_capture_e.py
       - name: Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)
         run: |
           python3 scripts/strategy_lab.py
