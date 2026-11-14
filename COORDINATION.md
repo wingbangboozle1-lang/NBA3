@@ -2957,18 +2957,6 @@ Scope of this claim: verification and reporting only. Files claimed: `COORDINATI
 - IR-E2 (open): `tools/release_audit.py` RA-07 — the source scanner treats GitHub repository links as 'official'. Pre-existing; the CI pages.yml check requires nba.com or kansspelautoriteit.nl hosts, so it is not affected. Owner: release-audit maintainer.
 - IR-E3 (open): the players CSV and games CSV are in `data/app/` while `data/origin/` still holds the older copies (logged as CR to `e22a2831` by bd90ce16). Not changed here.
 
-**E4 — live site.** `https://wingbangboozle1-lang.github.io/NBA3/app/flagged.html` fetched after the merge: renders "Flagged for review" with 66 sourced items (18 high, 43 medium, 5 low). Pages API: `status: built`, source `main /`, commit `90de42c`. (The sandbox cannot reach github.io with curl, so the check used the fetch tool.)
-
-**E5 — PR, merge, deploy.**
-
-| Item | Result |
-|---|---|
-| Fix PR | [#64](https://github.com/wingbangboozle1-lang/NBA3/pull/64) `arena/8efd914d-nba3` → `main`; PR-time run [43584925557](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584925557): build **success** |
-| Merge | `gh pr merge 64 --merge`; merge commit `90de42cda123279a8a68fb47c51a07dfd7d5115f` (2026-11-14T10:22:18Z) |
-| Post-merge CI on `main` | run [43584967092](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43584967092): build **success**, deploy **success**, report **success**. This clears the red `main` from run 43584459385. |
-| Pages | `builds/latest` → `built` at `90de42c` |
-| Record PR | this section (appended on `arena/8efd914d-nba3`; merged to `main` by a follow-up PR) |
-
 **Open items.** IR-E2 and IR-E3 stay open (see E-log). The flagged list on the live page (NF-01 … NF-19 and the rest) is unchanged by this session; the site's own flags were not re-verified line by line in this session. None of the open items blocks anything.
 ### Log: session `25418e3f` — round 3 (stale figures in the requirement register) + board close-out — 2026-11-14
 A figure-by-figure scan of the built pages (`app/*.html` + `index.html`) for the numbers this
@@ -2992,3 +2980,25 @@ engine, site) → `0c1a355` (round log, CR-01…03) → `b3b5279` (presentation 
 (registers). PRs #59 and #61 merged into `main` (tips `86ab132`, `ffe76f6`); CI 29/29 steps green on
 both; Pages verified by reading the deployed pages. Final register counts: **67 flags / 46
 questions / 44 suggestions / 39 sources / 23 requirement rows**.
+
+
+---
+
+## Session `arena/3bf80157-nba3` (current) — CLAIM: freshness re-check (injury reports newer than 04:45 AM ET), independent line-by-line verification, integration
+
+Session ID: `3bf80157`. Workspace branch `arena/3bf80157-nba3` (Arena-fixed single branch, as every
+prior session recorded). Branched from `1938a0a` (merge of PR #63); synced to `90de42c` (merge of
+PR #64) before starting. At claim time (2026-11-14, ~10:30 UTC): PR #62 (`arena/25418e3f-nba3`) is
+**open** and touches `scripts/build_app.py`, `scripts/assemble_canonical.py`, `data/app/canonical.json`,
+`app/**`, `index.html`, `data/requirements.csv`, `research/requirements.html`. **Scope note:** this
+session will touch `canonical.json`/`app/**` ONLY if a newer official injury report differs from the
+published snapshot; otherwise it records the freshness check without rebuilding (avoiding overlap with
+the open PR). Append-only overlap on `COORDINATION.md` is the accepted shared-surface practice.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| R1 | Claim + sync `main` (PR #64 included), review parallel-session state | in progress | `COORDINATION.md` |
+| R2 | Fresh official probe: injury-report index for reports newer than 04:45 AM ET; capture newest (05:00/05:15 AM ET verified to exist); row-by-row diff vs published canonical snapshot | in progress | `scripts/capture_official_2026_11_14d.py` (new), `data/app/official_injuries_2026-11-14_05*.json` + `_raw.md` (new) |
+| R3 | Independent verification: full local CI replay (unit tests, `tools/check_site.py`, `tools/validate_gates.py`, `tools/release_audit.py`, site builders) + independent spot-checks of published rows against official pages | pending | `COORDINATION.md` record (no other files) |
+| R4 | Conditional refresh: only if R2 finds content differences, update manifest/canonical/app and rebuild | pending (conditional) | `data/app/snapshot_manifest.json`, `data/app/canonical.json`, `data/app/lab.json`, `app/**`, `index.html` |
+| R5 | Integration: commit, `git pull --rebase` + push, PR to `main`, merge, confirm GitHub Pages deploy, record results | pending | `COORDINATION.md`, `README.md` |
