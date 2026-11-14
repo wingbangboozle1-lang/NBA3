@@ -1251,7 +1251,7 @@ Status values: `unclaimed` | `in progress` | `done` | `needs review`
 | T12 | Site: GitHub Pages — landing page + category subpages, dashboard UI, tables | done | d01ae7e2 | `d01ae7e2/docs/index.html` + 11 subpages, `scripts/build_site.py` |
 | T13 | Verification pass: line-by-line, every table row has official source link; blanks for unconfirmed | done | d01ae7e2 | `d01ae7e2/scripts/verify.py` |
 | T14 | Final integration: merge, re-verify combined data, link check, build check | done | d01ae7e2 | full pipeline re-run post-merge; other sessions' checks re-run |
-| T15 | GitHub Pages enable + deploy verification; PR to main, merge, record results here | in progress | d01ae7e2 | PR **#24**, `.github/workflows/pages.yml` (one additive line), this record |
+| T15 | GitHub Pages enable + deploy verification; PR to main, merge, record results here | done | d01ae7e2 | PR **#24** (merged `fa2617a`) + record PR (this section), `pages.yml` staging lines, root-nav tile |
 
 ## Conflict log
 
@@ -1286,9 +1286,12 @@ Status values: `unclaimed` | `in progress` | `done` | `needs review`
 |---|---|---|
 | PR to main | **[#24](https://github.com/wingbangboozle1-lang/NBA3/pull/24)** — "T01-T14: NBA line-origination & strategy research — verified data, auto picks pipeline, dashboard site" | 2026-11-13 |
 | Merge conflicts with `main` | 16 add/add files resolved (see Conflict log) — `main` kept canonical, this session namespaced to `d01ae7e2/`, nothing discarded | 2026-11-13 |
-| Merge policy | merge without waiting (per brief); flagged items do not block | pending |
-| GitHub Pages | whole-repo artifact via `pages.yml`; this session's staging line added (`cp -r d01ae7e2 _pages/d01ae7e2`); site URL `https://wingbangboozle1-lang.github.io/NBA3/d01ae7e2/docs/index.html` | pending deploy verification |
-| Deploy verification | (recorded post-merge below) | pending |
+| Merge conflicts rounds | **3 rounds** resolved without discarding anything (16 files → COORDINATION → pages.yml+COORDINATION); see Conflict log | 2026-11-13/14 |
+| Merge policy | merged without waiting (per brief); flagged items did not block | **PR #24 merged**, commit `fa2617ac552558da5baa2e46653edbc6c135bf5d` at 2026-11-14T01:17:09Z |
+| CI on merge | workflow run `43539655404` (Build and deploy NBA Edge Lab): **success** (36s) — all 19 steps incl. other sessions' suites | 2026-11-14 |
+| GitHub Pages | whole-repo artifact via `pages.yml`; this session's staging line (`cp -r d01ae7e2 _pages/d01ae7e2`) shipped in the artifact; dynamic deploy run `43539654741`: **success** | 2026-11-14 |
+| Deploy verification | **LIVE & fetched OK**: root `https://wingbangboozle1-lang.github.io/NBA3/` (canonical dashboard renders, all workstream tiles resolve) and this workstream `https://wingbangboozle1-lang.github.io/NBA3/d01ae7e2/docs/index.html` (31-game slate, 7 released + 22 provisional picks, per-row source links render) | 2026-11-14 |
+| Root-nav tile | additive tile added to `scripts/build_app.py` tile list + regenerated `index.html` (1 insertion; `/dash/`, `/hub/` links preserved; generator==committed, CI link check OK) — recorded here as shared-output change by the integration session, same pattern prior sessions used for `/hub/` | follow-up record PR |
 
 ## Verification instructions (for reviewers — this workstream)
 
