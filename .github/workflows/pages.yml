@@ -14,6 +14,7 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /origin/         -> arena/e22a2831 origination engine (174-game verified log, walk-forward backtest, 7-gate leaderboard)
 #   /verify/pages/   -> arena/3655c68d verification & decision layer (cross-pipeline reconciliation, corrections, decision queue)
 #   /d01ae7e2/       -> session d01ae7e2 official-slate line origination & gated picks dashboard (data + docs + scripts)
+#   /hub/            -> arena/99eabb04 consolidated dashboard (one namespace, one set of numbers, every row sourced)
 # Pull requests run every check but never deploy.
 
 on:
@@ -143,12 +144,18 @@ jobs:
           python3 scripts/assemble_canonical.py
           python3 scripts/build_app.py
           git diff --exit-code -- data/app/canonical.json app/ index.html
+      - name: Build and verify the consolidated dashboard (hub/)
+        run: |
+          python3 scripts/build_hub_data.py
+          python3 scripts/build_hub.py
+          test -z "$(git status --porcelain -- hub/ data/hub/)" || { echo 'hub/ or data/hub/ is out of date; regenerate and commit'; git status --porcelain -- hub/ data/hub/; exit 1; }
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
           cp index.html _pages/
           cp -r app _pages/app
           cp review.html _pages/review.html
+          cp executive-summary.html _pages/
           cp -r docs _pages/docs
           cp -r site _pages/site
           cp -r lab _pages/lab
@@ -158,6 +165,7 @@ jobs:
           cp -r dash _pages/dash
           cp -r verify _pages/verify
           cp -r d01ae7e2 _pages/d01ae7e2
+          cp -r hub _pages/hub
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

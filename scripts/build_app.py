@@ -939,9 +939,21 @@ def build_index(d):
         cats.append(f'<div class="cat"><h3>{esc(cat)}</h3><div class="tiles">{"".join(cards)}</div></div>')
     flags = d["flags"]
     top = [f for f in flags if f["severity"] == "high"][:6]
-    flist = "\n".join(
-        f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
-        f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}</li>' for f in top)
+    flist_parts = []
+    for f in top:
+        dash = ""
+        # Cross-reference to the independent integration round (session e40cd215, PR #23).
+        if f["id"] == "NF-23":
+            dash = (
+                '<a href="dash/index.html"><b>Unified dashboard (e40cd215) →</b><br>'
+                'Second, independent integration round: 174-game re-verification, 22 originated '
+                'lines from a separate engine, 9 gates, measured parlay dependence, '
+                'cross-engine reconciliation and a flagged register</a>')
+        tail = f"\n{dash}" if dash else ""
+        flist_parts.append(
+            f'<li><span class="flag-id">{esc(f["id"])}</span> <strong>{esc(f["item"])}</strong> — '
+            f'{esc(f["action_needed"])} {src_cell(f["sources"], "source")}{tail}</li>')
+    flist = "\n".join(flist_parts)
     body = []
     body.append(f"""
 <section class="hero">
@@ -993,6 +1005,8 @@ def build_index(d):
     <a class="tile" href="app/legacy/root-dashboard-2026-11-13.html"><span class="tile-t">/app/legacy — previous root dashboard (2026-11-13)</span></a>
     <a class="tile" href="review.html"><span class="tile-t">/review.html — cross-workstream audit R-01 – R-13 (2026-11-14)</span></a>
     <a class="tile" href="verify/pages/index.html"><span class="tile-t">/verify/pages — verification &amp; decision layer (2026-11-14)</span></a>
+    <a class="tile" href="hub/index.html"><span class="tile-t">/hub — consolidated dashboard (session 99eabb04): one namespace, slate, injuries, lines, leaderboard, review pages</span></a>
+    <a class="tile" href="executive-summary.html"><span class="tile-t">/executive-summary.html — cross-site consolidated executive summary (session 3bf92fcc)</span></a>
   </div>
 </section>
 """)
