@@ -1,0 +1,136 @@
+{
+ "meta": {
+  "what": "Row-by-row check of the published injury table against the official NBA injury report PDFs."
+ },
+ "sources": {
+  "report_0500pm": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf",
+  "report_0730pm": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+  "index": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "failed": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_11_00AM.pdf"
+ },
+ "totals": {
+  "official_named_players": 98,
+  "matched": 110,
+  "status_mismatches": 0,
+  "our_rows": 117,
+  "team_rows": 7,
+  "changed_later": 11,
+  "extra_named_in_ours": 12
+ },
+ "changes": [
+  {
+   "player": "Cain, Jamal",
+   "team": "Orlando Magic",
+   "matchup": "MIL@ORL",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "da Silva, Tristan",
+   "team": "Orlando Magic",
+   "matchup": "MIL@ORL",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Suggs, Jalen",
+   "team": "Orlando Magic",
+   "matchup": "MIL@ORL",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "McConnell, T.J.",
+   "team": "Indiana Pacers",
+   "matchup": "NYK@IND",
+   "status_0500pm": "Probable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Nesmith, Aaron",
+   "team": "Indiana Pacers",
+   "matchup": "NYK@IND",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Dennis, RayJ",
+   "team": "Atlanta Hawks",
+   "matchup": "ATL@CHI",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Flemings, Kingston",
+   "team": "Atlanta Hawks",
+   "matchup": "ATL@CHI",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Powell, Norman",
+   "team": "Chicago Bulls",
+   "matchup": "ATL@CHI",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Mathurin, Bennedict",
+   "team": "New Orleans Pelicans",
+   "matchup": "MEM@NOP",
+   "status_0500pm": "Questionable",
+   "status_0730pm": "Available",
+   "change": "Became available"
+  },
+  {
+   "player": "Larsson, Pelle",
+   "team": "Miami Heat",
+   "matchup": "CLE@MIA",
+   "status_0500pm": "Doubtful",
+   "status_0730pm": "Out",
+   "change": "WENT OUT - adverse"
+  },
+  {
+   "player": "Thompson, Klay",
+   "team": "Miami Heat",
+   "matchup": "CLE@MIA",
+   "status_0500pm": "Probable",
+   "status_0730pm": "Out",
+   "change": "WENT OUT - adverse"
+  }
+ ],
+ "attribution": [
+  {
+   "attribution": "R",
+   "meaning": "Printed on the official PDF",
+   "count": 78,
+   "disclosure": "Nothing inferred. Team, matchup and status are exactly as the league printed them."
+  },
+  {
+   "attribution": "S",
+   "meaning": "Team printed on the PDF; matchup linked from the official schedule",
+   "count": 19,
+   "disclosure": "Carries the flag \"Team printed; matchup linked via official schedule pairing\". Team is official, matchup is inferred."
+  },
+  {
+   "attribution": "T",
+   "meaning": "Team-level row, no player named",
+   "count": 2,
+   "disclosure": "The PDF shows a team header with status NOT YET SUBMITTED. Shown as a team row, not a player row."
+  },
+  {
+   "attribution": "U",
+   "meaning": "Team and matchup not extracted from the PDF text",
+   "count": 18,
+   "disclosure": "Left blank and flagged rather than guessed. The player and status are official; the team is not shown."
+  }
+ ]
+}

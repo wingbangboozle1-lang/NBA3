@@ -1,0 +1,112 @@
+{
+ "meta": {
+  "what": "Places where two or more of the six pre-existing dashboards publish different answers to the same question from the same repository. Each entry states what each dashboard says, which one the evidence supports, and what is needed to settle it.",
+  "rule": "Where the evidence does not settle a contradiction, the row says so and gives no verdict.",
+  "severity": {
+   "Blocking": "A published number is materially wrong and would mislead a decision.",
+   "Material": "Two dashboards disagree in a way that changes which action is correct.",
+   "Housekeeping": "Inconsistent presentation that does not change a decision but should be fixed."
+  }
+ },
+ "contradictions": [
+  {
+   "id": "C-01",
+   "severity": "Blocking",
+   "topic": "The plain-English spread on the pick cards named the wrong side of the market (FIXED)",
+   "says_a": "/edge/ pick cards printed e.g. 'DEN +8.6' next to 'Fair ML DEN -205'. A -205 moneyline means DEN is the favourite; a +8.6 spread means an 8.6-point underdog.",
+   "says_b": "The same record's model probability is 0.327 for the home team NOP, so away team DEN is the favourite. The spread field and the moneyline field therefore describe different sides.",
+   "evidence": "All 22 cards carried a plus handicap on the away team. The generator at pipeline/make_picks.py built the label as `away team + '+' + (-origin_spread_home)`; because origin_spread_home is a projected HOME MARGIN (positive = home wins), the away team was printed as the underdog on every card, including the 10 where it was in fact the favourite.",
+   "verdict": "FIXED 2026-11-14. The label is now derived from the sign of the projected home margin, so the favourite carries the minus. A test derives the favourite two independent ways (spread sign and model_p_home) and requires the label to match both.",
+   "impact": "While live, a reader taking 'DEN +8.6' at face value would back the opposite side to the one the model favoured on all 22 cards. This was the most dangerous defect found.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/make_picks.py"
+  },
+  {
+   "id": "C-02",
+   "severity": "Blocking",
+   "topic": "Same-game parlay joint probability",
+   "says_a": "/edge/ publishes a joint win probability of 0.58 for two legs of 0.58 at an assumed correlation of +0.3, giving fair odds 1.72.",
+   "says_b": "/origin/ measures the actual joint hit rate on 114 out-of-sample games: 0.2456 against an independent product of 0.2187, a phi coefficient of +0.109.",
+   "evidence": "The /edge/ number is mathematically impossible for anything short of perfect correlation: for two 0.58 legs the Frechet upper bound is exactly 0.58. Two independent methods agree the correct value at rho = +0.3 is 0.3832 (fair odds 2.61). The cause is in pipeline/run_model.py: the integration loop runs over the whole real line and never uses the first-leg threshold, so it returns the second leg's marginal probability verbatim.",
+   "verdict": "/edge/ is wrong, and its own prose contradicts its own number. /origin/'s empirical joint rate is the one supported by evidence. Corrected /edge/ values: 0.3832 and 2.61.",
+   "impact": "Every parlay price derived from that function is wrong by roughly 50% in probability terms. Anyone comparing a parlay payout to this 'fair' price would reject genuinely fair bets.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/model/correlation_report.json"
+  },
+  {
+   "id": "C-03",
+   "severity": "Blocking",
+   "topic": "Two 'spread' strategies are actually settled as moneylines",
+   "says_a": "/edge/ labels STRAT1 'Favourite-side spread (model vs market)' and books every bet at a flat -110.",
+   "says_b": "The settlement code is `won = (margin > 0) if side == HOME else (margin < 0)` -- the bet pays if the team wins the game, at any margin.",
+   "evidence": "STRAT1 wins 66 of 85 for a 77.6% hit rate at a mean model probability of 0.768 on the bet side. A spread bet at a 77% hit rate against a -110 price would be implausible; a moneyline bet on teams the model gives 77% is exactly what is recorded. -110 is not a price available on such a favourite; the recorded probabilities imply fair prices near -332.",
+   "verdict": "/edge/ mislabels the market. The +48.24% ROI is arithmetic on a moneyline bet priced as if it were a spread bet, so it is not an economic result.",
+   "impact": "The headline '+48% ROI' cannot be earned and must not be carried into any leaderboard.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/run_model.py"
+  },
+  {
+   "id": "C-04",
+   "severity": "Blocking",
+   "topic": "Can a spread leg and a total leg be multiplied?",
+   "says_a": "/lab/ says 'Near zero means spread and total legs in the same game are close to independent, so a spread+total parlay can be multiplied with little error.'",
+   "says_b": "/origin/ measures r = +0.091 on residuals and a joint cover-and-over rate 0.027 above the independent product.",
+   "evidence": "Recomputed on the 114 out-of-sample games: joint rate 0.2719 against an independent product of 0.2526, a 7.65% relative error. Both dashboards get the direction right; the magnitude is not negligible. For a 2-leg parlay a 7.65% probability error moves the fair price from 3.96 to 3.68.",
+   "verdict": "Neither dashboard is wrong about the correlation being small, but /lab/'s operational instruction ('can be multiplied') overstates the result. Multiplication is acceptable as a screening approximation only, never as a pricing rule.",
+   "impact": "Moderate. Parlay pricing built on multiplied marginals will be systematically overpriced.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/origin/model_output.json"
+  },
+  {
+   "id": "C-05",
+   "severity": "Blocking",
+   "topic": "Which injury snapshot is current",
+   "says_a": "/site/ and /research/ publish the 11/13/26 5:00 PM report (117 and 98 rows). /docs/ publishes the 11/11/26 5:00 PM report (77 rows).",
+   "says_b": "The official index lists reports for 11/13 at 15-minute intervals through 7:30 PM ET, and a 7:30 PM PDF resolves.",
+   "evidence": "Compared the 5:00 PM and 7:30 PM PDFs directly: 11 players changed status, 8 from Questionable/Probable to Available and 2 to Out (Klay Thompson Probable to Out, Pelle Larsson Doubtful to Out). Mathurin went Questionable to Available. The 11/14 11:00 AM report returns an access-denied error, so today's report is not retrievable from here.",
+   "verdict": "Three different snapshots are live at once and none is the newest. The 7:30 PM report is the latest verifiable one for game date 11/13.",
+   "impact": "A two-way status change on a rotation player is exactly the information that moves a line. Publishing a 2.5-hour-stale snapshot as current inverts the meaning of the injury page.",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf"
+  },
+  {
+   "id": "C-06",
+   "severity": "Material",
+   "topic": "Six dashboards, six answers to 'do we have originated lines and picks?'",
+   "says_a": "/research/ states picks, lines and correlation values are deliberately blank (flags F13, F14, F21). The root dashboard says 'No picks or prices are published until ... gates are in place'.",
+   "says_b": "/edge/ publishes 22 picks with fair moneylines; /lab/ publishes originated lines and picks; /origin/ publishes lines for 31 games; /site/ publishes a strategy framework.",
+   "evidence": "Read all six trees. Four of them publish numeric lines and picks; two publish nothing and assert that nothing is published.",
+   "verdict": "Stale content, not a data error. The root dashboard and /research/ predate the pipelines that produced lines.",
+   "impact": "A reader arriving at the root is told there are no picks, and a reader arriving at /edge/ is given picks. The landing page is actively misleading.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/index.html"
+  },
+  {
+   "id": "C-07",
+   "severity": "Material",
+   "topic": "Which games are in the slate",
+   "says_a": "/research/ and /site/ say 31 games for 13-16 Nov.",
+   "says_b": "/edge/ publishes 22 lines for 14-16 Nov; /origin/ publishes 31 lines.",
+   "evidence": "Counted: 31, 22 and 31 respectively. The 31-game figure requires 9 games on 11/13, which the official schedule shows. /edge/ starts at 11/14 and so holds fewer.",
+   "verdict": "Not a contradiction of fact: the windows differ. It is a contradiction of framing, because all three call themselves the 3-day slate.",
+   "impact": "Low, but any cross-dashboard comparison of 'slate performance' will be comparing different sets of games.",
+   "source": "https://cdn.nba.com/manage/2026/08/2026-27-NBA-Season-Schedule-By-Date.pdf"
+  },
+  {
+   "id": "C-08",
+   "severity": "Material",
+   "topic": "Strategy leaderboard order",
+   "says_a": "/lab/ ranks its top strategy S4, a calibration-forecast strategy with 2 of 7 gates passed, at rank 1 with an 'eligible: false' status.",
+   "says_b": "/origin/ and /edge/ both report that zero strategies pass all gates; /lab/ agrees every row is ineligible.",
+   "evidence": "All three dashboards agree nothing is eligible. They disagree on what a leaderboard is for: /lab/ ranks ineligible entries anyway, /origin/ shows them all as failed.",
+   "verdict": "Not an error. It is a product decision that has never been made: whether an ineligible strategy may hold a rank.",
+   "impact": "Material to the brief's 'leaderboard competition that rewards top performing strategies' -- the reward rule cannot be defined until this is settled.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/data/model.json"
+  },
+  {
+   "id": "C-09",
+   "severity": "Housekeeping",
+   "topic": "Three different ID schemes for the same flagged items",
+   "says_a": "/site/ uses 7C-F-nn, /docs/ uses F-nn, /research/ uses Fnn, /edge/ uses its own register.",
+   "says_b": "README documents two of the namespaces; the other two are undocumented.",
+   "evidence": "Cross-checked the prefixes across all four data files. Only the two documented schemes appear in the README mapping table.",
+   "verdict": "Documentation gap. No values are affected.",
+   "impact": "A reviewer cannot follow a flag from one page to another.",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/README.md"
+  }
+ ]
+}
