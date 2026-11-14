@@ -819,4 +819,20 @@ are the integration surface.
 
 ### Deployment / PR status
 
-* PR: pending (see below, updated after the merge).
+* PR: [#19](https://github.com/wingbangboozle1-lang/NBA3/pull/19) `arena/2b9f1ae1-nba3` → `main`,
+  merged 2026-11-14T00:56:48Z with merge commit `3367762bd0602b6ae78ff16ad67b06ab8481da42`
+  (`gh pr merge 19 --merge`).
+* PR-time CI: run [43537385859](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537385859)
+  — `build` **success**, all 17 steps (including the new capture cross-check, the canonical assembly and
+  the canonical site build); `deploy` skipped on pull requests by design.
+* Post-merge CI: run [43537485796](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537485796)
+  — `completed success` (build + deploy); pages-build-deployment run
+  [43537485401](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43537485401) — `completed success`.
+* Pages: `gh api repos/wingbangboozle1-lang/NBA3/pages/builds/latest` → status `built`, commit `3367762`;
+  the Pages source is still the legacy `main /` (see NF-43).
+* Live check (cache-busted with the merge SHA): the canonical dashboard, `app/flagged.html` and
+  `app/lines.html` all render with their tables and source links at
+  https://wingbangboozle1-lang.github.io/NBA3/.
+* Merge conflicts: `main` advanced twice while this session worked (PRs #17/#18 and #20/#22 from the
+  other integration sessions). Both merges were resolved without discarding the other sessions' work —
+  see the merge notes above and the final conflict resolutions in the commit messages.

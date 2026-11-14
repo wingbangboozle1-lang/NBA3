@@ -68,6 +68,7 @@ comparing the official pages read on 2026-11-14 with the values already stored i
 - The 2026–27 NBA Terms and use of NBA-derived statistics, distribution to others, and Dutch regulatory obligations remain review items. This repository is not legal advice.
 
 **Primary dashboard:** https://wingbangboozle1-lang.github.io/NBA3/<br>
+**Published:** PR [#19](https://github.com/wingbangboozle1-lang/NBA3/pull/19) merged 2026-11-14 (merge commit `3367762`); Pages build `built` for that commit.
 **Flagged for Review:** https://wingbangboozle1-lang.github.io/NBA3/review.html<br>
 **Repository audit log:** [`COORDINATION.md`](COORDINATION.md)
 
