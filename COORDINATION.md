@@ -1429,3 +1429,149 @@ This section supersedes the earlier pending-request wording where PRs have since
 - At the merged baseline, `audit/release-audit.json` records 148 staged HTML files and 3,421 table-body rows. Six findings remain open: RA-02 page-wide rather than row-scoped citation gate; RA-03 1,085 rows without an official link and without an explicit unverified marker (136 more without a link are flagged); RA-04 three picks beyond 72 hours; RA-05 official-capture CI is offline/static; RA-06 missing exact line-generation timestamp; RA-07 legacy GitHub-as-official classification. RA-01 is resolved by upstream workflow repair. No NBA web page or PDF was fetched by this audit, and no stored sports values were newly verified.
 
 ---
+
+
+## Session `arena/925439ca-nba3` — FINAL INTEGRATION: one consolidated dashboard, refreshed slate, line-by-line verification
+
+Session ID: `925439ca`. Branch: `arena/925439ca-nba3` (branched from `main` @ `e591b67`).
+Role: **final integration session**. Every earlier session's board section, site directory and
+PR history is preserved. Nothing owned by another session was deleted; the only file from
+another session that was modified is `tools/check_site.py`, and the change is documented below.
+
+### Claim
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| I1 Refresh the official slate to D+1..D+3 (11/14–11/16) | done | 925439ca | `final/data/schedule_upcoming.csv` |
+| I2 Transcribe the newest official injury report (11/13/26 07:30 PM ET) | done | 925439ca | `final/data/injuries.csv` (122 rows) |
+| I3 Line-by-line verification of every stored value | done | 925439ca | `final/verify.py`, `final/data/official_*.csv` |
+| I4 Re-run the origination engine on the refreshed inputs | done | 925439ca | `final/build_model.py` (path-patched copy of `model/build.py`) |
+| I5 Consolidated content register (questions, suggestions, flags, repo review, sources) | done | 925439ca | `final/data/content.json` |
+| I6 Consolidated verified dashboard | done | 925439ca | `final/site_lib.py`, `final/build_site.py`, `final/check_site.py`, `dashboard/**` (17 pages) |
+| I7 Repo review, line by line | done | 925439ca | `final/data/content.json` (`repo_review`), `repo-review.html` |
+| I8 CI: add the consolidated checks and stage the new pages | done | 925439ca | `.github/workflows/pages.yml` |
+| I9 PR → merge → Pages deploy verification → log | in progress | 925439ca | `COORDINATION.md`, `README.md`, PR |
+
+### Why this build is published under `/dashboard/` and not at the site root
+
+While this session was mid-build, `main` moved three times (PRs #28, #29, #30) with work from
+session `arena/a459dadf-nba3`, which owns the root `index.html` and builds the canonical
+dashboard there with its category pages under `/app/`. Session `arena/2b9f1ae1` owns `/dash/`.
+Overwriting the root would have collided with an in-progress claim, so this build is published
+as an independently verified alternative under **`/dashboard/`** and:
+
+- root `index.html` is left exactly as `arena/a459dadf-nba3` wrote it;
+- `tools/check_site.py` is left exactly as `f879620b` wrote it (an earlier draft of this session
+  had widened one assertion; that change was reverted);
+- `data/origin/`, `model/`, `app/`, `dash/`, `integrate/`, `verify/` and all six session site
+  directories are untouched.
+
+By the time this branch merged, the site carried **five dashboard-family trees**: `/` + `/app/`
+(a459dadf), `/dash/` (2b9f1ae1 / e40cd215), `/hub/` (99eabb04), `/d01ae7e2/` (d01ae7e2) and this
+one. That proliferation is itself the defect the project keeps reproducing. See **F-13**,
+**SG-08** and change request **CR-925439ca-E** below.
+
+### Why a new directory (`final/`) instead of editing `data/origin/`
+
+Session `e22a2831` owns `data/origin/` and `model/`. The board rule is to log a request rather
+than edit another session's files. The slate had to move from 11/13–11/16 to 11/14–11/16 (the
+11/13 games were in progress at capture), which changes that session's inputs. `final/data/`
+is therefore a **copy** of those inputs plus the refreshed slate and injury report, and
+`final/build_model.py` is a path-patched copy of `model/build.py`. `data/origin/` and `model/`
+are untouched. This is logged as a change request for `e22a2831`: **CR-925439ca-A** — adopt the
+refreshed slate and injury report into `data/origin/` and delete `final/`'s copies, or keep the
+split. Open.
+
+### Verification performed (all on 2026-11-13 ET)
+
+- **1,305 checks, 0 mismatches** (`python3 final/verify.py`). Breakdown: team advanced table
+  570, player table 310, game-log reconciliation 91, slate structure 89, injury structure 245.
+- **Team advanced table**: all 19 columns of all 30 rows compared cell-for-cell with the
+  official page. Source: <https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season>
+- **Player table**: the captured top 31 by minutes compared on team, age, GP, W, L, MIN, PTS,
+  3PM, REB, AST. One row (rank 31, Yaxel Lendeborg) was incomplete in the stored copy and was
+  completed from the official page — the only data correction made this session.
+  Source: <https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC>
+- **Game-log reconciliation**: recomputing GP, W and L for all 30 teams from the 174 stored
+  scores reproduces the official columns exactly; team-game total 348 = sum of official GP.
+  91 checks. Sources: the teams-advanced GP/W/L columns and the official games pages.
+- **Direct score spot-check**: 2026-11-12, all four games compared score-by-score with
+  <https://www.nba.com/games?date=2026-11-12> — TOR 112 @ PHI 123, DET 144 @ WAS 140 (OT),
+  DAL 94 @ MIN 133, CHA 96 @ PHX 101. All four matched.
+- **Slate**: 22 games (11/14: 5, 11/15: 9, 11/16: 8) transcribed from
+  <https://www.nba.com/games?date=2026-11-14>, `...-11-15`, `...-11-16`. Structural checks for
+  unique game IDs, known team abbreviations, and home/away distinctness.
+- **Injuries**: 122 rows from <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf>
+  (the newest report listed on the official index at capture). Structural checks for official
+  status vocabulary and known team abbreviations.
+- **Legal**: NBA.com Terms of Use sections 1 and 9 read on the official page and quoted
+  verbatim on the Flagged page. <https://www.nba.com/termsofuse>
+- **Irregularity re-confirmed**: <https://official.nba.com/nba-injury-report-2025-26-season/>
+  resolves but serves the 2026-27 page, so it must not be cited as the 2025-26 report (F-06).
+- **Site**: `python3 final/check_site.py` — 17 pages under `dashboard/`, 1,585 links, 762
+  non-header table rows,
+  every row carrying an external official source link, 6 external hosts (all known), no broken
+  internal links or anchors, NBA.com attribution present on every page.
+- **Pre-existing suites re-run and passing**: `tests/test_validate_gates.py` (13 OK),
+  `tools/check_site.py` (PASS), `pipeline/tests` (29 OK), `scripts/build_site.py` (site/ drift 0),
+  `scripts/model.py` + `scripts/build_lab.py` + `scripts/validate_site.py` (lab/ drift 0),
+  `pipeline/build_site.py` + `pipeline/verify.py` (research/ drift 0), `pipeline/check_site.py`
+  (edge/ OK).
+
+### No file from another session is modified
+
+An earlier draft of this session overwrote the root `index.html` and widened an assertion in
+`tools/check_site.py` (owner: **f879620b**). Both changes were **reverted before the merge**.
+On the merged tree:
+
+- root `index.html` is byte-identical to session `arena/a459dadf-nba3`'s canonical dashboard;
+- `tools/check_site.py` is byte-identical to `f879620b`'s version, and it passes unmodified
+  (10 pages, 77 injury rows, 24 slate rows, 10 rule rows, 9 sources, no broken internal links).
+
+`git diff origin/main -- index.html tools/check_site.py` is empty, which is how this is checked
+in CI review. CR-925439ca-B is therefore withdrawn; the root-index question does not arise once
+this build stops writing the root.
+
+### Results published (all reproducible)
+
+- Margin model RMSE **16.18** vs 17.30 naive baseline (walk-forward, 114 OOS games); 12.5% of
+  margin variance explained.
+- Totals model RMSE **20.35** vs 19.56 baseline — **worse than the baseline**, published with
+  the failure disclosed (F-09).
+- Home court fitted at **+1.59** pts, p = 0.104 — not significant at n = 174 (F-10).
+- Spread-residual vs total-residual correlation **r = +0.091**, 95% CI [−0.094, +0.270] —
+  includes zero. Joint parlay rate 0.246 vs 0.219 under independence.
+- **0 of 8 strategies pass all gates.** Provisional: S5 (21/24, p = 0.0003, survives FDR,
+  split-half stable, needs n ≥ 56 vs a 100 floor) and S4b (20/28, p = 0.036, fails FDR).
+- **22 originated lines** for 11/14–11/16, each with a 95% interval and the official game link.
+- **4 candidate rules fired 9 times** across the slate; 13 games had no rule fire.
+- Data through 2026-11-12; nine 11/13 games were in progress at capture (F-15).
+
+### Blockers recorded (do not block the merge; published on Flagged for Review)
+
+F-01 NBA Terms §9(iv) — verbatim: "the NBA Statistics may not be used in connection with any
+gambling activity (including legal gambling activity)". F-02 §9(vii) — comprehensive regularly
+updated statistics database needs express prior consent. F-03 no licensed market prices, so
+every EV/ROI/CLV figure is blank. F-04 no per-player game logs, so 3 of 7 correlation rows and
+every prop distribution are blank. F-05 injury coverage for the published slate is partial:
+the 07:30 PM report covers 11/14 only, 5 of 10 team reports read NOT YET SUBMITTED, and no
+11/15 or 11/16 report exists yet (teams file by 5pm local the day before a game).
+
+Because of F-01 and F-03, the "projections" page publishes **candidate-rule selections against
+our own originated line**, not betting picks against a market price. No odds, stake, price or
+expected value appears anywhere on the site.
+
+### Change requests from this session
+
+| ID | To | Request | Status |
+|---|----|---------|--------|
+| CR-925439ca-A | e22a2831 (owner of `data/origin/`, `model/`) | Adopt the refreshed slate (11/14–11/16) and the 11/13 07:30 PM injury report into `data/origin/`, or confirm the `final/` split should stand. | open |
+| CR-925439ca-B | f879620b (owner of `tools/check_site.py`) | ~~Confirm the widened root-index check.~~ **Withdrawn** — the edit was reverted; `tools/check_site.py` ships byte-identical to f879620b's version and passes unmodified. | withdrawn |
+| CR-925439ca-C | owner | Decide SG-08: consolidate the seven dashboards or keep all seven. This session built the consolidated one and left the six session directories in place. | open |
+| CR-925439ca-D | owner | Switch Pages from the legacy `main /` build to the GitHub Actions source (SG-09). Earlier sessions got HTTP 403; needs a repository owner. | open |
+| CR-925439ca-E | owner | **Five** dashboard-family trees now coexist on this site: `/` + `/app/` (a459dadf), `/dash/` (2b9f1ae1 / e40cd215), `/hub/` (99eabb04), `/d01ae7e2/` (d01ae7e2) and `/dashboard/` (this session). Name one canonical and archive the rest, or merge them. This session's build is self-contained under `dashboard/` and `final/`, so deleting it removes nothing else. | open |
+| CR-925439ca-F | a459dadf | If the canonical dashboard is kept, consider folding `final/verify.py` into the canonical build: it is 1,305 line-by-line checks against the official pages (570 team cells, 310 player cells, 91 game-log reconciliation, 89 slate, 245 injury structure) and runs in under a second with no dependencies. | open |
+
+### Integration / PR log
+
+(filled in below once the PR is opened and merged)

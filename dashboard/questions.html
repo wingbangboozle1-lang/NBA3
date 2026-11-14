@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NBA3 line-origination research dashboard: Questions">
+<title>Questions &middot; NBA3</title>
+<style>
+:root{
+  --navy:#0e1a30; --navy2:#16264a; --blue:#2f6bff; --blue-d:#1e4fd0;
+  --bg:#f3f6fb; --panel:#ffffff; --ink:#17223a; --muted:#63718c;
+  --line:#e0e7f1; --amber:#fff6e0; --amber-l:#e8a417; --red:#fdecec; --red-l:#c0392b;
+  --green:#e6f6ef; --green-l:#167a55; --grey:#eef2f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--blue-d)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+code{background:var(--grey);padding:1px 5px;border-radius:4px;font-size:13px}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;
+  padding:22px 26px}
+header.top .brand{font-weight:800;font-size:20px;letter-spacing:.2px}
+header.top .sub{color:#a9bcdd;font-size:13px;margin-top:2px}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:0;max-width:1500px;margin:auto}
+nav.side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;
+  position:sticky;top:0;height:100vh;overflow:auto}
+nav.side .grp{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);
+  font-weight:700;margin:16px 8px 6px}
+nav.side .grp:first-child{margin-top:4px}
+nav.side a{display:block;padding:7px 10px;border-radius:7px;color:var(--ink);
+  text-decoration:none;font-size:14px}
+nav.side a:hover{background:#eaf0ff;color:var(--blue-d)}
+nav.side a.on{background:var(--navy);color:#fff;font-weight:600}
+main{padding:24px 28px 60px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,40,80,.04)}
+.card>h2:first-child{margin-top:0}
+h1.page{font-size:26px;margin:0 0 4px}
+p.lede{color:var(--muted);margin:0 0 18px;max-width:900px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:24px;line-height:1.2}
+.kpi small{color:var(--muted);font-size:12px}
+.tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(47,107,255,.12)}
+.tile b{display:block;margin-bottom:3px}
+.tile span{color:var(--muted);font-size:13px}
+.note{border-left:4px solid var(--blue);background:#eef4ff;padding:12px 14px;border-radius:6px}
+.warn{border-left:4px solid var(--amber-l);background:var(--amber);padding:12px 14px;border-radius:6px}
+.stop{border-left:4px solid var(--red-l);background:var(--red);padding:12px 14px;border-radius:6px}
+.ok{border-left:4px solid var(--green-l);background:var(--green);padding:12px 14px;border-radius:6px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f6f9fd;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:#47536b;position:sticky;top:0}
+tbody tr:hover{background:#fafcff}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th.n{text-align:right}
+.b{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+  white-space:nowrap;background:var(--grey);color:#4a5871}
+.b.ok{background:var(--green);color:var(--green-l)}
+.b.warn{background:var(--amber);color:#8a5d00}
+.b.bad{background:var(--red);color:var(--red-l)}
+.b.blue{background:#e6eeff;color:var(--blue-d)}
+.unv{color:#9aa6bb;font-style:italic}
+.src{font-size:12px}
+.mut{color:var(--muted)}
+footer.foot{color:var(--muted);font-size:12.5px;padding:8px 0 0;max-width:1000px}
+.attrib{background:var(--navy);color:#cfe0ff;font-size:12.5px;padding:12px 28px}
+.attrib a{color:#9dc0ff}
+@media(max-width:1000px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  main{padding:18px 14px 40px}
+}
+</style></head><body>
+<header class="top"><div class="brand">NBA3 &mdash; Line Origination &amp; Strategy Lab</div>
+<div class="sub">2026-27 season &middot; data through 2026-11-12 &middot; slate 2026-11-14 to 2026-11-16 (ET)</div></header>
+<div class="shell">
+<nav class="side" aria-label="Sections"><div class="grp">Overview</div><a class="" href="index.html">Home</a><a class="" href="executive-summary.html">Executive summary</a><div class="grp">Lines &amp; output</div><a class="" href="methodology.html">Methodology</a><a class="" href="lines.html">Originated lines</a><a class="" href="projections.html">Slate projections</a><div class="grp">Strategies</div><a class="" href="strategies.html">Leaderboard</a><a class="" href="validation.html">Validation gates</a><a class="" href="correlations.html">Correlations</a><div class="grp">Game context</div><a class="" href="injuries.html">Injuries &amp; rotation</a><a class="" href="gameflow.html">Game flow</a><a class="" href="data.html">Data &amp; team ratings</a><div class="grp">Decisions</div><a class="on" href="questions.html">Questions</a><a class="" href="suggestions.html">Suggestions</a><div class="grp">Governance</div><a class="" href="flagged.html">Flagged for Review</a><a class="" href="repo-review.html">Repo review</a><a class="" href="sources.html">Sources</a><a class="" href="archives.html">Archives</a></nav>
+<main>
+<h1 class="page">Questions</h1>
+<p class="lede">What we know, what we do not, and how to find out.</p>
+
+<div class="card"><h2>Questions that must be answered before any decision</h2>
+<p>15 questions. 4 are blocking: nothing further can responsibly be decided until they are
+answered. Each row separates what this repository and the linked official pages actually
+establish from what is still unknown, and names the step that would close the gap.</p>
+<p class="mut">Where the honest answer is &ldquo;not established&rdquo;, it is written as
+such. Nothing on this page is inferred.</p>
+</div>
+<div class="card"><h2>Data coverage</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-05</b></td><td>How much authorised history do we have?</td><td><span class="b warn">Partly answered</span></td><td>This project holds 174 completed games, 2026-10-20 through 2026-11-12, reconciled to official GP and W-L for all 30 teams.</td><td>Prior seasons, play-by-play, lineups, and possession-level data.</td><td>Inventory authorised sources, then extend the archive with immutable dated snapshots.</td><td>Data engineering</td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener">NBA Stats &#8599;</a></td></tr><tr><td><b>Q-06</b></td><td>Do we have per-player game logs?</td><td><span class="b bad">BLOCKING for player correlations and prop distributions</span></td><td>No. Only season-to-date averages for the top 31 players by minutes are held (S-09).</td><td>Player-level game logs (about 4,000 rows for the season to date).</td><td>Capture nba.com/stats/players/boxscores by date, if permitted under the terms decision in Q-01.</td><td>Data engineering</td><td><a class="src" href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener">NBA Stats &#8599;</a></td></tr><tr><td><b>Q-15</b></td><td>Why is data/raw sourced from a non-official site?</td><td><span class="b warn">Flagged</span></td><td>data/raw/results_2026-27_october.csv and _november.csv carry a header stating Basketball-Reference as their source.</td><td>Whether that source is permitted, and whether it was reconciled to an official source.</td><td>Either reconcile those files to nba.com or remove them. The consolidated dataset does not use them.</td><td>Data engineering</td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/raw/results_2026-27_october.csv" target="_blank" rel="noopener">file &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Data rights</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-03</b></td><td>Do we have licensed market prices (odds), and on what terms?</td><td><span class="b bad">BLOCKING for any EV / ROI / closing-line claim</span></td><td>None. This repository contains no odds feed, no price snapshots, and no licence.</td><td>Provider, markets covered, timestamp granularity, historical depth, permitted display and derivative use, cost.</td><td>Procure provider documentation and written rights; run a coverage and latency audit before any economic test.</td><td>Owner</td><td><a class="src" href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">Terms s.9 &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Execution</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-09</b></td><td>What is the prediction cut-off and refresh cadence?</td><td><span class="b warn">Partly answered</span></td><td>The site publishes up to three days ahead (D+1 to D+3). Teams must file by 5pm local the day before a game, so injury data for D+2 and D+3 does not exist yet at publication time (S-01).</td><td>A fixed cut-off time, a staleness rule, and a suppression rule when inputs are stale.</td><td>Define UTC timestamps and suppression rules; do not publish a pick on stale inputs.</td><td>Owner / engineering</td><td><a class="src" href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener">filing rules &#8599;</a></td></tr><tr><td><b>Q-10</b></td><td>What are the settlement rules?</td><td><span class="b warn">Open</span></td><td>None recorded. Overtime is handled in this project by including OT scoring in the game total (9 of 174 games went to overtime, 5.2%).</td><td>Whether a bet settles on regulation or including OT; void/push rules; player-prop rules when a player does not appear.</td><td>Obtain the rule book of whichever venue is used, and record it before scoring anything.</td><td>Owner</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">NBA Games &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Governance</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-12</b></td><td>Who owns model versioning, promotion, and retirement?</td><td><span class="b warn">Open</span></td><td>No model registry exists. The current build is reproducible by re-running final/build_model.py.</td><td>Versioning, promotion criteria, drift monitoring, and a retirement rule.</td><td>Create a model register with frozen versions before any strategy is promoted.</td><td>Owner / engineering</td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">board &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Legal / compliance</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-01</b></td><td>Is the output of this project intended for actual wagering, or for private research only?</td><td><span class="b bad">BLOCKING - must be answered first</span></td><td>NBA.com Terms of Use section 9(iv): &#x27;the NBA Statistics may not be used in connection with any gambling activity (including legal gambling activity).&#x27; Read on the official page this session (S-10).</td><td>The owner&#x27;s intended use. Everything else depends on it.</td><td>Owner decision, then counsel review before any pick, stake, or odds figure is published.</td><td>Owner / legal counsel</td><td><a class="src" href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">Terms s.9 &#8599;</a></td></tr><tr><td><b>Q-02</b></td><td>Which jurisdiction and licensing position applies?</td><td><span class="b warn">Open</span></td><td>The workspace is located in Amsterdam, Netherlands. An earlier session read that remote sports betting requires a licence under Art. 31a Wet op de kansspelen (S-13).</td><td>Whether the user intends to wager, from which country, and whether any licence is held.</td><td>Legal counsel in the relevant jurisdiction; then encode jurisdiction rules in the site.</td><td>Owner / legal counsel</td><td><a class="src" href="https://kansspelautoriteit.nl/online-kansspel-aanbieden" target="_blank" rel="noopener">Ksa &#8599;</a></td></tr><tr><td><b>Q-13</b></td><td>May this data be published on a public web page at all?</td><td><span class="b bad">BLOCKING</span></td><td>Terms section 1 permits personal, non-commercial use only; section 9(ii) permits legitimate news reporting or private non-commercial use; section 9(vii) restricts a comprehensive, regularly updated statistics database without express prior consent (S-10).</td><td>Written permission from the NBA, or a licensed commercial data feed.</td><td>Seek written consent or switch to a licensed provider. Until then treat this site as internal research.</td><td>Owner / legal counsel</td><td><a class="src" href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">Terms s.1, s.9 &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Model</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-07</b></td><td>What proves a strategy is skill rather than luck?</td><td><span class="b warn">Proposed, not approved</span></td><td>Seven gates are implemented (G1 provenance, G2 no look-ahead, G3 n&gt;=100, G4 power, G5 raw p&lt;0.05, G6 Benjamini-Hochberg FDR 0.05, G7 split-half stability). Zero of eight candidate strategies pass all of them.</td><td>Owner approval of the thresholds and of the 100-bet minimum.</td><td>Approve or amend the gate definitions in writing, then re-run.</td><td>Owner</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">NBA Games &#8599;</a></td></tr><tr><td><b>Q-08</b></td><td>Is the totals model usable at all?</td><td><span class="b ok">Answered - no, not yet</span></td><td>Walk-forward over 114 out-of-sample games: totals RMSE 20.35 against a 19.56 naive baseline. The model is worse than the baseline. Margin RMSE 16.18 against a 17.30 baseline.</td><td>A totals estimator that beats the naive baseline.</td><td>Add pace/opponent-adjusted estimators and re-test walk-forward; do not publish totals bets until then.</td><td>Modelling</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">NBA Games &#8599;</a></td></tr><tr><td><b>Q-11</b></td><td>How dependent are the legs of a same-game parlay?</td><td><span class="b warn">Measured, inconclusive</span></td><td>Spread-residual vs total-residual correlation r = +0.091, 95% CI [-0.094, +0.270], n = 114 out-of-sample. Joint hit rate 0.246 against 0.219 under independence.</td><td>A sample large enough to separate +0.09 from zero, and any player-level dependence measure at all.</td><td>Extend the sample; capture player game logs (Q-06); report intervals, not point values.</td><td>Modelling</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">NBA Games &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Objective / risk</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-04</b></td><td>What is the objective function and the risk policy?</td><td><span class="b warn">Open</span></td><td>The brief asks for a leaderboard that rewards top-performing, skill-based strategies.</td><td>Primary metric (Brier / log loss, calibration, or net return), bankroll, stake sizing, drawdown cap, responsible-gambling limits.</td><td>Pre-register the metric and the risk policy before looking at further results.</td><td>Owner</td><td><a class="src" href="https://www.nba.com/games?date=" target="_blank" rel="noopener">NBA Games &#8599;</a></td></tr></tbody></table></div></div><div class="card"><h2>Site / governance</h2><div class="tw"><table id=""><thead><tr><th class="">ID</th><th class="">Question</th><th class="">Status</th><th class="">What we already know</th><th class="">What is missing</th><th class="">How to discover it</th><th class="">Decision owner</th><th class="">Source</th></tr></thead><tbody><tr><td><b>Q-14</b></td><td>Should the six session dashboards be consolidated or kept?</td><td><span class="b warn">Open - decision needed</span></td><td>docs/ (23 files), site/ (29), edge/ (25), lab/ (17), origin/ (22), research/ (16) each publish a separate dashboard with its own ID scheme, plus a seventh root dashboard.</td><td>The owner&#x27;s preference: consolidate into one site and archive the rest, or maintain all seven.</td><td>Choose an option on the Suggestions page (SG-08).</td><td>Owner</td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">repository &#8599;</a></td></tr></tbody></table></div></div>
+<div class="card"><h2>How these map to the suggestions</h2>
+<p>Each blocking question has at least one option on the
+<a href="suggestions.html">Suggestions</a> page. The mapping is by dependency: pick a path
+there, and the questions it closes are listed with it.</p>
+</div>
+
+<footer class="foot">
+Research output only. Nothing on this site is betting advice, a wager recommendation, or a
+guarantee of profit. No market prices are held, so no expected value or return is stated.
+All statistics are attributed to <a href="https://www.nba.com/stats" target="_blank"
+rel="noopener">NBA.com</a> per section 9(i) of the
+<a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener">NBA.com Terms of Use</a>.
+Source repository: <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener">wingbangboozle1-lang/NBA3</a> &middot;
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener">coordination board</a>.
+</footer>
+</main></div>
+<div class="attrib">Statistical data sourced from NBA.com. Reproduced for private,
+non-commercial research. NBA.com Terms of Use section 9 restricts the use of NBA Statistics
+in connection with any gambling activity, including legal gambling activity &mdash; see
+<a href="flagged.html">Flagged for Review</a>.</div>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('[data-filter]');
+  boxes.forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var q = inp.value.toLowerCase();
+      var target = document.getElementById(inp.getAttribute('data-filter'));
+      if(!target) return;
+      target.querySelectorAll('tbody tr').forEach(function(tr){
+        tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

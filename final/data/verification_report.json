@@ -1,0 +1,34 @@
+{
+ "generated_utc_placeholder": "set by caller",
+ "checks": 1305,
+ "mismatches": 0,
+ "by_section": {
+  "games": {
+   "checks": 91,
+   "mismatches": 0
+  },
+  "injuries": {
+   "checks": 245,
+   "mismatches": 0
+  },
+  "players": {
+   "checks": 310,
+   "mismatches": 0
+  },
+  "slate": {
+   "checks": 89,
+   "mismatches": 0
+  },
+  "teams_advanced": {
+   "checks": 570,
+   "mismatches": 0
+  }
+ },
+ "sources": {
+  "teams_advanced": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+  "players": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+  "games": "https://www.nba.com/games?date=",
+  "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf",
+  "injury_index": "https://official.nba.com/nba-injury-report-2026-27-season/"
+ }
+}
