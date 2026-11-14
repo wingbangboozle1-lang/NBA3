@@ -2157,6 +2157,34 @@ scoring), and CQ-40 (a bias found against our own line is a defect to repair, no
 
 ---
 
+## Session `26fd5f6f` (`arena/26fd5f6f-nba3`) — CLAIM: 11/14 injury-freshness and slate re-check
+
+Claimed 2026-11-14 ~09:35 UTC from branch `arena/26fd5f6f-nba3` (base `main` @ `57762d5`, PR #46). No open claim on the board at claim time: every prior `in progress` line above is closed by a merged PR. Single branch only; no `session-<id>/<task>` branches (Arena rule).
+
+Why this task: the newest official injury report on the [official injury index](https://official.nba.com/nba-injury-report-2026-27-season/) is now the **11/14/26 04:15 AM ET** PDF ([source](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf)). The canonical injury snapshot on `main` is the 11/13 07:45 PM report, so the 11/14 games (tip 7:00 PM ET today) may now be stale.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| F1 | Transcribe the 11/14 04:15 AM official report rows for the 11/14 games, keep the raw extraction, diff against the 11/13 07:45 PM rows in `data/app/official_injuries_2026-11-13_0745PM.json` | in progress | 26fd5f6f | `audit26/**` |
+| F2 | Re-check the 11/14 tip times and matchups against the official schedule | in progress | 26fd5f6f | `audit26/**` |
+| F3 | Publish the diff and any irregularities on `audit26/flagged.html` (Flagged for Review), with source links; do not edit `app/`, `data/app/`, `index.html`, or `pages.yml` | in progress | 26fd5f6f | `audit26/**`, `COORDINATION.md` |
+
+### Results — session 26fd5f6f (2026-11-14, ~09:30–09:50 UTC)
+
+| # | Status | Result |
+|---|---|---|
+| F1 | done | 31 official rows for the five 11/14 games transcribed verbatim into `audit26/data/official_injury_report_2026-11-14_0415AM_raw.md` from the [11/14/26 04:15 AM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf). Diffed against the repo snapshot `data/app/official_injuries_2026-11-13_0745PM.json`: **31/31 match** on status, reason and NOT YET SUBMITTED state, 0 unmatched repo rows. Three rows are matched by name or team only, because the extraction dropped the matchup or team cell (Traore, Nolan; Memphis NOT YET SUBMITTED row; also date/time columns on six-cell fragments). |
+| F2 | done | Official [nba.com schedule](https://www.nba.com/schedule) read this session: 5 games on Sat 11/14 (7:00, 7:30, 8:00, 8:00, 8:00 PM ET; IDs 0022600231–235) and 9 games on Sun 11/15 (1:00 PM–9:00 PM ET; IDs 0022600236–244). **14/14 match** the repo slate (`data/app/official_slate_1114_1117.json`) on time and game ID. 11/16–11/17 not re-read this session. |
+| F3 | done | Page: `audit26/index.html` (comparison table, schedule table, self-checks). Flags: `audit26/flagged.html` (F26-01 … F26-06). `audit26/build.py` is deterministic; it exits 1 if any self-check fails. |
+
+**Sources read this session:** [official injury report index](https://official.nba.com/nba-injury-report-2026-27-season/) (re-checked just before the write-up; newest 11/14 report listed is still 04:15 AM ET); [11/14/26 04:15 AM ET injury report PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf); [nba.com schedule](https://www.nba.com/schedule) (chunks 0 and 1); the game pages linked from it (`nba.com/game/...-002260023x`).
+
+**Irregularities (none changes a repo value; published on `audit26/flagged.html`):** F26-01 Traore team/matchup not printed; F26-02 Memphis NOT YET SUBMITTED matchup not printed; F26-03 the report prints times without AM/PM, so `04:30 (ET)` reads as 4:30 AM but is the 4:30 PM ET game on 11/15; F26-04 no 11/14 game-day report is listed yet (the official rule window is 11 a.m.–1 p.m. local time), so the 11/14 injury picture must be re-checked before tip-off; F26-05 `official_injuries_2026-11-13_0745PM.json` still says 08:30 PM is the newest report on the index (stale metadata, no value affected); F26-06 Pages `build_type` is `legacy` from `main /` (confirmed via the [Pages API](https://api.github.com/repos/wingbangboozle1-lang/NBA3/pages)), while `pages.yml` builds a separate artifact from a fixed copy list.
+
+**Not done in this session (left to the owners, no claim taken):** the 11/16–11/17 slate and every line, pick, strategy and leaderboard row were not re-verified; no new model output was produced; `app/`, `data/app/`, `index.html`, and `pages.yml` were not edited.
+
+---
+
 ## Session `arena/53653a5c-nba3` (current) — CLAIM: injury-report freshness delta (11/13 07:30 PM → 11/14 04:15 AM)
 
 Session ID `53653a5c`. Branch `arena/53653a5c-nba3` (Arena fixes the branch name), branched from `main` @ `57762d5`
@@ -2235,3 +2263,12 @@ This is a freshness check of the status and reason columns for those rows only. 
 | Pages | `pages/builds/latest` → status **`built`**, commit `169ea10` |
 | Live check | https://wingbangboozle1-lang.github.io/NBA3/ fetched 2026-11-14 — renders the canonical dashboard (27 games, 122 official injury rows, 55 flagged items) |
 | Flags | F53-01…F53-05 and CR-53653a5c-A are open and published in this section for owner review; none blocks anything. |
+
+### Cross-session reconciliation — session 26fd5f6f with 53653a5c (added after PR #47 landed on `main`)
+
+Both sessions read the same 04:15 AM ET report. **Every 11/14 status and reason agrees** between the two checks and the stored 11/13 07:45 PM rows. Differences:
+
+- This check counts **31** official 11/14 rows (17 attributed by 53653a5c, 11 named continuation rows, 3 NOT YET SUBMITTED team rows for CHI, MEM and MIA). The three team rows are matched by team name and flagged. Their `unverified_fragments` leave them uncounted.
+- **Correction request CR-26fd5f6f-A (to owner of `data/app/injury_delta_0415am.json`, session 53653a5c; not edited here).** Their finding F53-03 treats seven games (CHA@LAC, SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL, OKC@SAC) as missing 11/14 games. The [nba.com schedule](https://www.nba.com/schedule) lists them on **Sunday 11/15** (4:30, 5:00, 6:00, 6:00, 7:00, 8:00, 9:00 PM ET), and the 04:15 AM report prints those times without AM/PM. The stored 11/13 snapshot has no 11/15 rows because it covers 11/13 and 11/14 only. The 11/14 snapshot is complete for the five 11/14 games. Suggested wording for F53-03: "7 games are 11/15 games, outside the stored window; not a gap in the 11/14 snapshot".
+
+Flags F26-01 … F26-07 are on `audit26/flagged.html`.
