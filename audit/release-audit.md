@@ -1,17 +1,17 @@
 # NBA3 release audit
 
-> **Scope limitation:** This is an offline, repository-local audit. No NBA page or PDF was fetched by this tool. Links below are supplied for manual review; stored values are not newly verified against a live official source here.
+> **Audit baseline:** `c4623a05def6`. This is an offline, repository-local audit; no NBA page or PDF was fetched by this tool. Links below are supplied for manual review; stored values are not newly verified against a live official source here.
 > **Decision status:** Code and data-governance review only. This audit does not establish a profitable strategy or approve a wager.
 
 ## Executive summary
 
 | Check | Result | Source / evidence |
 |---|---|---|
-| Pages workflow conflict markers | 3 | [workflow source](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
-| Pages-staged HTML | 117 files | [staging list](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
-| HTML table-body rows | 2785 | [NBA Stats glossary (terminology reference)](https://www.nba.com/stats/help/glossary) |
-| Rows with direct NBA official link | 1678 | [NBA schedule (manual review)](https://www.nba.com/schedule?date=2026-11-14) |
-| Rows without NBA/regulator/statistical-authority links | 994 | [row-by-row CSV](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) |
+| Pages workflow conflict markers | 0 | [workflow source](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
+| Pages-staged HTML | 136 files | [staging list](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) |
+| HTML table-body rows | 3421 | [NBA Stats glossary (terminology reference)](https://www.nba.com/stats/help/glossary) |
+| Rows with direct NBA official link | 2083 | [NBA schedule (manual review)](https://www.nba.com/schedule?date=2026-11-14) |
+| Rows without NBA/regulator/statistical-authority links | 1221 | [row-by-row CSV](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) |
 | Timestamped picks checked | 32 | [official schedule snapshot](https://www.nba.com/schedule?date=2026-11-14) |
 | 72-hour violations | 3 | [NBA official schedule](https://www.nba.com/schedule?date=2026-11-14) |
 
@@ -19,9 +19,8 @@
 
 | ID / severity | Finding | Evidence | Official reference |
 |---|---|---|---|
-| RA-01 / critical (open) | **The checked-in Pages workflow contains unresolved merge-conflict markers.**<br>The workflow source has literal conflict-marker lines. The staged-page list can still be counted, but this file is not a trustworthy release definition until the markers are removed and GitHub Actions validates the resulting YAML. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml) | [official reference](https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions) |
-| RA-02 / high (open) | **The unified dashboard's citation check is page-wide, not table-row-wide.**<br>`integrate/check.py` looks for an HTTPS link anywhere in a page body for each table; it does not collect links per row. The independent row parser found 869 staged table rows with no direct NBA, regulator/statute, or statistical-authority link and no explicit unverified marker. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py) | [official reference](https://www.nba.com/stats/help/glossary) |
-| RA-03 / high (open) | **Some published table rows have no direct NBA or authority source link.**<br>Across 117 Pages-staged HTML files, 2785 table-body rows were inspected. 994 rows have no direct NBA, regulator/statute, or statistical-authority link. Repository-code links are classified separately and do not count as NBA data citations. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) | [official reference](https://www.nba.com/stats/help/glossary) |
+| RA-02 / high (open) | **The unified dashboard's citation check is page-wide, not table-row-wide.**<br>`integrate/check.py` looks for an HTTPS link anywhere in a page body for each table; it does not collect links per row. The independent row parser found 1085 staged table rows with no direct NBA, regulator/statute, or statistical-authority link and no explicit unverified marker. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py) | [official reference](https://www.nba.com/stats/help/glossary) |
+| RA-03 / high (open) | **Some published table rows have no direct NBA or authority source link.**<br>Across 136 Pages-staged HTML files, 3421 table-body rows were inspected. 1221 rows have no direct NBA, regulator/statute, or statistical-authority link. Repository-code links are classified separately and do not count as NBA data citations. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/audit/table-source-audit.csv) | [official reference](https://www.nba.com/stats/help/glossary) |
 | RA-04 / high (open) | **3 published pick(s) exceed the exact 72-hour horizon.**<br>POR @ MIN 2026-11-16 8:00 PM ET: 72.17h (+10 min); GSW @ NOP 2026-11-16 8:00 PM ET: 72.17h (+10 min); PHX @ DEN 2026-11-16 9:00 PM ET: 73.17h (+70 min). Keep only picks whose official tip time is within 72 hours of a timezone-aware generation timestamp, or explicitly define a different date-based policy. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/picks/picks_2026-11-14_to_16.json) | [official reference](https://www.nba.com/schedule?date=2026-11-14) |
 | RA-05 / high (open) | **The canonical 'official capture' CI step is an offline hard-coded transcription check, not a live re-fetch.**<br>The script contains static schedule, team-statistics, and injury-report constants and has no HTTP client import. Running it in CI checks the committed snapshot against those same constants; it cannot establish that a source is current or independently re-verify the transcription. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14.py) | [official reference](https://www.nba.com/schedule?date=2026-11-14) |
 | RA-06 / medium (open) | **The unified line artifact has no exact generation timestamp for a strict 72-hour check.**<br>The artifact carries a date window and `horizon_days`, but no timezone-aware generation time. The exact tip-time horizon for its lines therefore cannot be reproduced from the artifact alone. | [repository evidence](https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/integration/model.json) | [official reference](https://www.nba.com/schedule?date=2026-11-14) |
@@ -68,6 +67,24 @@ A row is counted as directly sourced only when that row itself contains an HTTPS
 | `docs/executive-summary.html` | 5 | 5 | 0 | 0 | 0 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/executive-summary.html) |
 | `docs/strategies.html` | 5 | 0 | 0 | 0 | 0 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/docs/strategies.html) |
 | `edge/methodology.html` | 10 | 0 | 0 | 0 | 10 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/edge/methodology.html) |
+| `executive-summary.html` | 76 | 7 | 1 | 0 | 65 | 27 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/executive-summary.html) |
+| `hub/correlations.html` | 7 | 3 | 0 | 0 | 0 | 4 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/correlations.html) |
+| `hub/data.html` | 33 | 30 | 0 | 0 | 3 | 3 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/data.html) |
+| `hub/executive-summary.html` | 12 | 7 | 0 | 0 | 5 | 5 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/executive-summary.html) |
+| `hub/flagged.html` | 24 | 12 | 1 | 0 | 11 | 10 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/flagged.html) |
+| `hub/gameflow.html` | 35 | 30 | 0 | 0 | 5 | 5 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/gameflow.html) |
+| `hub/index.html` | 13 | 4 | 1 | 0 | 8 | 8 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/index.html) |
+| `hub/injuries.html` | 184 | 184 | 0 | 0 | 0 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/injuries.html) |
+| `hub/lines.html` | 48 | 31 | 0 | 0 | 17 | 17 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/lines.html) |
+| `hub/picks.html` | 27 | 0 | 0 | 0 | 24 | 27 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/picks.html) |
+| `hub/props.html` | 31 | 31 | 0 | 0 | 0 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/props.html) |
+| `hub/questions.html` | 16 | 7 | 0 | 0 | 9 | 9 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/questions.html) |
+| `hub/repo-review.html` | 26 | 2 | 0 | 0 | 24 | 22 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/repo-review.html) |
+| `hub/slate.html` | 31 | 31 | 0 | 0 | 0 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/slate.html) |
+| `hub/sources.html` | 20 | 14 | 1 | 0 | 5 | 1 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/sources.html) |
+| `hub/strategies.html` | 20 | 0 | 0 | 0 | 20 | 20 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/strategies.html) |
+| `hub/suggestions.html` | 12 | 0 | 0 | 0 | 12 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/suggestions.html) |
+| `hub/verification.html` | 21 | 12 | 0 | 0 | 8 | 6 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/hub/verification.html) |
 | `lab/index.html` | 11 | 0 | 0 | 0 | 11 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/index.html) |
 | `lab/injuries.html` | 18 | 17 | 0 | 0 | 1 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/injuries.html) |
 | `lab/lines.html` | 53 | 23 | 0 | 0 | 30 | 0 | [source file](https://github.com/wingbangboozle1-lang/NBA3/blob/main/lab/lines.html) |

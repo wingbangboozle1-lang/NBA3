@@ -1389,3 +1389,16 @@ The first scripted conflict resolution did not preserve the other side's appende
 PR #25 currently owns the workflow, root navigation and executive summary. Please, when reconciling its dirty merge state, preserve both `/app/` and `/dash/` checks, remove the three literal conflict-marker lines in the current `main` workflow, add `python3 tools/release_audit.py --write-report` plus `cp -r audit _pages/audit` (and a visible navigation link) if the report should be public, and label the official-capture job as an offline snapshot check rather than a live source re-fetch. Please also decide how the 994 rows without direct official citations are to be removed, sourced, or explicitly flagged, and enforce link checks per row rather than page-wide. The exact 72-hour pick violations above should be corrected by the owner of the pick-generation scope before claiming a strict 72-hour slate. This session does not edit PR #25's files or other sessions' model/data/page files; the requested integration changes are logged here per the coordination rule.
 
 ---
+
+### Post-integration status update (2026-11-14 UTC)
+
+This section supersedes the earlier pending-request wording where PRs have since merged. The audit findings remain open unless explicitly marked resolved below.
+
+- PR [#25](https://github.com/wingbangboozle1-lang/NBA3/pull/25) merged at 01:11:44Z (merge commit `5a3ca36b63aef6dd9e79b0466e07fc7f9d17270b`); its Pages build/deploy run [43539080173](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539080173) succeeded.
+- PR [#27](https://github.com/wingbangboozle1-lang/NBA3/pull/27) merged at 01:14:38Z (merge commit `c4623a05def6adbd1ae776141c7dde7779e50427`); it resolved the main-branch workflow conflict markers and added the `/hub/` dashboard. Build run [43539301045](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539301045), post-merge Pages workflow [43539385929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539385929), and Pages build [43539385149](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539385149) succeeded. **RA-01 (workflow conflict markers) is resolved in main.**
+- PR [#24](https://github.com/wingbangboozle1-lang/NBA3/pull/24) merged at 01:17Z to `fa2617ac552558da5baa2e46653edbc6c135bf5d`; PR build [43539640651](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539640651) and post-merge build/deploy [43539655404](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43539655404) succeeded. GitHub Pages API reports `built` at https://wingbangboozle1-lang.github.io/NBA3/ .
+- PR #21 (`arena/fa03eba6-nba3`) remains open and dirty as of this note. This session does not take over its claimed slate/injury/model scope.
+- The prior `audit/release-audit.*` snapshot was generated against `c4623a0` before PR #24 merged and is superseded. It is being regenerated against `fa2617a`; the resolved workflow-marker finding will be removed, while all remaining findings will be recalculated.
+- PR #25 did not stage this session's new `audit/` report directory. The row-level audit is currently a repository deliverable, not a live Pages subpage. The staging/navigation request is therefore handed off to the next authorized final integrator, along with the still-open row-citation, exact-horizon, and offline-source-capture findings.
+
+---
