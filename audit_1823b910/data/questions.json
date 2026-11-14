@@ -1,0 +1,95 @@
+{
+ "session": "arena/1823b910-nba3",
+ "built_on": "2026-11-14",
+ "intro": "Questions this session's refresh raised. Each row says what is already known from an official source, what is missing, and how the missing piece could be discovered. Nothing here is answered by inference.",
+ "questions": [
+  {
+   "id": "Q-1823b910-01",
+   "question": "Does an injury refresh move an originated line?",
+   "known": "No. scripts/strategy_lab.py was re-run with the 1:30 PM report substituted for the 04:45 AM one: 0 of 17 price fields changed across 27 lines and the pick list was identical. Five roll-up fields changed.",
+   "missing": "A minutes-to-value mapping that converts a named absent player into points of spread. There is none in the repository, and none was invented here.",
+   "how_to_discover": "Estimate it only from data we hold: regress official margin on the official minutes table's share of team minutes lost, out of sample, and publish the coefficient with its interval. If the interval covers zero, the honest answer stays 'injuries do not move this line yet'.",
+   "blocks": "Any claim that a filing changes a price.",
+   "status": "answered for today's slate; the mapping is still missing",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "repo_source": ""
+  },
+  {
+   "id": "Q-1823b910-02",
+   "question": "What is each listed player's official season minutes and usage?",
+   "known": "31 players (the top 31 by minutes per game), captured at data/app/players_top31_2026-11-14c.csv. On the refreshed 11/14 report only Anthony Edwards, Giannis Antetokounmpo and Donovan Mitchell fall inside it.",
+   "missing": "Official per-game figures for every other player named on an injury report - which is most of them, because reports list two-way and G League-assigned players heavily.",
+   "how_to_discover": "Capture https://www.nba.com/stats/players/traditional?Season=2026-27&PerPage=100 (or the full table) into the repository and re-run the impact. The fetch size is the only obstacle; it is a storage decision, not a licensing question.",
+   "blocks": "Every minutes-vacuum figure that currently reads as a floor of 0.",
+   "status": "open",
+   "source": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+   "repo_source": ""
+  },
+  {
+   "id": "Q-1823b910-03",
+   "question": "What share of vacated production do the replacements return?",
+   "known": "Nothing. The repository publishes the vacuum and leaves the replacement blank on purpose.",
+   "missing": "Per-player game logs and on/off splits, which would let a replacement rate be measured rather than assumed.",
+   "how_to_discover": "Capture https://www.nba.com/stats/players/boxscores (per-game logs) and https://www.nba.com/stats/teams/advanced for on/off, then regress the team's scoring on vacated minutes.",
+   "blocks": "Turning 'X minutes are vacated' into 'the team is Y points worse'.",
+   "status": "open",
+   "source": "https://www.nba.com/stats/players/boxscores",
+   "repo_source": ""
+  },
+  {
+   "id": "Q-1823b910-04",
+   "question": "What is each filing deadline in Eastern time?",
+   "known": "The league states deadlines in venue-local time and the venue city is official on nba.com/schedule. Four of the five 11/14 second-night teams had filed by 1:30 PM ET; Memphis, whose 1:00 PM local deadline is 2:00 PM ET, had not.",
+   "missing": "An official source for the city-to-time-zone step. The conversion on the refresh page is labelled derived for exactly this reason.",
+   "how_to_discover": "Either find the zone on an official league page, or drop the conversion and publish only the local deadline plus the venue city, which are both official.",
+   "blocks": "A precise 'this team is now late' judgement.",
+   "status": "open - the derived column is labelled, not asserted",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "repo_source": ""
+  },
+  {
+   "id": "Q-1823b910-05",
+   "question": "What probability does each status carry?",
+   "known": "Five official statuses: Out, Doubtful, Questionable, Probable, Available. The report gives no probabilities.",
+   "missing": "Any official or licensed empirical base rate linking a status to an actual appearance.",
+   "how_to_discover": "Build it from official box scores: for each historical report row, whether the player appeared. That needs a dated archive of past reports, which this repository does not hold.",
+   "blocks": "Converting 'Donovan Mitchell is Questionable' into a number that can move a price.",
+   "status": "open - deliberately not guessed",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "repo_source": ""
+  },
+  {
+   "id": "Q-1823b910-06",
+   "question": "Should the availability state be recomputed on every build?",
+   "known": "It is stored as a boolean (deadline_passed_at_capture) in data/app/report_availability.json, built from one report. That boolean is now wrong for four teams, and scripts/strategy_lab.py reads it, so two published fields disagree.",
+   "missing": "An owner decision on whether the state is data (a file) or a derivation (computed per build).",
+   "how_to_discover": "Not a data question. It is a design choice; the options are listed on the suggestions page.",
+   "blocks": "Trust in out_count_* on the lines page.",
+   "status": "awaiting an owner decision",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+   "repo_source": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/report_availability.json"
+  },
+  {
+   "id": "Q-1823b910-07",
+   "question": "Will Memphis file before tip-off?",
+   "known": "At 1:30 PM ET the Grizzlies were still NOT YET SUBMITTED, and their deadline (1:00 PM local, Memphis) is 2:00 PM ET - after that report.",
+   "missing": "A report newer than 2:00 PM ET.",
+   "how_to_discover": "Re-read the official index after 2:00 PM ET and capture the next report in the same style (scripts/capture_official_2026_11_14e.py is the template).",
+   "blocks": "The absence count for BKN@MEM.",
+   "status": "open - time-based, not data-based",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "repo_source": ""
+  },
+  {
+   "id": "Q-1823b910-08",
+   "question": "What does the 11/15 - 11/17 window look like once those teams file?",
+   "known": "The 1:30 PM report covers 11/15 with 18 NOT YET SUBMITTED rows - every team of all nine games. That is expected: those reports are due the day before.",
+   "missing": "The 11/15, 11/16 and 11/17 reports, which do not exist yet.",
+   "how_to_discover": "Re-run the capture on each day. The window the site publishes (2026-11-14 to 2026-11-17) is exactly the three-day-ahead horizon the brief asks for, so this is a daily job, not a one-off.",
+   "blocks": "Any injury-aware pick beyond 11/14.",
+   "status": "open - scheduled by calendar, not by us",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "repo_source": ""
+  }
+ ]
+}

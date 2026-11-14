@@ -3757,3 +3757,198 @@ what decides whether a rest term belongs in the engine.
 ### Pull request, merge and Pages record
 
 *(filled in below after the PR was opened and merged)*
+
+---
+
+## Session `arena/1823b910-nba3` (current) — CLAIM: 11/14 game-day report refresh (1:30 PM ET), injury→rotation impact, integration
+
+**Session ID:** `arena/1823b910-nba3`. Workspace branch `arena/1823b910-nba3`, branched from
+`main` @ `3a6c353dc87aad6eb35184a2ec2f0cc8759501f6` (merge of PR #74). Claim written and pushed
+before any other work started (2026-11-14 ~18:45 UTC).
+
+**Why this round exists.** The canonical dashboard publishes the official injury snapshot of
+**2026-11-14 05:15 AM ET** (49 rows: 26 player rows + 23 `NOT YET SUBMITTED` placeholders).
+Re-reading the [official injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/)
+at claim time shows the index now lists 11/14 reports through **1:30 p.m. ET** — i.e. roughly
+**24 report versions and ~8 hours newer** than the published snapshot, and after the league's
+game-day submission window (11 a.m.–1 p.m. local). The 05:15 AM snapshot predates the window in
+which most teams actually file, so a large share of its `NOT YET SUBMITTED` rows should by now
+carry real designations. This session captures the newest report, compares it row by row against
+the published snapshot, and quantifies what changed.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| A1 | Newest-official-report capture (11/14 1:30 PM ET) + negative probe of the next slot | in progress | `scripts/capture_official_2026_11_14e.py` (**new**), `data/app/official_injuries_2026-11-14_0130PM.json` + `_raw.md` (**new**) |
+| A2 | Row-by-row delta vs the published canonical snapshot; publish the delta and its pick impact | in progress | `audit_1823b910/` (**new tree, this session only**) |
+| A3 | Injury → rotation minutes / production impact + game-flow analysis from the refreshed report | in progress | `audit_1823b910/` |
+| A4 | Line-by-line repo review pass; flag irregularities | in progress | `audit_1823b910/pages/review.html` |
+| A5 | Integration: link the new tree, run every check suite, PR → merge → confirm Pages deploy | pending | `COORDINATION.md`, `README.md`, `archive.html`, `index.html` (minimal link edits only) |
+
+**Non-overlap / takeover note.** Every earlier session's section above is preserved verbatim.
+This session creates only `audit_1823b910/**`, `scripts/capture_official_2026_11_14e.py`,
+`data/app/official_injuries_2026-11-14_0130PM*.{json,md}`, `data/app/official_index_2026-11-14_0130PM.json`
+and appends to `COORDINATION.md` / `README.md`. It does **not** repoint `snapshot_manifest.json`
+or edit `data/app/canonical.json`, `scripts/assemble_canonical.py`, `scripts/build_app.py`,
+`scripts/strategy_lab.py` or any other session's generated tree, because those are owned by
+`8d3d0271` / `25418e3f` / `8e199e09` / `dd1eb1f1`. Change requests for that owner are logged
+below rather than executed.
+
+**Open-PR takeover (logged, not executed this round).** PR [#70](https://github.com/wingbangboozle1-lang/NBA3/pull/70)
+(`arena/f2d4a99f-nba3`, "COORDINATION: final handoff record for PR #62 integration") touches only
+`COORDINATION.md`, is in `CONFLICTING` state, and has been open since 2026-11-14 10:47 UTC with no
+further commits — more than 60 minutes, so it is eligible for takeover under the board rule. It is
+an append-only record with no code or site impact. This session leaves it open rather than
+force-merging another session's record; it is noted here so the next session can close it.
+
+### Completion record — session `arena/1823b910` (2026-11-14)
+
+**A1 — newest-official-report capture.** Read at 2026-11-14 ~18:50 UTC (01:50 PM ET):
+
+1. `https://official.nba.com/nba-injury-report-2026-27-season/` — the page text lists the
+   November 14 reports from 12:00 a.m. ET through **1:30 p.m. ET**; 1:30 PM is the last entry.
+   Transcribed to `data/app/official_index_2026-11-14.json` (55 entries plus the verbatim
+   reporting rule).
+2. `Injury-Report_2026-11-14_01_30PM.pdf` — fetched **twice**; both reads returned identical
+   text. Stored verbatim at `data/app/official_injuries_2026-11-14_0130PM_raw.md`.
+3. `Injury-Report_2026-11-14_01_45PM.pdf` — S3 `AccessDenied`, so 1:30 PM is the newest that
+   exists at capture time.
+4. `Injury-Report_2026-11-14_01_00PM.pdf` — fetched verbatim
+   (`..._0100PM_raw.md`). Used **only** to cross-check cells the 1:30 PM extraction does not
+   print; it is not the published snapshot.
+
+`scripts/capture_official_2026_11_14e.py` parses those verbatim files and runs six checks
+offline (it needs no network, so CI can replay it):
+
+| Check | Result |
+|---|---|
+| E1a every status is one of Out / Doubtful / Questionable / Probable / Available | PASS |
+| E1b every matchup is in the stored official slate | PASS |
+| E1c every tip time the report prints equals the slate value | PASS |
+| E2 the 01:00 PM report has the same (date, matchup, team) inventory | PASS (28 team-games) |
+| E3 every player row is attributed identically by the 01:00 PM report | PASS (42 rows cross-checked) |
+| E4a/E4b the report covers exactly the five 11/14 and nine 11/15 slate games | PASS |
+| E5 delta vs the published 05:15 AM snapshot | reported (below) |
+| E6 injury → rotation impact recomputed for 10 team-games | reported |
+
+**A2 — the delta.** 49 rows → 69 rows (26 → 50 player rows; 23 → 19 `NOT YET SUBMITTED`).
+
+- **4 team-games filed**: CHI (7 rows), CLE (8), NOP (5), MIA (4). MEM is the only 11/14
+  team-game still blank, and that is *correct*: its deadline is 1:00 PM **local**, Memphis is on
+  Central time, so 2:00 PM ET — after the 1:30 PM report.
+- **4 status changes**: `DAL@CLE` Max Christie Questionable → Doubtful; `BKN@MEM` Mikel Brown Jr.
+  Questionable → Probable; `DET@MIA` Elijah Harkless and Isaac Jones Questionable → Available.
+- **24 player rows added, 0 withdrawn.**
+
+**A3 — injury → rotation minutes and production.** `audit_1823b910/data/rotation_impact.json`.
+Convention matches the engine's (`scripts/strategy_lab.py::rollup`): vacated = Out or Doubtful,
+at-risk = Questionable, summed only over players with a captured official season per-game figure
+(the top-31 minutes table). Results:
+
+| Team-game | Published | Now | Min vacated | Min at risk | Players with no captured figure |
+|---|---|---|---|---|---|
+| DEN@NOP DEN | FILED | FILED | 0.0 | 0.0 | 4 |
+| DEN@NOP NOP | NOT_YET_DUE | FILED | 0.0 | 0.0 | 4 |
+| DAL@CLE DAL | FILED | FILED | 0.0 | 0.0 | 4 |
+| DAL@CLE CLE | NOT_YET_DUE | FILED | 0.0 | **33.0** (Mitchell) | 4 |
+| BKN@MEM BKN | FILED | FILED | 0.0 | 0.0 | 4 |
+| BKN@MEM MEM | NOT_YET_DUE | still blank | blank | blank | 0 |
+| CHI@MIN CHI | NOT_YET_DUE | FILED | 0.0 | 0.0 | 4 |
+| CHI@MIN MIN | FILED | FILED | **33.7** (Edwards) | 0.0 | 1 |
+| DET@MIA DET | FILED | FILED | 0.0 | 0.0 | 5 |
+| DET@MIA MIA | NOT_YET_DUE | FILED | 0.0 | 0.0 | 2 |
+
+Every figure is a **floor**. Nine of ten read 0.0 because the players named are outside the
+captured table — that is published as a count of unknowns, never as an estimate. Who absorbs the
+vacated minutes is **not** modelled: it needs per-player game logs and on/off splits, which the
+repository does not have, and publishing a replacement rate would be a guess.
+
+**A3b — game flow** (`audit_1823b910/data/gameflow.json`), the five 11/14 games. Rest days are
+counted from the official 183-game results log; pace and net rating come from the official team
+advanced statistics capture. Four of the five home teams are on the second night of a
+back-to-back (NOP, CLE, MIA, MEM); in CHI@MIN it is the visitor. Rest differentials are 1–2 days
+and projected pace spans 99.83–102.46, so neither rest nor pace separates these games.
+
+**A3c — the line-invariance proof** (`audit_1823b910/data/line_invariance.json`).
+`scripts/strategy_lab.py` was imported and re-run unchanged, with only `INJURY_JSON` pointed at
+the 1:30 PM capture and `OUT` redirected to a temporary directory — **`data/app/lab.json` was
+never written**. Result: **0 of 17 price fields moved across 27 lines**, the pick list is
+byte-identical, and only five roll-up fields changed (`out_count_away`, `out_players_home`,
+`out_players_away`, `questionable_home`, `questionable_away`). The originated lines are
+injury-blind, and that is now proven by the engine rather than asserted in prose.
+
+**A4 — repo review, line by line** (`audit_1823b910/data/repo_review.json`, 8 findings):
+RR-01 every JSON parses (PASS) · RR-02 no conflict markers (PASS) · RR-03 the published snapshot
+is 8h15m / 24 versions stale (FAIL) · RR-04 the availability state and the injury rows come from
+different files and now disagree (FAIL) · RR-05 an injury refresh cannot move a line (FAIL) ·
+RR-06 most vacated minutes cannot be computed (PARTIAL, 32 of 33 players) · RR-07 register
+sizes (INFO: 80 flags / 47 questions / 46 suggestions / 15 review findings, read from the
+canonical dataset at build time — the flag count rose to 80 when session 965fbd17's flags landed
+on `main` mid-rebase) · RR-08 four of the five
+root-level HTML pages are staged (REVIEW: `research-dashboard.html` exists at the repository
+root and is not copied into the Pages artifact — pre-existing, not this session's, and logged for
+the owner).
+
+**Verification performed.** Full local replay of the CI suite on the final tree, all green:
+`tests/test_validate_gates.py` (13), `tests/test_injury_delta.py` (3), `tests/test_capture_c.py`
+(5), `tools/check_site.py` PASS, `pipeline/tests` (29), `audit_dd1eb1f1` (13),
+`verify.tests` (16), `scripts/build_site.py` (562 links, 12 pages), lab build + validate,
+research build + verify, `verify/build.py` (13 pages), `pipeline/check_site.py` (edge),
+`integrate.engine` + `build_site` + `check` (15 pages, PASS), hub build (18 pages),
+`final/verify.py` (1305 checks, 0 mismatch), `final/build_site.py` (17 pages, no drift),
+`final/check_site.py` PASSED, `scripts/build_hub_data.py` + `build_hub.py`,
+`scripts/capture_official_2026_11_14d.py` (offline, PASS), `strategy_lab` + `assemble_canonical`
++ `build_app` (21 pages, 0 broken links), the root dashboard link/row-source check over
+`index.html`, `review.html`, `archive.html`, and this session's `audit_1823b910` tests (16).
+Not replayable in the sandbox: the capture steps that fetch nba.com (they run on the GitHub
+runner).
+
+**Change requests logged, not executed (other sessions' scope).**
+- **CR-1823b910-01 → owner of `data/app/snapshot_manifest.json` + `scripts/assemble_canonical.py`
+  (8d3d0271 / 25418e3f / 8e199e09):** consider repointing the injuries block at
+  `data/app/official_injuries_2026-11-14_0130PM.json`. This session did **not** repoint the
+  manifest: it is a shared artefact, and refreshing it also requires a fresh
+  `report_availability.json` (see the next item) or the two will disagree.
+- **CR-1823b910-02 → owner of `scripts/report_availability.py` + `data/app/report_availability.json`:**
+  that file stores `deadline_passed_at_capture` computed against the 04:15 AM report. Four teams
+  have since filed, so `out_players_*` (from the injury file) and `out_count_*` /
+  `availability_state_*` (from that file) now contradict each other on the published lines page.
+  The durable fix is to derive the state inside `strategy_lab.py` from the report it already
+  reads, so the two cannot diverge.
+- **CR-1823b910-03 → owner of `scripts/strategy_lab.py`:** the engine is injury-blind (RR-05).
+  Options A/B/C are written up on `audit_1823b910/pages/suggestions.html` (S-1823b910-03); none
+  were implemented.
+- **CR-1823b910-04 → owner of the capture scripts:** extend the official per-player minutes
+  capture beyond the top 31 (S-1823b910-04).
+- **CR-1823b910-05 → `scripts/build_app.py` (this session edited it):** one nav/tile entry,
+  `("Injury refresh audit", "audit_1823b910/pages/index.html")`, added under Verification.
+  `index.html`, `archive.html` and `app/*.html` were regenerated from it; the diff is that entry
+  only. `ARCHIVE_TREES` stays 14 — the new tree is current, not archived.
+
+**Irregularities, none blocking** (`audit_1823b910/pages/flags.html`, each with its evidence link):
+F-1823b910-01 published snapshot 8h15m / 24 versions stale (high) · F-1823b910-02
+`report_availability.json` marks four teams `NOT_YET_DUE` that have filed (high) ·
+F-1823b910-03 the originated lines are injury-blind, proven by re-running the engine (high) ·
+F-1823b910-04 the minutes vacuum cannot be computed for most listed players (medium) ·
+F-1823b910-05 the 1:30 PM PDF text leaves the Team cell empty on six rows and merges the final
+block (medium — resolved from the same document and cross-checked against the official 01:00 PM
+report, not inferred) · F-1823b910-06 PR #70 open and conflicting since 10:47 UTC (low).
+
+**Note on F-1823b910-05, because it is the one place a wrong attribution was possible.** The six
+teamless rows (Claxton, Powell, Sellers, Smith, Swain, Wilson) sit after a `CHI@MIN / Chicago
+Bulls` row, so carrying context forward attributes them to Chicago — which is what the 01:00 PM
+report confirms. Had the block boundary been misread they would have been assigned to Brooklyn.
+The cross-check is against another official report of the same document, not a roster lookup.
+
+**Derived value that is not official.** The "due (ET)" column on the refresh page converts the
+league's venue-local deadline to Eastern. The venue city is official (nba.com/schedule); the
+city → US time zone step is general reference knowledge, not an NBA-published value. The column
+is labelled *derived*, the mapping is raised as question Q-1823b910-04, and where the venue's
+offset is not in the table the cell is left blank.
+
+#### PR and deployment record — session `arena/1823b910`
+
+- **PR [#75](https://github.com/wingbangboozle1-lang/NBA3/pull/75)**
+  (`arena/1823b910-nba3` → `main`), merged 2026-11-14 without waiting for review, per the
+  standing instruction.
+- Merge result, CI result, and the live-site verification are recorded below once the run
+  completes.

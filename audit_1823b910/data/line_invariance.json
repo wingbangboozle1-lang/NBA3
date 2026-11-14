@@ -1,0 +1,167 @@
+{
+ "session": "arena/1823b910-nba3",
+ "method": "scripts/strategy_lab.py was imported and re-run unchanged, with only its injury input pointed at data/app/official_injuries_2026-11-14_0130PM.json and its output redirected to a temporary file. data/app/lab.json was not written.",
+ "engine_input_published": "data/app/official_injuries_2026-11-14_0445AM.json",
+ "engine_input_refreshed": "data/app/official_injuries_2026-11-14_0130PM.json",
+ "lines_compared": 27,
+ "price_fields_compared": [
+  "model_margin",
+  "orig_spread_home",
+  "orig_total",
+  "proj_home_pts",
+  "proj_away_pts",
+  "margin_lo",
+  "margin_hi",
+  "total_lo",
+  "total_hi",
+  "p_home_win",
+  "p_home_cover",
+  "p_over",
+  "fair_ml_home",
+  "fair_ml_away",
+  "p_ot",
+  "p_blowout_15",
+  "pace"
+ ],
+ "price_fields_that_moved": {},
+ "availability_fields_compared": [
+  "out_count_home",
+  "out_count_away",
+  "out_players_home",
+  "out_players_away",
+  "questionable_home",
+  "questionable_away",
+  "home_reported",
+  "away_reported",
+  "availability_state_home",
+  "availability_state_away",
+  "availability_basis",
+  "availability_flag",
+  "availability_detail"
+ ],
+ "availability_fields_that_changed": {
+  "out_count_away": [
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": 3,
+    "refreshed": 4
+   }
+  ],
+  "out_players_home": [
+   {
+    "game_id": "0022600231",
+    "matchup": "DEN@NOP",
+    "published": [],
+    "refreshed": [
+     "McGowens, Bryce",
+     "Murphy III, Trey",
+     "Murray, Dejounte",
+     "Watford, Trendon"
+    ]
+   },
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": [],
+    "refreshed": [
+     "Merrill, Sam",
+     "Mobley, Evan",
+     "Tomlin, Nae'Qwan",
+     "Udeh, Jr., Ernest"
+    ]
+   },
+   {
+    "game_id": "0022600233",
+    "matchup": "DET@MIA",
+    "published": [],
+    "refreshed": [
+     "Goldin, Vladislav",
+     "Larsson, Pelle"
+    ]
+   }
+  ],
+  "out_players_away": [
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": [
+     "Biberovic, Tarik",
+     "de Larrea, Sergio",
+     "Lively II, Dereck"
+    ],
+    "refreshed": [
+     "Biberovic, Tarik",
+     "Christie, Max",
+     "Lively II, Dereck",
+     "de Larrea, Sergio"
+    ]
+   },
+   {
+    "game_id": "0022600235",
+    "matchup": "CHI@MIN",
+    "published": [],
+    "refreshed": [
+     "Awaka, Tobe",
+     "Sellers, Jaylin",
+     "Swain, Dailyn",
+     "Wilson, Caleb"
+    ]
+   }
+  ],
+  "questionable_home": [
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": [],
+    "refreshed": [
+     "Allen, Jarrett",
+     "Harden, James",
+     "Mitchell, Donovan",
+     "Watson, Peyton"
+    ]
+   }
+  ],
+  "questionable_away": [
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": [
+     "Christie, Max"
+    ],
+    "refreshed": []
+   },
+   {
+    "game_id": "0022600233",
+    "matchup": "DET@MIA",
+    "published": [
+     "Harkless, Elijah",
+     "Jones, Isaac"
+    ],
+    "refreshed": []
+   },
+   {
+    "game_id": "0022600234",
+    "matchup": "BKN@MEM",
+    "published": [
+     "Brown Jr., Mikel"
+    ],
+    "refreshed": []
+   },
+   {
+    "game_id": "0022600235",
+    "matchup": "CHI@MIN",
+    "published": [],
+    "refreshed": [
+     "Claxton, Nic",
+     "Powell, Norman",
+     "Smith, Jalen"
+    ]
+   }
+  ]
+ },
+ "picks_identical": true,
+ "verdict": "The originated lines are INJURY-BLIND. Swapping the report moved 0 of 17 price fields on 27 lines and left the pick list identical; it changed only the absence roll-up that is published next to the line. An injury refresh therefore cannot move a published number until the engine is given a minutes-to-value mapping.",
+ "source_engine": "scripts/strategy_lab.py (read in this repository)",
+ "source_published_artefact": "data/app/lab.json"
+}

@@ -1,0 +1,124 @@
+{
+ "session": "arena/1823b910-nba3",
+ "built_on": "2026-11-14",
+ "note": "Flagged items do not block anything. Each names an owner and the official source that supports it.",
+ "flags": [
+  {
+   "id": "F-1823b910-01",
+   "severity": "high",
+   "area": "injury freshness",
+   "title": "The published injury snapshot is 8h15m (24 report versions) behind the newest official report",
+   "evidence": "The canonical dashboard publishes the 2026-11-14 05:15 AM ET report (49 rows). The official index now lists the November 14 reports through 1:30 PM ET; the 1:45 PM probe returns AccessDenied, so 1:30 PM is the newest that exists.",
+   "values": {
+    "published_rows": 49,
+    "newest_rows": 69,
+    "published_player_rows": 26,
+    "newest_player_rows": 50
+   },
+   "impact": "Four of the five 11/14 team-games the site publishes as NOT YET SUBMITTED have filed with 24 new player rows.",
+   "blocking": false,
+   "owner": "owner of data/app/snapshot_manifest.json and scripts/assemble_canonical.py",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_05_15AM.pdf vs https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf (index: https://official.nba.com/nba-injury-report-2026-27-season/)"
+  },
+  {
+   "id": "F-1823b910-02",
+   "severity": "high",
+   "area": "availability layer",
+   "title": "report_availability.json still marks four teams NOT_YET_DUE that have since filed",
+   "evidence": "data/app/report_availability.json is built from the 04:15 AM report and stores deadline_passed_at_capture=False for NOP, CLE, CHI, MIA and MEM. In the 1:30 PM report NOP (5 rows), CLE (8), CHI (7) and MIA (4) list players; only MEM is still NOT YET SUBMITTED.",
+   "values": {
+    "filed_since": [
+     "CHI@MIN CHI (7 rows)",
+     "DAL@CLE CLE (8 rows)",
+     "DEN@NOP NOP (5 rows)",
+     "DET@MIA MIA (4 rows)"
+    ],
+    "still_not_submitted": [
+     "BKN@MEM MEM"
+    ]
+   },
+   "impact": "scripts/strategy_lab.py reads the state from that file, so the refreshed rows appear in out_players_* while out_count_* stays blank and availability_state_* still reads NOT_YET_DUE. Two published fields now disagree with each other.",
+   "blocking": false,
+   "owner": "owner of scripts/report_availability.py and data/app/report_availability.json",
+   "source": "data/app/report_availability.json + https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "id": "F-1823b910-03",
+   "severity": "high",
+   "area": "model",
+   "title": "The originated lines are injury-blind - proven by re-running the engine",
+   "evidence": "scripts/strategy_lab.py was re-run with the 1:30 PM report substituted for the 04:45 AM one. 0 of 17 price fields moved on 27 lines and the pick list is byte-identical; only the absence roll-up fields changed.",
+   "values": {
+    "lines": 27,
+    "price_fields_compared": 17,
+    "price_fields_moved": 0
+   },
+   "impact": "Donovan Mitchell (Questionable), James Harden (Questionable), Evan Mobley (Out) and Jarrett Allen (Questionable) are all named on the refreshed report for DAL@CLE, and the published spread for that game is unchanged by all four.",
+   "blocking": false,
+   "owner": "owner of scripts/strategy_lab.py",
+   "source": "scripts/strategy_lab.py + data/app/official_injuries_2026-11-14_0130PM.json"
+  },
+  {
+   "id": "F-1823b910-04",
+   "severity": "medium",
+   "area": "data coverage",
+   "title": "The minutes/production vacuum cannot be computed for most listed players",
+   "evidence": "The only official per-player minutes capture in the repository is the top 31 by minutes per game. Of the players listed Out or Doubtful on the refreshed 11/14 report, all but one fall outside that table, so their minutes are unknown and contribute 0 to the published floor.",
+   "values": {
+    "captured_table_rows": 31,
+    "players_without_a_captured_figure": "see rotation-impact page"
+   },
+   "impact": "The published vacuum is a floor, not an estimate. It is labelled as such.",
+   "blocking": false,
+   "owner": "owner of the capture scripts",
+   "source": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"
+  },
+  {
+   "id": "F-1823b910-05",
+   "severity": "medium",
+   "area": "PDF extraction",
+   "title": "The 1:30 PM PDF text leaves the Team cell empty on six rows and merges the final block",
+   "evidence": "Six page-fragment rows (Claxton, Powell, Sellers, Smith, Swain, Wilson) print no team, and the final fragment merges the ATL@MIL and OKC@SAC rows into one line. Both are resolved from the same document's block structure and cross-checked against the official 01:00 PM report, which prints every one of them unmerged (check E3).",
+   "values": {
+    "teamless_rows": 6,
+    "merged_block_rows_expanded": 3
+   },
+   "impact": "Resolved, not guessed: the attribution is confirmed by another official report rather than by a roster lookup. Chicago's list is the one that would have been misattributed by context alone.",
+   "blocking": false,
+   "owner": "arena/1823b910-nba3",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf + https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_00PM.pdf"
+  },
+  {
+   "id": "F-1823b910-06",
+   "severity": "low",
+   "area": "process",
+   "title": "PR #70 has been open and conflicting since 2026-11-14 10:47 UTC",
+   "evidence": "PR #70 (arena/f2d4a99f-nba3) touches only COORDINATION.md, is in CONFLICTING state and has had no commits for more than eight hours at review time. Under the board's takeover rule it is eligible for takeover.",
+   "values": {
+    "pr": 70,
+    "changed_files": 1
+   },
+   "impact": "No code or site impact - it is an append-only record. This session leaves it open rather than force-merging another session's text.",
+   "blocking": false,
+   "owner": "next session",
+   "source": "https://github.com/wingbangboozle1-lang/NBA3/pull/70"
+  },
+  {
+   "id": "F-1823b910-07",
+   "severity": "medium",
+   "area": "cross-session attribution",
+   "title": "Two sessions read the same 01:30 PM PDF and disagree about which team thirteen page-fragment rows belong to",
+   "evidence": "Session arena/965fbd17-nba3 transcribed the report first and session 736efb4b published it under the rule 'rows with no team printed are never attributed', leaving 13 player rows unattributed (Cleveland 1 of 8, Chicago 1 of 7). Session arena/1823b910-nba3 transcribed the same PDF independently - the two transcriptions are identical table-for-table (check E0) - and attributes all 13 by carrying the row's game block and cross-checking against the official 01:00 PM report, which prints the team on every one of them.",
+   "values": {
+    "rows_unattributed_by_736efb4b": 13,
+    "cleveland_rows": "1 (Allen) vs 8 (Allen, Harden, Merrill, Mitchell, Mobley, Tomlin, Udeh, Watson)",
+    "chicago_rows": "1 (Awaka) vs 7 (Awaka, Claxton, Powell, Sellers, Smith, Swain, Wilson)",
+    "effect_on_dal_cle": "Under the 736efb4b reading Cleveland lists one Questionable player; under this session's reading it lists Evan Mobley Out plus four Questionables including Donovan Mitchell and James Harden."
+   },
+   "impact": "Two pages on the same site now publish different absence lists for the same game from the same official document. Neither is a guess, but the reader has to reconcile them, so the difference is flagged rather than silently resolved.",
+   "blocking": false,
+   "owner": "repository owner - pick one convention and apply it to both trees",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf + https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_00PM.pdf (the 01:00 PM report prints the team)"
+  }
+ ]
+}

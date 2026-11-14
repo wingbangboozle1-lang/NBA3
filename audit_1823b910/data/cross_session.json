@@ -1,0 +1,112 @@
+{
+ "session": "arena/1823b910-nba3",
+ "shared_file": "data/app/official_injuries_2026-11-14_0130PM_raw.md (transcribed by arena/965fbd17-nba3, re-parsed here)",
+ "independent_file": "audit_1823b910/data/independent_transcription_0130PM_raw.md (transcribed by arena/1823b910-nba3)",
+ "transcription_agreement": "The two verbatim transcriptions are identical table-for-table; both parse to the same 69 rows under scripts/capture_official_2026_11_14e.py (check E0). The difference below is therefore an attribution difference, not a reading difference.",
+ "their_rule": "session 736efb4b states: 'Rows with no team printed are never attributed.'",
+ "our_rule": "this session carries the row's game block forward from the same document and then cross-checks every carried attribution against the official 01:00 PM ET report, which prints the team on all thirteen rows.",
+ "rows_unattributed_by_736efb4b": [
+  "Claxton, Nic",
+  "Harden, James",
+  "Merrill, Sam",
+  "Mitchell, Donovan",
+  "Mobley, Evan",
+  "Powell, Norman",
+  "Sellers, Jaylin",
+  "Smith, Jalen",
+  "Swain, Dailyn",
+  "Tomlin, Nae'Qwan",
+  "Udeh, Jr., Ernest",
+  "Watson, Peyton",
+  "Wilson, Caleb"
+ ],
+ "rows_unattributed_by_736efb4b_count": 13,
+ "by_team": [
+  {
+   "team_name": "Brooklyn Nets",
+   "team": "BKN",
+   "session_736efb4b_rows": 6,
+   "session_1823b910_rows": 6,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Chicago Bulls",
+   "team": "CHI",
+   "session_736efb4b_rows": 1,
+   "session_1823b910_rows": 7,
+   "difference": 6,
+   "agrees": false,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "session_736efb4b_rows": 1,
+   "session_1823b910_rows": 8,
+   "difference": 7,
+   "agrees": false,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "session_736efb4b_rows": 6,
+   "session_1823b910_rows": 6,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Denver Nuggets",
+   "team": "DEN",
+   "session_736efb4b_rows": 4,
+   "session_1823b910_rows": 4,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Detroit Pistons",
+   "team": "DET",
+   "session_736efb4b_rows": 7,
+   "session_1823b910_rows": 7,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Miami Heat",
+   "team": "MIA",
+   "session_736efb4b_rows": 4,
+   "session_1823b910_rows": 4,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "Minnesota Timberwolves",
+   "team": "MIN",
+   "session_736efb4b_rows": 3,
+   "session_1823b910_rows": 3,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  },
+  {
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "session_736efb4b_rows": 5,
+   "session_1823b910_rows": 5,
+   "difference": 0,
+   "agrees": true,
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+  }
+ ],
+ "sources": {
+  "newest": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
+  "cross_check": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_00PM.pdf",
+  "index": "https://official.nba.com/nba-injury-report-2026-27-season/"
+ }
+}
