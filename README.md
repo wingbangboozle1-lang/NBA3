@@ -2,6 +2,17 @@
 
 Research repository for NBA line origination, strategy evaluation, injuries, game flow, and decision support. The repository contains **multiple independently built analysis/site workstreams**. They are not a single reconciled model. This overview intentionally does not endorse any line, pick, market edge, correlation, ROI, or leaderboard result.
 
+## Final integration status (2026-11-14, session arena/3bf92fcc-nba3)
+
+A cross-site **[consolidated executive summary](executive-summary.html)** is served at `/NBA3/executive-summary.html`
+alongside the canonical dashboard below. It re-verified, line by line, on 2026-11-14:
+
+- **Injury report**: 117/117 rows match the [official 11/13/26 5:00 PM ET PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_05_00PM.pdf). The carried-forward "Miami CLE@MIA" irregularity is **resolved** — the PDF prints CLE@MIA in the Cleveland section; the Miami rows are correctly attributed "team printed, matchup paired via official schedule". The newer [7:30 PM ET report](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_30PM.pdf) (captured by session 2b9f1ae1) supersedes it for pick availability.
+- **Slate**: 31/31 games (11/13–16) match the [live official schedule](https://www.nba.com/schedule) (dates, matchups, tip times; 0 mismatches across three independent captures).
+- **Picks**: all 22 pick games for 11/14–16 are inside the verified slate, re-checked against the FX-corrected pick file (spread labels 22/22 correct after the fix).
+- **All CI checks green**: unit tests (13 + 29 + 16 verify tests), every site builder, drift checks, and 553+ internal links.
+- Model headline numbers re-computed from raw out-of-sample rows (origin margin RMSE 16.1786 vs 17.3003 baseline; totals 20.3459 vs 19.5605 — total model is worse than baseline and is reported as such). STRAT1/STRAT2 ROI carries the moneyline caveat added by the FX fixes (−110 is not obtainable on moneyline sides; treat ROI as an arithmetic artefact until a price feed exists).
+
 ## Canonical dashboard (published 2026-11-14)
 
 `https://wingbangboozle1-lang.github.io/NBA3/` is now **one dashboard with category sub-pages**, generated from a
@@ -27,6 +38,7 @@ confirmed against an official source is left blank and listed on the **Flagged f
 | `/app/review.html` | Repository review, line by line | merged |
 | `/app/flagged.html` | Flagged for review — every unverified value and irregularity, with source links | merged |
 | `/review.html` | Cross-workstream audit by the 2026-11-14 integration session (R-01 – R-13) | hand-maintained |
+| `/executive-summary.html` | **Cross-site consolidated executive summary** (arena/3bf92fcc-nba3): verified data foundation, model results, gates, measured correlations, picks window, compliance flags, owner decisions — every number linked to its source; reconciled with the FX corrections. | Hand-maintained; verification performed 2026-11-14 |
 
 ### What was re-verified for this dashboard (2026-11-14)
 
