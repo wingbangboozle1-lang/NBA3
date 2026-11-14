@@ -3367,3 +3367,45 @@ owner decisions, CQ-42/CQ-47 capture-canonical decisions.
 - **Source: `main /`, `build_type: legacy`.** Both the legacy Pages build and the workflow's
   `actions/deploy-pages` job publish the same tree; the workflow's staged artifact is the one that
   carries `archive.html` and `audit_dd1eb1f1/`. Pages status read `built` after the deploy.
+
+---
+
+## Session `arena/a399d8a9-nba3` (current) — CLAIM
+
+Session ID: `a399d8a9`. Branch `arena/a399d8a9-nba3`, branched from `main` @ `3a6c353` (merge of PR #74).
+Claim written and pushed **before** any other work started, 2026-11-14 ~18:45 UTC.
+
+Arrival state, checked before claiming: `main` CI run
+[43592863513](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43592863513) **success**;
+`pages` status `built` (`main /`, legacy); PR #70 (`arena/f2d4a99f-nba3`) is still OPEN but touches only
+`COORDINATION.md` and has had no commit since 10:49Z, so it is stale, not in progress. No other session has
+a commit in the last 60 minutes; this session therefore works alone and is also the integration session
+(the workspace fixes the branch, so `session-<id>/<task>` branches cannot be used — same constraint every
+earlier session recorded).
+
+**Why this round exists.** Two things are demonstrably stale or missing on arrival, both from the owner's
+brief rather than from taste:
+
+1. **Freshness.** The canonical site publishes the **11/14 04:15 AM ET** injury snapshot. The official
+   [injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/) served today lists
+   reports for 11/14 **every 15 minutes through 1:30 PM ET**, i.e. roughly nine hours newer than what the
+   site shows, and the 11/14 slate tips at 7:00 PM ET. This session re-reads the newest official report and
+   reconciles it row by row against the published snapshot.
+2. **The owner asked for a decision workspace, not a wish list.** `app/suggestions.html` publishes 46
+   suggestions with a `decision` column, but there is no place to record a choice, compare paths, or
+   block implementation until a choice is made. This session builds one.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| A1 | Board claim + arrival audit (CI, Pages, open PRs, uncommitted tree) | in progress | `COORDINATION.md` (own section only) |
+| A2 | Freshness re-read: newest official injury report + slate, row-by-row reconciliation against the published 04:15 AM snapshot and the 27-game window | in progress | `session_a399d8a9/**` (**new tree**) |
+| A3 | Line-by-line repo review of this round's surface (builders, registers, published numbers) with sourced findings | in progress | `session_a399d8a9/**` |
+| A4 | **Decision workspace**: dedicated suggestions-review section — options, criteria, per-suggestion path choice, blocked-until-decided state, exportable decision record | in progress | `app/decision.html` (new), `app/assets/app.css`, `scripts/build_app.py` (nav + page) |
+| A5 | Questions/information register update: what is known, what is missing, how to discover it (owner asked for an explicit list) | in progress | `data/questions.csv` (append only), rebuild |
+| A6 | Integration: run every existing check, PR to `main`, merge, confirm Pages deploy, record here | pending | `COORDINATION.md`, `README.md` |
+
+**Overlap rules this session follows.** No other session is active, but the standing rule still applies:
+`data/app/lab.json` and `data/app/canonical.json` are regenerated only by their own scripts
+(`strategy_lab.py`, `assemble_canonical.py`) and never hand-edited; every shared register change is an
+**append**, never a rewrite of another session's row; `session_a399d8a9/**` is this session's only new tree
+and nothing else writes into it. `git pull --rebase origin main` before every push.
