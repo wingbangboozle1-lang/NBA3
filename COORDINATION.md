@@ -621,13 +621,13 @@ verification layer and touches **no** file owned by another session.
 
 | # | Task | Status | Owner | File scope (new files only) |
 |---|------|--------|-------|------------------------------|
-| V1 | Reconcile the two independent 174-game logs line by line | in progress | 3655c68d | `verify/data/**`, `verify/pages/**`, `verify/build.py` |
-| V2 | Claim ledger: every published quantitative claim, with verification status + source | in progress | 3655c68d | `verify/data/**` |
-| V3 | Contradiction register between the six dashboards | in progress | 3655c68d | `verify/data/**` |
-| V4 | Prospective settlement ledger for picks issued before tip-off | in progress | 3655c68d | `verify/data/**` |
-| V5 | Decision-ready open questions (have / don't have / how to get it) | in progress | 3655c68d | `verify/data/**` |
-| V6 | Site-improvement suggestions with explicit recommendation | in progress | 3655c68d | `verify/data/**` |
-| V7 | Integration: nav link, Pages artifact, build check, PR, merge, deploy verify | in progress | 3655c68d | `index.html` (1 nav link), `.github/workflows/pages.yml`, `README.md`, `COORDINATION.md` |
+| V1 | Reconcile the two independent 174-game logs line by line | done | 3655c68d | `verify/data/**`, `verify/pages/**`, `verify/build.py` |
+| V2 | Claim ledger: every published quantitative claim, with verification status + source | done | 3655c68d | `verify/data/**` |
+| V3 | Contradiction register between the six dashboards | done | 3655c68d | `verify/data/**` |
+| V4 | Prospective settlement ledger for picks issued before tip-off | done | 3655c68d | `verify/data/**` |
+| V5 | Decision-ready open questions (have / don't have / how to get it) | done | 3655c68d | `verify/data/**` |
+| V6 | Site-improvement suggestions with explicit recommendation | done | 3655c68d | `verify/data/**` |
+| V7 | Integration: nav link, Pages artifact, build check, PR, merge, deploy verify | done | 3655c68d | `index.html` (1 nav link), `.github/workflows/pages.yml`, `README.md`, `COORDINATION.md` |
 
 **The only shared files this session will edit** are the two lines in the root `index.html` nav,
 the Pages staging step, and appended sections of `README.md`/`COORDINATION.md` — the same
@@ -639,3 +639,48 @@ single-link pattern used by sessions 7c532e8c, 0a016df8 and e22a2831. No other s
 - All pre-existing checks pass at `e591b67`: 13 + 29 unit tests OK, `tools/check_site.py` PASS,
   `scripts/build_site.py --check` 553 links 0 broken.
 
+
+### Verification performed (session 3655c68d)
+
+- **174-game reconciliation.** Parsed both logs into (date, away, home) -> (away pts, home pts, OT) and compared
+  every key. Both cover the same 174 games; **0 score mismatches, 0 overtime mismatches**. Team-code differences
+  (BRK/BKN, CHO/CHA, PHO/PHX) were normalised before comparison. An earlier count of mine (29 vs 9 OT games) was my
+  own parsing error — `'OT' in note` also matches the `NBA Cup` note — and was corrected before publication.
+- **Injury reconciliation.** Transcribed both chunks of the 05:00 PM official PDF verbatim to
+  `verify/data/official_injury_report_2026-11-13_0500PM.txt` and compared all 110 named players in
+  `data/injuries.json` on name, status and matchup: **0 mismatches**. Also read the **07:30 PM** official report and
+  found **11 status changes** between the two, including Klay Thompson Probable→Out and Pelle Larsson Doubtful→Out.
+  The 11/14 11:00 AM report returns S3 `AccessDenied`; recorded as a failed source, not omitted.
+- **Strategy re-audit.** Recomputed each published ROI from the individual rows in `backtest_bets.json`:
+  STRAT1 66/85 → +48.24%, STRAT2 44/68 → +23.53%, STRAT4 9/15 → +14.55%. All reproduce. The *labels* on
+  STRAT1/STRAT2 do not: their settlement rule is `margin > 0`, i.e. moneyline, not spread.
+- **Parlay maths.** `parlay_joint` proved to return exactly `p2` for any `p1`/`rho` (verified by evaluating it at
+  `(0.2, 0.9, 0.0) → 0.8999`). Corrected implementation checked three ways: closed-form at ρ=0, adaptive Simpson,
+  and 200k-draw Monte Carlo; all agree at 0.3832 for (0.58, 0.58, +0.3).
+- **Pick labels.** All 22 cards re-derived from `origin_spread_home`. 0 of 22 were correct before the fix
+  (every card carried a plus handicap on the away team); 22 of 22 are correct after it.
+- **One false positive of my own, kept in the record.** I first flagged `/edge/`'s `n_test=138` as inconsistent with
+  `burn_in=30` (30+138=168). Recomputation showed 36 rows have no fitted calibration and 138 is exactly the number
+  with a fitted calibration and index ≥ 30. The claim is recorded as VERIFIED and the false alarm is documented on
+  the Corrections page.
+- **Full CI sequence run locally** before pushing: statistics tests OK · `tools/check_site.py` PASS ·
+  `pipeline/tests` OK · `verify` 16 tests OK · `verify/build.py` 13 pages 0 broken links · `scripts/build_site.py`
+  553 links 0 broken · `lab/` build + validate OK · `research/` build + verify OK · `pipeline/check_site.py` OK.
+  Zero working-tree drift after all rebuilds.
+
+### Irregularity this session caused and repaired (V-F-02)
+
+Running `pipeline/build_site_data.py` (an `edge/` pipeline script) overwrote four files in `site/data/`, a tree
+owned and generated by session `7c532e8c`, and added six new ones. The files were restored with `git checkout`
+before any commit, and the script's output path was changed from `site/data` to `edge/data`, which is where
+`edge/*.html` actually reads from. Recorded here rather than silently fixed.
+
+### Cross-session conflict resolved
+
+`git pull --rebase origin main` conflicted in this file because session `arena/2e50a71a-nba3` merged PR #17 while
+this session was working. Both sections were kept verbatim; nothing from either side was discarded. The merge is
+recorded above under "Merge conflict resolved".
+
+### Merge and deploy
+
+See the PR link and merge result appended below once the PR is merged.
