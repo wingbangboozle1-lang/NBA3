@@ -67,7 +67,7 @@
 <td>Done as a screened board</td>
 <td>15 rules across single bets, same-game parlays and cross-game parlays, each scored out of sample against nine gates. Six are exact mirror pairs so the losing direction cannot be hidden, and one is a null control.</td>
 <td>No rule shows a signal that survives its own p-value, FDR correction and the whole-board luck threshold. See NF-51.</td>
-<td>Largest edge any rule posted is 18.0 pp; the luck threshold for a board this size is 31.2 pp</td>
+<td>Refreshed 2026-11-14 on the 183-game log: largest edge any rule posted is 10.7 pp; the luck threshold for a board this size is 28.9 pp</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
 </tr>
 <tr>
@@ -105,7 +105,7 @@
 <td>Determine correlation values</td>
 <td>Validation</td>
 <td>4 measured; 5 blank by policy</td>
-<td>Home points vs away points (r=0.128, n=183 after the 2026-11-14 log extension), spread residual vs total residual (r=0.014, n=131), and the same-game cover-and-over joint rate with its dependence ratio are measured from official results. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.</td>
+<td>Home points vs away points (Pearson r 0.1230, n=183, 95% CI -0.022 to 0.263), spread residual vs total residual (r 0.0088, n=140, 95% CI -0.157 to 0.174), and the same-game cover-and-over joint rate with its dependence ratio 0 are measured from the 183 official finals after the 2026-11-14 log extension. Four player-level pairs and the cross-game pair cannot be measured and are left blank with the reason printed in the cell.</td>
 <td>Player-level correlations need per-player game logs. The cross-game independence figure is printed as an assumption, not a measurement. See CQ-39.</td>
 <td>Values, sample sizes and 95 percent intervals published on the Correlations page; blanks flagged</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
@@ -115,8 +115,8 @@
 <td>Remove luck; build selectively skill-based strategies</td>
 <td>Validation</td>
 <td>Method applied; no skill demonstrated</td>
-<td>Exact binomial tests against the market&#x27;s fair-line rate; Benjamini-Hochberg across the board; a 5,000-iteration whole-board Monte Carlo producing a 31.2 pp luck threshold; date-block bootstrap for return intervals; split-half stability; mirror pairs so the losing side is visible; and a null control that must fail. It does: 47.3 percent on 131 games, p=0.60.</td>
-<td>The methods detect luck; they cannot manufacture skill from 174 games. Nothing on the board beats the threshold. See NF-51.</td>
+<td>Exact binomial tests against the market&#x27;s fair-line rate; Benjamini-Hochberg across the board; a 5,000-iteration whole-board Monte Carlo producing a 28.9 pp luck threshold; date-block bootstrap for return intervals; split-half stability; mirror pairs so the losing side is visible; and a null control that must fail. It does: 48.6 percent on 140 games, p=0.80 (recomputed on the 183-game log, 2026-11-14).</td>
+<td>The methods detect luck; they cannot manufacture skill from 183 games. Nothing on the board beats the threshold. See NF-51.</td>
 <td>Null control ST-NUL fails 8 of 9 gates, which is the check that the gates work</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=</a></td>
 </tr>
@@ -145,9 +145,9 @@
 <td>Game flow analysis</td>
 <td>Game flow</td>
 <td>Done for what the data supports</td>
-<td>Rest days, back-to-back flags and rest differentials from the official schedule and the 174 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags. Rest and back-to-back flags for the 11/14 slate are now exact, because the results log reaches 2026-11-13.</td>
+<td>Rest days, back-to-back flags and rest differentials from the official schedule and the 183 captured results; projected pace from official team PACE; projected total against the league average; measured overtime rate; and a blowout probability from our margin prediction and residual spread. One row per game with automatic flags. Rest and back-to-back flags for the 11/14 slate are now exact, because the results log reaches 2026-11-13.</td>
 <td>No possession-level pace projection, no overtime model (a flat measured rate is applied) and no referee, travel or altitude effects - none can be sourced officially. All three are listed as missing rather than estimated.</td>
-<td>27 rows; overtime rate 5.17 percent measured from 9 of 174 games; the missing factors are named on the page</td>
+<td>27 rows; overtime rate 5.4645 percent measured from 10 of 183 games (the tenth is CHI@ATL on 2026-11-13); home win rate 52.459 percent; mean total 226.98; the missing factors are named on the page</td>
 <td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
 <tr>

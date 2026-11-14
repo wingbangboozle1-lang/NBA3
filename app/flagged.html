@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 66 items: 18 high, 43 medium, 5 low severity.
+<em>decisions</em>. 70 items: 18 high, 44 medium, 8 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -688,10 +688,10 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>One injury row of the 11/14 04:15 AM report — Traore, Nolan (Probable, right calf) on the BKN@MEM block — sits at a page-break gap where the PDF text carries no Team cell. The team is left BLANK in the capture rather than attributed, so that Probable is not attached to any team in the availability join.</td>
 <td></td>
 <td><span class="chip chip-warn">medium</span></td>
-<td>Needs a second read of the PDF table, or a check against the official team roster page, before the row is attributed. It changes no line either way: a Probable is not an absence.</td>
+<td>A second read now exists: the parallel capture of the 11/14 04:45 AM report (session bd90ce16) attributes this row to BKN, so the cell is confirmable from a second transcription of the same official PDF rather than inferred - check C8 publishes the comparison. Whether to adopt that attribution and move the published snapshot to the newer stamp is CQ-47. It changes no line either way: a Probable is not an absence.</td>
 <td>Open - owner review</td>
 <td>2026-11-14</td>
-<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
 </tr>
 <tr>
 <td>NF-60</td>
@@ -714,6 +714,50 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-14</td>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>NF-65</td>
+<td>Registers</td>
+<td>A review finding published on the Repository-review page made two claims that the 2026-11-14 refresh invalidated: that the canonical site publishes the 11/13 07:45 PM injury snapshot (it now publishes the 11/14 04:15 AM one) and that the injury cross-check &quot;fails the build if a future report disagrees&quot;. The second is an overstatement of what an offline reproduction gate can do: CI re-runs the capture script against files in the repository, so it detects a non-deterministic capture, not a stale snapshot.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Corrected in place on the review row, with the accurate wording and a pointer to the row-by-row comparison the refresh actually ran (31 rows, 0 differences). The freshness alarm this sentence implied is what CQ-41 / NF-61 asks the owner to decide on: a scheduled re-capture. Recorded because a register that overstates its own guards is worse than one that stays quiet.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py</a></td>
+</tr>
+<tr>
+<td>NF-68</td>
+<td>Inputs</td>
+<td>The lab&#x27;s per-player minutes input and the canonical file had come apart: scripts/strategy_lab.py pointed at data/app/players_top31_2026-11-14c.csv (a newer capture by session bd90ce16) while the canonical data/origin/players_top_minutes.csv still predates the 2026-11-13 slate. Nothing was wrong with either file; the engine was reading one and the repository&#x27;s canonical surface was the other, which is how two correct refreshes become one red build.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>The manifest now names the players table as it names the other four inputs, pointing at the newest capture with its provenance and its non-re-read status stated on the block. The canonical file is left for its owner to refresh - the request session bd90ce16 logged in COORDINATION.md, repeated here so it is not lost. Rounding for publication is unchanged, so no prop number moved.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a></td>
+</tr>
+<tr>
+<td>NF-66</td>
+<td>Cross-capture</td>
+<td>Two sessions refreshed the same inputs on 2026-11-14 within about 40 minutes of each other. Both extended the result log by the nine 2026-11-13 finals, and each left its own file: this session wrote data/origin/games.csv (183 rows) while session bd90ce16 wrote data/app/games_2026-11-14c.csv (183 rows) and re-pointed the engine&#x27;s default input at it. The engine then read a per-session copy rather than the canonical log, and data/app/lab.json was not rebuilt on top of that change - which is what turned the Pages build on main red, because the workflow re-runs the lab and fails on any drift in the committed artefact.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Reconciled in the merge, not by deleting either capture. The manifest now names the canonical log as the engine&#x27;s input and registers the other file as a cross-check, so check C7 proves the two row sets agree on every build (183 vs 183, 0 differences, including game ids, scores and overtime flags). Two independent transcriptions of the same official scoreboard agreeing exactly is the strongest evidence the log has had, and it arrived by accident again - so the check makes it a requirement. Standing rule proposed as CS-45: a refresh may only re-point the manifest; it must never edit an engine&#x27;s input defaults.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/commit/7256b17" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/commit/7256b17</a></td>
+</tr>
+<tr>
+<td>NF-67</td>
+<td>Cross-capture</td>
+<td>The same two sessions captured the injury report twice: this one transcribed the 11/14 04:15 AM PDF, the parallel one transcribed the 04:45 AM PDF that the index lists as newer. Both files hold 49 rows, 26 player rows and 23 team NOT-YET-SUBMITTED rows, with the same keys. The one content difference is the Traore/Nolan team cell already flagged as NF-59.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Check C8 in data/app/snapshot_manifest.json publishes the comparison row by row, so the agreement is re-proved rather than asserted. NF-59 moves from &#x27;needs a second read&#x27; to &#x27;a second read exists and says BKN&#x27;. Whether to adopt that attribution and re-point the published snapshot to the newer stamp is CQ-47 - a decision, not a repair, and no line depends on it because a Probable is not an absence.</td>
+<td>Open - owner review</td>
+<td>2026-11-14</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json</a></td>
 </tr>
 <tr>
 <td>NF-63</td>

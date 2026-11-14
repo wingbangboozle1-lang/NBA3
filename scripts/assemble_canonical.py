@@ -486,9 +486,17 @@ def build_review():
         "reports agreeing on every row is evidence the transcription is stable, not merely "
         "unchallenged. The index publishes a report every 15 minutes, so this cross-check is now "
         "part of the build and fails it if a future report disagrees.",
-        "Verified",
+        "Verified, with two corrections recorded 2026-11-14 - see NF-65",
         "None. The canonical site publishes the 07:45 PM snapshot, stamps it with the newest "
-        "report it was checked against, and cites the index for freshness.",
+        "report it was checked against, and cites the index for freshness. CORRECTION (2026-11-14, "
+        "round 25418e3f): both halves of this sentence have since moved. The canonical site now "
+        "publishes the 11/14 04:15 AM report (49 rows), which is the newest file on the index, and "
+        "its 2026-11-14 rows were checked against this 07:45 PM snapshot row for row - 31 compared, "
+        "0 differences. On the enforcement claim: what the workflow runs is scripts/"
+        "capture_official_2026_11_14b.py against files committed in the repository, so the gate "
+        "proves the capture reproduces byte for byte. It is a determinism check, not a freshness "
+        "alarm: a newer report posted to the index cannot fail CI, because CI does not read the "
+        "index. Raising an alarm needs the scheduled re-capture of CQ-41/NF-61.",
         ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_07_45PM.pdf",
          "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-13_08_30PM.pdf",
          "https://official.nba.com/nba-injury-report-2026-27-season/"], "", "2026-11-14")
@@ -973,9 +981,13 @@ SESSION_FLAGS += [
      "BKN@MEM block — sits at a page-break gap where the PDF text carries no Team cell. The team "
      "is left BLANK in the capture rather than attributed, so that Probable is not attached to any "
      "team in the availability join.",
-     "Needs a second read of the PDF table, or a check against the official team roster page, "
-     "before the row is attributed. It changes no line either way: a Probable is not an absence.",
-     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"]),
+     "A second read now exists: the parallel capture of the 11/14 04:45 AM report (session "
+     "bd90ce16) attributes this row to BKN, so the cell is confirmable from a second transcription "
+     "of the same official PDF rather than inferred - check C8 publishes the comparison. Whether to "
+     "adopt that attribution and move the published snapshot to the newer stamp is CQ-47. It changes "
+     "no line either way: a Probable is not an absence.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
+      "https://official.nba.com/nba-injury-report-2026-27-season/"]),
     ("NF-60", "Model", "high",
      "After the refresh the totals model still loses to a constant out of sample: RMSE 19.449 vs "
      "19.386 on 140 walk-forward games (the margin model wins: 15.945 vs 16.921). Every originated "
@@ -991,6 +1003,59 @@ SESSION_FLAGS += [
      "Decide a re-capture cadence (CQ-41) and put the snapshot age in the header of every page. "
      "Until then every page states its as-of time, and the freshness page lists what will change it.",
      ["https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("NF-65", "Registers", "low",
+     "A review finding published on the Repository-review page made two claims that the 2026-11-14 "
+     "refresh invalidated: that the canonical site publishes the 11/13 07:45 PM injury snapshot "
+     "(it now publishes the 11/14 04:15 AM one) and that the injury cross-check "
+     "\"fails the build if a future report disagrees\". The second is an overstatement of what an "
+     "offline reproduction gate can do: CI re-runs the capture script against files in the "
+     "repository, so it detects a non-deterministic capture, not a stale snapshot.",
+     "Corrected in place on the review row, with the accurate wording and a pointer to the row-by-row "
+     "comparison the refresh actually ran (31 rows, 0 differences). The freshness alarm this sentence "
+     "implied is what CQ-41 / NF-61 asks the owner to decide on: a scheduled re-capture. Recorded "
+     "because a register that overstates its own guards is worse than one that stays quiet.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_14b.py"]),
+    ("NF-68", "Inputs", "low",
+     "The lab's per-player minutes input and the canonical file had come apart: scripts/strategy_lab.py "
+     "pointed at data/app/players_top31_2026-11-14c.csv (a newer capture by session bd90ce16) while "
+     "the canonical data/origin/players_top_minutes.csv still predates the 2026-11-13 slate. Nothing "
+     "was wrong with either file; the engine was reading one and the repository's canonical surface "
+     "was the other, which is how two correct refreshes become one red build.",
+     "The manifest now names the players table as it names the other four inputs, pointing at the "
+     "newest capture with its provenance and its non-re-read status stated on the block. The canonical "
+     "file is left for its owner to refresh - the request session bd90ce16 logged in COORDINATION.md, "
+     "repeated here so it is not lost. Rounding for publication is unchanged, so no prop number moved.",
+     ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"]),
+    ("NF-66", "Cross-capture", "medium",
+     "Two sessions refreshed the same inputs on 2026-11-14 within about 40 minutes of each other. "
+     "Both extended the result log by the nine 2026-11-13 finals, and each left its own file: this "
+     "session wrote data/origin/games.csv (183 rows) while session bd90ce16 wrote "
+     "data/app/games_2026-11-14c.csv (183 rows) and re-pointed the engine's default input at it. The "
+     "engine then read a per-session copy rather than the canonical log, and data/app/lab.json was "
+     "not rebuilt on top of that change - which is what turned the Pages build on main red, because "
+     "the workflow re-runs the lab and fails on any drift in the committed artefact.",
+     "Reconciled in the merge, not by deleting either capture. The manifest now names the canonical "
+     "log as the engine's input and registers the other file as a cross-check, so check C7 proves "
+     "the two row sets agree on every build (183 vs 183, 0 differences, including game ids, scores "
+     "and overtime flags). Two independent transcriptions of the same official scoreboard agreeing "
+     "exactly is the strongest evidence the log has had, and it arrived by accident again - so the "
+     "check makes it a requirement. Standing rule proposed as CS-45: a refresh may only re-point the "
+     "manifest; it must never edit an engine's input defaults.",
+     ["https://www.nba.com/games?date=2026-11-13",
+      "https://github.com/wingbangboozle1-lang/NBA3/commit/7256b17"]),
+    ("NF-67", "Cross-capture", "low",
+     "The same two sessions captured the injury report twice: this one transcribed the 11/14 04:15 "
+     "AM PDF, the parallel one transcribed the 04:45 AM PDF that the index lists as newer. Both "
+     "files hold 49 rows, 26 player rows and 23 team NOT-YET-SUBMITTED rows, with the same keys. The "
+     "one content difference is the Traore/Nolan team cell already flagged as NF-59.",
+     "Check C8 in data/app/snapshot_manifest.json publishes the comparison row by row, so the "
+     "agreement is re-proved rather than asserted. NF-59 moves from 'needs a second read' to 'a "
+     "second read exists and says BKN'. Whether to adopt that attribution and re-point the "
+     "published snapshot to the newer stamp is CQ-47 - a decision, not a repair, and no line "
+     "depends on it because a Probable is not an absence.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json"]),
     ("NF-63", "Site", "medium",
      "The Report-availability page published a capture-chain table whose \"why it was replaced\" cell "
      "was one generic sentence reused for every input, and whose \"artifact\" column printed a row "
@@ -1013,6 +1078,25 @@ SESSION_FLAGS += [
 ]
 
 SESSION_QUESTIONS += [
+    ("CQ-47", "Data ownership",
+     "Which injury capture is canonical now that two exist, and does the site move to the newer "
+     "04:45 AM stamp?",
+     "Needs an owner decision",
+     "Both captures hold the same 49 rows under the same keys and the same counts. The newer file is "
+     "the 04:45 AM report, and its only content difference is attributing the Traore row to BKN "
+     "where this session left the cell blank (NF-59). The site publishes the 04:15 AM read, and the "
+     "availability join, the injury page and the impact table are written against that artefact's "
+     "field names.",
+     "A decision on which file the manifest names, and whether a blank cell that a second "
+     "independent read of the same official PDF fills in may be published as confirmed - the "
+     "no-inference rule asks for a source, and this is a second transcription rather than the page "
+     "printing the cell.",
+     "Owner: pick the canonical file. If the answer is 'the newest one listed on the index, always', "
+     "CS-45 makes that a rule the manifest enforces, and the re-point happens on every capture "
+     "instead of being argued per refresh.",
+     ["https://official.nba.com/nba-injury-report-2026-27-season/",
+      "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0445AM.json"],
+     "Owner"),
     ("CQ-46", "Governance",
      "May a session implement its own site-presentation suggestions, or must every suggestion wait "
      "for the owner's review?",
@@ -1152,6 +1236,23 @@ SESSION_SUGGESTIONS += [
      "A now, C when the trees are consolidated.",
      "None.",
      ["https://www.nba.com/games?date=2026-11-13"]),
+    ("CS-45", "Data pipeline",
+     "Make the snapshot manifest the only place an input path is decided: capture scripts write "
+     "files and update the manifest, engines read the manifest, and no engine carries a default "
+     "pointing at one session's capture.",
+     "The 2026-11-14 near-miss came from exactly that. A parallel refresh re-pointed "
+     "scripts/strategy_lab.py's GAMES_CSV at its own copy of the log, and the committed artefact was "
+     "not rebuilt, so main's build went red while both data sets were correct. CQ-42 asked for one "
+     "canonical log; this is the mechanism that keeps it canonical.",
+     "A: manifest-only resolution, with an engine default that raises instead of guessing; B: keep "
+     "the defaults and add a CI check that every engine path equals the manifest path; C: nothing.",
+     "A \u2014 the drift gate caught a broken build but not a broken choice; removing the second "
+     "source of truth stops the argument recurring on every refresh.",
+     "Depends on CQ-42 (one canonical log) and CQ-47 (which capture is canonical). PARTLY "
+     "IMPLEMENTED 2026-11-14 as option A for all five engine inputs (results log, slate, ratings, "
+     "injuries, players): scripts/strategy_lab.py resolves every path through the manifest, and the "
+     "canonical log is named there, so a session can no longer move the engine by editing a default.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"]),
 ]
 
 
