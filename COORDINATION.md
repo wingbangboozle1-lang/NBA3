@@ -544,3 +544,38 @@ were restored to `main`'s content before this section was appended.
 - `www.nba.com/standings` returns no data (client-rendered); use `/stats/teams/advanced`.
 - `/games?date=` truncates at chunk boundaries — a slate is incomplete until the last chunk is
   read (1 chunk ≤4 games, 2 for 7–11, 3 for 14–15).
+
+---
+
+## Session `arena/3655c68d-nba3` (current) — cross-pipeline verification & decision layer
+
+Session ID: `3655c68d`. Branch is fixed by Arena to `arena/3655c68d-nba3` (based on `e591b67`, PR #16 merge).
+Prior sessions' sections above are preserved as history and are **not** overwritten.
+
+**Why this session exists.** Five prior sessions each built an independent pipeline and dashboard
+(`docs/`, `site/`, `lab/`, `research/`, `edge/`, `origin/`). They publish *different* line, strategy and
+injury numbers computed from *the same* 174-game season. Nothing in the repo reconciles them. The owner
+cannot make a decision while two dashboards disagree. This session adds a reconciliation and
+verification layer and touches **no** file owned by another session.
+
+### Claims (pushed before work began)
+
+| # | Task | Status | Owner | File scope (new files only) |
+|---|------|--------|-------|------------------------------|
+| V1 | Reconcile the two independent 174-game logs line by line | in progress | 3655c68d | `verify/data/**`, `verify/pages/**`, `verify/build.py` |
+| V2 | Claim ledger: every published quantitative claim, with verification status + source | in progress | 3655c68d | `verify/data/**` |
+| V3 | Contradiction register between the six dashboards | in progress | 3655c68d | `verify/data/**` |
+| V4 | Prospective settlement ledger for picks issued before tip-off | in progress | 3655c68d | `verify/data/**` |
+| V5 | Decision-ready open questions (have / don't have / how to get it) | in progress | 3655c68d | `verify/data/**` |
+| V6 | Site-improvement suggestions with explicit recommendation | in progress | 3655c68d | `verify/data/**` |
+| V7 | Integration: nav link, Pages artifact, build check, PR, merge, deploy verify | in progress | 3655c68d | `index.html` (1 nav link), `.github/workflows/pages.yml`, `README.md`, `COORDINATION.md` |
+
+**The only shared files this session will edit** are the two lines in the root `index.html` nav,
+the Pages staging step, and appended sections of `README.md`/`COORDINATION.md` — the same
+single-link pattern used by sessions 7c532e8c, 0a016df8 and e22a2831. No other session's file is touched.
+
+### Environment facts confirmed at start
+- Shell has **no outbound network** (`curl https://www.nba.com` → 000, SSL_ERROR_SYSCALL). `fetch_page` works.
+- `api.github.com` is reachable from the shell (HTTP 200) → `gh` works.
+- All pre-existing checks pass at `e591b67`: 13 + 29 unit tests OK, `tools/check_site.py` PASS,
+  `scripts/build_site.py --check` 553 links 0 broken.
