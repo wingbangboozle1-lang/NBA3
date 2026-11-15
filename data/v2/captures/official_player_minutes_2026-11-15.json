@@ -1,0 +1,59 @@
+{
+  "kind": "player_minutes",
+  "season": "2026-27",
+  "captured_utc": "2026-11-15T11:52Z",
+  "purpose": "Season-to-date minutes, points, rebounds and assists for the players a team actually uses, so that minutes redistribution when a player is OUT is explicit (top-8 shares in, replacement shares out) instead of a hand-wave.",
+  "source_url_pattern": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=12&TeamID=<TEAM_ID>&SortColumn=MIN&SortDirection=DESC",
+  "columns_used": "GP, MIN, PTS, REB, AST. These are the page's Per Game values; the page prints them per game by default and the capture does not recompute anything.",
+  "completeness": {
+    "teams_in_slate": 30,
+    "teams_captured": 2,
+    "teams_not_captured": 28,
+    "status": "INCOMPLETE — BY DESIGN, AND NOT FILLED IN",
+    "why": "Each team's player table is one fetch, and the table's first data row is routinely split across the page's chunk boundary, which loses the player NAME while leaving the numbers. A row whose name was not read is not published: attributing a name from a player id would be an inference. Two teams came back with the rows intact, so they are published; the other 28 are recorded as not captured with the fetch that would fill them, and every downstream player-level figure is gated BLOCKED for those teams rather than estimated.",
+    "effect": "Anytime points/rebounds/assists props and player-combination parlays are BLOCKED for 28 of 30 teams. They are NOT priced from a proxy.",
+    "to_complete_this": "Re-run the capture asking for the row block plus one chunk either side, so the row that straddles the boundary is read whole. The capture brief for that is data/v2/captures/raw/CAPTURE_BRIEF_team_minutes.md."
+  },
+  "not_captured_teams": ["ATL", "BKN", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW", "HOU", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK", "OKC", "ORL", "PHI", "PHX", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"],
+  "teams": [
+    {
+      "team": "IND",
+      "team_id": "1610612754",
+      "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=12&TeamID=1610612754&SortColumn=MIN&SortDirection=DESC",
+      "retrieved_utc": "2026-11-15T11:52Z",
+      "rows_printed_by_page": 16,
+      "capture": "rows 1-8 by minutes, read whole",
+      "players": [
+        {"name": "Pascal Siakam", "gp": 12, "min": 32.1, "pts": 22.4, "reb": 6.6, "ast": 4.2},
+        {"name": "Tyrese Haliburton", "gp": 4, "min": 33.0, "pts": 21.8, "reb": 4.5, "ast": 9.5},
+        {"name": "Andrew Nembhard", "gp": 11, "min": 33.4, "pts": 16.6, "reb": 2.3, "ast": 7.6},
+        {"name": "Obi Toppin", "gp": 10, "min": 20.7, "pts": 12.4, "reb": 4.6, "ast": 1.5},
+        {"name": "Aaron Nesmith", "gp": 11, "min": 25.9, "pts": 12.3, "reb": 2.6, "ast": 1.6},
+        {"name": "Ivica Zubac", "gp": 8, "min": 23.4, "pts": 10.8, "reb": 8.9, "ast": 1.6},
+        {"name": "Kelly Oubre Jr.", "gp": 11, "min": 24.0, "pts": 10.2, "reb": 2.9, "ast": 1.3},
+        {"name": "Quenton Jackson", "gp": 13, "min": 21.5, "pts": 9.0, "reb": 3.6, "ast": 2.7}
+      ]
+    },
+    {
+      "team": "BOS",
+      "team_id": "1610612738",
+      "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=12&TeamID=1610612738&SortColumn=MIN&SortDirection=DESC",
+      "retrieved_utc": "2026-11-15T11:53Z",
+      "rows_printed_by_page": null,
+      "rows_printed_note": "The '12 Rows' label was not in the chunk that was read, so the printed row count is recorded as null rather than counted by hand from a partial page.",
+      "capture": "rows 1-7 by minutes, read whole; row 8 (Baylor Scheierman, 20.7 minutes) had its REB/AST cells fall across the chunk boundary and is EXCLUDED rather than published with blanks",
+      "players": [
+        {"name": "Jayson Tatum", "gp": 11, "min": 34.0, "pts": 26.3, "reb": 6.1, "ast": 7.5},
+        {"name": "Paul George", "gp": 10, "min": 30.1, "pts": 22.0, "reb": 5.2, "ast": 3.8},
+        {"name": "Derrick White", "gp": 12, "min": 29.9, "pts": 12.8, "reb": 2.9, "ast": 5.3},
+        {"name": "Payton Pritchard", "gp": 12, "min": 27.3, "pts": 13.3, "reb": 3.3, "ast": 3.7},
+        {"name": "Neemias Queta", "gp": 12, "min": 22.6, "pts": 9.2, "reb": 6.7, "ast": 1.8},
+        {"name": "Sam Hauser", "gp": 12, "min": 21.0, "pts": 8.1, "reb": 3.5, "ast": 1.1},
+        {"name": "Luka Garza", "gp": 12, "min": 12.3, "pts": 6.4, "reb": 3.3, "ast": 1.3}
+      ]
+    }
+  ],
+  "excluded_team_note": {
+    "ATL": "ATL's highest-minutes row (player id 1629638, 31.8 MIN, 21.5 PTS) lost its player NAME across the chunk boundary. The numbers were read but the name was not, and the top-8 cannot be published without it, so ATL is recorded as not captured. No name was inferred from the id."
+  }
+}
