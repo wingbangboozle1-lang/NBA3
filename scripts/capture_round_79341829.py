@@ -516,7 +516,7 @@ def main():
             "home_q1": None, "home_q2": None, "home_q3": None, "home_q4": None,
             "state": g.get("state", "Final"), "verified": True,
             "verified_from": g.get("source"),
-            "quarter_check": "quarter scores not captured (no game book fetched for this date) — blank, flagged",
+            "quarter_check": "quarter scores not captured — blank, flagged",
             "gamebook": None, "raw_file": None,
             "settled": False,
             "settlement_stamp": None,
