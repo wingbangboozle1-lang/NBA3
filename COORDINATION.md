@@ -4253,3 +4253,23 @@ namespaces (`data/live`, `projection/`, `bet/`, `ledger/`, `prereg/` belong to 2
 the other's content. Change request to both sessions: future rounds should claim file scopes in
 COORDINATION.md before writing (the 79341829 claim named these exact files at 11:35 UTC, before
 either PR merged) and pick session-scoped filenames when a name is already claimed.
+
+---
+
+### Session `79341829` — final integration record (2026-11-15)
+
+**PR #89 — MERGED into `main` on 2026-11-15** (https://github.com/wingbangboozle1-lang/NBA3/pull/89,
+merge commit on main; CI `build` job green before merge: 103 unit tests, both pipelines' drift
+gates, 26 pages with 0 broken links, conflict-marker guard). Per policy the PR was merged without
+waiting for review; the site was not merged broken.
+
+While the PR was open, PRs #86–#88 (sessions `arena/2ebb1e75-nba3`, `arena/bb0c83a4-nba3`) moved
+`main`; the merge was resolved keeping both sides verbatim (see the merge-conflict resolution
+record above) — the canonical capture/estimators/gates script names and data files stay with the
+merged sessions, this round's pipeline runs as `*_round_79341829.py` reading `*_79341829.json`.
+One defect found during integration and fixed: the results-feed capture/verify wordings differed,
+flip-flopping the drift gate; unified and proven stable across double runs.
+
+**GitHub Pages deploy:** the `deploy` job runs on `main` after `build`; confirmation appended
+below once the workflow completes (live check: `app/projections.html` resolves on
+https://wingbangboozle1-lang.github.io/NBA3/app/projections.html).
