@@ -1,0 +1,35 @@
+[
+ {
+  "id": "S-793-01",
+  "area": "Refresh job",
+  "suggestion": "Store one team-stat snapshot per refresh run so estimator B can be scored out-of-sample after a few weeks.",
+  "why": "Estimator B's log-loss is currently in-sample (flag 793-F-06). Daily snapshots make an honest expanding walk-forward possible, matching estimator A.",
+  "options": "A: store snapshots forever; B: store a rolling window (e.g. 30 days); C: keep only the latest.",
+  "recommended_option": "B — a rolling window keeps the repository small and is enough for walk-forward scoring.",
+  "dependency": "The scheduled refresh job already writes data/app/refresh/<stamp>/; the snapshot step is a copy of the three pages into a dated file.",
+  "decision": "open — owner",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py"]
+ },
+ {
+  "id": "S-793-02",
+  "area": "Bet surface",
+  "suggestion": "Keep the projection/bet split enforced in CI: fail the build if a bet-surface page publishes a stake or odds figure while no strategy is funded.",
+  "why": "The split is a hard requirement ('never mix them'). A CI assertion makes the rule mechanical rather than editorial.",
+  "options": "A: lint rule in build_app.py; B: separate check script; C: rely on review.",
+  "recommended_option": "A — build_app already fails on broken provenance; extending it to the surface rule keeps one gate.",
+  "dependency": "Owner decision; small change to scripts/build_app.py.",
+  "decision": "open — owner",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py"]
+ },
+ {
+  "id": "S-793-03",
+  "area": "Settlement",
+  "suggestion": "Run results_feed.py settle --date at each game day end from the workflow (a second cron after the last tip) so settlement stamps are automatic.",
+  "why": "The brief asks for the sealed ledger to be settled from official finals at each game day end with a visible stamp. The command exists and is tested; scheduling it removes the manual step.",
+  "options": "A: extra cron in refresh.yml; B: separate settle.yml; C: settle within the next morning's refresh.",
+  "recommended_option": "B — a dedicated settle workflow at 06:00 UTC keeps the settle step visible and independently re-runnable.",
+  "dependency": "Owner decision on timing; the settle command is idempotent (tested).",
+  "decision": "open — owner",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py"]
+ }
+]

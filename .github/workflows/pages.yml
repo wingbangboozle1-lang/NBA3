@@ -292,6 +292,32 @@ jobs:
       - name: Unit tests (injury-refresh audit, arena/1823b910)
         run: python3 -m unittest discover -s audit_1823b910 -p 'test_*.py'
 
+      - name: 11/15 capture round + estimator layer, offline replay (arena/79341829)
+        run: |
+          python3 scripts/capture_official_2026_11_15.py
+          python3 scripts/estimators.py
+          python3 scripts/minutes_model.py
+          python3 scripts/results_feed.py verify
+          python3 scripts/pick_ledger.py verify
+          python3 scripts/preregister.py verify
+          python3 scripts/freshness_gates.py --manifest data/app/refresh/2026-11-15T11-33Z/manifest.json
+          git diff --exit-code -- data/app/results_feed.json data/app/estimators.json \
+            data/app/minutes_model.json data/app/official_injuries_2026-11-15_0615AM.json \
+            data/app/injury_delta_1115.json data/app/player_game_logs.json \
+            data/app/minutes_shares.json data/app/prereg data/app/ledger || {
+            echo "the 11/15 capture/estimator chain drifted from the committed artefacts;"
+            echo "these outputs are deterministic replays of committed verbatim captures."
+            git --no-pager diff -- data/app | head -80
+            exit 1
+          }
+      - name: Unit tests (capture, results feed, pick ledger, estimators, gates)
+        run: |
+          python3 -m unittest discover -s tests -p 'test_*1115*.py' -v
+          python3 -m unittest discover -s tests -p 'test_results_feed.py' -v
+          python3 -m unittest discover -s tests -p 'test_pick_ledger.py' -v
+          python3 -m unittest discover -s tests -p 'test_estimators.py' -v
+          python3 -m unittest discover -s tests -p 'test_freshness_gates.py' -v
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages

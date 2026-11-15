@@ -522,6 +522,16 @@ def main():
             "settlement_stamp": None,
         })
     feed_rows.sort(key=lambda r: (r["date"], r["away"]))
+    # preserve settlement state already stamped by results_feed.py settle (idempotent re-capture)
+    if os.path.exists(RESULTS_JSON):
+        prev_feed = json.load(open(RESULTS_JSON, encoding="utf-8"))
+        prev_by_key = {(g["date"], g["away"], g["home"]): g for g in prev_feed.get("games", [])}
+        for r in feed_rows:
+            old = prev_by_key.get((r["date"], r["away"], r["home"]))
+            if old and old.get("settled"):
+                r["settled"] = True
+                r["settlement_stamp"] = old.get("settlement_stamp")
+
     feed = {
         "source_label": ("Official per-game result feed. 2026-11-14 rows come from the official "
                          "game books (statsdmz.nba.com PDFs linked from each nba.com game page); "

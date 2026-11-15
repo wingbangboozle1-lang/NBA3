@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settlement — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html" class="active">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Bet surface (gated)</div>
+    <h1>Settlement</h1>
+    
+  </div>
+
+<p>Every game in the official per-game results feed: date, teams, final score and quarter scores,
+settled only from verified official finals. 14 of
+14 rows are settled. A row settles only when the game state is Final and
+the quarter scores sum to the printed final for both teams (checked offline in
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_15.py">capture_official_2026_11_15.py</a>
+and <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py">results_feed.py</a>).
+A row is settled only when the game state is Final AND the quarter scores sum to the printed final for both teams (checked offline). Rows without captured quarter scores stay unsettled and flagged.</p>
+
+<div class="table-wrap"><table>
+<caption id="results-feed"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Matchup</th>
+<th>Final</th>
+<th>Away quarters</th>
+<th>Home quarters</th>
+<th>Verification</th>
+<th>Settlement</th>
+<th>Stamp / check</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-13</td>
+<td>ATL @ CHI</td>
+<td>117 - 125</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final ATL 117 - CHI 125; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>CLE @ MIA</td>
+<td>121 - 133</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final CLE 121 - MIA 133; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>GSW @ SAS</td>
+<td>85 - 123</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final GSW 85 - SAS 123; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>MEM @ NOP</td>
+<td>142 - 111</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final MEM 142 - NOP 111; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>MIL @ ORL</td>
+<td>99 - 107</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final MIL 99 - ORL 107; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>NYK @ IND</td>
+<td>104 - 106</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final NYK 104 - IND 106; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>OKC @ LAC</td>
+<td>112 - 113</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final OKC 112 - LAC 113; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>POR @ SAC</td>
+<td>120 - 107</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final POR 120 - SAC 107; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-13</td>
+<td>UTA @ HOU</td>
+<td>118 - 125</td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span> / <span class="unverified">— (not captured)</span></td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final UTA 118 - HOU 125; quarter scores not captured — score verified from the official scoreboard only</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>BKN @ MEM</td>
+<td>110 - 129</td>
+<td>23 / 31 / 30 / 26</td>
+<td>38 / 33 / 32 / 26</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>CHI @ MIN</td>
+<td>117 - 106</td>
+<td>29 / 29 / 30 / 29</td>
+<td>17 / 28 / 35 / 26</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DAL @ CLE</td>
+<td>117 - 127</td>
+<td>33 / 20 / 38 / 26</td>
+<td>33 / 38 / 34 / 22</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DEN @ NOP</td>
+<td>116 - 108</td>
+<td>29 / 27 / 30 / 30</td>
+<td>23 / 28 / 31 / 26</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-14</td>
+<td>DET @ MIA</td>
+<td>117 - 137</td>
+<td>39 / 21 / 26 / 31</td>
+<td>37 / 31 / 35 / 34</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

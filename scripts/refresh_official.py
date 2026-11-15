@@ -88,6 +88,41 @@ def main():
     for i, url in enumerate(TEAM_PAGES):
         fetch(url, os.path.join(out_dir, f"teams_{i}.html"), artifacts, stamp)
 
+    # 3b. promote the schedule window from the fetched games pages (game links are the
+    #     parseable part of the scoreboard HTML; tip times stay blank and flagged when the
+    #     page pattern does not carry them — never inferred)
+    rows = []
+    for off in range(0, 4):
+        d = (now + timedelta(days=off)).strftime("%Y-%m-%d")
+        page = os.path.join(out_dir, f"games_{d}.html")
+        if not os.path.exists(page):
+            continue
+        html = open(page, encoding="utf-8", errors="replace").read()
+        seen = set()
+        for m in re.finditer(r"/game/([a-z]{3})-vs-([a-z]{3})-(\d{10})/", html):
+            a, h, gid = m.group(1).upper(), m.group(2).upper(), m.group(3)
+            if gid in seen:
+                continue
+            seen.add(gid)
+            rows.append({"date": d, "time_et": None, "away": a, "home": h, "game_id": gid,
+                         "away_record": None, "home_record": None,
+                         "game_url": f"https://www.nba.com/game/{a.lower()}-vs-{h.lower()}-{gid}",
+                         "source": f"https://www.nba.com/games?date={d}"})
+    rows.sort(key=lambda r: (r["date"], r["game_id"]))
+    if rows:
+        slate = {"source_url": GAMES + rows[0]["date"],
+                 "source_label": ("official schedule pages for the rolling window, promoted by "
+                                  "scripts/refresh_official.py from the fetched game links"),
+                 "retrieved_on": stamp[:10], "retrieved_utc": stamp,
+                 "window": {"from": rows[0]["date"], "to": rows[-1]["date"]},
+                 "count": len(rows), "games": rows,
+                 "notes": ["tip times are blank where the page pattern did not carry them — "
+                           "blank and flagged, never inferred"]}
+        with open(os.path.join(APP, "official_slate_current.json"), "w", encoding="utf-8") as fh:
+            json.dump(slate, fh, indent=1)
+            fh.write("\n")
+        print(f"slate promoted: {len(rows)} games -> data/app/official_slate_current.json")
+
     # 4. game books for every finished game found on the two previous game days
     #    (matchup codes are scraped from the stored results-feed rows; new finals come
     #    from the games pages' box-score links)

@@ -201,7 +201,7 @@ def margin_pred(r, g, hca):
 # ------------------------------------------------------------------ main
 
 def main():
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+    now = "2026-11-15T11:47Z"  # = the team-stats capture stamp; deterministic for CI drift
     games = load_completed()
 
     # ---- home-court advantage: PINNED to the measured home-win rate of the official log
@@ -309,7 +309,10 @@ def main():
             }
 
     # ---- window projections (the slate 11/15-11/18)
-    slate = json.load(open(SLATE, encoding="utf-8"))
+    slate_path = os.path.join(APP, "official_slate_current.json")
+    if not os.path.exists(slate_path):
+        slate_path = SLATE
+    slate = json.load(open(slate_path, encoding="utf-8"))
     arenas = json.load(open(ARENAS, encoding="utf-8"))
     team_arena = {}
     for a in arenas["arenas"]:

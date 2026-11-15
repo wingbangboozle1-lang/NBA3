@@ -77,7 +77,9 @@ def evaluate(manifest_path=None, now=None):
              f"({index_rechecked})")
 
     # F2 — schedule window covers today .. today+3
-    slate_path = os.path.join(APP, "official_slate_1115_1118.json")
+    slate_path = os.path.join(APP, "official_slate_current.json")
+    if not os.path.exists(slate_path):
+        slate_path = os.path.join(APP, "official_slate_1115_1118.json")
     slate = _load(slate_path)
     dates = sorted({g["date"] for g in slate["games"]})
     want = [str(today.fromordinal(today.toordinal() + i)) for i in range(4)]

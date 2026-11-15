@@ -34,8 +34,8 @@ SRC_INJ = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15
 
 
 def main():
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     inj = json.load(open(INJ, encoding="utf-8"))
+    now = inj["retrieved_stamp"]  # deterministic for CI drift
     shares = json.load(open(SHARES, encoding="utf-8"))
     slate = json.load(open(SLATE, encoding="utf-8"))
 

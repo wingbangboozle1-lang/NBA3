@@ -17,12 +17,12 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html" class="active">Injuries &amp; rotation</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html" class="active">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
   <div class="page-head">
-    <div class="crumb">Game context</div>
+    <div class="crumb">Projection surface (public)</div>
     <h1>Injuries, rotation impact &amp; report status</h1>
     
   </div>
@@ -33,6 +33,13 @@
 23 team rows printed “NOT YET SUBMITTED”. A team that has not filed
 is published as such rather than treated as healthy — “unknown” and “fit” are not the same thing,
 and every downstream number respects the difference.</p>
+<p><strong>Report revision time (the table below): 2026-11-14 04:15 AM ET ·
+retrieval time: 2026-11-14T09:45Z.</strong>
+Newest official report at last refresh: <strong>2026-11-15 06:15 AM ET</strong> (revision time),
+retrieved <strong>2026-11-15T11:33Z</strong> — full table and consecutive-report diff in
+<a href="#s1c">section 1c</a>. The scheduled refresh job re-reads the official index four times a
+day; the freshness and provenance gates that govern every rebuild are on the
+<a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
 <div class="callout warn">
 <p><strong>Freshness check: a newer official report exists.</strong> At 18:45 UTC on 2026-11-14 the
 <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>
@@ -1238,6 +1245,1048 @@ Raw text and the parser are in the repository (<a href="https://github.com/wingb
 <td>102</td>
 <td>09:00 (ET) | Milwaukee Bucks OKC@SAC | Milwaukee Bucks Oklahoma City Thunder | NOT YET SUBMITTED NOT YET SUBMITTED</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf" target="_blank" rel="noopener noreferrer">official PDF 01:30 PM · raw line 102</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-14_0130PM_raw.md</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_0130pm.json</a></td>
+</tr>
+</tbody></table></div>
+
+<h2 id="s1c">1c. The newest official report — 2026-11-15 06:15 AM ET</h2>
+<p><strong>Report revision time: 2026-11-15 06:15 AM ET ·
+retrieval time: 2026-11-15T11:33Z</strong>
+(<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF</a>,
+raw capture <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_injuries_2026-11-15_0615AM_raw.md">official_injuries_2026-11-15_0615AM_raw.md</a>
+with sha256 <code>8bb4a914aa386792…</code>).
+101 rows: 84 player rows and
+17 team rows printed “NOT YET SUBMITTED” (the 11/16
+sections). 13 rows have no printed team cell on
+page breaks; their carry-forward attribution is flagged below and on the
+<a href="flagged.html">flagged page</a>.</p>
+<div class="callout warn"><strong>Consecutive-report diff vs the 11/14 01:30 PM ET report:</strong>
+84 player rows added,
+0 status changes on overlapping rows,
+17 team-side filing changes on the shared 11/15
+date. The two reports cover different game days (01:30 PM 11/14: the 11/14 and 11/15 sections; 06:15 AM 11/15: the 11/15 and 11/16 sections), so player-row keys are compared on the overlapping 11/15 date only. The 11/15 sides were all team-level NOT YET SUBMITTED rows in the prior report and now carry player designations except where the team has nothing to report.
+Diff file: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/injury_delta_1115.json">data/app/injury_delta_1115.json</a>.</div>
+
+<div class="table-wrap"><table>
+<caption id="injury-rows-0615"></caption>
+<thead><tr>
+<th>Game date</th>
+<th>Time (ET)</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Player</th>
+<th>Status and reason</th>
+<th>Team cell provenance</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td>Furphy, Johnny</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right ACL Repair / Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td>Haliburton, Tyrese</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Hamstring Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td>McConnell, T.J.</td>
+<td><span class="chip chip-ok">Probable</span> Injury/Illness - Right Hamstring Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td>Nembhard, Andrew</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Hip Soreness / Tightness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td>Nesmith, Aaron</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Hand Sprain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Indiana Pacers</td>
+<td>Sheppard, Ben</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Meniscus Tear</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Philadelphia 76ers</td>
+<td>Barlow, Dominick</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Low Back Stress Reaction</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Philadelphia 76ers</td>
+<td>Bona, Adem</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Cervical Spine Sprain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Philadelphia 76ers</td>
+<td>Embid, Joel</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Foot Plantar Fascia Injury Management</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>01:00</td>
+<td>IND@PHI</td>
+<td>Philadelphia 76ers</td>
+<td>Hukporti, Ariel</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Achilles Tendon Rupture / Tear</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td>Carr, Cameron</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Illness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td>Grimes, Quentin</td>
+<td><span class="chip chip-ok">Available</span> Injury/Illness - Right Finger Splint</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td>James, Bronny</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Illness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td>Reaves, Austin</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Heel Contusion / Bone Bruise</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td>Sexton, Collin</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Right Orbital Laceration</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Los Angeles Lakers</td>
+<td>Thiero, Adou</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Ankle Sprain</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:00</td>
+<td>LAL@PHX</td>
+<td>Phoenix Suns</td>
+<td>Williams, Mark</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Shoulder Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>Charlotte Hornets</td>
+<td>Ajayi, Michael</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>Charlotte Hornets</td>
+<td>Boswell, Kylan</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>Charlotte Hornets</td>
+<td>Knueppel, Kon</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Hamstring Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>Charlotte Hornets</td>
+<td>Schroder, Dennis</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Hamstring Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>Charlotte Hornets</td>
+<td>Steinbach, Hannes</td>
+<td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>LA Clippers</td>
+<td>Beal, Bradley</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Injury Management</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>LA Clippers</td>
+<td>Ingram, Brandon</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Heel Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>LA Clippers</td>
+<td>Miller, Jordan</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Rotator Cuff Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>04:30</td>
+<td>CHA@LAC</td>
+<td>LA Clippers</td>
+<td>Niederhauser, Yanic Konan</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Lisfranc Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>San Antonio Spurs</td>
+<td>Brown, Maliq</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>San Antonio Spurs</td>
+<td>Gillespie, Ja&#x27;Kobi</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>San Antonio Spurs</td>
+<td>Harris, Tobias</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Calf Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>San Antonio Spurs</td>
+<td>Quaintance, Jayden</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Alexander, Trey</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Bufkin, Kobe</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Hayes, Jaxson</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Knee Strain</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Ingram, Harrison</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Jackson Jr., Jaren</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right MCL Tear</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Markkanen, Lauri</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Hand Fracture</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>05:00</td>
+<td>SAS@UTA</td>
+<td>Utah Jazz</td>
+<td>Nurkic, Jusuf</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right 2nd Plantar Plate Tear</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>DAL@BOS</td>
+<td>Dallas Mavericks</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>DAL@BOS</td>
+<td>Boston Celtics</td>
+<td>Carter, Devin</td>
+<td><span class="chip chip-neutral">Questionable</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>DAL@BOS</td>
+<td>Boston Celtics</td>
+<td>Cenac Jr., Christopher</td>
+<td><span class="chip chip-neutral">Questionable</span> G League - On Assignment</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>DAL@BOS</td>
+<td>Boston Celtics</td>
+<td>Mitchell, Dillon</td>
+<td><span class="chip chip-neutral">Questionable</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>DAL@BOS</td>
+<td>Boston Celtics</td>
+<td>Williams, Amari</td>
+<td><span class="chip chip-neutral">Questionable</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>NYK@TOR</td>
+<td>Toronto Raptors</td>
+<td>Barnes, Scottie</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Groin Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>NYK@TOR</td>
+<td>Toronto Raptors</td>
+<td>Bittle, Nate</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Foot Avulsion Fracture</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>NYK@TOR</td>
+<td>Toronto Raptors</td>
+<td>Leonard, Kawhi</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Knee Injury Management</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>NYK@TOR</td>
+<td>Toronto Raptors</td>
+<td>McCullar Jr., Kevin</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>06:00</td>
+<td>NYK@TOR</td>
+<td>Toronto Raptors</td>
+<td>Smith, Malachi</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td>Adams, Steven</td>
+<td><span class="chip chip-ok">Probable</span> Injury/Illness - Right Soleus Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td>Capela, Clint</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Ankle Sprain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td>Copeland, Quadir</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td>Phillips, Julian</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td>Smart, Marcus</td>
+<td><span class="chip chip-warn">Out</span> League Suspension</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Houston Rockets</td>
+<td>VanVleet, Fred</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Injury Management</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Beekman, Reece</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right AC Joint Injury</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Carrington, Bub</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Chest / Sternum Contusion</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Champagne, Justin</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Foot Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Johnson, Tre</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Low Back Soreness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Okpara, Felix</td>
+<td><span class="chip chip-neutral">Questionable</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Sarr, Alex</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Illness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Vukcevic, Tristan</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Hip Impingement</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>07:00</td>
+<td>HOU@WAS</td>
+<td>Washington Wizards</td>
+<td>Watkins, Jamir</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left ACL Repair / Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Flemings, Kingston</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Lumbar Strain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Gilbert, Keshon</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Knee Inflammation; Non-Surgical Procedure</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Gueye, Mouhamed</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Foot Fracture</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Landale, Jock</td>
+<td><span class="chip chip-ok">Available</span> Injury/Illness - Face Mask</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Newell, Asa</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Great Toe Hyperextension</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Veesaar, Henri</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right ACL Tear</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Atlanta Hawks</td>
+<td>Wilson, Jalen</td>
+<td><span class="chip chip-warn">Doubtful</span> G League - Two-Way</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Milwaukee Bucks</td>
+<td>Dieng, Ousmane</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Finger Sprain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Milwaukee Bucks</td>
+<td>Jones, Kam</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Milwaukee Bucks</td>
+<td>Markovic, Bogoljub</td>
+<td><span class="chip chip-warn">Out</span> G League - On Assignment</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Milwaukee Bucks</td>
+<td>Nance, Pete</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>08:00</td>
+<td>ATL@MIL</td>
+<td>Milwaukee Bucks</td>
+<td>Ryan, Cormac</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Oklahoma City Thunder</td>
+<td>Holmgren, Chet</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee/ Injury Recovery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Oklahoma City Thunder</td>
+<td>Mitchell, Ajay</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Ankle Sprain</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Oklahoma City Thunder</td>
+<td>Sorber, Thomas</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Knee Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Oklahoma City Thunder</td>
+<td>Wallace, Cason</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Shoulder Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Oklahoma City Thunder</td>
+<td>Williams, Jalen</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Left Ankle Surgery</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Oklahoma City Thunder</td>
+<td>Williams, Jaylin</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Low Back Spasms</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Sacramento Kings</td>
+<td>Achiuwa, Precious</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Left Ankle Soreness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Sacramento Kings</td>
+<td>Mogbo, Jonathan</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Sacramento Kings</td>
+<td>Murray, Keegan</td>
+<td><span class="chip chip-neutral">Questionable</span> Injury/Illness - Illness</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Sacramento Kings</td>
+<td>Pedulla, Sean</td>
+<td><span class="chip chip-warn">Out</span> G League - Two-Way</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Sacramento Kings</td>
+<td>Raynaud, Maxime</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Patella Subluxation</td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/15/2026</td>
+<td>09:00</td>
+<td>OKC@SAC</td>
+<td>Sacramento Kings</td>
+<td>Simmons, Ben</td>
+<td><span class="chip chip-warn">Out</span> Injury/Illness - Right Achilles Tendon Repair / Surgery</td>
+<td><span class="chip chip-warn">carry-forward attribution</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:00</td>
+<td>CHI@CLE</td>
+<td>Chicago Bulls</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:00</td>
+<td>CHI@CLE</td>
+<td>Cleveland Cavaliers</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:00</td>
+<td>MEM@WAS</td>
+<td>Memphis Grizzlies</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:00</td>
+<td>MEM@WAS</td>
+<td>Washington Wizards</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:00</td>
+<td>ORL@BOS</td>
+<td>Orlando Magic</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:00</td>
+<td>ORL@BOS</td>
+<td>Boston Celtics</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:30</td>
+<td>HOU@MIA</td>
+<td>Houston Rockets</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:30</td>
+<td>HOU@MIA</td>
+<td>Miami Heat</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:30</td>
+<td>PHI@BKN</td>
+<td>Philadelphia 76ers</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>07:30</td>
+<td>PHI@BKN</td>
+<td>Brooklyn Nets</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>08:00</td>
+<td>GSW@NOP</td>
+<td>Golden State Warriors</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>08:00</td>
+<td>GSW@NOP</td>
+<td>New Orleans Pelicans</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>08:00</td>
+<td>POR@MIN</td>
+<td>Portland Trail Blazers</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>08:00</td>
+<td>POR@MIN</td>
+<td>Minnesota Timberwolves</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>09:00</td>
+<td>PHX@DEN</td>
+<td>Phoenix Suns</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>11/16/2026</td>
+<td>09:00</td>
+<td>PHX@DEN</td>
+<td>Denver Nuggets</td>
+<td><span class="unverified">NOT YET SUBMITTED</span></td>
+<td><span class="unverified">unknown — no report filed</span></td>
+<td><span class="chip chip-ok">team cell printed</span></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>
 </tbody></table></div>
 

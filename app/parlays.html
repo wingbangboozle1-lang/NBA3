@@ -17,12 +17,12 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html" class="active">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html" class="active">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
   <div class="page-head">
-    <div class="crumb">Model output</div>
+    <div class="crumb">Bet surface (gated)</div>
     <h1>Parlay &amp; prop combos</h1>
     
   </div>
@@ -409,6 +409,148 @@ probability is lower and the same price is a tax. The size of the tax is the dep
 and the interval on it includes 1.0, so on this sample we cannot tell which way it goes. That is
 the honest answer, and it is why nothing here is funded.</p>
 
+
+<h2>5. Every parlay priced with the measured rho — naive product printed beside it</h2>
+<p>The table prices each same-game pair with the <strong>measured residual correlation rho</strong>
+of the two-estimator framework (the correlation of margin and total residuals over the official
+completed-game log) and prints the <strong>naive product</strong> of the leg prices next to every
+correlated price, so the size of the correlation adjustment is visible on every row.</p>
+
+<div class="table-wrap"><table>
+<caption id="parlay-rho"></caption>
+<thead><tr>
+<th>Game</th>
+<th>Legs</th>
+<th>P(side)</th>
+<th>P(over)</th>
+<th>Measured rho</th>
+<th>Joint price (rho-aware)</th>
+<th>Naive product</th>
+<th>Joint / naive</th>
+<th>Method</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>0022600236</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.591</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.304</td>
+<td>0.295</td>
+<td>1.03</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600237</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.352</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.184</td>
+<td>0.176</td>
+<td>1.04</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600238</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.639</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.327</td>
+<td>0.319</td>
+<td>1.02</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600239</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.188</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.100</td>
+<td>0.094</td>
+<td>1.06</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600240</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.708</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.361</td>
+<td>0.354</td>
+<td>1.02</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600241</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.478</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.247</td>
+<td>0.239</td>
+<td>1.03</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600242</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.311</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.163</td>
+<td>0.156</td>
+<td>1.05</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600243</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.300</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.158</td>
+<td>0.150</td>
+<td>1.05</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600244</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.294</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.154</td>
+<td>0.147</td>
+<td>1.05</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600245</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.755</td>
+<td>0.500</td>
+<td>-0.053</td>
+<td>0.384</td>
+<td>0.378</td>
+<td>1.02</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+</tbody></table></div>
 </main>
 <footer class="site-footer">
   <div class="wrap">
