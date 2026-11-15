@@ -1,0 +1,1004 @@
+{
+ "schema": "nba3.live.rest_travel/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "schedule_provenance": {
+  "sources": [
+   {
+    "seam": "origin",
+    "file": "data/origin/games.csv",
+    "what": "in-repo official results capture",
+    "dates": "2026-10-20..2026-11-13",
+    "rows": 183
+   },
+   {
+    "seam": "settled",
+    "file": "data/live/results/settled_2026-11-14.json",
+    "what": "11/14 finals verified against two official reads",
+    "dates": "2026-11-14",
+    "rows": 5,
+    "source_urls": [
+     "https://www.nba.com/game/den-vs-nop-0022600231"
+    ]
+   },
+   {
+    "seam": "slate",
+    "file": "data/live/slate_2026-11-15.json",
+    "what": "upcoming slate",
+    "dates": "2026-11-15..2026-11-17",
+    "rows": 22,
+    "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+   }
+  ],
+  "coverage": {
+   "first": "2026-10-20",
+   "last": "2026-11-17",
+   "dates": 28,
+   "gaps": []
+  }
+ },
+ "rest_source": {
+  "what": "official schedule dates, unioned across three captures",
+  "rule": "rest_days = (game date - previous game date) in days - 1; back_to_back = previous game on the immediately preceding day; games_in_4_day_window counts the current game plus prior games on dates within 3 days; three_in_four = that count >= 3"
+ },
+ "travel_source": {
+  "what": "arena coordinate table",
+  "file": "data/live/arena_coords.json",
+  "status": "NOT POPULATED",
+  "why_blank": "No official NBA page read in this session publishes arena latitude/longitude. The brief requires a SOURCED table, so the distances are left blank and flagged rather than estimated from city names."
+ },
+ "counts": {
+  "games": 22,
+  "team_games": 44,
+  "back_to_backs": 8,
+  "three_in_four": 8,
+  "travel_unverified": 44
+ },
+ "games": [
+  {
+   "game_id": "0022600236",
+   "date": "2026-11-15",
+   "matchup": "IND @ PHI",
+   "teams": [
+    {
+     "team": "IND",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Philadelphia, PA",
+      "from": null,
+      "to": "Philadelphia, PA"
+     }
+    },
+    {
+     "team": "PHI",
+     "side": "home",
+     "last_game_date": "2026-11-12",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Philadelphia, PA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Philadelphia, PA or Philadelphia, PA",
+      "from": "Philadelphia, PA",
+      "to": "Philadelphia, PA"
+     }
+    }
+   ],
+   "venue": "Xfinity Mobile Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600237",
+   "date": "2026-11-15",
+   "matchup": "LAL @ PHX",
+   "teams": [
+    {
+     "team": "LAL",
+     "side": "away",
+     "last_game_date": "2026-11-11",
+     "rest_days": 3,
+     "back_to_back": false,
+     "games_in_4_day_window": 1,
+     "three_in_four": false,
+     "previous_venue_city": "Milwaukee, WI",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Milwaukee, WI or Phoenix, AZ",
+      "from": "Milwaukee, WI",
+      "to": "Phoenix, AZ"
+     }
+    },
+    {
+     "team": "PHX",
+     "side": "home",
+     "last_game_date": "2026-11-12",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Phoenix, AZ",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Phoenix, AZ or Phoenix, AZ",
+      "from": "Phoenix, AZ",
+      "to": "Phoenix, AZ"
+     }
+    }
+   ],
+   "venue": "Mortgage Matchup Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600238",
+   "date": "2026-11-15",
+   "matchup": "CHA @ LAC",
+   "teams": [
+    {
+     "team": "CHA",
+     "side": "away",
+     "last_game_date": "2026-11-12",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Phoenix, AZ",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Phoenix, AZ or Inglewood, CA",
+      "from": "Phoenix, AZ",
+      "to": "Inglewood, CA"
+     }
+    },
+    {
+     "team": "LAC",
+     "side": "home",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Inglewood, CA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Inglewood, CA or Inglewood, CA",
+      "from": "Inglewood, CA",
+      "to": "Inglewood, CA"
+     }
+    }
+   ],
+   "venue": "Intuit Dome",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600239",
+   "date": "2026-11-15",
+   "matchup": "SAS @ UTA",
+   "teams": [
+    {
+     "team": "SAS",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "San Antonio, TX",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for San Antonio, TX or Salt Lake City, UT",
+      "from": "San Antonio, TX",
+      "to": "Salt Lake City, UT"
+     }
+    },
+    {
+     "team": "UTA",
+     "side": "home",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Salt Lake City, UT",
+      "from": null,
+      "to": "Salt Lake City, UT"
+     }
+    }
+   ],
+   "venue": "Delta Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600240",
+   "date": "2026-11-15",
+   "matchup": "DAL @ BOS",
+   "teams": [
+    {
+     "team": "DAL",
+     "side": "away",
+     "last_game_date": "2026-11-14",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "Cleveland, OH",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Cleveland, OH or Boston, MA",
+      "from": "Cleveland, OH",
+      "to": "Boston, MA"
+     }
+    },
+    {
+     "team": "BOS",
+     "side": "home",
+     "last_game_date": "2026-11-11",
+     "rest_days": 3,
+     "back_to_back": false,
+     "games_in_4_day_window": 1,
+     "three_in_four": false,
+     "previous_venue_city": "Toronto, ON",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Toronto, ON or Boston, MA",
+      "from": "Toronto, ON",
+      "to": "Boston, MA"
+     }
+    }
+   ],
+   "venue": "TD Garden",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600241",
+   "date": "2026-11-15",
+   "matchup": "NYK @ TOR",
+   "teams": [
+    {
+     "team": "NYK",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Toronto, ON",
+      "from": null,
+      "to": "Toronto, ON"
+     }
+    },
+    {
+     "team": "TOR",
+     "side": "home",
+     "last_game_date": "2026-11-12",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Philadelphia, PA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Philadelphia, PA or Toronto, ON",
+      "from": "Philadelphia, PA",
+      "to": "Toronto, ON"
+     }
+    }
+   ],
+   "venue": "Scotiabank Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600242",
+   "date": "2026-11-15",
+   "matchup": "HOU @ WAS",
+   "teams": [
+    {
+     "team": "HOU",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Washington, DC",
+      "from": null,
+      "to": "Washington, DC"
+     }
+    },
+    {
+     "team": "WAS",
+     "side": "home",
+     "last_game_date": "2026-11-12",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Washington, DC",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Washington, DC or Washington, DC",
+      "from": "Washington, DC",
+      "to": "Washington, DC"
+     }
+    }
+   ],
+   "venue": "Capital One Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600243",
+   "date": "2026-11-15",
+   "matchup": "ATL @ MIL",
+   "teams": [
+    {
+     "team": "ATL",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Milwaukee, WI",
+      "from": null,
+      "to": "Milwaukee, WI"
+     }
+    },
+    {
+     "team": "MIL",
+     "side": "home",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Milwaukee, WI",
+      "from": null,
+      "to": "Milwaukee, WI"
+     }
+    }
+   ],
+   "venue": "Fiserv Forum",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600244",
+   "date": "2026-11-15",
+   "matchup": "OKC @ SAC",
+   "teams": [
+    {
+     "team": "OKC",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Inglewood, CA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Inglewood, CA or Sacramento, CA",
+      "from": "Inglewood, CA",
+      "to": "Sacramento, CA"
+     }
+    },
+    {
+     "team": "SAC",
+     "side": "home",
+     "last_game_date": "2026-11-13",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Sacramento, CA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Sacramento, CA or Sacramento, CA",
+      "from": "Sacramento, CA",
+      "to": "Sacramento, CA"
+     }
+    }
+   ],
+   "venue": "Golden 1 Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600245",
+   "date": "2026-11-16",
+   "matchup": "ORL @ BOS",
+   "teams": [
+    {
+     "team": "ORL",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Boston, MA",
+      "from": null,
+      "to": "Boston, MA"
+     }
+    },
+    {
+     "team": "BOS",
+     "side": "home",
+     "last_game_date": "2026-11-15",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Boston, MA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Boston, MA or Boston, MA",
+      "from": "Boston, MA",
+      "to": "Boston, MA"
+     }
+    }
+   ],
+   "venue": "TD Garden",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600246",
+   "date": "2026-11-16",
+   "matchup": "CHI @ CLE",
+   "teams": [
+    {
+     "team": "CHI",
+     "side": "away",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "Minneapolis, MN",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Minneapolis, MN or Cleveland, OH",
+      "from": "Minneapolis, MN",
+      "to": "Cleveland, OH"
+     }
+    },
+    {
+     "team": "CLE",
+     "side": "home",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "Cleveland, OH",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Cleveland, OH or Cleveland, OH",
+      "from": "Cleveland, OH",
+      "to": "Cleveland, OH"
+     }
+    }
+   ],
+   "venue": "Rocket Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600247",
+   "date": "2026-11-16",
+   "matchup": "MEM @ WAS",
+   "teams": [
+    {
+     "team": "MEM",
+     "side": "away",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Washington, DC",
+      "from": null,
+      "to": "Washington, DC"
+     }
+    },
+    {
+     "team": "WAS",
+     "side": "home",
+     "last_game_date": "2026-11-15",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Washington, DC",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Washington, DC or Washington, DC",
+      "from": "Washington, DC",
+      "to": "Washington, DC"
+     }
+    }
+   ],
+   "venue": "Capital One Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600248",
+   "date": "2026-11-16",
+   "matchup": "PHI @ BKN",
+   "teams": [
+    {
+     "team": "PHI",
+     "side": "away",
+     "last_game_date": "2026-11-15",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Philadelphia, PA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Philadelphia, PA or Brooklyn, NY",
+      "from": "Philadelphia, PA",
+      "to": "Brooklyn, NY"
+     }
+    },
+    {
+     "team": "BKN",
+     "side": "home",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": null,
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for unknown or Brooklyn, NY",
+      "from": null,
+      "to": "Brooklyn, NY"
+     }
+    }
+   ],
+   "venue": "Barclays Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600249",
+   "date": "2026-11-16",
+   "matchup": "HOU @ MIA",
+   "teams": [
+    {
+     "team": "HOU",
+     "side": "away",
+     "last_game_date": "2026-11-15",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "Washington, DC",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Washington, DC or Miami, FL",
+      "from": "Washington, DC",
+      "to": "Miami, FL"
+     }
+    },
+    {
+     "team": "MIA",
+     "side": "home",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "Miami, FL",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Miami, FL or Miami, FL",
+      "from": "Miami, FL",
+      "to": "Miami, FL"
+     }
+    }
+   ],
+   "venue": "Kaseya Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600250",
+   "date": "2026-11-16",
+   "matchup": "POR @ MIN",
+   "teams": [
+    {
+     "team": "POR",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Sacramento, CA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Sacramento, CA or Minneapolis, MN",
+      "from": "Sacramento, CA",
+      "to": "Minneapolis, MN"
+     }
+    },
+    {
+     "team": "MIN",
+     "side": "home",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Minneapolis, MN",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN",
+      "from": "Minneapolis, MN",
+      "to": "Minneapolis, MN"
+     }
+    }
+   ],
+   "venue": "Target Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600251",
+   "date": "2026-11-16",
+   "matchup": "GSW @ NOP",
+   "teams": [
+    {
+     "team": "GSW",
+     "side": "away",
+     "last_game_date": "2026-11-13",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "San Antonio, TX",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for San Antonio, TX or New Orleans, LA",
+      "from": "San Antonio, TX",
+      "to": "New Orleans, LA"
+     }
+    },
+    {
+     "team": "NOP",
+     "side": "home",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "New Orleans, LA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for New Orleans, LA or New Orleans, LA",
+      "from": "New Orleans, LA",
+      "to": "New Orleans, LA"
+     }
+    }
+   ],
+   "venue": "Smoothie King Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600252",
+   "date": "2026-11-16",
+   "matchup": "PHX @ DEN",
+   "teams": [
+    {
+     "team": "PHX",
+     "side": "away",
+     "last_game_date": "2026-11-15",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Phoenix, AZ",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Phoenix, AZ or Denver, CO",
+      "from": "Phoenix, AZ",
+      "to": "Denver, CO"
+     }
+    },
+    {
+     "team": "DEN",
+     "side": "home",
+     "last_game_date": "2026-11-14",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "New Orleans, LA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for New Orleans, LA or Denver, CO",
+      "from": "New Orleans, LA",
+      "to": "Denver, CO"
+     }
+    }
+   ],
+   "venue": "Ball Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600253",
+   "date": "2026-11-17",
+   "matchup": "NYK @ TOR",
+   "teams": [
+    {
+     "team": "NYK",
+     "side": "away",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Toronto, ON",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Toronto, ON or Toronto, ON",
+      "from": "Toronto, ON",
+      "to": "Toronto, ON"
+     }
+    },
+    {
+     "team": "TOR",
+     "side": "home",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Toronto, ON",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Toronto, ON or Toronto, ON",
+      "from": "Toronto, ON",
+      "to": "Toronto, ON"
+     }
+    }
+   ],
+   "venue": "Scotiabank Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600254",
+   "date": "2026-11-17",
+   "matchup": "POR @ MIN",
+   "teams": [
+    {
+     "team": "POR",
+     "side": "away",
+     "last_game_date": "2026-11-16",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Minneapolis, MN",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN",
+      "from": "Minneapolis, MN",
+      "to": "Minneapolis, MN"
+     }
+    },
+    {
+     "team": "MIN",
+     "side": "home",
+     "last_game_date": "2026-11-16",
+     "rest_days": 0,
+     "back_to_back": true,
+     "games_in_4_day_window": 3,
+     "three_in_four": true,
+     "previous_venue_city": "Minneapolis, MN",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN",
+      "from": "Minneapolis, MN",
+      "to": "Minneapolis, MN"
+     }
+    }
+   ],
+   "venue": "Target Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600255",
+   "date": "2026-11-17",
+   "matchup": "DET @ SAS",
+   "teams": [
+    {
+     "team": "DET",
+     "side": "away",
+     "last_game_date": "2026-11-14",
+     "rest_days": 2,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Miami, FL",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Miami, FL or San Antonio, TX",
+      "from": "Miami, FL",
+      "to": "San Antonio, TX"
+     }
+    },
+    {
+     "team": "SAS",
+     "side": "home",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Salt Lake City, UT",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Salt Lake City, UT or San Antonio, TX",
+      "from": "Salt Lake City, UT",
+      "to": "San Antonio, TX"
+     }
+    }
+   ],
+   "venue": "Frost Bank Center",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600257",
+   "date": "2026-11-17",
+   "matchup": "UTA @ LAC",
+   "teams": [
+    {
+     "team": "UTA",
+     "side": "away",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Salt Lake City, UT",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Salt Lake City, UT or Inglewood, CA",
+      "from": "Salt Lake City, UT",
+      "to": "Inglewood, CA"
+     }
+    },
+    {
+     "team": "LAC",
+     "side": "home",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Inglewood, CA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Inglewood, CA or Inglewood, CA",
+      "from": "Inglewood, CA",
+      "to": "Inglewood, CA"
+     }
+    }
+   ],
+   "venue": "Intuit Dome",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "game_id": "0022600256",
+   "date": "2026-11-17",
+   "matchup": "CHA @ LAL",
+   "teams": [
+    {
+     "team": "CHA",
+     "side": "away",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Inglewood, CA",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Inglewood, CA or Los Angeles, CA",
+      "from": "Inglewood, CA",
+      "to": "Los Angeles, CA"
+     }
+    },
+    {
+     "team": "LAL",
+     "side": "home",
+     "last_game_date": "2026-11-15",
+     "rest_days": 1,
+     "back_to_back": false,
+     "games_in_4_day_window": 2,
+     "three_in_four": false,
+     "previous_venue_city": "Phoenix, AZ",
+     "travel": {
+      "km": null,
+      "status": "UNVERIFIED",
+      "reason": "no sourced arena coordinate for Phoenix, AZ or Los Angeles, CA",
+      "from": "Phoenix, AZ",
+      "to": "Los Angeles, CA"
+     }
+    }
+   ],
+   "venue": "Crypto.com Arena",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+  }
+ ]
+}

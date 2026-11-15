@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-registration — NBA3 Bet</title>
+<meta name="description" content="NBA3 bet surface: Pre-registration. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Bet surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:34:06Z</div>
+</div></header>
+<div class="banner"><div class="wrap">BET SURFACE — GATED. Nothing here is a recommendation or a price for the public; every pick is pre-registered, hash-sealed before tip and graded against an official final. <a href="../projection/index.html">Projection surface</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="picks.html">Sealed picks</a><a href="prereg.html" class="active">Pre-registration</a><a href="ledger.html">Ledger</a><a href="gates.html">Gates</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Bet surface</div>
+  <h1>Pre-registration</h1>
+  <p class="lead">Three strategies, frozen in writing before their first bet, with the settlement rule spelled out to the push.</p>
+<p>A pre-registration file is written once, before the strategy's first bet, and cannot
+be edited afterwards: <code>scripts/ledger.py</code> refuses to overwrite one and refuses to seal a pick
+whose strategy has no frozen file. Each file names the signal, the thresholds, the universe and the exact
+settlement rule.</p>
+<h2 id="s1_home_b2b_fade">S1_HOME_B2B_FADE</h2>
+<div class="tw"><table id="prereg-S1_HOME_B2B_FADE" class="">
+<thead><tr>
+<th>Item</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr><td>Name</td><td>Fade the home team on the second night of a back-to-back</td></tr>
+<tr><td>Frozen (UTC)</td><td><code>2026-11-15T12:05Z</code></td></tr>
+<tr><td>Signal</td><td>Home team played the previous calendar day (official schedule), and its opponent did not. Bet the ROAD side against the originated spread.</td></tr>
+<tr><td>Thresholds</td><td><code>{
+ &quot;min_edge_vs_originated_line_points&quot;: 1.0,
+ &quot;require_disagreement_pp_below&quot;: 15.0,
+ &quot;require_both_estimators_same_side&quot;: true,
+ &quot;min_games_before_any_publication&quot;: 0,
+ &quot;required_validation_before_grading&quot;: &quot;none: this file is frozen now, before the first bet; the validation gate is applied to the RESULTS, not to entry&quot;
+}</code></td></tr>
+<tr><td>Universe</td><td><code>{
+ &quot;league&quot;: &quot;NBA 2026-27 regular season&quot;,
+ &quot;window&quot;: [
+  &quot;2026-11-15&quot;,
+  &quot;2026-11-17&quot;
+ ],
+ &quot;games&quot;: &quot;every game in data/live/slate_2026-11-15.json whose home team is on a back-to-back&quot;,
+ &quot;exclusions&quot;: &quot;none; games with an unfiled injury report are flagged, not excluded&quot;
+}</code></td></tr>
+<tr><td>Settlement rule id</td><td>SPREAD</td></tr>
+<tr><td>Settlement rule (exact)</td><td>Settle on the official final score at https://www.nba.com/game/&lt;slug&gt;-&lt;game_id&gt;. The pick is the ROAD team at the originated spread. WIN if road margin plus the originated home spread is strictly negative; PUSH at exactly zero; LOSS otherwise. No vacated/abandoned-game clause is defined because the NBA rule set does not provide one.</td></tr>
+<tr><td>Stake rule</td><td>flat 1 unit per pick, no progression; no stake is placed by this repository</td></tr>
+<tr><td>Notes</td><td>Chosen because rest is computable from the official schedule alone, so the strategy needs no data the repository lacks. It is NOT claimed to be profitable; that is what grading decides.</td></tr>
+<tr><td>Payload sha256</td><td><code>20b1b7c658c221db8597f89b7dfeadf3d68f5df1b76cb9185c560ba2967d03e3</code></td></tr>
+<tr><td>File</td><td><code>prereg/S1_HOME_B2B_FADE.json</code></td></tr>
+</tbody></table></div>
+<h2 id="s2_estimator_disagreement">S2_ESTIMATOR_DISAGREEMENT</h2>
+<div class="tw"><table id="prereg-S2_ESTIMATOR_DISAGREEMENT" class="">
+<thead><tr>
+<th>Item</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr><td>Name</td><td>Trade only where the two estimators disagree, on the side they agree about</td></tr>
+<tr><td>Frozen (UTC)</td><td><code>2026-11-15T12:05Z</code></td></tr>
+<tr><td>Signal</td><td>Use the per-game disagreement between E1 (margin model) and E2 (win-only model) as the confidence signal. A pick is only eligible if both estimators put the same team on the same side, and the size of the blended edge is the confidence.</td></tr>
+<tr><td>Thresholds</td><td><code>{
+ &quot;min_blended_edge_probability&quot;: 0.02,
+ &quot;max_disagreement_pp&quot;: 20.0,
+ &quot;min_disagreement_pp&quot;: 5.0,
+ &quot;require_direction_agreement&quot;: true
+}</code></td></tr>
+<tr><td>Universe</td><td><code>{
+ &quot;league&quot;: &quot;NBA 2026-27 regular season&quot;,
+ &quot;window&quot;: [
+  &quot;2026-11-15&quot;,
+  &quot;2026-11-17&quot;
+ ],
+ &quot;games&quot;: &quot;all games in the 3-day slate&quot;
+}</code></td></tr>
+<tr><td>Settlement rule id</td><td>MONEYLINE</td></tr>
+<tr><td>Settlement rule (exact)</td><td>Settle on the official final score. The pick names a side; WIN if that team has the higher final score. Overtime counts. No post-hoc side changes.</td></tr>
+<tr><td>Stake rule</td><td>flat 1 unit per pick</td></tr>
+<tr><td>Notes</td><td>The threshold values are pre-registered BEFORE results are seen, which is the point: they are a hypothesis, not a fit. They are also a judgement call and are labelled as such.</td></tr>
+<tr><td>Payload sha256</td><td><code>83617e730c5831a9a500e86171809462abef7d3731a282b9fc6e0f6ebf9968f2</code></td></tr>
+<tr><td>File</td><td><code>prereg/S2_ESTIMATOR_DISAGREEMENT.json</code></td></tr>
+</tbody></table></div>
+<h2 id="s3_totals_possessions">S3_TOTALS_POSSESSIONS</h2>
+<div class="tw"><table id="prereg-S3_TOTALS_POSSESSIONS" class="">
+<thead><tr>
+<th>Item</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr><td>Name</td><td>Under on high-pace, low-efficiency matchups priced off possessions x PPP</td></tr>
+<tr><td>Frozen (UTC)</td><td><code>2026-11-15T12:05Z</code></td></tr>
+<tr><td>Signal</td><td>Total = combined possessions x points-per-possession (scripts/estimators.py totals_model). Take the UNDER when the originated total is at least 3.0 points above the model total and both teams are in the top third of official Pace.</td></tr>
+<tr><td>Thresholds</td><td><code>{
+ &quot;min_edge_vs_originated_total_points&quot;: 3.0,
+ &quot;pace_percentile_min_for_both_teams&quot;: 66.7,
+ &quot;max_disagreement_pp&quot;: 20.0
+}</code></td></tr>
+<tr><td>Universe</td><td><code>{
+ &quot;league&quot;: &quot;NBA 2026-27 regular season&quot;,
+ &quot;window&quot;: [
+  &quot;2026-11-15&quot;,
+  &quot;2026-11-17&quot;
+ ],
+ &quot;games&quot;: &quot;all games in the 3-day slate&quot;
+}</code></td></tr>
+<tr><td>Settlement rule id</td><td>TOTAL</td></tr>
+<tr><td>Settlement rule (exact)</td><td>Settle on the official final score sum. PUSH if it equals the originated line exactly (halves are permitted in the file but the originated lines are to 0.1).</td></tr>
+<tr><td>Stake rule</td><td>flat 1 unit per pick</td></tr>
+<tr><td>Notes</td><td>The pace filter is what makes this testable: without it the rule is the model again.</td></tr>
+<tr><td>Payload sha256</td><td><code>a8f98514bdb98be8d054bbbe87180e8dc34d6a09c0b97dd8b00973d8382fefb5</code></td></tr>
+<tr><td>File</td><td><code>prereg/S3_TOTALS_POSSESSIONS.json</code></td></tr>
+</tbody></table></div>
+<h2>E2's shrinkage was selected before any pick was sealed</h2>
+<p>The validation detail that would normally be hidden is published, because a shrink weight that moved
+after results would make every downstream number meaningless.</p>
+<div class="tw"><table id="ridge-grid" class="">
+<thead><tr>
+<th>Ridge (logit scale)</th>
+<th>Validation log-loss</th>
+<th>Chosen</th>
+</tr></thead><tbody>
+<tr><td>0.5</td><td>0.631844</td><td></td></tr>
+<tr><td>1.0</td><td>0.621886</td><td></td></tr>
+<tr><td>2.0</td><td>0.621827</td><td></td></tr>
+<tr><td>5.0</td><td>0.636125</td><td></td></tr>
+<tr><td>10.0</td><td>0.652013</td><td></td></tr>
+<tr><td>20.0</td><td>0.666121</td><td></td></tr>
+<tr><td>50.0</td><td>0.678185</td><td></td></tr>
+<tr><td>100.0</td><td>0.683052</td><td></td></tr>
+</tbody></table></div>
+<p>log-loss on the most recent 20% of past games, 38 validation
+games. The three frozen strategies are S1_HOME_B2B_FADE, S2_ESTIMATOR_DISAGREEMENT and
+S3_TOTALS_POSSESSIONS, all frozen at 2026-11-15T12:05Z.</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

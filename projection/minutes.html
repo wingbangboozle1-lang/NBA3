@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minutes &amp; rotation — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Minutes &amp; rotation. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:34:06Z</div>
+</div></header>
+<div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html" class="active">Minutes &amp; rotation</a><a href="gates.html">Gates</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Projection surface</div>
+  <h1>Minutes &amp; rotation</h1>
+  <p class="lead">Top-eight minute shares, replacement shares, and an honest account of why the absence case cannot be forecast on this slate.</p>
+<p>Minutes are modelled explicitly rather than assumed to stay constant: the top eight
+players by minutes take a published share of the rotation, and when a player is out his share is
+redistributed to the remaining seven in proportion to their own minutes, with the leftover assigned to
+replacements outside the top eight.</p>
+<div class="callout bad"><strong>An overlap the project cannot paper over.</strong> Captured game logs
+cover 10 clubs from the 11/14 slate (BKN, CHI, CLE, DAL, DEN, DET, MEM, MIA, MIN, NOP).
+The archived injury report covers 11/15. The overlap — clubs that have <em>both</em> a captured log and
+an announced absence — is <strong>0</strong>. So no real redistribution can be
+published for this slate. The table below is therefore a measured share model plus an explicitly
+labelled <em>illustrative</em> sensitivity, not a forecast.</div>
+<h2>Measured top-eight minute shares</h2>
+<div class="tw"><table id="minute-shares" class="">
+<thead><tr>
+<th>Team</th>
+<th>Players logged</th>
+<th>Games</th>
+<th>Top four shares of top-eight minutes</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>BKN</td><td>11</td><td>1</td><td>Noah Clowney 17.4%, Julius Randle 15.6%, Day&#x27;Ron Sharpe 13.8%, Danny Wolf 13.8%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>CHI</td><td>6</td><td>1</td><td>Isaac Okoro 18.1%, Norman Powell 17.6%, Matas Buzelis 17.4%, Zach Collins 16.5%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>CLE</td><td>8</td><td>1</td><td>Tyrese Proctor 14.2%, Mario Hezonja 14.2%, Jaylon Tyson 14.0%, Meleek Thomas 14.0%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>DAL</td><td>10</td><td>1</td><td>Cooper Flagg 18.1%, Kyrie Irving 17.6%, Caleb Martin 15.4%, Naji Marshall 14.1%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>DEN</td><td>10</td><td>1</td><td>Jamal Murray 17.3%, Nikola Jokic 17.0%, Aaron Gordon 14.9%, Cam Johnson 14.1%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>DET</td><td>13</td><td>1</td><td>Kevin Huerter 17.6%, Cade Cunningham 16.9%, Daniss Jenkins 16.4%, John Collins 12.1%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>MEM</td><td>10</td><td>1</td><td>Cam Spencer 16.6%, Cedric Coward 16.1%, Taylor Hendricks 14.2%, Cameron Boozer 14.1%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>MIA</td><td>12</td><td>1</td><td>Bam Adebayo 17.0%, Davion Mitchell 15.2%, Giannis Antetokounmpo 14.6%, Myron Gardner 12.3%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>MIN</td><td>10</td><td>1</td><td>Jaden McDaniels 16.5%, Jonathan Kuminga 15.8%, Ayo Dosunmu 14.8%, LaMelo Ball 13.3%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>NOP</td><td>9</td><td>1</td><td>Saddiq Bey 18.0%, Jeremiah Fears 14.5%, Zion Williamson 13.6%, Herbert Jones 12.2%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+</tbody></table></div>
+<h2>Illustrative sensitivity: the top-minute player is out</h2>
+<p class="note">Illustrative only. No club with a captured log has an announced absence on this slate.</p>
+<div class="tw"><table id="minutes-sens" class="">
+<thead><tr>
+<th>Team</th>
+<th>Player removed</th>
+<th>Name match</th>
+<th>Share vacated</th>
+<th>Replacement share</th>
+<th>New shares (first three)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>BKN</td><td>Noah Clowney</td><td>matched</td><td>17.4%</td><td>0.0%</td><td>Julius Randle 18.9%, Day&#x27;Ron Sharpe 16.7%, Danny Wolf 16.6%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>CHI</td><td>Isaac Okoro</td><td>matched</td><td>18.1%</td><td>0.0%</td><td>Norman Powell 21.5%, Matas Buzelis 21.3%, Zach Collins 20.1%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>CLE</td><td>Tyrese Proctor</td><td>matched</td><td>14.2%</td><td>0.0%</td><td>Mario Hezonja 16.5%, Jaylon Tyson 16.3%, Meleek Thomas 16.3%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>DAL</td><td>Cooper Flagg</td><td>matched</td><td>18.1%</td><td>0.0%</td><td>Kyrie Irving 21.5%, Caleb Martin 18.8%, Naji Marshall 17.2%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>DEN</td><td>Jamal Murray</td><td>matched</td><td>17.3%</td><td>0.0%</td><td>Nikola Jokic 20.5%, Aaron Gordon 18.0%, Cam Johnson 17.0%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>DET</td><td>Kevin Huerter</td><td>matched</td><td>17.6%</td><td>0.0%</td><td>Cade Cunningham 20.5%, Daniss Jenkins 19.9%, John Collins 14.7%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>MEM</td><td>Cam Spencer</td><td>matched</td><td>16.6%</td><td>0.0%</td><td>Cedric Coward 19.3%, Taylor Hendricks 17.1%, Cameron Boozer 16.9%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>MIA</td><td>Bam Adebayo</td><td>matched</td><td>17.0%</td><td>0.0%</td><td>Davion Mitchell 18.4%, Giannis Antetokounmpo 17.6%, Myron Gardner 14.8%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>MIN</td><td>Jaden McDaniels</td><td>matched</td><td>16.5%</td><td>0.0%</td><td>Jonathan Kuminga 18.9%, Ayo Dosunmu 17.7%, LaMelo Ball 16.0%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>NOP</td><td>Saddiq Bey</td><td>matched</td><td>18.0%</td><td>0.0%</td><td>Jeremiah Fears 17.7%, Zion Williamson 16.6%, Herbert Jones 14.8%</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+</tbody></table></div>
+<p>Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

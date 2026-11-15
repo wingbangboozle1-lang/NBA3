@@ -1,6 +1,6 @@
 {
  "schema": "nba3.live.freshness/v1",
- "checked_utc": "2026-11-15T11:48:34Z",
+ "checked_utc": "2026-11-15T11:54:01Z",
  "counts": {
   "gates": 10,
   "passed": 10,
@@ -16,7 +16,7 @@
     "problems": []
    },
    "rule": "zero missing stamps, zero non-https sources",
-   "source": ""
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
   },
   {
    "id": "F2",
@@ -50,7 +50,7 @@
     "stamp": "2026-11-15T11:52Z"
    },
    "rule": "game page final == gamebook printed final == sum of printed quarters",
-   "source": ""
+   "source": "https://www.nba.com/game/den-vs-nop-0022600231"
   },
   {
    "id": "F5",
@@ -63,7 +63,7 @@
     "only_in_slate": []
    },
    "rule": "set equality on (game_id, date, away, home)",
-   "source": ""
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
   },
   {
    "id": "F6",
@@ -90,7 +90,7 @@
     "problems": []
    },
    "rule": "one file per report, URL inside the file",
-   "source": ""
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf"
   },
   {
    "id": "F7",
@@ -114,7 +114,7 @@
     "unregistered_picks": []
    },
    "rule": "sha256 chain recomputes; strategy_id has a frozen prereg/ file",
-   "source": ""
+   "source": "https://www.nba.com/schedule"
   },
   {
    "id": "F9",
@@ -125,7 +125,7 @@
     "newest_settled": "2026-11-14"
    },
    "rule": "model sample end >= newest settled game date",
-   "source": ""
+   "source": "https://www.nba.com/games"
   },
   {
    "id": "F10",
@@ -133,11 +133,11 @@
    "passed": true,
    "value": {
     "generated_utc": "2026-11-15T11:34:06Z",
-    "age_hours": 0.24,
+    "age_hours": 0.33,
     "max_age_hours": null
    },
    "rule": "age <= --max-report-age-hours (unbounded when the flag is omitted)",
-   "source": ""
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
   }
  ]
 }

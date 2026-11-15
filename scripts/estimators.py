@@ -352,7 +352,27 @@ def naive_total_benchmark(stats, home, away) -> dict:
 
 
 # ---------------------------------------------------------------- minutes redistribution
-def minutes_redistribution(logs: list[dict], team: str, out_players: list[str]) -> dict:
+def _strip_jersey(row: dict) -> str:
+    """Gamebook names arrive as '27 Jamal Murray'. The jersey is not part of the name."""
+    raw = row.get("player", "")
+    head = raw.split(" ", 1)
+    if len(head) == 2 and head[0].isdigit():
+        return head[1].strip()
+    return raw.strip()
+
+
+def availability_weight(status: str) -> float:
+    """How much of a player's minutes the club itself expects to lose, from the official status.
+
+    Out and Doubtful are treated as unavailable. Questionable is NOT treated as doubtful: the
+    official report does not say how likely it is, so the player's minutes are kept and the
+    uncertainty is stated instead of being given a made-up probability.
+    """
+    return 0.0 if status in ("Out", "Doubtful") else 1.0
+
+
+def minutes_redistribution(logs: list[dict], team: str, out_players: list[str],
+                           statuses: dict[str, str] | None = None) -> dict:
     """Explicitly model who absorbs the minutes of a player who is out.
 
     Rule (stated so it can be attacked): within a team, take the top 8 players by mean minutes
@@ -365,16 +385,24 @@ def minutes_redistribution(logs: list[dict], team: str, out_players: list[str]) 
     for row in logs:
         if row["team"] != team:
             continue
-        by_player.setdefault(row["player"], []).append(row["min"])
+        by_player.setdefault(_strip_jersey(row), []).append(row["min"])
     if not by_player:
         return {"team": team, "status": "NO_CAPTURED_LOGS"}
     means = {p: mean(v) for p, v in by_player.items()}
     top8 = sorted(means, key=lambda p: -means[p])[:8]
     top8_total = sum(means[p] for p in top8)
     shares = {p: round(means[p] / top8_total, 4) for p in top8}
-    out_norm = {p.casefold() for p in out_players}
+    def norm(name: str) -> str:
+        # the injury report writes "Embiid, Joel"; the gamebook writes "Joel Embiid"
+        if "," in name:
+            last, first = [x.strip() for x in name.split(",", 1)]
+            return f"{first} {last}".casefold()
+        return name.casefold()
+
+    statuses = statuses or {p: "Out" for p in out_players}
+    out_norm = {norm(p): p for p in out_players}
     matched = [p for p in top8 if p.casefold() in out_norm]
-    unknown = [p for p in out_players if p.casefold() not in {q.casefold() for q in top8}]
+    unknown = [p for p in out_players if norm(p) not in {q.casefold() for q in top8}]
     vacated_share = sum(shares[p] for p in matched)
     remaining = [p for p in top8 if p not in matched]
     rem_total = sum(means[p] for p in remaining) or 1.0
@@ -391,6 +419,9 @@ def minutes_redistribution(logs: list[dict], team: str, out_players: list[str]) 
         "out_matched_in_top8": matched,
         "out_not_in_top8_or_unknown": unknown,
         "vacated_share_of_top8_minutes": round(vacated_share, 4),
+        "statuses_used": {p: statuses.get(p, "Out") for p in matched},
+        "questionable_handling": ("a Questionable player keeps his minutes and is reported as "
+                                  "uncertain; no probability is invented for him"),
         "new_shares_if_out": redistribution,
         "replacement_share": round(max(0.0, 1.0 - sum(redistribution.values())), 4),
         "caveat": ("Based on the captured game logs only (2026-11-14 slate). A share model of "
@@ -462,10 +493,66 @@ def main() -> None:
     ia = importlib.import_module("injury_archive")
     rep = ia.parse(ROOT / "data" / "live" / "injuries" / f"{latest}.md")
     out_by_team: dict[str, list[str]] = {}
+    status_by_team: dict[str, dict[str, str]] = {}
     for row in rep["player_rows"]:
         if row["status"] in ("Out", "Doubtful") and row["team"] != "UNATTRIBUTED":
             out_by_team.setdefault(row["team"], []).append(row["player"])
-    redistrib = [minutes_redistribution(logs, t, out_by_team[t]) for t in sorted(out_by_team)]
+            status_by_team.setdefault(row["team"], {})[row["player"]] = row["status"]
+    # gamebook rows carry the club CODE; the injury report carries the full name. Key on the
+    # code (via the official registry) so a club is never matched by approximating its name.
+    registry0 = registry0 = json.loads((ROOT / "data" / "live" / "team_registry.json").read_text())
+    code_of_full0 = {v["full_name"]: k for k, v in registry0["teams"].items()}
+    redistrib = []
+    for full in sorted(out_by_team):
+        code = code_of_full0.get(full)
+        if not code:
+            redistrib.append({"team": full, "team_code": "", "status": "NO_OFFICIAL_CODE",
+                              "match_method": "no official standings row for this club name"})
+            continue
+        redistrib.append(minutes_redistribution(logs, code, out_by_team[full],
+                                                status_by_team.get(full)))
+
+    # The injury report names clubs in full; the gamebook logs use codes. The bridge is the
+    # official advanced-stats capture, which carries both, so nothing is guessed from a nickname.
+    # An honest gap worth publishing: an absence can only be redistributed where BOTH a captured
+    # log and an announced absence exist. They do not overlap on this slate, so the per-team
+    # top-8 shares are published as measured, and the absence case is shown as an explicitly
+    # labelled sensitivity (top-minute player removed) rather than passed off as a forecast.
+    captured_teams = sorted({row["team"] for row in logs})
+    sensitivity = []
+    for code in captured_teams:
+        shares = minutes_redistribution(logs, code, [])
+        if shares.get("status") != "MODELLED":
+            continue
+        top = shares["top8"][0]["player"]
+        # the report writes "Last, First"; convert the gamebook name only for display matching
+        parts = top.split()
+        report_style = f"{parts[-1]}, {' '.join(parts[:-1])}"
+        demo = minutes_redistribution(logs, code, [report_style])
+        sensitivity.append({
+            "team_code": code, "measured_shares": shares,
+            "if_top_minute_player_out": {
+                "player": top, "report_style_name": report_style,
+                "matched": demo.get("out_matched_in_top8", []),
+                "vacated_share": demo.get("vacated_share_of_top8_minutes"),
+                "new_shares": demo.get("new_shares_if_out"),
+                "replacement_share": demo.get("replacement_share"),
+                "label": "ILLUSTRATIVE SENSITIVITY - no club on this slate has an announced absence for a logged team",
+            },
+        })
+
+    registry = json.loads((ROOT / "data" / "live" / "team_registry.json").read_text())
+    code_of_full = {v["full_name"]: k for k, v in registry["teams"].items()}
+    full_of_code = {k: v["full_name"] for k, v in registry["teams"].items()}
+    for r in redistrib:
+        code = r.get("team", "")
+        r["team_code"] = code
+        r["team_name"] = full_of_code.get(code, "")
+        r["registry_url"] = registry["teams"].get(code, {}).get("source_url", "")
+        r["official_status_source"] = rep["source_url"]
+        if not full_of_code.get(code):
+            r["status"] = "NO_OFFICIAL_CODE"
+            r["match_method"] = "club name has no row in the official standings team registry"
 
     payload = {
         "schema": "nba3.live.model/v2",
@@ -497,6 +584,15 @@ def main() -> None:
         "luck": luck_z(games, m2, s),
         "slate": games_out,
         "minutes_redistribution": redistrib,
+        "minutes_sensitivity": sensitivity,
+        "minutes_gap": {
+            "captured_teams": captured_teams,
+            "teams_with_an_announced_absence": sorted(out_by_team),
+            "overlap": sorted(set(captured_teams) & {code_of_full.get(t, "") for t in out_by_team}),
+            "why": ("A redistribution needs both a captured game log and an announced absence for the "
+                    "same club. The logs cover the 11/14 slate and the archived report covers 11/15, "
+                    "so the overlap is what it is; the sensitivity table is illustrative and labelled."),
+        },
         "market_prior": {
             "status": "NOT COMPUTABLE",
             "rule": ("blend the model line with the closing line, weight w chosen by measured "

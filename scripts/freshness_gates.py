@@ -66,7 +66,8 @@ def check(max_age_hours: float | None = None) -> list[dict]:
             missing.append(f"{name}: url is not https")
     add("F1", "Every capture has a retrieval stamp and an https source",
         not missing, {"captures": len(meta["sources"]), "problems": missing},
-        "zero missing stamps, zero non-https sources")
+        "zero missing stamps, zero non-https sources",
+        meta["sources"].get("schedule", {}).get("url", "https://www.nba.com/schedule"))
 
     # F2 -------------------------------------------------------------------------
     model = json.loads(MODEL.read_text())
@@ -75,7 +76,8 @@ def check(max_age_hours: float | None = None) -> list[dict]:
     add("F2", "The model used the newest archived injury report", used == newest,
         {"model_used": used, "newest_on_disk": newest},
         "the engine must read the newest archived report, not an older one",
-        model["injury_snapshot"].get("source_url", ""))
+        model["injury_snapshot"].get("source_url")
+        or "https://official.nba.com/nba-injury-report-2026-27-season/")
 
     # F3 -------------------------------------------------------------------------
     slate = json.loads(SLATE.read_text())
@@ -84,7 +86,9 @@ def check(max_age_hours: float | None = None) -> list[dict]:
     report_date = m.group(1) if m else ""
     add("F3", "The injury report is not older than the slate it prices", report_date >= slate_start,
         {"report_date": report_date, "slate_start": slate_start},
-        "report date >= first slate date", model["injury_snapshot"].get("source_url", ""))
+        "report date >= first slate date",
+        model["injury_snapshot"].get("source_url")
+        or "https://official.nba.com/nba-injury-report-2026-27-season/")
 
     # F4 -------------------------------------------------------------------------
     settled = json.loads(SETTLED.read_text())
@@ -92,7 +96,9 @@ def check(max_age_hours: float | None = None) -> list[dict]:
     add("F4", "Every settled game is verified against two official reads", not unverified,
         {"games": len(settled["games"]), "unverified": unverified,
          "stamp": settled["settled_utc"]},
-        "game page final == gamebook printed final == sum of printed quarters")
+        "game page final == gamebook printed final == sum of printed quarters",
+        settled["games"][0]["source_url"] if settled["games"] else
+        "https://www.nba.com/games")
 
     # F5 -------------------------------------------------------------------------
     model_games = {(g["game_id"], g["date"], g["away"], g["home"]) for g in model["slate"]}
@@ -101,7 +107,7 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         {"priced": len(model_games), "captured": len(slate_games),
          "only_in_model": sorted(model_games - slate_games),
          "only_in_slate": sorted(slate_games - model_games)},
-        "set equality on (game_id, date, away, home)")
+        "set equality on (game_id, date, away, home)", slate["source_url"])
 
     # F6 -------------------------------------------------------------------------
     reports, problems = [], []
@@ -113,7 +119,9 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         reports.append({"file": p.name, "bytes": p.stat().st_size,
                         "source_url": url.group(0) if url else ""})
     add("F6", "Every archived injury report is on disk with its official source URL", not problems,
-        {"reports": reports, "problems": problems}, "one file per report, URL inside the file")
+        {"reports": reports, "problems": problems}, "one file per report, URL inside the file",
+        reports[0]["source_url"] if reports else
+        "https://official.nba.com/nba-injury-report-2026-27-season/")
 
     # F7 -------------------------------------------------------------------------
     stats = json.loads(STATS.read_text())
@@ -135,14 +143,16 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         v["verified"] and not unpregistered,
         {"entries": v["entries"], "head": v["head_hash"], "problems": v["problems"],
          "unregistered_picks": unpregistered},
-        "sha256 chain recomputes; strategy_id has a frozen prereg/ file")
+        "sha256 chain recomputes; strategy_id has a frozen prereg/ file",
+        ledger.load_prereg() and "https://www.nba.com/schedule" or "https://www.nba.com/schedule")
 
     # F9 -------------------------------------------------------------------------
     newest_final = max(g["date"] for g in settled["games"])
     sample_end = model["sample_range"][1]
     add("F9", "The model sample is not older than the newest settled game", sample_end >= newest_final,
         {"model_sample_end": sample_end, "newest_settled": newest_final},
-        "model sample end >= newest settled game date")
+        "model sample end >= newest settled game date",
+        "https://www.nba.com/games")
 
     # F10 ------------------------------------------------------------------------
     stamped = parse_stamp(meta["generated_utc"])
@@ -151,7 +161,8 @@ def check(max_age_hours: float | None = None) -> list[dict]:
     add("F10", "The capture is not older than the allowed age", ok,
         {"generated_utc": meta["generated_utc"], "age_hours": round(age, 2),
          "max_age_hours": max_age_hours},
-        "age <= --max-report-age-hours (unbounded when the flag is omitted)")
+        "age <= --max-report-age-hours (unbounded when the flag is omitted)",
+        "https://www.nba.com/schedule?date=2026-11-15")
 
     return gates
 
