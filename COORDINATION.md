@@ -4473,3 +4473,79 @@ content, that is a logged change request, not an edit made here.
 (`arena/5a67ab8c-nba3`, v2 pipeline, opened 11:54Z). Both are younger than 60 minutes at claim time
 or still active, so neither is taken over. This session's scopes above are disjoint from both
 (the 94e6d41b PR touches `data/app/*`, `audit*`; 5a67ab8c touches its own v2 tree).
+
+---
+
+## Session `arena/42d69dc5-nba3` — round 2 completion log (2026-11-16Z)
+
+Scope unchanged from the claim above. Nothing below edits another session's files; every item that
+would is written as a change request.
+
+### Delivered in this round
+
+| Item | Evidence | State |
+|---|---|---|
+| Settlement from a verified official final | `data/live/results/settled_2026-11-15.json` (1 of 9 games, two agreeing reads), `ledger/ledger.jsonl` entry 12 kind `SETTLE` | done |
+| Settlement stamp guard | `publish_picks.settlement_stamp()` raises rather than stamping with the build clock; `tests/test_settlement_42d69dc5.py` 14/14 | done |
+| Every settled feed on disk is read | `SETTLED_FEEDS` glob; a final without both read URLs cannot settle | done |
+| `--check-venues` implemented (was cited in markdown, absent from code) | `scripts/travel_distance.py::check_venues()`, wired into the rebuild chain; `tests/test_check_venues.py` 7/7 | done |
+| Three unverified clubs stored as explicit blanks | `data/live/home_venues.json` now carries CHA/GSW/POR rows with a source for the blank | done |
+| Six new pages under `projection/` | executive summary, review, questions, suggestions, travel evidence, settlement & ledger; link check 0 broken, 0 sourceless rows | done |
+| Self-corrections published | review page, "Corrections I had to make to my own work" | done |
+
+### Corrections to my own earlier work (recorded, not hidden)
+
+1. **Injury-index count 78 → 76.** Counted programmatically across both read chunks.
+2. **Settlement stamp written before its own game.** First attempt stamped `2026-11-15T12:10Z` on a
+   game that tipped at 18:00Z. Now taken from the moment the second read confirmed the final, and
+   refused if earlier than the end of the game day.
+3. **A test asserted the wrong thing.** A renamed arena was asserted to have no coordinates; the
+   alias is a documented name change and resolves correctly. The test now pins the documented
+   behaviour.
+4. **A defect that was not a defect.** I first reported the published `0.0 km` travel values as a
+   city-keying artefact. They are **correct** — PHI, PHX and LAC each played at home in their
+   previous game (checked against `data/origin/games.csv`). The real defect is that
+   `data/live/rest_travel.json` said `travel_unverified: 44` of 44 while `app/projections.html`
+   printed numeric kilometres for the same team-games from a second source. One repository, two
+   answers, one of them labelled unverified. R42-04 is rewritten accordingly and CR-42-07 asks the
+   owner to remove the second source.
+
+### Change requests logged this round (not executed — other sessions' files)
+
+- **CR-42-04 → owner of `scripts/build_app.py` (`page_settlement`, ~line 2218).** The canonical
+  settlement page renders `data/app/results_feed.json`, which contains 14 rows and **0 settled
+  picks**, so the first settlement in the project's history is invisible on the page named for
+  settlements. The verified data now exists at `data/live/picks_ledger_view.json`
+  (`entries`/`settled_feeds`/`outstanding_picks`). Requested: render the ledger view, or link to
+  `projection/settlement.html` from the canonical page. Until then the two surfaces disagree about
+  whether anything has settled.
+- **CR-42-05 → owner of `scripts/build_live_site.py` NAV (@177).** `index.html` contains no href into
+  `projection/` or `bet/`; the two surfaces exist and are unreachable from the front door. Requested:
+  one nav entry each, labelled "Projection (safe)" and "Bet (gated)".
+- **CR-42-06 → owner of `.github/workflows/pages.yml`.** The Pages workflow never invokes
+  `scripts/publish_picks.py`, so a settlement can only appear if a human runs it. Settlement is
+  therefore not actually automatic, which is a requirement. Requested: run the settle path after the
+  results feed refresh, before the build.
+- **CR-42-07 → owner of `scripts/estimators.py` (`travel_km` producer) and `data/app/arena_coordinates.json`.**
+  There are now two arena-coordinate tables: `data/app/arena_coordinates.json` (7 arenas, PHI/PHX
+  null) and `data/live/arena_coords.json` (30 venues, sourced). Two sources for one number is exactly
+  how R42-04's contradiction arose. Requested: collapse to `data/live/arena_coords.json` as the single
+  table, or state on the page which table produced each distance. Not edited here.
+- **CR-42-08 → owner of `.github/workflows/pages.yml`.** The `git add` list omits `app/*.html` and the
+  root `index.html`, so a rebuilt canonical page is not committed and Pages serves the previous
+  build. (Recorded as D6 in this session's defect list.)
+
+### Defects still open, and why each is not fixed here
+
+| ID | Defect | Why not fixed in this session |
+|---|---|---|
+| D6 | workflow `git add` omits `app/*.html` + root `index.html` | file owned by another session → CR-42-08 |
+| — | no freshness gate on `standings` / three team-stat pages as *published* pages | gate exists for the fetch manifest; a page-level gate needs the pages owner |
+| — | `build_app.py::BUILD_DATE` pinned to `2026-11-14` while the tree is `2026-11-16` | another session's file; changing it silently would make every page claim a build it did not have |
+| — | PRs [#90](https://github.com/wingbangboozle1-lang/NBA3/pull/90) and [#85](https://github.com/wingbangboozle1-lang/NBA3/pull/85) are `CONFLICTING` and ~13 h stale | outside this branch; needs a handoff, not a force-push |
+
+### Open information requests (unchanged, from R1)
+
+8 of the 9 games on 2026-11-15 still have no verified final, three clubs have no official home game in
+any read, and 73 of the day's 76 injury filings are uncaptured. Each is one fetch each and none is a
+guess; the total is ~84 fetches. Listed with costs on the Suggestions page.

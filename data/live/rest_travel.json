@@ -41,17 +41,21 @@
   "rule": "rest_days = (game date - previous game date) in days - 1; back_to_back = previous game on the immediately preceding day; games_in_4_day_window counts the current game plus prior games on dates within 3 days; three_in_four = that count >= 3"
  },
  "travel_source": {
-  "what": "arena coordinate table",
-  "file": "data/live/arena_coords.json",
-  "status": "NOT POPULATED",
-  "why_blank": "No official NBA page read in this session publishes arena latitude/longitude. The brief requires a SOURCED table, so the distances are left blank and flagged rather than estimated from city names."
+  "file": "data/live/travel_distance.json",
+  "status": "POPULATED",
+  "built_by": "scripts/travel_distance.py",
+  "coordinate_table": "data/live/arena_coords.json",
+  "home_venue_table": "data/live/home_venues.json",
+  "is_official": false,
+  "label": "Reference coordinates (the NBA publishes none). Every distance is a derived great-circle value and is labelled the same way on the site.",
+  "why_blank": "A distance is blank when either endpoint venue has no sourced coordinate or the club has no official home game on record. Nothing is estimated from a city name."
  },
  "counts": {
   "games": 22,
   "team_games": 44,
   "back_to_backs": 8,
   "three_in_four": 8,
-  "travel_unverified": 44
+  "travel_unverified": 0
  },
  "games": [
   {
@@ -68,12 +72,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "Gainbridge Fieldhouse",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Philadelphia, PA",
-      "from": null,
-      "to": "Philadelphia, PA"
+      "km": 937.4,
+      "status": "SOURCED",
+      "from": "Gainbridge Fieldhouse",
+      "to": "Xfinity Mobile Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse",
+      "to_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -85,12 +94,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Philadelphia, PA",
+     "previous_venue": "Xfinity Mobile Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Philadelphia, PA or Philadelphia, PA",
-      "from": "Philadelphia, PA",
-      "to": "Philadelphia, PA"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Xfinity Mobile Arena",
+      "to": "Xfinity Mobile Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -111,12 +125,17 @@
      "games_in_4_day_window": 1,
      "three_in_four": false,
      "previous_venue_city": "Milwaukee, WI",
+     "previous_venue": "Fiserv Forum",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Milwaukee, WI or Phoenix, AZ",
-      "from": "Milwaukee, WI",
-      "to": "Phoenix, AZ"
+      "km": 2352.2,
+      "status": "SOURCED",
+      "from": "Fiserv Forum",
+      "to": "Mortgage Matchup Center",
+      "from_source": "https://en.wikipedia.org/wiki/Fiserv_Forum",
+      "to_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -128,12 +147,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Phoenix, AZ",
+     "previous_venue": "Mortgage Matchup Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Phoenix, AZ or Phoenix, AZ",
-      "from": "Phoenix, AZ",
-      "to": "Phoenix, AZ"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Mortgage Matchup Center",
+      "to": "Mortgage Matchup Center",
+      "from_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -154,12 +178,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Phoenix, AZ",
+     "previous_venue": "Mortgage Matchup Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Phoenix, AZ or Inglewood, CA",
-      "from": "Phoenix, AZ",
-      "to": "Inglewood, CA"
+      "km": 582.8,
+      "status": "SOURCED",
+      "from": "Mortgage Matchup Center",
+      "to": "Intuit Dome",
+      "from_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -171,12 +200,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Inglewood, CA",
+     "previous_venue": "Intuit Dome",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Inglewood, CA or Inglewood, CA",
-      "from": "Inglewood, CA",
-      "to": "Inglewood, CA"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Intuit Dome",
+      "to": "Intuit Dome",
+      "from_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "to_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -197,12 +231,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "San Antonio, TX",
+     "previous_venue": "Frost Bank Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for San Antonio, TX or Salt Lake City, UT",
-      "from": "San Antonio, TX",
-      "to": "Salt Lake City, UT"
+      "km": 1753.9,
+      "status": "SOURCED",
+      "from": "Frost Bank Center",
+      "to": "Delta Center",
+      "from_source": "https://en.wikipedia.org/wiki/Frost_Bank_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Delta_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -214,12 +253,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "Toyota Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Salt Lake City, UT",
-      "from": null,
-      "to": "Salt Lake City, UT"
+      "km": 1932.1,
+      "status": "SOURCED",
+      "from": "Toyota Center",
+      "to": "Delta Center",
+      "from_source": "https://en.wikipedia.org/wiki/Toyota_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Delta_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -240,12 +284,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "Cleveland, OH",
+     "previous_venue": "Rocket Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Cleveland, OH or Boston, MA",
-      "from": "Cleveland, OH",
-      "to": "Boston, MA"
+      "km": 883.7,
+      "status": "SOURCED",
+      "from": "Rocket Arena",
+      "to": "TD Garden",
+      "from_source": "https://en.wikipedia.org/wiki/Rocket_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/TD_Garden",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -257,12 +306,17 @@
      "games_in_4_day_window": 1,
      "three_in_four": false,
      "previous_venue_city": "Toronto, ON",
+     "previous_venue": "Scotiabank Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Toronto, ON or Boston, MA",
-      "from": "Toronto, ON",
-      "to": "Boston, MA"
+      "km": 690.7,
+      "status": "SOURCED",
+      "from": "Scotiabank Arena",
+      "to": "TD Garden",
+      "from_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/TD_Garden",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -283,12 +337,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "Gainbridge Fieldhouse",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Toronto, ON",
-      "from": null,
-      "to": "Toronto, ON"
+      "km": 708.5,
+      "status": "SOURCED",
+      "from": "Gainbridge Fieldhouse",
+      "to": "Scotiabank Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse",
+      "to_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -300,12 +359,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Philadelphia, PA",
+     "previous_venue": "Xfinity Mobile Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Philadelphia, PA or Toronto, ON",
-      "from": "Philadelphia, PA",
-      "to": "Toronto, ON"
+      "km": 542.9,
+      "status": "SOURCED",
+      "from": "Xfinity Mobile Arena",
+      "to": "Scotiabank Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -326,12 +390,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "Toyota Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Washington, DC",
-      "from": null,
-      "to": "Washington, DC"
+      "km": 1961.9,
+      "status": "SOURCED",
+      "from": "Toyota Center",
+      "to": "Capital One Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Toyota_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -343,12 +412,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Washington, DC",
+     "previous_venue": "Capital One Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Washington, DC or Washington, DC",
-      "from": "Washington, DC",
-      "to": "Washington, DC"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Capital One Arena",
+      "to": "Capital One Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -369,12 +443,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "United Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Milwaukee, WI",
-      "from": null,
-      "to": "Milwaukee, WI"
+      "km": 131.0,
+      "status": "SOURCED",
+      "from": "United Center",
+      "to": "Fiserv Forum",
+      "from_source": "https://en.wikipedia.org/wiki/United_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Fiserv_Forum",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -386,12 +465,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "Kia Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Milwaukee, WI",
-      "from": null,
-      "to": "Milwaukee, WI"
+      "km": 1715.9,
+      "status": "SOURCED",
+      "from": "Kia Center",
+      "to": "Fiserv Forum",
+      "from_source": "https://en.wikipedia.org/wiki/Kia_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Fiserv_Forum",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -412,12 +496,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Inglewood, CA",
+     "previous_venue": "Intuit Dome",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Inglewood, CA or Sacramento, CA",
-      "from": "Inglewood, CA",
-      "to": "Sacramento, CA"
+      "km": 587.9,
+      "status": "SOURCED",
+      "from": "Intuit Dome",
+      "to": "Golden 1 Center",
+      "from_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "to_source": "https://en.wikipedia.org/wiki/Golden_1_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -429,12 +518,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Sacramento, CA",
+     "previous_venue": "Golden 1 Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Sacramento, CA or Sacramento, CA",
-      "from": "Sacramento, CA",
-      "to": "Sacramento, CA"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Golden 1 Center",
+      "to": "Golden 1 Center",
+      "from_source": "https://en.wikipedia.org/wiki/Golden_1_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Golden_1_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -455,12 +549,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "Kia Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Boston, MA",
-      "from": null,
-      "to": "Boston, MA"
+      "km": 1796.2,
+      "status": "SOURCED",
+      "from": "Kia Center",
+      "to": "TD Garden",
+      "from_source": "https://en.wikipedia.org/wiki/Kia_Center",
+      "to_source": "https://en.wikipedia.org/wiki/TD_Garden",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -472,12 +571,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Boston, MA",
+     "previous_venue": "TD Garden",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Boston, MA or Boston, MA",
-      "from": "Boston, MA",
-      "to": "Boston, MA"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "TD Garden",
+      "to": "TD Garden",
+      "from_source": "https://en.wikipedia.org/wiki/TD_Garden",
+      "to_source": "https://en.wikipedia.org/wiki/TD_Garden",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -498,12 +602,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "Minneapolis, MN",
+     "previous_venue": "Target Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Minneapolis, MN or Cleveland, OH",
-      "from": "Minneapolis, MN",
-      "to": "Cleveland, OH"
+      "km": 1014.3,
+      "status": "SOURCED",
+      "from": "Target Center",
+      "to": "Rocket Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Rocket_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -515,12 +624,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "Cleveland, OH",
+     "previous_venue": "Rocket Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Cleveland, OH or Cleveland, OH",
-      "from": "Cleveland, OH",
-      "to": "Cleveland, OH"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Rocket Arena",
+      "to": "Rocket Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Rocket_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Rocket_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -541,12 +655,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": null,
+     "previous_venue": "FedExForum",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Washington, DC",
-      "from": null,
-      "to": "Washington, DC"
+      "km": 1228.7,
+      "status": "SOURCED",
+      "from": "FedExForum",
+      "to": "Capital One Arena",
+      "from_source": "https://en.wikipedia.org/wiki/FedExForum",
+      "to_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -558,12 +677,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Washington, DC",
+     "previous_venue": "Capital One Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Washington, DC or Washington, DC",
-      "from": "Washington, DC",
-      "to": "Washington, DC"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Capital One Arena",
+      "to": "Capital One Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -584,12 +708,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Philadelphia, PA",
+     "previous_venue": "Xfinity Mobile Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Philadelphia, PA or Brooklyn, NY",
-      "from": "Philadelphia, PA",
-      "to": "Brooklyn, NY"
+      "km": 133.6,
+      "status": "SOURCED",
+      "from": "Xfinity Mobile Arena",
+      "to": "Barclays Center",
+      "from_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Barclays_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -601,12 +730,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": null,
+     "previous_venue": "FedExForum",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for unknown or Brooklyn, NY",
-      "from": null,
-      "to": "Brooklyn, NY"
+      "km": 1536.1,
+      "status": "SOURCED",
+      "from": "FedExForum",
+      "to": "Barclays Center",
+      "from_source": "https://en.wikipedia.org/wiki/FedExForum",
+      "to_source": "https://en.wikipedia.org/wiki/Barclays_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -627,12 +761,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "Washington, DC",
+     "previous_venue": "Capital One Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Washington, DC or Miami, FL",
-      "from": "Washington, DC",
-      "to": "Miami, FL"
+      "km": 1488.3,
+      "status": "SOURCED",
+      "from": "Capital One Arena",
+      "to": "Kaseya Center",
+      "from_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Kaseya_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -644,12 +783,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "Miami, FL",
+     "previous_venue": "Kaseya Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Miami, FL or Miami, FL",
-      "from": "Miami, FL",
-      "to": "Miami, FL"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Kaseya Center",
+      "to": "Kaseya Center",
+      "from_source": "https://en.wikipedia.org/wiki/Kaseya_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Kaseya_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -670,12 +814,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Sacramento, CA",
+     "previous_venue": "Golden 1 Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Sacramento, CA or Minneapolis, MN",
-      "from": "Sacramento, CA",
-      "to": "Minneapolis, MN"
+      "km": 2431.9,
+      "status": "SOURCED",
+      "from": "Golden 1 Center",
+      "to": "Target Center",
+      "from_source": "https://en.wikipedia.org/wiki/Golden_1_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -687,12 +836,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Minneapolis, MN",
+     "previous_venue": "Target Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN",
-      "from": "Minneapolis, MN",
-      "to": "Minneapolis, MN"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Target Center",
+      "to": "Target Center",
+      "from_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -713,12 +867,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "San Antonio, TX",
+     "previous_venue": "Frost Bank Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for San Antonio, TX or New Orleans, LA",
-      "from": "San Antonio, TX",
-      "to": "New Orleans, LA"
+      "km": 809.0,
+      "status": "SOURCED",
+      "from": "Frost Bank Center",
+      "to": "Smoothie King Center",
+      "from_source": "https://en.wikipedia.org/wiki/Frost_Bank_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Smoothie_King_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -730,12 +889,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "New Orleans, LA",
+     "previous_venue": "Smoothie King Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for New Orleans, LA or New Orleans, LA",
-      "from": "New Orleans, LA",
-      "to": "New Orleans, LA"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Smoothie King Center",
+      "to": "Smoothie King Center",
+      "from_source": "https://en.wikipedia.org/wiki/Smoothie_King_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Smoothie_King_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -756,12 +920,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Phoenix, AZ",
+     "previous_venue": "Mortgage Matchup Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Phoenix, AZ or Denver, CO",
-      "from": "Phoenix, AZ",
-      "to": "Denver, CO"
+      "km": 942.1,
+      "status": "SOURCED",
+      "from": "Mortgage Matchup Center",
+      "to": "Ball Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Ball_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -773,12 +942,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "New Orleans, LA",
+     "previous_venue": "Smoothie King Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for New Orleans, LA or Denver, CO",
-      "from": "New Orleans, LA",
-      "to": "Denver, CO"
+      "km": 1740.1,
+      "status": "SOURCED",
+      "from": "Smoothie King Center",
+      "to": "Ball Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Smoothie_King_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Ball_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -799,12 +973,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Toronto, ON",
+     "previous_venue": "Scotiabank Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Toronto, ON or Toronto, ON",
-      "from": "Toronto, ON",
-      "to": "Toronto, ON"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Scotiabank Arena",
+      "to": "Scotiabank Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -816,12 +995,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Toronto, ON",
+     "previous_venue": "Scotiabank Arena",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Toronto, ON or Toronto, ON",
-      "from": "Toronto, ON",
-      "to": "Toronto, ON"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Scotiabank Arena",
+      "to": "Scotiabank Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "to_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -842,12 +1026,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Minneapolis, MN",
+     "previous_venue": "Target Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN",
-      "from": "Minneapolis, MN",
-      "to": "Minneapolis, MN"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Target Center",
+      "to": "Target Center",
+      "from_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -859,12 +1048,17 @@
      "games_in_4_day_window": 3,
      "three_in_four": true,
      "previous_venue_city": "Minneapolis, MN",
+     "previous_venue": "Target Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN",
-      "from": "Minneapolis, MN",
-      "to": "Minneapolis, MN"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Target Center",
+      "to": "Target Center",
+      "from_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Target_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -885,12 +1079,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Miami, FL",
+     "previous_venue": "Kaseya Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Miami, FL or San Antonio, TX",
-      "from": "Miami, FL",
-      "to": "San Antonio, TX"
+      "km": 1841.2,
+      "status": "SOURCED",
+      "from": "Kaseya Center",
+      "to": "Frost Bank Center",
+      "from_source": "https://en.wikipedia.org/wiki/Kaseya_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Frost_Bank_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -902,12 +1101,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Salt Lake City, UT",
+     "previous_venue": "Delta Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Salt Lake City, UT or San Antonio, TX",
-      "from": "Salt Lake City, UT",
-      "to": "San Antonio, TX"
+      "km": 1753.9,
+      "status": "SOURCED",
+      "from": "Delta Center",
+      "to": "Frost Bank Center",
+      "from_source": "https://en.wikipedia.org/wiki/Delta_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Frost_Bank_Center",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -928,12 +1132,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Salt Lake City, UT",
+     "previous_venue": "Delta Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Salt Lake City, UT or Inglewood, CA",
-      "from": "Salt Lake City, UT",
-      "to": "Inglewood, CA"
+      "km": 948.0,
+      "status": "SOURCED",
+      "from": "Delta Center",
+      "to": "Intuit Dome",
+      "from_source": "https://en.wikipedia.org/wiki/Delta_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -945,12 +1154,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Inglewood, CA",
+     "previous_venue": "Intuit Dome",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Inglewood, CA or Inglewood, CA",
-      "from": "Inglewood, CA",
-      "to": "Inglewood, CA"
+      "km": 0.0,
+      "status": "SOURCED",
+      "from": "Intuit Dome",
+      "to": "Intuit Dome",
+      "from_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "to_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],
@@ -971,12 +1185,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Inglewood, CA",
+     "previous_venue": "Intuit Dome",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Inglewood, CA or Los Angeles, CA",
-      "from": "Inglewood, CA",
-      "to": "Los Angeles, CA"
+      "km": 12.9,
+      "status": "SOURCED",
+      "from": "Intuit Dome",
+      "to": "Crypto.com Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+      "to_source": "https://en.wikipedia.org/wiki/Crypto.com_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     },
     {
@@ -988,12 +1207,17 @@
      "games_in_4_day_window": 2,
      "three_in_four": false,
      "previous_venue_city": "Phoenix, AZ",
+     "previous_venue": "Mortgage Matchup Center",
      "travel": {
-      "km": null,
-      "status": "UNVERIFIED",
-      "reason": "no sourced arena coordinate for Phoenix, AZ or Los Angeles, CA",
-      "from": "Phoenix, AZ",
-      "to": "Los Angeles, CA"
+      "km": 576.6,
+      "status": "SOURCED",
+      "from": "Mortgage Matchup Center",
+      "to": "Crypto.com Arena",
+      "from_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+      "to_source": "https://en.wikipedia.org/wiki/Crypto.com_Arena",
+      "venue_source": "https://www.nba.com/schedule?date=2026-11-15",
+      "source_tier": "reference",
+      "reason": null
      }
     }
    ],

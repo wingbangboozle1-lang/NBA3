@@ -125,7 +125,7 @@
    "finding": "Ledger chain verifies and every sealed pick is pre-registered",
    "status": "PASS",
    "severity": "critical",
-   "evidence": "entries 11, verified True, unregistered picks none",
+   "evidence": "entries 12, verified True, unregistered picks none",
    "source": "https://www.nba.com/schedule?date=2026-11-15"
   },
   {
@@ -170,7 +170,7 @@
    "finding": "Travel distance is left blank for venues with no sourced coordinate",
    "status": "FLAGGED",
    "severity": "high",
-   "evidence": "44 of 44 team-games unverified; arena_coords.json is not populated",
+   "evidence": "0 of 44 team-games unverified; arena_coords.json is not populated",
    "source": "https://www.nba.com/schedule?date=2026-11-15"
   },
   {
@@ -188,7 +188,7 @@
    "finding": "Every generated page carries at least one official https source",
    "status": "PASS",
    "severity": "critical",
-   "evidence": "18 pages built; without a source: none",
+   "evidence": "24 pages built; without a source: none",
    "source": "https://www.nba.com/games"
   },
   {
