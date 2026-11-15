@@ -4375,7 +4375,7 @@ claim to have identified the server response.
   - Santi Aldama (DAL): 05:00 PM **Questionable** → 06:15 PM **Out** (Left Ankle Sprain).
   - Daniel Gafford (DAL): 05:00 PM **Probable** → 06:15 PM **Available** (Right Shoulder Stinger).
   - Tre Johnson (WAS): 05:00 PM **Questionable** → 06:15 PM **Out** (Low Back Soreness).
-  - Felix Okpara (MIL area / ATL@MIL list): 05:00 PM **Questionable** → 06:15 PM **Out** (G League - Two-Way).
+  - Felix Okpara (team not attributable from the text: a continuation row with a blank team cell): 05:00 PM **Questionable** → 06:15 PM **Out** (G League - Two-Way).
 - **Why the gates did not catch it:** `freshness_gates.py` F1 checks only the newest report *on disk*, not the newest
   report on the official index, so it passes while the official feed has moved on. The refresh job (F-R1) is the
   intended fix, but it cannot roll the published slate yet.
