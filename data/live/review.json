@@ -1,0 +1,213 @@
+{
+ "schema": "nba3.live.review/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "what": "A mechanical review of the committed data and build. Each check states what was compared, the result, and the official page a human should open to confirm it.",
+ "counts": {
+  "checks": 22,
+  "by_status": {
+   "IRREGULARITY": 2,
+   "PASS": 16,
+   "FLAGGED": 4
+  }
+ },
+ "checks": [
+  {
+   "id": "R1",
+   "area": "results capture",
+   "finding": "The in-repo results capture ends before the settled feed",
+   "status": "IRREGULARITY",
+   "severity": "medium",
+   "evidence": "data/origin/games.csv last date 2026-11-13; the 11/14 finals are only in data/live/results/settled_2026-11-14.json. Any consumer that treats games.csv as the full schedule silently loses 5 games, and every back-to-back across that seam.",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R2",
+   "area": "score reconciliation",
+   "finding": "0 settled games also appear in the results capture; 0 disagree on the final score",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "compared game_id, away_pts, home_pts against the verified feed; mismatches: none",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R3",
+   "area": "results capture",
+   "finding": "Duplicate game_id rows",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "183 rows, 183 unique game_ids, duplicates: none",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R4",
+   "area": "results capture",
+   "finding": "Same fixture listed twice on the same date",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "duplicates: none",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R5",
+   "area": "results capture",
+   "finding": "A team playing twice on one date",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "dates checked: 24; offenders: none",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R6",
+   "area": "results capture",
+   "finding": "Overtime games present and flagged",
+   "status": "PASS",
+   "severity": "low",
+   "evidence": "10 overtime games in 183 rows; e.g. 2026-10-26 MIN 125-127 CLE",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R7",
+   "area": "team codes",
+   "finding": "Every team code maps to a row in the official standings registry",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "30 codes used, 30 registered, unknown: none",
+   "source": "https://www.nba.com/standings"
+  },
+  {
+   "id": "R8",
+   "area": "team stats",
+   "finding": "W/L in the advanced capture equals the official standings",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "30 clubs compared; mismatches: none",
+   "source": "https://www.nba.com/standings"
+  },
+  {
+   "id": "R9",
+   "area": "team stats",
+   "finding": "Games played equals the number of games actually in the captures",
+   "status": "PASS",
+   "severity": "medium",
+   "evidence": "0 clubs differ: none",
+   "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "id": "R10",
+   "area": "player logs",
+   "finding": "Accepted player minutes per team reach the regulation total (240, plus OT)",
+   "status": "FLAGGED",
+   "severity": "medium",
+   "evidence": "10 team-games checked; 3 fall short: [('0022600234', 'BKN', 212.1, 240.0), ('0022600234', 'MEM', 208.4, 240.0), ('0022600235', 'CHI', 171.0, 240.0)]. A shortfall means rows were rejected, and those rows are published with their raw text rather than repaired.",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "id": "R11",
+   "area": "player logs",
+   "finding": "Every player log row carries an official source URL",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "99 rows, 0 without",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "id": "R12",
+   "area": "availability",
+   "finding": "Every slate team-side has exactly one availability state",
+   "status": "PASS",
+   "severity": "high",
+   "evidence": "44 team-sides needed, 44 rows, missing none, duplicated none",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  },
+  {
+   "id": "R13",
+   "area": "ledger integrity",
+   "finding": "Ledger chain verifies and every sealed pick is pre-registered",
+   "status": "PASS",
+   "severity": "critical",
+   "evidence": "entries 2, verified True, unregistered picks none",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "R14",
+   "area": "model",
+   "finding": "The model sample ends before the slate it prices (no leakage)",
+   "status": "PASS",
+   "severity": "critical",
+   "evidence": "sample ends 2026-11-14, slate starts 2026-11-15",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R15",
+   "area": "model",
+   "finding": "The possessions-based total differs from the naive scoring-average benchmark",
+   "status": "PASS",
+   "severity": "medium",
+   "evidence": "max |gap| 9.69 pts, mean 4.27 pts. A near-zero gap would mean the 'possessions x PPP' framing adds nothing.",
+   "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "id": "R16",
+   "area": "model",
+   "finding": "Luck is computed per team and teams outside +/-1.96 are refused",
+   "status": "PASS",
+   "severity": "medium",
+   "evidence": "30 clubs scored; outside the band: none. No strategy on the site leans on any club, so the refusal has not had to fire yet.",
+   "source": "https://www.nba.com/standings"
+  },
+  {
+   "id": "R17",
+   "area": "model",
+   "finding": "The market-anchored prior is blank rather than a guessed weight",
+   "status": "FLAGGED",
+   "severity": "high",
+   "evidence": "status NOT COMPUTABLE; blocker recorded: No licensed closing line exists in this repository and the official NBA schedule page does not print prices in the fetch",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "R18",
+   "area": "rest & travel",
+   "finding": "Travel distance is left blank for venues with no sourced coordinate",
+   "status": "FLAGGED",
+   "severity": "high",
+   "evidence": "44 of 44 team-games unverified; arena_coords.json is not populated",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "R19",
+   "area": "minutes model",
+   "finding": "No club has both a captured log and an announced absence",
+   "status": "FLAGGED",
+   "severity": "high",
+   "evidence": "captured 10 clubs, absences at 15 clubs, overlap 0",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "id": "R20",
+   "area": "site",
+   "finding": "Every generated page carries at least one official https source",
+   "status": "PASS",
+   "severity": "critical",
+   "evidence": "15 pages built; without a source: none",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R21",
+   "area": "site",
+   "finding": "The site build is deterministic",
+   "status": "PASS",
+   "severity": "medium",
+   "evidence": "two consecutive runs were byte-identical on all 15 pages (md5 of the concatenated checksums); CI re-runs the whole pipeline and fails on any diff against the committed tree",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "R22",
+   "area": "injury archive",
+   "finding": "Consecutive official reports differ only by spelling corrections",
+   "status": "IRREGULARITY",
+   "severity": "medium",
+   "evidence": "2 consecutive pairs, 0 status changes, 3 rows added as renames (Embid/Embiid, Bogoljub/Bogojub). A name-keyed ledger would silently miss these.",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  }
+ ]
+}

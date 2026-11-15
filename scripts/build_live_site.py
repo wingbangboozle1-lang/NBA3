@@ -162,6 +162,11 @@ class Ctx:
         self.fresh = load("freshness.json")
         self.rest = load("rest_travel.json")
         self.ledger = load("picks_ledger_view.json")
+        self.review = load("review.json")
+        self.questions = load("questions.json")
+        self.suggestions = load("suggestions.json")
+        self.registry = load("team_registry.json")
+        self.availability = load("availability.json")
         self.prereg = {}
         for p in sorted((ROOT / "prereg").glob("*.json")):
             d = json.loads(p.read_text())
@@ -179,6 +184,9 @@ NAV = {
         ("Rest & travel", "rest.html"),
         ("Minutes & rotation", "minutes.html"),
         ("Gates", "gates.html"),
+        ("Repo review", "review.html"),
+        ("Questions", "questions.html"),
+        ("Suggestions", "suggestions.html"),
         ("Flagged", "flagged.html"),
     ],
     "bet": [
@@ -534,7 +542,7 @@ until it is scored.</div>""")
 def proj_injuries(ctx) -> str:
     a = ctx.archive
     d = ctx.deltas
-    av = json.loads((LIVE / "availability.json").read_text())
+    av = ctx.availability
     rep = av["report"]
     body = [f"""<div class="callout"><strong>Report revision time: {esc(rep['stamp'])}</strong>
 ({esc(rep['header'])}) · <strong>retrieved {esc(rep['retrieved_utc'])}</strong> ·
@@ -964,6 +972,93 @@ carry are about the integrity mechanism itself rather than about missing data.</
                      "more than it proves.")
 
 
+# ------------------------------------------------------------------ review / questions / suggestions
+def proj_review(ctx) -> str:
+    rv = ctx.review
+    rows = []
+    chip = {"PASS": '<span class="chip ok">PASS</span>',
+            "FAIL": '<span class="chip bad">FAIL</span>',
+            "FLAGGED": '<span class="chip warn">FLAGGED</span>',
+            "IRREGULARITY": '<span class="chip warn">IRREGULARITY</span>'}
+    for c in rv["checks"]:
+        rows.append([f'<code>{esc(c["id"])}</code>', esc(c["area"]), esc(c["finding"]),
+                     chip.get(c["status"], esc(c["status"])), esc(c["severity"]),
+                     esc(c["evidence"]), link(c["source"], "official")])
+    by = rv["counts"]["by_status"]
+    body = [f"""<p>{rv['counts']['checks']} mechanical checks over the committed data, the model
+artefacts, the ledger and the generated pages: <strong>{by.get('PASS', 0)} pass</strong>,
+{by.get('FAIL', 0)} fail, {by.get('FLAGGED', 0)} flagged, {by.get('IRREGULARITY', 0)} irregular.
+Each row states what was compared, the result, and the official page a reviewer should open to
+confirm it.</p>
+<div class="callout"><strong>What a "check" means here.</strong> It is a comparison between two
+committed artefacts or between a committed artefact and an official capture — not an opinion. The
+three checks worth reading first are R10 (which club's player rows failed to reconcile), R22 (the
+official report's own spelling churn) and R18 (travel left blank).</div>"""]
+    body.append(table(["ID", "Area", "What was checked", "Result", "Severity", "Evidence",
+                       "Official source"], rows, "repo-review"))
+    return page("projection", "Repository review", "Projection surface", "\n".join(body),
+                "review.html",
+                lead="Every datasource, model artefact and generated page checked line by line, with "
+                     "the official link a human needs to confirm each one.")
+
+
+def proj_questions(ctx) -> str:
+    qs = ctx.questions
+    rows = []
+    for q in qs["questions"]:
+        rows.append([f'<code>{esc(q["id"])}</code>', esc(q["question"]), esc(q["why"]),
+                     esc(q["blocks"]), esc(q["would_be_answered_by"]),
+                     '<span class="chip warn">OPEN</span>', link(q["source"], "official")])
+    body = [f"""<p>{qs['counts']['questions']} questions, all open. Each one names what it blocks and
+what would actually answer it. None is decided unilaterally here, because each changes what the site
+is allowed to claim.</p>
+<div class="callout warn"><strong>The two that matter most.</strong> Q1 (a licensed closing line)
+decides whether this project can ever measure an edge, and Q2 (arena coordinates) decides whether
+travel is a real feature or a permanent blank. Everything else is recoverable; those two change the
+shape of the product.</div>"""]
+    body.append(table(["ID", "Question", "Why it matters", "What it blocks", "What would answer it",
+                       "Status", "Official source"], rows, "open-questions"))
+    body.append("""<h2>How to discover missing information</h2>
+<p>The pattern that has worked in this session: name the column, then name the official page that
+would fill it, then check whether that page actually publishes it. Travel distance is the worked
+example — the column exists, the page does not publish coordinates, so the column stays blank and the
+gap is published as a question rather than filled with an estimate. The suggestions page proposes a
+capture step for each question whose answer is obtainable but not yet obtained.</p>""")
+    return page("projection", "Open questions", "Projection surface", "\n".join(body),
+                "questions.html",
+                lead="What must be known before a decision, what each blocks, and what would answer it.")
+
+
+def proj_suggestions(ctx) -> str:
+    sg = ctx.suggestions
+    body = [f"""<p>{sg['counts']['suggestions']} proposals, <strong>{sg['counts']['implemented']}
+implemented</strong>. That number is the point: the brief requires a path to be chosen before
+implementation, so this page is advisory only. Each proposal carries its options with a cost and a
+risk, and a recommendation that is explicitly a recommendation and not a decision.</p>
+<div class="callout"><strong>Nothing on this page has been built.</strong> If a proposal is chosen, it
+becomes a pre-registered change with its own validation gate — not an edit made because it seemed like
+an improvement.</div>"""]
+    for s_ in sg["suggestions"]:
+        body.append(f'<h2 id="{esc(s_["id"].lower())}">{esc(s_["id"])} — {esc(s_["title"])}</h2>')
+        body.append(f'<p><span class="chip warn">{esc(s_["status"])}</span></p>')
+        body.append(f'<p><strong>Problem.</strong> {esc(s_["problem"])}</p>')
+        orows = [[f'<code>{esc(o["id"])}</code>', esc(o["label"]), esc(o["cost"]), esc(o["risk"]),
+                  link(s_["source"], "context")]
+                 for o in s_["options"]]
+        body.append(table(["Option", "What it means", "Cost", "Risk", "Source"], orows,
+                          f"opts-{esc(s_['id'])}"))
+        body.append(f'<p class="note"><strong>Recommendation:</strong> {esc(s_["recommended"])}</p>')
+    body.append("""<h2>What is already implemented, in contrast</h2>
+<p>For clarity about the line between "built" and "proposed": the two estimators, the pinned home-court
+advantage, the luck z-scores, the possessions-based total with its naive benchmark, the pre-registration
+files, the hash-sealed ledger, the ten freshness gates, the availability column and the two separated
+surfaces are all built and tested. Nothing on this page is.</p>""")
+    return page("projection", "Suggestions", "Projection surface", "\n".join(body),
+                "suggestions.html",
+                lead="Proposals with options, cost, risk and a recommendation — and an explicit "
+                     "statement that none has been implemented.")
+
+
 # ------------------------------------------------------------------ build
 def build() -> list[str]:
     global CTXOBJ
@@ -978,6 +1073,9 @@ def build() -> list[str]:
         "rest.html": proj_rest(ctx),
         "minutes.html": proj_minutes(ctx),
         "gates.html": proj_gates(ctx),
+        "review.html": proj_review(ctx),
+        "questions.html": proj_questions(ctx),
+        "suggestions.html": proj_suggestions(ctx),
         "flagged.html": proj_flagged(ctx),
     }
     bet = {

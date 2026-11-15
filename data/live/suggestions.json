@@ -1,0 +1,171 @@
+{
+ "schema": "nba3.live.suggestions/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "what": "Proposals for review. None is implemented: the brief requires a path to be chosen before implementation, so each carries options, a recommendation and its cost/risk.",
+ "counts": {
+  "suggestions": 7,
+  "implemented": 0
+ },
+ "suggestions": [
+  {
+   "id": "S1",
+   "title": "Capture closing lines from a licensed feed",
+   "status": "NOT IMPLEMENTED \u2014 awaiting a chosen path",
+   "problem": "No price exists in the repository, so no edge can be measured and the parlay pricing requirement cannot be met.",
+   "options": [
+    {
+     "id": "A",
+     "label": "License a feed and add a capture step",
+     "cost": "licence cost + one capture script",
+     "risk": "the feed's terms may forbid republication"
+    },
+    {
+     "id": "B",
+     "label": "Publish model numbers with no market comparison, permanently",
+     "cost": "none",
+     "risk": "the 'edge' framing of the brief goes unmet"
+    },
+    {
+     "id": "C",
+     "label": "Record lines manually per slate with a timestamp",
+     "cost": "human time each slate",
+     "risk": "manual entry is the failure mode this project avoids"
+    }
+   ],
+   "recommended": "A, but only with a feed whose terms permit republication; otherwise B with the gap stated (which is what is published today).",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "S2",
+   "title": "Extend the game-log capture to a rolling season window",
+   "status": "NOT IMPLEMENTED \u2014 awaiting a chosen path",
+   "problem": "Minutes redistribution, player props and prop correlations all need per-player history. Today there is one slate (99 rows), which makes the share model a demonstration rather than a forecast.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Capture the season to date from gamebook PDFs",
+     "cost": "~180 PDF fetches, one parser pass",
+     "risk": "the parser rejects ~7% of rows; rejections must keep being published"
+    },
+    {
+     "id": "B",
+     "label": "Capture only players appearing on an injury report",
+     "cost": "much smaller",
+     "risk": "props for anyone else stay blank"
+    }
+   ],
+   "recommended": "B first: it satisfies the brief's stated minimum and keeps the rejection rate auditable, then A if props become a priority.",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "id": "S3",
+   "title": "Add a postponement/abandonment rule to every pre-registration",
+   "status": "NOT IMPLEMENTED \u2014 needs a decision",
+   "problem": "Settlement is defined only for a game that finishes.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Void the pick (no win, no loss)",
+     "cost": "none",
+     "risk": "voids can be gamed by publishing picks on fragile games"
+    },
+    {
+     "id": "B",
+     "label": "Leave unsettled and report it as pending",
+     "cost": "none",
+     "risk": "the ledger never closes for that game"
+    }
+   ],
+   "recommended": "B, because it records reality rather than assigning an outcome. It must be written into the files before the next slate, not after an event.",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "S4",
+   "title": "Populate the arena coordinate table from a citable source",
+   "status": "NOT IMPLEMENTED \u2014 awaiting a chosen path",
+   "problem": "Travel distance is blank for all 44 team-games.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Source an official venue list with coordinates",
+     "cost": "one capture",
+     "risk": "the NBA may not publish coordinates at all"
+    },
+    {
+     "id": "B",
+     "label": "Drop travel and say so",
+     "cost": "none",
+     "risk": "part of the brief goes unmet"
+    }
+   ],
+   "recommended": "A if a citable table exists; otherwise B, with the omission on the Flagged page.",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "S5",
+   "title": "Turn the disagreement signal into a scored feature",
+   "status": "NOT IMPLEMENTED \u2014 awaiting a chosen path",
+   "problem": "Disagreement is the published headline but has not been shown to predict error. That is a testable claim and it is currently untested.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Bin games by disagreement and measure log-loss per bin",
+     "cost": "one script",
+     "risk": "128 OOS games split into bins is thin"
+    },
+    {
+     "id": "B",
+     "label": "Keep disagreement descriptive only",
+     "cost": "none",
+     "risk": "the headline signal stays unfalsified"
+    }
+   ],
+   "recommended": "A with the bin counts published, so a thin result reads as thin rather than as a finding.",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "S6",
+   "title": "Anchor the ledger head hash outside the repository",
+   "status": "NOT IMPLEMENTED \u2014 awaiting a chosen path",
+   "problem": "The chain is tamper-evident, not tamper-proof: a full rewrite rebuilds the chain. The git commit is a weak witness.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Publish the head hash to an external timestamping service",
+     "cost": "small",
+     "risk": "new external dependency"
+    },
+    {
+     "id": "B",
+     "label": "Keep the git commit as the witness and say so",
+     "cost": "none",
+     "risk": "a reader may assume more than it proves"
+    }
+   ],
+   "recommended": "B now (it is stated on the Ledger page), A if the ledger ever carries real money.",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "S7",
+   "title": "Resolve the 13 unattributed injury rows",
+   "status": "NOT IMPLEMENTED \u2014 needs a decision",
+   "problem": "13 player rows per report cannot be tied to a club from the PDF text layout.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Improve the extraction to read the team block reliably",
+     "cost": "parser work",
+     "risk": "a plausible-looking wrong attribution is worse than a blank"
+    },
+    {
+     "id": "B",
+     "label": "Drop them and publish the count",
+     "cost": "none",
+     "risk": "less complete availability picture"
+    }
+   ],
+   "recommended": "A, with B as the fallback if attribution cannot be made mechanical.",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  }
+ ]
+}
