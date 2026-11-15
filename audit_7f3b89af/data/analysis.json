@@ -31,12 +31,12 @@
    "n": 9
   }
  ],
- "games_excluded_no_prior_game": 5,
+ "games_excluded_no_prior_game": 0,
  "games_used": 140,
  "inputs": {
   "official_source": "https://www.nba.com/games?date=",
-  "predictions": "data/app/canonical.json -> oos_sample (140 out-of-sample games)",
-  "results_log": "data/app/games_2026-11-14c.csv (183 official finals)"
+  "predictions": "data/snapshots/canonical_2026-11-14.json -> oos_sample (140 out-of-sample games)",
+  "results_log": "data/snapshots/games_2026-11-14.csv (183 official finals)"
  },
  "label": "DERIVED -- our arithmetic on official results, not an official NBA statistic.",
  "method": "Rest is days since that team's previous game in the official log. Error is actual home margin minus our predicted home margin. Permutation p-values are two-sided with 20000 shuffles, seed 20261114. Multiple comparisons across the five tests are controlled with Benjamini-Hochberg at q < 0.05.",
