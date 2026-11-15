@@ -4278,3 +4278,49 @@ PPP totals, luck-band flags, blank+flagged travel cells) and
 https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
 PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
 cached at the edge during rollout; a cache-busted read serves the page normally.
+
+---
+
+## Session `arena/4f194ba2-nba3` (current) — CLAIM: refresh-job repair, ledger settlement, 11/15 evening capture, stale-PR triage, integration
+
+**Session ID:** `4f194ba2`. Branch `arena/4f194ba2-nba3`, branched from `main` @ `f98b44d`
+(merge of PR #91). Claim written and committed **before** any other work, per the board rule.
+`git log` shows origin/main == this branch's base at claim time; no unmerged other-session commits.
+
+**Why this round exists.** Three concrete defects/gaps are open on `main` right now:
+
+1. The scheduled `official data refresh` workflow **failed** on `main`
+   (run [43742524756](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43742524756),
+   2026-11-15 ~17:15 UTC cron, "Fetch official sources" step, exit 1 in 12s). The fetch step has
+   zero tolerance for transient/bot-related HTTP failures: a single non-200 aborts the whole run.
+2. The sealed ledger holds 11 published picks (11 entries, `settled: 0`), two of whose games
+   (11/15 IND@PHI tip 18:00Z; 11/15 HOU@WAS tip 00:00Z on 11/16) are at/after tip. Settlement
+   machinery exists (`scripts/ledger.py settle`, `scripts/pick_ledger.py settle`) but has never
+   been run against a verified official final in this namespace — no settlement stamp is visible.
+3. Two open PRs from earlier sessions are stale >11 hours with no commits (below), and the
+   published injury snapshot (11/15 06:15 AM ET) predates the 11/15 afternoon reports.
+
+**Stale-PR triage (takeover per the 60-minute rule; both last pushed 2026-11-15 ~12:14–12:32 UTC).**
+PR [#90](https://github.com/wingbangboozle1-lang/NBA3/pull/90) (`arena/94e6d41b-nba3`, game-day
+refresh overlapping files already merged via #86–#91) and PR
+[#85](https://github.com/wingbangboozle1-lang/NBA3/pull/85) (`arena/5a67ab8c-nba3`, additive
+`pipeline/v2` + `data/v2` + `v2/` tree). Both will be evaluated on diff + checks before any
+merge/close decision; decisions and reasons recorded here.
+
+**Task board (this session)**
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| A1 | Investigate + repair the failing scheduled refresh job (resilient fetch: browser-grade headers, retries with backoff, non-fatal per-artifact degradation, clear gate/no-rebuild semantics) + CI-verifiable tests | in progress | `scripts/refresh_official.py`, `.github/workflows/refresh.yml`, `tests/test_refresh_official.py` (**new**) |
+| A2 | Settle ledger entries whose games are final + verified from official sources; settlement stamp visible on the site | in progress | `ledger/`, `data/live/picks_ledger_view.json`, `app/settlement.html` (regenerated), possibly `scripts/pick_ledger.py` (settle path only) |
+| A3 | Fresh official capture round: newest 11/15 injury report(s) via fetch_page, IND@PHI final verification, standings/team-stats re-read where reachable | in progress | `data/app/` (**new dated files only**), `scripts/capture_official_2026_11_15b.py` (**new**) |
+| A4 | Stale-PR triage (#90, #85): merge if additive+green, else close with handoff notes | in progress | `COORDINATION.md` notes + `gh pr` operations |
+| A5 | Integration: rebuild, full test suite, link check, PR → main, merge, Pages verification, board close-out | pending | `COORDINATION.md`, `README.md` (status lines only), PR |
+
+**Ownership note.** A2 touches `scripts/pick_ledger.py` and `data/live/*` first owned by finished
+session `arena/2ebb1e75-nba3` (PR #86 merged; session closed). No active session holds those files
+(#90/#85 owners' last commits are >11h old and their PRs are being triaged in A4); this section is
+the logged handoff per the takeover rule. No file of an *active* claim is touched.
+
+**Non-overlap.** No edits to any `audit_*` tree, `240bc29b/`, `docs/`, `site/`, `dash/`, `v2/`,
+`pipeline/` beyond what A4/A5 decide publicly here first.
