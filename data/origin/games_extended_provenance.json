@@ -1,20 +1,21 @@
 {
  "file": "data/origin/games.csv",
  "action": "extended",
- "session": "arena/25418e3f-nba3",
- "performed_on": "2026-11-14",
- "reason": "Flag F36-03, left open by session arena/36e18d83-nba3: '2026-11-13 results (9 games) not yet in the canonical 174-game log ... Next refresh session: capture the 11/13 finals from the official scoreboard and extend data/origin/games.csv with provenance.'",
- "rows_added": 9,
- "games_before": 174,
- "games_after": 183,
- "source_url": "https://www.nba.com/games?date=2026-11-13",
- "source_label": "NBA.com official scoreboard, read 2026-11-14 after all nine games had finished (Final / Final/OT state printed).",
- "verbatim_transcription_of": "scripts/capture_official_2026_11_14c.py (RESULTS_1113)",
+ "session": "arena/94e6d41b-nba3",
+ "performed_on": "2026-11-15",
+ "reason": "Rolling-slate refresh: the 11/14 finals were missing from the log the manifest names, so the engine's rest context and the GP/W/L cross-checks could not see the newest games. Captured from the official scoreboard and appended with provenance (the manifest's cross-check copy data/app/games_2026-11-14c.csv extended in lockstep so the second-capture agreement stays exact).",
+ "rows_added": 5,
+ "games_before": 183,
+ "games_after": 188,
+ "source_url": "https://www.nba.com/games?date=2026-11-14",
+ "source_label": "NBA.com official scoreboard, read 2026-11-15 after all five games had finished (state 'Final' printed on every card; the same five finals appear on the schedule page for 2026-11-15).",
+ "quarter_scores": null,
+ "quarter_scores_note": "The requirement asks for quarter scores per stored game. No official page reached in this environment prints a per-quarter line score in text-extractable form (scoreboard card, box-score page and game summary checked; cdn.nba.com liveData -> HTTP 500; stats.nba.com blocked; data.nba.com S3 AccessDenied). Quarters stay null and flagged (F-94E6D41B-02) rather than inferred from play-by-play text.",
  "verification": [
-  "Official team advanced statistics (nba.com/stats/teams/advanced, read 2026-11-14T09:45Z) publish GP for all 30 teams; the extended log reproduces every one of the 30 GP values, and the 30 GP values sum to 366 = 2 x 183.",
-  "The same page's W and L columns (30 x 2 values, 183 wins and 183 losses) reproduce exactly from the extended log.",
-  "The post-game W-L record printed under each of the 18 teams on the scoreboard page matches the record recomputed from the extended log for all 18 team-records.",
-  "Independently, the official November calendar's per-date game counts (13 -> 9 GAMES, 12 -> 4, ...) plus the log's own October rows reach 183 games from a different page of the same site."
- ],
- "note": "F36-03 predicted the log would reach 184 games. It reaches 183: the official GP column, the official W+L columns and the official per-date counts all give 183 games through 2026-11-13. The off-by-one in the hand-off note is recorded as flag 25418E3F-01 rather than quietly adopted."
+  "The five finals appear identically on two official pages (nba.com/games?date=2026-11-14 cards and the nba.com/schedule?date=2026-11-15 recap block).",
+  "The W-L record printed under each of the 10 teams on the cards reproduces exactly from the extended 188-game log (check C8c of scripts/capture_official_2026_11_15.py).",
+  "Every team's official GP on the advanced-stats page (read 2026-11-15T11:45Z) reproduces from the extended log; the 30 GP values sum to 376 = 2 x 188 (check C8).",
+  "Every team's official W and L columns reproduce from the extended log (check C8b).",
+  "The 11/14 game ids 0022600231-0022600235 match the official slate rows (check C7)."
+ ]
 }
