@@ -4005,3 +4005,50 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+---
+
+## Session `arena/79341829-nba3` (current) — CLAIM: 11/15 round — scheduled refresh job (freshness + provenance gates), official results feed + verified settlement, tamper-evident ledger, pre-registration, two-estimator disagreement, minutes redistribution, parlay rho, site surfaces, integration
+
+**Session ID:** `arena/79341829-nba3`. Workspace branch `arena/79341829-nba3`, branched from
+`main` @ `d320feaa5b1b235e55d39d736551e8a7572d9cd4` (merge of PR #83). Claim written and pushed
+before any other work started (2026-11-15 ~11:35 UTC).
+
+**Why this round exists.** The canonical site still publishes the 2026-11-14 window
+(11/14 → 11/17) against a 11/14 04:15 AM ET injury snapshot, while the official index now lists
+11/15 reports and the 11/14 slate has completed. The brief's first requirement — a scheduled job
+that refreshes schedule, standings, team statistics and injury reports per rolling slate and
+rebuilds only after freshness and provenance gates pass — has no implementation yet (the only
+workflow is `pages.yml`, push/PR only). The results feed, settlement ledger, pre-registration
+files, two-estimator disagreement, minutes redistribution and parlay rho pricing are likewise
+unimplemented.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| S1 | Scheduled refresh job: refresh official schedule, standings, team statistics (traditional / opponent / advanced) and injury reports for each rolling slate; freshness + provenance gates; rebuild only after gates pass | in progress | 79341829 | `.github/workflows/refresh.yml` (new), `scripts/refresh_official.py` (new), `scripts/freshness_gates.py` (new) |
+| S2 | 11/15 official refresh capture: newest injury report + consecutive-report diff, rolling slate 11/15–11/18, per-game results with quarter scores, standings, three team-stat pages, per-player game logs for injury-report players, sourced arena-coordinate table | in progress | 79341829 | `data/app/official_*2026-11-15*` (new), `data/app/results_feed.json` (new), `data/app/arena_coordinates.json` (new), `data/players/` (new) |
+| S3 | Official per-game result feed (one row per game: date, teams, final score, quarter scores; settle only after finals verified) + tamper-evident ledger (hash each published pick, publish hash before tip, verify after settlement), settlement stamps visible | in progress | 79341829 | `scripts/results_feed.py` (new), `scripts/pick_ledger.py` (new), `data/app/ledger/` (new) |
+| S4 | Pre-registration files per strategy (signal, thresholds, universe, exact settlement rule) frozen before first bet | in progress | 79341829 | `scripts/preregister.py` (new), `data/app/prereg/` (new) |
+| S5 | Estimator layer: two independent estimators, disagreement published as the headline confidence signal with the blend underneath; HCA pinned to the measured home-win rate; luck as a z-score per team with a refusal rule; totals modelled as possessions × points-per-possession; market-anchored prior machinery (blank without a licensed closing-line feed); parlay pricing with measured rho and the naive product printed next to it; explicit minutes redistribution (top-8 shares, replacement shares) | in progress | 79341829 | `scripts/estimators.py` (new), `scripts/minutes_model.py` (new) |
+| S6 | Site: projection / bet surface split (never mixed), rotation-availability column on the picks page, injury-report revision time + retrieval time in the injuries banner, settlement stamp and ledger surfaces, rho + naive-product parlay columns | in progress | 79341829 | `scripts/build_app.py`, `scripts/assemble_canonical.py`, `app/`, `index.html` (logged generator edits + regeneration) |
+| S7 | Line-by-line verification against official sources; every table row sourced or blank + flagged | in progress | 79341829 | `COORDINATION.md`, `app/flagged.html` |
+| S8 | Integration: full CI replay, PR → merge → Pages deploy, live verification | pending | 79341829 | `COORDINATION.md` |
+| T1 | Takeover of stale PRs under the 60-minute rule: PR #79 (`arena/90183333`, CONFLICTING, no commits since 2026-11-14 19:5x UTC) and PR #70 (`arena/f2d4a99f`, COORDINATION record, CONFLICTING since 2026-11-14 10:47 UTC) | in progress | 79341829 | `COORDINATION.md` |
+
+**Non-overlap.** Every earlier session's section above is preserved verbatim. All earlier claims
+are done and merged (`main` = merge of PR #83); no session holds an in-progress claim on any
+file above. This session creates new files listed above and makes logged generator edits to
+`scripts/build_app.py` / `scripts/assemble_canonical.py` / `scripts/strategy_lab.py` only where
+the brief names the canonical pages (picks column, injuries banner, headline), regenerating and
+committing every drift-gated artefact (`lab.json`, `canonical.json`, `app/`, `index.html` and
+any downstream tree the CI replays). Change requests to closed sessions are logged, not hidden.
+
+**Takeover notes (T1).** Both PRs are past the 60-minute no-commit limit with CONFLICTING state
+against current `main`. PR #70 is an append-only coordination record; its content is preserved
+here and the PR will be closed with a pointer to this section. PR #79 (game-day refresh,
+availability delta, rotation-join fix NF-90) conflicts across the generated pipeline
+(`canonical.json`, `lab.json`, `build_app.py`, `assemble_canonical.py`, `capture_official_2026_11_14e.py`);
+its goals are superseded by S2/S3/S6 of this round (fresh 11/15 capture, availability + rotation
+columns, "injuries are not priced" statement already on the picks page). The PR will be closed
+with a pointer to this section; any finding of it not covered by this round is copied into the
+flag register rather than lost.
