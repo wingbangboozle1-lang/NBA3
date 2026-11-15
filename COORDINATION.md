@@ -4278,3 +4278,52 @@ PPP totals, luck-band flags, blank+flagged travel cells) and
 https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
 PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
 cached at the edge during rollout; a cache-busted read serves the page normally.
+
+---
+
+## Session `arena/35a49c50-nba3` (current) — CLAIM: 11/15 evening game-day close-out, standings feed, rolling-slate refresh job extension, integration
+
+**Session ID:** `35a49c50`. Branch `arena/35a49c50-nba3`, branched from `main` @ `f98b44d041044b539226d97bc7a459dcd3bab329`
+(merge of PR #91). This claim is committed and pushed **before** any other work, per the board rule.
+
+**Why this round exists (measured, not asserted).** The canonical snapshot on `main` is stamped
+`2026-11-15T11:40Z` — an *overnight* read: the 11/15 **06:15 AM ET** injury report, the results log ending at
+**11/14**, and 14 settled result-feed rows. At claim time it is **2026-11-15 ~23:40Z (06:40 PM ET)**: the
+league has played part of the 11/15 slate, the official index has been re-filing through the game day, and
+the brief's per-game result feed has never carried a **2026-11-15** row. The standing gap the brief names
+explicitly — "refresh the official schedule, **standings**, team statistics and injury report for each rolling
+slate" — is also unfilled: `scripts/refresh_official.py` fetches injury + schedule + game books + the three
+team-stat pages, but **no standings source**, and the canonical site publishes **no standings page**
+(the only standings artefact in the repo is `edge/data/standings.json`, an 11/14 snapshot from a retired
+tree, with `BRK`/`CHO` legacy ids).
+
+**Task board (this session)**
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| C1 | Official capture, evening round: newest injury report + index re-read, 11/15 finals, rolling slate 11/15→11/18, three team-stat pages, **standings** | in progress | `data/app/evening_35a49c50/**` (new tree) |
+| C2 | Capture parser (offline replay of the committed verbatim reads, sha256 + retrieval stamp per artefact) | in progress | `scripts/capture_evening_35a49c50.py` (new) |
+| C3 | Per-game result feed: settle 11/15 games the official page prints as Final, one row per game, quarter scores, quarter-sum gate, settlement stamp | in progress | `data/app/results_feed_35a49c50.json`, `scripts/results_feed_evening_35a49c50.py` (new) |
+| C4 | Standings artefact re-cut from the official table + standings page on the canonical site | in progress | `data/app/standings_35a49c50.json`, `app/standings.html` (generated), `scripts/build_app.py`, `scripts/assemble_canonical.py` |
+| C5 | Freshness + provenance gates for this round; rebuild runs **only** if they pass | in progress | `scripts/gates_evening_35a49c50.py` (new), `data/app/gate_report_35a49c50.json` |
+| C6 | Refresh the sealed ledger: publish pre-tip hashes for the remaining window, settle against the verified finals, keep the settlement stamp visible | in progress | `data/app/ledger/**`, `scripts/pick_ledger.py` (additive), `app/ledger.html`, `app/settlement.html` |
+| C7 | Scheduled job: add standings + rolling-slate injury/team-stat/results legs, gate-before-rebuild | in progress | `scripts/refresh_official.py`, `.github/workflows/refresh.yml` |
+| C8 | Re-cut model inputs on the refreshed captures (estimators, disagreement headline, luck z-scores, minutes redistribution, availability column) | in progress | `data/app/snapshot_manifest.json` (re-point), `data/app/lab.json`, `data/app/canonical.json`, `app/**`, `index.html` |
+| C9 | Repo review line by line; questions, suggestions, executive summary updated for this round | in progress | `data/app/questions_35a49c50.json`, `data/app/suggestions_35a49c50.json`, `app/questions.html`, `app/suggestions.html`, `app/summary.html` |
+| C10 | Integration: stale PR disposition (#85, #90), CI wiring, PR → merge → Pages verification | pending | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` (additive) |
+
+**Non-overlap.** New files are session-scoped (`*_35a49c50`, `data/app/evening_35a49c50/`). Shared
+generated output (`data/app/canonical.json`, `app/`, `index.html`, `data/app/lab.json`,
+`data/app/snapshot_manifest.json`) is edited only through this round's integration step, and only after
+the stale PRs below are dispositioned — those two PRs touch `app/**`, `scripts/build_app.py` and
+`pages.yml`, so they are dispositioned **first** to avoid a silent fork. `COORDINATION.md` is append-only.
+
+**Stale-PR disposition plan (logged before acting).** PR [#90](https://github.com/wingbangboozle1-lang/NBA3/pull/90)
+(`arena/94e6d41b-nba3`, last commit 2026-11-15 12:31Z, `CONFLICTING`) and PR
+[#85](https://github.com/wingbangboozle1-lang/NBA3/pull/85) (`arena/5a67ab8c-nba3`, last push 11:54Z,
+`CONFLICTING`) are both far past the 60-minute takeover window. #90's adopted-refresh content (11/15 capture,
+manifest re-point, NF-90 name-join repair, CI wiring) already landed on `main` via PRs #86–#91; its unique
+tree is `audit_94e6d41b/`. #85 is additive-only (0 deletions) but publishes a parallel `v2/` site over an
+11:54Z stale capture. Neither will be merged destructively: the plan is to verify what is still unique,
+re-implement or carry forward the substance in this round, close both as **superseded** with the evidence
+recorded here, and leave both branches on the remote so nothing is lost.
