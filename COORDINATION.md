@@ -4313,3 +4313,82 @@ already on `main` line by line.
 
 **Non-overlap:** no other session holds an open claim on the files above. Every earlier section
 is preserved verbatim. `COORDINATION.md` is append-only for this session.
+
+---
+
+## Session `arena/81800928-nba3` (current) — CLAIM: repair the scheduled official refresh job (fetch crash, wrong "newest" report, UTC-vs-ET date), refresh tests, integration
+
+**Session ID:** `arena/81800928-nba3`. Branch `arena/81800928-nba3`, branched from `main` @ `f98b44d`
+(merge of PR #91). Claim committed and pushed before any other work started (2026-11-15 ~23:40 UTC).
+
+**Why this round exists.** The scheduled job `official data refresh` (`.github/workflows/refresh.yml`)
+on `main` has a **failing latest run** (run 43742524756, 2026-11-15 ~18:30 UTC): the job fails in its
+fetch step before tests, gates or commit run, so the rolling refresh has not refreshed anything. The
+run log is not retrievable through the API (`logs` returned EOF), so the root causes below are read
+from the code, not from the runner log:
+
+| Finding | Where | Effect |
+|---|---|---|
+| Any single HTTP error in the fetch loop raises out of `main()` (no try/except, no manifest written) | `scripts/refresh_official.py` `fetch()` calls | whole job dies; no gate report is written |
+| "Newest" injury report chosen by sorting the raw strings `(date, hh, mm, AM/PM)` | `scripts/refresh_official.py` step 1 | `12_00AM` sorts after `11_45PM`-style values; wrong report can be chosen |
+| Game dates taken from `datetime.now(timezone.utc)` | `scripts/refresh_official.py` | the 05:15 UTC run labels the ET day one day early |
+
+**Known, NOT fixed in this round (logged for the owner):** `freshness_gates.py` hard-codes
+`settled_2026-11-14.json` and `slate_2026-11-15.json`, and the refresh writes to `data/app/refresh/`
+and `data/app/official_slate_current.json`, which no gate or engine reads. So even a successful fetch
+cannot roll the slate forward. This is a pipeline redesign, flagged for the owner rather than patched here.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| R1 | Make the fetch non-fatal per URL (record errors in manifest, exit non-zero before any rebuild), chronological newest-report selection, ET game dates | in progress | `scripts/refresh_official.py` |
+| R2 | Offline unit tests for R1 (fixtures, no network) | in progress | `tests/test_refresh_official.py` (new) |
+| R3 | Wire the new test into the refresh workflow; keep rebuild gated | in progress | `.github/workflows/refresh.yml` |
+| R4 | Board record, PR, merge, Pages check | pending | `COORDINATION.md` |
+
+**Non-overlap.** This session does not touch `data/app/canonical.json`, `data/live/*`, `app/`, `projection/`,
+`bet/`, `index.html`, `scripts/freshness_gates.py`, or any audit tree. Open PRs #85
+(`arena/5a67ab8c-nba3`) and #90 (`arena/94e6d41b-nba3`) are from sessions with no claim on this board
+(their session IDs do not appear in COORDINATION.md before this line). They are left untouched and are
+logged here as a coordination irregularity for the owner.
+
+### Completion record — session `arena/81800928` (R1–R3 done, R4 pending)
+
+**Changed files (only these):** `scripts/refresh_official.py`, `tests/test_refresh_official.py` (new),
+`.github/workflows/refresh.yml` (one added test line).
+
+**Defects found in the refresh path and fixed:**
+
+| # | Defect | Fix | Proof |
+|---|---|---|---|
+| 1 | Any HTTP/TLS error raised out of `main()`; no manifest written | `Fetcher.get()` retries 3× and records each failure (url, label, required, error); required failures stop before any gate/rebuild; manifest always written | `test_failed_url_is_recorded_not_raised`, `test_dead_injury_index_returns_2_and_writes_manifest`, `test_required_failure_after_index_refuses_rebuild`; live sandbox dry run: exit 2, manifest with the TLS error, no rebuild |
+| 2 | "Newest" report chosen by string sort: `12_00AM` > `01_00PM` | `report_time()` converts to a real 12-hour clock time; `newest_report()` takes the max | `test_midnight_is_not_the_newest_over_one_pm`, `test_twelve_thirty_pm_is_older_than_one_pm` |
+| 3 | Game dates from UTC (05:15 UTC run labels the ET day one day early) | `et_today()` uses `America/New_York` | `test_utc_early_morning_is_previous_eastern_day` |
+| 4 | Gate call passed `--manifest` / `--json-out`, which `freshness_gates.py` rejects, so the gate step could never pass | call matches the gate's real interface (no extra arguments) | `test_freshness_gate_accepts_the_arguments_we_pass` |
+
+**Verification:** `python3 -m unittest discover -s tests -p "test_*.py"` → 116 tests OK (includes the 13 new);
+`tools/check_site.py` → PASS (10 pages, 0 broken links); `scripts/freshness_gates.py` → 10/10 PASS on the committed
+captures. The sandbox cannot reach nba.com (egress allowlist), so the live fetch was not executed here; the
+dry run above exercised the failure path only. Official URLs used by the job were confirmed to resolve through
+the `fetch_page` reader: <https://official.nba.com/nba-injury-report-2026-27-season/> (lists 11/15 reports from
+12:00 a.m. ET; the PDF link pattern matches the script's regex).
+
+**Root cause of the failing run:** the run log could not be downloaded (`gh api .../logs` → EOF), so the exact
+HTTP error on the runner is **unconfirmed**. The fix makes the job record and survive any such error; it does not
+claim to have identified the server response.
+
+**Irregularities still open (not fixed in this round; owner decision needed):**
+
+- **F-R1 — the rolling slate cannot roll.** `freshness_gates.py` hard-codes `data/live/results/settled_2026-11-14.json`,
+  `data/live/slate_2026-11-15.json` and `data/live/model.json`. The refresh writes `data/app/refresh/<stamp>/` and
+  `data/app/official_slate_current.json`, which no gate or engine reads. A successful fetch therefore cannot change
+  the published slate. The refresh's gate step checks the committed captures, not the fresh fetch.
+- **F-R2 — the refresh commits every fetched HTML page.** `git add data/app` stores the games and team-stats HTML on
+  each run (up to four runs a day). Repository growth is unbounded; the owner should decide whether raw HTML goes to
+  an artifact store instead (the injury PDFs must stay in Git per the brief).
+- **F-R3 — the new refresh tests run only in `refresh.yml`** (schedule / manual), not on pull requests. Adding them to
+  `pages.yml` would gate PRs, but `pages.yml` is outside this claim's file scope.
+- **F-R4 — two open PRs from sessions not on this board:** PR #85 (`arena/5a67ab8c-nba3`, "v2 pipeline") and PR #90
+  (`arena/94e6d41b-nba3`, "game-day refresh 2026-11-15"). Both target `main` and overlap the refresh and capture scopes.
+  Not touched; the owner should decide whether to merge, supersede, or close them.
+- **F-R5 — the scheduled job's last run failed**, and the job has no alert. The site is still the last good build (the
+  rebuild is gated), but it is stale until a run succeeds.
