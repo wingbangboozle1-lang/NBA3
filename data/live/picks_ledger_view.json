@@ -2,10 +2,10 @@
  "schema": "nba3.live.ledger_view/v1",
  "generated_utc": "2026-11-15T12:10Z",
  "integrity": {
-  "entries": 11,
+  "entries": 12,
   "published": 11,
-  "settled": 0,
-  "head_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+  "settled": 1,
+  "head_hash": "9cb55f88a1e4e08db2d66c50920ead77e731479ad4f61f5b32927cdc205f1451",
   "verified": true,
   "problems": []
  },
@@ -249,7 +249,114 @@
    "prev_hash": "ac622348f6e9eabe5dc497be2a369af79ffb8fc8b7062274b45f2783f44e1807",
    "published_utc": "2026-11-15T12:10Z",
    "seq": 11
+  },
+  {
+   "entry_hash": "9cb55f88a1e4e08db2d66c50920ead77e731479ad4f61f5b32927cdc205f1451",
+   "final": {
+    "away": "IND",
+    "away_final": 124,
+    "away_margin": -7,
+    "away_name": "Indiana Pacers",
+    "away_q": [
+     35,
+     22,
+     30,
+     37
+    ],
+    "city": "Philadelphia, PA",
+    "date": "2026-11-15",
+    "feed": "settled_2026-11-15.json",
+    "feed_settled_utc": "2026-11-16T00:05Z",
+    "game_id": "0022600236",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "home": "PHI",
+    "home_final": 131,
+    "home_name": "Philadelphia 76ers",
+    "home_q": [
+     29,
+     29,
+     39,
+     34
+    ],
+    "ot": 0,
+    "quarter_check": "quarter sums equal the final for both teams",
+    "reads": [
+     {
+      "kind": "game page",
+      "note": "The games index at https://www.nba.com/schedule?date=2026-11-18 (chunk 0) printed the same final and the same score for this game.",
+      "printed": "Final \u2014 Pacers 124, 76ers 131",
+      "retrieved_utc": "2026-11-16T00:02Z",
+      "url": "https://www.nba.com/game/ind-vs-phi-0022600236"
+     },
+     {
+      "kind": "official game book (statsdmz PDF)",
+      "local_copy": "data/live/raw/gamebook_20261115_INDPHI.md",
+      "printed": "SCORE BY PERIOD \u2014 Pacers 35 22 30 37 124; 76ERS 29 29 39 34 131",
+      "retrieved_utc": "2026-11-16T00:05Z",
+      "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+     }
+    ],
+    "settled_utc": "2026-11-16T00:05Z",
+    "settlement_stamp_note": "Time the second official read (the game book) was taken. The first read (nba.com game page) was at 2026-11-16T00:02Z and agrees.",
+    "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+    "status": "Final",
+    "tip_et": "1:00 PM",
+    "total_points": 255,
+    "venue": "Xfinity Mobile Arena",
+    "verified": true
+   },
+   "game_id": "0022600236",
+   "kind": "SETTLE",
+   "pick": {
+    "date": "2026-11-15",
+    "game_id": "0022600236",
+    "headline_signal": "disagreement 12.896 pp",
+    "line": null,
+    "matchup": "IND @ PHI",
+    "origin": "originated fair price from the two estimators",
+    "pick": "PHI moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": true,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "1:00 PM",
+    "tip_et_iso": "2026-11-15T18:00Z"
+   },
+   "pick_sha256": "14ab330115b411b214385686644bf0e755e23693237441fa778f20fd0fe9918b",
+   "pick_sha256_at_publish": "14ab330115b411b214385686644bf0e755e23693237441fa778f20fd0fe9918b",
+   "prev_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+   "result": {
+    "margin": 7,
+    "outcome": "WIN"
+   },
+   "seq": 12,
+   "settled_utc": "2026-11-16T00:05Z",
+   "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236"
   }
  ],
- "note": "Entries are append-only. Every pick carries the sha256 published before tip; every settlement repeats that hash and the official final it was graded against."
+ "note": "Entries are append-only. Every pick carries the sha256 published before tip; every settlement repeats that hash and the official final it was graded against.",
+ "settled_feeds": [
+  {
+   "file": "data/live/results/settled_2026-11-14.json",
+   "game_date": "2026-11-14",
+   "stamp": "2026-11-15T11:52Z",
+   "games": 5
+  },
+  {
+   "file": "data/live/results/settled_2026-11-15.json",
+   "game_date": "2026-11-15",
+   "stamp": "2026-11-16T00:05Z",
+   "games": 1
+  }
+ ],
+ "settled_this_build": [],
+ "outstanding_picks": [
+  {
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "date": "2026-11-15",
+   "pick": "HOU moneyline",
+   "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+   "why_open": "the game day has ended but no verified final exists in data/live/results/ for this game; it is not graded from a scoreboard snapshot"
+  }
+ ]
 }

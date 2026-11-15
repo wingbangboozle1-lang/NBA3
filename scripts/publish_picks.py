@@ -29,11 +29,34 @@ import rest_travel                                              # noqa: E402
 MODEL = ROOT / "data" / "live" / "model.json"
 SLATE = ROOT / "data" / "live" / "slate_2026-11-15.json"
 SETTLED = ROOT / "data" / "live" / "results" / "settled_2026-11-14.json"
+#: Every settled feed on disk, newest last. A pick is graded only from a feed row that carries TWO
+#: agreeing official reads (`verified`), and the feed itself records the date it covers.
+SETTLED_FEEDS = sorted((ROOT / "data" / "live" / "results").glob("settled_*.json"))
 OUT_PICKS = ROOT / "data" / "live" / "picks_ledger_view.json"
 OUT_GATES = ROOT / "data" / "live" / "gates.json"
 
 # An explicitly declared "now" so the build is reproducible. CI passes the real clock.
 NOW = "2026-11-15T12:10Z"
+
+
+def settlement_stamp(final: dict, now: str) -> str:
+    """The stamp recorded on a SETTLE entry: when the final was CONFIRMED, never a guess.
+
+    Using the build's `now` was wrong: this build runs offline with a declared NOW of
+    2026-11-15T12:10Z, while the game it settles tipped at 18:00Z and ended after 20:30Z. A
+    settlement stamp earlier than its own game would be a false record. The feed row carries the
+    time the two official reads were taken (`settled_utc`), so that is the stamp; the guard below
+    refuses any stamp that is not later than the game's own end.
+    """
+    stamp = final.get("settled_utc") or (final.get("feed_settled_utc"))
+    if not stamp:
+        raise ValueError(f"final for {final.get('game_id')} carries no confirmation stamp; "
+                         f"refusing to invent a settlement time")
+    game_end = final["date"] + "T23:59Z"
+    if stamp < game_end:
+        raise ValueError(f"settlement stamp {stamp} precedes the end of its own game day "
+                         f"{final['date']}; refusing to record a settlement before the game ended")
+    return stamp
 
 
 def tip_iso(date: str, tip_et: str) -> str:
@@ -146,12 +169,36 @@ def main() -> None:
              "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed "
              "the validation gate yet, so no totals pick is sealed")
 
-    # ---- settlement: only VERIFIED official finals
-    settled = json.loads(SETTLED.read_text())
-    finals = {g["game_id"]: g for g in settled["games"]}
+    # ---- settlement: only VERIFIED official finals, as soon as each game day ends ----------
+    # The previous version read one hard-coded feed (11/14). A game day that ended after that feed
+    # was written could therefore never be settled, which is the "settle as soon as each game day
+    # ends" requirement failing silently. Every settled feed on disk is read now, and the newest
+    # game date with a verified final decides whether rows are still outstanding.
+    finals = {}
+    feeds = []
+    for fp in SETTLED_FEEDS:
+        try:
+            blob = json.loads(fp.read_text())
+        except json.JSONDecodeError:
+            continue
+        feeds.append({"file": str(fp.relative_to(ROOT)), "game_date": blob.get("game_date"),
+                      "stamp": blob.get("settled_utc"),
+                      "games": len(blob.get("games", []))})
+        for g in blob.get("games", []):
+            g = dict(g)
+            g.setdefault("feed", fp.name)
+            g.setdefault("feed_settled_utc", blob.get("settled_utc"))
+            # a feed must name BOTH official reads for the final it publishes; without them the row
+            # is not verified and must not settle anything.
+            if not g.get("gamebook_url") or not g.get("source_url"):
+                g["verified"] = False
+                g["missing_read_url"] = True
+            finals[g["game_id"]] = g
+
     already_settled = {e["game_id"] for e in ledger.read_ledger() if e["kind"] == "SETTLE"}
-    for gid, f in finals.items():
-        if not f["verified"]:
+    settled_now = []
+    for gid, f in sorted(finals.items()):
+        if not f.get("verified"):
             gate_rows.append({"strategy": "ALL", "game_id": gid, "game": f"{f['away']} @ {f['home']}",
                               "gate": "G5_settlement_final_verified", "passed": False,
                               "detail": "final not verified against both official reads; not settled"})
@@ -162,14 +209,42 @@ def main() -> None:
                               "detail": "already settled; append-only ledger is not rewritten"})
             continue
         try:
-            ledger.settle(gid, final=f, now=NOW, source_url=f["source_url"])
+            stamp = settlement_stamp(f, NOW)
+            entry = ledger.settle(gid, final=f, now=stamp, source_url=f["source_url"])
+            settled_now.append({"game_id": gid, "game": f"{f['away']} @ {f['home']}",
+                                "date": f["date"], "final": f"{f['away']} {f['away_final']} — "
+                                f"{f['home']} {f['home_final']}",
+                                "outcome": entry["result"]["outcome"],
+                                "settlement_stamp": stamp,
+                                "settlement_stamp_source": ("settled_utc of the verified feed row: the time the two "
+                                                            "official reads were taken, not this build's clock"),
+                                "source_url": f["source_url"],
+                                "gamebook_url": f.get("gamebook_url"),
+                                "entry_hash": entry["entry_hash"]})
             gate_rows.append({"strategy": "ALL", "game_id": gid, "game": f"{f['away']} @ {f['home']}",
                               "gate": "G5_settlement_final_verified", "passed": True,
-                              "detail": f"settled from {f['source_url']} ({f['gamebook_url']})"})
+                              "detail": f"settled from {f['source_url']} ({f.get('gamebook_url')})"})
         except ValueError as exc:
             gate_rows.append({"strategy": "ALL", "game_id": gid, "game": f"{f['away']} @ {f['home']}",
                               "gate": "G5_settlement_final_verified", "passed": True,
                               "detail": f"no published pick for this game ({exc})"})
+
+    # ---- outstanding: a published pick whose game day has ENDED but has no verified final yet ---
+    # This is published, not silent. It is the list the refresh job has to close.
+    newest_final_date = max((f["date"] for f in finals.values()), default="")
+    outstanding = []
+    for e in ledger.read_ledger():
+        if e["kind"] != "PUBLISH":
+            continue
+        p = e["pick"]
+        if p["game_id"] in already_settled or p["game_id"] in {s["game_id"] for s in settled_now}:
+            continue
+        if p["date"] <= newest_final_date:
+            outstanding.append({"game_id": p["game_id"], "game": p["matchup"], "date": p["date"],
+                                "pick": p["pick"], "strategy_id": p["strategy_id"],
+                                "why_open": ("the game day has ended but no verified final exists in "
+                                             "data/live/results/ for this game; it is not graded from "
+                                             "a scoreboard snapshot")})
 
     # the index is rewritten AFTER sealing, so it can never advertise a stale head hash
     ledger.write_index()
@@ -182,6 +257,9 @@ def main() -> None:
         "entries": entries,
         "note": ("Entries are append-only. Every pick carries the sha256 published before tip; every "
                  "settlement repeats that hash and the official final it was graded against."),
+        "settled_feeds": feeds,
+        "settled_this_build": settled_now,
+        "outstanding_picks": outstanding,
     }, indent=1) + "\n")
     OUT_GATES.write_text(json.dumps({
         "schema": "nba3.live.gates/v1",
@@ -201,6 +279,11 @@ def main() -> None:
     for e in entries:
         if e["kind"] == "SETTLE":
             print("  settled", e["game_id"], e["result"]["outcome"], e["pick"]["pick"])
+    if outstanding:
+        print(f"  {len(outstanding)} published pick(s) await a verified final "
+              f"(game day ended, no verified final on disk):")
+        for o in outstanding:
+            print(f"    {o['date']} {o['game']} — {o['pick']}")
 
 
 if __name__ == "__main__":

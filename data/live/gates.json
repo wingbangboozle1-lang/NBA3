@@ -9,8 +9,8 @@
   "G5_settlement_final_verified"
  ],
  "counts": {
-  "rows": 225,
-  "passed": 148,
+  "rows": 226,
+  "passed": 149,
   "failed": 77
  },
  "rows": [
@@ -1813,6 +1813,14 @@
    "gate": "G5_settlement_final_verified",
    "passed": true,
    "detail": "no published pick for this game (no published pick for 0022600235)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "already settled; append-only ledger is not rewritten"
   }
  ]
 }
