@@ -4005,3 +4005,41 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+## Session `arena/d14b89e7-nba3` (current) — CLAIM: integrity & provenance layer (tamper-evident ledger, pre-registration freeze, result feed, projection/bet split)
+
+**Session ID:** `d14b89e7`. Workspace branch `arena/d14b89e7-nba3`, branched from `main` @
+`d320feaa5b1b235e55d39d736551e8a7572d9cd4`. Claim written and pushed before any other work started
+(2026-11-15 UTC).
+
+**Task.** Implement the integrity & provenance requirements that are not yet built, as one
+self-contained, verifiable layer: a **tamper-evident settlement ledger** (hash each published pick,
+publish the hash before tip-off, verify it after settlement); a **per-strategy pre-registration
+freeze** (signal, thresholds, universe, and the exact settlement rule); the **official per-game
+result feed** (date, teams, final score, quarter scores); the **projection vs bet surface split**;
+and **per-game-day seal settlement** from official finals, with the injury-report revision and
+retrieval times shown in the banner.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| I1 | Tamper-evident ledger + settlement | in progress | `integrity/data/ledger.json`, `integrity/build.py`, `integrity/tests/*` |
+| I2 | Per-strategy pre-registration freeze | in progress | `integrity/data/prereg.json` |
+| I3 | Official per-game result feed (incl. quarter scores) | in progress | `integrity/data/results_feed.json`, `scripts/capture_official_2026_11_15a.py` |
+| I4 | Projection vs bet surface split | in progress | `integrity/data/surfaces.json` |
+| I5 | Per-game-day seal settlement + injuries banner times | in progress | `integrity/data/seals.json` |
+| I6 | Site pages, check suite, PR → merge → Pages verify | pending | `integrity/pages/**`, `COORDINATION.md`, `README.md`, root `index.html` (link edit only) |
+
+**Non-overlap.** New tree `integrity/**` plus one new capture script; appends to `COORDINATION.md` /
+`README.md`; a single nav link added to the root `index.html`. Does **not** edit
+`data/app/canonical.json`, `scripts/strategy_lab.py`, `scripts/build_app.py`,
+`scripts/assemble_canonical.py`, `scripts/report_availability.py`, or any other session's generated
+tree. Change requests for those owners are logged below, not executed.
+
+**Data sources already committed and reused (no re-fetch needed for the offline build).** Picks and
+originated lines: `data/picks/picks_2026-11-14_to_16.json`, `data/app/lab.json`. Official finals:
+`data/app/official_results_2026-11-13.json` (9 games) plus the official 2026-11-14 scoreboard, read
+2026-11-15 via `fetch_page` of `https://www.nba.com/games?date=2026-11-14` (5 games, all Final).
+Quarter scores are **not** retrievable from this sandbox (the `cdn.nba.com` JSON boxscore endpoint
+returns HTTP 500 to the fetch tool and is unreachable from `bash`); they are captured by
+`scripts/capture_official_2026_11_15a.py` on the GitHub runner and, until then, left **blank and
+flagged as unverified** on the result-feed page — never inferred.
