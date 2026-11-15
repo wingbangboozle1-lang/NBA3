@@ -386,6 +386,30 @@ jobs:
             exit 1
           }
 
+      - name: v2 pipeline tests (two estimators, gate set, copula, ledger)
+        run: python3 -m unittest discover -s pipeline/v2/tests -p 'test_*.py'
+
+      - name: v2 build (gates first; refuses to publish on a blocking gate failure) and drift check
+        run: |
+          # The build WRITES the artefact, so its timestamp is the runner's clock
+          # and the file can never be compared byte for byte on a different machine.
+          # What is compared instead is a fresh in-memory rebuild against the
+          # committed file, with only the fields the artefact itself declares as
+          # volatile (VOLATILE, written into build.json) removed. Every model
+          # output is still compared; only the clock is excluded.
+          python3 -m pipeline.v2.build
+          python3 -m pipeline.v2.build --check || {
+            echo "the committed data/v2/build.json does not reproduce from the same captures."
+            echo "A difference outside the declared volatile fields means a real input changed."
+            exit 1
+          }
+          python3 scripts/build_v2.py
+          test -z "$(git status --porcelain -- v2/)" || {
+            echo 'v2/ is stale; run python3 scripts/build_v2.py and commit'
+            git status --porcelain -- v2/
+            exit 1
+          }
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -410,6 +434,7 @@ jobs:
           cp -r verify _pages/verify
           cp -r d01ae7e2 _pages/d01ae7e2
           cp -r hub _pages/hub
+          cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet
       - uses: actions/upload-pages-artifact@v3

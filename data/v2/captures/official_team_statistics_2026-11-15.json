@@ -1,0 +1,69 @@
+{
+  "kind": "team_statistics",
+  "season": "2026-27",
+  "season_type": "Regular Season",
+  "captured_utc": "2026-11-15T11:38Z",
+  "captured_note": "Read with the Arena fetch tool on 2026-11-15 between 11:36Z and 11:40Z. Values move during a slate; this file is the input the v2 model is cut from and the build fails if it is missing.",
+  "pages": {
+    "traditional": {
+      "source_url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100",
+      "chunks_read": "0-4 of 5 (all 30 rows)",
+      "columns_captured": ["GP", "W", "L", "MIN", "PTS"],
+      "columns_not_captured": "The page also prints FGM/FGA/FG%/3PM/3PA/3P%/FTM/FTA/FT%/OREB/DREB/REB/AST/TOV/STL/BLK/BLKA/PF/PFD/+/-. Those cells were read on screen but are not transcribed here, so nothing downstream may treat them as available. Only the five columns above are used."
+    },
+    "opponent": {
+      "source_url": "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season&PerPage=100",
+      "chunks_read": "0-1 of 2 (all 30 rows)",
+      "columns_captured": ["GP", "W", "L", "MIN", "OPP_PTS", "PLUS_MINUS"],
+      "columns_not_captured": "Opp FGM/FGA/FG%/3PM/3PA/3P%/FTM/FTA/FT%/OREB/DREB/REB/AST/TOV/STL/BLK/BLKA/PF/PFD are printed by the page and deliberately not transcribed."
+    },
+    "advanced": {
+      "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season&PerPage=100",
+      "chunks_read": "0-1 of 2 (all 30 rows)",
+      "columns_captured": ["GP", "W", "L", "MIN", "OFF_RTG", "DEF_RTG", "NET_RTG", "PACE", "PIE", "POSS"],
+      "columns_not_captured": "AST%, AST/TO, AST Ratio, OREB%, DREB%, REB%, TOV%, eFG%, TS% are printed by the page and not transcribed.",
+      "known_gap": "The Dallas row (DAL) was split across the page's two chunk boundaries: the chunks returned its GP/W/L/MIN/OffRtg/DefRtg/NetRtg but the tail carrying PACE/PIE/POSS arrived without a team label, so attributing it to DAL would be an inference. DAL's PACE, PIE and POSS are therefore recorded as null and flagged (FV2-04). Every other team's row was returned whole."
+    }
+  },
+  "teams": [
+    {"team": "ATL", "gp": 13, "w": 7, "l": 6, "min_trad": 48.4, "pts": 118.2, "opp_pts": 116.8, "plus_minus": -1.3, "off_rtg": 113.3, "def_rtg": 111.9, "net_rtg": 1.4, "pace": 103.55, "pie": 48.5, "poss": 1356},
+    {"team": "BKN", "gp": 12, "w": 3, "l": 9, "min_trad": 48.4, "pts": 110.2, "opp_pts": 116.4, "plus_minus": 6.3, "off_rtg": 109.8, "def_rtg": 116.0, "net_rtg": -6.2, "pace": 99.47, "pie": 46.1, "poss": 1204},
+    {"team": "BOS", "gp": 12, "w": 10, "l": 2, "min_trad": 48.4, "pts": 114.3, "opp_pts": 103.1, "plus_minus": -11.2, "off_rtg": 117.4, "def_rtg": 105.6, "net_rtg": 11.7, "pace": 96.62, "pie": 55.9, "poss": 1168},
+    {"team": "CHA", "gp": 12, "w": 4, "l": 8, "min_trad": 48.0, "pts": 98.6, "opp_pts": 109.6, "plus_minus": 11.0, "off_rtg": 101.9, "def_rtg": 113.1, "net_rtg": -11.2, "pace": 96.83, "pie": 42.9, "poss": 1161},
+    {"team": "CHI", "gp": 12, "w": 3, "l": 9, "min_trad": 48.4, "pts": 114.6, "opp_pts": 125.9, "plus_minus": 11.3, "off_rtg": 109.4, "def_rtg": 120.3, "net_rtg": -10.9, "pace": 103.81, "pie": 44.9, "poss": 1257},
+    {"team": "CLE", "gp": 14, "w": 7, "l": 7, "min_trad": 48.4, "pts": 117.5, "opp_pts": 115.9, "plus_minus": -1.6, "off_rtg": 116.9, "def_rtg": 115.4, "net_rtg": 1.6, "pace": 99.72, "pie": 51.2, "poss": 1407},
+    {"team": "DAL", "gp": 13, "w": 7, "l": 6, "min_trad": 48.0, "pts": 113.5, "opp_pts": 113.3, "plus_minus": -0.2, "off_rtg": 112.8, "def_rtg": 112.8, "net_rtg": 0.0, "pace": null, "pie": null, "poss": null},
+    {"team": "DEN", "gp": 11, "w": 7, "l": 4, "min_trad": 48.5, "pts": 114.6, "opp_pts": 112.8, "plus_minus": -1.8, "off_rtg": 116.0, "def_rtg": 114.7, "net_rtg": 1.3, "pace": 97.67, "pie": 52.9, "poss": 1087},
+    {"team": "DET", "gp": 12, "w": 8, "l": 4, "min_trad": 48.8, "pts": 115.7, "opp_pts": 110.3, "plus_minus": -5.4, "off_rtg": 114.1, "def_rtg": 109.2, "net_rtg": 4.9, "pace": 99.48, "pie": 53.7, "poss": 1217},
+    {"team": "GSW", "gp": 13, "w": 8, "l": 5, "min_trad": 48.4, "pts": 116.7, "opp_pts": 112.4, "plus_minus": -4.3, "off_rtg": 116.1, "def_rtg": 112.0, "net_rtg": 4.1, "pace": 99.66, "pie": 51.8, "poss": 1307},
+    {"team": "HOU", "gp": 13, "w": 10, "l": 3, "min_trad": 48.0, "pts": 116.2, "opp_pts": 107.4, "plus_minus": -8.8, "off_rtg": 119.3, "def_rtg": 110.2, "net_rtg": 9.1, "pace": 97.42, "pie": 55.8, "poss": 1266},
+    {"team": "IND", "gp": 13, "w": 5, "l": 8, "min_trad": 48.0, "pts": 111.2, "opp_pts": 113.2, "plus_minus": 2.1, "off_rtg": 110.1, "def_rtg": 111.7, "net_rtg": -1.5, "pace": 101.15, "pie": 49.6, "poss": 1312},
+    {"team": "LAC", "gp": 11, "w": 3, "l": 8, "min_trad": 48.5, "pts": 112.3, "opp_pts": 117.5, "plus_minus": 5.3, "off_rtg": 110.7, "def_rtg": 115.8, "net_rtg": -5.1, "pace": 100.55, "pie": 47.4, "poss": 1116},
+    {"team": "LAL", "gp": 13, "w": 11, "l": 2, "min_trad": 48.0, "pts": 122.2, "opp_pts": 114.2, "plus_minus": -7.9, "off_rtg": 121.6, "def_rtg": 113.6, "net_rtg": 8.0, "pace": 100.50, "pie": 54.2, "poss": 1306},
+    {"team": "MEM", "gp": 13, "w": 9, "l": 4, "min_trad": 48.4, "pts": 120.6, "opp_pts": 111.7, "plus_minus": -8.9, "off_rtg": 119.0, "def_rtg": 110.4, "net_rtg": 8.5, "pace": 100.46, "pie": 53.9, "poss": 1318},
+    {"team": "MIA", "gp": 13, "w": 7, "l": 6, "min_trad": 48.4, "pts": 118.7, "opp_pts": 119.8, "plus_minus": 1.2, "off_rtg": 114.7, "def_rtg": 116.2, "net_rtg": -1.5, "pace": 102.49, "pie": 50.0, "poss": 1345},
+    {"team": "MIL", "gp": 13, "w": 1, "l": 12, "min_trad": 48.0, "pts": 106.2, "opp_pts": 120.2, "plus_minus": 14.1, "off_rtg": 105.7, "def_rtg": 120.0, "net_rtg": -14.2, "pace": 100.31, "pie": 42.0, "poss": 1305},
+    {"team": "MIN", "gp": 13, "w": 9, "l": 4, "min_trad": 48.4, "pts": 118.3, "opp_pts": 106.8, "plus_minus": -11.5, "off_rtg": 116.0, "def_rtg": 104.5, "net_rtg": 11.5, "pace": 101.27, "pie": 55.2, "poss": 1326},
+    {"team": "NOP", "gp": 14, "w": 4, "l": 10, "min_trad": 49.1, "pts": 115.9, "opp_pts": 124.9, "plus_minus": 9.1, "off_rtg": 111.3, "def_rtg": 120.0, "net_rtg": -8.6, "pace": 101.83, "pie": 45.7, "poss": 1457},
+    {"team": "NYK", "gp": 12, "w": 6, "l": 6, "min_trad": 48.0, "pts": 109.8, "opp_pts": 103.7, "plus_minus": -6.1, "off_rtg": 114.5, "def_rtg": 108.6, "net_rtg": 5.9, "pace": 95.63, "pie": 53.3, "poss": 1150},
+    {"team": "OKC", "gp": 13, "w": 8, "l": 5, "min_trad": 48.0, "pts": 111.2, "opp_pts": 107.4, "plus_minus": -3.8, "off_rtg": 112.7, "def_rtg": 109.0, "net_rtg": 3.7, "pace": 98.58, "pie": 53.3, "poss": 1282},
+    {"team": "ORL", "gp": 12, "w": 5, "l": 7, "min_trad": 48.4, "pts": 108.3, "opp_pts": 112.8, "plus_minus": 4.4, "off_rtg": 109.7, "def_rtg": 113.4, "net_rtg": -3.7, "pace": 98.23, "pie": 47.6, "poss": 1185},
+    {"team": "PHI", "gp": 13, "w": 10, "l": 3, "min_trad": 48.0, "pts": 111.2, "opp_pts": 109.4, "plus_minus": -1.8, "off_rtg": 111.0, "def_rtg": 109.5, "net_rtg": 1.5, "pace": 100.04, "pie": 50.9, "poss": 1302},
+    {"team": "PHX", "gp": 11, "w": 5, "l": 6, "min_trad": 48.0, "pts": 111.7, "opp_pts": 116.1, "plus_minus": 4.4, "off_rtg": 113.8, "def_rtg": 117.6, "net_rtg": -3.8, "pace": 98.45, "pie": 48.1, "poss": 1080},
+    {"team": "POR", "gp": 12, "w": 9, "l": 3, "min_trad": 48.0, "pts": 119.6, "opp_pts": 111.8, "plus_minus": -7.8, "off_rtg": 118.8, "def_rtg": 111.1, "net_rtg": 7.7, "pace": 100.67, "pie": 53.3, "poss": 1208},
+    {"team": "SAC", "gp": 12, "w": 1, "l": 11, "min_trad": 48.0, "pts": 108.2, "opp_pts": 120.9, "plus_minus": 12.8, "off_rtg": 107.3, "def_rtg": 119.5, "net_rtg": -12.2, "pace": 101.00, "pie": 42.8, "poss": 1210},
+    {"team": "SAS", "gp": 13, "w": 11, "l": 2, "min_trad": 48.4, "pts": 119.5, "opp_pts": 106.2, "plus_minus": -13.2, "off_rtg": 119.6, "def_rtg": 106.6, "net_rtg": 13.0, "pace": 98.94, "pie": 56.7, "poss": 1298},
+    {"team": "TOR", "gp": 12, "w": 5, "l": 7, "min_trad": 48.0, "pts": 114.3, "opp_pts": 112.8, "plus_minus": -1.4, "off_rtg": 114.5, "def_rtg": 112.8, "net_rtg": 1.7, "pace": 99.88, "pie": 49.3, "poss": 1197},
+    {"team": "UTA", "gp": 13, "w": 1, "l": 12, "min_trad": 48.8, "pts": 107.5, "opp_pts": 118.6, "plus_minus": 11.2, "off_rtg": 105.0, "def_rtg": 116.4, "net_rtg": -11.3, "pace": 100.50, "pie": 45.3, "poss": 1330},
+    {"team": "WAS", "gp": 13, "w": 4, "l": 9, "min_trad": 48.8, "pts": 110.0, "opp_pts": 115.8, "plus_minus": 5.8, "off_rtg": 108.7, "def_rtg": 114.3, "net_rtg": -5.5, "pace": 99.63, "pie": 47.1, "poss": 1315}
+  ],
+  "units": {
+    "pts": "points per game (the page's Per Game default)",
+    "opp_pts": "opponent points per game",
+    "off_rtg": "points scored per 100 possessions",
+    "def_rtg": "points allowed per 100 possessions",
+    "net_rtg": "off_rtg - def_rtg as printed",
+    "pace": "possessions per 48 minutes as printed",
+    "poss": "total possessions to date as printed"
+  }
+}

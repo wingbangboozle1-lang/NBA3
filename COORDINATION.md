@@ -4392,3 +4392,99 @@ claim to have identified the server response.
   Not touched; the owner should decide whether to merge, supersede, or close them.
 - **F-R5 — the scheduled job's last run failed**, and the job has no alert. The site is still the last good build (the
   rebuild is gated), but it is stale until a run succeeds.
+
+---
+
+### Session `arena/5a67ab8c-nba3` — v2 pipeline (two estimators, gate set, sealed ledger)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| v2 pipeline: two independent estimators, disagreement headline, gate set, pre-registration + sealed ledger, v2 site | in progress | `arena/5a67ab8c-nba3` | `pipeline/v2/`, `data/v2/`, `scripts/build_v2.py`, `v2/`, one appended block in `.github/workflows/pages.yml` (added at the end of the build chain; no existing step edited) |
+
+**Scope note.** This session only creates new files inside the scopes above and appends one
+self-contained step-pair to the CI workflow. It does **not** touch `data/app/`, `app/`,
+`index.html`, `scripts/build_app.py`, `scripts/strategy_lab.py` or any audit tree. `index.html`
+and the shared nav are left for an integration session, per the shared-outputs rule.
+
+**Claimed at** 2026-11-15 11:50Z (before writing code beyond scaffolding; the module scaffolding
+already existed on this branch from the previous turn, as recorded in the branch's own files).
+
+#### What was built
+
+* `pipeline/v2/estimators.py` — estimator A (ridge margin fit on finals, home-court subtracted
+  before the fit so it cannot be re-estimated inside it) and estimator B (possessions × points per
+  possession from the official team advanced/opponent pages, never reads a margin).
+  `home_court_from_measured_rate` pins HCA to the measured home-win rate on the logit scale:
+  **0.52459 home-win rate over 183 games → 1.6711 points**. Not fitted.
+* `pipeline/v2/backtest.py` — date-batched walk-forward. Rest days, B2B and 3-in-4.
+* `pipeline/v2/leaderboard.py` — 18 registrations, SHA-256 pre-registration, sealed ledger rows,
+  gate decider, measured correlations.
+* `pipeline/v2/pricing.py` — originated lines with 80% bands; parlay prices printed twice.
+* `pipeline/v2/build.py` — gates first; refuses to publish on a blocking failure.
+* `scripts/build_v2.py` + `v2/` — 10 pages split into a **projection** surface and a **bet**
+  surface that never mix.
+* `pipeline/v2/tests/` — 43 tests. `data/v2/build.json` and `v2/` are deterministic (asserted).
+
+#### Four real bugs found and fixed in this session
+
+1. **`stats.parlay_price` dropped the quadrature step.** The copula price came back as `169.7` for a
+   joint probability. Substituting `u = Φ(z)` absorbs the `φ(z)` weight, so the extra weight
+   inflated the result by ~`steps`. Fixed, and pinned by limits: `ρ→1` gives `min(p)`, `ρ→−1` gives
+   `max(0, p₁+p₂−1)`, `p=(0.5,0.5), ρ=0.5` gives exactly `1/3`.
+2. **Negative `ρ` priced identically to positive `ρ`.** Both legs loaded on the common factor with
+   the same sign. Fixed: for `ρ<0` the second leg alternates sign.
+3. **Rest days were read off a Python `set`.** `prior[-1]` is an arbitrary member, so computed rest
+   reached **20 days** for a team that had played four days earlier, and every rest-derived rule was
+   graded on that noise. Now `max(prior)`; rest distribution is 1:25, 2:80, 3:21, 4:5 across 131
+   forecasts, which is what an NBA calendar looks like.
+4. **The board luck threshold simulated the null against each rule's own observed rate** instead of
+   against a coin, and could report a threshold above 100 pp. Now simulated against 50%, matching how
+   the board measures each rule's edge, and reported as **27.78 pp** at the 95th percentile across
+   12 rules (median 16.67 pp).
+
+#### What the gates and the board actually say
+
+* All **13/13** source and freshness gates pass. The freshness gate caught the 6:15 AM report being
+  superseded by a **6:30 AM** revision mid-build; the build now reads the 0630 file **by name**.
+  The only difference between the two revisions is the league correcting "Embid" → "Embiid":
+  **zero status changes**, one spelling correction. `injury._similar` was comparing the surname
+  (`split(",")[0]`), which is the half that differs, so the correction was reported as one player
+  vanishing and another appearing. Fixed: given name must match, surname within 2 edits.
+* **Nothing may be a bet, and nothing is.** All 18 rules fail G11 (no licensed market price exists in
+  this repository). The previously strongest-looking rule, S09 at 26.84 pp over a coin, is
+  **contaminated**: it reads estimator B, which is fitted on a single 2026-11-15 snapshot and applied
+  to games from 2026-10-26, so its `q` is published as `null` with the reason rather than as `0.0`.
+* Estimator A's out-of-sample margin RMSE is **15.23** and is clean. Estimator B's **13.72** is not a
+  result (see FV2-06).
+* The possession-form total still does **not** beat a constant (`17.68` RMSE vs ~18.0 baseline).
+  Published as worse, not shrunk into looking fine.
+* Injury report: 101 rows, 84 player rows, 17 NOT SUBMITTED, **27 rows the league's own document
+  leaves undated** — refused and counted, not guessed. 44 more dates recovered by carrying the
+  printed date above and *verifying* it against the official schedule.
+
+#### Flags raised (published on `v2/flagged.html`)
+
+| ID | Severity | Flag |
+|---|---|---|
+| FV2-06 | high | estimator B's walk-forward grades are contaminated by a single dated snapshot |
+| FV2-08 | medium | the possession-form totals model still does not beat the naive baseline |
+| FV2-09 | info | the newest injury revision changed a spelling and no status |
+| FV2-10 | high | no licensed market price is connected; G11 fails for every rule by construction |
+
+#### Questions for the user before anything is funded
+
+1. **Which odds source may be licensed?** Every money number on the site is capped until one exists.
+   Historical closing lines are enough to re-run the board unchanged.
+2. **Is a per-date team-statistics history acceptable as a scheduled capture?** It is the only fix
+   for FV2-06 and it is 30 rows a day.
+3. **Per-player game logs** would unlock 3 prop rules, the prop combos and 4 of the 9 correlation
+   cells. Worth the capture budget, or drop props for now?
+4. **Gate thresholds are proposals** (`min_bets 100`, `α 0.05`, `FDR q 0.10`, `min edge 1.5 pp`,
+   stability 30 pp). They need sign-off; none has been approved.
+
+#### Requests to other sessions (log, do not edit)
+
+* **CR-5A67-01 (integration session):** once `v2/` is deployed, add a landing-page entry. This
+  session deliberately did not edit `index.html` or `scripts/build_app.py`, because
+  `scripts/build_app.py` regenerates the root index and would overwrite the edit — which is what
+  happened on the first attempt and was reverted.
