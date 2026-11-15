@@ -4005,3 +4005,48 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+---
+
+## Session `arena/94e6d41b-nba3` — CLAIM: 2026-11-15 game-day refresh (newest official injury reports, 11/14 finals settlement, rolling slate 11/15→11/18), audit tree, integration
+
+**Session ID:** `arena/94e6d41b-nba3`. Workspace branch `arena/94e6d41b-nba3`, branched from `main` @
+`d320feaa5b1b235e55d39d736551e8a7572d9cd4` (merge of PR #83). Claim written and pushed before any other
+work started (2026-11-15 ~11:35 UTC). Arrival CI status on `main`: last push run green per PR #83 record.
+
+**Why this round exists.** The canonical dashboard publishes the official availability snapshot of
+2026-11-14 (early-morning report in the manifest; 1:30 PM ET in the audit delta). It is now
+2026-11-15: the 11/14 games are final and unsettled in the results log, and the official injury-report
+index lists **November 15 reports through 6:15 a.m. ET** at claim time. This session captures the
+newest official 11/15 reports, the 11/14 finals, and the rolling 11/15→11/18 slate; diffs them against
+every published snapshot; recomputes injury→rotation impact and game flow for the 11/15 games; proves
+(or disproves) line invariance with the seeded engine; and publishes the whole round as a new audit
+tree, like the 1823b910 round before it.
+
+| # | Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|---|
+| B1 | Claim on the board (this section) + push the claim commit | in progress | 94e6d41b | `COORDINATION.md` |
+| B2 | Official captures via the Arena fetch tool: injury-report index (11/15), newest 11/15 report PDFs (verbatim raw + parsed), next-slot negative probes, 11/14 finals, slate 11/15→11/18, team-ratings re-read attempt | in progress | 94e6d41b | `data/app/official_*2026-11-15*.{json,md}` (new), `scripts/capture_official_2026_11_15.py` (new) |
+| B3 | Delta vs published snapshots (canonical 04:15 AM row set and the 11/14 1:30 PM audit rows), settlement arithmetic for the five 11/14 finals vs the published picks | in progress | 94e6d41b | `audit_94e6d41b/data/*` (new tree, this session only) |
+| B4 | Injury→rotation impact + game flow for 11/15 team-games; line-invariance re-run of the seeded lab against the new report (temp OUT, `data/app/lab.json` never written) | in progress | 94e6d41b | `audit_94e6d41b/` |
+| B5 | Line-by-line repo review pass; flags/questions/suggestions with own IDs | in progress | 94e6d41b | `audit_94e6d41b/pages/{review,flags,questions,suggestions}.html` |
+| B6 | Audit-tree build script + tests; CI wiring (offline replay step, drift gate, staging line); one nav tile in `scripts/build_app.py` with regenerated `app/`+`index.html` | pending | 94e6d41b | `audit_94e6d41b/{build,analysis}.py`, `audit_94e6d41b/test_audit.py`, `.github/workflows/pages.yml`, `scripts/build_app.py`, `app/*.html`, `index.html` |
+| B7 | Integration: local CI replay, `git pull --rebase`, push, PR → merge without waiting, confirm Pages deploy by reading the live site, record here; stale-PR takeover notes for #70 and #79 | pending | 94e6d41b | `COORDINATION.md`, `README.md` |
+
+**Non-overlap / takeover notes.** Every earlier session's section above is preserved verbatim. This
+session creates only `audit_94e6d41b/**`, `scripts/capture_official_2026_11_15.py`,
+`data/app/official_*2026-11-15*` files, and appends to `COORDINATION.md` / `README.md`. It does **not**
+edit `data/app/canonical.json`, `data/app/lab.json`, `scripts/strategy_lab.py`,
+`scripts/assemble_canonical.py`, `snapshot_manifest.json`, or `report_availability.json` — those stay
+with their owning sessions' designs; change requests are logged, not executed. The generated
+`app/*.html` / `index.html` are regenerated only for the one nav tile, as 7f3b89af and 1823b910 did
+before, with the diff re-verified to be that entry only.
+
+**Stale open PRs at claim time (board 60-minute rule).** PR [#70](https://github.com/wingbangboozle1-lang/NBA3/pull/70)
+(`f2d4a99f`, `COORDINATION.md`-only record, open since 2026-11-14 10:47 UTC, CONFLICTING, no commits for
+>16 h) and PR [#79](https://github.com/wingbangboozle1-lang/NBA3/pull/79) (`90183333`, game-day refresh of
+the 11/14 1:30 PM report, open since 2026-11-14 18:57 UTC, CONFLICTING, no commits for >16 h). Both are
+past the takeover window. #79's substance (the 1:30 PM snapshot repoint and availability delta) is
+superseded by this session's 11/15 refresh; its NF-90 name-join fix is independently checked against the
+engine as it exists on `main` in B4 before any reuse is claimed. Disposition will be logged in the
+completion record below — nothing is closed until that check is written down.
