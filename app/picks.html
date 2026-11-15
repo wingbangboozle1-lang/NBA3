@@ -17,12 +17,12 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html" class="active">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html" class="active">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
   <div class="page-head">
-    <div class="crumb">Model output</div>
+    <div class="crumb">Projection surface (public)</div>
     <h1>Prices for the window</h1>
     
   </div>
@@ -42,7 +42,7 @@ to three days ahead; this is today plus the maximum three-day horizon, generated
 originated lines. Games on 2026-11-13 were live on the official schedule page when it was read and
 are excluded — see <a href="flagged.html">NF-54</a>.</p>
 
-<p class="note">“Model side” names the team our line favours, printed the way a book would print it. “Availability” is the four-state verdict from the official filing rule — see the <a href="freshness.html">Report-availability page</a>. Only REPORTED means the absence counts in the lines table are real; everywhere else they are blank, not zero. “Re-price after” is the official filing deadline of whichever side has not filed, printed on that arena’s local clock: no time-zone conversion is asserted anywhere in this repository, so the deadline is not directly comparable with the ET tip time in the second column (CQ-43).</p>
+<p class="note">“Rotation availability” is the explicit minutes-redistribution output: the top-8 minutes share remaining after every player designated OUT on the official injury report is removed and their share redistributed proportionally (replacement shares per player on the <a href="injuries.html">injuries page</a>; sources: official game books and the official per-player minutes snapshot). “Model side” names the team our line favours, printed the way a book would print it. “Availability” is the four-state verdict from the official filing rule — see the <a href="freshness.html">Report-availability page</a>. Only REPORTED means the absence counts in the lines table are real; everywhere else they are blank, not zero. “Re-price after” is the official filing deadline of whichever side has not filed, printed on that arena’s local clock: no time-zone conversion is asserted anywhere in this repository, so the deadline is not directly comparable with the ET tip time in the second column (CQ-43).</p>
 <div class="table-wrap"><table>
 <caption id="picks"></caption>
 <thead><tr>
@@ -55,6 +55,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <th>P(home win)</th>
 <th>Model side</th>
 <th>Model total</th>
+<th>Rotation availability</th>
 <th>Availability</th>
 <th>Re-price after (local clock)</th>
 <th>Source</th>
@@ -69,6 +70,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>60.8%</td>
 <td>PHI -4.4</td>
 <td>Under 222.5</td>
+<td>IND: top-8 share after redistribution 1.00<br>out: Furphy, Johnny, Haliburton, Tyrese, Sheppard, Ben<br>PHI: top-8 share after redistribution 1.00<br>out: Barlow, Dominick, Bona, Adem, Embid, Joel, Hukporti, Ariel</td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>IND · 2026-11-14 17:00 local, the day before the game<br>PHI · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-phi-0022600236</a></td>
@@ -83,6 +85,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>39.7%</td>
 <td>LAL +4.2</td>
 <td>Over 231.6</td>
+<td>LAL: top-8 share after redistribution 1.00<br>out: Carr, Cameron, Reaves, Austin<br>PHX: top-8 share after redistribution 1.00<br>out: Williams, Mark</td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>LAL · 2026-11-14 17:00 local, the day before the game<br>PHX · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lal-vs-phx-0022600237</a></td>
@@ -97,6 +100,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>64.6%</td>
 <td>LAC -6.0</td>
 <td>Under 220.1</td>
+<td>CHA: <span class="unverified">— (no minutes source, blank+flagged)</span><br>LAC: <span class="unverified">— (no minutes source, blank+flagged)</span></td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>CHA · 2026-11-14 17:00 local, the day before the game<br>LAC · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lac-0022600238</a></td>
@@ -111,6 +115,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>25.8%</td>
 <td>SAS +10.4</td>
 <td>Under 225.5</td>
+<td>SAS: top-8 share after redistribution 1.00<br>out: Brown, Maliq, Gillespie, Ja&#x27;Kobi, Harris, Tobias, Quaintance, Jayden<br>UTA: <span class="unverified">— (no minutes source, blank+flagged)</span></td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>SAS · 2026-11-14 17:00 local, the day before the game<br>UTA · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sas-vs-uta-0022600239</a></td>
@@ -125,6 +130,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>65.4%</td>
 <td>BOS -6.3</td>
 <td>Under 221.8</td>
+<td>DAL: top-8 share after redistribution 0.88<br>out: none out<br>BOS: top-8 share after redistribution 1.00<br>out: none out</td>
 <td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
 <td>DAL · 2026-11-15 13:00 local, game day (second game of a back-to-back)<br>BOS · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-bos-0022600240</a></td>
@@ -139,6 +145,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>50.7%</td>
 <td>TOR -0.3</td>
 <td>Under 220.4</td>
+<td>NYK: top-8 share after redistribution 1.00<br>out: none out<br>TOR: top-8 share after redistribution 1.00<br>out: Bittle, Nate, Leonard, Kawhi, McCullar Jr., Kevin, Smith, Malachi</td>
 <td><span class="chip chip-warn">PARTIAL_REPORT_NOT_DUE_YET</span></td>
 <td>NYK · 2026-11-14 17:00 local, the day before the game<br>TOR · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600241</a></td>
@@ -153,6 +160,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>32.6%</td>
 <td>HOU +7.2</td>
 <td>Under 224.4</td>
+<td>HOU: top-8 share after redistribution 1.00<br>out: Capela, Clint, Copeland, Quadir, Phillips, Julian, Smart, Marcus, VanVleet, Fred<br>WAS: top-8 share after redistribution 1.00<br>out: Beekman, Reece, Champagne, Justin, Vukcevic, Tristan, Watkins, Jamir</td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>HOU · 2026-11-14 17:00 local, the day before the game<br>WAS · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-was-0022600242</a></td>
@@ -167,6 +175,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>36.6%</td>
 <td>ATL +5.5</td>
 <td>Over 230.5</td>
+<td>ATL: <span class="unverified">— (no minutes source, blank+flagged)</span><br>MIL: top-8 share after redistribution 1.00<br>out: Dieng, Ousmane, Jones, Kam, Markovic, Bogoljub, Nance, Pete, Ryan, Cormac</td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>ATL · 2026-11-14 17:00 local, the day before the game<br>MIL · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
@@ -181,6 +190,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>32.5%</td>
 <td>OKC +7.3</td>
 <td>Under 224.0</td>
+<td>OKC: top-8 share after redistribution 1.00<br>out: Holmgren, Chet, Sorber, Thomas, Wallace, Cason, Williams, Jalen, Williams, Jaylin<br>SAC: top-8 share after redistribution 1.00<br>out: Mogbo, Jonathan, Pedulla, Sean, Raynaud, Maxime, Simmons, Ben</td>
 <td><span class="chip chip-ok">REPORTED</span></td>
 <td>OKC · 2026-11-14 17:00 local, the day before the game<br>SAC · 2026-11-14 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/okc-vs-sac-0022600244</a></td>
@@ -195,6 +205,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>72.4%</td>
 <td>BOS -9.5</td>
 <td>Under 219.3</td>
+<td>ORL: top-8 share after redistribution 1.00<br>out: none out<br>BOS: top-8 share after redistribution 1.00<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>ORL · 2026-11-15 17:00 local, the day before the game<br>BOS · 2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bos-0022600245</a></td>
@@ -209,6 +220,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>68.9%</td>
 <td>CLE -7.9</td>
 <td>Over 237.1</td>
+<td>CHI: top-8 share after redistribution 0.90<br>out: none out<br>CLE: top-8 share after redistribution 1.00<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>CHI · 2026-11-15 17:00 local, the day before the game<br>CLE · 2026-11-15 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-cle-0022600246</a></td>
@@ -223,6 +235,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>35.9%</td>
 <td>MEM +5.8</td>
 <td>Over 228.6</td>
+<td>MEM: top-8 share after redistribution 0.91<br>out: none out<br>WAS: top-8 share after redistribution 1.00<br>out: Beekman, Reece, Champagne, Justin, Vukcevic, Tristan, Watkins, Jamir</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>MEM · 2026-11-15 17:00 local, the day before the game<br>WAS · 2026-11-16 13:00 local, game day (second game of a back-to-back)</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a></td>
@@ -237,6 +250,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>45.0%</td>
 <td>PHI +2.0</td>
 <td>Under 223.7</td>
+<td>PHI: top-8 share after redistribution 1.00<br>out: Barlow, Dominick, Bona, Adem, Embid, Joel, Hukporti, Ariel<br>BKN: top-8 share after redistribution 0.86<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>PHI · 2026-11-16 13:00 local, game day (second game of a back-to-back)<br>BKN · 2026-11-15 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-bkn-0022600248</a></td>
@@ -251,6 +265,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>40.1%</td>
 <td>HOU +4.0</td>
 <td>Over 231.0</td>
+<td>HOU: top-8 share after redistribution 1.00<br>out: Capela, Clint, Copeland, Quadir, Phillips, Julian, Smart, Marcus, VanVleet, Fred<br>MIA: top-8 share after redistribution 0.88<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>HOU · 2026-11-16 13:00 local, game day (second game of a back-to-back)<br>MIA · 2026-11-15 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-mia-0022600249</a></td>
@@ -265,6 +280,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>57.8%</td>
 <td>MIN -3.2</td>
 <td>Over 227.7</td>
+<td>POR: top-8 share after redistribution 1.00<br>out: none out<br>MIN: top-8 share after redistribution 0.93<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>POR · 2026-11-15 17:00 local, the day before the game<br>MIN · 2026-11-15 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600250</a></td>
@@ -279,6 +295,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>33.2%</td>
 <td>GSW +7.0</td>
 <td>Over 235.0</td>
+<td>GSW: top-8 share after redistribution 1.00<br>out: none out<br>NOP: top-8 share after redistribution 0.94<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>GSW · 2026-11-15 17:00 local, the day before the game<br>NOP · 2026-11-15 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td>
@@ -293,6 +310,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>61.9%</td>
 <td>DEN -4.9</td>
 <td>Over 227.8</td>
+<td>PHX: top-8 share after redistribution 1.00<br>out: Williams, Mark<br>DEN: top-8 share after redistribution 0.91<br>out: none out</td>
 <td><span class="chip chip-warn">AVAILABILITY_NOT_DUE_YET</span></td>
 <td>PHX · 2026-11-16 13:00 local, game day (second game of a back-to-back)<br>DEN · 2026-11-15 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a></td>
@@ -307,6 +325,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>50.7%</td>
 <td>TOR -0.3</td>
 <td>Under 220.4</td>
+<td>NYK: top-8 share after redistribution 1.00<br>out: none out<br>TOR: top-8 share after redistribution 1.00<br>out: Bittle, Nate, Leonard, Kawhi, McCullar Jr., Kevin, Smith, Malachi</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>NYK · 2026-11-16 17:00 local, the day before the game<br>TOR · 2026-11-16 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600253</a></td>
@@ -321,6 +340,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>57.8%</td>
 <td>MIN -3.2</td>
 <td>Over 227.7</td>
+<td>POR: top-8 share after redistribution 1.00<br>out: none out<br>MIN: top-8 share after redistribution 0.93<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>POR · 2026-11-17 13:00 local, game day (second game of a back-to-back)<br>MIN · 2026-11-17 13:00 local, game day (second game of a back-to-back)</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600254</a></td>
@@ -335,6 +355,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>65.7%</td>
 <td>SAS -6.5</td>
 <td>Under 225.5</td>
+<td>DET: top-8 share after redistribution 0.90<br>out: none out<br>SAS: top-8 share after redistribution 1.00<br>out: Brown, Maliq, Gillespie, Ja&#x27;Kobi, Harris, Tobias, Quaintance, Jayden</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>DET · 2026-11-16 17:00 local, the day before the game<br>SAS · 2026-11-16 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-sas-0022600255</a></td>
@@ -349,6 +370,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>61.6%</td>
 <td>LAC -4.7</td>
 <td>Over 228.5</td>
+<td>UTA: <span class="unverified">— (no minutes source, blank+flagged)</span><br>LAC: <span class="unverified">— (no minutes source, blank+flagged)</span></td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>UTA · 2026-11-16 17:00 local, the day before the game<br>LAC · 2026-11-16 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lac-0022600257</a></td>
@@ -363,6 +385,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>78.6%</td>
 <td>LAL -12.7</td>
 <td>Under 223.4</td>
+<td>CHA: <span class="unverified">— (no minutes source, blank+flagged)</span><br>LAL: top-8 share after redistribution 1.00<br>out: Carr, Cameron, Reaves, Austin</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>CHA · 2026-11-16 17:00 local, the day before the game<br>LAL · 2026-11-16 17:00 local, the day before the game</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lal-0022600256</a></td>
@@ -377,6 +400,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>47.4%</td>
 <td>MEM +1.1</td>
 <td>Over 232.4</td>
+<td>MEM: top-8 share after redistribution 0.91<br>out: none out<br>CLE: top-8 share after redistribution 1.00<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/mem-vs-cle-0022600258" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-cle-0022600258</a></td>
@@ -391,6 +415,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>37.1%</td>
 <td>HOU +5.3</td>
 <td>Under 223.7</td>
+<td>HOU: top-8 share after redistribution 1.00<br>out: Capela, Clint, Copeland, Quadir, Phillips, Julian, Smart, Marcus, VanVleet, Fred<br>IND: top-8 share after redistribution 1.00<br>out: Furphy, Johnny, Haliburton, Tyrese, Sheppard, Ben</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/hou-vs-ind-0022600259" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-ind-0022600259</a></td>
@@ -405,6 +430,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>70.4%</td>
 <td>MIA -8.6</td>
 <td>Over 233.3</td>
+<td>MIL: top-8 share after redistribution 1.00<br>out: Dieng, Ousmane, Jones, Kam, Markovic, Bogoljub, Nance, Pete, Ryan, Cormac<br>MIA: top-8 share after redistribution 0.88<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/mil-vs-mia-0022600260" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mil-vs-mia-0022600260</a></td>
@@ -419,6 +445,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>47.2%</td>
 <td>PHI +1.1</td>
 <td>Under 220.9</td>
+<td>PHI: top-8 share after redistribution 1.00<br>out: Barlow, Dominick, Bona, Adem, Embid, Joel, Hukporti, Ariel<br>ORL: top-8 share after redistribution 1.00<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phi-vs-orl-0022600261" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-orl-0022600261</a></td>
@@ -433,6 +460,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>59.1%</td>
 <td>BKN -3.7</td>
 <td>Over 233.7</td>
+<td>CHI: top-8 share after redistribution 0.90<br>out: none out<br>BKN: top-8 share after redistribution 0.86<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/chi-vs-bkn-0022600262" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-bkn-0022600262</a></td>
@@ -447,6 +475,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>66.0%</td>
 <td>TOR -6.6</td>
 <td>Under 226.7</td>
+<td>WAS: top-8 share after redistribution 1.00<br>out: Beekman, Reece, Champagne, Justin, Vukcevic, Tristan, Watkins, Jamir<br>TOR: top-8 share after redistribution 1.00<br>out: Bittle, Nate, Leonard, Kawhi, McCullar Jr., Kevin, Smith, Malachi</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/was-vs-tor-0022600263" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/was-vs-tor-0022600263</a></td>
@@ -461,6 +490,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>34.4%</td>
 <td>DET +6.4</td>
 <td>Over 233.5</td>
+<td>DET: top-8 share after redistribution 0.90<br>out: none out<br>NOP: top-8 share after redistribution 0.94<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/det-vs-nop-0022600264" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-nop-0022600264</a></td>
@@ -475,6 +505,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>62.3%</td>
 <td>OKC -5.0</td>
 <td>Under 226.3</td>
+<td>ATL: <span class="unverified">— (no minutes source, blank+flagged)</span><br>OKC: top-8 share after redistribution 1.00<br>out: Holmgren, Chet, Sorber, Thomas, Wallace, Cason, Williams, Jalen, Williams, Jaylin</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/atl-vs-okc-0022600265" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-okc-0022600265</a></td>
@@ -489,6 +520,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>48.7%</td>
 <td>GSW +0.5</td>
 <td>Over 227.7</td>
+<td>GSW: top-8 share after redistribution 1.00<br>out: none out<br>DAL: top-8 share after redistribution 0.88<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/gsw-vs-dal-0022600267" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-dal-0022600267</a></td>
@@ -503,6 +535,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>45.1%</td>
 <td>BOS +2.0</td>
 <td>Under 222.2</td>
+<td>BOS: top-8 share after redistribution 1.00<br>out: none out<br>DEN: top-8 share after redistribution 0.91<br>out: none out</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/bos-vs-den-0022600266" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bos-vs-den-0022600266</a></td>
@@ -517,6 +550,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>76.2%</td>
 <td>LAL -11.4</td>
 <td>Over 231.8</td>
+<td>UTA: <span class="unverified">— (no minutes source, blank+flagged)</span><br>LAL: top-8 share after redistribution 1.00<br>out: Carr, Cameron, Reaves, Austin</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/uta-vs-lal-0022600268" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lal-0022600268</a></td>
@@ -531,6 +565,7 @@ are excluded — see <a href="flagged.html">NF-54</a>.</p>
 <td>44.2%</td>
 <td>PHX +2.3</td>
 <td>Over 228.8</td>
+<td>PHX: top-8 share after redistribution 1.00<br>out: Williams, Mark<br>SAC: top-8 share after redistribution 1.00<br>out: Mogbo, Jonathan, Pedulla, Sean, Raynaud, Maxime, Simmons, Ben</td>
 <td><span class="chip chip-bad">NO_INJURY_REPORT_FOR_DATE</span></td>
 <td>—</td>
 <td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule + game</a> · <a href="https://www.nba.com/game/phx-vs-sac-0022600269" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-sac-0022600269</a></td>

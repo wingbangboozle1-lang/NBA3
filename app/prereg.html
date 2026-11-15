@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-registration — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html" class="active">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Bet surface (gated)</div>
+    <h1>Pre-registration</h1>
+    
+  </div>
+
+<p>Every strategy is pre-registered <strong>before its first bet</strong>: signal, thresholds,
+universe and an exact settlement rule, frozen with a sha256 in
+<a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/app/prereg">data/app/prereg/</a>. Frozen files are never
+overwritten — <code>python3 scripts/preregister.py freeze</code> refuses to touch an existing file,
+and <code>verify</code> recomputes every hash. 15 strategies are frozen. No money bet has
+been placed (no rule is funded), so every file here predates the first bet by construction.</p>
+
+<div class="table-wrap"><table>
+<caption id="prereg"></caption>
+<thead><tr>
+<th>ID</th>
+<th>Strategy</th>
+<th>Family</th>
+<th>Signal (rule)</th>
+<th>Thresholds</th>
+<th>Frozen (UTC)</th>
+<th>sha256 (prefix)</th>
+<th>Settlement rule (excerpt)</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>ST-01</td>
+<td>Back big home favourites</td>
+<td>Single bet - spread</td>
+<td>When our originated spread favours the home team by 8 or more, back the home team.</td>
+<td>edge -10.0 pp · hit 0.4 · n 30</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>09480dadbd48e698…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-02</td>
+<td>Fade big home favourites</td>
+<td>Single bet - spread</td>
+<td>Mirror of ST-01: the same games, the other side.</td>
+<td>edge 10.0 pp · hit 0.6 · n 30</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>6144bb05799ed76c…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-03</td>
+<td>Back big road favourites</td>
+<td>Single bet - spread</td>
+<td>When our originated spread favours the away team by 8 or more, back the away team.</td>
+<td>edge 0.0 pp · hit 0.5 · n 18</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>0464efd0869b61ba…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-04</td>
+<td>Fade big road favourites</td>
+<td>Single bet - spread</td>
+<td>Mirror of ST-03: the same games, the other side.</td>
+<td>edge 0.0 pp · hit 0.5 · n 18</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>e198f656cd21b7b2…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-05</td>
+<td>Unders in the highest-projected totals</td>
+<td>Single bet - total</td>
+<td>When our originated total is in the top tercile of the totals we had already projected, take the under.</td>
+<td>edge 10.714286 pp · hit 0.607143 · n 28</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>1bd95246f9733be2…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-06</td>
+<td>Overs in the highest-projected totals</td>
+<td>Single bet - total</td>
+<td>Mirror of ST-05: the same games, the other side.</td>
+<td>edge -10.714286 pp · hit 0.392857 · n 28</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>1e65aad29382cfee…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-07</td>
+<td>Overs in the lowest-projected totals</td>
+<td>Single bet - total</td>
+<td>When our originated total is in the bottom tercile of the totals we had already projected, take the over.</td>
+<td>edge -5.0 pp · hit 0.45 · n 80</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>631853ba31506a54…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-08</td>
+<td>Unders in the lowest-projected totals</td>
+<td>Single bet - total</td>
+<td>Mirror of ST-07: the same games, the other side.</td>
+<td>edge 5.0 pp · hit 0.55 · n 80</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>41cd033ffc7648b7…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-09</td>
+<td>Back the better-rested team</td>
+<td>Single bet - rest</td>
+<td>When one team has at least two more rest days than the other, back it against our spread.</td>
+<td>edge 2.631579 pp · hit 0.526316 · n 19</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>bea57f5d6b9a15a5…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-10</td>
+<td>Fade the better-rested team</td>
+<td>Single bet - rest</td>
+<td>Mirror of ST-09: the same games, the other side.</td>
+<td>edge -2.631579 pp · hit 0.473684 · n 19</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>bd3e3dc4f200fb41…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-11</td>
+<td>Back home against a road back-to-back</td>
+<td>Single bet - rest</td>
+<td>When the away team is on the second night of a back-to-back, back the home team against our spread.</td>
+<td>edge 4.545455 pp · hit 0.545455 · n 22</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>7b4ab2b7104c942f…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-12</td>
+<td>Fade the home team on no rest</td>
+<td>Single bet - rest</td>
+<td>When the home team is on the second night of a back-to-back, back the away team. Not a mirror of ST-11: a different set of games.</td>
+<td>edge 3.846154 pp · hit 0.538462 · n 26</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>ed1c8a7bbf16e5d2…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-15</td>
+<td>Side covers AND over</td>
+<td>Parlay - same game</td>
+<td>Same-game two-legger: our side covers and the game goes over our total. A fair price for this is 25%, not 50%.</td>
+<td>edge -2.857143 pp · hit 0.221429 · n 140</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>aee00ea863b2ed48…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-16</td>
+<td>Two cross-game model sides</td>
+<td>Parlay - cross game</td>
+<td>Cross-game two-legger: the model side in each of the first two games of a date. A fair price for this is 25%, not 50%.</td>
+<td>edge 2.777778 pp · hit 0.277778 · n 18</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>975204e593e7bc3f…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+<tr>
+<td>ST-NUL</td>
+<td>Back the home team in every game</td>
+<td>Control</td>
+<td>Null baseline. It must fail every gate; if it does not, the gates are broken.</td>
+<td>edge -1.428571 pp · hit 0.485714 · n 140</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>8b51988f9ab4bd83…</code></td>
+<td>Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed …</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official universe</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

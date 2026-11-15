@@ -1,0 +1,1524 @@
+{
+ "generated_utc": "2026-11-15T11:33Z",
+ "policy": "top-8 minutes shares + explicit proportional replacement shares when a player is out; Doubtful/Questionable/Probable rows are risk notes only and never trigger redistribution",
+ "injury_report": {
+  "stamp": "2026-11-15 06:15 AM ET",
+  "retrieved": "2026-11-15T11:33Z",
+  "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+ },
+ "sources": [
+  "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season",
+  "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+ ],
+ "teams": {
+  "ATL": {
+   "team": "ATL",
+   "share_source": "none \u2014 blank and flagged (no captured minutes source)",
+   "top8_share_available": false,
+   "out_players": [
+    {
+     "player": "Flemings, Kingston",
+     "reason": "Injury/Illness - Lumbar Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Gilbert, Keshon",
+     "reason": "Injury/Illness - Left Knee Inflammation; Non-Surgical Procedure",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Gueye, Mouhamed",
+     "reason": "Injury/Illness - Left Foot Fracture",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Newell, Asa",
+     "reason": "Injury/Illness - Left Great Toe Hyperextension",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Veesaar, Henri",
+     "reason": "Injury/Illness - Right ACL Tear",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "Wilson, Jalen",
+     "status": "Doubtful",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [],
+   "top8_share_after": null,
+   "flag": [
+    "no minutes source for this team \u2014 rotation availability left blank"
+   ]
+  },
+  "BKN": {
+   "team": "BKN",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Noah Clowney",
+     "share_with_player_out": 0.1459,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1459,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Julius Randle",
+     "share_with_player_out": 0.1308,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1308,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Day'Ron Sharpe",
+     "share_with_player_out": 0.1158,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1158,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Danny Wolf",
+     "share_with_player_out": 0.1154,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1154,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Egor Demin",
+     "share_with_player_out": 0.1144,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1144,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Mikel Brown Jr.",
+     "share_with_player_out": 0.0831,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0831,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Nolan Traore",
+     "share_with_player_out": 0.0825,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0825,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Moritz Wagner",
+     "share_with_player_out": 0.0769,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0769,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    }
+   ],
+   "top8_share_after": 0.8648,
+   "flag": []
+  },
+  "BOS": {
+   "team": "BOS",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [
+    {
+     "player": "Carter, Devin",
+     "status": "Questionable",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Cenac Jr., Christopher",
+     "status": "Questionable",
+     "reason": "G League - On Assignment",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Mitchell, Dillon",
+     "status": "Questionable",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Williams, Amari",
+     "status": "Questionable",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Jayson Tatum",
+     "share_with_player_out": 0.5304,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.5304,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "player": "Paul George",
+     "share_with_player_out": 0.4696,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.4696,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "CHA": {
+   "team": "CHA",
+   "share_source": "none \u2014 blank and flagged (no captured minutes source)",
+   "top8_share_available": false,
+   "out_players": [
+    {
+     "player": "Ajayi, Michael",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Boswell, Kylan",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Knueppel, Kon",
+     "reason": "Injury/Illness - Left Hamstring Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Schroder, Dennis",
+     "reason": "Injury/Illness - Left Hamstring Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Steinbach, Hannes",
+     "reason": "G League - On Assignment",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [],
+   "top8_share_after": null,
+   "flag": [
+    "no minutes source for this team \u2014 rotation availability left blank"
+   ]
+  },
+  "CHI": {
+   "team": "CHI",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Isaac Okoro",
+     "share_with_player_out": 0.1293,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1293,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Norman Powell",
+     "share_with_player_out": 0.1254,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1254,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Matas Buzelis",
+     "share_with_player_out": 0.1242,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1242,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Zach Collins",
+     "share_with_player_out": 0.1174,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1174,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Josh Giddey",
+     "share_with_player_out": 0.1093,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1093,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Patrick Williams",
+     "share_with_player_out": 0.107,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.107,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Tre Jones",
+     "share_with_player_out": 0.1012,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1012,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Buddy Hield",
+     "share_with_player_out": 0.0849,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0849,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    }
+   ],
+   "top8_share_after": 0.8987,
+   "flag": []
+  },
+  "CLE": {
+   "team": "CLE",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Tyrese Proctor",
+     "share_with_player_out": 0.142,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.142,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Mario Hezonja",
+     "share_with_player_out": 0.1419,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1419,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Jaylon Tyson",
+     "share_with_player_out": 0.1401,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1401,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Meleek Thomas",
+     "share_with_player_out": 0.1398,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1398,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Craig Porter Jr.",
+     "share_with_player_out": 0.1182,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1182,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Thomas Bryant",
+     "share_with_player_out": 0.1142,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1142,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Norchad Omier",
+     "share_with_player_out": 0.1115,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1115,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Riley Minix",
+     "share_with_player_out": 0.0924,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0924,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    }
+   ],
+   "top8_share_after": 1.0001,
+   "flag": []
+  },
+  "DAL": {
+   "team": "DAL",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Cooper Flagg",
+     "share_with_player_out": 0.16,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.16,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Kyrie Irving",
+     "share_with_player_out": 0.1555,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1555,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Caleb Martin",
+     "share_with_player_out": 0.1362,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1362,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Naji Marshall",
+     "share_with_player_out": 0.1247,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1247,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "P.J. Washington Jr.",
+     "share_with_player_out": 0.1085,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1085,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Daniel Gafford",
+     "share_with_player_out": 0.0698,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0698,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Santi Aldama",
+     "share_with_player_out": 0.0676,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0676,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "player": "Morez Johnson Jr.",
+     "share_with_player_out": 0.0622,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0622,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    }
+   ],
+   "top8_share_after": 0.8845,
+   "flag": []
+  },
+  "DEN": {
+   "team": "DEN",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Jamal Murray",
+     "share_with_player_out": 0.1581,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1581,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Nikola Jokic",
+     "share_with_player_out": 0.1547,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1547,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Aaron Gordon",
+     "share_with_player_out": 0.1355,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1355,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Cam Johnson",
+     "share_with_player_out": 0.1282,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1282,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Christian Braun",
+     "share_with_player_out": 0.1157,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1157,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "DeMar DeRozan",
+     "share_with_player_out": 0.0992,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0992,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Trevon Brazile",
+     "share_with_player_out": 0.0651,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0651,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Marvin Bagley III",
+     "share_with_player_out": 0.0546,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0546,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    }
+   ],
+   "top8_share_after": 0.9111,
+   "flag": []
+  },
+  "DET": {
+   "team": "DET",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Kevin Huerter",
+     "share_with_player_out": 0.1576,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1576,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Cade Cunningham",
+     "share_with_player_out": 0.1509,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1509,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Daniss Jenkins",
+     "share_with_player_out": 0.147,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.147,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "John Collins",
+     "share_with_player_out": 0.1082,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1082,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Paul Reed",
+     "share_with_player_out": 0.0951,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0951,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Ronald Holland II",
+     "share_with_player_out": 0.0898,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0898,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Ausar Thompson",
+     "share_with_player_out": 0.076,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.076,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Duncan Robinson",
+     "share_with_player_out": 0.0705,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0705,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    }
+   ],
+   "top8_share_after": 0.8951,
+   "flag": []
+  },
+  "GSW": {
+   "team": "GSW",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Stephen Curry",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "HOU": {
+   "team": "HOU",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Capela, Clint",
+     "reason": "Injury/Illness - Right Ankle Sprain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Copeland, Quadir",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Phillips, Julian",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Smart, Marcus",
+     "reason": "League Suspension",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "VanVleet, Fred",
+     "reason": "Injury/Illness - Right Knee Injury Management",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "Adams, Steven",
+     "status": "Probable",
+     "reason": "Injury/Illness - Right Soleus Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Alperen Sengun",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "IND": {
+   "team": "IND",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Furphy, Johnny",
+     "reason": "Injury/Illness - Right ACL Repair / Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Haliburton, Tyrese",
+     "reason": "Injury/Illness - Left Hamstring Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Sheppard, Ben",
+     "reason": "Injury/Illness - Left Meniscus Tear",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "McConnell, T.J.",
+     "status": "Probable",
+     "reason": "Injury/Illness - Right Hamstring Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Nembhard, Andrew",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Hip Soreness / Tightness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Nesmith, Aaron",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Hand Sprain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0.5069,
+   "redistribution": [
+    {
+     "player": "Pascal Siakam",
+     "share_with_player_out": 0.4931,
+     "replacement_share_from_out_players": 0.5069,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "LAC": {
+   "team": "LAC",
+   "share_source": "none \u2014 blank and flagged (no captured minutes source)",
+   "top8_share_available": false,
+   "out_players": [
+    {
+     "player": "Beal, Bradley",
+     "reason": "Injury/Illness - Right Knee Injury Management",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Ingram, Brandon",
+     "reason": "Injury/Illness - Right Heel Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Miller, Jordan",
+     "reason": "Injury/Illness - Left Rotator Cuff Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Niederhauser, Yanic Konan",
+     "reason": "Injury/Illness - Right Lisfranc Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [],
+   "top8_share_after": null,
+   "flag": [
+    "no minutes source for this team \u2014 rotation availability left blank"
+   ]
+  },
+  "LAL": {
+   "team": "LAL",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Carr, Cameron",
+     "reason": "Injury/Illness - Illness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Reaves, Austin",
+     "reason": "Injury/Illness - Left Heel Contusion / Bone Bruise",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "James, Bronny",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Illness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Sexton, Collin",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Right Orbital Laceration",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Thiero, Adou",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Ankle Sprain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0.4958,
+   "redistribution": [
+    {
+     "player": "Luka Doncic",
+     "share_with_player_out": 0.5042,
+     "replacement_share_from_out_players": 0.4958,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "MEM": {
+   "team": "MEM",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Cam Spencer",
+     "share_with_player_out": 0.1413,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1413,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Cedric Coward",
+     "share_with_player_out": 0.1367,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1367,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Javon Small",
+     "share_with_player_out": 0.1242,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1242,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Taylor Hendricks",
+     "share_with_player_out": 0.1209,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1209,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Cameron Boozer",
+     "share_with_player_out": 0.1199,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1199,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Jaylen Wells",
+     "share_with_player_out": 0.1024,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1024,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Olivier-Maxence Prosper",
+     "share_with_player_out": 0.0835,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0835,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "player": "Kris Murray",
+     "share_with_player_out": 0.0812,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0812,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    }
+   ],
+   "top8_share_after": 0.9101,
+   "flag": []
+  },
+  "MIA": {
+   "team": "MIA",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Bam Adebayo",
+     "share_with_player_out": 0.1504,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1504,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Davion Mitchell",
+     "share_with_player_out": 0.1346,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1346,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Giannis Antetokounmpo",
+     "share_with_player_out": 0.1288,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1288,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Myron Gardner",
+     "share_with_player_out": 0.1085,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1085,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Ryan Conwell",
+     "share_with_player_out": 0.1075,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1075,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Andrew Wiggins",
+     "share_with_player_out": 0.0955,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0955,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Klay Thompson",
+     "share_with_player_out": 0.0843,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0843,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "player": "Bobby Portis Jr.",
+     "share_with_player_out": 0.0733,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0733,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    }
+   ],
+   "top8_share_after": 0.8829,
+   "flag": []
+  },
+  "MIL": {
+   "team": "MIL",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Dieng, Ousmane",
+     "reason": "Injury/Illness - Left Finger Sprain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Jones, Kam",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Markovic, Bogoljub",
+     "reason": "G League - On Assignment",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Nance, Pete",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Ryan, Cormac",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Tyler Herro",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "MIN": {
+   "team": "MIN",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Jaden McDaniels",
+     "share_with_player_out": 0.1542,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1542,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Jonathan Kuminga",
+     "share_with_player_out": 0.1474,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1474,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Ayo Dosunmu",
+     "share_with_player_out": 0.1378,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1378,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "LaMelo Ball",
+     "share_with_player_out": 0.1244,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1244,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Rudy Gobert",
+     "share_with_player_out": 0.112,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.112,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Terrence Shannon Jr",
+     "share_with_player_out": 0.0906,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0906,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Bones Hyland",
+     "share_with_player_out": 0.0887,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0887,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "player": "Trey Lyles",
+     "share_with_player_out": 0.0782,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0782,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    }
+   ],
+   "top8_share_after": 0.9333,
+   "flag": []
+  },
+  "NOP": {
+   "team": "NOP",
+   "share_source": "official game book 2026-11-14 (top-8 minutes shares measured from the printed box score)",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Saddiq Bey",
+     "share_with_player_out": 0.169,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.169,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Jeremiah Fears",
+     "share_with_player_out": 0.1364,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1364,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Zion Williamson",
+     "share_with_player_out": 0.1282,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1282,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Herbert Jones",
+     "share_with_player_out": 0.1145,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.1145,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Derik Queen",
+     "share_with_player_out": 0.104,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.104,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Jordan Poole",
+     "share_with_player_out": 0.0997,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0997,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Jaron Pierre Jr.",
+     "share_with_player_out": 0.0971,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0971,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "player": "Yves Missi",
+     "share_with_player_out": 0.0919,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.0919,
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    }
+   ],
+   "top8_share_after": 0.9408,
+   "flag": []
+  },
+  "NYK": {
+   "team": "NYK",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Jalen Brunson",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "OKC": {
+   "team": "OKC",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Holmgren, Chet",
+     "reason": "Injury/Illness - Right Knee/ Injury Recovery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Sorber, Thomas",
+     "reason": "Injury/Illness - Right Knee Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Wallace, Cason",
+     "reason": "Injury/Illness - Left Shoulder Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Williams, Jalen",
+     "reason": "Injury/Illness - Left Ankle Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Williams, Jaylin",
+     "reason": "Injury/Illness - Low Back Spasms",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "Mitchell, Ajay",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Ankle Sprain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Shai Gilgeous-Alexander",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "ORL": {
+   "team": "ORL",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Franz Wagner",
+     "share_with_player_out": 0.5212,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.5212,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "player": "Paolo Banchero",
+     "share_with_player_out": 0.4788,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 0.4788,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "PHI": {
+   "team": "PHI",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Barlow, Dominick",
+     "reason": "Injury/Illness - Low Back Stress Reaction",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Bona, Adem",
+     "reason": "Injury/Illness - Cervical Spine Sprain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Embid, Joel",
+     "reason": "Injury/Illness - Right Foot Plantar Fascia Injury Management",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Hukporti, Ariel",
+     "reason": "Injury/Illness - Right Achilles Tendon Rupture / Tear",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Tyrese Maxey",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "PHX": {
+   "team": "PHX",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Williams, Mark",
+     "reason": "Injury/Illness - Left Shoulder Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Devin Booker",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "POR": {
+   "team": "POR",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Deni Avdija",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "SAC": {
+   "team": "SAC",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Mogbo, Jonathan",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Pedulla, Sean",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Raynaud, Maxime",
+     "reason": "Injury/Illness - Right Patella Subluxation",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Simmons, Ben",
+     "reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "Achiuwa, Precious",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Ankle Soreness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Murray, Keegan",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Illness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Darius Acuff Jr.",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "SAS": {
+   "team": "SAS",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Brown, Maliq",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Gillespie, Ja'Kobi",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Harris, Tobias",
+     "reason": "Injury/Illness - Left Calf Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Quaintance, Jayden",
+     "reason": "Injury/Illness - Right Knee Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Victor Wembanyama",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "TOR": {
+   "team": "TOR",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Bittle, Nate",
+     "reason": "Injury/Illness - Right Foot Avulsion Fracture",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Leonard, Kawhi",
+     "reason": "Injury/Illness - Left Knee Injury Management",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "McCullar Jr., Kevin",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Smith, Malachi",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "Barnes, Scottie",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Left Groin Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Scottie Barnes",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  },
+  "UTA": {
+   "team": "UTA",
+   "share_source": "none \u2014 blank and flagged (no captured minutes source)",
+   "top8_share_available": false,
+   "out_players": [
+    {
+     "player": "Alexander, Trey",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Bufkin, Kobe",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Hayes, Jaxson",
+     "reason": "Injury/Illness - Left Knee Strain",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Ingram, Harrison",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Jackson Jr., Jaren",
+     "reason": "Injury/Illness - Right MCL Tear",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Markkanen, Lauri",
+     "reason": "Injury/Illness - Right Hand Fracture",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Nurkic, Jusuf",
+     "reason": "Injury/Illness - Right 2nd Plantar Plate Tear",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [],
+   "removed_share": 0,
+   "redistribution": [],
+   "top8_share_after": null,
+   "flag": [
+    "no minutes source for this team \u2014 rotation availability left blank"
+   ]
+  },
+  "WAS": {
+   "team": "WAS",
+   "share_source": "official per-player minutes snapshot 2026-11-14 (players page, top-31 league-wide \u2014 teams outside the top 31 may be incomplete",
+   "top8_share_available": true,
+   "out_players": [
+    {
+     "player": "Beekman, Reece",
+     "reason": "Injury/Illness - Right AC Joint Injury",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Champagne, Justin",
+     "reason": "Injury/Illness - Right Foot Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Vukcevic, Tristan",
+     "reason": "Injury/Illness - Left Hip Impingement",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Watkins, Jamir",
+     "reason": "Injury/Illness - Left ACL Repair / Surgery",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "risk_designations": [
+    {
+     "player": "Carrington, Bub",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Chest / Sternum Contusion",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Johnson, Tre",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Low Back Soreness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Okpara, Felix",
+     "status": "Questionable",
+     "reason": "G League - Two-Way",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    },
+    {
+     "player": "Sarr, Alex",
+     "status": "Questionable",
+     "reason": "Injury/Illness - Illness",
+     "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+    }
+   ],
+   "removed_share": 0,
+   "redistribution": [
+    {
+     "player": "Anthony Davis",
+     "share_with_player_out": 1.0,
+     "replacement_share_from_out_players": 0.0,
+     "share_after": 1.0,
+     "source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "top8_share_after": 1.0,
+   "flag": []
+  }
+ }
+}

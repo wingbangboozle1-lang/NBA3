@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 91 items: 24 high, 55 medium, 12 low severity.
+<em>decisions</em>. 100 items: 25 high, 59 medium, 16 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -1044,6 +1044,105 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Not re-verified this round</td>
 <td>2026-11-14</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>793-F-01</td>
+<td>Travel distances</td>
+<td>PHX Arena (Phoenix Suns) and Wells Fargo Center (Philadelphia 76ers) have no coordinates in the sourced arena table.</td>
+<td>The Wikipedia coordinates API returns no coordinates for either arena page, even in a targeted query. The no-infer rule forbids filling them from memory or from another venue&#x27;s coordinates.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner decision on a coordinates source for these two arenas (e.g. Wikidata Q-IDs). Until then every travel distance with an endpoint at one of these arenas is blank and flagged, not estimated.</td>
+<td>open — blank and flagged</td>
+<td>2026-11-15</td>
+<td><a href="https://en.wikipedia.org/wiki/PHX_Arena" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/PHX_Arena</a> · <a href="https://en.wikipedia.org/wiki/Wells_Fargo_Center_(Philadelphia)" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Wells_Fargo_Center_(Philadelphia)</a></td>
+</tr>
+<tr>
+<td>793-F-02</td>
+<td>Injury report</td>
+<td>17 rows of the 11/15 06:15 AM ET report print no team cell (page breaks); team attribution is carry-forward.</td>
+<td>The PDF text extraction loses the team cell at page boundaries. Carry-forward attribution follows the printed order and is marked per row (&#x27;carry-forward attribution&#x27; chip on the injuries page, section 1c). Sexton Collin and Thiero Adou are ambiguous between LAL and PHX (the LAL@PHX side of the page break).</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Review the flagged rows against the PDF page images. Do not treat carry-forward attribution as printed by the source.</td>
+<td>open — flagged per row</td>
+<td>2026-11-15</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>793-F-03</td>
+<td>Per-player game logs</td>
+<td>None of the 84 named players on the 06:15 AM ET injury report appear in the five captured 11/14 game books (their teams did not play 11/14 or they were inactive).</td>
+<td>The brief asks for per-player game logs (minutes, points, rebounds, assists, opponent) at least for injury-report players. In-session capture covered the 11/14 slate only (173 player rows); the report&#x27;s players belong mostly to teams whose last games were 11/13 or earlier.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>The scheduled refresh job captures every completed game&#x27;s official game book nightly, which completes coverage within one game day per team. Until then the gap is published, not filled with estimates.</td>
+<td>open — scheduled job closes the gap</td>
+<td>2026-11-15</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>793-F-04</td>
+<td>Results feed</td>
+<td>The nine 2026-11-13 rows of the results feed have final scores but no quarter scores (no game book was fetched for that date).</td>
+<td>Quarter scores come only from official game books. The stored 11/13 scoreboard capture carries finals only; the cells are blank rather than reconstructed from any other source.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Fetch the 11/13 game books (statsdmz pattern) to fill the quarter columns; until then the rows stay unsettled and flagged (&#x27;quarter scores not captured&#x27;).</td>
+<td>open — blank and flagged</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>793-F-05</td>
+<td>Market-anchored prior</td>
+<td>No licensed closing-line feed is connected, so all market-anchored blended lines are blank and flagged.</td>
+<td>The brief requires the model line blended with the closing line, weighted by measured out-of-sample log loss. Without a feed there is no closing line to blend; publishing a fabricated one would violate the no-infer rule.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Connect a closing-line feed to data/app/closing_lines.json (schema + weight formula already printed there). The blend activates automatically once rows appear.</td>
+<td>open — formula published, lines blank</td>
+<td>2026-11-15</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json</a></td>
+</tr>
+<tr>
+<td>793-F-06</td>
+<td>Estimator B scoring</td>
+<td>Estimator B&#x27;s log-loss is measured in-sample against the 2026-11-15 stat snapshot, not out-of-sample.</td>
+<td>Only one historical snapshot of the three official team-stat pages is stored, so an honest expanding walk-forward for estimator B is impossible. Estimator A&#x27;s score IS out-of-sample (expanding walk-forward over the official game log).</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>The scheduled refresh job stores a team-stat snapshot per day; once enough snapshots accumulate, estimator B can be scored out-of-sample. Until then its score is labelled in-sample everywhere it is printed.</td>
+<td>open — labelled in-sample</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+<tr>
+<td>793-F-07</td>
+<td>Schedule capture</td>
+<td>The 11/15 games-page text extract ends with a trailing &#x27;ATL @ PHX Final 102 - 107&#x27; row adjacent to game id 0022600269 in the column alignment.</td>
+<td>No ATL@PHX game exists in the 11/15-11/18 window; the score matches the 11/12 game covered by the page&#x27;s own recap (&#x27;Suns vs. Hawks Game Recap&#x27;, Hawks 102, Suns 107). The stored slate keeps 0022600269 = PHX @ SAC (11/18) and excludes the trailing row.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Verify the slate against the live page when the next refresh runs (the refresh stores the raw HTML). No value was invented; the artifact is recorded here.</td>
+<td>resolved-excluded — re-verify on next refresh</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>793-F-08</td>
+<td>Injury report</td>
+<td>The NYK side of NYK@TOR (11/15) has no rows at all in the 06:15 AM ET report.</td>
+<td>A team with nothing to report prints nothing; the report carries TOR rows only. The side is therefore &#x27;no rows printed&#x27;, which is NOT the same as &#x27;everyone available&#x27;.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Read as unknown-but-unreported, not as healthy. The freshness page&#x27;s availability states already distinguish this case.</td>
+<td>published — interpretation note</td>
+<td>2026-11-15</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>793-F-09</td>
+<td>Game books</td>
+<td>Three game-book extracts merge the team-totals row into a player&#x27;s line (Nnaji DENNOP, Porter Jr. BKNMEM, Robinson CHIMIN) and one CHIMIN row prints a doubled DNP marker.</td>
+<td>PDF text extraction artifact. The capture script treats any 240:00 line as the team totals row (never a player stint), splits merged lines without attributing totals to a player, and records the doubled DNP marker as one DNP row. Player points sum to the team finals for all five books (check E5).</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>None for the data; documented so a future parser does not regress. See the parse notes at the end of the affected game-book captures.</td>
+<td>handled — parser rules published</td>
+<td>2026-11-15</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf</a></td>
 </tr>
 </tbody></table></div>
 

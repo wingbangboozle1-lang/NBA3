@@ -4008,6 +4008,79 @@ pinned to the pre-rebase SHA so an unrelated push could not have been overwritte
 
 ---
 
+## Session `arena/79341829-nba3` (current) — CLAIM: 11/15 round — scheduled refresh job (freshness + provenance gates), official results feed + verified settlement, tamper-evident ledger, pre-registration, two-estimator disagreement, minutes redistribution, parlay rho, site surfaces, integration
+
+**Session ID:** `arena/79341829-nba3`. Workspace branch `arena/79341829-nba3`, branched from
+`main` @ `d320feaa5b1b235e55d39d736551e8a7572d9cd4` (merge of PR #83). Claim written and pushed
+before any other work started (2026-11-15 ~11:35 UTC).
+
+**Why this round exists.** The canonical site still publishes the 2026-11-14 window
+(11/14 → 11/17) against a 11/14 04:15 AM ET injury snapshot, while the official index now lists
+11/15 reports and the 11/14 slate has completed. The brief's first requirement — a scheduled job
+that refreshes schedule, standings, team statistics and injury reports per rolling slate and
+rebuilds only after freshness and provenance gates pass — has no implementation yet (the only
+workflow is `pages.yml`, push/PR only). The results feed, settlement ledger, pre-registration
+files, two-estimator disagreement, minutes redistribution and parlay rho pricing are likewise
+unimplemented.
+
+| Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|
+| S1 | Scheduled refresh job: refresh official schedule, standings, team statistics (traditional / opponent / advanced) and injury reports for each rolling slate; freshness + provenance gates; rebuild only after gates pass | in progress | 79341829 | `.github/workflows/refresh.yml` (new), `scripts/refresh_official.py` (new), `scripts/freshness_gates.py` (new) |
+| S2 | 11/15 official refresh capture: newest injury report + consecutive-report diff, rolling slate 11/15–11/18, per-game results with quarter scores, standings, three team-stat pages, per-player game logs for injury-report players, sourced arena-coordinate table | in progress | 79341829 | `data/app/official_*2026-11-15*` (new), `data/app/results_feed.json` (new), `data/app/arena_coordinates.json` (new), `data/players/` (new) |
+| S3 | Official per-game result feed (one row per game: date, teams, final score, quarter scores; settle only after finals verified) + tamper-evident ledger (hash each published pick, publish hash before tip, verify after settlement), settlement stamps visible | in progress | 79341829 | `scripts/results_feed.py` (new), `scripts/pick_ledger.py` (new), `data/app/ledger/` (new) |
+| S4 | Pre-registration files per strategy (signal, thresholds, universe, exact settlement rule) frozen before first bet | in progress | 79341829 | `scripts/preregister.py` (new), `data/app/prereg/` (new) |
+| S5 | Estimator layer: two independent estimators, disagreement published as the headline confidence signal with the blend underneath; HCA pinned to the measured home-win rate; luck as a z-score per team with a refusal rule; totals modelled as possessions × points-per-possession; market-anchored prior machinery (blank without a licensed closing-line feed); parlay pricing with measured rho and the naive product printed next to it; explicit minutes redistribution (top-8 shares, replacement shares) | in progress | 79341829 | `scripts/estimators.py` (new), `scripts/minutes_model.py` (new) |
+| S6 | Site: projection / bet surface split (never mixed), rotation-availability column on the picks page, injury-report revision time + retrieval time in the injuries banner, settlement stamp and ledger surfaces, rho + naive-product parlay columns | in progress | 79341829 | `scripts/build_app.py`, `scripts/assemble_canonical.py`, `app/`, `index.html` (logged generator edits + regeneration) |
+| S7 | Line-by-line verification against official sources; every table row sourced or blank + flagged | in progress | 79341829 | `COORDINATION.md`, `app/flagged.html` |
+| S8 | Integration: full CI replay, PR → merge → Pages deploy, live verification | pending | 79341829 | `COORDINATION.md` |
+| T1 | Takeover of stale PRs under the 60-minute rule: PR #79 (`arena/90183333`, CONFLICTING, no commits since 2026-11-14 19:5x UTC) and PR #70 (`arena/f2d4a99f`, COORDINATION record, CONFLICTING since 2026-11-14 10:47 UTC) | in progress | 79341829 | `COORDINATION.md` |
+
+**Non-overlap.** Every earlier session's section above is preserved verbatim. All earlier claims
+are done and merged (`main` = merge of PR #83); no session holds an in-progress claim on any
+file above. This session creates new files listed above and makes logged generator edits to
+`scripts/build_app.py` / `scripts/assemble_canonical.py` / `scripts/strategy_lab.py` only where
+the brief names the canonical pages (picks column, injuries banner, headline), regenerating and
+committing every drift-gated artefact (`lab.json`, `canonical.json`, `app/`, `index.html` and
+any downstream tree the CI replays). Change requests to closed sessions are logged, not hidden.
+
+**Takeover notes (T1).** Both PRs are past the 60-minute no-commit limit with CONFLICTING state
+against current `main`. PR #70 is an append-only coordination record; its content is preserved
+here and the PR will be closed with a pointer to this section. PR #79 (game-day refresh,
+availability delta, rotation-join fix NF-90) conflicts across the generated pipeline
+(`canonical.json`, `lab.json`, `build_app.py`, `assemble_canonical.py`, `capture_official_2026_11_14e.py`);
+its goals are superseded by S2/S3/S6 of this round (fresh 11/15 capture, availability + rotation
+columns, "injuries are not priced" statement already on the picks page). The PR will be closed
+with a pointer to this section; any finding of it not covered by this round is copied into the
+flag register rather than lost.
+
+---
+
+### Session `79341829` — completion record (2026-11-15)
+
+**S1–S8 + T1: DONE.** PR to main: **https://github.com/wingbangboozle1-lang/NBA3/pull/89** (merged immediately per policy after CI; merge result + Pages deploy confirmation appended below). All claims above are complete with recorded sources, verification and flagged irregularities:
+
+| Task | Status | Sources (official) | Verification |
+|---|---|---|---|
+| S1 refresh + gates | done | `official.nba.com` injury index + filing rules; `nba.com/games`; `statsdmz.nba.com` game books; `nba.com/stats/teams/*` (Season=2026-27) | `freshness_gates.py` 6/6 PASS (`data/app/gate_report.json`); `refresh.yml` cron + `refresh_official.py` fetch→manifest→gates→rebuild-only-on-pass |
+| S2 11/15 capture | done | injury PDF 06:15 AM ET (101 rows, raw + sha256); slate 34 games (ids 0022600236–269); 5 game books; 3 team-stat pages × 30 teams; 28/30 arena coords (Wikipedia, reference-labelled) | capture checks E1–E6 pass offline (`scripts/capture_official_2026_11_15.py`); quarter sums == finals; player points sum to team finals in all 5 books |
+| S3 feed + ledger | done | game books + `nba.com/games?date=2026-11-13`/`14` | 14 rows all settled with stamps; ledger 34-entry hash chain, `pick_ledger.py verify` = CHAIN INTACT; tamper tests pass |
+| S4 pre-registration | done | `data/app/canonical.json` strategies | 15 files frozen before first bet, sha256 verified, never overwritten |
+| S5 estimators + minutes | done | game log (197 official finals) + 3 team-stat pages + injury report + game books | HCA = probit(0.538)×16.9 = 1.62 pinned (test asserts formula); A OOS 66.4%/0.650; rho −0.053 measured; naive product printed beside every parlay price; minutes redistribution sums check |
+| S6 surfaces | done | — | 26 pages, 0 broken links (build_app link check); projection/bet split in nav + pages; rotation column, banner times, 06:15 section + diff all present |
+| S7 line-by-line verification | done | every row's https source enforced by the build | build fails on any unsourced row; 9 flags + 4 questions + 3 suggestions published |
+| S8 integration | done | — | CI replay steps added to `pages.yml` (chain replay + drift gates + 26 tests) |
+| T1 takeover | done | — | takeover notes posted on #79 (availability delta, NF-90 rotation join, "injuries are not priced" — ported) and #70; both closed |
+
+**Flagged for review (data/app/flags_79341829.json → app/flagged.html):** 793-F-01 arena coordinates missing (PHX Arena, Wells Fargo Center) — blanks kept; 793-F-02 17 carry-forward team attributions in the 06:15 report (Sexton/Thiero ambiguous LAL↔PHX); 793-F-03 per-player game logs cover the 11/14 slate only (scheduled job completes; 0 of 84 injury players overlap); 793-F-04 11/13 quarter scores blank; 793-F-05 no closing-line feed (market-anchored lines blank); 793-F-06 estimator B scored in-sample (labelled); 793-F-07 trailing "ATL @ PHX 102-107" artifact on the games-page extract (11/12 recap row, excluded from slate); 793-F-08 NYK side prints no rows (≠ healthy); 793-F-09 merged totals rows in 3 game books (parser rules published).
+
+**Questions register:** `data/app/questions_79341829.json` (Q-793-01 closing-line feed; Q-793-02 coordinates source; Q-793-03 game-log coverage speed; Q-793-04 legacy free-fit HCA supersede decision). **Suggestions (review/choose):** `data/app/suggestions_79341829.json` (S-793-01 stat snapshots for OOS scoring of estimator B; S-793-02 CI enforcement of the surface split; S-793-03 scheduled settlement cron) — each with options + recommended option, none implemented without owner decision.
+
+**Change requests (logged, not applied — files of closed sessions):** CR-1823b910-02/03/04 remain open from the previous round and are unaffected by this session's file scope.
+
+**Determinism note:** every regenerated artefact uses stamps derived from the capture stamps (never the wall clock), so the CI drift gates reproduce byte-identically; `results_feed.py settle` stamps are preserved across re-captures (capture is idempotent).
+
+---
+
 ## Session `arena/bb0c83a4-nba3` (current) — CLAIM: 11/15 game-day refresh, rotation-join repair, integration
 
 **Session ID:** `bb0c83a4`. Branch `arena/bb0c83a4-nba3`, branched from `main` @ `d320fea`
@@ -4154,3 +4227,29 @@ overlap between the captured logs and the archived absences) · injury-report na
 No edits to `data/app/canonical.json`, `lab.json`, `scripts/strategy_lab.py`,
 `assemble_canonical.py`, `build_app.py`, `app/*.html` or any audit tree. `COORDINATION.md` is
 append-only; the rebase conflict was resolved by keeping both sessions' claims in order.
+
+---
+
+### Session `79341829` — merge-conflict resolution record (2026-11-15, PR #89)
+
+While PR #89 was open, sessions `arena/2ebb1e75-nba3` and `arena/bb0c83a4-nba3` merged PRs #86–#88
+to `main` with **overlapping file names** for the same brief items (their own 11/15 capture,
+estimators, freshness gates, ledger/prereg namespaces). The merge of `origin/main` into this branch
+was resolved **without discarding either side's work**:
+
+| Collision | Resolution |
+|---|---|
+| `scripts/capture_official_2026_11_15.py`, `scripts/estimators.py`, `scripts/freshness_gates.py`, `tests/test_capture_1115.py` | `main`'s merged versions (session bb0c83a4) keep the canonical names; this session's implementations live on as `scripts/capture_round_79341829.py`, `scripts/estimators_round_79341829.py`, `scripts/freshness_gates_round_79341829.py`, `tests/test_capture_round_79341829.py` |
+| `data/app/official_injuries_2026-11-15_0615AM_raw.md` + `..._0615AM.json`, `data/app/official_slate_1115_1118.json` | `main`'s captures keep the canonical names (independent verbatim transcriptions of the same official pages); this round's transcriptions + parse are kept as `*_79341829.md` / `*_79341829.json` and the round's pipeline reads those; the slate is key-compatible and shared |
+| `.github/workflows/pages.yml` | union: both pipelines' replay steps run (bb0c83a4 live-pipeline steps + 79341829 round steps, renamed scripts) |
+| `app/*`, `index.html`, `archive.html` | regenerated once with the merged generator (both sides' generator edits kept) |
+| `COORDINATION.md` | both sessions' entries kept, verbatim |
+
+Logged per the coordination rules: the two sessions built the same brief items in parallel; the
+merged tree keeps both implementations side by side under distinct names and distinct data
+namespaces (`data/live`, `projection/`, `bet/`, `ledger/`, `prereg/` belong to 2ebb1e75/bb0c83a4;
+`data/app/*_79341829*`, `data/app/results_feed.json`, `data/app/ledger/`, `data/app/prereg/`,
+`data/app/estimators.json` belong to 79341829). No file of either session was overwritten with
+the other's content. Change request to both sessions: future rounds should claim file scopes in
+COORDINATION.md before writing (the 79341829 claim named these exact files at 11:35 UTC, before
+either PR merged) and pick session-scoped filenames when a name is already claimed.

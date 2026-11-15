@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Model output</span><span class="nav-links"><a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a></span></div><div class="nav-group"><span class="nav-cat">Game context</span><span class="nav-links"><a href="injuries.html">Injuries &amp; rotation</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -549,6 +549,39 @@ questions</a> page.</p>
 <td>Depends on the results-log consolidation decision (CQ-42); extends CS-43. ID note: first logged as CS-45 by session 8e199e09; renumbered CS-46 because session 3bf80157&#x27;s CS-45 (manifest-only input resolution) landed on main first.</td>
 <td>Awaiting owner review</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>S-793-01</td>
+<td>Refresh job</td>
+<td>Store one team-stat snapshot per refresh run so estimator B can be scored out-of-sample after a few weeks.</td>
+<td>Estimator B&#x27;s log-loss is currently in-sample (flag 793-F-06). Daily snapshots make an honest expanding walk-forward possible, matching estimator A.</td>
+<td>A: store snapshots forever; B: store a rolling window (e.g. 30 days); C: keep only the latest.</td>
+<td>B — a rolling window keeps the repository small and is enough for walk-forward scoring.</td>
+<td>The scheduled refresh job already writes data/app/refresh/&lt;stamp&gt;/; the snapshot step is a copy of the three pages into a dated file.</td>
+<td>open — owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py</a></td>
+</tr>
+<tr>
+<td>S-793-02</td>
+<td>Bet surface</td>
+<td>Keep the projection/bet split enforced in CI: fail the build if a bet-surface page publishes a stake or odds figure while no strategy is funded.</td>
+<td>The split is a hard requirement (&#x27;never mix them&#x27;). A CI assertion makes the rule mechanical rather than editorial.</td>
+<td>A: lint rule in build_app.py; B: separate check script; C: rely on review.</td>
+<td>A — build_app already fails on broken provenance; extending it to the surface rule keeps one gate.</td>
+<td>Owner decision; small change to scripts/build_app.py.</td>
+<td>open — owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></td>
+</tr>
+<tr>
+<td>S-793-03</td>
+<td>Settlement</td>
+<td>Run results_feed.py settle --date at each game day end from the workflow (a second cron after the last tip) so settlement stamps are automatic.</td>
+<td>The brief asks for the sealed ledger to be settled from official finals at each game day end with a visible stamp. The command exists and is tested; scheduling it removes the manual step.</td>
+<td>A: extra cron in refresh.yml; B: separate settle.yml; C: settle within the next morning&#x27;s refresh.</td>
+<td>B — a dedicated settle workflow at 06:00 UTC keeps the settle step visible and independently re-runnable.</td>
+<td>Owner decision on timing; the settle command is idempotent (tested).</td>
+<td>open — owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py</a></td>
 </tr>
 </tbody></table></div>
 </main>

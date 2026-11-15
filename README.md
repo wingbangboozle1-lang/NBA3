@@ -465,3 +465,67 @@ Dashboard (after Pages deploy): `https://wingbangboozle1-lang.github.io/NBA3/d01
 Rules enforced in this namespace: every table row links its official NBA source; unconfirmable values are **blank + flagged, never inferred**; model parameters (HCA, rest/injury weights) are declared assumptions with pre-settlement revision logs; provisional picks (injury report not yet published) are never scored. The other workstreams' cautions above apply to them, not to this namespace — and this namespace makes no claim about theirs.
 
 Reviewers: decisions this workstream is waiting on (license, CI, odds source, HCA calibration…) are listed in `d01ae7e2/docs/QUESTIONS.md`; improvement suggestions await path selection in `d01ae7e2/docs/SUGGESTIONS.md` — none have been implemented.
+
+## Session `79341829` — 2026-11-15 official refresh round: two-estimator layer, settlement chain, refresh gates, surface split
+
+Branch `arena/79341829-nba3`. Everything below is captured line-by-line from official sources with links; unverifiable values are blank and flagged (`data/app/flags_79341829.json`, 9 items, rendered on the site's Flagged page).
+
+### Official captures (2026-11-15, retrieval stamps + sha256 in `data/app/refresh/2026-11-15T11-33Z/manifest.json`)
+| Artifact | Source |
+|---|---|
+| Injury report 11/15 06:15 AM ET (101 rows: 84 player + 17 NOT YET SUBMITTED) + consecutive diff vs 11/14 01:30 PM ET | `ak-static.cms.nba.com/.../Injury-Report_2026-11-15_06_15AM.pdf` |
+| Slate 11/15–11/18 (34 games, game ids 0022600236–269) | `nba.com/games?date=2026-11-15` |
+| 5 official game books (quarter scores + full player lines + inactives w/ reasons) | `statsdmz.nba.com/pdfs/20261114/*.pdf` |
+| Team stats: traditional + opponent + advanced, 30 teams each | `nba.com/stats/teams/*?Season=2026-27` |
+| Arena coordinates, 28/30 (PHX Arena + Wells Fargo Center blank+flagged) | each arena's Wikipedia page (reference source) |
+
+### Results feed + settlement (`data/app/results_feed.json`, `scripts/results_feed.py`)
+14 rows (11/13 scoreboard finals + 11/14 game-book finals), quarter scores for all 11/14 games (quarter sums == finals, check E4/E5), 11/13 quarters blank+flagged. All 14 rows carry settlement stamps ("settled … from the official final"), re-settle is idempotent.
+
+### Two independent estimators (`scripts/estimators.py` → `data/app/estimators.json`)
+- **Headline = the disagreement** between the two estimators (mean 7.0 pts over the 34-game window); the equal-weight blend sits underneath only.
+- **HCA pinned** to the measured home-win rate (0.538 over 197 official games → 1.62 pts via probit × margin SD) — never a free fit coefficient.
+- Estimator A: ridge margin (Massey), expanding walk-forward OOS log-loss 0.650 / accuracy 66.4% on 152 games. Estimator B: possessions × PPP from the three official pages (in-sample label, flagged 793-F-06).
+- Luck = per-team z-score vs walk-forward win probabilities; `|z|>2` refuses the bet surface (BOS, MIL, SAC, SAS, UTA currently flagged).
+- Parlays priced with the measured residual rho (−0.053); every correlated price prints its naive product beside it.
+- Market-anchored prior: formula published, blended lines blank+flagged — no closing-line feed connected (flag 793-F-05).
+- Rest/B2B/3-in-4 from the official log + travel km via haversine on the sourced arena table (blank where coordinates are missing).
+
+### Minutes redistribution (`scripts/minutes_model.py`): top-8 shares (game books / official minutes snapshot) + proportional replacement shares when a player is Out; Doubtful/Questionable are risk notes only. 26/30 window teams sourced; rest blank+flagged.
+
+### Tamper-evident ledger + pre-registration
+`scripts/pick_ledger.py`: 34 hash-chained entries published before tip (`data/app/ledger/ledger.jsonl`), `verify` checks payload hashes + chain links; settled from verified finals with visible stamps. `scripts/preregister.py`: 15 strategies frozen before first bet (`data/app/prereg/`), never overwritten, hashes verified.
+
+### Scheduled refresh + gates
+`.github/workflows/refresh.yml` (cron 4×/day around the filing windows) → `scripts/refresh_official.py` fetches injury index+PDF, schedule/results pages, game books, team-stat pages → `scripts/freshness_gates.py` (F1 freshness, F2 slate window, F3 settled results, P1 provenance manifest, P2 30-team pages, P3 feed completeness) — **the rebuild runs only when the gates pass**. Committed gate report: `data/app/gate_report.json` (all PASS).
+
+### Site surfaces (never mixed)
+**Projection surface (public):** two-estimator projections, originated lines, prices (now with a rotation-availability column), injuries (banner shows report revision + retrieval times; new section 1c = the 06:15 AM report + consecutive diff), report availability, game flow, refresh & gates. **Bet surface (gated):** parlays (rho + naive product printed side by side), props, leaderboard, validation gates, correlations, pre-registration, pick ledger, settlement. Summary headline = estimator disagreement.
+
+### Verification
+`scripts/capture_official_2026_11_15.py` checks E1–E6 pass offline (statuses legal; report covers the slate; quarter sums == finals; player points sum to team finals in all 5 game books; consecutive diff computed). Unit tests in `tests/` (26 tests: capture, feed, ledger tamper-detection, estimators, minutes, gates) all pass; CI replays the chain with drift gates.
+
+### Requirements status (condensed — full table on the site's Brief-coverage page)
+| Requirement | Status |
+|---|---|
+| Scheduled refresh + freshness/provenance gates, rebuild only after pass | done (`refresh.yml`, `freshness_gates.py`) |
+| Official results feed w/ quarter scores, settled only from verified finals | done (11/14 quarters verified; 11/13 flagged) |
+| Injury PDF stored w/ timestamp + consecutive diffs | done (raw + sha256 + `injury_delta_1115.json`) |
+| Pre-registration frozen before first bet | done (15 files) |
+| Tamper-evident ledger, hash published before tip | done (34-entry chain) |
+| Projection/bet surfaces never mixed | done (nav + pages) |
+| Two estimators + disagreement as headline | done |
+| HCA pinned to measured home-win rate | done |
+| Luck z-scores + refusal band | done |
+| Rest/B2B/3-in-4 + sourced travel distances | done (2 arenas blank+flagged) |
+| Explicit minutes redistribution | done |
+| Parlays: measured rho + naive product printed | done |
+| Market-anchored prior w/ log-loss weighting | formula published; blank until a feed is connected (Q-793-01) |
+| Totals = possessions × PPP | done |
+| Injury revision + retrieval times in banner | done |
+| Settle from official finals with visible stamps | done |
+| Per-player game logs for injury players | partial — 11/14 captured; scheduled job completes (793-F-03) |
+| 3 team-stat pages re-read + model inputs re-cut | done (11/15 snapshot) |
+| Strategy leaderboard, picks ≤3 days ahead, injury→rotation tracking, game flow, exec summary, review/choose suggestions, Q&A register | done (existing pages, refreshed) |
+
+Open decisions: `data/app/questions_79341829.json` (Q-793-01…04). Suggestions with options/recommendations: `data/app/suggestions_79341829.json` (S-793-01…03). Repository review flags: `data/app/flags_79341829.json`.

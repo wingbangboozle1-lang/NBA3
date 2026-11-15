@@ -1,0 +1,42 @@
+{
+ "evaluated_utc": "2026-11-15T12:36Z",
+ "gates": [
+  {
+   "id": "P1_manifest",
+   "pass": true,
+   "detail": "11 manifest artifacts carry https URL + sha256 + retrieval stamp",
+   "required": true
+  },
+  {
+   "id": "F1_injury_freshness",
+   "pass": true,
+   "detail": "newest stored injury report stamp 2026-11-15 06:15 AM ET (~6.4h old at evaluation); index re-read in manifest: True",
+   "required": true
+  },
+  {
+   "id": "F2_slate_window",
+   "pass": true,
+   "detail": "slate window 2026-11-15..2026-11-18 vs required 2026-11-15..2026-11-18; 34 games on ['2026-11-15', '2026-11-16', '2026-11-17', '2026-11-18']",
+   "required": true
+  },
+  {
+   "id": "F3_results_settled",
+   "pass": true,
+   "detail": "14 of 14 rows settled; 0 final-but-unsettled rows",
+   "required": true
+  },
+  {
+   "id": "P2_team_stats",
+   "pass": true,
+   "detail": "traditional=30; opponent=30; advanced=30",
+   "required": true
+  },
+  {
+   "id": "P3_feed_fields",
+   "pass": true,
+   "detail": "14 rows complete",
+   "required": true
+  }
+ ],
+ "pass": true
+}

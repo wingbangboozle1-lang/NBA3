@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pick ledger — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html" class="active">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Bet surface (gated)</div>
+    <h1>Pick ledger</h1>
+    
+  </div>
+
+<p>Every published pick is hashed before tip and appended to a tamper-evident hash chain: each entry
+links the previous entry's hash, so any silent edit of history breaks the chain and
+<code>python3 scripts/pick_ledger.py verify</code> fails loudly. 34 entries are in the
+chain. Because no strategy is funded, entries are <strong>published projections, result-graded</strong>
+— not money bets (the bet surface stays gated).</p>
+<div class="callout"><strong>Verify this table yourself:</strong>
+<code>python3 scripts/pick_ledger.py verify</code> in the repository recomputes every payload hash
+and the chain links. The chain head is published here so a later silent change is detectable.</div>
+
+<div class="table-wrap"><table>
+<caption id="ledger"></caption>
+<thead><tr>
+<th>Pick</th>
+<th>State</th>
+<th>Timestamp (UTC)</th>
+<th>Payload sha256 (prefix)</th>
+<th>Entry hash (prefix)</th>
+<th>Prev entry hash (prefix)</th>
+<th>Hash verified at settlement</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>0022600236-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>c3f13861c464f066…</code></td>
+<td><code>9dfdaad8690c50de…</code></td>
+<td><code>0000000000000000…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600237-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>17962352f160e44a…</code></td>
+<td><code>a9d3ea67c3443890…</code></td>
+<td><code>9dfdaad8690c50de…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600238-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>3747827a6aac589a…</code></td>
+<td><code>944812a8b6f1df77…</code></td>
+<td><code>a9d3ea67c3443890…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600239-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>faf9299b326bd703…</code></td>
+<td><code>2b9848e2340e335c…</code></td>
+<td><code>944812a8b6f1df77…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600240-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>cb28d2d3d003cefc…</code></td>
+<td><code>52e2df00cb2b7284…</code></td>
+<td><code>2b9848e2340e335c…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600241-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>9474466da4d9c3a9…</code></td>
+<td><code>d10ce441f819a3d3…</code></td>
+<td><code>52e2df00cb2b7284…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600242-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>d1cde02151de2461…</code></td>
+<td><code>51f3ffd2865b065e…</code></td>
+<td><code>d10ce441f819a3d3…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600243-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>8e8a930a9dd2d7d1…</code></td>
+<td><code>ea0a6b93ebe8949e…</code></td>
+<td><code>51f3ffd2865b065e…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600244-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>41c9501223ec004a…</code></td>
+<td><code>4898a42b2555878f…</code></td>
+<td><code>ea0a6b93ebe8949e…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600245-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>a59c85d5d9399101…</code></td>
+<td><code>ea77fed09e8b7ad1…</code></td>
+<td><code>4898a42b2555878f…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600246-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>295407c10a3a4193…</code></td>
+<td><code>e9c72a0d7d5c3952…</code></td>
+<td><code>ea77fed09e8b7ad1…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600247-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>0029bb8e809e6e5e…</code></td>
+<td><code>57c4501f3c17654f…</code></td>
+<td><code>e9c72a0d7d5c3952…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600248-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>8c1ee11259119ab8…</code></td>
+<td><code>ab386e846df862f8…</code></td>
+<td><code>57c4501f3c17654f…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600249-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>458fb032abd77422…</code></td>
+<td><code>7a7e0c4ad2ff6113…</code></td>
+<td><code>ab386e846df862f8…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600250-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>064806eb01cdbdda…</code></td>
+<td><code>0fb6e443d4311662…</code></td>
+<td><code>7a7e0c4ad2ff6113…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600251-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>302fb2815768ae8c…</code></td>
+<td><code>66f9ca13ad0e52eb…</code></td>
+<td><code>0fb6e443d4311662…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600252-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>983c87cf1c4432ad…</code></td>
+<td><code>de7d3072add1683f…</code></td>
+<td><code>66f9ca13ad0e52eb…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600253-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>5915210539dde079…</code></td>
+<td><code>7973660091f0ebd3…</code></td>
+<td><code>de7d3072add1683f…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600254-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>ec540a763df4ea26…</code></td>
+<td><code>219eb7691624cefc…</code></td>
+<td><code>7973660091f0ebd3…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600255-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>f3039cf5dd043005…</code></td>
+<td><code>e6b931a64324ffff…</code></td>
+<td><code>219eb7691624cefc…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600257-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>161a1b4bc41d8df5…</code></td>
+<td><code>3bf84934dfa1535c…</code></td>
+<td><code>e6b931a64324ffff…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600256-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>7f02f180a2710517…</code></td>
+<td><code>751043aed36fbb1a…</code></td>
+<td><code>3bf84934dfa1535c…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600258-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>6e9da3f5e4cfca4a…</code></td>
+<td><code>23be79e4efe33823…</code></td>
+<td><code>751043aed36fbb1a…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600259-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>09f7ae20e8b88bfa…</code></td>
+<td><code>8c4613cd1a2f46f7…</code></td>
+<td><code>23be79e4efe33823…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600260-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>b564851f02814893…</code></td>
+<td><code>57436ffa85761ccb…</code></td>
+<td><code>8c4613cd1a2f46f7…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600261-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>fa0e55d11d4319a4…</code></td>
+<td><code>0ca5595d51fe8c3f…</code></td>
+<td><code>57436ffa85761ccb…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600262-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>e8aaa0165c558c3f…</code></td>
+<td><code>6b335a1a3f4f0ea4…</code></td>
+<td><code>0ca5595d51fe8c3f…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600263-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>3b7f3a49c7a459e3…</code></td>
+<td><code>bec12172a1109309…</code></td>
+<td><code>6b335a1a3f4f0ea4…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600264-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>2977162414454908…</code></td>
+<td><code>d47a7f8e1548b848…</code></td>
+<td><code>bec12172a1109309…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600265-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>16d4c88c6f5059b9…</code></td>
+<td><code>3f27004f1ad59993…</code></td>
+<td><code>d47a7f8e1548b848…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600267-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>b4f4a40402aa6042…</code></td>
+<td><code>b88e8a5cd3453a81…</code></td>
+<td><code>3f27004f1ad59993…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600266-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>d4639f1ccda3503a…</code></td>
+<td><code>6ae5c9642b8dba09…</code></td>
+<td><code>b88e8a5cd3453a81…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600268-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>6ec5b57273a11471…</code></td>
+<td><code>e7e7b1f072f34568…</code></td>
+<td><code>6ae5c9642b8dba09…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600269-side-proj</td>
+<td>PUBLISHED_PRE_TIP</td>
+<td>2026-11-15T12:10Z</td>
+<td><code>a1eecd43d60189db…</code></td>
+<td><code>502610c8a43b0cd7…</code></td>
+<td><code>e7e7b1f072f34568…</code></td>
+<td></td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+</tbody></table></div>
+<p>Chain head: <code>502610c8a43b0cd7e74866010f8464faa0ff041309a256774f51aa6f1baf775a</code></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+ "feed_status": "not connected",
+ "note": "No licensed closing-line feed is connected in this environment. Blended lines stay BLANK and flagged; the model line is published alone.",
+ "formula": "blended = w * model + (1 - w) * closing, w = exp(-logloss_model) / (exp(-logloss_model) + exp(-logloss_closing)), log losses measured out-of-sample",
+ "rows": []
+}

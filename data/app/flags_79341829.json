@@ -1,0 +1,110 @@
+[
+ {
+  "id": "793-F-01",
+  "area": "Travel distances",
+  "item": "PHX Arena (Phoenix Suns) and Wells Fargo Center (Philadelphia 76ers) have no coordinates in the sourced arena table.",
+  "why": "The Wikipedia coordinates API returns no coordinates for either arena page, even in a targeted query. The no-infer rule forbids filling them from memory or from another venue's coordinates.",
+  "action_needed": "Owner decision on a coordinates source for these two arenas (e.g. Wikidata Q-IDs). Until then every travel distance with an endpoint at one of these arenas is blank and flagged, not estimated.",
+  "sources": ["https://en.wikipedia.org/wiki/PHX_Arena", "https://en.wikipedia.org/wiki/Wells_Fargo_Center_(Philadelphia)"],
+  "status": "open — blank and flagged",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-02",
+  "area": "Injury report",
+  "item": "17 rows of the 11/15 06:15 AM ET report print no team cell (page breaks); team attribution is carry-forward.",
+  "why": "The PDF text extraction loses the team cell at page boundaries. Carry-forward attribution follows the printed order and is marked per row ('carry-forward attribution' chip on the injuries page, section 1c). Sexton Collin and Thiero Adou are ambiguous between LAL and PHX (the LAL@PHX side of the page break).",
+  "action_needed": "Review the flagged rows against the PDF page images. Do not treat carry-forward attribution as printed by the source.",
+  "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"],
+  "status": "open — flagged per row",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-03",
+  "area": "Per-player game logs",
+  "item": "None of the 84 named players on the 06:15 AM ET injury report appear in the five captured 11/14 game books (their teams did not play 11/14 or they were inactive).",
+  "why": "The brief asks for per-player game logs (minutes, points, rebounds, assists, opponent) at least for injury-report players. In-session capture covered the 11/14 slate only (173 player rows); the report's players belong mostly to teams whose last games were 11/13 or earlier.",
+  "action_needed": "The scheduled refresh job captures every completed game's official game book nightly, which completes coverage within one game day per team. Until then the gap is published, not filled with estimates.",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf", "https://www.nba.com/games?date=2026-11-13"],
+  "status": "open — scheduled job closes the gap",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-04",
+  "area": "Results feed",
+  "item": "The nine 2026-11-13 rows of the results feed have final scores but no quarter scores (no game book was fetched for that date).",
+  "why": "Quarter scores come only from official game books. The stored 11/13 scoreboard capture carries finals only; the cells are blank rather than reconstructed from any other source.",
+  "action_needed": "Fetch the 11/13 game books (statsdmz pattern) to fill the quarter columns; until then the rows stay unsettled and flagged ('quarter scores not captured').",
+  "sources": ["https://www.nba.com/games?date=2026-11-13"],
+  "status": "open — blank and flagged",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-05",
+  "area": "Market-anchored prior",
+  "item": "No licensed closing-line feed is connected, so all market-anchored blended lines are blank and flagged.",
+  "why": "The brief requires the model line blended with the closing line, weighted by measured out-of-sample log loss. Without a feed there is no closing line to blend; publishing a fabricated one would violate the no-infer rule.",
+  "action_needed": "Connect a closing-line feed to data/app/closing_lines.json (schema + weight formula already printed there). The blend activates automatically once rows appear.",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json"],
+  "status": "open — formula published, lines blank",
+  "severity": "high",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-06",
+  "area": "Estimator B scoring",
+  "item": "Estimator B's log-loss is measured in-sample against the 2026-11-15 stat snapshot, not out-of-sample.",
+  "why": "Only one historical snapshot of the three official team-stat pages is stored, so an honest expanding walk-forward for estimator B is impossible. Estimator A's score IS out-of-sample (expanding walk-forward over the official game log).",
+  "action_needed": "The scheduled refresh job stores a team-stat snapshot per day; once enough snapshots accumulate, estimator B can be scored out-of-sample. Until then its score is labelled in-sample everywhere it is printed.",
+  "sources": ["https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"],
+  "status": "open — labelled in-sample",
+  "severity": "medium",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-07",
+  "area": "Schedule capture",
+  "item": "The 11/15 games-page text extract ends with a trailing 'ATL @ PHX Final 102 - 107' row adjacent to game id 0022600269 in the column alignment.",
+  "why": "No ATL@PHX game exists in the 11/15-11/18 window; the score matches the 11/12 game covered by the page's own recap ('Suns vs. Hawks Game Recap', Hawks 102, Suns 107). The stored slate keeps 0022600269 = PHX @ SAC (11/18) and excludes the trailing row.",
+  "action_needed": "Verify the slate against the live page when the next refresh runs (the refresh stores the raw HTML). No value was invented; the artifact is recorded here.",
+  "sources": ["https://www.nba.com/games?date=2026-11-15"],
+  "status": "resolved-excluded — re-verify on next refresh",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-08",
+  "area": "Injury report",
+  "item": "The NYK side of NYK@TOR (11/15) has no rows at all in the 06:15 AM ET report.",
+  "why": "A team with nothing to report prints nothing; the report carries TOR rows only. The side is therefore 'no rows printed', which is NOT the same as 'everyone available'.",
+  "action_needed": "Read as unknown-but-unreported, not as healthy. The freshness page's availability states already distinguish this case.",
+  "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"],
+  "status": "published — interpretation note",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ },
+ {
+  "id": "793-F-09",
+  "area": "Game books",
+  "item": "Three game-book extracts merge the team-totals row into a player's line (Nnaji DENNOP, Porter Jr. BKNMEM, Robinson CHIMIN) and one CHIMIN row prints a doubled DNP marker.",
+  "why": "PDF text extraction artifact. The capture script treats any 240:00 line as the team totals row (never a player stint), splits merged lines without attributing totals to a player, and records the doubled DNP marker as one DNP row. Player points sum to the team finals for all five books (check E5).",
+  "action_needed": "None for the data; documented so a future parser does not regress. See the parse notes at the end of the affected game-book captures.",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf", "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"],
+  "status": "handled — parser rules published",
+  "severity": "low",
+  "legacy_ref": "",
+  "found_on": "2026-11-15"
+ }
+]

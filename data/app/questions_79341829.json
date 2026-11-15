@@ -1,0 +1,46 @@
+[
+ {
+  "id": "Q-793-01",
+  "category": "Data feeds",
+  "question": "Is a licensed closing-line feed available for this repository?",
+  "status": "open",
+  "known": "The market-anchored prior formula and feed schema are published (data/app/closing_lines.json). The model line is generated and hashed every refresh.",
+  "missing": "The closing line itself. Without it no blended line may be published (no-infer rule).",
+  "next_step": "Owner connects a feed (or names one); the blend activates on the next refresh with weights from measured out-of-sample log loss.",
+  "owner": "owner",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json"]
+ },
+ {
+  "id": "Q-793-02",
+  "category": "Travel distances",
+  "question": "Which coordinates source should fill PHX Arena and Wells Fargo Center?",
+  "status": "open",
+  "known": "28 of 30 arenas have coordinates from their Wikipedia pages (reference source, labelled). The two remaining pages return no coordinates from the Wikipedia API.",
+  "missing": "A verifiable coordinates value for the two arenas, from a source this repository is allowed to cite.",
+  "next_step": "Owner picks a source (Wikidata, official arena pages); the arena table then fills and travel distances compute automatically.",
+  "owner": "owner",
+  "sources": ["https://en.wikipedia.org/wiki/PHX_Arena", "https://en.wikipedia.org/wiki/Wells_Fargo_Center_(Philadelphia)"]
+ },
+ {
+  "id": "Q-793-03",
+  "category": "Game logs",
+  "question": "How quickly must per-player game logs cover every injury-report player?",
+  "status": "answered-provisionally",
+  "known": "The five 11/14 game books are captured with full per-player lines (173 rows). The scheduled refresh job appends every completed game's game book each night, so every team is covered within one game day.",
+  "missing": "Historical game books for 11/13 and earlier (not yet fetched; listed in 793-F-03/793-F-04).",
+  "next_step": "If same-day coverage of all injury players is required, fetch the previous game day's game books in the same refresh run (the job already does this for the two most recent game days).",
+  "owner": "owner",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"]
+ },
+ {
+  "id": "Q-793-04",
+  "category": "Engine policy",
+  "question": "Should the legacy lab engine (free-fit HCA) be re-fit with the pinned HCA, or superseded by the two-estimator layer?",
+  "status": "open",
+  "known": "The brief requires HCA pinned to the measured home-win rate. The new estimator layer (scripts/estimators.py) does exactly that and is published on the projections page. The legacy lab walk-forward record (lab.json, strategy_lab.py) still fits HCA freely and its numbers remain as the historical record.",
+  "missing": "An owner decision to either re-run the legacy lab with pinned HCA (changes every seeded walk-forward number) or formally supersede it.",
+  "next_step": "Owner chooses; the methodology page already labels the legacy free-fit HCA as superseded by the pinned policy.",
+  "owner": "owner",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/estimators.py"]
+ }
+]
