@@ -4059,3 +4059,44 @@ pre-#76/#77/#78/#80/#81/#82/#83 base, so GitHub reports it as mergeable only bec
 would silently revert the other sessions. It carries one genuinely valuable fix (NF-90, the
 structurally-zero rotation join), which this session reimplements independently in B4, inside its
 own scope, so nothing of value is lost. PR #79 is closed as **superseded**, never merged.
+
+## Session `arena/2ebb1e75-nba3` (current) — CLAIM: live official refresh, sealed ledger, per-game result feed, two-estimator headline
+
+**Session ID:** `arena/2ebb1e75-nba3`. Branch `arena/2ebb1e75-nba3`, branched from `main` @
+`d320feaa5b1b235e55d39d736551e8a7572d9cd4` (merge of PR #83). Claim written and committed before
+any other work started (2026-11-15).
+
+**Why this round exists.** The published canonical snapshot is the 2026-11-14 04:15 AM ET injury
+report over a 11/14–11/17 slate. As of this session the league has played the 11/14 slate, the
+official index carries 11/15 reports through 06:15 AM ET, and nothing in the repo has ever
+recorded a hash-sealed pick ledger, per-game quarter linescores, or a pre-registration file. The
+brief's remaining unbuilt items are concentrated in those areas, so this session builds them.
+
+**Network note (must be recorded, it constrains every claim below).** Raw `curl` to `nba.com`
+from the sandbox is blocked (egress allowlist). Official pages are read here through the
+`fetch_page` tool only. Any step that must run unattended on the GitHub runner therefore
+re-parses **committed verbatim captures** and never depends on sandbox network.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| S1 | Official capture: 11/15 injury index + newest report, 11/14 final scores, slate re-read | in progress | `data/live/` (**new tree**), `scripts/capture_official_2026_11_15.py` (**new**) |
+| S2 | Per-game result feed with quarter linescores, one row per game | in progress | `data/live/results/`, `scripts/build_results_feed.py` (**new**) |
+| S3 | Injury PDF archive + consecutive-report diff | in progress | `data/live/injuries/`, `scripts/injury_archive.py` (**new**) |
+| S4 | Two independent estimators; disagreement as headline; HCA pinned to measured rate | in progress | `scripts/estimators.py` (**new**), `tests/test_estimators.py` (**new**) |
+| S5 | Pre-registration files + hash-sealed tamper-evident pick ledger | in progress | `prereg/` (**new**), `ledger/` (**new**), `scripts/ledger.py` (**new**) |
+| S6 | Freshness + provenance gates that must pass before a rebuild | in progress | `scripts/freshness_gates.py` (**new**) |
+| S7 | Split site: `projection/` (safe now) vs `bet/` (gated) surfaces | in progress | `scripts/build_books.py` (**new**), `projection/`, `bet/` |
+| S8 | Repo review, line by line; questions, suggestions, executive summary | in progress | `data/live/review.json`, `data/live/questions.json`, `data/live/suggestions.json` |
+| S9 | Integration: CI wiring, PR → merge → Pages verification | pending | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` (additive), `index.html` (nav only) |
+
+**Non-overlap.** This session writes only the paths listed above. It does **not** edit
+`data/app/canonical.json`, `data/app/lab.json`, `scripts/strategy_lab.py`,
+`scripts/assemble_canonical.py`, `scripts/build_app.py`, `app/*.html` or any existing audit tree;
+those stay with their owners. Cross-owner needs are logged here as change requests.
+
+**Open PR takeover (logged, not executed).** PR [#79](https://github.com/wingbangboozle1-lang/NBA3/pull/79)
+(`arena/90183333-nba3`, game-day refresh, state `CONFLICTING`, last push 2026-11-14 20:50 UTC) and
+PR [#70](https://github.com/wingbangboozle1-lang/NBA3/pull/70) (`arena/f2d4a99f-nba3`,
+`CONFLICTING`, open since 2026-11-14 10:47 UTC) are both older than 60 minutes with no commits.
+Both are preserved untouched; their substantive content is *not* duplicated here, so a later
+session can still land them. This round only notes them.
