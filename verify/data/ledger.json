@@ -9,10 +9,12 @@
   "label_history": "The labels as originally issued were inverted on all 22 cards (see FX-02). They have been corrected in the repository. The ledger records the corrected label because the ledger's purpose is to fix the SIDE that was picked before tip-off, and the side itself never changed: on every card the moneyline named the same team as the model favourite. Only the printed spread sign was wrong.",
   "counts": {
    "total": 22,
-   "settled": 0,
-   "pending": 22,
+   "settled": 5,
+   "pending": 17,
    "with_official_game_id": 10,
-   "labels_that_were_inverted": 22
+   "labels_that_were_inverted": 22,
+   "won": 3,
+   "lost": 2
   }
  },
  "ledger": [
@@ -28,11 +30,13 @@
    "our_model_prob": 0.673,
    "published_label_as_issued": "DEN -8.6",
    "corrected_label": "DEN -8.6",
-   "status": "PENDING",
-   "settled_score": "",
-   "result": "",
+   "status": "SETTLED",
+   "settled_score": "DEN 116 - NOP 108",
+   "result": "WON",
    "settlement_source": "https://www.nba.com/game/den-vs-nop-0022600231",
-   "note": "Official game page opened and confirmed this session."
+   "note": "Official game page opened and confirmed this session.",
+   "settled_utc": "2026-11-15T06:40Z",
+   "settlement_note": "Settled from the official results feed (retrieved 2026-11-15T06:40Z); DEN beat NOP. The pick favoured DEN."
   },
   {
    "id": "LED-002",
@@ -46,11 +50,13 @@
    "our_model_prob": 0.66,
    "published_label_as_issued": "CLE -7.9",
    "corrected_label": "CLE -7.9",
-   "status": "PENDING",
-   "settled_score": "",
-   "result": "",
+   "status": "SETTLED",
+   "settled_score": "DAL 117 - CLE 127",
+   "result": "WON",
    "settlement_source": "https://www.nba.com/game/dal-vs-cle-0022600232",
-   "note": "Official game page opened and confirmed this session."
+   "note": "Official game page opened and confirmed this session.",
+   "settled_utc": "2026-11-15T06:40Z",
+   "settlement_note": "Settled from the official results feed (retrieved 2026-11-15T06:40Z); CLE beat DAL. The pick favoured CLE."
   },
   {
    "id": "LED-003",
@@ -64,11 +70,13 @@
    "our_model_prob": 0.682,
    "published_label_as_issued": "MEM -9.1",
    "corrected_label": "MEM -9.1",
-   "status": "PENDING",
-   "settled_score": "",
-   "result": "",
+   "status": "SETTLED",
+   "settled_score": "BKN 110 - MEM 129",
+   "result": "WON",
    "settlement_source": "https://www.nba.com/game/bkn-vs-mem-0022600234",
-   "note": "Official game page opened and confirmed this session."
+   "note": "Official game page opened and confirmed this session.",
+   "settled_utc": "2026-11-15T06:40Z",
+   "settlement_note": "Settled from the official results feed (retrieved 2026-11-15T06:40Z); MEM beat BKN. The pick favoured MEM."
   },
   {
    "id": "LED-004",
@@ -82,11 +90,13 @@
    "our_model_prob": 0.633,
    "published_label_as_issued": "DET -6.5",
    "corrected_label": "DET -6.5",
-   "status": "PENDING",
-   "settled_score": "",
-   "result": "",
+   "status": "SETTLED",
+   "settled_score": "DET 117 - MIA 137",
+   "result": "LOST",
    "settlement_source": "https://www.nba.com/game/det-vs-mia-0022600233",
-   "note": "Official game page opened and confirmed this session."
+   "note": "Official game page opened and confirmed this session.",
+   "settled_utc": "2026-11-15T06:40Z",
+   "settlement_note": "Settled from the official results feed (retrieved 2026-11-15T06:40Z); MIA beat DET. The pick favoured DET."
   },
   {
    "id": "LED-005",
@@ -100,11 +110,13 @@
    "our_model_prob": 0.812,
    "published_label_as_issued": "MIN -17.4",
    "corrected_label": "MIN -17.4",
-   "status": "PENDING",
-   "settled_score": "",
-   "result": "",
+   "status": "SETTLED",
+   "settled_score": "CHI 117 - MIN 106",
+   "result": "LOST",
    "settlement_source": "https://www.nba.com/game/chi-vs-min-0022600235",
-   "note": "Official game page opened and confirmed this session."
+   "note": "Official game page opened and confirmed this session.",
+   "settled_utc": "2026-11-15T06:40Z",
+   "settlement_note": "Settled from the official results feed (retrieved 2026-11-15T06:40Z); CHI beat MIN. The pick favoured MIN."
   },
   {
    "id": "LED-006",

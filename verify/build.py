@@ -211,11 +211,24 @@ def test_game_logs_agree():
         else:
             with open(prov_path, encoding='utf-8') as fh:
                 prov = json.load(fh)
-            if prov.get('rows_added') != len(extra):
-                fail(f'provenance says {prov.get("rows_added")} rows were added; '
-                     f'{len(extra)} are unexplained')
-            if not str(prov.get('source_url', '')).startswith('https://www.nba.com/'):
-                fail('the extension provenance does not name an official NBA source')
+            # The provenance file is a chain since session arena/9866a950-nba3:
+            # each extension record carries its own rows_added/source_url and a
+            # prior_extension pointer, oldest first.  Walk the chain and every
+            # extra row must be explained exactly once.
+            chain = []
+            node = prov
+            while isinstance(node, dict):
+                chain.append(node)
+                node = node.get('prior_extension')
+            total_added = sum(p.get('rows_added') or 0 for p in chain)
+            if total_added != len(extra):
+                fail(f'provenance chain says {total_added} rows were added '
+                     f'({len(chain)} record(s)); {len(extra)} are unexplained')
+            for p in chain:
+                if not str(p.get('source_url', '')).startswith('https://www.nba.com/'):
+                    fail('an extension provenance record does not name an official NBA source')
+                if p.get('games_after') is None:
+                    fail('an extension provenance record does not state games_after')
             if prov.get('games_after') != len(origin):
                 fail(f'provenance claims {prov.get("games_after")} games after the extension; '
                      f'the log holds {len(origin)}')
@@ -805,6 +818,18 @@ owner and not for an agent session.</p>
 
 
 def settle(r):
+    # Settlement stamp (brief requirement r): result, official score and the
+    # settlement time, with the official source link, for every settled row.
+    if r.get("status") == "SETTLED" or r.get("result"):
+        cls = "t-good" if r.get("result") == "WON" else "t-bad"
+        bits = [f'<span class="tag {cls}">{esc(r.get("result", ""))}</span>',
+                esc(r.get("settled_score", ""))]
+        if r.get("settled_utc"):
+            bits.append('<span style="color:var(--muted);font-size:12px">settled '
+                        + esc(r["settled_utc"]) + '</span>')
+        if r.get("settlement_source"):
+            bits.append(src(r["settlement_source"]))
+        return "<br>".join(bits)
     if r["settlement_source"]:
         return src(r["settlement_source"])
     return '<span class="tag t-unv">game id unconfirmed</span>'
@@ -827,7 +852,7 @@ def build_ledger(d):
 <p class="sub">{esc(led['meta']['what'])}</p>
 <div class="metric">
 <div class="m"><b>{c['total']}</b><span>picks recorded before tip-off</span></div>
-<div class="m"><b>{c['settled']}</b><span>settled</span><small>none yet &mdash; the games have not been played at build time</small></div>
+<div class="m"><b>{c['settled']}</b><span>settled</span><small>{c.get('won', 0)} won / {c.get('lost', 0)} lost, settled from the official finals feed as each game day ended</small></div>
 <div class="m"><b>{c['labels_that_were_inverted']}</b><span>labels that named the wrong side</span><small>all corrected</small></div>
 <div class="m"><b>{c['with_official_game_id']}</b><span>with a confirmed official game id</span></div>
 </div>
@@ -841,9 +866,10 @@ def build_ledger(d):
 <div class="scroll"><table><thead><tr><th>Control</th><th>Rule</th></tr></thead><tbody>
 {''.join(f'<tr><td><b>{esc(k)}</b></td><td>{esc(v)}</td></tr>' for k, v in led['controls'].items())}
 </tbody></table></div>
-<div class="warn"><b>Nothing here is a result yet.</b> A ledger with zero settled rows proves nothing. Its value is
-that it exists <i>before</i> the outcomes are known, which is the only way a later result can be called skill rather
-than luck.</div>
+<div class="warn"><b>Read the settled rows with care.</b> Every settled row was recorded <i>before</i> the outcome
+was known, which is the only reason a result can be called skill rather than luck. Five or fifty settled rows say
+nothing about the next pick; the promotion rule below requires 100 settled picks and a Brier-skill interval that
+excludes zero.</div>
 </section>"""
     return page('ledger', 'Settlement ledger', body)
 

@@ -11,8 +11,8 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -492,6 +492,72 @@ value back to the page that produced it.</p>
 <td>gh api (authenticated)</td>
 <td>Verified against API output at retrieval time.</td>
 <td>Repository facts change; re-check before relying on them.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-42</td>
+<td>NBA (official)</td>
+<td>NBA Injury Report — 2026-27 season index (read 2026-11-15 06:35Z)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-15</td>
+<td>fetch_page, 1 chunk. Verbatim copy: data/app/official_injury_index_2026-11-15_0635Z.md</td>
+<td>Read. The November 15 list runs from 12:00 a.m. to 6:15 a.m. ET; 6:15 a.m. ET is the newest report that existed for the 11/15 game day at capture.</td>
+<td>The index is updated continuously; a newer report can exist minutes later. Reports list publication times, not per-team deadlines.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-43</td>
+<td>NBA (official)</td>
+<td>NBA official injury report PDF — 11/15/26 06:15 AM ET (canonical capture)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-15</td>
+<td>fetch_page, chunks 0-1 of 2 (PDF text extraction). Verbatim copy: data/app/official_injuries_2026-11-15_0615AM_raw.md</td>
+<td>Read twice independently (12:00 AM and 06:15 AM ET stamps); the two reads agree on all 101 rows. Team cells the PDF drops after page breaks were attributed by carrying the section team forward, identically in both reads.</td>
+<td>PDF-text spelling variants: &#x27;Embid/Embiid, Joel&#x27;, &#x27;Markovic, Bogoljub/Bogojub&#x27;. No New York Knicks rows exist at all for the 11/15 NYK@TOR game -- recorded, not inferred.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-44</td>
+<td>NBA (official)</td>
+<td>NBA official injury report PDF — 11/15/26 12:00 AM ET (second independent read)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-15</td>
+<td>fetch_page, chunks 0-1 of 2. Verbatim copy: data/app/official_injuries_2026-11-15_1215AM_raw.md</td>
+<td>Read. 101/101 rows agree with the 06:15 AM ET read on date, time, matchup, team, player, status and reason.</td>
+<td>Same document family as the canonical capture; it adds no information, it corroborates.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-45</td>
+<td>NBA (official)</td>
+<td>NBA Schedule — 2026-11-15 and 2026-11-18 pages (window 2026-11-15..18)</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-15</td>
+<td>fetch_page, chunks 0-2. Second read: the per-game page carousel on every game page.</td>
+<td>Read. Every game cross-checked against the carousel (ids, matchup order, tip time, broadcast, team records); 11/16-11/18 additionally read from the schedule?date=2026-11-18 page.</td>
+<td>The schedule page and the game-page carousel print different broadcasters for two games (MEM@WAS and WAS@TOR on 11/16 and 11/18 respectively: LP on the schedule page, MNMT/Monumental+ on the game page). Both values are recorded; the game-page value is published.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-46</td>
+<td>NBA (official)</td>
+<td>NBA game-summary pages for the five 2026-11-14 finals (LINESCORES + GAME INFO)</td>
+<td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-15</td>
+<td>fetch_page, chunk 2 of 3 per page (LINESCORES and GAME INFO blocks)</td>
+<td>Read all five. Quarter scores sum exactly to each final for both teams (10/10). Scores also match the schedule page and the carousel (three independent official reads).</td>
+<td>The five games: DEN@NOP, DAL@CLE, DET@MIA, BKN@MEM, CHI@MIN.</td>
+<td></td>
+</tr>
+<tr>
+<td>SRC-47</td>
+<td>NBA (official)</td>
+<td>NBA Stats — Teams Advanced (Regular Season 2026-27), re-read 2026-11-15</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">open</a></td>
+<td>2026-11-15</td>
+<td>fetch_page, chunks 0-1 of 2</td>
+<td>Read. 30 rows; W and L columns sum to 188 = 2 x 188 games; every team&#x27;s W-L record matches the carousel record.</td>
+<td>Players minutes table NOT re-read this session (flag F-9866a950-01).</td>
 <td></td>
 </tr>
 </tbody></table></div>

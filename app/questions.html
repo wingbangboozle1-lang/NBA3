@@ -11,8 +11,8 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -559,6 +559,28 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Either state on the page that Probable/Available rows are ignored and why, or capture player game logs and measure how minutes actually shift for splint/mask cases. The first costs nothing.</td>
 <td>Owner</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf</a></td>
+</tr>
+<tr>
+<td>Q-9866a950-01</td>
+<td>Data sources</td>
+<td>For the travel-distance feature, which arena-coordinate source is acceptable? No official NBA page publishes coordinates.</td>
+<td>open</td>
+<td>Venue names and cities for every window game are official (nba.com schedule and game pages). Rest, B2B and 3-in-4 are computed from the official schedule.</td>
+<td>A lat/long table with a license that permits use in this repository.</td>
+<td>Option A: accept an encyclopedia/other public source, labelled &#x27;derived, non-official&#x27; on every row it touches; Option B: commission/authorize a data feed; Option C: leave travel out of the model.</td>
+<td>owner decision</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>Q-9866a950-02</td>
+<td>Presentation</td>
+<td>For the two games where the official schedule page and the official game page print different broadcasters (MEM@WAS 11/16, WAS@TOR 11/18), which value should the site publish as primary?</td>
+<td>open</td>
+<td>Both values are stored verbatim in data/app/official_slate_1115_1118.json.</td>
+<td>An owner preference.</td>
+<td>Keep the game-page value (current choice) or switch to the schedule-page value.</td>
+<td>owner decision</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-18</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a></td>
 </tr>
 </tbody></table></div>
 </main>

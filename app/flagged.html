@@ -11,8 +11,8 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 80 items: 19 high, 50 medium, 11 low severity.
+<em>decisions</em>. 85 items: 19 high, 52 medium, 14 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -923,6 +923,61 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Not re-verified this round</td>
 <td>2026-11-14</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>F-9866a950-01</td>
+<td>Data freshness</td>
+<td>The official per-player minutes table (players_top31 CSV) was NOT re-read on 2026-11-15; the minutes-redistribution model still uses the 2026-11-14 capture.</td>
+<td>Reading the 469-row official players table consumes a large share of a session&#x27;s page-fetch budget; this session spent it on the window refresh, the quarter-score results feed, the ledger settlement and the home-court pin. The manifest records the stale provenance explicitly rather than pretending the table is current.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Next session: re-read https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC and repoint the manifest &#x27;players&#x27; block.</td>
+<td>open</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season&amp;PerPage=100&amp;SortColumn=MIN&amp;SortDirection=DESC</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json</a></td>
+</tr>
+<tr>
+<td>F-9866a950-02</td>
+<td>Broadcast metadata</td>
+<td>The official schedule page and the official per-game page disagree on the broadcaster for MEM@WAS (2026-11-16) and WAS@TOR (2026-11-18): the schedule page prints LEAGUE PASS, the game pages print MNMT/Monumental+.</td>
+<td>Both are official NBA pages; the discrepancy is on the publisher&#x27;s side.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Published value is the game page&#x27;s own howToWatch target; the schedule-page value is kept in the capture (official_slate_1115_1118.json, broadcast_discrepancies). An owner call on which to prefer is logged as a question.</td>
+<td>open</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-18</a> · <a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_slate_1115_1118.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_slate_1115_1118.json</a></td>
+</tr>
+<tr>
+<td>F-9866a950-03</td>
+<td>Injury report transcription</td>
+<td>The 11/15 06:15 AM ET PDF text shows two spelling variants against the 12:00 AM ET read: &#x27;Embid, Joel&#x27; vs &#x27;Embiid, Joel&#x27; and &#x27;Markovic, Bogoljub&#x27; vs &#x27;Markovic, Bogojub&#x27;.</td>
+<td>The two reads are of two different official PDFs; the PDF text layer itself varies.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>The 12:00 AM spellings are stored (Embiid, Bogoljub) and both variants are recorded in the capture&#x27;s spelling_variants block. Nothing to decide; recorded so the row-level cross-check is reproducible.</td>
+<td>recorded</td>
+<td>2026-11-15</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf</a></td>
+</tr>
+<tr>
+<td>F-9866a950-04</td>
+<td>Availability semantics</td>
+<td>NYK has NO row at all on the official 11/15 06:15 AM ET report for the NYK@TOR game -- not even NOT YET SUBMITTED. The old four-state register collapsed this into &#x27;no official report covers this date&#x27;, which is false.</td>
+<td>The report DOES cover 2026-11-15; it simply does not list New York. Publishing &#x27;no report covers this date&#x27; for that team-side would have been an incorrect statement about an official document.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Fixed in this session: new fifth availability state REPORT_COVERS_DATE_TEAM_NOT_LISTED in scripts/report_availability.py (takeover of CR-1823b910-02) with the deadline status published beside it, and the same fix in the lab&#x27;s availability fallback.</td>
+<td>fixed</td>
+<td>2026-11-15</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>F-9866a950-05</td>
+<td>Travel distance</td>
+<td>The brief asks for travel distance from a sourced arena-coordinate table. No official NBA page publishes arena coordinates, so the table cannot be built from official sources alone and was NOT built this session.</td>
+<td>Filling coordinates from a non-official source (e.g. an encyclopedia) silently would break the repository&#x27;s every-row-official rule; the discovery path needs an owner decision on the acceptable non-official source and how to label it.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Decision needed: either accept a clearly-labelled non-official coordinate source for the derived distance column, or commission the table from an authorized data feed (see the Questions page, Q-9866a950-01).</td>
+<td>open</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md</a></td>
 </tr>
 </tbody></table></div>
 
