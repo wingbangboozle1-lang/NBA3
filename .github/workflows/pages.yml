@@ -27,6 +27,10 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /audit_dd1eb1f1/ -> session dd1eb1f1 independent audit: official re-read compared row by row
 #                       against the canonical artefact, plus the correlations measured to fill
 #                       cells the canonical site publishes blank
+#   /audit_94e6d41b/ -> session arena/94e6d41b-nba3: 2026-11-15 game-day refresh: newest official
+#     injury reports (06:15 AM ET snapshot + 4 cross-reports), 11/14 finals settled, rolling
+#     11/15-11/18 window, four-leg engine invariance proof, availability delta and settlement;
+#     supersedes the 11/14 04:15 AM snapshot the manifest published before this round
 #   /audit_1823b910/ -> session arena/1823b910-nba3: independent second transcription of the same
 #                       11/14 01:30 PM ET report, the line-invariance proof, injury -> rotation impact,
 #                       game flow, and this session's questions and suggestions
@@ -54,6 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # the 94e6d41b audit legs diff the engine against the published state
+          # of main via `git show d320fea:...`; a shallow clone cannot do that
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -337,6 +345,28 @@ jobs:
           }
       - name: Unit tests (injury-refresh audit, arena/1823b910)
         run: python3 -m unittest discover -s audit_1823b910 -p 'test_*.py'
+      - name: Game-day refresh capture and cross-check (arena/94e6d41b, offline replay)
+        run: |
+          python3 scripts/capture_official_2026_11_15.py
+          git diff --exit-code -- data/app/official_injuries_2026-11-15_0615AM.json data/app/official_slate_1115_1118.json data/app/official_results_2026-11-14.json data/app/official_team_ratings_2026-11-15.json data/app/players_top31_2026-11-15.csv || {
+            echo "a 2026-11-15 capture drifted from the committed artefact;"
+            echo "the capture parses committed verbatim fetches only, so a difference means a real change."
+            git --no-pager diff -- data/app/official_injuries_2026-11-15_0615AM.json | head -60
+            exit 1
+          }
+      - name: Build the game-day refresh audit tree and fail on drift (arena/94e6d41b)
+        run: |
+          python3 audit_94e6d41b/analysis.py
+          python3 audit_94e6d41b/build.py
+          git diff --exit-code -- audit_94e6d41b/data audit_94e6d41b/pages || {
+            echo "audit_94e6d41b/ drifted: the committed captures, analysis or pages do not"
+            echo "reproduce. The captures are transcriptions of official pages and must not be"
+            echo "regenerated silently by a build."
+            git status --porcelain -- audit_94e6d41b/data audit_94e6d41b/pages
+            exit 1
+          }
+      - name: Unit tests (game-day refresh audit, arena/94e6d41b)
+        run: python3 -m unittest discover -s audit_94e6d41b -p 'test_*.py'
 
       - name: 11/15 capture round + estimator layer, offline replay (arena/79341829)
         run: |
@@ -420,6 +450,8 @@ jobs:
           cp -r audit_dd1eb1f1 _pages/audit_dd1eb1f1
           rm -rf audit_1823b910/__pycache__
           cp -r audit_1823b910 _pages/audit_1823b910
+          rm -rf audit_94e6d41b/__pycache__ audit_94e6d41b/.legs
+          cp -r audit_94e6d41b _pages/audit_94e6d41b
           cp -r audit_736efb4b _pages/audit_736efb4b
           cp -r audit_7f3b89af _pages/audit_7f3b89af
           cp executive-summary.html _pages/
