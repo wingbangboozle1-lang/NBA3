@@ -5,25 +5,25 @@
  "counts": {
   "checks": 22,
   "by_status": {
-   "IRREGULARITY": 2,
-   "PASS": 16,
-   "FLAGGED": 4
+   "PASS": 17,
+   "FLAGGED": 4,
+   "IRREGULARITY": 1
   }
  },
  "checks": [
   {
    "id": "R1",
    "area": "results capture",
-   "finding": "The in-repo results capture ends before the settled feed",
-   "status": "IRREGULARITY",
+   "finding": "The results capture reaches the newest settled game date",
+   "status": "PASS",
    "severity": "medium",
-   "evidence": "data/origin/games.csv last date 2026-11-13; the 11/14 finals are only in data/live/results/settled_2026-11-14.json. Any consumer that treats games.csv as the full schedule silently loses 5 games, and every back-to-back across that seam.",
+   "evidence": "data/origin/games.csv ends 2026-11-14; newest settled game 2026-11-14. The capture is current, so schedule features read from it alone are safe for these dates.",
    "source": "https://www.nba.com/games"
   },
   {
    "id": "R2",
    "area": "score reconciliation",
-   "finding": "0 settled games also appear in the results capture; 0 disagree on the final score",
+   "finding": "5 settled games also appear in the results capture; 0 disagree on the final score",
    "status": "PASS",
    "severity": "high",
    "evidence": "compared game_id, away_pts, home_pts against the verified feed; mismatches: none",
@@ -35,7 +35,7 @@
    "finding": "Duplicate game_id rows",
    "status": "PASS",
    "severity": "high",
-   "evidence": "183 rows, 183 unique game_ids, duplicates: none",
+   "evidence": "188 rows, 188 unique game_ids, duplicates: none",
    "source": "https://www.nba.com/games"
   },
   {
@@ -53,7 +53,7 @@
    "finding": "A team playing twice on one date",
    "status": "PASS",
    "severity": "high",
-   "evidence": "dates checked: 24; offenders: none",
+   "evidence": "dates checked: 25; offenders: none",
    "source": "https://www.nba.com/games"
   },
   {
@@ -62,7 +62,7 @@
    "finding": "Overtime games present and flagged",
    "status": "PASS",
    "severity": "low",
-   "evidence": "10 overtime games in 183 rows; e.g. 2026-10-26 MIN 125-127 CLE",
+   "evidence": "10 overtime games in 188 rows; e.g. 2026-10-26 MIN 125-127 CLE",
    "source": "https://www.nba.com/games"
   },
   {
@@ -86,10 +86,10 @@
   {
    "id": "R9",
    "area": "team stats",
-   "finding": "Games played equals the number of games actually in the captures",
+   "finding": "Games played equals the number of distinct games in the captures",
    "status": "PASS",
    "severity": "medium",
-   "evidence": "0 clubs differ: none",
+   "evidence": "188 distinct games unioned from 188 capture rows and 5 settled rows; 0 of 30 clubs differ: none",
    "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
   },
   {
@@ -188,7 +188,7 @@
    "finding": "Every generated page carries at least one official https source",
    "status": "PASS",
    "severity": "critical",
-   "evidence": "15 pages built; without a source: none",
+   "evidence": "18 pages built; without a source: none",
    "source": "https://www.nba.com/games"
   },
   {

@@ -1,6 +1,6 @@
 {
  "schema": "nba3.live.freshness/v1",
- "checked_utc": "2026-11-15T11:54:01Z",
+ "checked_utc": "2026-11-15T11:57:37Z",
  "counts": {
   "gates": 10,
   "passed": 10,
@@ -133,7 +133,7 @@
    "passed": true,
    "value": {
     "generated_utc": "2026-11-15T11:34:06Z",
-    "age_hours": 0.33,
+    "age_hours": 0.39,
     "max_age_hours": null
    },
    "rule": "age <= --max-report-age-hours (unbounded when the flag is omitted)",

@@ -61,13 +61,19 @@ def checks() -> list[dict]:
     logs = json.loads((LIVE / "player_game_logs.json").read_text())
     av = json.loads((LIVE / "availability.json").read_text())
 
-    # R1 - the origin results capture stops one day before the settled feed
-    last = max(g["date"] for g in games)
-    add("R1", "results capture", "The in-repo results capture ends before the settled feed",
-        "IRREGULARITY", "medium",
-        f"data/origin/games.csv last date {last}; the 11/14 finals are only in "
-        f"data/live/results/settled_2026-11-14.json. Any consumer that treats games.csv as the full "
-        f"schedule silently loses 5 games, and every back-to-back across that seam.",
+    # R1 - does the results capture actually reach the newest settled game? Computed, not assumed,
+    # because another session extended games.csv past 11/13 while this check was being written.
+    capture_last = max(g["date"] for g in games)
+    settled_last = max(g["date"] for g in settled["games"])
+    covered = capture_last >= settled_last
+    add("R1", "results capture",
+        "The results capture reaches the newest settled game date",
+        "PASS" if covered else "IRREGULARITY", "medium",
+        f"data/origin/games.csv ends {capture_last}; newest settled game {settled_last}. "
+        + ("The capture is current, so schedule features read from it alone are safe for these dates."
+           if covered else
+           "A consumer that treats the capture as the full schedule would silently lose the games "
+           "in between, and every back-to-back across that seam."),
         OFFICIAL["games"])
 
     # R2 - score reconciliation between the CSV, the feed and the gamebooks
@@ -139,15 +145,24 @@ def checks() -> list[dict]:
         f"{len(stand)} clubs compared; mismatches: {mism8 or 'none'}", OFFICIAL["standings"])
 
     # R9 - games played in the capture must equal the number of games in the results capture
+    # Both captures can now contain the same 11/14 games (a later session extended games.csv), so
+    # the union is taken by game_id. Counting rows instead of games double-counts and fails a check
+    # that should pass -- which is exactly what happened on the first run after the rebase.
+    union: dict[str, tuple[str, str]] = {}
+    for g in games:
+        union[g["game_id"]] = (g["home"], g["away"])
+    for g in settled["games"]:
+        union.setdefault(g["game_id"], (g["home"], g["away"]))
     gp_mism = []
     for t, blob in stats["teams"].items():
-        n = sum(1 for g in games if t in (g["home"], g["away"]))
-        n += sum(1 for g in settled["games"] if t in (g["away"], g["home"]))
+        n = sum(1 for h, a in union.values() if t in (h, a))
         if blob["gp"] != n:
             gp_mism.append((t, blob["gp"], n))
-    add("R9", "team stats", "Games played equals the number of games actually in the captures",
+    add("R9", "team stats", "Games played equals the number of distinct games in the captures",
         "PASS" if not gp_mism else "FAIL", "medium",
-        f"{gp_mism.__len__()} clubs differ: {gp_mism or 'none'}", OFFICIAL["stats_adv"])
+        f"{len(union)} distinct games unioned from {len(games)} capture rows and "
+        f"{len(settled['games'])} settled rows; {len(gp_mism)} of 30 clubs differ: "
+        f"{gp_mism or 'none'}", OFFICIAL["stats_adv"])
 
     # R10 - reconciled team minutes must reach exactly 240 (5x48) in a non-OT game, and reach it
     # within 5-minute overtime increments otherwise. This is a real check on the parser: if a team's

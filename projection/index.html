@@ -113,7 +113,7 @@ none does, so none is published.</div>
 <tr><td>Rating source</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats/teams/advanced</a></td></tr>
 </tbody></table></div><p class="note">Model artefact <code>data/live/model.json</code>, built <code>2026-11-15T11:34:06Z</code>. Rebuilding it from the committed inputs reproduces it byte for byte; the CI step fails otherwise.</p>
 <h2>Gates this build had to pass</h2>
-<p>Checked 2026-11-15T11:54:01Z: <strong>10/10</strong> gates pass. The build refuses to publish if any gate fails.</p><div class="tw"><table id="freshness-gates" class="">
+<p>Checked 2026-11-15T11:57:25Z: <strong>10/10</strong> gates pass. The build refuses to publish if any gate fails.</p><div class="tw"><table id="freshness-gates" class="">
 <thead><tr>
 <th>Gate</th>
 <th>Rule</th>
@@ -131,7 +131,7 @@ none does, so none is published.</div>
 <tr><td><code>F7</code></td><td>Every slate team has an official advanced-stats row</td><td><span class="chip ok">PASS</span></td><td>{&quot;teams_needed&quot;: 30, &quot;missing&quot;: []}</td><td>all 30 team codes present in the official advanced capture</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F8</code></td><td>The ledger chain verifies and every sealed pick is pre-registered</td><td><span class="chip ok">PASS</span></td><td>{&quot;entries&quot;: 2, &quot;head&quot;: &quot;6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d&quot;, &quot;problems&quot;: [], &quot;unregistered_picks&quot;: []}</td><td>sha256 chain recomputes; strategy_id has a frozen prereg/ file</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F9</code></td><td>The model sample is not older than the newest settled game</td><td><span class="chip ok">PASS</span></td><td>{&quot;model_sample_end&quot;: &quot;2026-11-14&quot;, &quot;newest_settled&quot;: &quot;2026-11-14&quot;}</td><td>model sample end &gt;= newest settled game date</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">source</a></td></tr>
-<tr><td><code>F10</code></td><td>The capture is not older than the allowed age</td><td><span class="chip ok">PASS</span></td><td>{&quot;generated_utc&quot;: &quot;2026-11-15T11:34:06Z&quot;, &quot;age_hours&quot;: 0.33, &quot;max_age_hours&quot;: null}</td><td>age &lt;= --max-report-age-hours (unbounded when the flag is omitted)</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F10</code></td><td>The capture is not older than the allowed age</td><td><span class="chip ok">PASS</span></td><td>{&quot;generated_utc&quot;: &quot;2026-11-15T11:34:06Z&quot;, &quot;age_hours&quot;: 0.39, &quot;max_age_hours&quot;: null}</td><td>age &lt;= --max-report-age-hours (unbounded when the flag is omitted)</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 </tbody></table></div>
 </main>
 <footer class="site"><div class="wrap">

@@ -348,7 +348,7 @@ jobs:
           python3 scripts/freshness_gates.py
           python3 scripts/repo_review.py
           python3 scripts/build_live_site.py
-          python3 -m unittest discover -s tests -p 'test_ledger.py'
+          python3 -m unittest discover -s tests -p 'test_*.py'
           # Deterministic + drift-free: every artefact the steps above write must match what is
           # committed. The ledger is append-only, so a difference there means a pick was editorialised.
           git diff --exit-code -- data/live prereg ledger projection bet || {
