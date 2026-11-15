@@ -1,0 +1,28 @@
+{
+ "id": "S1_HOME_B2B_FADE",
+ "name": "Fade the home team on the second night of a back-to-back",
+ "author": "arena/2ebb1e75-nba3",
+ "frozen_utc": "2026-11-15T12:05Z",
+ "signal": "Home team played the previous calendar day (official schedule), and its opponent did not. Bet the ROAD side against the originated spread.",
+ "thresholds": {
+  "min_edge_vs_originated_line_points": 1.0,
+  "require_disagreement_pp_below": 15.0,
+  "require_both_estimators_same_side": true,
+  "min_games_before_any_publication": 0,
+  "required_validation_before_grading": "none: this file is frozen now, before the first bet; the validation gate is applied to the RESULTS, not to entry"
+ },
+ "universe": {
+  "league": "NBA 2026-27 regular season",
+  "window": [
+   "2026-11-15",
+   "2026-11-17"
+  ],
+  "games": "every game in data/live/slate_2026-11-15.json whose home team is on a back-to-back",
+  "exclusions": "none; games with an unfiled injury report are flagged, not excluded"
+ },
+ "settlement_rule": "SPREAD",
+ "settlement_rule_text": "Settle on the official final score at https://www.nba.com/game/<slug>-<game_id>. The pick is the ROAD team at the originated spread. WIN if road margin plus the originated home spread is strictly negative; PUSH at exactly zero; LOSS otherwise. No vacated/abandoned-game clause is defined because the NBA rule set does not provide one.",
+ "stake_rule": "flat 1 unit per pick, no progression; no stake is placed by this repository",
+ "notes": "Chosen because rest is computable from the official schedule alone, so the strategy needs no data the repository lacks. It is NOT claimed to be profitable; that is what grading decides.",
+ "payload_sha256": "20b1b7c658c221db8597f89b7dfeadf3d68f5df1b76cb9185c560ba2967d03e3"
+}

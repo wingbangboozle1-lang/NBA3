@@ -1,0 +1,45 @@
+{
+ "schema": "nba3.live.slate/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "window": {"from": "2026-11-15", "to": "2026-11-17", "rule": "Up to three days ahead of the 2026-11-15 slate, per the brief."},
+ "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+ "retrieved_utc": "2026-11-15T11:44Z",
+ "counts": {"2026-11-15": 9, "2026-11-16": 8, "2026-11-17": 5, "total": 22},
+ "cross_check": {
+  "source_url": "https://www.nba.com/games?date=2026-11-13",
+  "retrieved_utc": "2026-11-15T11:36Z",
+  "note": "The games index prints a per-day game count for November 2026: 15 -> 9 GAMES, 16 -> 8 GAMES, 17 -> 5 GAMES. Both reads agree on every count.",
+  "per_day_counts": {"2026-11-15": 9, "2026-11-16": 8, "2026-11-17": 5}
+ },
+ "games": [
+  {"date": "2026-11-15", "tip_et": "1:00 PM", "away": "IND", "away_name": "Indiana Pacers", "home": "PHI", "home_name": "Philadelphia 76ers", "venue": "Xfinity Mobile Arena", "city": "Philadelphia, PA", "game_id": "0022600236"},
+  {"date": "2026-11-15", "tip_et": "4:00 PM", "away": "LAL", "away_name": "Los Angeles Lakers", "home": "PHX", "home_name": "Phoenix Suns", "venue": "Mortgage Matchup Center", "city": "Phoenix, AZ", "game_id": "0022600237"},
+  {"date": "2026-11-15", "tip_et": "4:30 PM", "away": "CHA", "away_name": "Charlotte Hornets", "home": "LAC", "home_name": "LA Clippers", "venue": "Intuit Dome", "city": "Inglewood, CA", "game_id": "0022600238"},
+  {"date": "2026-11-15", "tip_et": "5:00 PM", "away": "SAS", "away_name": "San Antonio Spurs", "home": "UTA", "home_name": "Utah Jazz", "venue": "Delta Center", "city": "Salt Lake City, UT", "game_id": "0022600239"},
+  {"date": "2026-11-15", "tip_et": "6:00 PM", "away": "DAL", "away_name": "Dallas Mavericks", "home": "BOS", "home_name": "Boston Celtics", "venue": "TD Garden", "city": "Boston, MA", "game_id": "0022600240"},
+  {"date": "2026-11-15", "tip_et": "6:00 PM", "away": "NYK", "away_name": "New York Knicks", "home": "TOR", "home_name": "Toronto Raptors", "venue": "Scotiabank Arena", "city": "Toronto, ON", "game_id": "0022600241"},
+  {"date": "2026-11-15", "tip_et": "7:00 PM", "away": "HOU", "away_name": "Houston Rockets", "home": "WAS", "home_name": "Washington Wizards", "venue": "Capital One Arena", "city": "Washington, DC", "game_id": "0022600242"},
+  {"date": "2026-11-15", "tip_et": "8:00 PM", "away": "ATL", "away_name": "Atlanta Hawks", "home": "MIL", "home_name": "Milwaukee Bucks", "venue": "Fiserv Forum", "city": "Milwaukee, WI", "game_id": "0022600243"},
+  {"date": "2026-11-15", "tip_et": "9:00 PM", "away": "OKC", "away_name": "Oklahoma City Thunder", "home": "SAC", "home_name": "Sacramento Kings", "venue": "Golden 1 Center", "city": "Sacramento, CA", "game_id": "0022600244"},
+
+  {"date": "2026-11-16", "tip_et": "7:00 PM", "away": "ORL", "away_name": "Orlando Magic", "home": "BOS", "home_name": "Boston Celtics", "venue": "TD Garden", "city": "Boston, MA", "game_id": "0022600245"},
+  {"date": "2026-11-16", "tip_et": "7:00 PM", "away": "CHI", "away_name": "Chicago Bulls", "home": "CLE", "home_name": "Cleveland Cavaliers", "venue": "Rocket Arena", "city": "Cleveland, OH", "game_id": "0022600246"},
+  {"date": "2026-11-16", "tip_et": "7:00 PM", "away": "MEM", "away_name": "Memphis Grizzlies", "home": "WAS", "home_name": "Washington Wizards", "venue": "Capital One Arena", "city": "Washington, DC", "game_id": "0022600247"},
+  {"date": "2026-11-16", "tip_et": "7:30 PM", "away": "PHI", "away_name": "Philadelphia 76ers", "home": "BKN", "home_name": "Brooklyn Nets", "venue": "Barclays Center", "city": "Brooklyn, NY", "game_id": "0022600248"},
+  {"date": "2026-11-16", "tip_et": "7:30 PM", "away": "HOU", "away_name": "Houston Rockets", "home": "MIA", "home_name": "Miami Heat", "venue": "Kaseya Center", "city": "Miami, FL", "game_id": "0022600249"},
+  {"date": "2026-11-16", "tip_et": "8:00 PM", "away": "POR", "away_name": "Portland Trail Blazers", "home": "MIN", "home_name": "Minnesota Timberwolves", "venue": "Target Center", "city": "Minneapolis, MN", "game_id": "0022600250"},
+  {"date": "2026-11-16", "tip_et": "8:00 PM", "away": "GSW", "away_name": "Golden State Warriors", "home": "NOP", "home_name": "New Orleans Pelicans", "venue": "Smoothie King Center", "city": "New Orleans, LA", "game_id": "0022600251"},
+  {"date": "2026-11-16", "tip_et": "9:00 PM", "away": "PHX", "away_name": "Phoenix Suns", "home": "DEN", "home_name": "Denver Nuggets", "venue": "Ball Arena", "city": "Denver, CO", "game_id": "0022600252"},
+
+  {"date": "2026-11-17", "tip_et": "7:30 PM", "away": "NYK", "away_name": "New York Knicks", "home": "TOR", "home_name": "Toronto Raptors", "venue": "Scotiabank Arena", "city": "Toronto, ON", "game_id": "0022600253"},
+  {"date": "2026-11-17", "tip_et": "8:00 PM", "away": "POR", "away_name": "Portland Trail Blazers", "home": "MIN", "home_name": "Minnesota Timberwolves", "venue": "Target Center", "city": "Minneapolis, MN", "game_id": "0022600254"},
+  {"date": "2026-11-17", "tip_et": "8:00 PM", "away": "DET", "away_name": "Detroit Pistons", "home": "SAS", "home_name": "San Antonio Spurs", "venue": "Frost Bank Center", "city": "San Antonio, TX", "game_id": "0022600255"},
+  {"date": "2026-11-17", "tip_et": "10:30 PM", "away": "UTA", "away_name": "Utah Jazz", "home": "LAC", "home_name": "LA Clippers", "venue": "Intuit Dome", "city": "Inglewood, CA", "game_id": "0022600257"},
+  {"date": "2026-11-17", "tip_et": "11:00 PM", "away": "CHA", "away_name": "Charlotte Hornets", "home": "LAL", "home_name": "Los Angeles Lakers", "venue": "Crypto.com Arena", "city": "Los Angeles, CA", "game_id": "0022600256"}
+ ],
+ "notes": [
+  "Home/away order is the schedule page's own order (away first, home second), which matches the game-id convention the game pages use (e.g. ind-vs-phi-0022600236).",
+  "Tip times are the ET values printed on the schedule page. The 11/15 injury report prints 01:00, 04:00, 04:30, 05:00, 06:00, 07:00, 08:00 and 09:00 (ET) for the same nine 11/15 games; every one of the 18 team-games on the report matches a slate game. That agreement is checked in CI by scripts/freshness_gates.py.",
+  "No odds column is captured: the schedule page's odds panel is not rendered in the fetched text, and no licensed odds source is connected. Lines on this site are ORIGINATED, not market prices."
+ ]
+}

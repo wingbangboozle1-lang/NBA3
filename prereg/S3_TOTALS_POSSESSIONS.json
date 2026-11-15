@@ -1,0 +1,25 @@
+{
+ "id": "S3_TOTALS_POSSESSIONS",
+ "name": "Under on high-pace, low-efficiency matchups priced off possessions x PPP",
+ "author": "arena/2ebb1e75-nba3",
+ "frozen_utc": "2026-11-15T12:05Z",
+ "signal": "Total = combined possessions x points-per-possession (scripts/estimators.py totals_model). Take the UNDER when the originated total is at least 3.0 points above the model total and both teams are in the top third of official Pace.",
+ "thresholds": {
+  "min_edge_vs_originated_total_points": 3.0,
+  "pace_percentile_min_for_both_teams": 66.7,
+  "max_disagreement_pp": 20.0
+ },
+ "universe": {
+  "league": "NBA 2026-27 regular season",
+  "window": [
+   "2026-11-15",
+   "2026-11-17"
+  ],
+  "games": "all games in the 3-day slate"
+ },
+ "settlement_rule": "TOTAL",
+ "settlement_rule_text": "Settle on the official final score sum. PUSH if it equals the originated line exactly (halves are permitted in the file but the originated lines are to 0.1).",
+ "stake_rule": "flat 1 unit per pick",
+ "notes": "The pace filter is what makes this testable: without it the rule is the model again.",
+ "payload_sha256": "a8f98514bdb98be8d054bbbe87180e8dc34d6a09c0b97dd8b00973d8382fefb5"
+}

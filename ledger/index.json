@@ -1,0 +1,17 @@
+{
+ "schema": "nba3.live.ledger_index/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "head_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+ "entries": 0,
+ "published": 0,
+ "settled": 0,
+ "verified": true,
+ "problems": [],
+ "preregistered_strategies": [
+  "S1_HOME_B2B_FADE",
+  "S2_ESTIMATOR_DISAGREEMENT",
+  "S3_TOTALS_POSSESSIONS"
+ ],
+ "integrity_rule": "Every entry stores the sha256 of its pick and the sha256 of the previous entry. scripts/ledger.py verify() recomputes both; the build fails if either does not reproduce.",
+ "witness": "ledger/ledger.jsonl is committed, so each build's commit hash is an external witness of the head hash."
+}
