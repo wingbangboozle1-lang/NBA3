@@ -4052,3 +4052,29 @@ its goals are superseded by S2/S3/S6 of this round (fresh 11/15 capture, availab
 columns, "injuries are not priced" statement already on the picks page). The PR will be closed
 with a pointer to this section; any finding of it not covered by this round is copied into the
 flag register rather than lost.
+
+---
+
+### Session `79341829` — completion record (2026-11-15)
+
+**S1–S8 + T1: DONE.** PR to main: **https://github.com/wingbangboozle1-lang/NBA3/pull/89** (merged immediately per policy after CI; merge result + Pages deploy confirmation appended below). All claims above are complete with recorded sources, verification and flagged irregularities:
+
+| Task | Status | Sources (official) | Verification |
+|---|---|---|---|
+| S1 refresh + gates | done | `official.nba.com` injury index + filing rules; `nba.com/games`; `statsdmz.nba.com` game books; `nba.com/stats/teams/*` (Season=2026-27) | `freshness_gates.py` 6/6 PASS (`data/app/gate_report.json`); `refresh.yml` cron + `refresh_official.py` fetch→manifest→gates→rebuild-only-on-pass |
+| S2 11/15 capture | done | injury PDF 06:15 AM ET (101 rows, raw + sha256); slate 34 games (ids 0022600236–269); 5 game books; 3 team-stat pages × 30 teams; 28/30 arena coords (Wikipedia, reference-labelled) | capture checks E1–E6 pass offline (`scripts/capture_official_2026_11_15.py`); quarter sums == finals; player points sum to team finals in all 5 books |
+| S3 feed + ledger | done | game books + `nba.com/games?date=2026-11-13`/`14` | 14 rows all settled with stamps; ledger 34-entry hash chain, `pick_ledger.py verify` = CHAIN INTACT; tamper tests pass |
+| S4 pre-registration | done | `data/app/canonical.json` strategies | 15 files frozen before first bet, sha256 verified, never overwritten |
+| S5 estimators + minutes | done | game log (197 official finals) + 3 team-stat pages + injury report + game books | HCA = probit(0.538)×16.9 = 1.62 pinned (test asserts formula); A OOS 66.4%/0.650; rho −0.053 measured; naive product printed beside every parlay price; minutes redistribution sums check |
+| S6 surfaces | done | — | 26 pages, 0 broken links (build_app link check); projection/bet split in nav + pages; rotation column, banner times, 06:15 section + diff all present |
+| S7 line-by-line verification | done | every row's https source enforced by the build | build fails on any unsourced row; 9 flags + 4 questions + 3 suggestions published |
+| S8 integration | done | — | CI replay steps added to `pages.yml` (chain replay + drift gates + 26 tests) |
+| T1 takeover | done | — | takeover notes posted on #79 (availability delta, NF-90 rotation join, "injuries are not priced" — ported) and #70; both closed |
+
+**Flagged for review (data/app/flags_79341829.json → app/flagged.html):** 793-F-01 arena coordinates missing (PHX Arena, Wells Fargo Center) — blanks kept; 793-F-02 17 carry-forward team attributions in the 06:15 report (Sexton/Thiero ambiguous LAL↔PHX); 793-F-03 per-player game logs cover the 11/14 slate only (scheduled job completes; 0 of 84 injury players overlap); 793-F-04 11/13 quarter scores blank; 793-F-05 no closing-line feed (market-anchored lines blank); 793-F-06 estimator B scored in-sample (labelled); 793-F-07 trailing "ATL @ PHX 102-107" artifact on the games-page extract (11/12 recap row, excluded from slate); 793-F-08 NYK side prints no rows (≠ healthy); 793-F-09 merged totals rows in 3 game books (parser rules published).
+
+**Questions register:** `data/app/questions_79341829.json` (Q-793-01 closing-line feed; Q-793-02 coordinates source; Q-793-03 game-log coverage speed; Q-793-04 legacy free-fit HCA supersede decision). **Suggestions (review/choose):** `data/app/suggestions_79341829.json` (S-793-01 stat snapshots for OOS scoring of estimator B; S-793-02 CI enforcement of the surface split; S-793-03 scheduled settlement cron) — each with options + recommended option, none implemented without owner decision.
+
+**Change requests (logged, not applied — files of closed sessions):** CR-1823b910-02/03/04 remain open from the previous round and are unaffected by this session's file scope.
+
+**Determinism note:** every regenerated artefact uses stamps derived from the capture stamps (never the wall clock), so the CI drift gates reproduce byte-identically; `results_feed.py settle` stamps are preserved across re-captures (capture is idempotent).
