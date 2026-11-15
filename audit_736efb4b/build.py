@@ -16,7 +16,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 CAP = json.loads((HERE / "data" / "official_injury_report_2026-11-14_0130PM.json").read_text(encoding="utf-8"))
 DELTA = json.loads((HERE / "data" / "delta_1330PM_vs_canonical.json").read_text(encoding="utf-8"))
-CANON = json.loads((ROOT / "data" / "app" / "canonical.json").read_text(encoding="utf-8"))
+# Frozen 2026-11-14 snapshot: this page compares the 1:30 PM ET report against the
+# snapshot that was published that day, so it must not follow a later refresh.
+CANON = json.loads((ROOT / "data" / "snapshots" / "canonical_2026-11-14.json").read_text(encoding="utf-8"))
 
 NEW_URL = CAP["source_url"]
 NEW_STAMP = CAP["report_stamp"]

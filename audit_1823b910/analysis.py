@@ -223,10 +223,24 @@ def build_line_invariance():
     sl = _load_strategy_lab()
     tmp = tempfile.mkdtemp(prefix="nba3-1823b910-")
     sl.OUT = os.path.join(tmp, "lab_refreshed.json")
+    # Pin the engine to the SAME inputs this audit was written against. Without
+    # this, the two runs differ only because the repository's published window has
+    # since rotated, which has nothing to do with whether an injury refresh moves a
+    # price. Session arena/bb0c83a4-nba3 re-pinned them when it rotated the window
+    # to 2026-11-15; the comparison itself is unchanged.
+    sl.SLATE_JSON = os.path.join(APP, "official_slate_1114_1117_c.json")
+    sl.RATINGS_JSON = os.path.join(APP, "official_team_ratings_2026-11-14c.json")
+    # the results log as it stood on 2026-11-14 (183 games). The live file is
+    # cumulative and now holds 188, and every extra game refits the ratings and
+    # moves every price, so it must be frozen too or this comparison measures
+    # the calendar instead of the injury refresh.
+    sl.GAMES_CSV = os.path.join(ROOT, "data", "snapshots", "games_2026-11-14.csv")
+    sl.PLAYERS_CSV = os.path.join(APP, "players_top31_2026-11-14c.csv")
     sl.INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0130PM.json")
     sl.main()
     refreshed = jload(sl.OUT)
-    canonical = jload(os.path.join(APP, "lab.json"))
+    # and compare against the lab artefact that was published with those inputs
+    canonical = jload(os.path.join(ROOT, "data", "snapshots", "lab_2026-11-14.json"))
 
     PRICE_FIELDS = ["model_margin", "orig_spread_home", "orig_total", "proj_home_pts",
                     "proj_away_pts", "margin_lo", "margin_hi", "total_lo", "total_hi",
@@ -281,7 +295,7 @@ def build_line_invariance():
                     "until the engine is given a minutes-to-value mapping."
                     % (len(PRICE_FIELDS), len(a))),
         "source_engine": "scripts/strategy_lab.py (read in this repository)",
-        "source_published_artefact": "data/app/lab.json",
+        "source_published_artefact": "data/snapshots/lab_2026-11-14.json (the lab.json published on 2026-11-14, frozen)",
     }
     jdump("line_invariance.json", out)
     return out

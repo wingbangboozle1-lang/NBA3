@@ -9,8 +9,9 @@ zero and there is nothing to add; if it does not, the residual will carry a rest
 is a candidate edge -- or a candidate bug.
 
 Everything here is arithmetic on two official inputs:
-  - the official results log, 183 finals (data/app/games_2026-11-14c.csv)
-  - the out-of-sample predictions for 140 of them (data/app/canonical.json -> oos_sample)
+  - the official results log, 183 finals (data/snapshots/games_2026-11-14.csv)
+  - the out-of-sample predictions for 140 of them
+    (data/snapshots/canonical_2026-11-14.json -> oos_sample)
 
 So every number below is labelled DERIVED: it is our arithmetic on official results, not an
 official NBA statistic.
@@ -29,8 +30,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DATA = os.path.join(HERE, "data")
 
-RESULTS_CSV = os.path.join(ROOT, "data", "app", "games_2026-11-14c.csv")
-CANONICAL = os.path.join(ROOT, "data", "app", "canonical.json")
+# This is a DATED audit of the 2026-11-14 snapshot. Both inputs are frozen copies
+# committed under data/snapshots/ -- never the live cumulative artefacts. The
+# results log was already pinned to its per-capture copy, but canonical.json was
+# not, so when a later session extended the out-of-sample sample from 140 to 145
+# games this audit silently re-ran on different data and its "no game lacks a
+# prior game" invariant broke (5 of the new games had no earlier rest baseline).
+# That is the same defect as F-BB-08, half-fixed. Now both are pinned.
+RESULTS_CSV = os.path.join(ROOT, "data", "snapshots", "games_2026-11-14.csv")
+CANONICAL = os.path.join(ROOT, "data", "snapshots", "canonical_2026-11-14.json")
 
 SEED = 20261114
 PERMUTATIONS = 20000
@@ -347,8 +355,8 @@ def main():
         "question": "Does our originated line already price rest, or does its error still carry a "
                     "rest signal that a bettor could harvest?",
         "inputs": {
-            "results_log": "data/app/games_2026-11-14c.csv (183 official finals)",
-            "predictions": "data/app/canonical.json -> oos_sample (140 out-of-sample games)",
+            "results_log": "data/snapshots/games_2026-11-14.csv (183 official finals)",
+            "predictions": "data/snapshots/canonical_2026-11-14.json -> oos_sample (140 out-of-sample games)",
             "official_source": "https://www.nba.com/games?date=",
         },
         "label": "DERIVED -- our arithmetic on official results, not an official NBA statistic.",

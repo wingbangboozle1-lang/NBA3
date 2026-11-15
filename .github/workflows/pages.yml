@@ -71,6 +71,36 @@ jobs:
           python3 -m unittest tests/test_injury_delta.py
           python3 -m unittest tests/test_capture_c.py
           python3 -m unittest tests/test_injury_delta_0130pm.py
+      - name: 11/15 game-day capture replay and integrity tests (arena/bb0c83a4)
+        run: |
+          # Offline replay: the capture parses committed verbatim transcriptions only,
+          # so this needs no network and a difference here means a real input changed.
+          python3 scripts/capture_official_2026_11_15.py
+          git diff --exit-code -- data/app/official_injuries_2026-11-15_0615AM.json \
+            data/app/official_slate_1115_1118.json \
+            data/app/official_team_ratings_2026-11-15.json \
+            data/app/official_results_2026-11-14.json \
+            data/app/official_capture_2026-11-15.json || {
+            echo "the 11/15 captures drifted from the committed artefacts;"
+            echo "the capture parses committed verbatim transcriptions, so a difference means a real change."
+            exit 1
+          }
+          # Pins the 188-game log, the 30-team W/L/GP reconciliation, the 101-row
+          # injury parse, the NF-90 rotation join and the 11/15-11/18 window.
+          python3 -m unittest tests/test_capture_1115.py
+      - name: Availability rule replay (arena/bb0c83a4)
+        run: |
+          python3 -c "
+          import sys; sys.path.insert(0,'scripts')
+          import report_availability as ra
+          ra.SESSION='arena/bb0c83a4-nba3'
+          ra.RESULTS_SOURCE='https://www.nba.com/results?date=2026-11-14'
+          ra.main(slate_path='data/app/official_slate_1115_1118.json',
+                  injury_path='data/app/official_injuries_2026-11-15_0615AM.json',
+                  out_path='data/app/report_availability_2026-11-15.json',
+                  as_of_date='2026-11-15', as_of_local_hour=6+40/60.0)
+          "
+          git diff --exit-code -- data/app/report_availability_2026-11-15.json
       - name: Data site checks (docs/ rows, sources, links)
         run: python3 tools/check_site.py
       - name: Unit tests (research pipeline, 9ed6085f)
@@ -255,7 +285,21 @@ jobs:
           python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'
       - name: Independent audit tree (session 7f3b89af) - fresh captures, checks, analysis, pages
         run: |
+          # checks.py exits non-zero BY DESIGN when a check fails, so under the
+          # workflow's default `bash -e` a single failing check aborted the step
+          # before the drift gate below could report what actually changed. It was
+          # masked while checks.py happened to be failing on a stale snapshot;
+          # session arena/bb0c83a4 re-pointed it at the frozen 2026-11-14 artefacts
+          # (data/snapshots/) and it now passes 12/12, but a future real failure
+          # must still reach the drift gate rather than vanish. Capture its status.
+          set +e
           python3 audit_7f3b89af/checks.py
+          CHECKS_STATUS=$?
+          set -e
+          echo "audit_7f3b89af/checks.py exit status: $CHECKS_STATUS"
+          if [ "$CHECKS_STATUS" -ne 0 ]; then
+            echo "::error::audit_7f3b89af/checks.py reported a failed check; see its log above."
+          fi
           python3 audit_7f3b89af/analysis.py
           python3 audit_7f3b89af/build.py
           python3 -m unittest discover -s audit_7f3b89af -p 'test_*.py'

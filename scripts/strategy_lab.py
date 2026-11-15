@@ -85,7 +85,7 @@ AV_STATES = (AV_FILED, "DUE_AND_NOT_FILED", "NOT_YET_DUE",
 
 
 def _apply_manifest():
-    global SLATE_JSON, RATINGS_JSON, INJURY_JSON, GAMES_CSV, PLAYERS_CSV, SECOND_CAPTURE_GAMES_CSV
+    global SLATE_JSON, RATINGS_JSON, INJURY_JSON, GAMES_CSV, PLAYERS_CSV, SECOND_CAPTURE_GAMES_CSV, AVAILABILITY_JSON
     if not os.path.exists(MANIFEST_JSON):
         return None
     with open(MANIFEST_JSON, encoding="utf-8") as fh:
@@ -102,6 +102,12 @@ def _apply_manifest():
     path = resolve("players")
     if path:
         PLAYERS_CSV = path
+    # AVAILABILITY_JSON was the one engine input the manifest did not name, so a
+    # refresh could re-point the slate and the injury file and still price the
+    # window off a stale availability verdict (flag F-BB-05). It is named here now.
+    path = resolve("availability")
+    if path:
+        AVAILABILITY_JSON = path
     # The results log is the canonical file, not a per-session copy (CQ-42). Any session may
     # capture the same official page again; that copy is registered as a cross-check instead of
     # silently becoming the engine's input.
@@ -1233,6 +1239,66 @@ def build_correlations(games, graded, player_logs_available=False):
 # --------------------------------------------------------------------------
 # live window: lines, picks, parlays, props, injuries, game flow
 # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# player-name resolution across two official pages (flag NF-90 / F-901-01)
+# --------------------------------------------------------------------------
+SUFFIXES = ("jr.", "sr.", "ii", "iii", "iv", "v")
+
+
+def norm_name(s):
+    """(first, last) in lower case, from either printed form.
+
+    The injury PDF prints "Last, First" ("Edwards, Anthony"); the players table
+    prints "First Last" ("Anthony Edwards"). Before this function existed the
+    index was built by splitting the *players-table* name on a comma, so for a
+    comma-less name both halves became the whole string: the key was
+    ("anthony edwards", "anthony edwards") and it could never equal the
+    ("anthony", "edwards") produced for the injury row. Every injured player
+    therefore failed to match, and every published "minutes vacated" figure was
+    a floor of zero by construction, no matter who was out.
+
+    Both printed forms now normalise to (first, last), so the two official
+    pages join. The name is never guessed: a form that does not reduce to a
+    shared key simply does not match, and is counted as an unknown.
+    """
+    s = (s or "").strip()
+    if not s:
+        return ("", "")
+    if "," in s:                                   # "Edwards, Anthony"
+        last, first = s.split(",", 1)
+        return (first.strip().lower(), last.strip().lower())
+    parts = s.split()
+    if len(parts) == 1:                            # "Nurkic"
+        return (parts[0].lower(), "")
+    if len(parts) == 2:                            # "Anthony Edwards"
+        return (parts[0].lower(), parts[1].lower())
+    # Three or more tokens are ambiguous between "First Middle Last" and
+    # "First Last Jr." -- the official pages print both ("Darius Acuff Jr.",
+    # "Michael Porter Jr."). Treat the leading tokens as the first name and the
+    # last token as the surname; resolve_player() retries the suffix reading.
+    return (" ".join(parts[:-1]).lower(), parts[-1].lower())
+
+
+def resolve_player(index, name):
+    """Look a name printed by the injury PDF up in the players-table index.
+
+    Returns the matched row or None. None means "no captured per-game figure",
+    which the caller counts as an unknown -- it is never read as a zero.
+    """
+    key = norm_name(name)
+    if key in index:
+        return index[key]
+    # "Porter Jr., Michael" -> ("michael", "porter jr."); the table prints
+    # "Michael Porter Jr.", which norm_name() reads as ("michael porter", "jr.").
+    last, first = key
+    toks = last.split()
+    if len(toks) > 1 and toks[-1] in SUFFIXES:
+        retry = ((first + " " + " ".join(toks[:-1])).strip(), toks[-1])
+        if retry in index:
+            return index[retry]
+    return None
+
+
 def originate_window(games, slate, ratings, injury, players, resid):
     """Price every game of the live window with the full-history engine."""
     ridge, blend = select_hyperparameters(games)
@@ -1254,16 +1320,20 @@ def originate_window(games, slate, ratings, injury, players, resid):
     players_by_team = defaultdict(list)
     for p in players:
         players_by_team[p["team"]].append(p)
+
+    # Player-name join between two official pages that print names differently.
+    # See norm_name() at module level for the defect this repairs (NF-90).
     player_index = {}
     for p in players:
-        player_index[(p["player"].split(",")[0].strip().lower(),
-                      p["player"].split(",")[-1].strip().lower())] = p
+        key = norm_name(p["player"])
+        player_index[key] = p
+        # also index the "drop a suffix" reading, which is what the injury PDF
+        # usually prints ("Porter Jr., Michael" -> ("michael", "porter jr.")
+        # vs the table's "Michael Porter Jr." -> ("michael porter", "jr.")).
+        toks = p["player"].split()
+        if len(toks) > 2:
+            player_index.setdefault((toks[0].lower(), " ".join(toks[1:]).lower()), p)
 
-    def norm_name(s):
-        parts = [x.strip() for x in (s or "").split(",")]
-        if len(parts) >= 2:
-            return (parts[0].lower(), parts[-1].lower())
-        return ((s or "").strip().lower(), "")
 
     # injury roll-up by (date, matchup, team)
     inj = defaultdict(list)
@@ -1346,7 +1416,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
                 if st not in ("Out", "Doubtful"):
                     continue
                 out_p.append(r["player"])
-                pi = player_index.get(norm_name(r["player"]))
+                pi = resolve_player(player_index, r["player"])
                 vals = [pi["min"], pi["pts"], pi["reb"], pi["ast"]] if pi else None
                 if not vals or any(v is None for v in vals):
                     # not in the captured table, or the official row is blank
