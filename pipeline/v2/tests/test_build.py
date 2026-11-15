@@ -26,10 +26,16 @@ from pipeline.v2 import build as B                          # noqa: E402
                      "captures not present")
 class TestReproducible(unittest.TestCase):
     def test_two_builds_are_identical(self):
-        a, code_a = B.build()
-        b, code_b = B.build()
+        """In memory, with no write: the test must never mutate the artefact it checks."""
+        a, code_a = B.build(write=False)
+        b, code_b = B.build(write=False)
         self.assertEqual(code_a, code_b)
-        self.assertEqual(json.dumps(a, sort_keys=True), json.dumps(b, sort_keys=True))
+        self.assertEqual(json.dumps(B._strip_volatile(a), sort_keys=True),
+                         json.dumps(B._strip_volatile(b), sort_keys=True))
+
+    def test_committed_artefact_matches_a_fresh_rebuild(self):
+        ok, diff = B.check()
+        self.assertTrue(ok, "rebuild differs:\n" + "\n".join(diff))
 
     def test_registrations_are_frozen(self):
         rows = B._registrations(__import__("datetime").datetime(
@@ -45,18 +51,18 @@ class TestReproducible(unittest.TestCase):
                          [r["registered_utc"] for r in again])
 
     def test_gates_all_pass_in_the_committed_state(self):
-        doc, code = B.build()
+        doc, code = B.build(write=False)
         self.assertEqual(code, 0, f"blocking gates failed: {doc['gates']['blocking_failures']}")
         self.assertTrue(doc["gates"]["may_publish"])
 
     def test_nothing_is_bettable(self):
         """The honest end state: no rule may be a bet, because no market price exists."""
-        doc, _ = B.build()
+        doc, _ = B.build(write=False)
         self.assertEqual([e["rule"]["strategy_id"] for e in doc["board"]
                           if e["verdict"]["may_be_a_bet"]], [])
 
     def test_ledger_verifies(self):
-        doc, _ = B.build()
+        doc, _ = B.build(write=False)
         self.assertTrue(doc["ledger_counts"]["all_hashes_match"])
         # every settlement came from an official game page
         for row in doc["ledger"]:

@@ -341,12 +341,16 @@ jobs:
 
       - name: v2 build (gates first; refuses to publish on a blocking gate failure) and drift check
         run: |
+          # The build WRITES the artefact, so its timestamp is the runner's clock
+          # and the file can never be compared byte for byte on a different machine.
+          # What is compared instead is a fresh in-memory rebuild against the
+          # committed file, with only the fields the artefact itself declares as
+          # volatile (VOLATILE, written into build.json) removed. Every model
+          # output is still compared; only the clock is excluded.
           python3 -m pipeline.v2.build
-          git diff --exit-code -- data/v2/build.json || {
-            echo "data/v2/build.json drifted from the committed artefact."
-            echo "The v2 build is seeded and its timestamp is frozen to the minute, so a"
-            echo "difference means a real input changed, not machine noise."
-            git --no-pager diff --stat -- data/v2/build.json
+          python3 -m pipeline.v2.build --check || {
+            echo "the committed data/v2/build.json does not reproduce from the same captures."
+            echo "A difference outside the declared volatile fields means a real input changed."
             exit 1
           }
           python3 scripts/build_v2.py

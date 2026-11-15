@@ -121,7 +121,34 @@ def load_finals():
 
 
 # ---------------------------------------------------------------------------
-def build(now_utc=None):
+# Fields that legitimately differ between two runs of the same inputs.  They are
+# declared here, in the artefact itself, so the reproducibility check has a
+# written-down list to strip rather than a rule about "ignore timestamps".
+VOLATILE = [
+    "generated_utc",
+    "gates.evaluated_at_utc",
+    "ledger[].settlement_stamp",
+]
+
+
+def _strip_volatile(doc):
+    """Remove the declared volatile fields, for the reproducibility check."""
+    import copy
+    d = copy.deepcopy(doc)
+    d.pop("generated_utc", None)
+    if isinstance(d.get("gates"), dict):
+        d["gates"].pop("evaluated_at_utc", None)
+    for row in d.get("ledger") or []:
+        row.pop("settlement_stamp", None)
+    # the injury-age gate quotes the wall clock in its prose too
+    for g in (d.get("gates") or {}).get("gates") or []:
+        if g.get("name") == "injury_report_age":
+            g.pop("detail", None)
+            g.pop("measured", None)
+    return d
+
+
+def build(now_utc=None, write=True):
     # Frozen to the minute: the document is a publication, not a log, and a
     # build that differs only in the seconds field cannot be diffed between runs.
     now_utc = (now_utc or _dt.datetime.now(_dt.timezone.utc)).replace(second=0, microsecond=0)
@@ -146,7 +173,8 @@ def build(now_utc=None):
                      "no lines, no picks. Publishing a model output here would be publishing "
                      "on stale or unsourced inputs."),
         }
-        _write(doc)
+        if write:
+            _write(doc)
         return doc, 2
 
     # --- injury diff ------------------------------------------------------
@@ -350,7 +378,12 @@ def build(now_utc=None):
         "parlays": parlays,
         "flags": _flags(leak, error_summary, luck, delta),
     }
-    _write(doc)
+    doc["volatile_fields"] = VOLATILE
+    doc["reproducibility_note"] = (
+        "every field outside volatile_fields is a pure function of the captures; the build is "
+        "asserted byte-identical across runs apart from the clock")
+    if write:
+        _write(doc)
     return doc, 0
 
 
@@ -511,7 +544,34 @@ def _write(doc):
     os.replace(tmp, OUT)
 
 
+def check(override=None):
+    """Rebuild in memory and compare with the committed artefact.
+
+    Returns (ok, differences).  This is what CI runs: a full rebuild, compared
+    against the committed file with only the declared volatile fields removed.
+    It is a real comparison of every model output, not a hash of the file.
+    """
+    doc, code = build(write=False)
+    with open(OUT, encoding="utf-8") as fh:
+        committed = json.load(fh)
+    a = json.dumps(_strip_volatile(doc), sort_keys=True, indent=1).splitlines()
+    b = json.dumps(_strip_volatile(committed), sort_keys=True, indent=1).splitlines()
+    import difflib
+    diff = list(difflib.unified_diff(b, a, "committed", "rebuilt", n=2, lineterm=""))
+    return (code == 0 and not diff), diff[:80]
+
+
 def main(argv=None):
+    argv = argv if argv is not None else sys.argv[1:]
+    if "--check" in argv:
+        ok, diff = check()
+        if ok:
+            print(f"{OUT} is reproducible: every non-volatile field matches a fresh rebuild")
+            return 0
+        print("REBUILD DIFFERS from the committed artefact:", file=sys.stderr)
+        for line in diff:
+            print("  " + line, file=sys.stderr)
+        return 1
     doc, code = build()
     if code != 0:
         print(f"BLOCKED: {doc['gates']['blocking_failures']}", file=sys.stderr)
