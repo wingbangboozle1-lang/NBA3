@@ -1,0 +1,83 @@
+{
+ "schema": "nba3.live.questions/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "what": "What must be known before a decision can be made, what it blocks, and what would answer it. Nothing here is decided unilaterally.",
+ "counts": {
+  "questions": 8,
+  "open": 8
+ },
+ "questions": [
+  {
+   "id": "Q1",
+   "question": "Which licensed odds source, if any, is available for closing lines?",
+   "why": "The market-anchored prior, every edge claim and every parlay price depend on a closing line. Without one, the site can publish model numbers but can never claim an edge against a price.",
+   "blocks": "market_prior, edge columns, parlay pricing, the 'bet' surface's entire economic claim",
+   "would_be_answered_by": "A written statement of which feed is licensed, or confirmation that none is, so the blank is permanent rather than pending.",
+   "status": "OPEN",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "Q2",
+   "question": "Where may arena coordinates be sourced from?",
+   "why": "The brief requires travel distance from a sourced arena-coordinate table. No official NBA page read so far publishes latitude/longitude.",
+   "blocks": "travel distance, and therefore any claim that travel affects the line",
+   "would_be_answered_by": "A citable table (e.g. an official NBA venue list with coordinates), or a decision to drop the travel feature.",
+   "status": "OPEN",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "Q3",
+   "question": "What settlement rule applies to a postponed or abandoned game?",
+   "why": "The three frozen strategies say 'settle on the official final'. A postponed game has no final, and the NBA rule set does not define a betting void. Deciding this after the fact is exactly what pre-registration is meant to prevent.",
+   "blocks": "any pick on a game that might be postponed",
+   "would_be_answered_by": "A rule written into the pre-registration files before the next slate.",
+   "status": "OPEN",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "Q4",
+   "question": "Should the origin results capture be extended past 2026-11-13?",
+   "why": "Every schedule-derived feature across the 11/13\u201311/14 seam depends on a single union of three captures. A daily refresh of one capture would remove the seam.",
+   "blocks": "nothing today (the union works), but it is a standing maintenance risk",
+   "would_be_answered_by": "A decision on which capture is the schedule of record, and a refresh step for it.",
+   "status": "OPEN",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "Q5",
+   "question": "How much player history is needed before minutes redistribution is published as a forecast?",
+   "why": "One slate of logs gives one observation per player; the share model is arithmetically correct and statistically meaningless at that size.",
+   "blocks": "publishing a redistribution forecast for any absence",
+   "would_be_answered_by": "A minimum-games threshold (e.g. 10 games per player) written into the pre-registration, plus captures meeting it.",
+   "status": "OPEN",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "id": "Q6",
+   "question": "What correlation values are acceptable for parlay pricing?",
+   "why": "The brief asks for measured rho with the naive product printed beside it. The repository carries 9 correlations from an earlier session, none measured against a closing line.",
+   "blocks": "parlay prices on the gated surface",
+   "would_be_answered_by": "A stated estimation window and a source for the joint outcomes, or an explicit decision to publish naive products only.",
+   "status": "OPEN",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "Q7",
+   "question": "Is the UTC-5 fixed offset for ET tip times acceptable?",
+   "why": "Every 'sealed before tip' proof depends on converting ET to UTC. A fixed offset is wrong in daylight saving and is not published by any official page read here.",
+   "blocks": "the strength of the 'before tip' claim, though not the seal itself",
+   "would_be_answered_by": "A decision to use a named time-zone database, or acceptance of the stated assumption.",
+   "status": "OPEN",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "Q8",
+   "question": "Should the 13 unattributed injury rows be resolved or dropped?",
+   "why": "Their team column cannot be read from the PDF text layout. Assigning them by approximation would violate the no-inference rule.",
+   "blocks": "completeness of the availability column for those clubs",
+   "would_be_answered_by": "A better extraction pass over the PDF, or a decision to drop them with the omission published.",
+   "status": "OPEN",
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  }
+ ]
+}

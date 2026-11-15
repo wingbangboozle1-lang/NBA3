@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open questions — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Open questions. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:49:00Z</div>
+</div></header>
+<div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html">Gates</a><a href="review.html">Repo review</a><a href="questions.html" class="active">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Projection surface</div>
+  <h1>Open questions</h1>
+  <p class="lead">What must be known before a decision, what each blocks, and what would answer it.</p>
+<p>8 questions, all open. Each one names what it blocks and
+what would actually answer it. None is decided unilaterally here, because each changes what the site
+is allowed to claim.</p>
+<div class="callout warn"><strong>The two that matter most.</strong> Q1 (a licensed closing line)
+decides whether this project can ever measure an edge, and Q2 (arena coordinates) decides whether
+travel is a real feature or a permanent blank. Everything else is recoverable; those two change the
+shape of the product.</div>
+<div class="tw"><table id="open-questions" class="">
+<thead><tr>
+<th>ID</th>
+<th>Question</th>
+<th>Why it matters</th>
+<th>What it blocks</th>
+<th>What would answer it</th>
+<th>Status</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr><td><code>Q1</code></td><td>Which licensed odds source, if any, is available for closing lines?</td><td>The market-anchored prior, every edge claim and every parlay price depend on a closing line. Without one, the site can publish model numbers but can never claim an edge against a price.</td><td>market_prior, edge columns, parlay pricing, the &#x27;bet&#x27; surface&#x27;s entire economic claim</td><td>A written statement of which feed is licensed, or confirmation that none is, so the blank is permanent rather than pending.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q2</code></td><td>Where may arena coordinates be sourced from?</td><td>The brief requires travel distance from a sourced arena-coordinate table. No official NBA page read so far publishes latitude/longitude.</td><td>travel distance, and therefore any claim that travel affects the line</td><td>A citable table (e.g. an official NBA venue list with coordinates), or a decision to drop the travel feature.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q3</code></td><td>What settlement rule applies to a postponed or abandoned game?</td><td>The three frozen strategies say &#x27;settle on the official final&#x27;. A postponed game has no final, and the NBA rule set does not define a betting void. Deciding this after the fact is exactly what pre-registration is meant to prevent.</td><td>any pick on a game that might be postponed</td><td>A rule written into the pre-registration files before the next slate.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q4</code></td><td>Should the origin results capture be extended past 2026-11-13?</td><td>Every schedule-derived feature across the 11/13–11/14 seam depends on a single union of three captures. A daily refresh of one capture would remove the seam.</td><td>nothing today (the union works), but it is a standing maintenance risk</td><td>A decision on which capture is the schedule of record, and a refresh step for it.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q5</code></td><td>How much player history is needed before minutes redistribution is published as a forecast?</td><td>One slate of logs gives one observation per player; the share model is arithmetically correct and statistically meaningless at that size.</td><td>publishing a redistribution forecast for any absence</td><td>A minimum-games threshold (e.g. 10 games per player) written into the pre-registration, plus captures meeting it.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q6</code></td><td>What correlation values are acceptable for parlay pricing?</td><td>The brief asks for measured rho with the naive product printed beside it. The repository carries 9 correlations from an earlier session, none measured against a closing line.</td><td>parlay prices on the gated surface</td><td>A stated estimation window and a source for the joint outcomes, or an explicit decision to publish naive products only.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q7</code></td><td>Is the UTC-5 fixed offset for ET tip times acceptable?</td><td>Every &#x27;sealed before tip&#x27; proof depends on converting ET to UTC. A fixed offset is wrong in daylight saving and is not published by any official page read here.</td><td>the strength of the &#x27;before tip&#x27; claim, though not the seal itself</td><td>A decision to use a named time-zone database, or acceptance of the stated assumption.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><code>Q8</code></td><td>Should the 13 unattributed injury rows be resolved or dropped?</td><td>Their team column cannot be read from the PDF text layout. Assigning them by approximation would violate the no-inference rule.</td><td>completeness of the availability column for those clubs</td><td>A better extraction pass over the PDF, or a decision to drop them with the omission published.</td><td><span class="chip warn">OPEN</span></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+</tbody></table></div>
+<h2>How to discover missing information</h2>
+<p>The pattern that has worked in this session: name the column, then name the official page that
+would fill it, then check whether that page actually publishes it. Travel distance is the worked
+example — the column exists, the page does not publish coordinates, so the column stays blank and the
+gap is published as a question rather than filled with an estimate. The suggestions page proposes a
+capture step for each question whose answer is obtainable but not yet obtained.</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

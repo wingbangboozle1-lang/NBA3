@@ -1,0 +1,59 @@
+{
+ "schema": "nba3.live.meta/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "generated_utc": "2026-11-15T11:49:00Z",
+ "network_note": "Raw curl to nba.com is blocked in the build sandbox (egress allowlist). Every official value below was read through the agent fetch tool on 2026-11-15 between 11:30Z and 11:50Z and transcribed by hand. Re-verify before acting; injury and tip values move during a slate.",
+ "sources": {
+  "injury_index": {
+   "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "retrieved_utc": "2026-11-15T11:31Z",
+   "note": "Index lists 11/15 reports 12:00 a.m. ET through 6:15 a.m. ET (the 6:15 report is the newest at read time)."
+  },
+  "injury_0615": {
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+   "retrieved_utc": "2026-11-15T11:33Z",
+   "chunks": "2 of 2"
+  },
+  "injury_0600": {
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf",
+   "retrieved_utc": "2026-11-15T11:40Z",
+   "chunks": "2 of 2"
+  },
+  "schedule": {
+   "url": "https://www.nba.com/schedule?date=2026-11-15",
+   "retrieved_utc": "2026-11-15T11:44Z",
+   "chunks": "0-1 of 9"
+  },
+  "games_1114": {
+   "url": "https://www.nba.com/games?date=2026-11-13",
+   "retrieved_utc": "2026-11-15T11:36Z",
+   "note": "The games index for 11/13 also renders the 11/14 finals strip; finals cross-checked against each 11/14 game page and gamebook."
+  },
+  "standings": {
+   "url": "https://www.nba.com/standings",
+   "retrieved_utc": "2026-11-15T11:38Z",
+   "chunks": "0 of 2"
+  },
+  "teamstats_traditional": {
+   "url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "retrieved_utc": "2026-11-15T11:42Z",
+   "chunks": "0-4 of 5"
+  },
+  "teamstats_opponent": {
+   "url": "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
+   "retrieved_utc": "2026-11-15T11:47Z",
+   "chunks": "0-1 of 2"
+  },
+  "teamstats_advanced": {
+   "url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+   "retrieved_utc": "2026-11-15T11:45Z",
+   "chunks": "0-1 of 2"
+  },
+  "boxscores_1114": {
+   "url": "https://statsdmz.nba.com/pdfs/20261114/20261114_{AWAY}{HOME}.pdf",
+   "retrieved_utc": "2026-11-15T11:49Z",
+   "note": "Official gamebooks linked from each game page ('Game Book'). One chunk each."
+  }
+ },
+ "generated_utc_note": "This is the timestamp of the NEWEST individual source read below, not the sandbox clock at the moment the manifest was written. An earlier value of 11:34:06Z was the plugin's snapshot time and was older than six of the reads it summarised -- F10 caught it. Stating the newest read makes the manifest internally consistent and reproducible."
+}

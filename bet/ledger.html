@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger — NBA3 Bet</title>
+<meta name="description" content="NBA3 bet surface: Ledger. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Bet surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:49:00Z</div>
+</div></header>
+<div class="banner"><div class="wrap">BET SURFACE — GATED. Nothing here is a recommendation or a price for the public; every pick is pre-registered, hash-sealed before tip and graded against an official final. <a href="../projection/index.html">Projection surface</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="picks.html">Sealed picks</a><a href="prereg.html">Pre-registration</a><a href="ledger.html" class="active">Ledger</a><a href="gates.html">Gates</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Bet surface</div>
+  <h1>Ledger</h1>
+  <p class="lead">An append-only sha256 chain over every pick, with the tests that show tampering is detected.</p>
+<div class="callout">
+<strong>Chain status: verified.</strong>
+2 entries, head hash <code>6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d</code>.
+<code>scripts/ledger.py</code> recomputes every entry hash, every pick hash and every link; the build
+fails if any of them does not reproduce.</div>
+<div class="tw"><table id="ledger-chain" class="">
+<thead><tr>
+<th>Seq</th>
+<th>Kind</th>
+<th>Pick sha256</th>
+<th>Prev entry hash</th>
+<th>This entry hash</th>
+<th>When</th>
+<th>Matchup</th>
+<th>Verified</th>
+</tr></thead><tbody>
+<tr><td><code>1</code></td><td>PUBLISH</td><td><code>14ab330115b411b2…</code></td><td><code>0000000000000000…</code></td><td><code>b6840253828749f8…</code></td><td>2026-11-15T12:10Z</td><td>IND @ PHI</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>2</code></td><td>PUBLISH</td><td><code>a4769cd225f212a6…</code></td><td><code>b6840253828749f8…</code></td><td><code>6cd5fc40ab7ee96a…</code></td><td>2026-11-15T12:10Z</td><td>HOU @ WAS</td><td><span class="chip ok">PASS</span></td></tr>
+</tbody></table></div>
+<h2>What the chain does and does not prove</h2>
+<p>It proves that no stored pick, entry or link has been edited since it was written, to anyone who can
+see the file. It does <em>not</em> prove when it was written: anyone able to rewrite the whole file
+could rebuild the chain. The weak but real external witness is that the ledger is committed to git, so
+each build's commit hash fixes the head hash in a history this repository cannot quietly rewrite.</p>
+<h2>Tamper tests</h2>
+<div class="tw"><table id="tamper-tests" class="">
+<thead><tr>
+<th>Attempt</th>
+<th>Outcome</th>
+<th>Why</th>
+</tr></thead><tbody>
+<tr><td>A published pick is edited after publication</td><td>Detected</td><td><code>verify()</code> recomputes <code>sha256(pick)</code> and compares to the published value</td></tr>
+<tr><td>An entry's contents are changed</td><td>Detected</td><td><code>entry_hash</code> no longer recomputes from its own body</td></tr>
+<tr><td>An entry is removed or reordered</td><td>Detected</td><td><code>prev_hash</code> no longer matches the preceding entry</td></tr>
+<tr><td>A settled pick differs from the published pick</td><td>Detected</td><td>the settlement entry repeats <code>pick_sha256_at_publish</code></td></tr>
+</tbody></table></div>
+<p>These four cases are covered by <code>tests/test_ledger.py</code>, which builds a
+temporary ledger, breaks it deliberately, and asserts that verification fails. A verification routine
+that has never been shown to fail proves nothing.</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

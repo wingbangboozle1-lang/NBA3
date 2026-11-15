@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gates — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Gates. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:49:00Z</div>
+</div></header>
+<div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html" class="active">Gates</a><a href="review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Projection surface</div>
+  <h1>Gates</h1>
+  <p class="lead">Ten provenance and freshness gates that must pass before either surface is built, with the measured value for each.</p>
+<h2>Provenance and freshness gates</h2>
+<p>Reference capture <code>2026-11-15T11:49:00Z</code>: <strong>10/10</strong> gates pass. The build refuses to publish if any gate fails.</p><div class="tw"><table id="freshness-gates" class="">
+<thead><tr>
+<th>Gate</th>
+<th>Rule</th>
+<th>Result</th>
+<th>Measured value</th>
+<th>Pass rule</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td><code>F1</code></td><td>Every capture has a retrieval stamp and an https source</td><td><span class="chip ok">PASS</span></td><td>{&quot;captures&quot;: 10, &quot;problems&quot;: []}</td><td>zero missing stamps, zero non-https sources</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F2</code></td><td>The model used the newest archived injury report</td><td><span class="chip ok">PASS</span></td><td>{&quot;model_used&quot;: &quot;Injury-Report_2026-11-15_12_00AM&quot;, &quot;newest_on_disk&quot;: &quot;Injury-Report_2026-11-15_12_00AM&quot;}</td><td>the engine must read the newest archived report, not an older one</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F3</code></td><td>The injury report is not older than the slate it prices</td><td><span class="chip ok">PASS</span></td><td>{&quot;report_date&quot;: &quot;2026-11-15&quot;, &quot;slate_start&quot;: &quot;2026-11-15&quot;}</td><td>report date &gt;= first slate date</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F4</code></td><td>Every settled game is verified against two official reads</td><td><span class="chip ok">PASS</span></td><td>{&quot;games&quot;: 5, &quot;unverified&quot;: [], &quot;stamp&quot;: &quot;2026-11-15T11:52Z&quot;}</td><td>game page final == gamebook printed final == sum of printed quarters</td><td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F5</code></td><td>The priced slate is exactly the captured slate</td><td><span class="chip ok">PASS</span></td><td>{&quot;priced&quot;: 22, &quot;captured&quot;: 22, &quot;only_in_model&quot;: [], &quot;only_in_slate&quot;: []}</td><td>set equality on (game_id, date, away, home)</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F6</code></td><td>Every archived injury report is on disk with its official source URL</td><td><span class="chip ok">PASS</span></td><td>{&quot;reports&quot;: [{&quot;file&quot;: &quot;Injury-Report_2026-11-15_06_00AM.md&quot;, &quot;bytes&quot;: 11000, &quot;source_url&quot;: &quot;https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf&quot;}, {&quot;file&quot;: &quot;Injury-Report_2026-11-15_06_15AM.</td><td>one file per report, URL inside the file</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F7</code></td><td>Every slate team has an official advanced-stats row</td><td><span class="chip ok">PASS</span></td><td>{&quot;teams_needed&quot;: 30, &quot;missing&quot;: []}</td><td>all 30 team codes present in the official advanced capture</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F8</code></td><td>The ledger chain verifies and every sealed pick is pre-registered</td><td><span class="chip ok">PASS</span></td><td>{&quot;entries&quot;: 2, &quot;head&quot;: &quot;6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d&quot;, &quot;problems&quot;: [], &quot;unregistered_picks&quot;: []}</td><td>sha256 chain recomputes; strategy_id has a frozen prereg/ file</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F9</code></td><td>The model sample is not older than the newest settled game</td><td><span class="chip ok">PASS</span></td><td>{&quot;model_sample_end&quot;: &quot;2026-11-14&quot;, &quot;newest_settled&quot;: &quot;2026-11-14&quot;}</td><td>model sample end &gt;= newest settled game date</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F10</code></td><td>The capture is at least as new as the newest official read it was built from</td><td><span class="chip ok">PASS</span></td><td>{&quot;generated_utc&quot;: &quot;2026-11-15T11:49:00Z&quot;, &quot;newest_source_retrieved_utc&quot;: &quot;2026-11-15T11:49Z&quot;, &quot;build_lag_hours&quot;: 0.0, &quot;max_report_age_hours&quot;: null}</td><td>build_lag &gt;= 0 (the capture is not older than its own newest source read); with --max-report-age-hours, |build_lag| is bounded instead. Measured against the capture stamps, never the wall clock, so the artefact reproduces byte for byte.</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+</tbody></table></div>
+<p>These gates run before either surface is built. Each one is a hard rule with a
+measured value attached, so nothing on this site is "assumed fresh". The gate log that governs
+picks — pre-registration, sealing before tip, settlement from a verified final — is published on
+the bet surface's <a href="../bet/gates.html">Gates</a> page, because a pick gate is about a pick
+and not about the projection.</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

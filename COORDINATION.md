@@ -4059,3 +4059,94 @@ pre-#76/#77/#78/#80/#81/#82/#83 base, so GitHub reports it as mergeable only bec
 would silently revert the other sessions. It carries one genuinely valuable fix (NF-90, the
 structurally-zero rotation join), which this session reimplements independently in B4, inside its
 own scope, so nothing of value is lost. PR #79 is closed as **superseded**, never merged.
+
+## Session `arena/2ebb1e75-nba3` (current) — CLAIM: live official refresh, sealed ledger, per-game result feed, two-estimator headline
+
+**Session ID:** `arena/2ebb1e75-nba3`. Branch `arena/2ebb1e75-nba3`, branched from `main` @
+`d320feaa5b1b235e55d39d736551e8a7572d9cd4` (merge of PR #83). Claim written and committed before
+any other work started (2026-11-15).
+
+**Why this round exists.** The published canonical snapshot is the 2026-11-14 04:15 AM ET injury
+report over a 11/14–11/17 slate. As of this session the league has played the 11/14 slate, the
+official index carries 11/15 reports through 06:15 AM ET, and nothing in the repo has ever
+recorded a hash-sealed pick ledger, per-game quarter linescores, or a pre-registration file. The
+brief's remaining unbuilt items are concentrated in those areas, so this session builds them.
+
+**Network note (must be recorded, it constrains every claim below).** Raw `curl` to `nba.com`
+from the sandbox is blocked (egress allowlist). Official pages are read here through the
+`fetch_page` tool only. Any step that must run unattended on the GitHub runner therefore
+re-parses **committed verbatim captures** and never depends on sandbox network.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| S1 | Official capture: 11/15 injury index + newest report, 11/14 final scores, slate re-read | in progress | `data/live/` (**new tree**), `scripts/capture_official_2026_11_15.py` (**new**) |
+| S2 | Per-game result feed with quarter linescores, one row per game | in progress | `data/live/results/`, `scripts/build_results_feed.py` (**new**) |
+| S3 | Injury PDF archive + consecutive-report diff | in progress | `data/live/injuries/`, `scripts/injury_archive.py` (**new**) |
+| S4 | Two independent estimators; disagreement as headline; HCA pinned to measured rate | in progress | `scripts/estimators.py` (**new**), `tests/test_estimators.py` (**new**) |
+| S5 | Pre-registration files + hash-sealed tamper-evident pick ledger | in progress | `prereg/` (**new**), `ledger/` (**new**), `scripts/ledger.py` (**new**) |
+| S6 | Freshness + provenance gates that must pass before a rebuild | in progress | `scripts/freshness_gates.py` (**new**) |
+| S7 | Split site: `projection/` (safe now) vs `bet/` (gated) surfaces | in progress | `scripts/build_books.py` (**new**), `projection/`, `bet/` |
+| S8 | Repo review, line by line; questions, suggestions, executive summary | in progress | `data/live/review.json`, `data/live/questions.json`, `data/live/suggestions.json` |
+| S9 | Integration: CI wiring, PR → merge → Pages verification | pending | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` (additive), `index.html` (nav only) |
+
+**Non-overlap.** This session writes only the paths listed above. It does **not** edit
+`data/app/canonical.json`, `data/app/lab.json`, `scripts/strategy_lab.py`,
+`scripts/assemble_canonical.py`, `scripts/build_app.py`, `app/*.html` or any existing audit tree;
+those stay with their owners. Cross-owner needs are logged here as change requests.
+
+**Open PR takeover (logged, not executed).** PR [#79](https://github.com/wingbangboozle1-lang/NBA3/pull/79)
+(`arena/90183333-nba3`, game-day refresh, state `CONFLICTING`, last push 2026-11-14 20:50 UTC) and
+PR [#70](https://github.com/wingbangboozle1-lang/NBA3/pull/70) (`arena/f2d4a99f-nba3`,
+`CONFLICTING`, open since 2026-11-14 10:47 UTC) are both older than 60 minutes with no commits.
+Both are preserved untouched; their substantive content is *not* duplicated here, so a later
+session can still land them. This round only notes them.
+
+---
+
+## Session `arena/2ebb1e75-nba3` — COMPLETE (S1–S9), PR #86
+
+**PR:** https://github.com/wingbangboozle1-lang/NBA3/pull/86 → `main` @ `d4bd1f5`.
+**CI:** build **pass** (42s, run 43711607713) after two rounds of fixing real defects it caught.
+
+### Delivered
+
+| Task | Status | Artefacts |
+|---|---|---|
+| S1 | done | `data/live/meta.json` (10 captures, each with URL + `retrieved_utc`), `data/live/team_registry.json` (30 clubs, official ids from the standings table) |
+| S2 | done | `scripts/build_results_feed.py` → 5/5 11/14 finals settled from two agreeing official reads; `data/live/player_game_logs.json` 99/107 rows reconciled, 8 rejected with raw text |
+| S3 | done | `data/live/injuries/` 3 verbatim reports + `archive_index.json` + `deltas.json` (0 status changes, 2 spelling flips) |
+| S4 | done | `scripts/estimators.py` → `data/live/model.json`; OOS E1 0.6207 / E2 0.6359 / blend 0.6160 / coin 0.6931; HCA pinned 1.127; luck: 0 clubs outside ±1.96 |
+| S5 | done | `prereg/` 3 frozen strategies, `ledger/` sha256 chain, `scripts/ledger.py`, `scripts/publish_picks.py` (2 picks sealed before tip) |
+| S6 | done | `scripts/freshness_gates.py` 10/10; `data/live/freshness.json` |
+| S7 | done | `projection/` 12 pages vs `bet/` 6 pages, separate indexes, no mixing |
+| S8 | done | `scripts/repo_review.py` → `data/live/{review,questions,suggestions}.json` (22 checks, 8 questions, 7 proposals, 0 implemented) |
+| S9 | done | CI step + 2 staging lines, PR, merge, Pages verification |
+
+### Defects found and fixed during this session (all published on the repo-review page)
+
+1. **E2's ridge was applied on a points scale instead of logit** — ~30x the information content of
+   the data; OOS log-loss 0.64 with 600 non-converged iterations. Fixed; now 0.6359.
+2. **`data/origin/games.csv` stopped at 11/13**, so every 11/15 back-to-back vanished (0 instead
+   of 8). Fixed by unioning three official captures and publishing the seams.
+3. **The 4-day window excluded the current game**, so PHX 11/13–11/15–11/16 was not 3-in-4.
+4. **R9 double-counted games** once another session extended the CSV to 11/14 (10 false failures).
+   Now unions by `game_id`: 188 distinct games, 30/30 clubs reconcile.
+5. **`freshness.json` embedded a wall clock**, making the new CI drift gate unpassable.
+   F10 now measures lag against the manifest's own newest source read.
+6. **F10 then caught `meta.json` claiming 11:34:06Z** while six of its ten source reads were later
+   (up to 11:49Z). `generated_utc` is now the newest read.
+7. **`ledger/index.json` advertised a genesis head hash** after two picks were sealed. The index is
+   now rewritten after sealing.
+
+### Still flagged (on `projection/flagged.html` and `bet/flagged.html`, with source links)
+
+Travel distance blank for 44/44 team-games (no official coordinate source) · market prior not
+applied (no licensed closing line) · minutes redistribution not published as a forecast (zero
+overlap between the captured logs and the archived absences) · injury-report name churn ·
+13 unattributed report rows per PDF · fixed ET→UTC offset stated as an assumption.
+
+### Non-overlap honoured
+
+No edits to `data/app/canonical.json`, `lab.json`, `scripts/strategy_lab.py`,
+`assemble_canonical.py`, `build_app.py`, `app/*.html` or any audit tree. `COORDINATION.md` is
+append-only; the rebase conflict was resolved by keeping both sessions' claims in order.

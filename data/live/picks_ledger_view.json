@@ -1,0 +1,59 @@
+{
+ "schema": "nba3.live.ledger_view/v1",
+ "generated_utc": "2026-11-15T12:10Z",
+ "integrity": {
+  "entries": 2,
+  "published": 2,
+  "settled": 0,
+  "head_hash": "6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d",
+  "verified": true,
+  "problems": []
+ },
+ "entries": [
+  {
+   "entry_hash": "b6840253828749f856a7e0a01c5363aa53b690c213dfcfb2625ff1fac29754bb",
+   "kind": "PUBLISH",
+   "pick": {
+    "date": "2026-11-15",
+    "game_id": "0022600236",
+    "headline_signal": "disagreement 12.896 pp",
+    "line": null,
+    "matchup": "IND @ PHI",
+    "origin": "originated fair price from the two estimators",
+    "pick": "PHI moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": true,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "1:00 PM",
+    "tip_et_iso": "2026-11-15T18:00Z"
+   },
+   "pick_sha256": "14ab330115b411b214385686644bf0e755e23693237441fa778f20fd0fe9918b",
+   "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "published_utc": "2026-11-15T12:10Z",
+   "seq": 1
+  },
+  {
+   "entry_hash": "6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d",
+   "kind": "PUBLISH",
+   "pick": {
+    "date": "2026-11-15",
+    "game_id": "0022600242",
+    "headline_signal": "disagreement 7.685 pp",
+    "line": null,
+    "matchup": "HOU @ WAS",
+    "origin": "originated fair price from the two estimators",
+    "pick": "HOU moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": false,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "7:00 PM",
+    "tip_et_iso": "2026-11-16T00:00Z"
+   },
+   "pick_sha256": "a4769cd225f212a6f990df97c3ed912fb4deda2b5c4a1abef4de61473766478c",
+   "prev_hash": "b6840253828749f856a7e0a01c5363aa53b690c213dfcfb2625ff1fac29754bb",
+   "published_utc": "2026-11-15T12:10Z",
+   "seq": 2
+  }
+ ],
+ "note": "Entries are append-only. Every pick carries the sha256 published before tip; every settlement repeats that hash and the official final it was graded against."
+}

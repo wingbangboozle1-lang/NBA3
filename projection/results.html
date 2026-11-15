@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settled results — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Settled results. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:49:00Z</div>
+</div></header>
+<div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html" class="active">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html">Gates</a><a href="review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Projection surface</div>
+  <h1>Settled results</h1>
+  <p class="lead">Five finals verified against two official reads, with quarter linescores and per-player logs that reconcile arithmetically.</p>
+<p>One row per game, settled only after two independent official reads agree. The
+settlement stamp is <code>2026-11-15T11:52Z</code>: the last time this build confirmed the finals
+against the official pages, not the time the game ended.</p>
+<div class="callout"><strong>The settlement rule, applied mechanically.</strong> A game settles only when
+(a) the official game page says <em>Final</em>, (b) the gamebook's printed FINAL equals the sum of its
+four printed quarters, and (c) both agree with the game page. 5 of
+5 games pass all three. A failure is published unverified — never corrected by
+hand.</div>
+<div class="tw"><table id="settled-games" class="">
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>Away quarters</th>
+<th>Away final</th>
+<th>Home quarters</th>
+<th>Home final</th>
+<th>OT</th>
+<th>Winner</th>
+<th>Total</th>
+<th>Verified</th>
+<th>Box score</th>
+<th>Gamebook</th>
+</tr></thead><tbody>
+<tr><td>2026-11-14</td><td>DEN @ NOP</td><td>29 · 27 · 30 · 30</td><td>116</td><td>23 · 28 · 31 · 26</td><td>108</td><td><span class="chip grey">—</span></td><td>DEN +8</td><td>224</td><td><span class="chip ok">PASS</span></td><td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">box score</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>2026-11-14</td><td>DAL @ CLE</td><td>33 · 20 · 38 · 26</td><td>117</td><td>33 · 38 · 34 · 22</td><td>127</td><td><span class="chip grey">—</span></td><td>CLE +10</td><td>244</td><td><span class="chip ok">PASS</span></td><td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">box score</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>2026-11-14</td><td>DET @ MIA</td><td>39 · 21 · 26 · 31</td><td>117</td><td>37 · 31 · 35 · 34</td><td>137</td><td><span class="chip grey">—</span></td><td>MIA +20</td><td>254</td><td><span class="chip ok">PASS</span></td><td><a href="https://www.nba.com/game/det-vs-mia-0022600233" target="_blank" rel="noopener noreferrer">box score</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>2026-11-14</td><td>BKN @ MEM</td><td>23 · 31 · 30 · 26</td><td>110</td><td>38 · 33 · 32 · 26</td><td>129</td><td><span class="chip grey">—</span></td><td>MEM +19</td><td>239</td><td><span class="chip ok">PASS</span></td><td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234" target="_blank" rel="noopener noreferrer">box score</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>2026-11-14</td><td>CHI @ MIN</td><td>29 · 29 · 30 · 29</td><td>117</td><td>17 · 28 · 35 · 26</td><td>106</td><td><span class="chip grey">—</span></td><td>CHI +11</td><td>223</td><td><span class="chip ok">PASS</span></td><td><a href="https://www.nba.com/game/chi-vs-min-0022600235" target="_blank" rel="noopener noreferrer">box score</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+</tbody></table></div>
+<h2>Per-player game logs</h2>
+<p><code>data/live/player_game_logs.json</code> holds 99 accepted player
+rows (minutes, points, rebounds, assists, steals, blocks, turnovers, shooting, +/- and opponent) out of
+107 printed. A row is accepted only if it reconciles arithmetically:
+<code>PTS = 2·FG + 3P + FT</code>, <code>TOT = OR + DR</code>, and the shooting sub-columns are
+consistent. 8 rows did not reconcile and are published as rejected with
+their raw text rather than repaired.</p>
+<div class="tw"><table id="rejected-rows" class="">
+<thead><tr>
+<th>Game</th>
+<th>Team</th>
+<th>Raw printed line</th>
+<th>Why rejected</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>0022600234</td><td>BKN</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600234</td><td>BKN</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600234</td><td>MEM</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600234</td><td>MEM</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600235</td><td>CHI</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600235</td><td>CHI</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600235</td><td>CHI</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600235</td><td>CHI</td><td></td><td></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+</tbody></table></div>
+<h2>Reconciliation per gamebook</h2>
+<div class="tw"><table id="game-recon" class="">
+<thead><tr>
+<th>Game</th>
+<th>Accepted rows</th>
+<th>Rejected rows</th>
+<th>Team reconciliation</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>0022600231</td><td>19</td><td>0</td><td>{&#x27;DEN&#x27;: {&#x27;parsed&#x27;: 116, &#x27;printed&#x27;: 116, &#x27;match&#x27;: True}, &#x27;NOP&#x27;: {&#x27;parsed&#x27;: 108, &#x27;printed&#x27;: 108, &#x27;match&#x27;: True}}</td><td><a href="https://statsdmz.nba.com" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600232</td><td>18</td><td>0</td><td>{&#x27;DAL&#x27;: {&#x27;parsed&#x27;: 117, &#x27;printed&#x27;: 117, &#x27;match&#x27;: True}, &#x27;CLE&#x27;: {&#x27;parsed&#x27;: 127, &#x27;printed&#x27;: 127, &#x27;match&#x27;: True}}</td><td><a href="https://statsdmz.nba.com" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600233</td><td>25</td><td>0</td><td>{&#x27;DET&#x27;: {&#x27;parsed&#x27;: 117, &#x27;printed&#x27;: 117, &#x27;match&#x27;: True}, &#x27;MIA&#x27;: {&#x27;parsed&#x27;: 137, &#x27;printed&#x27;: 137, &#x27;match&#x27;: True}}</td><td><a href="https://statsdmz.nba.com" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600234</td><td>21</td><td>4</td><td>{}</td><td><a href="https://statsdmz.nba.com" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+<tr><td>0022600235</td><td>16</td><td>4</td><td>{&#x27;CHI&#x27;: {&#x27;parsed&#x27;: 81, &#x27;printed&#x27;: 117, &#x27;match&#x27;: False}, &#x27;MIN&#x27;: {&#x27;parsed&#x27;: 106, &#x27;printed&#x27;: 106, &#x27;match&#x27;: True}}</td><td><a href="https://statsdmz.nba.com" target="_blank" rel="noopener noreferrer">gamebook</a></td></tr>
+</tbody></table></div>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

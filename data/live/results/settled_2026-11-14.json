@@ -1,0 +1,220 @@
+{
+ "schema": "nba3.live.settled_feed/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "game_date": "2026-11-14",
+ "settled_utc": "2026-11-15T11:52Z",
+ "settlement_stamp_note": "The stamp is the time this build last confirmed the finals against the official pages. It moves only when the official values are re-read.",
+ "one_row_per_game": true,
+ "counts": {
+  "games": 5,
+  "verified": 5,
+  "unverified": 0
+ },
+ "games": [
+  {
+   "game_id": "0022600231",
+   "date": "2026-11-14",
+   "tip_et": "7:00 PM",
+   "away": "DEN",
+   "home": "NOP",
+   "away_name": "Denver Nuggets",
+   "home_name": "New Orleans Pelicans",
+   "venue": "Smoothie King Center",
+   "city": "New Orleans, LA",
+   "status": "Final",
+   "away_q": [
+    29,
+    27,
+    30,
+    30
+   ],
+   "home_q": [
+    23,
+    28,
+    31,
+    26
+   ],
+   "away_final": 116,
+   "home_final": 108,
+   "away_margin": 8,
+   "total_points": 224,
+   "ot": false,
+   "winner": "DEN",
+   "attendance": 15721,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/den-vs-nop-0022600231",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+   },
+   "source_url": "https://www.nba.com/game/den-vs-nop-0022600231",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+   "retrieved_utc": "2026-11-15T11:49Z"
+  },
+  {
+   "game_id": "0022600232",
+   "date": "2026-11-14",
+   "tip_et": "7:30 PM",
+   "away": "DAL",
+   "home": "CLE",
+   "away_name": "Dallas Mavericks",
+   "home_name": "Cleveland Cavaliers",
+   "venue": "Rocket Arena",
+   "city": "Cleveland, OH",
+   "status": "Final",
+   "away_q": [
+    33,
+    20,
+    38,
+    26
+   ],
+   "home_q": [
+    33,
+    38,
+    34,
+    22
+   ],
+   "away_final": 117,
+   "home_final": 127,
+   "away_margin": -10,
+   "total_points": 244,
+   "ot": false,
+   "winner": "CLE",
+   "attendance": 19432,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/dal-vs-cle-0022600232",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+   },
+   "source_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+   "retrieved_utc": "2026-11-15T11:49Z"
+  },
+  {
+   "game_id": "0022600233",
+   "date": "2026-11-14",
+   "tip_et": "8:00 PM",
+   "away": "DET",
+   "home": "MIA",
+   "away_name": "Detroit Pistons",
+   "home_name": "Miami Heat",
+   "venue": "Kaseya Center",
+   "city": "Miami, FL",
+   "status": "Final",
+   "away_q": [
+    39,
+    21,
+    26,
+    31
+   ],
+   "home_q": [
+    37,
+    31,
+    35,
+    34
+   ],
+   "away_final": 117,
+   "home_final": 137,
+   "away_margin": -20,
+   "total_points": 254,
+   "ot": false,
+   "winner": "MIA",
+   "attendance": 19658,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/det-vs-mia-0022600233",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+   },
+   "source_url": "https://www.nba.com/game/det-vs-mia-0022600233",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+   "retrieved_utc": "2026-11-15T11:49Z"
+  },
+  {
+   "game_id": "0022600234",
+   "date": "2026-11-14",
+   "tip_et": "8:00 PM",
+   "away": "BKN",
+   "home": "MEM",
+   "away_name": "Brooklyn Nets",
+   "home_name": "Memphis Grizzlies",
+   "venue": "FedExForum",
+   "city": "Memphis, TN",
+   "status": "Final",
+   "away_q": [
+    23,
+    31,
+    30,
+    26
+   ],
+   "home_q": [
+    38,
+    33,
+    32,
+    26
+   ],
+   "away_final": 110,
+   "home_final": 129,
+   "away_margin": -19,
+   "total_points": 239,
+   "ot": false,
+   "winner": "MEM",
+   "attendance": 15103,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/bkn-vs-mem-0022600234",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+   },
+   "source_url": "https://www.nba.com/game/bkn-vs-mem-0022600234",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+   "retrieved_utc": "2026-11-15T11:49Z"
+  },
+  {
+   "game_id": "0022600235",
+   "date": "2026-11-14",
+   "tip_et": "8:00 PM",
+   "away": "CHI",
+   "home": "MIN",
+   "away_name": "Chicago Bulls",
+   "home_name": "Minnesota Timberwolves",
+   "venue": "Target Center",
+   "city": "Minneapolis, MN",
+   "status": "Final",
+   "away_q": [
+    29,
+    29,
+    30,
+    29
+   ],
+   "home_q": [
+    17,
+    28,
+    35,
+    26
+   ],
+   "away_final": 117,
+   "home_final": 106,
+   "away_margin": 11,
+   "total_points": 223,
+   "ot": false,
+   "winner": "CHI",
+   "attendance": 18054,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/chi-vs-min-0022600235",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+   },
+   "source_url": "https://www.nba.com/game/chi-vs-min-0022600235",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+   "retrieved_utc": "2026-11-15T11:49Z"
+  }
+ ]
+}

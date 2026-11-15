@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rest &amp; travel — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Rest &amp; travel. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:49:00Z</div>
+</div></header>
+<div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html" class="active">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html">Gates</a><a href="review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Projection surface</div>
+  <h1>Rest &amp; travel</h1>
+  <p class="lead">Rest and schedule density computed from the official schedule, with travel left blank rather than guessed.</p>
+<p>Rest, back-to-back and 3-in-4 are arithmetic on the official schedule, not estimates:
+rest is the number of days between a team's previous game and this one. 8 back-to-backs
+and 8 3-in-4 situations occur across the 44 team-games in the window.</p>
+<div class="callout warn"><strong>Travel distance is blank, on purpose.</strong>
+No official NBA page read in this session publishes arena latitude/longitude. The brief requires a SOURCED table, so the distances are left blank and flagged rather than estimated from city names. The distance column therefore prints
+<span class="unv">— unverified</span> for all 44 team-games. Feeding a guessed
+coordinate would make the column look complete and be wrong, which is the failure mode this project is
+built to avoid.</div>
+<div class="tw"><table id="rest-travel" class="">
+<thead><tr>
+<th>Date</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Previous game</th>
+<th>Rest days</th>
+<th>Back-to-back</th>
+<th>Games in 4-day window</th>
+<th>3-in-4</th>
+<th>Previous venue</th>
+<th>Travel</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>2026-11-15</td><td>IND @ PHI</td><td>IND (away)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Philadelphia, PA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>IND @ PHI</td><td>PHI (home)</td><td>2026-11-12</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Philadelphia, PA</td><td><span class="unv" title="no sourced arena coordinate for Philadelphia, PA or Philadelphia, PA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>LAL @ PHX</td><td>LAL (away)</td><td>2026-11-11</td><td>3</td><td>no</td><td>1</td><td>no</td><td>Milwaukee, WI</td><td><span class="unv" title="no sourced arena coordinate for Milwaukee, WI or Phoenix, AZ">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>LAL @ PHX</td><td>PHX (home)</td><td>2026-11-12</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Phoenix, AZ</td><td><span class="unv" title="no sourced arena coordinate for Phoenix, AZ or Phoenix, AZ">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>CHA @ LAC</td><td>CHA (away)</td><td>2026-11-12</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Phoenix, AZ</td><td><span class="unv" title="no sourced arena coordinate for Phoenix, AZ or Inglewood, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>CHA @ LAC</td><td>LAC (home)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Inglewood, CA</td><td><span class="unv" title="no sourced arena coordinate for Inglewood, CA or Inglewood, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>SAS @ UTA</td><td>SAS (away)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>San Antonio, TX</td><td><span class="unv" title="no sourced arena coordinate for San Antonio, TX or Salt Lake City, UT">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>SAS @ UTA</td><td>UTA (home)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Salt Lake City, UT">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>DAL @ BOS</td><td>DAL (away)</td><td>2026-11-14</td><td>0</td><td><span class="chip bad">yes</span></td><td>3</td><td><span class="chip warn">yes</span></td><td>Cleveland, OH</td><td><span class="unv" title="no sourced arena coordinate for Cleveland, OH or Boston, MA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>DAL @ BOS</td><td>BOS (home)</td><td>2026-11-11</td><td>3</td><td>no</td><td>1</td><td>no</td><td>Toronto, ON</td><td><span class="unv" title="no sourced arena coordinate for Toronto, ON or Boston, MA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>NYK @ TOR</td><td>NYK (away)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Toronto, ON">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>NYK @ TOR</td><td>TOR (home)</td><td>2026-11-12</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Philadelphia, PA</td><td><span class="unv" title="no sourced arena coordinate for Philadelphia, PA or Toronto, ON">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>HOU @ WAS</td><td>HOU (away)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Washington, DC">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>HOU @ WAS</td><td>WAS (home)</td><td>2026-11-12</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Washington, DC</td><td><span class="unv" title="no sourced arena coordinate for Washington, DC or Washington, DC">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>ATL @ MIL</td><td>ATL (away)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Milwaukee, WI">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>ATL @ MIL</td><td>MIL (home)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Milwaukee, WI">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>OKC @ SAC</td><td>OKC (away)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Inglewood, CA</td><td><span class="unv" title="no sourced arena coordinate for Inglewood, CA or Sacramento, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-15</td><td>OKC @ SAC</td><td>SAC (home)</td><td>2026-11-13</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Sacramento, CA</td><td><span class="unv" title="no sourced arena coordinate for Sacramento, CA or Sacramento, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>ORL @ BOS</td><td>ORL (away)</td><td>2026-11-13</td><td>2</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Boston, MA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>ORL @ BOS</td><td>BOS (home)</td><td>2026-11-15</td><td>0</td><td><span class="chip bad">yes</span></td><td>2</td><td>no</td><td>Boston, MA</td><td><span class="unv" title="no sourced arena coordinate for Boston, MA or Boston, MA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>CHI @ CLE</td><td>CHI (away)</td><td>2026-11-14</td><td>1</td><td>no</td><td>3</td><td><span class="chip warn">yes</span></td><td>Minneapolis, MN</td><td><span class="unv" title="no sourced arena coordinate for Minneapolis, MN or Cleveland, OH">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>CHI @ CLE</td><td>CLE (home)</td><td>2026-11-14</td><td>1</td><td>no</td><td>3</td><td><span class="chip warn">yes</span></td><td>Cleveland, OH</td><td><span class="unv" title="no sourced arena coordinate for Cleveland, OH or Cleveland, OH">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>MEM @ WAS</td><td>MEM (away)</td><td>2026-11-14</td><td>1</td><td>no</td><td>3</td><td><span class="chip warn">yes</span></td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Washington, DC">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>MEM @ WAS</td><td>WAS (home)</td><td>2026-11-15</td><td>0</td><td><span class="chip bad">yes</span></td><td>2</td><td>no</td><td>Washington, DC</td><td><span class="unv" title="no sourced arena coordinate for Washington, DC or Washington, DC">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>PHI @ BKN</td><td>PHI (away)</td><td>2026-11-15</td><td>0</td><td><span class="chip bad">yes</span></td><td>2</td><td>no</td><td>Philadelphia, PA</td><td><span class="unv" title="no sourced arena coordinate for Philadelphia, PA or Brooklyn, NY">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>PHI @ BKN</td><td>BKN (home)</td><td>2026-11-14</td><td>1</td><td>no</td><td>2</td><td>no</td><td>—</td><td><span class="unv" title="no sourced arena coordinate for unknown or Brooklyn, NY">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>HOU @ MIA</td><td>HOU (away)</td><td>2026-11-15</td><td>0</td><td><span class="chip bad">yes</span></td><td>3</td><td><span class="chip warn">yes</span></td><td>Washington, DC</td><td><span class="unv" title="no sourced arena coordinate for Washington, DC or Miami, FL">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>HOU @ MIA</td><td>MIA (home)</td><td>2026-11-14</td><td>1</td><td>no</td><td>3</td><td><span class="chip warn">yes</span></td><td>Miami, FL</td><td><span class="unv" title="no sourced arena coordinate for Miami, FL or Miami, FL">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>POR @ MIN</td><td>POR (away)</td><td>2026-11-13</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Sacramento, CA</td><td><span class="unv" title="no sourced arena coordinate for Sacramento, CA or Minneapolis, MN">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>POR @ MIN</td><td>MIN (home)</td><td>2026-11-14</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Minneapolis, MN</td><td><span class="unv" title="no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>GSW @ NOP</td><td>GSW (away)</td><td>2026-11-13</td><td>2</td><td>no</td><td>2</td><td>no</td><td>San Antonio, TX</td><td><span class="unv" title="no sourced arena coordinate for San Antonio, TX or New Orleans, LA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>GSW @ NOP</td><td>NOP (home)</td><td>2026-11-14</td><td>1</td><td>no</td><td>3</td><td><span class="chip warn">yes</span></td><td>New Orleans, LA</td><td><span class="unv" title="no sourced arena coordinate for New Orleans, LA or New Orleans, LA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>PHX @ DEN</td><td>PHX (away)</td><td>2026-11-15</td><td>0</td><td><span class="chip bad">yes</span></td><td>2</td><td>no</td><td>Phoenix, AZ</td><td><span class="unv" title="no sourced arena coordinate for Phoenix, AZ or Denver, CO">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-16</td><td>PHX @ DEN</td><td>DEN (home)</td><td>2026-11-14</td><td>1</td><td>no</td><td>2</td><td>no</td><td>New Orleans, LA</td><td><span class="unv" title="no sourced arena coordinate for New Orleans, LA or Denver, CO">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>NYK @ TOR</td><td>NYK (away)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Toronto, ON</td><td><span class="unv" title="no sourced arena coordinate for Toronto, ON or Toronto, ON">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>NYK @ TOR</td><td>TOR (home)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Toronto, ON</td><td><span class="unv" title="no sourced arena coordinate for Toronto, ON or Toronto, ON">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>POR @ MIN</td><td>POR (away)</td><td>2026-11-16</td><td>0</td><td><span class="chip bad">yes</span></td><td>2</td><td>no</td><td>Minneapolis, MN</td><td><span class="unv" title="no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>POR @ MIN</td><td>MIN (home)</td><td>2026-11-16</td><td>0</td><td><span class="chip bad">yes</span></td><td>3</td><td><span class="chip warn">yes</span></td><td>Minneapolis, MN</td><td><span class="unv" title="no sourced arena coordinate for Minneapolis, MN or Minneapolis, MN">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>DET @ SAS</td><td>DET (away)</td><td>2026-11-14</td><td>2</td><td>no</td><td>2</td><td>no</td><td>Miami, FL</td><td><span class="unv" title="no sourced arena coordinate for Miami, FL or San Antonio, TX">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>DET @ SAS</td><td>SAS (home)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Salt Lake City, UT</td><td><span class="unv" title="no sourced arena coordinate for Salt Lake City, UT or San Antonio, TX">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>UTA @ LAC</td><td>UTA (away)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Salt Lake City, UT</td><td><span class="unv" title="no sourced arena coordinate for Salt Lake City, UT or Inglewood, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>UTA @ LAC</td><td>LAC (home)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Inglewood, CA</td><td><span class="unv" title="no sourced arena coordinate for Inglewood, CA or Inglewood, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>CHA @ LAL</td><td>CHA (away)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Inglewood, CA</td><td><span class="unv" title="no sourced arena coordinate for Inglewood, CA or Los Angeles, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td>2026-11-17</td><td>CHA @ LAL</td><td>LAL (home)</td><td>2026-11-15</td><td>1</td><td>no</td><td>2</td><td>no</td><td>Phoenix, AZ</td><td><span class="unv" title="no sourced arena coordinate for Phoenix, AZ or Los Angeles, CA">—</span> <span class="unv">unverified</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+</tbody></table></div>
+<h2>Schedule of record and its seams</h2>
+<p>No single official capture covers the window, so three are unioned. The seams are
+published because a union is exactly where a silent gap would invent a rested team.</p>
+<div class="tw"><table id="schedule-seams" class="">
+<thead><tr>
+<th>Seam</th>
+<th>File</th>
+<th>What it is</th>
+<th>Dates</th>
+<th>Rows</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>origin</td><td>data/origin/games.csv</td><td>in-repo official results capture</td><td>2026-10-20..2026-11-13</td><td>188</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td>settled</td><td>data/live/results/settled_2026-11-14.json</td><td>11/14 finals verified against two official reads</td><td>2026-11-14</td><td>5</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td>slate</td><td>data/live/slate_2026-11-15.json</td><td>upcoming slate</td><td>2026-11-15..2026-11-17</td><td>22</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+</tbody></table></div>
+<p>rest_days = (game date - previous game date) in days - 1; back_to_back = previous game on the immediately preceding day; games_in_4_day_window counts the current game plus prior games on dates within 3 days; three_in_four = that count &gt;= 3</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

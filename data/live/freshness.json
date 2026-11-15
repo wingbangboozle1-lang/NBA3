@@ -1,0 +1,145 @@
+{
+ "schema": "nba3.live.freshness/v1",
+ "reference_utc": "2026-11-15T11:49:00Z",
+ "checked_utc_note": "Deliberately no wall-clock stamp: this artefact is compared byte for byte in CI, and a clock reading would make every build differ.",
+ "counts": {
+  "gates": 10,
+  "passed": 10,
+  "failed": 0
+ },
+ "gates": [
+  {
+   "id": "F1",
+   "name": "Every capture has a retrieval stamp and an https source",
+   "passed": true,
+   "value": {
+    "captures": 10,
+    "problems": []
+   },
+   "rule": "zero missing stamps, zero non-https sources",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "F2",
+   "name": "The model used the newest archived injury report",
+   "passed": true,
+   "value": {
+    "model_used": "Injury-Report_2026-11-15_12_00AM",
+    "newest_on_disk": "Injury-Report_2026-11-15_12_00AM"
+   },
+   "rule": "the engine must read the newest archived report, not an older one",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+  },
+  {
+   "id": "F3",
+   "name": "The injury report is not older than the slate it prices",
+   "passed": true,
+   "value": {
+    "report_date": "2026-11-15",
+    "slate_start": "2026-11-15"
+   },
+   "rule": "report date >= first slate date",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+  },
+  {
+   "id": "F4",
+   "name": "Every settled game is verified against two official reads",
+   "passed": true,
+   "value": {
+    "games": 5,
+    "unverified": [],
+    "stamp": "2026-11-15T11:52Z"
+   },
+   "rule": "game page final == gamebook printed final == sum of printed quarters",
+   "source": "https://www.nba.com/game/den-vs-nop-0022600231"
+  },
+  {
+   "id": "F5",
+   "name": "The priced slate is exactly the captured slate",
+   "passed": true,
+   "value": {
+    "priced": 22,
+    "captured": 22,
+    "only_in_model": [],
+    "only_in_slate": []
+   },
+   "rule": "set equality on (game_id, date, away, home)",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "F6",
+   "name": "Every archived injury report is on disk with its official source URL",
+   "passed": true,
+   "value": {
+    "reports": [
+     {
+      "file": "Injury-Report_2026-11-15_06_00AM.md",
+      "bytes": 11000,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf"
+     },
+     {
+      "file": "Injury-Report_2026-11-15_06_15AM.md",
+      "bytes": 10757,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+     },
+     {
+      "file": "Injury-Report_2026-11-15_12_00AM.md",
+      "bytes": 11222,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+     }
+    ],
+    "problems": []
+   },
+   "rule": "one file per report, URL inside the file",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf"
+  },
+  {
+   "id": "F7",
+   "name": "Every slate team has an official advanced-stats row",
+   "passed": true,
+   "value": {
+    "teams_needed": 30,
+    "missing": []
+   },
+   "rule": "all 30 team codes present in the official advanced capture",
+   "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "id": "F8",
+   "name": "The ledger chain verifies and every sealed pick is pre-registered",
+   "passed": true,
+   "value": {
+    "entries": 2,
+    "head": "6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d",
+    "problems": [],
+    "unregistered_picks": []
+   },
+   "rule": "sha256 chain recomputes; strategy_id has a frozen prereg/ file",
+   "source": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "F9",
+   "name": "The model sample is not older than the newest settled game",
+   "passed": true,
+   "value": {
+    "model_sample_end": "2026-11-14",
+    "newest_settled": "2026-11-14"
+   },
+   "rule": "model sample end >= newest settled game date",
+   "source": "https://www.nba.com/games"
+  },
+  {
+   "id": "F10",
+   "name": "The capture is at least as new as the newest official read it was built from",
+   "passed": true,
+   "value": {
+    "generated_utc": "2026-11-15T11:49:00Z",
+    "newest_source_retrieved_utc": "2026-11-15T11:49Z",
+    "build_lag_hours": 0.0,
+    "max_report_age_hours": null
+   },
+   "rule": "build_lag >= 0 (the capture is not older than its own newest source read); with --max-report-age-hours, |build_lag| is bounded instead. Measured against the capture stamps, never the wall clock, so the artefact reproduces byte for byte.",
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  }
+ ]
+}
