@@ -4385,3 +4385,16 @@ claim to have identified the server response.
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+## Session `arena/43d54bfe-nba3` — claim (2026-11-15 ~23:40 UTC, base `main` @ `f98b44d`, PR #91)
+
+### Claimed tasks (scoped; commit pushed immediately after this claim)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F1 Diagnose + repair the scheduled `official data refresh` job (failed on `main`, run 43742524756, exit 1 after ~9 s at the fetch step; first schedule trigger after PR #91) | in progress | 43d54bfe | `scripts/refresh_official.py`, `.github/workflows/refresh.yml`, `.github/workflows/diagnose-official-fetch.yml` (**new**, diagnostics only, removed at integration) |
+| F2 Runner-side official-source reachability diagnostics (which official hosts the runner can fetch; results committed back so they are reviewable) | in progress | 43d54bfe | `data/app/refresh/diagnostics/` |
+| F3 Post-fix verification: gates pass on fresh runner capture, rebuild only after gates, ledger/estimators drift-free; record evidence in COORDINATION.md | in progress | 43d54bfe | `data/app/refresh/**` (new stamps), this log |
+
+**Non-overlap:** the two OPEN PRs are untouched — #90 (`arena/94e6d41b-nba3`, scope `app/*`, `data/app/*`, `scripts/{assemble_canonical,build_app,strategy_lab,capture_official_2026_11_15,report_availability}.py`, `pages.yml`) and #85 (`arena/5a67ab8c-nba3`, scope `data/v2/*`, `pipeline/v2/*`, `scripts/build_v2.py`, `v2/*`). This session does not edit those files; no rebases of their branches. `pages.yml` and `index.html` are NOT in this session's scope unless a runner-diagnosed fix requires a refresh-workflow-only change (refresh.yml only). Append-only edits to `COORDINATION.md` (merge conflicts resolved by keeping both sides).
+
+**Why this task:** the rolling refresh (fetch official schedule/standings/team stats/injury report → freshness+provenance gates → rebuild only on pass) is the brief's first line item, and its only scheduled run failed. Diagnosis note: the workspace sandbox cannot reach `*.nba.com` hosts (proxy allowlist), so the fetch failure is observable only on the runner; diagnostics therefore run inside Actions and commit their findings back to this branch.
