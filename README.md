@@ -465,3 +465,22 @@ Dashboard (after Pages deploy): `https://wingbangboozle1-lang.github.io/NBA3/d01
 Rules enforced in this namespace: every table row links its official NBA source; unconfirmable values are **blank + flagged, never inferred**; model parameters (HCA, rest/injury weights) are declared assumptions with pre-settlement revision logs; provisional picks (injury report not yet published) are never scored. The other workstreams' cautions above apply to them, not to this namespace — and this namespace makes no claim about theirs.
 
 Reviewers: decisions this workstream is waiting on (license, CI, odds source, HCA calibration…) are listed in `d01ae7e2/docs/QUESTIONS.md`; improvement suggestions await path selection in `d01ae7e2/docs/SUGGESTIONS.md` — none have been implemented.
+
+## Game-day refresh (2026-11-15, session arena/94e6d41b-nba3) — adopted as canonical
+
+The 2026-11-15 06:15 AM ET official injury report (101 rows), the five 11/14 finals, and the rolling
+11/15→11/18 slate are captured verbatim, and the refreshed build is **adopted as canonical**: 34 originated
+lines across the new window. The refresh moves price fields on 22 of 27 shared games; the NF-90 name-join
+fix itself changes zero fields (proved leg-by-leg). Settlement of the 11/14 finals against the published
+picks: 2 cover / 3 no-cover, 3 over / 2 under, 2 held-before-tip; props 6 over / 1 under / 2 push.
+
+Full audit, every row linked to its official source: **`/audit_94e6d41b/`** —
+[overview](audit_94e6d41b/pages/index.html) ·
+[refresh](audit_94e6d41b/pages/refresh.html) ·
+[line invariance](audit_94e6d41b/pages/invariance.html) ·
+[settlement](audit_94e6d41b/pages/settlement.html) ·
+[rotation impact](audit_94e6d41b/pages/rotation.html) ·
+[repo review](audit_94e6d41b/pages/review.html) ·
+[flagged](audit_94e6d41b/pages/flags.html) ·
+[questions](audit_94e6d41b/pages/questions.html) ·
+[suggestions](audit_94e6d41b/pages/suggestions.html).
