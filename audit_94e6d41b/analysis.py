@@ -382,7 +382,7 @@ def refresh_and_delta():
             status_changes.append({"matchup": r["matchup"], "player": r["player"],
                                    "day_before": db["status"], "game_day": r["status"]})
 
-    nys_0130_missing = [f"{m} {t}" for (m, t) in set(slate_pairs) if (m, t) not in audit15]
+    nys_0130_missing = sorted(f"{m} {t}" for (m, t) in set(slate_pairs) if (m, t) not in audit15)
     counts = {
         "published_rows": pub["count"], "published_player_rows": pub["player_rows"],
         "published_not_submitted_rows": pub["not_submitted_rows"],

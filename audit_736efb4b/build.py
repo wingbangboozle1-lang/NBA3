@@ -16,7 +16,13 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 CAP = json.loads((HERE / "data" / "official_injury_report_2026-11-14_0130PM.json").read_text(encoding="utf-8"))
 DELTA = json.loads((HERE / "data" / "delta_1330PM_vs_canonical.json").read_text(encoding="utf-8"))
-CANON = json.loads((ROOT / "data" / "app" / "canonical.json").read_text(encoding="utf-8"))
+# Frozen input (session arena/94e6d41b-nba3): same rationale as compare.py - the
+# canonical snapshot this audit describes is the 2026-11-14 build, so read it
+# from main @ d320fea rather than the working tree, which later refreshes
+# legitimately rebuild from newer reports.
+CANON = json.loads((__import__("subprocess").run(
+    ["git", "show", "d320fea:data/app/canonical.json"], cwd=ROOT,
+    capture_output=True, check=True).stdout).decode("utf-8"))
 
 NEW_URL = CAP["source_url"]
 NEW_STAMP = CAP["report_stamp"]

@@ -17,7 +17,20 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 NEW = HERE / "data" / "official_injury_report_2026-11-14_0130PM.json"
-CANON = ROOT / "data" / "app" / "canonical.json"
+# Frozen input (session arena/94e6d41b-nba3): this audit compares the 01:30 PM ET
+# report against the canonical snapshot as it was published on 2026-11-14. Later
+# refresh sessions legitimately rebuild canonical.json from newer reports, so the
+# baseline is now read via `git show` from main @ d320fea, the commit this audit's
+# committed outputs were derived from. Content there is identical to what the
+# committed delta below was built from; their record is otherwise untouched.
+import subprocess as _sp
+import tempfile as _tempfile
+from pathlib import Path as _Path
+_frozen_dir = _tempfile.mkdtemp(prefix="nba3-736efb4b-frozen-")
+CANON = _Path(_tempfile.gettempdir()) / "nba3_736efb4b_canonical_frozen.json"
+with open(CANON, "wb") as _fh:
+    _fh.write(_sp.run(["git", "show", "d320fea:data/app/canonical.json"], cwd=ROOT,
+                      capture_output=True, check=True).stdout)
 OUT = HERE / "data" / "delta_1330PM_vs_canonical.json"
 NYS = "NOT YET SUBMITTED"
 
