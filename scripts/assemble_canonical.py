@@ -33,10 +33,15 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 OUT = os.path.join(APP, "canonical.json")
 
-BUILD_UTC = "2026-11-15T11:40Z"
-SESSION = ("arena/bb0c83a4-nba3 (11/15 game-day refresh: 188-game result log, the 11/15 06:15 AM ET "
-           "injury report, the 11/15-11/18 window, post-slate team ratings) on top of "
-           "arena/25418e3f-nba3 and arena/8d3d0271-nba3 (engine, gates, leaderboard)")
+BUILD_UTC = "2026-11-15T12:45Z"
+SESSION = ("arena/94e6d41b-nba3 (game-day refresh 2026-11-15: manifest repointed to the 06:15 AM "
+           "ET report and the rolling 11/15-11/18 window, 188-game result log, refreshed team "
+           "ratings and players table, NF-90 name-join fix) and arena/bb0c83a4-nba3 (11/15 "
+           "game-day refresh: 188-game result log, the 11/15 06:15 AM ET injury report, the "
+           "11/15-11/18 window, post-slate team ratings) merged side by side per the "
+           "merge-conflict rule, on top of arena/25418e3f-nba3 and arena/8d3d0271-nba3 "
+           "(engine, gates, leaderboard). Metadata constants updated by the refreshing "
+           "sessions per the design note above; no other line of this file was touched.")
 REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 PAGES_DOCS = ("https://docs.github.com/en/pages/getting-started-with-github-pages/"
               "configuring-a-publishing-source-for-your-github-pages-site")

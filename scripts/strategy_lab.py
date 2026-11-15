@@ -1270,6 +1270,10 @@ def norm_name(s):
     if not s:
         return ("", "")
     if "," in s:                                   # "Edwards, Anthony"
+        parts = [q.strip() for q in s.split(",")]
+        if len(parts) == 3:                        # "Udeh, Jr., Ernest"
+            last, suffix, first = parts
+            return (first.lower(), (last + " " + suffix).lower())
         last, first = s.split(",", 1)
         return (first.strip().lower(), last.strip().lower())
     parts = s.split()

@@ -1,6 +1,6 @@
 {
  "schema": "nba3.snapshot_manifest/v1",
- "session": "arena/bb0c83a4-nba3",
+ "session": "arena/bb0c83a4-nba3; manifest merged with arena/94e6d41b-nba3's parallel repoint (both sessions kept, per the merge rule)",
  "written_on": "2026-11-15",
  "purpose": "Names the official captures the canonical engine and dashboard must read. Re-pointed on 2026-11-15 by session bb0c83a4 to the 11/15 game-day captures, because the previous pointers published a window whose first day had already been played. Kept as a manifest rather than hard-coded paths so a later refresh is a data change.",
  "window": {
@@ -16,14 +16,15 @@
   "cross_check_copy": "data/app/games_2026-11-14c.csv",
   "previous_last_date": "2026-11-13",
   "rows_added": 5,
-  "added_dates": "2026-11-14"
+  "added_dates": "2026-11-14",
+  "source_url_parallel_94e6d41b": "https://www.nba.com/games?date=2026-11-14"
  },
  "slate": {
   "path": "data/app/official_slate_1115_1118.json",
   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
   "retrieved_stamp": "2026-11-15T11:25Z",
   "reverified_on": "2026-11-15",
-  "reverified_by": "re-read on nba.com/schedule?date=2026-11-17 chunk 1, which re-renders the same week block"
+  "reverified_by": "re-read on nba.com/schedule?date=2026-11-17 chunk 1, which re-renders the same week block; arena/94e6d41b capture checks C4/C4b/C7 (report coverage, tip times, 11/14 finals ids) ran the same day on its own transcription"
  },
  "results_1113": {
   "path": "data/app/official_results_2026-11-13.json",
@@ -43,7 +44,7 @@
   "path": "data/app/players_top31_2026-11-15.csv",
   "captured_by": "session bb0c83a4 (2026-11-15)",
   "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-  "note": "Top 31 players by minutes per game, the same cut as the previous capture so the two are comparable."
+  "note": "Top 31 players by minutes per game, the same cut as the previous capture so the two are comparable. arena/94e6d41b flags the rendered order (PTS-descending even for a MIN-sorted URL) as F-94E6D41B-03."
  },
  "ratings": {
   "path": "data/app/official_team_ratings_2026-11-15.json",
@@ -174,7 +175,8 @@
  "results_1114": {
   "path": "data/app/official_results_2026-11-14.json",
   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
-  "retrieved_stamp": "2026-11-15T11:25Z"
+  "retrieved_stamp": "2026-11-15T11:25Z",
+  "note_94e6d41b": "The five 11/14 finals. Quarter scores are null: no official page reached in this environment prints a per-quarter line score in text-extractable form, and the JSON endpoints are unreachable. Flagged F-94E6D41B-02, never inferred."
  },
  "rotation_join": {
   "flag": "NF-90 / F-901-01",
@@ -182,5 +184,16 @@
   "repaired_by": "session bb0c83a4",
   "what": "The injury-PDF name form (\"Edwards, Anthony\") never matched the players-table name form (\"Anthony Edwards\"), so every minutes-vacated figure in injury_impact was a structurally-zero floor. The join is now normalised to (first, last) and a suffix-aware retry handles \"Porter Jr., Michael\".",
   "verification": "tests/test_rotation_join.py pins both name forms, the suffix case and the no-match case."
+ },
+ "parallel_94e6d41b": {
+  "what": "Independent 2026-11-15 capture by session arena/94e6d41b-nba3 from the same official pages, kept under the _94e6d41b suffix after the add/add merge (both parses preserved; the canonical names hold bb0c83a4's parse). Its cross-report reads of the 06:00 AM, 05:45 AM, 12:00 AM and 11/14 11:30 PM reports remain at their own file names and are used as attribution cross-checks.",
+  "injuries": "data/app/official_injuries_2026-11-15_0615AM_94e6d41b.json",
+  "injuries_raw": "data/app/official_injuries_2026-11-15_0615AM_raw_94e6d41b.md",
+  "slate": "data/app/official_slate_1115_1118_94e6d41b.json",
+  "results_1114": "data/app/official_results_2026-11-14_94e6d41b.json",
+  "ratings": "data/app/official_team_ratings_2026-11-15_94e6d41b.json",
+  "players": "data/app/players_top31_2026-11-15_94e6d41b.csv",
+  "capture_script": "scripts/capture_official_2026_11_15_94e6d41b.py",
+  "audit_tree": "audit_94e6d41b/"
  }
 }
