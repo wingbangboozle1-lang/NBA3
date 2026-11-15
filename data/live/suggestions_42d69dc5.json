@@ -1,0 +1,150 @@
+{
+ "schema": "nba3.suggestions.42d69dc5/v1",
+ "session": "arena/42d69dc5-nba3",
+ "what": "Improvements, each with the problem, the options, the cost, the risk, and what I recommend. Nothing here is implemented; the decision is yours.",
+ "counts": {
+  "total": 6,
+  "implemented": 0,
+  "awaiting_decision": 6
+ },
+ "suggestions": [
+  {
+   "id": "S42-1",
+   "title": "Make the market prior real: buy one closing-line history, or retire the edge language",
+   "problem": "Every 'edge' number is currently the model compared with itself. There is no price in the repository.",
+   "options": [
+    {
+     "id": "A",
+     "label": "License a closing-line feed and backfill one season",
+     "cost": "licence + one capture script",
+     "risk": "terms may forbid republication of the line itself"
+    },
+    {
+     "id": "B",
+     "label": "Ship model numbers only, and delete the word 'edge' from the site",
+     "cost": "0",
+     "risk": "the brief's core ask goes unmet"
+    },
+    {
+     "id": "C",
+     "label": "Record lines manually, one screenshot per slate, with a timestamp",
+     "cost": "low",
+     "risk": "unlicensed, unverifiable at scale, and a human step you said you do not want"
+    }
+   ],
+   "recommend": "B now, A when a licence exists \u2014 because B is honest and costs nothing, and A is the only path to a measured edge.",
+   "evidence": "https://www.nba.com/schedule?date=2026-11-15",
+   "status": "AWAITING YOUR CHOICE"
+  },
+  {
+   "id": "S42-2",
+   "title": "Settle every game day automatically, or the ledger rots",
+   "problem": "8 of 9 games from 11/15 have no verified final in the repository, and one pick is stranded open.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Fetch two official reads per finished game in the refresh job",
+     "cost": "2 fetches/game",
+     "risk": "game books post minutes after the final; a run at 23:15 UTC will miss late West-Coast games, so the next run must retry"
+    },
+    {
+     "id": "B",
+     "label": "Settle from the schedule page's printed finals only",
+     "cost": "1 fetch",
+     "risk": "one read is not verification, and the page can carry a live score that later changes"
+    }
+   ],
+   "recommend": "A, with the retry obvious: the outstanding list is already published so a miss is visible rather than silent.",
+   "evidence": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "status": "AWAITING YOUR CHOICE"
+  },
+  {
+   "id": "S42-3",
+   "title": "Close the projection/bet navigation hole",
+   "problem": "The two surfaces are built and separated correctly, but nothing on the front door links to them.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Add one 'Surfaces' nav group linking projection/ and bet/",
+     "cost": "one nav edit in build_app.py",
+     "risk": "another session owns that file; must be merged, not duplicated"
+    },
+    {
+     "id": "B",
+     "label": "Link them from this session's review page and leave the canonical nav alone",
+     "cost": "0",
+     "risk": "a reader still has to find the review page first"
+    }
+   ],
+   "recommend": "A at the next integration, B today.",
+   "evidence": "https://www.nba.com/schedule?date=2026-11-15",
+   "status": "AWAITING YOUR CHOICE"
+  },
+  {
+   "id": "S42-4",
+   "title": "Publish the disagreement as a distribution, not one number",
+   "problem": "The headline is a single disagreement figure per game. A reader cannot tell a stable disagreement from one flipping between sides run to run.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Show the disagreement's moving-average and its change since the previous capture",
+     "cost": "small",
+     "risk": "more columns on an already wide table"
+    },
+    {
+     "id": "B",
+     "label": "Keep one number",
+     "cost": "0",
+     "risk": "the confidence signal is less informative than it claims"
+    }
+   ],
+   "recommend": "A, but only after two consecutive captures exist to diff.",
+   "evidence": "https://www.nba.com/schedule?date=2026-11-15",
+   "status": "AWAITING YOUR CHOICE"
+  },
+  {
+   "id": "S42-5",
+   "title": "Add a settlement SPAN to the picks table",
+   "problem": "A settled pick shows WIN, but not how the win relates to the model's own confidence or the margin.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Add 'final margin vs pick line' next to the outcome",
+     "cost": "small",
+     "risk": "none identified"
+    },
+    {
+     "id": "B",
+     "label": "Leave it",
+     "cost": "0",
+     "risk": "a WIN by 1 point and a WIN by 30 look identical"
+    }
+   ],
+   "recommend": "A.",
+   "evidence": "https://www.nba.com/game/ind-vs-phi-0022600236",
+   "status": "AWAITING YOUR CHOICE"
+  },
+  {
+   "id": "S42-6",
+   "title": "Give the injury archive a retention and backfill rule",
+   "problem": "3 of the 76 filings the official index lists for 11/15 are archived. The diff between consecutive reports is the feature; with three files it can only fire twice.",
+   "options": [
+    {
+     "id": "A",
+     "label": "Backfill the day's filings once, then append on every refresh",
+     "cost": "~73 PDF fetches",
+     "risk": "PDF text extraction is imperfect; unattributed rows must keep being published as such"
+    },
+    {
+     "id": "B",
+     "label": "Append only, going forward",
+     "cost": "0",
+     "risk": "the first day with a real status change is when the archive starts"
+    }
+   ],
+   "recommend": "A for 11/15 only, so the diff has material, then B.",
+   "evidence": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "status": "AWAITING YOUR CHOICE"
+  }
+ ]
+}

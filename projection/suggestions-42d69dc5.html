@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site improvement suggestions — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Site improvement suggestions. Every table row links to its source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.unv{color:var(--warn);font-weight:600}
+.fixed{background:#e4f3e9;color:var(--ok);font-weight:600;padding:1px 7px;border-radius:10px;font-size:11.5px}
+.note{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:14px 0}
+.note p{margin:0}
+ol,ul{max-width:82ch}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span> Projection surface</a>
+  <div class="stamp">Session arena/42d69dc5-nba3 · built 2026-11-16 · window 2026-11-15 → 2026-11-17 ·
+    derived values are ours and labelled; official values link to nba.com</div>
+</div></header>
+<nav class="site"><div class="wrap"><span class="grp"><b>Projection</b> <a href="summary.html">Executive summary</a> <a href="index.html">Overview</a> <a href="lines.html">Originated lines</a> <a href="results.html">Settled results</a> <a href="estimators.html">Estimators</a> <a href="injuries.html">Injuries</a> <a href="rest.html">Rest &amp; travel</a> <a href="minutes.html">Minutes &amp; rotation</a> <a href="gates.html">Gates</a></span><span class="grp"><b>This round (42d69dc5)</b> <a href="travel.html">Travel evidence</a> <a href="settlement.html">Settlement &amp; ledger</a> <a href="review-42d69dc5.html">Repo review</a> <a href="questions-42d69dc5.html">Questions</a> <a href="suggestions-42d69dc5.html" class="active">Suggestions</a></span><span class="grp"><b>Reference</b> <a href="review.html">Earlier repo review</a> <a href="questions.html">Earlier questions</a> <a href="suggestions.html">Earlier suggestions</a> <a href="flagged.html">Flagged for review</a></span></div></nav>
+<main><div class="wrap">
+  <div class="crumb">This round · suggestions</div>
+  <h1>Site improvement suggestions</h1>
+  <p class="lead">Improvements, with options and a recommendation for each. Nothing is implemented; the choice is yours.</p>
+  <p class="lead">Six improvements. Each carries its problem, its options, the cost, the
+risk and my recommendation. <b>Nothing here is implemented</b> — 6
+items are awaiting your choice, and each option is a path you can accept or reject independently.</p>
+<div class="note"><p>There is a separate decision register for the whole site:
+<a href="suggestions.html">earlier suggestions</a> (session 2ebb1e75) and
+<a href="../app/suggestions.html">the canonical site's suggestions page</a>. This page adds only what
+this round's reading of the tree produced.</p></div>
+<h2 id="S42-1">S42-1 · Make the market prior real: buy one closing-line history, or retire the edge language</h2>
+<p>Every &#x27;edge&#x27; number is currently the model compared with itself. There is no price in the repository.</p>
+<div class="tw"><table id="attrs-S42-1" class="">
+<thead><tr>
+<th>Option</th>
+<th>What it means</th>
+<th>Cost</th>
+<th>Risk</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td><b>A</b></td><td>License a closing-line feed and backfill one season</td><td>licence + one capture script</td><td>terms may forbid republication of the line itself</td><td></td></tr>
+<tr><td><b>B</b></td><td>Ship model numbers only, and delete the word &#x27;edge&#x27; from the site</td><td>0</td><td>the brief&#x27;s core ask goes unmet</td><td></td></tr>
+<tr><td><b>C</b></td><td>Record lines manually, one screenshot per slate, with a timestamp</td><td>low</td><td>unlicensed, unverifiable at scale, and a human step you said you do not want</td><td></td></tr>
+</tbody></table></div>
+<p class="small">Recommendation: <b>B now, A when a licence exists — because B is honest and costs nothing, and A is the only path to a measured edge.</b> · status: AWAITING YOUR CHOICE · evidence: <a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official source</a></p>
+<h2 id="S42-2">S42-2 · Settle every game day automatically, or the ledger rots</h2>
+<p>8 of 9 games from 11/15 have no verified final in the repository, and one pick is stranded open.</p>
+<div class="tw"><table id="attrs-S42-2" class="">
+<thead><tr>
+<th>Option</th>
+<th>What it means</th>
+<th>Cost</th>
+<th>Risk</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td><b>A</b></td><td>Fetch two official reads per finished game in the refresh job</td><td>2 fetches/game</td><td>game books post minutes after the final; a run at 23:15 UTC will miss late West-Coast games, so the next run must retry</td><td></td></tr>
+<tr><td><b>B</b></td><td>Settle from the schedule page&#x27;s printed finals only</td><td>1 fetch</td><td>one read is not verification, and the page can carry a live score that later changes</td><td></td></tr>
+</tbody></table></div>
+<p class="small">Recommendation: <b>A, with the retry obvious: the outstanding list is already published so a miss is visible rather than silent.</b> · status: AWAITING YOUR CHOICE · evidence: <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">official source</a></p>
+<h2 id="S42-3">S42-3 · Close the projection/bet navigation hole</h2>
+<p>The two surfaces are built and separated correctly, but nothing on the front door links to them.</p>
+<div class="tw"><table id="attrs-S42-3" class="">
+<thead><tr>
+<th>Option</th>
+<th>What it means</th>
+<th>Cost</th>
+<th>Risk</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td><b>A</b></td><td>Add one &#x27;Surfaces&#x27; nav group linking projection/ and bet/</td><td>one nav edit in build_app.py</td><td>another session owns that file; must be merged, not duplicated</td><td></td></tr>
+<tr><td><b>B</b></td><td>Link them from this session&#x27;s review page and leave the canonical nav alone</td><td>0</td><td>a reader still has to find the review page first</td><td></td></tr>
+</tbody></table></div>
+<p class="small">Recommendation: <b>A at the next integration, B today.</b> · status: AWAITING YOUR CHOICE · evidence: <a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official source</a></p>
+<h2 id="S42-4">S42-4 · Publish the disagreement as a distribution, not one number</h2>
+<p>The headline is a single disagreement figure per game. A reader cannot tell a stable disagreement from one flipping between sides run to run.</p>
+<div class="tw"><table id="attrs-S42-4" class="">
+<thead><tr>
+<th>Option</th>
+<th>What it means</th>
+<th>Cost</th>
+<th>Risk</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td><b>A</b></td><td>Show the disagreement&#x27;s moving-average and its change since the previous capture</td><td>small</td><td>more columns on an already wide table</td><td></td></tr>
+<tr><td><b>B</b></td><td>Keep one number</td><td>0</td><td>the confidence signal is less informative than it claims</td><td></td></tr>
+</tbody></table></div>
+<p class="small">Recommendation: <b>A, but only after two consecutive captures exist to diff.</b> · status: AWAITING YOUR CHOICE · evidence: <a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official source</a></p>
+<h2 id="S42-5">S42-5 · Add a settlement SPAN to the picks table</h2>
+<p>A settled pick shows WIN, but not how the win relates to the model&#x27;s own confidence or the margin.</p>
+<div class="tw"><table id="attrs-S42-5" class="">
+<thead><tr>
+<th>Option</th>
+<th>What it means</th>
+<th>Cost</th>
+<th>Risk</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td><b>A</b></td><td>Add &#x27;final margin vs pick line&#x27; next to the outcome</td><td>small</td><td>none identified</td><td></td></tr>
+<tr><td><b>B</b></td><td>Leave it</td><td>0</td><td>a WIN by 1 point and a WIN by 30 look identical</td><td></td></tr>
+</tbody></table></div>
+<p class="small">Recommendation: <b>A.</b> · status: AWAITING YOUR CHOICE · evidence: <a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">official source</a></p>
+<h2 id="S42-6">S42-6 · Give the injury archive a retention and backfill rule</h2>
+<p>3 of the 76 filings the official index lists for 11/15 are archived. The diff between consecutive reports is the feature; with three files it can only fire twice.</p>
+<div class="tw"><table id="attrs-S42-6" class="">
+<thead><tr>
+<th>Option</th>
+<th>What it means</th>
+<th>Cost</th>
+<th>Risk</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td><b>A</b></td><td>Backfill the day&#x27;s filings once, then append on every refresh</td><td>~73 PDF fetches</td><td>PDF text extraction is imperfect; unattributed rows must keep being published as such</td><td></td></tr>
+<tr><td><b>B</b></td><td>Append only, going forward</td><td>0</td><td>the first day with a real status change is when the archive starts</td><td></td></tr>
+</tbody></table></div>
+<p class="small">Recommendation: <b>A for 11/15 only, so the diff has material, then B.</b> · status: AWAITING YOUR CHOICE · evidence: <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official source</a></p>
+<h2>Sequencing, if you want the shortest honest path</h2>
+<ol>
+<li><b>S42-2</b> — settle every game day automatically. Without it the ledger rots and nothing else
+can be measured.</li>
+<li><b>S42-1 option B</b> — drop the word "edge" until a licensed line exists. It is free and it stops
+the site overclaiming.</li>
+<li><b>S42-3</b> — close the navigation hole so a reader can reach the two surfaces at all.</li>
+<li><b>S42-6</b> — backfill one day of injury filings so the diff has material.</li>
+<li><b>S42-4</b> and <b>S42-5</b> — cosmetic improvements to the confidence and settlement columns,
+worth doing only once there is a sample.</li>
+</ol>
+</div></main>
+<footer><div class="wrap">
+  Every number on this page is either copied from an official NBA page (linked) or derived and
+  labelled as derived. Values that could not be confirmed are blank and listed on
+  <a href="flagged.html">Flagged for review</a>. Research, not betting advice.
+  Source: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>.
+</div></footer>
+</body>
+</html>

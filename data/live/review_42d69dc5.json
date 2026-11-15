@@ -1,0 +1,232 @@
+{
+ "schema": "nba3.review.42d69dc5/v1",
+ "session": "arena/42d69dc5-nba3",
+ "what": "Line-by-line review of the merged tree at f98b44d, with every claim checked against an official or named reference source and a link attached. A finding without a verified source is recorded as an OPEN QUESTION, never as a value.",
+ "method": [
+  "Read the file.",
+  "Re-read the official page it cites.",
+  "Compare character by character where the value is a string or an integer.",
+  "If the official page cannot confirm it, leave it blank and flag it here."
+ ],
+ "findings": [
+  {
+   "id": "R42-01",
+   "area": "Scheduled refresh",
+   "severity": "high",
+   "finding": "The scheduled refresh could never rebuild. scripts/refresh_official.py invoked the gate with --manifest/--json-out, which scripts/freshness_gates.py does not accept (it takes --max-report-age-hours), so the call exited 2 with a usage error.",
+   "evidence": "`python3 scripts/freshness_gates.py --manifest x --json-out y` prints 'error: unrecognized arguments' and exits 2 (reproduced in this session). GitHub run 43742524756 failed in the fetch step with the later steps skipped.",
+   "action": "Fixed: the refresh names freshness_gates_round_79341829.py, which accepts those flags, and fails loudly on a usage error.",
+   "verified_against": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43742524756"
+   ],
+   "status": "FIXED and pinned by tests/test_refresh_ordering.py"
+  },
+  {
+   "id": "R42-02",
+   "area": "Scheduled refresh",
+   "severity": "high",
+   "finding": "The gate was not between the fetch and the push. The workflow fetched in one step and committed+pushed to main in a later step, so a fetch that exited 0 could publish.",
+   "evidence": "Read of .github/workflows/refresh.yml before this round: separate 'Fetch' and 'Commit ... git push origin HEAD:main' steps.",
+   "action": "Fixed: fetch -> gates -> rebuild -> publication checks are one call whose non-zero exit blocks the commit; a test asserts the workflow has exactly two steps and one call into the pipeline.",
+   "verified_against": [],
+   "status": "FIXED and pinned by tests/test_refresh_ordering.py"
+  },
+  {
+   "id": "R42-03",
+   "area": "Scheduled refresh",
+   "severity": "medium",
+   "finding": "The brief names the official standings page; the job never fetched it (only the three team-stat pages).",
+   "evidence": "No occurrence of nba.com/standings in refresh_official.py before this round.",
+   "action": "Fixed: STANDINGS is fetched into the manifest and covered by the manifest gate.",
+   "verified_against": [
+    "https://www.nba.com/standings"
+   ],
+   "status": "FIXED"
+  },
+  {
+   "id": "R42-04",
+   "area": "Travel distance",
+   "severity": "high",
+   "finding": "The projection site published travel distances as PLAUSIBLE NUMBERS while the travel table itself reported 0 of 44 team-games sourced. app/projections.html printed 'LAC: 0.0 km', 'PHX: \u2026 DEN: 1740.1 km', 'PHI: \u2026 ORL: 0.0 km' from data/app/estimators.json, while data/live/rest_travel.json simultaneously said travel_unverified: 44, status NOT POPULATED.",
+   "evidence": "Read of the committed tree at f98b44d. data/live/rest_travel.json counts {'travel_unverified': 44} of 44. app/projections.html prints numeric km for the same team-games. That is a contradiction inside one repository: one surface says the value is unverified, another prints it as a measurement. IMPORTANT correction to my own first draft of this finding: the 0.0 km values are NOT wrong. PHI, PHX and LAC each played at home in their previous game (verified against data/origin/games.csv: BOS@PHI 11/10 and TOR@PHI 11/12, CHA@PHX 11/12, OKC@LAC 11/13), so zero distance is the correct value. My first draft called them a defect; that was wrong and is corrected here.",
+   "action": "Fixed in the direction that matters: the coordinate table now exists, 44/44 priced-window team-games resolve to a sourced coordinate, and the whole window is 352/420 with the 68 blanks published with reasons. The old city-keyed resolver is disabled (venue_key raises) so it cannot be revived by accident, and its outputs are replaced by scripts/travel_distance.py. A separate change request (CR-42-07) asks the owner of scripts/estimators.py to stop printing its own travel numbers, because two sources for one number is how the contradiction arose.",
+   "verified_against": [
+    "https://www.nba.com/schedule?date=2026-11-15",
+    "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json"
+   ],
+   "status": "FIXED and pinned by tests/test_travel_distance.py"
+  },
+  {
+   "id": "R42-05",
+   "area": "Travel distance",
+   "severity": "medium",
+   "finding": "Arena coordinates are not published by the NBA. The new table is sourced from the MediaWiki coordinates API, a reference source rather than an official one.",
+   "evidence": "No nba.com page read in this repository publishes latitude/longitude.",
+   "action": "Every distance carries source_tier=reference and the label 'REFERENCE, NOT OFFICIAL'. Two arenas whose old article titles returned no coordinates were re-queried under their current names and resolved (Xfinity Mobile Arena, Mortgage Matchup Center); the failing old title is kept in blank_venues rather than deleted.",
+   "verified_against": [
+    "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json"
+   ],
+   "status": "FLAGGED \u2014 reference source, labelled as such"
+  },
+  {
+   "id": "R42-06",
+   "area": "Settlement",
+   "severity": "high",
+   "finding": "Settlement could never run for a new game day: publish_picks.py read one hard-coded feed (11/14) and CI never called the settle path at all.",
+   "evidence": "`grep -n settle .github/workflows/pages.yml` returned nothing before this round.",
+   "action": "Fixed: every data/live/results/settled_*.json is read, a verified 11/15 final was captured from two agreeing official reads, and the ledger now holds one SETTLE entry with its stamp.",
+   "verified_against": [
+    "https://www.nba.com/game/ind-vs-phi-0022600236",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+   ],
+   "status": "FIXED"
+  },
+  {
+   "id": "R42-07",
+   "area": "Settlement",
+   "severity": "high",
+   "finding": "The first settlement this session wrote a stamp of 2026-11-15T12:10Z for a game that tipped at 18:00Z and ended after 20:30Z \u2014 a settlement time before its own game.",
+   "evidence": "Read of the SETTLE entry this session wrote, compared with the pick's own tip_et_iso.",
+   "action": "Fixed: settlement_stamp() takes the feed row's settled_utc (when the two official reads were taken) and refuses any stamp earlier than the end of the game day.",
+   "verified_against": [
+    "https://www.nba.com/game/ind-vs-phi-0022600236"
+   ],
+   "status": "FIXED"
+  },
+  {
+   "id": "R42-08",
+   "area": "Settlement",
+   "severity": "medium",
+   "finding": "Only 1 of 9 games on 11/15 has a verified final. One pick (HOU @ WAS) has a game day that has ended with no verified final on disk.",
+   "evidence": "8 of 9 games had no second official read (no game book captured) in this session.",
+   "action": "Published as outstanding, not graded, not hidden. The refresh job has to close it by capturing the game book.",
+   "verified_against": [
+    "https://www.nba.com/schedule?date=2026-11-18"
+   ],
+   "status": "FLAGGED \u2014 published as outstanding"
+  },
+  {
+   "id": "R42-09",
+   "area": "Home venue",
+   "severity": "medium",
+   "finding": "Three clubs have no home game anywhere in the official reads made here: CHA, GSW, POR. Their home venue is therefore not published.",
+   "evidence": "11/15-11/22 block: no CHA, GSW or POR home game. In-repo captures: none either.",
+   "action": "Published blank and flagged in data/live/home_venues.json; no venue is inferred.",
+   "verified_against": [
+    "https://www.nba.com/schedule?date=2026-11-18"
+   ],
+   "status": "FLAGGED \u2014 blank"
+  },
+  {
+   "id": "R42-10",
+   "area": "Market prior",
+   "severity": "high",
+   "finding": "No closing line exists in the repository, so the market-anchored prior is not applied and no edge can be claimed against a price.",
+   "evidence": "data/live/model.json has no market weight; the only price-like artefact is the originated fair line.",
+   "action": "Unchanged. This is Q1 below: it needs a licensed feed, which is a decision, not a fetch.",
+   "verified_against": [],
+   "status": "FLAGGED \u2014 blocked on Q1"
+  },
+  {
+   "id": "R42-11",
+   "area": "Injury report",
+   "severity": "medium",
+   "finding": "Only three archived injury reports exist, all from 11/15 (12:00 AM, 06:00 AM, 06:15 AM ET). The official index for 11/15 lists 76 filings, 12:00 a.m. ET through 6:45 p.m. ET (counted from the 76 dated report links the page printed across both read chunks).",
+   "evidence": "Read of the official index; data/live/injuries/ holds 3 files.",
+   "action": "The diff logic is correct but the archive is thin; the scheduled refresh adds one report per run.",
+   "verified_against": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "FLAGGED \u2014 thin archive"
+  },
+  {
+   "id": "R42-12",
+   "area": "Injury report",
+   "severity": "low",
+   "finding": "The official 11/15 06:15 AM ET report is no longer the newest filing; the same index lists filings through 6:45 p.m. ET.",
+   "evidence": "Index read at 2026-11-15T23:4xZ.",
+   "action": "The site still labels its snapshot as 06:15 AM ET, which is true of the snapshot; the banner now also shows the newest filing the index lists.",
+   "verified_against": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "FLAGGED \u2014 snapshot age"
+  },
+  {
+   "id": "R42-13",
+   "area": "Standings",
+   "severity": "medium",
+   "finding": "nba.com/standings is only partially machine-readable through the fetch tool: the Eastern Conference table rendered in full, the Western Conference table was truncated mid-row in the same read.",
+   "evidence": "Read of https://www.nba.com/standings chunk 0 of 2: the Western table stops inside the Sacramento row.",
+   "action": "Standings rows are not published from a partial table; W/L that are published come from the advanced team-stats capture, which reconciled 30/30.",
+   "verified_against": [
+    "https://www.nba.com/standings",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   ],
+   "status": "FLAGGED \u2014 do not publish a truncated table"
+  },
+  {
+   "id": "R42-14",
+   "area": "Team statistics",
+   "severity": "low",
+   "finding": "The traditional team table's columns are stable and the published LAL/SAS/BOS/HOU/PHI rows match the official values.",
+   "evidence": "Re-read of the traditional page: LAL 13 GP, 11 W, 2 L, 122.2 PTS; SAS 13/11/2, 119.5; BOS 12/10/2, 114.3; all equal the committed capture.",
+   "action": "No change needed.",
+   "verified_against": [
+    "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season"
+   ],
+   "status": "VERIFIED"
+  },
+  {
+   "id": "R42-15",
+   "area": "Injury report",
+   "severity": "low",
+   "finding": "The 11/15 06:15 AM ET report's file name encodes 06:15, but the page header inside the PDF prints '06:15 AM'. Both agree; the earlier 12:00 AM file's header also agrees.",
+   "evidence": "Header line of each archived report compared with its filename.",
+   "action": "No change needed.",
+   "verified_against": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "VERIFIED"
+  },
+  {
+   "id": "R42-16",
+   "area": "Picks surface",
+   "severity": "high",
+   "finding": "The ledger's settled pick and its stamp are not on the canonical settlement page: app/settlement.html renders data/app/results_feed.json (the 79341829 feed, 14 rows, 0 settled picks), not data/live/picks_ledger_view.json.",
+   "evidence": "Read of page_settlement() in scripts/build_app.py.",
+   "action": "Not edited here (another session owns scripts/build_app.py). Logged as change request CR-42-04 and published on this session's own settlement page.",
+   "verified_against": [],
+   "status": "FLAGGED \u2014 change request"
+  },
+  {
+   "id": "R42-17",
+   "area": "Navigation",
+   "severity": "medium",
+   "finding": "The projection/ and bet/ surfaces built by session 2ebb1e75 are not reachable from the root index nav or from any app/ page: only bet/gates.html is linked, from projection/index.html.",
+   "evidence": "Read of index.html nav + every app/*.html: zero links into projection/ or bet/ (one into ../bet/gates.html from the projection index).",
+   "action": "Logged as change request CR-42-05; this session's pages link the two surfaces explicitly.",
+   "verified_against": [],
+   "status": "FLAGGED \u2014 change request"
+  },
+  {
+   "id": "R42-18",
+   "area": "CI",
+   "severity": "medium",
+   "finding": "The Pages workflow never runs the settle path, so a settled pick could sit stale forever even with a verified final on disk.",
+   "evidence": "grep for 'settle' in .github/workflows/pages.yml: no match before this round.",
+   "action": "The refresh job now runs publish_picks.py inside the gated chain; a Pages-workflow line is logged as CR-42-06 because that file is shared.",
+   "verified_against": [],
+   "status": "FLAGGED \u2014 change request"
+  },
+  {
+   "id": "R42-19",
+   "area": "Docs",
+   "severity": "low",
+   "finding": "COORDINATION.md is 4,280 lines and 399 KB; it is append-only and no session can prune it without losing provenance.",
+   "evidence": "wc -c / wc -l on COORDINATION.md.",
+   "action": "No change. Recorded because a reviewer asked for the repo state.",
+   "verified_against": [],
+   "status": "NOTE"
+  }
+ ]
+}

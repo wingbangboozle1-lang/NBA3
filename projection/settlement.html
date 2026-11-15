@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settlement and sealed ledger — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Settlement and sealed ledger. Every table row links to its source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.unv{color:var(--warn);font-weight:600}
+.fixed{background:#e4f3e9;color:var(--ok);font-weight:600;padding:1px 7px;border-radius:10px;font-size:11.5px}
+.note{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:14px 0}
+.note p{margin:0}
+ol,ul{max-width:82ch}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span> Projection surface</a>
+  <div class="stamp">Session arena/42d69dc5-nba3 · built 2026-11-16 · window 2026-11-15 → 2026-11-17 ·
+    derived values are ours and labelled; official values link to nba.com</div>
+</div></header>
+<nav class="site"><div class="wrap"><span class="grp"><b>Projection</b> <a href="summary.html">Executive summary</a> <a href="index.html">Overview</a> <a href="lines.html">Originated lines</a> <a href="results.html">Settled results</a> <a href="estimators.html">Estimators</a> <a href="injuries.html">Injuries</a> <a href="rest.html">Rest &amp; travel</a> <a href="minutes.html">Minutes &amp; rotation</a> <a href="gates.html">Gates</a></span><span class="grp"><b>This round (42d69dc5)</b> <a href="travel.html">Travel evidence</a> <a href="settlement.html" class="active">Settlement &amp; ledger</a> <a href="review-42d69dc5.html">Repo review</a> <a href="questions-42d69dc5.html">Questions</a> <a href="suggestions-42d69dc5.html">Suggestions</a></span><span class="grp"><b>Reference</b> <a href="review.html">Earlier repo review</a> <a href="questions.html">Earlier questions</a> <a href="suggestions.html">Earlier suggestions</a> <a href="flagged.html">Flagged for review</a></span></div></nav>
+<main><div class="wrap">
+  <div class="crumb">This round · settlement</div>
+  <h1>Settlement and sealed ledger</h1>
+  <p class="lead">Verified finals, the settlement stamp, the ledger chain, and every pick that is still open.</p>
+  <p class="lead">Settlement runs as soon as a game day ends, and only from a final that
+two official reads agree on. One game qualified: IND @ PHI on 11/15. Its settlement is in the sealed
+ledger with the stamp of the moment the final was confirmed — not the build's clock.</p>
+<div class="note"><p><b>The rule this page enforces.</b> A final is settled only when the nba.com game
+page and the official game book PDF print the same score, and the printed quarter scores sum to that
+final for both teams. A scoreboard snapshot with a live clock is not a final and is never graded.</p></div>
+<h2>Verified finals</h2>
+<div class="tw"><table id="finals" class="">
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>Final</th>
+<th>Away quarters</th>
+<th>Home quarters</th>
+<th>Check</th>
+<th>Read 1</th>
+<th>Read 2</th>
+<th>Confirmed at</th>
+</tr></thead><tbody>
+<tr><td>2026-11-15</td><td>IND @ PHI</td><td><b>124 — 131</b></td><td>35 / 22 / 30 / 37</td><td>29 / 29 / 39 / 34</td><td><span class="chip ok">verified</span> quarter sums equal the final for both teams</td><td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">game page</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">game book</a></td><td>2026-11-16T00:05Z</td></tr>
+</tbody></table></div>
+<p class="small">The 11/15 slate had 9 games. Only IND @ PHI has been read twice from official sources, so only that game is settled. The other eight are NOT settled and NOT guessed: their finals were live or pre-game at read time and no game book was captured for them in this session. Each remains unpublished here rather than being taken from a scoreboard snapshot. Captured
+1 of 9 games on 2026-11-15.</p>
+<h2>Ledger integrity</h2>
+<div class="tw"><table id="ledger-integrity" class="">
+<thead><tr>
+<th>Measure</th>
+<th>Value</th>
+<th>Where</th>
+</tr></thead><tbody>
+<tr><td>Entries in the chain</td><td>12</td><td>append-only jsonl, one entry per line</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td></tr>
+<tr><td>Published before tip</td><td>11</td><td>each entry carries its pick sha256 and the previous entry's hash</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/ledger.py" target="_blank" rel="noopener noreferrer">scripts/ledger.py</a></td></tr>
+<tr><td>Settled</td><td>1</td><td>each settlement repeats the published hash and the official final it was graded against</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/publish_picks.py" target="_blank" rel="noopener noreferrer">scripts/publish_picks.py</a></td></tr>
+<tr><td>Chain verifies</td><td><span class="chip ok">intact</span></td><td>no problems found</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/ledger/index.json" target="_blank" rel="noopener noreferrer">index.json</a></td></tr>
+<tr><td>Head hash</td><td><code>9cb55f88a1e4e08db2d66c50920ead77…</code></td><td>rewritten after every seal so it cannot advertise a stale head</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/ledger/index.json" target="_blank" rel="noopener noreferrer">index.json</a></td></tr>
+</tbody></table></div>
+<h2>Settled picks, with the stamp visible</h2>
+<div class="tw"><table id="settled-picks" class="">
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>Final</th>
+<th>Pick</th>
+<th>Result</th>
+<th>Settlement stamp</th>
+<th>Read 1</th>
+<th>Read 2</th>
+</tr></thead><tbody>
+<tr><td>2026-11-15</td><td>IND @ PHI</td><td>124 — 131 (home by +7)</td><td>PHI moneyline<br><span class="small">S2_ESTIMATOR_DISAGREEMENT</span></td><td><span class="chip ok">WIN</span></td><td>2026-11-16T00:05Z</td><td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">game page</a></td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">game book</a></td></tr>
+</tbody></table></div>
+<p class="small">The stamp is the time the second official read was taken — the moment
+the final became verified. It is not the build's clock: a stamp earlier than its own game would be a
+false record, and <code>settlement_stamp()</code> refuses one.</p>
+<h2>Open picks — published, never silently dropped</h2>
+<div class="tw"><table id="open-picks" class="">
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>Pick</th>
+<th>Strategy</th>
+<th>Why it is still open</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>2026-11-15</td><td>HOU @ WAS</td><td>HOU moneyline</td><td>S2_ESTIMATOR_DISAGREEMENT</td><td><span class="chip warn">open</span> the game day has ended but no verified final exists in data/live/results/ for this game; it is not graded from a scoreboard snapshot</td><td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">scoreboard</a></td></tr>
+</tbody></table></div>
+<p class="small">The canonical settlement page
+(<a href="../app/settlement.html">app/settlement.html</a>) still renders a different feed and does not
+show this settlement. That is logged as change request CR-42-04 rather than edited here, because
+<code>scripts/build_app.py</code> belongs to another session.</p>
+</div></main>
+<footer><div class="wrap">
+  Every number on this page is either copied from an official NBA page (linked) or derived and
+  labelled as derived. Values that could not be confirmed are blank and listed on
+  <a href="flagged.html">Flagged for review</a>. Research, not betting advice.
+  Source: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>.
+</div></footer>
+</body>
+</html>

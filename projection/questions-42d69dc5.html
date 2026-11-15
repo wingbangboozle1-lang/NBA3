@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open questions and missing information — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Open questions and missing information. Every table row links to its source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.unv{color:var(--warn);font-weight:600}
+.fixed{background:#e4f3e9;color:var(--ok);font-weight:600;padding:1px 7px;border-radius:10px;font-size:11.5px}
+.note{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:14px 0}
+.note p{margin:0}
+ol,ul{max-width:82ch}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span> Projection surface</a>
+  <div class="stamp">Session arena/42d69dc5-nba3 · built 2026-11-16 · window 2026-11-15 → 2026-11-17 ·
+    derived values are ours and labelled; official values link to nba.com</div>
+</div></header>
+<nav class="site"><div class="wrap"><span class="grp"><b>Projection</b> <a href="summary.html">Executive summary</a> <a href="index.html">Overview</a> <a href="lines.html">Originated lines</a> <a href="results.html">Settled results</a> <a href="estimators.html">Estimators</a> <a href="injuries.html">Injuries</a> <a href="rest.html">Rest &amp; travel</a> <a href="minutes.html">Minutes &amp; rotation</a> <a href="gates.html">Gates</a></span><span class="grp"><b>This round (42d69dc5)</b> <a href="travel.html">Travel evidence</a> <a href="settlement.html">Settlement &amp; ledger</a> <a href="review-42d69dc5.html">Repo review</a> <a href="questions-42d69dc5.html" class="active">Questions</a> <a href="suggestions-42d69dc5.html">Suggestions</a></span><span class="grp"><b>Reference</b> <a href="review.html">Earlier repo review</a> <a href="questions.html">Earlier questions</a> <a href="suggestions.html">Earlier suggestions</a> <a href="flagged.html">Flagged for review</a></span></div></nav>
+<main><div class="wrap">
+  <div class="crumb">This round · questions</div>
+  <h1>Open questions and missing information</h1>
+  <p class="lead">What has to be known before a decision can reasonably be made, and what would answer it.</p>
+  <p class="lead">The list of things that are not known, why each one blocks a decision,
+and exactly what would supply the answer. 4 need your decision,
+3 I can fetch, and 2 are waiting on
+settled results rather than on information.</p>
+<h2>Needs your decision</h2>
+<div class="tw"><table id="q-deci" class="">
+<thead><tr>
+<th>ID</th>
+<th>Question</th>
+<th>Why it matters</th>
+<th>What it blocks</th>
+<th>What would answer it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td><b>Q42-1</b></td><td>Is any sportsbook or odds feed licensed for this repository?</td><td>The market-anchored prior, every edge column and every parlay price depend on a closing line. Without one the model can only be compared with itself.</td><td>market prior, edge columns, parlay pricing, any &#x27;value&#x27; claim on the bet surface</td><td>A written yes/no plus the feed name, or a decision to publish model numbers with no market comparison.</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><b>Q42-2</b></td><td>What settles a pick when a game is postponed, abandoned or replayed?</td><td>All three frozen pre-registrations say &#x27;settle on the official final&#x27;. A postponed game has no final, so as written the pick can never settle and never closes. Deciding this after a postponement is exactly what pre-registration exists to prevent.</td><td>every open pick on a game that might be postponed</td><td>A void rule (void/stake-back, or cancelled) written into a NEW prereg file before the next slate.</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><b>Q42-3</b></td><td>Which capture is the schedule of record?</td><td>Rest, back-to-back and 3-in-4 are computed from a union of three captures (data/origin/games.csv to 11/13, the 11/14 settled feed, the 11/15-11/17 slate). The union works, but a gap at a seam invents a rested team.</td><td>nothing today; a standing integrity risk</td><td>A decision to make one daily-refreshed capture authoritative, or to keep unioning with published seams.</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><b>Q42-4</b></td><td>Is a reference coordinate source acceptable for travel distance?</td><td>The NBA publishes no arena coordinates. The table is now sourced from the MediaWiki coordinates API and labelled reference, not official.</td><td>whether travel can be used as a model input at all, or only displayed</td><td>Accept the labelled reference table, or drop travel from the inputs.</td><td><a href="https://en.wikipedia.org/w/api.php?action=query&amp;prop=coordinates&amp;format=json" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+</tbody></table></div>
+<h2>I can fetch this</h2>
+<div class="tw"><table id="q-fetc" class="">
+<thead><tr>
+<th>ID</th>
+<th>Question</th>
+<th>Why it matters</th>
+<th>What it blocks</th>
+<th>What would answer it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td><b>Q42-5</b></td><td>What are the final scores of the eight 11/15 games other than IND @ PHI?</td><td>One pick (HOU @ WAS) has an ended game day and no verified final, so it cannot be graded.</td><td>grading that pick and the leaderboard sample</td><td>Two official reads per game: the nba.com game page and the statsdmz game book PDF. Both are fetchable; the game book is the one that takes a per-game fetch.</td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><b>Q42-6</b></td><td>What are the home venues for CHA, GSW and POR?</td><td>No game hosted by those clubs appears in the 11/15-11/22 official block that was read, so their home venue is not published and their travel rows stay blank.</td><td>travel for those three clubs</td><td>One official schedule read covering a date on which each club plays at home (e.g. late November).</td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><b>Q42-7</b></td><td>What did the injury reports between 06:15 AM and 7:45 PM ET on 11/15 say?</td><td>The archive holds 3 of the 76 filings the official index lists for 11/15. A status change between 06:15 a.m. and tip is invisible to the model.</td><td>a true consecutive-report diff across the day</td><td>One PDF fetch per filing timestamp; the index lists every one.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+</tbody></table></div>
+<h2>Waiting on results, not information</h2>
+<div class="tw"><table id="q-bloc" class="">
+<thead><tr>
+<th>ID</th>
+<th>Question</th>
+<th>Why it matters</th>
+<th>What it blocks</th>
+<th>What would answer it</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td><b>Q42-8</b></td><td>Does the strategy leaderboard rank anything yet?</td><td>Three strategies are pre-registered and 11 picks are sealed, but only one has settled, so no strategy has a sample.</td><td>the leaderboard&#x27;s whole purpose</td><td>Time and settled picks; nothing else is missing.</td><td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><b>Q42-9</b></td><td>Is the rotation/minutes redistribution a forecast or a demonstration?</td><td>It is a demonstration: the captured player logs (11/14) and the archived absences (11/15) do not overlap at any club, so there is no absence to redistribute.</td><td>publishing a minutes forecast</td><td>Capturing a game book that contains a player who then appears as Out on a later injury report.</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+</tbody></table></div>
+<h2>What this project still cannot claim</h2>
+<ul>
+<li><b>No edge against a price.</b> There is no licensed closing line in the repository, so every
+"edge" is the model compared with itself.</li>
+<li><b>No validated strategy.</b> Three strategies are pre-registered and eleven picks are sealed; one
+has settled. A leaderboard over one settled pick ranks nothing.</li>
+<li><b>No settlement rule for a postponed game.</b> As written, such a pick can never close.</li>
+<li><b>No official arena coordinates.</b> The travel table is a labelled reference source.</li>
+<li><b>No rotation forecast.</b> The minutes model is a demonstration until a captured game contains a
+player who later appears as Out.</li>
+</ul>
+</div></main>
+<footer><div class="wrap">
+  Every number on this page is either copied from an official NBA page (linked) or derived and
+  labelled as derived. Values that could not be confirmed are blank and listed on
+  <a href="flagged.html">Flagged for review</a>. Research, not betting advice.
+  Source: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>.
+</div></footer>
+</body>
+</html>

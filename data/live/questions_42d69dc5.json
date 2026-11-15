@@ -1,0 +1,103 @@
+{
+ "schema": "nba3.questions.42d69dc5/v1",
+ "session": "arena/42d69dc5-nba3",
+ "what": "Information that is MISSING, what it blocks, and exactly what would supply it. Each item says whether the answer is a decision (yours) or a fetch (mine).",
+ "counts": {
+  "total": 9,
+  "yours_to_decide": 4,
+  "fetchable": 3,
+  "blocked_elsewhere": 2
+ },
+ "questions": [
+  {
+   "id": "Q42-1",
+   "kind": "DECISION (yours)",
+   "question": "Is any sportsbook or odds feed licensed for this repository?",
+   "why": "The market-anchored prior, every edge column and every parlay price depend on a closing line. Without one the model can only be compared with itself.",
+   "blocks": "market prior, edge columns, parlay pricing, any 'value' claim on the bet surface",
+   "would_be_answered_by": "A written yes/no plus the feed name, or a decision to publish model numbers with no market comparison.",
+   "not_answerable_by_fetching": true,
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "Q42-2",
+   "kind": "DECISION (yours)",
+   "question": "What settles a pick when a game is postponed, abandoned or replayed?",
+   "why": "All three frozen pre-registrations say 'settle on the official final'. A postponed game has no final, so as written the pick can never settle and never closes. Deciding this after a postponement is exactly what pre-registration exists to prevent.",
+   "blocks": "every open pick on a game that might be postponed",
+   "would_be_answered_by": "A void rule (void/stake-back, or cancelled) written into a NEW prereg file before the next slate.",
+   "not_answerable_by_fetching": true,
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "Q42-3",
+   "kind": "DECISION (yours)",
+   "question": "Which capture is the schedule of record?",
+   "why": "Rest, back-to-back and 3-in-4 are computed from a union of three captures (data/origin/games.csv to 11/13, the 11/14 settled feed, the 11/15-11/17 slate). The union works, but a gap at a seam invents a rested team.",
+   "blocks": "nothing today; a standing integrity risk",
+   "would_be_answered_by": "A decision to make one daily-refreshed capture authoritative, or to keep unioning with published seams.",
+   "not_answerable_by_fetching": true,
+   "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "Q42-4",
+   "kind": "DECISION (yours)",
+   "question": "Is a reference coordinate source acceptable for travel distance?",
+   "why": "The NBA publishes no arena coordinates. The table is now sourced from the MediaWiki coordinates API and labelled reference, not official.",
+   "blocks": "whether travel can be used as a model input at all, or only displayed",
+   "would_be_answered_by": "Accept the labelled reference table, or drop travel from the inputs.",
+   "not_answerable_by_fetching": true,
+   "source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json"
+  },
+  {
+   "id": "Q42-5",
+   "kind": "FETCHABLE (mine, on request)",
+   "question": "What are the final scores of the eight 11/15 games other than IND @ PHI?",
+   "why": "One pick (HOU @ WAS) has an ended game day and no verified final, so it cannot be graded.",
+   "blocks": "grading that pick and the leaderboard sample",
+   "would_be_answered_by": "Two official reads per game: the nba.com game page and the statsdmz game book PDF. Both are fetchable; the game book is the one that takes a per-game fetch.",
+   "not_answerable_by_fetching": false,
+   "source": "https://www.nba.com/schedule?date=2026-11-18"
+  },
+  {
+   "id": "Q42-6",
+   "kind": "FETCHABLE (mine, on request)",
+   "question": "What are the home venues for CHA, GSW and POR?",
+   "why": "No game hosted by those clubs appears in the 11/15-11/22 official block that was read, so their home venue is not published and their travel rows stay blank.",
+   "blocks": "travel for those three clubs",
+   "would_be_answered_by": "One official schedule read covering a date on which each club plays at home (e.g. late November).",
+   "not_answerable_by_fetching": false,
+   "source": "https://www.nba.com/schedule?date=2026-11-18"
+  },
+  {
+   "id": "Q42-7",
+   "kind": "FETCHABLE (mine, on request)",
+   "question": "What did the injury reports between 06:15 AM and 7:45 PM ET on 11/15 say?",
+   "why": "The archive holds 3 of the 76 filings the official index lists for 11/15. A status change between 06:15 a.m. and tip is invisible to the model.",
+   "blocks": "a true consecutive-report diff across the day",
+   "would_be_answered_by": "One PDF fetch per filing timestamp; the index lists every one.",
+   "not_answerable_by_fetching": false,
+   "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  },
+  {
+   "id": "Q42-8",
+   "kind": "BLOCKED ELSEWHERE",
+   "question": "Does the strategy leaderboard rank anything yet?",
+   "why": "Three strategies are pre-registered and 11 picks are sealed, but only one has settled, so no strategy has a sample.",
+   "blocks": "the leaderboard's whole purpose",
+   "would_be_answered_by": "Time and settled picks; nothing else is missing.",
+   "not_answerable_by_fetching": true,
+   "source": "https://www.nba.com/game/ind-vs-phi-0022600236"
+  },
+  {
+   "id": "Q42-9",
+   "kind": "BLOCKED ELSEWHERE",
+   "question": "Is the rotation/minutes redistribution a forecast or a demonstration?",
+   "why": "It is a demonstration: the captured player logs (11/14) and the archived absences (11/15) do not overlap at any club, so there is no absence to redistribute.",
+   "blocks": "publishing a minutes forecast",
+   "would_be_answered_by": "Capturing a game book that contains a player who then appears as Out on a later injury report.",
+   "not_answerable_by_fetching": true,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  }
+ ]
+}

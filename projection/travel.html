@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rest, back-to-back and travel from a sourced table — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Rest, back-to-back and travel from a sourced table. Every table row links to its source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.unv{color:var(--warn);font-weight:600}
+.fixed{background:#e4f3e9;color:var(--ok);font-weight:600;padding:1px 7px;border-radius:10px;font-size:11.5px}
+.note{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:14px 0}
+.note p{margin:0}
+ol,ul{max-width:82ch}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span> Projection surface</a>
+  <div class="stamp">Session arena/42d69dc5-nba3 · built 2026-11-16 · window 2026-11-15 → 2026-11-17 ·
+    derived values are ours and labelled; official values link to nba.com</div>
+</div></header>
+<nav class="site"><div class="wrap"><span class="grp"><b>Projection</b> <a href="summary.html">Executive summary</a> <a href="index.html">Overview</a> <a href="lines.html">Originated lines</a> <a href="results.html">Settled results</a> <a href="estimators.html">Estimators</a> <a href="injuries.html">Injuries</a> <a href="rest.html">Rest &amp; travel</a> <a href="minutes.html">Minutes &amp; rotation</a> <a href="gates.html">Gates</a></span><span class="grp"><b>This round (42d69dc5)</b> <a href="travel.html" class="active">Travel evidence</a> <a href="settlement.html">Settlement &amp; ledger</a> <a href="review-42d69dc5.html">Repo review</a> <a href="questions-42d69dc5.html">Questions</a> <a href="suggestions-42d69dc5.html">Suggestions</a></span><span class="grp"><b>Reference</b> <a href="review.html">Earlier repo review</a> <a href="questions.html">Earlier questions</a> <a href="suggestions.html">Earlier suggestions</a> <a href="flagged.html">Flagged for review</a></span></div></nav>
+<main><div class="wrap">
+  <div class="crumb">This round · travel evidence</div>
+  <h1>Rest, back-to-back and travel from a sourced table</h1>
+  <p class="lead">The coordinate table, where each venue string comes from, and every measured distance.</p>
+  <p class="lead">Travel distance is now computed from a sourced coordinate table instead of
+being blank. The NBA publishes no arena latitude/longitude, so the coordinates come from the MediaWiki
+coordinates API and every distance is labelled <b>reference, not official</b>. The venue name comes from
+an official NBA page; the coordinate comes from the reference table; the distance is derived. The three
+are never mixed without saying so.</p>
+<div class="note"><p><b>What was actually wrong, stated precisely.</b> Two things, and a third that
+was <em>not</em> wrong:</p>
+<ol>
+<li><b>Wrong:</b> the repository contradicted itself. <code>data/live/rest_travel.json</code> reported
+<code>travel_unverified: 44</code> of 44 team-games, while <code>app/projections.html</code> printed
+numeric kilometres for the same team-games from a second source
+(<code>data/app/estimators.json</code>). One surface said "unverified", another printed it as a
+measurement.</li>
+<li><b>Wrong:</b> the resolver keyed venues <em>by city name</em>, which is not a venue identity. It
+happens to give the right answer whenever both games are in the same city, and a silently wrong one
+as soon as a club changes building.</li>
+<li><b>Not wrong:</b> the <code>0.0 km</code> values. PHI, PHX and LAC each played at <em>home</em> in
+their previous game (verified against <code>data/origin/games.csv</code>), so zero is correct. My first
+draft of this finding called them an artefact; that was a mistake and it is corrected here and in the
+review log.</li>
+</ol>
+<p>The new resolver takes a venue <em>string</em> and has no city parameter at all, which
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_travel_distance.py">tests/test_travel_distance.py</a> pins. The
+duplicate source of travel numbers is logged as change request CR-42-07.</p></div>
+<h2>Coverage, measured</h2>
+<div class="tw"><table id="travel-coverage" class="">
+<thead><tr>
+<th>Measure</th>
+<th>Value</th>
+<th>Note</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr><td>Team-games in the window (10/20 → 11/17)</td><td>420</td><td>one row per team per game, from the official schedule union</td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">official schedule</a></td></tr>
+<tr><td>…with a sourced distance</td><td>352</td><td><span class="chip ok">measured</span> coordinate from the API capture</td><td><a href="https://en.wikipedia.org/wiki/Special:ApiSandbox" target="_blank" rel="noopener noreferrer">MediaWiki coordinates API</a></td></tr>
+<tr><td>…blank because a club's venue is unpublished</td><td>36</td><td>every one of these is a game HOSTED by CHA, GSW or POR — the three clubs with no home game anywhere in the official reads. Not one is a missing coordinate.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/raw/wiki_arena_coords_2026-11-15.json (every response body stored exactly as returned)" target="_blank" rel="noopener noreferrer">the capture (nothing was inferred)</a></td></tr>
+<tr><td>…blank because it is the club's first game in the window</td><td>32</td><td>no previous venue exists to measure from; reported separately so it is not counted as a source failure</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/travel_distance.json" target="_blank" rel="noopener noreferrer">travel_distance.json</a></td></tr>
+<tr><td>Team-games in the priced window (11/15 → 11/17)</td><td>44</td><td>the window the picks cover</td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">official schedule</a></td></tr>
+<tr><td>…with a sourced distance</td><td>44</td><td><span class="chip ok">100%</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/raw/wiki_arena_coords_2026-11-15.json (every response body stored exactly as returned)" target="_blank" rel="noopener noreferrer">coordinate capture</a></td></tr>
+<tr><td>Clubs with an official home-venue string</td><td>27</td><td>official schedule read plus the in-repo captures</td><td><a href="https://www.nba.com/schedule?date=2026-11-18 chunks 0-3 of 8, read 2026-11-15, transcribed verbatim in data/live/raw/official_home_arena_schedule_2026-11-15.md" target="_blank" rel="noopener noreferrer">official schedule read</a></td></tr>
+<tr><td>Clubs with no official home game on record</td><td>3</td><td>CHA, GSW, POR — published blank, never guessed</td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">the read that shows no home game</a></td></tr>
+</tbody></table></div>
+<h2>The arena table, row by row</h2>
+<div class="tw"><table id="arena-table" class="">
+<thead><tr>
+<th>Venue (official spelling)</th>
+<th>Club</th>
+<th>City</th>
+<th>Latitude</th>
+<th>Longitude</th>
+<th>Coordinate source</th>
+<th>Tier</th>
+</tr></thead><tbody>
+<tr><td>American Airlines Center</td><td>DAL</td><td>Dallas, TX</td><td>32.79056</td><td>-96.81028</td><td><a href="https://en.wikipedia.org/wiki/American_Airlines_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Ball Arena</td><td>DEN</td><td>Denver, CO</td><td>39.74861</td><td>-105.00750</td><td><a href="https://en.wikipedia.org/wiki/Ball_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Barclays Center</td><td>BKN</td><td>Brooklyn, NY</td><td>40.68266</td><td>-73.97522</td><td><a href="https://en.wikipedia.org/wiki/Barclays_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Capital One Arena</td><td>WAS</td><td>Washington, DC</td><td>38.89806</td><td>-77.02083</td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Chase Center</td><td>GSW</td><td>San Francisco, CA</td><td>37.76806</td><td>-122.38750</td><td><a href="https://en.wikipedia.org/wiki/Chase_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Crypto.com Arena</td><td>LAL</td><td>Los Angeles, CA</td><td>34.04306</td><td>-118.26722</td><td><a href="https://en.wikipedia.org/wiki/Crypto.com_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Delta Center</td><td>UTA</td><td>Salt Lake City, UT</td><td>40.76833</td><td>-111.90111</td><td><a href="https://en.wikipedia.org/wiki/Delta_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>FedExForum</td><td>MEM</td><td>Memphis, TN</td><td>35.13833</td><td>-90.05056</td><td><a href="https://en.wikipedia.org/wiki/FedExForum" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Fiserv Forum</td><td>MIL</td><td>Milwaukee, WI</td><td>43.04503</td><td>-87.91817</td><td><a href="https://en.wikipedia.org/wiki/Fiserv_Forum" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Frost Bank Center</td><td>SAS</td><td>San Antonio, TX</td><td>29.42694</td><td>-98.43750</td><td><a href="https://en.wikipedia.org/wiki/Frost_Bank_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Gainbridge Fieldhouse</td><td>IND</td><td>Indianapolis, IN</td><td>39.76389</td><td>-86.15556</td><td><a href="https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Golden 1 Center</td><td>SAC</td><td>Sacramento, CA</td><td>38.58036</td><td>-121.49961</td><td><a href="https://en.wikipedia.org/wiki/Golden_1_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Intuit Dome</td><td>LAC</td><td>Inglewood, CA</td><td>33.94510</td><td>-118.34310</td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Kaseya Center</td><td>MIA</td><td>Miami, FL</td><td>25.78139</td><td>-80.18806</td><td><a href="https://en.wikipedia.org/wiki/Kaseya_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Kia Center</td><td>ORL</td><td>Orlando, FL</td><td>28.53917</td><td>-81.38361</td><td><a href="https://en.wikipedia.org/wiki/Kia_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Little Caesars Arena</td><td>DET</td><td>Detroit, MI</td><td>42.34111</td><td>-83.05500</td><td><a href="https://en.wikipedia.org/wiki/Little_Caesars_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Madison Square Garden</td><td>NYK</td><td>New York, NY</td><td>40.75056</td><td>-73.99361</td><td><a href="https://en.wikipedia.org/wiki/Madison_Square_Garden" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Moda Center</td><td>POR</td><td>Portland, OR</td><td>45.53167</td><td>-122.66667</td><td><a href="https://en.wikipedia.org/wiki/Moda_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Mortgage Matchup Center</td><td>PHX</td><td>Phoenix, AZ</td><td>33.44583</td><td>-112.07139</td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Paycom Center</td><td>OKC</td><td>Oklahoma City, OK</td><td>35.46333</td><td>-97.51500</td><td><a href="https://en.wikipedia.org/wiki/Paycom_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Rocket Arena</td><td>CLE</td><td>Cleveland, OH</td><td>41.49639</td><td>-81.68806</td><td><a href="https://en.wikipedia.org/wiki/Rocket_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Scotiabank Arena</td><td>TOR</td><td>Toronto, ON</td><td>43.64333</td><td>-79.37917</td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Smoothie King Center</td><td>NOP</td><td>New Orleans, LA</td><td>29.94889</td><td>-90.08194</td><td><a href="https://en.wikipedia.org/wiki/Smoothie_King_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Spectrum Center</td><td>CHA</td><td>Charlotte, NC</td><td>35.22500</td><td>-80.83917</td><td><a href="https://en.wikipedia.org/wiki/Spectrum_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>State Farm Arena</td><td>ATL</td><td>Atlanta, GA</td><td>33.75722</td><td>-84.39639</td><td><a href="https://en.wikipedia.org/wiki/State_Farm_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>TD Garden</td><td>BOS</td><td>Boston, MA</td><td>42.36639</td><td>-71.06222</td><td><a href="https://en.wikipedia.org/wiki/TD_Garden" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Target Center</td><td>MIN</td><td>Minneapolis, MN</td><td>44.97944</td><td>-93.27611</td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Toyota Center</td><td>HOU</td><td>Houston, TX</td><td>29.75083</td><td>-95.36222</td><td><a href="https://en.wikipedia.org/wiki/Toyota_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>United Center</td><td>CHI</td><td>Chicago, IL</td><td>41.88056</td><td>-87.67417</td><td><a href="https://en.wikipedia.org/wiki/United_Center" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+<tr><td>Xfinity Mobile Arena</td><td>PHI</td><td>Philadelphia, PA</td><td>39.90111</td><td>-75.17194</td><td><a href="https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena" target="_blank" rel="noopener noreferrer">coordinate</a></td><td><span class="chip warn">reference</span></td></tr>
+</tbody></table></div>
+<p class="small">Latitudes and longitudes are the values the API returned, to eight
+decimal places in the capture. They are reproduced from
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/raw/wiki_arena_coords_2026-11-15.json (every response body stored exactly as returned)" target="_blank" rel="noopener noreferrer">the verbatim capture</a> by
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_travel_distance.py">test_every_row_reproduces_from_the_stored_api_capture</a>,
+so a typed-in number cannot survive a test run.</p>
+<h2>Where a club's home venue comes from</h2>
+<div class="tw"><table id="home-venues" class="">
+<thead><tr>
+<th>Club</th>
+<th>Home venue</th>
+<th>Official source for the venue</th>
+<th>Basis</th>
+</tr></thead><tbody>
+<tr><td>ATL</td><td>State Farm Arena</td><td><a href="https://www.nba.com/game/cha-vs-atl-0022600043" target="_blank" rel="noopener noreferrer">venue source</a></td><td>official schedule page read 2026-11-15, transcribed in data/live/raw/official_home_arena_schedule_2026-11-15.md</td></tr>
+<tr><td>BKN</td><td>Barclays Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>BOS</td><td>TD Garden</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>CHI</td><td>United Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate.json)</td></tr>
+<tr><td>CLE</td><td>Rocket Arena</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>DAL</td><td>American Airlines Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate_1115_1118.json)</td></tr>
+<tr><td>DEN</td><td>Ball Arena</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>DET</td><td>Little Caesars Arena</td><td><a href="https://www.nba.com/game/tor-vs-det-0022600046" target="_blank" rel="noopener noreferrer">venue source</a></td><td>official schedule page read 2026-11-15, transcribed in data/live/raw/official_home_arena_schedule_2026-11-15.md</td></tr>
+<tr><td>HOU</td><td>Toyota Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate.json)</td></tr>
+<tr><td>IND</td><td>Gainbridge Fieldhouse</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate_1115_1118.json)</td></tr>
+<tr><td>LAC</td><td>Intuit Dome</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>LAL</td><td>Crypto.com Arena</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>MEM</td><td>FedExForum</td><td><a href="https://www.nba.com/schedule?date=2026-11-14" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate_1114_1117.json)</td></tr>
+<tr><td>MIA</td><td>Kaseya Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>MIL</td><td>Fiserv Forum</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>MIN</td><td>Target Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>NOP</td><td>Smoothie King Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>NYK</td><td>Madison Square Garden</td><td><a href="https://www.nba.com/game/por-vs-nyk-0022600275" target="_blank" rel="noopener noreferrer">venue source</a></td><td>official schedule page read 2026-11-15, transcribed in data/live/raw/official_home_arena_schedule_2026-11-15.md</td></tr>
+<tr><td>OKC</td><td>Paycom Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate_1115_1118.json)</td></tr>
+<tr><td>ORL</td><td>Kia Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/app/official_slate_1115_1118.json)</td></tr>
+<tr><td>PHI</td><td>Xfinity Mobile Arena</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>PHX</td><td>Mortgage Matchup Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>SAC</td><td>Golden 1 Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>SAS</td><td>Frost Bank Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>TOR</td><td>Scotiabank Arena</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>UTA</td><td>Delta Center</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>WAS</td><td>Capital One Arena</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">venue source</a></td><td>in-repo official schedule capture (data/live/slate_2026-11-15.json)</td></tr>
+<tr><td>CHA</td><td><span class="unv">— not published</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">read that would settle it</a></td><td>no home game for this club appears in either official read, so its home venue is not published here. Travel rows that need it are blank and flagged; no coordinate is guessed.</td></tr>
+<tr><td>GSW</td><td><span class="unv">— not published</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">read that would settle it</a></td><td>no home game for this club appears in either official read, so its home venue is not published here. Travel rows that need it are blank and flagged; no coordinate is guessed.</td></tr>
+<tr><td>POR</td><td><span class="unv">— not published</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-18" target="_blank" rel="noopener noreferrer">read that would settle it</a></td><td>no home game for this club appears in either official read, so its home venue is not published here. Travel rows that need it are blank and flagged; no coordinate is guessed.</td></tr>
+</tbody></table></div>
+<h2>Travel for the priced window</h2>
+<div class="tw"><table id="travel-window" class="">
+<thead><tr>
+<th>Date</th>
+<th>Club</th>
+<th>From (venue)</th>
+<th>To (venue)</th>
+<th>Km</th>
+<th>Coordinate sources</th>
+<th></th>
+</tr></thead><tbody>
+<tr><td>2026-11-15</td><td>IND</td><td>Gainbridge Fieldhouse</td><td>Xfinity Mobile Arena</td><td>937.4</td><td><a href="https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>PHI</td><td>Xfinity Mobile Arena</td><td>Xfinity Mobile Arena</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>LAL</td><td>Fiserv Forum</td><td>Mortgage Matchup Center</td><td>2,352.2</td><td><a href="https://en.wikipedia.org/wiki/Fiserv_Forum" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>PHX</td><td>Mortgage Matchup Center</td><td>Mortgage Matchup Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>CHA</td><td>Mortgage Matchup Center</td><td>Intuit Dome</td><td>582.8</td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>LAC</td><td>Intuit Dome</td><td>Intuit Dome</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>SAS</td><td>Frost Bank Center</td><td>Delta Center</td><td>1,753.9</td><td><a href="https://en.wikipedia.org/wiki/Frost_Bank_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Delta_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>UTA</td><td>Toyota Center</td><td>Delta Center</td><td>1,932.1</td><td><a href="https://en.wikipedia.org/wiki/Toyota_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Delta_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>DAL</td><td>Rocket Arena</td><td>TD Garden</td><td>883.7</td><td><a href="https://en.wikipedia.org/wiki/Rocket_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/TD_Garden" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>BOS</td><td>Scotiabank Arena</td><td>TD Garden</td><td>690.7</td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/TD_Garden" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>NYK</td><td>Gainbridge Fieldhouse</td><td>Scotiabank Arena</td><td>708.5</td><td><a href="https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>TOR</td><td>Xfinity Mobile Arena</td><td>Scotiabank Arena</td><td>542.9</td><td><a href="https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>HOU</td><td>Toyota Center</td><td>Capital One Arena</td><td>1,961.9</td><td><a href="https://en.wikipedia.org/wiki/Toyota_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>WAS</td><td>Capital One Arena</td><td>Capital One Arena</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>ATL</td><td>United Center</td><td>Fiserv Forum</td><td>131.0</td><td><a href="https://en.wikipedia.org/wiki/United_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Fiserv_Forum" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>MIL</td><td>Kia Center</td><td>Fiserv Forum</td><td>1,715.9</td><td><a href="https://en.wikipedia.org/wiki/Kia_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Fiserv_Forum" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>OKC</td><td>Intuit Dome</td><td>Golden 1 Center</td><td>587.9</td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Golden_1_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-15</td><td>SAC</td><td>Golden 1 Center</td><td>Golden 1 Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Golden_1_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Golden_1_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>ORL</td><td>Kia Center</td><td>TD Garden</td><td>1,796.2</td><td><a href="https://en.wikipedia.org/wiki/Kia_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/TD_Garden" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>BOS</td><td>TD Garden</td><td>TD Garden</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/TD_Garden" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/TD_Garden" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>CHI</td><td>Target Center</td><td>Rocket Arena</td><td>1,014.3</td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Rocket_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>CLE</td><td>Rocket Arena</td><td>Rocket Arena</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Rocket_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Rocket_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>MEM</td><td>FedExForum</td><td>Capital One Arena</td><td>1,228.7</td><td><a href="https://en.wikipedia.org/wiki/FedExForum" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>WAS</td><td>Capital One Arena</td><td>Capital One Arena</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>PHI</td><td>Xfinity Mobile Arena</td><td>Barclays Center</td><td>133.6</td><td><a href="https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Barclays_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>BKN</td><td>FedExForum</td><td>Barclays Center</td><td>1,536.1</td><td><a href="https://en.wikipedia.org/wiki/FedExForum" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Barclays_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>HOU</td><td>Capital One Arena</td><td>Kaseya Center</td><td>1,488.3</td><td><a href="https://en.wikipedia.org/wiki/Capital_One_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Kaseya_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>MIA</td><td>Kaseya Center</td><td>Kaseya Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Kaseya_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Kaseya_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>POR</td><td>Golden 1 Center</td><td>Target Center</td><td>2,431.9</td><td><a href="https://en.wikipedia.org/wiki/Golden_1_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>MIN</td><td>Target Center</td><td>Target Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>GSW</td><td>Frost Bank Center</td><td>Smoothie King Center</td><td>809.0</td><td><a href="https://en.wikipedia.org/wiki/Frost_Bank_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Smoothie_King_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>NOP</td><td>Smoothie King Center</td><td>Smoothie King Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Smoothie_King_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Smoothie_King_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>PHX</td><td>Mortgage Matchup Center</td><td>Ball Arena</td><td>942.1</td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Ball_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-16</td><td>DEN</td><td>Smoothie King Center</td><td>Ball Arena</td><td>1,740.1</td><td><a href="https://en.wikipedia.org/wiki/Smoothie_King_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Ball_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>NYK</td><td>Scotiabank Arena</td><td>Scotiabank Arena</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>TOR</td><td>Scotiabank Arena</td><td>Scotiabank Arena</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Scotiabank_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>POR</td><td>Target Center</td><td>Target Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>MIN</td><td>Target Center</td><td>Target Center</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Target_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>DET</td><td>Kaseya Center</td><td>Frost Bank Center</td><td>1,841.2</td><td><a href="https://en.wikipedia.org/wiki/Kaseya_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Frost_Bank_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>SAS</td><td>Delta Center</td><td>Frost Bank Center</td><td>1,753.9</td><td><a href="https://en.wikipedia.org/wiki/Delta_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Frost_Bank_Center" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>CHA</td><td>Intuit Dome</td><td>Crypto.com Arena</td><td>12.9</td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Crypto.com_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>LAL</td><td>Mortgage Matchup Center</td><td>Crypto.com Arena</td><td>576.6</td><td><a href="https://en.wikipedia.org/wiki/Mortgage_Matchup_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Crypto.com_Arena" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>UTA</td><td>Delta Center</td><td>Intuit Dome</td><td>948.0</td><td><a href="https://en.wikipedia.org/wiki/Delta_Center" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+<tr><td>2026-11-17</td><td>LAC</td><td>Intuit Dome</td><td>Intuit Dome</td><td>0.0</td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">from</a></td><td><a href="https://en.wikipedia.org/wiki/Intuit_Dome" target="_blank" rel="noopener noreferrer">to</a></td></tr>
+</tbody></table></div>
+<h2>What a distance here is, and is not</h2>
+<ul>
+<li><b>It is</b> a great-circle distance between two arena coordinates, on R = 6,371.0088 km.</li>
+<li><b>It is not</b> an NBA figure, a road distance, or a measure of fatigue. No official NBA page
+publishes any of those.</li>
+<li><b>It cannot be used as a model input</b> until you decide whether a reference coordinate source is
+acceptable for that use — that is <a href="questions-42d69dc5.html">Q42-4</a>.</li>
+</ul>
+</div></main>
+<footer><div class="wrap">
+  Every number on this page is either copied from an official NBA page (linked) or derived and
+  labelled as derived. Values that could not be confirmed are blank and listed on
+  <a href="flagged.html">Flagged for review</a>. Research, not betting advice.
+  Source: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>.
+</div></footer>
+</body>
+</html>
