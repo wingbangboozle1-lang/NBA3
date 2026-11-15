@@ -1,0 +1,52 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "intro": "Line-by-line review of every file this session created or touched, with the engine legs as the correctness backstop. Pre-existing open flags (F-1823b910-01..07) are dispositioned in cross_session.json.",
+ "rows": [
+  {
+   "path": "scripts/capture_official_2026_11_15.py",
+   "lines": "whole file (new)",
+   "finding": "Offline replay script: parses the five committed verbatim transcripts and re-runs 16 checks. Reviewed line by line during debugging: the row parser is right-anchored on the (player, status, reason) suffix because the extraction prints variable-width rows (page-break rows lose their leading cells; one NYS row carries the marker in the reason cell with a blank status cell); the 11:30 PM reason-continuation orphan and the Champagne cell bleed are handled as documented exceptions. Check C2 uses subset semantics for the two chunk-0-only files and equality for the complete 06:00 AM file. Check C4b documents that the report's Game Time column is a 12-hour clock without meridiem (all tips PM)."
+  },
+  {
+   "path": "data/app/official_injuries_2026-11-15_0615AM_raw.md (+ 0600/0545/1200/1130 siblings)",
+   "lines": "whole files (new)",
+   "finding": "Verbatim fetch transcriptions. The 06:15/06:00/11:30 PM files are chunk-complete with the chunk-boundary joins marked; the 05:45 AM and 12:00 AM files contain chunk 0 only and say so in their headers - they end mid-row exactly where the fetch ended. Two known extraction spelling variants are preserved as printed (F-94E6D41B-01)."
+  },
+  {
+   "path": "data/app/official_injuries_2026-11-15_0615AM.json",
+   "lines": "whole file (generated)",
+   "finding": "101 rows = 84 player rows + 17 NOT YET SUBMITTED (DAL on 11/15 + all 16 team-games of 11/16). team_cell_printed records which rows the parser attributed by carrying the last printed team forward; every carried attribution is printed in full in the day-before document (check C3)."
+  },
+  {
+   "path": "data/origin/games.csv + data/app/games_2026-11-14c.csv",
+   "lines": "185-189 (5 rows appended each)",
+   "finding": "The five 11/14 finals appended in lockstep (second-capture agreement preserved exactly). Provenance appended to games_extended_provenance.json with the quarter-scores limitation stated. GP/W/L of the new ratings capture reproduce from the extended log (checks C8/C8b/C8c)."
+  },
+  {
+   "path": "data/app/snapshot_manifest.json",
+   "lines": "whole file (rewritten)",
+   "finding": "Repointed to the 11/15 captures; window 11/15-11/18; old files listed under superseded. Executed under the claim amendment (F-94E6D41B-06). The manifest is consumed by the engine (_apply_manifest), report_availability.py (added this session) and build_app.py - all three read the same paths."
+  },
+  {
+   "path": "scripts/report_availability.py",
+   "lines": "58-92 (manifest block), 356-425 (correspondence/headline)",
+   "finding": "Added _apply_manifest (CR execution: states derive from the manifest-named report - F-1823b910-02 closed); generalized the first-day back-to-back correspondence (was hard-coded to 11/14 with prose; now computed for the window's first date with rule-driven interpretation); headline made evergreen; session/built_on updated. The four-state semantics are unchanged - F-94E6D41B-04 logs the missing fifth state instead of inventing one."
+  },
+  {
+   "path": "scripts/strategy_lab.py",
+   "lines": "1246-1292 only",
+   "finding": "The NF-90 name-join fix: one suffix-aware name_key builds the player index from the CSV's 'First Last' cells and normalizes the injury rows' 'Last, First' cells; norm_name is now that function. 14 paired-format cases pass (suffix, multi-word, three-comma). No other line of the engine touched - verified by the leg-A byte reproduction of the seeded lab.json."
+  },
+  {
+   "path": "scripts/build_app.py",
+   "lines": "1378-1381",
+   "finding": "Availability consumer reads b2b_correspondence with a fallback to the old b2b_correspondence_1114 key (which survives in committed canonical.json builds). The one nav tuple for this tree is added separately in B6."
+  },
+  {
+   "path": "audit_736efb4b/data/official_injury_report_2026-11-14_0130PM.json",
+   "lines": "read-only",
+   "finding": "The 1:30 PM audit rows: parses cleanly, 67 rows, 15 of 18 team-sides present for 11/15 (all NOT YET SUBMITTED). Used as the second published baseline in the availability delta; the three team-sides it lacks are listed in availability_delta.json."
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "note": "How this round relates to the parallel and predecessor sessions. Nothing here modifies another session's files.",
+ "relations": [
+  {
+   "with": "arena/736efb4b-nba3 (PR area) - 1:30 PM audit rows",
+   "what": "Their committed audit JSON is used as the second published baseline for the availability delta. My independent parse of the same-day reports (04:15 canonical, 05:15, my 11:30 PM) agrees with their transcription on every row both cover; the three 11/15 team-sides their report omits are recorded rather than inferred."
+  },
+  {
+   "with": "arena/1823b910-nba3 - previous refresh round",
+   "what": "Their open findings are dispositioned: F-01 (stale snapshot) CLOSED by the manifest repoint; F-02 (stale availability verdict) CLOSED by the manifest-aware report_availability.py rebuild; F-03 (lines injury-blind) RE-QUANTIFIED (still true by design; owner decision S-1823b910-03 remains open); F-04 (vacuum floor) CARRIED (F-94E6D41B-07); F-05/F-07 (PDF team-cell ambiguity) RESOLVED for the 11/15 window by the day-before attribution cross-check (C3); F-06 (stale PR #70) -> B7 disposition. Their suggestions S-01/S-02 are EXECUTED here; S-03..S-06 remain open.",
+   "disposition_ref": "cross_session.json/relations, flags.json"
+  },
+  {
+   "with": "PR #79 (arena/90183333-nba3, stale >16 h)",
+   "what": "Its substance is taken over: (1) the 1:30 PM snapshot repoint and availability delta are superseded by this session's 11/15 refresh; (2) the NF-90 name-join bug it found is verified independently on main (player_index comma-split produced keys no injury row could form) and fixed here with an independent implementation, proven not to move a price field (line_invariance.json fix_effect). Recommend closing #79 when this session's PR merges; disposition logged in COORDINATION.md B7."
+  },
+  {
+   "with": "PR #70 (f2d4a99f, stale >16 h)",
+   "what": "COORDINATION.md-only record. Its content is preserved by the append-only board discipline; no file of this session conflicts with it. Disposition logged in B7."
+  }
+ ],
+ "change_requests": [
+  {
+   "id": "CR-94E6D41B-01",
+   "owner": "owner of scripts/report_availability.py",
+   "request": "Add a fifth availability state for a team with zero rows on a covered date (F-94E6D41B-04).",
+   "status": "open"
+  },
+  {
+   "id": "CR-94E6D41B-02",
+   "owner": "owner of scripts/strategy_lab.py",
+   "request": "Rename minutes_vacuum/pts_vacuum to minutes_vacated/pts_vacated (F-94E6D41B-05).",
+   "status": "open"
+  }
+ ]
+}
