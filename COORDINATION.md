@@ -4005,3 +4005,40 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+---
+
+## Session `arena/bb0c83a4-nba3` (current) — CLAIM: 11/15 game-day refresh, rotation-join repair, integration
+
+**Session ID:** `bb0c83a4`. Branch `arena/bb0c83a4-nba3`, branched from `main` @ `d320fea`
+(merge of PR #83). This claim is committed and pushed **before** any other work, per the board rule.
+
+**Why this round exists.** The published canonical dashboard (`data/app/canonical.json`,
+`app/`) is stamped **2026-11-14T09:45Z** and publishes the official injury snapshot of
+**11/14 04:15 AM ET**. At claim time (2026-11-15) the official index lists **11/15 06:00 AM ET**
+as the newest report, the whole 11/14 five-game slate has been played, and the front-door
+"upcoming slate" window (11/14–11/17) now contains games that are already final. A game-day
+refresh is therefore required, not optional: the site is publishing yesterday as "upcoming".
+
+**Task board (this session)**
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| B1 | Close out the two stale open PRs (#79, #70) without merging destructive diffs | in progress | `COORDINATION.md` |
+| B2 | Official capture: 11/14 finals, 11/15 06:00 AM ET injury report, 11/15–11/18 slate, fresh team advanced stats | in progress | `data/app/official_2026-11-15*` (**new files only**) |
+| B3 | Rotate the published window to 11/15–11/18 and re-run the engine | in progress | `data/app/snapshot_manifest.json`, `data/app/lab.json`, `data/app/canonical.json` |
+| B4 | Repair NF-90 (rotation join returns zero for every injured player) | in progress | `scripts/strategy_lab.py` |
+| B5 | Rebuild the dashboard, run every CI suite, PR → merge → confirm Pages | pending | `app/`, `index.html`, `COORDINATION.md` |
+
+**Non-overlap.** This session edits only the files above plus appends to `COORDINATION.md` /
+`README.md`. It creates **no** new audit tree and repoints no other session's artefact. Every
+earlier section is preserved verbatim.
+
+**Stale-PR notes (read before touching PR #79).** PR #79 (`arena/90183333-nba3`, open since
+2026-11-14 18:57 UTC, no commits since) is **18 hours stale** and its diff *deletes* 21,860 lines
+of work that later landed on `main` — including `240bc29b/`, `audit_1823b910/`, `audit_736efb4b/`,
+`audit_7f3b89af/`, the entire `240bc29b` tree and 653 lines of `COORDINATION.md`. It was cut from a
+pre-#76/#77/#78/#80/#81/#82/#83 base, so GitHub reports it as mergeable only because the merge
+would silently revert the other sessions. It carries one genuinely valuable fix (NF-90, the
+structurally-zero rotation join), which this session reimplements independently in B4, inside its
+own scope, so nothing of value is lost. PR #79 is closed as **superseded**, never merged.
