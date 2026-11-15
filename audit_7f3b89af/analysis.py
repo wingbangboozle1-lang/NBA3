@@ -29,8 +29,27 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DATA = os.path.join(HERE, "data")
 
-RESULTS_CSV = os.path.join(ROOT, "data", "app", "games_2026-11-14c.csv")
-CANONICAL = os.path.join(ROOT, "data", "app", "canonical.json")
+# Frozen inputs (session arena/94e6d41b-nba3): this audit verifies the
+# 2026-11-14 state (183-game log, the canonical build that existed then). Later
+# refresh sessions legitimately extend the log and rebuild canonical.json, so
+# those two inputs are materialised via `git show` from main @ d320fea -
+# identical content to what the committed outputs were derived from. Their
+# record is otherwise untouched.
+import subprocess as _sp
+import tempfile as _tempfile
+_frozen_dir = _tempfile.mkdtemp(prefix="nba3-7f3b89af-frozen-")
+
+
+def _frozen(rel):
+    out = os.path.join(_frozen_dir, rel.replace("/", "__"))
+    if not os.path.exists(out):
+        with open(out, "wb") as _fh:
+            _fh.write(_sp.run(["git", "show", f"d320fea:{rel}"],
+                              cwd=ROOT, capture_output=True, check=True).stdout)
+    return out
+
+RESULTS_CSV = _frozen("data/app/games_2026-11-14c.csv")
+CANONICAL = _frozen("data/app/canonical.json")
 
 SEED = 20261114
 PERMUTATIONS = 20000

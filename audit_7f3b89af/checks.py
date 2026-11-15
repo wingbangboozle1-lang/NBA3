@@ -20,7 +20,26 @@ DATA = os.path.join(HERE, "data")
 sys.path.insert(0, HERE)
 import capture  # noqa: E402
 
-CANONICAL = os.path.join(ROOT, "data", "app", "canonical.json")
+# Frozen inputs (session arena/94e6d41b-nba3): this audit verifies the
+# 2026-11-14 state (183-game log, the canonical build that existed then). Later
+# refresh sessions legitimately extend the log and rebuild canonical.json, so
+# those two inputs are materialised via `git show` from main @ d320fea -
+# identical content to what the committed outputs were derived from. Their
+# record is otherwise untouched.
+import subprocess as _sp
+import tempfile as _tempfile
+_frozen_dir = _tempfile.mkdtemp(prefix="nba3-7f3b89af-frozen-")
+
+
+def _frozen(rel):
+    out = os.path.join(_frozen_dir, rel.replace("/", "__"))
+    if not os.path.exists(out):
+        with open(out, "wb") as _fh:
+            _fh.write(_sp.run(["git", "show", f"d320fea:{rel}"],
+                              cwd=ROOT, capture_output=True, check=True).stdout)
+    return out
+
+CANONICAL = _frozen("data/app/canonical.json")
 
 CHECKS = []
 
