@@ -839,12 +839,28 @@ it was graded against, so an edit to either is detectable.</p>"""]
     body.append('<p class="note">Where a game has been played the source is its verified final; where it '
                 'has not, the source is the official schedule that fixes the tip time. The pick payload, '
                 'hash and publication stamp are in <code>ledger/ledger.jsonl</code>.</p>')
-    body.append("""<h2>Why only two picks</h2>
-<p>Three strategies are frozen; one produced eligible games. The disagreement strategy's band (5–20 pp
-with both estimators on the same side) admitted two of the nine 11/15 games — the rest were either
-outside the band or had the estimators on opposite sides. The back-to-back strategy found no home team
-on a back-to-back without the road team also being on one. The totals strategy has no rule that has
-passed validation, so it publishes no pick rather than a provisional one.</p>
+    pubs_s1 = [e for e in pubs if e["pick"]["strategy_id"].startswith("S1")]
+    pubs_s2 = [e for e in pubs if e["pick"]["strategy_id"].startswith("S2")]
+    days = sorted({e["pick"]["date"] for e in pubs})
+    body.append(f"""<h2>Why {len(pubs)} picks and not more</h2>
+<p>Three strategies are frozen; two produced eligible games across {len(days)} days
+({esc(', '.join(days))}). The brief asks for picks up to three days ahead, so the publisher seals the
+whole priced window rather than the next day only — a pick sealed two days early is a stronger test of
+the pre-registration than one sealed on the morning of the game.</p>
+<ul>
+<li><strong>S2 (disagreement)</strong> — {len(pubs_s2)} picks. The band is 5–20 pp with both estimators
+on the same side of the moneyline; games outside the band, or where the estimators disagree on the
+side, are skipped and logged as a failed <code>G3</code>.</li>
+<li><strong>S1 (home back-to-back fade)</strong> — {len(pubs_s1)} picks. Eligible only when the home
+team is on the second night of a back-to-back and the road team is not.</li>
+<li><strong>S3 (totals)</strong> — 0 picks. No rule has passed validation, so it publishes nothing
+rather than a provisional pick.</li>
+</ul>
+<div class="callout warn"><strong>A defect this page caught in its own publisher.</strong> The first
+version derived back-to-backs from the model's game sample, which ends before the slate — so it
+reported <em>zero</em> back-to-backs and S1 sealed nothing. It also sealed only the first slate day.
+Both are fixed: the schedule of record comes from <code>scripts/rest_travel.py</code> (three unioned
+official captures) and the publisher covers the full three-day window.</div>
 <p>The full gate log, including every failed gate, is on the <a href="gates.html">Gates</a> page.</p>""")
     return page("bet", "Sealed picks", "Bet surface", "\n".join(body), "picks.html",
                 lead="Every sealed pick with the hash that was published before its tip time.")

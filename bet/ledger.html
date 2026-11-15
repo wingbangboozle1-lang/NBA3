@@ -68,7 +68,7 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
   <p class="lead">An append-only sha256 chain over every pick, with the tests that show tampering is detected.</p>
 <div class="callout">
 <strong>Chain status: verified.</strong>
-2 entries, head hash <code>6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d</code>.
+11 entries, head hash <code>c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401</code>.
 <code>scripts/ledger.py</code> recomputes every entry hash, every pick hash and every link; the build
 fails if any of them does not reproduce.</div>
 <div class="tw"><table id="ledger-chain" class="">
@@ -84,6 +84,15 @@ fails if any of them does not reproduce.</div>
 </tr></thead><tbody>
 <tr><td><code>1</code></td><td>PUBLISH</td><td><code>14ab330115b411b2…</code></td><td><code>0000000000000000…</code></td><td><code>b6840253828749f8…</code></td><td>2026-11-15T12:10Z</td><td>IND @ PHI</td><td><span class="chip ok">PASS</span></td></tr>
 <tr><td><code>2</code></td><td>PUBLISH</td><td><code>a4769cd225f212a6…</code></td><td><code>b6840253828749f8…</code></td><td><code>6cd5fc40ab7ee96a…</code></td><td>2026-11-15T12:10Z</td><td>HOU @ WAS</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>3</code></td><td>PUBLISH</td><td><code>8203d3d4b88c09ff…</code></td><td><code>6cd5fc40ab7ee96a…</code></td><td><code>22640dcacb98db81…</code></td><td>2026-11-15T12:10Z</td><td>ORL @ BOS</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>4</code></td><td>PUBLISH</td><td><code>cfe2f453f3aa8d4d…</code></td><td><code>22640dcacb98db81…</code></td><td><code>5f666e761988ded7…</code></td><td>2026-11-15T12:10Z</td><td>CHI @ CLE</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>5</code></td><td>PUBLISH</td><td><code>7aedd2e16eb8011e…</code></td><td><code>5f666e761988ded7…</code></td><td><code>fe1cc72ff7e83b70…</code></td><td>2026-11-15T12:10Z</td><td>MEM @ WAS</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>6</code></td><td>PUBLISH</td><td><code>3ea6a3685ded5da6…</code></td><td><code>fe1cc72ff7e83b70…</code></td><td><code>6006c1563507b145…</code></td><td>2026-11-15T12:10Z</td><td>MEM @ WAS</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>7</code></td><td>PUBLISH</td><td><code>ddc107c26dff04bc…</code></td><td><code>6006c1563507b145…</code></td><td><code>ca2d4f18eb2c4403…</code></td><td>2026-11-15T12:10Z</td><td>PHI @ BKN</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>8</code></td><td>PUBLISH</td><td><code>9e6a56d9fb1b307e…</code></td><td><code>ca2d4f18eb2c4403…</code></td><td><code>e735d29762f619a2…</code></td><td>2026-11-15T12:10Z</td><td>HOU @ MIA</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>9</code></td><td>PUBLISH</td><td><code>b8094206db3ac9cf…</code></td><td><code>e735d29762f619a2…</code></td><td><code>5ed219f45312c924…</code></td><td>2026-11-15T12:10Z</td><td>GSW @ NOP</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>10</code></td><td>PUBLISH</td><td><code>804811f9432b0905…</code></td><td><code>5ed219f45312c924…</code></td><td><code>ac622348f6e9eabe…</code></td><td>2026-11-15T12:10Z</td><td>DET @ SAS</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>11</code></td><td>PUBLISH</td><td><code>c16fddb7b3c685a1…</code></td><td><code>ac622348f6e9eabe…</code></td><td><code>c3f0ce041b5e5ff8…</code></td><td>2026-11-15T12:10Z</td><td>CHA @ LAL</td><td><span class="chip ok">PASS</span></td></tr>
 </tbody></table></div>
 <h2>What the chain does and does not prove</h2>
 <p>It proves that no stored pick, entry or link has been edited since it was written, to anyone who can

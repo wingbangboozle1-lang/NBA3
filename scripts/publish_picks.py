@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import ledger                                                   # noqa: E402
 from estimators import pinned_hca, load_games                   # noqa: E402
+import rest_travel                                              # noqa: E402
 
 MODEL = ROOT / "data" / "live" / "model.json"
 SLATE = ROOT / "data" / "live" / "slate_2026-11-15.json"
@@ -48,26 +49,26 @@ def tip_iso(date: str, tip_et: str) -> str:
     return (naive + dt.timedelta(hours=5)).strftime("%Y-%m-%dT%H:%MZ")
 
 
-def back_to_back_teams(games) -> dict[str, set[str]]:
-    """team -> set of dates on which it is playing the second game of a back-to-back."""
-    by_team: dict[str, list[str]] = {}
-    for g in games:
-        for t in (g["home"], g["away"]):
-            by_team.setdefault(t, []).append(g["date"])
-    out: dict[str, set[str]] = {}
-    for t, dates in by_team.items():
-        ds = sorted(set(dates))
-        for a, b in zip(ds, ds[1:]):
-            if (dt.date.fromisoformat(b) - dt.date.fromisoformat(a)).days == 1:
-                out.setdefault(t, set()).add(b)
+def back_to_back_map() -> dict[str, dict[str, bool]]:
+    """(date, team) -> is the second night of a back-to-back, from the schedule of record.
+
+    This must come from scripts/rest_travel.py, which unions three official captures. Deriving it
+    from the model's own game sample instead silently loses the 11/14 games (the sample ends before
+    the slate) and reports zero back-to-backs -- which is what the first version of this function
+    did, and why strategy S1 sealed nothing.
+    """
+    payload = rest_travel.build()
+    out: dict[str, dict[str, bool]] = {}
+    for g in payload["games"]:
+        for t in g["teams"]:
+            out.setdefault(g["date"], {})[t["team"]] = t["back_to_back"]
     return out
 
 
 def main() -> None:
     model = json.loads(MODEL.read_text())
     slate = json.loads(SLATE.read_text())
-    games = load_games()
-    b2b = back_to_back_teams(games)
+    b2b = back_to_back_map()
     frozen = ledger.load_prereg()
 
     picks, gate_rows = [], []
@@ -96,17 +97,20 @@ def main() -> None:
 
         # ---- S1: fade a home team on a back-to-back
         sid = "S1_HOME_B2B_FADE"
-        home_b2b = g["home"] in b2b and g["date"] in b2b[g["home"]]
-        away_b2b = g["away"] in b2b and g["date"] in b2b[g["away"]]
+        day = b2b.get(g["date"], {})
+        home_b2b = day.get(g["home"], False)
+        away_b2b = day.get(g["away"], False)
         eligible = home_b2b and not away_b2b
         gate(sid, g, "G3_signal_present", eligible,
              f"home b2b={home_b2b}, away b2b={away_b2b}")
-        if eligible and ok2 and g["date"] == "2026-11-15" and not sealed(sid, gid):
+        if eligible and ok2 and not sealed(sid, gid):
             pub = ledger.publish({
                 "strategy_id": sid, "game_id": gid, "date": g["date"],
                 "matchup": f"{g['away']} @ {g['home']}", "tip_et": g["tip_et"],
                 "tip_et_iso": tip,
-                "pick": f"{g['away']} +{-g['exp_margin_e1']:.1f}",
+                "pick": (f"{g['away']} {-g['exp_margin_e1']:+.1f}"
+                         if -g["exp_margin_e1"] >= 0 else
+                         f"{g['away']} {abs(g['exp_margin_e1']):.1f}"),
                 "side": "away", "line": round(-g["exp_margin_e1"], 1),
                 "settlement_rule_id": "SPREAD",
                 "origin": "originated line (E1 margin), not a market line",
@@ -119,7 +123,7 @@ def main() -> None:
         in_band = 5.0 <= g["disagreement_pp"] <= 20.0
         gate(sid, g, "G3_signal_present", agree and in_band,
              f"direction_agrees={agree}, disagreement={g['disagreement_pp']} pp (band 5-20)")
-        if agree and in_band and ok2 and g["date"] == "2026-11-15" and not sealed(sid, gid):
+        if agree and in_band and ok2 and not sealed(sid, gid):
             side_home = g["p_home_e1"] > 0.5
             pub = ledger.publish({
                 "strategy_id": sid, "game_id": gid, "date": g["date"],
