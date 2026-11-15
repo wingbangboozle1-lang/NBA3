@@ -4270,6 +4270,11 @@ merged sessions, this round's pipeline runs as `*_round_79341829.py` reading `*_
 One defect found during integration and fixed: the results-feed capture/verify wordings differed,
 flip-flopping the drift gate; unified and proven stable across double runs.
 
-**GitHub Pages deploy:** the `deploy` job runs on `main` after `build`; confirmation appended
-below once the workflow completes (live check: `app/projections.html` resolves on
-https://wingbangboozle1-lang.github.io/NBA3/app/projections.html).
+**GitHub Pages deploy: CONFIRMED LIVE (2026-11-15 ~13:05 UTC).** The `build` job passed on
+`main` (merge commit `d51e266`) and the Pages deploy serves the merged site: verified live at
+https://wingbangboozle1-lang.github.io/NBA3/app/projections.html (two-estimator projections with
+the disagreement headline, HCA pinned at 1.13 pts from the 188-game official log, possessions x
+PPP totals, luck-band flags, blank+flagged travel cells) and
+https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
+PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
+cached at the edge during rollout; a cache-busted read serves the page normally.
