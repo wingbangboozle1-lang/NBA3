@@ -4278,3 +4278,40 @@ PPP totals, luck-band flags, blank+flagged travel cells) and
 https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
 PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
 cached at the edge during rollout; a cache-busted read serves the page normally.
+
+---
+
+## Session `arena/81800928-nba3` (current) — CLAIM: repair the scheduled official refresh job (fetch crash, wrong "newest" report, UTC-vs-ET date), refresh tests, integration
+
+**Session ID:** `arena/81800928-nba3`. Branch `arena/81800928-nba3`, branched from `main` @ `f98b44d`
+(merge of PR #91). Claim committed and pushed before any other work started (2026-11-15 ~23:40 UTC).
+
+**Why this round exists.** The scheduled job `official data refresh` (`.github/workflows/refresh.yml`)
+on `main` has a **failing latest run** (run 43742524756, 2026-11-15 ~18:30 UTC): the job fails in its
+fetch step before tests, gates or commit run, so the rolling refresh has not refreshed anything. The
+run log is not retrievable through the API (`logs` returned EOF), so the root causes below are read
+from the code, not from the runner log:
+
+| Finding | Where | Effect |
+|---|---|---|
+| Any single HTTP error in the fetch loop raises out of `main()` (no try/except, no manifest written) | `scripts/refresh_official.py` `fetch()` calls | whole job dies; no gate report is written |
+| "Newest" injury report chosen by sorting the raw strings `(date, hh, mm, AM/PM)` | `scripts/refresh_official.py` step 1 | `12_00AM` sorts after `11_45PM`-style values; wrong report can be chosen |
+| Game dates taken from `datetime.now(timezone.utc)` | `scripts/refresh_official.py` | the 05:15 UTC run labels the ET day one day early |
+
+**Known, NOT fixed in this round (logged for the owner):** `freshness_gates.py` hard-codes
+`settled_2026-11-14.json` and `slate_2026-11-15.json`, and the refresh writes to `data/app/refresh/`
+and `data/app/official_slate_current.json`, which no gate or engine reads. So even a successful fetch
+cannot roll the slate forward. This is a pipeline redesign, flagged for the owner rather than patched here.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| R1 | Make the fetch non-fatal per URL (record errors in manifest, exit non-zero before any rebuild), chronological newest-report selection, ET game dates | in progress | `scripts/refresh_official.py` |
+| R2 | Offline unit tests for R1 (fixtures, no network) | in progress | `tests/test_refresh_official.py` (new) |
+| R3 | Wire the new test into the refresh workflow; keep rebuild gated | in progress | `.github/workflows/refresh.yml` |
+| R4 | Board record, PR, merge, Pages check | pending | `COORDINATION.md` |
+
+**Non-overlap.** This session does not touch `data/app/canonical.json`, `data/live/*`, `app/`, `projection/`,
+`bet/`, `index.html`, `scripts/freshness_gates.py`, or any audit tree. Open PRs #85
+(`arena/5a67ab8c-nba3`) and #90 (`arena/94e6d41b-nba3`) are from sessions with no claim on this board
+(their session IDs do not appear in COORDINATION.md before this line). They are left untouched and are
+logged here as a coordination irregularity for the owner.
