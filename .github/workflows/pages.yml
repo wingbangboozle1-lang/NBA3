@@ -285,7 +285,21 @@ jobs:
           python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'
       - name: Independent audit tree (session 7f3b89af) - fresh captures, checks, analysis, pages
         run: |
+          # checks.py exits non-zero BY DESIGN when a check fails, so under the
+          # workflow's default `bash -e` a single failing check aborted the step
+          # before the drift gate below could report what actually changed. It was
+          # masked while checks.py happened to be failing on a stale snapshot;
+          # session arena/bb0c83a4 re-pointed it at the frozen 2026-11-14 artefacts
+          # (data/snapshots/) and it now passes 12/12, but a future real failure
+          # must still reach the drift gate rather than vanish. Capture its status.
+          set +e
           python3 audit_7f3b89af/checks.py
+          CHECKS_STATUS=$?
+          set -e
+          echo "audit_7f3b89af/checks.py exit status: $CHECKS_STATUS"
+          if [ "$CHECKS_STATUS" -ne 0 ]; then
+            echo "::error::audit_7f3b89af/checks.py reported a failed check; see its log above."
+          fi
           python3 audit_7f3b89af/analysis.py
           python3 audit_7f3b89af/build.py
           python3 -m unittest discover -s audit_7f3b89af -p 'test_*.py'
