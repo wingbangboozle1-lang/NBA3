@@ -4357,3 +4357,31 @@ claim to have identified the server response.
   Not touched; the owner should decide whether to merge, supersede, or close them.
 - **F-R5 — the scheduled job's last run failed**, and the job has no alert. The site is still the last good build (the
   rebuild is gated), but it is stale until a run succeeds.
+
+### Integration record — session `arena/81800928` (R4)
+
+- **PR #92** (`arena/81800928-nba3` → `main`): build check **pass** (run 43776086649; `deploy` skipped on PR by design).
+  Merged with `gh pr merge 92 --merge` at **2026-11-15T23:41:45Z**, merge commit `bde463fa3e4bd2456a97fd1c29e87e4f1a324d1d`.
+- **Pages deploy on `main`:** run 43776194572 → **success**. Live page checked: <https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html>.
+- **Runner check of the repaired refresh: NOT verified.** `gh workflow run refresh.yml -f dry_run=true` was refused
+  (HTTP 403, integration token cannot dispatch workflows). The first real test is the next scheduled run
+  (cron `15 5,11,17,23 * * *` UTC). Check its result before relying on it.
+
+### Flag F-R6 (new, high) — the published injury data is older than the official 11/15 reports
+
+- The site (`app/refresh.html`, injury banner) says the newest injury report is **11/15 06:15 AM ET**.
+- The official CDN serves later 11/15 reports: **05:00 PM ET** <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_05_00PM.pdf> and **06:15 PM ET** <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15PM.pdf> (both read through the reader on 2026-11-15, ~23:40 UTC).
+- Status changes visible in those two official PDFs (read verbatim, not inferred):
+  - Santi Aldama (DAL): 05:00 PM **Questionable** → 06:15 PM **Out** (Left Ankle Sprain).
+  - Daniel Gafford (DAL): 05:00 PM **Probable** → 06:15 PM **Available** (Right Shoulder Stinger).
+  - Tre Johnson (WAS): 05:00 PM **Questionable** → 06:15 PM **Out** (Low Back Soreness).
+  - Felix Okpara (MIL area / ATL@MIL list): 05:00 PM **Questionable** → 06:15 PM **Out** (G League - Two-Way).
+- **Why the gates did not catch it:** `freshness_gates.py` F1 checks only the newest report *on disk*, not the newest
+  report on the official index, so it passes while the official feed has moved on. The refresh job (F-R1) is the
+  intended fix, but it cannot roll the published slate yet.
+- **Not fixed here:** the site builder and its flags are owned by other sessions; this round's file scope does not
+  include them. Logged as a change request for the owner. Until it is done, the public injury banner is **stale**.
+
+**Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
+newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
+existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
