@@ -37,10 +37,10 @@ thing this pipeline is for — would always be zero.</p>
 <div class="table-wrap"><table>
 <caption id="estimators"></caption>
 <thead><tr><th>Estimator</th><th>What it reads</th><th>Out-of-sample margin RMSE</th><th>Status</th><th>Source</th></tr></thead><tbody>
-<tr><td><strong>A</strong> result-based</td><td>final margins only (ridge least squares on the game log)</td><td>15.23</td><td><span class="chip chip-ok">clean</span> fitted only on games strictly before each forecast</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
-<tr><td><strong>B</strong> efficiency-based</td><td>official team advanced + opponent pages: possessions, points per possession, pace</td><td>13.72</td><td><span class="chip chip-warn">contaminated</span> single dated snapshot, see FV2-06</td><td><a href="https://www.nba.com/stats/teams/advanced" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced</a></td></tr>
+<tr><td><strong>A</strong> result-based</td><td>final margins only (ridge least squares on the game log)</td><td>15.35</td><td><span class="chip chip-ok">clean</span> fitted only on games strictly before each forecast</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><strong>B</strong> efficiency-based</td><td>official team advanced + opponent pages: possessions, points per possession, pace</td><td>13.83</td><td><span class="chip chip-warn">contaminated</span> single dated snapshot, see FV2-06</td><td><a href="https://www.nba.com/stats/teams/advanced" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced</a></td></tr>
 </tbody></table></div>
-<div class="callout warn"><p><strong>Why B's number is not a result.</strong> B is fitted on one team-statistics snapshot dated 2026-11-15 and used to price all 131 games played before that date, so its error carries information from the future. It cannot be quoted as an out-of-sample figure and no rule that reads B is ranked. The fix is a per-date statistics history; until then A at 15.23 points is the only honest accuracy claim on this site.</p></div>
+<div class="callout warn"><p><strong>Why B's number is not a result.</strong> B is fitted on one team-statistics snapshot dated 2026-11-15 and used to price all 135 games played before that date, so its error carries information from the future. It cannot be quoted as an out-of-sample figure and no rule that reads B is ranked. The fix is a per-date statistics history; until then A at 15.35 points is the only honest accuracy claim on this site.</p></div>
 
 <h2>Home-court advantage is pinned, not fitted</h2>
 <p>The brief asks for HCA pinned to the measured home-win rate. That is what happens: a free
@@ -48,11 +48,11 @@ regression coefficient is not used anywhere.</p>
 
 <div class="table-wrap"><table>
 <thead><tr><th>Item</th><th>Value</th></tr></thead><tbody>
-<tr><td>Games measured</td><td>183</td></tr>
-<tr><td>Home wins</td><td>96</td></tr>
-<tr><td>Measured home-win rate</td><td>52.459%</td></tr>
-<tr><td>Margin standard deviation</td><td>16.98</td></tr>
-<tr><td><strong>HCA points</strong></td><td><strong>1.67</strong></td></tr>
+<tr><td>Games measured</td><td>188</td></tr>
+<tr><td>Home wins</td><td>99</td></tr>
+<tr><td>Measured home-win rate</td><td>52.660%</td></tr>
+<tr><td>Margin standard deviation</td><td>16.90</td></tr>
+<tr><td><strong>HCA points</strong></td><td><strong>1.80</strong></td></tr>
 <tr><td>Derivation</td><td>logit(p_home) * sd(margin); pinned, not fitted</td></tr>
 <tr><td>Caveat</td><td>The pin is exact on the win rate and assumes only that the margin distribution is roughly normal. It is stated as a derivation, not a fact.</td></tr>
 <tr><td>Source</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
@@ -63,10 +63,10 @@ regression coefficient is not used anywhere.</p>
 <div class="table-wrap"><table>
 <caption id="five-numbers"></caption>
 <thead><tr><th>What</th><th>Value</th><th>Read it as</th></tr></thead><tbody>
-<tr><td>Home-court advantage</td><td>1.67 pts</td><td>pinned to the measured rate; not a fitted coefficient</td></tr>
-<tr><td>Margin error, estimator A</td><td>15.23 pts</td><td>genuine out-of-sample; this is the unit the disagreement is measured against</td></tr>
-<tr><td>Total error, estimator B</td><td>17.68 pts</td><td>does not beat a constant league-average total — published worse, not hidden</td></tr>
-<tr><td>Best published edge over a coin</td><td>26.84 pp</td><td>the board's luck threshold is 27.78 pp</td></tr>
+<tr><td>Home-court advantage</td><td>1.80 pts</td><td>pinned to the measured rate; not a fitted coefficient</td></tr>
+<tr><td>Margin error, estimator A</td><td>15.35 pts</td><td>genuine out-of-sample; this is the unit the disagreement is measured against</td></tr>
+<tr><td>Total error, estimator B</td><td>17.60 pts</td><td>does not beat a constant league-average total — published worse, not hidden</td></tr>
+<tr><td>Best published edge over a coin</td><td>25.76 pp</td><td>the board's luck threshold is 28.57 pp</td></tr>
 <tr><td>Strategies that may be a bet</td><td>0</td><td>zero, because no licensed market price is connected to this repository</td></tr>
 </tbody></table></div>
 </main>
