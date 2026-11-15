@@ -4005,3 +4005,48 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+---
+
+## Session `arena/9866a950-nba3` (current) — CLAIM (rolled slate refresh, ledger settlement, HCA pin, scheduled freshness gate)
+
+Session ID: `arena/9866a950-nba3`, branch `arena/9866a950-nba3` (Arena fixes the branch; the
+`session-<id>/<task>` naming from the brief cannot be used — same policy as every prior session,
+noted here again). Claimed at 2026-11-15 (UTC) against `main` @ `d320fea` (PR #83 merge, tip of
+`origin/main`), so no live claim could be conflicting at claim time.
+
+Prior sessions are finished (all PRs merged through #83). Per the takeover rule (claim older than
+60 minutes with no commits), this session takes over three unowned follow-ups left by
+`arena/1823b910-nba3` and logs them here as the handoff record:
+
+- **CR-1823b910-02** (owner `scripts/report_availability.py` / `data/app/report_availability.json`):
+  regenerate the availability register against the newest official report and the new rolling window.
+- **CR-1823b910-05 / F-1823b910-01** (snapshot staleness): the rolling window itself — this is the
+  core refresh below.
+- **SG (assemble_canonical register, results-log gate)**: "Add a results-log freshness gate to the
+  build: fail when `data/origin/games.csv` ends before the day before the priced window…" —
+  implemented this session as the rolling-slate freshness gate (CI step), extending the scheduled
+  job to the whole official capture set.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| T-9866a950-A | Claim + board record | done | arena/9866a950-nba3 | COORDINATION.md (this section) |
+| T-9866a950-B | Rolling window → 2026-11-15…18: official injury index + newest 11/15 game-day report, schedule for the four dates (11/18 is new), fresh team advanced ratings, players minutes table | in progress | arena/9866a950-nba3 | data/app/official_*_2026-11-15* / *_1115_1118*, data/app/*_raw.md (new files only) |
+| T-9866a950-C | Results log extension: 11/14 finals appended (with a quarter-score capture per the brief) | in progress | arena/9866a950-nba3 | data/origin/games.csv, data/origin/games_extended_provenance.json, data/app/official_results_2026-11-14.json |
+| T-9866a950-D | Settle the sealed pick ledger (22 PENDING entries, 11/14 games) from official finals; settlement stamps visible | in progress | arena/9866a950-nba3 | verify/data/ledger.json, verify/build.py output only |
+| T-9866a950-E | Pin home-court advantage to the measured home-win rate (engine change, labelled; fitted value still reported for comparison) | in progress | arena/9866a950-nba3 | scripts/strategy_lab.py (HCA pin only) |
+| T-9866a950-F | Rolling-slate freshness + provenance gate wired into CI (rebuild only after the gates pass) | in progress | arena/9866a950-nba3 | scripts/rolling_slate_gate.py (new), .github/workflows/pages.yml (one step) |
+| T-9866a950-G | Manifest re-point + full rebuild (lab → canonical → app → hub), all suites green locally | pending | arena/9866a950-nba3 | data/app/snapshot_manifest.json, data/app/lab.json, data/app/canonical.json, app/, index.html, hub/, data/hub/ |
+| T-9866a950-H | Line-by-line verification of every new value, flags for anything unverified, README + board final record, PR → merge → Pages check | pending | arena/9866a950-nba3 | README.md, COORDINATION.md, PR |
+
+Scopes deliberately not touched: every other session's tree (`audit_*`, `final/`, `pipeline/`,
+`site/`, `lab/`, `research/`, `edge/`, `origin/`, `dash/`, `d01ae7e2/`, `240bc29b/`, `audit26/`,
+`audit36/`, `docs/`, `integrate/`, `tools/`, `tests/`), except where a generated artefact must be
+regenerated from the new canonical data (`verify/pages/` via `verify/build.py`, `hub/` via its own
+builders) — both regenerate from data this session owns, which is the established pattern.
+
+Travel distance from a sourced arena-coordinate table is **claimed as a flagged follow-up, not a
+promise**: no official NBA page publishes arena coordinates, so per the no-inference rule the
+table cannot be built from official sources alone. It is logged on the Flagged for Review page
+(this session's flags) with the discovery path, rather than filled from a non-official source
+silently.
