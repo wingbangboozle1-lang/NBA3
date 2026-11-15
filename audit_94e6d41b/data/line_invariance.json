@@ -9,11 +9,16 @@
   "a_seeded_buggy": "988ab18616ecde80",
   "b_seeded_fixed": "2cc32f8a8ba11983",
   "c_refreshed_1": "fbd6e5947e5c4e0d",
-  "c_refreshed_2": "fbd6e5947e5c4e0d"
+  "c_refreshed_2": "fbd6e5947e5c4e0d",
+  "current": "fbd6e5947e5c4e0d"
+ },
+ "canonical_adoption": {
+  "leg_c_equals_committed_lab_json": true,
+  "note": "The refreshed build is adopted as canonical: the committed data/app/lab.json is exactly leg C's output (same engine, same manifest-named inputs), which is what the CI drift gate re-proves on every push."
  },
  "seeded_reproduction": {
   "leg_a_bytes_equal_published": true,
-  "note": "Leg A must reproduce the published lab.json byte for byte: same engine, same inputs, same rounding. It proves the seeded artifact is exactly what the published engine produces."
+  "note": "Leg A reproduces the lab.json committed at main @ d320fea (read via git show, so the proof stays stable once the refreshed build is adopted) byte for byte: same engine, same inputs, same rounding. It proves the pre-refresh artifact is exactly what the published engine produces."
  },
  "determinism": {
   "leg_c_runs_equal": true,

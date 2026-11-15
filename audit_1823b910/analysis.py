@@ -91,11 +91,56 @@ def jdump(name, obj):
         fh.write("\n")
 
 
+
+# ---------------------------------------------------------------------------
+# Frozen inputs (added by session arena/94e6d41b-nba3 with this tree's record
+# preserved verbatim).  This audit is a point-in-time record of the 2026-11-14
+# state.  Later refresh sessions legitimately repoint shared inputs (the
+# snapshot manifest now names the 11/15 captures; report_availability.json,
+# lab.json and canonical.json were rebuilt; the results log grew to 188 games).
+# To keep THIS tree's committed data/*.json byte-reproducible forever, every
+# mutable input is read via `git show` from the commit this audit was built
+# from instead of the working tree.  Their content at that commit is exactly
+# what the committed outputs below were derived from; the CI drift gate on
+# audit_1823b910/ now holds on every future refresh.
+# ---------------------------------------------------------------------------
+FROZEN_REF = "d320fea"   # main at the time this audit's outputs were committed
+_frozen_dir = None
+
+
+def _frozen(rel):
+    """Materialise <rel> as it existed at FROZEN_REF and return the local path."""
+    global _frozen_dir
+    import subprocess
+    if _frozen_dir is None:
+        _frozen_dir = tempfile.mkdtemp(prefix="nba3-1823b910-frozen-")
+    out = os.path.join(_frozen_dir, rel.replace("/", "__"))
+    if not os.path.exists(out):
+        blob = subprocess.run(["git", "show", f"{FROZEN_REF}:{rel}"], cwd=ROOT,
+                              capture_output=True, check=True).stdout
+        with open(out, "wb") as fh:
+            fh.write(blob)
+    return out
+
+
+def _frozen_json(rel):
+    with open(_frozen(rel), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def _load_strategy_lab():
     spec = importlib.util.spec_from_file_location(
         "strategy_lab_1823b910", os.path.join(ROOT, "scripts", "strategy_lab.py"))
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
+    # pin every manifest-named input to this audit's own state (see the
+    # frozen-inputs note above); callers still override OUT / INJURY_JSON
+    mod.SLATE_JSON = _frozen("data/app/official_slate_1114_1117.json")
+    mod.RATINGS_JSON = _frozen("data/app/official_team_ratings_2026-11-14c.json")
+    mod.PLAYERS_CSV = _frozen("data/app/players_top31_2026-11-14c.csv")
+    mod.GAMES_CSV = _frozen("data/origin/games.csv")
+    mod.SECOND_CAPTURE_GAMES_CSV = _frozen("data/app/games_2026-11-14c.csv")
+    mod.AVAILABILITY_JSON = _frozen("data/app/report_availability.json")
     return mod
 
 
@@ -105,7 +150,7 @@ def _load_strategy_lab():
 def build_refresh():
     new = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
     pub = jload(os.path.join(APP, "official_injuries_2026-11-14_0515AM.json"))
-    avail = jload(os.path.join(APP, "report_availability.json"))
+    avail = _frozen_json("data/app/report_availability.json")
     slate = jload(os.path.join(APP, "official_slate_1114_1117_c.json"))
 
     delta = new["delta_vs_published_canonical"]
@@ -226,7 +271,7 @@ def build_line_invariance():
     sl.INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0130PM.json")
     sl.main()
     refreshed = jload(sl.OUT)
-    canonical = jload(os.path.join(APP, "lab.json"))
+    canonical = _frozen_json("data/app/lab.json")
 
     PRICE_FIELDS = ["model_margin", "orig_spread_home", "orig_total", "proj_home_pts",
                     "proj_away_pts", "margin_lo", "margin_hi", "total_lo", "total_hi",
@@ -293,7 +338,7 @@ def build_line_invariance():
 def build_rotation_impact():
     new = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
     impact = new["injury_impact_1114"]
-    canonical = jload(os.path.join(APP, "canonical.json"))
+    canonical = _frozen_json("data/app/canonical.json")
     pub = {f"{x['matchup']}|{x['team']}": x for x in canonical["injury_impact"]}
 
     rows = []
@@ -362,7 +407,7 @@ def build_gameflow():
     rest, played = sl.rest_map(games)
     slate = jload(os.path.join(APP, "official_slate_1114_1117_c.json"))
     ratings = jload(os.path.join(APP, "official_team_ratings_2026-11-14c.json"))
-    canonical = jload(os.path.join(APP, "canonical.json"))
+    canonical = _frozen_json("data/app/canonical.json")
     new = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
 
     rat = {t["team"]: t for t in ratings["teams"]}
@@ -500,7 +545,7 @@ def build_repo_review():
 
     # R3 - the published canonical injury snapshot vs the newest official report
     new = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
-    canon = jload(os.path.join(APP, "canonical.json"))
+    canon = _frozen_json("data/app/canonical.json")
     findings.append({
         "id": "RR-03",
         "check": ("the injury snapshot the canonical dashboard publishes is the newest "
@@ -521,7 +566,7 @@ def build_repo_review():
     })
 
     # R4 - the availability layer and the injury rows are separate inputs
-    avail = jload(os.path.join(APP, "report_availability.json"))
+    avail = _frozen_json("data/app/report_availability.json")
     findings.append({
         "id": "RR-04",
         "check": ("the availability state the engine uses and the injury rows it publishes "

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-11-15 game-day refresh audit - NBA Edge Lab audit arena/94e6d41b-nba3</title>
+<link rel="stylesheet" href="../assets/audit.css">
+</head><body><div class="wrap">
+<h1>2026-11-15 game-day refresh audit</h1>
+<p class="muted">Session arena/94e6d41b-nba3 &middot; 2026-11-15 &middot; the daily refresh: newest official injury reports, the 11/14 finals settled against the published picks, the rolling 11/15&ndash;11/18 window, and the engine proofs.</p>
+<nav class="top"><a href="index.html" class="cur">Overview</a><a href="refresh.html" class="">Availability refresh</a><a href="settlement.html" class="">11/14 settlement</a><a href="invariance.html" class="">Line invariance</a><a href="rotation.html" class="">Rotation impact</a><a href="gameflow.html" class="">Game flow</a><a href="review.html" class="">Repo review</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="flags.html" class="">Flagged for review</a><a href="sources.html" class="">Sources</a></nav>
+<div class="cards">
+<div class="card"><div class="n">26h / &ge;63 versions</div><div class="l">how far the published snapshot was behind (now repointed)</div></div>
+<div class="card"><div class="n">49 &rarr; 101</div><div class="l">report rows, published vs newest</div></div>
+<div class="card"><div class="n">16 / 18</div><div class="l">11/15 team-sides now published (1 still NYS, 1 zero rows)</div></div>
+<div class="card"><div class="n">2-3</div><div class="l">model side covered / missed (11/14 finals, paper grade)</div></div>
+<div class="card"><div class="n">0 / 17</div><div class="l">price fields the name-join fix moved</div></div>
+<div class="card"><div class="n">7</div><div class="l">items flagged for review</div></div>
+</div>
+<h2>What this session found</h2>
+<div class="note"><b>The published snapshot was 26 hours and at least 63 report versions stale; it is now repointed.</b> The dashboard published the <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf">11/14 04:15 AM ET report</a> while the official index lists the November 15 reports through the <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf">11/15 06:15 AM ET report</a> (the 06:30 AM slot returns AccessDenied, so 06:15 is the newest that exists). The manifest now names the new snapshot; the availability states were rebuilt from it. This executes findings F-1823b910-01/F-1823b910-02 via that round's suggestions S-01/S-02 &mdash; recorded in <a href="review.html">the review and cross-session record</a>.</div>
+<div class="warn"><b>15 of the 18 11/15 team-sides went from NOT YET SUBMITTED to filed; DAL is still blank for a rule-driven reason and NYK is blank for an unknown one.</b> DAL is the only 11/15 team on a back-to-back (it played 11/14 per the results log), so its 1 p.m. local game-day deadline had not arrived. NYK has zero rows on a date the report does cover (&mdash; published as unknown, never as healthy). Full team-side table on <a href="refresh.html">the availability refresh page</a>.</div>
+<div class="note"><b>The name-join fix moves no line.</b> The engine's player index could never match a 'Last, First' injury row (NF-90, found independently by stale PR #79). The fix was re-implemented and proven in a four-leg run: the seeded artifact reproduces byte for byte, the refreshed run is deterministic, and 0 of 17 price fields move. See <a href="invariance.html">line invariance</a>.</div>
+<div class="warn"><b>Quarter scores for the 11/14 finals could not be captured from any official source reached, so they are published blank and flagged</b> (F-94E6D41B-02): the scoreboard card, box-score and summary pages print no line score in text-extractable form, and the JSON endpoints are unreachable. The finals themselves are double-captured and settled on <a href="settlement.html">the settlement page</a>.</div>
+<h2>Where to look</h2>
+<table><thead><tr><th>Section</th><th>Primary official source</th></tr></thead><tbody><tr><td><a href="refresh.html">Availability refresh &amp;mdash; every 11/15 team-side across four reports</a></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td></tr><tr><td><a href="settlement.html">11/14 finals vs the published picks, plus the three settled props</a></td><td><a href="https://www.nba.com/games?date=2026-11-14">https://www.nba.com/games?date=2026-11-14</a></td></tr><tr><td><a href="invariance.html">The four-leg engine proof (seeded reproduction, fix effect, refresh effect)</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td></tr><tr><td><a href="rotation.html">Vacated minutes/production floors for every 11/15 team-side</a></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td></tr><tr><td><a href="gameflow.html">Rest, pace and projections for the nine 11/15 games</a></td><td><a href="https://www.nba.com/schedule?date=2026-11-15">https://www.nba.com/schedule?date=2026-11-15</a></td></tr><tr><td><a href="review.html">Line-by-line review of every file this session touched</a></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td></tr><tr><td><a href="flags.html">Flagged for review</a></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">https://official.nba.com/nba-injury-report-2026-27-season/</a></td></tr></tbody></table>
+<footer>
+Session arena/94e6d41b-nba3 &middot; built 2026-11-15 &middot; every table row links to the official page it
+came from; a value no official capture supports is published
+<span class="blank">blank</span> and listed on the
+<a href="flags.html">flagged for review</a> page.
+<br>Part of the <a href="/NBA3/">NBA Edge Lab</a> dashboard.
+</footer>
+</div></body></html>

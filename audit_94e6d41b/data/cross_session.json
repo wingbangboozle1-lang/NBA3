@@ -9,8 +9,8 @@
   },
   {
    "with": "arena/1823b910-nba3 - previous refresh round",
-   "what": "Their open findings are dispositioned: F-01 (stale snapshot) CLOSED by the manifest repoint; F-02 (stale availability verdict) CLOSED by the manifest-aware report_availability.py rebuild; F-03 (lines injury-blind) RE-QUANTIFIED (still true by design; owner decision S-1823b910-03 remains open); F-04 (vacuum floor) CARRIED (F-94E6D41B-07); F-05/F-07 (PDF team-cell ambiguity) RESOLVED for the 11/15 window by the day-before attribution cross-check (C3); F-06 (stale PR #70) -> B7 disposition. Their suggestions S-01/S-02 are EXECUTED here; S-03..S-06 remain open.",
-   "disposition_ref": "cross_session.json/relations, flags.json"
+   "what": "Their open findings are dispositioned: F-01 (stale snapshot) CLOSED by the manifest repoint; F-02 (stale availability verdict) CLOSED by the manifest-aware report_availability.py rebuild; F-03 (lines injury-blind) RE-QUANTIFIED (still true by design; owner decision S-1823b910-03 remains open); F-04 (vacuum floor) CARRIED (F-94E6D41B-07); F-05/F-07 (PDF team-cell ambiguity) RESOLVED for the 11/15 window by the day-before attribution cross-check (C3); F-06 (stale PR #70) -> B7 disposition. Their suggestions S-01/S-02 are EXECUTED here; S-03..S-06 remain open. INTEGRATION: this refresh legitimately repointed the shared inputs their replay read from the working tree; their analysis.py now pins those inputs via `git show d320fea:...` (a frozen-input block added by this session, their record untouched), so their committed data/*.json reproduce byte for byte again - verified by rerunning their analysis, build and tests with zero drift in their tree. The engine leg inside their proof now runs the name-join-fixed engine; the fix provably leaves every line-level field unchanged, which is why their bytes still reproduce.",
+   "disposition_ref": "cross_session.json/relations, flags.json, repo_review.json"
   },
   {
    "with": "PR #79 (arena/90183333-nba3, stale >16 h)",

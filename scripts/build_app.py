@@ -68,6 +68,7 @@ NAV = [
         ("Independent audit", "audit_dd1eb1f1/pages/index.html"),
         ("Latest audit", "audit_7f3b89af/pages/index.html"),
         ("Injury refresh audit", "audit_1823b910/pages/index.html"),
+        ("Game-day refresh audit", "audit_94e6d41b/pages/index.html"),
     ]),
     ("Archive", [
         ("Earlier sessions", "archive.html"),

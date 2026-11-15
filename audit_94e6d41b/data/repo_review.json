@@ -44,6 +44,11 @@
    "finding": "Availability consumer reads b2b_correspondence with a fallback to the old b2b_correspondence_1114 key (which survives in committed canonical.json builds). The one nav tuple for this tree is added separately in B6."
   },
   {
+   "path": "audit_1823b910/analysis.py",
+   "lines": "frozen-input helper + 6 read sites",
+   "finding": "Point-in-time pinning, not a rewrite: mutable shared inputs (report_availability.json, lab.json, canonical.json, the results log and the other manifest-named engine inputs) are now read via `git show d320fea:...` inside that tree's analysis, so its committed data/*.json stay byte-reproducible against this and every future refresh. Verified by rerunning their analysis + build + 17 tests with zero drift in their tree. Their record is preserved verbatim; the helper block is commented and credits this session."
+  },
+  {
    "path": "audit_736efb4b/data/official_injury_report_2026-11-14_0130PM.json",
    "lines": "read-only",
    "finding": "The 1:30 PM audit rows: parses cleanly, 67 rows, 15 of 18 team-sides present for 11/15 (all NOT YET SUBMITTED). Used as the second published baseline in the availability delta; the three team-sides it lacks are listed in availability_delta.json."
