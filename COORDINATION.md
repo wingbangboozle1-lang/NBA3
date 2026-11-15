@@ -4385,3 +4385,64 @@ claim to have identified the server response.
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/3d625d23-nba3` (current) — CLAIM: rolling-slate refresh (standings + 3 team-stat pages), travel-distance completion, minutes redistribution, 11/15 late-report capture, integration
+
+**Session ID:** `arena/3d625d23-nba3`. Branch `arena/3d625d23-nba3`, branched from `main` @
+`f98b44d041044b539226d97bc7a459dcd3bab329` (merge of PR #91). Claim written, committed and pushed
+**before** any other work starts, per the board rule. Wall clock at claim: 2026-11-15T23:40Z.
+
+**Why this round exists.** The published canonical snapshot carries the **11/15 06:15 AM ET** injury
+report. At claim time it is 6:40 PM ET on 11/15: the 11/15 slate is mid-game, later 11/15 reports
+have been filed, and the brief items that are still unbuilt are the ones this round targets:
+(1) the scheduled job refreshes injury/schedule/results/game-books/team-stats but **never the
+official standings**, (2) travel distance is blank for 44/44 team-games because 2 of 30 arena
+coordinates were never sourced, (3) minutes redistribution has no captured minutes source, and
+(4) the market-anchored prior has no closing-line feed. This round fills 1–3 with official or
+reference-labelled sources and keeps 4 blank + flagged.
+
+**Task board (this session)**
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| D1 | Rolling-slate refresh job: standings + three official team-stat pages + injury report + schedule/results + game books, rebuild only after freshness & provenance gates | in progress | `scripts/refresh_round_3d625d23.py` (**new**), `.github/workflows/pages.yml` (additive step) |
+| D2 | Official 11/15 capture: newest filed injury report, official standings, three team-stat pages, 11/16–11/18 slate | in progress | `data/slate/` (**new tree**), `scripts/capture_round_3d625d23.py` (**new**) |
+| D3 | Injury PDF archive + consecutive-report diff (late 11/15 reports) | in progress | `data/slate/injuries/`, `scripts/round_3d625d23.py` |
+| D4 | Arena-coordinate table completed 30/30 (2 blanks sourced) → travel distance per team-game | in progress | `data/slate/arena_coordinates.json`, `data/slate/travel.json` |
+| D5 | Minutes redistribution: top-8 shares per team + replacement shares when a player is out, from official sources | in progress | `data/slate/minutes.json`, `data/slate/player_game_logs.json` |
+| D6 | Re-cut model inputs: two estimators, disagreement headline, HCA pinned, luck z, possessions x PPP, parlay rho + naive product, market-anchored prior (blank+flagged), rotation column | in progress | `data/slate/model.json`, `data/slate/parlays.json`, `data/slate/prior.json` |
+| D7 | Site section `slate/` (clean dashboard, category subpages, every row sourced) + nav link | in progress | `slate/`, `scripts/build_slate_site.py`, `scripts/build_app.py` (one nav line) |
+| D8 | Verification: tests, link/row-source checks, line-by-line review, questions + suggestions | in progress | `tests/test_round_3d625d23.py`, `tests/test_slate_site.py` |
+| D9 | Integration: PR → merge → confirm GitHub Pages | pending | `COORDINATION.md`, `README.md` |
+
+**Declared file scope (the list integrated into the ownership gate).**
+
+| Area | Paths |
+|---|---|
+| New data tree | `data/slate/**` (captures, injury archive, coordinates, travel, minutes, model, parlays, prior, prereg, ledger, questions, suggestions, review) |
+| New scripts | `scripts/refresh_round_3d625d23.py`, `scripts/capture_round_3d625d23.py`, `scripts/round_3d625d23.py`, `scripts/build_slate_site.py` |
+| New site section | `slate/**` |
+| New tests | `tests/test_round_3d625d23.py`, `tests/test_slate_site.py` |
+| Additive edits only | `.github/workflows/pages.yml` (one replay step + one staging line), `scripts/build_app.py` (one NAV entry), `README.md`, `COORDINATION.md` |
+
+**Non-overlap.** This session does **not** write `data/app/**`, `data/live/**`, `app/**`,
+`projection/**`, `bet/**`, `prereg/**`, `ledger/**`, `hub/**`, `dashboard/**`, `docs/**`,
+any `audit*/**` tree, or any other session's script. Requests to those owners are logged at the
+bottom of this section.
+
+**Open-PR note (logged, not executed this round).** PR [#90](https://github.com/wingbangboozle1-lang/NBA3/pull/90)
+(`arena/94e6d41b-nba3`, opened 2026-11-15 12:32Z) and PR [#85](https://github.com/wingbangboozle1-lang/NBA3/pull/85)
+(`arena/5a67ab8c-nba3`, opened 2026-11-15 11:54Z) are both open and older than 60 minutes with no
+commits. Per the takeover rule this session **may** take them over; it does not merge or edit them
+here, because both carry large diffs over files this session does not own. Their content is not
+duplicated by this round. Logged for the next integration session.
+
+**Change requests to other sessions (logged, not applied).**
+- CR-3D-01 to the owner of `scripts/refresh_official.py` (session 79341829): please add the
+  official standings page (https://www.nba.com/standings) to the scheduled fetch set; this round
+  implements it in `scripts/refresh_round_3d625d23.py` so both can coexist.
+- CR-3D-02 to the owner of `data/app/arena_coordinates.json` (session bb0c83a4): PHX Arena and
+  Wells Fargo Center coordinates are sourced in this round's `data/slate/arena_coordinates.json`;
+  prefer adopting that file rather than re-querying.
