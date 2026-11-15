@@ -1,0 +1,542 @@
+{
+ "schema": "nba3.live.wiki_coords_capture/v1",
+ "session": "arena/42d69dc5-nba3",
+ "what": "Verbatim JSON bodies returned by the MediaWiki coordinates API (action=query&prop=coordinates&format=json) on 2026-11-15. Each body is stored exactly as returned; the ```json code fence the fetch tool prints around it is a transport artefact and is not part of the body.",
+ "api": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=<titles, pipe separated>",
+ "retrieved_utc": "2026-11-15T23:50Z",
+ "why": "No NBA page read in this repository publishes arena latitude/longitude. The brief requires a SOURCED arena-coordinate table, so the coordinates come from this general reference source, each row carrying the page URL that returned it, and every derived distance is labelled reference-not-official.",
+ "no_infer_rule": "Only coordinates actually returned by the API are stored. An arena the API did not answer for keeps lat/lon null and is flagged; nothing is filled in from memory, from a city centroid, or from another venue.",
+ "responses": [
+  {
+   "n": 1,
+   "titles": [
+    "Xfinity Mobile Arena",
+    "Mortgage Matchup Center",
+    "Footprint Center",
+    "Wells Fargo Center (Philadelphia)"
+   ],
+   "request_url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=Xfinity%20Mobile%20Arena%7CMortgage%20Matchup%20Center%7CFootprint%20Center%7CWells%20Fargo%20Center%20(Philadelphia)",
+   "body": {
+    "batchcomplete": "",
+    "query": {
+     "pages": {
+      "260915": {
+       "pageid": 260915,
+       "ns": 0,
+       "title": "Footprint Center"
+      },
+      "66144639": {
+       "pageid": 66144639,
+       "ns": 0,
+       "title": "Mortgage Matchup Center",
+       "coordinates": [
+        {
+         "lat": 33.44583333,
+         "lon": -112.07138889,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "80742351": {
+       "pageid": 80742351,
+       "ns": 0,
+       "title": "Wells Fargo Center (Philadelphia)"
+      },
+      "753781": {
+       "pageid": 753781,
+       "ns": 0,
+       "title": "Xfinity Mobile Arena",
+       "coordinates": [
+        {
+         "lat": 39.90111111,
+         "lon": -75.17194444,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "n": 2,
+   "titles": [
+    "State Farm Arena",
+    "TD Garden",
+    "Barclays Center",
+    "Spectrum Center",
+    "United Center",
+    "Rocket Arena",
+    "American Airlines Center",
+    "Ball Arena",
+    "Little Caesars Arena"
+   ],
+   "request_url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=State%20Farm%20Arena%7CTD%20Garden%7CBarclays%20Center%7CSpectrum%20Center%7CUnited%20Center%7CRocket%20Arena%7CAmerican%20Airlines%20Center%7CBall%20Arena%7CLittle%20Caesars%20Arena",
+   "body": {
+    "batchcomplete": "",
+    "query": {
+     "pages": {
+      "277398": {
+       "pageid": 277398,
+       "ns": 0,
+       "title": "American Airlines Center",
+       "coordinates": [
+        {
+         "lat": 32.79055556,
+         "lon": -96.81027778,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "328099": {
+       "pageid": 328099,
+       "ns": 0,
+       "title": "Ball Arena",
+       "coordinates": [
+        {
+         "lat": 39.74861111,
+         "lon": -105.0075,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "1658814": {
+       "pageid": 1658814,
+       "ns": 0,
+       "title": "Barclays Center",
+       "coordinates": [
+        {
+         "lat": 40.68266111,
+         "lon": -73.975225,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "43907729": {
+       "pageid": 43907729,
+       "ns": 0,
+       "title": "Little Caesars Arena",
+       "coordinates": [
+        {
+         "lat": 42.34111111,
+         "lon": -83.055,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "745240": {
+       "pageid": 745240,
+       "ns": 0,
+       "title": "Rocket Arena",
+       "coordinates": [
+        {
+         "lat": 41.49638889,
+         "lon": -81.68805556,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "417260": {
+       "pageid": 417260,
+       "ns": 0,
+       "title": "Spectrum Center",
+       "coordinates": [
+        {
+         "lat": 35.225,
+         "lon": -80.83916667,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "753713": {
+       "pageid": 753713,
+       "ns": 0,
+       "title": "State Farm Arena",
+       "coordinates": [
+        {
+         "lat": 33.75722222,
+         "lon": -84.39638889,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "498890": {
+       "pageid": 498890,
+       "ns": 0,
+       "title": "TD Garden",
+       "coordinates": [
+        {
+         "lat": 42.36638889,
+         "lon": -71.06222222,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "547184": {
+       "pageid": 547184,
+       "ns": 0,
+       "title": "United Center",
+       "coordinates": [
+        {
+         "lat": 41.88055556,
+         "lon": -87.67416667,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "n": 3,
+   "titles": [
+    "Chase Center",
+    "Toyota Center",
+    "Gainbridge Fieldhouse",
+    "Intuit Dome",
+    "Crypto.com Arena",
+    "FedExForum",
+    "Kaseya Center",
+    "Fiserv Forum",
+    "Target Center"
+   ],
+   "request_url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=Chase%20Center%7CToyota%20Center%7CGainbridge%20Fieldhouse%7CIntuit%20Dome%7CCrypto.com%20Arena%7CFedExForum%7CKaseya%20Center%7CFiserv%20Forum%7CTarget%20Center",
+   "body": {
+    "batchcomplete": "",
+    "query": {
+     "pages": {
+      "40062288": {
+       "pageid": 40062288,
+       "ns": 0,
+       "title": "Chase Center",
+       "coordinates": [
+        {
+         "lat": 37.76805556,
+         "lon": -122.3875,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "516154": {
+       "pageid": 516154,
+       "ns": 0,
+       "title": "Crypto.com Arena",
+       "coordinates": [
+        {
+         "lat": 34.04305556,
+         "lon": -118.26722222,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "636734": {
+       "pageid": 636734,
+       "ns": 0,
+       "title": "FedExForum",
+       "coordinates": [
+        {
+         "lat": 35.13833333,
+         "lon": -90.05055556,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "46354257": {
+       "pageid": 46354257,
+       "ns": 0,
+       "title": "Fiserv Forum",
+       "coordinates": [
+        {
+         "lat": 43.04502778,
+         "lon": -87.91816667,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "624938": {
+       "pageid": 624938,
+       "ns": 0,
+       "title": "Gainbridge Fieldhouse",
+       "coordinates": [
+        {
+         "lat": 39.76388889,
+         "lon": -86.15555556,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "56652338": {
+       "pageid": 56652338,
+       "ns": 0,
+       "title": "Intuit Dome",
+       "coordinates": [
+        {
+         "lat": 33.9451,
+         "lon": -118.3431,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "327817": {
+       "pageid": 327817,
+       "ns": 0,
+       "title": "Kaseya Center",
+       "coordinates": [
+        {
+         "lat": 25.78138889,
+         "lon": -80.18805556,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "237003": {
+       "pageid": 237003,
+       "ns": 0,
+       "title": "Target Center",
+       "coordinates": [
+        {
+         "lat": 44.97944444,
+         "lon": -93.27611111,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "316397": {
+       "pageid": 316397,
+       "ns": 0,
+       "title": "Toyota Center",
+       "coordinates": [
+        {
+         "lat": 29.75083333,
+         "lon": -95.36222222,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "n": 4,
+   "titles": [
+    "Smoothie King Center",
+    "Paycom Center",
+    "Kia Center",
+    "Golden 1 Center",
+    "Frost Bank Center",
+    "Scotiabank Arena",
+    "Delta Center",
+    "Capital One Arena",
+    "Madison Square Garden"
+   ],
+   "request_url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=Smoothie%20King%20Center%7CPaycom%20Center%7CKia%20Center%7CGolden%201%20Center%7CFrost%20Bank%20Center%7CScotiabank%20Arena%7CDelta%20Center%7CCapital%20One%20Arena%7CMadison%20Square%20Garden",
+   "body": {
+    "batchcomplete": "",
+    "query": {
+     "pages": {
+      "575052": {
+       "pageid": 575052,
+       "ns": 0,
+       "title": "Capital One Arena",
+       "coordinates": [
+        {
+         "lat": 38.89805556,
+         "lon": -77.02083333,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "8054629": {
+       "pageid": 8054629,
+       "ns": 0,
+       "title": "Delta Center",
+       "coordinates": [
+        {
+         "lat": 40.76833333,
+         "lon": -111.90111111,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "753598": {
+       "pageid": 753598,
+       "ns": 0,
+       "title": "Frost Bank Center",
+       "coordinates": [
+        {
+         "lat": 29.42694444,
+         "lon": -98.4375,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "35080638": {
+       "pageid": 35080638,
+       "ns": 0,
+       "title": "Golden 1 Center",
+       "coordinates": [
+        {
+         "lat": 38.58036111,
+         "lon": -121.49961111,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "7221822": {
+       "pageid": 7221822,
+       "ns": 0,
+       "title": "Kia Center",
+       "coordinates": [
+        {
+         "lat": 28.53916667,
+         "lon": -81.38361111,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "75129": {
+       "pageid": 75129,
+       "ns": 0,
+       "title": "Madison Square Garden",
+       "coordinates": [
+        {
+         "lat": 40.75055556,
+         "lon": -73.99361111,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "1698323": {
+       "pageid": 1698323,
+       "ns": 0,
+       "title": "Paycom Center",
+       "coordinates": [
+        {
+         "lat": 35.46333333,
+         "lon": -97.515,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "436436": {
+       "pageid": 436436,
+       "ns": 0,
+       "title": "Scotiabank Arena",
+       "coordinates": [
+        {
+         "lat": 43.64333333,
+         "lon": -79.37916667,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "753673": {
+       "pageid": 753673,
+       "ns": 0,
+       "title": "Smoothie King Center",
+       "coordinates": [
+        {
+         "lat": 29.94888889,
+         "lon": -90.08194444,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "n": 5,
+   "titles": [
+    "Wells Fargo Center (Philadelphia)",
+    "TD Garden",
+    "Moda Center",
+    "Spectrum Center"
+   ],
+   "request_url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=Wells%20Fargo%20Center%20(Philadelphia)%7CTD%20Garden%7CModa%20Center%7CSpectrum%20Center",
+   "body": {
+    "batchcomplete": "",
+    "query": {
+     "pages": {
+      "263703": {
+       "pageid": 263703,
+       "ns": 0,
+       "title": "Moda Center",
+       "coordinates": [
+        {
+         "lat": 45.53166667,
+         "lon": -122.66666667,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "417260": {
+       "pageid": 417260,
+       "ns": 0,
+       "title": "Spectrum Center",
+       "coordinates": [
+        {
+         "lat": 35.225,
+         "lon": -80.83916667,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "498890": {
+       "pageid": 498890,
+       "ns": 0,
+       "title": "TD Garden",
+       "coordinates": [
+        {
+         "lat": 42.36638889,
+         "lon": -71.06222222,
+         "primary": "",
+         "globe": "earth"
+        }
+       ]
+      },
+      "80742351": {
+       "pageid": 80742351,
+       "ns": 0,
+       "title": "Wells Fargo Center (Philadelphia)"
+      }
+     }
+    }
+   }
+  }
+ ]
+}

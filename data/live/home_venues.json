@@ -1,0 +1,204 @@
+{
+ "schema": "nba3.live.home_venues/v1",
+ "session": "arena/42d69dc5-nba3",
+ "what": "Team -> home venue string, from an official NBA source only. Used as the destination venue for a home game; the coordinate for that venue lives in data/live/arena_coords.json.",
+ "no_infer_rule": "A club with no home game in the official reads below keeps venue null and is flagged. No venue is taken from memory, from a team nickname, or from another club's building.",
+ "official_reads": [
+  "https://www.nba.com/schedule?date=2026-11-15 (the source of the in-repo capture data/live/slate_2026-11-15.json)",
+  "https://www.nba.com/schedule?date=2026-11-18 chunks 0-3 of 8, read 2026-11-15, transcribed verbatim in data/live/raw/official_home_arena_schedule_2026-11-15.md"
+ ],
+ "counts": {
+  "teams": 27,
+  "resolved": 27,
+  "unresolved": 3,
+  "unresolved_teams": [
+   "CHA",
+   "GSW",
+   "POR"
+  ]
+ },
+ "teams": {
+  "ATL": {
+   "venue": "State Farm Arena",
+   "city": "Atlanta, GA",
+   "source_url": "https://www.nba.com/game/cha-vs-atl-0022600043",
+   "source_kind": "official schedule page read 2026-11-15, transcribed in data/live/raw/official_home_arena_schedule_2026-11-15.md"
+  },
+  "BKN": {
+   "venue": "Barclays Center",
+   "city": "Brooklyn, NY",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "BOS": {
+   "venue": "TD Garden",
+   "city": "Boston, MA",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "CHI": {
+   "venue": "United Center",
+   "city": "Chicago, IL",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-14",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate.json)"
+  },
+  "CLE": {
+   "venue": "Rocket Arena",
+   "city": "Cleveland, OH",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "DAL": {
+   "venue": "American Airlines Center",
+   "city": "Dallas, TX",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate_1115_1118.json)"
+  },
+  "DEN": {
+   "venue": "Ball Arena",
+   "city": "Denver, CO",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "DET": {
+   "venue": "Little Caesars Arena",
+   "city": "Detroit, MI",
+   "source_url": "https://www.nba.com/game/tor-vs-det-0022600046",
+   "source_kind": "official schedule page read 2026-11-15, transcribed in data/live/raw/official_home_arena_schedule_2026-11-15.md"
+  },
+  "HOU": {
+   "venue": "Toyota Center",
+   "city": "Houston, TX",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-14",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate.json)"
+  },
+  "IND": {
+   "venue": "Gainbridge Fieldhouse",
+   "city": "Indianapolis, IN",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate_1115_1118.json)"
+  },
+  "LAC": {
+   "venue": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "LAL": {
+   "venue": "Crypto.com Arena",
+   "city": "Los Angeles, CA",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "MEM": {
+   "venue": "FedExForum",
+   "city": "Memphis, TN",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-14",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate_1114_1117.json)"
+  },
+  "MIA": {
+   "venue": "Kaseya Center",
+   "city": "Miami, FL",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "MIL": {
+   "venue": "Fiserv Forum",
+   "city": "Milwaukee, WI",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "MIN": {
+   "venue": "Target Center",
+   "city": "Minneapolis, MN",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "NOP": {
+   "venue": "Smoothie King Center",
+   "city": "New Orleans, LA",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "NYK": {
+   "venue": "Madison Square Garden",
+   "city": "New York, NY",
+   "source_url": "https://www.nba.com/game/por-vs-nyk-0022600275",
+   "source_kind": "official schedule page read 2026-11-15, transcribed in data/live/raw/official_home_arena_schedule_2026-11-15.md"
+  },
+  "OKC": {
+   "venue": "Paycom Center",
+   "city": "Oklahoma City, OK",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate_1115_1118.json)"
+  },
+  "ORL": {
+   "venue": "Kia Center",
+   "city": "Orlando, FL",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/app/official_slate_1115_1118.json)"
+  },
+  "PHI": {
+   "venue": "Xfinity Mobile Arena",
+   "city": "Philadelphia, PA",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "PHX": {
+   "venue": "Mortgage Matchup Center",
+   "city": "Phoenix, AZ",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "SAC": {
+   "venue": "Golden 1 Center",
+   "city": "Sacramento, CA",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "SAS": {
+   "venue": "Frost Bank Center",
+   "city": "San Antonio, TX",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "TOR": {
+   "venue": "Scotiabank Arena",
+   "city": "Toronto, ON",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "UTA": {
+   "venue": "Delta Center",
+   "city": "Salt Lake City, UT",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  },
+  "WAS": {
+   "venue": "Capital One Arena",
+   "city": "Washington, DC",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+   "source_kind": "in-repo official schedule capture (data/live/slate_2026-11-15.json)"
+  }
+ },
+ "unresolved": {
+  "CHA": {
+   "venue": null,
+   "flag": "no home game for this club appears in either official read, so its home venue is not published here. Travel rows that need it are blank and flagged; no coordinate is guessed.",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-18",
+   "source_kind": "no home game for this club in the 11/15-11/22 official schedule block, the 11/15 game index, or the in-repo official captures"
+  },
+  "GSW": {
+   "venue": null,
+   "flag": "no home game for this club appears in either official read, so its home venue is not published here. Travel rows that need it are blank and flagged; no coordinate is guessed.",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-18",
+   "source_kind": "no home game for this club in the 11/15-11/22 official schedule block, the 11/15 game index, or the in-repo official captures"
+  },
+  "POR": {
+   "venue": null,
+   "flag": "no home game for this club appears in either official read, so its home venue is not published here. Travel rows that need it are blank and flagged; no coordinate is guessed.",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-18",
+   "source_kind": "no home game for this club in the 11/15-11/22 official schedule block, the 11/15 game index, or the in-repo official captures"
+  }
+ }
+}

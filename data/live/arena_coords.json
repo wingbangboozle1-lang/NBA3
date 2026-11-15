@@ -1,0 +1,337 @@
+{
+ "schema": "nba3.live.arena_coords/v1",
+ "session": "arena/42d69dc5-nba3",
+ "what": "Venue string -> latitude/longitude. Keyed by the exact venue string the official sources print; the team -> venue mapping lives in data/live/home_venues.json.",
+ "coordinate_source": {
+  "source": "MediaWiki coordinates API on the arena article (action=query&prop=coordinates&format=json)",
+  "api": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=<arena title>",
+  "verbatim_capture": "data/live/raw/wiki_arena_coords_2026-11-15.json (every response body stored exactly as returned)",
+  "retrieved_utc": "2026-11-15T23:50Z",
+  "is_official": false,
+  "label": "REFERENCE, NOT OFFICIAL. The NBA publishes no arena latitude/longitude, so every distance derived from this table is labelled the same way wherever it is shown.",
+  "no_infer_rule": "Only coordinates the API actually returned are stored. An arena the API did not answer for keeps lat/lon null and is flagged; nothing is filled in from memory, from a city centroid, or from another venue."
+ },
+ "key_rule": "venues{} is keyed by the exact venue string from the official source. There is deliberately NO fallback that matches a venue by city name. An earlier build (session 2ebb1e75) paired venues by city, so LA Clippers at Intuit Dome (Inglewood) and Phoenix at Mortgage Matchup Center (Phoenix) resolved to the home city's own venue and printed 0.0 km. That defect is recorded on the review page and fixed here.",
+ "counts": {
+  "venues": 30,
+  "resolved": 30,
+  "blank": 1
+ },
+ "venues": {
+  "American Airlines Center": {
+   "team": "DAL",
+   "city": "Dallas, TX",
+   "latitude": 32.79055556,
+   "longitude": -96.81027778,
+   "title": "American Airlines Center",
+   "pageid": 277398,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/American_Airlines_Center"
+  },
+  "Ball Arena": {
+   "team": "DEN",
+   "city": "Denver, CO",
+   "latitude": 39.74861111,
+   "longitude": -105.0075,
+   "title": "Ball Arena",
+   "pageid": 328099,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Ball_Arena"
+  },
+  "Barclays Center": {
+   "team": "BKN",
+   "city": "Brooklyn, NY",
+   "latitude": 40.68266111,
+   "longitude": -73.975225,
+   "title": "Barclays Center",
+   "pageid": 1658814,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Barclays_Center"
+  },
+  "Capital One Arena": {
+   "team": "WAS",
+   "city": "Washington, DC",
+   "latitude": 38.89805556,
+   "longitude": -77.02083333,
+   "title": "Capital One Arena",
+   "pageid": 575052,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Capital_One_Arena"
+  },
+  "Chase Center": {
+   "team": "GSW",
+   "city": "San Francisco, CA",
+   "latitude": 37.76805556,
+   "longitude": -122.3875,
+   "title": "Chase Center",
+   "pageid": 40062288,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Chase_Center"
+  },
+  "Crypto.com Arena": {
+   "team": "LAL",
+   "city": "Los Angeles, CA",
+   "latitude": 34.04305556,
+   "longitude": -118.26722222,
+   "title": "Crypto.com Arena",
+   "pageid": 516154,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Crypto.com_Arena"
+  },
+  "Delta Center": {
+   "team": "UTA",
+   "city": "Salt Lake City, UT",
+   "latitude": 40.76833333,
+   "longitude": -111.90111111,
+   "title": "Delta Center",
+   "pageid": 8054629,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Delta_Center"
+  },
+  "FedExForum": {
+   "team": "MEM",
+   "city": "Memphis, TN",
+   "latitude": 35.13833333,
+   "longitude": -90.05055556,
+   "title": "FedExForum",
+   "pageid": 636734,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/FedExForum"
+  },
+  "Fiserv Forum": {
+   "team": "MIL",
+   "city": "Milwaukee, WI",
+   "latitude": 43.04502778,
+   "longitude": -87.91816667,
+   "title": "Fiserv Forum",
+   "pageid": 46354257,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Fiserv_Forum"
+  },
+  "Frost Bank Center": {
+   "team": "SAS",
+   "city": "San Antonio, TX",
+   "latitude": 29.42694444,
+   "longitude": -98.4375,
+   "title": "Frost Bank Center",
+   "pageid": 753598,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Frost_Bank_Center"
+  },
+  "Gainbridge Fieldhouse": {
+   "team": "IND",
+   "city": "Indianapolis, IN",
+   "latitude": 39.76388889,
+   "longitude": -86.15555556,
+   "title": "Gainbridge Fieldhouse",
+   "pageid": 624938,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse"
+  },
+  "Golden 1 Center": {
+   "team": "SAC",
+   "city": "Sacramento, CA",
+   "latitude": 38.58036111,
+   "longitude": -121.49961111,
+   "title": "Golden 1 Center",
+   "pageid": 35080638,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Golden_1_Center"
+  },
+  "Intuit Dome": {
+   "team": "LAC",
+   "city": "Inglewood, CA",
+   "latitude": 33.9451,
+   "longitude": -118.3431,
+   "title": "Intuit Dome",
+   "pageid": 56652338,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Intuit_Dome"
+  },
+  "Kaseya Center": {
+   "team": "MIA",
+   "city": "Miami, FL",
+   "latitude": 25.78138889,
+   "longitude": -80.18805556,
+   "title": "Kaseya Center",
+   "pageid": 327817,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Kaseya_Center"
+  },
+  "Kia Center": {
+   "team": "ORL",
+   "city": "Orlando, FL",
+   "latitude": 28.53916667,
+   "longitude": -81.38361111,
+   "title": "Kia Center",
+   "pageid": 7221822,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Kia_Center"
+  },
+  "Little Caesars Arena": {
+   "team": "DET",
+   "city": "Detroit, MI",
+   "latitude": 42.34111111,
+   "longitude": -83.055,
+   "title": "Little Caesars Arena",
+   "pageid": 43907729,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Little_Caesars_Arena"
+  },
+  "Madison Square Garden": {
+   "team": "NYK",
+   "city": "New York, NY",
+   "latitude": 40.75055556,
+   "longitude": -73.99361111,
+   "title": "Madison Square Garden",
+   "pageid": 75129,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Madison_Square_Garden"
+  },
+  "Moda Center": {
+   "team": "POR",
+   "city": "Portland, OR",
+   "latitude": 45.53166667,
+   "longitude": -122.66666667,
+   "title": "Moda Center",
+   "pageid": 263703,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Moda_Center"
+  },
+  "Mortgage Matchup Center": {
+   "team": "PHX",
+   "city": "Phoenix, AZ",
+   "latitude": 33.44583333,
+   "longitude": -112.07138889,
+   "title": "Mortgage Matchup Center",
+   "pageid": 66144639,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+   "note": "Resolved on re-query. An earlier round searched the titles 'PHX Arena' and 'Footprint Center'; the live article that returns coordinates is 'Mortgage Matchup Center', which is also the venue name the official 2026-11 schedule capture prints."
+  },
+  "Paycom Center": {
+   "team": "OKC",
+   "city": "Oklahoma City, OK",
+   "latitude": 35.46333333,
+   "longitude": -97.515,
+   "title": "Paycom Center",
+   "pageid": 1698323,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Paycom_Center"
+  },
+  "Rocket Arena": {
+   "team": "CLE",
+   "city": "Cleveland, OH",
+   "latitude": 41.49638889,
+   "longitude": -81.68805556,
+   "title": "Rocket Arena",
+   "pageid": 745240,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Rocket_Arena"
+  },
+  "Scotiabank Arena": {
+   "team": "TOR",
+   "city": "Toronto, ON",
+   "latitude": 43.64333333,
+   "longitude": -79.37916667,
+   "title": "Scotiabank Arena",
+   "pageid": 436436,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena"
+  },
+  "Smoothie King Center": {
+   "team": "NOP",
+   "city": "New Orleans, LA",
+   "latitude": 29.94888889,
+   "longitude": -90.08194444,
+   "title": "Smoothie King Center",
+   "pageid": 753673,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Smoothie_King_Center"
+  },
+  "Spectrum Center": {
+   "team": "CHA",
+   "city": "Charlotte, NC",
+   "latitude": 35.225,
+   "longitude": -80.83916667,
+   "title": "Spectrum Center",
+   "pageid": 417260,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Spectrum_Center"
+  },
+  "State Farm Arena": {
+   "team": "ATL",
+   "city": "Atlanta, GA",
+   "latitude": 33.75722222,
+   "longitude": -84.39638889,
+   "title": "State Farm Arena",
+   "pageid": 753713,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/State_Farm_Arena"
+  },
+  "TD Garden": {
+   "team": "BOS",
+   "city": "Boston, MA",
+   "latitude": 42.36638889,
+   "longitude": -71.06222222,
+   "title": "TD Garden",
+   "pageid": 498890,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/TD_Garden"
+  },
+  "Target Center": {
+   "team": "MIN",
+   "city": "Minneapolis, MN",
+   "latitude": 44.97944444,
+   "longitude": -93.27611111,
+   "title": "Target Center",
+   "pageid": 237003,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Target_Center"
+  },
+  "Toyota Center": {
+   "team": "HOU",
+   "city": "Houston, TX",
+   "latitude": 29.75083333,
+   "longitude": -95.36222222,
+   "title": "Toyota Center",
+   "pageid": 316397,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Toyota_Center"
+  },
+  "United Center": {
+   "team": "CHI",
+   "city": "Chicago, IL",
+   "latitude": 41.88055556,
+   "longitude": -87.67416667,
+   "title": "United Center",
+   "pageid": 547184,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/United_Center"
+  },
+  "Xfinity Mobile Arena": {
+   "team": "PHI",
+   "city": "Philadelphia, PA",
+   "latitude": 39.90111111,
+   "longitude": -75.17194444,
+   "title": "Xfinity Mobile Arena",
+   "pageid": 753781,
+   "verified": true,
+   "coord_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+   "note": "Resolved on re-query under the arena's current name (the article 'Wells Fargo Center (Philadelphia)' returns no coordinates). The venue string is the one the official 11/15 schedule capture prints for IND @ PHI."
+  }
+ },
+ "blank_venues": {
+  "Wells Fargo Center": {
+   "team": "PHI",
+   "title_tried": "Wells Fargo Center (Philadelphia)",
+   "pageid": 80742351,
+   "coord_source": "https://en.wikipedia.org/wiki/Wells_Fargo_Center_(Philadelphia)",
+   "latitude": null,
+   "longitude": null,
+   "verified": false,
+   "flag": "The coordinates API returns this page with no coordinates field, both in a mixed batch and in a targeted batch. The arena has been renamed, so this table uses the official 2026-11 schedule name 'Xfinity Mobile Arena' (resolved, sourced) and keeps this row only to record that the old title answers with no coordinates. Nothing is inferred for it."
+  }
+ },
+ "alias_rule": "Venue spellings that differ between an older capture and the official 2026-11 schedule print are listed in scripts/travel_distance.py ALIASES, each pointing at a row above that carries its own source. An alias never invents a coordinate."
+}
