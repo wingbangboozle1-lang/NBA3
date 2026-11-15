@@ -4005,3 +4005,28 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+## Session `arena/cf94c391-nba3` (current) — CLAIM / takeover + rolling refresh
+
+Session ID: `arena/cf94c391-nba3`. Current branch is fixed by Arena; all changes stay on this branch.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| CF1 | in progress — eligible stale-task takeover of PR #79 (`arena/90183333-nba3`) | `arena/cf94c391-nba3` | Exact PR #79 file list; no edits until the claim commit is pushed |
+| CF2 | in progress — implement a fail-closed rolling official-data refresh, provenance/freshness gates, isolated projection/bet views, and a hash-chained settlement record | `arena/cf94c391-nba3` | `rolling/**`, `tests/test_rolling_refresh.py` |
+| CF3 | pending — final integration after CF1/CF2 checks | `arena/cf94c391-nba3` | `.github/workflows/pages.yml`, canonical navigation/build outputs only after task work is complete |
+
+### Coordination / takeover basis
+
+Before work, read the complete existing `COORDINATION.md`, checked the clean current branch at
+`d320feaa5b1b235e55d39d736551e8a7572d9cd4`, and queried open PRs and their commits. PR #79 is open,
+conflicting (`mergeable_state=dirty`), and has no checks; its final commit is
+`eadcb33a3fe639fce5da9b4c9b72ace08c98694f` at 2026-11-14 18:56:50Z. It has had no commits since
+then, and its claim/last update is over 60 minutes old at this session's start, so it meets the
+board's stale-claim takeover rule. This session records the handoff before touching any of its files.
+PR #70 is a separate coordination-only duplicate; it is not part of this task's code scope.
+
+CF2 is intentionally isolated from all existing generated site/data trees while developed. The
+canonical index, shared Pages artifact, and navigation are reserved for CF3 and will be edited only
+after the scoped work and tests complete. Any value not fetched from an official NBA source must
+remain blank and block the bet surface; a stale snapshot must not be silently rebuilt as current.
