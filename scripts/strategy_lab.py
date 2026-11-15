@@ -1254,16 +1254,49 @@ def originate_window(games, slate, ratings, injury, players, resid):
     players_by_team = defaultdict(list)
     for p in players:
         players_by_team[p["team"]].append(p)
+    # NF-90 fix (session arena/94e6d41b-nba3; independent re-implementation of the
+    # finding PR #79 carries, verified against the engine as it exists on main).
+    # The index was built by splitting the CSV's "First Last" cells on a comma,
+    # producing keys like ("luka", "luka doncic") that no "Last, First" injury
+    # row could ever form, so every rollup resolved 0 players and counted every
+    # listed absence as unknown.  Both sides now normalize through one function
+    # that understands both name orders and the NBA's name suffixes.  Rollups
+    # only annotate availability (they never feed price fields), so this cannot
+    # move a line -- proven in audit_94e6d41b/data/line_invariance.json.
+    _NAME_SUFFIXES = {"jr", "sr", "ii", "iii", "iv", "v"}
+
+    def _split_suffix(token):
+        t = token.strip()
+        toks = t.split()
+        if toks and toks[-1].rstrip(".").lower() in _NAME_SUFFIXES:
+            return (" ".join(toks[:-1]), toks[-1].rstrip(".").lower())
+        return (t, "")
+
+    def name_key(s):
+        # canonical form: (last_core.lower(), first_and_suffix.lower())
+        s = (s or "").strip()
+        parts = [x.strip() for x in s.split(",")]
+        if len(parts) >= 2 and all(parts):
+            last, first = parts[0], parts[-1]
+            suffix = ""
+            if len(parts) == 3:
+                _, suffix = _split_suffix(parts[1])       # "Udeh, Jr., Ernest"
+            else:
+                last, suffix = _split_suffix(last) if _split_suffix(last)[1] in _NAME_SUFFIXES else (last, "")
+            first = (first + " " + suffix).strip() if suffix else first
+            return (last.lower(), first.lower())
+        toks = s.split()
+        if len(toks) >= 3 and toks[-1].lower().rstrip(".") in _NAME_SUFFIXES:
+            return (toks[-2].lower(), " ".join(toks[:-2] + [toks[-1].rstrip(".")]).lower())
+        if len(toks) >= 2:
+            return (toks[-1].lower(), " ".join(toks[:-1]).lower())
+        return (s.lower(), "")
+
     player_index = {}
     for p in players:
-        player_index[(p["player"].split(",")[0].strip().lower(),
-                      p["player"].split(",")[-1].strip().lower())] = p
+        player_index[name_key(p["player"])] = p
 
-    def norm_name(s):
-        parts = [x.strip() for x in (s or "").split(",")]
-        if len(parts) >= 2:
-            return (parts[0].lower(), parts[-1].lower())
-        return ((s or "").strip().lower(), "")
+    norm_name = name_key
 
     # injury roll-up by (date, matchup, team)
     inj = defaultdict(list)
