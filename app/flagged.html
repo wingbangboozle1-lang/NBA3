@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 89 items: 24 high, 54 medium, 11 low severity.
+<em>decisions</em>. 91 items: 24 high, 55 medium, 12 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -879,6 +879,28 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Open - owner review</td>
 <td>2026-11-15</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py</a></td>
+</tr>
+<tr>
+<td>F-BB-10</td>
+<td>Data</td>
+<td>The originated-lines table attributed every priced row to schedule?date=2026-11-14 while its window had moved to 2026-11-15..11-18. The URL resolved and the row passed every source check -- a link only has to be https:// and non-empty to pass -- but the page it named does not list a single 11/15 game, so the citation for 34 rows was wrong while the values were right. This is the same class as F-7F3-03 (47 cells pointed at the wrong page): the gates verify that a link EXISTS, never that it supports the row.</td>
+<td></td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Source URL now derives from the window start in scripts/strategy_lab.py. tests/test_lines_attribution.py fails the build if any line cites a date outside its own window, or a page older than the line itself. The deeper gap -- no gate checks that a cited page contains the row -- is not closed; it needs a captured copy of every cited page to search, and none is stored.</td>
+<td>Open - owner review</td>
+<td>2026-11-15</td>
+<td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>F-BB-11</td>
+<td>Data</td>
+<td>The Out column on the originated-lines page collapsed three different availability facts into one label, &quot;one side not on the report&quot;. On the 2026-11-16 rows that is false: all 16 sides ARE named on the 11/15 06:15 AM report, each reading NOT YET SUBMITTED. The page told a reader no report existed for a date the report explicitly covers. Two adjacent notes also rendered with no space between them (&quot;...on the reportno report for this date&quot;), because chip() emits an inline span.</td>
+<td></td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>The column now prints the state the machine actually recorded -- no official report covers this date / not yet due (reported NOT YET SUBMITTED) / listed on no report despite a covered date -- and names the side when the two sides differ. tests/test_lines_attribution.py pins each label to its state.</td>
+<td>Open - owner review</td>
+<td>2026-11-15</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td>
 </tr>
 <tr>
 <td>44-F-01</td>

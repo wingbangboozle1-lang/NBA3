@@ -503,6 +503,56 @@ it fails every gate, which is the check that the gates themselves work.</p>
     return "\n".join(body)
 
 
+# The three ways a side can be absent from the priced line, kept distinct because they
+# are three different facts. Collapsing them into one "one side not on the report"
+# label -- which is what the first cut of this column did -- told a reader that
+# 2026-11-16 had no official report when in fact every one of those 16 sides IS
+# named on the 11/15 06:15 AM report, each reading NOT YET SUBMITTED. The
+# distinction is the whole point of scripts/report_availability.py's state machine.
+STATES_WITH_ONE_CHIP = {
+    "NO_OFFICIAL_REPORT_COVERS_THIS_DATE":
+        ("no official report covers this date", "bad"),
+    "NOT_YET_DUE":
+        ("not yet due (reported NOT YET SUBMITTED)", "warn"),
+    "TEAM_NOT_LISTED_ON_A_COVERED_DATE":
+        ("listed on no report despite a covered date", "bad"),
+}
+SIDE_LABELS = {
+    "NO_OFFICIAL_REPORT_COVERS_THIS_DATE": ("no official report covers this date",),
+    "NOT_YET_DUE": ("not yet due",),
+    "TEAM_NOT_LISTED_ON_A_COVERED_DATE": ("listed on no report despite a covered date",),
+}
+
+
+def notes_cell(l):
+    """The availability notes for one line, each separated from the previous one and
+    from the counts before it by a real space.
+
+    The published page rendered "4 one side not on the reportno report for this date":
+    `chip()` emits an inline <span>, so two adjacent chips and the count text ran
+    together with no whitespace and the second note was unreadable. Joining a list
+    with a space, and rendering no chip at all when there is nothing to say, is the
+    only version that stays readable for every combination of the three notes."""
+    states = [("away", l.get("availability_state_away")),
+              ("home", l.get("availability_state_home"))]
+    if states[0][1] == states[1][1]:
+        label = STATES_WITH_ONE_CHIP.get(states[0][1])
+        return "" if label is None else " " + chip(*label)
+    # Per-side states differ only when exactly one side is filed, so name the side
+    # that is missing rather than leaving the reader to work out which.
+    labels = [(side, STATES_WITH_ONE_CHIP[st]) for side, st in states
+              if st in STATES_WITH_ONE_CHIP]
+    return " " + " ".join(chip(f"{side}: {label[0]}", label[1]) for side, label in labels)
+
+def num_cell(l):
+    """Counts of officially-Out players per side, or an em dash pair when neither side
+    is on a report at all. A side that IS on the report but has zero players out is a
+    real fact (a filed, empty report -- Boston on 11/15) and prints as 0, not a dash."""
+    if l.get("out_count_away") is None and l.get("out_count_home") is None:
+        return "— / —"
+    return num(l.get("out_count_away"), 0) + " / " + num(l.get("out_count_home"), 0)
+
+
 def page_lines(d):
     lab = d["lab"]
     res = _res(d)
@@ -531,7 +581,6 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
 """)
     rows = []
     for l in d["lines"]:
-        partial = not (l.get("home_reported") and l.get("away_reported"))
         rows.append([
             esc(l["date"]), esc(l["time_et"]),
             f'<a href="{esc(l["nba_game_url"])}" target="_blank" rel="noopener noreferrer">'
@@ -544,12 +593,7 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
             f'{num(l["fair_ml_home"], 0)} / {num(l["fair_ml_away"], 0)}',
             f'{num(l["margin_lo"], 0)} … {num(l["margin_hi"], 0)}',
             num(l["pace"], 1),
-            (num(l["out_count_away"], 0) + " / " + num(l["out_count_home"], 0)
-             if (l["out_count_away"] is not None or l["out_count_home"] is not None)
-             else "— / —")
-            + (" " + chip("one side not on the report", "warn") if partial else "")
-            + (" " + chip("no report for this date", "bad")
-               if l.get("availability_state_home") == "NO_OFFICIAL_REPORT_COVERS_THIS_DATE" else ""),
+            num_cell(l) + notes_cell(l),
             src_cell([l["source"], l["game_source"]], "schedule + game"),
         ])
     body.append(table(

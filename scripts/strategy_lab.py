@@ -161,7 +161,12 @@ MANIFEST = _apply_manifest()
 SRC_GAMES = "https://www.nba.com/games?date="
 SRC_TEAM_STATS = ("https://www.nba.com/stats/teams/advanced"
                   "?Season=2026-27&SeasonType=Regular%20Season")
-SRC_SCHEDULE = "https://www.nba.com/schedule?date=2026-11-14"
+# The schedule page is addressed by date, and the window start moved to 2026-11-15
+# on 2026-11-15. A URL pinned to 2026-11-14 would still resolve, but it would
+# attribute a 11/15-11/18 line to a page that does not list it -- the exact
+# "right value, wrong source" defect F-7F3-03 catalogues. Derived from the window.
+SRC_SCHEDULE_DATE = "2026-11-15"
+SRC_SCHEDULE = f"https://www.nba.com/schedule?date={SRC_SCHEDULE_DATE}"
 SRC_PLAYERS = ("https://www.nba.com/stats/players/traditional"
                "?Season=2026-27&SeasonType=Regular%20Season&PerPage=100"
                "&SortColumn=MIN&SortDirection=DESC")

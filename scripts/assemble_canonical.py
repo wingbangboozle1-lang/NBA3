@@ -839,6 +839,33 @@ BB_FLAGS = [
      "path no claim names; the provenance check walks the whole chain and proves the links join up. "
      "Both are stricter than before, not looser.",
      ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py"]),
+    ("F-BB-10", "Data", "medium",
+     "The originated-lines table attributed every priced row to "
+     "schedule?date=2026-11-14 while its window had moved to 2026-11-15..11-18. "
+     "The URL resolved and the row passed every source check -- a link only has to be "
+     "https:// and non-empty to pass -- but the page it named does not list a single "
+     "11/15 game, so the citation for 34 rows was wrong while the values were right. "
+     "This is the same class as F-7F3-03 (47 cells pointed at the wrong page): the "
+     "gates verify that a link EXISTS, never that it supports the row.",
+     "Source URL now derives from the window start in scripts/strategy_lab.py. "
+     "tests/test_lines_attribution.py fails the build if any line cites a date "
+     "outside its own window, or a page older than the line itself. The deeper gap "
+     "-- no gate checks that a cited page contains the row -- is not closed; it needs "
+     "a captured copy of every cited page to search, and none is stored.",
+     ["https://www.nba.com/schedule?date=2026-11-15"]),
+    ("F-BB-11", "Data", "low",
+     "The Out column on the originated-lines page collapsed three different "
+     "availability facts into one label, \"one side not on the report\". On the "
+     "2026-11-16 rows that is false: all 16 sides ARE named on the 11/15 06:15 AM "
+     "report, each reading NOT YET SUBMITTED. The page told a reader no report "
+     "existed for a date the report explicitly covers. Two adjacent notes also "
+     "rendered with no space between them (\"...on the reportno report for this "
+     "date\"), because chip() emits an inline span.",
+     "The column now prints the state the machine actually recorded -- no official "
+     "report covers this date / not yet due (reported NOT YET SUBMITTED) / listed on "
+     "no report despite a covered date -- and names the side when the two sides "
+     "differ. tests/test_lines_attribution.py pins each label to its state.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"]),
 ]
 
 # ---------------------------------------------------------------- main

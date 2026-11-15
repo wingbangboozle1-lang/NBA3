@@ -112,6 +112,23 @@ def href_ok(href: str, page: Path, problems: list, official_only: bool = False):
         problems.append(f"{page.name}: broken internal link -> {href}")
 
 
+def _clean_path(tok):
+    """Strip the punctuation that surrounds a path in prose, and ONLY that.
+
+    A blanket .strip(".,;:()") eats a leading dot, so `.github/workflows/pages.yml`
+    was declared as `github/workflows/pages.yml` and any edit to a dot-directory was
+    rejected as out of scope no matter what the board said. A dot that begins a path
+    segment is part of the path; a dot that ends a sentence is not. Same error class
+    as the trailing-slash bug this gate already had to fix.
+    """
+    tok = tok.strip()
+    while tok and tok[-1] in ".,;:()":
+        tok = tok[:-1]
+    while tok and tok[0] in ",;:()":
+        tok = tok[1:]
+    return tok
+
+
 def urlparse_host(u: str) -> str:
     m = re.match(r"https?://([^/]+)", u)
     return m.group(1).lower() if m else ""
@@ -187,11 +204,11 @@ def main() -> int:
         # slash; this is deliberately generous, because the point is to catch
         # UNDECLARED changes, not to police the board's formatting.
         for tok in re.findall(r"`([^`\n]+)`", text):
-            tok = tok.strip().strip(".,;:()")
+            tok = _clean_path(tok)
             if "/" in tok or "." in tok:
                 declared.add(tok.split("#")[0].strip().rstrip("/"))
         for tok in re.findall(r"(?<![`\w/.-])([\w.-]+/[\w./-]+)", text):
-            declared.add(tok.strip(".,;:()").rstrip("/"))
+            declared.add(_clean_path(tok).rstrip("/"))
     declared.discard("")
     declared.discard(".")
 
