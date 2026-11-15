@@ -1,0 +1,506 @@
+{
+ "source_label": "Top-8 minutes shares per team-game, measured from the official game books (sum of minutes over all players who appeared; DNP/inactive rows contribute zero). Input to the minutes-redistribution model.",
+ "retrieved_stamp": "2026-11-15T11:33Z",
+ "teams": {
+  "2026-11-14:BKN": {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "opponent": "MEM",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+   "top8": [
+    {
+     "player": "Noah Clowney",
+     "min": 35.02,
+     "share": 0.1459
+    },
+    {
+     "player": "Julius Randle",
+     "min": 31.38,
+     "share": 0.1308
+    },
+    {
+     "player": "Day'Ron Sharpe",
+     "min": 27.78,
+     "share": 0.1158
+    },
+    {
+     "player": "Danny Wolf",
+     "min": 27.7,
+     "share": 0.1154
+    },
+    {
+     "player": "Egor Demin",
+     "min": 27.45,
+     "share": 0.1144
+    },
+    {
+     "player": "Mikel Brown Jr.",
+     "min": 19.95,
+     "share": 0.0831
+    },
+    {
+     "player": "Nolan Traore",
+     "min": 19.8,
+     "share": 0.0825
+    },
+    {
+     "player": "Moritz Wagner",
+     "min": 18.45,
+     "share": 0.0769
+    }
+   ],
+   "top8_share_total": 0.8647,
+   "roster_players_used": 13
+  },
+  "2026-11-14:MEM": {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "opponent": "BKN",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+   "top8": [
+    {
+     "player": "Cam Spencer",
+     "min": 33.92,
+     "share": 0.1413
+    },
+    {
+     "player": "Cedric Coward",
+     "min": 32.82,
+     "share": 0.1367
+    },
+    {
+     "player": "Javon Small",
+     "min": 29.8,
+     "share": 0.1242
+    },
+    {
+     "player": "Taylor Hendricks",
+     "min": 29.02,
+     "share": 0.1209
+    },
+    {
+     "player": "Cameron Boozer",
+     "min": 28.78,
+     "share": 0.1199
+    },
+    {
+     "player": "Jaylen Wells",
+     "min": 24.58,
+     "share": 0.1024
+    },
+    {
+     "player": "Olivier-Maxence Prosper",
+     "min": 20.05,
+     "share": 0.0835
+    },
+    {
+     "player": "Kris Murray",
+     "min": 19.48,
+     "share": 0.0812
+    }
+   ],
+   "top8_share_total": 0.9102,
+   "roster_players_used": 12
+  },
+  "2026-11-14:CHI": {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "opponent": "MIN",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+   "top8": [
+    {
+     "player": "Isaac Okoro",
+     "min": 31.03,
+     "share": 0.1293
+    },
+    {
+     "player": "Norman Powell",
+     "min": 30.1,
+     "share": 0.1254
+    },
+    {
+     "player": "Matas Buzelis",
+     "min": 29.8,
+     "share": 0.1242
+    },
+    {
+     "player": "Zach Collins",
+     "min": 28.18,
+     "share": 0.1174
+    },
+    {
+     "player": "Josh Giddey",
+     "min": 26.23,
+     "share": 0.1093
+    },
+    {
+     "player": "Patrick Williams",
+     "min": 25.68,
+     "share": 0.107
+    },
+    {
+     "player": "Tre Jones",
+     "min": 24.28,
+     "share": 0.1012
+    },
+    {
+     "player": "Buddy Hield",
+     "min": 20.37,
+     "share": 0.0849
+    }
+   ],
+   "top8_share_total": 0.8987,
+   "roster_players_used": 10
+  },
+  "2026-11-14:MIN": {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "opponent": "CHI",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+   "top8": [
+    {
+     "player": "Jaden McDaniels",
+     "min": 37.02,
+     "share": 0.1542
+    },
+    {
+     "player": "Jonathan Kuminga",
+     "min": 35.38,
+     "share": 0.1474
+    },
+    {
+     "player": "Ayo Dosunmu",
+     "min": 33.07,
+     "share": 0.1378
+    },
+    {
+     "player": "LaMelo Ball",
+     "min": 29.85,
+     "share": 0.1244
+    },
+    {
+     "player": "Rudy Gobert",
+     "min": 26.88,
+     "share": 0.112
+    },
+    {
+     "player": "Terrence Shannon Jr",
+     "min": 21.75,
+     "share": 0.0906
+    },
+    {
+     "player": "Bones Hyland",
+     "min": 21.3,
+     "share": 0.0887
+    },
+    {
+     "player": "Trey Lyles",
+     "min": 18.77,
+     "share": 0.0782
+    }
+   ],
+   "top8_share_total": 0.9333,
+   "roster_players_used": 10
+  },
+  "2026-11-14:DAL": {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "opponent": "CLE",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+   "top8": [
+    {
+     "player": "Cooper Flagg",
+     "min": 38.4,
+     "share": 0.16
+    },
+    {
+     "player": "Kyrie Irving",
+     "min": 37.32,
+     "share": 0.1555
+    },
+    {
+     "player": "Caleb Martin",
+     "min": 32.7,
+     "share": 0.1362
+    },
+    {
+     "player": "Naji Marshall",
+     "min": 29.92,
+     "share": 0.1247
+    },
+    {
+     "player": "P.J. Washington Jr.",
+     "min": 26.05,
+     "share": 0.1085
+    },
+    {
+     "player": "Daniel Gafford",
+     "min": 16.75,
+     "share": 0.0698
+    },
+    {
+     "player": "Santi Aldama",
+     "min": 16.22,
+     "share": 0.0676
+    },
+    {
+     "player": "Morez Johnson Jr.",
+     "min": 14.93,
+     "share": 0.0622
+    }
+   ],
+   "top8_share_total": 0.8844,
+   "roster_players_used": 10
+  },
+  "2026-11-14:CLE": {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "opponent": "DAL",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+   "top8": [
+    {
+     "player": "Tyrese Proctor",
+     "min": 34.08,
+     "share": 0.142
+    },
+    {
+     "player": "Mario Hezonja",
+     "min": 34.05,
+     "share": 0.1419
+    },
+    {
+     "player": "Jaylon Tyson",
+     "min": 33.62,
+     "share": 0.1401
+    },
+    {
+     "player": "Meleek Thomas",
+     "min": 33.55,
+     "share": 0.1398
+    },
+    {
+     "player": "Craig Porter Jr.",
+     "min": 28.37,
+     "share": 0.1182
+    },
+    {
+     "player": "Thomas Bryant",
+     "min": 27.42,
+     "share": 0.1142
+    },
+    {
+     "player": "Norchad Omier",
+     "min": 26.75,
+     "share": 0.1115
+    },
+    {
+     "player": "Riley Minix",
+     "min": 22.17,
+     "share": 0.0924
+    }
+   ],
+   "top8_share_total": 1.0,
+   "roster_players_used": 8
+  },
+  "2026-11-14:DEN": {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "opponent": "NOP",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+   "top8": [
+    {
+     "player": "Jamal Murray",
+     "min": 37.95,
+     "share": 0.1581
+    },
+    {
+     "player": "Nikola Jokic",
+     "min": 37.13,
+     "share": 0.1547
+    },
+    {
+     "player": "Aaron Gordon",
+     "min": 32.53,
+     "share": 0.1355
+    },
+    {
+     "player": "Cam Johnson",
+     "min": 30.77,
+     "share": 0.1282
+    },
+    {
+     "player": "Christian Braun",
+     "min": 27.77,
+     "share": 0.1157
+    },
+    {
+     "player": "DeMar DeRozan",
+     "min": 23.82,
+     "share": 0.0992
+    },
+    {
+     "player": "Trevon Brazile",
+     "min": 15.62,
+     "share": 0.0651
+    },
+    {
+     "player": "Marvin Bagley III",
+     "min": 13.1,
+     "share": 0.0546
+    }
+   ],
+   "top8_share_total": 0.9112,
+   "roster_players_used": 10
+  },
+  "2026-11-14:NOP": {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "opponent": "DEN",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+   "top8": [
+    {
+     "player": "Saddiq Bey",
+     "min": 40.55,
+     "share": 0.169
+    },
+    {
+     "player": "Jeremiah Fears",
+     "min": 32.73,
+     "share": 0.1364
+    },
+    {
+     "player": "Zion Williamson",
+     "min": 30.77,
+     "share": 0.1282
+    },
+    {
+     "player": "Herbert Jones",
+     "min": 27.48,
+     "share": 0.1145
+    },
+    {
+     "player": "Derik Queen",
+     "min": 24.97,
+     "share": 0.104
+    },
+    {
+     "player": "Jordan Poole",
+     "min": 23.92,
+     "share": 0.0997
+    },
+    {
+     "player": "Jaron Pierre Jr.",
+     "min": 23.3,
+     "share": 0.0971
+    },
+    {
+     "player": "Yves Missi",
+     "min": 22.05,
+     "share": 0.0919
+    }
+   ],
+   "top8_share_total": 0.9407,
+   "roster_players_used": 9
+  },
+  "2026-11-14:DET": {
+   "date": "2026-11-14",
+   "team": "DET",
+   "opponent": "MIA",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+   "top8": [
+    {
+     "player": "Kevin Huerter",
+     "min": 37.83,
+     "share": 0.1576
+    },
+    {
+     "player": "Cade Cunningham",
+     "min": 36.22,
+     "share": 0.1509
+    },
+    {
+     "player": "Daniss Jenkins",
+     "min": 35.28,
+     "share": 0.147
+    },
+    {
+     "player": "John Collins",
+     "min": 25.97,
+     "share": 0.1082
+    },
+    {
+     "player": "Paul Reed",
+     "min": 22.83,
+     "share": 0.0951
+    },
+    {
+     "player": "Ronald Holland II",
+     "min": 21.55,
+     "share": 0.0898
+    },
+    {
+     "player": "Ausar Thompson",
+     "min": 18.25,
+     "share": 0.076
+    },
+    {
+     "player": "Duncan Robinson",
+     "min": 16.92,
+     "share": 0.0705
+    }
+   ],
+   "top8_share_total": 0.8952,
+   "roster_players_used": 13
+  },
+  "2026-11-14:MIA": {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "opponent": "DET",
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+   "top8": [
+    {
+     "player": "Bam Adebayo",
+     "min": 36.1,
+     "share": 0.1504
+    },
+    {
+     "player": "Davion Mitchell",
+     "min": 32.3,
+     "share": 0.1346
+    },
+    {
+     "player": "Giannis Antetokounmpo",
+     "min": 30.92,
+     "share": 0.1288
+    },
+    {
+     "player": "Myron Gardner",
+     "min": 26.03,
+     "share": 0.1085
+    },
+    {
+     "player": "Ryan Conwell",
+     "min": 25.8,
+     "share": 0.1075
+    },
+    {
+     "player": "Andrew Wiggins",
+     "min": 22.92,
+     "share": 0.0955
+    },
+    {
+     "player": "Klay Thompson",
+     "min": 20.22,
+     "share": 0.0843
+    },
+    {
+     "player": "Bobby Portis Jr.",
+     "min": 17.6,
+     "share": 0.0733
+    }
+   ],
+   "top8_share_total": 0.8829,
+   "roster_players_used": 12
+  }
+ }
+}
