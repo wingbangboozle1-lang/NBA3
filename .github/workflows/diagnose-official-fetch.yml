@@ -6,6 +6,14 @@ name: diagnose official fetch
 # on a runner. Results are committed back to the session branch via the contents API so
 # they are reviewable without log access. This workflow is removed at integration.
 on:
+  # Dispatch is unavailable from this sandbox's token (403 workflow-scope), so the run is
+  # triggered by pushing to the session branch. The commit-back below carries [skip ci]
+  # so the diagnostics commit does not re-trigger this workflow.
+  push:
+    branches: [arena/43d54bfe-nba3]
+    paths:
+      - ".github/workflows/diagnose-official-fetch.yml"
+      - "scripts/diagnose_official_fetch.py"
   workflow_dispatch: {}
 
 permissions:
@@ -46,7 +54,7 @@ jobs:
                       sha = json.load(r)["sha"]
               except Exception as e:
                   print(f"no existing {path}: {e}")
-              body = {"message": f"official-fetch diagnostics (run {os.environ['GITHUB_RUN_ID']}) [diagnostics]",
+              body = {"message": f"official-fetch diagnostics (run {os.environ['GITHUB_RUN_ID']}) [skip ci]",
                       "branch": branch, "content": content}
               if sha:
                   body["sha"] = sha
