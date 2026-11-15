@@ -4385,3 +4385,91 @@ claim to have identified the server response.
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+## Session `42d69dc5` (`arena/42d69dc5-nba3`) — claim (2026-11-15, first write before any code)
+
+**Session ID:** `arena/42d69dc5-nba3`. Branch is fixed by the workspace to `arena/42d69dc5-nba3`
+(branched from `main` @ `f98b44d`, which already carries PR #89 / #91). Per the Arena rule this
+session works on exactly one branch; the `session-<id>/<task>` naming in the brief conflicts with
+that rule and is therefore not used, but every task below still gets its own non-overlapping file
+scope so a later integration can merge without collision.
+
+**Base state read before claiming (no DB / no app / no fixture was invented).**
+`git status` clean on `arena/42d69dc5-nba3` at `f98b44d`; 14 test modules run green locally
+(`test_pick_ledger` prints expected tamper diagnostics while passing). Nothing in `main` is broken
+at claim time.
+
+### What is already delivered by earlier sessions (verified by reading the tree, not assumed)
+
+| Brief item | Where it already lives | State found |
+|---|---|---|
+| Scheduled refresh of schedule/standings/team stats/injury + gates before rebuild | `.github/workflows/refresh.yml` → `scripts/refresh_official.py` → `scripts/freshness_gates.py` | present; **defects found** (below) |
+| Per-game result feed, one row per game with quarter linescores, settle only on verified finals | `scripts/results_feed.py`, `data/app/results_feed.json` | present and tested |
+| Injury PDF archive + consecutive-report diff | `scripts/injury_archive.py`, `data/live/injuries/` | present and tested |
+| Pre-registration per strategy before first bet | `prereg/S1..S3.json`, `data/app/prereg/` | present; **Q3 void rule still open everywhere** |
+| Hash-sealed tamper-evident ledger | `scripts/pick_ledger.py`, `ledger/`, `data/app/ledger/` | present and tested |
+| projection / bet split | `projection/` (12 pages) vs `bet/` (6 pages), `app/*` | present |
+| Two estimators, disagreement headline, HCA pinned | `scripts/estimators.py`, `data/live/model.json`, `data/app/estimators.json` | present; HCA pinned at 1.127 |
+| Luck as z-score + noise-band refusal | `scripts/estimators.py`, `app/projections.html` | present |
+| Rest / back-to-back / 3-in-4 | `scripts/rest_travel.py`, `data/live/rest_travel.json` | present |
+| Travel distance from a sourced arena table | `data/live/arena_coords.json` | **does not exist — blank + flagged** |
+| Minutes redistribution (top-8 shares + replacement) | `scripts/minutes_model.py`, `projection/minutes.html` | present, but no forecast published (zero log/absence overlap) |
+| Parlay priced with measured rho + naive product beside it | `app/parlays.html`, `data/app/` parlay block | present |
+| Rotation-availability column on picks | `app/picks.html`, `bet/picks.html` | present |
+| Market-anchored prior weighted by OOS log-loss | `scripts/estimators.py` | **not applied** (no licensed closing line) — blank + flagged |
+| Totals = possessions × PPP | `scripts/estimators.py`, `app/projections.html` | present |
+| Injury banner revision time + retrieval time | `app/injuries.html`, `projection/injuries.html` | present |
+| Ledger settles from official finals with visible stamp | `scripts/pick_ledger.py settle` | present |
+| Re-read the three official team-stat pages and re-cut inputs | `scripts/capture_official_2026_11_15.py` | present |
+| Per-player game logs incl. opponent | `data/live/player_game_logs.json` | present (99/107 reconciled, 8 rejected with raw text) |
+
+So the remaining work is **not** "build these from scratch" — it is the defects, the missing
+sourced arena table, the scheduled-job wiring, and the published surfaces a reviewer actually reads.
+
+### Defects found at claim time (each one is fixed in this session and published on the site)
+
+1. **`refresh.yml` cron never refreshes the standings or the three team-stat pages by contract.**
+   `refresh_official.py` does fetch the three team pages, so the fetch is real — but the workflow
+   observes them nowhere in its gate step and the script's own docstring/step list makes no
+   freshness claim about standings. Not yet proven; recorded as "to verify" rather than a defect.
+2. **`refresh.yml` commits and pushes to `main` on a schedule with no freshness gate between the
+   fetch and the push.** The script does gate, but the job is `contents: write` + `git push
+   origin HEAD:main`, so a gate-bypassing failure mode (script exits 0 on a partial fetch) would
+   still publish. This is a real integrity gap and is fixed by this session.
+3. **`refresh.yml` only runs 4 of the 14 test modules** by name pattern; the ledger, estimators and
+   results-feed tests that the job depends on are not all covered (`test_estimators`,
+   `test_capture_round_79341829`, `test_schedule_union`, `test_scope_paths`, `test_injury_delta*`,
+   `test_capture_c`, `test_lines_attribution`, `test_validate_gates` are skipped). Two of those
+   (`test_schedule_union`, `test_capture_c`) guard exactly the seam defects listed above.
+4. **`data/live/arena_coords.json` is referenced by `data/live/rest_travel.json` but does not
+   exist**, so `travel_source.status` says NOT POPULATED and 44/44 travel cells are blank.
+
+### Claims (non-overlapping; this session writes only these paths)
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| R1 | Repo review line by line against official sources; publish every row with a source link or blank+flagged | in progress | `arena/42d69dc5-nba3` | `data/live/review_42d69dc5.json`, `projection/review.html` (append a section) |
+| R2 | Sourced arena-coordinate table (official venue names/addresses only), travel distance from it, no estimated coordinates | in progress | `arena/42d69dc5-nba3` | `data/live/arena_coords.json` (**new**), `scripts/travel_distance.py` (**new**), `tests/test_travel_distance.py` (**new**) |
+| R3 | Scheduled-job hardening: gate must sit between fetch and push; full test set; standings + three team pages freshness claimed and gated | in progress | `arena/42d69dc5-nba3` | `.github/workflows/refresh.yml` (edit), `scripts/refresh_official.py` (edit), `scripts/freshness_gates.py` (additive gate fn only), `tests/test_refresh_gates.py` (**new**) |
+| R4 | Executive summary refreshed to the current tree state, with a provenance table | in progress | `arena/42d69dc5-nba3` | `app/summary.html` generator block in `scripts/build_app.py`? **NO** — see note; `projection/summary.html` (**new**), `data/live/exec_summary_42d69dc5.json` (**new**) |
+| R5 | Questions / missing-information and Suggestions review section | in progress | `arena/42d69dc5-nba3` | `data/live/questions_42d69dc5.json` (**new**), `data/live/suggestions_42d69dc5.json` (**new**), `projection/questions.html` (append section only) |
+| R6 | Integration: rebase, full CI, PR → merge → Pages verification | pending | `arena/42d69dc5-nba3` | `COORDINATION.md`, `README.md` (additive) |
+
+**Note on R4.** `scripts/build_app.py` and `app/*.html` are owned by earlier sessions and are
+**not** edited here. This session's pages are new files under `projection/` plus additive
+`<section>` appends inside existing `projection/*.html` pages, so a merge cannot drop another
+session's work. If the integration decides the canonical summary page should absorb this session's
+content, that is a logged change request, not an edit made here.
+
+**Change requests logged (not executed).**
+- CR-42-01 → owner of `scripts/build_app.py`: the canonical pages should read
+  `data/live/arena_coords.json` once R2 lands, so the blank travel cells on `app/projections.html`
+  stop being blank.
+- CR-42-02 → owner of `data/origin/games.csv`: extend past 2026-11-13 or declare
+  `data/live/slate_*.json` the schedule of record (still Q4 above, still open).
+- CR-42-03 → owner of `prereg/`: add the postponed/abandoned void rule (still Q3 above, still open).
+
+**Open PRs observed at claim time** — left untouched, not duplicated: [#90](https://github.com/wingbangboozle1-lang/NBA3/pull/90)
+(`arena/94e6d41b-nba3`, game-day refresh, opened 12:32Z) and [#85](https://github.com/wingbangboozle1-lang/NBA3/pull/85)
+(`arena/5a67ab8c-nba3`, v2 pipeline, opened 11:54Z). Both are younger than 60 minutes at claim time
+or still active, so neither is taken over. This session's scopes above are disjoint from both
+(the 94e6d41b PR touches `data/app/*`, `audit*`; 5a67ab8c touches its own v2 tree).
