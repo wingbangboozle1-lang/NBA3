@@ -1,0 +1,2385 @@
+{
+ "generated_utc": "2026-11-15T12:08Z",
+ "policy": {
+  "headline": "the disagreement between the two independent estimators",
+  "hca": "pinned to the measured home-win rate of the official completed-game log; never a free fit coefficient",
+  "luck": "z-score per team vs walk-forward win probabilities; |z|>2 refuses the bet surface",
+  "totals": "possessions x points-per-possession (estimator B) beside the ridge total (A)",
+  "parlays": "measured rho printed with every correlated price; naive product printed beside it",
+  "market_prior": "blank unless a closing-line feed is connected; weight formula printed in data/app/closing_lines.json",
+  "disagreement_headline_mean": 7.0
+ },
+ "hca_measurement": {
+  "home_wins": 106,
+  "games": 197,
+  "home_win_rate": 0.5381,
+  "margin_sd": 16.94,
+  "hca_points_pinned": 1.62,
+  "formula": "hca = Phi^-1(home-win rate) * SD(margin) over the official log",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-14",
+   "https://www.nba.com/games?date=2026-11-13",
+   "data/origin/games.csv"
+  ]
+ },
+ "estimator_a": {
+  "name": "ridge margin model (Massey-style), HCA pinned",
+  "oos_log_loss": 0.6496,
+  "oos_accuracy": 0.664,
+  "oos_games": 152,
+  "oos_sample": "expanding walk-forward over the official completed-game log (games 1-45 warm-up; each later game predicted from games before it)",
+  "resid_sd": 16.07,
+  "source": "data/origin/games.csv + data/app/results_feed.json (official finals)"
+ },
+ "estimator_b": {
+  "name": "possession efficiency (possessions x PPP) from the three official pages",
+  "log_loss_in_sample": 0.5155,
+  "accuracy_in_sample": 0.766,
+  "resid_sd": 13.62,
+  "label": "IN-SAMPLE against the 2026-11-15 stat snapshot (no historical snapshots are stored) \u2014 flagged, not presented as out-of-sample",
+  "sources": [
+   "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
+   "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  ]
+ },
+ "blend": {
+  "weights": {
+   "a": 0.5,
+   "b": 0.5
+  },
+  "note": "the blend is published underneath the disagreement, never as the headline"
+ },
+ "rho_measured": -0.053,
+ "rho_note": "correlation of the ridge model's margin and total residuals over the 197-game official log; used for every same-game parlay price",
+ "luck_band": {
+  "ATL": {
+   "team": "ATL",
+   "games_oos": 11,
+   "wins": 5,
+   "expected_wins": 5.86,
+   "luck_z": -0.52,
+   "close_games": 3,
+   "close_wins": 3,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "BOS": {
+   "team": "BOS",
+   "games_oos": 10,
+   "wins": 9,
+   "expected_wins": 5.47,
+   "luck_z": 2.26,
+   "close_games": 2,
+   "close_wins": 2,
+   "outside_noise_band": true,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "BKN": {
+   "team": "BKN",
+   "games_oos": 9,
+   "wins": 3,
+   "expected_wins": 3.95,
+   "luck_z": -0.64,
+   "close_games": 2,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "CHA": {
+   "team": "CHA",
+   "games_oos": 8,
+   "wins": 1,
+   "expected_wins": 3.55,
+   "luck_z": -1.82,
+   "close_games": 2,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "CHI": {
+   "team": "CHI",
+   "games_oos": 10,
+   "wins": 3,
+   "expected_wins": 4.09,
+   "luck_z": -0.7,
+   "close_games": 1,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "CLE": {
+   "team": "CLE",
+   "games_oos": 12,
+   "wins": 5,
+   "expected_wins": 6.1,
+   "luck_z": -0.64,
+   "close_games": 2,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "DAL": {
+   "team": "DAL",
+   "games_oos": 10,
+   "wins": 6,
+   "expected_wins": 5.19,
+   "luck_z": 0.52,
+   "close_games": 4,
+   "close_wins": 3,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "DEN": {
+   "team": "DEN",
+   "games_oos": 9,
+   "wins": 6,
+   "expected_wins": 4.36,
+   "luck_z": 1.1,
+   "close_games": 1,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "DET": {
+   "team": "DET",
+   "games_oos": 9,
+   "wins": 5,
+   "expected_wins": 4.94,
+   "luck_z": 0.04,
+   "close_games": 2,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "GSW": {
+   "team": "GSW",
+   "games_oos": 11,
+   "wins": 8,
+   "expected_wins": 5.58,
+   "luck_z": 1.48,
+   "close_games": 2,
+   "close_wins": 2,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "HOU": {
+   "team": "HOU",
+   "games_oos": 11,
+   "wins": 8,
+   "expected_wins": 6.27,
+   "luck_z": 1.06,
+   "close_games": 2,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "IND": {
+   "team": "IND",
+   "games_oos": 11,
+   "wins": 4,
+   "expected_wins": 5.41,
+   "luck_z": -0.86,
+   "close_games": 6,
+   "close_wins": 3,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "LAC": {
+   "team": "LAC",
+   "games_oos": 9,
+   "wins": 3,
+   "expected_wins": 4.31,
+   "luck_z": -0.88,
+   "close_games": 3,
+   "close_wins": 2,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "LAL": {
+   "team": "LAL",
+   "games_oos": 10,
+   "wins": 8,
+   "expected_wins": 5.24,
+   "luck_z": 1.75,
+   "close_games": 1,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "MEM": {
+   "team": "MEM",
+   "games_oos": 11,
+   "wins": 7,
+   "expected_wins": 6.18,
+   "luck_z": 0.5,
+   "close_games": 4,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "MIA": {
+   "team": "MIA",
+   "games_oos": 11,
+   "wins": 8,
+   "expected_wins": 5.21,
+   "luck_z": 1.69,
+   "close_games": 2,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "MIL": {
+   "team": "MIL",
+   "games_oos": 11,
+   "wins": 1,
+   "expected_wins": 4.64,
+   "luck_z": -2.24,
+   "close_games": 0,
+   "close_wins": 0,
+   "outside_noise_band": true,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "MIN": {
+   "team": "MIN",
+   "games_oos": 9,
+   "wins": 6,
+   "expected_wins": 5.25,
+   "luck_z": 0.51,
+   "close_games": 1,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "NOP": {
+   "team": "NOP",
+   "games_oos": 12,
+   "wins": 4,
+   "expected_wins": 5.89,
+   "luck_z": -1.1,
+   "close_games": 1,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "NYK": {
+   "team": "NYK",
+   "games_oos": 10,
+   "wins": 6,
+   "expected_wins": 5.35,
+   "luck_z": 0.42,
+   "close_games": 3,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "OKC": {
+   "team": "OKC",
+   "games_oos": 11,
+   "wins": 5,
+   "expected_wins": 5.46,
+   "luck_z": -0.28,
+   "close_games": 3,
+   "close_wins": 1,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "ORL": {
+   "team": "ORL",
+   "games_oos": 10,
+   "wins": 5,
+   "expected_wins": 4.84,
+   "luck_z": 0.1,
+   "close_games": 0,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "PHI": {
+   "team": "PHI",
+   "games_oos": 9,
+   "wins": 7,
+   "expected_wins": 4.64,
+   "luck_z": 1.59,
+   "close_games": 3,
+   "close_wins": 3,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "PHX": {
+   "team": "PHX",
+   "games_oos": 9,
+   "wins": 4,
+   "expected_wins": 4.34,
+   "luck_z": -0.23,
+   "close_games": 3,
+   "close_wins": 2,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "POR": {
+   "team": "POR",
+   "games_oos": 11,
+   "wins": 8,
+   "expected_wins": 5.85,
+   "luck_z": 1.3,
+   "close_games": 0,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "SAC": {
+   "team": "SAC",
+   "games_oos": 10,
+   "wins": 1,
+   "expected_wins": 4.3,
+   "luck_z": -2.12,
+   "close_games": 0,
+   "close_wins": 0,
+   "outside_noise_band": true,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "SAS": {
+   "team": "SAS",
+   "games_oos": 11,
+   "wins": 11,
+   "expected_wins": 6.11,
+   "luck_z": 2.98,
+   "close_games": 2,
+   "close_wins": 2,
+   "outside_noise_band": true,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "TOR": {
+   "team": "TOR",
+   "games_oos": 9,
+   "wins": 3,
+   "expected_wins": 4.73,
+   "luck_z": -1.16,
+   "close_games": 1,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "UTA": {
+   "team": "UTA",
+   "games_oos": 11,
+   "wins": 0,
+   "expected_wins": 4.69,
+   "luck_z": -2.89,
+   "close_games": 1,
+   "close_wins": 0,
+   "outside_noise_band": true,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  },
+  "WAS": {
+   "team": "WAS",
+   "games_oos": 9,
+   "wins": 2,
+   "expected_wins": 4.18,
+   "luck_z": -1.46,
+   "close_games": 1,
+   "close_wins": 0,
+   "outside_noise_band": false,
+   "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
+  }
+ },
+ "window": [
+  {
+   "game_id": "0022600236",
+   "date": "2026-11-15",
+   "tip_et": "01:00 PM",
+   "away": "IND",
+   "home": "PHI",
+   "est_a_margin": 2.8,
+   "est_b_margin": 4.7,
+   "disagreement_abs": 1.9,
+   "blend_margin": 3.7,
+   "est_a_total": 105.0,
+   "est_b_total": 217.6,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.6,
+   "blend_total": 161.3,
+   "home_win_prob": 0.592,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "Gainbridge Fieldhouse",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    }
+   },
+   "luck_z": {
+    "away": -0.86,
+    "home": 1.59
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600237",
+   "date": "2026-11-15",
+   "tip_et": "04:00 PM",
+   "away": "LAL",
+   "home": "PHX",
+   "est_a_margin": -1.8,
+   "est_b_margin": -10.5,
+   "disagreement_abs": 8.6,
+   "blend_margin": -6.1,
+   "est_a_total": 102.4,
+   "est_b_total": 239.5,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.5,
+   "blend_total": 171.0,
+   "home_win_prob": 0.351,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-11"
+    },
+    "home": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "Fiserv Forum",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": null,
+     "from_arena": "PHX Arena",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    }
+   },
+   "luck_z": {
+    "away": 1.75,
+    "home": -0.23
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600238",
+   "date": "2026-11-15",
+   "tip_et": "04:30 PM",
+   "away": "CHA",
+   "home": "LAC",
+   "est_a_margin": 3.6,
+   "est_b_margin": 7.9,
+   "disagreement_abs": 4.3,
+   "blend_margin": 5.7,
+   "est_a_total": 94.7,
+   "est_b_total": 212.3,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 98.7,
+   "blend_total": 153.5,
+   "home_win_prob": 0.639,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "PHX Arena",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Intuit Dome",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -1.82,
+    "home": -0.88
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600239",
+   "date": "2026-11-15",
+   "tip_et": "05:00 PM",
+   "away": "SAS",
+   "home": "UTA",
+   "est_a_margin": -6.0,
+   "est_b_margin": -22.4,
+   "disagreement_abs": 16.5,
+   "blend_margin": -14.2,
+   "est_a_total": 109.0,
+   "est_b_total": 221.5,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.7,
+   "blend_total": 165.2,
+   "home_win_prob": 0.188,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1753.9,
+     "from_arena": "Frost Bank Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1932.1,
+     "from_arena": "Toyota Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 2.98,
+    "home": -2.89
+   },
+   "luck_band_flag": [
+    "SAS outside |z|>2 luck noise band",
+    "UTA outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600240",
+   "date": "2026-11-15",
+   "tip_et": "06:00 PM",
+   "away": "DAL",
+   "home": "BOS",
+   "est_a_margin": 4.3,
+   "est_b_margin": 13.2,
+   "disagreement_abs": 8.9,
+   "blend_margin": 8.8,
+   "est_a_total": 99.4,
+   "est_b_total": 219.3,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 98.6,
+   "blend_total": 159.3,
+   "home_win_prob": 0.708,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 1,
+     "b2b": true,
+     "three_in_4": true,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-11"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 883.7,
+     "from_arena": "Rocket Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 690.7,
+     "from_arena": "Scotiabank Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 0.52,
+    "home": 2.26
+   },
+   "luck_band_flag": [
+    "BOS outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600241",
+   "date": "2026-11-15",
+   "tip_et": "06:00 PM",
+   "away": "NYK",
+   "home": "TOR",
+   "est_a_margin": 0.7,
+   "est_b_margin": -2.5,
+   "disagreement_abs": 3.2,
+   "blend_margin": -0.9,
+   "est_a_total": 98.2,
+   "est_b_total": 219.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 97.8,
+   "blend_total": 158.7,
+   "home_win_prob": 0.477,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 708.5,
+     "from_arena": "Gainbridge Fieldhouse",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    }
+   },
+   "luck_z": {
+    "away": 0.42,
+    "home": -1.16
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600242",
+   "date": "2026-11-15",
+   "tip_et": "07:00 PM",
+   "away": "HOU",
+   "home": "WAS",
+   "est_a_margin": -2.9,
+   "est_b_margin": -12.8,
+   "disagreement_abs": 9.9,
+   "blend_margin": -7.9,
+   "est_a_total": 107.1,
+   "est_b_total": 223.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 98.5,
+   "blend_total": 165.2,
+   "home_win_prob": 0.312,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1961.9,
+     "from_arena": "Toyota Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Capital One Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.06,
+    "home": -1.46
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600243",
+   "date": "2026-11-15",
+   "tip_et": "08:00 PM",
+   "away": "ATL",
+   "home": "MIL",
+   "est_a_margin": -2.5,
+   "est_b_margin": -14.3,
+   "disagreement_abs": 11.8,
+   "blend_margin": -8.4,
+   "est_a_total": 112.5,
+   "est_b_total": 229.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.9,
+   "blend_total": 170.8,
+   "home_win_prob": 0.3,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 131.0,
+     "from_arena": "United Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1715.9,
+     "from_arena": "Kia Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.52,
+    "home": -2.24
+   },
+   "luck_band_flag": [
+    "MIL outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600244",
+   "date": "2026-11-15",
+   "tip_et": "09:00 PM",
+   "away": "OKC",
+   "home": "SAC",
+   "est_a_margin": -3.4,
+   "est_b_margin": -14.0,
+   "disagreement_abs": 10.6,
+   "blend_margin": -8.7,
+   "est_a_total": 105.3,
+   "est_b_total": 222.1,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.8,
+   "blend_total": 163.7,
+   "home_win_prob": 0.294,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 587.9,
+     "from_arena": "Intuit Dome",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Golden 1 Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.28,
+    "home": -2.12
+   },
+   "luck_band_flag": [
+    "SAC outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600245",
+   "date": "2026-11-16",
+   "tip_et": "07:00 PM",
+   "away": "ORL",
+   "home": "BOS",
+   "est_a_margin": 5.8,
+   "est_b_margin": 16.5,
+   "disagreement_abs": 10.7,
+   "blend_margin": 11.1,
+   "est_a_total": 98.0,
+   "est_b_total": 214.5,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 97.4,
+   "blend_total": 156.3,
+   "home_win_prob": 0.756,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-11"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1796.2,
+     "from_arena": "Kia Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 690.7,
+     "from_arena": "Scotiabank Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 0.1,
+    "home": 2.26
+   },
+   "luck_band_flag": [
+    "BOS outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600246",
+   "date": "2026-11-16",
+   "tip_et": "07:00 PM",
+   "away": "CHI",
+   "home": "CLE",
+   "est_a_margin": 4.5,
+   "est_b_margin": 14.6,
+   "disagreement_abs": 10.0,
+   "blend_margin": 9.6,
+   "est_a_total": 118.0,
+   "est_b_total": 240.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.8,
+   "blend_total": 179.1,
+   "home_win_prob": 0.724,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1014.3,
+     "from_arena": "Target Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Rocket Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.7,
+    "home": -0.64
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600247",
+   "date": "2026-11-16",
+   "tip_et": "07:00 PM",
+   "away": "MEM",
+   "home": "WAS",
+   "est_a_margin": -3.1,
+   "est_b_margin": -12.5,
+   "disagreement_abs": 9.4,
+   "blend_margin": -7.8,
+   "est_a_total": 109.3,
+   "est_b_total": 226.5,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.0,
+   "blend_total": 167.9,
+   "home_win_prob": 0.313,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1228.7,
+     "from_arena": "FedExForum",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Capital One Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 0.5,
+    "home": -1.46
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600248",
+   "date": "2026-11-16",
+   "tip_et": "07:30 PM",
+   "away": "PHI",
+   "home": "BKN",
+   "est_a_margin": -0.5,
+   "est_b_margin": -5.9,
+   "disagreement_abs": 5.4,
+   "blend_margin": -3.2,
+   "est_a_total": 100.4,
+   "est_b_total": 219.7,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.8,
+   "blend_total": 160.1,
+   "home_win_prob": 0.421,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": 1536.1,
+     "from_arena": "FedExForum",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.59,
+    "home": -0.64
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600249",
+   "date": "2026-11-16",
+   "tip_et": "07:30 PM",
+   "away": "HOU",
+   "home": "MIA",
+   "est_a_margin": -1.2,
+   "est_b_margin": -9.2,
+   "disagreement_abs": 8.0,
+   "blend_margin": -5.2,
+   "est_a_total": 114.0,
+   "est_b_total": 234.3,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.0,
+   "blend_total": 174.2,
+   "home_win_prob": 0.374,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1555.5,
+     "from_arena": "Toyota Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Kaseya Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.06,
+    "home": 1.69
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600250",
+   "date": "2026-11-16",
+   "tip_et": "08:00 PM",
+   "away": "POR",
+   "home": "MIN",
+   "est_a_margin": 2.3,
+   "est_b_margin": 5.8,
+   "disagreement_abs": 3.5,
+   "blend_margin": 4.1,
+   "est_a_total": 105.4,
+   "est_b_total": 225.9,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.0,
+   "blend_total": 165.7,
+   "home_win_prob": 0.6,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 2431.9,
+     "from_arena": "Golden 1 Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Target Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.3,
+    "home": 0.51
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600251",
+   "date": "2026-11-16",
+   "tip_et": "08:00 PM",
+   "away": "GSW",
+   "home": "NOP",
+   "est_a_margin": -2.8,
+   "est_b_margin": -11.4,
+   "disagreement_abs": 8.7,
+   "blend_margin": -7.1,
+   "est_a_total": 118.5,
+   "est_b_total": 235.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.7,
+   "blend_total": 176.8,
+   "home_win_prob": 0.329,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": true,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 809.0,
+     "from_arena": "Frost Bank Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Smoothie King Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.48,
+    "home": -1.1
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600252",
+   "date": "2026-11-16",
+   "tip_et": "09:00 PM",
+   "away": "PHX",
+   "home": "DEN",
+   "est_a_margin": 3.3,
+   "est_b_margin": 6.7,
+   "disagreement_abs": 3.4,
+   "blend_margin": 5.0,
+   "est_a_total": 93.2,
+   "est_b_total": 231.5,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 98.1,
+   "blend_total": 162.3,
+   "home_win_prob": 0.622,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "PHX Arena",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": 1740.1,
+     "from_arena": "Smoothie King Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.23,
+    "home": 1.1
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600253",
+   "date": "2026-11-17",
+   "tip_et": "07:30 PM",
+   "away": "NYK",
+   "home": "TOR",
+   "est_a_margin": 0.7,
+   "est_b_margin": -2.5,
+   "disagreement_abs": 3.2,
+   "blend_margin": -0.9,
+   "est_a_total": 98.2,
+   "est_b_total": 219.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 97.8,
+   "blend_total": 158.7,
+   "home_win_prob": 0.477,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 708.5,
+     "from_arena": "Gainbridge Fieldhouse",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    }
+   },
+   "luck_z": {
+    "away": 0.42,
+    "home": -1.16
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600254",
+   "date": "2026-11-17",
+   "tip_et": "08:00 PM",
+   "away": "POR",
+   "home": "MIN",
+   "est_a_margin": 2.3,
+   "est_b_margin": 5.8,
+   "disagreement_abs": 3.5,
+   "blend_margin": 4.1,
+   "est_a_total": 105.4,
+   "est_b_total": 225.9,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.0,
+   "blend_total": 165.7,
+   "home_win_prob": 0.6,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 2431.9,
+     "from_arena": "Golden 1 Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Target Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.3,
+    "home": 0.51
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600255",
+   "date": "2026-11-17",
+   "tip_et": "08:00 PM",
+   "away": "DET",
+   "home": "SAS",
+   "est_a_margin": 4.7,
+   "est_b_margin": 9.5,
+   "disagreement_abs": 4.8,
+   "blend_margin": 7.1,
+   "est_a_total": 104.4,
+   "est_b_total": 221.3,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.2,
+   "blend_total": 162.8,
+   "home_win_prob": 0.671,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 3,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1841.2,
+     "from_arena": "Kaseya Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Frost Bank Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 0.04,
+    "home": 2.98
+   },
+   "luck_band_flag": [
+    "SAS outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600257",
+   "date": "2026-11-17",
+   "tip_et": "10:30 PM",
+   "away": "UTA",
+   "home": "LAC",
+   "est_a_margin": 3.3,
+   "est_b_margin": 8.1,
+   "disagreement_abs": 4.8,
+   "blend_margin": 5.7,
+   "est_a_total": 104.7,
+   "est_b_total": 222.7,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.5,
+   "blend_total": 163.7,
+   "home_win_prob": 0.638,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 2215.2,
+     "from_arena": "Toyota Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Intuit Dome",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -2.89,
+    "home": -0.88
+   },
+   "luck_band_flag": [
+    "UTA outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600256",
+   "date": "2026-11-17",
+   "tip_et": "11:00 PM",
+   "away": "CHA",
+   "home": "LAL",
+   "est_a_margin": 7.2,
+   "est_b_margin": 20.6,
+   "disagreement_abs": 13.4,
+   "blend_margin": 13.9,
+   "est_a_total": 99.8,
+   "est_b_total": 221.0,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 98.7,
+   "blend_total": 160.4,
+   "home_win_prob": 0.807,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 6,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-11"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "PHX Arena",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": 2804.0,
+     "from_arena": "Fiserv Forum",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -1.82,
+    "home": 1.75
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600258",
+   "date": "2026-11-18",
+   "tip_et": "07:00 PM",
+   "away": "MEM",
+   "home": "CLE",
+   "est_a_margin": -1.0,
+   "est_b_margin": -5.7,
+   "disagreement_abs": 4.7,
+   "blend_margin": -3.3,
+   "est_a_total": 117.8,
+   "est_b_total": 235.8,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.1,
+   "blend_total": 176.8,
+   "home_win_prob": 0.417,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1015.0,
+     "from_arena": "FedExForum",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Rocket Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 0.5,
+    "home": -0.64
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600259",
+   "date": "2026-11-18",
+   "tip_et": "07:00 PM",
+   "away": "HOU",
+   "home": "IND",
+   "est_a_margin": -1.8,
+   "est_b_margin": -8.9,
+   "disagreement_abs": 7.0,
+   "blend_margin": -5.3,
+   "est_a_total": 109.0,
+   "est_b_total": 223.5,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.3,
+   "blend_total": 166.3,
+   "home_win_prob": 0.37,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1393.6,
+     "from_arena": "Toyota Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Gainbridge Fieldhouse",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.06,
+    "home": -0.86
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600260",
+   "date": "2026-11-18",
+   "tip_et": "07:00 PM",
+   "away": "MIL",
+   "home": "MIA",
+   "est_a_margin": 5.6,
+   "est_b_margin": 14.9,
+   "disagreement_abs": 9.3,
+   "blend_margin": 10.3,
+   "est_a_total": 114.2,
+   "est_b_total": 233.6,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.4,
+   "blend_total": 173.9,
+   "home_win_prob": 0.739,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 328.7,
+     "from_arena": "Kia Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Kaseya Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -2.24,
+    "home": 1.69
+   },
+   "luck_band_flag": [
+    "MIL outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600261",
+   "date": "2026-11-18",
+   "tip_et": "07:00 PM",
+   "away": "PHI",
+   "home": "ORL",
+   "est_a_margin": 0.0,
+   "est_b_margin": -3.4,
+   "disagreement_abs": 3.4,
+   "blend_margin": -1.7,
+   "est_a_total": 101.5,
+   "est_b_total": 215.7,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.1,
+   "blend_total": 158.6,
+   "home_win_prob": 0.458,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 6,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Kia Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.59,
+    "home": 0.1
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600262",
+   "date": "2026-11-18",
+   "tip_et": "07:30 PM",
+   "away": "CHI",
+   "home": "BKN",
+   "est_a_margin": 2.6,
+   "est_b_margin": 6.3,
+   "disagreement_abs": 3.7,
+   "blend_margin": 4.4,
+   "est_a_total": 106.8,
+   "est_b_total": 232.8,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.6,
+   "blend_total": 169.8,
+   "home_win_prob": 0.609,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1640.3,
+     "from_arena": "Target Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1536.1,
+     "from_arena": "FedExForum",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.7,
+    "home": -0.64
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600263",
+   "date": "2026-11-18",
+   "tip_et": "07:30 PM",
+   "away": "WAS",
+   "home": "TOR",
+   "est_a_margin": 4.0,
+   "est_b_margin": 8.9,
+   "disagreement_abs": 4.9,
+   "blend_margin": 6.4,
+   "est_a_total": 102.4,
+   "est_b_total": 223.6,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.8,
+   "blend_total": 163.0,
+   "home_win_prob": 0.656,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 6,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 6,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 563.2,
+     "from_arena": "Capital One Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    }
+   },
+   "luck_z": {
+    "away": -1.46,
+    "home": -1.16
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600264",
+   "date": "2026-11-18",
+   "tip_et": "08:00 PM",
+   "away": "DET",
+   "home": "NOP",
+   "est_a_margin": -3.6,
+   "est_b_margin": -12.1,
+   "disagreement_abs": 8.5,
+   "blend_margin": -7.8,
+   "est_a_total": 112.9,
+   "est_b_total": 230.1,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.7,
+   "blend_total": 171.5,
+   "home_win_prob": 0.313,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1076.8,
+     "from_arena": "Kaseya Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Smoothie King Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 0.04,
+    "home": -1.1
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600265",
+   "date": "2026-11-18",
+   "tip_et": "08:00 PM",
+   "away": "ATL",
+   "home": "OKC",
+   "est_a_margin": 3.1,
+   "est_b_margin": 4.0,
+   "disagreement_abs": 0.9,
+   "blend_margin": 3.5,
+   "est_a_total": 110.3,
+   "est_b_total": 223.1,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.1,
+   "blend_total": 166.7,
+   "home_win_prob": 0.586,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 1111.8,
+     "from_arena": "United Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1907.9,
+     "from_arena": "Intuit Dome",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.52,
+    "home": -0.28
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600267",
+   "date": "2026-11-18",
+   "tip_et": "08:00 PM",
+   "away": "GSW",
+   "home": "DAL",
+   "est_a_margin": 1.1,
+   "est_b_margin": -2.5,
+   "disagreement_abs": 3.6,
+   "blend_margin": -0.7,
+   "est_a_total": 107.6,
+   "est_b_total": 227.8,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.1,
+   "blend_total": 167.7,
+   "home_win_prob": 0.483,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 404.8,
+     "from_arena": "Frost Bank Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1649.4,
+     "from_arena": "Rocket Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 1.48,
+    "home": 0.52
+   },
+   "luck_band_flag": [],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600266",
+   "date": "2026-11-18",
+   "tip_et": "09:30 PM",
+   "away": "BOS",
+   "home": "DEN",
+   "est_a_margin": -0.8,
+   "est_b_margin": -8.8,
+   "disagreement_abs": 8.1,
+   "blend_margin": -4.8,
+   "est_a_total": 93.3,
+   "est_b_total": 220.9,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 97.1,
+   "blend_total": 157.1,
+   "home_win_prob": 0.382,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 7,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-11"
+    },
+    "home": {
+     "days_rest": 4,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-14"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 2162.4,
+     "from_arena": "Scotiabank Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1740.1,
+     "from_arena": "Smoothie King Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": 2.26,
+    "home": 1.1
+   },
+   "luck_band_flag": [
+    "BOS outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600268",
+   "date": "2026-11-18",
+   "tip_et": "10:00 PM",
+   "away": "UTA",
+   "home": "LAL",
+   "est_a_margin": 6.9,
+   "est_b_margin": 21.4,
+   "disagreement_abs": 14.5,
+   "blend_margin": 14.2,
+   "est_a_total": 109.8,
+   "est_b_total": 231.8,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 100.5,
+   "blend_total": 170.8,
+   "home_win_prob": 0.811,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 7,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-11"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 2209.3,
+     "from_arena": "Toyota Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 2804.0,
+     "from_arena": "Fiserv Forum",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -2.89,
+    "home": 1.75
+   },
+   "luck_band_flag": [
+    "UTA outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "game_id": "0022600269",
+   "date": "2026-11-18",
+   "tip_et": "10:00 PM",
+   "away": "PHX",
+   "home": "SAC",
+   "est_a_margin": -0.8,
+   "est_b_margin": -7.0,
+   "disagreement_abs": 6.2,
+   "blend_margin": -3.9,
+   "est_a_total": 99.7,
+   "est_b_total": 231.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 99.7,
+   "blend_total": 165.5,
+   "home_win_prob": 0.404,
+   "hca_points_pinned": 1.62,
+   "rest": {
+    "away": {
+     "days_rest": 6,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-12"
+    },
+    "home": {
+     "days_rest": 5,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": null,
+     "from_arena": "PHX Arena",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+    },
+    "home": {
+     "km": 0.0,
+     "from_arena": "Golden 1 Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.23,
+    "home": -2.12
+   },
+   "luck_band_flag": [
+    "SAC outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  }
+ ],
+ "parlay_prices": [
+  {
+   "game_id": "0022600236",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.5911,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.3038,
+   "naive_product": 0.2955,
+   "ratio_joint_over_naive": 1.028,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600237",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.3521,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.1839,
+   "naive_product": 0.176,
+   "ratio_joint_over_naive": 1.045,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600238",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.6386,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.3272,
+   "naive_product": 0.3193,
+   "ratio_joint_over_naive": 1.025,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600239",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.1884,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.0999,
+   "naive_product": 0.0942,
+   "ratio_joint_over_naive": 1.061,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600240",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.7081,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.3613,
+   "naive_product": 0.354,
+   "ratio_joint_over_naive": 1.021,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600241",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.4777,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.2473,
+   "naive_product": 0.2388,
+   "ratio_joint_over_naive": 1.035,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600242",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.3115,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.1632,
+   "naive_product": 0.1557,
+   "ratio_joint_over_naive": 1.048,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600243",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.3005,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.1576,
+   "naive_product": 0.1503,
+   "ratio_joint_over_naive": 1.049,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600244",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.2941,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.1543,
+   "naive_product": 0.147,
+   "ratio_joint_over_naive": 1.05,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
+   "game_id": "0022600245",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.7552,
+   "p_over": 0.5,
+   "rho_measured": -0.053,
+   "joint_price_rho": 0.3842,
+   "naive_product": 0.3776,
+   "ratio_joint_over_naive": 1.018,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  }
+ ],
+ "market_anchored_prior": {
+  "feed_status": "not connected",
+  "blended_lines": [],
+  "flag": "blank + unverified: no closing-line feed is connected, so no blended line may be published",
+  "formula": "blended = w * model + (1 - w) * closing, w = exp(-logloss_model) / (exp(-logloss_model) + exp(-logloss_closing)), log losses measured out-of-sample"
+ },
+ "injury_input": {
+  "report": "data/app/official_injuries_2026-11-15_0615AM.json",
+  "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "note": "status designations ride along with each window row via minutes_model.json"
+ },
+ "sources": [
+  "https://www.nba.com/games?date=2026-11-14",
+  "https://www.nba.com/games?date=2026-11-13",
+  "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+  "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
+  "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+  "https://www.nba.com/games?date=2026-11-15",
+  "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+ ]
+}

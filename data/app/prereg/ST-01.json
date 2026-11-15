@@ -1,0 +1,88 @@
+{
+ "strategy_id": "ST-01",
+ "name": "Back big home favourites",
+ "family": "Single bet - spread",
+ "signal": "When our originated spread favours the home team by 8 or more, back the home team.",
+ "thresholds": {
+  "expected_edge_pp": -10.0,
+  "hit_rate": 0.4,
+  "top_band_hit_rate": null,
+  "clv_pp": null,
+  "sample_n": 30,
+  "gates": [
+   {
+    "id": "G1",
+    "name": "Every input has an official or reproducible source",
+    "passed": true,
+    "value": "pass",
+    "note": "174 official final scores; ratings refit per date."
+   },
+   {
+    "id": "G2",
+    "name": "No look-ahead: every feature exists before tip-off",
+    "passed": true,
+    "value": "pass",
+    "note": "Ratings refit from games with a strictly earlier date."
+   },
+   {
+    "id": "G3",
+    "name": "Out-of-sample sample size n >= 100",
+    "passed": false,
+    "value": "n = 30",
+    "note": "Threshold proposed by this session, not approved by the owner."
+   },
+   {
+    "id": "G4",
+    "name": "Observed effect is powered at 80%",
+    "passed": false,
+    "value": "n needed 194",
+    "note": "Normal approximation, alpha 0.05 two-sided, power 0.80."
+   },
+   {
+    "id": "G5",
+    "name": "Distinguishable from luck (exact binomial vs the 50% fair-line rate, p < 0.05)",
+    "passed": false,
+    "value": "p = 0.3616",
+    "note": ""
+   },
+   {
+    "id": "G6",
+    "name": "Survives Benjamini-Hochberg FDR 0.05",
+    "passed": false,
+    "value": "q = 1.0000",
+    "note": "Adjusted across the 15 scored rules on this board."
+   },
+   {
+    "id": "G7",
+    "name": "Direction stable in both halves of the sample",
+    "passed": true,
+    "value": "first 0.400, second 0.400",
+    "note": "Both halves must sit on the same side of the 50% fair-line rate."
+   },
+   {
+    "id": "G8",
+    "name": "Return interval excludes zero at an assumed price",
+    "passed": false,
+    "value": "95% interval -53.9% to -0.7%",
+    "note": "Measured against our own line at an assumed price. Not an economic result: no licensed odds feed is connected."
+   },
+   {
+    "id": "G9",
+    "name": "Beats the best edge this board can produce by luck alone",
+    "passed": false,
+    "value": "edge -10.0 pp vs luck threshold 28.9 pp",
+    "note": "95th percentile of the largest edge across 15 rules simulated under the fair-line null, 5000 iterations."
+   }
+  ]
+ },
+ "universe": "All regular-season games in the stored official log (data/origin/games.csv, 183 verified finals) for research; the live universe is the rolling window of official schedule games priced at most three days ahead (data/app/official_slate_1115_1118.json and successors).",
+ "settlement_rule": "Settle from the OFFICIAL final score only (nba.com scoreboard / official game book; quarter sums must equal the printed final). A side pick on team T at our originated line covers when (T score - opponent score + line_for_T) > 0; a total pick wins when the official combined final crosses our originated total. Games must reach Final; void otherwise. Pushes settle as void (stake returned, no P&L). No closing line is used for settlement \u2014 our own originated line is the reference, frozen at publication and hashed in the pick ledger (data/app/ledger/ledger.jsonl).",
+ "frozen_utc": "2026-11-15T12:10Z",
+ "frozen_before_first_bet": true,
+ "note": "No strategy is funded and no money bet has been placed; this file is the pre-registration of the research rules (T1 tier) as published on the strategy leaderboard.",
+ "sources": [
+  "data/app/canonical.json",
+  null
+ ],
+ "sha256": "09480dadbd48e698088185c5b319c094a8f5c529b5b55d1570047d2a554ede36"
+}
