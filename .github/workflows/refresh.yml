@@ -18,16 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # full history: the commit step runs `git pull --rebase origin main` before pushing
+          fetch-depth: 0
 
       - name: Fetch official sources (injury report, schedule, results, game books, team stats)
         run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      - name: Unit tests (capture, feed, ledger, estimators, gates)
-        run: |
-          python3 -m unittest discover -s tests -p "test_*1115*.py" -v
-          python3 -m unittest discover -s tests -p "test_results_feed.py" -v
-          python3 -m unittest discover -s tests -p "test_pick_ledger.py" -v
-          python3 -m unittest discover -s tests -p "test_freshness_gates.py" -v
+      - name: Unit tests (full suite — captures, feed, ledger, estimators, gates, refresh harness)
+        run: python3 -m unittest discover -s tests -p "test_*.py" -v
 
       - name: Commit refreshed captures and rebuilt outputs
         if: github.event.inputs.dry_run != 'true'
