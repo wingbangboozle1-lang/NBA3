@@ -1375,7 +1375,9 @@ def page_freshness(d):
         return "\n".join(body)
 
     counts = av.get("counts", {})
-    corr = av.get("b2b_correspondence_1114", {})
+    # renamed 2026-11-15 (session 94e6d41b): the correspondence block is now
+    # computed for the window's first date; fall back to the 11/14-era key
+    corr = av.get("b2b_correspondence") or av.get("b2b_correspondence_1114", {})
     body.append(f"""
 <p>Every number on this site is a snapshot of an official page that keeps moving. This page is the
 audit of that movement: which official capture each figure comes from, what the previous capture

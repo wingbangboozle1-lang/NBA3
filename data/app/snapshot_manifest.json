@@ -1,26 +1,32 @@
 {
  "schema": "nba3.snapshot_manifest/v1",
- "session": "arena/25418e3f-nba3",
- "written_on": "2026-11-14",
- "purpose": "Names the official captures the canonical engine and dashboard must read. Kept as a manifest rather than hard-coded paths so a later refresh can be made by dropping new files here and re-running the build.",
+ "session": "arena/94e6d41b-nba3",
+ "written_on": "2026-11-15",
+ "purpose": "Names the official captures the canonical engine and dashboard must read. Kept as a manifest rather than hard-coded paths so a later refresh can be made by dropping new files here and re-running the build. Refreshed 2026-11-15 by the rolling-slate refresh: window advanced from 2026-11-14..17 to 2026-11-15..18, every input repointed to the newest official capture, and the 11/14 finals appended to the results log.",
  "window": {
-  "from": "2026-11-14",
-  "to": "2026-11-17"
+  "from": "2026-11-15",
+  "to": "2026-11-18"
  },
  "results_log": {
   "path": "data/origin/games.csv",
-  "games": 183,
-  "last_date": "2026-11-13",
+  "games": 188,
+  "last_date": "2026-11-14",
   "provenance": "data/origin/games_extended_provenance.json",
-  "source_url": "https://www.nba.com/games?date=2026-11-13",
+  "source_url": "https://www.nba.com/games?date=2026-11-14",
   "cross_check_copy": "data/app/games_2026-11-14c.csv"
  },
  "slate": {
-  "path": "data/app/official_slate_1114_1117.json",
-  "source_url": "https://www.nba.com/schedule?date=2026-11-14",
-  "retrieved_stamp": "2026-11-14T01:05Z",
-  "reverified_on": "2026-11-14",
-  "reverified_by": "official scoreboard per-date counts, check C6"
+  "path": "data/app/official_slate_1115_1118.json",
+  "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+  "retrieved_stamp": "2026-11-15T11:40Z",
+  "reverified_on": "2026-11-15",
+  "reverified_by": "capture_official_2026_11_15.py checks C4/C4b/C7 (report coverage, tip times, 11/14 finals ids)"
+ },
+ "results_1114": {
+  "path": "data/app/official_results_2026-11-14.json",
+  "source_url": "https://www.nba.com/games?date=2026-11-14",
+  "retrieved_stamp": "2026-11-15T11:40Z",
+  "note": "The five 11/14 finals. Quarter scores are null: no official page reached in this environment prints a per-quarter line score in text-extractable form, and the JSON endpoints are unreachable. Flagged F-94E6D41B-02, never inferred."
  },
  "results_1113": {
   "path": "data/app/official_results_2026-11-13.json",
@@ -30,160 +36,41 @@
  "counts": {
   "path": "data/app/official_counts_2026-11-14.json",
   "source_url": "https://www.nba.com/games?date=2026-11-13",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "retrieved_stamp": "2026-11-14T09:45Z",
+  "note": "The official November calendar was re-read on 2026-11-15 with the games page: per-date counts 11/14=5, 11/15=9, 11/16=8, 11/17=5, 11/18=12 reproduce the new window's slate (capture check C4)."
  },
  "availability": {
   "path": "data/app/report_availability.json",
-  "built_by": "scripts/report_availability.py"
+  "built_by": "scripts/report_availability.py (now manifest-aware: it reads the slate and injury report named here)"
  },
  "players": {
-  "path": "data/app/players_top31_2026-11-14c.csv",
-  "captured_by": "session bd90ce16 (2026-11-14); this session did not re-read the table",
+  "path": "data/app/players_top31_2026-11-15.csv",
+  "captured_by": "session arena/94e6d41b-nba3 (2026-11-15)",
   "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-  "note": "The official per-player minutes table, newest capture in the repository. The canonical file data/origin/players_top_minutes.csv still predates the 2026-11-13 slate, so the manifest names the newer capture instead of letting an engine default decide it (flag NF-68, CS-45). Refreshing the canonical file is the request session bd90ce16 logged in COORDINATION.md and repeats here."
+  "note": "The official players-traditional table, rows 1-31 in the order the site renders them (PTS-descending). The site renders this order even when the URL asks for a MIN sort; the previous capture (players_top31_2026-11-14c.csv) is not MIN-monotone either, so the convention is unchanged and is flagged F-94E6D41B-03 for review."
  },
  "ratings": {
-  "path": "data/app/official_team_ratings_2026-11-14c.json",
+  "path": "data/app/official_team_ratings_2026-11-15.json",
   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "retrieved_stamp": "2026-11-15T11:45Z"
  },
  "injuries": {
-  "path": "data/app/official_injuries_2026-11-14_0415AM.json",
-  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
-  "report_stamp": "2026-11-14 04:15 AM ET",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "path": "data/app/official_injuries_2026-11-15_0615AM.json",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "report_stamp": "2026-11-15 06:15 AM ET",
+  "retrieved_stamp": "2026-11-15T11:32Z"
+ },
+ "refresh_checks": {
+  "script": "scripts/capture_official_2026_11_15.py",
+  "all_pass": true,
+  "checks": ["C1", "C2-06:00 AM", "C2-05:45 AM", "C2-12:00 AM", "C3", "C3b", "C3c", "C4", "C4b", "C5", "C6", "C7", "C8", "C8b", "C8c", "C9"],
+  "detail": "C1 statuses valid; C2 four-report row agreement; C3 day-before attribution cross-check; C3b reason agreement (2 documented extraction artefacts); C3c name-variant provenance; C4/C4b report-vs-slate coverage and tip times; C5 row inventory 101=84+17; C6 negative probe of the next slot; C7 finals-vs-slate; C8/C8b/C8c GP, W and L reconcile from the extended 188-game log; C9 players table convention and GP bound."
  },
  "superseded": {
-  "ratings": "data/app/official_team_ratings_2026-11-14b.json",
-  "injuries": "data/app/official_injuries_2026-11-13_0745PM.json",
-  "reason": "The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row."
- },
- "checks": {
-  "C1_gp_w_l_reconcile": true,
-  "C2_calendar_total": true,
-  "C3_scoreboard_records": true,
-  "C4_injury_rows_stable": true,
-  "C4_compared_rows": 31,
-  "C5_staleness_explained": true,
-  "C5_teams_with_new_gp": [
-   "ATL",
-   "CHI",
-   "CLE",
-   "GSW",
-   "HOU",
-   "IND",
-   "LAC",
-   "MEM",
-   "MIA",
-   "MIL",
-   "NOP",
-   "NYK",
-   "OKC",
-   "ORL",
-   "POR",
-   "SAC",
-   "SAS",
-   "UTA"
-  ],
-  "C5_field_differences": 123,
-  "C6_slate_counts": true,
-  "C7_second_capture_agrees": true,
-  "C7_rows_compared": 183,
-  "C8_parallel_injury_report_agrees": false,
-  "C8_rows_compared": 26
- },
- "parallel_capture": {
-  "what": "Two sessions refreshed the same inputs within about 40 minutes of each other on 2026-11-14, from the same official pages, with different file names and different code. This block records where they agree and where one of them is newer, so the overlap becomes corroboration instead of a fork.",
-  "results_log": {
-   "file": "data/app/games_2026-11-14c.csv",
-   "rows": 183,
-   "canonical_rows": 183,
-   "identical": true,
-   "only_in_canonical": [],
-   "only_in_copy": []
-  },
-  "injury_report": {
-   "file": "data/app/official_injuries_2026-11-14_0445AM.json",
-   "report_stamp": "2026-11-14 04:45 AM ET",
-   "rows_this_capture": 26,
-   "rows_parallel": 26,
-   "identical": false,
-   "only_here": [
-    "('11/14/2026', '', 'Traore, Nolan', 'Probable')"
-   ],
-   "only_there": [
-    "('11/14/2026', 'BKN', 'Traore, Nolan', 'Probable')"
-   ]
-  },
-  "newer_parallel_injury_file": "data/app/official_injuries_2026-11-14_0445AM.json",
-  "why_the_older_report_is_still_published": "Both files report the same 49 rows, 26 player rows and 23 team NOT-YET-SUBMITTED rows, under the same keys, from the same official index. The only substantive difference is one cell: this read of the 11/14 04:15 AM PDF found no Team cell for Traore, Nolan (BKN@MEM, Probable) at a page break and left it blank per the no-inference rule, while the parallel read of the 04:45 AM PDF attributes it to BKN. The newer report is therefore a second independent read of the same information, not new information: adopting its stamp as canonical is a one-field re-point of this manifest, and it should be made deliberately (CQ-47) because it also decides whether to fill in that cell. Nothing in the 27-game window changes either way - a Probable is not an absence, and no line is priced off it."
- },
- "extended_log_vs_stored_ratings": {
-  "prior_stamp": "2026-11-14T01:05Z",
-  "prior_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-  "teams_with_new_gp": [
-   "ATL",
-   "CHI",
-   "CLE",
-   "GSW",
-   "HOU",
-   "IND",
-   "LAC",
-   "MEM",
-   "MIA",
-   "MIL",
-   "NOP",
-   "NYK",
-   "OKC",
-   "ORL",
-   "POR",
-   "SAC",
-   "SAS",
-   "UTA"
-  ],
-  "teams_that_played_1113": [
-   "ATL",
-   "CHI",
-   "CLE",
-   "GSW",
-   "HOU",
-   "IND",
-   "LAC",
-   "MEM",
-   "MIA",
-   "MIL",
-   "NOP",
-   "NYK",
-   "OKC",
-   "ORL",
-   "POR",
-   "SAC",
-   "SAS",
-   "UTA"
-  ],
-  "moved_equals_played": true,
-  "field_differences": 123
- },
- "injury_delta": {
-  "compared_rows": 31,
-  "differences": [],
-  "team_attribution_differences": [
-   [
-    "Traore, Nolan",
-    "BKN@MEM",
-    "BKN",
-    "(cell not printed)"
-   ]
-  ],
-  "rows_only_in_newest": [],
-  "rows_only_in_stored": [],
-  "note": "Every 2026-11-14 row of the 04:15 AM ET report matched the stored 07:45 PM ET report on status and reason. A row whose TEAM cell the PDF did not print is kept with the team left blank here even when the older snapshot attributed it; that is a transcription-provenance difference, not a change in the player's availability."
- },
- "counts_vs_slate": {
-  "2026-11-14": 5,
-  "2026-11-15": 9,
-  "2026-11-16": 8,
-  "2026-11-17": 5
- },
- "november_official_total": 215
+  "slate": "data/app/official_slate_1114_1117.json",
+  "ratings": "data/app/official_team_ratings_2026-11-14c.json",
+  "players": "data/app/players_top31_2026-11-14c.csv",
+  "injuries": "data/app/official_injuries_2026-11-14_0445AM.json",
+  "reason": "The window rolled one day: 11/14 games are final and settled in the results log, and the newest official report (11/15 06:15 AM ET, verified by four cross-reports and the day-before document) supersedes the 11/14 early-morning snapshot that the 2026-11-14 manifest named. The published snapshot was 8h15m/24 versions stale when session 1823b910 closed it; this repoint also executes that round's change requests CR-1823b910-01 and CR-1823b910-02 (the availability states are now derived from the report the manifest names)."
+ }
 }
