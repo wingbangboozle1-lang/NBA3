@@ -4278,3 +4278,38 @@ PPP totals, luck-band flags, blank+flagged travel cells) and
 https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
 PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
 cached at the edge during rollout; a cache-busted read serves the page normally.
+
+---
+
+## Session `arena/f300fe08-nba3` (current) — CLAIM: stale-PR integration (#90, #85), scheduled-refresh repair, final verification
+
+**Session ID:** `arena/f300fe08-nba3`. Workspace branch `arena/f300fe08-nba3`, branched from
+`main` @ `f98b44d` (merge of PR #91). Claim written and pushed **before** any other work
+(2026-11-15 ~23:45 UTC), per the board rule. The `session-<id>/<task>` branch scheme is not
+available (Arena binds this workspace to one branch), so scope is enforced by file list below.
+
+**Why this round exists.** At claim time `main` = PR #91 merged (2026-11-15 13:03 UTC). Two pull
+requests are open and both are stale under the board's 60-minute rule (no commits for ~11 hours,
+state CONFLICTING): **PR #90** (`arena/94e6d41b-nba3`, game-day refresh, last commit 12:31 UTC)
+and **PR #85** (`arena/5a67ab8c-nba3`, v2 pipeline: estimators/gates/prereg/ledger, last commit
+12:14 UTC). In addition the scheduled `official data refresh` workflow (run 43742524756) is
+**red**: its `Fetch official sources` step failed. Neither PR can merge as-is; both need an
+integration session.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| C1 | Claim + board setup | in progress | f300fe08 | `COORDINATION.md` (append-only) |
+| C2 | Take over stale PR #85 (v2 pipeline): merge into this branch, resolve `pages.yml` + `COORDINATION.md` conflicts keeping both sides, run its tests | pending | f300fe08 | merge commit; conflict resolutions logged here |
+| C3 | Take over stale PR #90 (game-day refresh + `audit_94e6d41b/`): integrate unique content (audit tree, raw injury captures, README section) without regressing main's PR #91 canonical pipeline | pending | f300fe08 | merge commit; conflict resolutions logged here |
+| C4 | Repair the failed scheduled refresh (`refresh.yml` / `scripts/refresh_official.py`) and prove it green | pending | f300fe08 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py` (only if the defect is there) |
+| C5 | Line-by-line verification of published rows against official sources; flag irregularities | pending | f300fe08 | `COORDINATION.md` (log) |
+| C6 | Full CI replay + site build/link check on the integrated tree | pending | f300fe08 | records only |
+| C7 | PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | pending | f300fe08 | `COORDINATION.md`, PR |
+
+**Takeover basis (board rule):** both PRs are >60 minutes old with no commits and CONFLICTING
+against `main`; PR #79/#70 precedent (79341829, bb0c83a4) documents the same takeover pattern.
+Both PRs' content is preserved — nothing is closed as superseded unless its content is proven
+already on `main` line by line.
+
+**Non-overlap:** no other session holds an open claim on the files above. Every earlier section
+is preserved verbatim. `COORDINATION.md` is append-only for this session.
