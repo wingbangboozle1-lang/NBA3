@@ -28,7 +28,19 @@ DATA = os.path.join(HERE, "data")
 PAGES = os.path.join(HERE, "pages")
 ASSETS = os.path.join(HERE, "assets")
 
-CANONICAL = os.path.join(HERE, "..", "data", "app", "canonical.json")
+# Frozen input (session arena/94e6d41b-nba3): this audit verifies the canonical
+# artefact as published on 2026-11-14. Later refresh sessions legitimately
+# rebuild canonical.json from newer reports, so the baseline is materialised via
+# `git show` from main @ d320fea - identical content to what the committed pages
+# below were built from; this tree's record is otherwise untouched.
+import subprocess as _sp
+import tempfile as _tempfile
+_frozen_canonical = os.path.join(
+    _tempfile.mkdtemp(prefix="nba3-dd1eb1f1-frozen-"), "canonical.json")
+with open(_frozen_canonical, "wb") as _fh:
+    _fh.write(_sp.run(["git", "show", "d320fea:data/app/canonical.json"],
+                      cwd=os.path.join(HERE, ".."), capture_output=True, check=True).stdout)
+CANONICAL = _frozen_canonical
 OFFICIAL_HOSTS = ("nba.com", "ak-static.cms.nba.com", "official.nba.com")
 SITE_ROOT = "../../"
 NAV = [
