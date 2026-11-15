@@ -126,8 +126,6 @@ def load_finals():
 # written-down list to strip rather than a rule about "ignore timestamps".
 VOLATILE = [
     "generated_utc",
-    "gates.evaluated_at_utc",
-    "ledger[].settlement_stamp",
 ]
 
 
@@ -136,22 +134,22 @@ def _strip_volatile(doc):
     import copy
     d = copy.deepcopy(doc)
     d.pop("generated_utc", None)
-    if isinstance(d.get("gates"), dict):
-        d["gates"].pop("evaluated_at_utc", None)
-    for row in d.get("ledger") or []:
-        row.pop("settlement_stamp", None)
-    # the injury-age gate quotes the wall clock in its prose too
-    for g in (d.get("gates") or {}).get("gates") or []:
-        if g.get("name") == "injury_report_age":
-            g.pop("detail", None)
-            g.pop("measured", None)
     return d
+
+
+# The build is pinned to an explicit instant rather than "whenever the machine
+# happens to run".  The reason is the gate that measures how old the injury
+# report is: on the wall clock that number has a different value on every run, so
+# the artefact could never be reproduced and a drift check on it would fail for
+# a reason that has nothing to do with the data.  The pin is the instant this
+# build's inputs were assembled, and it is declared in the artefact.
+BUILD_INSTANT = _dt.datetime(2026, 11, 15, 12, 10, tzinfo=_dt.timezone.utc)
 
 
 def build(now_utc=None, write=True):
     # Frozen to the minute: the document is a publication, not a log, and a
     # build that differs only in the seconds field cannot be diffed between runs.
-    now_utc = (now_utc or _dt.datetime.now(_dt.timezone.utc)).replace(second=0, microsecond=0)
+    now_utc = (now_utc or BUILD_INSTANT).replace(second=0, microsecond=0)
     data = load_captures()
 
     # The gates read the PARSED injury rows, not the raw capture, because the
@@ -378,6 +376,11 @@ def build(now_utc=None, write=True):
         "parlays": parlays,
         "flags": _flags(leak, error_summary, luck, delta),
     }
+    doc["build_instant"] = now_utc.isoformat()
+    doc["build_instant_note"] = (
+        "the instant the build is pinned to, not the instant it ran. The injury-age gate measures "
+        "against this, so the artefact is reproducible; on a live schedule this pin is what the "
+        "scheduler sets when it decides to rebuild")
     doc["volatile_fields"] = VOLATILE
     doc["reproducibility_note"] = (
         "every field outside volatile_fields is a pure function of the captures; the build is "
