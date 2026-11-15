@@ -4278,3 +4278,46 @@ PPP totals, luck-band flags, blank+flagged travel cells) and
 https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
 PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
 cached at the edge during rollout; a cache-busted read serves the page normally.
+
+---
+
+## Session `arena/c94a5531-nba3` (current) — CLAIM: 11/15 evening game-day capture + verified settlement, gap-closing (arena coordinates/travel, injury-player game logs, market prior), takeover of stale PR #90, integration
+
+**Session ID:** `c94a5531`. Branch `arena/c94a5531-nba3`, branched from `main` @ `f98b44d`
+(merge of PR #91). This claim is committed and pushed **before** any other work, per the board rule.
+
+**Why this round exists.** It is 2026-11-15 ~23:40 UTC (6:40 PM ET). The published canonical
+dashboard is stamped midday; the 11/15 slate (9 games, tip 1:00 PM–9:00 PM ET) is being played
+right now and the brief requires the per-game result feed to stay current and the sealed ledger
+to settle **from official finals as each game day ends**. Newest 11/15 PM injury reports
+(01:00 PM ET window and later) are uncaptured. Open-PR state at claim time:
+
+| PR | Branch | Last commit | State | Disposition |
+|---|---|---|---|---|
+| [#92](https://github.com/wingbangboozle1-lang/NBA3/pull/92) | `arena/81800928-nba3` | 23:40 UTC (active) | refresh-job repair | **left untouched** (active session; its files are excluded from this scope) |
+| [#90](https://github.com/wingbangboozle1-lang/NBA3/pull/90) | `arena/94e6d41b-nba3` | 12:32 UTC (>60 min stale) | game-day refresh 11/15 | **takeover under the 60-minute rule**: its branch is merged into this one (no work discarded), then superseded by this round's evening refresh; PR closed with a pointer here |
+| [#85](https://github.com/wingbangboozle1-lang/NBA3/pull/85) | `arena/5a67ab8c-nba3` | 12:14 UTC (>60 min stale) | v2 pipeline (`data/v2/`, `pipeline/v2/`, `v2/`) | noted only; separate namespace, no file overlap with this round — a later integration round may adopt or close it |
+
+**Task board (this session)**
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| C1 | Takeover of stale PR #90 (60-minute rule): merge `arena/94e6d41b-nba3` preserving all captures/audit work, close PR with pointer | in progress | `COORDINATION.md` |
+| C2 | 11/15 evening official capture: newest injury reports (index re-read), standings, three team-stat pages, completed 11/15 finals + game books (quarter scores) | in progress | `data/app/official_*2026-11-15*` (session-scoped `*_c94a5531*` where a name is already taken), `scripts/capture_official_2026_11_15c.py` (new) |
+| C3 | Per-game result feed: one row per game (date, teams, final, quarter scores); settle **only** verified finals (two agreeing official reads); sealed-ledger settlement stamps | in progress | `data/app/results_feed.json`, `data/app/ledger/`, `scripts/results_feed.py`, `scripts/pick_ledger.py` |
+| C4 | Gap-closing: arena-coordinates table complete (PHX Arena + Wells Fargo Center) + travel distance; per-player game logs for current injury-report players; 11/13 quarter scores; market-anchored prior wired (blank without a licensed closing line) | in progress | `data/app/arena_coordinates.json`, `data/app/player_game_logs.json`, `scripts/rest_travel.py`, `scripts/estimators.py` (logged edits only) |
+| C5 | Re-cut model inputs: two estimators (disagreement headline), HCA pinned to measured home-win rate, luck z-scores + refusal rule, totals = possessions × PPP, parlay rho + naive product | in progress | `data/app/estimators.json`, `data/app/lab.json`, `data/app/canonical.json` (regenerated, stamp-derived) |
+| C6 | Site rebuild: projection/bet split, rotation-availability column, injury banner revision+retrieval times, settlement stamps, every row sourced or blank+flagged; questions/suggestions/executive summary updated | in progress | `app/`, `index.html`, `scripts/build_app.py`, `scripts/assemble_canonical.py` (logged generator edits + regeneration) |
+| C7 | Integration: CI replay, PR → merge → Pages deploy verified, completion record | pending | `COORDINATION.md`, PR |
+
+**Non-overlap.** This session does **not** edit `.github/workflows/refresh.yml`,
+`scripts/refresh_official.py`, `tests/test_refresh_official.py` (PR #92, active), or
+`data/v2/`, `pipeline/v2/`, `v2/` (PR #85 namespace). Files claimed above are otherwise
+unowned at claim time (all prior claims are done and merged). COORDINATION.md is append-only;
+conflicts resolve by keeping both sessions' text.
+
+**Takeover notes (C1).** PR #90's last commit is 2026-11-15T12:32Z — well past the 60-minute
+no-commit limit. Its content is preserved by merging its branch into `arena/c94a5531-nba3`
+before any new work; nothing is discarded. Its 11/15 midday captures (11:30 PM 11/14 and
+05:45/06:00/06:15 AM 11/15 verbatim reports, index re-read, NF-90 rotation-join fix,
+report-availability rule, audit_94e6d41b tree) land on `main` through this session's PR.
