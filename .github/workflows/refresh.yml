@@ -28,6 +28,7 @@ jobs:
           python3 -m unittest discover -s tests -p "test_results_feed.py" -v
           python3 -m unittest discover -s tests -p "test_pick_ledger.py" -v
           python3 -m unittest discover -s tests -p "test_freshness_gates.py" -v
+          python3 -m unittest tests/test_refresh_official.py -v
 
       - name: Commit refreshed captures and rebuilt outputs
         if: github.event.inputs.dry_run != 'true'
