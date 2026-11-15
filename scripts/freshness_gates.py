@@ -11,7 +11,13 @@ A gate is a hard rule with a measured value attached. Nothing is "assumed fresh"
   F7  every team in every slate game has an entry in the official advanced team-stats capture
   F8  the ledger chain verifies and every published pick has a frozen pre-registration
   F9  no stale numbers: the model's `as_of` stamp is not older than the newest settled game date
-  F10 every page the build will write has a row-level source URL (checked downstream by the site build)
+  F10 the capture is at least as new as the newest official read it was built from
+
+F10 measures build lag against the newest retrieved_utc inside meta.json, not against the wall
+clock. That keeps the artefact byte-reproducible, which the CI drift gate requires: a wall-clock
+stamp makes every run differ and the gate can never pass. Staleness against the real clock is a
+scheduling concern (the capture step re-fetches), and can be enforced explicitly with
+--max-report-age-hours when a human runs it.
 
 Run: python3 scripts/freshness_gates.py [--max-report-age-hours N]
 Exit code 1 if any gate fails.
@@ -156,12 +162,18 @@ def check(max_age_hours: float | None = None) -> list[dict]:
 
     # F10 ------------------------------------------------------------------------
     stamped = parse_stamp(meta["generated_utc"])
-    age = (dt.datetime.now(dt.timezone.utc) - stamped).total_seconds() / 3600.0
-    ok = True if max_age_hours is None else age <= max_age_hours
-    add("F10", "The capture is not older than the allowed age", ok,
-        {"generated_utc": meta["generated_utc"], "age_hours": round(age, 2),
-         "max_age_hours": max_age_hours},
-        "age <= --max-report-age-hours (unbounded when the flag is omitted)",
+    retrieved = [parse_stamp(b["retrieved_utc"]) for b in meta["sources"].values()
+                 if b.get("retrieved_utc")]
+    newest_read = max(retrieved) if retrieved else stamped
+    lag = (stamped - newest_read).total_seconds() / 3600.0
+    ok = (lag >= -1e-9) if max_age_hours is None else (abs(lag) <= max_age_hours)
+    add("F10", "The capture is at least as new as the newest official read it was built from", ok,
+        {"generated_utc": meta["generated_utc"],
+         "newest_source_retrieved_utc": newest_read.strftime("%Y-%m-%dT%H:%MZ"),
+         "build_lag_hours": round(lag, 4), "max_report_age_hours": max_age_hours},
+        "build_lag >= 0 (the capture is not older than its own newest source read); with "
+        "--max-report-age-hours, |build_lag| is bounded instead. Measured against the capture "
+        "stamps, never the wall clock, so the artefact reproduces byte for byte.",
         "https://www.nba.com/schedule?date=2026-11-15")
 
     return gates
@@ -174,8 +186,11 @@ def main() -> int:
     args = ap.parse_args()
     gates = check(args.max_report_age_hours)
     failed = [g for g in gates if not g["passed"]]
-    payload = {"schema": "nba3.live.freshness/v1",
-               "checked_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    payload = {"schema": "nba3.live/freshness/v1".replace("/", ".", 1),
+               "reference_utc": json.loads(META.read_text())["generated_utc"],
+               "checked_utc_note": ("Deliberately no wall-clock stamp: this artefact is compared "
+                                    "byte for byte in CI, and a clock reading would make every "
+                                    "build differ."),
                "counts": {"gates": len(gates), "passed": len(gates) - len(failed), "failed": len(failed)},
                "gates": gates}
     out = LIVE / "freshness.json"

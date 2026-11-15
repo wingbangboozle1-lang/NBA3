@@ -170,7 +170,14 @@ def verify() -> dict:
     }
 
 
-def main() -> None:
+def write_index() -> dict:
+    """Write ledger/index.json from the CURRENT ledger state.
+
+    Kept separate from main() because the index must reflect picks that were sealed after the
+    ledger was first created. Writing it only from main() left the index advertising a genesis
+    head hash after two picks had already been sealed -- a stale summary of a live chain, which is
+    exactly the kind of quiet mismatch this file exists to prevent.
+    """
     v = verify()
     frozen = load_prereg()
     index = {
@@ -190,8 +197,14 @@ def main() -> None:
     }
     LEDGER_DIR.mkdir(parents=True, exist_ok=True)
     INDEX.write_text(json.dumps(index, indent=1) + "\n")
-    print(f"ledger: {v['entries']} entries, head {v['head_hash'][:16]}..., verified={v['verified']}")
-    print(f"pre-registered strategies: {sorted(frozen)}")
+    return index
+
+
+def main() -> None:
+    index = write_index()
+    print(f"ledger: {index['entries']} entries, head {index['head_hash'][:16]}..., "
+          f"verified={index['verified']}")
+    print(f"pre-registered strategies: {index['preregistered_strategies']}")
 
 
 if __name__ == "__main__":

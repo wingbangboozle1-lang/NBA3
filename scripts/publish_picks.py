@@ -167,6 +167,8 @@ def main() -> None:
                               "gate": "G5_settlement_final_verified", "passed": True,
                               "detail": f"no published pick for this game ({exc})"})
 
+    # the index is rewritten AFTER sealing, so it can never advertise a stale head hash
+    ledger.write_index()
     v = ledger.verify()
     entries = ledger.read_ledger()
     OUT_PICKS.write_text(json.dumps({

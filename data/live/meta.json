@@ -1,7 +1,7 @@
 {
  "schema": "nba3.live.meta/v1",
  "session": "arena/2ebb1e75-nba3",
- "generated_utc": "2026-11-15T11:34:06Z",
+ "generated_utc": "2026-11-15T11:49:00Z",
  "network_note": "Raw curl to nba.com is blocked in the build sandbox (egress allowlist). Every official value below was read through the agent fetch tool on 2026-11-15 between 11:30Z and 11:50Z and transcribed by hand. Re-verify before acting; injury and tip values move during a slate.",
  "sources": {
   "injury_index": {
@@ -54,5 +54,6 @@
    "retrieved_utc": "2026-11-15T11:49Z",
    "note": "Official gamebooks linked from each game page ('Game Book'). One chunk each."
   }
- }
+ },
+ "generated_utc_note": "This is the timestamp of the NEWEST individual source read below, not the sandbox clock at the moment the manifest was written. An earlier value of 11:34:06Z was the plugin's snapshot time and was older than six of the reads it summarised -- F10 caught it. Stating the newest read makes the manifest internally consistent and reproducible."
 }

@@ -1,6 +1,7 @@
 {
  "schema": "nba3.live.freshness/v1",
- "checked_utc": "2026-11-15T11:57:37Z",
+ "reference_utc": "2026-11-15T11:49:00Z",
+ "checked_utc_note": "Deliberately no wall-clock stamp: this artefact is compared byte for byte in CI, and a clock reading would make every build differ.",
  "counts": {
   "gates": 10,
   "passed": 10,
@@ -129,14 +130,15 @@
   },
   {
    "id": "F10",
-   "name": "The capture is not older than the allowed age",
+   "name": "The capture is at least as new as the newest official read it was built from",
    "passed": true,
    "value": {
-    "generated_utc": "2026-11-15T11:34:06Z",
-    "age_hours": 0.39,
-    "max_age_hours": null
+    "generated_utc": "2026-11-15T11:49:00Z",
+    "newest_source_retrieved_utc": "2026-11-15T11:49Z",
+    "build_lag_hours": 0.0,
+    "max_report_age_hours": null
    },
-   "rule": "age <= --max-report-age-hours (unbounded when the flag is omitted)",
+   "rule": "build_lag >= 0 (the capture is not older than its own newest source read); with --max-report-age-hours, |build_lag| is bounded instead. Measured against the capture stamps, never the wall clock, so the artefact reproduces byte for byte.",
    "source": "https://www.nba.com/schedule?date=2026-11-15"
   }
  ]

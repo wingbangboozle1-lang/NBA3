@@ -316,7 +316,7 @@ def freshness_block(ctx) -> str:
              esc(json.dumps(g["value"])[:220]), esc(g["rule"]),
              link(g.get("source") or "https://www.nba.com/schedule", "source")]
             for g in f["gates"]]
-    return (f'<p>Checked {esc(f["checked_utc"])}: '
+    return (f'<p>Reference capture <code>{esc(f["reference_utc"])}</code>: '
             f'<strong>{f["counts"]["passed"]}/{f["counts"]["gates"]}</strong> gates pass. '
             'The build refuses to publish if any gate fails.</p>'
             + table(["Gate", "Rule", "Result", "Measured value", "Pass rule", "Source"], rows,

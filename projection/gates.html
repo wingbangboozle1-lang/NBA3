@@ -58,7 +58,7 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
 <header class="site"><div class="wrap">
   <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
   <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
-    capture 2026-11-15T11:34:06Z</div>
+    capture 2026-11-15T11:49:00Z</div>
 </div></header>
 <div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
 <nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html" class="active">Gates</a><a href="review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
@@ -67,7 +67,7 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
   <h1>Gates</h1>
   <p class="lead">Ten provenance and freshness gates that must pass before either surface is built, with the measured value for each.</p>
 <h2>Provenance and freshness gates</h2>
-<p>Checked 2026-11-15T11:57:25Z: <strong>10/10</strong> gates pass. The build refuses to publish if any gate fails.</p><div class="tw"><table id="freshness-gates" class="">
+<p>Reference capture <code>2026-11-15T11:49:00Z</code>: <strong>10/10</strong> gates pass. The build refuses to publish if any gate fails.</p><div class="tw"><table id="freshness-gates" class="">
 <thead><tr>
 <th>Gate</th>
 <th>Rule</th>
@@ -85,7 +85,7 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
 <tr><td><code>F7</code></td><td>Every slate team has an official advanced-stats row</td><td><span class="chip ok">PASS</span></td><td>{&quot;teams_needed&quot;: 30, &quot;missing&quot;: []}</td><td>all 30 team codes present in the official advanced capture</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F8</code></td><td>The ledger chain verifies and every sealed pick is pre-registered</td><td><span class="chip ok">PASS</span></td><td>{&quot;entries&quot;: 2, &quot;head&quot;: &quot;6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d&quot;, &quot;problems&quot;: [], &quot;unregistered_picks&quot;: []}</td><td>sha256 chain recomputes; strategy_id has a frozen prereg/ file</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F9</code></td><td>The model sample is not older than the newest settled game</td><td><span class="chip ok">PASS</span></td><td>{&quot;model_sample_end&quot;: &quot;2026-11-14&quot;, &quot;newest_settled&quot;: &quot;2026-11-14&quot;}</td><td>model sample end &gt;= newest settled game date</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">source</a></td></tr>
-<tr><td><code>F10</code></td><td>The capture is not older than the allowed age</td><td><span class="chip ok">PASS</span></td><td>{&quot;generated_utc&quot;: &quot;2026-11-15T11:34:06Z&quot;, &quot;age_hours&quot;: 0.39, &quot;max_age_hours&quot;: null}</td><td>age &lt;= --max-report-age-hours (unbounded when the flag is omitted)</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F10</code></td><td>The capture is at least as new as the newest official read it was built from</td><td><span class="chip ok">PASS</span></td><td>{&quot;generated_utc&quot;: &quot;2026-11-15T11:49:00Z&quot;, &quot;newest_source_retrieved_utc&quot;: &quot;2026-11-15T11:49Z&quot;, &quot;build_lag_hours&quot;: 0.0, &quot;max_report_age_hours&quot;: null}</td><td>build_lag &gt;= 0 (the capture is not older than its own newest source read); with --max-report-age-hours, |build_lag| is bounded instead. Measured against the capture stamps, never the wall clock, so the artefact reproduces byte for byte.</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 </tbody></table></div>
 <p>These gates run before either surface is built. Each one is a hard rule with a
 measured value attached, so nothing on this site is "assumed fresh". The gate log that governs
