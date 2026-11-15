@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Overview</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html" class="active">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Overview</div>
+    <h1>Overview</h1>
+    <p class="lead">Two estimators, published disagreement, gated strategies.</p>
+  </div>
+
+<p>This is the second pipeline. It exists because the first one had a single model and a single
+number, and a single number cannot tell you whether it is right or whether it is lucky. Here there
+are <strong>two independent estimators</strong>, the gap between them is the headline, and the blend
+is published underneath.</p>
+
+<div class="callout"><p><strong>Where the numbers stand.</strong> 13 of 13 source and freshness gates pass. 18 strategies are registered and backtested. <strong>0</strong> may be published as a projection and <strong>0</strong> may be offered as a bet.</p></div>
+
+<h2>The two estimators</h2>
+<p>They are independent in the way that matters: different inputs, different arithmetic, no shared
+quantity. If both read the same rating they would agree by construction and the disagreement — the
+thing this pipeline is for — would always be zero.</p>
+
+<div class="table-wrap"><table>
+<caption id="estimators"></caption>
+<thead><tr><th>Estimator</th><th>What it reads</th><th>Out-of-sample margin RMSE</th><th>Status</th><th>Source</th></tr></thead><tbody>
+<tr><td><strong>A</strong> result-based</td><td>final margins only (ridge least squares on the game log)</td><td>15.23</td><td><span class="chip chip-ok">clean</span> fitted only on games strictly before each forecast</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><strong>B</strong> efficiency-based</td><td>official team advanced + opponent pages: possessions, points per possession, pace</td><td>13.72</td><td><span class="chip chip-warn">contaminated</span> single dated snapshot, see FV2-06</td><td><a href="https://www.nba.com/stats/teams/advanced" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced</a></td></tr>
+</tbody></table></div>
+<div class="callout warn"><p><strong>Why B's number is not a result.</strong> B is fitted on one team-statistics snapshot dated 2026-11-15 and used to price all 131 games played before that date, so its error carries information from the future. It cannot be quoted as an out-of-sample figure and no rule that reads B is ranked. The fix is a per-date statistics history; until then A at 15.23 points is the only honest accuracy claim on this site.</p></div>
+
+<h2>Home-court advantage is pinned, not fitted</h2>
+<p>The brief asks for HCA pinned to the measured home-win rate. That is what happens: a free
+regression coefficient is not used anywhere.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Item</th><th>Value</th></tr></thead><tbody>
+<tr><td>Games measured</td><td>183</td></tr>
+<tr><td>Home wins</td><td>96</td></tr>
+<tr><td>Measured home-win rate</td><td>52.459%</td></tr>
+<tr><td>Margin standard deviation</td><td>16.98</td></tr>
+<tr><td><strong>HCA points</strong></td><td><strong>1.67</strong></td></tr>
+<tr><td>Derivation</td><td>logit(p_home) * sd(margin); pinned, not fitted</td></tr>
+<tr><td>Caveat</td><td>The pin is exact on the win rate and assumes only that the margin distribution is roughly normal. It is stated as a derivation, not a fact.</td></tr>
+<tr><td>Source</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+</tbody></table></div>
+
+<h2>The five numbers that matter</h2>
+
+<div class="table-wrap"><table>
+<caption id="five-numbers"></caption>
+<thead><tr><th>What</th><th>Value</th><th>Read it as</th></tr></thead><tbody>
+<tr><td>Home-court advantage</td><td>1.67 pts</td><td>pinned to the measured rate; not a fitted coefficient</td></tr>
+<tr><td>Margin error, estimator A</td><td>15.23 pts</td><td>genuine out-of-sample; this is the unit the disagreement is measured against</td></tr>
+<tr><td>Total error, estimator B</td><td>17.68 pts</td><td>does not beat a constant league-average total — published worse, not hidden</td></tr>
+<tr><td>Best published edge over a coin</td><td>26.84 pp</td><td>the board's luck threshold is 27.78 pp</td></tr>
+<tr><td>Strategies that may be a bet</td><td>0</td><td>zero, because no licensed market price is connected to this repository</td></tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

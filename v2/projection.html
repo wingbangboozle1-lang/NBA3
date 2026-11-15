@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projection — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Projection</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html" class="active">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Projection</div>
+    <h1>Projection</h1>
+    <p class="lead">Originated lines for the window. Safe to publish.</p>
+  </div>
+
+<p>Lines <strong>originated by this project</strong> for the
+2026-11-15 → 2026-11-17 window. No licensed odds feed is
+connected, so these are not market prices and no claim of value is made.</p>
+
+<div class="callout"><p><strong>Read the disagreement column first.</strong> The gap between the two estimators is the confidence signal. A small gap means two very different methods arrived at the same place; a large one means the game is a genuine argument between a result-based and an efficiency-based view of the same teams.</p></div>
+
+<div class="table-wrap"><table>
+<caption id="projection-lines"></caption>
+<thead><tr><th>Date</th><th>Tip (ET)</th><th>Game</th><th>A margin</th><th>B margin</th><th>Gap (pts)</th><th>Agreement</th><th>Our line (spread / total)</th><th>Home ML</th><th>Away ML</th><th>Injuries</th><th>Source</th></tr></thead><tbody>
+<tr><td>2026-11-15</td><td>1:00 PM</td><td><a id="0022600236"></a>IND @ PHI</td><td>4.30</td><td>3.57</td><td><strong>0.73</strong></td><td>agree</td><td>3.57 / 222.62</td><td>-132</td><td>+132</td><td>7 out · both filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>4:00 PM</td><td><a id="0022600237"></a>LAL @ PHX</td><td>-4.80</td><td>-4.52</td><td><strong>0.28</strong></td><td>agree</td><td>-4.52 / 232.44</td><td>+142</td><td>-142</td><td>2 out · away only</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>4:30 PM</td><td><a id="0022600238"></a>CHA @ LAC</td><td>6.20</td><td>4.75</td><td><strong>1.45</strong></td><td>agree</td><td>4.75 / 217.96</td><td>-145</td><td>+145</td><td>9 out · both filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>5:00 PM</td><td><a id="0022600239"></a>SAS @ UTA</td><td>-11.74</td><td>-10.38</td><td><strong>1.36</strong></td><td>agree</td><td>-10.38 / 222.90</td><td>+226</td><td>-226</td><td>6 out · both filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>6:00 PM</td><td><a id="0022600240"></a>DAL @ BOS</td><td>5.75</td><td>—</td><td><strong>—</strong></td><td>unknown</td><td>5.75 / —</td><td>-157</td><td>+157</td><td>0 out · home only</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>6:00 PM</td><td><a id="0022600241"></a>NYK @ TOR</td><td>-0.06</td><td>-0.71</td><td><strong>0.65</strong></td><td>agree</td><td>-0.71 / 220.17</td><td>+106</td><td>-106</td><td>4 out · home only</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>7:00 PM</td><td><a id="0022600242"></a>HOU @ WAS</td><td>-8.67</td><td>-5.61</td><td><strong>3.06</strong></td><td>agree</td><td>-5.61 / 223.08</td><td>+155</td><td>-155</td><td>2 out · away only</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>8:00 PM</td><td><a id="0022600243"></a>ATL @ MIL</td><td>-6.16</td><td>-6.12</td><td><strong>0.04</strong></td><td>agree</td><td>-6.12 / 229.76</td><td>+161</td><td>-161</td><td>4 out · away only</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td>9:00 PM</td><td><a id="0022600244"></a>OKC @ SAC</td><td>-8.37</td><td>-6.54</td><td><strong>1.83</strong></td><td>agree</td><td>-6.54 / 223.97</td><td>+167</td><td>-167</td><td>8 out · both filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-16</td><td>7:00 PM</td><td><a id="0022600245"></a>ORL @ BOS</td><td>9.83</td><td>9.50</td><td><strong>0.33</strong></td><td>agree</td><td>9.50 / 217.87</td><td>-211</td><td>+211</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>7:00 PM</td><td><a id="0022600246"></a>CHI @ CLE</td><td>9.16</td><td>7.97</td><td><strong>1.19</strong></td><td>agree</td><td>7.97 / 234.99</td><td>-187</td><td>+187</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>7:00 PM</td><td><a id="0022600247"></a>MEM @ WAS</td><td>-6.33</td><td>-5.59</td><td><strong>0.75</strong></td><td>agree</td><td>-5.59 / 226.28</td><td>+155</td><td>-155</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>7:30 PM</td><td><a id="0022600248"></a>PHI @ BKN</td><td>-2.08</td><td>-2.31</td><td><strong>0.23</strong></td><td>agree</td><td>-2.31 / 222.51</td><td>+120</td><td>-120</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>7:30 PM</td><td><a id="0022600249"></a>HOU @ MIA</td><td>-5.99</td><td>-3.38</td><td><strong>2.62</strong></td><td>agree</td><td>-3.38 / 229.96</td><td>+130</td><td>-130</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>8:00 PM</td><td><a id="0022600250"></a>POR @ MIN</td><td>4.21</td><td>3.45</td><td><strong>0.76</strong></td><td>agree</td><td>3.45 / 227.46</td><td>-131</td><td>+131</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>8:00 PM</td><td><a id="0022600251"></a>GSW @ NOP</td><td>-7.97</td><td>-4.84</td><td><strong>3.13</strong></td><td>agree</td><td>-4.84 / 231.34</td><td>+146</td><td>-146</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td>9:00 PM</td><td><a id="0022600252"></a>PHX @ DEN</td><td>4.60</td><td>4.76</td><td><strong>0.16</strong></td><td>agree</td><td>4.76 / 226.59</td><td>-145</td><td>+145</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-17</td><td>7:30 PM</td><td><a id="0022600253"></a>NYK @ TOR</td><td>-0.06</td><td>-0.71</td><td><strong>0.65</strong></td><td>agree</td><td>-0.71 / 220.17</td><td>+106</td><td>-106</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td>8:00 PM</td><td><a id="0022600254"></a>POR @ MIN</td><td>4.21</td><td>3.45</td><td><strong>0.76</strong></td><td>agree</td><td>3.45 / 227.46</td><td>-131</td><td>+131</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td>8:00 PM</td><td><a id="0022600255"></a>DET @ SAS</td><td>5.76</td><td>5.64</td><td><strong>0.13</strong></td><td>agree</td><td>5.64 / 222.67</td><td>-155</td><td>+155</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td>10:30 PM</td><td><a id="0022600257"></a>UTA @ LAC</td><td>4.68</td><td>4.55</td><td><strong>0.14</strong></td><td>agree</td><td>4.55 / 224.93</td><td>-143</td><td>+143</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td>11:00 PM</td><td><a id="0022600256"></a>CHA @ LAL</td><td>13.44</td><td>11.21</td><td><strong>2.23</strong></td><td>agree</td><td>11.21 / 222.25</td><td>-242</td><td>+242</td><td>0 out · neither filed</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+</tbody></table></div>
+<div class="callout warn"><p><strong>What is <em>not</em> on this page.</strong> No stake, no unit, no expected profit, and no bet. This page is the projection surface: it says what the models think, not what anyone should do about it. The gated surface is <a href="bet.html">separate</a> and is deliberately empty.</p></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

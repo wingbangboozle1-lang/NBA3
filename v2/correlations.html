@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correlations — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Audit</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html" class="active">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Audit</div>
+    <h1>Correlations</h1>
+    <p class="lead">Measured dependence and parlay prices.</p>
+  </div>
+
+<p>Parlays are priced twice: the naive product, which assumes the legs are independent, and the
+copula price at the measured correlation. Both are always printed. Where a correlation cannot be
+measured, only the naive product is shown and it is labelled as an assumption.</p>
+
+<div class="table-wrap"><table>
+<caption id="correlations"></caption>
+<thead><tr><th>Pair</th><th>Statistic</th><th>Value</th><th>95% CI</th><th>n</th><th>What it is for</th><th>Source</th></tr></thead><tbody>
+<tr><td>home points vs away points, same game</td><td>Pearson r</td><td>0.1230</td><td>-0.0225 to 0.2633</td><td>183</td><td>whether a same-game side + total parlay may be priced as independent</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td>final margin vs final total, same game</td><td>Pearson r</td><td>-0.0340</td><td>-0.1782 to 0.1116</td><td>183</td><td>pricing a side and a total in the same parlay</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td>cover AND over, same game (vs our originated line)</td><td>phi</td><td>0.0470</td><td>— to —</td><td>131</td><td>the same-game parlay dependence ratio</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+</tbody></table></div>
+<h2>What cannot be measured here</h2>
+<div class="table-wrap"><table>
+<caption id="unmeasurable"></caption>
+<thead><tr><th>Pair</th><th>Why not</th></tr></thead><tbody>
+<tr><td>player A points vs player B points, same team, same game</td><td>needs per-player game logs for a full season; only 2 of 30 teams&#x27; top-8 minutes were captured and no game logs at all</td></tr>
+<tr><td>player points vs player rebounds, same player</td><td>needs per-player game logs</td></tr>
+<tr><td>player points vs player assists, same player</td><td>needs per-player game logs</td></tr>
+<tr><td>player stat vs the same game&#x27;s team total</td><td>needs per-player game logs and would still be a small-sample estimate</td></tr>
+<tr><td>leg A vs leg B across two different games on the same night</td><td>no shared state to correlate; measurable only as a null, and a null with no data behind it is not a measurement</td></tr>
+</tbody></table></div>
+<div class="callout warn"><p><strong>A correlation inside its own confidence interval of zero is not zero.</strong> It is 'not distinguishable from zero at this n', which is a weaker and more accurate statement. The parlay prices use the point estimate and say so.</p></div>
+<h2>Worked parlay prices for the window</h2>
+<div class="table-wrap"><table>
+<caption id="parlay-prices"></caption>
+<thead><tr><th>Date</th><th>Game</th><th>Side leg</th><th>Total leg</th><th>Naive product</th><th>Measured-rho price</th><th>Dependence ratio</th><th>Source</th></tr></thead><tbody>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600236">0022600236</a></td><td>56.92%</td><td>50.00%</td><td>0.2846</td><td>0.2793</td><td>0.981286</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600237">0022600237</a></td><td>58.72%</td><td>50.00%</td><td>0.2936</td><td>0.2883</td><td>0.982027</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600238">0022600238</a></td><td>59.17%</td><td>50.00%</td><td>0.2958</td><td>0.2906</td><td>0.982207</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600239">0022600239</a></td><td>69.37%</td><td>50.00%</td><td>0.3468</td><td>0.3421</td><td>0.986289</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600240">0022600240</a></td><td>61.05%</td><td>50.00%</td><td>0.3052</td><td>0.3000</td><td>0.98297</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600241">0022600241</a></td><td>51.37%</td><td>50.00%</td><td>0.2569</td><td>0.2515</td><td>0.97896</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600242">0022600242</a></td><td>60.77%</td><td>50.00%</td><td>0.3039</td><td>0.2987</td><td>0.982859</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600243">0022600243</a></td><td>61.74%</td><td>50.00%</td><td>0.3087</td><td>0.3035</td><td>0.983248</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-15</td><td><a href="projection.html#0022600244">0022600244</a></td><td>62.51%</td><td>50.00%</td><td>0.3125</td><td>0.3074</td><td>0.983557</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-15</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600245">0022600245</a></td><td>67.84%</td><td>50.00%</td><td>0.3392</td><td>0.3343</td><td>0.985683</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600246">0022600246</a></td><td>65.13%</td><td>50.00%</td><td>0.3256</td><td>0.3206</td><td>0.984606</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600247">0022600247</a></td><td>60.74%</td><td>50.00%</td><td>0.3037</td><td>0.2985</td><td>0.982846</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600248">0022600248</a></td><td>54.48%</td><td>50.00%</td><td>0.2724</td><td>0.2670</td><td>0.980275</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600249">0022600249</a></td><td>56.54%</td><td>50.00%</td><td>0.2827</td><td>0.2774</td><td>0.981131</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600250">0022600250</a></td><td>56.68%</td><td>50.00%</td><td>0.2834</td><td>0.2781</td><td>0.98119</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600251">0022600251</a></td><td>59.33%</td><td>50.00%</td><td>0.2967</td><td>0.2914</td><td>0.982274</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-16</td><td><a href="projection.html#0022600252">0022600252</a></td><td>59.18%</td><td>50.00%</td><td>0.2959</td><td>0.2907</td><td>0.982214</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-16</a></td></tr>
+<tr><td>2026-11-17</td><td><a href="projection.html#0022600253">0022600253</a></td><td>51.37%</td><td>50.00%</td><td>0.2569</td><td>0.2515</td><td>0.97896</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td><a href="projection.html#0022600254">0022600254</a></td><td>56.68%</td><td>50.00%</td><td>0.2834</td><td>0.2781</td><td>0.98119</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td><a href="projection.html#0022600255">0022600255</a></td><td>60.83%</td><td>50.00%</td><td>0.3042</td><td>0.2990</td><td>0.982884</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td><a href="projection.html#0022600257">0022600257</a></td><td>58.78%</td><td>50.00%</td><td>0.2939</td><td>0.2886</td><td>0.982049</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+<tr><td>2026-11-17</td><td><a href="projection.html#0022600256">0022600256</a></td><td>70.77%</td><td>50.00%</td><td>0.3539</td><td>0.3492</td><td>0.986844</td><td><a href="https://www.nba.com/schedule?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule?date=2026-11-17</a></td></tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

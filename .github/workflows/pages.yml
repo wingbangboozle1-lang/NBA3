@@ -336,6 +336,26 @@ jobs:
       - name: Unit tests (injury-refresh audit, arena/1823b910)
         run: python3 -m unittest discover -s audit_1823b910 -p 'test_*.py'
 
+      - name: v2 pipeline tests (two estimators, gate set, copula, ledger)
+        run: python3 -m unittest discover -s pipeline/v2/tests -p 'test_*.py'
+
+      - name: v2 build (gates first; refuses to publish on a blocking gate failure) and drift check
+        run: |
+          python3 -m pipeline.v2.build
+          git diff --exit-code -- data/v2/build.json || {
+            echo "data/v2/build.json drifted from the committed artefact."
+            echo "The v2 build is seeded and its timestamp is frozen to the minute, so a"
+            echo "difference means a real input changed, not machine noise."
+            git --no-pager diff --stat -- data/v2/build.json
+            exit 1
+          }
+          python3 scripts/build_v2.py
+          test -z "$(git status --porcelain -- v2/)" || {
+            echo 'v2/ is stale; run python3 scripts/build_v2.py and commit'
+            git status --porcelain -- v2/
+            exit 1
+          }
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -360,6 +380,7 @@ jobs:
           cp -r verify _pages/verify
           cp -r d01ae7e2 _pages/d01ae7e2
           cp -r hub _pages/hub
+          cp -r v2 _pages/v2
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

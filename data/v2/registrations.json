@@ -1,0 +1,693 @@
+{
+ "kind": "strategy_preregistrations",
+ "frozen_utc": "2026-11-15T11:51:00+00:00",
+ "note": "written once, on the first build. Every later build reads this file instead of re-stamping the rules, so a registration time cannot drift forward to stay ahead of a bet. Changing a rule's signal, thresholds, universe or settlement rule changes its hash and will not verify.",
+ "registrations": [
+  {
+   "strategy_id": "S01",
+   "name": "Fade the big home favourite",
+   "family": "single",
+   "market": "spread",
+   "signal": "estimator A expected margin (home - away) >= +7.0",
+   "thresholds": {
+    "min_abs_margin": 7.0
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "When estimator A's margin puts the home side at 7 points or more, take the AWAY side against our own line.",
+   "preregistration_sha256": "31ee77728f0e3882a0967b3dfd5bd755013df1842be71a5d1750854f73f7c128",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "away",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S02",
+   "name": "Back the big home favourite",
+   "family": "single",
+   "market": "spread",
+   "signal": "estimator A expected margin (home - away) >= +7.0",
+   "thresholds": {
+    "min_abs_margin": 7.0
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "Exact mirror of S01: when A's margin puts the home side at 7 or more, take the HOME side against our own line. This exists so the sign of S01 cannot be mistaken for skill.",
+   "preregistration_sha256": "35454c30e0a7763a63cfb884fcc7b876b751e2fd47d23921a49d7452da8a8ac2",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "S01",
+   "direction": "home",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S03",
+   "name": "Under a high total",
+   "family": "single",
+   "market": "total",
+   "signal": "originated total >= 235.0",
+   "thresholds": {
+    "min_total": 235.0
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the combined official final score is over or under the number originated by this project. Pushes excluded and counted separately.",
+   "rule_text": "When our originated total is 235 or higher, take the UNDER.",
+   "preregistration_sha256": "74d652a8f8c2b818f85b8e234937ca645b08738c76c7482044f63c39b73ab2e7",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "under",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S04",
+   "name": "Over a high total",
+   "family": "single",
+   "market": "total",
+   "signal": "originated total >= 235.0",
+   "thresholds": {
+    "min_total": 235.0
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the combined official final score is over or under the number originated by this project. Pushes excluded and counted separately.",
+   "rule_text": "Exact mirror of S03: when our originated total is 235 or higher, take the OVER.",
+   "preregistration_sha256": "6161c845414c1e20528f13e10ef8f1dd4846e627d5e6e07e0a11297759b90445",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "S03",
+   "direction": "over",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S05",
+   "name": "Rested home team vs a back-to-back road team",
+   "family": "single",
+   "market": "spread",
+   "signal": "rest_days(home) >= 2 AND rest_days(away) == 1",
+   "thresholds": {
+    "home_rest_min": 2,
+    "away_rest_exact": 1
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "When the home team has 2 or more rest days and the road team played the night before, take the HOME side against our own line.",
+   "preregistration_sha256": "fba62a11598a67b4b5daa35cbf7f9b7cfcbaabdb9851c9acef9195adac8c1525",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "home",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S06",
+   "name": "Fade the rested home team",
+   "family": "single",
+   "market": "spread",
+   "signal": "rest_days(home) >= 2 AND rest_days(away) == 1",
+   "thresholds": {
+    "home_rest_min": 2,
+    "away_rest_exact": 1
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "Exact mirror of S05.",
+   "preregistration_sha256": "5021498f128a54407e82fcc8a4e099c6f91544b0b8478d3ebff66afd652d4c5e",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "S05",
+   "direction": "away",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S07",
+   "name": "Back the home team on a back-to-back",
+   "family": "single",
+   "market": "spread",
+   "signal": "rest_days(home) == 1",
+   "thresholds": {
+    "home_rest_exact": 1
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "When the home team played the night before, take the HOME side.",
+   "preregistration_sha256": "a50942b883917284481bedddc342de24c9aa634189723ba3d7e314566a2eb5cd",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "home",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S08",
+   "name": "Fade the home team on a back-to-back",
+   "family": "single",
+   "market": "spread",
+   "signal": "rest_days(home) == 1",
+   "thresholds": {
+    "home_rest_exact": 1
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "Exact mirror of S07.",
+   "preregistration_sha256": "86fdd0dc2c0693f6308e3a767c6b46cfe27f6d943b47bc63ee38ffe4d8b067de",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "S07",
+   "direction": "away",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S09",
+   "name": "Moneyline the model favourite",
+   "family": "single",
+   "market": "moneyline",
+   "signal": "sign(A margin) == sign(B margin) AND |A - B| < 0.20 * sqrt(e_A^2 + e_B^2)",
+   "thresholds": {
+    "max_gap_frac_of_error": 0.2
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the side named wins the game outright in the official final score. A game that goes to overtime settles on the final including overtime.",
+   "rule_text": "When the estimators agree on the favourite AND the gap between them is under 20% of their combined error, take that favourite's moneyline at our fair price.",
+   "preregistration_sha256": "32ffe24a54d7fe1ff2c5607cd73503cc4efd2fc3d0e3d7ccb08153d9ac659c78",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "favourite",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S10",
+   "name": "Moneyline the model underdog",
+   "family": "single",
+   "market": "moneyline",
+   "signal": "sign(A margin) == sign(B margin) AND |A - B| < 0.20 * sqrt(e_A^2 + e_B^2)",
+   "thresholds": {
+    "max_gap_frac_of_error": 0.2
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the side named wins the game outright in the official final score. A game that goes to overtime settles on the final including overtime.",
+   "rule_text": "Exact mirror of S09: take the other side at our fair price.",
+   "preregistration_sha256": "6efaba47f1708d8882efb485bdf1b7efe55a526ec54cf04fc74d9bb6989ec6ad",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "S09",
+   "direction": "underdog",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S11",
+   "name": "Take the side the estimators disagree on",
+   "family": "single",
+   "market": "spread",
+   "signal": "|A - B| > sqrt(e_A^2 + e_B^2)",
+   "thresholds": {
+    "min_gap_frac_of_error": 1.0
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "When the estimators disagree by more than their combined error, back the side estimator B favours, because B uses possessions and A only sees results.",
+   "preregistration_sha256": "8c1518d1cccbb6d2ef7060c3bdae3d148ee3d72b4f356ce59882fdcbea27cfd7",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "B",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "S12",
+   "name": "Fade the side the estimators disagree on",
+   "family": "single",
+   "market": "spread",
+   "signal": "|A - B| > sqrt(e_A^2 + e_B^2)",
+   "thresholds": {
+    "min_gap_frac_of_error": 1.0
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the named side covers the number originated by this project, measured against the official final margin. A push is not a win and not a loss; pushes are excluded from the hit rate and counted separately.",
+   "rule_text": "Exact mirror of S11: back estimator A's side in the same games.",
+   "preregistration_sha256": "884e9064eb2a56064b0c9833f213d2c2cbe4776a7aeeeb9a97ca23eaa3924209",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "S11",
+   "direction": "A",
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "P01",
+   "name": "Same-game: model side plus Under",
+   "family": "parlay",
+   "market": "sgp",
+   "signal": "originated total >= 235 AND the estimators agree on the favourite",
+   "thresholds": {
+    "min_total": 235.0,
+    "agreement_required": true
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "both legs settle on the SAME official final: the side against our margin and the total against our total. The parlay wins only if both win.",
+   "rule_text": "On games where our total is at the top of the range, take the model-favoured side AND the Under. Priced twice: naive product and measured rho.",
+   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": null,
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "P02",
+   "name": "Cross-game: two independent sides",
+   "family": "parlay",
+   "market": "cross",
+   "signal": "at least two games on the date; the two with the largest gap between estimator A and B in the same direction",
+   "thresholds": {
+    "min_games": 2
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "both legs settle on their own official finals; the parlay wins only if both legs win.",
+   "rule_text": "On nights with two or more games, take the model favourite in the two games furthest apart on the calendar. Independence across games is a real assumption here, not a measured one, and the page says so.",
+   "preregistration_sha256": "e722a26e143d1a7950a9c5902387a22858fd69ae65577ac947486f1b11037b6e",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": null,
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "R01",
+   "name": "Player points over his season average",
+   "family": "prop",
+   "market": "player_points",
+   "signal": "player is not listed Out on the newest official report",
+   "thresholds": {
+    "min_gp": 5
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the combined official final score is over or under the number originated by this project. Pushes excluded and counted separately.",
+   "rule_text": "Take a player's points OVER his own season-to-date average, from the official player page, whenever he is not on the injury report.",
+   "preregistration_sha256": "b7ecc9c272b8c1f27feeabd7c89bc9aaabe767e111cc02e55aa04289e6c6cfeb",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": "over",
+   "data_need": "per-player game logs for a season",
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "R02",
+   "name": "Player points under his season average",
+   "family": "prop",
+   "market": "player_points",
+   "signal": "player is not listed Out on the newest official report",
+   "thresholds": {
+    "min_gp": 5
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the combined official final score is over or under the number originated by this project. Pushes excluded and counted separately.",
+   "rule_text": "Exact mirror of R01.",
+   "preregistration_sha256": "624e8818ebc18387bb7a8be8cd0a918f97dc09ea6c3fb69b40e4455f39ecfce3",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": "R01",
+   "direction": "under",
+   "data_need": "per-player game logs for a season",
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "R03",
+   "name": "Two-team player-points combo",
+   "family": "prop",
+   "market": "player_combo",
+   "signal": "both players are not listed Out and both have at least 5 games",
+   "thresholds": {
+    "min_gp": 5,
+    "min_games": 2
+   },
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "both legs settle on their own official finals; the parlay wins only if both legs win.",
+   "rule_text": "Combine two players' points Overs from two different games on the same night.",
+   "preregistration_sha256": "572060f4aebe3d178be1e2825868d4fc395abe9a5fe9d79fc8f726215e016938",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": null,
+   "data_need": "per-player game logs for a season",
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  },
+  {
+   "strategy_id": "N01",
+   "name": "NULL CONTROL: a coin flip",
+   "family": "null",
+   "market": "moneyline",
+   "signal": "random.Random(20261115).random() < 0.5 chooses home, else away",
+   "thresholds": {},
+   "universe": {
+    "games": "every regular-season game in the official log with a final score, in date order, from 2026-10-20",
+    "excluded": "no game is excluded; the backtest uses all 183 finals captured",
+    "live_window": "the same rule is applied to the 22 upcoming games on 2026-11-15..2026-11-17 to produce projections"
+   },
+   "settlement": "the control fires on a fixed coin flip independent of any team, pitched at the same assumed price. It MUST show no edge; if it shows one the measurement, not the market, is broken.",
+   "rule_text": "A fixed-seed coin flip decides the side. It has no signal by construction. If it shows an edge, the measurement is broken, not the market.",
+   "preregistration_sha256": "6cde99970b90cae48df5a39d95e2df96e7518651eeec593eb6364a58ca694710",
+   "hashed_fields": [
+    "family",
+    "market",
+    "name",
+    "rule_text",
+    "settlement",
+    "signal",
+    "strategy_id",
+    "thresholds",
+    "universe"
+   ],
+   "hash_rule": "sha256 of json.dumps(body, sort_keys=True, separators=(',',':')) with body = the nine fields listed in hashed_fields",
+   "registered_utc": "2026-11-15T11:51:00+00:00",
+   "source_urls": [
+    "https://www.nba.com/schedule"
+   ],
+   "mirror_of": null,
+   "direction": null,
+   "data_need": null,
+   "provenance_note": "Backtested against the project's own originated line, settled from the official final. No market price is involved, so the number measures whether our own line is biased in a way the rule can exploit -- not whether a bookmaker would have paid."
+  }
+ ]
+}

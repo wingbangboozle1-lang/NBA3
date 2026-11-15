@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategy leaderboard — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Audit</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html" class="active">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Audit</div>
+    <h1>Strategy leaderboard</h1>
+    <p class="lead">Every rule against every gate.</p>
+  </div>
+
+<p>Every registered rule, scored on the walk-forward backtest, read against the gate set. The board
+includes the exact mirror of every one-sided rule, so a rule cannot look skilful merely because its
+sign happened to be right, and a null control that must show nothing.</p>
+
+<div class="callout"><p><strong>The luck threshold.</strong> The best edge the same board would show if every rule had exactly zero skill, at the 95th percentile, is <strong>27.78 percentage points</strong> (median 16.67 pp), from 4,000 simulations over 12 rules, seed 20261115. A rule below it has demonstrated that it was the luckiest of the board, not that it works.</p></div>
+
+<div class="table-wrap"><table>
+<caption id="leaderboard"></caption>
+<thead><tr><th>ID</th><th>Rule</th><th>n</th><th>Hit rate</th><th>95% CI</th><th>Edge vs coin (pp)</th><th>Edge vs price (pp)</th><th>Exact p</th><th>BH q</th><th>Sample</th><th>Tier</th><th>Source</th></tr></thead><tbody>
+<tr><td><a id="S01">S01</a></td><td>Fade the big home favourite</td><td>18</td><td>55.6%</td><td>33.72–75.44%</td><td>5.56</td><td>3.17</td><td>0.8145</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S02">S02</a></td><td>Back the big home favourite</td><td>18</td><td>44.4%</td><td>24.56–66.28%</td><td>-5.56</td><td>-7.94</td><td>0.8145</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S03">S03</a></td><td>Under a high total</td><td>28</td><td>39.3%</td><td>23.57–57.59%</td><td>-10.71</td><td>-13.10</td><td>0.3449</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S04">S04</a></td><td>Over a high total</td><td>28</td><td>60.7%</td><td>42.41–76.43%</td><td>10.71</td><td>8.33</td><td>0.3449</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S05">S05</a></td><td>Rested home team vs a back-to-back road team</td><td>13</td><td>61.5%</td><td>35.52–82.29%</td><td>11.54</td><td>9.16</td><td>0.5811</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S06">S06</a></td><td>Fade the rested home team</td><td>13</td><td>38.5%</td><td>17.71–64.48%</td><td>-11.54</td><td>-13.92</td><td>0.5811</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S07">S07</a></td><td>Back the home team on a back-to-back</td><td>25</td><td>56.0%</td><td>37.07–73.33%</td><td>6.00</td><td>3.62</td><td>0.6900</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S08">S08</a></td><td>Fade the home team on a back-to-back</td><td>25</td><td>44.0%</td><td>26.67–62.93%</td><td>-6.00</td><td>-8.38</td><td>0.6900</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S09">S09</a></td><td>Moneyline the model favourite</td><td>95</td><td>76.8%</td><td>67.42–84.18%</td><td>26.84</td><td>15.55</td><td>0.0000</td><td>—</td><td><span class="chip chip-warn">contaminated</span></td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S10">S10</a></td><td>Moneyline the model underdog</td><td>95</td><td>23.2%</td><td>15.82–32.58%</td><td>-26.84</td><td>-15.55</td><td>0.0000</td><td>—</td><td><span class="chip chip-warn">contaminated</span></td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S11">S11</a></td><td>Take the side the estimators disagree on</td><td>0</td><td>—</td><td>—–—%</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="chip chip-warn">contaminated</span></td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="S12">S12</a></td><td>Fade the side the estimators disagree on</td><td>0</td><td>—</td><td>—–—%</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="chip chip-warn">contaminated</span></td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="P01">P01</a></td><td>Same-game: model side plus Under</td><td>22</td><td>27.3%</td><td>13.15–48.15%</td><td>-22.73</td><td>-25.11</td><td>0.0525</td><td>—</td><td><span class="chip chip-warn">contaminated</span></td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="P02">P02</a></td><td>Cross-game: two independent sides</td><td>0</td><td>—</td><td>—–—%</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="chip chip-warn">contaminated</span></td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="R01">R01</a></td><td>Player points over his season average</td><td>0</td><td>—</td><td>—–—%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="R02">R02</a></td><td>Player points under his season average</td><td>0</td><td>—</td><td>—–—%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="R03">R03</a></td><td>Two-team player-points combo</td><td>0</td><td>—</td><td>—–—%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a id="N01">N01</a></td><td>NULL CONTROL: a coin flip</td><td>131</td><td>53.4%</td><td>44.92–61.76%</td><td>3.44</td><td>1.05</td><td>0.4847</td><td>0.8145</td><td>clean</td><td>T5 not demonstrated</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+</tbody></table></div>
+
+<h2>Why so many rules have no sample</h2>
+<p>Three reasons, and none of them is fixed by lowering a threshold after seeing the result:</p>
+<ul>
+<li><strong>No player data.</strong> The three prop rules need per-player game logs for a season.
+Only two teams' top-8 minutes were captured and no logs exist, so the rules are registered and
+BLOCKED, not quietly deleted.</li>
+<li><strong>The signal never fires.</strong> The disagreement rules (S11, S12) need the estimators to
+differ by more than their combined error. Across 131 walk-forward games they never did — the two
+methods agree far more often than that, which is itself a finding about the models.</li>
+<li><strong>Cross-game dependence is unmeasurable</strong> here, so the two-game parlay has no price
+and cannot be graded.</li>
+</ul>
+
+<div class="callout"><p><strong>The null control did its job.</strong> N01 is a coin flip. It returned a hit rate indistinguishable from chance, as it must. If it had shown an edge, the measurement would have been broken rather than the market.</p></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

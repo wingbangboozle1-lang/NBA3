@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gates — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Audit</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html" class="active">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Audit</div>
+    <h1>Gates</h1>
+    <p class="lead">Source and freshness gates.</p>
+  </div>
+
+<p>Nothing is published until the inputs pass. 13 of 13 gates pass, evaluated
+2026-11-15T11:53:00+00:00. A blocking failure stops the build before any model runs.</p>
+
+<div class="table-wrap"><table>
+<caption id="gates"></caption>
+<thead><tr><th>Result</th><th>Gate</th><th>Kind</th><th>What it measured</th><th>Source</th></tr></thead><tbody>
+<tr><td><span class="chip chip-ok">pass</span></td><td>injury_report_is_newest</td><td>blocking</td><td>parsed report stamp &#x27;11/15/26 06:30 AM&#x27;; newest stamp listed on the official index at retrieval &#x27;11/15/26 06:30 AM&#x27;</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>injury_retrieval_after_revision</td><td>blocking</td><td>report revised 2026-11-15T11:30:00+00:00 (inferred from the printed ET stamp; ET is UTC-4 on this date); retrieved 2026-11-15T12:04:00+00:00; retrieved 34 minutes after the revision</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>injury_report_age</td><td>warning</td><td>newest official report at build time is 23 minutes old (2026-11-15T11:30:00+00:00 -&gt; 2026-11-15T11:53:00+00:00); budget 240 minutes on a game day</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>statistics_after_last_final</td><td>blocking</td><td>team statistics captured 2026-11-15T11:38:00+00:00; newest final in the results feed is 2026-11-14. Stats read on 2026-11-15 therefore already contain the 11/14 games.</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>schedule_window_horizon</td><td>blocking</td><td>window 2026-11-15 .. 2026-11-17 is 3 days, cap 3; no game is in the past</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>quarter_scores_sum_to_final</td><td>blocking</td><td>5 games with a line score; 0 do not sum to the printed final</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>finals_agree_across_two_official_surfaces</td><td>blocking</td><td>5 finals each read on the schedule page AND the game page; 0 disagree</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>nulls_are_explained_not_zero</td><td>blocking</td><td>0 null fields in the results feed; the feed carries a stated reason for the blanks</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>injury_matchups_match_slate</td><td>blocking</td><td>report covers 2 date(s) [&#x27;2026-11-15&#x27;, &#x27;2026-11-16&#x27;]: 17 matchups vs 17 captured slate games; unexpected []; absent []; 27 row(s) undated; 0 date(s) recovered from the schedule</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>injury_undated_rows_are_declared</td><td>warning</td><td>27 of 101 rows carry no date in the source document; declared count 27. These rows are published with team=null and are not attached to any slate game.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>standings_agree_with_team_statistics</td><td>blocking</td><td>30 teams compared across the standings page and the team-statistics page; 0 disagree</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>every_published_row_has_an_https_source</td><td>blocking</td><td>158 rows checked; 0 without an https source</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><span class="chip chip-ok">pass</span></td><td>non_nba_sources_are_labelled</td><td>blocking</td><td>158 rows checked; 0 use a non-nba.com source without a SECONDARY/DERIVED tier label</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+</tbody></table></div>
+<h2>What the freshness gate caught</h2>
+
+<p>The 6:15 AM injury report was captured, parsed and ready to price the slate. While the build was
+running, the official index started listing a <strong>6:30 AM</strong> report. The gate refused the
+build, the newer document was captured, and the rebuild reads it by name — not "whichever file is
+newest", which would let an old report ride a new timestamp.</p>
+<p>The difference between the two revisions was a single spelling correction: the league fixed
+"Embid" to "Embiid". <strong>Zero status changes.</strong> That distinction is published rather than
+flattened, because a diff that reads a typo fix as one player vanishing and another appearing
+invents two roster events out of a proofreading pass.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Item</th><th>Value</th></tr></thead><tbody>
+<tr><td>File parsed</td><td>official_injury_report_2026-11-15_0630AM.json</td></tr>
+<tr><td>Revised</td><td>—</td></tr>
+<tr><td>Retrieved</td><td></td></tr>
+<tr><td>Status changes vs previous</td><td>0</td></tr>
+<tr><td>Spelling corrections</td><td>1</td></tr>
+<tr><td>Rows parsed</td><td>101</td></tr>
+<tr><td>Rows the document leaves undated</td><td>27</td></tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>
