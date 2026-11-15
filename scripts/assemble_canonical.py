@@ -198,6 +198,51 @@ def build_sources():
         "gh api (authenticated)", "2026-11-14",
         "Verified against API output at retrieval time.",
         "Repository facts change; re-check before relying on them.")
+    # Sources read by session arena/9866a950-nba3 (2026-11-15, rolling refresh).
+    add("NBA (official)", "NBA Injury Report — 2026-27 season index (read 2026-11-15 06:35Z)",
+        "https://official.nba.com/nba-injury-report-2026-27-season/", "Official (NBA)",
+        "Which 11/15 reports exist at capture (the newest listed is 6:15 a.m. ET) and the filing rule verbatim",
+        "fetch_page, 1 chunk. Verbatim copy: data/app/official_injury_index_2026-11-15_0635Z.md",
+        "2026-11-15",
+        "Read. The November 15 list runs from 12:00 a.m. to 6:15 a.m. ET; 6:15 a.m. ET is the newest report that existed for the 11/15 game day at capture.",
+        "The index is updated continuously; a newer report can exist minutes later. Reports list publication times, not per-team deadlines.")
+    add("NBA (official)", "NBA official injury report PDF — 11/15/26 06:15 AM ET (canonical capture)",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+        "Official (NBA)",
+        "The 11/15 game-day injury overlay for the 2026-11-15..18 window: 84 player rows + 17 team NOT-YET-SUBMITTED rows",
+        "fetch_page, chunks 0-1 of 2 (PDF text extraction). Verbatim copy: data/app/official_injuries_2026-11-15_0615AM_raw.md",
+        "2026-11-15",
+        "Read twice independently (12:00 AM and 06:15 AM ET stamps); the two reads agree on all 101 rows. Team cells the PDF drops after page breaks were attributed by carrying the section team forward, identically in both reads.",
+        "PDF-text spelling variants: 'Embid/Embiid, Joel', 'Markovic, Bogoljub/Bogojub'. No New York Knicks rows exist at all for the 11/15 NYK@TOR game -- recorded, not inferred.")
+    add("NBA (official)", "NBA official injury report PDF — 11/15/26 12:00 AM ET (second independent read)",
+        "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf",
+        "Official (NBA)",
+        "Cross-check of every row and every carried-forward team attribution of the 06:15 AM ET capture",
+        "fetch_page, chunks 0-1 of 2. Verbatim copy: data/app/official_injuries_2026-11-15_1215AM_raw.md",
+        "2026-11-15",
+        "Read. 101/101 rows agree with the 06:15 AM ET read on date, time, matchup, team, player, status and reason.",
+        "Same document family as the canonical capture; it adds no information, it corroborates.")
+    add("NBA (official)", "NBA Schedule — 2026-11-15 and 2026-11-18 pages (window 2026-11-15..18)",
+        "https://www.nba.com/schedule?date=2026-11-15", "Official (NBA)",
+        "34 games of the rolling window: 9 (11/15) + 8 (11/16) + 5 (11/17) + 12 (11/18), with game ids, tip times, venues, cities and broadcasts",
+        "fetch_page, chunks 0-2. Second read: the per-game page carousel on every game page.",
+        "2026-11-15",
+        "Read. Every game cross-checked against the carousel (ids, matchup order, tip time, broadcast, team records); 11/16-11/18 additionally read from the schedule?date=2026-11-18 page.",
+        "The schedule page and the game-page carousel print different broadcasters for two games (MEM@WAS and WAS@TOR on 11/16 and 11/18 respectively: LP on the schedule page, MNMT/Monumental+ on the game page). Both values are recorded; the game-page value is published.")
+    add("NBA (official)", "NBA game-summary pages for the five 2026-11-14 finals (LINESCORES + GAME INFO)",
+        "https://www.nba.com/game/den-vs-nop-0022600231", "Official (NBA)",
+        "Final scores with QUARTER SCORES, officials, attendance and the official gamebook PDF link for the results log extension",
+        "fetch_page, chunk 2 of 3 per page (LINESCORES and GAME INFO blocks)",
+        "2026-11-15",
+        "Read all five. Quarter scores sum exactly to each final for both teams (10/10). Scores also match the schedule page and the carousel (three independent official reads).",
+        "The five games: DEN@NOP, DAL@CLE, DET@MIA, BKN@MEM, CHI@MIN.")
+    add("NBA (official)", "NBA Stats — Teams Advanced (Regular Season 2026-27), re-read 2026-11-15",
+        "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+        "Official (NBA)",
+        "Fresh 30-team ratings/standings input for the engine after the 11/14 finals",
+        "fetch_page, chunks 0-1 of 2", "2026-11-15",
+        "Read. 30 rows; W and L columns sum to 188 = 2 x 188 games; every team's W-L record matches the carousel record.",
+        "Players minutes table NOT re-read this session (flag F-9866a950-01).")
     return out
 
 
@@ -1331,6 +1376,105 @@ def build_round965_flags():
         return json.load(fh)
 
 
+def build_session_flags_9866():
+    """Flags found by session arena/9866a950-nba3 (2026-11-15 rolling refresh)."""
+    return [
+        {"id": "F-9866a950-01", "area": "Data freshness", "severity": "medium",
+         "item": ("The official per-player minutes table (players_top31 CSV) was NOT re-read on "
+                  "2026-11-15; the minutes-redistribution model still uses the 2026-11-14 capture."),
+         "why": ("Reading the 469-row official players table consumes a large share of a session's "
+                 "page-fetch budget; this session spent it on the window refresh, the quarter-score "
+                 "results feed, the ledger settlement and the home-court pin. The manifest records "
+                 "the stale provenance explicitly rather than pretending the table is current."),
+         "action_needed": ("Next session: re-read "
+                           "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType="
+                           "Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC and repoint "
+                           "the manifest 'players' block."),
+         "sources": ["https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
+                     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"],
+         "status": "open", "found_on": "2026-11-15"},
+        {"id": "F-9866a950-02", "area": "Broadcast metadata", "severity": "low",
+         "item": ("The official schedule page and the official per-game page disagree on the "
+                  "broadcaster for MEM@WAS (2026-11-16) and WAS@TOR (2026-11-18): the schedule page "
+                  "prints LEAGUE PASS, the game pages print MNMT/Monumental+."),
+         "why": "Both are official NBA pages; the discrepancy is on the publisher's side.",
+         "action_needed": ("Published value is the game page's own howToWatch target; the "
+                           "schedule-page value is kept in the capture "
+                           "(official_slate_1115_1118.json, broadcast_discrepancies). An owner "
+                           "call on which to prefer is logged as a question."),
+         "sources": ["https://www.nba.com/schedule?date=2026-11-18",
+                     "https://www.nba.com/game/mem-vs-was-0022600247",
+                     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_slate_1115_1118.json"],
+         "status": "open", "found_on": "2026-11-15"},
+        {"id": "F-9866a950-03", "area": "Injury report transcription", "severity": "low",
+         "item": ("The 11/15 06:15 AM ET PDF text shows two spelling variants against the 12:00 AM ET "
+                  "read: 'Embid, Joel' vs 'Embiid, Joel' and 'Markovic, Bogoljub' vs 'Markovic, Bogojub'."),
+         "why": "The two reads are of two different official PDFs; the PDF text layer itself varies.",
+         "action_needed": ("The 12:00 AM spellings are stored (Embiid, Bogoljub) and both variants are "
+                           "recorded in the capture's spelling_variants block. Nothing to decide; "
+                           "recorded so the row-level cross-check is reproducible."),
+         "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+                     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"],
+         "status": "recorded", "found_on": "2026-11-15"},
+        {"id": "F-9866a950-04", "area": "Availability semantics", "severity": "medium",
+         "item": ("NYK has NO row at all on the official 11/15 06:15 AM ET report for the NYK@TOR game "
+                  "-- not even NOT YET SUBMITTED. The old four-state register collapsed this into "
+                  "'no official report covers this date', which is false."),
+         "why": ("The report DOES cover 2026-11-15; it simply does not list New York. Publishing "
+                 "'no report covers this date' for that team-side would have been an incorrect "
+                 "statement about an official document."),
+         "action_needed": ("Fixed in this session: new fifth availability state "
+                           "REPORT_COVERS_DATE_TEAM_NOT_LISTED in scripts/report_availability.py "
+                           "(takeover of CR-1823b910-02) with the deadline status published beside it, "
+                           "and the same fix in the lab's availability fallback."),
+         "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+                     "https://official.nba.com/nba-injury-report-2026-27-season/"],
+         "status": "fixed", "found_on": "2026-11-15"},
+        {"id": "F-9866a950-05", "area": "Travel distance", "severity": "low",
+         "item": ("The brief asks for travel distance from a sourced arena-coordinate table. No official "
+                  "NBA page publishes arena coordinates, so the table cannot be built from official "
+                  "sources alone and was NOT built this session."),
+         "why": ("Filling coordinates from a non-official source (e.g. an encyclopedia) silently would "
+                 "break the repository's every-row-official rule; the discovery path needs an owner "
+                 "decision on the acceptable non-official source and how to label it."),
+         "action_needed": ("Decision needed: either accept a clearly-labelled non-official coordinate "
+                           "source for the derived distance column, or commission the table from an "
+                           "authorized data feed (see the Questions page, Q-9866a950-01)."),
+         "sources": ["https://www.nba.com/schedule?date=2026-11-15",
+                     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/COORDINATION.md"],
+         "status": "open", "found_on": "2026-11-15"},
+    ]
+
+
+def build_session_questions_9866():
+    """Open questions added by session arena/9866a950-nba3."""
+    return [
+        {"id": "Q-9866a950-01", "category": "Data sources",
+         "question": ("For the travel-distance feature, which arena-coordinate source is acceptable? "
+                      "No official NBA page publishes coordinates."),
+         "status": "open", "known": ("Venue names and cities for every window game are official "
+                                     "(nba.com schedule and game pages). Rest, B2B and 3-in-4 are "
+                                     "computed from the official schedule."),
+         "missing": "A lat/long table with a license that permits use in this repository.",
+         "next_step": ("Option A: accept an encyclopedia/other public source, labelled 'derived, "
+                  "non-official' on every row it touches; Option B: commission/authorize a data feed; "
+                  "Option C: leave travel out of the model."),
+         "sources": ["https://www.nba.com/schedule?date=2026-11-15"],
+         "owner": "owner decision"},
+        {"id": "Q-9866a950-02", "category": "Presentation",
+         "question": ("For the two games where the official schedule page and the official game page "
+                      "print different broadcasters (MEM@WAS 11/16, WAS@TOR 11/18), which value should "
+                      "the site publish as primary?"),
+         "status": "open",
+         "known": "Both values are stored verbatim in data/app/official_slate_1115_1118.json.",
+         "missing": "An owner preference.",
+         "next_step": "Keep the game-page value (current choice) or switch to the schedule-page value.",
+         "sources": ["https://www.nba.com/schedule?date=2026-11-18",
+                     "https://www.nba.com/game/mem-vs-was-0022600247"],
+         "owner": "owner decision"},
+    ]
+
+
 def build_session_questions():
     out = []
     for qid, cat, q, status, known, missing, nxt, sources, owner in SESSION_QUESTIONS:
@@ -1402,6 +1546,7 @@ def main():
     availability = optional("report_availability.json")
     delta = optional("snapshot_delta.json")
     results_1113 = optional("official_results_2026-11-13.json")
+    results_1114 = optional("official_results_2026-11-14.json")   # quarter-score capture (brief requirement)
     counts = optional("official_counts_2026-11-14.json")
     injury_delta_0130pm = optional("injury_delta_0130pm.json")
     log_provenance = None
@@ -1566,6 +1711,7 @@ def main():
         "availability": availability,
         "snapshot_delta": delta,
         "results_1113": results_1113,
+        "results_1114": results_1114,
         "official_counts": counts,
         "log_provenance": log_provenance,
         "manifest": manifest or None,
@@ -1587,13 +1733,13 @@ def main():
         "oos_sample": lab["oos_sample"],
         "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags() + build_round965_flags(),
+        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags() + build_round965_flags() + build_session_flags_9866(),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}
             for (rid, severity, item, action, sources, status) in REVIEW_FINDINGS
         ],
-        "questions": build_questions() + build_session_questions(),
+        "questions": build_questions() + build_session_questions() + build_session_questions_9866(),
         "suggestions": build_suggestions() + build_session_suggestions(),
         "review": build_review(),
         "requirements": cload("data", "requirements.csv"),

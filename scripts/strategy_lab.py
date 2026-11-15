@@ -6,7 +6,7 @@ Session ``arena/8d3d0271-nba3``.  Standard library only, no network.
 WHAT THIS PRODUCES
     data/app/lab.json -- one artefact with:
       * originated lines and fair prices for every game of the live window
-        (2026-11-14 .. 2026-11-17: today plus the maximum three-day horizon),
+        (the manifest window, today plus the maximum three-day horizon),
       * a walk-forward backtest of the engine that produces them,
       * a strategy leaderboard: singles, same-game parlays, cross-game parlays
         and player-prop combos, each scored against eight validation gates,
@@ -81,7 +81,10 @@ AVAILABILITY_JSON = os.path.join(ROOT, "data", "app", "report_availability.json"
 # out".  FILED is the only state in which an absence count means anything.
 AV_FILED = "FILED"
 AV_STATES = (AV_FILED, "DUE_AND_NOT_FILED", "NOT_YET_DUE",
-             "NO_OFFICIAL_REPORT_COVERS_THIS_DATE")
+             "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+             # added by session arena/9866a950-nba3 (takeover of CR-1823b910-02):
+             # the newest report covers the date but lists no row for the team
+             "REPORT_COVERS_DATE_TEAM_NOT_LISTED")
 
 
 def _apply_manifest():
@@ -155,7 +158,7 @@ MANIFEST = _apply_manifest()
 SRC_GAMES = "https://www.nba.com/games?date="
 SRC_TEAM_STATS = ("https://www.nba.com/stats/teams/advanced"
                   "?Season=2026-27&SeasonType=Regular%20Season")
-SRC_SCHEDULE = "https://www.nba.com/schedule?date=2026-11-14"
+SRC_SCHEDULE = "https://www.nba.com/schedule"  # per-line rows carry the dated URL
 SRC_PLAYERS = ("https://www.nba.com/stats/players/traditional"
                "?Season=2026-27&SeasonType=Regular%20Season&PerPage=100"
                "&SortColumn=MIN&SortDirection=DESC")
@@ -199,6 +202,25 @@ def rmse(xs):
 
 def norm_cdf(z):
     return 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
+
+
+def norm_ppf(p):
+    """Inverse standard-normal CDF by bisection on the exact CDF.
+
+    Standard library only, and exact to ~1e-12 after 200 halvings.  Chosen over
+    a rational approximation because the pin needs one specific quantile per
+    fit, so correctness beats speed here (session arena/9866a950-nba3).
+    """
+    if not 0.0 < p < 1.0:
+        raise ValueError("norm_ppf needs 0 < p < 1")
+    lo, hi = -40.0, 40.0          # norm_cdf(-40) < 1e-350, norm_cdf(40) > 1-1e-350
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if norm_cdf(mid) < p:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
 
 
 def solve(A, b):
@@ -441,6 +463,8 @@ class Engine:
         self.teams = []
         self.rating = {}
         self.hca = 0.0
+        self.hca_fitted = 0.0        # kept for publication next to the pin
+        self.hca_pin = None          # set when pin_hca() runs
         self.ppg = {}
         self.oppg = {}
         self.total_coef = None
@@ -468,6 +492,7 @@ class Engine:
         coef = ols(X, y, ridge=ridge)
         self.rating = {t: coef[idx[t]] for t in teams}
         self.hca = coef[-1]
+        self.hca_fitted = coef[-1]
 
         # scoring environment, from the same completed games only
         scored, allowed = defaultdict(list), defaultdict(list)
@@ -516,6 +541,35 @@ class Engine:
     def baseline(self, home, away):
         """Naive comparator: constant home-court margin, league-mean total."""
         return {"margin": self.base_margin, "total": self.base_total}
+
+    # -- home-court pin (brief requirement, session arena/9866a950-nba3) ---
+    def pin_hca(self, games, sd_margin):
+        """Pin home-court advantage to the measured home-win rate.
+
+        Brief line: "Pin home-court advantage to the measured home-win rate
+        instead of fitting it freely."  For a rating-neutral game the model's
+        home-win probability is ``Phi(hca / sigma_margin)``; setting
+        ``hca = sigma_margin * Phi^-1(measured rate)`` makes that probability
+        EQUAL the rate the games actually show, rather than whatever the ridge
+        fit landed on.  The freely-fitted coefficient is kept in ``hca_fitted``
+        and published next to the pin, so the two stay comparable and any drift
+        between them is visible rather than hidden.
+
+        ``games`` must be the same completed games the engine was fitted on
+        (strictly earlier dates), so the pin adds no look-ahead: it reuses the
+        fit's own sample.  ``sd_margin`` is the walk-forward margin-residual SD
+        -- the same scale the probability layer already uses.
+        """
+        if not games or sd_margin is None or sd_margin <= 0:
+            return None
+        wins = sum(1 for g in games if g["home_pts"] > g["away_pts"])
+        rate = wins / len(games)
+        self.hca_fitted = self.hca
+        self.hca_pin = sd_margin * norm_ppf(rate)
+        self.hca = self.hca_pin
+        return {"home_win_rate": rate, "n": len(games),
+                "sd_margin": sd_margin,
+                "hca_pinned": self.hca_pin, "hca_fitted": self.hca_fitted}
 
 
 RIDGE_GRID = [0.5, 2.0, 5.0, 10.0, 20.0, 40.0, 80.0]
@@ -568,12 +622,18 @@ def select_hyperparameters(history):
     return best_ridge, best_w
 
 
-def walk_forward(games, burn_in=BURN_IN):
+def walk_forward(games, burn_in=BURN_IN, hca_sd=None):
     """Refit for every date from strictly-earlier games, forecast that date.
 
     Games are processed in date batches so a game never sees another game
     played the same day (an earlier session's pipeline had exactly this
     leakage bug; batching by date is what removes it).
+
+    ``hca_sd`` (session arena/9866a950-nba3): when given, each date's engine
+    has its home-court coefficient PINNED to the measured home-win rate of its
+    own fit sample (see ``Engine.pin_hca``) instead of the freely-fitted value.
+    The pin uses only strictly-earlier games, so the no-look-ahead property is
+    unchanged; ``assert_no_lookahead`` still runs on the output.
     """
     by_date = defaultdict(list)
     for g in games:
@@ -589,6 +649,7 @@ def walk_forward(games, burn_in=BURN_IN):
         eng = Engine()
         eng.fit(history, ridge=ridge)
         eng.total_blend = blend
+        pin = eng.pin_hca(history, hca_sd) if hca_sd else None
         preds = {}
         for g in by_date[d]:
             p = eng.predict(g["home"], g["away"])
@@ -602,7 +663,8 @@ def walk_forward(games, burn_in=BURN_IN):
                 "base_total": b["total"],
             }
         out.append({"date": d, "n_history": len(history), "preds": preds,
-                    "ridge": ridge, "total_blend": blend})
+                    "ridge": ridge, "total_blend": blend,
+                    "hca_pin": pin})
     return out
 
 
@@ -1239,6 +1301,11 @@ def originate_window(games, slate, ratings, injury, players, resid):
     eng = Engine()
     eng.fit(games, ridge=ridge)
     eng.total_blend = blend
+    # Home-court pin (brief): the live engine's home-court coefficient is pinned
+    # to the measured home-win rate of the completed-game log, on the same
+    # sigma_margin scale the probability layer uses.  The fitted value stays in
+    # eng.hca_fitted and is published on every line next to the pin.
+    hca_pin = eng.pin_hca(games, resid.get("margin_sd")) if resid.get("margin_sd") else None
 
     # rest context: completed games plus the official 11/13 slate, which is the
     # only source for "team X played last night" once 11/13 games tip off.
@@ -1306,7 +1373,13 @@ def originate_window(games, slate, ratings, injury, players, resid):
         away_ns = any(r["is_team_not_submitted"] for r in away_rows)
 
         def avail_state(team, rows, ns):
-            """One of the four availability states, for one team of one game."""
+            """One of the five availability states, for one team of one game.
+
+            (Session arena/9866a950-nba3: a covered date with NO row for the
+            team can no longer fall through to FILED -- that bug is what made
+            an unlisted team look reported.  It is now the explicit fifth
+            state, the same one scripts/report_availability.py publishes.)
+            """
             ar = avail_rows.get((gid, team))
             if ar:
                 return ar
@@ -1318,7 +1391,19 @@ def originate_window(games, slate, ratings, injury, players, resid):
                                           f"{key_date} yet, so this team's absences are "
                                           "unknown and are left blank rather than counted "
                                           "as zero.")}
-            return {"state": (AV_FILED if not ns else "DUE_AND_NOT_FILED"),
+            if ns:
+                return {"state": "DUE_AND_NOT_FILED",
+                        "out_count": None, "reprice_after": "", "filing_clause": "",
+                        "played_previous_day": None, "out_players": [],
+                        "state_reading": ("The report prints NOT YET SUBMITTED for this team.")}
+            if not rows:
+                return {"state": "REPORT_COVERS_DATE_TEAM_NOT_LISTED",
+                        "out_count": None, "reprice_after": "", "filing_clause": "",
+                        "played_previous_day": None, "out_players": [],
+                        "state_reading": ("The newest official report covers this date but "
+                                          "lists no row for this team; absences are unknown "
+                                          "and left blank rather than counted as zero.")}
+            return {"state": AV_FILED,
                     "out_count": None, "reprice_after": "", "filing_clause": "",
                     "played_previous_day": None, "out_players": [],
                     "state_reading": ""}
@@ -1405,6 +1490,8 @@ def originate_window(games, slate, ratings, injury, players, resid):
             "model_margin": margin,           # home - away
             "orig_spread_home": -margin,      # the line we originate
             "orig_total": total,
+            "hca_pinned": eng.hca_pin,
+            "hca_fitted": eng.hca_fitted,
             "proj_home_pts": (total + margin) / 2.0,
             "proj_away_pts": (total - margin) / 2.0,
             "margin_lo": margin - 1.959963985 * sd_m,
@@ -1431,7 +1518,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
             "availability_basis": avail_basis,
             "reprice_after_home": h_av.get("reprice_after", ""),
             "reprice_after_away": a_av.get("reprice_after", ""),
-            "source": SRC_SCHEDULE,
+            "source": f"https://www.nba.com/schedule?date={date}",
             "source_stats": SRC_TEAM_STATS,
             "source_game": g["nba_game_url"],
             "note": ("Line originated by this session's walk-forward engine. "
@@ -1463,6 +1550,8 @@ def originate_window(games, slate, ratings, injury, players, resid):
             flag = "PARTIAL_REPORT_LATE"
         elif AV_FILED in states:
             flag = "PARTIAL_REPORT_NOT_DUE_YET"
+        elif "REPORT_COVERS_DATE_TEAM_NOT_LISTED" in states:
+            flag = "AVAILABILITY_TEAM_NOT_LISTED"
         elif states == {"NOT_YET_DUE"}:
             flag = "AVAILABILITY_NOT_DUE_YET"
         else:
@@ -1646,28 +1735,56 @@ def main():
     rng = random.Random(SEED)
 
     # ---------------- walk forward --------------------------------------
-    wf = walk_forward(games)
-    graded = []
-    for run in wf:
+    # Two passes (session arena/9866a950-nba3, the home-court pin): pass 1 runs
+    # the pipeline exactly as before to measure the walk-forward margin-residual
+    # SD; pass 2 re-runs it with every date's home-court coefficient pinned to
+    # the measured home-win rate of that date's own fit sample, on the same
+    # error scale.  The pin shifts every margin by one constant; the residual SD
+    # moves negligibly, which is exactly what makes the two-pass scale consistent.
+
+    def grade_runs(runs):
+        """Turn walk-forward predictions into graded rows (date, actual, predicted)."""
         lookup = {g["gid"]: g for g in games}
-        for gid, p in run["preds"].items():
-            g = lookup[gid]
-            graded.append({
-                "date": run["date"], "gid": gid,
-                "home": g["home"], "away": g["away"],
-                "act_margin": g["home_pts"] - g["away_pts"],
-                "act_total": g["home_pts"] + g["away_pts"],
-                "ot": g["ot"],
-                "pred_margin": p["pred_margin"],
-                "pred_total": p["pred_total"],
-                "base_margin": p["base_margin"],
-                "base_total": p["base_total"],
-            })
-    graded.sort(key=lambda x: (x["date"], x["gid"]))
+        rows = []
+        for run in runs:
+            for gid, p in run["preds"].items():
+                g = lookup[gid]
+                rows.append({
+                    "date": run["date"], "gid": gid,
+                    "home": g["home"], "away": g["away"],
+                    "act_margin": g["home_pts"] - g["away_pts"],
+                    "act_total": g["home_pts"] + g["away_pts"],
+                    "ot": g["ot"],
+                    "pred_margin": p["pred_margin"],
+                    "pred_total": p["pred_total"],
+                    "base_margin": p["base_margin"],
+                    "base_total": p["base_total"],
+                })
+        rows.sort(key=lambda x: (x["date"], x["gid"]))
+        return rows
+
+    # pass 1: unfitted HCA, used only to measure the error scale
+    graded = grade_runs(walk_forward(games))
+    m_err = [g["act_margin"] - g["pred_margin"] for g in graded]
+    sd_pass1 = sd(m_err)
+
+    # pass 2: the pinned pipeline -- the artefact the site publishes
+    wf = walk_forward(games, hca_sd=sd_pass1)
+    graded = grade_runs(wf)
 
     problems = assert_no_lookahead(wf)
     if problems:
         raise SystemExit("look-ahead check failed: %s" % problems[:5])
+
+    hca_pin_record = {
+        "method": ("hca = sigma_margin * Phi^-1(measured home-win rate of each "
+                   "fit sample; the fitted coefficient is kept and published "
+                   "alongside)"),
+        "brief_line": "Pin home-court advantage to the measured home-win rate instead of fitting it freely",
+        "sigma_margin_source": "pass-1 walk-forward margin-residual SD over all graded games",
+        "sigma_margin": sd_pass1,
+        "per_date_pins": [run["hca_pin"] for run in wf if run.get("hca_pin")],
+    }
 
     # ---------------- rest / pace context for the graded games ----------
     rest, _ = rest_map(games)
@@ -1813,12 +1930,15 @@ def main():
 
     payload = {
         "meta": {
-            "session": "arena/8d3d0271-nba3",
-            "built_utc": "2026-11-14T01:30Z",
+            "session": "arena/9866a950-nba3",
+            "built_utc": "2026-11-15T06:55Z",
             "window": {"from": slate["window"]["from"], "to": slate["window"]["to"]},
             "games_captured": len(games),
             "second_capture_agreement": _second_capture_agreement(games),
             "oos_games": len(graded),
+            "hca_pin": hca_pin_record,
+            "injury_report_stamp": injury.get("report_stamp"),
+            "injury_report_retrieved": injury.get("retrieved_stamp"),
             "burn_in": BURN_IN,
             "seed": SEED,
             "assumed_price": ASSUMED_PRICE,

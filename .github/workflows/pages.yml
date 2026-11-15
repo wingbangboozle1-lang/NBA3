@@ -193,6 +193,21 @@ jobs:
           # and that the whole 27-game slate window matches its live re-read.
           python3 scripts/capture_official_2026_11_14d.py
           git diff --exit-code -- data/app/official_injuries_2026-11-14_0515AM.json
+      - name: Rolling-slate freshness and provenance gate (arena/9866a950 - rebuild only after the gate passes)
+        run: |
+          # The brief: refresh the official schedule, standings, team statistics
+          # and injury report for each rolling slate, then rebuild only after
+          # freshness and provenance gates pass. This gate verifies that every
+          # manifest input exists, carries its official source and retrieval
+          # stamp, that the results log ends the day before the priced window,
+          # that the window starts today and the newest injury report covers it,
+          # and that the slate covers every window date. On push (merge to main)
+          # any failure stops the build BEFORE the site is rebuilt; on
+          # pull_request it reports without enforcing, because a branch
+          # legitimately carries the snapshot it was cut with.
+          python3 scripts/rolling_slate_gate.py
+        env:
+          GATE_EVENT: ${{ github.event_name }}
       - name: Strategy lab - line origination, gates and leaderboard (seeded, must reproduce byte for byte)
         run: |
           python3 scripts/strategy_lab.py

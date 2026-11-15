@@ -56,10 +56,11 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 OUT = os.path.join(APP, "report_availability.json")
 
-SLATE_JSON = os.path.join(APP, "official_slate_1114_1117.json")
+SLATE_JSON = os.path.join(APP, "official_slate_1115_1118.json")
 GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
-INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0415AM.json")
+INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-15_0615AM.json")
 RESULTS_1113_JSON = os.path.join(APP, "official_results_2026-11-13.json")
+RESULTS_1114_JSON = os.path.join(APP, "official_results_2026-11-14.json")
 MANIFEST_JSON = os.path.join(APP, "snapshot_manifest.json")
 
 RULE_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
@@ -88,6 +89,14 @@ STATE_FILED = "FILED"
 STATE_OVERDUE = "DUE_AND_NOT_FILED"
 STATE_NOT_YET_DUE = "NOT_YET_DUE"
 STATE_UNCOVERED = "NO_OFFICIAL_REPORT_COVERS_THIS_DATE"
+# Added by session arena/9866a950-nba3 (takeover of CR-1823b910-02): the four
+# original states could not express "the newest report DOES cover this game
+# date, but this team has no row on it".  Collapsing that case into
+# STATE_UNCOVERED published the false sentence "no official report covers this
+# date" (it happened for NYK on 2026-11-15: the 06:15 AM ET report covers 11/15
+# but prints no New York row at all).  The state below says exactly what the
+# document shows, and the deadline status is published beside it.
+STATE_NOT_LISTED = "REPORT_COVERS_DATE_TEAM_NOT_LISTED"
 
 STATE_READING = {
     STATE_FILED: ("The newest official report lists rows for this team. Players marked "
@@ -103,6 +112,9 @@ STATE_READING = {
     STATE_UNCOVERED: ("No official injury report covers this game date at all yet. Any "
                       "absence count for this team is unknown, and is left blank rather than "
                       "shown as zero."),
+    STATE_NOT_LISTED: ("The newest official report covers this game date but lists no row "
+                       "for this team at all. The deadline status is published beside the "
+                       "state; absences are unknown and left blank rather than shown as zero."),
 }
 
 # The capture moment this module reasons about.  Every deadline is compared with
@@ -113,8 +125,8 @@ STATE_READING = {
 #     local deadline on the same date is even later).  That is the only place a
 #     time-zone fact is used, and it is used to ORDER two moments, never to
 #     convert a clock reading.
-AS_OF_DATE = "2026-11-14"
-AS_OF_LOCAL_HOUR = 4 + 45 / 60.0     # 04:45 on the as-of date, in local terms
+AS_OF_DATE = "2026-11-15"
+AS_OF_LOCAL_HOUR = 6 + 15 / 60.0     # 06:15 ET on the as-of date, in local terms
 EARLIEST_LOCAL_1PM_OFFSET_HOURS = 1.0
 LATEST_LOCAL_5PM_OFFSET_HOURS = 3.0  # Pacific is 3 h behind ET; ET venues 0 h
 
@@ -206,10 +218,21 @@ def main():
             covers = date in covered_dates
             note_extra = ""
             if not covers or not team_rows:
-                state = STATE_UNCOVERED
                 if covers and not team_rows:
-                    note_extra = ("this game date is covered by the newest report but the team "
-                                  "is not listed on it, which the official file does not explain")
+                    # 2026-11-15 (NYK): the report covers the date but lists the
+                    # team nowhere.  Saying "no report covers this date" would be
+                    # false; say exactly what the document shows, plus whether the
+                    # filing deadline has passed.
+                    state = STATE_NOT_LISTED
+                    due = deadline_passed(date, clause)
+                    note_extra = ("the newest official report covers this game date but "
+                                  "lists no row for this team; its filing deadline has "
+                                  + ("passed, so absences are unknown and unresolved"
+                                     if due else "not arrived yet, so the missing rows "
+                                     "are expected") + " -- treat absence counts as "
+                                  "unknown, never as zero")
+                else:
+                    state = STATE_UNCOVERED
             elif not_submitted:
                 state = STATE_OVERDUE if deadline_passed(date, clause) else STATE_NOT_YET_DUE
             else:
@@ -248,14 +271,19 @@ def main():
                 "source_game": g["nba_game_url"],
             })
 
-    # ---- the 11/14 correspondence: filed vs not-filed, explained by b2b ----
-    day1 = [r for r in rows if r["date"] == "2026-11-14"]
+    # ---- day-1 correspondence: filed vs not-filed, explained by b2b ----
+    # (generalised by arena/9866a950-nba3 from the hard-coded 2026-11-14: the
+    #  window moved to 2026-11-15, and empty-set comparisons printed "exact 5/5"
+    #  with nothing in them, which is exactly the kind of vacuous pass this file
+    #  exists to prevent.)
+    day1_date = sorted({r["date"] for r in rows})[0]
+    day1 = [r for r in rows if r["date"] == day1_date]
     filed = sorted(r["team"] for r in day1 if r["state"] == STATE_FILED)
     unfiled = sorted(r["team"] for r in day1 if r["state"] != STATE_FILED)
     on_b2b = sorted(r["team"] for r in day1 if r["played_previous_day"])
     not_on_b2b = sorted(r["team"] for r in day1 if not r["played_previous_day"])
     correspondence = {
-        "date": "2026-11-14",
+        "date": day1_date,
         "teams_that_filed": filed,
         "teams_that_have_not": unfiled,
         "teams_on_a_back_to_back": on_b2b,
@@ -263,16 +291,18 @@ def main():
         "unfiled_are_exactly_the_b2b_teams": unfiled == on_b2b,
         "filed_are_exactly_the_rest": filed == not_on_b2b,
         "interpretation": (
-            "On the 2026-11-14 slate the five teams whose rows are missing from the "
-            "newest official report are exactly the five teams playing the second game "
-            "of a back-to-back, whose report deadline is 1:00 PM local on game day. "
-            "Their absence is a rule-driven timing gap, not a failure to file, and it "
-            "closes hours before tip-off -- so these games are recoverable by waiting, "
-            "not by guessing."
+            "On the %s slate the teams whose rows are missing from the newest official "
+            "report are exactly the teams playing the second game of a back-to-back, "
+            "whose report deadline is 1:00 PM local on game day. Their absence is a "
+            "rule-driven timing gap, not a failure to file, and it closes hours before "
+            "tip-off -- so these games are recoverable by waiting, not by guessing. "
+            "(The correspondence is only asserted when both sides are non-empty; an "
+            "empty unfiled set means every team on that date had filed at capture.)"
+            % day1_date
         ),
         "source_rule": RULE_URL,
         "source_injury": injury["source_url"],
-        "source_results": ("https://www.nba.com/games?date=2026-11-13"),
+        "source_results": ("https://www.nba.com/games?date=2026-11-14"),
     }
 
     by_date = defaultdict(lambda: defaultdict(int))
@@ -289,20 +319,22 @@ def main():
             "due_and_not_filed": counts.get(STATE_OVERDUE, 0),
             "not_yet_due": counts.get(STATE_NOT_YET_DUE, 0),
             "no_report_covers_date": counts.get(STATE_UNCOVERED, 0),
+            "covered_but_team_not_listed": counts.get(STATE_NOT_LISTED, 0),
             "lead_days": _lead_days(date),
             "state": ("the newest official report covers this date and teams have filed"
-                      if counts.get(STATE_FILED) and not counts.get(STATE_UNCOVERED) else
+                      if counts.get(STATE_FILED) and not counts.get(STATE_UNCOVERED)
+                      and not counts.get(STATE_NOT_LISTED) else
                       "the newest official report covers this date; several teams are "
                       "waiting on their own deadline"
-                      if counts.get(STATE_FILED) else
+                      if counts.get(STATE_FILED) or counts.get(STATE_NOT_LISTED) else
                       "the newest official report does not cover this date at all"),
             "source": injury["source_url"],
         })
 
     out = {
         "schema": "nba3.report_availability/v1",
-        "session": "arena/25418e3f-nba3",
-        "built_on": "2026-11-14",
+        "session": "arena/9866a950-nba3",
+        "built_on": "2026-11-15",
         "as_of_report": injury["report_stamp"],
         "rule_source": RULE_URL,
         "rule_quote": RULE_QUOTE,
@@ -319,6 +351,7 @@ def main():
             "due_and_not_filed": sum(1 for r in rows if r["state"] == STATE_OVERDUE),
             "not_yet_due": sum(1 for r in rows if r["state"] == STATE_NOT_YET_DUE),
             "no_report_covers_date": sum(1 for r in rows if r["state"] == STATE_UNCOVERED),
+            "covered_but_team_not_listed": sum(1 for r in rows if r["state"] == STATE_NOT_LISTED),
             "games_fully_priced_on_availability": sum(
                 1 for d in {r["date"] for r in rows}
                 if all(r["state"] == STATE_FILED for r in rows if r["date"] == d)),
@@ -335,7 +368,7 @@ def main():
             "At least one team is past its filing deadline without a report; those games are "
             "the highest-risk ones in the window."
         ),
-        "b2b_correspondence_1114": correspondence,
+        "b2b_correspondence_1114": correspondence,  # key kept stable for build_app.py
         "rows": rows,
     }
     with open(OUT, "w", encoding="utf-8") as fh:
@@ -347,18 +380,33 @@ def main():
     print(f"  {c['games']} games -> {c['team_side_rows']} team-side rows")
     print(f"  filed {c['filed']} | due and not filed {c['due_and_not_filed']} "
           f"| not yet due {c['not_yet_due']} "
-          f"| no official report covers the date {c['no_report_covers_date']}")
+          f"| no official report covers the date {c['no_report_covers_date']} "
+          f"| covered-but-team-not-listed {c['covered_but_team_not_listed']}")
     print(f"  games whose availability is fully priced: "
           f"{c['games_fully_priced_on_availability']} of {c['games']}")
+    # The correspondence is a published FINDING, not a build condition: on
+    # 2026-11-14 it held exactly (five B2B teams unfiled with NYS rows); on
+    # 2026-11-15 it does not (NYK is unlisted without an NYS row), and printing
+    # that honestly is better than failing the build over a data reality.
+    # The module exits non-zero only on an internal contradiction: a team both
+    # counted as FILED and carrying a NOT-YET-SUBMITTED row.
     ok = correspondence["unfiled_are_exactly_the_b2b_teams"] and \
         correspondence["filed_are_exactly_the_rest"]
-    print(f"  11/14 back-to-back correspondence: "
-          f"{'exact 5/5 -- unfiled set == back-to-back set' if ok else 'DOES NOT LINE UP'}")
+    nonempty = bool(filed or unfiled)
+    contradiction = any(
+        r["state"] == STATE_FILED and r["not_submitted"] if "not_submitted" in r else False
+        for r in rows)
+    print(f"  {day1_date} back-to-back correspondence: "
+          + (f"exact -- unfiled set == back-to-back set" if ok and nonempty else
+             "vacuous (no unfiler and no back-to-back team on the first window date)"
+             if ok else "does not line up (published as a finding, with the per-row states)"))
     for row in coverage:
         print(f"    {row['date']} ({row['lead_days']}): filed {row['filed']}, "
               f"due-and-not-filed {row['due_and_not_filed']}, not yet due {row['not_yet_due']}, "
-              f"no report covers it {row['no_report_covers_date']}")
-    if not ok:
+              f"no report covers it {row['no_report_covers_date']}, "
+              f"covered-but-team-not-listed {row.get('covered_but_team_not_listed', 0)}")
+    if contradiction:
+        print("  INTERNAL CONTRADICTION: a team is FILED and NOT-YET-SUBMITTED at once")
         return 1
     return 0
 

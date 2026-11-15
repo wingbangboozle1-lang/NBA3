@@ -532,7 +532,10 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
              else "— / —")
             + (" " + chip("one side not on the report", "warn") if partial else "")
             + (" " + chip("no report for this date", "bad")
-               if l.get("availability_state_home") == "NO_OFFICIAL_REPORT_COVERS_THIS_DATE" else ""),
+               if l.get("availability_state_home") == "NO_OFFICIAL_REPORT_COVERS_THIS_DATE" else "")
+            + (" " + chip("team not on the report", "warn")
+               if "REPORT_COVERS_DATE_TEAM_NOT_LISTED" in
+               (l.get("availability_state_home"), l.get("availability_state_away")) else ""),
             src_cell([l["source"], l["game_source"]], "schedule + game"),
         ])
     body.append(table(
@@ -1392,8 +1395,10 @@ and printed an absence count of zero. See
     {src_cell([inj['source_url'], av['rule_source']], 'official report + rule')}</div>
   <div class="card"><div class="k">Overdue reports</div>
     <div class="v">{counts.get('due_and_not_filed', 0)}</div>
-    <div class="s">no team in the window is past its deadline without filing — every missing row is
-    explained by a deadline that has not arrived</div>
+    <div class="s">team-sides past their filing deadline without a filing. Every other missing row is
+    one of: a deadline that has not arrived ({counts.get('not_yet_due', 0)}), a date no report covers
+    ({counts.get('no_report_covers_date', 0)}), or a date the report covers with the team not listed
+    ({counts.get('covered_but_team_not_listed', 0)})</div>
     {src_cell([av['rule_source']], 'filing rule')}</div>
   <div class="card"><div class="k">Lines that moved on the refresh</div>
     <div class="v">{(delta.get('counts') or {}).get('lines_moved', 0)}</div>
@@ -1542,12 +1547,15 @@ are published here instead of being mentioned in a commit message. The injury co
 <a href="flagged.html">NF-59</a>), and whether to adopt the other read's attribution and move to the
 newer stamp is <a href="questions.html">CQ-47</a>.</p></div>""")
 
-    # --------------------------------------------------- 3. the nine new finals
-    body.append("<h2>3. The nine results added to the canonical log</h2>")
-    body.append(f"""<p>Flag <a href="flagged.html">F36-03</a> asked a later session to carry the
-2026-11-13 finals into <code>data/origin/games.csv</code>. They are here: {log_prov.get('games_before', '')} →
-{log_prov.get('games_after', '')} games. The note predicted 184; the log holds 183, and C1, C2 and C3
-all say 183 — recorded as <a href="flagged.html">NF-58</a> so nobody “fixes” the data to match the note.</p>""")
+    # --------------------------------------------------- 3. the newest finals
+    body.append("<h2>3. The newest results added to the canonical log</h2>")
+    _prev = (log_prov.get("prior_extension") or {}) if isinstance(log_prov, dict) else {}
+    body.append(f"""<p>The 2026-11-13 finals (9 rows, {esc(str(_prev.get('games_before', '')))} →
+{esc(str(_prev.get('games_after', '')))} games, session {_prev.get('session', 'n/a')}) were carried in by
+session 25418e3f; the 2026-11-14 finals (5 rows, {log_prov.get('games_before', '')} →
+{log_prov.get('games_after', '')} games) were added on 2026-11-15 with <strong>quarter scores</strong>
+from each official game page's LINESCORES table (data/app/official_results_2026-11-14.json) — the
+brief's per-game result feed. Every quarter sum equals its final.</p>""")
     g_rows = []
     for g in results.get("games", []):
         g_rows.append([
@@ -1563,6 +1571,37 @@ all say 183 — recorded as <a href="flagged.html">NF-58</a> so nobody “fixes�
     body.append(table(["Date", "Game id", "Matchup", "Score (away–home)", "State",
                        "Competition", "W–L printed on the card after the game", "Source"],
                       g_rows, "new-results"))
+
+    # ------------------------------------------------- 3b. quarter scores
+    # The brief's per-game result feed: one row per game with date, teams,
+    # final score and quarter scores.  Sourced from each official game page's
+    # LINESCORES table; sums are asserted inside the capture script.
+    results_1114 = d.get("results_1114") or {}
+    if results_1114.get("games"):
+        q_rows = []
+        for g in results_1114["games"]:
+            q_rows.append([
+                esc(g["date"]),
+                f'<a href="{esc(g.get("game_url", ""))}" target="_blank" rel="noopener noreferrer">'
+                f'{esc(g["away"])} @ {esc(g["home"])}</a>',
+                f'{g["away_pts"]} – {g["home_pts"]}',
+                " / ".join(str(x) for x in g.get("away_quarters", [])) or "—",
+                " / ".join(str(x) for x in g.get("home_quarters", [])) or "—",
+                esc(g.get("officials", "")) or "—",
+                str(g.get("attendance", "")) or "—",
+                (f'<a href="{esc(g.get("gamebook_url", ""))}" target="_blank" rel="noopener noreferrer">'
+                 f'official gamebook</a>') if g.get("gamebook_url") else "—",
+                src_cell([g.get("source", "")], "official game page"),
+            ])
+        body.append(f"""<h3>Quarter scores for the {len(q_rows)} finals of 2026-11-14</h3>
+<p>Read from each official game page's <strong>LINESCORES</strong> table on 2026-11-15; the capture
+asserts that every quarter sum equals its final, so a transcription error cannot reach this table
+quietly. Officials, attendance and the league's own gamebook PDF are from the same pages'
+GAME INFO blocks.</p>""")
+        body.append(table(["Date", "Matchup", "Final (away–home)",
+                           "Away Q1/Q2/Q3/Q4", "Home Q1/Q2/Q3/Q4",
+                           "Officials", "Attendance", "Game book", "Source"],
+                          q_rows, "quarter-scores"))
 
     # ------------------------------------------------- 4. ratings staleness
     if sup_ratings:
