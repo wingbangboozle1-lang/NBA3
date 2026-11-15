@@ -4005,3 +4005,19 @@ needed; in every case both sides were kept rather than one winning:
 
 One push needed `--force-with-lease` after a rebase (the branch tip had moved); the lease was
 pinned to the pre-rebase SHA so an unrelated push could not have been overwritten.
+
+---
+
+## Session `arena/ab988694-nba3` — CLAIM: take over stale PR #79 and finish integration
+
+Session ID: `ab988694`. Arena-assigned branch: `arena/ab988694-nba3` (base `d320feaa5b1b235e55d39d736551e8a7572d9cd4`). All changes stay on this branch; the task text's separate `session-*` branch naming is not used.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| H1 | Take over PR #79 after stale-claim check; preserve its work and reconcile against current `main` | in progress | `.github/workflows/pages.yml`, `COORDINATION.md`, `app/{flagged,injuries,lines,questions,suggestions,summary}.html`, `data/app/{availability_delta_0130PM.json,canonical.json,lab.json,official_injuries_2026-11-14_0115PM_raw.md,official_injuries_2026-11-14_0130PM.json}`, `index.html`, `scripts/{assemble_canonical.py,build_app.py,capture_official_2026_11_14e.py,strategy_lab.py}`, `tests/test_capture_e.py` |
+| H2 | Re-run official capture checks, model/site tests; correct any defects without inventing values | pending | H1 scope + any new `audit_ab988694/**` evidence |
+| H3 | PR from this branch, merge only after checks/build pass, verify Pages deploy and record final result | pending | `COORDINATION.md` and PR |
+
+**Handoff basis.** PR [#79](https://github.com/wingbangboozle1-lang/NBA3/pull/79) was last updated 2026-11-14 18:57 UTC. `gh pr view 79 --json commits` shows its newest commit `eadcb33a3fe639fce5da9b4c9b72ace08c98694f` at 2026-11-14 18:56:50 UTC; there are no later commits, and its merge state is `DIRTY` against the current `main` (`d320fea`). The stale-claim handoff rule (>60 minutes without commits) therefore applies. This session is taking over its published task and will retain all non-conflicting work, re-run checks, and log any conflict resolutions. PR #70 is a separate coordination-only PR and is not part of this takeover.
+
+**Scope note.** No source, data, generated page, or model edit was made before this claim was committed and pushed. Official NBA values must remain blank/flagged unless the committed capture or a permitted official-source check verifies them. No live capture is claimed merely because a local snapshot test passes.
