@@ -4150,3 +4150,41 @@ overlap between the captured logs and the archived absences) · injury-report na
 No edits to `data/app/canonical.json`, `lab.json`, `scripts/strategy_lab.py`,
 `assemble_canonical.py`, `build_app.py`, `app/*.html` or any audit tree. `COORDINATION.md` is
 append-only; the rebase conflict was resolved by keeping both sessions' claims in order.
+
+---
+
+## Session `arena/2ebb1e75-nba3` — DEPLOYED AND VERIFIED
+
+**PR #86** merged `ad6f79d` (12:02:41Z) · **PR #88** merged `becb399` (12:11:30Z) · branch tip `becb399`.
+**Pages:** `built` at https://wingbangboozle1-lang.github.io/NBA3/ — build + deploy both `success`
+(runs 43711867734, 43712575106). Live pages verified by fetching them after the deploy.
+
+**Live surfaces:** `/projection/` (12 pages) · `/bet/` (6 pages). Confirmed on the deployed site:
+11 sealed picks across 2026-11-15/16/17, ledger head advanced, R13 reporting 11 entries.
+
+### Two defects found after the first merge, fixed in PR #88
+
+8. **S1 derived back-to-backs from the model's game sample**, which ends 11/14 — before the slate —
+   so it reported zero back-to-backs and sealed nothing. Now reads the schedule of record from
+   `scripts/rest_travel.py` (three unioned official captures). Two S1 picks sealed: ORL 12.8 at BOS,
+   MEM +13.9 at WAS.
+9. **The publisher sealed one day, not three.** The brief requires picks up to three days ahead.
+   Now seals the whole priced window; 11 picks across 3 days instead of 2 on one day.
+10. **`review.json` was committed from a pass that ran before the new picks were sealed**, so R13
+   said "entries 2" while the ledger held 11. The CI drift gate caught it. Found only by cloning
+   the PR branch into a clean directory and running the CI step sequence there — locally the file
+   was already dirty, so `git status` looked identical either way.
+
+### Final gate state
+
+`freshness_gates.py` 10/10 PASS · `ledger.verify()` verified, 11 entries · 62 tests pass
+(`tests/test_*.py` plus the repo's own suites) · 18 pages, 0 errors, deterministic across runs ·
+repo review 22 checks: 17 PASS, 4 FLAGGED, 1 IRREGULARITY, 0 FAIL.
+
+### Standing follow-ups (not this session's scope, published on the site)
+
+Travel distance needs a citable coordinate source (Q2/S4) · market prior needs a licensed closing
+line (Q1/S1) · player logs need a rolling window before minutes redistribution is a forecast
+(S2) · postponement settlement rule must be written into the prereg files before the next slate
+(Q3/S3). All four are on `projection/questions.html` and `projection/suggestions.html` with options,
+cost, risk and a recommendation — none implemented, per the requirement that a path be chosen first.
