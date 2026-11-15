@@ -243,6 +243,8 @@ jobs:
             git --no-pager diff -- data/app/canonical.json | head -40
             exit 1
           }
+      - name: Originated-lines attribution and availability labels (arena/bb0c83a4)
+        run: python3 -m unittest tests.test_lines_attribution -v
       - name: Build and verify the consolidated dashboard (hub/)
         run: |
           python3 scripts/build_hub_data.py
