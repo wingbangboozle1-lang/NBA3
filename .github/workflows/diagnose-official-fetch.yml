@@ -1,0 +1,62 @@
+name: diagnose official fetch
+
+# Session arena/43d54bfe-nba3. Temporary diagnostic: the workspace sandbox cannot reach
+# *.nba.com hosts, so official-source reachability (injury report index/PDF, slate pages,
+# team-stat pages, cdn.nba.com JSON, stats.nba.com API, game books) can only be observed
+# on a runner. Results are committed back to the session branch via the contents API so
+# they are reviewable without log access. This workflow is removed at integration.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run official-fetch diagnostics (always exits 0 — experiment, not a gate)
+        run: python3 scripts/diagnose_official_fetch.py
+
+      - name: Commit diagnostics back to the session branch (contents API, conflict-free)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - << 'PY'
+          import base64, json, os, sys, urllib.request
+          repo = "wingbangboozle1-lang/NBA3"
+          branch = os.environ["GITHUB_REF_NAME"]
+          token = os.environ["GH_TOKEN"]
+          files = [
+              "data/app/refresh/diagnostics/official_fetch_diagnostics.json",
+              "data/app/refresh/diagnostics/official_fetch_diagnostics.md",
+          ]
+          for path in files:
+              content = base64.b64encode(open(path, "rb").read()).decode()
+              # fetch existing SHA so the PUT replaces rather than conflicts
+              sha = None
+              try:
+                  req = urllib.request.Request(
+                      f"https://api.github.com/repos/{repo}/contents/{path}?ref={branch}",
+                      headers={"Authorization": f"Bearer {token}",
+                               "Accept": "application/vnd.github+json"})
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      sha = json.load(r)["sha"]
+              except Exception as e:
+                  print(f"no existing {path}: {e}")
+              body = {"message": f"official-fetch diagnostics (run {os.environ['GITHUB_RUN_ID']}) [diagnostics]",
+                      "branch": branch, "content": content}
+              if sha:
+                  body["sha"] = sha
+              req = urllib.request.Request(
+                  f"https://api.github.com/repos/{repo}/contents/{path}",
+                  data=json.dumps(body).encode(),
+                  headers={"Authorization": f"Bearer {token}",
+                           "Accept": "application/vnd.github+json",
+                           "Content-Type": "application/json"},
+                  method="PUT")
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  print(path, "->", r.status)
+          PY
