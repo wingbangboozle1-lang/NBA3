@@ -53,16 +53,14 @@ class PickLedgerTest(unittest.TestCase):
 
     def test_settlement_uses_official_final_only(self):
         pick_ledger.publish()
+        est = json.load(open(pick_ledger.EST, encoding="utf-8"))
+        target = est["window"][0]
         feed = {"games": [{
-            "date": "2026-11-15", "away": "ATL", "home": "PHX",
+            "date": target["date"], "away": target["away"], "home": target["home"],
             "away_pts": 100, "home_pts": 110, "state": "Final",
             "verified": True, "settled": True,
             "settlement_stamp": "settled from the official final",
         }]}
-        est = json.load(open(pick_ledger.EST, encoding="utf-8"))
-        target = next(r for r in est["window"] if r["date"] == "2026-11-15"
-                      and r["away"] == "ATL" and r["home"] == "PHX")
-        self.assertIsNotNone(target)
         saved = pick_ledger.FEED
         try:
             pick_ledger.FEED = os.path.join(self.tmp, "feed.json")
