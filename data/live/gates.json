@@ -10,8 +10,8 @@
  ],
  "counts": {
   "rows": 225,
-  "passed": 146,
-  "failed": 79
+  "passed": 148,
+  "failed": 77
  },
  "rows": [
   {
@@ -388,7 +388,7 @@
    "game": "DAL @ BOS",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "detail": "home b2b=False, away b2b=True"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -787,8 +787,8 @@
    "game_id": "0022600245",
    "game": "ORL @ BOS",
    "gate": "G3_signal_present",
-   "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "passed": true,
+   "detail": "home b2b=True, away b2b=False"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -947,8 +947,8 @@
    "game_id": "0022600247",
    "game": "MEM @ WAS",
    "gate": "G3_signal_present",
-   "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "passed": true,
+   "detail": "home b2b=True, away b2b=False"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1028,7 +1028,7 @@
    "game": "PHI @ BKN",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "detail": "home b2b=False, away b2b=True"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1108,7 +1108,7 @@
    "game": "HOU @ MIA",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "detail": "home b2b=False, away b2b=True"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1348,7 +1348,7 @@
    "game": "PHX @ DEN",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "detail": "home b2b=False, away b2b=True"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1508,7 +1508,7 @@
    "game": "POR @ MIN",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "home b2b=False, away b2b=False"
+   "detail": "home b2b=True, away b2b=True"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
