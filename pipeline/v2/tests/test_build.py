@@ -71,3 +71,41 @@ class TestReproducible(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+@unittest.skipUnless(os.path.exists(os.path.join(ROOT, "data", "v2", "build.json")),
+                     "artefact not present")
+class TestPagesDoNotDependOnTheClock(unittest.TestCase):
+    """The rendered pages must not contain anything that changes between runs.
+
+    This is not pedantry. CI regenerates v2/ and fails on any change, so a page
+    that prints the gate evaluation time makes the drift check fail on every
+    run for a reason that has nothing to do with the data -- and a check that
+    fails for noise is a check people start ignoring. The gate page used to
+    print that timestamp.
+
+    The failure mode is worse than a red build, though: it trains the reader to
+    read a drift failure as "the clock again" when it might be a real input
+    change, which is the one thing the check exists to surface.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        import subprocess
+        cls._before = {}
+        cls.ok = None
+        v2 = os.path.join(ROOT, "v2")
+        for name in sorted(os.listdir(v2)):
+            if name.endswith(".html"):
+                with open(os.path.join(v2, name), encoding="utf-8") as fh:
+                    cls._before[name] = fh.read()
+
+    def test_pages_contain_no_evaluated_at_timestamp(self):
+        for name, body in self._before.items():
+            self.assertNotIn("evaluated_at_utc=", body, name)
+            # an ISO timestamp with a minute precision other than the fixed
+            # publication date would be a clock leak
+            import re
+            for stamp in re.findall(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}", body):
+                self.assertTrue(stamp.startswith("2026-11-15"),
+                                f"{name} embeds a build-time clock: {stamp}")

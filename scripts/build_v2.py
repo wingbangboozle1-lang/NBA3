@@ -537,7 +537,13 @@ def page_gates(d):
     g = d["gates"]
     body = [f"""
 <p>Nothing is published until the inputs pass. {g['passed']} of {g['total']} gates pass, evaluated
-{esc(g['evaluated_at_utc'])}. A blocking failure stops the build before any model runs.</p>
+A blocking failure stops the build before any model runs, so a failing gate means no model output
+was produced at all.</p>
+<p class="note">The gate evaluation time is deliberately <strong>not</strong> printed here. It is the
+only field in the build that changes between two runs on identical inputs, and a page that prints it
+cannot be reproduced byte for byte — which would defeat the drift check that exists to catch a real
+input change. The time is in <code>data/v2/build.json</code> under
+<code>gates.evaluated_at_utc</code> for anyone who needs it.</p>
 """]
     rows = []
     for x in g["gates"]:
