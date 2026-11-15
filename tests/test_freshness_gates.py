@@ -6,7 +6,7 @@ import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-import freshness_gates  # noqa: E402
+import freshness_gates_round_79341829 as freshness_gates  # noqa: E402
 
 
 class FreshnessGatesTest(unittest.TestCase):

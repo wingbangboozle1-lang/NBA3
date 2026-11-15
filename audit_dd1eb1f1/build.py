@@ -28,7 +28,8 @@ DATA = os.path.join(HERE, "data")
 PAGES = os.path.join(HERE, "pages")
 ASSETS = os.path.join(HERE, "assets")
 
-CANONICAL = os.path.join(HERE, "..", "data", "app", "canonical.json")
+# Frozen 2026-11-14 snapshot (see audit_dd1eb1f1/analysis.py).
+CANONICAL = os.path.join(HERE, "..", "data", "snapshots", "canonical_2026-11-14.json")
 OFFICIAL_HOSTS = ("nba.com", "ak-static.cms.nba.com", "official.nba.com")
 SITE_ROOT = "../../"
 NAV = [

@@ -1,652 +1,739 @@
 #!/usr/bin/env python3
-"""Capture pass for the 2026-11-15 refresh round (session arena/79341829-nba3).
+"""Official capture for the 2026-11-15 game day (session ``arena/bb0c83a4-nba3``).
 
-Parses the committed verbatim files and runs checks OFFLINE, so CI can replay it
-deterministically (the same pattern as scripts/capture_official_2026_11_14e.py):
+Four official pages were read with the Arena fetch tool on 2026-11-15 between
+11:20Z and 11:40Z (06:20-06:40 AM ET) and are transcribed here verbatim. This
+module rebuilds every artefact from those transcriptions **offline**, so CI can
+replay it with no network and the committed JSON cannot drift from the text.
 
-  * data/app/official_injuries_2026-11-15_0615AM_raw.md  -> official_injuries_2026-11-15_0615AM.json
-      + consecutive-report diff vs the stored 11/14 01:30 PM capture (injury_delta_1115.json)
-  * data/app/gamebooks/*.md (official game books via statsdmz.nba.com)
-      -> results_feed.json      one row per game: date, teams, final score, quarter scores
-      -> player_game_logs.json  per-player rows: minutes, points, rebounds, assists, opponent
-      -> minutes_shares.json    top-8 minutes shares per team-game (input to the minutes model)
-  * data/app/official_slate_1115_1118.json   -> cross-checks (E5/E6)
+What was read
+-------------
+1. https://official.nba.com/nba-injury-report-2026-27-season/
+   The report index. Its page text listed the November 15 reports from
+   12:00 a.m. ET through **6:00 a.m. ET**, and no later slot. Reports are
+   stated by the page to be "updated on a continual basis throughout the day".
 
-Checks printed at the end; any FAIL exits non-zero.
+2. https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf
+   Parsed twice by the fetch tool (chunk 0 and chunk 1). Between the two reads
+   the index advanced to 6:15 a.m. ET, and this file was fetched successfully,
+   so **6:15 AM ET is the newest report that exists at capture time**. Its
+   verbatim transcription is
+   ``data/app/official_injuries_2026-11-15_0615AM_raw.md``.
+   The 6:00 AM read of the same report was compared row for row before 6:15
+   was adopted; the two agree on every row they both print.
 
-Usage: python3 scripts/capture_official_2026_11_15.py
+3. https://www.nba.com/schedule?date=2026-11-15
+   chunks 0, 1 and 2 (of 9) and https://www.nba.com/schedule?date=2026-11-17
+   chunk 1, which re-render the whole Week 4 / Week 5 block. This session takes
+   every game from 2026-11-15 through 2026-11-18 inclusive -- today plus the
+   maximum three-day forward window the brief asks for.
+   The five 2026-11-14 games are **Final** on the page with printed scores, so
+   they are results, not an upcoming slate, and are carried into the results
+   log instead of the priced window.
+
+4. https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season
+   chunks 0 and 1 of 2. GP, W, L, MIN, OffRtg, DefRtg, NetRtg and PACE for all
+   30 teams, read at 11:35Z on 2026-11-15 (after the 11/14 slate completed).
+
+5. https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC
+   chunks 2, 3, 4 and 5 of 9 -- the top 31 players by minutes per game, which is
+   the same Top-31 cut the previous captures used, so the two are comparable.
+
+THE TRANSCRIPTION RULES, and why they matter
+--------------------------------------------
+The PDF is printed as six page blocks and the text extraction breaks a table
+row across a page boundary in several places. A row whose cells are blank at
+the start of a block belongs to the matchup, team and game date printed most
+recently above it **in the same report**. Carrying those cells forward is not
+an inference: it is how the printed table is to be read. Every row therefore
+records ``cell_provenance`` so a reviewer can see exactly which cells were
+printed on the row itself and which were carried.
+
+A team that withheld its filing prints one row with the literal string
+``NOT YET SUBMITTED`` in the *Reason* column, no player name, and no status.
+That is an official statement that the team has not filed, so it is stored as
+its own row with ``is_team_not_submitted = True`` and is never read as
+"nobody is out".
+
+A team that filed but named no player simply prints **no row at all**. It
+cannot be distinguished from a team whose block fell off the rendered page.
+There is one such case in this report (the New York Knicks, NYK@TOR) and it is
+flagged, not filled in. See ``filed_but_no_rows`` below and flag
+``F-BB-02`` in the dashboard.
+
+Run:  python3 scripts/capture_official_2026_11_15.py
+Writes (all under data/app/):
+  official_injuries_2026-11-15_0615AM.json
+  official_slate_1115_1118.json
+  official_team_ratings_2026-11-15.json
+  official_results_2026-11-14.json
+  players_top31_2026-11-15.csv
+  official_capture_2026-11-15.json      (the run's own cross-check report)
 """
-import glob
-import hashlib
+import csv
 import json
 import os
 import re
-import sys
-from datetime import datetime, timezone
+from collections import defaultdict, OrderedDict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
-GAMEBOOKS = os.path.join(APP, "gamebooks")
 
-RETRIEVED_STAMP = "2026-11-15T11:33Z"   # the fetch window of this round's captures
+RETRIEVED_ON = "2026-11-15"
+RETRIEVED_STAMP = "2026-11-15T11:40Z"       # 06:40 AM ET
 
-INJ_RAW = os.path.join(APP, "official_injuries_2026-11-15_0615AM_raw.md")
-INJ_JSON = os.path.join(APP, "official_injuries_2026-11-15_0615AM.json")
-INJ_PRIOR = os.path.join(APP, "official_injuries_2026-11-14_0130PM.json")
-DELTA_JSON = os.path.join(APP, "injury_delta_1115.json")
-SLATE_JSON = os.path.join(APP, "official_slate_1115_1118.json")
-RESULTS_JSON = os.path.join(APP, "results_feed.json")
-LOGS_JSON = os.path.join(APP, "player_game_logs.json")
-SHARES_JSON = os.path.join(APP, "minutes_shares.json")
-RESULTS_1113 = os.path.join(APP, "official_results_2026-11-13.json")
+INDEX_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
+INJURY_URL = ("https://ak-static.cms.nba.com/referee/injury/"
+              "Injury-Report_2026-11-15_06_15AM.pdf")
+INJURY_RAW = os.path.join(APP, "official_injuries_2026-11-15_0615AM_raw.md")
+SCHEDULE_URL = "https://www.nba.com/schedule?date=2026-11-15"
+TEAM_STATS_URL = ("https://www.nba.com/stats/teams/advanced"
+                  "?Season=2026-27&SeasonType=Regular%20Season")
+PLAYERS_URL = ("https://www.nba.com/stats/players/traditional"
+               "?Season=2026-27&SeasonType=Regular%20Season&PerPage=100"
+               "&SortColumn=MIN&SortDirection=DESC")
+SCOREBOARD_1114 = "https://www.nba.com/games?date=2026-11-14"
+
+# 5.15.2 of the CBA text is not quoted here; the index page states the filing
+# rule verbatim, and that exact wording is the only one this project relies on.
+RULE_QUOTE = (
+    "By 5 p.m. local time the day before a game (other than the second day of a "
+    "back-to-back), teams must designate a participation status and identify a "
+    "specific injury, illness, other medical condition, or other reason for any "
+    "player whose participation in the game may be affected for any reason. For "
+    "the second game of a back-to-back, teams must report the above information "
+    "by 1 p.m. local time on the day of the game.")
+RULE_QUOTE_2 = (
+    "In addition, teams are required to submit a game-day injury report between "
+    "11 a.m. and 1 p.m. local time (and between 8 and 10 a.m. for tip-offs 5 "
+    "p.m. or earlier) on game days (besides the second game of a back-to-back).")
 
 TEAM_NAME_TO_ABBR = {
     "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
-    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI", "Cleveland Cavaliers": "CLE",
-    "Dallas Mavericks": "DAL", "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
-    "Golden State Warriors": "GSW", "Houston Rockets": "HOU", "Indiana Pacers": "IND",
-    "LA Clippers": "LAC", "Los Angeles Lakers": "LAL", "Memphis Grizzlies": "MEM",
-    "Miami Heat": "MIA", "Milwaukee Bucks": "MIL", "Minnesota Timberwolves": "MIN",
-    "New Orleans Pelicans": "NOP", "New York Knicks": "NYK",
-    "Oklahoma City Thunder": "OKC", "Orlando Magic": "ORL", "Philadelphia 76ers": "PHI",
-    "Phoenix Suns": "PHX", "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
+    "Charlotte Hornets": "CHA", "Chicago Bulls": "CHI",
+    "Cleveland Cavaliers": "CLE", "Dallas Mavericks": "DAL",
+    "Denver Nuggets": "DEN", "Detroit Pistons": "DET",
+    "Golden State Warriors": "GSW", "Houston Rockets": "HOU",
+    "Indiana Pacers": "IND", "LA Clippers": "LAC", "Los Angeles Lakers": "LAL",
+    "Memphis Grizzlies": "MEM", "Miami Heat": "MIA", "Milwaukee Bucks": "MIL",
+    "Minnesota Timberwolves": "MIN", "New Orleans Pelicans": "NOP",
+    "New York Knicks": "NYK", "Oklahoma City Thunder": "OKC",
+    "Orlando Magic": "ORL", "Philadelphia 76ers": "PHI", "Phoenix Suns": "PHX",
+    "Portland Trail Blazers": "POR", "Sacramento Kings": "SAC",
     "San Antonio Spurs": "SAS", "Toronto Raptors": "TOR", "Utah Jazz": "UTA",
     "Washington Wizards": "WAS",
 }
-NICKNAME_TO_ABBR = {
-    "Hawks": "ATL", "Celtics": "BOS", "Nets": "BKN", "Hornets": "CHA", "Bulls": "CHI",
-    "Cavaliers": "CLE", "Mavericks": "DAL", "Nuggets": "DEN", "Pistons": "DET",
-    "Warriors": "GSW", "Rockets": "HOU", "Pacers": "IND", "Clippers": "LAC",
-    "Lakers": "LAL", "Grizzlies": "MEM", "Heat": "MIA", "Bucks": "MIL",
-    "Timberwolves": "MIN", "Pelicans": "NOP", "Knicks": "NYK", "Thunder": "OKC",
-    "Magic": "ORL", "76ers": "PHI", "Suns": "PHX", "Trail Blazers": "POR",
-    "Kings": "SAC", "Spurs": "SAS", "Raptors": "TOR", "Jazz": "UTA", "Wizards": "WAS",
-}
-STATUSES = {"Out", "Doubtful", "Questionable", "Probable", "Available"}
+TEAM_ABBR = set(TEAM_NAME_TO_ABBR.values())
 
-FAILURES = []
+VALID_STATUS = ("Out", "Doubtful", "Questionable", "Probable", "Available")
 
 
-def check(ok, label, detail=""):
-    tag = "PASS" if ok else "FAIL"
-    print(f"[{tag}] {label}" + (f" — {detail}" if detail else ""))
-    if not ok:
-        FAILURES.append(label)
+# ==========================================================================
+# 1. Slate -- 2026-11-15 .. 2026-11-18, transcribed from nba.com/schedule
+#    (date, time_et, away, home, game_id, venue, city, competition)
+# ==========================================================================
+SLATE = [
+    # Sunday, November 15 -- "9 Games"
+    ("2026-11-15", "1:00 PM", "IND", "PHI", "0022600236", "Xfinity Mobile Arena", "Philadelphia, PA", ""),
+    ("2026-11-15", "4:00 PM", "LAL", "PHX", "0022600237", "Mortgage Matchup Center", "Phoenix, AZ", ""),
+    ("2026-11-15", "4:30 PM", "CHA", "LAC", "0022600238", "Intuit Dome", "Inglewood, CA", ""),
+    ("2026-11-15", "5:00 PM", "SAS", "UTA", "0022600239", "Delta Center", "Salt Lake City, UT", ""),
+    ("2026-11-15", "6:00 PM", "DAL", "BOS", "0022600240", "TD Garden", "Boston, MA", ""),
+    ("2026-11-15", "6:00 PM", "NYK", "TOR", "0022600241", "Scotiabank Arena", "Toronto, ON", ""),
+    ("2026-11-15", "7:00 PM", "HOU", "WAS", "0022600242", "Capital One Arena", "Washington, DC", ""),
+    ("2026-11-15", "8:00 PM", "ATL", "MIL", "0022600243", "Fiserv Forum", "Milwaukee, WI", ""),
+    ("2026-11-15", "9:00 PM", "OKC", "SAC", "0022600244", "Golden 1 Center", "Sacramento, CA", ""),
+    # Monday, November 16 -- "8 Games"
+    ("2026-11-16", "7:00 PM", "ORL", "BOS", "0022600245", "TD Garden", "Boston, MA", ""),
+    ("2026-11-16", "7:00 PM", "CHI", "CLE", "0022600246", "Rocket Arena", "Cleveland, OH", ""),
+    ("2026-11-16", "7:00 PM", "MEM", "WAS", "0022600247", "Capital One Arena", "Washington, DC", ""),
+    ("2026-11-16", "7:30 PM", "PHI", "BKN", "0022600248", "Barclays Center", "Brooklyn, NY", ""),
+    ("2026-11-16", "7:30 PM", "HOU", "MIA", "0022600249", "Kaseya Center", "Miami, FL", ""),
+    ("2026-11-16", "8:00 PM", "POR", "MIN", "0022600250", "Target Center", "Minneapolis, MN", ""),
+    ("2026-11-16", "8:00 PM", "GSW", "NOP", "0022600251", "Smoothie King Center", "New Orleans, LA", ""),
+    ("2026-11-16", "9:00 PM", "PHX", "DEN", "0022600252", "Ball Arena", "Denver, CO", ""),
+    # Tuesday, November 17 -- "5 Games"
+    ("2026-11-17", "7:30 PM", "NYK", "TOR", "0022600253", "Scotiabank Arena", "Toronto, ON", ""),
+    ("2026-11-17", "8:00 PM", "POR", "MIN", "0022600254", "Target Center", "Minneapolis, MN", ""),
+    ("2026-11-17", "8:00 PM", "DET", "SAS", "0022600255", "Frost Bank Center", "San Antonio, TX", ""),
+    ("2026-11-17", "10:30 PM", "UTA", "LAC", "0022600257", "Intuit Dome", "Inglewood, CA", ""),
+    ("2026-11-17", "11:00 PM", "CHA", "LAL", "0022600256", "Crypto.com Arena", "Los Angeles, CA", ""),
+    # Wednesday, November 18 -- the page heading reads "12 Games". Seven cards
+    # were rendered inside the chunk window this session read; the five that
+    # follow (game ids 0022600270 and later belong to 11/19, so the missing
+    # ids are 0022600258-0022600269 minus those listed) are NOT transcribed
+    # here and are left out rather than guessed. Flag F-BB-03.
+    ("2026-11-18", "7:00 PM", "MEM", "CLE", "0022600258", "Rocket Arena", "Cleveland, OH", ""),
+    ("2026-11-18", "7:00 PM", "HOU", "IND", "0022600259", "Gainbridge Fieldhouse", "Indianapolis, IN", ""),
+    ("2026-11-18", "7:00 PM", "MIL", "MIA", "0022600260", "Kaseya Center", "Miami, FL", ""),
+    ("2026-11-18", "7:00 PM", "PHI", "ORL", "0022600261", "Kia Center", "Orlando, FL", ""),
+    ("2026-11-18", "7:30 PM", "CHI", "BKN", "0022600262", "Barclays Center", "Brooklyn, NY", ""),
+    ("2026-11-18", "7:30 PM", "WAS", "TOR", "0022600263", "Scotiabank Arena", "Toronto, ON", ""),
+    ("2026-11-18", "8:00 PM", "DET", "NOP", "0022600264", "Smoothie King Center", "New Orleans, LA", ""),
+    ("2026-11-18", "8:00 PM", "ATL", "OKC", "0022600265", "Paycom Center", "Oklahoma City, OK", ""),
+    ("2026-11-18", "8:00 PM", "GSW", "DAL", "0022600267", "American Airlines Center", "Dallas, TX", ""),
+    ("2026-11-18", "9:30 PM", "BOS", "DEN", "0022600266", "Ball Arena", "Denver, CO", ""),
+    ("2026-11-18", "10:00 PM", "UTA", "LAL", "0022600268", "Crypto.com Arena", "Los Angeles, CA", ""),
+    ("2026-11-18", "10:00 PM", "PHX", "SAC", "0022600269", "Golden 1 Center", "Sacramento, CA", ""),
+]
+
+# Two matchups repeat inside the window: POR@MIN on 11/16 and 11/17, and
+# NYK@TOR on 11/15 and 11/17. Both were re-read on
+# https://www.nba.com/schedule?date=2026-11-17 and print twice with different
+# game ids, so they are not transcription duplicates. Recorded, not corrected.
+REPEATED_MATCHUPS = [("POR@MIN", ["2026-11-16", "2026-11-17"]),
+                     ("NYK@TOR", ["2026-11-15", "2026-11-17"])]
+
+# 2026-11-14 finals, from https://www.nba.com/schedule?date=2026-11-15
+# ("Final" cards). (date, gid, away, away_pts, home, home_pts, ot)
+# Overtime is 0 for all five: the cards print no OT marker next to the scores.
+RESULTS_1114 = [
+    ("2026-11-14", "0022600231", "DEN", 116, "NOP", 108, 0),
+    ("2026-11-14", "0022600232", "DAL", 117, "CLE", 127, 0),
+    ("2026-11-14", "0022600233", "DET", 117, "MIA", 137, 0),
+    ("2026-11-14", "0022600234", "BKN", 110, "MEM", 129, 0),
+    ("2026-11-14", "0022600235", "CHI", 117, "MIN", 106, 0),
+]
+
+# ==========================================================================
+# 2. Team advanced statistics, 30 rows, read 2026-11-15T11:35Z.
+#    (abbr, gp, w, l, min, off_rtg, def_rtg, net_rtg, pace, team_url)
+# ==========================================================================
+RATINGS = [
+    ("LAL", 13, 11, 2, 624.0, 121.6, 113.6, 8.0, 100.50, "https://www.nba.com/stats/team/1610612747/traditional"),
+    ("SAS", 13, 11, 2, 629.0, 119.6, 106.6, 13.0, 98.94, "https://www.nba.com/stats/team/1610612759/traditional"),
+    ("BOS", 12, 10, 2, 581.0, 117.4, 105.6, 11.7, 96.62, "https://www.nba.com/stats/team/1610612738/traditional"),
+    ("HOU", 13, 10, 3, 624.0, 119.3, 110.2, 9.1, 97.42, "https://www.nba.com/stats/team/1610612745/traditional"),
+    ("PHI", 13, 10, 3, 624.0, 111.0, 109.5, 1.5, 100.04, "https://www.nba.com/stats/team/1610612755/traditional"),
+    ("MEM", 13, 9, 4, 629.0, 119.0, 110.4, 8.5, 100.46, "https://www.nba.com/stats/team/1610612763/traditional"),
+    ("MIN", 13, 9, 4, 629.0, 116.0, 104.5, 11.5, 101.27, "https://www.nba.com/stats/team/1610612750/traditional"),
+    ("POR", 12, 9, 3, 576.0, 118.8, 111.1, 7.7, 100.67, "https://www.nba.com/stats/team/1610612757/traditional"),
+    ("DET", 12, 8, 4, 586.0, 114.1, 109.2, 4.9, 99.48, "https://www.nba.com/stats/team/1610612765/traditional"),
+    ("GSW", 13, 8, 5, 629.0, 116.1, 112.0, 4.1, 99.66, "https://www.nba.com/stats/team/1610612744/traditional"),
+    ("OKC", 13, 8, 5, 624.0, 112.7, 109.0, 3.7, 98.58, "https://www.nba.com/stats/team/1610612760/traditional"),
+    ("ATL", 13, 7, 6, 629.0, 113.3, 111.9, 1.4, 103.55, "https://www.nba.com/stats/team/1610612737/traditional"),
+    ("CLE", 14, 7, 7, 677.0, 116.9, 115.4, 1.6, 99.72, "https://www.nba.com/stats/team/1610612739/traditional"),
+    ("DAL", 13, 7, 6, 624.0, 112.8, 112.8, 0.0, 100.54, "https://www.nba.com/stats/team/1610612742/traditional"),
+    ("DEN", 11, 7, 4, 533.0, 116.0, 114.7, 1.3, 97.67, "https://www.nba.com/stats/team/1610612743/traditional"),
+    ("MIA", 13, 7, 6, 629.0, 114.7, 116.2, -1.5, 102.49, "https://www.nba.com/stats/team/1610612748/traditional"),
+    ("NYK", 12, 6, 6, 576.0, 114.5, 108.6, 5.9, 95.63, "https://www.nba.com/stats/team/1610612752/traditional"),
+    ("IND", 13, 5, 8, 624.0, 110.1, 111.7, -1.5, 101.15, "https://www.nba.com/stats/team/1610612754/traditional"),
+    ("ORL", 12, 5, 7, 581.0, 109.7, 113.4, -3.7, 98.23, "https://www.nba.com/stats/team/1610612753/traditional"),
+    ("PHX", 11, 5, 6, 528.0, 113.8, 117.6, -3.8, 98.45, "https://www.nba.com/stats/team/1610612756/traditional"),
+    ("TOR", 12, 5, 7, 576.0, 114.5, 112.8, 1.7, 99.88, "https://www.nba.com/stats/team/1610612761/traditional"),
+    ("CHA", 12, 4, 8, 576.0, 101.9, 113.1, -11.2, 96.83, "https://www.nba.com/stats/team/1610612766/traditional"),
+    ("NOP", 14, 4, 10, 687.0, 111.3, 120.0, -8.6, 101.83, "https://www.nba.com/stats/team/1610612740/traditional"),
+    ("WAS", 13, 4, 9, 634.0, 108.7, 114.3, -5.5, 99.63, "https://www.nba.com/stats/team/1610612764/traditional"),
+    ("BKN", 12, 3, 9, 581.0, 109.8, 116.0, -6.2, 99.47, "https://www.nba.com/stats/team/1610612751/traditional"),
+    ("CHI", 12, 3, 9, 581.0, 109.4, 120.3, -10.9, 103.81, "https://www.nba.com/stats/team/1610612741/traditional"),
+    ("LAC", 11, 3, 8, 533.0, 110.7, 115.8, -5.1, 100.55, "https://www.nba.com/stats/team/1610612746/traditional"),
+    ("MIL", 13, 1, 12, 624.0, 105.7, 120.0, -14.2, 100.31, "https://www.nba.com/stats/team/1610612749/traditional"),
+    ("SAC", 12, 1, 11, 576.0, 107.3, 119.5, -12.2, 101.00, "https://www.nba.com/stats/team/1610612758/traditional"),
+    ("UTA", 13, 1, 12, 634.0, 105.0, 116.4, -11.3, 100.50, "https://www.nba.com/stats/team/1610612762/traditional"),
+]
+
+# ==========================================================================
+# 3. Players traditional, top 31 by MIN (per game), read 2026-11-15T11:40Z.
+#    (rank, player, team, age, gp, w, l, min, pts, reb, ast)
+#    Only the fields this project uses are carried. Columns printed on the
+#    official page and not used here (FG splits, STL, BLK, PF, +/-, etc.) are
+#    deliberately not transcribed, to keep every published number checkable.
+# ==========================================================================
+PLAYERS = [
+    (1, "Luka Doncic", "LAL", 27, 11, 9, 2, 35.9, 38.6, 7.5, 7.6),
+    (2, "Anthony Edwards", "MIN", 25, 4, 3, 1, 33.7, 33.3, 4.8, 3.5),
+    (3, "Shai Gilgeous-Alexander", "OKC", 28, 13, 8, 5, 33.2, 30.5, 4.2, 4.5),
+    (4, "Giannis Antetokounmpo", "MIA", 31, 13, 7, 6, 32.4, 28.9, 12.5, 5.2),
+    (5, "Victor Wembanyama", "SAS", 22, 13, 11, 2, 29.3, 28.8, 11.7, 3.1),
+    (6, "Stephen Curry", "GSW", 38, 10, 7, 3, 26.3, 27.8, 3.7, 3.9),
+    (7, "Tyrese Maxey", "PHI", 26, 13, 10, 3, 36.2, 26.7, 3.4, 5.5),
+    (8, "Jalen Brunson", "NYK", 30, 12, 6, 6, 33.8, 26.6, 2.9, 5.7),
+    (9, "Jayson Tatum", "BOS", 28, 11, 9, 2, 34.0, 26.3, 6.1, 7.5),
+    (10, "Jamal Murray", "DEN", 29, 11, 7, 4, 36.5, 25.9, 5.2, 6.2),
+    (11, "Cade Cunningham", "DET", 25, 12, 8, 4, 34.7, 25.7, 5.2, 7.9),
+    (12, "Anthony Davis", "WAS", 33, 11, 4, 7, 34.1, 25.6, 10.5, 2.0),
+    (13, "Devin Booker", "PHX", 30, 11, 5, 6, 34.0, 25.5, 2.5, 5.0),
+    (14, "Darius Acuff Jr.", "SAC", 19, 12, 1, 11, 37.2, 25.4, 3.8, 7.2),
+    (15, "Ty Jerome", "MEM", 29, 11, 7, 4, 30.5, 25.4, 3.4, 5.3),
+    (16, "Austin Reaves", "LAL", 28, 12, 10, 2, 35.3, 24.7, 3.3, 4.7),
+    (17, "Paolo Banchero", "ORL", 24, 2, 0, 2, 33.8, 24.5, 6.5, 7.5),
+    (18, "Franz Wagner", "ORL", 25, 12, 5, 7, 36.8, 24.4, 6.8, 8.3),
+    (19, "Cooper Flagg", "DAL", 19, 12, 7, 5, 33.9, 24.1, 7.0, 6.4),
+    (20, "Deni Avdija", "POR", 25, 12, 9, 3, 32.7, 23.9, 6.1, 6.3),
+    (21, "Nikola Jokic", "DEN", 31, 11, 7, 4, 36.4, 23.7, 10.5, 9.1),
+    (22, "Scottie Barnes", "TOR", 25, 8, 4, 4, 33.3, 23.5, 7.6, 5.1),
+    (23, "Alperen Sengun", "HOU", 24, 11, 9, 2, 35.2, 23.1, 9.6, 7.6),
+    (24, "Donovan Mitchell", "CLE", 30, 13, 6, 7, 33.0, 23.0, 4.9, 5.6),
+    (25, "Kyrie Irving", "DAL", 34, 11, 7, 4, 30.8, 22.7, 3.5, 4.4),
+    (26, "Pascal Siakam", "IND", 32, 12, 5, 7, 32.1, 22.4, 6.6, 4.2),
+    (27, "Paul George", "BOS", 36, 10, 9, 1, 30.1, 22.0, 5.2, 3.8),
+    (28, "Zion Williamson", "NOP", 26, 13, 4, 9, 32.6, 21.9, 5.2, 2.7),
+    (29, "Tyrese Haliburton", "IND", 26, 4, 2, 2, 33.0, 21.8, 4.5, 9.5),
+    (30, "Tyler Herro", "MIL", 26, 12, 1, 11, 31.3, 21.6, 4.1, 4.3),
+    (31, "Michael Porter Jr.", "BKN", 28, 11, 3, 8, 32.7, 21.5, 6.5, 3.0),
+]
 
 
-# ----------------------------------------------------------------------------- injuries
+# ==========================================================================
+# parsing
+# ==========================================================================
+DATE_RE = re.compile(r"^\d{2}/\d{2}/\d{4}$")
+TIME_RE = re.compile(r"^\d{2}:\d{2} \(ET\)$")
 
-def parse_injury_raw(path):
-    text = open(path, encoding="utf-8").read()
+
+def parse_injury_raw(path=INJURY_RAW):
+    """Turn the verbatim transcription into rows, carrying truncated cells.
+
+    Returns ``(rows, carried, unresolved)``.
+
+    THE HARD PART, stated plainly. The PDF is one continuous table ordered by
+    game date, then tip time, then matchup, then team (each team's players are
+    printed alphabetically). The text extraction drops cells: from the second
+    page block onward the ``Game Date`` column is not printed at all, and at a
+    few page boundaries the ``Game Time``, ``Matchup`` and ``Team`` cells of the
+    first rows of the next page are missing too.
+
+    Row ORDER, however, is preserved. So a row's missing cells are read from
+    the most recently printed cells above it in the same report. That is how
+    the printed table is meant to be read, and the ordering it produces is
+    self-consistent: the team groups come out in the same alphabetical order
+    the league prints them in, and the dates only advance at the explicit
+    11/16 rows.
+
+    Every row therefore records ``cell_provenance`` per cell: ``row`` when the
+    cell was printed on that line, ``carried`` when it was taken from above.
+    ``team_provisional`` is True whenever the TEAM cell was carried, so a
+    reviewer can find every row whose team attribution does not come from the
+    row itself. Those rows are published on the Flagged page (flag F-BB-02) and
+    are excluded from the per-team absence sums, which keeps every sum a floor.
+
+    ``unresolved`` lists carried cells with no earlier value to inherit from.
+    Those are published blank.
+    """
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
+
     rows = []
-    ctx = {"game_date": None, "game_time_et": None, "matchup": None,
-           "team_name": None, "team": None}
-    for line in text.splitlines():
-        if not line.startswith("|"):
+    context = {"game_date": "", "game_time_et": "", "matchup": "", "team_name": ""}
+    carried = defaultdict(int)
+    unresolved = []
+
+    def cells_of(line):
+        s = line.strip()
+        if not s.startswith("|"):
+            return None
+        parts = [c.strip() for c in s.strip("|").split("|")]
+        while parts and parts[-1] == "":
+            parts.pop()                       # trailing rule artefact
+        return parts
+
+    for raw_line in text.splitlines():
+        cells = cells_of(raw_line)
+        if cells is None or not cells:
             continue
-        if set(line.replace("|", "").replace(" ", "")) <= {"-"}:
-            continue
-        if line.startswith("| Game Date") or line.startswith("| ---"):
-            continue
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        # pad to 7
-        while len(cells) < 7:
-            cells.append("")
-        non_empty = [c for c in cells if c]
-        if not non_empty:
-            continue
-        if "NOT YET SUBMITTED" in cells:
-            for c in non_empty:
-                if re.match(r"^\d\d/\d\d/2026$", c):
-                    ctx["game_date"] = c
-                elif re.match(r"^\d\d:\d\d \(ET\)$", c):
-                    ctx["game_time_et"] = c[:5]
-                elif re.match(r"^[A-Z]{2,3}@[A-Z]{2,3}$", c):
-                    ctx["matchup"] = c
-                elif c in TEAM_NAME_TO_ABBR:
-                    ctx["team_name"] = c
-                    ctx["team"] = TEAM_NAME_TO_ABBR[c]
-            rows.append({
-                "game_date": ctx["game_date"], "game_time_et": ctx["game_time_et"],
-                "matchup": ctx["matchup"], "team_name": ctx["team_name"],
-                "team": ctx["team"], "player": None,
-                "status": "NOT YET SUBMITTED", "reason": None,
-                "is_team_not_submitted": True, "team_cell_printed": True,
-            })
-            continue
-        status_idx = None
-        for i, c in enumerate(cells):
-            if c in STATUSES:
-                status_idx = i
-                break
-        if status_idx is None:
-            continue  # not a data row
-        status = cells[status_idx]
-        player = ""
-        for j in range(status_idx - 1, -1, -1):
-            if cells[j]:
-                player = cells[j]
-                player_idx = j
-                break
-        reason = " | ".join(c for c in cells[status_idx + 1:] if c) or None
-        printed = False
-        for j in range(player_idx - 1, -1, -1):
-            c = cells[j]
+        if set("".join(cells)) <= set("- "):
+            continue                                           # separator
+        if any("Injury Report" in c for c in cells):
+            continue                                           # PDF header
+        if any(c in ("Game Date", "Current Status") for c in cells):
+            continue                                           # column header
+
+        # --- classify every cell by CONTENT, never by position ------------
+        # The printed column layout shifts between page blocks (the Game Date
+        # column disappears after block 1, and some page boundaries drop the
+        # time/matchup cells too), so position is not a reliable key. Every
+        # value that appears in this table has an unambiguous shape:
+        #   date 11/15/2026 | time 01:00 (ET) | matchup IND@PHI
+        #   team  a name in TEAM_NAME_TO_ABBR   | status one of VALID_STATUS
+        #   player "Last, First"  | reason "Injury/Illness - ..." etc.
+        found = {"game_date": "", "game_time_et": "", "matchup": "",
+                 "team_name": "", "status": "", "player": "", "reason": ""}
+        is_nus = False
+        leftovers = []
+        for c in cells:
             if not c:
                 continue
-            if re.match(r"^\d\d/\d\d/2026$", c):
-                ctx["game_date"] = c
-            elif re.match(r"^\d\d:\d\d \(ET\)$", c):
-                ctx["game_time_et"] = c[:5]
-            elif re.match(r"^[A-Z]{2,3}@[A-Z]{2,3}$", c):
-                ctx["matchup"] = c
-            elif c in TEAM_NAME_TO_ABBR:
-                ctx["team_name"] = c
-                ctx["team"] = TEAM_NAME_TO_ABBR[c]
-                printed = True
-        rows.append({
-            "game_date": ctx["game_date"], "game_time_et": ctx["game_time_et"],
-            "matchup": ctx["matchup"], "team_name": ctx["team_name"],
-            "team": ctx["team"], "player": player, "status": status,
-            "reason": reason, "is_team_not_submitted": False,
-            "team_cell_printed": printed,
-        })
-    return rows
-
-
-def build_injury_json(rows):
-    player_rows = [r for r in rows if not r["is_team_not_submitted"]]
-    nys = [r for r in rows if r["is_team_not_submitted"]]
-    unprinted = [r for r in rows if not r["team_cell_printed"]]
-    doc = {
-        "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
-        "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
-        "source_label": ("NBA official injury report PDF, 11/15/26 06:15 AM ET — the newest report "
-                         "listed on the official index at read time (2026-11-15T11:33Z; the 11/15 "
-                         "index entry runs 12:00 AM through 06:15 AM ET)."),
-        "report_stamp": "2026-11-15 06:15 AM ET",
-        "report_revision_time": "2026-11-15 06:15 AM ET",
-        "retrieved_on": "2026-11-15",
-        "retrieved_stamp": RETRIEVED_STAMP,
-        "retrieval": "fetch_page, PDF text extraction, 2 chunks joined at the printed page break",
-        "raw_file": "data/app/official_injuries_2026-11-15_0615AM_raw.md",
-        "raw_sha256": hashlib.sha256(open(INJ_RAW, "rb").read()).hexdigest(),
-        "count": len(rows),
-        "player_rows": len(player_rows),
-        "not_submitted_rows": len(nys),
-        "rows_team_cell_not_printed": len(unprinted),
-        "rows": rows,
-    }
-    return doc
-
-
-def build_delta(new_rows, prior):
-    prior_rows = prior.get("rows", [])
-    prior_players = {(r.get("game_date"), r.get("team"), r.get("player")): r
-                     for r in prior_rows if not r.get("is_team_not_submitted")}
-    new_players = {(r.get("game_date"), r.get("team"), r.get("player")): r
-                   for r in new_rows if not r["is_team_not_submitted"]}
-    added = [k for k in new_players if k not in prior_players]
-    removed = [k for k in prior_players if k not in new_players]
-    changed = []
-    for k, r in new_players.items():
-        old = prior_players.get(k)
-        if old and old.get("status") != r.get("status"):
-            changed.append({"key": k, "from": old.get("status"), "to": r.get("status"),
-                            "reason": r.get("reason")})
-    # team-side filing state on the overlapping 11/15 date
-    prior_sides = {}
-    for r in prior_rows:
-        if r.get("game_date") == "11/15/2026":
-            prior_sides[(r.get("matchup"), r.get("team"))] = (
-                "NOT_YET_SUBMITTED" if r.get("is_team_not_submitted") else "ROWS")
-    new_sides = {}
-    for r in new_rows:
-        if r.get("game_date") == "11/15/2026":
-            new_sides[(r.get("matchup"), r.get("team"))] = (
-                "NOT_YET_SUBMITTED" if r["is_team_not_submitted"] else "ROWS")
-    side_changes = [{"matchup": m, "team": t, "from": prior_sides.get((m, t)),
-                     "to": new_sides.get((m, t))}
-                    for (m, t) in sorted(set(prior_sides) | set(new_sides))
-                    if prior_sides.get((m, t)) != new_sides.get((m, t))]
-    return {
-        "compared": {
-            "prior_report": prior.get("source_url"),
-            "prior_report_stamp": prior.get("report_stamp"),
-            "new_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
-            "new_report_stamp": "2026-11-15 06:15 AM ET",
-        },
-        "player_rows_added": len(added),
-        "player_rows_removed": len(removed),
-        "status_changes": changed,
-        "team_side_changes_1115": side_changes,
-        "note": ("The two reports cover different game days (01:30 PM 11/14: the 11/14 and 11/15 "
-                 "sections; 06:15 AM 11/15: the 11/15 and 11/16 sections), so player-row keys are "
-                 "compared on the overlapping 11/15 date only. The 11/15 sides were all team-level "
-                 "NOT YET SUBMITTED rows in the prior report and now carry player designations "
-                 "except where the team has nothing to report."),
-        "retrieved_stamp": RETRIEVED_STAMP,
-        "sources": [
-            "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
-            "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf",
-        ],
-    }
-
-
-# ----------------------------------------------------------------------------- game books
-
-GAMEBOOK_RE = re.compile(r"_(?P<away>[A-Z]{2,3})(?P<home>[A-Z]{2,3})\.md$")
-
-
-def parse_gamebook(path):
-    name = os.path.basename(path)
-    m = GAMEBOOK_RE.search(name)
-    away_abbr, home_abbr = m.group("away"), m.group("home")
-    text = open(path, encoding="utf-8").read()
-    url_m = re.search(r"Source URL: (\S+)", text)
-    source_url = url_m.group(1) if url_m else "https://statsdmz.nba.com/"
-    game_date = "2026-11-14"
-    gid_m = re.search(r"20261114_(\w+)\.pdf", source_url)
-    players = []
-    quarters = {}
-    finals = {}
-    current_side = None  # 'away' / 'home'
-    nickname_of = {}
-    for abbr in (away_abbr, home_abbr):
-        for nick, a in NICKNAME_TO_ABBR.items():
-            if a == abbr:
-                nickname_of[nick.lower()] = abbr
-
-    away_end, home_end = _side_index(text)
-
-    def _pts(nums):
-        """PTS is the rightmost value that equals 2*(FG-3P) + 3*3P + FT (left columns are
-        stable across books; some extracts carry an extra trailing column)."""
-        try:
-            expected = 2 * (nums[0] - nums[2]) + 3 * nums[2] + nums[4]
-        except IndexError:
-            return int(nums[-1]) if nums else 0, False
-        for v in reversed(nums):
-            if v == expected:
-                return int(v), True
-        return int(nums[-1]) if nums else 0, False
-
-    line_no = -1
-    for line in text.splitlines():
-        line_no += 1
-        if away_end is not None:
-            current_side = "away" if line_no <= away_end else "home"
-        if not line.startswith("|"):
-            # bare lines such as "CAVALIERS 33 38 34 22 127"
-            bare = re.match(r"^([A-Za-z .]+?) (\d+) (\d+) (\d+) (\d+) (\d+)$", line.strip())
-            if bare and bare.group(1).strip().lower() in nickname_of:
-                abbr = nickname_of[bare.group(1).strip().lower()]
-                qs = [int(bare.group(i)) for i in range(2, 6)]
-                final = int(bare.group(6))
-                quarters[abbr] = qs
-                finals[abbr] = final
-            continue
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        non_empty = [c for c in cells if c]
-        if not non_empty:
-            continue
-        if "VISITOR:" in line:
-            current_side = "away"
-            continue
-        if "HOME:" in line:
-            current_side = "home"
-            continue
-        # SCORE BY PERIOD table rows: | Nuggets | 29 | 27 | 30 | 30 | 116 |
-        if len(non_empty) >= 6 and non_empty[0].lower() in nickname_of:
-            try:
-                qs = [int(x) for x in non_empty[1:5]]
-                final = int(non_empty[5])
-            except ValueError:
-                qs = None
-            if qs and abs(sum(qs) - final) <= 3:  # OT adds >4 periods; regular rows sum exactly
-                abbr = nickname_of[non_empty[0].lower()]
-                quarters[abbr] = qs
-                finals[abbr] = final
-                continue
-        # DNP / DND / NWT rows (may be merged with a totals row or a lost-name stint row)
-        joined = " | ".join(non_empty)
-        if re.search(r"\b(DNP|DND|NWT)\b", joined):
-            player_name = re.sub(r"^\d+\s+", "", non_empty[0])
-            reason_m = re.search(r"\b(DNP|DND|NWT)\s*-\s*(.+?)(?:\s*\||$)", joined)
-            reason = reason_m.group(2).strip() if reason_m else None
-            if reason and " - 240:00" in reason:      # merged team-totals row
-                reason = reason.split(" - 240:00")[0].strip()
-            if reason:  # doubled DNP marker printed in one cell
-                reason = re.split(r"\s+(?:DNP|DND|NWT)\s*-\s*", reason)[0].strip()
-            players.append({
-                "player": player_name, "side": current_side, "min": 0, "min_raw": None,
-                "pts": 0, "reb": 0, "ast": 0, "status": "DNP",
-                "dnp_reason": reason, "source": source_url,
-            })
-            # merged: a DNP marker sharing the line with a real stint row (name lost)
-            m_min = re.search(r"\b(\d\d:\d\d)\b", joined)
-            if m_min and m_min.group(1) != "240:00":
-                cells2 = [c for c in cells]
-                mi = cells2.index(m_min.group(1))
-                vals2 = [(v if v else "0") for v in cells2[mi + 1: mi + 18]]
-                try:
-                    nums2 = [float(v) for v in vals2]
-                except ValueError:
-                    nums2 = None
-                if nums2 and len(nums2) >= 16:
-                    pts2, ok2 = _pts(nums2)
-                    players.append({
-                        "player": None, "side": current_side,
-                        "min": int(m_min.group(1)[:2]) + int(m_min.group(1)[3:]) / 60.0,
-                        "min_raw": m_min.group(1),
-                        "reb": int(nums2[8]), "ast": int(nums2[9]), "pts": pts2,
-                        "status": "played", "dnp_reason": None, "source": source_url,
-                        "pts_confirmed_by_box_arithmetic": ok2,
-                        "flag": ("player name not attributable: this line merges a DNP marker "
-                                 "with a stint row in the PDF extraction"),
-                    })
-            continue
-        # stat rows: find the MM:SS minutes cell; the 16 values after it are
-        # FG FGA 3P 3PA FT FTA OR DR TOT A PF ST TO BS +/- PTS (some books add FP as a 17th)
-        min_idx = None
-        for i, c in enumerate(cells):
-            if re.match(r"^\d\d:\d\d$", c):
-                min_idx = i
-                break
-        if min_idx is None:
-            continue
-        if cells[min_idx] == "240:00":
-            continue  # team totals row (also carries the team PTS)
-        vals = [(v if v else "0") for v in cells[min_idx + 1: min_idx + 18]]
-        if len(vals) < 16:
-            continue
-        try:
-            nums = [float(v) for v in vals]
-        except ValueError:
-            continue
-        if len(nums) < 16:
-            continue
-        pts, ok_pts = _pts(nums)
-        name_cells = [c for c in cells[:min_idx] if c and not re.match(r"^[FCG]$", c)
-                      and not re.match(r"^\d+$", c)]
-        if not name_cells:
-            continue
-        player_name = re.sub(r"^\d+\s+", "", name_cells[-1])
-        try:
-            mins = int(cells[min_idx].split(":")[0]) + int(cells[min_idx].split(":")[1]) / 60.0
-        except ValueError:
-            continue
-        players.append({
-            "player": player_name, "side": current_side,
-            "min": round(mins, 2), "min_raw": cells[min_idx],
-            "reb": int(nums[8]), "ast": int(nums[9]), "pts": pts,
-            "status": "played", "dnp_reason": None, "source": source_url,
-            "pts_confirmed_by_box_arithmetic": ok_pts,
-        })
-
-    # inactive lists ("Inactive: Mavericks - Biberovic (...), Christie (...)") as 0-minute rows
-    for line in text.splitlines():
-        if not line.startswith("Inactive:"):
-            continue
-        side = "away" if ("Mavericks" in line or away_abbr in line) else None
-        body = line[len("Inactive:"):]
-        team_part, _, rest = body.partition(" - ")
-        team_token = team_part.strip()
-        abbr = None
-        for nick, a in NICKNAME_TO_ABBR.items():
-            if nick.lower() in team_token.lower():
-                abbr = a
-        if abbr is None:
-            continue
-        side = "away" if abbr == away_abbr else "home"
-        for item in rest.split(", "):
-            item = item.strip()
-            if not item:
-                continue
-            pm = re.match(r"^(.+?)\s*\((.+)\)\s*$", item)
-            if pm:
-                pname, reason = pm.group(1).strip(), pm.group(2).strip()
+            if c.upper().startswith("NOT YET SUBMITTED"):
+                is_nus = True
+            elif DATE_RE.match(c) and not found["game_date"]:
+                found["game_date"] = c
+            elif TIME_RE.match(c) and not found["game_time_et"]:
+                found["game_time_et"] = c
+            elif re.match(r"^[A-Z]{2,3}@[A-Z]{2,3}$", c) and not found["matchup"]:
+                found["matchup"] = c
+            elif c in TEAM_NAME_TO_ABBR and not found["team_name"]:
+                found["team_name"] = c
+            elif c in VALID_STATUS and not found["status"]:
+                found["status"] = c
             else:
-                pname, reason = item, None
-            if any(p["player"] == pname and p["side"] == side for p in players):
-                continue
-            players.append({
-                "player": pname, "side": side, "min": 0, "min_raw": None,
-                "pts": 0, "reb": 0, "ast": 0, "status": "inactive",
-                "dnp_reason": reason, "source": source_url,
-            })
+                leftovers.append(c)
+        # Among the leftovers the printed order is player, then reason.
+        if leftovers:
+            found["player"] = leftovers[0]
+            if len(leftovers) > 1:
+                found["reason"] = " | ".join(leftovers[1:])
 
-    for p in players:
-        p["team"] = away_abbr if p["side"] == "away" else home_abbr
-        p["opponent"] = home_abbr if p["side"] == "away" else away_abbr
-        p["date"] = game_date
+        prov = {}
+        for key in ("game_date", "game_time_et", "matchup", "team_name"):
+            val = found[key]
+            if val:
+                context[key] = val
+                prov[key] = "row"
+            elif context[key]:
+                prov[key] = "carried"
+                carried[key] += 1
+            else:
+                prov[key] = "blank"
+                unresolved.append({"line": raw_line.strip(), "cell": key,
+                                   "player": found["player"]})
 
-    return {
-        "game_date": game_date, "away": away_abbr, "home": home_abbr,
-        "source": source_url,
-        "quarters": quarters, "finals": finals, "players": players,
-        "raw_file": f"data/app/gamebooks/{name}",
-    }
+        team_abbr = TEAM_NAME_TO_ABBR.get(context["team_name"], "")
+        if context["team_name"] and not team_abbr:
+            raise SystemExit("unmapped team name in injury report: %r"
+                             % context["team_name"])
+
+        rows.append(OrderedDict([
+            ("game_date", context["game_date"]),
+            ("game_time_et", context["game_time_et"]),
+            ("matchup", context["matchup"]),
+            ("team_name", context["team_name"]),
+            ("team", team_abbr),
+            ("player", found["player"]),
+            ("status", "" if is_nus else found["status"]),
+            ("reason", "" if is_nus else found["reason"]),
+            ("is_team_not_submitted", is_nus),
+            ("cell_provenance", prov),
+            ("team_provisional", prov["team_name"] != "row"),
+            ("matchup_provisional", prov["matchup"] != "row"),
+            ("source", INJURY_URL),
+        ]))
+    return rows, dict(carried), unresolved
 
 
-def _side_index(text):
-    """Line indexes of the first/second 240:00 team-totals rows: the away block ends at the
-    first, the home block at the second. Game books print the visitors' box first."""
-    first = second = None
-    for i, line in enumerate(text.splitlines()):
-        if "240:00" in line:
-            if first is None:
-                first = i
-            elif second is None:
-                second = i
-                break
-    return first, second
+def cross_check(rows, slate):
+    """The checks that make the transcription trustworthy. Raises on failure."""
+    report = OrderedDict()
+    slate_by_matchup = defaultdict(set)
+    slate_tips = {}
+    for d, t, a, h, gid, *_ in slate:
+        slate_by_matchup["%s@%s" % (a, h)].add(d)
+        slate_tips[("%s@%s" % (a, h), d)] = t
+
+    # C1 -- every status is one the league publishes
+    bad = [r for r in rows if not r["is_team_not_submitted"]
+           and r["status"] not in VALID_STATUS]
+    report["C1_statuses_valid"] = {
+        "ok": not bad, "checked": len(rows),
+        "detail": "every player status is one of " + ", ".join(VALID_STATUS),
+        "failures": [(r["player"], r["status"]) for r in bad]}
+
+    # C2 -- every matchup on the report is a real game on the official slate
+    unknown = sorted({r["matchup"] for r in rows} - set(slate_by_matchup))
+    report["C2_matchups_on_slate"] = {
+        "ok": not unknown, "checked": len({r["matchup"] for r in rows}),
+        "detail": "every matchup printed by the report appears on the official schedule",
+        "failures": unknown}
+
+    # C3 -- every printed tip time equals the slate value (ET both sides)
+    time_bad = []
+    tip_checked = 0
+    for r in rows:
+        if r["cell_provenance"]["matchup"] != "row":
+            continue
+        key = (r["matchup"], r["game_date"])
+        printed = r["game_time_et"].replace(" (ET)", "").strip()
+        want = slate_tips.get(key)
+        if want is None:
+            continue
+        tip_checked += 1
+        # report prints 01:00 -> slate prints 1:00 PM; compare on 12h value
+        hh, mm = printed.split(":")
+        hh = int(hh)
+        suffix = "AM" if hh < 12 else "PM"
+        hh12 = hh % 12 or 12
+        norm = "%d:%s %s" % (hh12, mm, suffix)
+        if norm != want:
+            time_bad.append((r["matchup"], r["game_date"], printed, want))
+    report["C3_tip_times_match_slate"] = {
+        "ok": not time_bad, "checked": tip_checked,
+        "detail": "tip time printed on the report equals the official schedule tip (both ET)",
+        "failures": time_bad}
+
+    # C4 -- every player row is attributed to a team
+    no_team = [r["player"] for r in rows
+               if not r["is_team_not_submitted"] and not r["team"]]
+    report["C4_player_rows_have_team"] = {
+        "ok": not no_team, "checked": len(rows),
+        "detail": "every named player resolves to an official team abbreviation",
+        "failures": no_team}
+
+    # C5 -- the report's dates are a subset of the window's dates
+    dates = sorted({r["game_date"] for r in rows})
+    report["C5_report_dates"] = {
+        "ok": True, "checked": len(dates),
+        "detail": "game dates printed by the 06:15 AM report",
+        "value": dates}
+
+    # C6 -- which slate team-sides the report actually covers
+    covered = {(r["game_date"], r["matchup"], r["team"]) for r in rows if r["team"]}
+    nus = {(r["game_date"], r["matchup"], r["team"]) for r in rows
+           if r["is_team_not_submitted"]}
+    sides = []
+    for d, t, a, h, gid, *_ in slate:
+        key = d[5:7] + "/" + d[8:10] + "/" + d[0:4]
+        for side, team in (("away", a), ("home", h)):
+            state = ("NOT_YET_SUBMITTED" if (key, "%s@%s" % (a, h), team) in nus
+                     else "ROWS" if (key, "%s@%s" % (a, h), team) in covered
+                     else "NO_ROWS")
+            sides.append({"date": d, "game_id": gid, "matchup": "%s@%s" % (a, h),
+                          "side": side, "team": team, "report_state": state})
+    report["C6_slate_coverage"] = {
+        "ok": True, "checked": len(sides),
+        "detail": "how each of the window's team-sides is represented in the report",
+        "counts": {s: sum(1 for x in sides if x["report_state"] == s)
+                   for s in ("ROWS", "NOT_YET_SUBMITTED", "NO_ROWS")},
+        "rows": sides}
+
+    fails = [k for k, v in report.items() if not v["ok"]]
+    if fails:
+        raise SystemExit("official capture cross-check failed: %s" % fails)
+    return report, sides
 
 
-# ----------------------------------------------------------------------------- outputs
+def filed_but_no_rows(sides, slate, rows):
+    """A team whose filing deadline has passed but that printed no row at all.
+
+    The report is a live document: a team that has filed but named nobody
+    produces no row, and so does a team block that fell off the rendered page.
+    The two cannot be told apart from the PDF, so any such side is published as
+    UNKNOWN and flagged, never as "nobody is out".
+    """
+    report_dates = {r["game_date"] for r in rows}
+    out = []
+    nus = {(r["game_date"], r["matchup"], r["team"]) for r in rows
+           if r["is_team_not_submitted"]}
+    for s in sides:
+        key = s["date"][5:7] + "/" + s["date"][8:10] + "/" + s["date"][0:4]
+        if s["report_state"] != "NO_ROWS":
+            continue
+        if key not in report_dates or key not in {r["game_date"] for r in rows}:
+            continue
+        if (key, s["matchup"], s["team"]) in nus:
+            continue
+        # a team is only "expected" to have a row if the other side of its game
+        # has one -- i.e. the matchup itself is being reported on.
+        other_filed = any(x["matchup"] == s["matchup"] and x["date"] == s["date"]
+                          and x["report_state"] == "ROWS" for x in sides)
+        out.append({"date": s["date"], "matchup": s["matchup"], "team": s["team"],
+                    "other_side_reports_rows": other_filed})
+    return out
+
 
 def main():
-    # --- injuries
-    rows = parse_injury_raw(INJ_RAW)
-    doc = build_injury_json(rows)
-    with open(INJ_JSON, "w", encoding="utf-8") as fh:
-        json.dump(doc, fh, indent=1, sort_keys=False)
-        fh.write("\n")
-    prior = json.load(open(INJ_PRIOR, encoding="utf-8"))
-    delta = build_delta(rows, prior)
-    with open(DELTA_JSON, "w", encoding="utf-8") as fh:
-        json.dump(delta, fh, indent=1)
-        fh.write("\n")
+    rows, carried, unresolved = parse_injury_raw()
+    report, sides = cross_check(rows, SLATE)
 
-    # --- game books -> results feed + player logs + minutes shares
-    books = [parse_gamebook(p) for p in sorted(glob.glob(os.path.join(GAMEBOOKS, "*.md")))]
-    feed_rows = []
-    log_rows = []
-    shares = {}
-    for b in books:
-        away, home = b["away"], b["home"]
-        fq, fh_ = b["finals"].get(away), b["finals"].get(home)
-        qq = b["quarters"]
-        verified = (fq is not None and fh_ is not None
-                    and sum(qq.get(away, [])) == fq and sum(qq.get(home, [])) == fh_)
-        feed_rows.append({
-            "date": b["game_date"], "away": away, "home": home,
-            "away_pts": fq, "home_pts": fh_,
-            "away_q1": qq.get(away, [None] * 4)[0], "away_q2": qq.get(away, [None] * 4)[1],
-            "away_q3": qq.get(away, [None] * 4)[2], "away_q4": qq.get(away, [None] * 4)[3],
-            "home_q1": qq.get(home, [None] * 4)[0], "home_q2": qq.get(home, [None] * 4)[1],
-            "home_q3": qq.get(home, [None] * 4)[2], "home_q4": qq.get(home, [None] * 4)[3],
-            "state": "Final", "verified": verified,
-            "verified_from": b["source"],
-            "quarter_check": "quarter sums equal the final" if verified else "MISMATCH",
-            "gamebook": b["source"], "raw_file": b["raw_file"],
-            "settled": verified,
-            "settlement_stamp": (f"settled {RETRIEVED_STAMP} from the official game book; "
-                                 f"quarter sums == finals" if verified else None),
-        })
-        for p in b["players"]:
-            row = {k: p[k] for k in
-                   ("date", "player", "team", "opponent", "min", "pts", "reb",
-                    "ast", "status", "dnp_reason", "source")}
-            if p.get("flag"):
-                row["flag"] = p["flag"]
-            log_rows.append(row)
-        for side, abbr in (("away", away), ("home", home)):
-            team_players = [p for p in b["players"] if p["side"] == side and p["min"] > 0]
-            team_players.sort(key=lambda p: -p["min"])
-            top8 = team_players[:8]
-            total_min = sum(p["min"] for p in team_players) or 1.0
-            shares[f"{b['game_date']}:{abbr}"] = {
-                "date": b["game_date"], "team": abbr,
-                "opponent": home if side == "away" else away,
-                "source": b["source"],
-                "top8": [{"player": p["player"], "min": p["min"],
-                          "share": round(p["min"] / total_min, 4)} for p in top8],
-                "top8_share_total": round(sum(p["min"] for p in top8) / total_min, 4),
-                "roster_players_used": len(team_players),
-            }
+    game_dates = sorted({r["game_date"] for r in rows})
+    player_rows = [r for r in rows if not r["is_team_not_submitted"]]
+    nus_rows = [r for r in rows if r["is_team_not_submitted"]]
 
-    # merge in the 11/13 finals from the stored official scoreboard capture (no quarters)
-    prior_results = json.load(open(RESULTS_1113, encoding="utf-8"))
-    for g in prior_results["games"]:
-        feed_rows.append({
-            "date": g["date"], "away": g["away"], "home": g["home"],
-            "away_pts": g["away_pts"], "home_pts": g["home_pts"],
-            "away_q1": None, "away_q2": None, "away_q3": None, "away_q4": None,
-            "home_q1": None, "home_q2": None, "home_q3": None, "home_q4": None,
-            "state": g.get("state", "Final"), "verified": True,
-            "verified_from": g.get("source"),
-            "quarter_check": "quarter scores not captured (no game book fetched for this date) — blank, flagged",
-            "gamebook": None, "raw_file": None,
-            "settled": False,
-            "settlement_stamp": None,
-        })
-    feed_rows.sort(key=lambda r: (r["date"], r["away"]))
-    # preserve settlement state already stamped by results_feed.py settle (idempotent re-capture)
-    if os.path.exists(RESULTS_JSON):
-        prev_feed = json.load(open(RESULTS_JSON, encoding="utf-8"))
-        prev_by_key = {(g["date"], g["away"], g["home"]): g for g in prev_feed.get("games", [])}
-        for r in feed_rows:
-            old = prev_by_key.get((r["date"], r["away"], r["home"]))
-            if old and old.get("settled"):
-                r["settled"] = True
-                r["settlement_stamp"] = old.get("settlement_stamp")
+    gaps = filed_but_no_rows(sides, SLATE, rows)
 
-    feed = {
-        "source_label": ("Official per-game result feed. 2026-11-14 rows come from the official "
-                         "game books (statsdmz.nba.com PDFs linked from each nba.com game page); "
-                         "2026-11-13 rows come from the stored official scoreboard capture "
-                         "(data/app/official_results_2026-11-13.json). One row per game: date, "
-                         "teams, final score, quarter scores."),
-        "retrieved_stamp": RETRIEVED_STAMP,
-        "settlement_rule": ("A row is settled only when the game state is Final AND the quarter "
-                            "scores sum to the printed final for both teams (checked offline). "
-                            "Rows without captured quarter scores stay unsettled and flagged."),
-        "count": len(feed_rows),
-        "settled_count": sum(1 for r in feed_rows if r["settled"]),
-        "games": feed_rows,
-        "sources": ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
-                    "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
-                    "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
-                    "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
-                    "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-                    prior_results.get("source_url")],
-    }
-    with open(RESULTS_JSON, "w", encoding="utf-8") as fh:
-        json.dump(feed, fh, indent=1)
+    inj = OrderedDict([
+        ("source_url", INJURY_URL),
+        ("index_url", INDEX_URL),
+        ("source_label",
+         "NBA official injury report PDF, 11/15/26 06:15 AM ET -- the newest report "
+         "listed on the official index at capture time (the index advanced from "
+         "6:00 a.m. to 6:15 a.m. ET between this session's two reads of the PDF). "
+         "Covers the nine 2026-11-15 games and the eight 2026-11-16 games; it prints "
+         "no 11/17 or 11/18 rows at all."),
+        ("report_stamp", "2026-11-15 06:15 AM ET"),
+        ("retrieved_on", RETRIEVED_ON),
+        ("retrieved_stamp", RETRIEVED_STAMP),
+        ("retrieval", "fetch_page chunk 0 of 2 and chunk 1 of 2 (PDF text extraction)"),
+        ("rule_quote", RULE_QUOTE + " " + RULE_QUOTE_2),
+        ("count", len(rows)),
+        ("player_rows", len(player_rows)),
+        ("not_submitted_rows", len(nus_rows)),
+        ("rows_by_game_date", {d: sum(1 for r in rows if r["game_date"] == d)
+                               for d in game_dates}),
+        ("page_break_carried_cells", carried),
+        ("page_break_unresolved_cells", unresolved),
+        ("rows", rows),
+        ("teams_reporting_no_rows", gaps),
+        ("teams_reporting_no_rows_note",
+         "A team that filed but named nobody prints no row, and so does a team "
+         "whose block fell off the page; the PDF cannot distinguish them. Each "
+         "listed side is published UNKNOWN, never as an absence count of zero. "
+         "Flag F-BB-02."),
+        ("prior_report_url",
+         "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"),
+        ("prior_report_stamp", "2026-11-14 01:30 PM ET"),
+        ("prior_report_compared_rows", 0),
+        ("prior_report_note",
+         "NOT COMPARED BY THIS CAPTURE, on purpose. The 01:30 PM ET report is a report "
+         "for the 2026-11-14 game day; this capture is a report for the 2026-11-15 game "
+         "day. They cover different games, so a row-for-row delta between them would "
+         "compare two different questions, and a published '0 status changes' over '0 "
+         "rows compared' would read like agreement when nothing was compared. The "
+         "meaningful comparison is this report against the 06:00 AM read of the same "
+         "11/15 document: the two reads agree on every (team, player, status, reason) "
+         "row that both print, and the 06:15 file is adopted only because it is newer "
+         "and the index advanced to it between the two reads."),
+        ("cross_checks", report),
+    ])
+    with open(os.path.join(APP, "official_injuries_2026-11-15_0615AM.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(inj, fh, indent=1)
         fh.write("\n")
 
-    logs = {
-        "source_label": ("Per-player game logs captured from the official game books of the "
-                         "2026-11-14 slate: minutes, points, rebounds, assists and the opponent, "
-                         "plus DNP/inactive rows with reasons. One row per player-game."),
-        "retrieved_stamp": RETRIEVED_STAMP,
-        "count": len(log_rows),
-        "rows": log_rows,
-        "coverage_note": ("Coverage is complete for the ten teams that played 2026-11-14. Players "
-                          "on teams that did not play 11/14 (and any earlier-game rows) are not in "
-                          "this capture; the scheduled refresh job (scripts/refresh_official.py) "
-                          "appends every completed game's game book each night."),
-        "sources": [b["source"] for b in books],
-    }
-    with open(LOGS_JSON, "w", encoding="utf-8") as fh:
-        json.dump(logs, fh, indent=1)
+    # ---- slate -----------------------------------------------------------
+    slate_doc = OrderedDict([
+        ("source_url", SCHEDULE_URL),
+        ("source_label",
+         "NBA official schedule page. nba.com/schedule?date=2026-11-15 chunks 0-2 of 9 "
+         "and nba.com/schedule?date=2026-11-17 chunk 1, which both render the whole "
+         "Week 4 / Week 5 block."),
+        ("retrieved_on", RETRIEVED_ON),
+        ("retrieved_stamp", RETRIEVED_STAMP),
+        ("window", {"from": "2026-11-15", "to": "2026-11-18"}),
+        ("count", len(SLATE)),
+        ("excluded",
+         "The five 2026-11-14 games are Final with printed scores on the page read "
+         "for this capture, so they are results (data/app/official_results_2026-11-14.json) "
+         "and not part of the upcoming window. The 2026-11-18 heading reads "
+         "'12 Games' and all twelve are transcribed."),
+        ("repeated_matchups", [{"matchup": m, "dates": d,
+                                "note": "re-read on nba.com/schedule?date=2026-11-17 and "
+                                        "printed twice with different game ids, so this is "
+                                        "the real schedule, not a duplicate row"}
+                               for m, d in REPEATED_MATCHUPS]),
+        ("games", [OrderedDict([
+            ("date", d), ("time_et", t), ("away", a), ("home", h),
+            ("game_id", gid), ("venue", v), ("city", c), ("competition", comp),
+            ("broadcast", "LEAGUE PASS"),
+            ("nba_game_url", "https://www.nba.com/game/%s-vs-%s-%s"
+                             % (a.lower(), h.lower(), gid)),
+        ]) for (d, t, a, h, gid, v, c, comp) in SLATE]),
+    ])
+    with open(os.path.join(APP, "official_slate_1115_1118.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(slate_doc, fh, indent=1)
         fh.write("\n")
 
-    with open(SHARES_JSON, "w", encoding="utf-8") as fh:
-        json.dump({
-            "source_label": ("Top-8 minutes shares per team-game, measured from the official game "
-                             "books (sum of minutes over all players who appeared; DNP/inactive "
-                             "rows contribute zero). Input to the minutes-redistribution model."),
-            "retrieved_stamp": RETRIEVED_STAMP,
-            "teams": shares,
-        }, fh, indent=1)
+    # ---- results ---------------------------------------------------------
+    res = OrderedDict([
+        ("source_url", SCOREBOARD_1114),
+        ("source_label",
+         "NBA official schedule page, 2026-11-14 cards, all five showing 'Final' with "
+         "scores (read via nba.com/schedule?date=2026-11-15)."),
+        ("retrieved_on", RETRIEVED_ON),
+        ("retrieved_stamp", RETRIEVED_STAMP),
+        ("count", len(RESULTS_1114)),
+        ("games", [OrderedDict([
+            ("date", d), ("game_id", gid), ("away", a), ("away_pts", ap),
+            ("home", h), ("home_pts", hp), ("ot", ot),
+            ("game_url", "https://www.nba.com/game/%s-vs-%s-%s" % (a.lower(), h.lower(), gid)),
+            ("source", SCOREBOARD_1114), ("state", "Final"),
+        ]) for (d, gid, a, ap, h, hp, ot) in RESULTS_1114]),
+    ])
+    with open(os.path.join(APP, "official_results_2026-11-14.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(res, fh, indent=1)
         fh.write("\n")
 
-    # ---------------------------------------------------------------- checks
-    print("\n--- capture checks (offline) ---")
-    bad_status = [r for r in rows if r["status"] not in STATUSES | {"NOT YET SUBMITTED"}]
-    check(not bad_status, "E1 every status is a legal designation",
-          f"{len(rows)} rows")
+    # ---- ratings ---------------------------------------------------------
+    ratings = OrderedDict([
+        ("source_url", TEAM_STATS_URL),
+        ("source_label",
+         "NBA.com team advanced statistics, 2026-27 regular season, read 2026-11-15 "
+         "after the 2026-11-14 slate had completed."),
+        ("retrieved_on", RETRIEVED_ON),
+        ("retrieved_stamp", "2026-11-15T11:35Z"),
+        ("retrieval", "fetch_page chunks 0-1 of 2"),
+        ("count", len(RATINGS)),
+        ("teams", [OrderedDict([
+            ("team", t), ("gp", gp), ("w", w), ("l", l), ("min", mn),
+            ("off_rtg", o), ("def_rtg", dr), ("net_rtg", n), ("pace", p),
+            ("team_url", u),
+        ]) for (t, gp, w, l, mn, o, dr, n, p, u) in RATINGS]),
+    ])
+    with open(os.path.join(APP, "official_team_ratings_2026-11-15.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(ratings, fh, indent=1)
+        fh.write("\n")
 
-    slate = json.load(open(SLATE_JSON, encoding="utf-8"))
-    slate_matchups = {f"{g['away']}@{g['home']}": g for g in slate["games"]}
-    d15 = [g for g in slate["games"] if g["date"] == "2026-11-15"]
-    d16 = [g for g in slate["games"] if g["date"] == "2026-11-16"]
-    report_matchups = {r["matchup"] for r in rows if r["matchup"]}
-    unknown = [m for m in report_matchups if m not in slate_matchups]
-    check(not unknown, "E2 every matchup the report prints is in the stored slate",
-          f"{len(report_matchups)} distinct matchups: 11/15 = {len(d15)} games, 11/16 = {len(d16)}")
-    sides_1115 = {(r["matchup"], r["team"]) for r in rows if r["game_date"] == "11/15/2026"}
-    expect_1115 = {(f"{g['away']}@{g['home']}", t) for g in d15 for t in (g["away"], g["home"])}
-    missing_sides = expect_1115 - sides_1115
-    check(len(missing_sides) <= 1, "E3 the 11/15 section covers the slate's team-sides",
-          f"{len(sides_1115)} of {len(expect_1115)} sides carry rows; "
-          f"blank sides (teams with nothing to report): {sorted(missing_sides) or 'none'}")
+    # ---- players ---------------------------------------------------------
+    cols = ["rank", "player", "team", "age", "gp", "w", "l", "min", "pts", "reb", "ast"]
+    with open(os.path.join(APP, "players_top31_2026-11-15.csv"), "w",
+              encoding="utf-8", newline="") as fh:
+        wr = csv.writer(fh)
+        wr.writerow(cols)
+        for row in PLAYERS:
+            wr.writerow(row)
 
-    ok_feed = all(r["verified"] for r in feed_rows if r["date"] == "2026-11-14")
-    check(ok_feed, "E4 quarter sums equal the printed final for every 11/14 game",
-          f"{sum(1 for r in feed_rows if r['date'] == '2026-11-14')} games")
+    # ---- cross-check the whole capture against the previous one ----------
+    prev_log = os.path.join(ROOT, "data", "origin", "games.csv")
+    prev_n = None
+    if os.path.exists(prev_log):
+        with open(prev_log, encoding="utf-8") as fh:
+            prev_n = sum(1 for _ in csv.DictReader(fh))
+    known = {g[1] for g in RESULTS_1114}
+    dupe = sorted(known & {r["game_id"] for r in _read_games(prev_log)}) if prev_log else []
 
-    box_ok = True
-    for b in books:
-        for side, abbr in (("away", b["away"]), ("home", b["home"])):
-            team_pts = sum(p["pts"] for p in b["players"] if p["side"] == side and p["status"] == "played")
-            if b["finals"].get(abbr) is not None and team_pts != b["finals"][abbr]:
-                box_ok = False
-                print(f"    box total mismatch {b['away']}@{b['home']} {abbr}: {team_pts} vs {b['finals'][abbr]}")
-    check(box_ok, "E5 player points sum to the team final in every game book",
-          f"{len(books)} game books")
+    summary = OrderedDict([
+        ("schema", "nba3.official_capture/v1"),
+        ("session", "arena/bb0c83a4-nba3"),
+        ("written_on", RETRIEVED_ON),
+        ("retrieved_stamp", RETRIEVED_STAMP),
+        ("source_urls", [INDEX_URL, INJURY_URL, SCHEDULE_URL, TEAM_STATS_URL,
+                         PLAYERS_URL, SCOREBOARD_1114]),
+        ("injury", {"rows": len(rows), "player_rows": len(player_rows),
+                    "not_submitted_rows": len(nus_rows),
+                    "rows_by_game_date": inj["rows_by_game_date"],
+                    "carried_cells": carried,
+                    "unresolved_cells": unresolved,
+                    "teams_reporting_no_rows": gaps}),
+        ("slate", {"games": len(SLATE),
+                   "by_date": {d: sum(1 for g in SLATE if g[0] == d)
+                               for d in sorted({g[0] for g in SLATE})}}),
+        ("results_1114", {"games": len(RESULTS_1114)}),
+        ("ratings", {"teams": len(RATINGS), "gp_sum": sum(r[1] for r in RATINGS),
+                     "implied_games": sum(r[1] for r in RATINGS) / 2.0}),
+        ("players", {"rows": len(PLAYERS)}),
+        ("results_log_before", prev_n),
+        ("results_log_expected_after", (prev_n + len(RESULTS_1114)) if prev_n else None),
+        ("results_already_in_log", dupe),
+        ("cross_checks", report),
+    ])
+    with open(os.path.join(APP, "official_capture_2026-11-15.json"), "w",
+              encoding="utf-8") as fh:
+        json.dump(summary, fh, indent=1)
+        fh.write("\n")
 
-    check(delta["player_rows_added"] > 0 or len(delta["status_changes"]) >= 0,
-          "E6 consecutive-report diff computed", 
-          f"added {delta['player_rows_added']} player rows vs the 11/14 01:30 PM report; "
-          f"{len(delta['status_changes'])} status changes on overlapping rows; "
-          f"{len(delta['team_side_changes_1115'])} team-side filing changes")
+    print("injury rows        : %d (%d player, %d not-yet-submitted) across %s"
+          % (len(rows), len(player_rows), len(nus_rows), game_dates))
+    print("carried cells      : %s" % carried)
+    print("unresolved cells   : %d" % len(unresolved))
+    print("teams w/ no rows   : %d %s" % (len(gaps), [g["team"] for g in gaps]))
+    print("slate games        : %d  %s" % (len(SLATE), summary["slate"]["by_date"]))
+    print("results 11/14      : %d" % len(RESULTS_1114))
+    print("ratings            : %d teams, sum GP = %d -> %.1f games"
+          % (len(RATINGS), summary["ratings"]["gp_sum"],
+             summary["ratings"]["implied_games"]))
+    print("players            : %d" % len(PLAYERS))
+    print("cross-checks       : %s" % {k: v["ok"] for k, v in report.items()})
+    print("wrote 6 artefacts to data/app/")
 
-    # per-player game log coverage of the 06:15 AM report's named players
-    def _norm(n):
-        n = n.strip()
-        if "," in n:
-            last, first = n.split(",", 1)
-            n = f"{first.strip()} {last.strip()}"
-        return re.sub(r"[^a-z]", "", n.lower())
-    named = {_norm(r["player"]): r["player"] for r in rows if r["player"]}
-    logged = {_norm(r["player"]): r["player"] for r in log_rows if r["player"]}
-    covered = set(named) & set(logged)
-    missing = [named[k] for k in sorted(set(named) - set(logged))]
-    print(f"[INFO] per-player game-log coverage of the injury report's {len(named)} named players: "
-          f"{len(covered)} present in the captured game books; {len(missing)} pending "
-          f"(their teams' game books are captured by the scheduled refresh job).")
-    if missing:
-        print("     pending:", "; ".join(missing[:20]) + (" ..." if len(missing) > 20 else ""))
 
-    if FAILURES:
-        print(f"\n{len(FAILURES)} CHECK(S) FAILED")
-        return 1
-    print("\nall capture checks passed")
-    return 0
+def _read_games(path):
+    if not path or not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as fh:
+        return [{"game_id": r["game_id"]} for r in csv.DictReader(fh)]
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

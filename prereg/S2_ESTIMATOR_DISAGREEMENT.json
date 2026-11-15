@@ -1,0 +1,26 @@
+{
+ "id": "S2_ESTIMATOR_DISAGREEMENT",
+ "name": "Trade only where the two estimators disagree, on the side they agree about",
+ "author": "arena/2ebb1e75-nba3",
+ "frozen_utc": "2026-11-15T12:05Z",
+ "signal": "Use the per-game disagreement between E1 (margin model) and E2 (win-only model) as the confidence signal. A pick is only eligible if both estimators put the same team on the same side, and the size of the blended edge is the confidence.",
+ "thresholds": {
+  "min_blended_edge_probability": 0.02,
+  "max_disagreement_pp": 20.0,
+  "min_disagreement_pp": 5.0,
+  "require_direction_agreement": true
+ },
+ "universe": {
+  "league": "NBA 2026-27 regular season",
+  "window": [
+   "2026-11-15",
+   "2026-11-17"
+  ],
+  "games": "all games in the 3-day slate"
+ },
+ "settlement_rule": "MONEYLINE",
+ "settlement_rule_text": "Settle on the official final score. The pick names a side; WIN if that team has the higher final score. Overtime counts. No post-hoc side changes.",
+ "stake_rule": "flat 1 unit per pick",
+ "notes": "The threshold values are pre-registered BEFORE results are seen, which is the point: they are a hypothesis, not a fit. They are also a judgement call and are labelled as such.",
+ "payload_sha256": "83617e730c5831a9a500e86171809462abef7d3731a282b9fc6e0f6ebf9968f2"
+}

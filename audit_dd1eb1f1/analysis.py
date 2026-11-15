@@ -28,7 +28,9 @@ ROOT = os.path.dirname(HERE)
 DATA = os.path.join(HERE, "data")
 
 GAMES_CSV = os.path.join(ROOT, "data", "app", "games_2026-11-14c.csv")
-CANONICAL = os.path.join(ROOT, "data", "app", "canonical.json")
+# Dated audit of the 2026-11-14 snapshot: read the frozen copy, not the live
+# dashboard, so the audit keeps describing the artefact it was written against.
+CANONICAL = os.path.join(ROOT, "data", "snapshots", "canonical_2026-11-14.json")
 
 SEED = 20261114
 PERMUTATIONS = 5000

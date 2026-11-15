@@ -1,0 +1,1818 @@
+{
+ "schema": "nba3.live.gates/v1",
+ "generated_utc": "2026-11-15T12:10Z",
+ "gate_order": [
+  "G1_preregistered",
+  "G2_before_tip",
+  "G3_signal_present",
+  "G4_validated",
+  "G5_settlement_final_verified"
+ ],
+ "counts": {
+  "rows": 225,
+  "passed": 148,
+  "failed": 77
+ },
+ "rows": [
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T18:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T18:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T18:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=12.896 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=1.267 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=24.309 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T22:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T22:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T22:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=1.158 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=True"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=3.545 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600240",
+   "game": "DAL @ BOS",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=0.346 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600241",
+   "game": "NYK @ TOR",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=7.685 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600242",
+   "game": "HOU @ WAS",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=1.5 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600243",
+   "game": "ATL @ MIL",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T02:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T02:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T02:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=1.707 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600244",
+   "game": "OKC @ SAC",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "home b2b=True, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=2.198 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600245",
+   "game": "ORL @ BOS",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=9.817 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600246",
+   "game": "CHI @ CLE",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "home b2b=True, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=10.248 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600247",
+   "game": "MEM @ WAS",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=True"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=13.163 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600248",
+   "game": "PHI @ BKN",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=True"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=8.537 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600249",
+   "game": "HOU @ MIA",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=False, disagreement=9.305 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600250",
+   "game": "POR @ MIN",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=7.389 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600251",
+   "game": "GSW @ NOP",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T02:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T02:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T02:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=True"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=1.784 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600252",
+   "game": "PHX @ DEN",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T00:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=0.346 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600253",
+   "game": "NYK @ TOR",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=True, away b2b=True"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=False, disagreement=9.305 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600254",
+   "game": "POR @ MIN",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=14.181 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600255",
+   "game": "DET @ SAS",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T03:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T03:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T03:30Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "direction_agrees=True, disagreement=2.46 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600257",
+   "game": "UTA @ LAC",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S1_HOME_B2B_FADE.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S2_ESTIMATOR_DISAGREEMENT.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G1_preregistered",
+   "passed": true,
+   "detail": "prereg/S3_TOTALS_POSSESSIONS.json frozen at 2026-11-15T12:05Z"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T04:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T04:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G2_before_tip",
+   "passed": true,
+   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T04:00Z (ET+5h)"
+  },
+  {
+   "strategy": "S1_HOME_B2B_FADE",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "home b2b=False, away b2b=False"
+  },
+  {
+   "strategy": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G3_signal_present",
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=10.522 pp (band 5-20)"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G3_signal_present",
+   "passed": false,
+   "detail": "no originated total is >= 3.0 points away from the model total on this slate, and the pace filter is not met by both teams; nothing to publish"
+  },
+  {
+   "strategy": "S3_TOTALS_POSSESSIONS",
+   "game_id": "0022600256",
+   "game": "CHA @ LAL",
+   "gate": "G4_validated",
+   "passed": false,
+   "detail": "the totals model's out-of-sample RMSE is reported on the Projection pages; no rule has passed the validation gate yet, so no totals pick is sealed"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600231",
+   "game": "DEN @ NOP",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600231)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600232",
+   "game": "DAL @ CLE",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600232)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600233",
+   "game": "DET @ MIA",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600233)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600234",
+   "game": "BKN @ MEM",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600234)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600235",
+   "game": "CHI @ MIN",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600235)"
+  }
+ ]
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Originated lines — NBA3 Projection</title>
+<meta name="description" content="NBA3 projection surface: Originated lines. Every table row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>
+:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;
+--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+.crumb{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--mut);max-width:74ch}
+p{max-width:82ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}
+.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}
+.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+.callout.warn{border-left-color:var(--warn);background:#fdfaf1}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+.banner{background:#14181f;color:#fff;padding:8px 0;font-size:13.5px}
+.banner a{color:#9fc4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.card .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .s{font-size:12.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
+  <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
+    capture 2026-11-15T11:49:00Z</div>
+</div></header>
+<div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
+<nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html" class="active">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html">Gates</a><a href="review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
+<main class="wrap">
+  <div class="crumb">Projection surface</div>
+  <h1>Originated lines</h1>
+  <p class="lead">Twenty-two games over three days, priced from the official advanced team statistics with the disagreement as the headline.</p>
+<p>Every game in the three-day window, priced from the official advanced team statistics
+retrieved 2026-11-15T11:45Z. <strong>Margin</strong> is E1's expected home margin in
+points (a home team at −4.2 is projected to lose by 4.2, so the away side is favoured). <strong>E1</strong>
+and <strong>E2</strong> are each estimator's home win probability. The <strong>headline</strong> column
+is their disagreement in percentage points.</p>
+<div class="callout"><strong>These are originated lines, not market lines.</strong> No licensed price
+exists in this repository and the official schedule page does not print one, so the site publishes the
+model's own number and leaves the market comparison blank and flagged.</div>
+<div class="tw"><table id="slate-lines" class="">
+<thead><tr>
+<th>Date</th>
+<th>Game</th>
+<th>E1 margin</th>
+<th>E1 P(home)</th>
+<th>E2 P(home)</th>
+<th>Disagreement (headline)</th>
+<th>Direction</th>
+<th>Total (poss×PPP)</th>
+<th>Poss/team</th>
+<th>Naive total (benchmark)</th>
+<th>Schedule</th>
+<th>Team stats</th>
+</tr></thead><tbody>
+<tr><td>2026-11-15</td><td>IND @ PHI<br><span class="unv">1:00 PM ET</span></td><td><span class="n">5.1</span></td><td>0.618</td><td>0.747</td><td><strong>12.9 pp</strong></td><td><span class="chip ok">agree</span></td><td>222.5</td><td>100.6</td><td>222.4</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>LAL @ PHX<br><span class="unv">4:00 PM ET</span></td><td><span class="n">-7.3</span></td><td>0.332</td><td>0.320</td><td><strong>1.3 pp</strong></td><td><span class="chip ok">agree</span></td><td>232.1</td><td>99.5</td><td>234.2</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>CHA @ LAC<br><span class="unv">4:30 PM ET</span></td><td><span class="n">11.3</span></td><td>0.749</td><td>0.506</td><td><strong>24.3 pp</strong></td><td><span class="chip ok">agree</span></td><td>217.9</td><td>98.7</td><td>210.0</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>SAS @ UTA<br><span class="unv">5:00 PM ET</span></td><td><span class="n">-19.2</span></td><td>0.128</td><td>0.140</td><td><strong>1.2 pp</strong></td><td><span class="chip ok">agree</span></td><td>223.2</td><td>99.7</td><td>223.9</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>DAL @ BOS<br><span class="unv">6:00 PM ET</span></td><td><span class="n">5.3</span></td><td>0.623</td><td>0.659</td><td><strong>3.5 pp</strong></td><td><span class="chip ok">agree</span></td><td>221.1</td><td>98.6</td><td>226.8</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>NYK @ TOR<br><span class="unv">6:00 PM ET</span></td><td><span class="n">-0.7</span></td><td>0.484</td><td>0.480</td><td><strong>0.3 pp</strong></td><td><span class="chip ok">agree</span></td><td>220.1</td><td>97.8</td><td>223.9</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>HOU @ WAS<br><span class="unv">7:00 PM ET</span></td><td><span class="n">-18.3</span></td><td>0.140</td><td>0.217</td><td><strong>7.7 pp</strong></td><td><span class="chip ok">agree</span></td><td>222.9</td><td>98.5</td><td>224.5</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>ATL @ MIL<br><span class="unv">8:00 PM ET</span></td><td><span class="n">-9.8</span></td><td>0.280</td><td>0.265</td><td><strong>1.5 pp</strong></td><td><span class="chip ok">agree</span></td><td>229.8</td><td>101.9</td><td>223.3</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-15</td><td>OKC @ SAC<br><span class="unv">9:00 PM ET</span></td><td><span class="n">-14.3</span></td><td>0.198</td><td>0.215</td><td><strong>1.7 pp</strong></td><td><span class="chip ok">agree</span></td><td>223.8</td><td>99.8</td><td>219.5</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>ORL @ BOS<br><span class="unv">7:00 PM ET</span></td><td><span class="n">12.8</span></td><td>0.775</td><td>0.753</td><td><strong>2.2 pp</strong></td><td><span class="chip ok">agree</span></td><td>217.3</td><td>97.4</td><td>221.2</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>CHI @ CLE<br><span class="unv">7:00 PM ET</span></td><td><span class="n">11.0</span></td><td>0.743</td><td>0.645</td><td><strong>9.8 pp</strong></td><td><span class="chip ok">agree</span></td><td>235.1</td><td>101.8</td><td>230.1</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>MEM @ WAS<br><span class="unv">7:00 PM ET</span></td><td><span class="n">-13.9</span></td><td>0.206</td><td>0.309</td><td><strong>10.2 pp</strong></td><td><span class="chip ok">agree</span></td><td>226.3</td><td>100.0</td><td>227.8</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>PHI @ BKN<br><span class="unv">7:30 PM ET</span></td><td><span class="n">-6.0</span></td><td>0.362</td><td>0.230</td><td><strong>13.2 pp</strong></td><td><span class="chip ok">agree</span></td><td>222.6</td><td>99.8</td><td>220.3</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>HOU @ MIA<br><span class="unv">7:30 PM ET</span></td><td><span class="n">-10.7</span></td><td>0.263</td><td>0.349</td><td><strong>8.5 pp</strong></td><td><span class="chip ok">agree</span></td><td>230.1</td><td>100.0</td><td>233.8</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>POR @ MIN<br><span class="unv">8:00 PM ET</span></td><td><span class="n">1.4</span></td><td>0.534</td><td>0.441</td><td><strong>9.3 pp</strong></td><td><span class="chip warn">opposite</span></td><td>227.4</td><td>101.0</td><td>237.1</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>GSW @ NOP<br><span class="unv">8:00 PM ET</span></td><td><span class="n">-15.2</span></td><td>0.185</td><td>0.259</td><td><strong>7.4 pp</strong></td><td><span class="chip ok">agree</span></td><td>231.4</td><td>100.7</td><td>229.0</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-16</td><td>PHX @ DEN<br><span class="unv">9:00 PM ET</span></td><td><span class="n">4.5</span></td><td>0.605</td><td>0.587</td><td><strong>1.8 pp</strong></td><td><span class="chip ok">agree</span></td><td>226.6</td><td>98.1</td><td>225.3</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-17</td><td>NYK @ TOR<br><span class="unv">7:30 PM ET</span></td><td><span class="n">-0.7</span></td><td>0.484</td><td>0.480</td><td><strong>0.3 pp</strong></td><td><span class="chip ok">agree</span></td><td>220.1</td><td>97.8</td><td>223.9</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-17</td><td>POR @ MIN<br><span class="unv">8:00 PM ET</span></td><td><span class="n">1.4</span></td><td>0.534</td><td>0.441</td><td><strong>9.3 pp</strong></td><td><span class="chip warn">opposite</span></td><td>227.4</td><td>101.0</td><td>237.1</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-17</td><td>DET @ SAS<br><span class="unv">8:00 PM ET</span></td><td><span class="n">12.3</span></td><td>0.766</td><td>0.625</td><td><strong>14.2 pp</strong></td><td><span class="chip ok">agree</span></td><td>223.0</td><td>99.2</td><td>231.8</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-17</td><td>UTA @ LAC<br><span class="unv">10:30 PM ET</span></td><td><span class="n">5.2</span></td><td>0.621</td><td>0.646</td><td><strong>2.5 pp</strong></td><td><span class="chip ok">agree</span></td><td>225.1</td><td>100.5</td><td>216.8</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+<tr><td>2026-11-17</td><td>CHA @ LAL<br><span class="unv">11:00 PM ET</span></td><td><span class="n">21.9</span></td><td>0.903</td><td>0.798</td><td><strong>10.5 pp</strong></td><td><span class="chip ok">agree</span></td><td>222.1</td><td>98.7</td><td>220.9</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">stats</a></td></tr>
+</tbody></table></div>
+<h2>Why the total is not an average of scoring averages</h2>
+<p>The model total is <code>possessions × points per possession</code>, where each team's pace and
+efficiency are matched against the opponent's defence. The last-but-one column is the naive benchmark
+that this project was told <em>not</em> to use — the sum of each team's own points per game — printed
+beside it so the two can be compared on every row instead of being asserted apart.</p>
+<h2>Rest, back-to-back and rotation availability</h2>
+<p>Both columns live on their own pages, because a reader pricing a game needs them side by side with availability rather than buried in a matchup note. <a href="rest.html">Rest &amp; travel</a> · <a href="minutes.html">Minutes &amp; rotation</a>.</p>
+</main>
+<footer class="site"><div class="wrap">
+  <p><strong>NBA3</strong> — research dashboard generated by <code>arena/2ebb1e75-nba3</code>.
+  Model outputs are ours and labelled <em>derived</em>; they are not official NBA statistics.
+  Source code: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a>. This is research, not betting advice.</p>
+</div></footer>
+</body>
+</html>

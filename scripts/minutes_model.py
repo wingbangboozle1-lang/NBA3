@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
-INJ = os.path.join(APP, "official_injuries_2026-11-15_0615AM.json")
+INJ = os.path.join(APP, "official_injuries_2026-11-15_0615AM_79341829.json")
 SHARES = os.path.join(APP, "minutes_shares.json")
 PLAYERS = os.path.join(APP, "players_top31_2026-11-14c.csv")
 SLATE = os.path.join(APP, "official_slate_1115_1118.json")

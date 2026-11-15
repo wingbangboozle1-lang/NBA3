@@ -100,7 +100,7 @@ def _load_new():
     NEW["est"] = rd("data/app/estimators.json", {})
     NEW["feed"] = rd("data/app/results_feed.json", {"games": []})
     NEW["minutes"] = rd("data/app/minutes_model.json", {"teams": {}})
-    NEW["inj1115"] = rd("data/app/official_injuries_2026-11-15_0615AM.json", {"rows": []})
+    NEW["inj1115"] = rd("data/app/official_injuries_2026-11-15_0615AM_79341829.json", {"rows": []})
     NEW["delta1115"] = rd("data/app/injury_delta_1115.json", {})
     NEW["gates"] = rd("data/app/gate_report.json", {"gates": []})
     NEW["closing"] = rd("data/app/closing_lines.json", {})
@@ -361,11 +361,28 @@ def _ratings_delta_text(d):
         if changed:
             diff_teams.append(t["team"])
             diff_fields += len(changed)
-    return (f"{len(cur['teams'])} teams × {len(fields)} fields read after the 2026-11-13 slate "
-            f"completed. Against the snapshot it replaces ({sup.get('retrieved_stamp', 'n/a')}, "
-            f"read while that slate was live): {diff_fields} of {total} fields differ, on "
-            f"{len(diff_teams)} teams — and those are exactly the teams that played on 11/13, "
-            f"which is what identifies the old capture as a mid-slate read rather than a wrong one.")
+    played = (d.get("ratings_delta_played_teams") or [])
+    unexplained = sorted(set(diff_teams) - set(played))
+    base = (f"{len(cur['teams'])} teams × {len(fields)} fields read at "
+            f"{cur.get('retrieved_stamp', 'n/a')}, after the games the page had already recorded. "
+            f"Against the snapshot it replaces ({sup.get('retrieved_stamp', 'n/a')}): "
+            f"{diff_fields} of {total} fields differ, on {len(diff_teams)} teams. ")
+    if played and sorted(diff_teams) == sorted(played):
+        return base + ("The teams that moved are exactly the teams that played in between, "
+                       "which identifies the movement as games being added rather than the "
+                       "earlier capture being wrong.")
+    if unexplained:
+        detail = "; ".join(
+            "%s: %s" % (t, ", ".join("%s %s→%s" % (f, old_by[t].get(f), nt.get(f))
+                                     for f in fields if old_by[t].get(f) != nt.get(f)))
+            for t in unexplained for nt in [next(x for x in cur["teams"] if x["team"] == t)])
+        return base + (f"{len(played)} of those teams played in between, and "
+                       f"{len(unexplained)} did not play at all: {detail}. "
+                       "A team that did not play cannot earn a new game, so either the earlier "
+                       "capture transcribed that row wrong or the official page revises values "
+                       "retroactively. The repository cannot tell which, so it is flagged "
+                       "(F-BB-04) rather than explained away.")
+    return base
 
 
 def page_summary(d):
@@ -546,6 +563,56 @@ it fails every gate, which is the check that the gates themselves work.</p>
     return "\n".join(body)
 
 
+# The three ways a side can be absent from the priced line, kept distinct because they
+# are three different facts. Collapsing them into one "one side not on the report"
+# label -- which is what the first cut of this column did -- told a reader that
+# 2026-11-16 had no official report when in fact every one of those 16 sides IS
+# named on the 11/15 06:15 AM report, each reading NOT YET SUBMITTED. The
+# distinction is the whole point of scripts/report_availability.py's state machine.
+STATES_WITH_ONE_CHIP = {
+    "NO_OFFICIAL_REPORT_COVERS_THIS_DATE":
+        ("no official report covers this date", "bad"),
+    "NOT_YET_DUE":
+        ("not yet due (reported NOT YET SUBMITTED)", "warn"),
+    "TEAM_NOT_LISTED_ON_A_COVERED_DATE":
+        ("listed on no report despite a covered date", "bad"),
+}
+SIDE_LABELS = {
+    "NO_OFFICIAL_REPORT_COVERS_THIS_DATE": ("no official report covers this date",),
+    "NOT_YET_DUE": ("not yet due",),
+    "TEAM_NOT_LISTED_ON_A_COVERED_DATE": ("listed on no report despite a covered date",),
+}
+
+
+def notes_cell(l):
+    """The availability notes for one line, each separated from the previous one and
+    from the counts before it by a real space.
+
+    The published page rendered "4 one side not on the reportno report for this date":
+    `chip()` emits an inline <span>, so two adjacent chips and the count text ran
+    together with no whitespace and the second note was unreadable. Joining a list
+    with a space, and rendering no chip at all when there is nothing to say, is the
+    only version that stays readable for every combination of the three notes."""
+    states = [("away", l.get("availability_state_away")),
+              ("home", l.get("availability_state_home"))]
+    if states[0][1] == states[1][1]:
+        label = STATES_WITH_ONE_CHIP.get(states[0][1])
+        return "" if label is None else " " + chip(*label)
+    # Per-side states differ only when exactly one side is filed, so name the side
+    # that is missing rather than leaving the reader to work out which.
+    labels = [(side, STATES_WITH_ONE_CHIP[st]) for side, st in states
+              if st in STATES_WITH_ONE_CHIP]
+    return " " + " ".join(chip(f"{side}: {label[0]}", label[1]) for side, label in labels)
+
+def num_cell(l):
+    """Counts of officially-Out players per side, or an em dash pair when neither side
+    is on a report at all. A side that IS on the report but has zero players out is a
+    real fact (a filed, empty report -- Boston on 11/15) and prints as 0, not a dash."""
+    if l.get("out_count_away") is None and l.get("out_count_home") is None:
+        return "— / —"
+    return num(l.get("out_count_away"), 0) + " / " + num(l.get("out_count_home"), 0)
+
+
 def page_lines(d):
     lab = d["lab"]
     res = _res(d)
@@ -574,7 +641,6 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
 """)
     rows = []
     for l in d["lines"]:
-        partial = not (l.get("home_reported") and l.get("away_reported"))
         rows.append([
             esc(l["date"]), esc(l["time_et"]),
             f'<a href="{esc(l["nba_game_url"])}" target="_blank" rel="noopener noreferrer">'
@@ -587,12 +653,7 @@ The published totals are shrunk toward the league mean. See <a href="flagged.htm
             f'{num(l["fair_ml_home"], 0)} / {num(l["fair_ml_away"], 0)}',
             f'{num(l["margin_lo"], 0)} … {num(l["margin_hi"], 0)}',
             num(l["pace"], 1),
-            (num(l["out_count_away"], 0) + " / " + num(l["out_count_home"], 0)
-             if (l["out_count_away"] is not None or l["out_count_home"] is not None)
-             else "— / —")
-            + (" " + chip("one side not on the report", "warn") if partial else "")
-            + (" " + chip("no report for this date", "bad")
-               if l.get("availability_state_home") == "NO_OFFICIAL_REPORT_COVERS_THIS_DATE" else ""),
+            num_cell(l) + notes_cell(l),
             src_cell([l["source"], l["game_source"]], "schedule + game"),
         ])
     body.append(table(
@@ -1395,7 +1456,7 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
 <p><strong>Report revision time: {esc(str(inj2.get('report_revision_time')))} ·
 retrieval time: {esc(str(inj2.get('retrieved_stamp')))}</strong>
 (<a href="{esc(inj2.get('source_url', ''))}" target="_blank" rel="noopener noreferrer">PDF</a>,
-raw capture <a href="{REPO_URL}/blob/main/data/app/official_injuries_2026-11-15_0615AM_raw.md">official_injuries_2026-11-15_0615AM_raw.md</a>
+raw capture <a href="{REPO_URL}/blob/main/data/app/official_injuries_2026-11-15_0615AM_raw_79341829.md">official_injuries_2026-11-15_0615AM_raw_79341829.md</a>
 with sha256 <code>{esc(str(inj2.get('raw_sha256', ''))[:16])}…</code>).
 {esc(str(inj2.get('count')))} rows: {esc(str(inj2.get('player_rows')))} player rows and
 {esc(str(inj2.get('not_submitted_rows')))} team rows printed “NOT YET SUBMITTED” (the 11/16
@@ -1578,45 +1639,55 @@ replaced.</p>""")
     # as if the injury and ratings replacements had the same cause. Fixed 2026-11-14.
     man_sup = man.get("superseded", {})
     log = man.get("results_log", {})
+    prov = d.get("log_provenance") or {}
+
+    def _prov(block):
+        """One human sentence per replaced input, built from the artefacts only."""
+        path = (man_sup.get(block) or "")
+        return _base(path) if path else "none recorded"
+
     chain = [
         ["Results log (walk-forward fit)",
          f"cumulative file, last game {esc(log.get('last_date', '—'))}",
          f"{_base(log.get('path', ''))} · {log.get('games', '—')} rows",
-         "174 rows through 2026-11-12",
-         f"extended by the nine finals of 2026-11-13 on flag F36-03; per-row provenance in "
-         f"{_base(log.get('provenance', ''))}",
-         [log.get("source_url")], "official scoreboard, 2026-11-13"],
+         f"{prov.get('games_before', '—')} rows through "
+         f"{esc(prov.get('previous_last_date', '—'))}",
+         f"extended by the {prov.get('rows_added', '—')} finals of "
+         f"{esc(prov.get('added_dates', '—'))}; per-row provenance in "
+         f"{_base(log.get('provenance', ''))}. Every one of the 30 official W, L and GP "
+         f"values reconciles against the extended log (check C7).",
+         [log.get("source_url"), prov.get("source_url")], "official schedule"],
         ["Team advanced statistics (pace, ratings inputs)",
          man.get("ratings", {}).get("retrieved_stamp", "—"),
          _base(man.get("ratings", {}).get("path", "")),
-         f"{_base(man_sup.get('ratings', ''))} · read "
-         f"{(sup_ratings or {}).get('retrieved_stamp', '—')}",
-         "read while the 2026-11-13 slate was still live: 18 of 30 teams were one game stale, and "
-         "those 18 are exactly the teams that played that night (check C5)",
+         _prov("ratings"),
+         _ratings_delta_text(d),
          [man.get("ratings", {}).get("source_url")], "official stats page"],
         ["Injury report (availability overlay)",
          man.get("injuries", {}).get("retrieved_stamp", "—"),
          f"{_base(man.get('injuries', {}).get('path', ''))} · report stamped "
          f"{man.get('injuries', {}).get('report_stamp', '—')}",
-         f"{_base(man_sup.get('injuries', ''))} · report stamped "
-         f"{(superceded.get('injuries') or {}).get('report_stamp', '—')}",
-         "newest file on the official index at the time of that capture (04:15 AM ET). At 18:45 UTC a 01:30 PM ET report is listed: see the injuries page, section 1b. Its 2026-11-14 rows are identical to the report it "
-         "replaces — 31 rows compared, 0 status changes — so the only new information is "
-         "the 2026-11-15 block, which is every team NOT YET SUBMITTED (check C4)",
-         [man.get("injuries", {}).get("source_url"),
-          (superceded.get("injuries") or {}).get("source_url")], "both PDFs"],
+         _prov("injuries"),
+         f"the newest report on the official index at capture time. It publishes "
+         f"{inj.get('player_rows', '—')} player rows and {inj.get('not_submitted_rows', '—')} "
+         f"NOT YET SUBMITTED rows over {len(inj.get('rows_by_game_date') or {})} game dates. "
+         f"Rows whose cells the PDF dropped at a page break are marked in the artefact and "
+         f"counted on the Flagged page (F-BB-02).",
+         [man.get("injuries", {}).get("source_url"), inj.get("index_url")], "official PDF"],
         ["Schedule / slate (the window itself)",
          man.get("slate", {}).get("retrieved_stamp", "—")
          + f" (re-verified {man.get('slate', {}).get('reverified_on', '—')})",
          _base(man.get("slate", {}).get("path", "")),
-         "unchanged by this refresh",
-         "same file, but its per-date game counts were re-checked against the official November "
-         "calendar (5 / 9 / 8 / 5 = 27 games, check C6)",
-         [man.get("slate", {}).get("source_url")], "schedule + scores"],
+         _prov("slate"),
+         f"the window moved forward with the calendar: {len(d['lines'])} games from "
+         f"{(d['meta'].get('window') or {}).get('from', '—')} to "
+         f"{(d['meta'].get('window') or {}).get('to', '—')}. The previous capture priced "
+         f"2026-11-14, whose games are now Final.",
+         [man.get("slate", {}).get("source_url")], "official schedule"],
     ]
     rows = []
     for label, read_at, artefact, prior, why, srcs, srclabel in chain:
-        rows.append([esc(label), read_at, esc(artefact), prior, esc(why),
+        rows.append([esc(label), read_at, esc(artefact), esc(prior), esc(why),
                      src_cell([x for x in srcs if x] or [REPO_URL], srclabel)])
     body.append(table(["Input", "Read at (this capture)", "Artifact", "Superseded snapshot",
                        "Why it was replaced", "Source"], rows, "chain",

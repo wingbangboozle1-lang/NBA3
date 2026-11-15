@@ -20,7 +20,14 @@ DATA = os.path.join(HERE, "data")
 sys.path.insert(0, HERE)
 import capture  # noqa: E402
 
-CANONICAL = os.path.join(ROOT, "data", "app", "canonical.json")
+# This tree is a DATED audit of the 2026-11-14 snapshot and must keep auditing
+# that snapshot, not whatever the live dashboard has since become. Session
+# arena/bb0c83a4-nba3 rotated the published window to 2026-11-15 and extended the
+# results log to 188 games; pointing this audit at the live file made six of its
+# checks fail on facts that are correct for the newer snapshot. It now reads a
+# frozen copy of the exact artefact it was written against. The newer snapshot has
+# its own tests (tests/test_capture_1115.py).
+CANONICAL = os.path.join(ROOT, "data", "snapshots", "canonical_2026-11-14.json")
 
 CHECKS = []
 

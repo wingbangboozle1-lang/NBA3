@@ -1,514 +1,624 @@
-#!/usr/bin/env python3
-"""Two independent estimators + their published disagreement (session arena/79341829-nba3).
+"""Two independent estimators, published side by side; disagreement is the headline.
 
-Implements the required estimator policy on top of the verified official captures:
+Why two: a single blended rating hides model risk. If two estimators that use *different
+information* disagree, the honest output is the disagreement, not their average.
 
-  * Estimator A — ridge margin model (Massey-style team strengths) fit on the official
-    completed-game log (data/origin/games.csv + data/app/results_feed.json), with the
-    home-court term PINNED to the measured home-win rate (never a free fit coefficient).
-  * Estimator B — possession efficiency model from the three official team-stat pages
-    captured 2026-11-15 (OffRtg / DefRtg / PACE): expected points = possessions x PPP.
-  * The DISAGREEMENT between A and B is the headline; an equal-weight blend sits underneath.
-  * Luck is published as a z-score per team (record vs the model's out-of-sample win
-    probabilities). Teams outside |z| > 2 are outside the noise band; the bet surface
-    refuses them (projection surface still publishes, flagged).
-  * Parlays are priced with the MEASURED residual correlation rho; the naive product of
-    the leg prices is printed beside every correlated price.
-  * Market-anchored prior: the blended line is blank unless a closing-line feed is
-    connected (data/app/closing_lines.json); the weight formula is printed.
+    E1 "margin"      Ridge Massey regression on final margins (uses margins, ignores W/L)
+    E2 "outcome"     Logistic Bradley-Terry / Elo-style rating on WINS ONLY (uses W/L, ignores margins)
 
-Outputs: data/app/estimators.json
-Usage:   python3 scripts/estimators.py
+They share exactly one input: which teams played. Everything else differs. They are never
+averaged into a single headline; scripts/build_books.py prints `p1`, `p2`, |p1-p2| and only then
+the blend, labelled as a blend.
+
+Home-court advantage is PINNED to the measured home-win rate, not fitted. The measured rate is
+converted to a margin with the league margin standard deviation:
+    p_home = mean(home_wins)        (measured on the sample)
+    hca_margin = Phi^-1(p_home) * sd(margin)
+Both estimators receive that same fixed number; neither is free to choose its own HCA. The
+pinned value is printed on every page so a reader can see it is an input, not an estimate.
+
+Also here:
+  * luck_z()        per-team luck z-score: observed wins vs expected wins under E2
+  * totals_model()  total = possessions * points-per-possession (NOT an average of team averages)
+  * minutes_redistribution()  top-8 minute shares and replacement shares when a player is out
+
+Run: python3 scripts/estimators.py   (writes data/live/model.json)
 """
+
+from __future__ import annotations
+
 import csv
 import json
 import math
-import os
-import sys
-from datetime import date, datetime, timezone
+import pathlib
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-APP = os.path.join(ROOT, "data", "app")
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+GAMES = ROOT / "data" / "origin" / "games.csv"
+RESULTS_1114 = ROOT / "data" / "live" / "results" / "games_2026-11-14.json"
+STATS = ROOT / "data" / "live" / "team_stats_advanced.json"
+LOGS = ROOT / "data" / "live" / "player_game_logs.json"
+OUT = ROOT / "data" / "live" / "model.json"
 
-TEAM_STATS = os.path.join(APP, "official_team_stats_2026-11-15.json")
-GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
-RESULTS_FEED = os.path.join(APP, "results_feed.json")
-SLATE = os.path.join(APP, "official_slate_1115_1118.json")
-ARENAS = os.path.join(APP, "arena_coordinates.json")
-CLOSING = os.path.join(APP, "closing_lines.json")
-OUT = os.path.join(APP, "estimators.json")
-
-TEAMS = ["ATL", "BOS", "BKN", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW", "HOU",
-         "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK", "OKC", "ORL",
-         "PHI", "PHX", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"]
-IDX = {t: i for i, t in enumerate(TEAMS)}
-
-SOURCES = {
-    "results": "https://www.nba.com/games?date=2026-11-14",
-    "results_1113": "https://www.nba.com/games?date=2026-11-13",
-    "team_stats": ["https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
-                   "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
-                   "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"],
-    "slate": "https://www.nba.com/games?date=2026-11-15",
-    "gamebooks": [f"https://statsdmz.nba.com/pdfs/20261114/20261114_{ab}.pdf" for ab in
-                  ("DENNOP", "DALCLE", "BKNMEM", "DETMIA", "CHIMIN")],
-    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
-}
-
-# ------------------------------------------------------------------ small math helpers
-
-def norm_cdf(x):
-    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
+RIDGE = 0.35          # same order as the existing engine; chosen once, not per-run
+BT_ITER = 100         # Newton; converged to 1e-10 in ~15-25 iterations on this sample
+LOG_5 = math.log(5.0)
 
 
-def norm_ppf(p):
-    """Inverse normal CDF (Acklam's rational approximation; |error| < 1.15e-9)."""
-    if p <= 0.0 or p >= 1.0:
-        raise ValueError("p must be in (0,1)")
-    a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
-         1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00]
-    b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
-         6.680131188771972e+01, -1.328068155288572e+01]
-    c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,
-         -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00]
-    d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,
-         3.754408661907416e+00]
-    plow, phigh = 0.02425, 1 - 0.02425
-    if p < plow:
-        q = math.sqrt(-2 * math.log(p))
-        return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / \
-               ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
-    if p > phigh:
-        q = math.sqrt(-2 * math.log(1 - p))
-        return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / \
-               ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
-    q = p - 0.5
-    r = q * q
-    return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / \
-           (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+# ---------------------------------------------------------------- small numerics
+def norm_cdf(z: float) -> float:
+    return 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
 
 
-def solve_ridge(X, y, lam, skip_cols=0):
-    """Solve (X'X + lam I) b = X'y for the penalised columns; unpenalised first columns."""
-    n = len(X[0])
-    A = [[0.0] * n for _ in range(n)]
-    b = [0.0] * n
-    for i in range(len(X)):
-        xi, yi = X[i], y[i]
-        for a in range(n):
-            b[a] += xi[a] * yi
-            for c in range(a, n):
-                A[a][c] += xi[a] * xi[c]
-    for a in range(n):
-        for c in range(a):
-            A[a][c] = A[c][a]
-        if a >= skip_cols:
-            A[a][a] += lam
-    # gaussian elimination
-    for i in range(n):
-        piv = max(range(i, n), key=lambda r: abs(A[r][i]))
-        A[i], A[piv] = A[piv], A[i]
-        b[i], b[piv] = b[piv], b[i]
-        if abs(A[i][i]) < 1e-12:
-            A[i][i] = 1e-12
-        for r in range(i + 1, n):
-            f = A[r][i] / A[i][i]
-            for c in range(i, n):
-                A[r][c] -= f * A[i][c]
-            b[r] -= f * b[i]
-    x = [0.0] * n
-    for i in range(n - 1, -1, -1):
-        s = b[i] - sum(A[i][c] * x[c] for c in range(i + 1, n))
-        x[i] = s / A[i][i]
-    return x
+def solve(A, b):
+    n = len(b)
+    M = [row[:] + [b[i]] for i, row in enumerate(A)]
+    for c in range(n):
+        p = max(range(c, n), key=lambda r: abs(M[r][c]))
+        M[c], M[p] = M[p], M[c]
+        piv = M[c][c]
+        if abs(piv) < 1e-12:
+            raise ValueError("singular normal equations")
+        for r in range(n):
+            if r == c:
+                continue
+            f = M[r][c] / piv
+            if f:
+                for k in range(c, n + 1):
+                    M[r][k] -= f * M[c][k]
+    return [M[i][n] / M[i][i] for i in range(n)]
 
 
-def bivar_prob(a, b_, rho):
-    """P(X > a and Y > b) for standard bivariate normal with correlation rho,
-    computed as int_a^inf phi(x) * Phi((b - rho x)/sqrt(1-rho^2)) dx (Simpson)."""
-    if rho == 0:
-        return (1 - norm_cdf(a)) * (1 - norm_cdf(b_))
-    s = math.sqrt(max(1e-12, 1 - rho * rho))
-    lo, hi = a, max(a + 10.0, 10.0)
-    n = 200
-    h = (hi - lo) / n
-    tot = 0.0
-    for i in range(n + 1):
-        x = lo + i * h
-        w = 1 if i in (0, n) else (4 if i % 2 else 2)
-        phi = math.exp(-0.5 * x * x) / math.sqrt(2 * math.pi)
-        tot += w * phi * norm_cdf((b_ - rho * x) / s)
-    return max(0.0, min(1.0, tot * h / 3.0))
+def mean(xs):
+    return sum(xs) / len(xs) if xs else float("nan")
 
 
-# ------------------------------------------------------------------ data loading
+def sd(xs):
+    m = mean(xs)
+    return math.sqrt(sum((x - m) ** 2 for x in xs) / (len(xs) - 1)) if len(xs) > 1 else float("nan")
 
-def load_completed():
+
+# ---------------------------------------------------------------- inputs
+def load_games() -> list[dict]:
     games = []
-    with open(GAMES_CSV, encoding="utf-8") as fh:
-        for r in csv.DictReader(fh):
-            games.append({"date": r["date"], "game_id": r["game_id"], "away": r["away"],
-                          "home": r["home"], "away_pts": int(r["away_pts"]),
-                          "home_pts": int(r["home_pts"]),
-                          "source": "data/origin/games.csv (verified official finals)"})
-    feed = json.load(open(RESULTS_FEED, encoding="utf-8"))
-    for g in feed["games"]:
-        if not g["verified"]:
-            continue
-        games.append({"date": g["date"], "game_id": f"{g['date']}_{g['away']}{g['home']}",
-                      "away": g["away"], "home": g["home"],
-                      "away_pts": g["away_pts"], "home_pts": g["home_pts"],
-                      "source": g.get("verified_from") or SOURCES["results"]})
-    games.sort(key=lambda g: g["date"])
-    for g in games:
-        g["margin"] = g["home_pts"] - g["away_pts"]     # positive = home win
-        g["total"] = g["home_pts"] + g["away_pts"]
+    with GAMES.open() as fh:
+        for row in csv.DictReader(fh):
+            games.append({
+                "date": row["date"], "game_id": row["game_id"],
+                "away": row["away"], "home": row["home"],
+                "away_pts": int(row["away_pts"]), "home_pts": int(row["home_pts"]),
+                "ot": int(row["ot"]),
+            })
+    if RESULTS_1114.exists():
+        payload = json.loads(RESULTS_1114.read_text())
+        have = {g["game_id"] for g in games}
+        for g in payload["games"]:
+            if g["game_id"] in have:
+                continue
+            games.append({"date": g["date"], "game_id": g["game_id"], "away": g["away"],
+                          "home": g["home"], "away_pts": g["away_final"],
+                          "home_pts": g["home_final"], "ot": 1 if g["ot"] else 0})
+    games.sort(key=lambda g: (g["date"], g["game_id"]))
     return games
 
 
-def fit_margin_model(games, hca_pts, lam=30.0):
-    """Ridge on (margin - hca): margin' = s_home - s_away, one strength per team (+1/-1
-    design), no intercept, HCA never free (it is pinned upstream)."""
-    n = len(TEAMS)
-    X, y = [], []
-    for g in games:
-        xi = [0.0] * n
-        xi[IDX[g["home"]]] = 1.0
-        xi[IDX[g["away"]]] = -1.0
-        X.append(xi)
-        y.append(g["margin"] - hca_pts)
-    coef = solve_ridge(X, y, lam, skip_cols=0)
-    return {t: coef[i] for i, t in enumerate(TEAMS)}
-
-
-def fit_total_model(games, lam=30.0):
-    n = len(TEAMS)
-    X, y = [], []
-    for g in games:
-        xi = [0.0] * n
-        xi[IDX[g["home"]]] = 1.0
-        xi[IDX[g["away"]]] = 1.0
-        X.append(xi)
-        y.append(g["total"])
-    coef = solve_ridge(X, y, lam, skip_cols=0)
-    return {t: coef[i] for i, t in enumerate(TEAMS)}
-
-
-def margin_pred(r, g, hca):
-    return r[g["home"]] - r[g["away"]] + hca
-
-
-# ------------------------------------------------------------------ main
-
-def main():
-    now = "2026-11-15T11:47Z"  # = the team-stats capture stamp; deterministic for CI drift
-    games = load_completed()
-
-    # ---- home-court advantage: PINNED to the measured home-win rate of the official log
-    home_wins = sum(1 for g in games if g["margin"] > 0)
-    p_home = home_wins / len(games)
-    margins = [g["margin"] for g in games]
-    mu_m = sum(margins) / len(margins)
-    sigma_margin = math.sqrt(sum((m - mu_m) ** 2 for m in margins) / (len(margins) - 1))
-    hca_pts = norm_ppf(min(max(p_home, 0.01), 0.99)) * sigma_margin
-
-    # ---- Estimator A: walk-forward OOS (expanding fit), true out-of-sample
-    warmup = 45
-    oos = []
-    for t in range(warmup, len(games)):
-        r = fit_margin_model(games[:t], hca_pts)
-        g = games[t]
-        m = margin_pred(r, g, hca_pts)
-        resid = g["margin"] - m
-        oos.append({**g, "pred_margin": round(m, 2), "resid": round(resid, 2)})
-    logloss_a = 0.0
-    hits_a = 0
-    sigma_e = math.sqrt(sum(o["resid"] ** 2 for o in oos) / len(oos))
-    for o in oos:
-        p = norm_cdf(o["pred_margin"] / max(sigma_e, 1e-6))
-        p = min(max(p, 1e-6), 1 - 1e-6)
-        logloss_a += -(math.log(p) if o["margin"] > 0 else math.log(1 - p))
-        if (o["pred_margin"] > 0) == (o["margin"] > 0):
-            hits_a += 1
-    logloss_a /= len(oos)
-
-    # ---- Estimator B: possessions x PPP from the official three-page snapshot (in-sample
-    # labelled; no historical stat snapshots are stored)
-    ts = json.load(open(TEAM_STATS, encoding="utf-8"))
-    cols = ts["pages"]["advanced"]["columns"]
-    adv = {r[0]: dict(zip(cols, r)) for r in ts["pages"]["advanced"]["rows"]}
-    lg_avg_drtg = sum(float(adv[t]["def_rtg"]) for t in TEAMS) / len(TEAMS)
-
-    def eff_pair(home, away):
-        poss = (float(adv[home]["pace"]) + float(adv[away]["pace"])) / 2.0
-        eff_h = float(adv[home]["off_rtg"]) * float(adv[away]["def_rtg"]) / lg_avg_drtg
-        eff_a = float(adv[away]["off_rtg"]) * float(adv[home]["def_rtg"]) / lg_avg_drtg
-        return eff_h, eff_a, poss
-
-    ll_b, hits_b, resids_b = 0.0, 0, []
-    for g in games:
-        eff_h, eff_a, poss = eff_pair(g["home"], g["away"])
-        m_b = (eff_h - eff_a) * poss / 100.0 + hca_pts
-        resid = g["margin"] - m_b
-        resids_b.append(resid)
-    sigma_b = math.sqrt(sum(x * x for x in resids_b) / len(resids_b))
-    for g in games:
-        eff_h, eff_a, poss = eff_pair(g["home"], g["away"])
-        m_b = (eff_h - eff_a) * poss / 100.0 + hca_pts
-        p = norm_cdf(m_b / max(sigma_b, 1e-6))
-        p = min(max(p, 1e-6), 1 - 1e-6)
-        ll_b += -(math.log(p) if g["margin"] > 0 else math.log(1 - p))
-        if (m_b > 0) == (g["margin"] > 0):
-            hits_b += 1
-    ll_b /= len(games)
-
-    # ---- final fits (all games) + measured rho between margin and total residuals
-    r_final = fit_margin_model(games, hca_pts)
-    t_final = fit_total_model(games)
-    e_m, e_t = [], []
-    for g in games:
-        e_m.append(g["margin"] - margin_pred(r_final, g, hca_pts))
-        e_t.append(g["total"] - (t_final[g["home"]] + t_final[g["away"]]))
-    n_ = len(e_m)
-    mm = sum(e_m) / n_
-    mt = sum(e_t) / n_
-    cov = sum((e_m[i] - mm) * (e_t[i] - mt) for i in range(n_)) / (n_ - 1)
-    sd_m = math.sqrt(sum((x - mm) ** 2 for x in e_m) / (n_ - 1))
-    sd_t = math.sqrt(sum((x - mt) ** 2 for x in e_t) / (n_ - 1))
-    rho = cov / (sd_m * sd_t)
-
-    # ---- luck z-scores per team (record vs OOS win probabilities)
-    luck = {}
-    for team in TEAMS:
-        w, exp, n_t, exp_var = 0, 0.0, 0, 0.0
-        close_w, close_n = 0, 0
-        for o in oos:
-            for side in ("home", "away"):
-                if o[side] != team:
-                    continue
-                p_team = norm_cdf(o["pred_margin"] / max(sigma_e, 1e-6))
-                if side == "away":
-                    p_team = 1 - p_team
-                won = (o["margin"] > 0) if side == "home" else (o["margin"] < 0)
-                w += 1 if won else 0
-                exp += p_team
-                exp_var += p_team * (1 - p_team)
-                n_t += 1
-                if abs(o["margin"]) <= 5:
-                    close_n += 1
-                    close_w += 1 if won else 0
-        if n_t:
-            z = (w - exp) / math.sqrt(max(exp_var, 1e-9))
-            luck[team] = {
-                "team": team, "games_oos": n_t, "wins": w,
-                "expected_wins": round(exp, 2),
-                "luck_z": round(z, 2),
-                "close_games": close_n, "close_wins": close_w,
-                "outside_noise_band": abs(z) > 2.0,
-                "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json",
-            }
-
-    # ---- window projections (the slate 11/15-11/18)
-    slate_path = os.path.join(APP, "official_slate_current.json")
-    if not os.path.exists(slate_path):
-        slate_path = SLATE
-    slate = json.load(open(slate_path, encoding="utf-8"))
-    arenas = json.load(open(ARENAS, encoding="utf-8"))
-    team_arena = {}
-    for a in arenas["arenas"]:
-        if a.get("team"):
-            team_arena[a["team"]] = a
-
-    def haversine(a, b):
-        R = 6371.0088
-        la1, lo1, la2, lo2 = map(math.radians, (a["lat"], a["lon"], b["lat"], b["lon"]))
-        h = math.sin((la2 - la1) / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin((lo2 - lo1) / 2) ** 2
-        return 2 * R * math.asin(math.sqrt(h))
-
-    # previous game per team from the completed log (for rest + travel)
-    last_game = {}
-    for g in games:
-        last_game[g["away"]] = g
-        last_game[g["home"]] = g
-
-    def rest_for(team, game_date):
-        lg = last_game.get(team)
-        if not lg:
-            return {"days_rest": None, "b2b": None, "three_in_4": None,
-                    "note": "no earlier game in the stored log"}
-        d0 = date.fromisoformat(lg["date"])
-        d1 = date.fromisoformat(game_date)
-        gap = (d1 - d0).days
-        # count games in the trailing 3 days
-        three = sum(1 for g in games if g["date"] >= str(d1.fromordinal(d1.toordinal() - 3))
-                    and g["date"] < game_date and team in (g["away"], g["home"]))
-        return {"days_rest": gap, "b2b": gap == 1, "three_in_4": three >= 2,
-                "last_game": lg["date"]}
-
-    def travel_for(team, game_home):
-        lg = last_game.get(team)
-        cur = team_arena.get(game_home)
-        if not lg or not cur:
-            return {"km": None, "from_arena": None,
-                    "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"}
-        prev_home = lg["home"]
-        prev = team_arena.get(prev_home)
-        if not prev or prev.get("lat") is None or cur.get("lat") is None:
-            return {"km": None, "from_arena": prev.get("arena") if prev else None,
-                    "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"}
-        return {"km": round(haversine(prev, cur), 1), "from_arena": prev["arena"],
-                "method": "haversine on Wikipedia arena coordinates (reference source)"}
-
-    window_rows = []
-    for g in slate["games"]:
-        away, home = g["away"], g["home"]
-        eff_h, eff_a, poss = eff_pair(home, away)
-        m_a = margin_pred(r_final, {"home": home, "away": away}, hca_pts)
-        m_b = (eff_h - eff_a) * poss / 100.0 + hca_pts
-        t_a = t_final[home] + t_final[away]
-        t_b = (eff_h + eff_a) * poss / 100.0
-        blend_m = 0.5 * (m_a + m_b)
-        blend_t = 0.5 * (t_a + t_b)
-        p_home_win = norm_cdf(blend_m / max(sigma_e, 1e-6))
-        ra, ta = rest_for(away, g["date"]), rest_for(home, g["date"])
-        window_rows.append({
-            "game_id": g["game_id"], "date": g["date"], "tip_et": g["time_et"],
-            "away": away, "home": home,
-            "est_a_margin": round(m_a, 1), "est_b_margin": round(m_b, 1),
-            "disagreement_abs": round(abs(m_a - m_b), 1),
-            "blend_margin": round(blend_m, 1),           # secondary, never the headline
-            "est_a_total": round(t_a, 1), "est_b_total": round(t_b, 1),
-            "total_model": "possessions x PPP (est. B); ridge total (est. A)",
-            "possessions": round(poss, 1),
-            "blend_total": round(blend_t, 1),
-            "home_win_prob": round(p_home_win, 3),
-            "hca_points_pinned": round(hca_pts, 2),
-            "rest": {"away": ra, "home": ta},
-            "travel_km": {"away": travel_for(away, home), "home": travel_for(home, home)},
-            "luck_z": {"away": luck.get(away, {}).get("luck_z"), "home": luck.get(home, {}).get("luck_z")},
-            "luck_band_flag": (f"{t} outside |z|>2 luck noise band"
-                               for t in (away, home) if luck.get(t, {}).get("outside_noise_band")),
-            "sources": [SOURCES["results"], SOURCES["team_stats"][2], SOURCES["slate"]],
-        })
-    for row in window_rows:
-        row["luck_band_flag"] = list(row["luck_band_flag"])
-
-    # ---- parlay pricing demo block (rho-aware vs naive) using the window's own lines
-    parlay_rows = []
-    for row in window_rows[:10]:
-        s = row["blend_margin"]            # spread ~ 0 (pick 'em on our own line)
-        tline = row["blend_total"]
-        p_side = norm_cdf(row["blend_margin"] / max(sigma_e, 1e-6))
-        p_over = norm_cdf((row["blend_total"] - tline) / max(sd_t, 1e-6))
-        # joint price of "home side + over" under the measured rho of (margin, total) residuals
-        a_ = -row["blend_margin"] / max(sigma_e, 1e-6)
-        b_ = -(row["blend_total"] - tline) / max(sd_t, 1e-6)
-        joint = bivar_prob(a_, b_, rho)
-        naive = p_side * p_over
-        parlay_rows.append({
-            "game_id": row["game_id"], "legs": "home side + over (same game, our own lines)",
-            "p_side": round(p_side, 4), "p_over": round(p_over, 4),
-            "rho_measured": round(rho, 3),
-            "joint_price_rho": round(joint, 4),
-            "naive_product": round(naive, 4),
-            "ratio_joint_over_naive": round(joint / naive, 3) if naive else None,
-            "method": ("bivariate normal with rho = measured correlation of the ridge model's "
-                       "margin and total residuals over the official completed-game log"),
-        })
-
-    # ---- market-anchored prior (closing-line feed)
-    if not os.path.exists(CLOSING):
-        with open(CLOSING, "w", encoding="utf-8") as fh:
-            json.dump({
-                "feed_status": "not connected",
-                "note": ("No licensed closing-line feed is connected in this environment. "
-                         "Blended lines stay BLANK and flagged; the model line is published alone."),
-                "formula": ("blended = w * model + (1 - w) * closing, "
-                            "w = exp(-logloss_model) / (exp(-logloss_model) + exp(-logloss_closing)), "
-                            "log losses measured out-of-sample"),
-                "rows": [],
-            }, fh, indent=1)
-            fh.write("\n")
-    closing = json.load(open(CLOSING, encoding="utf-8"))
-
-    out = {
-        "generated_utc": now,
-        "policy": {
-            "headline": "the disagreement between the two independent estimators",
-            "hca": ("pinned to the measured home-win rate of the official completed-game log; "
-                    "never a free fit coefficient"),
-            "luck": "z-score per team vs walk-forward win probabilities; |z|>2 refuses the bet surface",
-            "totals": "possessions x points-per-possession (estimator B) beside the ridge total (A)",
-            "parlays": "measured rho printed with every correlated price; naive product printed beside it",
-            "market_prior": ("blank unless a closing-line feed is connected; weight formula printed "
-                             "in data/app/closing_lines.json"),
-            "disagreement_headline_mean": None,
-        },
-        "hca_measurement": {
-            "home_wins": home_wins, "games": len(games), "home_win_rate": round(p_home, 4),
-            "margin_sd": round(sigma_margin, 2),
-            "hca_points_pinned": round(hca_pts, 2),
-            "formula": "hca = Phi^-1(home-win rate) * SD(margin) over the official log",
-            "sources": [SOURCES["results"], SOURCES["results_1113"], "data/origin/games.csv"],
-        },
-        "estimator_a": {
-            "name": "ridge margin model (Massey-style), HCA pinned",
-            "oos_log_loss": round(logloss_a, 4), "oos_accuracy": round(hits_a / len(oos), 3),
-            "oos_games": len(oos),
-            "oos_sample": ("expanding walk-forward over the official completed-game log "
-                           "(games 1-45 warm-up; each later game predicted from games before it)"),
-            "resid_sd": round(sigma_e, 2),
-            "source": "data/origin/games.csv + data/app/results_feed.json (official finals)",
-        },
-        "estimator_b": {
-            "name": "possession efficiency (possessions x PPP) from the three official pages",
-            "log_loss_in_sample": round(ll_b, 4), "accuracy_in_sample": round(hits_b / len(games), 3),
-            "resid_sd": round(sigma_b, 2),
-            "label": ("IN-SAMPLE against the 2026-11-15 stat snapshot (no historical snapshots "
-                      "are stored) — flagged, not presented as out-of-sample"),
-            "sources": SOURCES["team_stats"],
-        },
-        "blend": {
-            "weights": {"a": 0.5, "b": 0.5},
-            "note": "the blend is published underneath the disagreement, never as the headline",
-        },
-        "rho_measured": round(rho, 3),
-        "rho_note": ("correlation of the ridge model's margin and total residuals over the "
-                     f"{n_}-game official log; used for every same-game parlay price"),
-        "luck_band": luck,
-        "window": window_rows,
-        "parlay_prices": parlay_rows,
-        "market_anchored_prior": {
-            "feed_status": closing.get("feed_status"),
-            "blended_lines": [],
-            "flag": ("blank + unverified: no closing-line feed is connected, so no blended line "
-                     "may be published"),
-            "formula": closing.get("formula"),
-        },
-        "injury_input": {
-            "report": "data/app/official_injuries_2026-11-15_0615AM.json",
-            "source": SOURCES["injury"],
-            "note": "status designations ride along with each window row via minutes_model.json",
-        },
-        "sources": [SOURCES["results"], SOURCES["results_1113"]] + SOURCES["team_stats"]
-                   + [SOURCES["slate"], SOURCES["injury"]] + SOURCES["gamebooks"],
+# ---------------------------------------------------------------- home-court advantage, pinned
+def pinned_hca(games: list[dict]) -> dict:
+    n = len(games)
+    home_wins = sum(1 for g in games if g["home_pts"] > g["away_pts"])
+    p = home_wins / n
+    margins = [g["home_pts"] - g["away_pts"] for g in games]
+    s = sd(margins)
+    z = _inv_norm(p)
+    return {
+        "rule": "PINNED: hca_margin = Phi^-1(measured home-win rate) * sd(margin). Not fitted.",
+        "games": n,
+        "home_wins": home_wins,
+        "home_win_rate": round(p, 6),
+        "margin_sd": round(s, 6),
+        "z_star": round(z, 6),
+        "hca_margin_points": round(z * s, 6),
+        "hca_margin_if_naive_fit": round(mean(margins), 6),
+        "naive_vs_pinned_gap": round(mean(margins) - z * s, 6),
+        "note": ("The naive fitted HCA (mean home margin) also absorbs any sample imbalance in "
+                 "team strength between home and away schedules. The pinned version uses only the "
+                 "home-win rate, so a schedule artefact cannot inflate it. Both are printed; the "
+                 "model uses the pinned one."),
     }
-    mean_dis = sum(r["disagreement_abs"] for r in window_rows) / len(window_rows)
-    out["policy"]["disagreement_headline_mean"] = round(mean_dis, 1)
 
-    with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump(out, fh, indent=1)
-        fh.write("\n")
 
-    print(f"completed games: {len(games)} | HCA pinned: {hca_pts:.2f} pts "
-          f"(home-win rate {p_home:.3f}, margin SD {sigma_margin:.1f})")
-    print(f"estimator A OOS: log-loss {logloss_a:.4f}, accuracy {hits_a/len(oos):.3f} on {len(oos)} games")
-    print(f"estimator B (in-sample, labelled): log-loss {ll_b:.4f}, accuracy {hits_b/len(games):.3f}")
-    print(f"rho measured: {rho:.3f} | window rows: {len(window_rows)} | mean disagreement {mean_dis:.1f} pts")
-    outside = [t for t, v in luck.items() if v["outside_noise_band"]]
-    print(f"luck |z|>2 teams (bet surface refuses): {outside or 'none'}")
-    return 0
+def _inv_norm(p: float) -> float:
+    """Inverse standard normal (bisection; deterministic and accurate to 1e-12)."""
+    lo, hi = -10.0, 10.0
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if norm_cdf(mid) < p:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+# ---------------------------------------------------------------- E1: ridge Massey on margins
+def fit_margin_model(games: list[dict], hca: float) -> dict:
+    teams = sorted({g["home"] for g in games} | {g["away"] for g in games})
+    idx = {t: i for i, t in enumerate(teams)}
+    n = len(teams)
+    A = [[0.0] * n for _ in range(n)]
+    b = [0.0] * n
+    for g in games:
+        h, a = idx[g["home"]], idx[g["away"]]
+        y = (g["home_pts"] - g["away_pts"]) - hca
+        A[h][h] += 1.0
+        A[a][a] += 1.0
+        A[h][a] -= 1.0
+        A[a][h] -= 1.0
+        b[h] += y
+        b[a] -= y
+    for i in range(n):
+        A[i][i] += RIDGE
+    rating = solve(A, b)
+    resid = []
+    for g in games:
+        pred = rating[idx[g["home"]]] - rating[idx[g["away"]]] + hca
+        resid.append((g["home_pts"] - g["away_pts"]) - pred)
+    return {"teams": teams, "index": idx, "rating": rating,
+            "rmse": math.sqrt(mean([r * r for r in resid])), "residuals": resid}
+
+
+# ---------------------------------------------------------------- E2: logistic Bradley-Terry on wins
+#
+# Parameterised in POINTS (not raw logits) so the two estimators are on the same scale and the
+# ridge penalty is interpretable: p_home = sigmoid((r_home - r_away + hca) / sd_margin).
+#
+# E2 is badly identified early in a season (30 ratings, ~60 games), so the ridge weight is not
+# a free choice: it is selected by log-loss on the most recent 20% of PAST games only, exactly
+# as the repository's existing engine selects its own shrinkage. Without that, the walk-forward
+# log-loss explodes -- which this file reports rather than hides.
+BT_RIDGE_GRID = [0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0]
+
+
+def _fit_bt(games, hca, sd_margin, ridge, iterations=BT_ITER):
+    """Newton fit of a logistic Bradley-Terry rating, in LOGIT units.
+
+    The ridge is applied on the logit (information) scale, where one game carries about 0.25 of
+    information, so a ridge of 5 is a meaningful amount of shrinkage. Applying the same ridge on
+    a points scale would silently swamp the likelihood: the information would be ~1/285 per game
+    and the penalty ~5, i.e. 30x the data. That mistake was made and measured here first; the
+    log-loss it produced (0.64 with 600 non-converged iterations) is why the scale is now fixed.
+    """
+    teams = sorted({g["home"] for g in games} | {g["away"] for g in games})
+    idx = {t: i for i, t in enumerate(teams)}
+    n = len(teams)
+    r = [0.0] * n
+    hca_logit = hca / sd_margin
+    converged = False
+    for _ in range(iterations):
+        grad = [0.0] * n
+        hess = [[0.0] * n for _ in range(n)]
+        for g in games:
+            i, j = idx[g["home"]], idx[g["away"]]
+            x = max(-30.0, min(30.0, r[i] - r[j] + hca_logit))
+            p = 1.0 / (1.0 + math.exp(-x))
+            y = 1.0 if g["home_pts"] > g["away_pts"] else 0.0
+            w = p * (1.0 - p)
+            d = y - p
+            grad[i] += d
+            grad[j] -= d
+            hess[i][i] += w
+            hess[j][j] += w
+            hess[i][j] -= w
+            hess[j][i] -= w
+        for i in range(n):
+            grad[i] -= ridge * r[i]
+            hess[i][i] += ridge
+        step = solve(hess, grad)
+        r = [r[i] + step[i] for i in range(n)]
+        if max(abs(v) for v in step) < 1e-10:
+            converged = True
+            break
+    return {"teams": teams, "index": idx, "rating_logit": r,
+            "rating": [v * sd_margin for v in r],   # points scale, reported only
+            "hca": hca, "sd_margin": sd_margin, "ridge": ridge, "converged": converged}
+
+
+def _bt_logloss(model, games) -> float:
+    i = model["index"]
+    r = model["rating_logit"]
+    ll = 0.0
+    for g in games:
+        if g["home"] not in i or g["away"] not in i:
+            ll += math.log(2.0)          # unseen team -> coin flip
+            continue
+        x = r[i[g["home"]]] - r[i[g["away"]]] + model["hca"] / model["sd_margin"]
+        p = 1.0 / (1.0 + math.exp(-max(-30.0, min(30.0, x))))
+        y = 1 if g["home_pts"] > g["away_pts"] else 0
+        ll += math.log(max(1e-9, p if y else 1 - p))
+    return -ll / len(games)
+
+
+def select_bt_ridge(games, hca, sd_margin) -> tuple[float, dict]:
+    """Choose the E2 ridge by log-loss on the most recent 20% of the PAST games."""
+    cut = max(1, int(round(len(games) * 0.8)))
+    if cut >= len(games):
+        return 10.0, {"selected_by": "default (too few games to validate)"}
+    train, valid = games[:cut], games[cut:]
+    scores = {}
+    for ridge in BT_RIDGE_GRID:
+        m = _fit_bt(train, hca, sd_margin, ridge)
+        scores[ridge] = round(_bt_logloss(m, valid), 6)
+    best = min(scores, key=lambda k: scores[k])
+    return best, {"selected_by": "log-loss on the most recent 20% of past games",
+                  "validation_games": len(valid), "scores": scores, "chosen": best}
+
+
+def fit_outcome_model(games: list[dict], hca: float, sd_margin: float) -> dict:
+    ridge, how = select_bt_ridge(games, hca, sd_margin)
+    m = _fit_bt(games, hca, sd_margin, ridge)
+    m["selection"] = how
+    m["in_sample_log_loss"] = round(_bt_logloss(m, games), 6)
+    resid = []
+    for g in games:
+        i = m["index"]
+        pred = (m["rating_logit"][i[g["home"]]] - m["rating_logit"][i[g["away"]]]) * sd_margin + hca
+        resid.append((g["home_pts"] - g["away_pts"]) - pred)
+    m["in_sample_margin_rmse"] = math.sqrt(mean([q * q for q in resid]))
+    return m
+
+
+# ---------------------------------------------------------------- predictions
+def predict_pair(margin_model, outcome_model, sd_margin, hca, home, away) -> dict:
+    i = margin_model["index"]
+    m = (margin_model["rating"][i[home]] - margin_model["rating"][i[away]]) + hca
+    p1 = norm_cdf(m / sd_margin)
+    j = outcome_model["index"]
+    x = (outcome_model["rating_logit"][j[home]] - outcome_model["rating_logit"][j[away]]
+         + outcome_model["hca"] / outcome_model["sd_margin"])
+    p2 = 1.0 / (1.0 + math.exp(-max(-30.0, min(30.0, x))))
+    return {"exp_margin_e1": round(m, 4),
+            "p_home_e1": round(p1, 6),
+            "p_home_e2": round(p2, 6),
+            "disagreement_pp": round(abs(p1 - p2) * 100.0, 3),
+            "direction_agrees": (p1 - 0.5) * (p2 - 0.5) > 0}
+
+
+# ---------------------------------------------------------------- luck
+def luck_z(games, outcome_model, sd_margin) -> list[dict]:
+    j = outcome_model["index"]
+    r = outcome_model["rating_logit"]
+    wins = {t: 0 for t in j}
+    exp = {t: 0.0 for t in j}
+    var = {t: 0.0 for t in j}
+    for g in games:
+        h, a = g["home"], g["away"]
+        x = r[j[h]] - r[j[a]] + outcome_model["hca"] / sd_margin
+        p = 1.0 / (1.0 + math.exp(-max(-30.0, min(30.0, x))))
+        wins[h] += 1 if g["home_pts"] > g["away_pts"] else 0
+        wins[a] += 0 if g["home_pts"] > g["away_pts"] else 1
+        exp[h] += p
+        exp[a] += 1 - p
+        var[h] += p * (1 - p)
+        var[a] += p * (1 - p)
+    rows = []
+    for t in sorted(j):
+        z = (wins[t] - exp[t]) / math.sqrt(var[t]) if var[t] > 0 else float("nan")
+        rows.append({"team": t, "wins": wins[t], "expected_wins": round(exp[t], 3),
+                     "luck_z": round(z, 3),
+                     "within_noise_band": abs(z) <= 1.96,
+                     "verdict": "noise" if abs(z) <= 1.96 else ("lucky" if z > 0 else "unlucky")})
+    return sorted(rows, key=lambda x: -x["luck_z"])
+
+
+# ---------------------------------------------------------------- totals: possessions x PPP
+def totals_model(stats, home, away, hca_free: bool = True) -> dict:
+    h = stats["teams"][home]
+    a = stats["teams"][away]
+    pace = (h["pace"] + a["pace"]) / 2.0                 # possessions per 48 minutes, per team
+    ppp_h = h["off_rtg"] / 100.0
+    ppp_h_def = a["def_rtg"] / 100.0
+    ppp_a = a["off_rtg"] / 100.0
+    ppp_a_def = h["def_rtg"] / 100.0
+    # Each team's own offence meets the other team's defence: average the two views.
+    home_pts = pace * (ppp_h + ppp_h_def) / 2.0
+    away_pts = pace * (ppp_a + ppp_a_def) / 2.0
+    return {
+        "possessions_per_team": round(pace, 3),
+        "ppp_home": round((ppp_h + ppp_h_def) / 2.0, 6),
+        "ppp_away": round((ppp_a + ppp_a_def) / 2.0, 6),
+        "exp_home_pts": round(home_pts, 3),
+        "exp_away_pts": round(away_pts, 3),
+        "exp_total": round(home_pts + away_pts, 3),
+        "method": "possessions * points-per-possession (NOT an average of team scoring averages)",
+        "inputs": {"home_pace": h["pace"], "away_pace": a["pace"],
+                   "home_off": h["off_rtg"], "home_def": h["def_rtg"],
+                   "away_off": a["off_rtg"], "away_def": a["def_rtg"]},
+    }
+
+
+def naive_total_benchmark(stats, home, away) -> dict:
+    """The thing the brief says NOT to do, kept as a benchmark so the difference is visible.
+
+    'Average of team scoring averages': take each team's own points per game (OffRtg/100 x Pace,
+    which is the official points-per-game to rounding) and add them. The opponent's defence never
+    enters, so a good offence gets credited for scoring on nobody in particular.
+    """
+    h = stats["teams"][home]
+    a = stats["teams"][away]
+    pts_h = h["off_rtg"] / 100.0 * h["pace"]
+    pts_a = a["off_rtg"] / 100.0 * a["pace"]
+    return {"formula": "sum of each team's own points per game (OffRtg/100 x Pace), opponent defence ignored",
+            "home_points_per_game": round(pts_h, 3),
+            "away_points_per_game": round(pts_a, 3),
+            "exp_total": round((pts_h + pts_a), 3)}
+
+
+# ---------------------------------------------------------------- minutes redistribution
+def _strip_jersey(row: dict) -> str:
+    """Gamebook names arrive as '27 Jamal Murray'. The jersey is not part of the name."""
+    raw = row.get("player", "")
+    head = raw.split(" ", 1)
+    if len(head) == 2 and head[0].isdigit():
+        return head[1].strip()
+    return raw.strip()
+
+
+def availability_weight(status: str) -> float:
+    """How much of a player's minutes the club itself expects to lose, from the official status.
+
+    Out and Doubtful are treated as unavailable. Questionable is NOT treated as doubtful: the
+    official report does not say how likely it is, so the player's minutes are kept and the
+    uncertainty is stated instead of being given a made-up probability.
+    """
+    return 0.0 if status in ("Out", "Doubtful") else 1.0
+
+
+def minutes_redistribution(logs: list[dict], team: str, out_players: list[str],
+                           statuses: dict[str, str] | None = None) -> dict:
+    """Explicitly model who absorbs the minutes of a player who is out.
+
+    Rule (stated so it can be attacked): within a team, take the top 8 players by mean minutes
+    over the captured games. The share of that top-8 group's minutes held by an outgoing player
+    is redistributed to the remaining top-8 in proportion to their own mean minutes; the
+    replacement share is what is left over for players outside the top 8.
+    Nothing is imputed for a player with no captured log -- they are counted as unknown.
+    """
+    by_player: dict[str, list[float]] = {}
+    for row in logs:
+        if row["team"] != team:
+            continue
+        by_player.setdefault(_strip_jersey(row), []).append(row["min"])
+    if not by_player:
+        return {"team": team, "status": "NO_CAPTURED_LOGS"}
+    means = {p: mean(v) for p, v in by_player.items()}
+    top8 = sorted(means, key=lambda p: -means[p])[:8]
+    top8_total = sum(means[p] for p in top8)
+    shares = {p: round(means[p] / top8_total, 4) for p in top8}
+    def norm(name: str) -> str:
+        # the injury report writes "Embiid, Joel"; the gamebook writes "Joel Embiid"
+        if "," in name:
+            last, first = [x.strip() for x in name.split(",", 1)]
+            return f"{first} {last}".casefold()
+        return name.casefold()
+
+    statuses = statuses or {p: "Out" for p in out_players}
+    out_norm = {norm(p): p for p in out_players}
+    matched = [p for p in top8 if p.casefold() in out_norm]
+    unknown = [p for p in out_players if norm(p) not in {q.casefold() for q in top8}]
+    vacated_share = sum(shares[p] for p in matched)
+    remaining = [p for p in top8 if p not in matched]
+    rem_total = sum(means[p] for p in remaining) or 1.0
+    redistribution = {p: round(shares[p] + vacated_share * means[p] / rem_total, 4)
+                      for p in remaining}
+    return {
+        "team": team,
+        "status": "MODELLED",
+        "captured_players": len(by_player),
+        "games_captured": len({r["game_id"] for r in logs if r["team"] == team}),
+        "top8": [{"player": p, "mean_min": round(means[p], 2), "share_of_top8": shares[p]}
+                 for p in top8],
+        "players_out": out_players,
+        "out_matched_in_top8": matched,
+        "out_not_in_top8_or_unknown": unknown,
+        "vacated_share_of_top8_minutes": round(vacated_share, 4),
+        "statuses_used": {p: statuses.get(p, "Out") for p in matched},
+        "questionable_handling": ("a Questionable player keeps his minutes and is reported as "
+                                  "uncertain; no probability is invented for him"),
+        "new_shares_if_out": redistribution,
+        "replacement_share": round(max(0.0, 1.0 - sum(redistribution.values())), 4),
+        "caveat": ("Based on the captured game logs only (2026-11-14 slate). A share model of "
+                   "this kind needs a full season of logs to be stable; with one slate it is a "
+                   "worked demonstration, and it is labelled as such wherever it is shown."),
+    }
+
+
+# ---------------------------------------------------------------- build
+def main() -> None:
+    games = load_games()
+    hca = pinned_hca(games)
+    s = hca["margin_sd"]
+    h = hca["hca_margin_points"]
+    m1 = fit_margin_model(games, h)
+    m2 = fit_outcome_model(games, h, s)
+
+    # out-of-sample check for both estimators, walk-forward from game 60
+    oos = []
+    for k in range(60, len(games)):
+        train = games[:k]
+        hk = pinned_hca(train)
+        a1 = fit_margin_model(train, hk["hca_margin_points"])
+        a2 = fit_outcome_model(train, hk["hca_margin_points"], hk["margin_sd"])
+        g = games[k]
+        pr = predict_pair(a1, a2, hk["margin_sd"], hk["hca_margin_points"], g["home"], g["away"])
+        home_won = g["home_pts"] > g["away_pts"]
+        oos.append({"date": g["date"], "home": g["home"], "away": g["away"],
+                    "p1": pr["p_home_e1"], "p2": pr["p_home_e2"],
+                    "margin_pred": pr["exp_margin_e1"],
+                    "margin_act": g["home_pts"] - g["away_pts"],
+                    "home_won": home_won})
+    def logloss(key):
+        return -mean([math.log(max(1e-9, (o[key] if o["home_won"] else 1 - o[key])))
+                      for o in oos])
+    def brier(key):
+        return mean([((o[key] - (1 if o["home_won"] else 0)) ** 2) for o in oos])
+    blend = [{"p": 0.5 * o["p1"] + 0.5 * o["p2"], "home_won": o["home_won"]} for o in oos]
+    oos_stats = {
+        "n": len(oos),
+        "e1_log_loss": round(logloss("p1"), 6), "e2_log_loss": round(logloss("p2"), 6),
+        "e1_brier": round(brier("p1"), 6), "e2_brier": round(brier("p2"), 6),
+        "coin_flip_log_loss": round(math.log(2), 6),
+        "coin_flip_brier": 0.25,
+        "blend_50_50_log_loss": round(-mean([math.log(max(1e-9, b["p"] if b["home_won"] else 1 - b["p"])) for b in blend]), 6),
+        "e1_margin_rmse_oos": round(math.sqrt(mean([(o["margin_act"] - o["margin_pred"]) ** 2 for o in oos])), 6),
+        "mean_absolute_disagreement_pp": round(mean([abs(o["p1"] - o["p2"]) * 100 for o in oos]), 3),
+        "share_games_estimators_disagree_on_side": round(
+            mean([1.0 if (o["p1"] - 0.5) * (o["p2"] - 0.5) <= 0 else 0.0 for o in oos]), 4),
+        "note": ("Walk-forward: each forecast uses only games before it. Pinned HCA is recomputed "
+                 "on the training slice, so the OOS numbers include the cost of that rule."),
+    }
+
+    stats = json.loads(STATS.read_text())
+    slate = json.loads((ROOT / "data" / "live" / "slate_2026-11-15.json").read_text())
+    games_out = []
+    for g in slate["games"]:
+        pr = predict_pair(m1, m2, s, h, g["home"], g["away"])
+        tot = totals_model(stats, g["home"], g["away"])
+        nav = naive_total_benchmark(stats, g["home"], g["away"])
+        games_out.append({**g, **pr, "totals": tot, "naive_total_benchmark": nav,
+                          "total_vs_naive_gap": round(tot["exp_total"] - nav["exp_total"], 3)})
+
+    logs_path = LOGS
+    logs = json.loads(logs_path.read_text())["rows"] if logs_path.exists() else []
+    inj = json.loads((ROOT / "data" / "live" / "injuries" / "archive_index.json").read_text())
+    latest = sorted(p.stem for p in (ROOT / "data" / "live" / "injuries").glob("Injury-Report_*.md"))[-1]
+    import importlib
+    ia = importlib.import_module("injury_archive")
+    rep = ia.parse(ROOT / "data" / "live" / "injuries" / f"{latest}.md")
+    out_by_team: dict[str, list[str]] = {}
+    status_by_team: dict[str, dict[str, str]] = {}
+    for row in rep["player_rows"]:
+        if row["status"] in ("Out", "Doubtful") and row["team"] != "UNATTRIBUTED":
+            out_by_team.setdefault(row["team"], []).append(row["player"])
+            status_by_team.setdefault(row["team"], {})[row["player"]] = row["status"]
+    # gamebook rows carry the club CODE; the injury report carries the full name. Key on the
+    # code (via the official registry) so a club is never matched by approximating its name.
+    registry0 = registry0 = json.loads((ROOT / "data" / "live" / "team_registry.json").read_text())
+    code_of_full0 = {v["full_name"]: k for k, v in registry0["teams"].items()}
+    redistrib = []
+    for full in sorted(out_by_team):
+        code = code_of_full0.get(full)
+        if not code:
+            redistrib.append({"team": full, "team_code": "", "status": "NO_OFFICIAL_CODE",
+                              "match_method": "no official standings row for this club name"})
+            continue
+        redistrib.append(minutes_redistribution(logs, code, out_by_team[full],
+                                                status_by_team.get(full)))
+
+    # The injury report names clubs in full; the gamebook logs use codes. The bridge is the
+    # official advanced-stats capture, which carries both, so nothing is guessed from a nickname.
+    # An honest gap worth publishing: an absence can only be redistributed where BOTH a captured
+    # log and an announced absence exist. They do not overlap on this slate, so the per-team
+    # top-8 shares are published as measured, and the absence case is shown as an explicitly
+    # labelled sensitivity (top-minute player removed) rather than passed off as a forecast.
+    captured_teams = sorted({row["team"] for row in logs})
+    sensitivity = []
+    for code in captured_teams:
+        shares = minutes_redistribution(logs, code, [])
+        if shares.get("status") != "MODELLED":
+            continue
+        top = shares["top8"][0]["player"]
+        # the report writes "Last, First"; convert the gamebook name only for display matching
+        parts = top.split()
+        report_style = f"{parts[-1]}, {' '.join(parts[:-1])}"
+        demo = minutes_redistribution(logs, code, [report_style])
+        sensitivity.append({
+            "team_code": code, "measured_shares": shares,
+            "if_top_minute_player_out": {
+                "player": top, "report_style_name": report_style,
+                "matched": demo.get("out_matched_in_top8", []),
+                "vacated_share": demo.get("vacated_share_of_top8_minutes"),
+                "new_shares": demo.get("new_shares_if_out"),
+                "replacement_share": demo.get("replacement_share"),
+                "label": "ILLUSTRATIVE SENSITIVITY - no club on this slate has an announced absence for a logged team",
+            },
+        })
+
+    registry = json.loads((ROOT / "data" / "live" / "team_registry.json").read_text())
+    code_of_full = {v["full_name"]: k for k, v in registry["teams"].items()}
+    full_of_code = {k: v["full_name"] for k, v in registry["teams"].items()}
+    for r in redistrib:
+        code = r.get("team", "")
+        r["team_code"] = code
+        r["team_name"] = full_of_code.get(code, "")
+        r["registry_url"] = registry["teams"].get(code, {}).get("source_url", "")
+        r["official_status_source"] = rep["source_url"]
+        if not full_of_code.get(code):
+            r["status"] = "NO_OFFICIAL_CODE"
+            r["match_method"] = "club name has no row in the official standings team registry"
+
+    payload = {
+        "schema": "nba3.live.model/v2",
+        "session": "arena/2ebb1e75-nba3",
+        "built_utc": json.loads((ROOT / "data" / "live" / "meta.json").read_text())["generated_utc"],
+        "headline_rule": ("The headline confidence signal is the DISAGREEMENT between E1 and E2. "
+                          "The blend is published underneath, labelled as a blend."),
+        "games_in_sample": len(games),
+        "sample_range": [games[0]["date"], games[-1]["date"]],
+        "hca": hca,
+        "estimator_e1": {
+            "name": "Ridge Massey on final margins",
+            "uses": "final margins only",
+            "ridge": RIDGE,
+            "in_sample_rmse": round(m1["rmse"], 6),
+            "rating": {t: round(v, 4) for t, v in zip(m1["teams"], m1["rating"])},
+        },
+        "estimator_e2": {
+            "name": "Logistic Bradley-Terry on wins only",
+            "uses": "win/loss only (no margins)",
+            "iterations": BT_ITER,
+            "in_sample_margin_rmse": round(m2["in_sample_margin_rmse"], 6),
+            "rating_points": {t: round(v, 4) for t, v in zip(m2["teams"], m2["rating"])},
+            "ridge": m2["ridge"],
+            "ridge_selection": m2["selection"],
+            "in_sample_log_loss": m2["in_sample_log_loss"],
+        },
+        "out_of_sample": oos_stats,
+        "luck": luck_z(games, m2, s),
+        "slate": games_out,
+        "minutes_redistribution": redistrib,
+        "minutes_sensitivity": sensitivity,
+        "minutes_gap": {
+            "captured_teams": captured_teams,
+            "teams_with_an_announced_absence": sorted(out_by_team),
+            "overlap": sorted(set(captured_teams) & {code_of_full.get(t, "") for t in out_by_team}),
+            "why": ("A redistribution needs both a captured game log and an announced absence for the "
+                    "same club. The logs cover the 11/14 slate and the archived report covers 11/15, "
+                    "so the overlap is what it is; the sensitivity table is illustrative and labelled."),
+        },
+        "market_prior": {
+            "status": "NOT COMPUTABLE",
+            "rule": ("blend the model line with the closing line, weight w chosen by measured "
+                     "out-of-sample log-loss"),
+            "blocker": ("No licensed closing line exists in this repository and the official NBA "
+                        "schedule page does not print prices in the fetched text. w is therefore "
+                        "left BLANK rather than set to a guessed value."),
+            "what_is_ready": "the blend and the log-loss scoring are implemented and run on the model's own OOS sample",
+            "oos_log_loss_without_market": oos_stats["e1_log_loss"],
+            "oos_log_loss_blend_50_50": oos_stats["blend_50_50_log_loss"],
+        },
+        "injury_snapshot": {"file": latest, "source_url": rep["source_url"],
+                            "retrieved_utc": "2026-11-15T11:33Z",
+                            "out_or_doubtful_by_team": out_by_team},
+    }
+    OUT.write_text(json.dumps(payload, indent=1) + "\n")
+    print(f"games {len(games)}  HCA {h:.3f} pts from home-win rate {hca['home_win_rate']:.4f}")
+    print(f"E1 in-sample RMSE {m1['rmse']:.3f}   E2 ridge {m2['ridge']} "
+          f"(log-loss {m2['in_sample_log_loss']:.4f}, margin RMSE {m2['in_sample_margin_rmse']:.3f})")
+    print(f"OOS n={oos_stats['n']}  logloss E1 {oos_stats['e1_log_loss']:.4f}  "
+          f"E2 {oos_stats['e2_log_loss']:.4f}  coin {oos_stats['coin_flip_log_loss']:.4f}")
+    print(f"mean disagreement {oos_stats['mean_absolute_disagreement_pp']:.2f} pp; "
+          f"opposite sides on {oos_stats['share_games_estimators_disagree_on_side']*100:.1f}% of games")
+    lz = payload["luck"]
+    print("luck z outside +/-1.96:", [(r['team'], r['luck_z']) for r in lz if not r['within_noise_band']])
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

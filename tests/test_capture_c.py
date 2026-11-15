@@ -42,19 +42,32 @@ def load_log():
 
 class LeagueArithmetic(unittest.TestCase):
     def test_gp_sum_matches_log_length(self):
+        """The 183-game invariant, applied to the log TRUNCATED at its own cutoff.
+
+        data/origin/games.csv is cumulative and keeps growing, so asserting a
+        fixed row count against the live file would break every time a slate is
+        played. The invariant that must never break is internal: the official
+        GP column of a capture must equal twice the number of log rows that
+        existed on that capture's date. Session arena/bb0c83a4-nba3 re-scoped
+        this test that way when it extended the log to 188; the 2026-11-15
+        capture is checked in full by tests/test_capture_1115.py.
+        """
         ratings = load("data", "app", "official_team_ratings_2026-11-14c.json")
-        log = load_log()
+        cutoff = "2026-11-13"
+        log = [g for g in load_log() if g["date"] <= cutoff]
         self.assertEqual(len(ratings["teams"]), 30)
         self.assertEqual(sum(t["gp"] for t in ratings["teams"]) / 2.0, 183.0)
         self.assertEqual(len(log), 183)
-        self.assertEqual(max(g["date"] for g in log), "2026-11-13")
+        self.assertEqual(max(g["date"] for g in log), cutoff)
+        # and the live file is a superset of it, never a different history
+        self.assertGreaterEqual(len(load_log()), len(log))
 
 
 class RecordReconciliation(unittest.TestCase):
     def test_every_team_record_matches_the_log(self):
         ratings = load("data", "app", "official_team_ratings_2026-11-14c.json")
         wins, losses, played = defaultdict(int), defaultdict(int), defaultdict(int)
-        for g in load_log():
+        for g in [x for x in load_log() if x["date"] <= "2026-11-13"]:
             played[g["away"]] += 1
             played[g["home"]] += 1
             if g["away_pts"] > g["home_pts"]:
@@ -121,9 +134,13 @@ class InjuryReportPinned(unittest.TestCase):
                 self.assertEqual(match["team_name"], r["team_name"], key(r))
 
     def test_provenance_records_the_exact_extension(self):
+        """The 174 -> 183 link is the FIRST link of a chain; later links nest, never replace."""
         p = load("data", "origin", "games_extended_provenance.json")
-        self.assertEqual((p["games_before"], p["games_after"]), (174, 183))
-        self.assertEqual(p["rows_added"], 9)
+        link = p
+        while (link["games_before"], link["games_after"]) != (174, 183):
+            link = link.get("previous")
+            self.assertIsNotNone(link, "the 174 -> 183 provenance link was lost")
+        self.assertEqual(link["rows_added"], 9)
 
 
 if __name__ == "__main__":

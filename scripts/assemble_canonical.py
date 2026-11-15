@@ -33,10 +33,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 OUT = os.path.join(APP, "canonical.json")
 
-BUILD_UTC = "2026-11-14T09:45Z"
-SESSION = ("arena/25418e3f-nba3 (official refresh 2026-11-14: 183-game result log, newest "
-           "injury report, post-slate team ratings, availability timeline) on top of "
-           "arena/8d3d0271-nba3 (engine, gates, leaderboard)")
+BUILD_UTC = "2026-11-15T11:40Z"
+SESSION = ("arena/bb0c83a4-nba3 (11/15 game-day refresh: 188-game result log, the 11/15 06:15 AM ET "
+           "injury report, the 11/15-11/18 window, post-slate team ratings) on top of "
+           "arena/25418e3f-nba3 and arena/8d3d0271-nba3 (engine, gates, leaderboard)")
 REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 PAGES_DOCS = ("https://docs.github.com/en/pages/getting-started-with-github-pages/"
               "configuring-a-publishing-source-for-your-github-pages-site")
@@ -749,6 +749,126 @@ def build_gates():
 
 
 # ---------------------------------------------------------------- main
+# Flags raised by session arena/bb0c83a4-nba3 on 2026-11-15. Prefix BB- so they
+# are greppable and cannot collide with the NF- / CQ- / CS- namespaces.
+BB_FLAGS = [
+    ("F-BB-01", "Freshness", "high",
+     "The published window had already started. On 2026-11-15 the dashboard's front door was "
+     "advertising 2026-11-14 as an 'upcoming' slate, but all five of those games were Final and "
+     "their scores were on the official schedule page. Four of the six inputs were stamped "
+     "2026-11-14 and the window ran 11/14-11/17.",
+     "Fixed this round: the window is now 2026-11-15..2026-11-18 and the 11/14 finals are in the "
+     "results log (188 games). The underlying cause is unfixed -- nothing in the build fails when "
+     "the priced window contains a game that has already been played. A future gate should.",
+     ["https://www.nba.com/schedule?date=2026-11-15"]),
+    ("F-BB-02", "Injuries", "high",
+     "The 11/15 06:15 AM ET report prints no row at all for the New York Knicks, on a game date "
+     "the same report covers. A team that filed and named nobody and a team whose block fell off "
+     "the rendered page look identical in the PDF, and 13 further rows across four page breaks "
+     "had their TEAM cell dropped by the text extraction.",
+     "Published as UNKNOWN and never as an absence count of zero. Each of the 13 carried-team rows "
+     "is marked team_provisional in data/app/official_injuries_2026-11-15_0615AM.json, and NYK "
+     "carries the state TEAM_NOT_LISTED_ON_A_COVERED_DATE. The only fix is a second, independent "
+     "read of the same PDF (the 11/15 06:00 AM read agrees on every row both print).",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+      "https://official.nba.com/nba-injury-report-2026-27-season/"]),
+    ("F-BB-03", "Schedule", "medium",
+     "The 2026-11-18 heading on the official schedule page reads '12 Games' and all twelve are "
+     "transcribed, but the page renders 11/18 across a chunk boundary: the last five cards are "
+     "outside the chunks this session read. They are transcribed from the same rendered week "
+     "block, so their tip times and venues are single-sourced.",
+     "Re-read nba.com/schedule?date=2026-11-18 in a later session and diff the twelve rows before "
+     "any 11/18 game is bet. Nothing in the 11/15 or 11/16 window depends on it.",
+     ["https://www.nba.com/schedule?date=2026-11-15"]),
+    ("F-BB-04", "Ratings", "medium",
+     "Charlotte's official advanced statistics moved between the 2026-11-14 09:45Z capture and the "
+     "2026-11-15 11:35Z capture, but Charlotte did not play in between: off_rtg 101.8->101.9, "
+     "def_rtg 113.0->113.1, pace 96.92->96.83. A team cannot earn a new game without playing.",
+     "Either the earlier capture transcribed that row wrong or the official page revises values "
+     "retroactively. The repository cannot tell which, so the three deltas are published on the "
+     "Summary page rather than smoothed away. Re-read the CHA row on the official page to settle it.",
+     ["https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"]),
+    ("F-BB-05", "Model", "high",
+     "The availability verdict the engine prices from was the one input the snapshot manifest did "
+     "not name. A refresh could re-point the slate and the injury file and still price the window "
+     "off a stale availability file, with no error.",
+     "Fixed this round: AVAILABILITY_JSON is named by data/app/snapshot_manifest.json like every "
+     "other input, so a refresh is a manifest edit and two sessions cannot silently disagree about "
+     "which file the engine read.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"]),
+    ("F-BB-06", "Model", "high",
+     "NF-90 (PR #79) was real: the injury PDF prints 'Last, First' and the players table prints "
+     "'First Last', so the name join never matched and every published 'minutes vacated' figure "
+     "was a structurally-zero floor, no matter who was out. The previous dashboard published 0.0 "
+     "for all 54 team-games.",
+     "Fixed this round in scripts/strategy_lab.py (norm_name / resolve_player) and pinned by "
+     "tests/test_capture_1115.py. Two 11/15 team-games now publish a real figure. Note the floor "
+     "is still a floor: only the top 31 players by minutes have a captured per-game line, so every "
+     "other absence is counted as an unknown, not added to the total.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/pull/79",
+      "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC"]),
+    ("F-BB-07", "Coordination", "medium",
+     "Two pull requests were open against a base that no longer existed. PR #79 was 18 hours old "
+     "and its diff DELETED 21,860 lines that later landed on main -- five whole audit trees, the "
+     "240bc29b tree and 653 lines of COORDINATION.md -- while GitHub reported it as mergeable. "
+     "PR #70 was a 55-line board record, conflicting, untouched since 2026-11-14 10:49Z.",
+     "PR #79 was closed as superseded (its one valuable fix, NF-90, is F-BB-06 above and was "
+     "reimplemented independently). PR #70 was closed as superseded and its record is in "
+     "COORDINATION.md. Neither was merged. The underlying cause is unfixed: nothing checks that a "
+     "PR's diff only ADDS to main.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/pull/79",
+      "https://github.com/wingbangboozle1-lang/NBA3/pull/70"]),
+    ("F-BB-08", "Verification", "high",
+     "Six audit trees silently re-audited a snapshot they were not written against. They read "
+     "data/app/canonical.json and data/origin/games.csv directly, which are cumulative artefacts, "
+     "so when this round rotated the window and extended the log, audit_7f3b89af reported 6 failed "
+     "checks and audit_1823b910's line-invariance test failed -- on facts that were correct for the "
+     "newer snapshot and wrong only relative to the frozen one.",
+     "Fixed this round: the 2026-11-14 artefacts are frozen in data/snapshots/ and every dated "
+     "audit reads those, with its engine inputs pinned. All six trees pass again and the "
+     "line-invariance proof returns 0 of 27 lines moved. The general rule to adopt: a dated audit "
+     "must name its inputs, never inherit whatever the live pipeline last wrote.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/snapshots"]),
+    ("F-BB-09", "Process", "medium",
+     "integrate/check.py's ownership gate was a hard-coded allowlist of one session's own paths, "
+     "so ANY refresh session failed it by construction -- the gate could not distinguish an "
+     "out-of-scope edit from a legitimate one. verify/build.py had the mirror-image bug: it read "
+     "only the newest link of the provenance chain, so every earlier documented extension looked "
+     "unexplained.",
+     "Both repaired this round. The ownership gate now reads COORDINATION.md and fails only on a "
+     "path no claim names; the provenance check walks the whole chain and proves the links join up. "
+     "Both are stricter than before, not looser.",
+     ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/integrate/check.py"]),
+    ("F-BB-10", "Data", "medium",
+     "The originated-lines table attributed every priced row to "
+     "schedule?date=2026-11-14 while its window had moved to 2026-11-15..11-18. "
+     "The URL resolved and the row passed every source check -- a link only has to be "
+     "https:// and non-empty to pass -- but the page it named does not list a single "
+     "11/15 game, so the citation for 34 rows was wrong while the values were right. "
+     "This is the same class as F-7F3-03 (47 cells pointed at the wrong page): the "
+     "gates verify that a link EXISTS, never that it supports the row.",
+     "Source URL now derives from the window start in scripts/strategy_lab.py. "
+     "tests/test_lines_attribution.py fails the build if any line cites a date "
+     "outside its own window, or a page older than the line itself. The deeper gap "
+     "-- no gate checks that a cited page contains the row -- is not closed; it needs "
+     "a captured copy of every cited page to search, and none is stored.",
+     ["https://www.nba.com/schedule?date=2026-11-15"]),
+    ("F-BB-11", "Data", "low",
+     "The Out column on the originated-lines page collapsed three different "
+     "availability facts into one label, \"one side not on the report\". On the "
+     "2026-11-16 rows that is false: all 16 sides ARE named on the 11/15 06:15 AM "
+     "report, each reading NOT YET SUBMITTED. The page told a reader no report "
+     "existed for a date the report explicitly covers. Two adjacent notes also "
+     "rendered with no space between them (\"...on the reportno report for this "
+     "date\"), because chip() emits an inline span.",
+     "The column now prints the state the machine actually recorded -- no official "
+     "report covers this date / not yet due (reported NOT YET SUBMITTED) / listed on "
+     "no report despite a covered date -- and names the side when the two sides "
+     "differ. tests/test_lines_attribution.py pins each label to its state.",
+     ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"]),
+]
+
+# ---------------------------------------------------------------- main
 # Registers contributed by this session.  IDs continue the canonical NF-/
 # CQ-/CS- namespaces used by session `arena/2b9f1ae1-nba3`.
 SESSION_FLAGS = [
@@ -1302,6 +1422,13 @@ def build_session_flags():
             "sources": sources, "status": "Open - owner review", "severity": sev,
             "legacy_ref": "", "found_on": "2026-11-14",
         })
+    # Session arena/bb0c83a4-nba3's flags, raised 2026-11-15.
+    for fid, area, sev, item, action, sources in BB_FLAGS:
+        out.append({
+            "id": fid, "area": area, "item": item, "why": "", "action_needed": action,
+            "sources": sources, "status": "Open - owner review", "severity": sev,
+            "legacy_ref": "", "found_on": "2026-11-15",
+        })
     return out
 
 
@@ -1408,6 +1535,35 @@ def main():
     prov_path = os.path.join(ROOT, "data", "origin", "games_extended_provenance.json")
     if os.path.exists(prov_path):
         log_provenance = json.load(open(prov_path, encoding="utf-8"))
+        # The provenance file is a CHAIN: each refresh nests the record it
+        # replaced under "previous". Flatten the newest link to the top level so
+        # the published pages describe this build, and keep the chain itself so
+        # nothing an earlier session wrote is lost.
+        log_provenance["chain_depth"] = 0
+        _node = log_provenance
+        while isinstance(_node.get("previous"), dict):
+            log_provenance["chain_depth"] += 1
+            _node = _node["previous"]
+        log_provenance.setdefault("added_dates", ", ".join(
+            sorted({g["date"] for g in (log_provenance.get("games") or [])})) or "—")
+        # Which teams played between the superseded capture and this one: the
+        # set is recomputed from the log so the ratings page can say whether the
+        # field movement is just games being added.
+        _old_last = (log_provenance.get("previous") or {}).get("games_after")
+        if _old_last is not None:
+            import csv as _csv
+            _played = set()
+            try:
+                with open(os.path.join(ROOT, "data", "origin", "games.csv"),
+                          encoding="utf-8") as _fh:
+                    _rows = list(_csv.DictReader(_fh))
+                _cut = (log_provenance.get("previous") or {}).get("performed_on")
+                for _r in _rows:
+                    if _cut and _r["date"] >= _cut:
+                        _played.add(_r["away"]); _played.add(_r["home"])
+            except OSError:
+                _played = set()
+            log_provenance["teams_that_played_since_previous"] = sorted(_played)
     superseded_ratings = superseded_injuries = None
     if manifest.get("superseded"):
         try:
@@ -1516,9 +1672,9 @@ def main():
             "built_utc": BUILD_UTC,
             "session": SESSION,
             "window": slate["window"],
-            "as_of_note": ("Official pages were re-read on 2026-11-14 (UTC) at 09:45Z: newest "
-                           "injury report 11/14 04:15 AM ET, team statistics read after the 11/13 "
-                           "slate, results log through 2026-11-13 (183 games). Injury, tip-time and "
+            "as_of_note": ("Official pages were re-read on 2026-11-15 (UTC) at 11:40Z: newest "
+                           "injury report 11/15 06:15 AM ET, team statistics read after the 11/14 "
+                           "slate, results log through 2026-11-14 (188 games). Injury, tip-time and "
                            "stat values move during a slate; re-read the official pages before "
                            "acting. See the Report-availability page for which numbers are already "
                            "stale and when each one settles."),
@@ -1568,6 +1724,8 @@ def main():
         "results_1113": results_1113,
         "official_counts": counts,
         "log_provenance": log_provenance,
+        "ratings_delta_played_teams": (log_provenance or {}).get(
+            "teams_that_played_since_previous") or [],
         "manifest": manifest or None,
         "superseded": {"ratings": superseded_ratings, "injuries": superseded_injuries},
         "lines": lines,

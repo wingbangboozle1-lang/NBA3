@@ -71,6 +71,36 @@ jobs:
           python3 -m unittest tests/test_injury_delta.py
           python3 -m unittest tests/test_capture_c.py
           python3 -m unittest tests/test_injury_delta_0130pm.py
+      - name: 11/15 game-day capture replay and integrity tests (arena/bb0c83a4)
+        run: |
+          # Offline replay: the capture parses committed verbatim transcriptions only,
+          # so this needs no network and a difference here means a real input changed.
+          python3 scripts/capture_official_2026_11_15.py
+          git diff --exit-code -- data/app/official_injuries_2026-11-15_0615AM.json \
+            data/app/official_slate_1115_1118.json \
+            data/app/official_team_ratings_2026-11-15.json \
+            data/app/official_results_2026-11-14.json \
+            data/app/official_capture_2026-11-15.json || {
+            echo "the 11/15 captures drifted from the committed artefacts;"
+            echo "the capture parses committed verbatim transcriptions, so a difference means a real change."
+            exit 1
+          }
+          # Pins the 188-game log, the 30-team W/L/GP reconciliation, the 101-row
+          # injury parse, the NF-90 rotation join and the 11/15-11/18 window.
+          python3 -m unittest tests/test_capture_1115.py
+      - name: Availability rule replay (arena/bb0c83a4)
+        run: |
+          python3 -c "
+          import sys; sys.path.insert(0,'scripts')
+          import report_availability as ra
+          ra.SESSION='arena/bb0c83a4-nba3'
+          ra.RESULTS_SOURCE='https://www.nba.com/results?date=2026-11-14'
+          ra.main(slate_path='data/app/official_slate_1115_1118.json',
+                  injury_path='data/app/official_injuries_2026-11-15_0615AM.json',
+                  out_path='data/app/report_availability_2026-11-15.json',
+                  as_of_date='2026-11-15', as_of_local_hour=6+40/60.0)
+          "
+          git diff --exit-code -- data/app/report_availability_2026-11-15.json
       - name: Data site checks (docs/ rows, sources, links)
         run: python3 tools/check_site.py
       - name: Unit tests (research pipeline, 9ed6085f)
@@ -213,6 +243,8 @@ jobs:
             git --no-pager diff -- data/app/canonical.json | head -40
             exit 1
           }
+      - name: Originated-lines attribution and availability labels (arena/bb0c83a4)
+        run: python3 -m unittest tests.test_lines_attribution -v
       - name: Build and verify the consolidated dashboard (hub/)
         run: |
           python3 scripts/build_hub_data.py
@@ -255,7 +287,21 @@ jobs:
           python3 -m unittest discover -s audit_736efb4b -p 'test_*.py'
       - name: Independent audit tree (session 7f3b89af) - fresh captures, checks, analysis, pages
         run: |
+          # checks.py exits non-zero BY DESIGN when a check fails, so under the
+          # workflow's default `bash -e` a single failing check aborted the step
+          # before the drift gate below could report what actually changed. It was
+          # masked while checks.py happened to be failing on a stale snapshot;
+          # session arena/bb0c83a4 re-pointed it at the frozen 2026-11-14 artefacts
+          # (data/snapshots/) and it now passes 12/12, but a future real failure
+          # must still reach the drift gate rather than vanish. Capture its status.
+          set +e
           python3 audit_7f3b89af/checks.py
+          CHECKS_STATUS=$?
+          set -e
+          echo "audit_7f3b89af/checks.py exit status: $CHECKS_STATUS"
+          if [ "$CHECKS_STATUS" -ne 0 ]; then
+            echo "::error::audit_7f3b89af/checks.py reported a failed check; see its log above."
+          fi
           python3 audit_7f3b89af/analysis.py
           python3 audit_7f3b89af/build.py
           python3 -m unittest discover -s audit_7f3b89af -p 'test_*.py'
@@ -294,15 +340,15 @@ jobs:
 
       - name: 11/15 capture round + estimator layer, offline replay (arena/79341829)
         run: |
-          python3 scripts/capture_official_2026_11_15.py
-          python3 scripts/estimators.py
+          python3 scripts/capture_round_79341829.py
+          python3 scripts/estimators_round_79341829.py
           python3 scripts/minutes_model.py
           python3 scripts/results_feed.py verify
           python3 scripts/pick_ledger.py verify
           python3 scripts/preregister.py verify
-          python3 scripts/freshness_gates.py --manifest data/app/refresh/2026-11-15T11-33Z/manifest.json
+          python3 scripts/freshness_gates_round_79341829.py --manifest data/app/refresh/2026-11-15T11-33Z/manifest.json
           git diff --exit-code -- data/app/results_feed.json data/app/estimators.json \
-            data/app/minutes_model.json data/app/official_injuries_2026-11-15_0615AM.json \
+            data/app/minutes_model.json data/app/official_injuries_2026-11-15_0615AM_79341829.json \
             data/app/injury_delta_1115.json data/app/player_game_logs.json \
             data/app/minutes_shares.json data/app/prereg data/app/ledger || {
             echo "the 11/15 capture/estimator chain drifted from the committed artefacts;"
@@ -313,10 +359,32 @@ jobs:
       - name: Unit tests (capture, results feed, pick ledger, estimators, gates)
         run: |
           python3 -m unittest discover -s tests -p 'test_*1115*.py' -v
+          python3 -m unittest discover -s tests -p 'test_*round*.py' -v
           python3 -m unittest discover -s tests -p 'test_results_feed.py' -v
           python3 -m unittest discover -s tests -p 'test_pick_ledger.py' -v
           python3 -m unittest discover -s tests -p 'test_estimators.py' -v
           python3 -m unittest discover -s tests -p 'test_freshness_gates.py' -v
+      - name: Live pipeline - freshness gates, model, availability, sealed ledger, two surfaces (arena/2ebb1e75)
+        run: |
+          python3 scripts/injury_archive.py
+          python3 scripts/build_results_feed.py
+          python3 scripts/estimators.py
+          python3 scripts/availability.py
+          python3 scripts/rest_travel.py
+          python3 scripts/ledger.py
+          python3 scripts/publish_picks.py
+          python3 scripts/freshness_gates.py
+          python3 scripts/repo_review.py
+          python3 scripts/build_live_site.py
+          python3 -m unittest discover -s tests -p 'test_*.py'
+          # Deterministic + drift-free: every artefact the steps above write must match what is
+          # committed. The ledger is append-only, so a difference there means a pick was editorialised.
+          git diff --exit-code -- data/live prereg ledger projection bet || {
+            echo "The live pipeline artefacts drifted from what is committed."
+            echo "The model is deterministic and the ledger is append-only, so a diff here is real."
+            git --no-pager diff --stat -- data/live prereg ledger projection bet | tail -20
+            exit 1
+          }
 
       - name: Stage combined Pages artifact
         run: |
@@ -342,6 +410,8 @@ jobs:
           cp -r verify _pages/verify
           cp -r d01ae7e2 _pages/d01ae7e2
           cp -r hub _pages/hub
+          cp -r projection _pages/projection
+          cp -r bet _pages/bet
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

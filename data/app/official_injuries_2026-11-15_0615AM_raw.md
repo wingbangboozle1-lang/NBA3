@@ -1,11 +1,9 @@
-# Verbatim fetch: NBA official injury report PDF, 11/15/26 06:15 AM ET
-
-- Source URL: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf
-- Index page: https://official.nba.com/nba-injury-report-2026-27-season/ (11/15 entries listed through 06:15 AM ET at read time)
-- Retrieved: 2026-11-15T11:33Z (session arena/79341829-nba3, fetch_page, PDF text extraction, 2 chunks joined at the printed page break)
-- Retrieval note: the two chunks were concatenated at the split of the row "Sorber, Thomas | Out | Injury/Illness -" / "Right Knee Surgery"; nothing else was altered. Rows across page breaks ("* * *") often omit the Game Date / Game Time / Matchup / Team cells; those cells are blank below exactly as the PDF prints them.
-
----
+<!-- VERBATIM fetch transcript, written by session arena/bb0c83a4-nba3 on 2026-11-15T11:35Z (06:35 AM ET).
+     Source: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf
+     Retrieved with the Arena fetch tool, PDF text extraction, chunk 0 of 2 and chunk 1 of 2.
+     Nothing below is edited, reordered, corrected or filled in. A misspelling printed by
+     the official PDF (e.g. "Embid, Joel") is preserved exactly as printed.
+     Chunks are separated by the marker <!-- CHUNK 1 --> on its own line. -->
 
 **Injury Report: 11/15/26 06:15 AM**
 
@@ -36,17 +34,17 @@
 |  |  |  | Phoenix Suns | Williams, Mark | Out | Injury/Illness - Left Shoulder Surgery |
 | 04:30 (ET) | CHA@LAC | Charlotte Hornets | Ajayi, Michael | Out | G League - Two-Way |  |
 | 04:30 (ET) | CHA@LAC | Charlotte Hornets | Boswell, Kylan | Out | G League - Two-Way |  |
-| 04:30 (ET) | CHA@LAC | Charlotte Hornets | Knueppel, Kon | Out | Injury/Illness - Left Hamstring Strain |
-| 04:30 (ET) | CHA@LAC | Charlotte Hornets | Schroder, Dennis | Out | Injury/Illness - Left Hamstring Strain |
+| 04:30 (ET) | CHA@LAC | Charlotte Hornets | Knueppel, Kon | Out | Injury/Illness - Left Hamstring Strain |  |
+| 04:30 (ET) | CHA@LAC | Charlotte Hornets | Schroder, Dennis | Out | Injury/Illness - Left Hamstring Strain |  |
 | 04:30 (ET) | CHA@LAC | Charlotte Hornets | Steinbach, Hannes | Out | G League - On Assignment |  |
-| 04:30 (ET) | CHA@LAC | LA Clippers | Beal, Bradley | Out | Injury/Illness - Right Knee Injury Management |
-| 04:30 (ET) | CHA@LAC | LA Clippers | Ingram, Brandon | Out | Injury/Illness - Right Heel Surgery |
-| 04:30 (ET) | CHA@LAC | LA Clippers | Miller, Jordan | Out | Injury/Illness - Left Rotator Cuff Surgery |
-| 04:30 (ET) | CHA@LAC | LA Clippers | Niederhauser, Yanic Konan | Out | Injury/Illness - Right Lisfranc Surgery |
+| 04:30 (ET) | CHA@LAC | LA Clippers | Beal, Bradley | Out | Injury/Illness - Right Knee Injury Management |  |
+| 04:30 (ET) | CHA@LAC | LA Clippers | Ingram, Brandon | Out | Injury/Illness - Right Heel Surgery |  |
+| 04:30 (ET) | CHA@LAC | LA Clippers | Miller, Jordan | Out | Injury/Illness - Left Rotator Cuff Surgery |  |
+| 04:30 (ET) | CHA@LAC | LA Clippers | Niederhauser, Yanic Konan | Out | Injury/Illness - Right Lisfranc Surgery |  |
 | 05:00 (ET) | SAS@UTA | San Antonio Spurs | Brown, Maliq | Out | G League - Two-Way |  |
 | 05:00 (ET) | SAS@UTA | San Antonio Spurs | Gillespie, Ja'Kobi | Out | G League - Two-Way |  |
-| 05:00 (ET) | SAS@UTA | San Antonio Spurs | Harris, Tobias | Out | Injury/Illness - Left Calf Strain |
-| 05:00 (ET) | SAS@UTA | San Antonio Spurs | Quaintance, Jayden | Out | Injury/Illness - Right Knee Surgery |
+| 05:00 (ET) | SAS@UTA | San Antonio Spurs | Harris, Tobias | Out | Injury/Illness - Left Calf Strain |  |
+| 05:00 (ET) | SAS@UTA | San Antonio Spurs | Quaintance, Jayden | Out | Injury/Illness - Right Knee Surgery |  |
 | 05:00 (ET) | SAS@UTA | Utah Jazz | Alexander, Trey | Out | G League - Two-Way |  |
 | 05:00 (ET) | SAS@UTA | Utah Jazz | Bufkin, Kobe | Out | G League - Two-Way |  |
 
@@ -72,24 +70,24 @@
 | 06:00 (ET) | NYK@TOR | Toronto Raptors | Smith, Malachi | Out | G League - Two-Way |
 | 07:00 (ET) | HOU@WAS | Houston Rockets | Adams, Steven | Probable | Injury/Illness - Right Soleus Strain |
 | 07:00 (ET) | HOU@WAS | Houston Rockets | Capela, Clint | Out | Injury/Illness - Right Ankle Sprain |
-| 07:00 (ET) | HOU@WAS | Houston Rockets | Copeland, Quadir | Out | G League - Two-Way |  |
+| 07:00 (ET) | HOU@WAS | Houston Rockets | Copeland, Quadir | Out | G League - Two-Way |
 
 * * *
 
 **Injury Report: 11/15/26 06:15 AM**
 
-|  |  |  | Phillips, Julian | Out | G League - Two-Way |  |
-| --- | --- | --- | --- | --- | --- | --- |
-|  |  |  | Smart, Marcus | Out | League Suspension |  |
+|  |  |  | Phillips, Julian | Out | G League - Two-Way |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  | Smart, Marcus | Out | League Suspension |
 |  |  |  | VanVleet, Fred | Out | Injury/Illness - Right Knee Injury Management |
-|  |  | Washington Wizards | Beekman, Reece | Out | Injury/Illness - Right AC Joint Injury |
-|  |  | Washington Wizards | Carrington, Bub | Questionable | Injury/Illness - Chest / Sternum Contusion |
-|  |  | Washington Wizards | Champagne, Justin | Out | Injury/Illness - Right Foot Surgery |
-|  |  | Washington Wizards | Johnson, Tre | Questionable | Injury/Illness - Low Back Soreness |
-|  |  | Washington Wizards | Okpara, Felix | Questionable | G League - Two-Way |
-|  |  | Washington Wizards | Sarr, Alex | Questionable | Injury/Illness - Illness |
-|  |  | Washington Wizards | Vukcevic, Tristan | Out | Injury/Illness - Left Hip Impingement |
-|  |  | Washington Wizards | Watkins, Jamir | Out | Injury/Illness - Left ACL Repair / Surgery |
+|  |  |  | Washington Wizards | Beekman, Reece | Out | Injury/Illness - Right AC Joint Injury |
+|  |  |  | Washington Wizards | Carrington, Bub | Questionable | Injury/Illness - Chest / Sternum Contusion |
+|  |  |  | Washington Wizards | Champagne, Justin | Out | Injury/Illness - Right Foot Surgery |
+|  |  |  | Washington Wizards | Johnson, Tre | Questionable | Injury/Illness - Low Back Soreness |
+|  |  |  | Washington Wizards | Okpara, Felix | Questionable | G League - Two-Way |
+|  |  |  | Washington Wizards | Sarr, Alex | Questionable | Injury/Illness - Illness |
+|  |  |  | Washington Wizards | Vukcevic, Tristan | Out | Injury/Illness - Left Hip Impingement |
+|  |  |  | Washington Wizards | Watkins, Jamir | Out | Injury/Illness - Left ACL Repair / Surgery |
 | 08:00 (ET) | ATL@MIL | Atlanta Hawks | Flemings, Kingston | Out | Injury/Illness - Lumbar Strain |
 | 08:00 (ET) | ATL@MIL | Atlanta Hawks | Gilbert, Keshon | Out | Injury/Illness - Left Knee Inflammation; Non-Surgical Procedure |
 | 08:00 (ET) | ATL@MIL | Atlanta Hawks | Gueye, Mouhamed | Out | Injury/Illness - Left Foot Fracture |
@@ -103,21 +101,14 @@
 |  |  |  | Veesaar, Henri | Out | Injury/Illness - Right ACL Tear |
 | --- | --- | --- | --- | --- | --- |
 |  |  |  | Wilson, Jalen | Doubtful | G League - Two-Way |
-|  |  | Milwaukee Bucks | Dieng, Ousmane | Out | Injury/Illness - Left Finger Sprain |
-|  |  | Milwaukee Bucks | Jones, Kam | Out | G League - Two-Way |
-|  |  | Milwaukee Bucks | Markovic, Bogoljub | Out | G League - On Assignment |
-|  |  | Milwaukee Bucks | Nance, Pete | Out | G League - Two-Way |
-|  |  | Milwaukee Bucks | Ryan, Cormac | Out | G League - Two-Way |
+|  |  |  | Milwaukee Bucks | Dieng, Ousmane | Out | Injury/Illness - Left Finger Sprain |
+|  |  |  | Milwaukee Bucks | Jones, Kam | Out | G League - Two-Way |
+|  |  |  | Milwaukee Bucks | Markovic, Bogoljub | Out | G League - On Assignment |
+|  |  |  | Milwaukee Bucks | Nance, Pete | Out | G League - Two-Way |
+|  |  |  | Milwaukee Bucks | Ryan, Cormac | Out | G League - Two-Way |
 | 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Holmgren, Chet | Out | Injury/Illness - Right Knee/ Injury Recovery |
 | 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Mitchell, Ajay | Questionable | Injury/Illness - Left Ankle Sprain |
-| 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Sorber, Thomas | Out | Injury/Illness - Right Knee Surgery |
-
-* * *
-
-**Injury Report: 11/15/26 06:15 AM**
-
-|  |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- |
+| 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Sorber, Thomas | Out | Injury/Illness - <!-- CHUNK 1 --> Right Knee Surgery |
 | 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Wallace, Cason | Out | Injury/Illness - Left Shoulder Surgery |
 | 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Williams, Jalen | Out | Injury/Illness - Left Ankle Surgery |
 | 09:00 (ET) | OKC@SAC | Oklahoma City Thunder | Williams, Jaylin | Out | Injury/Illness - Low Back Spasms |
@@ -149,16 +140,3 @@
 | 11/16/2026 | 08:00 (ET) | POR@MIN | Minnesota Timberwolves |  |  | NOT YET SUBMITTED |
 | 11/16/2026 | 09:00 (ET) | PHX@DEN | Phoenix Suns |  |  | NOT YET SUBMITTED |
 | 11/16/2026 | 09:00 (ET) | PHX@DEN | Denver Nuggets |  |  | NOT YET SUBMITTED |
-
----
-
-## Attribution notes (session arena/79341829-nba3)
-
-The PDF prints page breaks ("* * *" above) that split team blocks; on continuation pages the
-Game Date / Game Time / Matchup / Team cells are often not printed. The parse
-(`scripts/capture_official_2026_11_15.py`) attributes such rows to the last team explicitly
-printed in the block (the same convention earlier sessions used) and marks
-`team_cell_printed: false` on every affected row. Two rows sit at the page break immediately
-before an explicit "Phoenix Suns" team label inside the LAL@PHX block (Sexton, Collin;
-Thiero, Adou) and could belong to either side of that game; they are flagged for review and
-must be resolved against a later official report, not by roster knowledge.

@@ -13,6 +13,7 @@
   "due_and_not_filed": 0,
   "not_yet_due": 23,
   "no_report_covers_date": 26,
+  "team_not_listed_on_a_covered_date": 0,
   "games_fully_priced_on_availability": 0
  },
  "coverage_by_date": [
@@ -24,6 +25,7 @@
    "due_and_not_filed": 0,
    "not_yet_due": 5,
    "no_report_covers_date": 0,
+   "team_not_listed_on_a_covered_date": 0,
    "lead_days": "today",
    "state": "the newest official report covers this date and teams have filed",
    "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
@@ -36,6 +38,7 @@
    "due_and_not_filed": 0,
    "not_yet_due": 18,
    "no_report_covers_date": 0,
+   "team_not_listed_on_a_covered_date": 0,
    "lead_days": "game day is 1 day ahead",
    "state": "the newest official report does not cover this date at all",
    "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
@@ -48,6 +51,7 @@
    "due_and_not_filed": 0,
    "not_yet_due": 0,
    "no_report_covers_date": 16,
+   "team_not_listed_on_a_covered_date": 0,
    "lead_days": "game day is 2 days ahead",
    "state": "the newest official report does not cover this date at all",
    "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
@@ -60,12 +64,13 @@
    "due_and_not_filed": 0,
    "not_yet_due": 0,
    "no_report_covers_date": 10,
+   "team_not_listed_on_a_covered_date": 0,
    "lead_days": "game day is 3 days ahead",
    "state": "the newest official report does not cover this date at all",
    "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf"
   }
  ],
- "headline": "Zero teams in the window are overdue. Every missing row is explained by a deadline that has not arrived yet: the five back-to-back teams on 2026-11-14 file by 1 p.m. local today, every 2026-11-15 team files by 5 p.m. local tomorrow's-eve, and no official report exists yet for 2026-11-16 or 2026-11-17. So a 3-day-ahead line is priced on ratings and rest alone, and the injury overlay can only be applied to the day it is filed for.",
+ "headline": "Zero teams in the window are overdue. Every missing row is explained by a deadline that has not arrived yet, or by a date no official report reaches. A line originated beyond the dates the newest official report covers is priced on ratings and rest alone, and the injury overlay can only be applied to the day it is filed for.",
  "b2b_correspondence_1114": {
   "date": "2026-11-14",
   "teams_that_filed": [
@@ -98,7 +103,8 @@
   ],
   "unfiled_are_exactly_the_b2b_teams": true,
   "filed_are_exactly_the_rest": true,
-  "interpretation": "On the 2026-11-14 slate the five teams whose rows are missing from the newest official report are exactly the five teams playing the second game of a back-to-back, whose report deadline is 1:00 PM local on game day. Their absence is a rule-driven timing gap, not a failure to file, and it closes hours before tip-off -- so these games are recoverable by waiting, not by guessing.",
+  "row_set_is_exactly_explained_by_the_rule": true,
+  "interpretation": "On the 2026-11-14 slate, the teams whose rows are missing from the newest official report are exactly the teams playing the second game of a back-to-back, whose report deadline is 1:00 PM local on game day. Their absence is a rule-driven timing gap, not a failure to file, and it closes hours before tip-off -- so these games are recoverable by waiting, not by guessing.",
   "source_rule": "https://official.nba.com/nba-injury-report-2026-27-season/",
   "source_injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
   "source_results": "https://www.nba.com/games?date=2026-11-13"

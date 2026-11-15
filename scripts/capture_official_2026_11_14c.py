@@ -395,10 +395,24 @@ def main():
     }
 
     # ------------------------------------------------------------- check C1/C3
+    #
+    # SCOPED TO THIS CAPTURE'S OWN DATE. These three checks compare the official
+    # standings as they read on 2026-11-14 against the results log as it stood then.
+    # data/origin/games.csv is cumulative and keeps growing, so reading it whole
+    # made every later slate look like a reconciliation failure: by 2026-11-15 the
+    # file held 188 games (five more than this capture's 183) and the official GP
+    # column had moved with it, so C1, C2 and C3 all failed on facts that are
+    # correct for both snapshots. Session arena/bb0c83a4-nba3 added the cutoff.
+    # The LIVE snapshot is reconciled in full by scripts/capture_official_2026_11_15.py.
+    LOG_CUTOFF = "2026-11-13"
     log_path = os.path.join(ROOT, "data", "origin", "games.csv")
     with open(log_path, encoding="utf-8") as fh:
         import csv as _csv
-        log = list(_csv.DictReader(fh))
+        log = [r for r in _csv.DictReader(fh) if r["date"] <= LOG_CUTOFF]
+    log_all_rows = None
+    with open(log_path, encoding="utf-8") as fh:
+        import csv as _csv2
+        log_all_rows = list(_csv2.DictReader(fh))
     existing = {r["game_id"] for r in log}
     new_games = [g for g in RESULTS_1113 if g[1] not in existing]
 
@@ -694,10 +708,32 @@ def main():
     p2 = write_json("official_injuries_2026-11-14_0415AM.json", injuries)
     p3 = write_json("official_team_ratings_2026-11-14c.json", ratings)
     p4 = write_json("official_counts_2026-11-14.json", counts)
-    p5 = write_json("snapshot_manifest.json", manifest)
+    # The manifest names the captures the LIVE engine reads, and it has one owner
+    # at a time. This script is an offline replay of the 2026-11-14 round; if a
+    # later round has since re-pointed the manifest, rewriting it here would
+    # silently republish yesterday's window (and the engine would price games that
+    # are already Final). So it is written only when the existing manifest is this
+    # round's or older. CI runs this step before the current capture step, so the
+    # published pointer is never rolled back.
+    _man_path = os.path.join(APP, "snapshot_manifest.json")
+    _prev_written = None
+    if os.path.exists(_man_path):
+        try:
+            with open(_man_path, encoding="utf-8") as _fh:
+                _prev_written = json.load(_fh).get("written_on")
+        except (OSError, ValueError):
+            _prev_written = None
+    if _prev_written and _prev_written > manifest["written_on"]:
+        p5 = _man_path
+        print(f"kept {os.path.relpath(p5, ROOT)}: it was re-pointed by a newer round "
+              f"({_prev_written} > {manifest['written_on']})")
+        manifest_kept = True
+    else:
+        p5 = write_json("snapshot_manifest.json", manifest)
+        manifest_kept = False
 
     print("wrote:")
-    for p in (p1, p2, p3, p4, p5):
+    for p in ([p1, p2, p3, p4] + ([] if manifest_kept else [p5])):
         print("  ", os.path.relpath(p, ROOT))
     print()
     print(f"C1 official GP/W/L vs extended log: "
