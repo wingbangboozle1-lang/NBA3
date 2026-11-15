@@ -4278,3 +4278,15 @@ PPP totals, luck-band flags, blank+flagged travel cells) and
 https://wingbangboozle1-lang.github.io/NBA3/app/refresh.html (all six freshness/provenance gates
 PASS). One CDN caching quirk observed and explained: an early 404 probe of projections.html was
 cached at the edge during rollout; a cache-busted read serves the page normally.
+
+---
+
+## Session `arena/8d1535bc-nba3` (this session) — CLAIM (committed before work began)
+
+Scope is deliberately narrow because ~25 earlier rounds already cover the brief. Baseline checked first: all unit suites and `tools/check_site.py` pass on `f98b44d`; no unresolved conflict markers.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| U1 | in progress | arena/8d1535bc-nba3 | Capture the newest official 11/15 injury report(s) newer than the stored 06:15 AM snapshot (verbatim, timestamped), diff against 06:15 AM, publish the delta with the official link. New files only: `data/app/official_injuries_2026-11-15_<time>*` and `scripts/capture_round_8d1535bc.py` (new) |
+
+Nothing outside that scope is edited. No other session has claimed the post-06:15 11/15 capture (checked `data/app/` and this board).
