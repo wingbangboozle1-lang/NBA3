@@ -11,7 +11,7 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
       <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
@@ -54,7 +54,7 @@ output, which is what lets the CI workflow detect drift.</p>
 </ul>
 
 <h2>3. How it performed out of sample</h2>
-<p>140 out-of-sample forecasts, after a 40-game burn-in. Each is
+<p>145 out-of-sample forecasts, after a 40-game burn-in. Each is
 scored against a naive constant baseline (league-average home margin, league-average total) on the
 same games.</p>
 
@@ -68,37 +68,37 @@ same games.</p>
 </tr></thead><tbody>
 <tr>
 <td>Margin RMSE</td>
-<td>15.945</td>
-<td>16.921</td>
+<td>15.979</td>
+<td>16.824</td>
 <td>ours is better<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Total RMSE</td>
-<td>19.449</td>
-<td>19.386</td>
+<td>19.313</td>
+<td>19.263</td>
 <td>ours is WORSE — reported as such<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Margin bias</td>
-<td>0.811 pts</td>
+<td>0.877 pts</td>
 <td>0</td>
 <td>effectively unbiased<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Total bias</td>
-<td>-1.517 pts</td>
+<td>-1.273 pts</td>
 <td>0</td>
-<td>our totals run 1.5 points high<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
+<td>our totals run 1.3 points high<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Brier (home win)</td>
-<td>0.2166</td>
+<td>0.2193</td>
 <td>0.2500</td>
 <td>better than unskilled, but scored on the same residuals — see the note below<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
 <tr>
 <td>Margin residual sd</td>
-<td>15.981 pts</td>
+<td>16.010 pts</td>
 <td>—</td>
 <td>the width behind every probability on this site<a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">games</a></td>
 </tr>
@@ -123,7 +123,7 @@ project uses four mechanisms, because one is not enough:</p>
   <li><strong>A whole-board Monte Carlo.</strong> Every rule is simulated under its own fair-line
       null, the largest edge anywhere on the board is recorded, and that is repeated
       5,000 times. The 95th percentile —
-      <strong>28.9 percentage points</strong> — is the edge a rule
+      <strong>28.3 percentage points</strong> — is the edge a rule
       must beat before it is called anything. This is the test that catches the fact that the
       <em>best</em> rule on a large board is biased upward even after FDR correction. (Gate G9.)
       <strong>Nothing on the board beats it.</strong></li>
@@ -136,7 +136,7 @@ project uses four mechanisms, because one is not enough:</p>
 <strong>rolling quantiles of prior projections</strong> rather than fixed numbers, so a rule cannot
 die or appear just because the model changed. And a <strong>null control</strong> — back the home
 team every game — is scored alongside everything else; it fails
-5
+6
 of 9 gates, which is the check
 that the gates work.</p>
 

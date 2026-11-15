@@ -11,7 +11,7 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
-    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-14 → 2026-11-17 ·
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
       <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
@@ -61,19 +61,19 @@ official NBA statistic.</p>
 <tr>
 <td>Home points vs away points (same game)</td>
 <td>Pearson r</td>
-<td>0.1230</td>
-<td>-0.022 … 0.263</td>
-<td>183</td>
+<td>0.1226</td>
+<td>-0.021 … 0.261</td>
+<td>188</td>
 <td><span class="chip chip-ok">measured</span></td>
-<td>Computed from the 183 official final scores. This is the number that decides whether a same-game side+total parlay is fairly priced as independent.</td>
+<td>Computed from the 188 official final scores. This is the number that decides whether a same-game side+total parlay is fairly priced as independent.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
 <td>Originated-spread residual vs originated-total residual</td>
 <td>Pearson r</td>
-<td>0.0088</td>
-<td>-0.157 … 0.174</td>
-<td>140</td>
+<td>0.0331</td>
+<td>-0.131 … 0.195</td>
+<td>145</td>
 <td><span class="chip chip-ok">measured</span></td>
 <td>Out-of-sample residuals from the walk-forward run. The key input for pricing a same-game parlay that combines a side with a total. The interval includes zero, so independence is not rejected here.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
@@ -81,11 +81,11 @@ official NBA statistic.</p>
 <tr>
 <td>Cover (vs our spread) AND over (vs our total), same game</td>
 <td>phi (binary association)</td>
-<td>-0.0549</td>
+<td>-0.0458</td>
 <td>—</td>
-<td>140</td>
+<td>145</td>
 <td><span class="chip chip-ok">measured</span></td>
-<td>Joint hit rate 0.2214 vs 0.2351 under independence; dependence ratio 0.942. A ratio above 1.0 means the two legs land together more often than independent pricing assumes, which is how a book protects itself on same-game parlays.</td>
+<td>Joint hit rate 0.2276 vs 0.2390 under independence; dependence ratio 0.952. A ratio above 1.0 means the two legs land together more often than independent pricing assumes, which is how a book protects itself on same-game parlays.</td>
 <td><a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">source</a></td>
 </tr>
 <tr>
@@ -142,9 +142,9 @@ official NBA statistic.</p>
 
 <h2>Why the same-game number matters</h2>
 <p>The joint hit rate of “our side covers <em>and</em> the game goes over our total” was
-<strong>22.14%</strong> against
-<strong>23.51%</strong> under independence — a dependence
-ratio of <strong>0.942</strong>. On this sample the ratio
+<strong>22.76%</strong> against
+<strong>23.90%</strong> under independence — a dependence
+ratio of <strong>0.952</strong>. On this sample the ratio
 sits slightly below 1.0, meaning the two legs landed together a little <em>less</em> often than
 independence would suggest. The confidence interval on the underlying residual correlation includes
 zero, so <strong>independence is not rejected</strong> — we cannot tell whether the true value is

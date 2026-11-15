@@ -314,11 +314,28 @@ def _ratings_delta_text(d):
         if changed:
             diff_teams.append(t["team"])
             diff_fields += len(changed)
-    return (f"{len(cur['teams'])} teams × {len(fields)} fields read after the 2026-11-13 slate "
-            f"completed. Against the snapshot it replaces ({sup.get('retrieved_stamp', 'n/a')}, "
-            f"read while that slate was live): {diff_fields} of {total} fields differ, on "
-            f"{len(diff_teams)} teams — and those are exactly the teams that played on 11/13, "
-            f"which is what identifies the old capture as a mid-slate read rather than a wrong one.")
+    played = (d.get("ratings_delta_played_teams") or [])
+    unexplained = sorted(set(diff_teams) - set(played))
+    base = (f"{len(cur['teams'])} teams × {len(fields)} fields read at "
+            f"{cur.get('retrieved_stamp', 'n/a')}, after the games the page had already recorded. "
+            f"Against the snapshot it replaces ({sup.get('retrieved_stamp', 'n/a')}): "
+            f"{diff_fields} of {total} fields differ, on {len(diff_teams)} teams. ")
+    if played and sorted(diff_teams) == sorted(played):
+        return base + ("The teams that moved are exactly the teams that played in between, "
+                       "which identifies the movement as games being added rather than the "
+                       "earlier capture being wrong.")
+    if unexplained:
+        detail = "; ".join(
+            "%s: %s" % (t, ", ".join("%s %s→%s" % (f, old_by[t].get(f), nt.get(f))
+                                     for f in fields if old_by[t].get(f) != nt.get(f)))
+            for t in unexplained for nt in [next(x for x in cur["teams"] if x["team"] == t)])
+        return base + (f"{len(played)} of those teams played in between, and "
+                       f"{len(unexplained)} did not play at all: {detail}. "
+                       "A team that did not play cannot earn a new game, so either the earlier "
+                       "capture transcribed that row wrong or the official page revises values "
+                       "retroactively. The repository cannot tell which, so it is flagged "
+                       "(F-BB-04) rather than explained away.")
+    return base
 
 
 def page_summary(d):
@@ -1421,45 +1438,55 @@ replaced.</p>""")
     # as if the injury and ratings replacements had the same cause. Fixed 2026-11-14.
     man_sup = man.get("superseded", {})
     log = man.get("results_log", {})
+    prov = d.get("log_provenance") or {}
+
+    def _prov(block):
+        """One human sentence per replaced input, built from the artefacts only."""
+        path = (man_sup.get(block) or "")
+        return _base(path) if path else "none recorded"
+
     chain = [
         ["Results log (walk-forward fit)",
          f"cumulative file, last game {esc(log.get('last_date', '—'))}",
          f"{_base(log.get('path', ''))} · {log.get('games', '—')} rows",
-         "174 rows through 2026-11-12",
-         f"extended by the nine finals of 2026-11-13 on flag F36-03; per-row provenance in "
-         f"{_base(log.get('provenance', ''))}",
-         [log.get("source_url")], "official scoreboard, 2026-11-13"],
+         f"{prov.get('games_before', '—')} rows through "
+         f"{esc(prov.get('previous_last_date', '—'))}",
+         f"extended by the {prov.get('rows_added', '—')} finals of "
+         f"{esc(prov.get('added_dates', '—'))}; per-row provenance in "
+         f"{_base(log.get('provenance', ''))}. Every one of the 30 official W, L and GP "
+         f"values reconciles against the extended log (check C7).",
+         [log.get("source_url"), prov.get("source_url")], "official schedule"],
         ["Team advanced statistics (pace, ratings inputs)",
          man.get("ratings", {}).get("retrieved_stamp", "—"),
          _base(man.get("ratings", {}).get("path", "")),
-         f"{_base(man_sup.get('ratings', ''))} · read "
-         f"{(sup_ratings or {}).get('retrieved_stamp', '—')}",
-         "read while the 2026-11-13 slate was still live: 18 of 30 teams were one game stale, and "
-         "those 18 are exactly the teams that played that night (check C5)",
+         _prov("ratings"),
+         _ratings_delta_text(d),
          [man.get("ratings", {}).get("source_url")], "official stats page"],
         ["Injury report (availability overlay)",
          man.get("injuries", {}).get("retrieved_stamp", "—"),
          f"{_base(man.get('injuries', {}).get('path', ''))} · report stamped "
          f"{man.get('injuries', {}).get('report_stamp', '—')}",
-         f"{_base(man_sup.get('injuries', ''))} · report stamped "
-         f"{(superceded.get('injuries') or {}).get('report_stamp', '—')}",
-         "newest file on the official index at the time of that capture (04:15 AM ET). At 18:45 UTC a 01:30 PM ET report is listed: see the injuries page, section 1b. Its 2026-11-14 rows are identical to the report it "
-         "replaces — 31 rows compared, 0 status changes — so the only new information is "
-         "the 2026-11-15 block, which is every team NOT YET SUBMITTED (check C4)",
-         [man.get("injuries", {}).get("source_url"),
-          (superceded.get("injuries") or {}).get("source_url")], "both PDFs"],
+         _prov("injuries"),
+         f"the newest report on the official index at capture time. It publishes "
+         f"{inj.get('player_rows', '—')} player rows and {inj.get('not_submitted_rows', '—')} "
+         f"NOT YET SUBMITTED rows over {len(inj.get('rows_by_game_date') or {})} game dates. "
+         f"Rows whose cells the PDF dropped at a page break are marked in the artefact and "
+         f"counted on the Flagged page (F-BB-02).",
+         [man.get("injuries", {}).get("source_url"), inj.get("index_url")], "official PDF"],
         ["Schedule / slate (the window itself)",
          man.get("slate", {}).get("retrieved_stamp", "—")
          + f" (re-verified {man.get('slate', {}).get('reverified_on', '—')})",
          _base(man.get("slate", {}).get("path", "")),
-         "unchanged by this refresh",
-         "same file, but its per-date game counts were re-checked against the official November "
-         "calendar (5 / 9 / 8 / 5 = 27 games, check C6)",
-         [man.get("slate", {}).get("source_url")], "schedule + scores"],
+         _prov("slate"),
+         f"the window moved forward with the calendar: {len(d['lines'])} games from "
+         f"{(d['meta'].get('window') or {}).get('from', '—')} to "
+         f"{(d['meta'].get('window') or {}).get('to', '—')}. The previous capture priced "
+         f"2026-11-14, whose games are now Final.",
+         [man.get("slate", {}).get("source_url")], "official schedule"],
     ]
     rows = []
     for label, read_at, artefact, prior, why, srcs, srclabel in chain:
-        rows.append([esc(label), read_at, esc(artefact), prior, esc(why),
+        rows.append([esc(label), read_at, esc(artefact), esc(prior), esc(why),
                      src_cell([x for x in srcs if x] or [REPO_URL], srclabel)])
     body.append(table(["Input", "Read at (this capture)", "Artifact", "Superseded snapshot",
                        "Why it was replaced", "Source"], rows, "chain",

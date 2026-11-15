@@ -211,14 +211,38 @@ def test_game_logs_agree():
         else:
             with open(prov_path, encoding='utf-8') as fh:
                 prov = json.load(fh)
-            if prov.get('rows_added') != len(extra):
-                fail(f'provenance says {prov.get("rows_added")} rows were added; '
+            # The provenance file is a CHAIN, one link per refresh (174 -> 183 ->
+            # 188 ...). Walking it is the only way to explain a log that has been
+            # extended more than once; reading only the newest link made every
+            # earlier refresh look unexplained. Session arena/bb0c83a4-nba3
+            # re-scoped this check when it added the 183 -> 188 link.
+            links, node = 0, prov
+            while node:
+                links += 1
+                node = node.get('previous')
+                if links > 50:
+                    fail('the provenance chain does not terminate')
+                    break
+            claimed = 0
+            node = prov
+            while node:
+                claimed += int(node.get('rows_added') or 0)
+                if not str(node.get('source_url', '')).startswith('https://'):
+                    fail('a provenance link does not name an official https source')
+                node = node.get('previous')
+            if claimed != len(extra):
+                fail(f'the provenance chain accounts for {claimed} added rows; '
                      f'{len(extra)} are unexplained')
-            if not str(prov.get('source_url', '')).startswith('https://www.nba.com/'):
-                fail('the extension provenance does not name an official NBA source')
             if prov.get('games_after') != len(origin):
-                fail(f'provenance claims {prov.get("games_after")} games after the extension; '
-                     f'the log holds {len(origin)}')
+                fail(f'the newest provenance link claims {prov.get("games_after")} games '
+                     f'after the extension; the log holds {len(origin)}')
+            # and the links must join up, not just add up
+            node = prov
+            while node.get('previous'):
+                if node['previous'].get('games_after') != node.get('games_before'):
+                    fail('the provenance chain is broken: '
+                         f"{node['previous'].get('games_after')} -> {node.get('games_before')}")
+                node = node['previous']
 
 
 def test_injury_rows_match_official():

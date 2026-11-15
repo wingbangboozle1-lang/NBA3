@@ -310,7 +310,8 @@ def parse_injury_raw(path=INJURY_RAW):
     ``unresolved`` lists carried cells with no earlier value to inherit from.
     Those are published blank.
     """
-    text = open(path, encoding="utf-8").read()
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
 
     rows = []
@@ -570,10 +571,17 @@ def main():
         ("prior_report_url",
          "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"),
         ("prior_report_stamp", "2026-11-14 01:30 PM ET"),
+        ("prior_report_compared_rows", 0),
         ("prior_report_note",
-         "This is the newest report the previous published dashboard was aware of "
-         "(sessions 1823b910 / 965fbd17). The delta against it is published on the "
-         "Freshness page; nothing here is back-filled from it."),
+         "NOT COMPARED BY THIS CAPTURE, on purpose. The 01:30 PM ET report is a report "
+         "for the 2026-11-14 game day; this capture is a report for the 2026-11-15 game "
+         "day. They cover different games, so a row-for-row delta between them would "
+         "compare two different questions, and a published '0 status changes' over '0 "
+         "rows compared' would read like agreement when nothing was compared. The "
+         "meaningful comparison is this report against the 06:00 AM read of the same "
+         "11/15 document: the two reads agree on every (team, player, status, reason) "
+         "row that both print, and the 06:15 file is adopted only because it is newer "
+         "and the index advanced to it between the two reads."),
         ("cross_checks", report),
     ])
     with open(os.path.join(APP, "official_injuries_2026-11-15_0615AM.json"), "w",

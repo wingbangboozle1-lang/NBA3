@@ -2,7 +2,8 @@
 """Compare the transcribed 11/14/26 01:30 PM ET official injury report with the canonical snapshot.
 
 Inputs : audit_736efb4b/data/official_injury_report_2026-11-14_0130PM.json   (capture.py)
-         data/app/canonical.json  -> injuries.rows  (published snapshot, 04:15 AM ET report)
+         data/snapshots/canonical_2026-11-14.json -> injuries.rows (frozen
+         snapshot as published on 2026-11-14, 04:15 AM ET report)
 Output : audit_736efb4b/data/delta_1330PM_vs_canonical.json
 Run    : python3 audit_736efb4b/compare.py
 
@@ -17,7 +18,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 NEW = HERE / "data" / "official_injury_report_2026-11-14_0130PM.json"
-CANON = ROOT / "data" / "app" / "canonical.json"
+# Frozen 2026-11-14 snapshot (see audit_736efb4b/build.py): this delta is defined
+# against the artefact published that day, not against a later refresh.
+CANON = ROOT / "data" / "snapshots" / "canonical_2026-11-14.json"
 OUT = HERE / "data" / "delta_1330PM_vs_canonical.json"
 NYS = "NOT YET SUBMITTED"
 

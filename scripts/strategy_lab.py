@@ -1239,6 +1239,66 @@ def build_correlations(games, graded, player_logs_available=False):
 # --------------------------------------------------------------------------
 # live window: lines, picks, parlays, props, injuries, game flow
 # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# player-name resolution across two official pages (flag NF-90 / F-901-01)
+# --------------------------------------------------------------------------
+SUFFIXES = ("jr.", "sr.", "ii", "iii", "iv", "v")
+
+
+def norm_name(s):
+    """(first, last) in lower case, from either printed form.
+
+    The injury PDF prints "Last, First" ("Edwards, Anthony"); the players table
+    prints "First Last" ("Anthony Edwards"). Before this function existed the
+    index was built by splitting the *players-table* name on a comma, so for a
+    comma-less name both halves became the whole string: the key was
+    ("anthony edwards", "anthony edwards") and it could never equal the
+    ("anthony", "edwards") produced for the injury row. Every injured player
+    therefore failed to match, and every published "minutes vacated" figure was
+    a floor of zero by construction, no matter who was out.
+
+    Both printed forms now normalise to (first, last), so the two official
+    pages join. The name is never guessed: a form that does not reduce to a
+    shared key simply does not match, and is counted as an unknown.
+    """
+    s = (s or "").strip()
+    if not s:
+        return ("", "")
+    if "," in s:                                   # "Edwards, Anthony"
+        last, first = s.split(",", 1)
+        return (first.strip().lower(), last.strip().lower())
+    parts = s.split()
+    if len(parts) == 1:                            # "Nurkic"
+        return (parts[0].lower(), "")
+    if len(parts) == 2:                            # "Anthony Edwards"
+        return (parts[0].lower(), parts[1].lower())
+    # Three or more tokens are ambiguous between "First Middle Last" and
+    # "First Last Jr." -- the official pages print both ("Darius Acuff Jr.",
+    # "Michael Porter Jr."). Treat the leading tokens as the first name and the
+    # last token as the surname; resolve_player() retries the suffix reading.
+    return (" ".join(parts[:-1]).lower(), parts[-1].lower())
+
+
+def resolve_player(index, name):
+    """Look a name printed by the injury PDF up in the players-table index.
+
+    Returns the matched row or None. None means "no captured per-game figure",
+    which the caller counts as an unknown -- it is never read as a zero.
+    """
+    key = norm_name(name)
+    if key in index:
+        return index[key]
+    # "Porter Jr., Michael" -> ("michael", "porter jr."); the table prints
+    # "Michael Porter Jr.", which norm_name() reads as ("michael porter", "jr.").
+    last, first = key
+    toks = last.split()
+    if len(toks) > 1 and toks[-1] in SUFFIXES:
+        retry = ((first + " " + " ".join(toks[:-1])).strip(), toks[-1])
+        if retry in index:
+            return index[retry]
+    return None
+
+
 def originate_window(games, slate, ratings, injury, players, resid):
     """Price every game of the live window with the full-history engine."""
     ridge, blend = select_hyperparameters(games)
@@ -1262,32 +1322,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
         players_by_team[p["team"]].append(p)
 
     # Player-name join between two official pages that print names differently.
-    # The injury PDF prints "Last, First" ("Edwards, Anthony"); the players
-    # table prints "First Last" ("Anthony Edwards"). Before this, the index was
-    # built by splitting the players-table name on the comma -- so for a name
-    # with no comma both halves became the whole string, the key was
-    # ("anthony edwards", "anthony edwards"), and every injured player failed to
-    # match. Every "minutes vacated" figure was therefore a floor of zero by
-    # construction, no matter who was out (flag NF-90 / F-901-01, raised on
-    # PR #79 and repaired here). Both printed forms are normalised to
-    # (first, last) so the two official pages join correctly.
-    def norm_name(s):
-        """(first, last) in lower case, from either printed form."""
-        s = (s or "").strip()
-        if "," in s:                       # "Edwards, Anthony"
-            last, first = s.split(",", 1)
-            return (first.strip().lower(), last.strip().lower())
-        parts = s.split()
-        if len(parts) == 1:                # "Nurkic"
-            return (parts[0].lower(), "")
-        if len(parts) == 2:                # "Anthony Edwards"
-            return (parts[0].lower(), parts[1].lower())
-        # Three or more tokens are ambiguous between "First Middle Last" and
-        # "First Last Jr." (the official pages print both, e.g. "Michael Porter
-        # Jr." and "Darius Acuff Jr."). Try every (first, last) split and let
-        # the caller's lookup pick the one that exists, so nothing is guessed.
-        return (" ".join(parts[:-1]).lower(), parts[-1].lower())
-
+    # See norm_name() at module level for the defect this repairs (NF-90).
     player_index = {}
     for p in players:
         key = norm_name(p["player"])
@@ -1299,21 +1334,6 @@ def originate_window(games, slate, ratings, injury, players, resid):
         if len(toks) > 2:
             player_index.setdefault((toks[0].lower(), " ".join(toks[1:]).lower()), p)
 
-    def lookup_player(name):
-        """Find a captured per-game figure for a name printed by the injury PDF."""
-        key = norm_name(name)
-        if key in player_index:
-            return player_index[key]
-        # "Porter Jr., Michael" -> last "porter jr.", first "michael"; the table
-        # prints "Michael Porter Jr.". Retry with the suffix moved to the end of
-        # the first half.
-        last, first = key
-        toks = last.split()
-        if len(toks) > 1 and toks[-1] in ("jr.", "sr.", "ii", "iii", "iv"):
-            retry = (first + " " + " ".join(toks[:-1]), toks[-1])
-            if retry in player_index:
-                return player_index[retry]
-        return None
 
     # injury roll-up by (date, matchup, team)
     inj = defaultdict(list)
@@ -1396,7 +1416,7 @@ def originate_window(games, slate, ratings, injury, players, resid):
                 if st not in ("Out", "Doubtful"):
                     continue
                 out_p.append(r["player"])
-                pi = lookup_player(r["player"])
+                pi = resolve_player(player_index, r["player"])
                 vals = [pi["min"], pi["pts"], pi["reb"], pi["ast"]] if pi else None
                 if not vals or any(v is None for v in vals):
                     # not in the captured table, or the official row is blank

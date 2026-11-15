@@ -40,12 +40,134 @@
   "availability_detail"
  ],
  "availability_fields_that_changed": {
+  "out_count_home": [
+   {
+    "game_id": "0022600231",
+    "matchup": "DEN@NOP",
+    "published": null,
+    "refreshed": 4
+   },
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": null,
+    "refreshed": 4
+   },
+   {
+    "game_id": "0022600233",
+    "matchup": "DET@MIA",
+    "published": null,
+    "refreshed": 2
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600240",
+    "matchup": "DAL@BOS",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600241",
+    "matchup": "NYK@TOR",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": null,
+    "refreshed": 0
+   }
+  ],
   "out_count_away": [
    {
     "game_id": "0022600232",
     "matchup": "DAL@CLE",
     "published": 3,
     "refreshed": 4
+   },
+   {
+    "game_id": "0022600235",
+    "matchup": "CHI@MIN",
+    "published": null,
+    "refreshed": 4
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": null,
+    "refreshed": 0
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": null,
+    "refreshed": 0
    }
   ],
   "out_players_home": [
@@ -158,10 +280,446 @@
      "Smith, Jalen"
     ]
    }
+  ],
+  "home_reported": [
+   {
+    "game_id": "0022600231",
+    "matchup": "DEN@NOP",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600233",
+    "matchup": "DET@MIA",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600240",
+    "matchup": "DAL@BOS",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600241",
+    "matchup": "NYK@TOR",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": false,
+    "refreshed": true
+   }
+  ],
+  "away_reported": [
+   {
+    "game_id": "0022600235",
+    "matchup": "CHI@MIN",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": false,
+    "refreshed": true
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": false,
+    "refreshed": true
+   }
+  ],
+  "availability_state_home": [
+   {
+    "game_id": "0022600231",
+    "matchup": "DEN@NOP",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600233",
+    "matchup": "DET@MIA",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600234",
+    "matchup": "BKN@MEM",
+    "published": "NOT_YET_DUE",
+    "refreshed": "DUE_AND_NOT_FILED"
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600240",
+    "matchup": "DAL@BOS",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600241",
+    "matchup": "NYK@TOR",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600245",
+    "matchup": "ORL@BOS",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600246",
+    "matchup": "CHI@CLE",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600247",
+    "matchup": "MEM@WAS",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600248",
+    "matchup": "PHI@BKN",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600249",
+    "matchup": "HOU@MIA",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600250",
+    "matchup": "POR@MIN",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600251",
+    "matchup": "GSW@NOP",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600252",
+    "matchup": "PHX@DEN",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   }
+  ],
+  "availability_state_away": [
+   {
+    "game_id": "0022600235",
+    "matchup": "CHI@MIN",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600241",
+    "matchup": "NYK@TOR",
+    "published": "NOT_YET_DUE",
+    "refreshed": "TEAM_NOT_LISTED_ON_A_COVERED_DATE"
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": "NOT_YET_DUE",
+    "refreshed": "FILED"
+   },
+   {
+    "game_id": "0022600245",
+    "matchup": "ORL@BOS",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600246",
+    "matchup": "CHI@CLE",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600247",
+    "matchup": "MEM@WAS",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600248",
+    "matchup": "PHI@BKN",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600249",
+    "matchup": "HOU@MIA",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600250",
+    "matchup": "POR@MIN",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600251",
+    "matchup": "GSW@NOP",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   },
+   {
+    "game_id": "0022600252",
+    "matchup": "PHX@DEN",
+    "published": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+    "refreshed": "NOT_YET_DUE"
+   }
+  ],
+  "availability_basis": [
+   {
+    "game_id": "0022600231",
+    "matchup": "DEN@NOP",
+    "published": "one side only: the other team is not on the newest official report",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600232",
+    "matchup": "DAL@CLE",
+    "published": "one side only: the other team is not on the newest official report",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600233",
+    "matchup": "DET@MIA",
+    "published": "one side only: the other team is not on the newest official report",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600235",
+    "matchup": "CHI@MIN",
+    "published": "one side only: the other team is not on the newest official report",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600236",
+    "matchup": "IND@PHI",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600237",
+    "matchup": "LAL@PHX",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600238",
+    "matchup": "CHA@LAC",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600239",
+    "matchup": "SAS@UTA",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600240",
+    "matchup": "DAL@BOS",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "one side only: the other team is not on the newest official report"
+   },
+   {
+    "game_id": "0022600241",
+    "matchup": "NYK@TOR",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "one side only: the other team is not on the newest official report"
+   },
+   {
+    "game_id": "0022600242",
+    "matchup": "HOU@WAS",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600243",
+    "matchup": "ATL@MIL",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   },
+   {
+    "game_id": "0022600244",
+    "matchup": "OKC@SAC",
+    "published": "no usable official availability for this date; priced on ratings and rest alone",
+    "refreshed": "both teams listed on the newest official report"
+   }
   ]
  },
  "picks_identical": true,
  "verdict": "The originated lines are INJURY-BLIND. Swapping the report moved 0 of 17 price fields on 27 lines and left the pick list identical; it changed only the absence roll-up that is published next to the line. An injury refresh therefore cannot move a published number until the engine is given a minutes-to-value mapping.",
  "source_engine": "scripts/strategy_lab.py (read in this repository)",
- "source_published_artefact": "data/app/lab.json"
+ "source_published_artefact": "data/snapshots/lab_2026-11-14.json (the lab.json published on 2026-11-14, frozen)"
 }
