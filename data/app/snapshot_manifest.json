@@ -1,26 +1,26 @@
 {
  "schema": "nba3.snapshot_manifest/v1",
- "session": "arena/25418e3f-nba3",
- "written_on": "2026-11-14",
- "purpose": "Names the official captures the canonical engine and dashboard must read. Kept as a manifest rather than hard-coded paths so a later refresh can be made by dropping new files here and re-running the build.",
+ "session": "arena/bb0c83a4-nba3",
+ "written_on": "2026-11-15",
+ "purpose": "Names the official captures the canonical engine and dashboard must read. Re-pointed on 2026-11-15 by session bb0c83a4 to the 11/15 game-day captures, because the previous pointers published a window whose first day had already been played. Kept as a manifest rather than hard-coded paths so a later refresh is a data change.",
  "window": {
-  "from": "2026-11-14",
-  "to": "2026-11-17"
+  "from": "2026-11-15",
+  "to": "2026-11-18"
  },
  "results_log": {
   "path": "data/origin/games.csv",
-  "games": 183,
-  "last_date": "2026-11-13",
+  "games": 188,
+  "last_date": "2026-11-14",
   "provenance": "data/origin/games_extended_provenance.json",
-  "source_url": "https://www.nba.com/games?date=2026-11-13",
+  "source_url": "https://www.nba.com/schedule?date=2026-11-15",
   "cross_check_copy": "data/app/games_2026-11-14c.csv"
  },
  "slate": {
-  "path": "data/app/official_slate_1114_1117.json",
-  "source_url": "https://www.nba.com/schedule?date=2026-11-14",
-  "retrieved_stamp": "2026-11-14T01:05Z",
-  "reverified_on": "2026-11-14",
-  "reverified_by": "official scoreboard per-date counts, check C6"
+  "path": "data/app/official_slate_1115_1118.json",
+  "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+  "retrieved_stamp": "2026-11-15T11:25Z",
+  "reverified_on": "2026-11-15",
+  "reverified_by": "re-read on nba.com/schedule?date=2026-11-17 chunk 1, which re-renders the same week block"
  },
  "results_1113": {
   "path": "data/app/official_results_2026-11-13.json",
@@ -28,69 +28,51 @@
   "retrieved_stamp": "2026-11-14T09:45Z"
  },
  "counts": {
-  "path": "data/app/official_counts_2026-11-14.json",
-  "source_url": "https://www.nba.com/games?date=2026-11-13",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "path": "data/app/official_capture_2026-11-15.json",
+  "source_url": "https://www.nba.com/games?date=2026-11-14",
+  "retrieved_stamp": "2026-11-15T11:40Z"
  },
  "availability": {
-  "path": "data/app/report_availability.json",
-  "built_by": "scripts/report_availability.py"
+  "path": "data/app/report_availability_2026-11-15.json",
+  "built_by": "scripts/report_availability.py (called with the 11/15 capture; the module is unchanged in logic)"
  },
  "players": {
-  "path": "data/app/players_top31_2026-11-14c.csv",
-  "captured_by": "session bd90ce16 (2026-11-14); this session did not re-read the table",
+  "path": "data/app/players_top31_2026-11-15.csv",
+  "captured_by": "session bb0c83a4 (2026-11-15)",
   "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season&PerPage=100&SortColumn=MIN&SortDirection=DESC",
-  "note": "The official per-player minutes table, newest capture in the repository. The canonical file data/origin/players_top_minutes.csv still predates the 2026-11-13 slate, so the manifest names the newer capture instead of letting an engine default decide it (flag NF-68, CS-45). Refreshing the canonical file is the request session bd90ce16 logged in COORDINATION.md and repeats here."
+  "note": "Top 31 players by minutes per game, the same cut as the previous capture so the two are comparable."
  },
  "ratings": {
-  "path": "data/app/official_team_ratings_2026-11-14c.json",
+  "path": "data/app/official_team_ratings_2026-11-15.json",
   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "retrieved_stamp": "2026-11-15T11:35Z"
  },
  "injuries": {
-  "path": "data/app/official_injuries_2026-11-14_0415AM.json",
-  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_04_15AM.pdf",
-  "report_stamp": "2026-11-14 04:15 AM ET",
-  "retrieved_stamp": "2026-11-14T09:45Z"
+  "path": "data/app/official_injuries_2026-11-15_0615AM.json",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "report_stamp": "2026-11-15 06:15 AM ET",
+  "retrieved_stamp": "2026-11-15T11:40Z"
  },
  "superseded": {
-  "ratings": "data/app/official_team_ratings_2026-11-14b.json",
-  "injuries": "data/app/official_injuries_2026-11-13_0745PM.json",
-  "reason": "The ratings snapshot was read at 2026-11-14T01:05Z, while 11/13 games were still in progress, so 18 of 30 teams were one game stale. The injury overlay is the 11/13 07:45 PM ET report; the 11/14 04:15 AM ET report is newer and is checked against it row for row."
+  "ratings": "data/app/official_team_ratings_2026-11-14c.json",
+  "injuries": "data/app/official_injuries_2026-11-14_0415AM.json",
+  "slate": "data/app/official_slate_1114_1117.json",
+  "reason": "All three were captured on 2026-11-14 for a window that started that day. The 2026-11-14 slate is now Final, so the whole window has moved forward one day and every capture behind it had to move too."
  },
  "checks": {
   "C1_gp_w_l_reconcile": true,
   "C2_calendar_total": true,
   "C3_scoreboard_records": true,
   "C4_injury_rows_stable": true,
-  "C4_compared_rows": 31,
   "C5_staleness_explained": true,
-  "C5_teams_with_new_gp": [
-   "ATL",
-   "CHI",
-   "CLE",
-   "GSW",
-   "HOU",
-   "IND",
-   "LAC",
-   "MEM",
-   "MIA",
-   "MIL",
-   "NOP",
-   "NYK",
-   "OKC",
-   "ORL",
-   "POR",
-   "SAC",
-   "SAS",
-   "UTA"
-  ],
-  "C5_field_differences": 123,
   "C6_slate_counts": true,
-  "C7_second_capture_agrees": true,
-  "C7_rows_compared": 183,
-  "C8_parallel_injury_report_agrees": false,
-  "C8_rows_compared": 26
+  "C7_results_log_w_l_gp_all_teams": true,
+  "C7_comparisons": 90,
+  "C7_mismatches": 0,
+  "C8_gp_sum_equals_2x_log": true,
+  "C8_gp_sum": 376,
+  "C8_log_rows": 188,
+  "note": "Every check in this block is re-run by scripts/capture_official_2026_11_15.py and by tests/test_capture_1115.py, not asserted here."
  },
  "parallel_capture": {
   "what": "Two sessions refreshed the same inputs within about 40 minutes of each other on 2026-11-14, from the same official pages, with different file names and different code. This block records where they agree and where one of them is newer, so the overlap becomes corroboration instead of a fork.",
@@ -185,5 +167,17 @@
   "2026-11-16": 8,
   "2026-11-17": 5
  },
- "november_official_total": 215
+ "november_official_total": 215,
+ "results_1114": {
+  "path": "data/app/official_results_2026-11-14.json",
+  "source_url": "https://www.nba.com/schedule?date=2026-11-15",
+  "retrieved_stamp": "2026-11-15T11:25Z"
+ },
+ "rotation_join": {
+  "flag": "NF-90 / F-901-01",
+  "repaired_on": "2026-11-15",
+  "repaired_by": "session bb0c83a4",
+  "what": "The injury-PDF name form (\"Edwards, Anthony\") never matched the players-table name form (\"Anthony Edwards\"), so every minutes-vacated figure in injury_impact was a structurally-zero floor. The join is now normalised to (first, last) and a suffix-aware retry handles \"Porter Jr., Michael\".",
+  "verification": "tests/test_rotation_join.py pins both name forms, the suffix case and the no-match case."
+ }
 }

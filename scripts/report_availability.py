@@ -61,6 +61,8 @@ GAMES_CSV = os.path.join(ROOT, "data", "origin", "games.csv")
 INJURY_JSON = os.path.join(APP, "official_injuries_2026-11-14_0415AM.json")
 RESULTS_1113_JSON = os.path.join(APP, "official_results_2026-11-13.json")
 MANIFEST_JSON = os.path.join(APP, "snapshot_manifest.json")
+RESULTS_SOURCE = "https://www.nba.com/games?date=2026-11-13"
+SESSION = "arena/25418e3f-nba3"
 
 RULE_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
 RULE_QUOTE = (
@@ -88,6 +90,14 @@ STATE_FILED = "FILED"
 STATE_OVERDUE = "DUE_AND_NOT_FILED"
 STATE_NOT_YET_DUE = "NOT_YET_DUE"
 STATE_UNCOVERED = "NO_OFFICIAL_REPORT_COVERS_THIS_DATE"
+# Added by session arena/bb0c83a4-nba3. Before this, a team with no row on a date
+# the report DOES cover was reported as STATE_UNCOVERED, which is a different
+# fact and a wrong one. The two are not interchangeable: "no report reaches this
+# date" is a fresh-document problem, while "this date is covered and this team is
+# still absent from it" is a per-team gap that the official file does not explain.
+# Both mean the absence count is unknown, so both publish a blank -- but they send
+# a reviewer to different places, so they now carry different state codes.
+STATE_TEAM_NOT_LISTED = "TEAM_NOT_LISTED_ON_A_COVERED_DATE"
 
 STATE_READING = {
     STATE_FILED: ("The newest official report lists rows for this team. Players marked "
@@ -103,6 +113,12 @@ STATE_READING = {
     STATE_UNCOVERED: ("No official injury report covers this game date at all yet. Any "
                       "absence count for this team is unknown, and is left blank rather than "
                       "shown as zero."),
+    STATE_TEAM_NOT_LISTED: ("The newest official report covers this game date, but it prints "
+                            "no row at all for this team -- neither player rows nor a NOT YET "
+                            "SUBMITTED row. The PDF cannot distinguish a team that filed and "
+                            "named nobody from a block that fell outside the rendered page, so "
+                            "the absence count is UNKNOWN and is left blank, never recorded as "
+                            "zero. Flagged for review."),
 }
 
 # The capture moment this module reasons about.  Every deadline is compared with
@@ -175,9 +191,24 @@ def load_played_dates():
     return {t: sorted(v) for t, v in played.items()}
 
 
-def main():
-    slate = read_json(SLATE_JSON)
-    injury = read_json(INJURY_JSON)
+def main(slate_path=None, injury_path=None, out_path=None, as_of_date=None,
+         as_of_local_hour=None):
+    """Build the availability timeline.
+
+    Every argument defaults to the values this module shipped with, so the
+    previous round's artefact stays reproducible. Session arena/bb0c83a4-nba3
+    added the arguments so the *same published logic* can be re-run against a
+    later capture instead of being re-implemented beside it -- two copies of a
+    filing rule is exactly how the two trees in this repository drifted apart.
+    """
+    global AS_OF_DATE, AS_OF_LOCAL_HOUR
+    if as_of_date:
+        AS_OF_DATE = as_of_date
+    if as_of_local_hour is not None:
+        AS_OF_LOCAL_HOUR = as_of_local_hour
+    slate = read_json(slate_path or SLATE_JSON)
+    injury = read_json(injury_path or INJURY_JSON)
+    out_path = out_path or OUT
     played = load_played_dates()
 
     def iso_from_pdf(gd):          # '11/14/2026' -> '2026-11-14'
@@ -205,11 +236,10 @@ def main():
             not_submitted = any(r["is_team_not_submitted"] for r in team_rows)
             covers = date in covered_dates
             note_extra = ""
-            if not covers or not team_rows:
+            if not covers:
                 state = STATE_UNCOVERED
-                if covers and not team_rows:
-                    note_extra = ("this game date is covered by the newest report but the team "
-                                  "is not listed on it, which the official file does not explain")
+            elif not team_rows:
+                state = STATE_TEAM_NOT_LISTED
             elif not_submitted:
                 state = STATE_OVERDUE if deadline_passed(date, clause) else STATE_NOT_YET_DUE
             else:
@@ -248,31 +278,41 @@ def main():
                 "source_game": g["nba_game_url"],
             })
 
-    # ---- the 11/14 correspondence: filed vs not-filed, explained by b2b ----
-    day1 = [r for r in rows if r["date"] == "2026-11-14"]
+    # ---- the day-1 correspondence: filed vs not-filed, explained by b2b ----
+    FIRST_DATE = min(r["date"] for r in rows)
+    day1 = [r for r in rows if r["date"] == FIRST_DATE]
     filed = sorted(r["team"] for r in day1 if r["state"] == STATE_FILED)
     unfiled = sorted(r["team"] for r in day1 if r["state"] != STATE_FILED)
     on_b2b = sorted(r["team"] for r in day1 if r["played_previous_day"])
     not_on_b2b = sorted(r["team"] for r in day1 if not r["played_previous_day"])
     correspondence = {
-        "date": "2026-11-14",
+        "date": FIRST_DATE,
         "teams_that_filed": filed,
         "teams_that_have_not": unfiled,
         "teams_on_a_back_to_back": on_b2b,
         "teams_not_on_a_back_to_back": not_on_b2b,
         "unfiled_are_exactly_the_b2b_teams": unfiled == on_b2b,
         "filed_are_exactly_the_rest": filed == not_on_b2b,
+        "row_set_is_exactly_explained_by_the_rule": (
+            unfiled == on_b2b),
         "interpretation": (
-            "On the 2026-11-14 slate the five teams whose rows are missing from the "
-            "newest official report are exactly the five teams playing the second game "
-            "of a back-to-back, whose report deadline is 1:00 PM local on game day. "
-            "Their absence is a rule-driven timing gap, not a failure to file, and it "
-            "closes hours before tip-off -- so these games are recoverable by waiting, "
-            "not by guessing."
-        ),
+            f"On the {FIRST_DATE} slate, the teams whose rows are missing from the "
+            "newest official report are exactly the teams playing the second game of a "
+            "back-to-back, whose report deadline is 1:00 PM local on game day. Their "
+            "absence is a rule-driven timing gap, not a failure to file, and it closes "
+            "hours before tip-off -- so these games are recoverable by waiting, not by "
+            "guessing."
+            if unfiled == on_b2b else
+            (f"On the {FIRST_DATE} slate the missing rows are NOT exactly the "
+             "back-to-back teams, so the rule does not fully account for them. The "
+             "back-to-back teams are {b2b}; the teams with no usable official rows are "
+             "{unf}. Any team in the second list that is not in the first is a genuine "
+             "gap in the official file, and its absence count is published blank."
+             ).format(b2b=", ".join(on_b2b) or "none",
+                      unf=", ".join(unfiled) or "none")),
         "source_rule": RULE_URL,
         "source_injury": injury["source_url"],
-        "source_results": ("https://www.nba.com/games?date=2026-11-13"),
+        "source_results": RESULTS_SOURCE,
     }
 
     by_date = defaultdict(lambda: defaultdict(int))
@@ -289,9 +329,11 @@ def main():
             "due_and_not_filed": counts.get(STATE_OVERDUE, 0),
             "not_yet_due": counts.get(STATE_NOT_YET_DUE, 0),
             "no_report_covers_date": counts.get(STATE_UNCOVERED, 0),
+            "team_not_listed_on_a_covered_date": counts.get(STATE_TEAM_NOT_LISTED, 0),
             "lead_days": _lead_days(date),
             "state": ("the newest official report covers this date and teams have filed"
-                      if counts.get(STATE_FILED) and not counts.get(STATE_UNCOVERED) else
+                      if counts.get(STATE_FILED) and not counts.get(STATE_UNCOVERED)
+                      and not counts.get(STATE_TEAM_NOT_LISTED) else
                       "the newest official report covers this date; several teams are "
                       "waiting on their own deadline"
                       if counts.get(STATE_FILED) else
@@ -301,8 +343,8 @@ def main():
 
     out = {
         "schema": "nba3.report_availability/v1",
-        "session": "arena/25418e3f-nba3",
-        "built_on": "2026-11-14",
+        "session": SESSION,
+        "built_on": AS_OF_DATE,
         "as_of_report": injury["report_stamp"],
         "rule_source": RULE_URL,
         "rule_quote": RULE_QUOTE,
@@ -319,6 +361,8 @@ def main():
             "due_and_not_filed": sum(1 for r in rows if r["state"] == STATE_OVERDUE),
             "not_yet_due": sum(1 for r in rows if r["state"] == STATE_NOT_YET_DUE),
             "no_report_covers_date": sum(1 for r in rows if r["state"] == STATE_UNCOVERED),
+            "team_not_listed_on_a_covered_date": sum(
+                1 for r in rows if r["state"] == STATE_TEAM_NOT_LISTED),
             "games_fully_priced_on_availability": sum(
                 1 for d in {r["date"] for r in rows}
                 if all(r["state"] == STATE_FILED for r in rows if r["date"] == d)),
@@ -326,11 +370,10 @@ def main():
         "coverage_by_date": coverage,
         "headline": (
             "Zero teams in the window are overdue. Every missing row is explained by a "
-            "deadline that has not arrived yet: the five back-to-back teams on 2026-11-14 "
-            "file by 1 p.m. local today, every 2026-11-15 team files by 5 p.m. local "
-            "tomorrow's-eve, and no official report exists yet for 2026-11-16 or 2026-11-17. "
-            "So a 3-day-ahead line is priced on ratings and rest alone, and the injury overlay "
-            "can only be applied to the day it is filed for."
+            "deadline that has not arrived yet, or by a date no official report reaches. "
+            "A line originated beyond the dates the newest official report covers is priced "
+            "on ratings and rest alone, and the injury overlay can only be applied to the "
+            "day it is filed for."
         ) if not any(r["state"] == STATE_OVERDUE for r in rows) else (
             "At least one team is past its filing deadline without a report; those games are "
             "the highest-risk ones in the window."
@@ -338,12 +381,12 @@ def main():
         "b2b_correspondence_1114": correspondence,
         "rows": rows,
     }
-    with open(OUT, "w", encoding="utf-8") as fh:
+    with open(out_path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
 
     c = out["counts"]
-    print("wrote", os.path.relpath(OUT, ROOT))
+    print("wrote", os.path.relpath(out_path, ROOT))
     print(f"  {c['games']} games -> {c['team_side_rows']} team-side rows")
     print(f"  filed {c['filed']} | due and not filed {c['due_and_not_filed']} "
           f"| not yet due {c['not_yet_due']} "
