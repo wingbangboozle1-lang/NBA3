@@ -317,6 +317,23 @@ class Registers(unittest.TestCase):
         # R26-R28 name pages this session generates; they must exist after a build
         self.assertEqual(missing, [], f"register cites evidence that is not there: {missing}")
 
+    def test_register_prose_does_not_contradict_the_gate_artefact(self):
+        """R02 and R25 once said '17 gates' after an 18th was added: prose drifts, so pin it."""
+        gates = load("gates.json")
+        blob = " ".join(" ".join(map(str, r)) for r in REG.REQUIREMENTS)
+        for stale in ("16 gates", "17 gates"):
+            self.assertNotIn(stale, blob)
+        self.assertIn(f"{gates['gate_count']} gates", blob)
+
+    def test_no_register_entry_claims_a_superseded_filing_is_current(self):
+        """F13-01 described the 1:00 PM filing as the fix after 1:15 PM became current."""
+        chain = load("injury_chain.json")
+        current = chain["current_stamp"]
+        self.assertEqual(current, "2026-11-16 01:15 PM ET")
+        for row in REG.FLAGS:
+            self.assertNotIn("the 1:00 PM ET filing is captured, diffed and published", row[3],
+                             f"{row[0]} still presents the superseded filing as the fix")
+
     def test_questions_cover_every_state(self):
         states = {q[2] for q in REG.QUESTIONS}
         self.assertTrue({"known", "unknown", "discoverable"} <= states)
@@ -362,6 +379,19 @@ class Site(unittest.TestCase):
         text = open(os.path.join(ROOT, "round2", "flagged.html"), encoding="utf-8").read()
         for fid, *_ in REG.FLAGS:
             self.assertIn(fid, text, f"{fid} is not published on the flagged page")
+
+    def test_index_card_counts_match_the_registers(self):
+        """Hard-coded counts on the landing page drifted once (14 flags when there were 17).
+        They are now derived; this pins them."""
+        text = open(os.path.join(ROOT, "round2", "index.html"), encoding="utf-8").read()
+        for n, noun in [(len(REG.FLAGS), "irregularit"),
+                        (len(REG.SUGGESTIONS), "proposed"),
+                        (len(REG.QUESTIONS), "known, unknown"),
+                        (len(REG.REQUIREMENTS), "rows, each with evidence")]:
+            self.assertIn(f"{n}", text)
+        self.assertIn(f"{len(REG.FLAGS)} irregularities", text)
+        self.assertIn(f"{len(REG.SUGGESTIONS)}, none implemented", text)
+        self.assertIn(f"{len(REG.REQUIREMENTS)} rows, each with evidence", text)
 
     def test_sources_are_labelled_distinctly(self):
         """Two different documents must never render as the same link text."""

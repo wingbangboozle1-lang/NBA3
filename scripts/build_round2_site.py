@@ -394,10 +394,14 @@ def page_index(D):
              ("slate.html", "Slate & totals", "possessions × points per possession"),
              ("estimators.html", "Two estimators", "the disagreement, not a blend"),
              ("methodology.html", "Methodology", "what is pinned, declared and disclosed"),
-             ("requirements.html", "Requirements", "thirty-three rows, each with evidence"),
-             ("questions.html", "Questions", "known, unknown and discoverable"),
-             ("suggestions.html", "Suggestions", "eleven, none implemented"),
-             ("flagged.html", "Flagged for review", "fourteen irregularities"),
+             ("requirements.html", "Requirements",
+              f"{len(REG.REQUIREMENTS)} rows, each with evidence"),
+             ("questions.html", "Questions",
+              f"{len(REG.QUESTIONS)}: known, unknown and discoverable"),
+             ("suggestions.html", "Suggestions",
+              f"{len(REG.SUGGESTIONS)}, none implemented"),
+             ("flagged.html", "Flagged for review",
+              f"{len(REG.FLAGS)} irregularities, each with a source"),
              ("verification.html", "Verification log", "what was checked and how")]
     body.append('<div class="grid">' + "".join(
         f'<a class="card" href="{f}" style="display:block;color:inherit">'
