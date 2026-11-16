@@ -4753,3 +4753,20 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 - `pages.yml`: rebuilt from git stages with 94e6d41b audit steps + v2 steps + staging line all present; freshness step gained `--now-from-manifest`.
 - Availability truth: shared `report_availability.json` rebuilt at the published 06:15 stamp (site frame), 04:15 layer preserved for audit_1823b910 (its own snapshot).
 - Estimator/site window rolls: adopted as data changes (regenerated artefacts + transcribed verified rows), with the frame discrepancy flagged rather than silently overwritten.
+
+---
+
+## Session `arena/7082931c-nba3` — CLAIM: scheduled refresh promotion and freshness/provenance gates
+
+Claimed 2026-11-16 14:27 UTC on the Arena-assigned branch `arena/7082931c-nba3` (branch names are fixed; all work remains here).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| R1 | Take over the rolling-refresh defect: make the scheduled job gate the newly fetched sources, require a complete official rolling slate and official standings/team-stat inputs, and rebuild/commit outputs only after those gates pass | in progress | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `scripts/rolling_promote.py` (new if needed), `tests/test_refresh_official.py`, `tests/test_rolling_refresh.py` (new if needed), `COORDINATION.md` |
+| R2 | Re-run focused tests, current full test/build/link checks; publish only values supported by existing official captures and flag anything that cannot be live-verified from this sandbox | pending | same scope |
+
+### Stale-claim handoff
+
+At claim time, the related open pull requests had no commits for over 60 minutes: PR #94 last updated 2026-11-16 00:00Z, PR #95 02:28Z, PR #96 00:45Z, PR #98 01:03Z (checked with `gh pr view` at 14:27Z). I am taking over only the overlapping **scheduled refresh / promotion / gating** work from PRs #94, #95 and #98 on this branch, as permitted by the task's 60-minute handoff rule. PR #96 is an alternative `/slate/` architecture; its files and data tree are explicitly out of this claim's edit scope. No source captures or model values will be invented; the sandbox's outbound-host allowlist does not permit live NBA-origin fetches, so live data refresh/deployment claims must remain unverified unless GitHub Actions provides evidence.
+
+Baseline checked before the claim: current main `27245fa`; clean worktree; 116 `tests/` unit tests and 45 `pipeline/v2/tests/` unit tests pass; existing site/check commands pass; the current committed freshness gate reports 10/10. The key defect to address is that `refresh_official.py` fetches into `data/app/refresh/` but the current freshness gate reads hard-coded `data/live/` snapshots, and the refresh workflow commits only `data/app`, not the complete rebuilt publication surfaces.
