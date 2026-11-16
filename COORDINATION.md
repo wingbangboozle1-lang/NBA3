@@ -5238,3 +5238,42 @@ live feed.
 feed, so no market-anchored prior and no bet; no measured per-player minutes for this slate,
 so no per-player prop; no rho for this slate, so no parlay pricing; NBA Terms of Use §9(iv)
 bars gambling use of NBA stats.
+
+### F13 — merge record and live site
+
+| PR | Title | Result |
+|---|---|---|
+| [#114](https://github.com/wingbangboozle1-lang/NBA3/pull/114) | Same-day injury filing chain + 18 gates + `round2/` surface | **merged**, `e2409d5e` |
+| [#115](https://github.com/wingbangboozle1-lang/NBA3/pull/115) | Derive published counts from the registers | **merged**, `69764474` |
+| [#116](https://github.com/wingbangboozle1-lang/NBA3/pull/116) | Correct flag F13-04 to the current filing (11, not 12) | **merged**, `1c582b4e` |
+| [#117](https://github.com/wingbangboozle1-lang/NBA3/pull/117) | Each gate cites the document it actually checks | **merged**, `efaa7221` |
+
+Branch merged with `--merge` (no squash) so the per-step history survives. `origin/main` was
+rebased onto before each push; the only conflict was `COORDINATION.md`, resolved by keeping
+**both** sessions' records — this session's claims appended after the other session's, nothing
+from either side discarded.
+
+**Pages deploy confirmed after every merge** (`Build and deploy NBA Edge Lab` → success), and
+the live pages were re-read over HTTP to confirm the deployed content, not just the build log:
+
+- https://wingbangboozle1-lang.github.io/NBA3/round2/ — live, showing the 1:15 PM ET filing
+- https://wingbangboozle1-lang.github.io/NBA3/round2/flagged.html — 17 flags, live
+- https://wingbangboozle1-lang.github.io/NBA3/round2/verification.html — 18/18, per-gate documents, live
+- https://wingbangboozle1-lang.github.io/NBA3/ — root page links to the new round
+
+**Four drift bugs were found by reading the deployed pages**, each a published claim that was
+wrong, each now fixed and pinned by its own test:
+
+1. Landing cards said *"fourteen irregularities"* when there were 17 → counts now derived from
+   `round2_registers.py`.
+2. `R02`/`R25` said *"17 gates"* after an 18th was added → now derived, and a test compares the
+   register prose against `gates.json`.
+3. `F13-01` and `F13-04` described the superseded 1:00 PM filing as current → both rewritten
+   against the chain, with a test pinning all three not-submitted counts (15 → 12 → 11).
+4. **Every gate row cited the injury PDF**, including `I1`/`I2` (standings), `I3`/`I4`/`I10`
+   (team stats) and `F4` (schedule) → the engine now stores a per-gate `document` and a test
+   pins the six that were misattributed. This was the most serious of the four: a wrong source
+   citation is the exact failure mode this project exists to prevent.
+
+Final state on `main`: **227 tests OK**, **18/18 gates**, site builds at 13 pages / 596 links /
+353 sourced rows / 0 problems, artefacts byte-reproducible.
