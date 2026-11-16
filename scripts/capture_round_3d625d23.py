@@ -48,13 +48,15 @@ OUT = os.path.join(ROOT, "data", "slate")
 INJ = os.path.join(OUT, "injuries")
 
 SESSION = "arena/3d625d23-nba3"
-RETRIEVED_UTC = "2026-11-15T23-50Z"          # newest source read in this round
+RETRIEVED_UTC = "2026-11-16T00-05Z"          # newest source read in this round
 INJ_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
 INJ_INDEX = "https://official.nba.com/nba-injury-report-2026-27-season/"
 STAND_URL = "https://www.nba.com/standings"
 ADV_URL = "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
 SCHED_URL = "https://www.nba.com/schedule?date=2026-11-16"
 GB_URL = "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+TRAD_URL = "https://www.nba.com/stats/teams/traditional"
+OPP_URL = "https://www.nba.com/stats/teams/opponent"
 
 # --------------------------------------------------------------------------- helpers
 
@@ -373,10 +375,11 @@ def parse_standings():
     doc = {"schema": "nba3.slate.standings/v1", "session": SESSION,
            "source_url": STAND_URL, "retrieved_utc": RETRIEVED_UTC,
            "page_title": "NBA 2026-27 Regular Season Standings",
-           "note": "Official standings table, conference view, Overall section. Read after the "
-                   "11/14 slate and before the 11/15 games completed, so it does not include "
-                   "11/15 results (the standings page confirms this: no team's W/L changed "
-                   "against the 11/14 finals stored in the results feed).",
+           "note": "Official standings table, conference view, Overall section. This is the "
+                   "second read of the night: the 23:41Z read showed LAL 11-2, PHX 5-6, LAC 3-8 "
+                   "and CHA 4-8 while LAL@PHX and CHA@LAC were still live; this read carries "
+                   "LAL 12-2, PHX 5-7, LAC 4-8 and CHA 4-9, i.e. both 11/15 games that have "
+                   "since gone final are now in the table.",
            "count": len(rows), "rows": rows}
     write_json(os.path.join(OUT, "standings.json"), doc)
     return doc
@@ -407,6 +410,52 @@ def parse_advanced():
                    "possessions; OffRtg/DefRtg = points per 100 possessions.",
            "count": len(rows), "rows": rows}
     write_json(os.path.join(OUT, "team_advanced.json"), doc)
+    return doc
+
+
+def _team_stat_doc(raw_name, url, page_title, schema, cols, int_cols, note):
+    rows = []
+    for cells in read_rows(os.path.join(RAW, raw_name)):
+        rec = {"team": NAME_TO_CODE[cells[0]], "team_name": cells[0]}
+        for name, value in zip(cols, cells):
+            if name == "team_name":
+                continue
+            rec[name] = int(num(value)) if name in int_cols else num(value)
+        rows.append(rec)
+    doc = {"schema": schema, "session": SESSION, "source_url": url,
+           "retrieved_utc": RETRIEVED_UTC, "page_title": page_title,
+           "note": note, "count": len(rows), "rows": rows}
+    return doc
+
+
+def parse_traditional():
+    cols = ["team_name", "gp", "w", "l", "win_pct", "min", "pts", "fgm", "fga", "fg_pct", "fg3m",
+            "fg3a", "fg3_pct", "ftm", "fta", "ft_pct", "oreb", "dreb", "reb", "ast", "tov",
+            "stl", "blk", "pf", "pfd", "plus_minus"]
+    doc = _team_stat_doc(
+        "team_traditional_2026-11-15.md", TRAD_URL, "Teams Traditional | Stats | NBA.com",
+        "nba3.slate.team_traditional/v1", cols, {"gp", "w", "l"},
+        "All 30 rows, per-game mode. The trailing *_RANK columns printed by the page are not "
+        "transcribed. FLAGGED: at read time this page had not absorbed the CHA@LAC final "
+        "(LAC 11 GP 3-8, CHA 12 GP 4-8), while the advanced page and the standings page read "
+        "minutes later both show LAC 12 GP 4-8 / CHA 13 GP 4-9. The four official pages are not "
+        "synchronised; the lag is published rather than reconciled and no value is inferred.")
+    write_json(os.path.join(OUT, "team_traditional.json"), doc)
+    return doc
+
+
+def parse_opponent():
+    cols = ["team_name", "gp", "w", "l", "min", "opp_fgm", "opp_fga", "opp_fg_pct", "opp_fg3m",
+            "opp_fg3a", "opp_fg3_pct", "opp_ftm", "opp_fta", "opp_ft_pct", "opp_oreb",
+            "opp_dreb", "opp_reb", "opp_ast", "opp_tov", "opp_stl", "opp_blk", "opp_blka",
+            "opp_pf", "opp_pfd", "opp_pts", "plus_minus"]
+    doc = _team_stat_doc(
+        "team_opponent_2026-11-15.md", OPP_URL, "Teams Opponent | Stats | NBA.com",
+        "nba3.slate.team_opponent/v1", cols, {"gp", "w", "l"},
+        "All 30 rows, per-game mode. The trailing *_RANK columns printed by the page are not "
+        "transcribed. FLAGGED: same lag as the traditional page — it had not absorbed the "
+        "CHA@LAC final at read time.")
+    write_json(os.path.join(OUT, "team_opponent.json"), doc)
     return doc
 
 
@@ -469,7 +518,7 @@ def parse_gamebook_scores(path):
     return scores
 
 
-def build_results_feed(slate):
+def build_results_feed(slate, standings):
     """One row per game: date, teams, final score, quarter scores; settled only when verified."""
     feed_path = os.path.join(OUT, "results_feed.json")
     feed = json.load(open(feed_path, encoding="utf-8")) if os.path.exists(feed_path) else {
@@ -502,46 +551,89 @@ def build_results_feed(slate):
         }
         known[g["game_id"]] = row
 
-    # --- 11/15 IND@PHI: settled here from the official game book + the schedule page
-    gb_path = os.path.join(RAW, "gamebook_20261115_INDPHI.md")
-    if os.path.exists(gb_path):
+    # --- 11/15 finals: settled here from the official game book + the official standings page
+    # Two independent official reads are required: (1) the game book's printed FINAL equals the sum
+    # of its own four printed quarters and the book prints a complete 240:00 team-minutes row for
+    # both clubs, and (2) the standings page read at the same time shows the winner on a W streak
+    # and the loser on an L streak. The schedule-page snapshot was taken while two of these games
+    # were still live, so it can only corroborate — it is recorded, never required.
+    SETTLED_1115 = [
+        {"game_id": "0022600236", "book": "gamebook_20261115_INDPHI.md",
+         "away": "IND", "home": "PHI", "away_name": "Indiana Pacers",
+         "home_name": "Philadelphia 76ers", "away_label": "Pacers",
+         "home_labels": ["76ERS", "76ers"],
+         "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"},
+        {"game_id": "0022600237", "book": "gamebook_20261115_LALPHX.md",
+         "away": "LAL", "home": "PHX", "away_name": "Los Angeles Lakers",
+         "home_name": "Phoenix Suns", "away_label": "Lakers",
+         "home_labels": ["SUNS", "Suns"],
+         "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"},
+        {"game_id": "0022600238", "book": "gamebook_20261115_CHALAC.md",
+         "away": "CHA", "home": "LAC", "away_name": "Charlotte Hornets",
+         "home_name": "LA Clippers", "away_label": "Hornets",
+         "home_labels": ["CLIPPERS", "Clippers"],
+         "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf"},
+    ]
+    stand = {r["team"]: r for r in standings["rows"]}
+    for spec in SETTLED_1115:
+        gb_path = os.path.join(RAW, spec["book"])
+        if not os.path.exists(gb_path):
+            continue
         scores = parse_gamebook_scores(gb_path)
-        ind = scores.get("Pacers")
-        phi = scores.get("76ERS") or scores.get("76ers")
-        sched_row = [g for g in slate["games"]
-                     if g["game_id"] == "0022600236"][0]
+        text = open(gb_path, encoding="utf-8").read()
+        aw = scores.get(spec["away_label"])
+        hm = None
+        for lab in spec["home_labels"]:
+            if lab in scores:
+                hm = scores[lab]
+                break
+        sched_rows = [g for g in slate["games"] if g["game_id"] == spec["game_id"]]
+        sched_row = sched_rows[0] if sched_rows else None
         checks = {
-            "quarter_sums_equal_finals": bool(ind and phi and sum(ind["quarters"]) == ind["final"]
-                                              and sum(phi["quarters"]) == phi["final"]),
-            "gamebook_matches_schedule_page": bool(
-                ind and phi and ind["final"] == sched_row["away_pts"]
-                and phi["final"] == sched_row["home_pts"]),
-            "schedule_page_says_final": sched_row["status_on_page"] == "Final",
+            "four_quarters_and_final_printed": bool(aw and hm and len(aw["quarters"]) == 4
+                                                    and len(hm["quarters"]) == 4),
+            "quarter_sums_equal_finals": bool(aw and hm and sum(aw["quarters"]) == aw["final"]
+                                              and sum(hm["quarters"]) == hm["final"]),
+            "complete_game_240_team_minutes": text.count("240:00") >= 2,
+            "standings_streak_matches_result": bool(
+                aw and hm and aw["final"] != hm["final"]
+                and (stand.get(spec["away"], {}).get("streak") or "").startswith(
+                    "W" if aw["final"] > hm["final"] else "L")
+                and (stand.get(spec["home"], {}).get("streak") or "").startswith(
+                    "W" if hm["final"] > aw["final"] else "L")),
         }
         ok = all(checks.values())
+        winner = None
+        if aw and hm and aw["final"] != hm["final"]:
+            winner = spec["away"] if aw["final"] > hm["final"] else spec["home"]
         row = {
-            "game_id": "0022600236", "date": "2026-11-15",
-            "away": "IND", "home": "PHI",
-            "away_name": "Indiana Pacers", "home_name": "Philadelphia 76ers",
-            "away_q": ind["quarters"] if ind else None,
-            "home_q": phi["quarters"] if phi else None,
-            "away_final": ind["final"] if ind else None,
-            "home_final": phi["final"] if phi else None,
-            "ot": False, "status": "Final" if ok else "unverified",
-            "winner": ("PHI" if phi and ind and phi["final"] > ind["final"] else
-                       ("IND" if ind and phi and ind["final"] > phi["final"] else None)),
-            "venue": sched_row["arena"], "city": sched_row["city"],
+            "game_id": spec["game_id"], "date": "2026-11-15",
+            "away": spec["away"], "home": spec["home"],
+            "away_name": spec["away_name"], "home_name": spec["home_name"],
+            "away_q": aw["quarters"] if aw else None,
+            "home_q": hm["quarters"] if hm else None,
+            "away_final": aw["final"] if aw else None,
+            "home_final": hm["final"] if hm else None,
+            "ot": False, "status": "Final" if ok else "unverified", "winner": winner,
+            "venue": sched_row["arena"] if sched_row else None,
+            "city": sched_row["city"] if sched_row else None,
             "verified": ok,
             "verification": {
-                "rule": "settled only when the game page says Final AND the game book's printed "
-                        "FINAL equals the sum of its four printed quarters AND both agree",
-                "sources": [GB_URL, "https://www.nba.com/game/ind-vs-phi-0022600236",
-                            SCHED_URL],
+                "rule": "settled only when the official game book's printed FINAL equals the sum "
+                        "of its own four printed quarters, the book prints a complete 240:00 "
+                        "team-minutes row for both clubs, and the official standings page read at "
+                        "the same time shows the winner on a W streak and the loser on an L "
+                        "streak",
+                "sources": [spec["url"],
+                            "https://www.nba.com/game/%s" % spec["game_id"], SCHED_URL, STAND_URL],
                 "checks": checks,
+                "schedule_page_status_at_snapshot": (sched_row or {}).get("status_on_page"),
+                "schedule_page_note": "the schedule snapshot was taken while this game was still "
+                                      "live, so it corroborates rather than confirms",
                 "settled_by": SESSION, "settled_utc": RETRIEVED_UTC,
             },
         }
-        known["0022600236"] = row
+        known[spec["game_id"]] = row
 
     games = sorted(known.values(), key=lambda g: (g["date"], g["game_id"]))
     doc = {
@@ -942,6 +1034,8 @@ def main():
     deltas = injury_archive_and_diff(injury)
     standings = parse_standings()
     advanced = parse_advanced()
+    traditional = parse_traditional()
+    opponent = parse_opponent()
     slate = parse_slate()
 
     # cross-check: every (date, matchup) in the injury report must be on the official schedule
@@ -954,7 +1048,7 @@ def main():
         {(r["game_date"], r["matchup"]) for r in injury["rows"] if r["matchup"]})
     write_json(os.path.join(OUT, "slate.json"), slate)
 
-    feed = build_results_feed(slate)
+    feed = build_results_feed(slate, standings)
     arenas = build_arenas()
     games = schedule_union(slate)
     travel = build_travel(slate, arenas, games)
@@ -966,6 +1060,7 @@ def main():
           f"removed {deltas['pairs'][0]['counts']['removed']}")
     print(f"standings rows       {standings['count']}")
     print(f"advanced rows        {advanced['count']}")
+    print(f"traditional rows     {traditional['count']}   opponent rows {opponent['count']}")
     print(f"slate games          {slate['counts']['total']} upcoming "
           f"({slate['window']['from']}..{slate['window']['to']})")
     print(f"results feed         {feed['counts']['verified']}/{feed['counts']['games']} verified")

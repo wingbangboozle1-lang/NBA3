@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suggestions — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html" style="border-color:var(--acc);color:var(--acc)">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>This page is decision support only.</strong> Nothing here is implemented
+because it appears here. Each row is a path someone can choose; the cost column says what adopting it
+would touch.</div>
+<h2>Suggested paths, reviewable before anything changes</h2>
+<table><thead><tr><th>Id</th><th>Suggestion</th><th>Why</th><th>Priority</th>
+<th>Cost to adopt</th><th>Official page to check</th></tr></thead><tbody><tr><td>S-3D-01</td><td>Capture the five missing game books on the next refresh</td><td>ATL, BOS, NYK, OKC and TOR print blank rotation cells. Their 11/15 books are published the next day; adding the fetch to the rolling job closes the gap without any modelling change.</td><td><span class="flag">high</span></td><td>none — additive capture only</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a></td></tr><tr><td>S-3D-02</td><td>Persist the advanced page as a dated snapshot every refresh</td><td>The page is a single current snapshot, so E2 can only ever be scored out of sample one game at a time. Storing it per date turns E2 into a genuinely testable estimator within weeks.</td><td><span class="flag">high</span></td><td>new dated files under data/slate/raw/</td><td><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr><tr><td>S-3D-03</td><td>Add a closing-line capture the moment a feed is available</td><td>The market-anchored prior is blank today for one reason only: no feed. The weighting formula is already written and uses measured out-of-sample log-loss on both sides.</td><td><span class="flag">high</span></td><td>requires a data-source decision</td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>S-3D-04</td><td>Publish the disagreement as a time series</td><td>The headline is |E1 − E2| per game, but its usefulness is an empirical question: does a small disagreement actually predict a smaller error? Recording disagreement next to the realised error per game answers it in a few weeks.</td><td>medium</td><td>append-only ledger, no model change</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>S-3D-05</td><td>Capture referee crews from the game books</td><td>Every book prints the three officials. It is already in the capture; it is simply not a feature yet. Whether it carries signal is a separate question that the data can settle.</td><td>medium</td><td>new feature, needs its own out-of-sample test</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf">official game book PDF</a></td></tr><tr><td>S-3D-06</td><td>Do not add more strategies until the existing three have records</td><td>Three pre-registered strategies produced six research picks. Adding more before any of them has an out-of-sample record multiplies the multiple-comparisons problem.</td><td><span class="flag">high</span></td><td>none — a decision not to build</td><td><a href="https://www.nba.com/stats/teams/traditional">nba.com team traditional</a></td></tr><tr><td>S-3D-07</td><td>Re-read the four team-stat pages at a fixed time each day</td><td>This round caught the pages out of sync by minutes. A fixed read time makes the lag visible and comparable instead of accidental.</td><td>medium</td><td>scheduler change only</td><td><a href="https://www.nba.com/stats/teams/opponent">nba.com team opponent</a></td></tr></tbody></table>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

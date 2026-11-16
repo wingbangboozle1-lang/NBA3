@@ -17,6 +17,9 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #   /origin/         -> arena/e22a2831 origination engine (174-game verified log, walk-forward backtest, 7-gate leaderboard)
 #   /verify/pages/   -> arena/3655c68d verification & decision layer (cross-pipeline reconciliation, corrections, decision queue)
 #   /d01ae7e2/       -> session d01ae7e2 official-slate line origination & gated picks dashboard (data + docs + scripts)
+#   /slate/          -> arena/3d625d23-nba3 rolling-slate dashboard: two-estimator projections
+#                       (disagreement headline), originated lines, rho-priced parlays, injuries &
+#                       rotation, minutes model, rest/travel, luck, sealed pick ledger, gates
 #   /hub/            -> arena/99eabb04 consolidated dashboard (one namespace, one set of numbers, every row sourced)
 #   /dash/           -> e40cd215 unified dashboard
 #   /archive.html    -> dated index of every earlier session's dashboard (moved off the landing
@@ -386,6 +389,32 @@ jobs:
             exit 1
           }
 
+      - name: Rolling-slate capture, gates, model, sealed ledger and site (arena/3d625d23-nba3)
+        run: |
+          # Offline by design: every script replays committed verbatim captures, so the whole
+          # chain is deterministic and a diff here means a real input changed.
+          python3 scripts/capture_round_3d625d23.py
+          python3 scripts/round_3d625d23.py
+          python3 scripts/picks_round_3d625d23.py prereg
+          python3 scripts/picks_round_3d625d23.py publish
+          python3 scripts/picks_round_3d625d23.py settle
+          python3 scripts/picks_round_3d625d23.py verify
+          # Rebuild is refused unless every freshness/provenance gate passes.
+          python3 scripts/gates_round_3d625d23.py
+          python3 scripts/refresh_round_3d625d23.py
+          python3 scripts/build_slate_site.py
+          git diff --exit-code -- data/slate slate || {
+            echo "the rolling-slate chain drifted from the committed artefacts;"
+            echo "every step above is a deterministic replay of committed official captures."
+            git --no-pager diff --stat -- data/slate slate | tail -20
+            exit 1
+          }
+          test -z "$(git status --porcelain -- data/slate slate)" || {
+            echo 'data/slate/ or slate/ has uncommitted changes'
+            git status --porcelain -- data/slate slate
+            exit 1
+          }
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -394,6 +423,7 @@ jobs:
           cp review.html _pages/review.html
           cp archive.html _pages/archive.html
           cp -r audit_dd1eb1f1 _pages/audit_dd1eb1f1
+          cp -r slate _pages/slate
           rm -rf audit_1823b910/__pycache__
           cp -r audit_1823b910 _pages/audit_1823b910
           cp -r audit_736efb4b _pages/audit_736efb4b

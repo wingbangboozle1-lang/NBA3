@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open questions — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html" style="border-color:var(--acc);color:var(--acc)">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner">Split by what this round actually has and does not. The second half is not
+guesswork waiting to happen — every one of those cells is blank in the data and flagged on the
+site until an official source can be read for it.</div>
+<h2>What we have vs what we do not</h2>
+<table><thead><tr><th>State</th><th>Item</th><th>Why it matters</th><th>Official source</th></tr>
+</thead><tbody><tr><td><span class="pill ok">have</span></td><td>Official schedule for the window</td><td>Every game id, matchup, arena and tip time</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td><span class="pill ok">have</span></td><td>Official standings</td><td>30 clubs, W/L and every split column</td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td><span class="pill ok">have</span></td><td>Four official team-stat pages</td><td>traditional, opponent, advanced (30 rows each)</td><td><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr><tr><td><span class="pill ok">have</span></td><td>Newest filed official injury report</td><td>155 rows, 06:30 PM ET revision stamp</td><td><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a></td></tr><tr><td><span class="pill ok">have</span></td><td>Official game books for 25 of 30 clubs</td><td>minutes, box scores, inactive lists</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a></td></tr><tr><td><span class="pill ok">have</span></td><td>Settled finals with quarter scores</td><td>8 games verified two ways</td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td><span class="pill ok">have</span></td><td>Arena coordinates for all 30 clubs</td><td>so travel distance is computable</td><td><a href="https://en.wikipedia.org/wiki/List_of_National_Basketball_Association_arenas">en.wikipedia.org/wiki/List_of_National_Basketball_Association_arenas</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>A licensed closing-line feed</td><td>so the market-anchored prior is blank</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official page the answer would have to come from</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>Player-prop lines or a prop results feed</td><td>so player-prop rho is not measured</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official page the answer would have to come from</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>Game books for ATL, BOS, NYK, OKC, TOR</td><td>so their rotation cells are blank</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official page the answer would have to come from</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>An out-of-sample record for E2 beyond 3 games</td><td>the efficiency page is a single current snapshot, so E2 carries no blend weight yet</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://www.nba.com/stats/teams/advanced">official page the answer would have to come from</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>Per-possession lineups or on/off data</td><td>minutes redistribution is at player level, not lineup level</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf">official page the answer would have to come from</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>Referee assignments as a model input</td><td>they are printed in every game book but not yet captured as a feature</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official page the answer would have to come from</a></td></tr><tr><td><span class="pill no">do not have</span></td><td>Whether the 11/15 games still live at read time finished as expected</td><td>SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and OKC@SAC were in progress</td><td><span class="flag">NO OFFICIAL SOURCE — blank by design</span><br><a href="https://www.nba.com/schedule?date=2026-11-16">official page the answer would have to come from</a></td></tr></tbody></table>
+<h2>Questions that must be answered before any of this is funded</h2>
+<ol>
+<li><strong>Is a closing-line feed available?</strong> Without it the prior cannot be anchored and
+every line stays ours alone. Until then no strategy should be described as tested against a
+market.</li>
+<li><strong>How many out-of-sample games does E2 need before it earns weight?</strong> The
+pre-registration says 30. The efficiency page only produces one new observation per game day, so
+that is roughly a month of real time.</li>
+<li><strong>Do the five clubs with no captured book get one?</strong> Their games are on the
+schedule; the books are published the following day. The capture list is mechanical.</li>
+<li><strong>What counts as "skill" for the leaderboard?</strong> A strategy has to beat the
+coin-flip log-loss of 0.6931 on games it never saw, not on the games it was fitted to.</li>
+<li><strong>Who owns the settlement if a game book and the standings page disagree?</strong> Both
+are official. The rule today is that the game book's own quarters must sum to its printed final and
+the standings page must show the matching streak.</li>
+</ol>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

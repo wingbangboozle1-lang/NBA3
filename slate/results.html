@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Results &amp; settlement — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html" style="border-color:var(--acc);color:var(--acc)">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>One row per game; settled only after the official final is confirmed.</strong>
+A row is written only for a finished game, and only when the final score is confirmed by two official reads that agree (game book quarters sum to the printed final; the schedule/game page prints the same final). Anything else stays out of the feed.</div>
+<h2>Official results feed (8/8 verified)</h2>
+<table class=""><thead><tr><th>Date</th><th>Game id</th><th>Matchup</th><th>Away quarters</th><th>Home quarters</th><th>Final (away–home)</th><th>Status</th><th>Verified</th><th>Settled (UTC)</th><th>Sources</th></tr></thead><tbody><tr><td>2026-11-14</td><td>0022600231</td><td>DEN@NOP</td><td>29 / 27 / 30 / 30</td><td>23 / 28 / 31 / 26</td><td class="n">116–108</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-15T11:52Z</td><td><a href="https://www.nba.com/game/den-vs-nop-0022600231">nba.com game page</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf">official game book PDF</a></td></tr><tr><td>2026-11-14</td><td>0022600232</td><td>DAL@CLE</td><td>33 / 20 / 38 / 26</td><td>33 / 38 / 34 / 22</td><td class="n">117–127</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-15T11:52Z</td><td><a href="https://www.nba.com/game/dal-vs-cle-0022600232">nba.com game page</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf">official game book PDF</a></td></tr><tr><td>2026-11-14</td><td>0022600233</td><td>DET@MIA</td><td>39 / 21 / 26 / 31</td><td>37 / 31 / 35 / 34</td><td class="n">117–137</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-15T11:52Z</td><td><a href="https://www.nba.com/game/det-vs-mia-0022600233">nba.com game page</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf">official game book PDF</a></td></tr><tr><td>2026-11-14</td><td>0022600234</td><td>BKN@MEM</td><td>23 / 31 / 30 / 26</td><td>38 / 33 / 32 / 26</td><td class="n">110–129</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-15T11:52Z</td><td><a href="https://www.nba.com/game/bkn-vs-mem-0022600234">nba.com game page</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf">official game book PDF</a></td></tr><tr><td>2026-11-14</td><td>0022600235</td><td>CHI@MIN</td><td>29 / 29 / 30 / 29</td><td>17 / 28 / 35 / 26</td><td class="n">117–106</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-15T11:52Z</td><td><a href="https://www.nba.com/game/chi-vs-min-0022600235">nba.com game page</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf">official game book PDF</a></td></tr><tr><td>2026-11-15</td><td>0022600236</td><td>IND@PHI</td><td>35 / 22 / 30 / 37</td><td>29 / 29 / 39 / 34</td><td class="n">124–131</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-16T00-05Z</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf">official game book PDF</a><br><a href="https://www.nba.com/game/0022600236">nba.com game page</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>2026-11-15</td><td>0022600237</td><td>LAL@PHX</td><td>33 / 31 / 40 / 27</td><td>24 / 30 / 26 / 43</td><td class="n">131–123</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-16T00-05Z</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a><br><a href="https://www.nba.com/game/0022600237">nba.com game page</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>2026-11-15</td><td>0022600238</td><td>CHA@LAC</td><td>21 / 31 / 31 / 22</td><td>22 / 29 / 33 / 29</td><td class="n">105–113</td><td>Final</td><td><span class="pill ok">verified</span></td><td>2026-11-16T00-05Z</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf">official game book PDF</a><br><a href="https://www.nba.com/game/0022600238">nba.com game page</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr></tbody></table>
+<h2>Settlement stamp</h2>
+<p>settled_utc is the time this build last confirmed the finals against the official pages; it moves only on a re-read. The ledger is settled from this feed as each game day ends:
+0 picks settled, 7 pending, last settlement stamp
+<span class="blank">none yet — no sealed pick has a verified final</span>.</p>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

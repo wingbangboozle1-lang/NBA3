@@ -29,7 +29,7 @@ from datetime import date, timedelta
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "data", "slate")
-SLATE_UTC = "2026-11-15T23-50Z"          # newest official source read in this round
+SLATE_UTC = "2026-11-16T00-05Z"          # newest official source read in this round
 WARMUP = 60                              # games before walk-forward scoring starts
 SHRINK_K = 6.0                           # prior weight (in games) for the rating/total shrinkage
 SHRINK_GRID = (0.0, 6.0, 12.0, 20.0)     # published sensitivity, see the flagged note
@@ -42,7 +42,7 @@ STAND_URL = "https://www.nba.com/standings"
 INJ_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
 LOG_SOURCES = ["data/origin/games.csv (official results capture, 188 games)",
                "data/live/results/settled_2026-11-14.json (5 finals, official game books)",
-               "data/slate/results_feed.json (11/15 IND@PHI, official game book)"]
+               "data/slate/results_feed.json (11/15 IND@PHI, LAL@PHX and CHA@LAC, official game books)"]
 
 
 def pkey(name):

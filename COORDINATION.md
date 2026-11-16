@@ -4439,6 +4439,45 @@ commits. Per the takeover rule this session **may** take them over; it does not 
 here, because both carry large diffs over files this session does not own. Their content is not
 duplicated by this round. Logged for the next integration session.
 
+**Round log (this session).**
+
+| Time (UTC) | What | Result |
+|---|---|---|
+| 2026-11-15T23:40Z | Claim written, committed and pushed before any other work | done |
+| 2026-11-15T23:50Z | Newest filed official injury report (06:30 PM ET, 155 rows) archived, diffed against 06:15 AM: 19 status changes, 66 added, 1 removed | `data/slate/injuries/` |
+| 2026-11-15T23:50Z | Official standings + advanced page captured | 30 rows each |
+| 2026-11-15T23:55Z | Arena coordinate table completed 30/30; travel distance for all 25 team-games, 0 blanks | `arena_coordinates.json`, `travel.json` |
+| 2026-11-16T00:05Z | **Second read of the night.** LAL@PHX (131-123) and CHA@LAC (105-113) had gone final between the first and second reads; standings, advanced, traditional and opponent pages were all re-read, and the three 11/15 game books captured. Results feed 8/8 verified. | `data/slate/raw/`, `results_feed.json` |
+| 2026-11-16T00:05Z | Two-estimator model: E1 results log, E2 possessions x PPP; HCA pinned 1.213 pts; E1 OOS log-loss 0.6023 vs coin 0.6931; luck z with MIA/SAS/UTA outside the band | `model.json` |
+| 2026-11-16T00:05Z | Three strategies pre-registered and frozen, 6 research picks sealed into a sha256 hash chain (head `de23978b93cd8232`), chain verified | `prereg/`, `ledger/` |
+| 2026-11-16T00:05Z | 12 freshness/provenance gates, all passing; refresh driver refuses the rebuild when a gate fails | `gates.json`, `scripts/refresh_round_3d625d23.py` |
+| 2026-11-16T00:05Z | `slate/` site: 17 pages, every table row carries an official-source link, 0 broken links, rebuilds byte-identically | `slate/`, `scripts/build_slate_site.py` |
+
+**Key measurements this round (cite these, do not re-derive).**
+- HCA pinned = sigma x probit(home-win rate) = 16.790 x probit(0.5288) = **1.213 pts** over 191 games.
+- E1 walk-forward OOS: n=131, log-loss 0.6023, accuracy 0.6794 (coin 0.6931), MAE margin 12.28, MAE total 14.41.
+- E2 OOS: n=3, log-loss 0.3755 — under the pre-registered 30-game minimum it carries weight 0, so
+  the blend equals E1 and the headline is the disagreement.
+- Measured rho: margin vs total -0.0209; home pts vs away pts +0.1322; cross-game home-win -0.0139 (n=775).
+- Luck outside +/-1.96: **MIA (+2.03), SAS (+2.31), UTA (-2.31)** — no strategy publishes a bet on them.
+- Rotation-minute coverage **25/30** clubs (ATL, BOS, NYK, OKC, TOR have no captured book).
+
+**Irregularities flagged this round (all published on `/slate/flagged.html`).**
+- F-3D-01/02: market-anchored prior and player-prop rho are blank (no feed).
+- F-3D-03: E2 has 3 out-of-sample games, so it carries no blend weight.
+- F-3D-04: rotation minutes cover 25/30 clubs; the other five print blank.
+- F-3D-05: **the four official team-stat pages were out of sync** — traditional and opponent had not
+  absorbed the CHA@LAC final at read time (LAC 11 GP 3-8, CHA 12 GP 4-8) while advanced and standings
+  had (LAC 12 GP 4-8, CHA 13 GP 4-9). Published as an irregularity, not reconciled.
+- F-3D-06: two reads of the standings/advanced pages in one night; the earlier (23:41Z / 23:45Z) reads
+  caught LAL@PHX and CHA@LAC still live and are superseded, not discarded.
+- F-3D-07: game-book extraction artefacts (MIL@ORL score rows corrupted; CHA@PHX prints home as
+  "SUNG"; POR@SAC has a duplicate score table; DET@WAS is a two-OT game with 290:00 team minutes).
+- F-3D-08: six 11/15 games were still live at the read and are absent from the feed.
+- F-3D-09: no strategy has cleared its validation gate; nothing is funded and no money is staked.
+- F-3D-10: HCA conflicts with earlier sessions (1.127 free-fitted, 1.62 another fit). The pinned rule
+  is used and the conflict is published rather than averaged.
+
 **Change requests to other sessions (logged, not applied).**
 - CR-3D-01 to the owner of `scripts/refresh_official.py` (session 79341829): please add the
   official standings page (https://www.nba.com/standings) to the scheduled fetch set; this round

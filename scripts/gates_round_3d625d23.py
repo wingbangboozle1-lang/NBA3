@@ -18,7 +18,7 @@ from datetime import date
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "data", "slate")
 SESSION = "arena/3d625d23-nba3"
-SLATE_UTC = "2026-11-15T23-50Z"
+SLATE_UTC = "2026-11-16T00-05Z"
 WINDOW_FROM = "2026-11-16"
 WINDOW_TO = "2026-11-18"
 MAX_AHEAD_DAYS = 3
@@ -66,7 +66,10 @@ def run_gates():
     ok = all(c["has_source_url"] and c["has_retrieval_stamp"] for c in caps)
     add("G1", "every capture carries a source URL, a retrieval stamp and a hash", ok,
         f"{len(caps)} captures under data/slate/raw/, all with https source URL and retrieval "
-        f"stamp; sha256 recorded per file", ["data/slate/raw/"])
+        f"stamp; sha256 recorded per file",
+        [inj["source_url"], "https://www.nba.com/standings",
+         "https://www.nba.com/stats/teams/advanced",
+         "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf", "data/slate/raw/"])
 
     # G2 freshness: the archived report is the newest the official index listed at read time
     ok = bool(inj.get("report_stamp")) and bool(inj.get("retrieved_utc"))
@@ -108,8 +111,8 @@ def run_gates():
                                     encoding="utf-8")))
     log = [r for r in rows]
     seen = {(r["date"], r["away"], r["home"]) for r in rows}
-    # the standings page was read after the 11/15 IND@PHI final was posted, so the comparison
-    # includes every officially settled game, not just the ones in the CSV
+    # the standings page was read after the 11/15 IND@PHI, LAL@PHX and CHA@LAC finals were
+    # posted, so the comparison includes every officially settled game, not just the CSV ones
     for g in feed["games"]:
         if g.get("verified") and g["away_final"] is not None \
                 and (g["date"], g["away"], g["home"]) not in seen:
@@ -131,8 +134,9 @@ def run_gates():
     add("G5", "official standings reconcile with the official game log, club by club",
         not mism,
         f"30 clubs compared against {len(log)} distinct officially settled games (the CSV "
-        f"through 2026-11-14 plus the verified 11/15 IND@PHI final, which the standings page "
-        f"already carries at its {SLATE_UTC} read); {len(mism)} mismatches"
+        f"through 2026-11-14 plus the three verified 11/15 finals (IND@PHI, LAL@PHX, CHA@LAC), "
+        f"which the standings page already carries at its {SLATE_UTC} read); "
+        f"{len(mism)} mismatches"
         + (f": {mism}" if mism else ""),
         [standings["source_url"], "data/origin/games.csv"])
 
@@ -159,7 +163,7 @@ def run_gates():
         f"window {WINDOW_FROM}..{WINDOW_TO} = {span} days ahead of 2026-11-15 (max "
         f"{MAX_AHEAD_DAYS}); games already under way on 2026-11-15 are excluded from the "
         f"betting window",
-        [slate["source_url"]])
+        [slate["source_url"], "https://www.nba.com/schedule?date=2026-11-16"])
 
     # G8 no projection is published without both estimators or an explicit blank+flag ----
     bad = [p["game_id"] for p in model["projections"]
@@ -182,7 +186,8 @@ def run_gates():
         os.path.join(OUT, "ledger", "index.json")) else None
     add("G9", "the pick ledger hash chain verifies", rc == 0,
         buf.getvalue().strip(),
-        ["data/slate/ledger/ledger.jsonl", "data/slate/ledger/index.json"])
+        ["data/slate/ledger/ledger.jsonl", "data/slate/ledger/index.json",
+         "https://www.nba.com/standings", "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"])
 
     # G10 travel cells: measured from a sourced coordinate, or blank and flagged ----------
     blank = [r["game_id"] for r in travel["rows"]
@@ -201,7 +206,7 @@ def run_gates():
         minutes["counts"]["teams_with_minutes"] > 0,
         f"{minutes['counts']['teams_with_minutes']}/30 clubs have a captured game book; the other "
         f"{missing} print blank rotation cells with the reason, never inferred",
-        minutes["sources"])
+        minutes["sources"] + ["https://www.nba.com/schedule?date=2026-11-16"])
 
     # G12 no wall clock in the generated artefacts ----------------------------------------
     offenders = []
@@ -215,7 +220,8 @@ def run_gates():
         not offenders,
         f"every artefact is stamped {SLATE_UTC} (the newest official source read in this round); "
         f"{len(offenders)} files with a different stamp" + (f": {offenders}" if offenders else ""),
-        ["data/slate/"])
+        ["data/slate/", "https://www.nba.com/standings",
+         "https://www.nba.com/stats/teams/advanced"])
 
     passed = sum(1 for g in gates if g["status"] == "PASS")
     return {"schema": "nba3.slate.gates/v1", "session": SESSION, "evaluated_utc": SLATE_UTC,

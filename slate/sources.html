@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html" style="border-color:var(--acc);color:var(--acc)">Sources</a></nav>
+<main>
+
+<div class="banner">Every table row on this site carries a link to the official page it came from.
+This page lists them all in one place.</div>
+<table><thead><tr><th>Source</th><th>URL</th><th>What it is used for</th></tr></thead><tbody><tr><td>Official injury report (PDF)</td><td><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official.nba.com/nba-injury-report-2025-26-season/</a></td><td>Index of every filed report; the newest 11/15 filing is the 06:30 PM ET PDF</td></tr><tr><td>Official injury report, 11/15 06:30 PM ET</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf">ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf</a></td><td>155 rows; the revision stamp printed on every page</td></tr><tr><td>Official schedule</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">www.nba.com/schedule?date=2026-11-16</a></td><td>Window 11/16–11/18: game ids, matchups, arenas, tip times</td></tr><tr><td>Official standings</td><td><a href="https://www.nba.com/standings">www.nba.com/standings</a></td><td>30 clubs, conference view, Overall section</td></tr><tr><td>Official team stats — traditional</td><td><a href="https://www.nba.com/stats/teams/traditional">www.nba.com/stats/teams/traditional</a></td><td>30 rows, per game</td></tr><tr><td>Official team stats — opponent</td><td><a href="https://www.nba.com/stats/teams/opponent">www.nba.com/stats/teams/opponent</a></td><td>30 rows, per game</td></tr><tr><td>Official team stats — advanced</td><td><a href="https://www.nba.com/stats/teams/advanced">www.nba.com/stats/teams/advanced</a></td><td>OffRtg, DefRtg, NetRtg, Pace, PIE, POSS — the inputs to E2</td></tr><tr><td>Official game book, 11/15 LAL@PHX</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf</a></td><td>Final 131–123, quarter scores, minutes, inactive list</td></tr><tr><td>Official game book, 11/15 CHA@LAC</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf">statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf</a></td><td>Final 105–113, quarter scores, minutes, inactive list</td></tr><tr><td>Official game book, 11/15 IND@PHI</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf">statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf</a></td><td>Final 124–131, quarter scores, minutes, inactive list</td></tr><tr><td>Official game book, 11/13 MIL@ORL</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf">statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf</a></td><td>ORL minutes; score rows corrupted in extraction, used for minutes only</td></tr><tr><td>Official game book, 11/12 DET@WAS</td><td><a href="https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf">statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf</a></td><td>Two overtimes — 290:00 team minutes</td></tr><tr><td>Official game book, 11/13 GSW@SAS</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf">statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf</a></td><td>Minutes and inactive lists</td></tr><tr><td>Official game book, 11/13 UTA@HOU</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf">statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf</a></td><td>Minutes and inactive lists</td></tr><tr><td>Official game book, 11/12 CHA@PHX</td><td><a href="https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf">statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf</a></td><td>Minutes and inactive lists</td></tr><tr><td>Official game book, 11/13 POR@SAC</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf">statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf</a></td><td>Minutes and inactive lists</td></tr><tr><td>Arena coordinate reference</td><td><a href="https://en.wikipedia.org/wiki/List_of_National_Basketball_Association_arenas">en.wikipedia.org/wiki/List_of_National_Basketball_Association_arenas</a></td><td>Reference-labelled coordinates; every row in the table carries its own citation</td></tr></tbody></table>
+<h3>Captures and integrity</h3>
+<p>Each page read is stored verbatim under <code>data/slate/raw/</code> with its source URL, a
+retrieval stamp and a sha256 of the file. The parsers read those committed transcriptions only, so
+the build is reproducible offline and a difference in the output means a real input changed.</p>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

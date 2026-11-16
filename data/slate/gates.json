@@ -1,7 +1,7 @@
 {
  "schema": "nba3.slate.gates/v1",
  "session": "arena/3d625d23-nba3",
- "evaluated_utc": "2026-11-15T23-50Z",
+ "evaluated_utc": "2026-11-16T00-05Z",
  "rule": "the scheduled refresh rebuilds only when every gate passes; a failure leaves the last good build in place",
  "counts": {
   "gates": 12,
@@ -14,8 +14,12 @@
    "id": "G1",
    "name": "every capture carries a source URL, a retrieval stamp and a hash",
    "status": "PASS",
-   "detail": "11 captures under data/slate/raw/, all with https source URL and retrieval stamp; sha256 recorded per file",
+   "detail": "15 captures under data/slate/raw/, all with https source URL and retrieval stamp; sha256 recorded per file",
    "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "https://www.nba.com/standings",
+    "https://www.nba.com/stats/teams/advanced",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
     "data/slate/raw/"
    ]
   },
@@ -23,7 +27,7 @@
    "id": "G2",
    "name": "the newest official injury report was read and archived with its revision stamp",
    "status": "PASS",
-   "detail": "archived filing 2026-11-15 06:30 PM ET (printed on every page of the PDF), read 2026-11-15T23-50Z; the index listed no later 11/15 filing at read time (newest link: 06:30 PM ET)",
+   "detail": "archived filing 2026-11-15 06:30 PM ET (printed on every page of the PDF), read 2026-11-16T00-05Z; the index listed no later 11/15 filing at read time (newest link: 06:30 PM ET)",
    "sources": [
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
     "https://official.nba.com/nba-injury-report-2026-27-season/"
@@ -43,7 +47,7 @@
    "id": "G4",
    "name": "every settled game: quarters sum to the printed final and two official reads agree",
    "status": "PASS",
-   "detail": "6 rows, 0 failures",
+   "detail": "8 rows, 0 failures",
    "sources": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
     "data/live/results/settled_2026-11-14.json"
@@ -53,7 +57,7 @@
    "id": "G5",
    "name": "official standings reconcile with the official game log, club by club",
    "status": "PASS",
-   "detail": "30 clubs compared against 189 distinct officially settled games (the CSV through 2026-11-14 plus the verified 11/15 IND@PHI final, which the standings page already carries at its 2026-11-15T23-50Z read); 0 mismatches",
+   "detail": "30 clubs compared against 191 distinct officially settled games (the CSV through 2026-11-14 plus the three verified 11/15 finals (IND@PHI, LAL@PHX, CHA@LAC), which the standings page already carries at its 2026-11-16T00-05Z read); 0 mismatches",
    "sources": [
     "https://www.nba.com/standings",
     "data/origin/games.csv"
@@ -75,6 +79,7 @@
    "status": "PASS",
    "detail": "window 2026-11-16..2026-11-18 = 3 days ahead of 2026-11-15 (max 3); games already under way on 2026-11-15 are excluded from the betting window",
    "sources": [
+    "https://www.nba.com/schedule?date=2026-11-16",
     "https://www.nba.com/schedule?date=2026-11-16"
    ]
   },
@@ -91,10 +96,12 @@
    "id": "G9",
    "name": "the pick ledger hash chain verifies",
    "status": "PASS",
-   "detail": "CHAIN INTACT \u2014 6 picks, head 38d803e6f9b41b19",
+   "detail": "CHAIN INTACT \u2014 7 picks, head de23978b93cd8232",
    "sources": [
     "data/slate/ledger/ledger.jsonl",
-    "data/slate/ledger/index.json"
+    "data/slate/ledger/index.json",
+    "https://www.nba.com/standings",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"
    ]
   },
   {
@@ -111,7 +118,7 @@
    "id": "G11",
    "name": "rotation minutes are measured from an official game book, or blank and flagged",
    "status": "PASS",
-   "detail": "23/30 clubs have a captured game book; the other 7 print blank rotation cells with the reason, never inferred",
+   "detail": "25/30 clubs have a captured game book; the other 5 print blank rotation cells with the reason, never inferred",
    "sources": [
     "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
     "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf",
@@ -124,16 +131,21 @@
     "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
     "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
     "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
-    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+    "https://www.nba.com/schedule?date=2026-11-16"
    ]
   },
   {
    "id": "G12",
    "name": "generated artefacts carry the source-read stamp, never a wall clock",
    "status": "PASS",
-   "detail": "every artefact is stamped 2026-11-15T23-50Z (the newest official source read in this round); 0 files with a different stamp",
+   "detail": "every artefact is stamped 2026-11-16T00-05Z (the newest official source read in this round); 0 files with a different stamp",
    "sources": [
-    "data/slate/"
+    "data/slate/",
+    "https://www.nba.com/standings",
+    "https://www.nba.com/stats/teams/advanced"
    ]
   }
  ]

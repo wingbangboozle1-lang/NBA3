@@ -74,6 +74,9 @@ NAV = [
         ("Injury refresh audit", "audit_1823b910/pages/index.html"),
         ("Injury freshness audit (1:30 PM ET)", "audit_736efb4b/index.html"),
     ]),
+    ("Rolling slate (arena/3d625d23-nba3)", [
+        ("Slate dashboard", "slate/index.html"),
+    ]),
     ("Archive", [
         ("Earlier sessions", "archive.html"),
     ]),

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flagged for review — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html" style="border-color:var(--acc);color:var(--acc)">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner warn"><strong>Anything that could not be confirmed from an official source is
+published here instead of being quietly filled in.</strong> These items do not block the site; they
+are the list of things a reviewer should look at first.</div>
+<table><thead><tr><th>Id</th><th>Flagged item</th><th>What it means</th><th>Where</th>
+<th>Official page to check it against</th></tr></thead><tbody><tr><td>F-3D-01</td><td>Market-anchored prior is blank</td><td>No licensed closing-line feed is connected, so every blended line is blank and flagged and the model line is published alone.</td><td><code>data/slate/prior.json</code></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>F-3D-02</td><td>Player-prop correlations not measured</td><td>There is no prop line feed and no per-player prop results history in this environment, so the player-prop rho cell is blank rather than assumed.</td><td><code>data/slate/model.json → correlations</code></td><td><a href="https://www.nba.com/stats/teams/traditional">nba.com team traditional</a></td></tr><tr><td>F-3D-03</td><td>Estimator E2 has 3 out-of-sample games</td><td>The official advanced page is a single current snapshot, so E2 cannot be scored on history. It carries zero blend weight under the pre-registered 30-game minimum.</td><td><code>data/slate/model.json → blend</code></td><td><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr><tr><td>F-3D-04</td><td>Rotation minutes cover 25 of 30 clubs</td><td>ATL, BOS, NYK, OKC and TOR have no captured game book. Their rotation cells read blank; nothing is inferred.</td><td><code>data/slate/minutes.json</code></td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a></td></tr><tr><td>F-3D-05</td><td>The four official team pages were out of sync at read time</td><td>Traditional and opponent had not absorbed the CHA@LAC final; advanced and standings had. Published as an irregularity, not reconciled.</td><td><code>data/slate/raw/team_*.md</code></td><td><a href="https://www.nba.com/stats/teams/opponent">nba.com team opponent</a></td></tr><tr><td>F-3D-06</td><td>Two reads of the standings and advanced pages in one night</td><td>The 23:41Z / 23:45Z reads caught LAL@PHX and CHA@LAC still live; the 00:05Z reads carry both finals. The earlier reads are superseded, not discarded.</td><td><code>data/slate/raw/standings_2026-11-15.md</code></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>F-3D-07</td><td>Game-book extraction artefacts</td><td>MIL@ORL: score-by-period and totals rows corrupted (minutes only). CHA@PHX: home club prints as SUNG. POR@SAC: duplicate score table, first copy missing the home row. DET@WAS: two overtimes, so its team-minutes denominator is 290:00.</td><td><code>data/slate/raw/gamebook_*.md</code></td><td><a href="https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf">official game book PDF</a></td></tr><tr><td>F-3D-08</td><td>Six 11/15 games were still live at the read</td><td>SAS@UTA, DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and OKC@SAC had not finished, so they are absent from the results feed and their books are partial.</td><td><code>data/slate/results_feed.json</code></td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>F-3D-09</td><td>No strategy has cleared its validation gate</td><td>Three strategies are pre-registered and six research picks are sealed, but none has an out-of-sample record. Nothing here is funded and no money is staked.</td><td><code>data/slate/prereg/, data/slate/picks.json</code></td><td><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a></td></tr><tr><td>F-3D-10</td><td>Home-court advantage disagrees with earlier sessions</td><td>This round pins HCA at 1.213 pts (sigma × probit of the measured home-win rate over 191 games). Earlier sessions published 1.127 and a free-fitted 1.62. The pinned rule is used and the conflict is published rather than averaged.</td><td><code>data/slate/model.json → hca</code></td><td><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr></tbody></table>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pre-registration — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html" style="border-color:var(--acc);color:var(--acc)">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>Each strategy is frozen in a file before its first bet, and the file is
+never overwritten.</strong> Re-running the builder leaves an existing pre-registration untouched —
+that is enforced by the script, not by convention.</div>
+<table class=""><thead><tr><th>Id</th><th>Name</th><th>Hypothesis</th><th>Signal</th><th>Universe</th><th>Thresholds</th><th>Rule</th><th>Market</th><th>Refusals</th><th>Settlement rule</th><th>Official inputs</th></tr></thead><tbody><tr><td>ST1_AGREEMENT_SIDE</td><td>Estimator-agreement side</td><td>When the two independent estimators land within 3 points of each other, the originated spread is measuring a real gap rather than estimator noise, so the side is worth taking; when they disagree, the spread is not.</td><td>blend_margin, |E1_margin - E2_margin|</td><td>every game in the rolling window (up to three days ahead) with both estimators available</td><td>max_disagreement_pts: 3.0<br>min_abs_margin: 1.0</td><td>take the home side to cover the originated spread when the two margins have the same sign and their disagreement is &lt;= 3.0 points; otherwise no bet</td><td>spread (originated)</td><td>• no bet if either club&#x27;s luck z-score is outside +-1.96 (noise band)<br>• no bet if the official injury report has not been filed for that game date<br>• no bet if the game&#x27;s rotation minutes are unmeasurable for BOTH clubs and the disagreement is above 1.0 point</td><td>home covers when (home_pts - away_pts) &gt; (-blend_margin); a push (exactly equal) settles as a loss. Settled from the official final score.</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a><br><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr><tr><td>ST2_PACING_TOTAL</td><td>Possessions-versus-results total</td><td>The efficiency page sees pace and efficiency shifts before the results log absorbs them, so a gap between the two totals is the signal, not noise.</td><td>E2_total - E1_total (possessions x PPP minus the results-log total)</td><td>every game in the rolling window with both estimators available</td><td>min_gap_pts: 4.0</td><td>over when E2_total - E1_total &gt;= +4.0; under when &lt;= -4.0; otherwise no bet</td><td>total (originated)</td><td>• no bet if either club&#x27;s luck z-score is outside +-1.96 (noise band)<br>• no bet if the official injury report has not been filed for that game date</td><td>over wins when (home_pts + away_pts) &gt; blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a><br><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr><tr><td>ST3_REST_TRAVEL_FADE</td><td>Road back-to-back travel fade</td><td>A road club playing the second night of a back-to-back after a long flight under-performs the originated line more often than chance.</td><td>away_b2b, away_travel_mi (official schedule + arena coordinates)</td><td>every game in the rolling window whose travel row is complete (no blank arena coordinate)</td><td>min_travel_mi: 1000.0<br>max_abs_margin: 8.0</td><td>take the home side to cover the originated spread when the away club is on a back-to-back, its travel distance is &gt;= 1000 miles and |blend_margin| &lt;= 8.0</td><td>spread (originated)</td><td>• no bet if either club&#x27;s luck z-score is outside +-1.96 (noise band)<br>• no bet if any travel cell for the game is blank<br>• no bet if the official injury report has not been filed for that game date</td><td>home covers when (home_pts - away_pts) &gt; (-blend_margin); a push settles as a loss. Settled from the official final score.</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a><br><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr></tbody></table>
+<h3>Integrity</h3>
+<table class=""><thead><tr><th>File</th><th>Frozen (UTC)</th><th>sha256 of the canonical JSON</th><th>Official inputs</th></tr></thead><tbody><tr><td>data/slate/prereg/ST1_AGREEMENT_SIDE.json</td><td>2026-11-15T23-50Z</td><td><code>228c275f04a9e4404e7ab677b867fa7a…</code></td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a></td></tr><tr><td>data/slate/prereg/ST2_PACING_TOTAL.json</td><td>2026-11-15T23-50Z</td><td><code>5afa3da96cf494e96ba5be4f294a0be3…</code></td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a></td></tr><tr><td>data/slate/prereg/ST3_REST_TRAVEL_FADE.json</td><td>2026-11-15T23-50Z</td><td><code>6ad58a0af0bf3aa72d898a5682ca2567…</code></td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official injury report PDF</a></td></tr></tbody></table>
+<p class="dim">Rule: a pre-registration file is written before the strategy&#x27;s first bet and is never overwritten; re-running prereg leaves an existing file untouched</p>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

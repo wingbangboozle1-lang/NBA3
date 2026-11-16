@@ -1,7 +1,7 @@
 {
  "schema": "nba3.slate.picks/v1",
  "session": "arena/3d625d23-nba3",
- "published_utc": "2026-11-15T23-50Z",
+ "published_utc": "2026-11-16T00-05Z",
  "strategies": [
   "ST1_AGREEMENT_SIDE",
   "ST2_PACING_TOTAL",
@@ -12,7 +12,7 @@
   "bets": 6,
   "skipped": 69,
   "sealed_new": 0,
-  "sealed_total": 6
+  "sealed_total": 7
  },
  "candidates": [
   {
@@ -21,7 +21,7 @@
    "date": "2026-11-16",
    "matchup": "ORL@BOS",
    "bet": null,
-   "skip_reason": "estimators disagree by 7.01 pts (> 3.0)"
+   "skip_reason": "estimators disagree by 6.96 pts (> 3.0)"
   },
   {
    "strategy": "ST2_PACING_TOTAL",
@@ -29,10 +29,10 @@
    "date": "2026-11-16",
    "matchup": "ORL@BOS",
    "market": "total",
-   "line": 218.67,
+   "line": 218.69,
    "side": "under",
-   "bet": "under 218.67",
-   "why": "E2 - E1 = -4.29 pts",
+   "bet": "under 218.69",
+   "why": "E2 - E1 = -4.43 pts",
    "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
    "sources": {
     "slate": "https://www.nba.com/schedule?date=2026-11-16",
@@ -57,7 +57,7 @@
    "date": "2026-11-16",
    "matchup": "CHI@CLE",
    "bet": null,
-   "skip_reason": "estimators disagree by 6.15 pts (> 3.0)"
+   "skip_reason": "estimators disagree by 6.13 pts (> 3.0)"
   },
   {
    "strategy": "ST2_PACING_TOTAL",
@@ -65,10 +65,10 @@
    "date": "2026-11-16",
    "matchup": "CHI@CLE",
    "market": "total",
-   "line": 247.54,
+   "line": 247.6,
    "side": "under",
-   "bet": "under 247.54",
-   "why": "E2 - E1 = -7.50 pts",
+   "bet": "under 247.6",
+   "why": "E2 - E1 = -7.70 pts",
    "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
    "sources": {
     "slate": "https://www.nba.com/schedule?date=2026-11-16",
@@ -93,15 +93,27 @@
    "date": "2026-11-16",
    "matchup": "MEM@WAS",
    "bet": null,
-   "skip_reason": "estimators disagree by 3.50 pts (> 3.0)"
+   "skip_reason": "estimators disagree by 3.56 pts (> 3.0)"
   },
   {
    "strategy": "ST2_PACING_TOTAL",
    "game_id": "0022600247",
    "date": "2026-11-16",
    "matchup": "MEM@WAS",
-   "bet": null,
-   "skip_reason": "total gap -3.87 pts is inside 4.0"
+   "market": "total",
+   "line": 230.34,
+   "side": "under",
+   "bet": "under 230.34",
+   "why": "E2 - E1 = -4.09 pts",
+   "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/mem-vs-was-0022600247"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
   },
   {
    "strategy": "ST3_REST_TRAVEL_FADE",
@@ -125,10 +137,10 @@
    "date": "2026-11-16",
    "matchup": "PHI@BKN",
    "market": "total",
-   "line": 225.91,
+   "line": 225.85,
    "side": "under",
-   "bet": "under 225.91",
-   "why": "E2 - E1 = -4.09 pts",
+   "bet": "under 225.85",
+   "why": "E2 - E1 = -4.16 pts",
    "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
    "sources": {
     "slate": "https://www.nba.com/schedule?date=2026-11-16",
@@ -177,7 +189,7 @@
    "date": "2026-11-16",
    "matchup": "POR@MIN",
    "bet": null,
-   "skip_reason": "estimators disagree by 3.97 pts (> 3.0)"
+   "skip_reason": "estimators disagree by 3.96 pts (> 3.0)"
   },
   {
    "strategy": "ST2_PACING_TOTAL",
@@ -185,7 +197,7 @@
    "date": "2026-11-16",
    "matchup": "POR@MIN",
    "bet": null,
-   "skip_reason": "total gap -0.91 pts is inside 4.0"
+   "skip_reason": "total gap -0.86 pts is inside 4.0"
   },
   {
    "strategy": "ST3_REST_TRAVEL_FADE",
@@ -204,7 +216,7 @@
    "line": 10.44,
    "side": "home",
    "bet": "home 10.44",
-   "why": "disagreement 1.39 pts",
+   "why": "disagreement 1.40 pts",
    "settlement": "home covers when (home_pts - away_pts) > (-blend_margin); a push (exactly equal) settles as a loss. Settled from the official final score.",
    "sources": {
     "slate": "https://www.nba.com/schedule?date=2026-11-16",
@@ -221,7 +233,7 @@
    "date": "2026-11-16",
    "matchup": "GSW@NOP",
    "bet": null,
-   "skip_reason": "total gap -1.47 pts is inside 4.0"
+   "skip_reason": "total gap -1.38 pts is inside 4.0"
   },
   {
    "strategy": "ST3_REST_TRAVEL_FADE",
@@ -236,20 +248,8 @@
    "game_id": "0022600252",
    "date": "2026-11-16",
    "matchup": "PHX@DEN",
-   "market": "spread",
-   "line": -3.44,
-   "side": "home",
-   "bet": "home -3.44",
-   "why": "disagreement 2.89 pts",
-   "settlement": "home covers when (home_pts - away_pts) > (-blend_margin); a push (exactly equal) settles as a loss. Settled from the official final score.",
-   "sources": {
-    "slate": "https://www.nba.com/schedule?date=2026-11-16",
-    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-    "standings": "https://www.nba.com/standings",
-    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
-    "game": "https://www.nba.com/game/phx-vs-den-0022600252"
-   },
-   "stake": "none \u2014 research ledger, no money is staked"
+   "bet": null,
+   "skip_reason": "estimators disagree by 3.27 pts (> 3.0)"
   },
   {
    "strategy": "ST2_PACING_TOTAL",
@@ -257,10 +257,10 @@
    "date": "2026-11-16",
    "matchup": "PHX@DEN",
    "market": "total",
-   "line": 227.33,
+   "line": 228.27,
    "side": "over",
-   "bet": "over 227.33",
-   "why": "E2 - E1 = 4.03 pts",
+   "bet": "over 228.27",
+   "why": "E2 - E1 = 4.76 pts",
    "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
    "sources": {
     "slate": "https://www.nba.com/schedule?date=2026-11-16",
@@ -688,5 +688,5 @@
    "skip_reason": "no official injury report filed for this game date yet"
   }
  ],
- "ledger_head": "38d803e6f9b41b19553e6f2c9705228765472708c922b4692b4033ed58409612"
+ "ledger_head": "de23978b93cd82322719e0d87ac8eb04343cc556fadce4a36dea0306db912895"
 }

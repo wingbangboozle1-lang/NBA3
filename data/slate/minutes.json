@@ -1,7 +1,7 @@
 {
  "schema": "nba3.slate.minutes/v1",
  "session": "arena/3d625d23-nba3",
- "retrieved_utc": "2026-11-15T23-50Z",
+ "retrieved_utc": "2026-11-16T00-05Z",
  "rule": "top-8 minutes shares from the most recent captured official game book for that team, plus the pro-rata replacement shares that apply when one of those eight is out. The denominator is the team-minutes total printed on the game book's own totals row (240 for a regulation game, 290 for the 11/12 DET@WAS two-overtime game), never an assumed 240.",
  "sources": [
   "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
@@ -15,7 +15,9 @@
   "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
   "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
   "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
-  "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"
  ],
  "extraction_notes": [
   "20261114_DALCLE.pdf: the extraction dropped the 'VISITOR: Dallas Mavericks' header; those rows are attributed to DAL from the official file name and flagged.",
@@ -23,8 +25,8 @@
   "20261115_INDPHI.pdf: the home block's bench rows are shifted by one empty column and drop PTS; minutes are unaffected and are the only field taken from those rows."
  ],
  "counts": {
-  "teams_with_minutes": 23,
-  "teams_without_minutes": 7
+  "teams_with_minutes": 25,
+  "teams_without_minutes": 5
  },
  "teams": {
   "BKN": {
@@ -172,143 +174,143 @@
   },
   "CHA": {
    "team": "CHA",
-   "game": "2026-11-12",
-   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
-   "games_captured": 1,
+   "game": "2026-11-15",
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "games_captured": 2,
    "top8": [
     {
      "rank": 1,
-     "player": "Grayson Allen",
-     "minutes": 34.1,
-     "share_of_team_minutes": 0.142,
-     "share_of_240_regulation": 0.142,
+     "player": "4 Sion James",
+     "minutes": 35.5,
+     "share_of_team_minutes": 0.1478,
+     "share_of_240_regulation": 0.1478,
      "replacement_shares": {
-      "Naz Reid": 0.194,
-      "Sion James": 0.1842,
-      "Moussa Diabate": 0.1819,
-      "Royce O'Neale": 0.1261,
-      "Coby White": 0.1146,
-      "Christian Anderson": 0.1048,
-      "Ryan Kalkbrenner": 0.0944
+      "0 Naz Reid": 0.1696,
+      "14 Moussa Diabat\u00e9": 0.1627,
+      "8 Grayson Allen": 0.1535,
+      "24 Brandon Miller": 0.1516,
+      "2 Grant Williams": 0.125,
+      "3 Coby White": 0.1231,
+      "00 Royce O'Neale": 0.1145
      }
     },
     {
      "rank": 2,
-     "player": "Naz Reid",
-     "minutes": 33.7,
-     "share_of_team_minutes": 0.1406,
-     "share_of_240_regulation": 0.1406,
+     "player": "0 Naz Reid",
+     "minutes": 27.4,
+     "share_of_team_minutes": 0.114,
+     "share_of_240_regulation": 0.114,
      "replacement_shares": {
-      "Grayson Allen": 0.1959,
-      "Sion James": 0.1838,
-      "Moussa Diabate": 0.1815,
-      "Royce O'Neale": 0.1258,
-      "Coby White": 0.1143,
-      "Christian Anderson": 0.1045,
-      "Ryan Kalkbrenner": 0.0942
+      "4 Sion James": 0.2092,
+      "14 Moussa Diabat\u00e9": 0.155,
+      "8 Grayson Allen": 0.1461,
+      "24 Brandon Miller": 0.1444,
+      "2 Grant Williams": 0.119,
+      "3 Coby White": 0.1173,
+      "00 Royce O'Neale": 0.109
      }
     },
     {
      "rank": 3,
-     "player": "Sion James",
-     "minutes": 32.0,
-     "share_of_team_minutes": 0.1335,
-     "share_of_240_regulation": 0.1335,
+     "player": "14 Moussa Diabat\u00e9",
+     "minutes": 26.3,
+     "share_of_team_minutes": 0.1094,
+     "share_of_240_regulation": 0.1094,
      "replacement_shares": {
-      "Grayson Allen": 0.194,
-      "Naz Reid": 0.1917,
-      "Moussa Diabate": 0.1797,
-      "Royce O'Neale": 0.1246,
-      "Coby White": 0.1132,
-      "Christian Anderson": 0.1035,
-      "Ryan Kalkbrenner": 0.0933
+      "4 Sion James": 0.2078,
+      "0 Naz Reid": 0.1604,
+      "8 Grayson Allen": 0.1452,
+      "24 Brandon Miller": 0.1434,
+      "2 Grant Williams": 0.1183,
+      "3 Coby White": 0.1165,
+      "00 Royce O'Neale": 0.1083
      }
     },
     {
      "rank": 4,
-     "player": "Moussa Diabate",
-     "minutes": 31.6,
-     "share_of_team_minutes": 0.1316,
-     "share_of_240_regulation": 0.1316,
+     "player": "8 Grayson Allen",
+     "minutes": 24.8,
+     "share_of_team_minutes": 0.1035,
+     "share_of_240_regulation": 0.1035,
      "replacement_shares": {
-      "Grayson Allen": 0.1935,
-      "Naz Reid": 0.1913,
-      "Sion James": 0.1816,
-      "Royce O'Neale": 0.1243,
-      "Coby White": 0.1129,
-      "Christian Anderson": 0.1033,
-      "Ryan Kalkbrenner": 0.0931
+      "4 Sion James": 0.206,
+      "0 Naz Reid": 0.159,
+      "14 Moussa Diabat\u00e9": 0.1526,
+      "24 Brandon Miller": 0.1422,
+      "2 Grant Williams": 0.1172,
+      "3 Coby White": 0.1155,
+      "00 Royce O'Neale": 0.1074
      }
     },
     {
      "rank": 5,
-     "player": "Royce O'Neale",
-     "minutes": 21.9,
-     "share_of_team_minutes": 0.0912,
-     "share_of_240_regulation": 0.0912,
+     "player": "24 Brandon Miller",
+     "minutes": 24.5,
+     "share_of_team_minutes": 0.1019,
+     "share_of_240_regulation": 0.1019,
      "replacement_shares": {
-      "Grayson Allen": 0.1834,
-      "Naz Reid": 0.1813,
-      "Sion James": 0.1721,
-      "Moussa Diabate": 0.17,
-      "Coby White": 0.107,
-      "Christian Anderson": 0.0979,
-      "Ryan Kalkbrenner": 0.0882
+      "4 Sion James": 0.2057,
+      "0 Naz Reid": 0.1587,
+      "14 Moussa Diabat\u00e9": 0.1524,
+      "8 Grayson Allen": 0.1437,
+      "2 Grant Williams": 0.117,
+      "3 Coby White": 0.1153,
+      "00 Royce O'Neale": 0.1072
      }
     },
     {
      "rank": 6,
-     "player": "Coby White",
-     "minutes": 19.9,
-     "share_of_team_minutes": 0.0831,
-     "share_of_240_regulation": 0.0831,
+     "player": "2 Grant Williams",
+     "minutes": 20.2,
+     "share_of_team_minutes": 0.0841,
+     "share_of_240_regulation": 0.0841,
      "replacement_shares": {
-      "Grayson Allen": 0.1815,
-      "Naz Reid": 0.1794,
-      "Sion James": 0.1703,
-      "Moussa Diabate": 0.1682,
-      "Royce O'Neale": 0.1166,
-      "Christian Anderson": 0.0969,
-      "Ryan Kalkbrenner": 0.0873
+      "4 Sion James": 0.2007,
+      "0 Naz Reid": 0.1549,
+      "14 Moussa Diabat\u00e9": 0.1487,
+      "8 Grayson Allen": 0.1402,
+      "24 Brandon Miller": 0.1385,
+      "3 Coby White": 0.1125,
+      "00 Royce O'Neale": 0.1046
      }
     },
     {
      "rank": 7,
-     "player": "Christian Anderson",
-     "minutes": 18.2,
-     "share_of_team_minutes": 0.076,
-     "share_of_240_regulation": 0.076,
+     "player": "3 Coby White",
+     "minutes": 19.9,
+     "share_of_team_minutes": 0.0831,
+     "share_of_240_regulation": 0.0831,
      "replacement_shares": {
-      "Grayson Allen": 0.1799,
-      "Naz Reid": 0.1777,
-      "Sion James": 0.1688,
-      "Moussa Diabate": 0.1667,
-      "Royce O'Neale": 0.1155,
-      "Coby White": 0.105,
-      "Ryan Kalkbrenner": 0.0865
+      "4 Sion James": 0.2003,
+      "0 Naz Reid": 0.1546,
+      "14 Moussa Diabat\u00e9": 0.1484,
+      "8 Grayson Allen": 0.14,
+      "24 Brandon Miller": 0.1383,
+      "2 Grant Williams": 0.114,
+      "00 Royce O'Neale": 0.1044
      }
     },
     {
      "rank": 8,
-     "player": "Ryan Kalkbrenner",
-     "minutes": 16.4,
-     "share_of_team_minutes": 0.0683,
-     "share_of_240_regulation": 0.0683,
+     "player": "00 Royce O'Neale",
+     "minutes": 18.5,
+     "share_of_team_minutes": 0.0771,
+     "share_of_240_regulation": 0.0771,
      "replacement_shares": {
-      "Grayson Allen": 0.1782,
-      "Naz Reid": 0.1761,
-      "Sion James": 0.1672,
-      "Moussa Diabate": 0.1651,
-      "Royce O'Neale": 0.1144,
-      "Coby White": 0.104,
-      "Christian Anderson": 0.0951
+      "4 Sion James": 0.1988,
+      "0 Naz Reid": 0.1534,
+      "14 Moussa Diabat\u00e9": 0.1473,
+      "8 Grayson Allen": 0.1389,
+      "24 Brandon Miller": 0.1372,
+      "2 Grant Williams": 0.1131,
+      "3 Coby White": 0.1114
      }
     }
    ],
-   "top8_minutes": 207.8,
-   "top8_share_of_team_minutes": 0.8658,
-   "others_minutes": 32.2,
-   "others_share_of_team_minutes": 0.1342,
+   "top8_minutes": 197.1,
+   "top8_share_of_team_minutes": 0.8212,
+   "others_minutes": 42.9,
+   "others_share_of_team_minutes": 0.1788,
    "team_minutes": 240.0,
    "overtime": false,
    "redistribution_rule": "when a player is Out, his minutes are redistributed pro rata over the remaining seven top-8 players; the 'others' bucket (minutes outside the top 8) is reported, never absorbed"
@@ -1328,6 +1330,292 @@
    "overtime": false,
    "redistribution_rule": "when a player is Out, his minutes are redistributed pro rata over the remaining seven top-8 players; the 'others' bucket (minutes outside the top 8) is reported, never absorbed"
   },
+  "LAC": {
+   "team": "LAC",
+   "game": "2026-11-15",
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "games_captured": 1,
+   "top8": [
+    {
+     "rank": 1,
+     "player": "Darius Garland",
+     "minutes": 34.8,
+     "share_of_team_minutes": 0.1451,
+     "share_of_240_regulation": 0.1451,
+     "replacement_shares": {
+      "Brook Lopez": 0.1705,
+      "Keaton Wagler": 0.164,
+      "Derrick Jones Jr.": 0.1527,
+      "Max Strus": 0.1485,
+      "Rui Hachimura": 0.1318,
+      "Kobe Sanders": 0.1216,
+      "Gradey Dick": 0.1109
+     }
+    },
+    {
+     "rank": 2,
+     "player": "Brook Lopez",
+     "minutes": 28.6,
+     "share_of_team_minutes": 0.119,
+     "share_of_240_regulation": 0.119,
+     "replacement_shares": {
+      "Darius Garland": 0.2001,
+      "Keaton Wagler": 0.1581,
+      "Derrick Jones Jr.": 0.1472,
+      "Max Strus": 0.1432,
+      "Rui Hachimura": 0.1271,
+      "Kobe Sanders": 0.1173,
+      "Gradey Dick": 0.107
+     }
+    },
+    {
+     "rank": 3,
+     "player": "Keaton Wagler",
+     "minutes": 27.5,
+     "share_of_team_minutes": 0.1147,
+     "share_of_240_regulation": 0.1147,
+     "replacement_shares": {
+      "Darius Garland": 0.1989,
+      "Brook Lopez": 0.1634,
+      "Derrick Jones Jr.": 0.1463,
+      "Max Strus": 0.1423,
+      "Rui Hachimura": 0.1263,
+      "Kobe Sanders": 0.1166,
+      "Gradey Dick": 0.1063
+     }
+    },
+    {
+     "rank": 4,
+     "player": "Derrick Jones Jr.",
+     "minutes": 25.6,
+     "share_of_team_minutes": 0.1067,
+     "share_of_240_regulation": 0.1067,
+     "replacement_shares": {
+      "Darius Garland": 0.1967,
+      "Brook Lopez": 0.1617,
+      "Keaton Wagler": 0.1555,
+      "Max Strus": 0.1408,
+      "Rui Hachimura": 0.1249,
+      "Kobe Sanders": 0.1153,
+      "Gradey Dick": 0.1051
+     }
+    },
+    {
+     "rank": 5,
+     "player": "Max Strus",
+     "minutes": 24.9,
+     "share_of_team_minutes": 0.1037,
+     "share_of_240_regulation": 0.1037,
+     "replacement_shares": {
+      "Darius Garland": 0.1959,
+      "Brook Lopez": 0.161,
+      "Keaton Wagler": 0.1548,
+      "Derrick Jones Jr.": 0.1441,
+      "Rui Hachimura": 0.1244,
+      "Kobe Sanders": 0.1149,
+      "Gradey Dick": 0.1047
+     }
+    },
+    {
+     "rank": 6,
+     "player": "Rui Hachimura",
+     "minutes": 22.1,
+     "share_of_team_minutes": 0.092,
+     "share_of_240_regulation": 0.092,
+     "replacement_shares": {
+      "Darius Garland": 0.1929,
+      "Brook Lopez": 0.1585,
+      "Keaton Wagler": 0.1524,
+      "Derrick Jones Jr.": 0.1419,
+      "Max Strus": 0.138,
+      "Kobe Sanders": 0.1131,
+      "Gradey Dick": 0.1031
+     }
+    },
+    {
+     "rank": 7,
+     "player": "Kobe Sanders",
+     "minutes": 20.4,
+     "share_of_team_minutes": 0.0851,
+     "share_of_240_regulation": 0.0851,
+     "replacement_shares": {
+      "Darius Garland": 0.1911,
+      "Brook Lopez": 0.1571,
+      "Keaton Wagler": 0.151,
+      "Derrick Jones Jr.": 0.1406,
+      "Max Strus": 0.1367,
+      "Rui Hachimura": 0.1214,
+      "Gradey Dick": 0.1021
+     }
+    },
+    {
+     "rank": 8,
+     "player": "Gradey Dick",
+     "minutes": 18.6,
+     "share_of_team_minutes": 0.0776,
+     "share_of_240_regulation": 0.0776,
+     "replacement_shares": {
+      "Darius Garland": 0.1892,
+      "Brook Lopez": 0.1555,
+      "Keaton Wagler": 0.1495,
+      "Derrick Jones Jr.": 0.1392,
+      "Max Strus": 0.1354,
+      "Rui Hachimura": 0.1202,
+      "Kobe Sanders": 0.1109
+     }
+    }
+   ],
+   "top8_minutes": 202.5,
+   "top8_share_of_team_minutes": 0.8438,
+   "others_minutes": 37.5,
+   "others_share_of_team_minutes": 0.1562,
+   "team_minutes": 240.0,
+   "overtime": false,
+   "redistribution_rule": "when a player is Out, his minutes are redistributed pro rata over the remaining seven top-8 players; the 'others' bucket (minutes outside the top 8) is reported, never absorbed"
+  },
+  "LAL": {
+   "team": "LAL",
+   "game": "2026-11-15",
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "games_captured": 1,
+   "top8": [
+    {
+     "rank": 1,
+     "player": "5 Quentin Grimes",
+     "minutes": 37.4,
+     "share_of_team_minutes": 0.156,
+     "share_of_240_regulation": 0.156,
+     "replacement_shares": {
+      "77 Luka Don\u010di\u0107": 0.1874,
+      "14 Walker Kessler": 0.1701,
+      "12 Jake LaRavia": 0.1696,
+      "4 Matisse Thybulle": 0.137,
+      "10 Collin Sexton": 0.1249,
+      "54 Sandro Mamukelashvili": 0.1113,
+      "11 Ziaire Williams": 0.0997
+     }
+    },
+    {
+     "rank": 2,
+     "player": "77 Luka Don\u010di\u0107",
+     "minutes": 35.7,
+     "share_of_team_minutes": 0.1489,
+     "share_of_240_regulation": 0.1489,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.1946,
+      "14 Walker Kessler": 0.1686,
+      "12 Jake LaRavia": 0.1681,
+      "4 Matisse Thybulle": 0.1358,
+      "10 Collin Sexton": 0.1238,
+      "54 Sandro Mamukelashvili": 0.1103,
+      "11 Ziaire Williams": 0.0989
+     }
+    },
+    {
+     "rank": 3,
+     "player": "14 Walker Kessler",
+     "minutes": 32.4,
+     "share_of_team_minutes": 0.1351,
+     "share_of_240_regulation": 0.1351,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.1913,
+      "77 Luka Don\u010di\u0107": 0.1826,
+      "12 Jake LaRavia": 0.1652,
+      "4 Matisse Thybulle": 0.1335,
+      "10 Collin Sexton": 0.1217,
+      "54 Sandro Mamukelashvili": 0.1084,
+      "11 Ziaire Williams": 0.0972
+     }
+    },
+    {
+     "rank": 4,
+     "player": "12 Jake LaRavia",
+     "minutes": 32.3,
+     "share_of_team_minutes": 0.1347,
+     "share_of_240_regulation": 0.1347,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.1912,
+      "77 Luka Don\u010di\u0107": 0.1825,
+      "14 Walker Kessler": 0.1656,
+      "4 Matisse Thybulle": 0.1334,
+      "10 Collin Sexton": 0.1217,
+      "54 Sandro Mamukelashvili": 0.1084,
+      "11 Ziaire Williams": 0.0971
+     }
+    },
+    {
+     "rank": 5,
+     "player": "4 Matisse Thybulle",
+     "minutes": 26.1,
+     "share_of_team_minutes": 0.1087,
+     "share_of_240_regulation": 0.1087,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.1853,
+      "77 Luka Don\u010di\u0107": 0.1769,
+      "14 Walker Kessler": 0.1606,
+      "12 Jake LaRavia": 0.1601,
+      "10 Collin Sexton": 0.1179,
+      "54 Sandro Mamukelashvili": 0.1051,
+      "11 Ziaire Williams": 0.0942
+     }
+    },
+    {
+     "rank": 6,
+     "player": "10 Collin Sexton",
+     "minutes": 23.8,
+     "share_of_team_minutes": 0.099,
+     "share_of_240_regulation": 0.099,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.1832,
+      "77 Luka Don\u010di\u0107": 0.1749,
+      "14 Walker Kessler": 0.1587,
+      "12 Jake LaRavia": 0.1583,
+      "4 Matisse Thybulle": 0.1279,
+      "54 Sandro Mamukelashvili": 0.1039,
+      "11 Ziaire Williams": 0.0931
+     }
+    },
+    {
+     "rank": 7,
+     "player": "54 Sandro Mamukelashvili",
+     "minutes": 21.2,
+     "share_of_team_minutes": 0.0882,
+     "share_of_240_regulation": 0.0882,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.1809,
+      "77 Luka Don\u010di\u0107": 0.1727,
+      "14 Walker Kessler": 0.1567,
+      "12 Jake LaRavia": 0.1563,
+      "4 Matisse Thybulle": 0.1263,
+      "10 Collin Sexton": 0.1151,
+      "11 Ziaire Williams": 0.0919
+     }
+    },
+    {
+     "rank": 8,
+     "player": "11 Ziaire Williams",
+     "minutes": 19.0,
+     "share_of_team_minutes": 0.0791,
+     "share_of_240_regulation": 0.0791,
+     "replacement_shares": {
+      "5 Quentin Grimes": 0.179,
+      "77 Luka Don\u010di\u0107": 0.1709,
+      "14 Walker Kessler": 0.1551,
+      "12 Jake LaRavia": 0.1546,
+      "4 Matisse Thybulle": 0.1249,
+      "10 Collin Sexton": 0.1139,
+      "54 Sandro Mamukelashvili": 0.1015
+     }
+    }
+   ],
+   "top8_minutes": 227.9,
+   "top8_share_of_team_minutes": 0.9496,
+   "others_minutes": 12.2,
+   "others_share_of_team_minutes": 0.0506,
+   "team_minutes": 240.0,
+   "overtime": false,
+   "redistribution_rule": "when a player is Out, his minutes are redistributed pro rata over the remaining seven top-8 players; the 'others' bucket (minutes outside the top 8) is reported, never absorbed"
+  },
   "MEM": {
    "team": "MEM",
    "game": "2026-11-14",
@@ -2331,143 +2619,143 @@
   },
   "PHX": {
    "team": "PHX",
-   "game": "2026-11-12",
-   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
-   "games_captured": 1,
+   "game": "2026-11-15",
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "games_captured": 2,
    "top8": [
     {
      "rank": 1,
-     "player": "Devin Booker",
-     "minutes": 34.9,
-     "share_of_team_minutes": 0.1453,
-     "share_of_240_regulation": 0.1453,
+     "player": "23 Jordan Goodwin",
+     "minutes": 31.4,
+     "share_of_team_minutes": 0.1306,
+     "share_of_240_regulation": 0.1306,
      "replacement_shares": {
-      "Oso Ighodaro": 0.1764,
-      "Dillon Brooks": 0.1674,
-      "Collin Gillespie": 0.1495,
-      "Miles Bridges": 0.1383,
-      "Jordan Goodwin": 0.1361,
-      "Jalen Green": 0.117,
-      "Luke Kennard": 0.1153
+      "15 Devin Booker": 0.1633,
+      "12 Collin Gillespie": 0.1622,
+      "22 Miles Bridges": 0.1416,
+      "0 Ryan Dunn": 0.141,
+      "8 Luke Kennard": 0.1357,
+      "3 Dillon Brooks": 0.131,
+      "4 Jalen Green": 0.1251
      }
     },
     {
      "rank": 2,
-     "player": "Oso Ighodaro",
-     "minutes": 31.5,
-     "share_of_team_minutes": 0.1314,
-     "share_of_240_regulation": 0.1314,
+     "player": "15 Devin Booker",
+     "minutes": 27.8,
+     "share_of_team_minutes": 0.1158,
+     "share_of_240_regulation": 0.1158,
      "replacement_shares": {
-      "Devin Booker": 0.1918,
-      "Dillon Brooks": 0.1643,
-      "Collin Gillespie": 0.1467,
-      "Miles Bridges": 0.1357,
-      "Jordan Goodwin": 0.1335,
-      "Jalen Green": 0.1148,
-      "Luke Kennard": 0.1132
+      "23 Jordan Goodwin": 0.1807,
+      "12 Collin Gillespie": 0.1588,
+      "22 Miles Bridges": 0.1387,
+      "0 Ryan Dunn": 0.1381,
+      "8 Luke Kennard": 0.1329,
+      "3 Dillon Brooks": 0.1283,
+      "4 Jalen Green": 0.1226
      }
     },
     {
      "rank": 3,
-     "player": "Dillon Brooks",
-     "minutes": 29.9,
-     "share_of_team_minutes": 0.1247,
-     "share_of_240_regulation": 0.1247,
+     "player": "12 Collin Gillespie",
+     "minutes": 27.6,
+     "share_of_team_minutes": 0.1151,
+     "share_of_240_regulation": 0.1151,
      "replacement_shares": {
-      "Devin Booker": 0.1901,
-      "Oso Ighodaro": 0.1716,
-      "Collin Gillespie": 0.1454,
-      "Miles Bridges": 0.1345,
-      "Jordan Goodwin": 0.1324,
-      "Jalen Green": 0.1138,
-      "Luke Kennard": 0.1122
+      "23 Jordan Goodwin": 0.1805,
+      "15 Devin Booker": 0.1598,
+      "22 Miles Bridges": 0.1385,
+      "0 Ryan Dunn": 0.1379,
+      "8 Luke Kennard": 0.1328,
+      "3 Dillon Brooks": 0.1282,
+      "4 Jalen Green": 0.1224
      }
     },
     {
      "rank": 4,
-     "player": "Collin Gillespie",
-     "minutes": 26.7,
-     "share_of_team_minutes": 0.1113,
-     "share_of_240_regulation": 0.1113,
+     "player": "22 Miles Bridges",
+     "minutes": 24.1,
+     "share_of_team_minutes": 0.1004,
+     "share_of_240_regulation": 0.1004,
      "replacement_shares": {
-      "Devin Booker": 0.1868,
-      "Oso Ighodaro": 0.1686,
-      "Dillon Brooks": 0.1601,
-      "Miles Bridges": 0.1322,
-      "Jordan Goodwin": 0.1301,
-      "Jalen Green": 0.1119,
-      "Luke Kennard": 0.1103
+      "23 Jordan Goodwin": 0.1769,
+      "15 Devin Booker": 0.1566,
+      "12 Collin Gillespie": 0.1555,
+      "0 Ryan Dunn": 0.1352,
+      "8 Luke Kennard": 0.1301,
+      "3 Dillon Brooks": 0.1256,
+      "4 Jalen Green": 0.12
      }
     },
     {
      "rank": 5,
-     "player": "Miles Bridges",
-     "minutes": 24.7,
-     "share_of_team_minutes": 0.1029,
-     "share_of_240_regulation": 0.1029,
+     "player": "0 Ryan Dunn",
+     "minutes": 24.0,
+     "share_of_team_minutes": 0.0999,
+     "share_of_240_regulation": 0.0999,
      "replacement_shares": {
-      "Devin Booker": 0.1849,
-      "Oso Ighodaro": 0.1668,
-      "Dillon Brooks": 0.1584,
-      "Collin Gillespie": 0.1414,
-      "Jordan Goodwin": 0.1287,
-      "Jalen Green": 0.1107,
-      "Luke Kennard": 0.1091
+      "23 Jordan Goodwin": 0.1768,
+      "15 Devin Booker": 0.1565,
+      "12 Collin Gillespie": 0.1554,
+      "22 Miles Bridges": 0.1357,
+      "8 Luke Kennard": 0.1301,
+      "3 Dillon Brooks": 0.1256,
+      "4 Jalen Green": 0.1199
      }
     },
     {
      "rank": 6,
-     "player": "Jordan Goodwin",
-     "minutes": 24.3,
-     "share_of_team_minutes": 0.1013,
-     "share_of_240_regulation": 0.1013,
+     "player": "8 Luke Kennard",
+     "minutes": 23.1,
+     "share_of_team_minutes": 0.0964,
+     "share_of_240_regulation": 0.0964,
      "replacement_shares": {
-      "Devin Booker": 0.1845,
-      "Oso Ighodaro": 0.1665,
-      "Dillon Brooks": 0.158,
-      "Collin Gillespie": 0.1411,
-      "Miles Bridges": 0.1305,
-      "Jalen Green": 0.1105,
-      "Luke Kennard": 0.1089
+      "23 Jordan Goodwin": 0.1759,
+      "15 Devin Booker": 0.1557,
+      "12 Collin Gillespie": 0.1546,
+      "22 Miles Bridges": 0.135,
+      "0 Ryan Dunn": 0.1345,
+      "3 Dillon Brooks": 0.1249,
+      "4 Jalen Green": 0.1193
      }
     },
     {
      "rank": 7,
-     "player": "Jalen Green",
-     "minutes": 20.9,
-     "share_of_team_minutes": 0.087,
-     "share_of_240_regulation": 0.087,
+     "player": "3 Dillon Brooks",
+     "minutes": 22.3,
+     "share_of_team_minutes": 0.0929,
+     "share_of_240_regulation": 0.0929,
      "replacement_shares": {
-      "Devin Booker": 0.1812,
-      "Oso Ighodaro": 0.1636,
-      "Dillon Brooks": 0.1552,
-      "Collin Gillespie": 0.1386,
-      "Miles Bridges": 0.1282,
-      "Jordan Goodwin": 0.1262,
-      "Luke Kennard": 0.107
+      "23 Jordan Goodwin": 0.1751,
+      "15 Devin Booker": 0.155,
+      "12 Collin Gillespie": 0.1539,
+      "22 Miles Bridges": 0.1344,
+      "0 Ryan Dunn": 0.1339,
+      "8 Luke Kennard": 0.1288,
+      "4 Jalen Green": 0.1188
      }
     },
     {
      "rank": 8,
-     "player": "Luke Kennard",
-     "minutes": 20.6,
-     "share_of_team_minutes": 0.0858,
-     "share_of_240_regulation": 0.0858,
+     "player": "4 Jalen Green",
+     "minutes": 21.3,
+     "share_of_team_minutes": 0.0886,
+     "share_of_240_regulation": 0.0886,
      "replacement_shares": {
-      "Devin Booker": 0.1809,
-      "Oso Ighodaro": 0.1633,
-      "Dillon Brooks": 0.155,
-      "Collin Gillespie": 0.1384,
-      "Miles Bridges": 0.128,
-      "Jordan Goodwin": 0.126,
-      "Jalen Green": 0.1083
+      "23 Jordan Goodwin": 0.1742,
+      "15 Devin Booker": 0.1542,
+      "12 Collin Gillespie": 0.1531,
+      "22 Miles Bridges": 0.1337,
+      "0 Ryan Dunn": 0.1331,
+      "8 Luke Kennard": 0.1281,
+      "3 Dillon Brooks": 0.1237
      }
     }
    ],
-   "top8_minutes": 213.5,
-   "top8_share_of_team_minutes": 0.8896,
-   "others_minutes": 26.5,
-   "others_share_of_team_minutes": 0.1106,
+   "top8_minutes": 201.6,
+   "top8_share_of_team_minutes": 0.84,
+   "others_minutes": 38.4,
+   "others_share_of_team_minutes": 0.1601,
    "team_minutes": 240.0,
    "overtime": false,
    "redistribution_rule": "when a player is Out, his minutes are redistributed pro rata over the remaining seven top-8 players; the 'others' bucket (minutes outside the top 8) is reported, never absorbed"

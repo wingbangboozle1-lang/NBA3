@@ -22,7 +22,7 @@ OUT = os.path.join(ROOT, "data", "slate")
 PREREG = os.path.join(OUT, "prereg")
 LEDGER = os.path.join(OUT, "ledger")
 SESSION = "arena/3d625d23-nba3"
-SLATE_UTC = "2026-11-15T23-50Z"
+SLATE_UTC = "2026-11-16T00-05Z"
 GENESIS = hashlib.sha256(f"nba3.slate.ledger/v1|{SESSION}".encode()).hexdigest()
 
 STRATEGIES = [

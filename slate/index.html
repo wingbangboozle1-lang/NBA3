@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overview — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html" style="border-color:var(--acc);color:var(--acc)">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>The headline is the disagreement, not a blended rating.</strong>
+Two independent estimators are run on every game — E1 fits the official results log, E2 builds
+the game up from possessions × points-per-possession on the official efficiency page. The number
+publishers should look at first is <code>|E1 − E2|</code>: when the two methods agree the number is
+probably measuring something real, and when they disagree the spread is estimator noise. The blend is
+printed underneath and is never the headline.</div>
+<div class="cards"><div class="card"><div class="k">Headline signal</div><div class="v">9.54 pts</div><div class="n">largest estimator disagreement: UTA@LAL on 2026-11-18</div></div><div class="card"><div class="k">E1 out-of-sample log-loss</div><div class="v">0.6023</div><div class="n">n=131 walk-forward; coin-flip baseline 0.6931</div></div><div class="card"><div class="k">Home-court advantage (pinned)</div><div class="v">1.213 pts</div><div class="n">sigma 16.79 x probit(0.5288) over 191 games</div></div><div class="card"><div class="k">Games in window</div><div class="v">25</div><div class="n">2026-11-16 → 2026-11-18, all with both estimators</div></div><div class="card"><div class="k">Rotation-minute coverage</div><div class="v">25/30 clubs</div><div class="n">the rest print blank, never inferred</div></div><div class="card"><div class="k">Gates</div><div class="v">12/12 pass</div><div class="n">rebuild is refused unless every gate passes</div></div><div class="card"><div class="k">Sealed picks</div><div class="v">7</div><div class="n">ledger head de23978b93cd…</div></div><div class="card"><div class="k">Verified finals in feed</div><div class="v">8/8</div><div class="n">quarters must sum to the printed final</div></div></div>
+<h2>Today's disagreements, worst first</h2>
+<table class=""><thead><tr><th>Date</th><th>Matchup</th><th>E1 margin</th><th>E2 margin</th><th>Disagreement (pts)</th><th>Total disagreement</th><th>Source</th></tr></thead><tbody><tr><td>2026-11-18</td><td>UTA@LAL</td><td class="n">11.59</td><td class="n">21.13</td><td class="n"><strong>9.54</strong></td><td class="n">2.85</td><td><a href="https://www.nba.com/game/uta-vs-lal-0022600268">nba.com game page</a></td></tr><tr><td>2026-11-18</td><td>BOS@DEN</td><td class="n">-1.35</td><td class="n">-9.22</td><td class="n"><strong>7.87</strong></td><td class="n">1.93</td><td><a href="https://www.nba.com/game/bos-vs-den-0022600266">nba.com game page</a></td></tr><tr><td>2026-11-16</td><td>ORL@BOS</td><td class="n">9.13</td><td class="n">16.09</td><td class="n"><strong>6.96</strong></td><td class="n">4.43</td><td><a href="https://www.nba.com/game/orl-vs-bos-0022600245">nba.com game page</a></td></tr><tr><td>2026-11-16</td><td>CHI@CLE</td><td class="n">8.01</td><td class="n">14.14</td><td class="n"><strong>6.13</strong></td><td class="n">7.70</td><td><a href="https://www.nba.com/game/chi-vs-cle-0022600246">nba.com game page</a></td></tr><tr><td>2026-11-18</td><td>DET@NOP</td><td class="n">-6.95</td><td class="n">-12.46</td><td class="n"><strong>5.51</strong></td><td class="n">9.07</td><td><a href="https://www.nba.com/game/det-vs-nop-0022600264">nba.com game page</a></td></tr><tr><td>2026-11-18</td><td>MIL@MIA</td><td class="n">9.06</td><td class="n">14.48</td><td class="n"><strong>5.42</strong></td><td class="n">2.18</td><td><a href="https://www.nba.com/game/mil-vs-mia-0022600260">nba.com game page</a></td></tr><tr><td>2026-11-17</td><td>UTA@LAC</td><td class="n">3.89</td><td class="n">8.83</td><td class="n"><strong>4.95</strong></td><td class="n">3.11</td><td><a href="https://www.nba.com/game/uta-vs-lac-0022600257">nba.com game page</a></td></tr><tr><td>2026-11-17</td><td>CHA@LAL</td><td class="n">15.93</td><td class="n">20.26</td><td class="n"><strong>4.33</strong></td><td class="n">3.54</td><td><a href="https://www.nba.com/game/cha-vs-lal-0022600256">nba.com game page</a></td></tr><tr><td>2026-11-16</td><td>POR@MIN</td><td class="n">1.47</td><td class="n">5.43</td><td class="n"><strong>3.96</strong></td><td class="n">0.86</td><td><a href="https://www.nba.com/game/por-vs-min-0022600250">nba.com game page</a></td></tr><tr><td>2026-11-17</td><td>POR@MIN</td><td class="n">1.47</td><td class="n">5.43</td><td class="n"><strong>3.96</strong></td><td class="n">0.86</td><td><a href="https://www.nba.com/game/por-vs-min-0022600254">nba.com game page</a></td></tr></tbody></table>
+<p class="dim">Biggest margin disagreement: UTA@LAL
+(11.59 vs 21.13).
+Biggest total disagreement: DET@NOP
+(238.87 vs 229.80).</p>
+<h2>Research picks in this window</h2>
+<div class="banner warn">These are research picks on our own originated lines. No licensed odds feed
+is connected, no money is staked, and no strategy here has cleared its validation gate —
+6 bets were taken by 2 pre-registered strategies out
+of 75 candidates. See the pre-registration page for the frozen rules and
+the ledger page for the sealed hashes.</div>
+<table class=""><thead><tr><th>Strategy</th><th>Date</th><th>Matchup</th><th>Market</th><th>Bet</th><th>Why</th><th>Official source</th></tr></thead><tbody><tr><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>ORL@BOS</td><td>total</td><td>under 218.69</td><td>E2 - E1 = -4.43 pts</td><td><a href="https://www.nba.com/game/0022600245">nba.com game page</a></td></tr><tr><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>CHI@CLE</td><td>total</td><td>under 247.6</td><td>E2 - E1 = -7.70 pts</td><td><a href="https://www.nba.com/game/0022600246">nba.com game page</a></td></tr><tr><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>MEM@WAS</td><td>total</td><td>under 230.34</td><td>E2 - E1 = -4.09 pts</td><td><a href="https://www.nba.com/game/0022600247">nba.com game page</a></td></tr><tr><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>PHI@BKN</td><td>total</td><td>under 225.85</td><td>E2 - E1 = -4.16 pts</td><td><a href="https://www.nba.com/game/0022600248">nba.com game page</a></td></tr><tr><td>ST1_AGREEMENT_SIDE</td><td>2026-11-16</td><td>GSW@NOP</td><td>spread</td><td>home 10.44</td><td>disagreement 1.40 pts</td><td><a href="https://www.nba.com/game/0022600251">nba.com game page</a></td></tr><tr><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>PHX@DEN</td><td>total</td><td>over 228.27</td><td>E2 - E1 = 4.76 pts</td><td><a href="https://www.nba.com/game/0022600252">nba.com game page</a></td></tr></tbody></table>
+<h2>What is published, what is not</h2>
+<table class=""><thead><tr><th>Item</th><th>Status</th><th>Note</th><th>Official source</th></tr></thead><tbody><tr><td>Two-estimator projections</td><td><span class="pill ok">published</span></td><td>every game in the window has both estimators</td><td><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>Rotation availability column</td><td><span class="pill ok">published</span></td><td>minutes from official game books for 25/30 clubs</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a></td></tr><tr><td>Parlay prices</td><td><span class="pill ok">published</span></td><td>26 rows, rho-priced with the naive product printed beside it</td><td><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr><tr><td>Market-anchored prior</td><td><span class="pill no">blank + flagged</span></td><td>no closing-line feed is connected</td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>Player-prop correlations</td><td><span class="pill no">blank + flagged</span></td><td>no prop line feed exists in this environment</td><td><a href="https://www.nba.com/stats/teams/traditional">nba.com team traditional</a></td></tr><tr><td>Strategies funded</td><td><span class="pill no">none</span></td><td>0 of 3 have the out-of-sample record the gates require</td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr></tbody></table>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luck — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html" style="border-color:var(--acc);color:var(--acc)">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>Luck is reported as a z-score per club, and any strategy that leans on a
+club outside the noise band is refused.</strong> z = (actual wins - expected wins) / sqrt(sum p(1-p)) over the walk-forward out-of-sample games, where p is E1&#x27;s pre-game probability for that club. |z| &gt; 1.96 means the club&#x27;s record is outside the noise band: a strategy may not lean on it.</div>
+<h2>Luck z-scores over the 131 out-of-sample games</h2>
+<table class=""><thead><tr><th>Team</th><th>Expected wins</th><th>Actual wins</th><th>z</th><th>Band</th><th>Source</th></tr></thead><tbody><tr><td>SAS</td><td class="n">5.88</td><td class="n">9</td><td class="n">2.308</td><td><span class="flag">OUTSIDE ±1.96</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>MIA</td><td class="n">3.24</td><td class="n">6</td><td class="n">2.027</td><td><span class="flag">OUTSIDE ±1.96</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>BOS</td><td class="n">4.69</td><td class="n">7</td><td class="n">1.776</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>LAL</td><td class="n">6.55</td><td class="n">9</td><td class="n">1.670</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>DEN</td><td class="n">3.94</td><td class="n">6</td><td class="n">1.504</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>PHI</td><td class="n">5.05</td><td class="n">7</td><td class="n">1.367</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>GSW</td><td class="n">5.24</td><td class="n">7</td><td class="n">1.279</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>POR</td><td class="n">5.51</td><td class="n">6</td><td class="n">0.340</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>CHI</td><td class="n">1.65</td><td class="n">2</td><td class="n">0.315</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>BKN</td><td class="n">2.61</td><td class="n">3</td><td class="n">0.305</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>NYK</td><td class="n">4.79</td><td class="n">5</td><td class="n">0.157</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>DAL</td><td class="n">4.98</td><td class="n">5</td><td class="n">0.014</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>PHX</td><td class="n">3.99</td><td class="n">4</td><td class="n">0.009</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>ORL</td><td class="n">4.03</td><td class="n">4</td><td class="n">-0.019</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>ATL</td><td class="n">5.17</td><td class="n">5</td><td class="n">-0.129</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>MIN</td><td class="n">6.27</td><td class="n">6</td><td class="n">-0.205</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>HOU</td><td class="n">6.30</td><td class="n">6</td><td class="n">-0.221</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>NOP</td><td class="n">4.53</td><td class="n">4</td><td class="n">-0.340</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>IND</td><td class="n">3.49</td><td class="n">3</td><td class="n">-0.352</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>DET</td><td class="n">4.50</td><td class="n">4</td><td class="n">-0.407</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>WAS</td><td class="n">2.66</td><td class="n">2</td><td class="n">-0.511</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>OKC</td><td class="n">5.03</td><td class="n">4</td><td class="n">-0.722</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>LAC</td><td class="n">4.17</td><td class="n">3</td><td class="n">-0.809</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>MEM</td><td class="n">6.11</td><td class="n">5</td><td class="n">-0.843</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>CLE</td><td class="n">5.36</td><td class="n">4</td><td class="n">-0.903</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>CHA</td><td class="n">2.46</td><td class="n">1</td><td class="n">-1.144</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>TOR</td><td class="n">4.90</td><td class="n">3</td><td class="n">-1.303</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>SAC</td><td class="n">2.67</td><td class="n">1</td><td class="n">-1.327</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>MIL</td><td class="n">2.04</td><td class="n">0</td><td class="n">-1.656</td><td><span class="dim">inside band</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>UTA</td><td class="n">3.20</td><td class="n">0</td><td class="n">-2.311</td><td><span class="flag">OUTSIDE ±1.96</span></td><td><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr></tbody></table>
+<h2>Refusals in force from this table</h2>
+<p>MIA, SAS, UTA sit outside ±1.96, so no strategy in this round
+publishes a bet on a game involving any of them. The refusal is enforced in code, not by hand: the
+pick builder skips the candidate and records the reason.</p>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gates &amp; refresh — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html">Pick ledger</a><a href="gates.html" style="border-color:var(--acc);color:var(--acc)">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>Refresh → prove freshness and provenance → rebuild.</strong>
+the scheduled refresh rebuilds only when every gate passes; a failure leaves the last good build in place If a gate fails the rebuild step is refused and the exit code is non-zero, so the
+last good build stays published.</div>
+<h2>Gates (12/12 passing)</h2>
+<table class=""><thead><tr><th>Id</th><th>Gate</th><th>Status</th><th>Detail</th><th>Sources</th></tr></thead><tbody><tr><td>G1</td><td>every capture carries a source URL, a retrieval stamp and a hash</td><td><span class="pill ok">PASS</span></td><td>15 captures under data/slate/raw/, all with https source URL and retrieval stamp; sha256 recorded per file</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf">official injury report PDF</a><br><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a><br><a href="data/slate/raw/">data/slate/raw/</a></td></tr><tr><td>G2</td><td>the newest official injury report was read and archived with its revision stamp</td><td><span class="pill ok">PASS</span></td><td>archived filing 2026-11-15 06:30 PM ET (printed on every page of the PDF), read 2026-11-16T00-05Z; the index listed no later 11/15 filing at read time (newest link: 06:30 PM ET)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf">official injury report PDF</a><br><a href="https://official.nba.com/nba-injury-report-2026-27-season/">official injury report PDF</a></td></tr><tr><td>G3</td><td>every matchup in the injury report exists on the official schedule for that date</td><td><span class="pill ok">PASS</span></td><td>17 distinct (date, matchup) pairs checked, 0 not found</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf">official injury report PDF</a></td></tr><tr><td>G4</td><td>every settled game: quarters sum to the printed final and two official reads agree</td><td><span class="pill ok">PASS</span></td><td>8 rows, 0 failures</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf">official game book PDF</a><br><a href="data/live/results/settled_2026-11-14.json">data/live/results/settled_2026-11-14.json</a></td></tr><tr><td>G5</td><td>official standings reconcile with the official game log, club by club</td><td><span class="pill ok">PASS</span></td><td>30 clubs compared against 191 distinct officially settled games (the CSV through 2026-11-14 plus the three verified 11/15 finals (IND@PHI, LAL@PHX, CHA@LAC), which the standings page already carries at its 2026-11-16T00-05Z read); 0 mismatches</td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="data/origin/games.csv">data/origin/games.csv</a></td></tr><tr><td>G6</td><td>the team advanced page agrees with the standings page (GP, W, L)</td><td><span class="pill ok">PASS</span></td><td>30 clubs compared, 0 mismatches</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season">nba.com team advanced</a><br><a href="https://www.nba.com/standings">nba.com/standings</a></td></tr><tr><td>G7</td><td>the published window is at most three days ahead of the current slate date</td><td><span class="pill ok">PASS</span></td><td>window 2026-11-16..2026-11-18 = 3 days ahead of 2026-11-15 (max 3); games already under way on 2026-11-15 are excluded from the betting window</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>G8</td><td>a projection is published only with both estimators, or blank and flagged</td><td><span class="pill ok">PASS</span></td><td>25 projections, 0 published with a missing estimator and no flag</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season">nba.com team advanced</a></td></tr><tr><td>G9</td><td>the pick ledger hash chain verifies</td><td><span class="pill ok">PASS</span></td><td>CHAIN INTACT — 7 picks, head de23978b93cd8232</td><td><a href="data/slate/ledger/ledger.jsonl">data/slate/ledger/ledger.jsonl</a><br><a href="data/slate/ledger/index.json">data/slate/ledger/index.json</a><br><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a></td></tr><tr><td>G10</td><td>every travel cell is measured from a sourced coordinate, or blank and flagged</td><td><span class="pill ok">PASS</span></td><td>25 team-games, 0 with a blank distance (arena coordinate not sourced — blank cells are flagged, never filled in)</td><td><a href="data/slate/arena_coordinates.json">data/slate/arena_coordinates.json</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>G11</td><td>rotation minutes are measured from an official game book, or blank and flagged</td><td><span class="pill ok">PASS</span></td><td>25/30 clubs have a captured game book; the other 5 print blank rotation cells with the reason, never inferred</td><td><a href="https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf">official game book PDF</a><br><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">official game book PDF</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>G12</td><td>generated artefacts carry the source-read stamp, never a wall clock</td><td><span class="pill ok">PASS</span></td><td>every artefact is stamped 2026-11-16T00-05Z (the newest official source read in this round); 0 files with a different stamp</td><td><a href="data/slate/">data/slate/</a><br><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/stats/teams/advanced">nba.com team advanced</a></td></tr></tbody></table>
+<h2>Rolling refresh set</h2>
+<p class="dim">refresh -&gt; prove freshness and provenance -&gt; rebuild; a failed gate refuses the rebuild and leaves the last good build published Run
+<code>python3 scripts/refresh_round_3d625d23.py --rebuild</code>; without <code>--rebuild</code> it
+reports only.</p>
+<table class=""><thead><tr><th>Id</th><th>Source</th><th>URL</th><th>Cadence</th><th>Newest capture</th><th>Age (h)</th><th>State</th><th>Feeds</th></tr></thead><tbody><tr><td>schedule</td><td>Official schedule, per slate date</td><td><a href="https://www.nba.com/schedule">www.nba.com/schedule</a></td><td class="n">24h</td><td>2026-11-15T23-47Z</td><td class="n">0.30</td><td><span class="pill ok">FRESH</span></td><td>slate.json, travel.json</td></tr><tr><td>standings</td><td>Official standings</td><td><a href="https://www.nba.com/standings">www.nba.com/standings</a></td><td class="n">24h</td><td>2026-11-16T00-05Z</td><td class="n">0.00</td><td><span class="pill ok">FRESH</span></td><td>standings.json</td></tr><tr><td>team_traditional</td><td>Official team stats — traditional</td><td><a href="https://www.nba.com/stats/teams/traditional">www.nba.com/stats/teams/traditional</a></td><td class="n">24h</td><td>2026-11-16T00-05Z</td><td class="n">0.00</td><td><span class="pill ok">FRESH</span></td><td>team_traditional.json</td></tr><tr><td>team_opponent</td><td>Official team stats — opponent</td><td><a href="https://www.nba.com/stats/teams/opponent">www.nba.com/stats/teams/opponent</a></td><td class="n">24h</td><td>2026-11-16T00-05Z</td><td class="n">0.00</td><td><span class="pill ok">FRESH</span></td><td>team_opponent.json</td></tr><tr><td>team_advanced</td><td>Official team stats — advanced</td><td><a href="https://www.nba.com/stats/teams/advanced">www.nba.com/stats/teams/advanced</a></td><td class="n">24h</td><td>2026-11-16T00-05Z</td><td class="n">0.00</td><td><span class="pill ok">FRESH</span></td><td>team_advanced.json</td></tr><tr><td>injury_report</td><td>Newest filed official injury report (PDF)</td><td><a href="https://official.nba.com/nba-injury-report-2025-26-season/">official.nba.com/nba-injury-report-2025-26-season/</a></td><td class="n">6h</td><td>2026-11-15T23-41Z</td><td class="n">0.40</td><td><span class="pill ok">FRESH</span></td><td>injuries/*, rotation column</td></tr><tr><td>results</td><td>Official per-game final + quarter scores</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf">statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf</a></td><td class="n">6h</td><td>2026-11-16T00-05Z</td><td class="n">0.00</td><td><span class="pill ok">FRESH</span></td><td>results_feed.json, settlement</td></tr><tr><td>game_books</td><td>Official game book PDFs (rotation minutes)</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf">statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf</a></td><td class="n">72h</td><td>2026-11-16T00-02Z</td><td class="n">0.05</td><td><span class="pill ok">FRESH</span></td><td>minutes.json, player_game_logs.json</td></tr></tbody></table>
+<h2>Last refresh run</h2>
+<table class=""><thead><tr><th>Step</th><th>Command</th><th>Exit code</th><th>Official source read</th></tr></thead><tbody><tr><td>capture replay</td><td><code>scripts/capture_round_3d625d23.py</code></td><td class="n">0</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>gates</td><td><code>scripts/gates_round_3d625d23.py</code></td><td class="n">0</td><td><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr></tbody></table>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

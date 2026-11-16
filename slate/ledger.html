@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pick ledger — NBA slate dashboard</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--fg:#e6edf3;
+--dim:#8b949e;--acc:#58a6ff;--good:#3fb950;--warn:#d29922;--bad:#f85149;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--panel);padding:18px 24px}
+header h1{margin:0;font-size:20px}
+header .sub{color:var(--dim);font-size:13px;margin-top:4px}
+nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px 24px;border-bottom:1px solid var(--line);
+background:var(--panel2)}
+nav a{color:var(--fg);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:6px;
+border:1px solid var(--line);background:var(--panel)}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+main{padding:22px 24px 60px;max-width:1500px}
+h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h2:first-child{margin-top:0}
+h3{font-size:14px;color:var(--dim);margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{max-width:110ch}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 4px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#11161d}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+a{color:var(--acc)}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:12px 16px;
+min-width:190px;flex:1}
+.card .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .n{color:var(--dim);font-size:12px;margin-top:3px}
+.banner{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--panel);
+padding:10px 14px;border-radius:6px;margin:12px 0}
+.banner.warn{border-left-color:var(--warn)}
+.banner.bad{border-left-color:var(--bad)}
+.banner.good{border-left-color:var(--good)}
+.bad{color:var(--bad)} .good{color:var(--good)} .warn{color:var(--warn)}
+.dim{color:var(--dim)}
+.flag{display:inline-block;background:#3d2b00;color:#f0c040;border:1px solid #7a5200;
+border-radius:4px;font-size:11px;padding:1px 6px}
+.blank{color:var(--dim);font-style:italic}
+.pill{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid}
+.pill.ok{color:var(--good);border-color:#1f5c2e;background:#0f2a16}
+.pill.no{color:var(--bad);border-color:#6e2222;background:#2b1111}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+footer{border-top:1px solid var(--line);padding:16px 24px;color:var(--dim);font-size:12px}
+</style></head><body>
+<header><h1>NBA slate dashboard — rolling window 2026-11-16 → 2026-11-18</h1>
+<div class="sub">Session arena/3d625d23-nba3 · every number below is replayed from committed official
+captures · newest official source read 2026-11-16T00-05Z · no odds feed is connected, so every
+line here is originated by this model and no strategy is funded</div></header>
+<nav><a href="index.html">Overview</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="parlays.html">Parlay pricing</a><a href="injuries.html">Injuries &amp; rotation</a><a href="minutes.html">Minutes model</a><a href="rest-travel.html">Rest &amp; travel</a><a href="luck.html">Luck</a><a href="results.html">Results &amp; settlement</a><a href="prereg.html">Pre-registration</a><a href="ledger.html" style="border-color:var(--acc);color:var(--acc)">Pick ledger</a><a href="gates.html">Gates &amp; refresh</a><a href="team-stats.html">Team stats (official)</a><a href="questions.html">Open questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged for review</a><a href="sources.html">Sources</a></nav>
+<main>
+
+<div class="banner"><strong>Tamper-evident: every pick is hashed and chained before tip.</strong>
+hash_i = sha256(hash_{i-1} + canonical_json(pick_i)); the head hash is published with every rebuild and is recomputed on verify</div>
+<table class=""><thead><tr><th>Field</th><th>Value</th><th>Official source</th></tr></thead><tbody><tr><td>Picks sealed</td><td>7</td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>Head hash</td><td><code>de23978b93cd82322719e0d87ac8eb04343cc556fadce4a36dea0306db912895</code></td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>Genesis hash</td><td><code>ec55a3bdf467cf4d790a80b18055d103918484d8fc3ebc904e9d9e41e79a56f1</code></td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>Published (UTC)</td><td>2026-11-16T00-05Z</td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>Sealed before tip</td><td>yes — the ledger is written only from projections that exist before the game starts</td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr><tr><td>Settled / pending</td><td>0 / 7</td><td><a href="https://www.nba.com/standings">nba.com/standings</a><br><a href="https://www.nba.com/schedule?date=2026-11-16">nba.com/schedule</a></td></tr></tbody></table>
+<h2>Sealed picks</h2>
+<table class=""><thead><tr><th>#</th><th>Strategy</th><th>Date</th><th>Matchup</th><th>Market</th><th>Line</th><th>Side</th><th>Result</th><th>Official final</th><th>Settled (UTC)</th><th>Hash</th><th>Source</th></tr></thead><tbody><tr><td class="n">1</td><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>ORL@BOS</td><td>total</td><td>218.67</td><td>under</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>42869f584d8789bf…</code></td><td><a href="https://www.nba.com/game/orl-vs-bos-0022600245">nba.com game page</a></td></tr><tr><td class="n">2</td><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>CHI@CLE</td><td>total</td><td>247.54</td><td>under</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>237083b2f88bb525…</code></td><td><a href="https://www.nba.com/game/chi-vs-cle-0022600246">nba.com game page</a></td></tr><tr><td class="n">3</td><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>PHI@BKN</td><td>total</td><td>225.91</td><td>under</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>cc51ccb275feaca8…</code></td><td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248">nba.com game page</a></td></tr><tr><td class="n">4</td><td>ST1_AGREEMENT_SIDE</td><td>2026-11-16</td><td>GSW@NOP</td><td>spread</td><td>10.44</td><td>home</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>8b8cc16c946b5c5a…</code></td><td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251">nba.com game page</a></td></tr><tr><td class="n">5</td><td>ST1_AGREEMENT_SIDE</td><td>2026-11-16</td><td>PHX@DEN</td><td>spread</td><td>-3.44</td><td>home</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>20d4bb4e831dde7b…</code></td><td><a href="https://www.nba.com/game/phx-vs-den-0022600252">nba.com game page</a></td></tr><tr><td class="n">6</td><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>PHX@DEN</td><td>total</td><td>227.33</td><td>over</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>38d803e6f9b41b19…</code></td><td><a href="https://www.nba.com/game/phx-vs-den-0022600252">nba.com game page</a></td></tr><tr><td class="n">7</td><td>ST2_PACING_TOTAL</td><td>2026-11-16</td><td>MEM@WAS</td><td>total</td><td>230.34</td><td>under</td><td><span class="dim">pending</span></td><td><span class="blank">—</span></td><td><span class="blank">—</span></td><td><code>de23978b93cd8232…</code></td><td><a href="https://www.nba.com/game/mem-vs-was-0022600247">nba.com game page</a></td></tr></tbody></table>
+<h3>Verifying the chain yourself</h3>
+<p><code>python3 scripts/picks_round_3d625d23.py verify</code> recomputes
+<code>hash_i = sha256(hash_(i-1) + canonical_json(pick_i))</code> from genesis and prints
+<code>CHAIN INTACT</code> or <code>CHAIN BROKEN at seq n</code>. The same check runs as a gate before
+any rebuild.</p>
+
+</main>
+<footer>Generated by <code>scripts/build_slate_site.py</code> from
+<code>data/slate/**</code>. Values that could not be confirmed from an official source are printed
+blank and flagged — none are inferred. Source links point at nba.com, official.nba.com and the
+official game-book PDF host.</footer>
+</body></html>

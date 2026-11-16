@@ -5,8 +5,8 @@
  "settlement_rule": "A row is written only for a finished game, and only when the final score is confirmed by two official reads that agree (game book quarters sum to the printed final; the schedule/game page prints the same final). Anything else stays out of the feed.",
  "settlement_stamp_note": "settled_utc is the time this build last confirmed the finals against the official pages; it moves only on a re-read.",
  "counts": {
-  "games": 6,
-  "verified": 6,
+  "games": 8,
+  "verified": 8,
   "unverified": 0
  },
  "games": [
@@ -228,19 +228,117 @@
    "city": "Philadelphia, PA",
    "verified": true,
    "verification": {
-    "rule": "settled only when the game page says Final AND the game book's printed FINAL equals the sum of its four printed quarters AND both agree",
+    "rule": "settled only when the official game book's printed FINAL equals the sum of its own four printed quarters, the book prints a complete 240:00 team-minutes row for both clubs, and the official standings page read at the same time shows the winner on a W streak and the loser on an L streak",
     "sources": [
      "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
-     "https://www.nba.com/game/ind-vs-phi-0022600236",
-     "https://www.nba.com/schedule?date=2026-11-16"
+     "https://www.nba.com/game/0022600236",
+     "https://www.nba.com/schedule?date=2026-11-16",
+     "https://www.nba.com/standings"
     ],
     "checks": {
+     "four_quarters_and_final_printed": true,
      "quarter_sums_equal_finals": true,
-     "gamebook_matches_schedule_page": true,
-     "schedule_page_says_final": true
+     "complete_game_240_team_minutes": true,
+     "standings_streak_matches_result": true
     },
+    "schedule_page_status_at_snapshot": "Final",
+    "schedule_page_note": "the schedule snapshot was taken while this game was still live, so it corroborates rather than confirms",
     "settled_by": "arena/3d625d23-nba3",
-    "settled_utc": "2026-11-15T23-50Z"
+    "settled_utc": "2026-11-16T00-05Z"
+   }
+  },
+  {
+   "game_id": "0022600237",
+   "date": "2026-11-15",
+   "away": "LAL",
+   "home": "PHX",
+   "away_name": "Los Angeles Lakers",
+   "home_name": "Phoenix Suns",
+   "away_q": [
+    33,
+    31,
+    40,
+    27
+   ],
+   "home_q": [
+    24,
+    30,
+    26,
+    43
+   ],
+   "away_final": 131,
+   "home_final": 123,
+   "ot": false,
+   "status": "Final",
+   "winner": "LAL",
+   "venue": "Mortgage Matchup Center",
+   "city": "Phoenix, AZ",
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the official game book's printed FINAL equals the sum of its own four printed quarters, the book prints a complete 240:00 team-minutes row for both clubs, and the official standings page read at the same time shows the winner on a W streak and the loser on an L streak",
+    "sources": [
+     "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+     "https://www.nba.com/game/0022600237",
+     "https://www.nba.com/schedule?date=2026-11-16",
+     "https://www.nba.com/standings"
+    ],
+    "checks": {
+     "four_quarters_and_final_printed": true,
+     "quarter_sums_equal_finals": true,
+     "complete_game_240_team_minutes": true,
+     "standings_streak_matches_result": true
+    },
+    "schedule_page_status_at_snapshot": "LIVE 4th Qtr",
+    "schedule_page_note": "the schedule snapshot was taken while this game was still live, so it corroborates rather than confirms",
+    "settled_by": "arena/3d625d23-nba3",
+    "settled_utc": "2026-11-16T00-05Z"
+   }
+  },
+  {
+   "game_id": "0022600238",
+   "date": "2026-11-15",
+   "away": "CHA",
+   "home": "LAC",
+   "away_name": "Charlotte Hornets",
+   "home_name": "LA Clippers",
+   "away_q": [
+    21,
+    31,
+    31,
+    22
+   ],
+   "home_q": [
+    22,
+    29,
+    33,
+    29
+   ],
+   "away_final": 105,
+   "home_final": 113,
+   "ot": false,
+   "status": "Final",
+   "winner": "LAC",
+   "venue": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the official game book's printed FINAL equals the sum of its own four printed quarters, the book prints a complete 240:00 team-minutes row for both clubs, and the official standings page read at the same time shows the winner on a W streak and the loser on an L streak",
+    "sources": [
+     "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+     "https://www.nba.com/game/0022600238",
+     "https://www.nba.com/schedule?date=2026-11-16",
+     "https://www.nba.com/standings"
+    ],
+    "checks": {
+     "four_quarters_and_final_printed": true,
+     "quarter_sums_equal_finals": true,
+     "complete_game_240_team_minutes": true,
+     "standings_streak_matches_result": true
+    },
+    "schedule_page_status_at_snapshot": "LIVE 3rd Qtr",
+    "schedule_page_note": "the schedule snapshot was taken while this game was still live, so it corroborates rather than confirms",
+    "settled_by": "arena/3d625d23-nba3",
+    "settled_utc": "2026-11-16T00-05Z"
    }
   }
  ]
