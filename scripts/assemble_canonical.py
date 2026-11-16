@@ -1466,6 +1466,15 @@ def build_roundc449_flags():
         return json.load(fh)
 
 
+def build_round_ef6e2e6c_flags():
+    """Flags EVE-F01..09 from session arena/ef6e2e6c-nba3, loaded verbatim from
+    data/app/flags_ef6e2e6c.json (same pattern). They record the ATL@MIL resolution,
+    the scheduled-refresh unit-test failure + repair, the stale archive/feed gaps,
+    the blocked manual dispatch and the rolling-window architecture note."""
+    with open(os.path.join(APP, "flags_ef6e2e6c.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def build_session_questions():
     out = []
     for qid, cat, q, status, known, missing, nxt, sources, owner in SESSION_QUESTIONS:
@@ -1753,7 +1762,7 @@ def main():
         "oos_sample": lab["oos_sample"],
         "gates": build_gates() + build_lab_gates(),
         "sources": build_sources(),
-        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags() + build_round965_flags() + build_roundc449_flags(),
+        "flags": build_flags() + build_session_flags() + build_round44_flags() + build_round8e_flags() + build_round965_flags() + build_roundc449_flags() + build_round_ef6e2e6c_flags(),
         "review_findings": [
             {"id": rid, "severity": severity, "finding": item, "next_action": action,
              "sources": sources, "handling": status, "legacy_ref": rid, "found_on": "2026-11-14"}

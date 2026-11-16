@@ -74,6 +74,7 @@ NAV = [
         ("Injury refresh audit", "audit_1823b910/pages/index.html"),
         ("Injury freshness audit (1:30 PM ET)", "audit_736efb4b/index.html"),
         ("Game-day refresh audit", "audit_94e6d41b/pages/index.html"),
+        ("Evening refresh audit (11/16 eve)", "audit_ef6e2e6c/index.html"),
     ]),
     ("Archive", [
         ("Earlier sessions", "archive.html"),
