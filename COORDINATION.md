@@ -4739,7 +4739,8 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 ### C7 — PR, merge, Pages
 - PR: https://github.com/wingbangboozle1-lang/NBA3/pull/97 → merged (`5fde67ee`).
 - Follow-up reconciliation PR for the post-refresh state (this record + `b53d625`): **https://github.com/wingbangboozle1-lang/NBA3/pull/100** (created after this section was drafted; merged in the same round).
-- **Pages deploy:** rolling deploys for every `main` push since 55692dc were cancelled/superseded or failed platform-side (legacy build; flagged as F-F300-03 / 84c60e4c's irregularity). Each push retries the deploy per the standing retry rule; final status is appended below when a run completes.
+- **Pages deploy:** rolling deploys for every `main` push since 55692dc were cancelled/superseded or failed platform-side (legacy build; flagged as F-F300-03 / 84c60e4c's irregularity). Each push retried the deploy per the standing retry rule.
+- **Deploy CONFIRMED (2026-11-16 ~04:14Z):** `pages-build-deployment` on merge commit **`7eb57a6`** completed **success**, and the custom full suite (`Build and deploy NBA Edge Lab`, run `43800667028`) on the same commit completed **success** — every step, including the four nba.com capture steps. Live checks through the reader: the root page serves this session's regenerated content (window 2026-11-15 → 11-18, 34 priced games, "Game-day refresh audit" in the nav) and `site/slate.html` serves the recovered 25-row verified slate with all 25 official game-page links. PR #97 + PR #100 content is published.
 
 ### Sources used (this round, verified with the fetch tool)
 - https://official.nba.com/nba-injury-report-2026-27-season/ — official injury-report index (used by capture cross-checks).
