@@ -4646,3 +4646,44 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session arena/84c60e4c-nba3 (this round)
+
+Session ID: `84c60e4c` (branch `arena/84c60e4c-nba3`, based on `origin/main` @ `5fde67e`). All work stays on this
+one branch; the `session-<id>/<task>` per-task branch scheme from the brief cannot be used (Arena policy: one branch
+per session). Non-overlapping file scopes are recorded below so parallel sessions do not collide.
+
+Claimed at: 2026-11-16 (UTC). Today's date is treated as 2026-11-16 (UTC); "up to 3 days in advance" therefore means
+the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner confirms otherwise (see Q-SCOPE-01).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| T-R1 Repo review, line by line, with official links and irregularities | in progress | 84c60e4c | data/repo_review.csv, data/flags.csv, data/sources.csv |
+| T-V1 Official schedule verification for the current 3-day slate (2026-11-16 to 2026-11-18) | in progress | 84c60e4c | data/slates.csv, data/schedule.json |
+| T-S1 GitHub Pages site: clean landing page + category subpages, source-linked tables | in progress | 84c60e4c | index.html (root), site/, app/, scripts/build_site.py |
+| T-Q1 Questions, information and answers register | done (reviewed; owner decisions awaited) | 84c60e4c | data/questions.csv, data/questions.json |
+| T-G1 Suggestions queue (decision-ready; nothing implemented without owner choice) | done (reviewed; owner decisions awaited) | 84c60e4c | data/suggestions.csv, data/suggestions.json |
+| T-E1 Executive summary | done (reviewed; headline is "no funded strategies") | 84c60e4c | app/summary.html, site/executive-summary.html |
+| T-I1 Integration: merge to main, build check, link check, PR, merge, Pages deploy verification | in progress | 84c60e4c | COORDINATION.md, .github/workflows/pages.yml, PR |
+
+### Sources used (this round)
+- [NBA Schedule](https://www.nba.com/schedule): official game dates, matchups, tip times, venues, box-score links. Verified via fetch_page on 2026-11-16.
+- [NBA Stats glossary](https://www.nba.com/stats/help/glossary): statistical terminology (read in prior sessions; re-cited here).
+- [NBA Injury Report index](https://official.nba.com/nba-injury-report-2026-27-season/): reporting deadlines and report timing.
+- [NBA.com Terms of Use](https://www.nba.com/termsofuse): reproduction/statistics/gambling restrictions (S08).
+- [GitHub Pages docs](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site): publishing-source options (S18).
+
+### Verification performed
+- `git status --short --branch`: clean tree at `5fde67e`; local branch == `main` == `origin/main`.
+- `fetch_page https://www.nba.com/schedule` returned the official schedule page (8 chunks). Week 5 (Nov 16-22) Monday Nov 16 games are listed as upcoming; Week 4 (Nov 9-15) Sunday Nov 15 games are Final/Live. This confirms the slates window is a live official source.
+- Existing data files (slates.csv, schedule.json, injuries.json, sources.csv, questions.csv, suggestions.csv, flags.csv, repo_review.csv) reviewed for presence and source attribution; no values were inferred to fill blanks.
+
+### Irregularities and flags (see the Flagged for Review page)
+- Inherited from prior sessions: F01-F25 (injuries freshness/blank cells, NBA Terms reproduction, no odds source, no licence, Pages source legacy root, correlation blanks). Carried forward unchanged.
+- New this round (T-R1/T-V1): none confirmed yet; schedule verification in progress.
+
+### Handoff / conflicts log
+- No other session claims are active on this branch. Prior session boards (49064d5a, f879620b, 7c532e8c, 9ed6085f, 1823b910, 3bf92fcc, 8d3d0271, 81800928) are preserved unchanged; this section is appended only.
+- No merge conflicts expected at claim time (branch == main).
