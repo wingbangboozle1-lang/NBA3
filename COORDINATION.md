@@ -5024,3 +5024,24 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 - **No market anchor** until a licensed closing-line feed exists; the field is null, not guessed.
 - **No player-prop price** until per-player logs are captured; no rho, so no number.
 - Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
+
+---
+
+## Session `arena/4c69ab99-nba3` (current) — CLAIM: settlement of 11/15 finals, scheduled-job repair (window-roll-safe tests + settlement automation), 11/16 official capture (injury PDFs, standings, team-stats re-cut), registers
+
+Claim written and committed **before** any other work (board rule). Base: `main` @ `907771b` (merge of PR #109). Branch is fixed as `arena/4c69ab99-nba3`; the `session-<id>/<task>` naming in the brief does not apply (same choice as earlier sessions).
+
+**Why this scope.** At claim time (2026-11-16 ~18:30 UTC): (a) the scheduled `official data refresh` run `43925193575` (18:05 UTC) failed at the unit-test step after a successful fetch+gates+rebuild, and the root cause is that window-pinned tests (`tests/test_refresh_official.py::test_published_slate_matches_the_promotion`, `tests/test_pick_ledger.py` pins) compare live, already-rolled files against the frozen 11/15–11/18 window — so the scheduled job can never commit again once the day rolls; (b) the per-game result feed (`data/app/results_feed.json`) holds only 11/13–11/14 rows: none of the nine 11/15 finals are captured or settled anywhere on `main`, and the sealed pick ledger has no settlement entries (brief: settle the ledger from official finals as each game day ends); (c) no 11/16 injury PDF is stored in this repo (the newest archived transcription is the 11/15 06:15 AM ET report; the official index listed 39 filings for 11/16 up to 9:30 AM ET at last audit); (d) standings are not captured by any job (open item K-07); (e) settlement is not automated in the scheduled job (open flag C449-F-06). The brief's scheduled job must "refresh the official schedule, standings, team statistics and injury report … then rebuild only after freshness and provenance gates pass" and "settle the sealed ledger from official finals as soon as each game day ends".
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| M1 | Claim on the board (this section), pushed before work | done (this commit) | 4c69ab99 | `COORDINATION.md` (append-only) |
+| M2 | Diagnose + repair the failing scheduled refresh: make window-pinned tests roll-safe; wire standings fetch + game-day settlement (results feed + sealed ledger) into the job chain | in progress | 4c69ab99 | `tests/test_refresh_official.py`, `tests/test_pick_ledger.py`, `scripts/refresh_official.py`, `scripts/results_feed.py`, `scripts/pick_ledger.py`, `.github/workflows/refresh.yml` |
+| M3 | Capture the nine 11/15 finals (official game books + schedule reads, incl. the ATL@MIL quarter conflict, kept flagged, never repaired) into the per-game result feed and settle with visible settlement stamps | in progress | 4c69ab99 | `data/app/results_feed.json`, `data/app/gamebooks/`, `scripts/results_feed.py` |
+| M4 | Settle the sealed pick ledger entries for settled finals; verify chain before/after | in progress | 4c69ab99 | `data/app/ledger/` |
+| M5 | 11/16 official capture: injury index + newest report PDFs (stored with timestamp, diffed vs the previous report), games pages 11/16–11/19, standings, three team-stat pages (re-cut model inputs) | in progress | 4c69ab99 | `data/app/refresh/2026-11-16T*/`, `data/app/official_injuries_2026-11-16_*`, `data/app/standings_2026-11-16.json` |
+| M6 | Regenerate every downstream artefact byte-for-byte via the offline CI chains (estimators, minutes, canonical, app/, live pipeline, round, hub) so the drift gates stay green | in progress | 4c69ab99 | regenerated outputs only |
+| M7 | Registers + site: executive summary, questions (what is known/unknown before decisions), suggestions (review-before-implement), flagged items with source links | in progress | 4c69ab99 | `app/executive-summary`? no — `app/` via `scripts/build_app.py`, `COORDINATION.md` |
+| M8 | PR → merge → confirm Pages deploy by reading the live site; record here | pending | 4c69ab99 | `COORDINATION.md` |
+
+**Rules observed.** Every added value carries an official source link (`nba.com`, `official.nba.com`, `ak-static.cms.nba.com`, `statsdmz.nba.com`); anything unconfirmed stays blank and flagged. No inference. The ATL@MIL (`0022600243`) quarter conflict (period table Q3=37 vs summary-line Q3=27) is kept as two readings with published arithmetic — not repaired (continues K-02 / round Q09).
