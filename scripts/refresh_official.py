@@ -210,11 +210,13 @@ def parse_finals_from_games_html(html, page_date, games_url):
     return rows
 
 
-def ingest_finals(pages, out_path=None):
+def ingest_finals(pages, out_path=None, standings_path=None):
     """Merge finished games from {iso_date: games_page_html} into data/app/finals_auto.json.
 
     Idempotent and append-only by game_id: a game already recorded is never edited, so a
     later capture cannot silently change a row that the feed has already settled on.
+    standings_path (default data/app/standings_latest.json) receives the derived standings
+    snapshot; tests pass a temp path so they never write into data/app.
     """
     out_path = out_path or FINALS_AUTO
     doc = {"schema": "nba3/finals-auto/v1",
@@ -237,7 +239,7 @@ def ingest_finals(pages, out_path=None):
         json.dump(doc, fh, indent=1)
         fh.write("\n")
     print(f"ingest finals: {added} new game(s); {len(doc['games'])} in {os.path.relpath(out_path, ROOT)}")
-    derive_standings(doc)
+    derive_standings(doc, out_path=standings_path)
     return added
 
 

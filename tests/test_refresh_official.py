@@ -262,6 +262,7 @@ class FinalsIngestTests(unittest.TestCase):
     the per-game result feed stays current with no manual input.
     """
 
+    APP = os.path.join(ROOT, "data", "app")
     GAMES_1114 = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z",
                               "games_2026-11-14.html")
     GAMES_1115 = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z",
@@ -336,15 +337,23 @@ class FinalsIngestTests(unittest.TestCase):
         import tempfile
         seg = self._segment("0022600903", "ATL", "MIL", 113, 106,
                             [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
+        app_standings = os.path.join(self.APP, "standings_latest.json")
+        before = open(app_standings, "rb").read() if os.path.exists(app_standings) else None
         with tempfile.TemporaryDirectory() as td:
             out = os.path.join(td, "finals_auto.json")
+            st = os.path.join(td, "standings_latest.json")
             pages = {"2026-11-16": seg}
-            n1 = ro.ingest_finals(pages, out_path=out)
+            n1 = ro.ingest_finals(pages, out_path=out, standings_path=st)
             self.assertEqual(n1, 1)
-            n2 = ro.ingest_finals(pages, out_path=out)
+            n2 = ro.ingest_finals(pages, out_path=out, standings_path=st)
             self.assertEqual(n2, 0)
             doc = json.load(open(out, encoding="utf-8"))
             self.assertEqual(len(doc["games"]), 1)
+            # the derived standings follow the caller's paths — a test must never write
+            # into data/app (this polluted data/app/standings_latest.json once)
+            after = open(app_standings, "rb").read() if os.path.exists(app_standings) else None
+            self.assertEqual(before, after,
+                             "test wrote synthetic standings into data/app/standings_latest.json")
 
 
 class GateCallTests(unittest.TestCase):
