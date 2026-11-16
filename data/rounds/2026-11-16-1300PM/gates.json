@@ -1,0 +1,192 @@
+{
+ "gate_count": 16,
+ "pass_count": 16,
+ "blocking_failures": [],
+ "row_level_failures": [],
+ "rebuild_allowed": true,
+ "rule": "Freshness and provenance gates (F*, P*, and the integrity gates on the documents themselves) block the whole rebuild. A row-scoped failure withholds its own row and is published with the reason; it does not block the rest.",
+ "gates": [
+  {
+   "id": "F1_report_is_newest_listed",
+   "name": "the captured filing is the newest the official index lists",
+   "pass": true,
+   "scope": "build",
+   "detail": "index newest at read: 2026-11-16 01:00 PM ET; captured: 2026-11-16 01:00 PM ET",
+   "measured": {
+    "index_newest": "2026-11-16 01:00 PM ET",
+    "captured": "2026-11-16 01:00 PM ET",
+    "index_slots_for_11_16": 52
+   }
+  },
+  {
+   "id": "F2_pdf_header_matches_filename",
+   "name": "the stamp printed inside the PDF matches its filename",
+   "pass": true,
+   "scope": "build",
+   "detail": "PDF header stamps parsed: ['11/16/26 01:00 PM']",
+   "measured": {
+    "stamps": [
+     "11/16/26 01:00 PM"
+    ],
+    "expected": [
+     "11/16/26 01:00 PM"
+    ]
+   }
+  },
+  {
+   "id": "F3_supersedes_published_snapshot",
+   "name": "this filing is strictly newer than the one main publishes",
+   "pass": true,
+   "scope": "build",
+   "detail": "captured 2026-11-16 01:00 PM ET vs published 2026-11-16 09:15 AM ET",
+   "measured": {
+    "captured": "2026-11-16 01:00 PM ET",
+    "previously_published": "2026-11-16 09:15 AM ET"
+   }
+  },
+  {
+   "id": "F4_slate_covers_today_plus_two",
+   "name": "the official schedule covers the required today..today+2 window",
+   "pass": true,
+   "scope": "build",
+   "detail": "dates present: ['2026-11-16', '2026-11-17', '2026-11-18']",
+   "measured": {
+    "count_by_date": {
+     "2026-11-16": 8,
+     "2026-11-17": 5,
+     "2026-11-18": 12
+    }
+   }
+  },
+  {
+   "id": "P1_every_artifact_has_url_and_hash",
+   "name": "every captured document carries an https source URL and a sha256",
+   "pass": true,
+   "scope": "build",
+   "detail": "1:00 PM transcript sha256=09172cec34fcc917...",
+   "measured": {
+    "transcript_sha256": "09172cec34fcc917bcaf4e6e5f65a0e4de01f16bf60a49f65d812311d363137b",
+    "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf"
+   }
+  },
+  {
+   "id": "P2_no_unattributed_rows",
+   "name": "every player row knows its club and its matchup",
+   "pass": true,
+   "scope": "build",
+   "detail": "0 rows with no club; 0 unresolved",
+   "measured": {
+    "unattributed": 0
+   }
+  },
+  {
+   "id": "I1_standings_complete",
+   "name": "the standings table parsed to 30 clubs, all with an abbreviation",
+   "pass": true,
+   "scope": "build",
+   "detail": "30 clubs parsed",
+   "measured": {
+    "team_count": 30
+   }
+  },
+  {
+   "id": "I2_home_road_mirror",
+   "name": "league road wins equal league home losses (table is consistent)",
+   "pass": true,
+   "scope": "build",
+   "detail": "road wins 94 vs home losses 94",
+   "measured": {
+    "road_wins": 94,
+    "home_losses": 94
+   }
+  },
+  {
+   "id": "I3_net_rating_reconciles",
+   "name": "printed net rating equals off rating minus def rating within rounding",
+   "pass": true,
+   "scope": "build",
+   "detail": "0 clubs exceed 0.11 tolerance; max 0.1",
+   "measured": {
+    "violations": []
+   }
+  },
+  {
+   "id": "I4_ppp_reconciles",
+   "name": "points per possession from off rating matches points / possessions",
+   "pass": true,
+   "scope": "build",
+   "detail": "0 clubs disagree by more than 0.002 ppp",
+   "measured": {
+    "violations": []
+   }
+  },
+  {
+   "id": "I5_matchup_contains_club",
+   "name": "every player row's matchup string contains that player's club",
+   "pass": true,
+   "scope": "build",
+   "detail": "0 mismatches",
+   "measured": {
+    "violations": []
+   }
+  },
+  {
+   "id": "I6_status_printed_or_null",
+   "name": "a row whose status the PDF does not print is null and counted, never back-filled",
+   "pass": true,
+   "scope": "row",
+   "detail": "1 row(s) print no status: ['Butler III, Jimmy']",
+   "measured": {
+    "count": 1,
+    "detail": [
+     {
+      "line": 95,
+      "team": "Golden State Warriors",
+      "player": "Butler III, Jimmy",
+      "matchup": "GSW@NOP",
+      "reason": "Injury/Illness - Right ACL Repair / Surgery"
+     }
+    ]
+   }
+  },
+  {
+   "id": "I7_seam_splice_recorded",
+   "name": "the page-break row splice is detected and recorded, not silently merged",
+   "pass": true,
+   "scope": "build",
+   "detail": "1 spliced row(s); spill rows dropped: 2",
+   "measured": {
+    "spliced": 1,
+    "dropped_spill": 2
+   }
+  },
+  {
+   "id": "I8_diff_is_positional_free",
+   "name": "the consecutive-report diff matched no row by position",
+   "pass": true,
+   "scope": "build",
+   "detail": "75 keys compared on (matchup, club, player)",
+   "measured": {
+    "keys": 75
+   }
+  },
+  {
+   "id": "I10_totals_formula_is_consistent",
+   "name": "possessions x ppp reproduces the scoring averages on season-wide inputs",
+   "pass": true,
+   "scope": "build",
+   "detail": "max gap 0.460 points: with only season rates the two coincide, as off_rtg = 100*pts/poss. Disclosed on the Totals page; they diverge only with opponent-specific ppp.",
+   "measured": {
+    "max_gap": 0.46
+   }
+  },
+  {
+   "id": "I9_every_consequence_club_sourced",
+   "name": "every club row in the consequence table names an official source",
+   "pass": true,
+   "scope": "build",
+   "detail": "24 club rows",
+   "measured": null
+  }
+ ]
+}
