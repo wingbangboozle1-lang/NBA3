@@ -1,0 +1,20 @@
+{
+ "id": "ST-20-ROTATION-IMPACT",
+ "name": "Rotation minutes actually vacated",
+ "signal": "bet the side whose opponent loses more captured rotation minutes to Out or Doubtful players, where a rotation player is one averaging 15 or more captured minutes; a club whose injured players were already inactive scores zero impact and is not a pick",
+ "thresholds": {
+  "min_vacated_min": 8.0,
+  "min_rotation_players_out": 1,
+  "rotation_minutes_floor": 15.0
+ },
+ "universe": "games where both clubs have a captured official game book",
+ "settlement_rule": "MONEYLINE, official final; void without a final",
+ "stake_rule": "1 unit",
+ "luck_policy": "refused for any club outside the +/-2 luck band",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "blocked_because": "no captured game book exists for 16 of the 30 clubs, so the universe is smaller than the slate; the shortfall is published, not filled",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "a1f38166a9689160f7dc1e04772e4f628cc6fa1453e6ac6f2cffe9f638800821"
+}

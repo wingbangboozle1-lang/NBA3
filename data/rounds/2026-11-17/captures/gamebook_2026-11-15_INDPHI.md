@@ -1,0 +1,71 @@
+<!-- VERBATIM fetch transcript, written by session arena/2ecbccfd-nba3 on 2026-11-16 (UTC).
+     Source: https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf (official box score, 1 chunk)
+     Retrieval stamp 2026-11-16T19:20Z. Linked from https://www.nba.com/game/ind-vs-phi-0022600236.
+     Nothing below is edited, reordered, corrected or filled in. Where the PDF's text extraction
+     drops a cell the row keeps the gap; points are re-derived only with the printed scoring
+     identity PTS = 2*FG + 3P + FT and only when the twelve rows then sum to the team total the
+     same PDF prints. -->
+
+Sunday, November 15, 2026 Xfinity Mobile Arena, Philadelphia, PA
+Officials: #77 Karl Lane, #33 Sean Corbin, #43 Matt Myers
+
+Game Duration: 2:18
+Attendance: 21024 (Sellout)
+
+| VISITOR: Indiana Pacers (5-9) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  | POS | MIN | FG | FGA | 3P | 3PA | FT | FTA | OR | DR | TOT | A | PF | ST | TO | BS | +/- | PTS |  |  |  |  |  |  |
+| 23 | Aaron Nesmith | F | 36:20 | 4 | 11 | 0 | 5 | 4 | 4 | 1 | 3 | 4 | 4 | 2 | 0 | 1 | 0 | -6 | 12 |  |  |  |  |  |  |
+| 43 | Pascal Siakam | F | 33:40 | 12 | 19 | 0 | 3 | 7 | 8 | 0 | 2 | 2 | 2 | 1 | 1 | 1 | 0 | -7 | 31 |  |  |  |  |  |  |
+| 40 | Ivica Zubac | C | 22:15 | 3 | 6 | 0 | 0 | 2 | 2 | 1 | 4 | 5 | 2 | 1 | 0 | 1 | 0 | -10 | 8 |  |  |  |  |  |  |
+| 10 | Kelly Oubre Jr. | G | 28:55 | 6 | 11 | 2 | 5 | 2 | 2 | 0 | 4 | 4 | 2 | 3 | 1 | 3 | 1 | -8 | 16 |  |  |  |  |  |  |
+| 29 | Quenton Jackson | G | 30:14 | 6 | 12 | 1 | 5 | 2 | 3 | 0 | 6 | 6 | 8 | 4 | 1 | 2 | 0 | -6 | 15 |  |  |  |  |  |  |
+| 9 | T.J. McConnell |  | 19:06 | 6 | 10 | 0 | 1 | 0 | 0 | 1 | 4 | 5 | 5 | 1 | 1 | 2 | 0 | -2 | 12 |  |  |  |  |  |  |
+| 18 | Jalen Slawson |  | 14:22 | 3 | 3 | 1 | 1 | 1 | 1 | 5 | 0 | 5 | 2 | 3 | 0 | 0 | 1 | 3 | 8 |  |  |  |  |  |  |
+| 1 | Obi Toppin |  | 14:15 | 2 | 7 | 0 | 3 | 1 | 1 | 0 | 2 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 5 |  |  |  |  |  |  |
+| 22 | Larry Nance Jr. |  | 06:33 | 1 | 2 | 1 | 2 | 1 | 2 | 0 | 2 | 2 | 2 | 2 | 0 | 0 | 0 | 7 | 4 |  |  |  |  |  |  |
+| 5 | Jarace Walker |  | 13:39 | 1 | 5 | 0 | 4 | 0 | 0 | 0 | 5 | 5 | 2 | 2 | 0 | 0 | 1 | -7 | 2 |  |  |  |  |  |  |
+| 32 | Jay Huff |  | 17:42 | 4 | 5 | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 2 | 2 | 1 | 0 | 0 | -4 | 11 |  |  |  |  |  |  |
+| 24 | Kobe Brown |  | 02:59 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 5 | 0 |  |  |  |  |  |  |
+| 3 | Braden Smith |  | DNP - Coach's Decision |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  | 240:00 | 48 | 91 | 8 | 32 | 20 | 23 | 8 | 32 | 40 | 32 | 22 | 5 | 10 | 3 | -7 | 124 |  |  |  |  |  |  |
+|  |  |  | 52.7% |  |  | 25% |  |  | 87% |  | TM REB: 3 |  |  | TOT TO: 10 (19 PTS) |  |  |  | TM FGA: 1 |  |  |  |  |  |  |
+
+| HOME: PHILADELPHIA 76ERS (11-3) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+
+|  |  | POS | MIN | FG | FGA | 3P | 3PA | FT | FTA | OR | DR | TOT | A | PF | ST | TO | BS | +/- | PTS |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 7 Jaylen Brown | F | 32:28 | 12 | 18 | 3 | 6 | 4 | 6 | 0 | 2 | 2 | 2 | 4 | 1 | 5 | 0 | -3 | 31 |  |
+| 23 LeBron James | F | 32:47 | 5 | 8 | 0 | 2 | 5 | 6 | 0 | 7 | 7 | 11 | 3 | 0 | 2 | 1 | 7 | 15 |  |
+| 33 Jabari Walker | C | 24:42 | 4 | 8 | 3 | 6 | 0 | 0 | 2 | 5 | 7 | 1 | 0 | 1 | 2 | 0 | 11 | 11 |  |
+| 77 VJ Edgecombe | G | 30:49 | 5 | 11 | 0 | 4 | 1 | 2 | 0 | 4 | 4 | 6 | 5 | 1 | 1 | 0 | 9 | 11 |  |
+| 0 Tyrese Maxey | G | 35:32 | 9 | 19 | 5 | 10 | 4 | 5 | 0 | 4 | 4 | 6 | 2 | 1 | 1 | 0 | 14 | 27 |  |
+| 45 Dean Wade |  |  | 35:03 | 4 | 5 | 3 | 4 | 1 | 1 | 1 | 6 | 7 | 3 | 3 | 0 | 0 | 2 | 10 |  |
+| 1 Kentavious Caldwell-Pope |  |  | 22:16 | 2 | 5 | 2 | 5 | 3 | 4 | 0 | 5 | 5 | 0 | 3 | 0 | 1 | 0 | -11 |  |
+| 5 Anfernee Simons |  |  | 15:28 | 5 | 9 | 1 | 4 | 1 | 1 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 12 |  |
+| 00 Labaron Philon Jr. |  |  | 06:06 | 1 | 2 | 1 | 1 | 0 | 0 | 1 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 3 |  |
+| 99 Tacko Fall |  |  | 04:49 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 3 | 0 | 1 | 0 | 0 | 0 | 0 |  |
+| 11 Justin Edwards |  |  | DNP - Coach's Decision |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 8 Caleb Love |  |  | DNP - Coach's Decision |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  | 240:00 | 47 | 85 | 18 | 42 | 19 | 25 | 6 | 34 | 40 | 29 | 24 | 5 | 12 | 3 | 7 |  |
+|  |  |  |  | 55.3% |  | 42.9% |  | 76% |  | TM REB: 8 |  | TOT TO: 13 (13 PTS) |  |  |  |  | TM FGA: 0 |  |  |
+
+| SCORE BY PERIOD | 1 | 2 | 3 | 4 | FINAL |
+| --- | --- | --- | --- | --- | --- |
+| Pacers | 35 | 22 | 30 | 37 | 124 |
+| 76ERS | 29 | 29 | 39 | 34 | 131 |
+
+76ERS 29 29 39 34 131
+Inactive: Pacers - Furphy (Injury/Illness - Right ACL Repair / Surgery), Haliburton (Injury/Illness - Left Hamstring Strain), Nembhard (Injury/Illness - Left Hip
+
+Soreness / Tightness), Sheppard (Injury/Illness - Left Meniscus Tear)
+Inactive: 76ers - Barlow (Injury/Illness - Low Back Stress Reaction), Bona (Injury/Illness - Cervical Spine Sprain), Embiid (Injury/Illness - Right Foot Plantar
+
+Fascia Injury Management), Hukporti (Injury/Illness - Right Achilles Tendon Rupture / Tear), Rupert (G League - Two-Way)
+
+Points in the Paint: Pacers 62 (31/46), 76ERS 48 (24/34)
+2nd Chance Points: Pacers 14 (5/7), 76ERS 6 (2/5)
+Fast Break Points: Pacers 7 (3/7), 76ERS 20 (8/11)
+Biggest Lead: Pacers 9, 76ERS 15
+Lead Changes: 14
+Times Tied: 4

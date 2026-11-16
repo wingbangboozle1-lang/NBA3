@@ -1,0 +1,19 @@
+{
+ "strategy_id": "D-S4",
+ "name": "same-game parlay, side + our total, priced with the measured rho",
+ "signal": "leg 1 |blend margin| >= 4.0, leg 2 |our total - league mean total| >= 4.0, priced with rho(margin, total) measured on the verified finals",
+ "thresholds": {
+  "disagreement_cap_points": 5.0,
+  "luck_z_band": 2.0,
+  "min_verified_finals": 60
+ },
+ "universe": "every game on the official rolling slate for today .. today+2, all 30 clubs",
+ "settlement_rule": "settle only from an official final that the nba.com scoreboard and the game book agree on; a game whose printed quarter scores do not sum to its final is settled on the score alone and flagged; a game with no verified final stays unsettled",
+ "stake_rule": "0.5 unit, flat",
+ "home_court_used_by_this_strategy": 0.9,
+ "frozen_before_first_bet": true,
+ "frozen_stamp": "2026-11-16T18:55Z",
+ "frozen_by": "arena/d1b96315-nba3",
+ "note": "frozen before any bet because no strategy is funded; editing this file changes its hash, and the hash is published in the ledger",
+ "sha256": "60469363840d20fbe529601b0d706603f65bedc2765555a8f916055c9331662e"
+}

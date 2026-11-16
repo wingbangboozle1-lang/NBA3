@@ -1,0 +1,61 @@
+# Verbatim transcript — official game book box score, DAL @ BOS, 2026-11-15
+# URL: https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf
+# Retrieved: 2026-11-16T18:44Z via the Arena fetch tool (PDF text extraction), chunk 0.
+# Purpose: per-player game log (minutes, points, rebounds, assists, opponent) for the two clubs.
+
+Sunday, November 15, 2026 TD Garden, Boston, MA
+Game Duration: 1:57 | Attendance: 19156 (Sellout)
+
+## VISITOR: Dallas Mavericks (7-7)
+
+| # | PLAYER | POS | MIN | FG | FGA | 3P | 3PA | FT | FTA | OR | DR | TOT | A | PF | ST | TO | BS | +/- | PTS |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 16 Caleb Martin | F | 33:51 | 4 | 8 | 4 | 5 | 0 | 0 | 2 | 3 | 5 | 5 | 1 | 2 | 1 | 0 | -23 | 12 |
+| 25 P.J. Washington | F | 24:30 | 3 | 11 | 0 | 6 | 2 | 3 | 0 | 5 | 5 | 4 | 1 | 0 | 3 | 1 | -19 | 8 |
+| 21 Daniel Gafford | C | 19:24 | 1 | 2 | 0 | 0 | 1 | 1 | 0 | 4 | 4 | 2 | 1 | 0 | 2 | 3 | -16 | 3 |
+| 32 Cooper Flagg | G | 26:41 | 5 | 15 | 2 | 6 | 5 | 5 | 0 | 3 | 3 | 4 | 1 | 1 | 3 | 1 | -30 | 17 |
+| 3 Naji Marshall | G | 22:45 | 4 | 10 | 3 | 5 | 2 | 2 | 1 | 1 | 2 | 2 | 0 | 1 | 3 | 0 | -25 | 13 |
+| 1 Walter Clayton Jr. | | | 23:04 | 4 | 8 | 3 | 5 | 2 | 2 | 1 | 3 | 4 | 3 | 0 | 1 | 1 | 0 | -28 |
+| 14 Morez Johnson Jr. | | | 25:40 | 1 | 10 | 0 | 4 | 0 | 0 | 2 | 4 | 6 | 4 | 4 | 1 | 1 | -23 | 2 |
+| 10 Zaccharie Risacher | | | 26:43 | 8 | 9 | 1 | 2 | 1 | 2 | 3 | 2 | 5 | 0 | 2 | 0 | 1 | 0 | -14 |
+| 8 Marcus Sasser | | | 18:07 | 2 | 6 | 1 | 5 | 0 | 0 | 1 | 0 | 1 | 2 | 1 | 0 | 0 | -10 | 5 |
+| 33 Tobi Lawal | | | 08:58 | 1 | 3 | 0 | 2 | 0 | 0 | 1 | 1 | 2 | 0 | 2 | 0 | 0 | 3 | 2 |
+| 9 Jett Howard | | | 06:39 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 1 |
+| 30 Moussa Cissé | | | 03:38 | 0 | 0 | 0 | 0 | 1 | 2 | 0 | 1 | 1 | 0 | 1 | 0 | 1 | 0 | 1 |
+| | | 240:00 | 33 | 83 | 14 | 41 | 14 | 17 | 11 | 27 | 38 | 27 | 15 | 7 | 17 | 6 | -37 | 94 |
+
+## HOME: BOSTON CELTICS (11-2)
+
+| # | PLAYER | POS | MIN | FG | FGA | 3P | 3PA | FT | FTA | OR | DR | TOT | A | PF | ST | TO | BS | +/- | PTS |
+| 13 Paul George | F | 24:51 | 3 | 11 | 1 | 4 | 0 | 0 | 1 | 6 | 7 | 6 | 1 | 2 | 2 | 0 | 33 | 7 |
+| 0 Jayson Tatum | F | 30:08 | 11 | 18 | 5 | 8 | 5 | 6 | 1 | 5 | 6 | 6 | 1 | 0 | 2 | 0 | 31 | 32 |
+| 88 Neemias Queta | C | 15:21 | 3 | 3 | 1 | 1 | 1 | 2 | 2 | 4 | 6 | 2 | 2 | 0 | 0 | 1 | 31 | 8 |
+| 27 Jordan Walsh | G | 21:07 | 4 | 9 | 2 | 5 | 1 | 2 | 1 | 0 | 1 | 0 | 2 | 1 | 0 | 0 | 13 | 11 |
+| 9 Derrick White | G | 22:56 | 6 | 11 | 4 | 9 | 0 | 0 | 2 | 2 | 4 | 2 | 3 | 2 | 0 | 0 | 30 | 16 |
+| 4 Mitchell Robinson | | | 14:47 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 5 | 7 | 1 | 2 | 0 | 1 | 3 | 0 |
+| 55 Baylor Scheierman | | | 18:00 | 3 | 6 | 2 | 5 | 4 | 4 | 2 | 3 | 5 | 3 | 0 | 2 | 1 | 0 | 14 |
+| 30 Sam Hauser | | | 10:51 | 3 | 4 | 2 | 3 | 0 | 0 | 1 | 1 | 0 | 0 | 2 | 0 | 0 | 6 | 8 |
+| 11 Payton Pritchard | | | 18:56 | 4 | 9 | 2 | 6 | 0 | 0 | 1 | 0 | 1 | 6 | 1 | 1 | 0 | 5 | 10 |
+| 52 Luka Garza | | | 14:14 | 1 | 5 | 0 | 3 | 0 | 0 | 1 | 2 | 3 | 5 | 0 | 0 | 0 | 7 | 2 |
+| 28 Hugo González | | | 17:52 | 3 | 6 | 2 | 4 | 1 | 2 | 4 | 1 | 5 | 2 | 0 | 1 | 4 | 0 | 6 |
+| 99 Devin Carter | | | 12:00 | 0 | 2 | 0 | 1 | 0 | 0 | 0 | 2 | 2 | 1 | 3 | 0 | 2 | 0 | 4 |
+| 8 Ron Harper Jr. | | | 12:00 | 4 | 6 | 2 | 4 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 4 | 10 |
+| 12 Chris Cenac Jr. | | | 06:57 | 3 | 5 | 0 | 2 | 0 | 0 | 1 | 2 | 3 | 0 | 1 | 0 | 0 | 0 | 6 |
+| 45 Mike Conley | | DNP - Coach's Decision |
+| | | 240:00 | 48 | 95 | 23 | 55 | 12 | 16 | 18 | 34 | 52 | 34 | 16 | 11 | 12 | 5 | 37 | 131 |
+
+| SCORE BY PERIOD | 1 | 2 | 3 | 4 | FINAL |
+| --- | --- | --- | --- | --- | --- |
+| Mavericks | 9 | 28 | 34 | 23 | 94 |
+| CELTICS | 42 | 25 | 37 | 27 | 131 |
+
+CELTICS 42 25 37 27 131
+Inactive: Mavericks - Aldama (Injury/Illness - Left Ankle Sprain), Biberović (Injury/Illness - Right Heel Bursitis), Christie (Injury/Illness - Left Ankle Sprain), de Larrea (Injury/Illness - Right Knee Sprain), Irving (Injury/Illness - Left Knee Injury Management), Lively II (Injury/Illness - Right Foot Surgery)
+Inactive: Celtics - Mitchell (G League - Two-Way), Williams (G League - Two-Way)
+
+# Cross-checks recorded by this session (arithmetic only, nothing repaired):
+#   DAL quarter row  9 + 28 + 34 + 23 = 94  = printed FINAL 94 = box team total PTS 94. PASS
+#   BOS quarter row 42 + 25 + 37 + 27 = 131 = printed FINAL 131 = box team total PTS 131. PASS
+#   Scoreboard card read separately at 18:30Z prints "Mavericks 94 / Final / 131 Celtics". PASS
+#   Minutes identity: DAL listed player MIN sum = 239.62 vs the 240:00 team line (rounding of
+#   mm:ss to two decimals in the renderer); BOS listed MIN sum = 240.00 vs 240:00.

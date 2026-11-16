@@ -1,0 +1,334 @@
+{
+ "schema": "nba3.rounds.injury_delta/v1",
+ "from_report": "2026-11-16 09:15 AM ET",
+ "to_report": "2026-11-16 01:15 PM ET",
+ "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+ "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+ "key": "(matchup, player) normalised name; a status change is a change in the Current Status column, a reason change is a change in the Reason column",
+ "change_count": 25,
+ "status_changes": [
+  {
+   "matchup": "CHI@CLE",
+   "player": "Tyson, Jaylon",
+   "team": "Cleveland Cavaliers",
+   "change": "CHANGED",
+   "fields": [
+    "status"
+   ],
+   "from_status": "Questionable",
+   "to_status": "Doubtful",
+   "from_reason": "Injury/Illness - Right Ankle Injury Management",
+   "to_reason": "Injury/Illness - Right Ankle Injury Management",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "direction": "less_available"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Stewart, Isaiah",
+   "team": "Memphis Grizzlies",
+   "change": "CHANGED",
+   "fields": [
+    "status"
+   ],
+   "from_status": "Questionable",
+   "to_status": "Out",
+   "from_reason": "Injury/Illness - Illness",
+   "to_reason": "Injury/Illness - Illness",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "direction": "less_available"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Larsson, Pelle",
+   "team": "Miami Heat",
+   "change": "CHANGED",
+   "fields": [
+    "status"
+   ],
+   "from_status": "Questionable",
+   "to_status": "Doubtful",
+   "from_reason": "Injury/Illness - Illness",
+   "to_reason": "Injury/Illness - Illness",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "direction": "less_available"
+  }
+ ],
+ "rows": [
+  {
+   "matchup": "CHI@CLE",
+   "player": "Tyson, Jaylon",
+   "team": "Cleveland Cavaliers",
+   "change": "CHANGED",
+   "fields": [
+    "status"
+   ],
+   "from_status": "Questionable",
+   "to_status": "Doubtful",
+   "from_reason": "Injury/Illness - Right Ankle Injury Management",
+   "to_reason": "Injury/Illness - Right Ankle Injury Management",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "direction": "less_available"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Jackson, GG",
+   "team": "Memphis Grizzlies",
+   "change": "CHANGED",
+   "fields": [
+    "reason"
+   ],
+   "from_status": "Out",
+   "to_status": "Out",
+   "from_reason": "Injury/Illness - Left Foot Injury",
+   "to_reason": "Injury/Illness - Left 5th Metatarsal Fracture",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Stewart, Isaiah",
+   "team": "Memphis Grizzlies",
+   "change": "CHANGED",
+   "fields": [
+    "status"
+   ],
+   "from_status": "Questionable",
+   "to_status": "Out",
+   "from_reason": "Injury/Illness - Illness",
+   "to_reason": "Injury/Illness - Illness",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "direction": "less_available"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Beekman, Reece",
+   "team": "Washington Wizards",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Right AC Joint Injury",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Champagne, Justin",
+   "team": "Washington Wizards",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Right Foot Surgery",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Johnson, Tre",
+   "team": "Washington Wizards",
+   "change": "ADDED",
+   "from": null,
+   "to": "Questionable",
+   "reason": "Injury/Illness - Low Back Soreness",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Okpara, Felix",
+   "team": "Washington Wizards",
+   "change": "ADDED",
+   "from": null,
+   "to": "Questionable",
+   "reason": "G League - Two-Way",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Vukcevic, Tristan",
+   "team": "Washington Wizards",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Left Hip Impingement",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "MEM@WAS",
+   "player": "Watkins, Jamir",
+   "team": "Washington Wizards",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Left ACL Repair / Surgery",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "ORL@BOS",
+   "player": "Queta, Neemias",
+   "team": "Boston Celtics",
+   "change": "ADDED",
+   "from": null,
+   "to": "Questionable",
+   "reason": "Rest",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Adams, Steven",
+   "team": "Houston Rockets",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Left Lower Leg Injury Management",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Capela, Clint",
+   "team": "Houston Rockets",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Right Ankle Sprain",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Copeland, Quadir",
+   "team": "Houston Rockets",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "G League - Two-Way",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Phillips, Julian",
+   "team": "Houston Rockets",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "G League - Two-Way",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Smart, Marcus",
+   "team": "Houston Rockets",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "League Suspension",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Thompson, Amen",
+   "team": "Houston Rockets",
+   "change": "ADDED",
+   "from": null,
+   "to": "Questionable",
+   "reason": "Injury/Illness - Left Knee Soreness",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Jovic, Nikola",
+   "team": "Miami Heat",
+   "change": "ADDED",
+   "from": null,
+   "to": "Questionable",
+   "reason": "Injury/Illness - Illness",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "HOU@MIA",
+   "player": "Larsson, Pelle",
+   "team": "Miami Heat",
+   "change": "CHANGED",
+   "fields": [
+    "status"
+   ],
+   "from_status": "Questionable",
+   "to_status": "Doubtful",
+   "from_reason": "Injury/Illness - Illness",
+   "to_reason": "Injury/Illness - Illness",
+   "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "direction": "less_available"
+  },
+  {
+   "matchup": "PHI@BKN",
+   "player": "Barlow, Dominick",
+   "team": "Philadelphia 76ers",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Low Back Stress Reaction",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "PHI@BKN",
+   "player": "Bona, Adem",
+   "team": "Philadelphia 76ers",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Cervical Spine Sprain",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "PHI@BKN",
+   "player": "Embiid, Joel",
+   "team": "Philadelphia 76ers",
+   "change": "ADDED",
+   "from": null,
+   "to": "Questionable",
+   "reason": "Injury/Illness - Right Foot Plantar Fascia Injury Management",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "PHI@BKN",
+   "player": "Hukporti, Ariel",
+   "team": "Philadelphia 76ers",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Right Achilles Tendon Rupture / Tear",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "PHI@BKN",
+   "player": "James, LeBron",
+   "team": "Philadelphia 76ers",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Low Back/Sciatica Management",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "GSW@NOP",
+   "player": "Mathurin, Benedict",
+   "team": "New Orleans Pelicans",
+   "change": "ADDED",
+   "from": null,
+   "to": "Out",
+   "reason": "Injury/Illness - Left Plantar Fasciitis",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "matchup": "GSW@NOP",
+   "player": "Mathurin, Bennedict",
+   "team": "New Orleans Pelicans",
+   "change": "REMOVED",
+   "from": "Out",
+   "to": null,
+   "reason": "Injury/Illness - Left Plantar Fasciitis",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf"
+  }
+ ]
+}

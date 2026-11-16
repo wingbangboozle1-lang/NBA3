@@ -31,6 +31,13 @@ name: Build and deploy NBA Edge Lab (GitHub Pages)
 #     injury reports (06:15 AM ET snapshot + 4 cross-reports), 11/14 finals settled, rolling
 #     11/15-11/18 window, four-leg engine invariance proof, availability delta and settlement;
 #     supersedes the 11/14 04:15 AM snapshot the manifest published before this round
+#   /d1b96315/       -> session arena/d1b96315-nba3 2026-11-16 game-day roll: three official
+#                       injury revisions diffed, the 11/15 finals re-settled one row per game (the
+#                       ATL@MIL quarter conflict published both ways), the first standings capture in
+#                       the repo with home-court pinned to the measured 52.04% home-win rate, 25
+#                       originated lines from two independent estimators with their disagreement as the
+#                       headline, 25 pre-tip ledger seals and an independent verification of all three
+#                       chains (board item K-17 resolved), 12 flagged rows
 #   /audit_1823b910/ -> session arena/1823b910-nba3: independent second transcription of the same
 #                       11/14 01:30 PM ET report, the line-invariance proof, injury -> rotation impact,
 #                       game flow, and this session's questions and suggestions
@@ -270,6 +277,26 @@ jobs:
             git status --porcelain -- round/ data/rounds/2026-11-16
             exit 1
           }
+      - name: 11/16 1:00 PM ET filing round (arena/fbd2484b) - rebuild, gates, drift check
+        run: |
+          # The refresh parses committed verbatim transcripts only: no network. A non-zero exit
+          # here means a build-scope freshness/provenance gate failed, and the rebuild is refused.
+          python3 scripts/round2_2026_11_16.py --gates
+          python3 scripts/round2_2026_11_16.py
+          python3 scripts/build_round2_site.py
+          git diff --exit-code -- data/rounds/2026-11-16-1300PM round2 || {
+            echo "The 1:00 PM ET round artefacts or pages drifted from what is committed."
+            git --no-pager diff --stat -- data/rounds/2026-11-16-1300PM round2 | tail -20
+            exit 1
+          }
+          test -z "$(git status --porcelain -- round2/ data/rounds/2026-11-16-1300PM)" || {
+            echo 'round2/ or data/rounds/2026-11-16-1300PM has untracked output; regenerate and commit'
+            git status --porcelain -- round2/ data/rounds/2026-11-16-1300PM
+            exit 1
+          }
+      - name: 11/16 1:00 PM ET round unit tests (arena/fbd2484b)
+        run: python3 -m unittest tests.test_round2_2026_11_16 -v
+
       - name: 11/16 round unit tests (arena/8f4fac33)
         run: python3 -m unittest tests.test_round_2026_11_16 -v
       - name: Originated-lines attribution and availability labels (arena/bb0c83a4)
@@ -477,6 +504,88 @@ jobs:
           python3 -m unittest discover -s audit_00b0c780 -p 'test_*.py'
           rm -rf audit_00b0c780/__pycache__
 
+      - name: Game-day roll (arena/d1b96315-nba3) — rebuild from official transcripts, gate, test
+        run: |
+          # Fully offline: every input is a committed verbatim transcript of an official NBA
+          # document (injury PDFs 11/16 11:30 AM + 01:15 PM ET, the 11/15 scoreboard, the ATL@MIL,
+          # DAL@BOS and IND@PHI game books, the standings page and the Teams Advanced page). The
+          # rebuild is deterministic, so a CI run that produces a different artefact is a real
+          # finding, not a flake.
+          python3 d1b96315/capture.py
+          python3 d1b96315/boxlog.py
+          python3 d1b96315/model.py
+          python3 d1b96315/ledger.py verify          # read-only: recomputes three chains
+          python3 d1b96315/flags.py                  # reads the ledger result, so it runs after it
+          python3 d1b96315/build_pages.py             # fails on a broken link or an unsourced row
+          python3 d1b96315/capture.py --check
+          python3 d1b96315/boxlog.py --check
+          python3 d1b96315/model.py --check
+          # provenance gate: no data row may be published without a source marker
+          python3 - <<'PY'
+          import json, pathlib, re
+          tree = pathlib.Path("d1b96315")
+          bad = []
+          for page in sorted((tree / "pages").glob("*.html")):
+              text = page.read_text(encoding="utf-8")
+              rows = [r for r in text.split("<tr>") if "<td" in r]
+              for r in rows:
+                  if 'class="src"' not in r and "no official link on this row" not in r:
+                      bad.append(f"{page.name}: unsourced table row")
+          lines = json.loads((tree / "data/lines.json").read_text(encoding="utf-8"))["lines"]
+          for r in lines:
+              if r.get("publishable") and not str(r.get("source_url", "")).startswith("https://www.nba.com/"):
+                  bad.append(f"line {r.get('game_id')}: source_url is not an official nba.com page")
+          led = json.loads((tree / "data/ledger_check.json").read_text(encoding="utf-8"))
+          for k, v in led["trees"].items():
+              if v["result"] != "CHAIN INTACT":
+                  bad.append(f"ledger tree {k}: {v['result']} {v['problems'][:1]}")
+          res = json.loads((tree / "data/results_2026-11-15.json").read_text(encoding="utf-8"))
+          for row in res["rows"]:
+              if sum(row["away_quarters"]) != row["away_pts"] or sum(row["home_quarters"]) != row["home_pts"]:
+                  bad.append(f"{row['game_id']}: quarter scores do not sum to the settled final")
+          if bad:
+              print("::error::game-day roll provenance gate failed")
+              print("\n".join(bad[:20]))
+              raise SystemExit(1)
+          print("provenance gate OK: every row sourced, every chain intact, every settled row ties out")
+          PY
+          test -z "$(git status --porcelain -- d1b96315/)" || {
+            echo 'd1b96315/ drifted: the committed artefacts or pages do not reproduce from the transcripts'
+            git status --porcelain -- d1b96315/
+            exit 1
+          }
+          rm -rf d1b96315/__pycache__ d1b96315/tests/__pycache__
+
+      - name: Unit tests (game-day roll — capture, settlement, model, gates, ledger, pages — arena/d1b96315-nba3)
+        run: python3 -m unittest discover -s d1b96315/tests -p 'test_*.py' 2>&1 | tail -25
+
+      - name: 2026-11-17 round (arena/2ecbccfd) - capture integrity, gates, model, ledger, site
+        # One step for this round, the way every other round tree is wired here. Everything is an
+        # offline replay from committed transcripts, so a red means a committed input moved without
+        # the artefacts being rebuilt: the standings/injury/box-score captures are re-derived and
+        # diffed, the round's own freshness+provenance gates are asserted, the model and the sealed
+        # pick chain are recomputed, the 12 pages are rebuilt and byte-compared, and the round's
+        # tests run -- including the ones that keep this session out of round2/ (fbd2484b) and out
+        # of the generated front door.
+        run: |
+          set -uo pipefail
+          python3 scripts/capture_2ecbccfd.py --check
+          python3 scripts/gamebooks_2ecbccfd.py --check
+          python3 scripts/slate_extra_2ecbccfd.py --check
+          python3 - <<'PY'
+          import json, sys
+          g = json.load(open("data/rounds/2026-11-17/gates.json"))
+          bad = [x for x in g["gates"] if not x.get("pass")]
+          if bad:
+              print(json.dumps(bad, indent=1), file=sys.stderr)
+              sys.exit("::error::a round gate is failing; its remedy_if_failing field says what to do")
+          print(f"round gates OK ({len(g['gates'])} checked)")
+          PY
+          python3 scripts/model_2ecbccfd.py --check
+          python3 scripts/ledger_2ecbccfd.py --check
+          python3 round_2ecbccfd/build.py --check
+          python3 -m unittest discover -s tests -p "test_round_2ecbccfd.py" -v
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -492,6 +601,8 @@ jobs:
           cp -r audit_736efb4b _pages/audit_736efb4b
           cp -r audit_7f3b89af _pages/audit_7f3b89af
           cp -r audit_00b0c780 _pages/audit_00b0c780
+          rm -rf d1b96315/__pycache__ d1b96315/tests/__pycache__
+          cp -r d1b96315 _pages/d1b96315
           cp executive-summary.html _pages/
           cp -r dashboard _pages/dashboard
           cp -r docs _pages/docs
@@ -505,6 +616,10 @@ jobs:
           cp -r d01ae7e2 _pages/d01ae7e2
           cp -r hub _pages/hub
           cp -r round _pages/round
+          cp -r round2 _pages/round2
+          # 2026-11-17 round (session 2ecbccfd). round2/ was already taken by fbd2484b's F13
+          # surface, so this round publishes as round_2ecbccfd/; one line, nothing else here moved.
+          cp -r round_2ecbccfd _pages/round_2ecbccfd
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet

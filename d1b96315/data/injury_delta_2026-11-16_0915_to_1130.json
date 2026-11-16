@@ -1,0 +1,28 @@
+{
+ "older_stamp": "2026-11-16 09:15 AM ET",
+ "newer_stamp": "11/16/26 11:30 AM",
+ "rule": "a change is a difference in the Current Status or Reason cell of the same (club, player) key between two consecutive revisions; a row that appears or disappears is reported separately and never treated as a status change; rows whose spelling differs between the revisions are paired by club+surname and reported under spelling_moves",
+ "status_changes": [],
+ "rows_added": [],
+ "rows_removed": [],
+ "spelling_moves": [],
+ "counts": {
+  "status_changes": 0,
+  "rows_added": 0,
+  "rows_removed": 0,
+  "spelling_moves": 0,
+  "older_rows": 72,
+  "newer_rows": 72,
+  "older_player_rows": 57,
+  "newer_player_rows": 57,
+  "older_club_markers": 15,
+  "newer_club_markers": 15
+ },
+ "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+ "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+ "older_retrieved_utc": "2026-11-16T14:35Z",
+ "newer_retrieved_utc": "2026-11-16T18:28Z",
+ "note": "the earlier half of the day, so the two consecutive steps add up to the whole-day diff and a reader can check them against each other",
+ "older_read_from": "data/rounds/2026-11-16/injuries.json",
+ "older_provenance_note": "this side of the diff is the artefact the site published, not a PDF re-fetched by this session; its verbatim transcript is committed at data/app/official_injuries_2026-11-16_0915AM_raw.md"
+}
