@@ -1,0 +1,93 @@
+{
+  "schema": "nba3.arena_caad4c37.injury_archive/v1",
+  "session": "arena/caad4c37-nba3",
+  "built_utc": "2026-11-16T02:24Z",
+  "storage_rule": "One stored file per official report version. Each carries BOTH the revision time printed inside the PDF and the UTC time the file was retrieved, so consecutive versions can be diffed and a stale publication can be detected rather than assumed.",
+  "index_of_record": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "newest_known_on_index": {
+    "stamp": "2026-11-15_09_00PM",
+    "checked_utc": "2026-11-16T02:13Z",
+    "note": "The official index listed 11/15 reports from 12:00 AM ET through 09:00 PM ET and no later one, and listed no 11/16 reports at that time."
+  },
+  "files": [
+    {
+      "stamp": "2026-11-15_06_15AM",
+      "report_header": "Injury Report: 11/15/26 06:15 AM",
+      "revision_time_et": "11/15/26 06:15 AM",
+      "retrieved_utc": "2026-11-15T11:33Z",
+      "captured_by": "arena/2ebb1e75-nba3",
+      "role": "newest report committed on main before this session (published baseline)",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+      "file": "data/live/injuries/Injury-Report_2026-11-15_06_15AM.md",
+      "rows_total": 101,
+      "player_rows": 84,
+      "team_rows_not_yet_submitted": 17,
+      "unattributed_player_rows": 13,
+      "status_counts": {
+        "Out": 62,
+        "Doubtful": 1,
+        "Questionable": 17,
+        "Probable": 2,
+        "Available": 2
+      },
+      "game_dates_covered": [
+        "11/15/2026",
+        "11/16/2026"
+      ]
+    },
+    {
+      "stamp": "2026-11-15_08_45PM",
+      "report_header": "Injury Report: 11/15/26 08:45 PM",
+      "revision_time_et": "11/15/26 08:45 PM",
+      "retrieved_utc": "2026-11-16T02:24Z",
+      "captured_by": "arena/caad4c37-nba3",
+      "role": "captured by this session",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_08_45PM.pdf",
+      "file": "data/arena_caad4c37/injuries/Injury-Report_2026-11-15_08_45PM.md",
+      "rows_total": 160,
+      "player_rows": 155,
+      "team_rows_not_yet_submitted": 5,
+      "unattributed_player_rows": 0,
+      "status_counts": {
+        "Out": 124,
+        "Doubtful": 0,
+        "Questionable": 11,
+        "Probable": 0,
+        "Available": 20
+      },
+      "game_dates_covered": [
+        "11/15/2026",
+        "11/16/2026"
+      ]
+    },
+    {
+      "stamp": "2026-11-15_09_00PM",
+      "report_header": "Injury Report: 11/15/26 09:00 PM",
+      "revision_time_et": "11/15/26 09:00 PM",
+      "retrieved_utc": "2026-11-16T02:14Z",
+      "captured_by": "arena/caad4c37-nba3",
+      "role": "newest report listed on the official index at read time",
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf",
+      "file": "data/arena_caad4c37/injuries/Injury-Report_2026-11-15_09_00PM.md",
+      "rows_total": 160,
+      "player_rows": 155,
+      "team_rows_not_yet_submitted": 5,
+      "unattributed_player_rows": 18,
+      "status_counts": {
+        "Out": 124,
+        "Doubtful": 0,
+        "Questionable": 11,
+        "Probable": 0,
+        "Available": 20
+      },
+      "game_dates_covered": [
+        "11/15/2026",
+        "11/16/2026"
+      ]
+    }
+  ],
+  "totals": {
+    "reports_stored_here": 2,
+    "reports_read_only_from_main": 1
+  }
+}

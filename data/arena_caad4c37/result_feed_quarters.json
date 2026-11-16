@@ -1,0 +1,376 @@
+{
+  "schema": "nba3.arena_caad4c37.result_feed_quarters/v1",
+  "session": "arena/caad4c37-nba3",
+  "built_utc": "2026-11-16T02:19Z",
+  "rule": "One row per game: date, teams, final score, quarter scores. A quarter score is written only where an official NBA game book printed it and the printed quarters sum to the printed final. Anything else stays null and is flagged; nothing is inferred from a total, a possession count or another game.",
+  "inputs": {
+    "finals_of_record": "data/app/results_feed.json",
+    "game_books_this_session": "data/arena_caad4c37/quarters",
+    "game_books_committed_earlier": "data/app/gamebooks",
+    "index": "https://www.nba.com/games?date=2026-11-13"
+  },
+  "counts": {
+    "games": 14,
+    "both_teams_verified": 11,
+    "partial": 3,
+    "none": 0,
+    "quarter_cells_written": 100,
+    "quarter_cells_possible": 112
+  },
+  "games": [
+    {
+      "date": "2026-11-13",
+      "away": "ATL",
+      "home": "CHI",
+      "away_pts": 117,
+      "home_pts": 125,
+      "state": "Final/OT",
+      "away_quarters": [
+        24,
+        29,
+        30,
+        27,
+        7
+      ],
+      "home_quarters": [
+        33,
+        27,
+        24,
+        26,
+        15
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_ATLCHI.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_ATLCHI.md"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "away": "CLE",
+      "home": "MIA",
+      "away_pts": 121,
+      "home_pts": 133,
+      "state": "Final",
+      "away_quarters": [
+        27,
+        30,
+        34,
+        30
+      ],
+      "home_quarters": [
+        29,
+        25,
+        38,
+        41
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_CLEMIA.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_CLEMIA.md"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "away": "GSW",
+      "home": "SAS",
+      "away_pts": 85,
+      "home_pts": 123,
+      "state": "Final",
+      "away_quarters": null,
+      "home_quarters": [
+        38,
+        25,
+        34,
+        26
+      ],
+      "quarters_verified": "partial",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_GSWSAS.md"
+      ],
+      "away_quarters_note": "no period row printed for this team"
+    },
+    {
+      "date": "2026-11-13",
+      "away": "MEM",
+      "home": "NOP",
+      "away_pts": 142,
+      "home_pts": 111,
+      "state": "Final",
+      "away_quarters": null,
+      "home_quarters": [
+        28,
+        30,
+        28,
+        25
+      ],
+      "quarters_verified": "partial",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MEMNOP.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_MEMNOP.md"
+      ],
+      "away_quarters_note": "period row printed but its own columns do not sum to its final (corrupt extraction)"
+    },
+    {
+      "date": "2026-11-13",
+      "away": "MIL",
+      "home": "ORL",
+      "away_pts": 99,
+      "home_pts": 107,
+      "state": "Final",
+      "away_quarters": [
+        15,
+        22,
+        35,
+        27
+      ],
+      "home_quarters": null,
+      "quarters_verified": "partial",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_MILORL.md"
+      ],
+      "home_quarters_note": "period row printed but its own columns do not sum to its final (corrupt extraction)"
+    },
+    {
+      "date": "2026-11-13",
+      "away": "NYK",
+      "home": "IND",
+      "away_pts": 104,
+      "home_pts": 106,
+      "state": "Final",
+      "away_quarters": [
+        27,
+        22,
+        35,
+        20
+      ],
+      "home_quarters": [
+        26,
+        32,
+        27,
+        21
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_NYKIND.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_NYKIND.md"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "away": "OKC",
+      "home": "LAC",
+      "away_pts": 112,
+      "home_pts": 113,
+      "state": "Final",
+      "away_quarters": [
+        27,
+        17,
+        40,
+        28
+      ],
+      "home_quarters": [
+        33,
+        24,
+        25,
+        31
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_OKCLAC.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_OKCLAC.md"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "away": "POR",
+      "home": "SAC",
+      "away_pts": 120,
+      "home_pts": 107,
+      "state": "Final",
+      "away_quarters": [
+        34,
+        30,
+        29,
+        27
+      ],
+      "home_quarters": [
+        25,
+        28,
+        25,
+        29
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_PORSAC.md"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "away": "UTA",
+      "home": "HOU",
+      "away_pts": 118,
+      "home_pts": 125,
+      "state": "Final",
+      "away_quarters": [
+        27,
+        26,
+        36,
+        29
+      ],
+      "home_quarters": [
+        27,
+        36,
+        29,
+        33
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-13",
+      "transcription_files": [
+        "data/arena_caad4c37/quarters/20261113_UTAHOU.md"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "away": "BKN",
+      "home": "MEM",
+      "away_pts": 110,
+      "home_pts": 129,
+      "state": "Final",
+      "away_quarters": [
+        23,
+        31,
+        30,
+        26
+      ],
+      "home_quarters": [
+        38,
+        33,
+        32,
+        26
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-14",
+      "transcription_files": [
+        "data/app/gamebooks/20261114_BKNMEM.md"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "away": "CHI",
+      "home": "MIN",
+      "away_pts": 117,
+      "home_pts": 106,
+      "state": "Final",
+      "away_quarters": [
+        29,
+        29,
+        30,
+        29
+      ],
+      "home_quarters": [
+        17,
+        28,
+        35,
+        26
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-14",
+      "transcription_files": [
+        "data/app/gamebooks/20261114_CHIMIN.md"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "away": "DAL",
+      "home": "CLE",
+      "away_pts": 117,
+      "home_pts": 127,
+      "state": "Final",
+      "away_quarters": [
+        33,
+        20,
+        38,
+        26
+      ],
+      "home_quarters": [
+        33,
+        38,
+        34,
+        22
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-14",
+      "transcription_files": [
+        "data/app/gamebooks/20261114_DALCLE.md"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "away": "DEN",
+      "home": "NOP",
+      "away_pts": 116,
+      "home_pts": 108,
+      "state": "Final",
+      "away_quarters": [
+        29,
+        27,
+        30,
+        30
+      ],
+      "home_quarters": [
+        23,
+        28,
+        31,
+        26
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-14",
+      "transcription_files": [
+        "data/app/gamebooks/20261114_DENNOP.md"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "away": "DET",
+      "home": "MIA",
+      "away_pts": 117,
+      "home_pts": 137,
+      "state": "Final",
+      "away_quarters": [
+        39,
+        21,
+        26,
+        31
+      ],
+      "home_quarters": [
+        37,
+        31,
+        35,
+        34
+      ],
+      "quarters_verified": "both",
+      "gamebook_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+      "scoreboard_source": "https://www.nba.com/games?date=2026-11-14",
+      "transcription_files": [
+        "data/app/gamebooks/20261114_DETMIA.md"
+      ]
+    }
+  ]
+}

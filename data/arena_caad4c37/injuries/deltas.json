@@ -1,0 +1,705 @@
+{
+  "schema": "nba3.arena_caad4c37.injury_deltas/v1",
+  "session": "arena/caad4c37-nba3",
+  "built_utc": "2026-11-16T02:24Z",
+  "match_rule": "Players are matched on a normalised name key. Names are not fuzzy-merged, so a spelling change in the official PDF appears as a remove plus an add.",
+  "deltas": [
+    {
+      "from_stamp": "2026-11-15_06_15AM",
+      "to_stamp": "2026-11-15_08_45PM",
+      "from_revision_time_et": "11/15/26 06:15 AM",
+      "to_revision_time_et": "11/15/26 08:45 PM",
+      "from_retrieved_utc": "2026-11-15T11:33Z",
+      "to_retrieved_utc": "2026-11-16T02:24Z",
+      "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+      "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_08_45PM.pdf",
+      "counts": {
+        "player_rows_from": 84,
+        "player_rows_to": 155,
+        "team_rows_from": 17,
+        "team_rows_to": 5,
+        "status_changes": 21,
+        "reason_changes": 1,
+        "added": 72,
+        "removed": 1
+      },
+      "status_changes": [
+        {
+          "player": "Achiuwa, Precious",
+          "team": "Sacramento Kings",
+          "from": "Questionable",
+          "to": "Out",
+          "reason": "Injury/Illness - Left Ankle Soreness"
+        },
+        {
+          "player": "Adams, Steven",
+          "team": "Houston Rockets",
+          "from": "Probable",
+          "to": "Available",
+          "reason": "Injury/Illness - Right Soleus Strain"
+        },
+        {
+          "player": "Barnes, Scottie",
+          "team": "Toronto Raptors",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Left Groin Strain"
+        },
+        {
+          "player": "Carrington, Bub",
+          "team": "Washington Wizards",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Chest / Sternum Contusion"
+        },
+        {
+          "player": "Carter, Devin",
+          "team": "Boston Celtics",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Cenac Jr., Christopher",
+          "team": "Boston Celtics",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "G League - On Assignment"
+        },
+        {
+          "player": "James, Bronny",
+          "team": "Los Angeles Lakers",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Illness"
+        },
+        {
+          "player": "Johnson, Tre",
+          "team": "Washington Wizards",
+          "from": "Questionable",
+          "to": "Out",
+          "reason": "Injury/Illness - Low Back Soreness"
+        },
+        {
+          "player": "Landale, Jock",
+          "team": "Atlanta Hawks",
+          "from": "Available",
+          "to": "Out",
+          "reason": "Injury/Illness - Right Hip Inflammation"
+        },
+        {
+          "player": "McConnell, T.J.",
+          "team": "Indiana Pacers",
+          "from": "Probable",
+          "to": "Available",
+          "reason": "Injury/Illness - Right Hamstring Strain"
+        },
+        {
+          "player": "Mitchell, Ajay",
+          "team": "Oklahoma City Thunder",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Left Ankle Sprain"
+        },
+        {
+          "player": "Mitchell, Dillon",
+          "team": "Boston Celtics",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Murray, Keegan",
+          "team": "Sacramento Kings",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "-"
+        },
+        {
+          "player": "Nembhard, Andrew",
+          "team": "Indiana Pacers",
+          "from": "Questionable",
+          "to": "Out",
+          "reason": "Injury/Illness - Left Hip Soreness / Tightness"
+        },
+        {
+          "player": "Nesmith, Aaron",
+          "team": "Indiana Pacers",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Left Hand Sprain"
+        },
+        {
+          "player": "Okpara, Felix",
+          "team": "Washington Wizards",
+          "from": "Questionable",
+          "to": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Sarr, Alex",
+          "team": "Washington Wizards",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Illness"
+        },
+        {
+          "player": "Sexton, Collin",
+          "team": "Los Angeles Lakers",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Right Orbital Laceration"
+        },
+        {
+          "player": "Thiero, Adou",
+          "team": "Los Angeles Lakers",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "Injury/Illness - Left Ankle Sprain"
+        },
+        {
+          "player": "Williams, Amari",
+          "team": "Boston Celtics",
+          "from": "Questionable",
+          "to": "Available",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Wilson, Jalen",
+          "team": "Atlanta Hawks",
+          "from": "Doubtful",
+          "to": "Out",
+          "reason": "G League - Two-Way"
+        }
+      ],
+      "reason_changes": [
+        {
+          "player": "Dieng, Ousmane",
+          "team": "Milwaukee Bucks",
+          "status": "Out",
+          "from_reason": "Injury/Illness - Left Finger Sprain",
+          "to_reason": "Injury/Illness - Left Finger Fracture"
+        }
+      ],
+      "added": [
+        {
+          "player": "Aldama, Santi",
+          "team": "Dallas Mavericks",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Ankle Sprain"
+        },
+        {
+          "player": "Awaka, Tobe",
+          "team": "Chicago Bulls",
+          "status": "Out",
+          "reason": "Injury/Illness - Disc Irritation"
+        },
+        {
+          "player": "Banchero, Paolo",
+          "team": "Orlando Magic",
+          "status": "Out",
+          "reason": "Injury/Illness - Right High Ankle Sprain"
+        },
+        {
+          "player": "Beringer, Joan",
+          "team": "Minnesota Timberwolves",
+          "status": "Available",
+          "reason": "Injury/Illness - Face Mask"
+        },
+        {
+          "player": "Biberovic, Tarik",
+          "team": "Dallas Mavericks",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Heel Bursitis"
+        },
+        {
+          "player": "Bilodeau, Tyler",
+          "team": "Brooklyn Nets",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Butler III, Jimmy",
+          "team": "Golden State Warriors",
+          "status": "Out",
+          "reason": "Injury/Illness - Right ACL Repair / Surgery"
+        },
+        {
+          "player": "Christie, Max",
+          "team": "Dallas Mavericks",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Ankle Sprain"
+        },
+        {
+          "player": "Clark, Jaylen",
+          "team": "Minnesota Timberwolves",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Hamstring Strain"
+        },
+        {
+          "player": "Curry, Stephen",
+          "team": "Golden State Warriors",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Oblique Tear"
+        },
+        {
+          "player": "de Larrea, Sergio",
+          "team": "Dallas Mavericks",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Knee Sprain"
+        },
+        {
+          "player": "Dia, Malik",
+          "team": "New Orleans Pelicans",
+          "status": "Questionable",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Diop, Khalifa",
+          "team": "Cleveland Cavaliers",
+          "status": "Out",
+          "reason": "G League - On Assignment"
+        },
+        {
+          "player": "DiVincenzo, Donte",
+          "team": "Minnesota Timberwolves",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery"
+        },
+        {
+          "player": "Edey, Zach",
+          "team": "Memphis Grizzlies",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Left Ankle Injury Management"
+        },
+        {
+          "player": "Edwards, Anthony",
+          "team": "Minnesota Timberwolves",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Knee Arthroscopy"
+        },
+        {
+          "player": "Embiid, Joel",
+          "team": "Philadelphia 76ers",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Foot Plantar Fascia Injury Management"
+        },
+        {
+          "player": "Fox, De'Aaron",
+          "team": "San Antonio Spurs",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Hip Tightness"
+        },
+        {
+          "player": "Gafford, Daniel",
+          "team": "Dallas Mavericks",
+          "status": "Available",
+          "reason": "Injury/Illness - Right Shoulder Stinger"
+        },
+        {
+          "player": "Goldin, Vladislav",
+          "team": "Miami Heat",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Holmes II, DaRon",
+          "team": "Denver Nuggets",
+          "status": "Out",
+          "reason": ""
+        },
+        {
+          "player": "Hunter, De'Andre",
+          "team": "Sacramento Kings",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Hip Soreness / Tightness"
+        },
+        {
+          "player": "Irving, Kyrie",
+          "team": "Dallas Mavericks",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Knee Injury Management"
+        },
+        {
+          "player": "Isaac, Jonathan",
+          "team": "Orlando Magic",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Knee Injury Management"
+        },
+        {
+          "player": "Jackson, GG",
+          "team": "Memphis Grizzlies",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Foot Injury"
+        },
+        {
+          "player": "Jefferson, Joshua",
+          "team": "Brooklyn Nets",
+          "status": "Out",
+          "reason": "G League - On Assignment"
+        },
+        {
+          "player": "Jerome, Ty",
+          "team": "Memphis Grizzlies",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Hip Soreness"
+        },
+        {
+          "player": "Krejci, Vit",
+          "team": "Portland Trail Blazers",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Ankle Fracture"
+        },
+        {
+          "player": "Larsson, Pelle",
+          "team": "Miami Heat",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Illness"
+        },
+        {
+          "player": "LaVine, Zach",
+          "team": "Sacramento Kings",
+          "status": "Out",
+          "reason": "Injury/Illness - Illness"
+        },
+        {
+          "player": "Lively II, Dereck",
+          "team": "Dallas Mavericks",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Foot Surgery"
+        },
+        {
+          "player": "Martin, Caleb",
+          "team": "Dallas Mavericks",
+          "status": "Available",
+          "reason": "Injury/Illness - Right Thumb Splint"
+        },
+        {
+          "player": "Martinelli, Nick",
+          "team": "LA Clippers",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Mathurin, Bennedict",
+          "team": "New Orleans Pelicans",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Plantar Fasciitis"
+        },
+        {
+          "player": "McGowens, Bryce",
+          "team": "New Orleans Pelicans",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Elbow Infection"
+        },
+        {
+          "player": "Merrill, Sam",
+          "team": "Cleveland Cavaliers",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Elbow Injury Management"
+        },
+        {
+          "player": "Mobley, Evan",
+          "team": "Cleveland Cavaliers",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Great Toe Sprain"
+        },
+        {
+          "player": "Moody, Moses",
+          "team": "Golden State Warriors",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Patellar Tendon Repair / Surgery"
+        },
+        {
+          "player": "Morant, Ja",
+          "team": "Portland Trail Blazers",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Hamstring Strain"
+        },
+        {
+          "player": "Murphy III, Trey",
+          "team": "New Orleans Pelicans",
+          "status": "Out",
+          "reason": "Injury/Illness - Bilateral Patellar Tendinopathy"
+        },
+        {
+          "player": "Murray, Dejounte",
+          "team": "New Orleans Pelicans",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Ankle Sprain"
+        },
+        {
+          "player": "Nelson, Grant",
+          "team": "Brooklyn Nets",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Nelson, Izaiyah",
+          "team": "Orlando Magic",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Ankle Injury Recovery"
+        },
+        {
+          "player": "Nembhard, Ryan",
+          "team": "Denver Nuggets",
+          "status": "Out",
+          "reason": ""
+        },
+        {
+          "player": "Penda, Noah",
+          "team": "Orlando Magic",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Partially Torn Hamstring"
+        },
+        {
+          "player": "Pierre Jr., Jaron",
+          "team": "New Orleans Pelicans",
+          "status": "Questionable",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Pippen Jr., Scotty",
+          "team": "Memphis Grizzlies",
+          "status": "Out",
+          "reason": "Injury/Illness - Lumbar Disc Herniation"
+        },
+        {
+          "player": "Porzingis, Kristaps",
+          "team": "Golden State Warriors",
+          "status": "Out",
+          "reason": "Not With Team"
+        },
+        {
+          "player": "Post, Quinten",
+          "team": "Memphis Grizzlies",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Concussion Protocol"
+        },
+        {
+          "player": "Powell, Drake",
+          "team": "Brooklyn Nets",
+          "status": "Out",
+          "reason": "G League - On Assignment"
+        },
+        {
+          "player": "Reese, Julian",
+          "team": "New Orleans Pelicans",
+          "status": "Questionable",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Robinson, Orlando",
+          "team": "Chicago Bulls",
+          "status": "Out",
+          "reason": "G League - On Assignment"
+        },
+        {
+          "player": "Rollins, Ryan",
+          "team": "Milwaukee Bucks",
+          "status": "Out",
+          "reason": "Injury/Illness - Illness"
+        },
+        {
+          "player": "Santos, Gui",
+          "team": "Golden State Warriors",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Right Ankle Inflammation"
+        },
+        {
+          "player": "Saraf, Ben",
+          "team": "Brooklyn Nets",
+          "status": "Out",
+          "reason": "G League - On Assignment"
+        },
+        {
+          "player": "Saunders, Richie",
+          "team": "Memphis Grizzlies",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Knee Surgery"
+        },
+        {
+          "player": "Sellers, Jaylin",
+          "team": "Chicago Bulls",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Sharpe, Shaedon",
+          "team": "Portland Trail Blazers",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Knee Surgery"
+        },
+        {
+          "player": "Smith, Jalen",
+          "team": "Chicago Bulls",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Left Finger Sprain"
+        },
+        {
+          "player": "Stewart, Isaiah",
+          "team": "Memphis Grizzlies",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Illness"
+        },
+        {
+          "player": "Strawther, Julian",
+          "team": "Denver Nuggets",
+          "status": "Out",
+          "reason": ""
+        },
+        {
+          "player": "Thompson, Klay",
+          "team": "Miami Heat",
+          "status": "Available",
+          "reason": "Injury/Illness - Left Ankle Sprain"
+        },
+        {
+          "player": "Timme, Drew",
+          "team": "Phoenix Suns",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Tomlin, Nae'Qwan",
+          "team": "Cleveland Cavaliers",
+          "status": "Out",
+          "reason": "Injury/Illness - Low Back Stress Reaction"
+        },
+        {
+          "player": "Tyson, Jaylon",
+          "team": "Cleveland Cavaliers",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Right Ankle Injury Management"
+        },
+        {
+          "player": "Udeh, Jr., Ernest",
+          "team": "Cleveland Cavaliers",
+          "status": "Out",
+          "reason": "G League - Two-Way"
+        },
+        {
+          "player": "Watford, Trendon",
+          "team": "New Orleans Pelicans",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Ankle Sprain"
+        },
+        {
+          "player": "Watson, Peyton",
+          "team": "Cleveland Cavaliers",
+          "status": "Questionable",
+          "reason": "Injury/Illness - Right Abdominal Soreness"
+        },
+        {
+          "player": "Whitmore, Cam",
+          "team": "Denver Nuggets",
+          "status": "Out",
+          "reason": ""
+        },
+        {
+          "player": "Williams, Brandon",
+          "team": "Golden State Warriors",
+          "status": "Out",
+          "reason": "Injury/Illness - Left Hamstring Strain"
+        },
+        {
+          "player": "Wilson, Caleb",
+          "team": "Chicago Bulls",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Metacarpal Fracture"
+        },
+        {
+          "player": "Youngblood, Chris",
+          "team": "Portland Trail Blazers",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Heel Contusion / Bone Bruise"
+        }
+      ],
+      "removed": [
+        {
+          "player": "Embid, Joel",
+          "team": "Philadelphia 76ers",
+          "status": "Out",
+          "reason": "Injury/Illness - Right Foot Plantar Fascia Injury Management"
+        }
+      ],
+      "team_rows_now_filed": [
+        "06:00 (ET)",
+        "11/16/2026"
+      ],
+      "team_rows_still_not_submitted": [
+        "Boston Celtics",
+        "Houston Rockets",
+        "Philadelphia 76ers",
+        "Phoenix Suns",
+        "Washington Wizards"
+      ],
+      "slate_coverage": {
+        "game_dates_from": [
+          "11/15/2026",
+          "11/16/2026"
+        ],
+        "game_dates_to": [
+          "11/15/2026",
+          "11/16/2026"
+        ],
+        "game_dates_added": [],
+        "caveat": "Both reports cover the same game dates, so every added row is a new filing, not a new slate."
+      },
+      "pair": "baseline -> newest-1",
+      "consecutive": false,
+      "gap_note": "Not consecutive: these are the newest report stored on main before this session and the first report this session fetched. The gap is reported so the size of the published staleness is measurable; intermediate versions were not fetched by this session."
+    },
+    {
+      "from_stamp": "2026-11-15_08_45PM",
+      "to_stamp": "2026-11-15_09_00PM",
+      "from_revision_time_et": "11/15/26 08:45 PM",
+      "to_revision_time_et": "11/15/26 09:00 PM",
+      "from_retrieved_utc": "2026-11-16T02:24Z",
+      "to_retrieved_utc": "2026-11-16T02:14Z",
+      "from_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_08_45PM.pdf",
+      "to_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf",
+      "counts": {
+        "player_rows_from": 155,
+        "player_rows_to": 155,
+        "team_rows_from": 5,
+        "team_rows_to": 5,
+        "status_changes": 0,
+        "reason_changes": 0,
+        "added": 0,
+        "removed": 0
+      },
+      "status_changes": [],
+      "reason_changes": [],
+      "added": [],
+      "removed": [],
+      "team_rows_now_filed": [
+        "Boston Celtics",
+        "Houston Rockets",
+        "Philadelphia 76ers",
+        "Phoenix Suns"
+      ],
+      "team_rows_still_not_submitted": [
+        "07:30 (ET)",
+        "09:00 (ET)",
+        "ORL@BOS",
+        "Washington Wizards"
+      ],
+      "slate_coverage": {
+        "game_dates_from": [
+          "11/15/2026",
+          "11/16/2026"
+        ],
+        "game_dates_to": [
+          "11/15/2026",
+          "11/16/2026"
+        ],
+        "game_dates_added": [],
+        "caveat": "Both reports cover the same game dates, so every added row is a new filing, not a new slate."
+      },
+      "pair": "newest-1 -> newest",
+      "consecutive": true,
+      "gap_note": "Consecutive official versions, 15 minutes apart, covering the same slate - so any difference here is a real status change, not a slate change."
+    }
+  ]
+}
