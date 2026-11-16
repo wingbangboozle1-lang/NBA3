@@ -112,10 +112,12 @@ def parse(path: pathlib.Path) -> dict:
             "player": player, "status": status, "reason": reason,
             "key": norm_name(player),
         })
+    rm = re.search(r"retrieved (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)", text)
     return {
         "file": path.name,
         "report_stamp": stamp,
         "report_header": header.group(0).strip("*") if header else None,
+        "retrieved_utc": rm.group(1) if rm else None,
         "source_url": SOURCE.format(stamp=stamp),
         "player_rows": [r for r in rows if r.get("kind") == "player"],
         "unparseable_rows": [r for r in rows if r.get("kind") != "player"],

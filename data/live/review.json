@@ -5,8 +5,9 @@
  "counts": {
   "checks": 22,
   "by_status": {
-   "PASS": 17,
+   "PASS": 16,
    "FLAGGED": 4,
+   "FAIL": 1,
    "IRREGULARITY": 1
   }
  },
@@ -125,16 +126,16 @@
    "finding": "Ledger chain verifies and every sealed pick is pre-registered",
    "status": "PASS",
    "severity": "critical",
-   "evidence": "entries 11, verified True, unregistered picks none",
+   "evidence": "entries 13, verified True, unregistered picks none",
    "source": "https://www.nba.com/schedule?date=2026-11-15"
   },
   {
    "id": "R14",
    "area": "model",
    "finding": "The model sample ends before the slate it prices (no leakage)",
-   "status": "PASS",
+   "status": "FAIL",
    "severity": "critical",
-   "evidence": "sample ends 2026-11-14, slate starts 2026-11-15",
+   "evidence": "sample ends 2026-11-15, slate starts 2026-11-15",
    "source": "https://www.nba.com/games"
   },
   {
@@ -179,7 +180,7 @@
    "finding": "No club has both a captured log and an announced absence",
    "status": "FLAGGED",
    "severity": "high",
-   "evidence": "captured 10 clubs, absences at 15 clubs, overlap 0",
+   "evidence": "captured 10 clubs, absences at 14 clubs, overlap 8",
    "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
   },
   {
@@ -206,7 +207,7 @@
    "finding": "Consecutive official reports differ only by spelling corrections",
    "status": "IRREGULARITY",
    "severity": "medium",
-   "evidence": "2 consecutive pairs, 0 status changes, 2 rows added as renames (Embid/Embiid, Bogoljub/Bogojub). A name-keyed ledger would silently miss these.",
+   "evidence": "3 consecutive pairs, 1 status changes, 63 rows added as renames (Embid/Embiid, Bogoljub/Bogojub). A name-keyed ledger would silently miss these.",
    "source": "https://official.nba.com/nba-injury-report-2026-27-season/"
   }
  ]

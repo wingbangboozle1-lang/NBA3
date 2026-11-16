@@ -88,14 +88,24 @@ def game_log():
     itself, so using it would import a contradiction into the ratings.
     """
     feed = json.load(open(os.path.join(ROOT, "data/app/results_feed.json"), encoding="utf-8"))
+    results = load("results.json")
+    # This round's own capture (results.json) is the round's frozen reading and it carries
+    # its own settled flags: a game it holds is taken from it, with ITS flag, and its feed row
+    # is skipped. The app feed has since settled 2026-11-15 rows (session arena/4054e125-nba3,
+    # quarters published from the game-page LINESCORES with the ATL@MIL conflict flagged);
+    # without this de-dup the log would count those eight games twice and the replay would
+    # stop reproducing this round's pinned artefacts. A game the round's capture excludes
+    # (0022600243, unsettled there by design) stays excluded here.
+    round_held = {(r["date"], r["away"], r["home"]) for r in results["rows"]}
     games = []
     for g in feed["games"]:
         if not g.get("settled"):
             continue
+        if (g["date"], g["away"], g["home"]) in round_held:
+            continue
         games.append({"date": g["date"], "away": g["away"], "home": g["home"],
                       "away_pts": g["away_pts"], "home_pts": g["home_pts"],
                       "source": g.get("verified_from"), "game_id": None})
-    results = load("results.json")
     for r in results["rows"]:
         if not r.get("settled"):
             continue

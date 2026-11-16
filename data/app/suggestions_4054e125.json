@@ -1,0 +1,46 @@
+[
+ {
+  "id": "1116-S-01",
+  "area": "Injury-report archiving",
+  "suggestion": "Archive every report the official index lists (already implemented in scripts/refresh_official.py: verbatim pdftotext text + PDF URL + sha256 + retrieval stamp per report) and diff consecutive archived reports in the scheduled run",
+  "why": "The brief requires every PDF stored with its timestamp and consecutive diffs; one gap of 53 reports on 11/16 shows what a single-newest-fetch policy loses (flag 1116-F-02)",
+  "options": "A: text + sha256 archive on the runner (implemented); B: commit every PDF binary (~5 MB/day); C: keep newest-only",
+  "recommended_option": "A — the sha256 pins the bytes, the URL serves them, and the repository does not accumulate one binary per report per day",
+  "dependency": "poppler-utils on the runner (installed in refresh.yml)",
+  "decision": "implemented in scripts/refresh_official.py (session arena/4054e125-nba3); owner can switch to B by moving the pdf_path into the archive dir",
+  "sources": ["https://official.nba.com/nba-injury-report-2026-27-season/"]
+ },
+ {
+  "id": "1116-S-02",
+  "area": "Results ingestion",
+  "suggestion": "Ingest every finished game from the game-card feed embedded in the refreshed games pages (scripts/gamecard_feed.py + results_feed.py ingest --capture-dir), rejecting any card whose period scores do not sum to its printed final",
+  "why": "The score, the quarters and the final state all arrive in one official artifact the job already downloads; the sum check is the same arithmetic identity the settlement rule states",
+  "options": "A: game-card feed ingest with sum check (implemented); B: parse the games-page HTML text; C: manual capture per game day",
+  "recommended_option": "A — implemented and tested against the committed 2026-11-16T00-57Z capture (four finals ingested, live/scheduled cards skipped)",
+  "dependency": "none",
+  "decision": "implemented (session arena/4054e125-nba3); a card that fails the sum check is reported and never repaired",
+  "sources": ["https://www.nba.com/games?date=2026-11-15"]
+ },
+ {
+  "id": "1116-S-03",
+  "area": "Standings freshness",
+  "suggestion": "Promote the standings page on every scheduled refresh through the strict parser (scripts/standings_feed.py), keeping the verified transcription when the raw page only partially parses",
+  "why": "The standings feed is a model input and a gate (F11); a raw-HTML parse that yields all printed columns refreshes it automatically, while a partial parse must never overwrite verified columns",
+  "options": "A: three-mode strict parser with full-parse-only overwrite (implemented); B: transcribe by hand every day; C: trust whatever parses",
+  "recommended_option": "A — implemented; the site always shows which capture the table came from and when it was read",
+  "dependency": "the raw page's structure; if none of the three modes yields 30 full rows, the manifest records a failed promotion and the verified capture stands",
+  "decision": "implemented (session arena/4054e125-nba3)",
+  "sources": ["https://www.nba.com/standings"]
+ },
+ {
+  "id": "1116-S-04",
+  "area": "Settlement timing",
+  "suggestion": "Run results-feed settle --all-done and pick-ledger settle at the end of every scheduled run so each finished game day settles the moment its finals are verified (implemented in scripts/refresh_official.py)",
+  "why": "The brief settles from official finals as each game day ends; a manual settle step is exactly how the 11/15 day sat unsettled for 18 hours",
+  "options": "A: end-of-run automatic settlement of every finished day (implemented); B: manual settle per day; C: settle only when a human flags the day done",
+  "recommended_option": "A — the settlement stamps stay visible on the settlement page and in the feed rows",
+  "dependency": "none",
+  "decision": "implemented (session arena/4054e125-nba3)",
+  "sources": ["https://www.nba.com/games"]
+ }
+]

@@ -94,15 +94,17 @@ it was graded against, so an edit to either is detectable.</p>
 <tr><td><code>9</code></td><td>2026-11-16</td><td>GSW @ NOP</td><td>8:00 PM ET<br><code>2026-11-17T01:00Z</code></td><td><strong>GSW moneyline</strong></td><td>S2_ESTIMATOR_DISAGREEMENT</td><td>disagreement 7.389 pp</td><td><code>b8094206db3ac9cf…</code></td><td>2026-11-15T12:10Z</td><td>—</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
 <tr><td><code>10</code></td><td>2026-11-17</td><td>DET @ SAS</td><td>8:00 PM ET<br><code>2026-11-18T01:00Z</code></td><td><strong>SAS moneyline</strong></td><td>S2_ESTIMATOR_DISAGREEMENT</td><td>disagreement 14.181 pp</td><td><code>804811f9432b0905…</code></td><td>2026-11-15T12:10Z</td><td>—</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
 <tr><td><code>11</code></td><td>2026-11-17</td><td>CHA @ LAL</td><td>11:00 PM ET<br><code>2026-11-18T04:00Z</code></td><td><strong>LAL moneyline</strong></td><td>S2_ESTIMATOR_DISAGREEMENT</td><td>disagreement 10.522 pp</td><td><code>c16fddb7b3c685a1…</code></td><td>2026-11-15T12:10Z</td><td>—</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td><code>12</code></td><td>2026-11-15</td><td>CHA @ LAC</td><td>4:30 PM ET<br><code>2026-11-15T21:30Z</code></td><td><strong>LAC moneyline</strong></td><td>S2_ESTIMATOR_DISAGREEMENT</td><td>disagreement 17.73 pp</td><td><code>814df1a73e0a31b0…</code></td><td>2026-11-15T12:10Z</td><td>—</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
+<tr><td><code>13</code></td><td>2026-11-17</td><td>UTA @ LAC</td><td>10:30 PM ET<br><code>2026-11-18T03:30Z</code></td><td><strong>LAC moneyline</strong></td><td>S2_ESTIMATOR_DISAGREEMENT</td><td>disagreement 7.5 pp</td><td><code>05c5e2d85f3c3389…</code></td><td>2026-11-15T12:10Z</td><td>—</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">schedule</a></td></tr>
 </tbody></table></div>
 <p class="note">Where a game has been played the source is its verified final; where it has not, the source is the official schedule that fixes the tip time. The pick payload, hash and publication stamp are in <code>ledger/ledger.jsonl</code>.</p>
-<h2>Why 11 picks and not more</h2>
+<h2>Why 13 picks and not more</h2>
 <p>Three strategies are frozen; two produced eligible games across 3 days
 (2026-11-15, 2026-11-16, 2026-11-17). The brief asks for picks up to three days ahead, so the publisher seals the
 whole priced window rather than the next day only — a pick sealed two days early is a stronger test of
 the pre-registration than one sealed on the morning of the game.</p>
 <ul>
-<li><strong>S2 (disagreement)</strong> — 9 picks. The band is 5–20 pp with both estimators
+<li><strong>S2 (disagreement)</strong> — 11 picks. The band is 5–20 pp with both estimators
 on the same side of the moneyline; games outside the band, or where the estimators disagree on the
 side, are skipped and logged as a failed <code>G3</code>.</li>
 <li><strong>S1 (home back-to-back fade)</strong> — 2 picks. Eligible only when the home
