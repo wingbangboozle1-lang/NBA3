@@ -4358,8 +4358,18 @@ was affected; the tree-wide `^<<<<<<<` CI guard now passes again.
 - Freshness gates widened honestly: F4/F9 now cover every settled day (glob), not the
   hard-coded 11/14 file. 10/10 gates pass; tests 118 OK; pipeline/v2 45 OK; `data/v2/build.json`
   rebuilt from the moved inputs (registrations frozen by design).
-- Still open: settlement round for the remaining 11/15 finals (0022600238–0022600244,
-  incl. seq2 HOU@WAS 0022600242), then A5 integration (PR → main, merge, Pages check).
+- **Second settlement round (2026-11-16 ~00:50Z).** 0022600238 CHA 105 @ LAC 113 and
+  0022600239 SAS 110 @ UTA 102 verified from their game pages + the schedule page and their
+  game books (period lines sum exactly); feed 4/4 verified; sample extended to 192 games
+  (provenance chain 174→183→188→190→192); `parse_gamebook.py` extended for two more
+  extraction formats (heading-style team headers, jersey fused into the name cell). No
+  sealed picks on those two games. publish_picks then rolled the window forward and sealed
+  **seq13 UTA@LAC LAC ML (S2, disagreement 7.554 pp, tip 2026-11-18T03:30Z)**; chain
+  verifies, head `729986b7…`. Game-day tests now derive bounds from the settled feeds and
+  the slate instead of hard-coded counts.
+- Still open: 0022600240 DAL@BOS + 0022600241 NYK@TOR (LIVE at last read), seq2
+  0022600242 HOU@WAS (LIVE), 0022600243 ATL@MIL + 0022600244 OKC@SAC (PREGAME); then A5
+  integration (PR → main, merge, Pages check).
 ### Session `arena/5a67ab8c-nba3` — v2 pipeline (two estimators, gate set, sealed ledger)
 
 | Task | Status | Owner | File scope |
