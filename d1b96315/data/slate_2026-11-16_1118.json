@@ -3,15 +3,22 @@
  "retrieved_utc": "2026-11-16T14:20Z",
  "window": {
   "from": "2026-11-16",
-  "to": "2026-11-18"
+  "to": "2026-11-19",
+  "published_window_on_main": {
+   "from": "2026-11-16",
+   "to": "2026-11-18"
+  },
+  "extended_by": "this session: the four official 2026-11-19 cards, read from the nba.com games page, so the window reaches three days ahead as the brief requires"
  },
  "timezone_note": "Tips are printed by nba.com in ET. The league day is the ET day. The 2026-11-17 UTA@LAC (10:30 PM ET) and CHA@LAL (11:00 PM ET) games are stored against 2026-11-17 because that is the date the official schedule prints them under, even though they start on 11/18 UTC.",
- "count": 25,
+ "count": 29,
  "count_by_date": {
   "2026-11-16": 8,
   "2026-11-17": 5,
-  "2026-11-18": 12
+  "2026-11-18": 12,
+  "2026-11-19": 4
  },
+ "window_note": "the published window carries main's capture verbatim; the 11/19 rows come from this session's own read of the official 11/19 page and are flagged where the card prints nothing (venue)",
  "reverification": {
   "done_at": "2026-11-16T18:30Z",
   "method": "the official scoreboard page for 2026-11-16 prints the calendar game count for every day of the window and the card for each of tonight's games; the official injury report for 11/16 01:15 PM ET prints each matchup with its tip time, which is a second official document agreeing with the slate",
@@ -32,6 +39,11 @@
   ],
   "slate_source": "data/rounds/2026-11-16/slate.json"
  },
+ "record_cross_check_against_standings": {
+  "rows_checked": 8,
+  "mismatches": [],
+  "meaning": "the records on the 11/19 cards are the same post-11/15 records the standings page prints, so the two official pages agree on the state of the league at the moment this roll was built"
+ },
  "games": [
   {
    "date": "2026-11-16",
@@ -42,7 +54,7 @@
    "game_id": "0022600245",
    "game_url": "https://www.nba.com/game/orl-vs-bos-0022600245",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": true
+   "reverified_by_d1b96315": true
   },
   {
    "date": "2026-11-16",
@@ -53,7 +65,7 @@
    "game_id": "0022600246",
    "game_url": "https://www.nba.com/game/chi-vs-cle-0022600246",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": true
+   "reverified_by_d1b96315": true
   },
   {
    "date": "2026-11-16",
@@ -64,7 +76,7 @@
    "game_id": "0022600247",
    "game_url": "https://www.nba.com/game/mem-vs-was-0022600247",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": true
+   "reverified_by_d1b96315": true
   },
   {
    "date": "2026-11-16",
@@ -75,7 +87,7 @@
    "game_id": "0022600248",
    "game_url": "https://www.nba.com/game/phi-vs-bkn-0022600248",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": true
+   "reverified_by_d1b96315": true
   },
   {
    "date": "2026-11-16",
@@ -86,7 +98,7 @@
    "game_id": "0022600249",
    "game_url": "https://www.nba.com/game/hou-vs-mia-0022600249",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": true
+   "reverified_by_d1b96315": true
   },
   {
    "date": "2026-11-16",
@@ -97,7 +109,7 @@
    "game_id": "0022600250",
    "game_url": "https://www.nba.com/game/por-vs-min-0022600250",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-16",
@@ -108,7 +120,7 @@
    "game_id": "0022600251",
    "game_url": "https://www.nba.com/game/gsw-vs-nop-0022600251",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": true
+   "reverified_by_d1b96315": true
   },
   {
    "date": "2026-11-16",
@@ -119,7 +131,7 @@
    "game_id": "0022600252",
    "game_url": "https://www.nba.com/game/phx-vs-den-0022600252",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-17",
@@ -130,7 +142,7 @@
    "game_id": "0022600257",
    "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-17",
@@ -141,7 +153,7 @@
    "game_id": "0022600256",
    "game_url": "https://www.nba.com/game/cha-vs-lal-0022600256",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-17",
@@ -152,7 +164,7 @@
    "game_id": "0022600253",
    "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600253",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-17",
@@ -163,7 +175,7 @@
    "game_id": "0022600254",
    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-17",
@@ -174,7 +186,7 @@
    "game_id": "0022600255",
    "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -185,7 +197,7 @@
    "game_id": "0022600268",
    "game_url": "https://www.nba.com/game/uta-vs-lal-0022600268",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -196,7 +208,7 @@
    "game_id": "0022600269",
    "game_url": "https://www.nba.com/game/phx-vs-sac-0022600269",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -207,7 +219,7 @@
    "game_id": "0022600258",
    "game_url": "https://www.nba.com/game/mem-vs-cle-0022600258",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -218,7 +230,7 @@
    "game_id": "0022600259",
    "game_url": "https://www.nba.com/game/hou-vs-ind-0022600259",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -229,7 +241,7 @@
    "game_id": "0022600260",
    "game_url": "https://www.nba.com/game/mil-vs-mia-0022600260",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -240,7 +252,7 @@
    "game_id": "0022600261",
    "game_url": "https://www.nba.com/game/phi-vs-orl-0022600261",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -251,7 +263,7 @@
    "game_id": "0022600262",
    "game_url": "https://www.nba.com/game/chi-vs-bkn-0022600262",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -262,7 +274,7 @@
    "game_id": "0022600263",
    "game_url": "https://www.nba.com/game/was-vs-tor-0022600263",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -273,7 +285,7 @@
    "game_id": "0022600264",
    "game_url": "https://www.nba.com/game/det-vs-nop-0022600264",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -284,7 +296,7 @@
    "game_id": "0022600265",
    "game_url": "https://www.nba.com/game/atl-vs-okc-0022600265",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -295,7 +307,7 @@
    "game_id": "0022600267",
    "game_url": "https://www.nba.com/game/gsw-vs-dal-0022600267",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
   },
   {
    "date": "2026-11-18",
@@ -306,7 +318,71 @@
    "game_id": "0022600266",
    "game_url": "https://www.nba.com/game/bos-vs-den-0022600266",
    "source_url": "https://www.nba.com/schedule?date=2026-11-16",
-   "reverified_2026_11_16_by_d1b96315": false
+   "reverified_by_d1b96315": false
+  },
+  {
+   "date": "2026-11-19",
+   "tip_et": "8:00 PM ET",
+   "away": "LAC",
+   "home": "SAS",
+   "venue": null,
+   "venue_missing": true,
+   "game_id": "0022600273",
+   "game_url": "https://www.nba.com/game/lac-vs-sas-0022600273",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "away_record": "4-8",
+   "home_record": "12-2",
+   "reverified_by_d1b96315": true,
+   "retrieved_utc": "2026-11-16T19:05Z",
+   "ingested_by": "d1b96315/data/raw/games_2026-11-19_cards.md"
+  },
+  {
+   "date": "2026-11-19",
+   "tip_et": "8:00 PM ET",
+   "away": "GSW",
+   "home": "MEM",
+   "venue": null,
+   "venue_missing": true,
+   "game_id": "0022600270",
+   "game_url": "https://www.nba.com/game/gsw-vs-mem-0022600270",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "away_record": "8-5",
+   "home_record": "9-4",
+   "reverified_by_d1b96315": true,
+   "retrieved_utc": "2026-11-16T19:05Z",
+   "ingested_by": "d1b96315/data/raw/games_2026-11-19_cards.md"
+  },
+  {
+   "date": "2026-11-19",
+   "tip_et": "8:00 PM ET",
+   "away": "NYK",
+   "home": "MIN",
+   "venue": null,
+   "venue_missing": true,
+   "game_id": "0022600272",
+   "game_url": "https://www.nba.com/game/nyk-vs-min-0022600272",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "away_record": "7-6",
+   "home_record": "9-4",
+   "reverified_by_d1b96315": true,
+   "retrieved_utc": "2026-11-16T19:05Z",
+   "ingested_by": "d1b96315/data/raw/games_2026-11-19_cards.md"
+  },
+  {
+   "date": "2026-11-19",
+   "tip_et": "8:00 PM ET",
+   "away": "POR",
+   "home": "MIL",
+   "venue": null,
+   "venue_missing": true,
+   "game_id": "0022600271",
+   "game_url": "https://www.nba.com/game/por-vs-mil-0022600271",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "away_record": "9-3",
+   "home_record": "1-13",
+   "reverified_by_d1b96315": true,
+   "retrieved_utc": "2026-11-16T19:05Z",
+   "ingested_by": "d1b96315/data/raw/games_2026-11-19_cards.md"
   }
  ]
 }

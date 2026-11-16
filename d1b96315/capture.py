@@ -62,6 +62,12 @@ ABBR_TEAM = {v: k for k, v in TEAM_ABBR.items()}
 TEAM_CELLS = set(TEAM_ABBR)
 
 
+def _clean(text):
+    """A cell that is empty after stripping is unread, not an empty-string status."""
+    t = (text or "").strip()
+    return t or None
+
+
 def _rows(md: str) -> list[list[str]]:
     """Every pipe-table row in the transcript, split into trimmed cells, separator rows dropped."""
     out = []
@@ -121,23 +127,40 @@ def parse_injury(path: pathlib.Path, source_url: str) -> dict:
     retr_m = re.search(r"# Retrieved: (\S+)", md)
     title_m = re.search(r"\*\*Injury Report: ([^*]+)\*\*|^## Injury Report: (.+)$", md, re.M)
     stamp = (title_m.group(1) or title_m.group(2)).strip() if title_m else None
-    rows, flags = [], []
+    rows, flags, fragments = [], [], []
+    # the renderer drops whole columns from the left at a page break, so a continuation row can
+    # arrive with no club cell at all; the block above it is then the only official evidence of
+    # which club the row belongs to, and the row is marked team_carried so a reader can see that
+    carry = {"game_date": None, "tip": None, "matchup": None, "team": None}
     for cells in _rows(md):
         idx = _locate(cells)
+        team_carried = False
         if "team" not in idx:
-            continue  # header/label rows
+            if "player" not in idx or carry["team"] is None:
+                txt = " | ".join(c for c in cells if c)
+                if txt:
+                    fragments.append({"raw": txt,
+                                      "why": "no club cell and no player cell: a header row, or the "
+                                             "tail of a cell wrapped across the page break"})
+                continue
+            idx["team"] = None                     # signal: use the carried club
+            team_carried = True
+        cell = lambda k: (_clean(cells[idx[k]]) if k in idx and idx[k] is not None else None)
+        team = carry["team"] if team_carried else cell("team")
         row = {
-            "game_date": cells[idx["game_date"]] if "game_date" in idx else None,
-            "tip": cells[idx["tip"]] if "tip" in idx else None,
-            "matchup": cells[idx["matchup"]] if "matchup" in idx else None,
-            "team": cells[idx["team"]],
-            "team_abbr": TEAM_ABBR[cells[idx["team"]]],
-            "player": cells[idx["player"]] if "player" in idx else None,
-            "status": cells[idx["status"]] if "status" in idx else None,
-            "reason": cells[idx["reason"]] if "reason" in idx else None,
+            "game_date": cell("game_date"), "tip": cell("tip"), "matchup": cell("matchup"),
+            "team": team, "team_abbr": TEAM_ABBR.get(team) if team else None,
+            "player": cell("player"), "status": cell("status"), "reason": cell("reason"),
             "not_yet_submitted": "not_submitted" in idx,
             "source_url": source_url,
         }
+        if team_carried:
+            row["team_carried"] = True
+            flags.append(f"club column absent for {team} / {row['player']}: carried from the block "
+                         "above the page break")
+        for k in ("game_date", "tip", "matchup", "team"):
+            if row.get(k):
+                carry[k] = row[k]
         # A player row with no readable status, or a no-player row that is not the club's
         # NOT-YET-SUBMITTED marker, is an unread cell: keep the row, blank the value, flag it.
         if row["player"] is not None and not row["not_yet_submitted"]:
@@ -173,6 +196,8 @@ def parse_injury(path: pathlib.Path, source_url: str) -> dict:
         "player_rows": sum(1 for r in rows if r["player"] is not None and not r["not_yet_submitted"]),
         "club_marker_rows": sum(1 for r in rows if r["not_yet_submitted"]),
         "unread_cells": sorted(set(flags)),
+        "column_shift_artifacts": len(fragments),
+        "dropped_line_fragments": fragments,
         "rows": rows,
     }
 
@@ -188,7 +213,43 @@ def _surname(player: str | None) -> str | None:
     return player.split(",")[0].strip().lower()
 
 
-def diff_reports(older: dict, newer: dict) -> dict:
+PUBLISHED_0915 = ROOT / "data" / "rounds" / "2026-11-16" / "injuries.json"
+
+
+def load_published_as_report(path: pathlib.Path) -> dict:
+    """Re-shape a published injury artefact on disk into this parser's report form.
+
+    Used so the game-day diff can start from the snapshot the site already published
+    (09:15 AM ET) instead of only from the two PDFs this session fetched. No value is
+    re-derived here: status and reason are copied as published, and the row is marked with the
+    file it came from so a reader can check the original.
+    """
+    d = json.loads(path.read_text(encoding="utf-8"))
+    rows = []
+    for r in d["rows"]:
+        team = r.get("team") or ""
+        rows.append({
+            "game_date": _clean(r.get("date")), "tip": _clean(r.get("game_time")),
+            "matchup": _clean(r.get("matchup")), "team": team,
+            "team_abbr": TEAM_ABBR.get(team), "player": _clean(r.get("player")),
+            "status": _clean(r.get("status")), "reason": _clean(r.get("reason")),
+            "team_carried": bool(r.get("page_break_fill")),
+            "not_yet_submitted": r.get("kind") == "NOT_YET_SUBMITTED",
+            "source_url": r.get("source_url"),
+        })
+    return {"report_stamp": d.get("report_stamp"), "source_url": d.get("source_url"),
+            "index_url": d.get("index_url"), "retrieved_utc": d.get("retrieved_utc"),
+            "pdf_url_from_index": d.get("source_url"), "count": len(rows),
+            "player_rows": sum(1 for r in rows if r["player"]),
+            "club_marker_rows": sum(1 for r in rows if r["not_yet_submitted"]),
+            "unread_cells": [], "rows": rows,
+            "read_from": str(path.relative_to(ROOT)),
+            "provenance_note": "this side of the diff is the artefact the site published, not a PDF "
+                               "re-fetched by this session; its verbatim transcript is committed at "
+                               "data/app/official_injuries_2026-11-16_0915AM_raw.md"}
+
+
+def diff_reports(older: dict, newer: dict, note: str | None = None) -> dict:
     """Status changes between two consecutive official revisions of the same report."""
     def key(r):
         return (r["team"], r["player"]) if r["player"] else (r["team"], None)
@@ -247,7 +308,7 @@ def diff_reports(older: dict, newer: dict) -> dict:
                 continue  # already reported as a spelling move, not a removal
             removed.append({"club": k[0], "player": k[1], "was_status": r.get("status"),
                             "change": "row dropped from the newer revision"})
-    return {
+    body = {
         "older_stamp": older["report_stamp"], "newer_stamp": newer["report_stamp"],
         "rule": "a change is a difference in the Current Status or Reason cell of the same "
                 "(club, player) key between two consecutive revisions; a row that appears or "
@@ -258,8 +319,20 @@ def diff_reports(older: dict, newer: dict) -> dict:
         "spelling_moves": spelling,
         "counts": {"status_changes": len(changes), "rows_added": len(added),
                    "rows_removed": len(removed), "spelling_moves": len(spelling),
-                   "older_rows": older["count"], "newer_rows": newer["count"]},
+                   "older_rows": older["count"], "newer_rows": newer["count"],
+                   "older_player_rows": older["player_rows"], "newer_player_rows": newer["player_rows"],
+                   "older_club_markers": older["club_marker_rows"],
+                   "newer_club_markers": newer["club_marker_rows"]},
+        "older_source": older["source_url"], "newer_source": newer["source_url"],
+        "older_retrieved_utc": older.get("retrieved_utc"),
+        "newer_retrieved_utc": newer.get("retrieved_utc"),
     }
+    if note:
+        body["note"] = note
+    if older.get("read_from"):
+        body["older_read_from"] = older["read_from"]
+        body["older_provenance_note"] = older["provenance_note"]
+    return body
 
 
 # ---------------------------------------------------------------- standings
@@ -520,6 +593,36 @@ def _abbr(text: str) -> str:
     return None
 
 
+CARD_TEAMS = {"Clippers": "LAC", "Spurs": "SAS", "Warriors": "GSW", "Grizzlies": "MEM",
+              "Knicks": "NYK", "Timberwolves": "MIN", "Trail Blazers": "POR", "Bucks": "MIL"}
+
+
+def parse_extra_days(path: pathlib.Path, game_date: str) -> list[dict]:
+    """Official scoreboard cards beyond the published window, read from a transcript.
+
+    Only what the card prints is carried: two clubs, two records, one tip, one link. The venue is
+    not on a card, so it stays null with a flag rather than being looked up from another page.
+    """
+    md = path.read_text(encoding="utf-8")
+    url = re.search(r"# URL: (\S+)", md).group(1)
+    retr = re.search(r"# Retrieved: (\S+)", md).group(1)
+    out = []
+    for cells in _rows(md):
+        if len(cells) != 6 or "game_url" in cells[0]:
+            continue
+        away, home = cells[0], cells[3]
+        if away not in CARD_TEAMS or home not in CARD_TEAMS:
+            continue
+        gid = re.search(r"(\d{10})$", cells[5]).group(1)
+        out.append({"date": game_date, "tip_et": cells[2], "away": CARD_TEAMS[away],
+                    "home": CARD_TEAMS[home], "venue": None, "venue_missing": True,
+                    "game_id": gid, "game_url": cells[5], "source_url": url,
+                    "away_record": cells[1], "home_record": cells[4],
+                    "reverified_by_d1b96315": True, "retrieved_utc": retr,
+                    "ingested_by": f"d1b96315/data/raw/{path.name}"})
+    return out
+
+
 def build_slate() -> dict:
     """The published rolling window, with this session's own re-verification per row."""
     slate = json.loads(ROUND_SLATE.read_text(encoding="utf-8"))
@@ -528,11 +631,44 @@ def build_slate() -> dict:
     counts = dict((m.group(1), int(m.group(2)))
                   for m in re.finditer(r"\| (1[5-9])<br>(\d+)<br>GAMES", verif))
     for g in slate["games"]:
-        g["reverified_2026_11_16_by_d1b96315"] = g["game_id"] in verif_ids
+        g["reverified_by_d1b96315"] = g["game_id"] in verif_ids
+    extra = parse_extra_days(RAW / "games_2026-11-19_cards.md", "2026-11-19")
+    games = slate["games"] + extra
+    ids = [g["game_id"] for g in games]
+    if len(set(ids)) != len(ids):
+        raise SystemExit("duplicate game id after extending the window")
+    by_date: dict[str, int] = {}
+    for g in games:
+        by_date[g["date"]] = by_date.get(g["date"], 0) + 1
+    xcheck = None
+    sp = OUT / "standings_2026-11-16.json"
+    if extra and sp.exists():
+        st = {t["team_abbr"]: f'{t["w"]}-{t["l"]}' for t in json.loads(sp.read_text())["teams"]}
+        mism = []
+        for g in extra:
+            for side in ("away", "home"):
+                if st.get(g[side]) != g[side + "_record"]:
+                    mism.append(f'{g["game_id"]} {side}: card prints {g[side + "_record"]}, '
+                                f'standings print {st.get(g[side])}')
+        xcheck = {"rows_checked": len(extra) * 2, "mismatches": mism,
+                  "meaning": "the records on the 11/19 cards are the same post-11/15 records the "
+                             "standings page prints, so the two official pages agree on the state of "
+                             "the league at the moment this roll was built"}
+    if extra:
+        slate["window"] = {"from": slate["window"]["from"], "to": "2026-11-19",
+                           "published_window_on_main": slate["window"],
+                           "extended_by": "this session: the four official 2026-11-19 cards, read "
+                                          "from the nba.com games page, so the window reaches three "
+                                          "days ahead as the brief requires"}
+        slate["count_by_date"]["2026-11-19"] = len(extra)
+        slate["count"] = len(games)
     return {
         "source_url": slate["source_url"], "retrieved_utc": slate["retrieved_utc"],
         "window": slate["window"], "timezone_note": slate["timezone_note"],
         "count": slate["count"], "count_by_date": slate["count_by_date"],
+        "window_note": "the published window carries main's capture verbatim; the 11/19 rows come "
+                       "from this session's own read of the official 11/19 page and are flagged where "
+                       "the card prints nothing (venue)",
         "reverification": {
             "done_at": "2026-11-16T18:30Z",
             "method": "the official scoreboard page for 2026-11-16 prints the calendar game count "
@@ -543,7 +679,8 @@ def build_slate() -> dict:
             "games_reverified_row_by_row": sorted(verif_ids),
             "slate_source": str(ROUND_SLATE.relative_to(ROOT)),
         },
-        "games": slate["games"],
+        "record_cross_check_against_standings": xcheck,
+        "games": games,
     }
 
 
@@ -554,10 +691,32 @@ def main(check: bool = False) -> int:
     def build():
         inj_1130 = parse_injury(RAW / "injury_2026-11-16_1130AM.md", INJ_URL_1130)
         inj_1315 = parse_injury(RAW / "injury_2026-11-16_0115PM.md", INJ_URL_1315)
+        snaps = [inj_1130, inj_1315]
+        published = None
+        if PUBLISHED_0915.exists():
+            published = load_published_as_report(PUBLISHED_0915)
+            snaps = [published, inj_1130, inj_1315]
         arts = {
             "injuries_2026-11-16_latest.json": inj_1315,
             "injuries_2026-11-16_1130AM.json": inj_1130,
-            "injury_delta_2026-11-16.json": diff_reports(inj_1130, inj_1315),
+            "injury_snapshots_2026-11-16.json": {
+                "game_date": "2026-11-16",
+                "index_url": INJ_INDEX,
+                "chain_note": "the three official revisions this session can reconstruct for the "
+                               "game day, oldest first: the 09:15 AM snapshot the site had already "
+                               "published (read from disk), then the 11:30 AM and 01:15 PM PDFs "
+                               "fetched and transcribed here. The report index lists revisions from "
+                               "12:00 AM to 01:15 PM ET on 11/16.",
+                "revisions": [{"report_stamp": s["report_stamp"], "source_url": s["source_url"],
+                               "retrieved_utc": s.get("retrieved_utc"), "count": s["count"],
+                               "player_rows": s["player_rows"],
+                               "club_not_yet_submitted": s["club_marker_rows"],
+                               "read_from": s.get("read_from", "d1b96315 (this session)")}
+                              for s in snaps]},
+            "injury_delta_2026-11-16_1130_to_1315.json": diff_reports(
+                inj_1130, inj_1315,
+                note="consecutive official revisions, both PDFs fetched and transcribed by this "
+                     "session"),
             "standings_2026-11-16.json": parse_standings(RAW / "standings_2026-11-16.md"),
             "team_advanced_2026-11-16.json": parse_advanced(RAW / "teams_advanced_2026-11-16.md"),
         }
@@ -578,6 +737,15 @@ def main(check: bool = False) -> int:
             "flag": "quarter split for Milwaukee rests on the recap line, not the period table — "
                     "published on Flagged for Review as D-02",
         })
+        if published is not None:
+            arts["injury_delta_2026-11-16_0915_to_1315.json"] = diff_reports(
+                published, inj_1315,
+                note="the whole game day so far: from the 09:15 AM ET snapshot the site had already "
+                     "published to the 01:15 PM ET revision fetched here")
+            arts["injury_delta_2026-11-16_0915_to_1130.json"] = diff_reports(
+                published, inj_1130,
+                note="the earlier half of the day, so the two consecutive steps add up to the "
+                     "whole-day diff and a reader can check them against each other")
         arts["slate_2026-11-16_1118.json"] = build_slate()
         return arts
 

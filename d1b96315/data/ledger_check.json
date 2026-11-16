@@ -1,0 +1,45 @@
+{
+ "stamp": "2026-11-16T19:03:09Z",
+ "trees": {
+  "d1b96315": {
+   "file": "d1b96315/ledger/ledger.jsonl",
+   "entries": 29,
+   "recipe": "pair",
+   "problems": [],
+   "result": "CHAIN INTACT",
+   "head_hash": "f7e2a7c94819686e5778c64a7ee6a34079741223a4df326a67b4a0ca2a1ab48d"
+  },
+  "ledger_A": {
+   "file": "ledger/ledger.jsonl",
+   "entries": 11,
+   "recipe": "minus_entry_hash",
+   "problems": [],
+   "result": "CHAIN INTACT",
+   "head_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401"
+  },
+  "ledger_B": {
+   "file": "data/app/ledger/ledger.jsonl",
+   "entries": 34,
+   "recipe": "chain_hash_pair_body",
+   "problems": [],
+   "result": "CHAIN INTACT",
+   "head_hash": "502610c8a43b0cd7e74866010f8464faa0ff041309a256774f51aa6f1baf775a"
+  }
+ },
+ "k17_resolution": {
+  "question": "is data/app/ledger/ledger.jsonl verifiable, and what is its entry_hash recipe?",
+  "entries": 34,
+  "recompute_with_chain_hash_prev_and_body": "34/34",
+  "recompute_with_body_alone": "0/34",
+  "finding": "the hash is over the PAIR {prev, body} produced by chain_hash() in scripts/pick_ledger.py, not over the body alone \u2014 which is why hashing the body under four canonicalisations never reproduced it. The recipe is documented in the writer and CI already runs `python3 scripts/pick_ledger.py verify`, which passes.",
+  "verifier_in_repo": "scripts/pick_ledger.py verify",
+  "conclusion": "K-17 resolved as a documentation gap, not a linkage break. No entry was re-hashed and no file in another session's tree was modified."
+ },
+ "ledger": {
+  "entries": 29,
+  "published_pre_tip": 29,
+  "settled": 0,
+  "head_hash": "f7e2a7c94819686e5778c64a7ee6a34079741223a4df326a67b4a0ca2a1ab48d",
+  "settlement_stamps": []
+ }
+}
