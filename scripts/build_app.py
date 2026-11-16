@@ -2724,6 +2724,12 @@ def build_index(d):
   {len(d['picks'])} priced games · {d['injuries']['count']} official injury rows ·
   {len(d['flags'])} flagged items · snapshot {BUILD_DATE}</p>
 </section>
+<section class="freshness">
+  <h3>Data freshness — read first</h3>
+  <p><strong>Reference date: 2026-11-16 (UTC).</strong> The published canonical snapshot (window 2026-11-15 → 2026-11-18, built {BUILD_DATE}) is older than today: 11/15 games are already final. Do not treat those lines as live.</p>
+  <p><strong>Current 3-day window (11/16 → 11/18):</strong> 25 official games verified field by field against <a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">nba.com/schedule</a> — dates, matchups, tip times, venues and game IDs match. Live current-window view: <a href="round/index.html"><b>2026-11-16 dashboard</b></a> (two-estimator projections, disagreement headline, 14 gates, injury diff between two same-day filings).</p>
+  <p class="small">No game value is inferred anywhere on this site. Anything that could not be confirmed from an official source is left blank and listed on the <a href="app/flagged.html">Flagged for review</a> page.</p>
+</section>
 <div class="cards">
   <div class="card"><div class="k">Verified official rows</div><div class="v">{verified_official}</div>
     <div class="s">schedule + team stats + injury report, each cross-checked field by field against
