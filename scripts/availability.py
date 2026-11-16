@@ -33,7 +33,8 @@ OUT = ROOT / "data" / "live" / "availability.json"
 
 
 def latest() -> pathlib.Path:
-    return sorted(INJ.glob("Injury-Report_*.md"))[-1]
+    # timestamp order, not lexical: '12_00AM' sorts lexically after '06_45PM' but is 19h older
+    return max(INJ.glob("Injury-Report_*.md"), key=ia.report_stamp_key)
 
 
 def build() -> dict:

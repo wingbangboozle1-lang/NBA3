@@ -34,7 +34,9 @@ OUT_PICKS = ROOT / "data" / "live" / "picks_ledger_view.json"
 OUT_GATES = ROOT / "data" / "live" / "gates.json"
 
 # An explicitly declared "now" so the build is reproducible. CI passes the real clock.
-NOW = "2026-11-15T12:10Z"
+# 2026-11-15T12:10Z was the first sealing pass (session 2ebb1e75). Session 4f194ba2 re-priced
+# from the 6:45 PM ET report + the 190-game sample; picks sealed on that pass carry this stamp.
+NOW = "2026-11-16T00:20Z"
 # The settlement stamp is the moment the official finals were last re-read and verified
 # (2026-11-15 session 4f194ba2: scoreboard + game summary pages + gamebook PDFs), not the
 # publish clock. Declared, like NOW, so the artefact reproduces byte for byte.

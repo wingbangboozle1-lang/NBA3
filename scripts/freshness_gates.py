@@ -35,11 +35,14 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import injury_archive as ia                                                  # noqa: E402
+
 LIVE = ROOT / "data" / "live"
 META = LIVE / "meta.json"
 INJ = LIVE / "injuries"
 MODEL = LIVE / "model.json"
-SETTLED = LIVE / "results" / "settled_2026-11-14.json"
+# every settled game day, oldest first — a new day is a new file and the gates cover it too
+SETTLED_DAYS = sorted((LIVE / "results").glob("settled_*.json"))
 SLATE = LIVE / "slate_2026-11-15.json"
 STATS = LIVE / "team_stats_advanced.json"
 
@@ -50,7 +53,8 @@ def parse_stamp(s: str) -> dt.datetime:
 
 
 def latest_report() -> pathlib.Path:
-    return sorted(INJ.glob("Injury-Report_*.md"))[-1]
+    # timestamp order, not lexical: '12_00AM' sorts lexically after '06_45PM' but is 19h older
+    return max(INJ.glob("Injury-Report_*.md"), key=ia.report_stamp_key)
 
 
 def check(max_age_hours: float | None = None) -> list[dict]:
@@ -97,14 +101,18 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         or "https://official.nba.com/nba-injury-report-2026-27-season/")
 
     # F4 -------------------------------------------------------------------------
-    settled = json.loads(SETTLED.read_text())
-    unverified = [g["game_id"] for g in settled["games"] if not g["verified"]]
+    days = [json.loads(p.read_text()) for p in SETTLED_DAYS]
+    all_games = [g for d in days for g in d["games"]]
+    unverified = [g["game_id"] for g in all_games if not g["verified"]]
+    dupes = {gid for gid in (g["game_id"] for g in all_games) if
+             [x["game_id"] for x in all_games].count(gid) > 1}
+    unverified += sorted(dupes)
     add("F4", "Every settled game is verified against two official reads", not unverified,
-        {"games": len(settled["games"]), "unverified": unverified,
-         "stamp": settled["settled_utc"]},
-        "game page final == gamebook printed final == sum of printed quarters",
-        settled["games"][0]["source_url"] if settled["games"] else
-        "https://www.nba.com/games")
+        {"days": [d["game_date"] for d in days], "games": len(all_games),
+         "unverified": unverified,
+         "stamps": {d["game_date"]: d["settled_utc"] for d in days}},
+        "game page final == gamebook printed final == sum of printed quarters, on every settled day",
+        all_games[0]["source_url"] if all_games else "https://www.nba.com/games")
 
     # F5 -------------------------------------------------------------------------
     model_games = {(g["game_id"], g["date"], g["away"], g["home"]) for g in model["slate"]}
@@ -153,10 +161,11 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         ledger.load_prereg() and "https://www.nba.com/schedule" or "https://www.nba.com/schedule")
 
     # F9 -------------------------------------------------------------------------
-    newest_final = max(g["date"] for g in settled["games"])
+    newest_final = max(g["date"] for g in all_games)
     sample_end = model["sample_range"][1]
     add("F9", "The model sample is not older than the newest settled game", sample_end >= newest_final,
-        {"model_sample_end": sample_end, "newest_settled": newest_final},
+        {"model_sample_end": sample_end, "newest_settled": newest_final,
+         "settled_days_covered": [d["game_date"] for d in days]},
         "model sample end >= newest settled game date",
         "https://www.nba.com/games")
 

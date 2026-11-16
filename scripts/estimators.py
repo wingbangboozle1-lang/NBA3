@@ -31,8 +31,12 @@ import csv
 import json
 import math
 import pathlib
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import injury_archive as ia                                                  # noqa: E402
 GAMES = ROOT / "data" / "origin" / "games.csv"
 RESULTS_1114 = ROOT / "data" / "live" / "results" / "games_2026-11-14.json"
 STATS = ROOT / "data" / "live" / "team_stats_advanced.json"
@@ -42,6 +46,21 @@ OUT = ROOT / "data" / "live" / "model.json"
 RIDGE = 0.35          # same order as the existing engine; chosen once, not per-run
 BT_ITER = 100         # Newton; converged to 1e-10 in ~15-25 iterations on this sample
 LOG_5 = math.log(5.0)
+
+
+def retrieved_of(report_stem: str) -> str:
+    """The retrieval stamp the capture manifest records for this report PDF.
+
+    The value must come from data/live/meta.json (the provenance manifest), never a
+    hard-coded stamp: the original hard-coded value kept claiming the 06:15 AM
+    retrieval time after the archive had moved to a newer report.
+    """
+    meta = json.loads((ROOT / "data" / "live" / "meta.json").read_text())
+    for entry in meta["sources"].values():
+        url = entry.get("url", "")
+        if report_stem.replace("Injury-Report_", "") in url and url.startswith("https://ak-static.cms.nba.com/referee/injury/"):
+            return entry["retrieved_utc"]
+    raise KeyError(f"no retrieval stamp recorded in data/live/meta.json for {report_stem}")
 
 
 # ---------------------------------------------------------------- small numerics
@@ -488,9 +507,9 @@ def main() -> None:
     logs_path = LOGS
     logs = json.loads(logs_path.read_text())["rows"] if logs_path.exists() else []
     inj = json.loads((ROOT / "data" / "live" / "injuries" / "archive_index.json").read_text())
-    latest = sorted(p.stem for p in (ROOT / "data" / "live" / "injuries").glob("Injury-Report_*.md"))[-1]
-    import importlib
-    ia = importlib.import_module("injury_archive")
+    # timestamp order, not lexical: '12_00AM' sorts lexically after '06_45PM' but is 19h older
+    latest = max((ROOT / "data" / "live" / "injuries").glob("Injury-Report_*.md"),
+                 key=ia.report_stamp_key).stem
     rep = ia.parse(ROOT / "data" / "live" / "injuries" / f"{latest}.md")
     out_by_team: dict[str, list[str]] = {}
     status_by_team: dict[str, dict[str, str]] = {}
@@ -605,7 +624,7 @@ def main() -> None:
             "oos_log_loss_blend_50_50": oos_stats["blend_50_50_log_loss"],
         },
         "injury_snapshot": {"file": latest, "source_url": rep["source_url"],
-                            "retrieved_utc": "2026-11-15T11:33Z",
+                            "retrieved_utc": retrieved_of(latest),
                             "out_or_doubtful_by_team": out_by_team},
     }
     OUT.write_text(json.dumps(payload, indent=1) + "\n")
