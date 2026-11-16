@@ -4,6 +4,21 @@
  "storage_rule": "One file per official report version, stored verbatim with its report timestamp and retrieval time, so consecutive versions can be diffed.",
  "files": [
   {
+   "file": "Injury-Report_2026-11-15_12_00AM.md",
+   "report_stamp": "2026-11-15_12_00AM",
+   "report_header": "Injury Report: 11/15/26 12:00 AM",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf",
+   "unparseable_rows": [],
+   "status_counts": {
+    "Available": 2,
+    "Doubtful": 1,
+    "Out": 62,
+    "Probable": 2,
+    "Questionable": 17
+   },
+   "unattributed_rows": 13
+  },
+  {
    "file": "Injury-Report_2026-11-15_06_00AM.md",
    "report_stamp": "2026-11-15_06_00AM",
    "report_header": "Injury Report: 11/15/26 06:00 AM",
@@ -34,25 +49,41 @@
    "unattributed_rows": 13
   },
   {
-   "file": "Injury-Report_2026-11-15_12_00AM.md",
-   "report_stamp": "2026-11-15_12_00AM",
-   "report_header": "Injury Report: 11/15/26 12:00 AM",
-   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf",
-   "unparseable_rows": [],
+   "file": "Injury-Report_2026-11-15_06_45PM.md",
+   "report_stamp": "2026-11-15_06_45PM",
+   "report_header": "Injury Report: 11/15/26 06:45 PM",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf",
+   "unparseable_rows": [
+    {
+     "raw": [
+      "",
+      "",
+      "",
+      "",
+      "Fracture"
+     ],
+     "kind": "UNPARSEABLE"
+    }
+   ],
    "status_counts": {
+    "Available": 19,
+    "Out": 116,
+    "Questionable": 13
+   },
+   "unattributed_rows": 14
+  }
+ ],
+ "totals": {
+  "reports": 4,
+  "player_rows": 400,
+  "status_counts_by_report": {
+   "2026-11-15_12_00AM": {
     "Available": 2,
     "Doubtful": 1,
     "Out": 62,
     "Probable": 2,
     "Questionable": 17
    },
-   "unattributed_rows": 13
-  }
- ],
- "totals": {
-  "reports": 3,
-  "player_rows": 252,
-  "status_counts_by_report": {
    "2026-11-15_06_00AM": {
     "Available": 2,
     "Doubtful": 1,
@@ -67,12 +98,10 @@
     "Probable": 2,
     "Questionable": 17
    },
-   "2026-11-15_12_00AM": {
-    "Available": 2,
-    "Doubtful": 1,
-    "Out": 62,
-    "Probable": 2,
-    "Questionable": 17
+   "2026-11-15_06_45PM": {
+    "Available": 19,
+    "Out": 116,
+    "Questionable": 13
    }
   }
  }

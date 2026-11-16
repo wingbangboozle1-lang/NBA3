@@ -6,10 +6,20 @@
 |---|---|---|---|
 | `Injury-Report_2026-11-15_06_00AM.md` | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf | 2026-11-15T11:40Z | 6 |
 | `Injury-Report_2026-11-15_06_15AM.md` | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf | 2026-11-15T11:33Z | 6 |
+| `Injury-Report_2026-11-15_06_45PM.md` | https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf | 2026-11-16T00:06Z | 7 |
 
 The [official index](https://official.nba.com/nba-injury-report-2026-27-season/) listed the
 11/15 reports from 12:00 a.m. ET through 6:15 a.m. ET at read time; 6:15 a.m. ET is the newest
 that existed.
+
+The 6:45 PM ET report was captured by session `4f194ba2` the same way: the official index read
+2026-11-16T00:03Z listed 11/15 reports through 6:45 p.m. ET (the 7:00 PM slot was not present),
+so 6:45 PM ET is the newest that existed. The extraction came back in 3 chunks; the two rows a
+chunk boundary split mid-word (`Landal|e, Jock`, `Phoenix| Suns`) were rejoined to the single
+rows the PDF prints, and nothing else was edited. One extraction artifact to know about: the
+page 7 header row carries only the wrapped tail `Fracture` of the previous page's last reason
+("Injury/Illness - Right Metacarpal" + "Fracture"); it is kept verbatim and the parser counts
+it as unparseable rather than merging it into the player row by hand.
 
 ## What is verbatim and what is normalised
 

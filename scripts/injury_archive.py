@@ -16,6 +16,7 @@ import json
 import pathlib
 import re
 import unicodedata
+from datetime import datetime
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DIR = ROOT / "data" / "live" / "injuries"
@@ -25,6 +26,23 @@ OUT_DELTAS = DIR / "deltas.json"
 STATUSES = ("Out", "Doubtful", "Questionable", "Probable", "Available")
 PAGE_HEADER = re.compile(r"\*\*Injury Report: (\d\d/\d\d/\d\d) (\d\d:\d\d [AP]M)\*\*")
 SOURCE = ("https://ak-static.cms.nba.com/referee/injury/Injury-Report_{stamp}.pdf")
+
+
+def report_stamp_key(p: pathlib.Path):
+    """Sort key ordering archived reports by the report's own timestamp.
+
+    Guards the ordering defect found on 2026-11-16: a lexical filename sort ranks
+    '12_00AM' (midnight, the OLDEST report of a day) after '06_45PM', so `sorted(...)`
+    + `[-1]` silently selected a 24-hour-old report as 'newest' -- in availability.py,
+    estimators.py, freshness_gates.py and this module's consecutive-pair diffs. The
+    stamp in the filename (date, 12-hour clock, AM/PM) is the authoritative order.
+    """
+    m = re.search(r"(\d{4}-\d{2}-\d{2})_(\d{2})_(\d{2})(AM|PM)$", p.stem)
+    if not m:
+        return (1, p.stem)
+    d = datetime.strptime(f"{m.group(1)} {m.group(2)}:{m.group(3)}{m.group(4).lower()}",
+                          "%Y-%m-%d %I:%M%p")
+    return (0, d.timestamp())
 
 
 def norm_name(raw: str) -> str:
@@ -155,9 +173,10 @@ def diff(a: dict, b: dict) -> dict:
 
 
 def main() -> None:
-    files = sorted(DIR.glob("Injury-Report_*.md"))
+    files = sorted(DIR.glob("Injury-Report_*.md"), key=report_stamp_key)
     reports = [parse(p) for p in files]
-    reports.sort(key=lambda r: r["report_stamp"])
+    # order by the report's own timestamp — a lexical stamp sort ranks '12_00AM' after '06_45PM'
+    reports.sort(key=lambda r: report_stamp_key(pathlib.Path(r["file"])))
     status_counts = {}
     for r in reports:
         c: dict[str, int] = {}
