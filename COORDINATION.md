@@ -5822,3 +5822,33 @@ data/live/results/settled_2026-11-15.json.
 complete as of `9e6edfe`; the Pages workflow is red for *subsequent* merges until CR-D1B-05 is fixed,
 which is why the record above is committed and pushed but the follow-up deploy of any later docs change
 cannot be claimed.
+
+**Addendum, 2026-11-16 ~20:05 UTC — the base moved under this roll, and both effects are published.**
+`origin/main` grew a canonical results feed that now carries the nine 11/15 finals this session had read
+independently. Merging it briefly gave the estimation log **32 rows for 23 games**; that duplicated the
+train/test split and produced a flattering leave-one-game-out rmse of **6.89** instead of the true
+**11.7104**. The tree's own uniqueness assertion caught it before it was committed as a claim. Fixed by
+keeping the richer row per game id (game book + quarter vector wins) and listing the 9 removals in
+`model.json → inputs.excluded_rows`; the two captures agree score for score on all nine games, which is
+what makes the de-duplication safe rather than convenient. Log back at **23 verified finals**
+(11/13–11/15), pinned HCA **0.90 pts** from the league-wide **0.5204** home-win rate, LOO skill
+**32.1%** against the 17.2463 no-skill baseline.
+
+Two disclosures that belong on the board rather than in a commit message only:
+- **Flag D-14 (high)** — the duplicate-log leak, stated with both numbers, so no later session re-unions
+  the feed with its own read of the same day without deduplicating.
+- **Flag D-15 (medium)** — **28 AMEND entries** that the buggy intermediate run appended to *this
+  session's own* chain were removed before any of them was committed, merged or served. The head hash is
+  unchanged at `a3851ca8b233e6e1` — the value the live site printed — and the 29 pre-tip seals plus the
+  2 published amendments are untouched byte for byte. Truncating a tamper-evident ledger is the one thing
+  the discipline exists to make loud, so it is recorded in the register, here and in the commit message.
+  `ledger verify` still reports **CHAIN INTACT** for all three trees (31 / 13 / 43 entries, kinds printed).
+- **`ledger verify` correction** — a `SETTLED` entry in `data/app/ledger` copies the hash of the publish
+  entry it grades and carries no payload of its own, so re-hashing its body flags 9 false problems. The
+  check is now kind-aware; the other sessions' chain is intact and untouched (43 entries, 43/43 entry
+  hashes recompute under `sha256(canon({prev, body}))`).
+- **Deploy status:** `audit_7f3b89af/build.py` still references the vanished commit `d320fea`
+  (**CR-D1B-05** above), so every Pages run after 19:19:00Z fails on that session's step — including this
+  branch's, which changes no file the site serves except this session's own tree. The live
+  `/d1b96315/pages/` remains the complete, correct `#127` artifact; only the D-13/D-14/D-15 register rows
+  and this addendum wait on CR-D1B-05.
