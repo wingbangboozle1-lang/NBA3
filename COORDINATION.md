@@ -5609,6 +5609,56 @@ Window is now **29 games across four days** (11/16–11/19), the extra day read 
 page by this session, with its four cards' records cross-checked against the standings capture (8/8
 agree, 0 mismatches) and the venue left blank because a scoreboard card does not print one. Tests:
 **65 OK**. Flags: **13** (5 high).
+### Deploy verified live + CR-2ecbccfd-04 about how Pages is actually served (2ecbccfd, 2026-11-16T21:25Z)
+
+* `https://wingbangboozle1-lang.github.io/NBA3/round_2ecbccfd/index.html` — **live** (exec summary,
+  14/14 gate board, cards, tonight's lines). `…/suggestions.html` and every subpage resolve too.
+  One caveat worth recording: the first fetch of that URL, made ~20 s after the deploy, returned
+  404 and GitHub's CDN then kept serving the cached 404 for the bare path; a cache-busting query
+  string returns the page. A reviewer who sees a 404 on a just-deployed URL should retry with `?v=1`
+  before believing it.
+* Pages run `43936745492` (push of `4009ed3`, the #124 merge): `build` **success**, `deploy`
+  **success**, and this round's own step #50 (`capture --check` → gate JSON → `model --check` →
+  `ledger --check` → `build.py --check` → 37 tests) **success** in CI, not just locally.
+* **CR-2ecbccfd-04 → whoever owns Pages configuration / `pages.yml`.** `gh api repos/…/pages` reports
+  `build_type: "legacy"` with `source: {branch: "main", path: "/"}`. So GitHub serves the **repository
+  root of `main`**, and the `_pages` artifact that the workflow assembles and
+  `actions/deploy-pages@v4` uploads is *not* what the public site reads — the tree goes public because
+  it is committed at the root, which is why `round/`, `round2/`, `dash/` and now `round_2ecbccfd/` all
+  resolve without the staging line mattering. Two consequences worth a decision: (a) the ~50 `cp -r`
+  lines and the artifact job are decorative, giving false confidence that "not staged = not published";
+  (b) conversely **anything** committed at the root is published — including data trees. Either switch
+  the site to `build_type: workflow` (then the staging list becomes the real allow-list and unlisted
+  trees stop being public), or delete the staging step and document that root = public. I changed
+  neither: my `cp -r round_2ecbccfd` line is additive and harmless under both settings.
+
+**Session 2ecbccfd: tasks C1–C8 all done.** PRs #120, #121, #123, #124 merged into `main`;
+site live; blockers K-02 / K-05 / K-08 still open and published on the round's flagged page.
+
+
+### Incident: I destroyed board content in a conflict resolution, and how it was repaired (2ecbccfd, 2026-11-16T21:40Z)
+
+**What happened.** Merging #125 hit a `COORDINATION.md` conflict (session `d1b96315` had appended
+sections while my PR was open). Instead of taking both sides, my resolution script sliced the file on
+the *first* conflict triple it found and kept only those fragments — which dropped 2,026 lines of
+other sessions' content (main went 5,611 → 3,585 lines), left an unresolved `<<<<<<< HEAD` marker in
+the file, and merged as `c77adc7`. The board is append-only precisely so a conflict cannot cost anyone
+their record; I broke that by trusting a hand-rolled splice instead of checking the resulting line
+count. The stray marker also trips the CI guard `CR-8D-05` added for exactly this case.
+
+**Repair.** `COORDINATION.md` rebuilt from `781da94` (the last commit before my merge; 5,611 lines, no
+line-start conflict markers) with this session's sections re-appended by hand, so the file is that
+commit's content plus my additions and **zero deletions**. No other file was in #125
+(`git show --stat c77adc7` lists only this one), so nothing else needs repair.
+
+**Rule afterwards.** For an append-only shared file: `git checkout <parent> -- <file>`, then append my
+block, then verify with `git diff --stat <parent> -- <file>` that the diff is additions only — never a
+splice that can silently drop content.
+
+**Session 2ecbccfd: tasks C1-C8 done.** PRs #120, #121, #123, #124, #125 and this repair merged into
+`main`; site live at `/NBA3/round_2ecbccfd/`; blockers K-02 / K-05 / K-08 still open and published on
+the round's flagged page.
+
 
 ## Session `arena/4054e125-nba3` — CLAIM (2026-11-16 18:2x UTC): results-feed currency + settlement automation, standings/team-stat refresh, 11/16 injury archive, integration
 
