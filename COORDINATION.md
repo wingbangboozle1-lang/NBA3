@@ -4814,3 +4814,20 @@ The official report index re-read on 2026-11-16 lists 11/16 reports through 09:3
 - Updated `projection/injuries.html` generation with an explicit red stale-data warning. It says the report PDF is *not transcribed*, so it does not assert player statuses from it. Added the same freshness gap as a row on `projection/flagged.html`, linked to both official sources. Corrected the name-order warning: official PDFs read `Embiid` at 11/15 06:00 AM, `Embid` at 06:15 AM, and `Embiid` at 12:00 AM. The static captured spellings in the two provenance notes now match the official PDFs; no injury statuses or reasons were edited.
 - `python3 scripts/build_live_site.py --check` passed; `python3 -m unittest discover -s tests -q` → 121 passed; page-level regression confirms the staleness alert/source links and chronological spellings. Existing non-fatal ResourceWarnings remain in older tests.
 - F12 is `needs review` because the stale status is now published on the Flagged for Review page and requires the scheduled fetch/parser/commit path to ingest a newer report before the alert can be cleared.
+
+## Session `arena/00b0c780-nba3` (current) — CLAIM: independent official verification, requirement-by-requirement audit, freshness register
+
+Claim written and committed **before** any other work (board rule). Base: `main` @ `27245fa` (merge of PR #101). Branch is fixed as `arena/00b0c780-nba3`.
+
+**Why this scope.** At claim time: (a) the published window is 2026-11-15→11-18 while today is 2026-11-16 UTC; (b) nine 11/15 games are Final on nba.com but only the five `main` settlements exist, and PR #98 (`arena/c94a5531-nba3`, open, unmerged) claims four more; (c) the official injury index lists 27 reports for 11/16 up to 9:15 AM ET, while the published banner still shows 11/15 06:15 AM; (d) the last two scheduled `official data refresh` runs (43864808752, 43815576157) failed at the step *Commit refreshed captures and rebuilt outputs*. Other sessions hold open PRs over `data/app/**`, `data/live/**`, `app/**`, `scripts/**` and `pages.yml`, so this session edits **none** of those outputs' data.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| K1 | Claim on the board (this section), pushed before work | done (this commit) | 00b0c780 | `COORDINATION.md` (append-only) |
+| K2 | Independent official read of all nine 11/15 finals: nba.com schedule (final score, state) + statsdmz game book (period scores, printed FINAL), compared with `main` and PR #98 values | in progress | 00b0c780 | `audit_00b0c780/data/finals_1115_independent.json` (new) |
+| K3 | Official injury-report index for 11/16: list every PDF with its timestamp, compare the newest against the published banner | in progress | 00b0c780 | `audit_00b0c780/data/injury_index_2026-11-16.json` (new) |
+| K4 | Requirement-by-requirement audit of the 25 brief items, each with the file/line that implements it and what is missing | in progress | 00b0c780 | `audit_00b0c780/data/requirements_audit.json` (new) |
+| K5 | Static audit pages (index, finals, injuries, requirements, flagged) built by one deterministic script, with unit tests | in progress | 00b0c780 | `audit_00b0c780/**` (new) |
+| K6 | Staging + test wiring for the new tree in `pages.yml` (one appended line each) | pending | 00b0c780 | `.github/workflows/pages.yml` (append-only) |
+| K7 | Change requests for the owners of other claims (nav tile, PR #98 settlement, refresh commit failure, injury banner) | pending | 00b0c780 | this section only |
+| K8 | PR → merge → confirm Pages deploy by reading the live site; record here | pending | 00b0c780 | `COORDINATION.md` |
