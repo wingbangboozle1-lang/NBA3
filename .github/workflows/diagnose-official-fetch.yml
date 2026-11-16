@@ -28,6 +28,12 @@ jobs:
       - name: Run official-fetch diagnostics (always exits 0 — experiment, not a gate)
         run: python3 scripts/diagnose_official_fetch.py
 
+      - name: Dry-run the repaired refresh end-to-end (fetch -> promote -> gate report; no rebuild, no canonical commit)
+        run: |
+          python3 -m pip install --disable-pip-version-check -q -r requirements.txt
+          python3 scripts/refresh_official.py --dry-run --stamp DIAG-$GITHUB_RUN_ID
+          echo "exit=$?"
+
       - name: Commit diagnostics back to the session branch (contents API, conflict-free)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,6 +47,22 @@ jobs:
               "data/app/refresh/diagnostics/official_fetch_diagnostics.json",
               "data/app/refresh/diagnostics/official_fetch_diagnostics.md",
           ]
+          # dry-run refresh outputs: manifest + gate report + promoted rolling captures +
+          # promoted slate + the archived newest injury PDF (verbatim evidence)
+          import glob
+          stamp_dirs = sorted(glob.glob("data/app/refresh/DIAG-*"))
+          if stamp_dirs:
+              d = stamp_dirs[-1]
+              files += [os.path.join(d, "manifest.json"),
+                        os.path.join(d, "rolling_gate_report.json")]
+              files += [f for f in glob.glob(d + "/Injury-Report_*.pdf")]
+          for extra in (["data/app/rolling/promotion_report.json",
+                         "data/app/rolling/results.json",
+                         "data/app/rolling/injury_delta.json",
+                         "data/app/official_slate_current.json"] +
+                        glob.glob("data/app/rolling/injuries/*.json")):
+              if os.path.exists(extra):
+                  files.append(extra)
           for path in files:
               content = base64.b64encode(open(path, "rb").read()).decode()
               # fetch existing SHA so the PUT replaces rather than conflicts
