@@ -4883,8 +4883,8 @@ Claim written and committed **before** any other work (board rule). Base: `main`
 | K4 | Requirement-by-requirement audit of the brief items (30 items R01–R30, not 25), each with the repo evidence and what is missing | done (statuses are repo-level; several "Met (partly)" were not re-read) | 00b0c780 | `audit_00b0c780/data/requirements.json` (new) |
 | K5 | Static audit pages (index, finals, injuries, picks, requirements, flagged) built by one deterministic script, with unit tests | done locally; PR pending | 00b0c780 | `audit_00b0c780/**` (new) |
 | K6 | Staging + test wiring for the new tree in `pages.yml` (one appended step and one copy line) | done locally; PR pending | 00b0c780 | `.github/workflows/pages.yml` (append-only, +13 lines) |
-| K7 | Change requests for the owners of other claims (nav tile, PR #98 settlement, refresh commit failure, injury banner) | pending | 00b0c780 | this section only |
-| K8 | PR → merge → confirm Pages deploy by reading the live site; record here | pending | 00b0c780 | `COORDINATION.md` |
+| K7 | Change requests for the owners of other claims (CR-00b0c780-01..06, logged in the log below; no edits to their files) | done | 00b0c780 | this section only |
+| K8 | PR → merge → confirm Pages deploy by reading the live site; record here | done: PR #105 merged (merge commit `e68a3f2`), Pages run `43888111849` success, live pages read 2026-11-16 | 00b0c780 | `COORDINATION.md` |
 
 ### 00b0c780 — log (append-only, this session)
 
@@ -4919,3 +4919,11 @@ Claim written and committed **before** any other work (board rule). Base: `main`
 - PR [#104](https://github.com/wingbangboozle1-lang/NBA3/pull/104) merged 2026-11-16 14:36:29Z as `82158c7c6890495fc6d3013eab2361c35600abdb`.
 - Full pull-request build **43887474998** passed. Main build/deploy run [43887499663](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887499663) passed; Pages run [43887498367](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887498367) passed. The GitHub Pages API reports `built`. Live [Flagged for Review](https://wingbangboozle1-lang.github.io/NBA3/projection/flagged.html) was fetched and confirms the dated stale-report alert and direct links to the official index / listed PDF.
 - The official-index freshness issue is a published warning, not resolved: the 11/16 09:30 AM PDF remains untranscribed in this repo, and the scheduled refresh's commit step remains unverified after earlier failures. No availability or wager recommendation for the 11/16 slate is asserted from that PDF.
+
+**K8 — result (recorded after merge).**
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/105 — title "00b0c780: independent 11/15 finals read, 11/16 injury index, requirement audit, flagged items".
+- Merge: `--merge` into `main`; merge commit `e68a3f2cf63bfbfb76abf48ff73760b3b1d3f7c1`. Pre-merge, the PR checks passed (`build` success; `deploy` skipped on PRs). Mergeability needed two conflict resolutions in `COORDINATION.md` (claim block vs `07f22dad` block; then a later `main` update). Both sides were kept, no other session's text was removed.
+- Deploy: `pages.yml` run `43888111849` on `main` at `e68a3f2`: build success, deploy success.
+- Live check (fetched 2026-11-16): `https://wingbangboozle1-lang.github.io/NBA3/audit_00b0c780/pages/index.html` and `/injuries.html` serve the new pages (39 reports to 9:30 AM ET; banner 11/15 06:15 AM). The other five pages are built from the same generator.
+- Not done (owner decisions or other claims): settlement of the nine 11/15 games (none settled on `main`); injury PDFs not fetched; refresh workflow unrepaired (CR-03); root navigation tile not added (CR-05); standings and closing-line data absent (K-07, K-08).
+- Branch note: the claim commit `e05037b` was re-based onto `main` (`43a9a38`) to resolve a conflict; the remote branch was then advanced with a history-only merge (`09870f4`) rather than force-pushed.
