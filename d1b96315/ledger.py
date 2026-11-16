@@ -300,8 +300,17 @@ def amend(now: datetime) -> dict:
     return {"amended": added, "entries": len(entries), "head_hash": prev}
 
 
-def verify(now: datetime) -> dict:
-    out = {"stamp": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "trees": {}}
+def verify(now: datetime | None = None) -> dict:
+    """Recompute every chain. Deterministic on purpose: CI re-runs this and fails on drift, so the
+    written artefact may not carry a wall-clock read. The stamp is the newest stamp already *in* the
+    chains, not the time this verification happened to run."""
+    ent_now = read(LFILE)
+    stamps = [e.get("published_utc") or e.get("stamp") for e in ent_now
+              if (e.get("published_utc") or e.get("stamp"))]
+    out = {"stamp": max(stamps) if stamps else None,
+           "stamp_note": "newest stamp inside the chains, not a clock read — verify() is run by CI "
+                         "and its output is drift-checked, so it must not depend on when it ran",
+           "trees": {}}
     out["trees"]["d1b96315"] = verify_tree(LFILE, "pair")
     if TREE_A.exists():
         out["trees"]["ledger_A"] = verify_tree(TREE_A, "minus_entry_hash")
