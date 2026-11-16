@@ -13,6 +13,11 @@ on:
 permissions:
   contents: write
 
+# One refresh at a time: a second run waits instead of racing the push to main.
+concurrency:
+  group: official-data-refresh
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -31,15 +36,30 @@ jobs:
           python3 -m unittest tests/test_refresh_official.py -v
 
       - name: Commit refreshed captures and rebuilt outputs
+        # The rebuild chain (scripts/refresh_official.py step 6) regenerates files OUTSIDE
+        # data/app as well (app/ledger.html, index.html, app/*.html). The earlier step staged
+        # only data/app, so the unstaged app/ledger.html made `git pull --rebase` refuse and
+        # every run after 00:57Z failed here (runs 43815576157, 43864808752). Stage every path
+        # the refresh writes, commit, then rebase and push with bounded retries.
         if: github.event.inputs.dry_run != 'true'
         run: |
+          set -euo pipefail
           git config user.name "nba3-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/app
+          git add -A -- data app index.html
           if git diff --cached --quiet; then
             echo "no changes to refresh"
-          else
-            git commit -m "scheduled official refresh $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            exit 0
           fi
+          git commit -m "scheduled official refresh $(date -u +%Y-%m-%dT%H:%MZ)"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              echo "pushed refresh commit on attempt $attempt"
+              exit 0
+            fi
+            echo "::warning::push attempt $attempt failed; aborting any rebase and retrying"
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 10))
+          done
+          echo "::error::refresh commit could not be pushed to main after 3 attempts"
+          exit 1

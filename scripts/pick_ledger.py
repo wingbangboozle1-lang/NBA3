@@ -20,6 +20,7 @@ import json
 import os
 import sys
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 LEDGER_DIR = os.path.join(ROOT, "data", "app", "ledger")
@@ -58,17 +59,65 @@ def chain_hash(prev_hash, entry_body):
     return sha({"prev": prev_hash, "body": entry_body})
 
 
-def publish():
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
-    est = json.load(open(EST, encoding="utf-8"))
+SLATE = os.path.join(ROOT, "data", "app", "official_slate_current.json")
+ET = ZoneInfo("America/New_York")
+
+
+def _tip_as_et(tip_str, game_day):
+    """'1:00 PM' on game_day (ET) -> aware datetime, or None when the tip is not verified."""
+    if not tip_str:
+        return None
+    try:
+        t = datetime.strptime(tip_str.strip(), "%I:%M %p").time()
+    except ValueError:
+        return None
+    return datetime.combine(game_day, t, tzinfo=ET)
+
+
+def publish(now_utc=None, est_path=None, slate_path=None):
+    """Append PUBLISHED_PRE_TIP entries that are still provably before tip.
+
+    Gates (session c449d46a; each skip is printed with its reason, nothing is inferred):
+      * the game's ET date must be today or later (a game dated before today has tipped);
+      * a game dated today needs a verified tip time that is still in the future;
+      * a game dated later than today is before tip by the calendar;
+      * one entry per game id: the window is de-duplicated within the run as well as
+        against the chain (the earlier version checked only the chain, so one game id that
+        appeared on four dates was appended four times);
+      * the (date, game_id) pair must be on the official promoted slate.
+    """
+    now_utc = now_utc or datetime.now(timezone.utc)
+    now = now_utc.strftime("%Y-%m-%dT%H:%MZ")
+    today_et = now_utc.astimezone(ET).date()
+    est = json.load(open(est_path or EST, encoding="utf-8"))
+    slate = json.load(open(slate_path or SLATE, encoding="utf-8"))
+    on_slate = {(g["date"], g["game_id"]) for g in slate["games"]}
     entries = read_entries()
     already = {e["body"]["pick_id"] for e in entries}
     prev = entries[-1]["entry_hash"] if entries else GENESIS
     n = 0
+    skipped = []
     for row in est["window"]:
         pick_id = f"{row['game_id']}-side-proj"
+        day = datetime.strptime(row["date"], "%Y-%m-%d").date()
         if pick_id in already:
+            skipped.append((pick_id, "already in the chain"))
             continue
+        if (row["date"], row["game_id"]) not in on_slate:
+            skipped.append((pick_id, "not on the official slate for this date"))
+            continue
+        if day < today_et:
+            skipped.append((pick_id, f"game day {row['date']} is before today (ET) {today_et}: "
+                                     "already tipped, cannot publish pre-tip"))
+            continue
+        if day == today_et:
+            tip = _tip_as_et(row.get("tip_et"), day)
+            if tip is None:
+                skipped.append((pick_id, "tip time not verified for a game today: not published"))
+                continue
+            if now_utc.astimezone(ET) >= tip:
+                skipped.append((pick_id, f"tip {row['tip_et']} ET already passed"))
+                continue
         payload = {
             "pick_id": pick_id,
             "kind": "published projection (side + total), no funded strategy -> no money bet",
@@ -88,9 +137,12 @@ def publish():
         entry["entry_hash"] = chain_hash(prev, body)
         entries.append(entry)
         prev = entry["entry_hash"]
+        already.add(pick_id)
         n += 1
     write_entries(entries)
-    print(f"publish: {n} new entries; {len(entries)} total in the chain")
+    for pid, why in skipped:
+        print(f"skip {pid}: {why}")
+    print(f"publish: {n} new entries; {len(skipped)} skipped; {len(entries)} total in the chain")
     return 0
 
 
