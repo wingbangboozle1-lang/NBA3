@@ -1,0 +1,19 @@
+{
+ "id": "arena/4c69ab99-nba3",
+ "title": "2026-11-16 settlement & scheduled-refresh round",
+ "when": "2026-11-16",
+ "bullets": [
+  "All nine 2026-11-15 finals were settled from official sources: the per-game results feed now holds 23 rows (2026-11-13 onward), every row with date, teams, final score, quarter scores, a verification state and a visible settlement stamp.",
+  "The sealed pick ledger settled all nine 2026-11-15 picks (43 chained entries; every payload hash re-verified at settlement; chain intact).",
+  "One flag is high severity: ATL @ MIL's official game book contradicts itself on a period cell (Q3 37 vs 27). The final is verified by five independent reads; both quarter readings are kept and the contradiction is published, not repaired.",
+  "The scheduled refresh was repaired and extended: it now ingests finished games (final score + per-period scores) from the official games pages' own JSON, re-cuts the feed, settles the feed and the ledger each run, derives standings from the post-game records it already sees, and its unit tests no longer break when the slate window rolls.",
+  "The 2026-11-16 injury capture (01:45 PM ET filing, the newest on the official index) is stored with its timestamp and diffed against the consecutive 01:30 PM filing and the previous archived report; the Injuries page banner carries the report revision time and the retrieval window.",
+  "Official standings through 2026-11-15 are captured with source links (W-L cross-checked against the game books and the games pages; win/loss sums equal 197 completed games).",
+  "Decision-support registers were extended: 7 open questions, 4 suggestions awaiting a reviewer's path choice before implementation, 6 flagged irregularities — none of them block the site, all of them keep source links."
+ ],
+ "sources": [
+  "https://www.nba.com/games?date=2026-11-15",
+  "https://www.nba.com/standings",
+  "https://official.nba.com/nba-injury-report-2026-27-season/"
+ ]
+}

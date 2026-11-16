@@ -1,0 +1,68 @@
+[
+ {
+  "id": "F-4C69-01",
+  "area": "Results integrity",
+  "item": "2026-11-15 ATL @ MIL (0022600243): the official game book's period table reads MIL Q3 = 37 (row sums to 116) while its summary line reads 27 (row sums to the printed final 106).",
+  "why": "One official document carries two incompatible readings of the same period cell. The final is verified; the quarter split is contested.",
+  "severity": "high",
+  "action_needed": "Check for an official correction or a third reading (game page box-score period table); both readings are preserved in data/app/results_feed.json (quarter_conflict_note) and data/app/finals_1115_4c69ab99.json.",
+  "status": "open",
+  "found_on": "2026-11-16 settlement round (arena/4c69ab99-nba3)",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf", "https://www.nba.com/game/atl-vs-mil-0022600243"]
+ },
+ {
+  "id": "F-4C69-02",
+  "area": "Repository hygiene",
+  "item": "Four stale open pull requests (#94, #95, #96, #98) from earlier sessions predate the 2026-11-16T00:57Z coordinated capture and carry conflicting copies of shared files (C449-F-07).",
+  "why": "Unmerged, they keep stale branches alive and would silently revert newer work if merged by mistake. Branch #98 carried 4 of the 9 verified 11/15 finals with values consistent with this round's settlement.",
+  "severity": "medium",
+  "action_needed": "Close each with a pointer note; branches stay available for reference (done in this round).",
+  "status": "closed in this round — see COORDINATION.md entry 2026-11-16 arena/4c69ab99-nba3",
+  "found_on": "2026-11-16 (arena/4c69ab99-nba3)",
+  "sources": ["https://github.com/wingbangboozle1-lang/NBA3/pulls"]
+ },
+ {
+  "id": "F-4C69-03",
+  "area": "Injury capture",
+  "item": "The 11/16 01:45 PM filing prints 'Mathurin, Bennedict' where the 11/16 01:30 PM filing prints 'Mathurin, Benedict' (New Orleans).",
+  "why": "Two consecutive official filings spell the same player's name differently; a name-keyed diff shows one row removed and one added.",
+  "severity": "medium",
+  "action_needed": "Keep both spellings as printed (done); reconcile only against a third official read (e.g. the team's game-book roster).",
+  "status": "open",
+  "found_on": "2026-11-16 injury capture (arena/4c69ab99-nba3)",
+  "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf", "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf"]
+ },
+ {
+  "id": "F-4C69-04",
+  "area": "Injury capture",
+  "item": "PDF extraction quirk: in the 11/16 01:45 PM filing the row 'Butler III, Jimmy | Injury/Illness - Right ACL Repair / Surgery' loses its status cell (GSW).",
+  "why": "The extraction shifts columns on some rows; guessing the status would violate the no-inference rule.",
+  "severity": "medium",
+  "action_needed": "Cross-read the row on a second extraction path (Q-4C69-06); the row is kept verbatim in official_injuries_2026-11-16_0145PM.json under extraction_quirks.",
+  "status": "open",
+  "found_on": "2026-11-16 injury capture (arena/4c69ab99-nba3)",
+  "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf"]
+ },
+ {
+  "id": "F-4C69-05",
+  "area": "Market data",
+  "item": "Closing lines remain uncaptured (closing_lines.json empty) — the market-anchored prior prints the model line without its market anchor.",
+  "why": "The brief's prior requires closing lines weighted by measured OOS log-loss; no licensed source is wired yet (Q-4C69-03, S-4C69-03).",
+  "severity": "low",
+  "action_needed": "Wire a licensed odds source; until then the anchor cell stays blank and flagged.",
+  "status": "open (carried as K-08)",
+  "found_on": "carried into this round",
+  "sources": ["https://www.nba.com/games"]
+ },
+ {
+  "id": "F-4C69-06",
+  "area": "Legal / publication",
+  "item": "NBA Properties terms section 9(iv) review is still unresolved (carried).",
+  "why": "Potential publication constraint on league-derived tables; the bet surface stays gated regardless.",
+  "severity": "high",
+  "action_needed": "Counsel review of the clause against this site's derived tables (Q-4C69-01).",
+  "status": "open (carried)",
+  "found_on": "carried into this round",
+  "sources": ["https://www.nba.com/termsofuse"]
+ }
+]

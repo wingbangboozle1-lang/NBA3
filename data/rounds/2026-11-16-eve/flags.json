@@ -47,11 +47,12 @@
   {
    "id": "EVE-F04",
    "severity": "high",
-   "status": "repair-pending-live-run",
-   "title": "Scheduled official refresh failed at the unit-test step in run 43925193575 (and at the commit step in 43815576157 / 43864808752)",
-   "detail": "Root cause reproduced offline: the fetch legitimately promotes the rolling official_slate_current.json (window starts 11/16), and three tests were coupled to the old fixed window (25 not greater than 30; published slate != fixed 00-57Z capture replay; settlement target off-slate). Repairs committed on this branch (tests/test_pick_ledger.py, tests/test_refresh_official.py); full 181-test suite green in a correct-order CI simulation (promote -> gates -> rebuild -> tests). The commit-step failure was already repaired by session c449d46a (PR #107). Live validation = the 23:15 UTC cron run after merge.",
+   "status": "repaired on main; live cron validation pending (23:15 UTC)",
+   "title": "Scheduled official refresh failures (commit step 43815576157/43864808752; unit-test step 43925193575) — repaired; awaiting the 23:15 UTC run",
+   "detail": "Root cause reproduced offline in this session (correct-order CI simulation: promote -> gates -> rebuild -> tests): three tests were coupled to the fixed official_slate_current.json window while the fetch legitimately promotes a rolling window (25 not greater than 30; published slate != fixed 00-57Z capture replay). On main the repair landed from several sessions: commit-step staging (c449d46a/8a07a7c), roll-safe tests (4c69ab99, taking the same diagnosis further: expected set derived from window intersect slate, newest-manifest replay), standings/results-ingest chain steps (4054e125, 259cfa6). This session's own fixture-based test edits were superseded and dropped in the merge in favour of main's roll-safe versions. Offline verification on the merged tree: all five refresh CI groups green in the rolling simulation, 293/293 full suite, refresh.yml commit step includes git add -A + rebase retry. Live validation = the next cron run.",
    "source_urls": [
-    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575"
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
    ],
    "files": [
     "tests/test_pick_ledger.py",
@@ -61,11 +62,12 @@
   {
    "id": "EVE-F05",
    "severity": "high",
-   "status": "open",
-   "title": "Canonical data/live injury archive still holds the 11/15 06:15 AM ET report; the scheduled fetch stores but does not archive the newest PDF",
-   "detail": "refresh_official.py downloads the newest report PDF into data/app/refresh/<stamp>/ with sha256 + retrieval stamp (provenance kept), but the published archive data/live/injuries (drives F1-F10 gates and the Injuries pages) is only updated by agent-transcribed captures. Flags F12 (session 07f22dad) and F-R6 (session 81800928) remain open. Fixing this needs a decision on automated PDF text extraction (see suggestions).",
+   "status": "resolved on main before this round merged; verification recorded",
+   "title": "Canonical injury archive advanced to 11/16 01:15 PM ET and the scheduled job now archives index reports (was: archive stuck at 11/15 06:15 AM)",
+   "detail": "At claim time data/live/injuries held only the 11/15 06:15 AM report (flags F12/F-R6). Since then main landed 5bf65ed (11/16 01:15 PM stored verbatim, consecutive-report diff, live pipeline regenerated: model reads the newest report) and 798d917 (the scheduled refresh archives every index report with text+sha256+stamp). Verified on the merged tree: newest on disk = Injury-Report_2026-11-16_01_15PM, model_used matches, freshness gates 12/12. Note: this round's official capture read the newer 01:30 PM ET report (data/rounds/2026-11-16-eve/), which the next scheduled archive step should pick up.",
    "source_urls": [
-    "https://official.nba.com/nba-injury-report-2026-27-season/"
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/injuries/archive_index.json"
    ],
    "files": [
     "data/live/freshness.json",
@@ -75,11 +77,11 @@
   {
    "id": "EVE-F06",
    "severity": "medium",
-   "status": "open",
-   "title": "Canonical results feed holds 11/13-11/14 only; 11/15 finals live in round trees",
-   "detail": "data/app/results_feed.json has 14 rows (9+5). The 11/15 day (9 games) is verified/settled in data/rounds/2026-11-16/results.json and re-published 9/9 in data/rounds/2026-11-16-eve/results_2026-11-15.json, but no ingest path appends new finals to the canonical feed: build_results_feed.py is pinned to 11/14 and parses agent-transcribed gamebook text. Needs a reviewer decision (automated gamebook extraction vs scheduled agent capture).",
+   "status": "resolved for 11/13-11/15; ongoing ingest path now in the scheduled job",
+   "title": "Results feed now carries all nine 11/15 finals (23 rows, 23 settled) with ingest+settle chain steps",
+   "detail": "At claim time data/app/results_feed.json held only 11/13+11/14 (14 rows) and 11/15 lived only in round trees. Main landed cd639de (nine verified 11/15 finals from official LINESCORES, settle at game day end) and 259cfa6 (results ingest + settle steps in the scheduled chain, byte-for-byte replay). This session independently verified all nine finals including the ATL@MIL three-read resolution (Q3=27) and cross-checked main's quarter values row by row against the round's verbatim period transcript - exact agreement on all regulation games and on the OT row (q5). 11/13 rows still carry no quarter scores (feed's own quarter_check flags them).",
    "source_urls": [
-    "https://www.nba.com/games?date=2026-11-15"
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json"
    ],
    "files": [
     "data/app/results_feed.json",

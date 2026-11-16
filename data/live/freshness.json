@@ -3,8 +3,8 @@
  "reference_utc": "2026-11-15T11:49:00Z",
  "checked_utc_note": "Deliberately no wall-clock stamp: this artefact is compared byte for byte in CI, and a clock reading would make every build differ.",
  "counts": {
-  "gates": 10,
-  "passed": 10,
+  "gates": 12,
+  "passed": 12,
   "failed": 0
  },
  "gates": [
@@ -24,34 +24,38 @@
    "name": "The model used the newest archived injury report",
    "passed": true,
    "value": {
-    "model_used": "Injury-Report_2026-11-15_06_15AM",
-    "newest_on_disk": "Injury-Report_2026-11-15_06_15AM"
+    "model_used": "Injury-Report_2026-11-16_01_15PM",
+    "newest_on_disk": "Injury-Report_2026-11-16_01_15PM"
    },
    "rule": "the engine must read the newest archived report, not an older one",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
    "id": "F3",
    "name": "The injury report is not older than the slate it prices",
    "passed": true,
    "value": {
-    "report_date": "2026-11-15",
+    "report_date": "2026-11-16",
     "slate_start": "2026-11-15"
    },
    "rule": "report date >= first slate date",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
    "id": "F4",
    "name": "Every settled game is verified against two official reads",
    "passed": true,
    "value": {
-    "games": 5,
+    "games": 14,
     "unverified": [],
-    "stamp": "2026-11-15T11:52Z"
+    "files": [
+     "settled_2026-11-14.json",
+     "settled_2026-11-15.json"
+    ],
+    "stamp": "2026-11-16T18:55Z"
    },
    "rule": "game page final == gamebook printed final == sum of printed quarters",
-   "source": "https://www.nba.com/game/den-vs-nop-0022600231"
+   "source": "https://www.nba.com/game/ind-vs-phi-0022600236"
   },
   {
    "id": "F5",
@@ -86,6 +90,11 @@
       "file": "Injury-Report_2026-11-15_06_15AM.md",
       "bytes": 10757,
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+     },
+     {
+      "file": "Injury-Report_2026-11-16_01_15PM.md",
+      "bytes": 10347,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
      }
     ],
     "problems": []
@@ -109,8 +118,8 @@
    "name": "The ledger chain verifies and every sealed pick is pre-registered",
    "passed": true,
    "value": {
-    "entries": 11,
-    "head": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+    "entries": 13,
+    "head": "e6a3a5383bde577f69d41d98930ec42e6e002efa5b5c861e541e221640367fa1",
     "problems": [],
     "unregistered_picks": []
    },
@@ -122,8 +131,8 @@
    "name": "The model sample is not older than the newest settled game",
    "passed": true,
    "value": {
-    "model_sample_end": "2026-11-14",
-    "newest_settled": "2026-11-14"
+    "model_sample_end": "2026-11-15",
+    "newest_settled": "2026-11-15"
    },
    "rule": "model sample end >= newest settled game date",
    "source": "https://www.nba.com/games"
@@ -140,6 +149,31 @@
    },
    "rule": "build_lag >= 0 (the capture is not older than its own newest source read); with --max-report-age-hours, |build_lag| is bounded instead. Measured against the capture stamps, never the wall clock, so the artefact reproduces byte for byte.",
    "source": "https://www.nba.com/schedule?date=2026-11-15"
+  },
+  {
+   "id": "F11",
+   "name": "The official standings capture exists, covers 30 teams and passed its checks",
+   "passed": true,
+   "value": {
+    "teams": 30,
+    "retrieved_utc": "2026-11-16T18:26Z",
+    "problems": []
+   },
+   "rule": "30 teams with an https source and a retrieval stamp; the capture script refuses to write the file when any arithmetic check fails",
+   "source": "https://www.nba.com/standings"
+  },
+  {
+   "id": "F12",
+   "name": "Every verified final in the results feed is settled and every withheld row carries a flag",
+   "passed": true,
+   "value": {
+    "rows": 23,
+    "settled": 23,
+    "unsettled_verified_finals": [],
+    "unflagged_unverified_rows": []
+   },
+   "rule": "settle only after verified finals; nothing is withheld silently",
+   "source": "https://www.nba.com/games"
   }
  ]
 }

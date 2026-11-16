@@ -1,0 +1,55 @@
+{
+ "schema": "nba3/standings-capture/v1",
+ "captured_by": "session arena/4c69ab99-nba3",
+ "source_label": "NBA 2026-27 regular season standings, official nba.com standings page (Overall section, grouped by conference). Records reflect every completed game through 2026-11-15 — the nine 2026-11-15 finals settled in data/app/results_feed.json are included; the 2026-11-16 slate had not tipped at read time.",
+ "source_url": "https://www.nba.com/standings",
+ "team_page_pattern": "https://www.nba.com/team/<team-id>/<slug> (links carried per row below)",
+ "retrieval_window_utc": "2026-11-16T18:22Z..2026-11-16T19:35Z",
+ "retrieval_note": "Read with the Arena fetch tool (2 chunks). The fetch tool does not return a per-fetch timestamp; the window is the session's fetch window, not a fabricated instant.",
+ "cross_checks": [
+  "The W-L printed here agrees with the records printed on the official games page for 2026-11-16 (https://www.nba.com/games?date=2026-11-16) for every team that page listed (e.g. BOS 11-2, PHI 11-3, ORL 5-7, MEM 9-4, WAS 4-10, HOU 11-3, MIA 7-6, BKN 3-9, GSW 8-5, NOP 4-10).",
+  "The W-L printed here agrees with the records printed on the official game books settled in data/app/results_feed.json for 2026-11-15 (e.g. ATL 8-6 and MIL 1-13 in 20261115_ATLMIL.pdf; NYK 7-6 and TOR 5-8 in 20261115_NYKTOR.pdf).",
+  "Game-count arithmetic: the sum of all wins equals the sum of all losses = 197, the number of completed games league-wide through 2026-11-15 (the 188-game official log through 11/14 plus the nine finals of 11/15 settled in the results feed)."
+ ],
+ "games_played_check": {
+  "sum_wins": 197,
+  "sum_losses": 197,
+  "games_played": 197,
+  "note": "each game contributes one win and one loss; equal sums is a necessary identity; 197 = 188 (data/origin/games.csv through 2026-11-14) + 9 (2026-11-15 finals)"
+ },
+ "columns": ["rank", "team", "team_id", "w", "l", "win_pct", "gb", "conf", "div", "home", "road", "neutral", "ot", "last10", "streak", "team_url"],
+ "east": [
+  {"rank": 1, "team": "Boston Celtics", "team_id": "1610612738", "w": 11, "l": 2, "win_pct": ".846", "gb": "--", "conf": "10-1", "div": "4-0", "home": "6-0", "road": "5-2", "neutral": "0-0", "ot": "1-0", "last10": "9-1", "streak": "W 6", "team_url": "https://www.nba.com/team/1610612738/celtics"},
+  {"rank": 2, "team": "Philadelphia 76ers", "team_id": "1610612755", "w": 11, "l": 3, "win_pct": ".786", "gb": "0.5", "conf": "11-3", "div": "3-1", "home": "6-2", "road": "5-1", "neutral": "0-0", "ot": "0-0", "last10": "8-2", "streak": "W 2", "team_url": "https://www.nba.com/team/1610612755/sixers"},
+  {"rank": 3, "team": "Detroit Pistons", "team_id": "1610612765", "w": 8, "l": 4, "win_pct": ".667", "gb": "2.5", "conf": "8-3", "div": "0-0", "home": "3-2", "road": "5-2", "neutral": "0-0", "ot": "1-0", "last10": "6-4", "streak": "L 1", "team_url": "https://www.nba.com/team/1610612765/pistons"},
+  {"rank": 4, "team": "Atlanta Hawks", "team_id": "1610612737", "w": 8, "l": 6, "win_pct": ".571", "gb": "3.5", "conf": "8-2", "div": "4-1", "home": "3-3", "road": "5-3", "neutral": "0-0", "ot": "0-1", "last10": "6-4", "streak": "W 1", "team_url": "https://www.nba.com/team/1610612737/hawks"},
+  {"rank": 5, "team": "Miami Heat", "team_id": "1610612748", "w": 7, "l": 6, "win_pct": ".538", "gb": "4", "conf": "4-2", "div": "1-1", "home": "3-3", "road": "4-3", "neutral": "0-0", "ot": "1-0", "last10": "7-3", "streak": "W 4", "team_url": "https://www.nba.com/team/1610612748/heat"},
+  {"rank": 6, "team": "New York Knicks", "team_id": "1610612752", "w": 7, "l": 6, "win_pct": ".538", "gb": "4", "conf": "7-6", "div": "2-3", "home": "4-3", "road": "3-3", "neutral": "0-0", "ot": "1-0", "last10": "7-3", "streak": "W 1", "team_url": "https://www.nba.com/team/1610612752/knicks"},
+  {"rank": 7, "team": "Cleveland Cavaliers", "team_id": "1610612739", "w": 7, "l": 7, "win_pct": ".500", "gb": "4.5", "conf": "5-5", "div": "1-0", "home": "5-2", "road": "2-5", "neutral": "0-0", "ot": "1-0", "last10": "4-6", "streak": "W 1", "team_url": "https://www.nba.com/team/1610612739/cavaliers"},
+  {"rank": 8, "team": "Orlando Magic", "team_id": "1610612753", "w": 5, "l": 7, "win_pct": ".417", "gb": "5.5", "conf": "3-4", "div": "0-2", "home": "1-4", "road": "4-3", "neutral": "0-0", "ot": "0-1", "last10": "5-5", "streak": "W 3", "team_url": "https://www.nba.com/team/1610612753/magic"},
+  {"rank": 9, "team": "Toronto Raptors", "team_id": "1610612761", "w": 5, "l": 8, "win_pct": ".385", "gb": "6", "conf": "4-4", "div": "0-3", "home": "2-4", "road": "3-4", "neutral": "0-0", "ot": "0-1", "last10": "3-7", "streak": "L 4", "team_url": "https://www.nba.com/team/1610612761/raptors"},
+  {"rank": 10, "team": "Indiana Pacers", "team_id": "1610612754", "w": 5, "l": 9, "win_pct": ".357", "gb": "6.5", "conf": "3-6", "div": "0-1", "home": "2-4", "road": "3-4", "neutral": "0-1", "ot": "0-0", "last10": "3-7", "streak": "L 1", "team_url": "https://www.nba.com/team/1610612754/pacers"},
+  {"rank": 11, "team": "Charlotte Hornets", "team_id": "1610612766", "w": 4, "l": 9, "win_pct": ".308", "gb": "7", "conf": "4-7", "div": "2-2", "home": "3-4", "road": "1-5", "neutral": "0-0", "ot": "0-0", "last10": "2-8", "streak": "L 2", "team_url": "https://www.nba.com/team/1610612766/hornets"},
+  {"rank": 12, "team": "Washington Wizards", "team_id": "1610612764", "w": 4, "l": 10, "win_pct": ".286", "gb": "7.5", "conf": "4-8", "div": "2-3", "home": "2-4", "road": "2-6", "neutral": "0-0", "ot": "0-1", "last10": "2-8", "streak": "L 7", "team_url": "https://www.nba.com/team/1610612764/wizards"},
+  {"rank": 13, "team": "Brooklyn Nets", "team_id": "1610612751", "w": 3, "l": 9, "win_pct": ".250", "gb": "7.5", "conf": "2-7", "div": "0-2", "home": "1-3", "road": "2-6", "neutral": "0-0", "ot": "0-1", "last10": "3-7", "streak": "L 1", "team_url": "https://www.nba.com/team/1610612751/nets"},
+  {"rank": 14, "team": "Chicago Bulls", "team_id": "1610612741", "w": 3, "l": 9, "win_pct": ".250", "gb": "7.5", "conf": "2-8", "div": "1-0", "home": "1-4", "road": "2-5", "neutral": "0-0", "ot": "1-0", "last10": "2-8", "streak": "W 2", "team_url": "https://www.nba.com/team/1610612741/bulls"},
+  {"rank": 15, "team": "Milwaukee Bucks", "team_id": "1610612749", "w": 1, "l": 13, "win_pct": ".071", "gb": "10.5", "conf": "1-10", "div": "1-2", "home": "1-7", "road": "0-6", "neutral": "0-0", "ot": "0-0", "last10": "0-10", "streak": "L 10", "team_url": "https://www.nba.com/team/1610612749/bucks"}
+ ],
+ "west": [
+  {"rank": 1, "team": "San Antonio Spurs", "team_id": "1610612759", "w": 12, "l": 2, "win_pct": ".857", "gb": "--", "conf": "11-2", "div": "2-1", "home": "5-2", "road": "7-0", "neutral": "0-0", "ot": "1-0", "last10": "10-0", "streak": "W 12", "team_url": "https://www.nba.com/team/1610612759/spurs"},
+  {"rank": 2, "team": "Los Angeles Lakers", "team_id": "1610612747", "w": 12, "l": 2, "win_pct": ".857", "gb": "--", "conf": "7-2", "div": "5-1", "home": "5-1", "road": "7-1", "neutral": "0-0", "ot": "0-0", "last10": "9-1", "streak": "W 8", "team_url": "https://www.nba.com/team/1610612747/lakers"},
+  {"rank": 3, "team": "Houston Rockets", "team_id": "1610612745", "w": 11, "l": 3, "win_pct": ".786", "gb": "1", "conf": "6-3", "div": "2-1", "home": "7-1", "road": "4-2", "neutral": "0-0", "ot": "0-0", "last10": "7-3", "streak": "W 4", "team_url": "https://www.nba.com/team/1610612745/rockets"},
+  {"rank": 4, "team": "Portland Trail Blazers", "team_id": "1610612757", "w": 9, "l": 3, "win_pct": ".750", "gb": "2", "conf": "9-3", "div": "4-0", "home": "3-2", "road": "6-1", "neutral": "0-0", "ot": "0-0", "last10": "7-3", "streak": "W 3", "team_url": "https://www.nba.com/team/1610612757/blazers"},
+  {"rank": 5, "team": "Minnesota Timberwolves", "team_id": "1610612750", "w": 9, "l": 4, "win_pct": ".692", "gb": "2.5", "conf": "5-2", "div": "1-0", "home": "5-2", "road": "4-2", "neutral": "0-0", "ot": "0-1", "last10": "6-4", "streak": "L 1", "team_url": "https://www.nba.com/team/1610612750/timberwolves"},
+  {"rank": 6, "team": "Memphis Grizzlies", "team_id": "1610612763", "w": 9, "l": 4, "win_pct": ".692", "gb": "2.5", "conf": "7-3", "div": "1-1", "home": "3-4", "road": "6-0", "neutral": "0-0", "ot": "0-1", "last10": "6-4", "streak": "W 2", "team_url": "https://www.nba.com/team/1610612763/grizzlies"},
+  {"rank": 7, "team": "Oklahoma City Thunder", "team_id": "1610612760", "w": 9, "l": 5, "win_pct": ".643", "gb": "3", "conf": "6-5", "div": "1-2", "home": "5-0", "road": "4-5", "neutral": "0-0", "ot": "0-0", "last10": "5-5", "streak": "W 1", "team_url": "https://www.nba.com/team/1610612760/thunder"},
+  {"rank": 8, "team": "Denver Nuggets", "team_id": "1610612743", "w": 7, "l": 4, "win_pct": ".636", "gb": "3.5", "conf": "5-4", "div": "0-2", "home": "2-2", "road": "4-2", "neutral": "1-0", "ot": "1-0", "last10": "7-3", "streak": "W 2", "team_url": "https://www.nba.com/team/1610612743/nuggets"},
+  {"rank": 9, "team": "Golden State Warriors", "team_id": "1610612744", "w": 8, "l": 5, "win_pct": ".615", "gb": "3.5", "conf": "6-5", "div": "3-2", "home": "6-1", "road": "2-4", "neutral": "0-0", "ot": "1-0", "last10": "8-2", "streak": "L 2", "team_url": "https://www.nba.com/team/1610612744/warriors"},
+  {"rank": 10, "team": "Dallas Mavericks", "team_id": "1610612742", "w": 7, "l": 7, "win_pct": ".500", "gb": "5", "conf": "3-5", "div": "1-3", "home": "5-2", "road": "2-5", "neutral": "0-0", "ot": "0-0", "last10": "5-5", "streak": "L 3", "team_url": "https://www.nba.com/team/1610612742/mavericks"},
+  {"rank": 11, "team": "Phoenix Suns", "team_id": "1610612756", "w": 5, "l": 7, "win_pct": ".417", "gb": "6", "conf": "3-7", "div": "2-2", "home": "5-4", "road": "0-3", "neutral": "0-0", "ot": "0-0", "last10": "4-6", "streak": "L 1", "team_url": "https://www.nba.com/team/1610612756/suns"},
+  {"rank": 12, "team": "LA Clippers", "team_id": "1610612746", "w": 4, "l": 8, "win_pct": ".333", "gb": "7", "conf": "3-6", "div": "1-4", "home": "4-3", "road": "0-5", "neutral": "0-0", "ot": "0-1", "last10": "3-7", "streak": "W 2", "team_url": "https://www.nba.com/team/1610612746/clippers"},
+  {"rank": 13, "team": "New Orleans Pelicans", "team_id": "1610612740", "w": 4, "l": 10, "win_pct": ".286", "gb": "8", "conf": "3-8", "div": "1-1", "home": "3-6", "road": "1-4", "neutral": "0-0", "ot": "2-1", "last10": "4-6", "streak": "L 6", "team_url": "https://www.nba.com/team/1610612740/pelicans"},
+  {"rank": 14, "team": "Sacramento Kings", "team_id": "1610612758", "w": 1, "l": 12, "win_pct": ".077", "gb": "10.5", "conf": "1-10", "div": "0-2", "home": "0-8", "road": "1-4", "neutral": "0-0", "ot": "0-0", "last10": "1-9", "streak": "L 6", "team_url": "https://www.nba.com/team/1610612758/kings"},
+  {"rank": 15, "team": "Utah Jazz", "team_id": "1610612762", "w": 1, "l": 13, "win_pct": ".071", "gb": "11", "conf": "1-11", "div": "0-2", "home": "1-7", "road": "0-6", "neutral": "0-0", "ot": "0-2", "last10": "0-10", "streak": "L 12", "team_url": "https://www.nba.com/team/1610612762/jazz"}
+ ]
+}

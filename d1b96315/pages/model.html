@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method · NBA 2026-11-16 game-day roll (arena/d1b96315-nba3)</title>
+<style>
+:root{--ink:#14202b;--mut:#5b6b78;--line:#dfe5ea;--bg:#f7f9fb;--ok:#1d7a46;--warn:#9a6b00;--bad:#b3261e;--acc:#1f5fa8;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:12px 22px;position:sticky;top:0;z-index:3}
+header .t{font-weight:700;font-size:16px}header .sub{color:var(--mut);font-size:12.5px}
+nav{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{font-size:12.5px;padding:3px 8px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--acc);background:#fff}
+nav a.on{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+main{padding:20px 22px 60px;max-width:1500px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16.5px;margin:26px 0 8px}h3{font-size:14px;margin:18px 0 6px}
+p{margin:6px 0}.mut{color:var(--mut)}.small{font-size:12.5px}.lead{font-size:15.5px;max-width:1100px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin:12px 0 4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card .k{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+.card .v{font-size:21px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.card .n{font-size:11.5px;color:var(--mut);margin-top:3px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:12.8px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+th{background:#eef3f7;font-weight:600;position:sticky;top:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+td.num,th.num{text-align:right}tr:hover td{background:#f2f7fb}
+.tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.ok{background:#e3f3ea;color:var(--ok)}.bad{background:#fbe7e5;color:var(--bad)}.warn{background:#fdf3dc;color:var(--warn)}
+.info{background:#e6effa;color:var(--acc)}.grey{background:#eef1f4;color:var(--mut)}
+.none{color:#9aa8b3;font-style:italic}
+.note{background:#fff;border-left:3px solid var(--acc);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.warnbox{background:#fff;border-left:3px solid var(--warn);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.badbox{background:#fff;border-left:3px solid var(--bad);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+code{background:#eef3f7;padding:1px 4px;border-radius:4px;font-size:12px}
+a.src{font-size:11.5px;color:var(--acc);text-decoration:none;border-bottom:1px dotted var(--acc)}
+ul{margin:6px 0 6px 20px;padding:0}li{margin:3px 0}
+.q{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:9px 0}
+.q h4{margin:0 0 5px;font-size:13.5px}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:14px 22px;color:var(--mut);font-size:12px}
+</style></head>
+<body>
+<header>
+  <div class="t">NBA · 2026-11-16 game-day roll <span class="tag info">session arena/d1b96315-nba3</span></div>
+  <div class="sub">Official sources only · every row linked · unconfirmed values left blank and flagged ·
+    projection surface and bet surface kept apart</div>
+  <nav><a href="index.html" class="">Roll</a><a href="injuries.html" class="">Injuries</a><a href="results.html" class="">Results</a><a href="standings.html" class="">Standings</a><a href="lines.html" class="">Originated lines</a><a href="pricing.html" class="">Pricing &amp; rho</a><a href="model.html" class="on">Method</a><a href="gates.html" class="">Gates &amp; leaderboard</a><a href="ledger.html" class="">Ledger</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="sources.html" class="">Sources</a><a href="flagged.html" class="">Flagged for review</a></nav>
+</header>
+<main>
+
+
+<h1>Method: every formula, every constant, every refusal</h1>
+<p class="lead">Two estimators, built so they cannot share a mistake. Nothing in this build is a
+blended rating; the blend exists on the lines page as a small number under the disagreement, and no
+gate consumes it.</p>
+<div class="cards">
+<div class="card"><div class="k">verified finals in the log</div><div class="v">23</div><div class="n">2026-11-13 → 2026-11-15, every row settled from the scoreboard + game books</div></div>
+<div class="card"><div class="k">estimator A, LOO rmse</div><div class="v">11.7104</div><div class="n">ridge 0.001; no-skill baseline 17.2463</div></div>
+<div class="card"><div class="k">out-of-sample skill</div><div class="v">32.1%</div><div class="n">1 − rmse/baseline, leave-one-game-out</div></div>
+<div class="card"><div class="k">clubs with an availability adjustment</div><div class="v">9/30</div><div class="n">21 clubs have no box score at all</div></div>
+<div class="card"><div class="k">clubs outside the luck band</div><div class="v">0</div><div class="n">±2 sd rule; nothing refused on this window</div></div>
+</div>
+
+<h2 id="hca">Home-court advantage: pinned, and pinned to what</h2>
+<div class="scroll"><table class=""><thead><tr><th class="">quantity</th><th class="">value</th><th class="">how it was obtained</th><th class="">source</th></tr></thead><tbody><tr><td class="">measured home-win rate, league-wide</td><td class=""><b>0.5204</b></td><td class="">sum of the HOME column over all 30 clubs (102 home wins in 196 home games), neutral-site games excluded</td><td class=""><a class="src" href="https://www.nba.com/standings" rel="noopener">www.nba.com</a></td></tr>
+<tr><td class="">Wilson 95% interval on that rate</td><td class="">0.4507 to 0.5893</td><td class="">196 home games</td><td class=""><span class="small mut">derived arithmetic</span><br><a class="src" href="https://www.nba.com/standings" rel="noopener">www.nba.com</a></td></tr>
+<tr><td class="">measured home-win rate, this season's finals log</td><td class="">0.5652 (n=23)</td><td class="">share of verified finals the home team won</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/results_2026-11-15.json" rel="noopener">d1b96315/data/results_2026-11-15.json</a></td></tr>
+<tr><td class="">sd of home margin</td><td class="">17.619 pts</td><td class="">sample sd over the verified finals</td><td class=""><span class="small mut">derived arithmetic</span><br><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/results_2026-11-15.json" rel="noopener">d1b96315/data/results_2026-11-15.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr>
+<tr><td class=""><b>pinned HCA used by both estimators</b></td><td class=""><b>0.9 pts</b></td><td class="">Φ⁻¹(measured home-win rate) × sd(home margin)</td><td class=""><span class="small mut">derived from both</span><br><a class="src" href="https://www.nba.com/standings" rel="noopener">www.nba.com</a> <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/results_2026-11-15.json" rel="noopener">d1b96315/data/results_2026-11-15.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr>
+<tr><td class="">previously pinned in the round capture</td><td class="">4.12 pts</td><td class="">same formula on a 22-final sample</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/model.json" rel="noopener">data/rounds/2026-11-16/model.json</a></td></tr>
+<tr><td class="">constant recorded in the app pick ledger</td><td class="">1.62</td><td class="">written into every sealed entry there, never recomputed per game day</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" rel="noopener">data/app/ledger/ledger.jsonl</a></td></tr>
+<tr><td class="">spread between the three</td><td class=""><b>3.22 pts</b></td><td class="">every home line moves by this much</td><td class=""><span class="small mut">derived from both</span><br><a class="src" href="https://www.nba.com/standings" rel="noopener">www.nba.com</a> <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/results_2026-11-15.json" rel="noopener">d1b96315/data/results_2026-11-15.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr></tbody></table></div>
+<div class="warnbox">fitting HCA inside a short log lets the ratings absorb the season&#x27;s luck; the brief pins it to the measured rate, so it is measured once and used twice the finals log is 23 games and its Wilson interval is wide; the standings measurement covers the whole league to date and is the pin. The gap is published, not averaged away. <b>The three published values are a
+live inconsistency</b> and it is on <a href="flagged.html" rel="noopener">the flagged register</a> as D-04: re-pinning
+silently would leave already-sealed hashes pointing at a number the model no longer uses, so the
+decision is <a href="suggestions.html#p1" rel="noopener">asked for, not taken</a>.</div>
+
+<h2>Estimator A — results only</h2>
+<p>Massey ratings on verified final margins, pinned HCA, ridge chosen by leave-one-game-out. final margins only: no efficiency data, no availability data Ratings solve the normal equations of the settled margins
+with the pinned home advantage subtracted from each home margin, ridge-penalised toward zero; the
+penalty is chosen by leave-one-game-out prediction of the withheld margin.</p>
+<div class="scroll"><table class=""><thead><tr><th class="">ridge</th><th class="num">LOO rmse</th><th class="num">max shift on tonight&#x27;s lines</th><th class="num">mean shift</th><th class="">computed from</th></tr></thead><tbody><tr><td class=""><span class="num">0.001</span></td><td class=""><span class="num">11.7104</span></td><td class=""><span class="num">0.0</span></td><td class=""><span class="num">0.0</span></td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr>
+<tr><td class=""><span class="num">0.01</span></td><td class=""><span class="num">11.7428</span></td><td class=""><span class="num">0.29</span></td><td class=""><span class="num">0.13</span></td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr>
+<tr><td class=""><span class="num">0.1</span></td><td class=""><span class="num">12.0454</span></td><td class=""><span class="num">2.69</span></td><td class=""><span class="num">1.18</span></td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr>
+<tr><td class=""><span class="num">1.0</span></td><td class=""><span class="num">13.7677</span></td><td class=""><span class="num">11.48</span></td><td class=""><span class="num">5.43</span></td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr>
+<tr><td class=""><span class="num">10.0</span></td><td class=""><span class="num">16.3353</span></td><td class=""><span class="num">27.64</span></td><td class=""><span class="num">9.75</span></td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td></tr></tbody></table></div>
+<div class="warnbox">23 verified finals cannot determine 30 club ratings on its own; the ridge is the only thing holding the system up, so the page prints how much tonight&#x27;s numbers move when the ridge moves. A line that shifts by more than the disagreement cap under this test is not a number anyone should bet, and it is not published as one.</div>
+<p class="small">0022600243 (ATL @ MIL) is included: the final 113-106 is confirmed by the scoreboard, the game-book recap line and the box-score team totals. Only its quarter split is disputed, and estimator A uses margins, not quarters.</p>
+
+<h2>Estimator B — possessions × points per possession, with availability</h2>
+<p class="small"><code>poss = mean(possessions per game of the two clubs); pts_t = poss x ((off_rtg_t - availability_delta_t) + def_rtg_opp) / 2 / 100; margin = pts_home - pts_away + pinned hca; total = pts_home + pts_away</code></p>
+<p>The total is built from possessions and efficiency, never from adding two scoring averages: a
+scoring average already contains the pace a team actually played and the opponents it faced, so two of
+them added together describe no single game. Both totals are printed on every row of the
+<a href="lines.html" rel="noopener">lines page</a> with their gap, and a scoring average already contains the pace the team actually played and the opponent it faced; adding two of them makes a total that no single game implies. Both are printed for every row so the difference is auditable.</p>
+
+<h3>The availability model, stated exactly</h3>
+<ol>
+<li>Take the club's most recent <b>captured official box score</b> (a game-book PDF) and each player's
+minutes in it. The top-8 minutes shares are what the club actually ran, not a depth chart.</li>
+<li>Remove the players the newest official report prints as <b>Out</b> or <b>Doubtful</b>.
+Questionable and Day-To-Day are <b>not</b> removed: they are game-time decisions, and treating them as
+absent would let the model pretend to know something the league has not said.</li>
+<li>Redistribute the removed minutes pro rata to the minutes each remaining player actually played —
+that is the replacement share, printed per player in
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/lines.json">lines.json</a>.</li>
+<li>Charge the production cost: each replacement's points-per-minute from that same box, applied to
+the minutes added; the loss against the block that was removed becomes a points-per-game delta, divided
+by the club's official possessions per game to become an efficiency delta, and estimator B uses that
+delta in its own rating term.</li>
+</ol>
+<div class="warnbox"><b>Where it stops.</b> 21 of the 52 rows in the new box transcripts
+have a stat cell the PDF extraction dropped, so their points-per-minute is unread and the affected
+club's adjustment is published as minutes-only or not at all. 6 of 16 clubs playing tonight have no box
+score anywhere in the repository, so "no rotation data" is printed instead of a zero
+(<a href="flagged.html#D-08">D-08</a>).</div>
+
+<h2 id="luck">Luck as a per-team z-score, with a refusal</h2>
+<p class="small"><code>expected wins = GP x Phi(net_rtg / sd(home margin from the verified finals)); z = (wins - expected) / sqrt(GP x p x (1 - p)). sd = 17.62 points</code><br>|z| &gt; 2.0 keeps a club out of any bet-eligible row on this site</p>
+<div class="scroll"><table class=""><thead><tr><th class="">club</th><th class="">W-L (official)</th><th class="num">net rtg</th><th class="num">z</th><th class="">verdict</th><th class="">sources</th></tr></thead><tbody><tr><td class="">PHI</td><td class=""><span class="num">11-3</span></td><td class=""><span class="num">2.0</span></td><td class=""><span class="num">1.81</span></td><td class=""><span class="tag ok">inside</span></td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr>
+<tr><td class="">UTA</td><td class=""><span class="num">1-13</span></td><td class=""><span class="num">-11.1</span></td><td class=""><span class="num">-1.64</span></td><td class=""><span class="tag ok">inside</span></td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr>
+<tr><td class="">LAL</td><td class=""><span class="num">12-2</span></td><td class=""><span class="num">8.0</span></td><td class=""><span class="num">1.45</span></td><td class=""><span class="tag ok">inside</span></td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr>
+<tr><td class="">MIL</td><td class=""><span class="num">1-13</span></td><td class=""><span class="num">-13.6</span></td><td class=""><span class="num">-1.34</span></td><td class=""><span class="tag ok">inside</span></td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr>
+<tr><td class="">SAC</td><td class=""><span class="num">1-12</span></td><td class=""><span class="num">-13.0</span></td><td class=""><span class="num">-1.31</span></td><td class=""><span class="tag ok">inside</span></td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr>
+<tr><td class="">TOR</td><td class=""><span class="num">5-8</span></td><td class=""><span class="num">1.4</span></td><td class=""><span class="num">-1.06</span></td><td class=""><span class="tag ok">inside</span></td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr></tbody></table></div>
+<p class="small mut">Ranked by |z|, six clubs shown; all 30 are in
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json">model.json</a>. No club on this window is outside
+±2 sd, so no row was refused by this gate today — the rule is printed with its measurement so a reader
+can see it was evaluated rather than skipped.</p>
+
+<h2>What is deliberately null</h2>
+<div class="scroll"><table class=""><thead><tr><th class="">field</th><th class="">value</th><th class="">why it is null instead of filled</th><th class="">evidence</th></tr></thead><tbody><tr><td class="">market prior weight</td><td class=""><span class="none">not available</span></td><td class="">no licensed closing-line feed exists in this repository, so the blend weight cannot be measured out of sample. The field is null; the requirement stays open on the Questions page (Q01).</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://www.nba.com/games?date=2026-11-16" rel="noopener">www.nba.com</a></td></tr>
+<tr><td class="">closing line</td><td class=""><span class="none">not available</span></td><td class="">no licensed feed in the repository; the 11/16 games page renders no odds in the fetched HTML</td><td class=""><a class="src" href="https://www.nba.com/games?date=2026-11-16" rel="noopener">www.nba.com</a></td></tr>
+<tr><td class="">player props</td><td class=""><span class="none">not available</span></td><td class="">per-player logs exist for 12 clubs; a prop line for the other 18 would be a guess about a rotation we have not seen</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/player_logs_2026-11-15.json" rel="noopener">d1b96315/data/player_logs_2026-11-15.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/player_game_logs.json" rel="noopener">data/app/player_game_logs.json</a></td></tr>
+<tr><td class="">ATL@MIL quarter vector</td><td class=""><span class="none">disputed</span></td><td class="">the official period table and the official recap line disagree inside one document; both are printed, neither is chosen silently</td><td class=""><a class="src" href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" rel="noopener">statsdmz.nba.com</a> · <a class="src" href="https://www.nba.com/games?date=2026-11-15" rel="noopener">www.nba.com</a></td></tr></tbody></table></div>
+<p class="small mut">Inputs and their retrieval stamps, as recorded by the build: injury revision
+11/16/26 01:15 PM ET retrieved
+2026-11-16T18:26Z; standings
+2026-11-16T18:31Z; team stats 2026-11-16T18:33Z
+(rows 30, rows failing their own printed identities
+none, max residual
+0.1 on NetRtg and
+0.33 on pace-vs-possession
+— the page's own rounding, printed rather than reconciled).</p>
+
+</main>
+<footer>Built by <code>d1b96315/build_pages.py</code> from <code>d1b96315/data/*.json</code>, which are
+built by <code>capture.py</code>, <code>boxlog.py</code>, <code>model.py</code>, <code>flags.py</code>
+and <code>ledger.py</code>. No value on any page is typed by hand. Canonical site:
+<a href="https://wingbangboozle1-lang.github.io/NBA3/index.html" rel="noopener">NBA3 dashboard</a> · this tree: <a href="https://wingbangboozle1-lang.github.io/NBA3/d1b96315/pages/index.html" rel="noopener">d1b96315/</a></footer>
+</body></html>

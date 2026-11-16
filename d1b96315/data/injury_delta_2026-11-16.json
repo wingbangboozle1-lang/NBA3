@@ -1,0 +1,180 @@
+{
+ "older_stamp": "11/16/26 11:30 AM",
+ "newer_stamp": "11/16/26 01:15 PM",
+ "rule": "a change is a difference in the Current Status or Reason cell of the same (club, player) key between two consecutive revisions; a row that appears or disappears is reported separately and never treated as a status change; rows whose spelling differs between the revisions are paired by club+surname and reported under spelling_moves",
+ "status_changes": [
+  {
+   "club": "Cleveland Cavaliers",
+   "player": "Tyson, Jaylon",
+   "matchup": "CHI@CLE",
+   "from_status": "Questionable",
+   "to_status": "Doubtful",
+   "from_reason": "Injury/Illness - Right Ankle Injury Management",
+   "to_reason": "Injury/Illness - Right Ankle Injury Management",
+   "change_kind": "status",
+   "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+   "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "club": "Memphis Grizzlies",
+   "player": "Jackson, GG",
+   "matchup": "MEM@WAS",
+   "from_status": "Out",
+   "to_status": "Out",
+   "from_reason": "Injury/Illness - Left Foot Injury",
+   "to_reason": "Injury/Illness - Left 5th Metatarsal",
+   "change_kind": "reason",
+   "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+   "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "club": "Miami Heat",
+   "player": "Larsson, Pelle",
+   "matchup": "HOU@MIA",
+   "from_status": "Questionable",
+   "to_status": "Doubtful",
+   "from_reason": "Injury/Illness - Illness",
+   "to_reason": "Injury/Illness - Illness",
+   "change_kind": "status",
+   "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+   "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  }
+ ],
+ "rows_added": [
+  {
+   "club": "Washington Wizards",
+   "player": "Beekman, Reece",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Washington Wizards",
+   "player": "Champagne, Justin",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Washington Wizards",
+   "player": "Johnson, Tre",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Washington Wizards",
+   "player": "Okpara, Felix",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Washington Wizards",
+   "player": "Vukcevic, Tristan",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Washington Wizards",
+   "player": "Watkins, Jamir",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Boston Celtics",
+   "player": "Queta, Neemias",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Houston Rockets",
+   "player": "Adams, Steven",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Houston Rockets",
+   "player": "Capela, Clint",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Houston Rockets",
+   "player": "Copeland, Quadir",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Houston Rockets",
+   "player": "Phillips, Julian",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Houston Rockets",
+   "player": "Smart, Marcus",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Houston Rockets",
+   "player": "Thompson, Amen",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Miami Heat",
+   "player": "Jovic, Nikola",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Philadelphia 76ers",
+   "player": "Barlow, Dominick",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Philadelphia 76ers",
+   "player": "Bona, Adem",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Philadelphia 76ers",
+   "player": "Embiid, Joel",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Philadelphia 76ers",
+   "player": "Hukporti, Ariel",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  },
+  {
+   "club": "Philadelphia 76ers",
+   "player": "James, LeBron",
+   "status": "Out",
+   "change": "row not present in the older revision"
+  }
+ ],
+ "rows_removed": [],
+ "spelling_moves": [
+  {
+   "club": "New Orleans Pelicans",
+   "older_spelling": "Mathurin, Bennedict",
+   "newer_spelling": "Mathurin, Benedict",
+   "older_status": "Out",
+   "newer_status": "Out",
+   "note": "the two official revisions spell the same club+player differently; not counted as an added row, and the status change (if any) is reported here so nothing is hidden by the key mismatch",
+   "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+   "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  }
+ ],
+ "counts": {
+  "status_changes": 3,
+  "rows_added": 19,
+  "rows_removed": 0,
+  "spelling_moves": 1,
+  "older_rows": 65,
+  "newer_rows": 80
+ }
+}

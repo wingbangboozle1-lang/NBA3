@@ -1,0 +1,794 @@
+{
+ "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+ "retrieved_utc": "2026-11-16T18:33Z",
+ "page": "Teams Advanced (totals mode)",
+ "count": 30,
+ "rows_failing_checks": [],
+ "check_note": "NetRtg is OffRtg - DefRtg on each team's own rounded printed values, so a residual of 0.1 is the page's rounding, not a data problem; it is printed instead of hidden. PACE is not exactly POSS per 48 minutes (the page's own definition adds its constants), so the residual is printed too.",
+ "max_abs_residuals": {
+  "net_rtg": 0.1,
+  "pace_minus_poss_per_48": 0.33
+ },
+ "teams": [
+  {
+   "team": "Los Angeles Lakers",
+   "team_abbr": "LAL",
+   "gp": 14,
+   "w": 12,
+   "l": 2,
+   "min_total": 672.0,
+   "off_rtg": 122.1,
+   "def_rtg": 114.0,
+   "net_rtg": 8.0,
+   "pace": 100.64,
+   "poss": 1408,
+   "poss_per_game": 100.57,
+   "ppp_off": 1.221,
+   "ppp_def": 1.14,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.1,
+    "pace_minus_poss_per_48_min": 0.069
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "San Antonio Spurs",
+   "team_abbr": "SAS",
+   "gp": 14,
+   "w": 12,
+   "l": 2,
+   "min_total": 677.0,
+   "off_rtg": 119.2,
+   "def_rtg": 106.6,
+   "net_rtg": 12.6,
+   "pace": 98.77,
+   "poss": 1395,
+   "poss_per_game": 99.64,
+   "ppp_off": 1.192,
+   "ppp_def": 1.066,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": -0.137
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Boston Celtics",
+   "team_abbr": "BOS",
+   "gp": 13,
+   "w": 11,
+   "l": 2,
+   "min_total": 629.0,
+   "off_rtg": 118.9,
+   "def_rtg": 105.1,
+   "net_rtg": 13.9,
+   "pace": 96.53,
+   "poss": 1263,
+   "poss_per_game": 97.15,
+   "ppp_off": 1.189,
+   "ppp_def": 1.051,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.1,
+    "pace_minus_poss_per_48_min": 0.148
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Houston Rockets",
+   "team_abbr": "HOU",
+   "gp": 14,
+   "w": 11,
+   "l": 3,
+   "min_total": 672.0,
+   "off_rtg": 121.2,
+   "def_rtg": 110.7,
+   "net_rtg": 10.5,
+   "pace": 97.68,
+   "poss": 1367,
+   "poss_per_game": 97.64,
+   "ppp_off": 1.212,
+   "ppp_def": 1.107,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.037
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Philadelphia 76ers",
+   "team_abbr": "PHI",
+   "gp": 14,
+   "w": 11,
+   "l": 3,
+   "min_total": 672.0,
+   "off_rtg": 112.3,
+   "def_rtg": 110.3,
+   "net_rtg": 2.0,
+   "pace": 100.21,
+   "poss": 1404,
+   "poss_per_game": 100.29,
+   "ppp_off": 1.123,
+   "ppp_def": 1.103,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": -0.076
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Memphis Grizzlies",
+   "team_abbr": "MEM",
+   "gp": 13,
+   "w": 9,
+   "l": 4,
+   "min_total": 629.0,
+   "off_rtg": 119.0,
+   "def_rtg": 110.4,
+   "net_rtg": 8.5,
+   "pace": 100.46,
+   "poss": 1318,
+   "poss_per_game": 101.38,
+   "ppp_off": 1.19,
+   "ppp_def": 1.104,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.1,
+    "pace_minus_poss_per_48_min": -0.119
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Minnesota Timberwolves",
+   "team_abbr": "MIN",
+   "gp": 13,
+   "w": 9,
+   "l": 4,
+   "min_total": 629.0,
+   "off_rtg": 116.0,
+   "def_rtg": 104.5,
+   "net_rtg": 11.5,
+   "pace": 101.27,
+   "poss": 1326,
+   "poss_per_game": 102.0,
+   "ppp_off": 1.16,
+   "ppp_def": 1.045,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.081
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Oklahoma City Thunder",
+   "team_abbr": "OKC",
+   "gp": 14,
+   "w": 9,
+   "l": 5,
+   "min_total": 672.0,
+   "off_rtg": 113.4,
+   "def_rtg": 108.4,
+   "net_rtg": 5.1,
+   "pace": 98.82,
+   "poss": 1384,
+   "poss_per_game": 98.86,
+   "ppp_off": 1.134,
+   "ppp_def": 1.084,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.1,
+    "pace_minus_poss_per_48_min": -0.037
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Portland Trail Blazers",
+   "team_abbr": "POR",
+   "gp": 12,
+   "w": 9,
+   "l": 3,
+   "min_total": 576.0,
+   "off_rtg": 118.8,
+   "def_rtg": 111.1,
+   "net_rtg": 7.7,
+   "pace": 100.67,
+   "poss": 1208,
+   "poss_per_game": 100.67,
+   "ppp_off": 1.188,
+   "ppp_def": 1.111,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.003
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Atlanta Hawks",
+   "team_abbr": "ATL",
+   "gp": 14,
+   "w": 8,
+   "l": 6,
+   "min_total": 677.0,
+   "off_rtg": 112.8,
+   "def_rtg": 111.1,
+   "net_rtg": 1.7,
+   "pace": 103.69,
+   "poss": 1462,
+   "poss_per_game": 104.43,
+   "ppp_off": 1.128,
+   "ppp_def": 1.111,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.033
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Detroit Pistons",
+   "team_abbr": "DET",
+   "gp": 12,
+   "w": 8,
+   "l": 4,
+   "min_total": 586.0,
+   "off_rtg": 114.1,
+   "def_rtg": 109.2,
+   "net_rtg": 4.9,
+   "pace": 99.48,
+   "poss": 1217,
+   "poss_per_game": 101.42,
+   "ppp_off": 1.141,
+   "ppp_def": 1.092,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": -0.206
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Golden State Warriors",
+   "team_abbr": "GSW",
+   "gp": 13,
+   "w": 8,
+   "l": 5,
+   "min_total": 629.0,
+   "off_rtg": 116.1,
+   "def_rtg": 112.0,
+   "net_rtg": 4.1,
+   "pace": 99.66,
+   "poss": 1307,
+   "poss_per_game": 100.54,
+   "ppp_off": 1.161,
+   "ppp_def": 1.12,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": -0.079
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Cleveland Cavaliers",
+   "team_abbr": "CLE",
+   "gp": 14,
+   "w": 7,
+   "l": 7,
+   "min_total": 677.0,
+   "off_rtg": 116.9,
+   "def_rtg": 115.4,
+   "net_rtg": 1.6,
+   "pace": 99.72,
+   "poss": 1407,
+   "poss_per_game": 100.5,
+   "ppp_off": 1.169,
+   "ppp_def": 1.154,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.1,
+    "pace_minus_poss_per_48_min": -0.038
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Dallas Mavericks",
+   "team_abbr": "DAL",
+   "gp": 14,
+   "w": 7,
+   "l": 7,
+   "min_total": 672.0,
+   "off_rtg": 111.8,
+   "def_rtg": 114.5,
+   "net_rtg": -2.7,
+   "pace": 100.18,
+   "poss": 1404,
+   "poss_per_game": 100.29,
+   "ppp_off": 1.118,
+   "ppp_def": 1.145,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": -0.106
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Denver Nuggets",
+   "team_abbr": "DEN",
+   "gp": 11,
+   "w": 7,
+   "l": 4,
+   "min_total": 533.0,
+   "off_rtg": 116.0,
+   "def_rtg": 114.7,
+   "net_rtg": 1.3,
+   "pace": 97.67,
+   "poss": 1087,
+   "poss_per_game": 98.82,
+   "ppp_off": 1.16,
+   "ppp_def": 1.147,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": -0.221
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Miami Heat",
+   "team_abbr": "MIA",
+   "gp": 13,
+   "w": 7,
+   "l": 6,
+   "min_total": 629.0,
+   "off_rtg": 114.7,
+   "def_rtg": 116.2,
+   "net_rtg": -1.5,
+   "pace": 102.49,
+   "poss": 1345,
+   "poss_per_game": 103.46,
+   "ppp_off": 1.147,
+   "ppp_def": 1.162,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": -0.149
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "New York Knicks",
+   "team_abbr": "NYK",
+   "gp": 13,
+   "w": 7,
+   "l": 6,
+   "min_total": 629.0,
+   "off_rtg": 113.7,
+   "def_rtg": 108.2,
+   "net_rtg": 5.5,
+   "pace": 95.66,
+   "poss": 1257,
+   "poss_per_game": 96.69,
+   "ppp_off": 1.137,
+   "ppp_def": 1.082,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": -0.264
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Indiana Pacers",
+   "team_abbr": "IND",
+   "gp": 14,
+   "w": 5,
+   "l": 9,
+   "min_total": 672.0,
+   "off_rtg": 110.9,
+   "def_rtg": 112.9,
+   "net_rtg": -2.0,
+   "pace": 101.25,
+   "poss": 1415,
+   "poss_per_game": 101.07,
+   "ppp_off": 1.109,
+   "ppp_def": 1.129,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.179
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Orlando Magic",
+   "team_abbr": "ORL",
+   "gp": 12,
+   "w": 5,
+   "l": 7,
+   "min_total": 581.0,
+   "off_rtg": 109.7,
+   "def_rtg": 113.4,
+   "net_rtg": -3.7,
+   "pace": 98.23,
+   "poss": 1185,
+   "poss_per_game": 98.75,
+   "ppp_off": 1.097,
+   "ppp_def": 1.134,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": 0.33
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Phoenix Suns",
+   "team_abbr": "PHX",
+   "gp": 12,
+   "w": 5,
+   "l": 7,
+   "min_total": 576.0,
+   "off_rtg": 114.3,
+   "def_rtg": 118.5,
+   "net_rtg": -4.2,
+   "pace": 98.79,
+   "poss": 1183,
+   "poss_per_game": 98.58,
+   "ppp_off": 1.143,
+   "ppp_def": 1.185,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": 0.207
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Toronto Raptors",
+   "team_abbr": "TOR",
+   "gp": 13,
+   "w": 5,
+   "l": 8,
+   "min_total": 629.0,
+   "off_rtg": 113.6,
+   "def_rtg": 112.2,
+   "net_rtg": 1.4,
+   "pace": 99.55,
+   "poss": 1302,
+   "poss_per_game": 100.15,
+   "ppp_off": 1.136,
+   "ppp_def": 1.122,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": 0.192
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Charlotte Hornets",
+   "team_abbr": "CHA",
+   "gp": 13,
+   "w": 4,
+   "l": 9,
+   "min_total": 624.0,
+   "off_rtg": 102.5,
+   "def_rtg": 113.6,
+   "net_rtg": -11.1,
+   "pace": 96.65,
+   "poss": 1256,
+   "poss_per_game": 96.62,
+   "ppp_off": 1.025,
+   "ppp_def": 1.136,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.035
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "LA Clippers",
+   "team_abbr": "LAC",
+   "gp": 12,
+   "w": 4,
+   "l": 8,
+   "min_total": 581.0,
+   "off_rtg": 111.4,
+   "def_rtg": 115.3,
+   "net_rtg": -3.9,
+   "pace": 100.05,
+   "poss": 1210,
+   "poss_per_game": 100.83,
+   "ppp_off": 1.114,
+   "ppp_def": 1.153,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.084
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "New Orleans Pelicans",
+   "team_abbr": "NOP",
+   "gp": 14,
+   "w": 4,
+   "l": 10,
+   "min_total": 687.0,
+   "off_rtg": 111.3,
+   "def_rtg": 120.0,
+   "net_rtg": -8.6,
+   "pace": 101.83,
+   "poss": 1457,
+   "poss_per_game": 104.07,
+   "ppp_off": 1.113,
+   "ppp_def": 1.2,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.1,
+    "pace_minus_poss_per_48_min": 0.031
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Washington Wizards",
+   "team_abbr": "WAS",
+   "gp": 14,
+   "w": 4,
+   "l": 10,
+   "min_total": 682.0,
+   "off_rtg": 109.4,
+   "def_rtg": 116.5,
+   "net_rtg": -7.1,
+   "pace": 99.73,
+   "poss": 1416,
+   "poss_per_game": 101.14,
+   "ppp_off": 1.094,
+   "ppp_def": 1.165,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.07
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Brooklyn Nets",
+   "team_abbr": "BKN",
+   "gp": 12,
+   "w": 3,
+   "l": 9,
+   "min_total": 581.0,
+   "off_rtg": 109.8,
+   "def_rtg": 116.0,
+   "net_rtg": -6.2,
+   "pace": 99.47,
+   "poss": 1204,
+   "poss_per_game": 100.33,
+   "ppp_off": 1.098,
+   "ppp_def": 1.16,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": 0.0
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Chicago Bulls",
+   "team_abbr": "CHI",
+   "gp": 12,
+   "w": 3,
+   "l": 9,
+   "min_total": 581.0,
+   "off_rtg": 109.4,
+   "def_rtg": 120.3,
+   "net_rtg": -10.9,
+   "pace": 103.81,
+   "poss": 1257,
+   "poss_per_game": 104.75,
+   "ppp_off": 1.094,
+   "ppp_def": 1.203,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": -0.039
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Milwaukee Bucks",
+   "team_abbr": "MIL",
+   "gp": 14,
+   "w": 1,
+   "l": 13,
+   "min_total": 672.0,
+   "off_rtg": 105.4,
+   "def_rtg": 118.9,
+   "net_rtg": -13.6,
+   "pace": 100.68,
+   "poss": 1410,
+   "poss_per_game": 100.71,
+   "ppp_off": 1.054,
+   "ppp_def": 1.189,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.1,
+    "pace_minus_poss_per_48_min": -0.034
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Sacramento Kings",
+   "team_abbr": "SAC",
+   "gp": 13,
+   "w": 1,
+   "l": 12,
+   "min_total": 624.0,
+   "off_rtg": 106.8,
+   "def_rtg": 119.8,
+   "net_rtg": -13.0,
+   "pace": 101.08,
+   "poss": 1312,
+   "poss_per_game": 100.92,
+   "ppp_off": 1.068,
+   "ppp_def": 1.198,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": 0.0,
+    "pace_minus_poss_per_48_min": 0.157
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "team": "Utah Jazz",
+   "team_abbr": "UTA",
+   "gp": 14,
+   "w": 1,
+   "l": 13,
+   "min_total": 682.0,
+   "off_rtg": 105.1,
+   "def_rtg": 116.2,
+   "net_rtg": -11.1,
+   "pace": 100.22,
+   "poss": 1426,
+   "poss_per_game": 101.86,
+   "ppp_off": 1.051,
+   "ppp_def": 1.162,
+   "check": {
+    "w_plus_l_equals_gp": true,
+    "net_rtg_identity_within_printed_rounding": true,
+    "pace_vs_poss_per_48_within_half_point": true
+   },
+   "residuals": {
+    "net_rtg_off_minus_def_minus_printed": -0.0,
+    "pace_minus_poss_per_48_min": -0.144
+   },
+   "source_url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+  }
+ ]
+}

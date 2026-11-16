@@ -1,0 +1,17 @@
+{
+ "id": "ST-23-TOTAL-POSSESSION",
+ "name": "Total from possessions, not from scoring averages",
+ "signal": "project the total as pace x points-per-possession, pace from the official advanced page and ppp as the mean of each club's own rate and its opponent's allowed rate; an average of two points-per-game figures is not used at any point",
+ "thresholds": {
+  "min_total_edge_points": 0.0
+ },
+ "universe": "games of the round window present on all three official team-stat pages",
+ "settlement_rule": "TOTAL: over if the game's official final total exceeds the originated total, under if below, push and void if equal",
+ "stake_rule": "1 unit",
+ "luck_policy": "refused for any club outside the +/-2 luck band",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "f42f3656dac1670fac0ec75a29c02cd512b72726d2a06531b1ac9304e4a372aa"
+}

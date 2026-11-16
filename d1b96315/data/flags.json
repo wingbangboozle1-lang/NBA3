@@ -1,0 +1,254 @@
+{
+ "schema": "nba3.d1b96315.flags/v1",
+ "stamp": "2026-11-16T18:55Z",
+ "session": "arena/d1b96315-nba3",
+ "rule": "nothing on this list blocks the merge; every row carries at least one official source link and a value that could not be confirmed is left blank rather than inferred",
+ "counts": {
+  "rows": 15,
+  "by_severity": {
+   "high": 6,
+   "medium": 7,
+   "low": 2
+  },
+  "blocking_merge": 0
+ },
+ "stale_hours_measured": 4.08,
+ "flags": [
+  {
+   "id": "D-01",
+   "severity": "high",
+   "surface": "data plane / freshness",
+   "title": "at this session's base the published snapshot was 4 h 05 m behind the newest official revision, and the scheduled job is the reason",
+   "measured": "at base 2026-11-16 09:15 AM ET (retrieved 2026-11-16T14:35Z) was the newest published report; the day's actual chain is 09:15 AM (57 player rows / 15 clubs unfiled) \u2192 11:30 AM (no change, a re-stamp) \u2192 01:00 PM (75 / 12 \u2014 the filing hop) \u2192 01:15 PM (76 / 11). While this session worked, main gained a round from arena/fbd2484b-nba3 that published the same 01:15 PM revision, and its parser's counts agree row-for-row with this session's independent read (76 player rows, 11 clubs unfiled) \u2014 the round is now fresh, the scheduled job still is not: data/app/refresh/ is stuck at 2026-11-16T00-57Z",
+   "why_it_matters": "the afternoon's availability news \u2014 Marcus Smart Out on a league suspension, Jaylon Tyson, Isaiah Stewart and Pelle Larsson downgraded, 19 rows added when Washington, Houston, Philadelphia and finally Boston filed \u2014 reached the round tree by another session's work but never reached the canonical capture directory or the app surfaces, because the cron fired at 11:15 and 17:15 UTC and its last run died before its commit step",
+   "action": "CR-D1B-03 on the board: a game-day pass ~30 minutes before the earliest tip, taking the newest item in the index rather than a constructed filename; D-02 is why nothing advanced on its own",
+   "blocks_merge": false,
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+    "data/rounds/2026-11-16/injuries.json",
+    "d1b96315/data/injury_delta_2026-11-16_1130_to_1315.json"
+   ]
+  },
+  {
+   "id": "D-02",
+   "severity": "high",
+   "surface": "CI / scheduled job",
+   "title": "the scheduled refresh run dies in 19 s in the unit-test step, before any commit",
+   "measured": "run 43925193575 job refresh step 'Unit tests (capture, feed, ledger, estimators, gates)' is the failing step; the newest capture stamp on main is 2026-11-16T00-57Z; the same five modules run here as 'Ran 40 tests OK'",
+   "why_it_matters": "because the job aborts before its commit step, the canonical data/app/refresh/ tree and the app/ surfaces never advance, which is the proximate cause of D-01; the round tree under data/rounds/ is fresher, so 'the banner is stale' applies to data/app + app/, not to round/",
+   "action": "owner: re-run the job with `--debug` and read the log from the Actions UI (the log body is not reachable from this sandbox: `gh run view --log-failed` returned a results-receiver EOF and the raw job-log URL returned an empty body); suspect an environment difference, not the data, since the modules pass offline here",
+   "blocks_merge": false,
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575",
+    "data/app/refresh/2026-11-16T00-57Z/manifest.json",
+    "scripts/refresh_official.py"
+   ]
+  },
+  {
+   "id": "D-03",
+   "severity": "high",
+   "surface": "settlement integrity",
+   "title": "one official game book prints two different third-quarter scores for Milwaukee",
+   "measured": "the period table prints MIL 37 + 16 + 37 + 26 = 116 against a printed final of 106; the recap line in the same PDF prints 37 16 27 26 106, which sums. The scoreboard, the recap line and the box team totals all print 113-106 Atlanta, so the final is verified and only the quarter vector is disputed. Gate I2_quarter_scores stays red for 0022600243.",
+   "why_it_matters": "this is the row the 11/15 model excluded; a quarter vector that does not sum is a real defect in an official document, and forcing the gate green would hide it. Both readings are published side by side instead",
+   "action": "keep the row footnoted; ask the stats owner whether the period table or the recap line is authoritative before any quarter-based market (team Q3 totals) is priced",
+   "blocks_merge": false,
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+    "https://www.nba.com/games?date=2026-11-15",
+    "d1b96315/data/results_2026-11-15.json",
+    "d1b96315/data/raw/gamebook_20261115_ATLMIL.md"
+   ]
+  },
+  {
+   "id": "D-04",
+   "severity": "high",
+   "surface": "model / home-court advantage",
+   "title": "three different home-court values are pinned in this repository at once",
+   "measured": "this build pins 0.9 from the league-wide measured home-win rate 0.5204 (102-94 in 196 home games, Wilson 95% 0.4507 to 0.5893); the round capture pins 4.12 from 22 finals (rate 0.5909); every entry in data/app/ledger/ledger.jsonl records the constant 1.62. Spread: 3.22 points",
+   "why_it_matters": "the pin is applied to every line, so this build's home margins are -3.22 points different from the same model run at the previously pinned value; the brief requires the pin to be the measured home-win rate, and the league-wide measurement (n = 196) beats a 23-final sample (n = 22), but two published surfaces now disagree and neither is wrong on its own basis",
+   "action": "owner decision: adopt the standings-based pin everywhere (this session's recommendation) or keep the short-sample pin for continuity with the sealed ledger entries; do not silently re-pin, because the sealed hashes contain the old value",
+   "blocks_merge": false,
+   "sources": [
+    "https://www.nba.com/standings",
+    "data/rounds/2026-11-16/model.json",
+    "data/app/ledger/ledger.jsonl",
+    "d1b96315/data/model.json"
+   ]
+  },
+  {
+   "id": "D-05",
+   "severity": "medium",
+   "surface": "parsing / injury report",
+   "title": "continuation rows after a PDF page break carry no club column",
+   "measured": "7 of 87 rows in the 01:15 PM revision have no team cell; a naive parse drops them, which fabricates 0 'removed rows' in the morning diff and hides the fact that the 09:15 -> 11:30 revision changed nothing (0 status changes, 0 added, 0 removed)",
+   "why_it_matters": "this is the same defect class that made scripts/injury_archive.py publish DAL@BOS as REPORTED_CLEAR: the renderer drops whole columns from the left at a page break, so any parser keyed on a cell index is wrong on part of every report. This session parses by content and carries the club from the block above, marking each such row `team_carried`",
+   "action": "audit every injury parser on the board for index-based column reads; the fix belongs in the shared capture script, which is PR #95's file, so it is requested as a change in COORDINATION.md rather than edited here",
+   "blocks_merge": false,
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+    "d1b96315/data/injury_delta_2026-11-16_0915_to_1130.json",
+    "scripts/injury_archive.py"
+   ]
+  },
+  {
+   "id": "D-06",
+   "severity": "medium",
+   "surface": "provenance / roster assignment",
+   "title": "the season-leader strip on the games page assigns players to different clubs than the report and the game book do",
+   "measured": "the 11:30 AM and 01:15 PM reports both list 'James, LeBron \u2014 Out \u2014 Low Back/Sciatica Management' under the Philadelphia 76ers, and the official 11/15 game book for IND@PHI logs LeBron James in Philadelphia's box (32:47, 15 pts, 11 ast) \u2014 the two game-level documents agree. The season-leader strip on the same 11/16 games page lists him under Los Angeles (and Giannis under Miami, AD under Washington). The 11/19 page's strip is consistent with the reports (Garland LAC, Jerome MEM \u2014 and MEM's report does carry a Jerome row), so the disagreement is specific to the strip, not to the league's roster data",
+   "why_it_matters": "per-player models are keyed on club, so a row attributed to the wrong club moves the availability adjustment by a full rotation; this session follows the two game-level documents (injury report, game book) and uses the leader strip for nothing",
+   "action": "treat the strip as a display artefact of a different feed and ask its owner; recorded here so no later session reads a club assignment off it \u2014 no row on this site does",
+   "blocks_merge": false,
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "https://www.nba.com/games?date=2026-11-16",
+    "https://www.nba.com/games?date=2026-11-19"
+   ]
+  },
+  {
+   "id": "D-07",
+   "severity": "medium",
+   "surface": "coverage / unfiled reports",
+   "title": "eleven clubs had still not filed at 01:15 PM, including a club playing tonight",
+   "measured": "unfiled in the newest revision: CHA, DET, LAC, LAL, MIN, NYK, PHX, POR, SAS, TOR, UTA \u2014 Phoenix plays at Denver at 9:00 PM ET tonight and all five 11/17 games are unfiled; the revision covers game dates 11/16 and 11/17 only, so all 12 rows on 11/18 have no filing either. Coverage of the window: {\"filed&filed\": 7, \"filed&not_submitted\": 1, \"not_submitted&not_submitted\": 5, \"outside_report_window&outside_report_window\": 16} \u2014 21 of 29 rows price at least one club with no injury input at all",
+   "why_it_matters": "an unfiled report is not a clear report: the correct reading is 'unknown', and a line built on 'unknown' must be labelled, because a late filing can move a rotation by 30 minutes in one step",
+   "action": "the last revision before each tip should be re-fetched for the two clubs involved; the board's suggestion of a 30-minutes-before-tip pass is cheap and this is the argument for it",
+   "blocks_merge": false,
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "d1b96315/data/lines.json"
+   ]
+  },
+  {
+   "id": "D-08",
+   "severity": "medium",
+   "surface": "model / rotation data coverage",
+   "title": "captured box scores exist for 9 of 30 clubs, so only 9 clubs get an availability adjustment",
+   "measured": "'no rotation data' for ATL, CHA, GSW, HOU, LAC, LAL, MIL, NYK, OKC, ORL, PHX, POR, SAC, SAS, TOR, UTA, WAS; 23 of 29 window rows have at least one club with no box score; this session added BOS/DAL/IND/PHI from the 11/15 game books (52 rows), taking the pool from 10 clubs (11/14 only) to 12",
+   "why_it_matters": "without a box score there are no minutes shares to redistribute, so the availability column on the picks page reads 'not modelled' for those rows \u2014 which is a measurement of the gap, not a zero",
+   "action": "one game book per club per game day is the whole requirement (six PDFs a day for a full slate); until that capture exists, no player-prop or minutes-based number may be published for the uncovered clubs",
+   "blocks_merge": false,
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "d1b96315/data/player_logs_2026-11-15.json",
+    "data/app/player_game_logs.json",
+    "data/app/minutes_shares.json"
+   ]
+  },
+  {
+   "id": "D-09",
+   "severity": "low",
+   "surface": "data quality / unread cells",
+   "title": "the PDF extraction drops one column in six of the box-score rows this session read",
+   "measured": "21 rows in the two new game-book transcripts have a stat cell missing after MIN; the minutes cell is keyed by content and kept, every stat in those rows is published null. Independently, 13 injury-report cells are unread (6 of them in the shifted Golden State block, where Jimmy Butler's row prints no status cell at all and four rows print a status with no reason)",
+   "why_it_matters": "an empty cell is evidence about the document, not about the player; leaving it blank and counting it is the only honest handling",
+   "action": "re-extract the two PDFs with a table-detection mode before any per-player model is built on these rows",
+   "blocks_merge": false,
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+    "d1b96315/data/player_logs_2026-11-15.json"
+   ]
+  },
+  {
+   "id": "D-10",
+   "severity": "high",
+   "surface": "betting gate / market data",
+   "title": "no licensed price feed, so no strategy can be funded and every line is a projection",
+   "measured": "gates: 5 strategies, 0 funded, blocking gates G1_sample_depth, G6_disagreement_cap, G8_price_feed; the model's market anchor is null (prior weight, closing line and log loss all unpublishable); the 11/16 games page renders no odds in the fetched HTML",
+   "why_it_matters": "the projection surface can be published today; the bet surface stays empty by construction until a real closing line exists, which is the separation the brief asks for",
+   "action": "owner: decide the price source (licensed feed vs manual entry of published closing lines). Until then, 'parlay priced with measured rho' is a number we publish about our own model, and the page says so on every row",
+   "blocks_merge": false,
+   "sources": [
+    "d1b96315/data/gates.json",
+    "https://www.nba.com/games?date=2026-11-16",
+    "d1b96315/data/model.json"
+   ]
+  },
+  {
+   "id": "D-11",
+   "severity": "low",
+   "surface": "integrity of this session's own work",
+   "title": "a manual test run wrote two stray stamp directories into another session's path",
+   "measured": "data/app/refresh/T1 and T2 appeared under the canonical refresh directory after this session ran the five test modules by hand; they were removed in the same session and no published artefact was touched. The test itself writes to a temp directory (tests/test_refresh_official.py passes --stamp inside a tempdir), so the residue came from how the modules were invoked, not from the test's design",
+   "why_it_matters": "the board rule is that shared paths change only inside your own scope; a stray directory in another session's capture tree is exactly the kind of collision that has to be self-reported and cleaned",
+   "action": "nothing to fix in the code; recorded so no later session mistakes T1/T2 for captures",
+   "blocks_merge": false,
+   "sources": [
+    "data/app/refresh/",
+    "tests/test_refresh_official.py"
+   ]
+  },
+  {
+   "id": "D-12",
+   "severity": "medium",
+   "surface": "ledger / tamper evidence",
+   "title": "the second ledger chain is verifiable, but its recipe was never written down",
+   "measured": "independent re-verification of all three chains: data/app/ledger/ledger.jsonl 43 entries, 43/43 recompute with sha256(canon({prev, body})) and 0/43 with the body alone; ledger/ledger.jsonl 13 entries intact under its documented recipe; this session's chain 29 entries, head a3851ca8b233e6e1..., 0 settled",
+   "why_it_matters": "board item K-17 called this 'undocumented hash recipe' and left it open; the hash is over the {prev, body} pair produced by chain_hash() in scripts/pick_ledger.py, so the chain is intact and the 'problem' was missing documentation, not a linkage break",
+   "action": "nothing re-hashed, nothing in another session's tree modified; the verifier here (d1b96315/ledger.py verify) is the recipe, restated in code and in this row",
+   "blocks_merge": false,
+   "sources": [
+    "data/app/ledger/ledger.jsonl",
+    "ledger/ledger.jsonl",
+    "scripts/pick_ledger.py",
+    "d1b96315/data/ledger_check.json",
+    "d1b96315/ledger/ledger.jsonl"
+   ]
+  },
+  {
+   "id": "D-13",
+   "severity": "medium",
+   "surface": "ledger / sealed history",
+   "title": "two sealed lines disagree with the model that sealed them, because a parser fix landed between the seal and now",
+   "measured": "2 AMEND entries appended to 29 seals (0022600247-d1b96315-amend, 0022600258-d1b96315-amend): the page-break carry that recovered 7 dropped injury rows also restored Isaiah Stewart to Memphis's Out list, which moves estimator B's margin on the two Memphis games by up to 1.59 points. The sealed payloads were left byte for byte as they were",
+   "why_it_matters": "this is what an honest fix looks like in a tamper-evident ledger: the old hash stays and the divergence is published. Silently re-hashing would have made the chain agree with today's model and stopped being evidence about what was actually published before tip",
+   "action": "read the ledger page's amend panel; no action needed for tonight's games, whose sealed numbers and current numbers already agree",
+   "blocks_merge": false,
+   "sources": [
+    "d1b96315/ledger/ledger.jsonl",
+    "d1b96315/data/ledger_check.json",
+    "d1b96315/data/lines.json"
+   ]
+  },
+  {
+   "id": "D-14",
+   "severity": "high",
+   "surface": "moving base / re-derivation",
+   "title": "main's results feed grew to cover the same 11/15 finals this session read, and the first rebuild on that base double-counted them",
+   "measured": "the canonical feed now carries 9 of the nine 11/15 finals (none at this session's base), so the log briefly held 32 rows for 23 games; with the duplicates removed it is back to 23 verified finals and 9 rows are reported as removed rather than silently merged. The two captures agree score for score on all nine games, which is what makes the de-duplication safe. The intermediate build's leave-one-game-out rmse read 6.8913 against the correct 11.7104 \u2014 a training/test leak, not skill, and it was caught by an assertion in this tree's own test file",
+   "why_it_matters": "a log that contains a game twice flatters every estimator in it; the fix is a provenance preference (keep the row that carries the game book and the quarter vector) and an explicit exclusion list, so a reader can see what was dropped and why",
+   "action": "none needed for this roll \u2014 the published numbers are the de-duplicated ones. It is a warning for any other session that unions the feed with its own read of the same day",
+   "blocks_merge": false,
+   "sources": [
+    "data/app/results_feed.json",
+    "d1b96315/data/results_2026-11-15.json",
+    "d1b96315/data/model.json",
+    "d1b96315/tests/test_roll.py"
+   ]
+  },
+  {
+   "id": "D-15",
+   "severity": "medium",
+   "surface": "this session's own ledger, disclosed",
+   "title": "28 amendment entries produced by the buggy intermediate build were removed from this session's chain before they were ever published",
+   "measured": "the chain now holds 29 pre-tip seals and the 2 amendments that are on the live site, head a3851ca8b233e6e1 \u2014 unchanged from the published artifact. The 28 extra entries were generated minutes earlier by a run whose model was reading a duplicated log (D-14); they were never committed, never merged and never served",
+   "why_it_matters": "truncating one's own chain is exactly the kind of action a tamper-evident ledger is supposed to make loud, so it is recorded here, in the commit message and in COORDINATION.md rather than left for a reader to notice. No sealed entry and no published hash was altered",
+   "action": "verify it yourself: the head hash on this tree's ledger page must equal a3851ca8b233e6e1, the value the live site printed before the rebuild",
+   "blocks_merge": false,
+   "sources": [
+    "d1b96315/ledger/ledger.jsonl",
+    "d1b96315/data/ledger_check.json",
+    "COORDINATION.md"
+   ]
+  }
+ ]
+}

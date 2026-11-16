@@ -19,74 +19,55 @@ EARLY = datetime(2026, 11, 14, 12, 0, tzinfo=timezone.utc)
 
 
 class PickLedgerTest(unittest.TestCase):
-    """Chain-integrity tests over the committed estimators window.
-
-    publish() gates every row on membership of the official promoted slate
-    (data/app/official_slate_current.json). That file ROLLS: each scheduled
-    refresh promotes the current ET window (today..today+3), so after the
-    window rolls past 2026-11-15 the 9 pinned 11/15 rows are no longer on it
-    and publish() correctly refuses them (reproduced in CI run 43925193575:
-    25 of 34 rows on-slate -> "25 not greater than 30"). This class tests the
-    hash chain, not slate promotion, so it supplies its own slate fixture
-    covering every row of the estimators window. The promotion gates themselves
-    are tested by PublishGateTests with their own fixtures.
-    """
-
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
-        self.saved = (pick_ledger.LEDGER_DIR, pick_ledger.LEDGER)
         pick_ledger.LEDGER_DIR = self.tmp
         pick_ledger.LEDGER = os.path.join(self.tmp, "ledger.jsonl")
-        est = json.load(open(pick_ledger.EST, encoding="utf-8"))
-        self.slate = os.path.join(self.tmp, "slate.json")
-        with open(self.slate, "w", encoding="utf-8") as fh:
-            json.dump({"games": [{"date": r["date"], "game_id": r["game_id"]}
-                                 for r in est["window"]]}, fh)
 
     def tearDown(self):
-        pick_ledger.LEDGER_DIR, pick_ledger.LEDGER = self.saved
         shutil.rmtree(self.tmp)
 
-    def publish_early(self):
-        return pick_ledger.publish(now_utc=EARLY, slate_path=self.slate)
-
     def test_publish_then_verify_chain_intact(self):
-        self.assertEqual(self.publish_early(), 0)
+        self.assertEqual(pick_ledger.publish(now_utc=EARLY), 0)
         self.assertEqual(pick_ledger.verify(), 0)
         entries = pick_ledger.read_entries()
+        # Roll-safe (session arena/4c69ab99-nba3): the expected set is derived from the
+        # CURRENT priced window and the CURRENT promoted slate — a window-count pin broke
+        # whenever the scheduled refresh rolled the window.
         est = json.load(open(pick_ledger.EST, encoding="utf-8"))
-        # With a fixture slate covering every window row and an EARLY clock, every
-        # row must be published: the count is pinned to the window, not to a fixed
-        # number, because the window rolls with the official slate.
-        self.assertGreater(len(est["window"]), 0)
-        self.assertEqual(len(entries), len(est["window"]))
+        slate = json.load(open(pick_ledger.SLATE, encoding="utf-8"))
+        on_slate = {(g["date"], g["game_id"]) for g in slate["games"]}
+        expect = {f"{r['game_id']}-side-proj" for r in est["window"]
+                  if (r["date"], r["game_id"]) in on_slate}
+        self.assertEqual({e["body"]["pick_id"] for e in entries}, expect)
+        self.assertGreater(len(expect), 0, "the priced window publishes nothing — empty pin")
         for e in entries:
             self.assertEqual(e["body"]["state"], "PUBLISHED_PRE_TIP")
             self.assertTrue(e["body"]["payload_sha256"])
             self.assertTrue(e["body"]["published_utc"])
 
     def test_publish_is_idempotent(self):
-        self.publish_early()
+        pick_ledger.publish(now_utc=EARLY)
         n1 = len(pick_ledger.read_entries())
-        self.publish_early()
+        pick_ledger.publish(now_utc=EARLY)
         self.assertEqual(len(pick_ledger.read_entries()), n1)
 
     def test_tampered_payload_breaks_verify(self):
-        self.publish_early()
+        pick_ledger.publish(now_utc=EARLY)
         entries = pick_ledger.read_entries()
         entries[3]["body"]["payload"]["blend_margin"] = 99.0   # silent historical edit
         pick_ledger.write_entries(entries)
         self.assertEqual(pick_ledger.verify(), 1)
 
     def test_broken_chain_detected(self):
-        self.publish_early()
+        pick_ledger.publish(now_utc=EARLY)
         entries = pick_ledger.read_entries()
         entries.pop(2)                                          # removed history
         pick_ledger.write_entries(entries)
         self.assertEqual(pick_ledger.verify(), 1)
 
     def test_settlement_uses_official_final_only(self):
-        self.publish_early()
+        pick_ledger.publish(now_utc=EARLY)
         est = json.load(open(pick_ledger.EST, encoding="utf-8"))
         target = est["window"][0]
         feed = {"games": [{
@@ -185,12 +166,21 @@ class PublishGateTests(unittest.TestCase):
         self.assertEqual(self._ids(), [])
 
     def test_committed_window_matches_committed_chain_without_new_entries(self):
-        # Against the real committed files: the regenerated window is the verified slate, so
-        # a publish run adds nothing (the chain already holds those 34 game ids).
+        # Against the real committed files: a publish run at the chain's own newest
+        # timestamp adds nothing — every row that passes the date/tip gates at that clock
+        # is already in the chain. Roll-safe: the earlier fixed clock (2026-11-16 15:00 UTC)
+        # failed once the scheduled refresh rolled the window past it (run 43925193575).
         shutil.copy(os.path.join(ROOT, "data", "app", "ledger", "ledger.jsonl"),
                     pick_ledger.LEDGER)                       # a copy: never write the real file
-        before = len(pick_ledger.read_entries())
-        pick_ledger.publish(now_utc=datetime(2026, 11, 16, 15, 0, tzinfo=timezone.utc))
+        entries = pick_ledger.read_entries()
+        before = len(entries)
+        stamps = [e["body"].get("published_utc") or e["body"].get("settled_utc")
+                  for e in entries]
+        stamps = [s for s in stamps if s]
+        if not stamps:
+            self.skipTest("empty chain")
+        now = datetime.strptime(max(stamps), "%Y-%m-%dT%H:%MZ").replace(tzinfo=timezone.utc)
+        pick_ledger.publish(now_utc=now)
         self.assertEqual(len(pick_ledger.read_entries()), before)
 
 

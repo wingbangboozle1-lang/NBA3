@@ -39,6 +39,7 @@ RESULTS_JSON = os.path.join(APP, "results_feed.json")
 LOGS_JSON = os.path.join(APP, "player_game_logs.json")
 SHARES_JSON = os.path.join(APP, "minutes_shares.json")
 RESULTS_1113 = os.path.join(APP, "official_results_2026-11-13.json")
+RESULTS_1115 = os.path.join(APP, "official_results_2026-11-15.json")
 
 TEAM_NAME_TO_ABBR = {
     "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
@@ -521,42 +522,65 @@ def main():
             "settled": False,
             "settlement_stamp": None,
         })
-    # settlement state + the 2026-11-15 evening rows (arena/c94a5531-nba3, C3):
-    # the feed document is assembled by scripts/extend_results_feed_2026_11_15c.py
-    # so this replay byte-matches the committed feed. Settlement stamps are
-    # preserved from the existing file or the pick ledger — never recomputed.
-    prev_feed = None
+    # merge in the 2026-11-15 finals captured from the official scoreboard page and each
+    # game's official summary-page LINESCORES (data/app/official_results_2026-11-15.json:
+    # per-row cross-checks; the ATL@MIL game-book quarter conflict is recorded on its row
+    # and flagged). The merge goes through results_feed.ingest_rows so the scheduled
+    # runner's ingest and this offline replay produce identical row shapes.
+    import results_feed as _rf
+    cap_1115 = json.load(open(RESULTS_1115, encoding="utf-8"))
+    _work = {"games": feed_rows}
+    _rf.ingest_rows(_work, cap_1115["games"], cap_1115["retrieved_stamp"])
+    feed_rows = _work["games"]
+
+    feed_rows.sort(key=lambda r: (r["date"], r["away"]))
+    # preserve settlement state already stamped by results_feed.py settle (idempotent re-capture)
     if os.path.exists(RESULTS_JSON):
         prev_feed = json.load(open(RESULTS_JSON, encoding="utf-8"))
-    import extend_results_feed_2026_11_15c as extend_1115c  # noqa: E402
-    base_sources = ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+        prev_by_key = {(g["date"], g["away"], g["home"]): g for g in prev_feed.get("games", [])}
+        for r in feed_rows:
+            old = prev_by_key.get((r["date"], r["away"], r["home"]))
+            if old and old.get("settled"):
+                r["settled"] = True
+                r["settlement_stamp"] = old.get("settlement_stamp")
+
+    feed = {
+        "source_label": ("Official per-game result feed. 2026-11-13 rows: official scoreboard "
+                         "capture (data/app/official_results_2026-11-13.json). 2026-11-14 rows: "
+                         "official game books (statsdmz.nba.com PDFs). 2026-11-15 rows: every "
+                         "final and every quarter/OT score read 2026-11-16 from the official "
+                         "scoreboard page and each game's official summary page LINESCORES "
+                         "(data/app/official_results_2026-11-15.json carries per-row cross-checks; "
+                         "the ATL@MIL game-book period-table conflict is recorded on that row and "
+                         "flagged). One row per game: date, teams, final score, quarter scores."),
+        "retrieved_stamp": max(RETRIEVED_STAMP, cap_1115["retrieved_stamp"]),
+        "settlement_rule": ("A row is settled only after the final score is verified from official "
+                            "reads (at minimum the official scoreboard; 2026-11-15 rows carry a "
+                            "second independent read from the game summary page). When quarter "
+                            "scores are captured they must sum to the printed final for both sides "
+                            "or the row is withheld and flagged; quarter values that conflict "
+                            "between two official documents are published from the game-page "
+                            "LINESCORES with the conflict recorded on the row and flagged for "
+                            "review, never repaired by hand. Rows without captured quarter scores "
+                            "are settled on the verified final alone, with that noted in the "
+                            "settlement stamp."),
+        "count": len(feed_rows),
+        "settled_count": sum(1 for r in feed_rows if r["settled"]),
+        "games": feed_rows,
+        "sources": ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-                    prior_results.get("source_url")]
-    feed = extend_1115c.build_feed_doc(feed_rows, prev_feed=prev_feed,
-                                       base_sources=base_sources)
+                    prior_results.get("source_url"),
+                    cap_1115["source_url"]] +
+                   [g["gamebook"] for g in cap_1115["games"]],
+    }
+    _rf.verify(feed)   # final row semantics (verified + quarter_check), deterministic
     with open(RESULTS_JSON, "w", encoding="utf-8") as fh:
         json.dump(feed, fh, indent=1)
         fh.write("\n")
 
-    # carry-through (arena/c94a5531-nba3): rows the replay does not regenerate
-    # (e.g. promoted later by the scheduled refresh) are preserved verbatim so the
-    # CI byte-compare stays stable as live rows accumulate.
-    prev_logs = {}
-    if os.path.exists(LOGS_JSON):
-        prev_logs = json.load(open(LOGS_JSON, encoding="utf-8"))
-    have_log = {(r["date"], r["player"], r["team"]) for r in log_rows}
-    carried = [r for r in prev_logs.get("rows", [])
-               if (r["date"], r["player"], r["team"]) not in have_log]
-    carried.sort(key=lambda r: (r["date"], r["team"], r["player"]))
-    log_rows.extend(carried)   # base order untouched; carry-through appended sorted
-    prev_shares = {}
-    if os.path.exists(SHARES_JSON):
-        prev_shares = json.load(open(SHARES_JSON, encoding="utf-8"))
-    for k, v in prev_shares.get("teams", {}).items():
-        shares.setdefault(k, v)
     logs = {
         "source_label": ("Per-player game logs captured from the official game books of the "
                          "2026-11-14 slate: minutes, points, rebounds, assists and the opponent, "

@@ -6,14 +6,18 @@ nba.com, so this job is exercised by CI tests against committed fixtures; the li
 
   1. FETCH  the official injury index + newest report PDF, the nba.com schedule/results
             pages for today..today+3 and the past two game days, every finished game's
-            official game book (statsdmz PDF), and the three official team-stat pages.
-            Every artifact is stored under data/app/refresh/<stamp>/ with URL, retrieval
+            official game book (statsdmz PDF), the three official team-stat pages and the
+            official standings page. Every artifact is stored under data/app/refresh/<stamp>/ with URL, retrieval
             stamp and sha256 (manifest.json). Every URL is attempted with retries; a URL
             that still fails is recorded in manifest["errors"] and never aborts the run.
+  1b.PROMOTE the standings page through scripts/standings_feed.py (strict: only a full
+            30-team parse with all printed columns overwrites data/live/standings.json;
+            a partial parse is recorded in the manifest and keeps the verified capture).
   2. GATES  scripts/freshness_gates.py MUST pass (freshness + provenance).
-  3. REBUILD ONLY AFTER THE GATES PASS: parse new game books into the results feed,
-            settle the previous game day, publish/verify the pick ledger, re-cut estimator
-            inputs, then assemble_canonical.py + build_app.py and the test suite.
+  3. REBUILD ONLY AFTER THE GATES PASS: ingest the game-card finals from the fetched
+            games pages into the results feed (arithmetic-checked), settle every finished
+            game day and the sealed pick ledger, publish/verify the pick ledger,
+            re-cut estimator inputs, then assemble_canonical.py + build_app.py.
   4. COMMIT  the refreshed captures and rebuilt outputs on success; on any failure the
             run exits non-zero WITHOUT rebuilding (and the site keeps the last good build).
 
@@ -43,6 +47,7 @@ UA = {"User-Agent": "Mozilla/5.0 (NBA3 official-data refresh; research pipeline)
 INJ_INDEX = "https://official.nba.com/nba-injury-report-2026-27-season/"
 INJ_CDN = "https://ak-static.cms.nba.com/referee/injury/"
 GAMES = "https://www.nba.com/games?date="
+STANDINGS_URL = "https://www.nba.com/standings"
 GAMEBOOK = "https://statsdmz.nba.com/pdfs/{d}/{d}_{a}{h}.pdf"
 TEAM_PAGES = [
     "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
@@ -75,6 +80,11 @@ def newest_report(index_html):
         return None
     best = max(found, key=lambda t: report_time(*t))
     return best
+
+
+def all_report_stamps(index_html):
+    """Every report link on the official index, ordered oldest to newest by real time."""
+    return sorted(set(REPORT_RE.findall(index_html)), key=lambda t: report_time(*t))
 
 
 def et_today(now_utc):
@@ -250,6 +260,66 @@ def main():
              label="newest injury report PDF") is None:
         return finish(2)
 
+    # 1b. standings page (required: the brief's refresh set; promotion is best-effort below)
+    f.get(STANDINGS_URL, os.path.join(out_dir, "standings.html"), required=True,
+          label="standings page")
+
+    # 1b. archive EVERY report the official index lists that is not archived yet (the brief:
+    #     "store every injury PDF with its timestamp"). Each report is stored as its verbatim
+    #     extracted text together with the PDF's URL, its sha256 at retrieval and the retrieval
+    #     stamp (data/app/injury_reports_archive/index.json). The PDF bytes stay on the official
+    #     CDN: the sha256 pins them, the URL serves them, and the repository does not accumulate
+    #     one binary per report per day. Consecutive reports are diffed from these texts.
+    import hashlib
+    import subprocess
+    arc_dir = os.path.join(APP, "injury_reports_archive")
+    os.makedirs(arc_dir, exist_ok=True)
+    arc_index_path = os.path.join(arc_dir, "index.json")
+    if os.path.exists(arc_index_path):
+        with open(arc_index_path, encoding="utf-8") as fh:
+            arc = json.load(fh)
+    else:
+        arc = {"schema": "nba3.app.injury_archive/v1", "storage_rule": (
+            "Every report the official index lists is stored as verbatim extracted text "
+            "(pdftotext -layout of the official PDF) with the PDF URL, its sha256 at retrieval "
+            "and the retrieval stamp. The PDF bytes themselves stay on the official CDN; the "
+            "sha256 pins what was read and the URL serves the bytes for manual re-verification."),
+            "reports": {}}
+    for t in all_report_stamps(idx_bytes.decode("utf-8", "replace")):
+        y, hh, mm, ap = t
+        stamp = f"{y}-{hh}-{mm}{ap}"
+        if stamp in arc["reports"]:
+            continue
+        pdf_name = f"Injury-Report_{y}_{hh}_{mm}{ap}.pdf"
+        pdf_path = os.path.join(out_dir, pdf_name)
+        pdf_bytes = f.get(INJ_CDN + pdf_name, pdf_path, required=False,
+                          label=f"injury report {stamp}")
+        if pdf_bytes is None:
+            continue
+        txt_path = os.path.join(arc_dir, f"{y}-{hh}-{mm}{ap}.txt")
+        r = subprocess.run(["pdftotext", "-layout", pdf_path, txt_path],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            f.errors.append({"url": INJ_CDN + pdf_name,
+                             "label": f"injury report {stamp} text extraction",
+                             "required": False,
+                             "error": f"pdftotext failed: {r.stderr.strip()[:200]}",
+                             "attempts": 1})
+            continue
+        arc["reports"][stamp] = {
+            "report_stamp_et": f"{y}-{hh}:{mm} {ap}M ET",
+            "pdf_url": INJ_CDN + pdf_name,
+            "pdf_sha256": hashlib.sha256(pdf_bytes).hexdigest(),
+            "pdf_bytes": len(pdf_bytes),
+            "text_file": os.path.relpath(txt_path, ROOT),
+            "retrieved_utc": manifest["retrieved_utc"],
+        }
+    with open(arc_index_path, "w", encoding="utf-8") as fh:
+        json.dump(arc, fh, indent=1)
+        fh.write("\n")
+    print(f"injury archive: {len(arc['reports'])} reports indexed "
+          f"-> data/app/injury_reports_archive/")
+
     # 2. schedule/results pages: today..today+3 and the two previous game days (Eastern dates)
     for off in range(-2, 4):
         d = (today_et + timedelta(days=off)).isoformat()
@@ -260,6 +330,23 @@ def main():
     for i, url in enumerate(TEAM_PAGES):
         f.get(url, os.path.join(out_dir, f"teams_{i}.html"), required=True,
               label=f"team stats page {i}")
+
+    # 3c. standings promotion (strict; a partial or failed parse is recorded and the
+    #     previously verified capture is kept — never overwritten by a guess)
+    manifest["standings_promotion"] = {"state": "not attempted"}
+    st_path = os.path.join(out_dir, "standings.html")
+    if os.path.exists(st_path):
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "standings_feed.py"),
+                            "promote", "--html", st_path, "--source", STANDINGS_URL,
+                            "--retrieved", f"{stamp}Z" if not stamp.endswith("Z") else stamp,
+                            "--out", os.path.join(ROOT, "data", "live", "standings.json"),
+                            "--partial-out", os.path.join(APP, "standings_current.json")],
+                           cwd=ROOT, capture_output=True, text=True)
+        manifest["standings_promotion"] = {
+            "state": "promoted" if r.returncode == 0 and "full" in r.stdout else
+                     ("partial" if r.returncode == 0 else "failed"),
+            "stdout": r.stdout.strip(), "stderr": r.stderr.strip()}
+        print(f"standings promotion: {manifest['standings_promotion']['state']}")
 
     # 3b. promote the schedule window from the fetched games pages (game links are the
     #     parseable part of the scoreboard HTML; tip times stay blank and flagged when the
@@ -312,6 +399,13 @@ def main():
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
     steps = [
+        # keep the official per-game results feed current and settle each finished game
+        # day from verified finals (the brief: settle as soon as the game day ends);
+        # ingest refuses rows whose period scores do not sum to the printed final
+        ["python3", "scripts/results_feed.py", "ingest", "--capture-dir", out_dir],
+        ["python3", "scripts/results_feed.py", "verify"],
+        ["python3", "scripts/results_feed.py", "settle", "--all-done"],
+        ["python3", "scripts/pick_ledger.py", "settle"],
         ["python3", "scripts/estimators.py"],
         # the window the pick ledger publishes from (data/app/estimators.json) is written by
         # this script; the line above writes data/live/model.json only. Missing from the chain

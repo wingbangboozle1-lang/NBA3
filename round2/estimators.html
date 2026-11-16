@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two estimators · NBA3 official filings 2026-11-16</title>
+<link rel="stylesheet" href="assets/round2.css">
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand">NBA3 · 11/16 filing chain <small>session fbd2484b</small></div>
+    <div class="muted" style="font-size:12.5px">current filing 2026-11-16 01:15 PM ET · chain 09:15 AM → 01:00 PM → 01:15 PM</div>
+  </div>
+  <nav class="pages"><a href="index.html" class="">Overview</a><a href="summary.html" class="">Executive summary</a><a href="injuries.html" class="">Injury filing &amp; diff</a><a href="consequences.html" class="">Consequences &amp; rotation</a><a href="gameflow.html" class="">Game flow</a><a href="slate.html" class="">Slate &amp; totals</a><a href="estimators.html" class="on">Two estimators</a><a href="methodology.html" class="">Methodology</a><a href="requirements.html" class="">Requirements</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="flagged.html" class="">Flagged for review</a><a href="verification.html" class="">Verification log</a></nav>
+</header>
+<main>
+
+<h1>Two estimators, and their disagreement</h1>
+<p class="lead">A single blended rating hides the fact that two reasonable methods can disagree. This page publishes both, and the gap between them is the headline. The blend is not published as a rating at all.</p>
+<div class="callout"><h4>The disagreement between the two estimators is the headline number. The blend is published underneath and never on its own.</h4>A blend of A and B is NOT published as a rating, because weighting two estimators that share inputs would imply a precision neither has. They are shown side by side.</div>
+<div class="grid"><div class="card"><div class="k">Median disagreement</div><div class="v">2.63</div><div class="s">points per 100 possessions</div></div><div class="card"><div class="k">Largest</div><div class="v">7.13</div><div class="s">where methods diverge most</div></div><div class="card"><div class="k">Smallest</div><div class="v">0.33</div><div class="s">where methods agree most</div></div><div class="card"><div class="k">Home-court prior</div><div class="v">0.5204</div><div class="s">pinned to the measured rate</div></div></div>
+<h2>How each estimator is built</h2>
+<ul><li><strong>A · form.</strong> The official net rating, taken at face value. It is what the club has actually out-scored opponents by, per 100 possessions.</li><li><strong>B · structure.</strong> Rebuilt from shooting efficiency, turnover rate and offensive rebounding — the four factors — and compared with the same reconstruction for what the club allows. It shares no input with A.</li><li><strong>Centring.</strong> Both are expressed as points per 100 possessions above their own league mean (A: +0.0233, B: +12.9140). Without this, a constant inside B would appear as disagreement between methods when it is only a level shift.</li></ul>
+<h2>Both estimators, all 30 clubs</h2>
+<div class="table-wrap"><table class="tbl">
+<caption>Disagreement is |A − B| in points per 100 possessions. It is a method-uncertainty signal and is NOT calibrated as a probability.</caption>
+<thead><tr><th></th><th>Club</th><th>GP</th><th>A (form)</th><th>B (structure)</th><th>Disagreement</th><th>Printed net rtg</th><th>Source</th></tr></thead><tbody>
+<tr><td>MIL</td><td>Milwaukee Bucks</td><td>14</td><td>-13.62</td><td>-6.49</td><td><strong>7.13</strong></td><td>-13.60</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>UTA</td><td>Utah Jazz</td><td>14</td><td>-11.12</td><td>-5.52</td><td><strong>5.61</strong></td><td>-11.10</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>CLE</td><td>Cleveland Cavaliers</td><td>14</td><td>+1.58</td><td>+6.96</td><td><strong>5.39</strong></td><td>+1.60</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>ATL</td><td>Atlanta Hawks</td><td>14</td><td>+1.68</td><td>-3.68</td><td><strong>5.36</strong></td><td>+1.70</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>SAS</td><td>San Antonio Spurs</td><td>14</td><td>+12.58</td><td>+7.62</td><td><strong>4.96</strong></td><td>+12.60</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>TOR</td><td>Toronto Raptors</td><td>13</td><td>+1.38</td><td>-3.39</td><td><strong>4.77</strong></td><td>+1.40</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>PHX</td><td>Phoenix Suns</td><td>12</td><td>-4.22</td><td>+0.34</td><td><strong>4.56</strong></td><td>-4.20</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>CHA</td><td>Charlotte Hornets</td><td>13</td><td>-11.12</td><td>-15.23</td><td><strong>4.11</strong></td><td>-11.10</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>WAS</td><td>Washington Wizards</td><td>14</td><td>-7.12</td><td>-3.57</td><td><strong>3.55</strong></td><td>-7.10</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>HOU</td><td>Houston Rockets</td><td>14</td><td>+10.48</td><td>+6.94</td><td><strong>3.54</strong></td><td>+10.50</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>CHI</td><td>Chicago Bulls</td><td>12</td><td>-10.92</td><td>-7.60</td><td><strong>3.32</strong></td><td>-10.90</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>MIN</td><td>Minnesota Timberwolves</td><td>13</td><td>+11.48</td><td>+8.43</td><td><strong>3.04</strong></td><td>+11.50</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>BOS</td><td>Boston Celtics</td><td>13</td><td>+13.88</td><td>+11.18</td><td><strong>2.70</strong></td><td>+13.90</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>SAC</td><td>Sacramento Kings</td><td>13</td><td>-13.02</td><td>-10.34</td><td><strong>2.68</strong></td><td>-13.00</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>DEN</td><td>Denver Nuggets</td><td>11</td><td>+1.28</td><td>+3.94</td><td><strong>2.66</strong></td><td>+1.30</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>MEM</td><td>Memphis Grizzlies</td><td>13</td><td>+8.48</td><td>+5.87</td><td><strong>2.61</strong></td><td>+8.50</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>NYK</td><td>New York Knicks</td><td>13</td><td>+5.48</td><td>+3.33</td><td><strong>2.15</strong></td><td>+5.50</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>PHI</td><td>Philadelphia 76ers</td><td>14</td><td>+1.98</td><td>+0.16</td><td><strong>1.82</strong></td><td>+2.00</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>IND</td><td>Indiana Pacers</td><td>14</td><td>-2.02</td><td>-0.34</td><td><strong>1.68</strong></td><td>-2.00</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>GSW</td><td>Golden State Warriors</td><td>13</td><td>+4.08</td><td>+2.55</td><td><strong>1.53</strong></td><td>+4.10</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>BKN</td><td>Brooklyn Nets</td><td>12</td><td>-6.22</td><td>-4.82</td><td><strong>1.41</strong></td><td>-6.20</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>POR</td><td>Portland Trail Blazers</td><td>12</td><td>+7.68</td><td>+6.62</td><td><strong>1.06</strong></td><td>+7.70</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>OKC</td><td>Oklahoma City Thunder</td><td>14</td><td>+5.08</td><td>+6.08</td><td><strong>1.01</strong></td><td>+5.10</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>LAC</td><td>LA Clippers</td><td>12</td><td>-3.92</td><td>-4.65</td><td><strong>0.73</strong></td><td>-3.90</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>MIA</td><td>Miami Heat</td><td>13</td><td>-1.52</td><td>-0.89</td><td><strong>0.64</strong></td><td>-1.50</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>DET</td><td>Detroit Pistons</td><td>12</td><td>+4.88</td><td>+4.31</td><td><strong>0.56</strong></td><td>+4.90</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>LAL</td><td>Los Angeles Lakers</td><td>14</td><td>+7.98</td><td>+8.53</td><td><strong>0.55</strong></td><td>+8.00</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>NOP</td><td>New Orleans Pelicans</td><td>14</td><td>-8.62</td><td>-9.13</td><td><strong>0.51</strong></td><td>-8.60</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>ORL</td><td>Orlando Magic</td><td>12</td><td>-3.72</td><td>-4.13</td><td><strong>0.41</strong></td><td>-3.70</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>DAL</td><td>Dallas Mavericks</td><td>14</td><td>-2.72</td><td>-3.06</td><td><strong>0.33</strong></td><td>-2.70</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+</tbody></table></div>
+<h2>Luck, as a z-score</h2>
+<p class="lead">z = (actual wins - wins expected from the club&#x27;s own net rating) / binomial sd. A club outside +/-2 is published as such; no strategy may lean on it (see gates).</p>
+<div class="table-wrap"><table class="tbl">
+<caption>Expected wins come from the club&#x27;s own net rating; the z is the residual over the binomial sd. No club is outside ±2 this round.</caption>
+<thead><tr><th></th><th>Club</th><th>Actual W</th><th>Expected W</th><th>Residual</th><th>z</th><th>Noise band</th><th>Source</th></tr></thead><tbody>
+<tr><td>PHI</td><td>Philadelphia 76ers</td><td>11</td><td>7.93</td><td>+3.07</td><td>+1.656</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>MIN</td><td>Minnesota Timberwolves</td><td>9</td><td>10.87</td><td>-1.87</td><td>-1.397</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>TOR</td><td>Toronto Raptors</td><td>5</td><td>7.11</td><td>-2.10</td><td>-1.173</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>CHA</td><td>Charlotte Hornets</td><td>4</td><td>2.42</td><td>+1.58</td><td>+1.131</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>NYK</td><td>New York Knicks</td><td>7</td><td>8.72</td><td>-1.73</td><td>-1.019</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>UTA</td><td>Utah Jazz</td><td>1</td><td>2.42</td><td>-1.42</td><td>-1.005</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>LAL</td><td>Los Angeles Lakers</td><td>12</td><td>10.48</td><td>+1.52</td><td>+0.935</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>CHI</td><td>Chicago Bulls</td><td>3</td><td>2.05</td><td>+0.95</td><td>+0.730</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>DAL</td><td>Dallas Mavericks</td><td>7</td><td>5.75</td><td>+1.25</td><td>+0.679</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>MIA</td><td>Miami Heat</td><td>7</td><td>5.83</td><td>+1.17</td><td>+0.652</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>SAC</td><td>Sacramento Kings</td><td>1</td><td>1.78</td><td>-0.78</td><td>-0.631</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>DEN</td><td>Denver Nuggets</td><td>7</td><td>5.97</td><td>+1.03</td><td>+0.624</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>MIL</td><td>Milwaukee Bucks</td><td>1</td><td>1.78</td><td>-0.78</td><td>-0.623</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>MEM</td><td>Memphis Grizzlies</td><td>9</td><td>9.93</td><td>-0.93</td><td>-0.606</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>IND</td><td>Indiana Pacers</td><td>5</td><td>6.06</td><td>-1.06</td><td>-0.574</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>NOP</td><td>New Orleans Pelicans</td><td>4</td><td>3.19</td><td>+0.81</td><td>+0.516</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>CLE</td><td>Cleveland Cavaliers</td><td>7</td><td>7.75</td><td>-0.75</td><td>-0.401</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>BKN</td><td>Brooklyn Nets</td><td>3</td><td>3.62</td><td>-0.62</td><td>-0.393</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>PHX</td><td>Phoenix Suns</td><td>5</td><td>4.38</td><td>+0.62</td><td>+0.371</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>LAC</td><td>LA Clippers</td><td>4</td><td>4.46</td><td>-0.46</td><td>-0.274</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>ORL</td><td>Orlando Magic</td><td>5</td><td>4.57</td><td>+0.43</td><td>+0.259</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>BOS</td><td>Boston Celtics</td><td>11</td><td>11.31</td><td>-0.31</td><td>-0.253</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>HOU</td><td>Houston Rockets</td><td>11</td><td>11.25</td><td>-0.25</td><td>-0.168</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>OKC</td><td>Oklahoma City Thunder</td><td>9</td><td>9.28</td><td>-0.28</td><td>-0.158</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>GSW</td><td>Golden State Warriors</td><td>8</td><td>8.25</td><td>-0.25</td><td>-0.142</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>ATL</td><td>Atlanta Hawks</td><td>8</td><td>7.82</td><td>+0.18</td><td>+0.095</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>WAS</td><td>Washington Wizards</td><td>4</td><td>3.85</td><td>+0.15</td><td>+0.092</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>POR</td><td>Portland Trail Blazers</td><td>9</td><td>8.89</td><td>+0.11</td><td>+0.072</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>SAS</td><td>San Antonio Spurs</td><td>12</td><td>11.93</td><td>+0.07</td><td>+0.051</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>DET</td><td>Detroit Pistons</td><td>8</td><td>7.93</td><td>+0.07</td><td>+0.044</td><td><span class="chip chip-ok">inside ±2</span></td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+</tbody></table></div>
+</main>
+<footer><div class="in">
+Every value on this site names the official document it came from. Values an official document
+does not print are shown as <span class="unv">— unverified</span> and are listed on the
+<a href="flagged.html">Flagged for review</a> page.<br>
+<strong>This is a record of a filing, not a live feed: the official index is the authority, not
+this page.</strong> The index updates every 15 minutes and advanced once while this round was
+being built. Generated by <code>scripts/build_round2_site.py</code> from
+<code>data/rounds/2026-11-16-1300PM/</code>.
+</div></footer>
+</body>
+</html>

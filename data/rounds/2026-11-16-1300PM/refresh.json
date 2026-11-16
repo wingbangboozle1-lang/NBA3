@@ -1,0 +1,62 @@
+{
+ "session": "arena/fbd2484b-nba3",
+ "round": "2026-11-16 filings: 1:15 PM ET (current), 1:00 PM ET and 09:15 AM ET (chain)",
+ "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+ "documents": [
+  {
+   "role": "injury filing (current)",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "retrieved_utc": "2026-11-16T15:20Z",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/official_injuries_2026-11-16_0115PM.md",
+   "sha256": "0e0e280d619889db1d247ab93c0032dc2a8265754400f6141d9404bcec3f8fb7",
+   "stamp": "2026-11-16 01:15 PM ET"
+  },
+  {
+   "role": "injury filing (previous, diff base)",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
+   "retrieved_utc": "2026-11-16T14:52Z",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/official_injuries_2026-11-16_0100PM.md",
+   "sha256": "09172cec34fcc917bcaf4e6e5f65a0e4de01f16bf60a49f65d812311d363137b",
+   "stamp": "2026-11-16 01:00 PM ET"
+  },
+  {
+   "role": "injury filing (earliest in the chain)",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "retrieved_utc": "2026-11-16T14:35Z",
+   "transcript": "data/app/official_injuries_2026-11-16_0915AM_raw.md",
+   "sha256": "46987d249102ffeaab6145606f84bff016d0c360e902435d286316e117721475",
+   "stamp": "2026-11-16 09:15 AM ET"
+  },
+  {
+   "role": "schedule",
+   "url": "https://www.nba.com/schedule?date=2026-11-16",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/official_schedule_2026-11-16_18.md",
+   "sha256": "927fcef74b6efe3f10779cb37fcd8f8c687f424a31c9943060529ece12579e30"
+  },
+  {
+   "role": "standings",
+   "url": "https://www.nba.com/standings",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/official_standings_2026-11-16.md",
+   "sha256": "29926e19ecdc1305fc574b17139bddb712375eeb8ea6efe50321a5c6078746cd"
+  },
+  {
+   "role": "team stats traditional",
+   "url": "https://www.nba.com/stats/teams/traditional",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/team_stats_traditional_2026-11-16.tsv",
+   "sha256": "3a1a144f094c59c77f189f054b04e521f323ee007c6c572f7b83f9e63deae5ae"
+  },
+  {
+   "role": "team stats opponent",
+   "url": "https://www.nba.com/stats/teams/opponent",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/team_stats_opponent_2026-11-16.tsv",
+   "sha256": "555505a454b7cbba39277c1b2ee29df4df11803da17b6c0e832f6a31d0a65a9d"
+  },
+  {
+   "role": "team stats advanced",
+   "url": "https://www.nba.com/stats/teams/advanced",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/team_stats_advanced_2026-11-16.tsv",
+   "sha256": "a2bb4723f7fb613aebd177b4ce33000c2a7301c799faf783e3008923d54f52d1"
+  }
+ ],
+ "note": "Every document above was read with the Arena fetch tool on 2026-11-16 and transcribed verbatim into the files named here. Raw curl is unavailable in this environment: official.nba.com and ak-static.cms.nba.com fail at TLS from the sandbox shell, so the fetch tool is the only verified channel and its retrieval stamp is recorded per document."
+}

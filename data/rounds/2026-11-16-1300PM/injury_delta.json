@@ -1,0 +1,64 @@
+{
+ "new_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+ "new_stamp": "0115",
+ "old_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
+ "new_rows": 76,
+ "old_rows": 75,
+ "compared_keys": 77,
+ "status_or_reason_changes": 0,
+ "players_added": 1,
+ "players_removed": 0,
+ "unchanged": 74,
+ "changes": [],
+ "added": [
+  {
+   "matchup": "ORL@BOS",
+   "team": "Boston Celtics",
+   "player": "Queta, Neemias",
+   "now_status": "Questionable",
+   "now_reason": "Rest",
+   "line": 67
+  }
+ ],
+ "removed": [],
+ "name_spelling_changes": [
+  {
+   "matchup": "GSW@NOP",
+   "team": "New Orleans Pelicans",
+   "was_name": "Mathurin, Bennedict",
+   "now_name": "Mathurin, Benedict",
+   "edit_distance": 1,
+   "was_status": "Out",
+   "now_status": "Out",
+   "note": "same club and game, printed name within two edits: a spelling change in the document, not a squad change. The status is compared but the player is the same."
+  }
+ ],
+ "new_report_teams_not_submitted": [
+  "Charlotte Hornets",
+  "Detroit Pistons",
+  "LA Clippers",
+  "Los Angeles Lakers",
+  "Minnesota Timberwolves",
+  "New York Knicks",
+  "Phoenix Suns",
+  "Portland Trail Blazers",
+  "San Antonio Spurs",
+  "Toronto Raptors",
+  "Utah Jazz"
+ ],
+ "old_report_teams_not_submitted": [
+  "Boston Celtics",
+  "Charlotte Hornets",
+  "Detroit Pistons",
+  "LA Clippers",
+  "Los Angeles Lakers",
+  "Minnesota Timberwolves",
+  "New York Knicks",
+  "Phoenix Suns",
+  "Portland Trail Blazers",
+  "San Antonio Spurs",
+  "Toronto Raptors",
+  "Utah Jazz"
+ ],
+ "rule": "A change is (same matchup, same club, same player) with a different printed status or reason. A player on only one side is an addition or a removal, never a change. No row is matched by position."
+}

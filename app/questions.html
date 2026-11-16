@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -603,6 +603,50 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Owner chooses; the methodology page already labels the legacy free-fit HCA as superseded by the pinned policy.</td>
 <td>owner</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/estimators.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/estimators.py</a></td>
+</tr>
+<tr>
+<td>1116-Q-01</td>
+<td>Official-source conflict</td>
+<td>For ATL@MIL 2026-11-15, the official game-book period table and the official game-page LINESCORES disagree on Milwaukee&#x27;s third-quarter score (37 vs 27). Which one is the league&#x27;s official reading?</td>
+<td>open — both readings published, conflict flagged</td>
+<td>Final 113-106 is verified by four reads (scoreboard page, game-page header, game-book printed FINAL, AP recap). MIL Q3=27 sums to the final and matches the AP recap&#x27;s 87-80 after three; MIL Q3=37 sums to 116 and matches nothing else.</td>
+<td>A statement from the game-book publisher or the league on which period table stands.</td>
+<td>Ask the game-book publisher (statsdmz.nba.com contact) or the NBA stats desk with both URLs; record the answer on app/flagged.html (1116-F-01) and the settlement row.</td>
+<td>site owner</td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL_book.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL_book.pdf</a></td>
+</tr>
+<tr>
+<td>1116-Q-02</td>
+<td>Pricing window</td>
+<td>Should the originated-lines window be re-cut to cover today..today+3 (currently 11/16-11/18) as a new dated round, adding the four 11/19 games?</td>
+<td>open — the pinned round replay is untouched</td>
+<td>The brief allows picks up to three days ahead. The 11/19 games (0022600270-0022600273) are on the official schedule strip and are captured in the rolling slate. The round artefacts (data/rounds/2026-11-16, round/) are a frozen replay whose tests pin their contents.</td>
+<td>An owner decision to publish a second dated round rather than edit the pinned one.</td>
+<td>Run scripts/round_model_2026_11_16.py against a 11/16-11/19 slate capture as data/rounds/2026-11-17 (new directory, new tests), keeping the 11/16 round frozen.</td>
+<td>site owner</td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>1116-Q-03</td>
+<td>Player game logs</td>
+<td>Should the 2026-11-15 game books be transcribed now to extend the per-player logs (MIN/PTS/REB/AST + opponent) to the 11/15 injury-report names?</td>
+<td>open — one of nine books transcribed so far (11/14 slate: five books)</td>
+<td>Every 11/15 game has an official game-book URL on its game page; scripts/parse_gamebook.py validates each transcription with four arithmetic identities and the minutes-share model consumes its output.</td>
+<td>Transcriptions of the remaining eight 11/15 books (or a runner-side pdftotext parse of them).</td>
+<td>Transcribe with scripts/parse_gamebook.py book by book (each ~25 box rows) and re-cut data/app/minutes_shares.json; sources listed on app/settlement.html per game.</td>
+<td>site owner</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI_book.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI_book.pdf</a></td>
+</tr>
+<tr>
+<td>1116-Q-04</td>
+<td>Market anchor</td>
+<td>A closing-line capture for the 2026-11-15 slate still does not exist in this repository. Which licensed source should the market-anchored prior use, and who supplies the key?</td>
+<td>open (carried from K-08)</td>
+<td>The engine already reads data/app/closing_lines.json and leaves the anchor blank when it is empty; the OOS log-loss weighting rule is implemented and measured on synthetic entries.</td>
+<td>A licensed odds feed and its credentials, supplied by the owner.</td>
+<td>Owner names the provider; then fill data/app/closing_lines.json per game from that feed and the prior computes itself.</td>
+<td>site owner</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
 </tr>
 </tbody></table></div>
 </main>
