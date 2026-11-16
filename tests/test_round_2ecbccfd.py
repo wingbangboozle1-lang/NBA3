@@ -243,6 +243,20 @@ class Model(unittest.TestCase):
         self.assertEqual(sum(1 for s in self.m["strategies"] if s["verdict"] == "FUNDED"), 0,
                          "something passed the gate; the leaderboard and the bet page must be updated")
 
+    def test_every_suggestion_is_marked_unimplemented(self):
+        """The Suggestions page is a review queue: no row may claim a shared-surface change."""
+        path = os.path.join(ROOT, "round_2ecbccfd", "suggestions.html")
+        s = open(path, encoding="utf-8").read()
+        self.assertIn("for review, none implemented without an owner decision", s)
+        self.assertIn("not implemented", s)
+        # every state cell is one of the three honest values; nothing may claim a shared-surface change
+        states = set(re.findall(r'<span class="pill p-(?:bad|warn|ok)">([^<]+)</span>', s))
+        self.assertTrue(states <= {"not implemented", "open", "mitigated in .github/workflows/refresh.yml",
+                                   "partly done: 4 books parsed this round"},
+                        f"an unexpected suggestion state was published: {states}")
+        for pid in ("S-2C-01", "S-2C-08", "Q-2C-05"):
+            self.assertIn(pid, s, f"{pid} missing from the suggestions page")
+
 
 class Ledger(unittest.TestCase):
     def test_chain_verifies_and_head_matches_the_index(self):
@@ -283,7 +297,8 @@ class Ledger(unittest.TestCase):
 
 
 class Site(unittest.TestCase):
-    PAGES = ["index.html", "projection/lines.html", "projection/rotations.html", "injuries.html",
+    PAGES = ["index.html", "projection/lines.html", "projection/rotations.html", "suggestions.html",
+             "injuries.html",
              "standings.html", "results.html", "strategies.html", "ledger.html", "method.html",
              "bet/index.html", "flagged.html"]
 

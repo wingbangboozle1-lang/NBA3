@@ -5457,3 +5457,19 @@ Fix: `1b21006` reverts my paragraph, and a new test pins the rule for the future
 generated file). The front-door link is **CR-2ecbccfd-01**, addressed to whoever owns
 `scripts/build_app.py`; until it lands the round is reachable at its own URL only, which is honest
 rather than silently patched.
+
+### Pages deploy confirmed green + a Suggestions & questions surface (2ecbccfd, 2026-11-16T20:5xZ)
+
+* Pages run for `Merge pull request #121` on `main`: **success** (the #120 run's step-25 drift
+  failure is gone — `scripts/assemble_canonical.py` + `scripts/build_app.py` now reproduce the
+  committed `data/app/canonical.json`, `app/` and `index.html` byte-for-byte, checked locally).
+* Added `round_2ecbccfd/suggestions.html` because the brief asks for a dedicated Suggestions section
+  and this round's tree had none: 8 suggestions (S-2C-01…08: front-door generator link, one-surface-
+  per-fact, noise band beside every edge, game-book coverage gap, closing-line feed, the CI ordering
+  test, K-02's quarter table, the non-official arena table) and 5 decision questions (Q-2C-01…05),
+  each row linked to the file or official page it is about, every state cell limited to
+  `not implemented` / `open` / `mitigated …` / `partly done …` — and a test that fails if a row ever
+  claims a shared-surface change (`test_every_suggestion_is_marked_unimplemented`).
+* 12 pages now; `python3 round_2ecbccfd/build.py --check` passes and the internal-link checker
+  reports no unresolved href; `round_2ecbccfd/projection/` and `round_2ecbccfd/bet/` remain separate.
+* My suite is 37 tests, green; full `python3 -m unittest discover -s tests` exit 0.
