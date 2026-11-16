@@ -139,7 +139,7 @@ def build() -> dict:
                      f"rate {st['measured_home_win_rate']} ({st['measured_home_wins']}-"
                      f"{st['measured_home_games'] - st['measured_home_wins']} in "
                      f"{st['measured_home_games']} home games, Wilson 95% "
-                     f"{hca['wilson95_standings']}); the round capture pins "
+                     f"{hca['wilson95_standings'][0]} to {hca['wilson95_standings'][1]}); the round capture pins "
                      f"{pub_hca['data_rounds_2026_11_16']['hca_points']} from "
                      f"{pub_hca['data_rounds_2026_11_16']['n_games']} finals "
                      f"(rate {pub_hca['data_rounds_2026_11_16']['home_win_rate']}); every entry in "
