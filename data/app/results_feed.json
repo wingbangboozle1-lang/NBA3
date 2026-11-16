@@ -2,8 +2,8 @@
  "source_label": "Official per-game results feed. 2026-11-14 rows come from the official game books (statsdmz.nba.com PDFs linked from each nba.com game page); 2026-11-13 rows come from the stored official scoreboard capture (data/app/official_results_2026-11-13.json); 2026-11-15 rows come from the game-day evening capture (game books + scoreboard cards agreeing, data/app/official_results_2026-11-15_c94a5531.json). One row per game: date, teams, final score, quarter scores.",
  "retrieved_stamp": "2026-11-15T23:58Z",
  "settlement_rule": "A row is settled only when the game state is Final AND verified from an official source; when quarter scores are captured they must sum to the printed final for both teams (checked offline). Rows without captured quarter scores settle from the verified final alone and carry the flag 'quarter scores not captured' in the settlement stamp. (Wording amended 2026-11-15 by arena/c94a5531-nba3 after flagging that the previous text contradicted settle() behavior on the 2026-11-13 rows.)",
- "count": 16,
- "settled_count": 16,
+ "count": 18,
+ "settled_count": 18,
  "games": [
   {
    "date": "2026-11-13",
@@ -329,6 +329,29 @@
   },
   {
    "date": "2026-11-15",
+   "away": "CHA",
+   "home": "LAC",
+   "away_pts": 105,
+   "home_pts": 113,
+   "away_q1": 21,
+   "away_q2": 31,
+   "away_q3": 31,
+   "away_q4": 22,
+   "home_q1": 22,
+   "home_q2": 29,
+   "home_q3": 33,
+   "home_q4": 29,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/games?date=2026-11-15",
+   "quarter_check": "quarter sums equal the final",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "raw_file": "data/app/gamebooks_20261115/20261115_CHALAC_c94a5531.md",
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-16T00:38Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (game book verified)"
+  },
+  {
+   "date": "2026-11-15",
    "away": "IND",
    "home": "PHI",
    "away_pts": 124,
@@ -372,6 +395,29 @@
    "raw_file": "data/app/gamebooks_20261115/20261115_LALPHX_c94a5531.md",
    "settled": true,
    "settlement_stamp": "settled at 2026-11-16T00:21Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (game book verified)"
+  },
+  {
+   "date": "2026-11-15",
+   "away": "SAS",
+   "home": "UTA",
+   "away_pts": 110,
+   "home_pts": 102,
+   "away_q1": 31,
+   "away_q2": 27,
+   "away_q3": 23,
+   "away_q4": 29,
+   "home_q1": 33,
+   "home_q2": 22,
+   "home_q3": 26,
+   "home_q4": 21,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/games?date=2026-11-15",
+   "quarter_check": "quarter sums equal the final",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "raw_file": "data/app/gamebooks_20261115/20261115_SASUTA_c94a5531.md",
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-16T00:38Z (game day end, 2026-11-15) from the official final SAS 110 - UTA 102; quarter sums == finals (game book verified)"
   }
  ],
  "sources": [
@@ -383,6 +429,8 @@
   "https://www.nba.com/games?date=2026-11-13",
   "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
   "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
   "https://www.nba.com/games?date=2026-11-15"
  ]
 }

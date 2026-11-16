@@ -28,6 +28,8 @@ LEDGER = os.path.join(APP, "ledger", "ledger.jsonl")
 NEW_SOURCES = [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
     "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
     "https://www.nba.com/games?date=2026-11-15",
 ]
 

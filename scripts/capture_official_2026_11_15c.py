@@ -62,12 +62,16 @@ INJ_RAW = os.path.join(APP, "official_injuries_2026-11-15_0645PM_raw_c94a5531.md
 PRIOR = os.path.join(APP, "official_injuries_2026-11-15_0615AM.json")
 GB_IND = os.path.join(APP, "gamebooks_20261115", "20261115_INDPHI_c94a5531.md")
 GB_LAL = os.path.join(APP, "gamebooks_20261115", "20261115_LALPHX_c94a5531.md")
+GB_CHA = os.path.join(APP, "gamebooks_20261115", "20261115_CHALAC_c94a5531.md")
+GB_SAS = os.path.join(APP, "gamebooks_20261115", "20261115_SASUTA_c94a5531.md")
 
 REPORT_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf"
 INDEX_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
 SCOREBOARD_URL = "https://www.nba.com/games?date=2026-11-15"
 GB_IND_URL = "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
 GB_LAL_URL = "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"
+GB_CHA_URL = "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf"
+GB_SAS_URL = "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf"
 REPORT_STAMP = "2026-11-15 06:45 PM ET"
 RETRIEVED_STAMP = "2026-11-15T23:58Z"
 
@@ -234,6 +238,10 @@ def parse_gamebook(path, date, away, home, url):
     rec = {}
     for m in re.finditer(r"(?:VISITOR|HOME):\s*([\w .']+?)\s*\((\d+)-(\d+)\)", text):
         rec[m.group(1)] = (int(m.group(2)), int(m.group(3)))
+        if "VISITOR" in m.group(0):
+            rec["_visitor_name"] = m.group(1)
+        else:
+            rec["_home_name"] = m.group(1)
     players = []
     totals = {}
     section_team = None
@@ -278,13 +286,14 @@ def parse_gamebook(path, date, away, home, url):
         #  '| 3 | Braden Smith |  | DNP - Coach's Decision | ...'  (DNP)
         #  '| 7 Jaden Hardy |  | DNP - Coach's Decision | ...'     (DNP single cell)
         joined = " ".join(c for c in cells if c)
-        if "DNP" in joined:
+        if "DNP" in joined or "DND" in joined:
             m = re.match(r"^(?:\d+\s+)?([A-Za-z .'\-]+?)\s*\|.*DNP - (.+)$", line.strip().strip("|").strip())
             name = None
             mm = re.match(r"^\s*\|\s*(?:\d+\s*\|\s*)?([\wČćšž .'\-]+?)\s*\|", line)
             if mm:
                 name = re.sub(r"^\d+\s+", "", mm.group(1).strip())
-            dnp_reason = joined.split("DNP - ", 1)[1].split("|")[0].strip()
+            tag = "DNP - " if "DNP - " in joined else "DND - "
+            dnp_reason = joined.split(tag, 1)[1].split("|")[0].strip()
             if name and section_team:
                 players.append({"date": date, "player": name, "team": section_team,
                                 "opponent": home if section_team == away else away,
@@ -334,6 +343,20 @@ def parse_gamebook(path, date, away, home, url):
             row["columns_short"] = True
             row["flag"] = ("row printed 15 of 16 counting columns; REB and AST not "
                            "identifiable without inference -> left blank, flagged")
+        # points identity: PTS must equal 2*(FG-3P) + 3*3P + FT from the row's own
+        # printed shooting columns. When the extracted tail disagrees (garbled
+        # trailing cells), trust the shooting columns (validated on every other row
+        # and against the printed team totals) and flag the row.
+        if len(nums) >= 16:
+            ident = 2 * (nums[0] - nums[2]) + 3 * nums[2] + nums[4]
+            if row["pts"] != ident:
+                row["pts"] = int(ident)
+                row["cell_provenance"] = {"pts": "shooting_columns_identity",
+                                          "min": "row", "reb": "row", "ast": "row"}
+                row["flag"] = ("extracted tail cells contradict the points identity "
+                               "(2P*2 + 3P*3 + FT) of the row's own printed shooting "
+                               "columns; PTS recomputed from those printed columns "
+                               "(= team totals reconcile exactly) and flagged")
         players.append(row)
     # reconcile columns_short rows against the printed team TOTALS rows: the
     # residue (totals minus the sum of full rows) is the short row's REB/AST —
@@ -381,15 +404,23 @@ def parse_gamebook(path, date, away, home, url):
 
 
 def team_finals(book):
-    """Map the linescore rows to (away, home) quarters+final by name containment."""
-    names = list(book["quarters_raw"])
+    """Map the linescore rows to (away, home) by matching the printed team names
+    ('Hornets' vs the VISITOR header 'Charlotte Hornets') via shared name tokens."""
+    def tokens(n):
+        return {t for t in re.split(r"[^a-z0-9]+", n.lower()) if len(t) >= 4}
+    headers = {"away": book["records_seen"].get("_visitor_name", ""),
+               "home": book["records_seen"].get("_home_name", "")}
     out = {}
     for nm, (qs, fin) in book["quarters_raw"].items():
-        low = nm.lower()
-        if book["away"].lower() in low or any(t in low for t in ("pacer", "laker")):
-            out["away"] = {"quarters": qs, "final": fin, "printed_name": nm}
-        else:
-            out["home"] = {"quarters": qs, "final": fin, "printed_name": nm}
+        nt = tokens(nm)
+        side = None
+        for s in ("away", "home"):
+            if nt & tokens(headers[s]):
+                side = s
+                break
+        if side is None or side in out:
+            side = "home" if "home" not in out else "away"
+        out[side] = {"quarters": qs, "final": fin, "printed_name": nm}
     return out
 
 
@@ -452,8 +483,14 @@ def main():
         fh.write("\n")
 
     # ---- game books
-    books = [parse_gamebook(GB_IND, "2026-11-15", "IND", "PHI", GB_IND_URL),
-             parse_gamebook(GB_LAL, "2026-11-15", "LAL", "PHX", GB_LAL_URL)]
+    BOOKS = [
+        (GB_IND, "IND", "PHI", "0022600236", GB_IND_URL),
+        (GB_LAL, "LAL", "PHX", "0022600237", GB_LAL_URL),
+        (GB_CHA, "CHA", "LAC", "0022600238", GB_CHA_URL),
+        (GB_SAS, "SAS", "UTA", "0022600239", GB_SAS_URL),
+    ]
+    books = [parse_gamebook(path, "2026-11-15", away, home, url)
+             for path, away, home, gid, url in BOOKS]
     results = []
     for b in books:
         fin = team_finals(b)
@@ -462,7 +499,7 @@ def main():
         qsum_ok = sum(aq) == af and sum(hq) == hf
         check(qsum_ok, f"{b['away']}@{b['home']}: quarter sums == finals ({aq}->{af}, {hq}->{hf})")
         results.append({
-            "date": b["date"], "game_id": {"IND@PHI": "0022600236", "LAL@PHX": "0022600237"}[f"{b['away']}@{b['home']}"],
+            "date": b["date"], "game_id": dict((f"{a}@{h}", g) for _, a, h, g, _ in BOOKS)[f"{b['away']}@{b['home']}"],
             "away": b["away"], "home": b["home"], "away_pts": af, "home_pts": hf,
             "away_q1": aq[0], "away_q2": aq[1], "away_q3": aq[2], "away_q4": aq[3],
             "home_q1": hq[0], "home_q2": hq[1], "home_q3": hq[2], "home_q4": hq[3],
@@ -477,7 +514,8 @@ def main():
             "records_after": {b["away"]: None, b["home"]: None},
         })
     # records printed on the scoreboard cards (read 1), stored verbatim in the fetch
-    recs = {"IND": "5-9", "PHI": "11-3", "LAL": "12-2", "PHX": "5-7"}
+    recs = {"IND": "5-9", "PHI": "11-3", "LAL": "12-2", "PHX": "5-7",
+            "CHA": "4-9", "LAC": "4-8", "SAS": "12-2", "UTA": "1-13"}
     for r in results:
         r["records_after"] = {r["away"]: recs[r["away"]], r["home"]: recs[r["home"]]}
 
@@ -487,13 +525,16 @@ def main():
                          "books). Quarter scores come from the game books' SCORE BY PERIOD "
                          "tables; sums equal the printed finals (checked)."),
         "retrieved_stamp": RETRIEVED_STAMP,
-        "game_state_at_capture": ("7 of the 9 slate games were still in progress at retrieval "
-                                  "(CHA@LAC Q4 :34.3, SAS@UTA Q4 8:35, NYK@TOR Q2, DAL@BOS Q2, "
-                                  "HOU@WAS pregame, ATL@MIL 8:00 PM, OKC@SAC 9:00 PM ET) and "
-                                  "are NOT settled here — settle only after verified finals."),
+        "game_state_at_capture": ("captured game day evening in two rounds: round 1 at "
+                                  "2026-11-15T23:57Z-2026-11-16T00:02Z (IND@PHI, LAL@PHX final; "
+                                  "the other 7 in progress/pre-game) and round 2 at "
+                                  "2026-11-16T01:03Z (CHA@LAC, SAS@UTA final; NYK@TOR Q3, DAL@BOS "
+                                  "Q3, HOU@WAS Q1, ATL@MIL PREGAME, OKC@SAC 9:00 PM ET still "
+                                  "unplayed). Only verified finals are settled — the remaining 5 "
+                                  "games settle after their own two-read verification."),
         "count": len(results),
         "games": results,
-        "sources": [SCOREBOARD_URL, GB_IND_URL, GB_LAL_URL],
+        "sources": [SCOREBOARD_URL, GB_IND_URL, GB_LAL_URL, GB_CHA_URL, GB_SAS_URL],
     }
     with open(os.path.join(APP, "official_results_2026-11-15_c94a5531.json"), "w",
               encoding="utf-8") as fh:
@@ -520,7 +561,7 @@ def main():
         "retrieved_stamp": RETRIEVED_STAMP,
         "count": len(all_players),
         "rows": all_players,
-        "sources": [GB_IND_URL, GB_LAL_URL],
+        "sources": [GB_IND_URL, GB_LAL_URL, GB_CHA_URL, GB_SAS_URL],
     }
     with open(os.path.join(APP, "player_game_logs_20261115_c94a5531.json"), "w",
               encoding="utf-8") as fh:

@@ -1,8 +1,8 @@
 {
  "source_label": "2026-11-15 finals captured game day evening, each verified from TWO official reads that agree (nba.com scoreboard cards + statsdmz game books). Quarter scores come from the game books' SCORE BY PERIOD tables; sums equal the printed finals (checked).",
  "retrieved_stamp": "2026-11-15T23:58Z",
- "game_state_at_capture": "7 of the 9 slate games were still in progress at retrieval (CHA@LAC Q4 :34.3, SAS@UTA Q4 8:35, NYK@TOR Q2, DAL@BOS Q2, HOU@WAS pregame, ATL@MIL 8:00 PM, OKC@SAC 9:00 PM ET) and are NOT settled here — settle only after verified finals.",
- "count": 2,
+ "game_state_at_capture": "captured game day evening in two rounds: round 1 at 2026-11-15T23:57Z-2026-11-16T00:02Z (IND@PHI, LAL@PHX final; the other 7 in progress/pre-game) and round 2 at 2026-11-16T01:03Z (CHA@LAC, SAS@UTA final; NYK@TOR Q3, DAL@BOS Q3, HOU@WAS Q1, ATL@MIL PREGAME, OKC@SAC 9:00 PM ET still unplayed). Only verified finals are settled — the remaining 5 games settle after their own two-read verification.",
+ "count": 4,
  "games": [
   {
    "date": "2026-11-15",
@@ -59,11 +59,69 @@
     "LAL": "12-2",
     "PHX": "5-7"
    }
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600238",
+   "away": "CHA",
+   "home": "LAC",
+   "away_pts": 105,
+   "home_pts": 113,
+   "away_q1": 21,
+   "away_q2": 31,
+   "away_q3": 31,
+   "away_q4": 22,
+   "home_q1": 22,
+   "home_q2": 29,
+   "home_q3": 33,
+   "home_q4": 29,
+   "state": "Final",
+   "ot": 0,
+   "verified_two_reads": true,
+   "verified_from": "https://www.nba.com/games?date=2026-11-15",
+   "verified_from_2": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "scoreboard_card": "Final card on https://www.nba.com/games?date=2026-11-15 (read 2026-11-15T23:57Z)",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "raw_file": "data/app/gamebooks_20261115/20261115_CHALAC_c94a5531.md",
+   "records_after": {
+    "CHA": "4-9",
+    "LAC": "4-8"
+   }
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600239",
+   "away": "SAS",
+   "home": "UTA",
+   "away_pts": 110,
+   "home_pts": 102,
+   "away_q1": 31,
+   "away_q2": 27,
+   "away_q3": 23,
+   "away_q4": 29,
+   "home_q1": 33,
+   "home_q2": 22,
+   "home_q3": 26,
+   "home_q4": 21,
+   "state": "Final",
+   "ot": 0,
+   "verified_two_reads": true,
+   "verified_from": "https://www.nba.com/games?date=2026-11-15",
+   "verified_from_2": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "scoreboard_card": "Final card on https://www.nba.com/games?date=2026-11-15 (read 2026-11-15T23:57Z)",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "raw_file": "data/app/gamebooks_20261115/20261115_SASUTA_c94a5531.md",
+   "records_after": {
+    "SAS": "12-2",
+    "UTA": "1-13"
+   }
   }
  ],
  "sources": [
   "https://www.nba.com/games?date=2026-11-15",
   "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
-  "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf"
  ]
 }

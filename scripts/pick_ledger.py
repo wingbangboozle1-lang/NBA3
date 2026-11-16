@@ -101,11 +101,14 @@ def settle():
              if g.get("settled") and g.get("verified")}
     entries = read_entries()
     prev = entries[-1]["entry_hash"] if entries else GENESIS
+    settled_already = {e["body"]["pick_id"] for e in entries if e["body"]["state"] == "SETTLED"}
     n = 0
     for e in entries:
         b = e["body"]
         if b["state"] != "PUBLISHED_PRE_TIP":
             continue
+        if b["pick_id"] in settled_already:
+            continue   # idempotent: never append a second SETTLED entry for a pick
         key = (b["date"], b["payload"]["away"], b["payload"]["home"])
         g = final.get(key)
         if not g:
