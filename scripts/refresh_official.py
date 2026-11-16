@@ -237,7 +237,42 @@ def ingest_finals(pages, out_path=None):
         json.dump(doc, fh, indent=1)
         fh.write("\n")
     print(f"ingest finals: {added} new game(s); {len(doc['games'])} in {os.path.relpath(out_path, ROOT)}")
+    derive_standings(doc)
     return added
+
+
+def derive_standings(finals_doc, out_path=None):
+    """Standings snapshot derived from the official games pages' own records.
+
+    Each ingested game row carries the post-game W-L the official games page printed for
+    both teams (away_record_after / home_record_after). The latest record per team — by
+    game date, then game id — is the standings snapshot; it is re-derived every run so the
+    scheduled job keeps standings current with no manual input. Provenance: the games
+    pages listed in finals_auto.json. Cross-checkable against the official standings page
+    (data/app/standings_2026-11-16.json is the direct standings-page capture)."""
+    out_path = out_path or os.path.join(APP, "standings_latest.json")
+    latest = {}
+    for g in sorted(finals_doc["games"], key=lambda g: (g["date"], g["game_id"])):
+        for side, tri, rec in (("away", g["away"], g.get("away_record_after")),
+                               ("home", g["home"], g.get("home_record_after"))):
+            if rec:
+                latest[tri] = {"team": tri, "w": rec[0], "l": rec[1],
+                               "as_of_game": f"{g['date']} {g['game_id']}",
+                               "source": g.get("games_page"),
+                               "game_page": g.get("game_page")}
+    if not latest:
+        return
+    doc = {
+        "schema": "nba3/standings-derived/v1",
+        "source_label": ("standings snapshot derived from the post-game W-L records printed "
+                         "on the official nba.com games pages (scripts/refresh_official.py)"),
+        "count": len(latest),
+        "teams": [latest[k] for k in sorted(latest)],
+    }
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=1)
+        fh.write("\n")
+    print(f"standings derived for {len(latest)} teams -> {os.path.relpath(out_path, ROOT)}")
 
 
 def promote_slate_rows(pages, games_url=GAMES):

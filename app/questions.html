@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Official standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -603,6 +603,83 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Owner chooses; the methodology page already labels the legacy free-fit HCA as superseded by the pinned policy.</td>
 <td>owner</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/estimators.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/estimators.py</a></td>
+</tr>
+<tr>
+<td>Q-4C69-01</td>
+<td>Legal / publication</td>
+<td>Does NBA Properties&#x27; terms section 9(iv) block publishing this site&#x27;s league-derived tables, and under what conditions?</td>
+<td>open (carried from session bb0c83a4)</td>
+<td>The public terms contain a media-access clause (9(iv)); prior sessions could not fetch the terms page from the sandbox and recorded the blocker with the official URL.</td>
+<td>A legal reading of the clause as applied to derived statistical tables with source links.</td>
+<td>Review the terms page text (official URL in the source column) with counsel before any monetisation; the bet surface stays gated meanwhile.</td>
+<td>repository owner</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a> · <a href="https://official.nba.com/" target="_blank" rel="noopener noreferrer">https://official.nba.com/</a></td>
+</tr>
+<tr>
+<td>Q-4C69-02</td>
+<td>Travel / rest model</td>
+<td>What are the verified arena coordinates for the two teams still blank in the sourced arena-coordinate table (CR-00b0c780-06)?</td>
+<td>open (carried)</td>
+<td>28 teams&#x27; arenas carry sourced coordinates; 2 are blank and their travel distances are printed unverified (44 travel distances unverified in the rest_travel run).</td>
+<td>Official coordinates (e.g. the teams&#x27; arena pages or a public mapping authority) for the 2 blank rows.</td>
+<td>Capture coordinates from each team&#x27;s official arena page; store with the page URL and leave blank until then — never infer from city centroids.</td>
+<td>data capture session</td>
+<td><a href="https://www.nba.com/teams" target="_blank" rel="noopener noreferrer">https://www.nba.com/teams</a></td>
+</tr>
+<tr>
+<td>Q-4C69-03</td>
+<td>Market-anchored prior</td>
+<td>What weight should the closing line get versus the model line in the market-anchored prior?</td>
+<td>open (carried as K-08)</td>
+<td>The prior design blends the originated line with the closing line; the closing line&#x27;s weight is set by its measured out-of-sample log-loss against the model&#x27;s. No closing lines have been captured (closing_lines.json is empty).</td>
+<td>Closing lines for settled games (and their outcomes) to measure the OOS log-loss ratio.</td>
+<td>Capture closing lines from a licensed odds source before tip for each slate game; until then the prior prints the model line alone and the market anchor is shown as missing — never inferred.</td>
+<td>strategy layer (needs an odds source)</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
+</tr>
+<tr>
+<td>Q-4C69-04</td>
+<td>Results integrity</td>
+<td>Does the NBA issue a corrected game book for 2026-11-15 ATL @ MIL (0022600243)? The official book contradicts itself on Milwaukee&#x27;s 3rd period (period table 37 vs summary line 27).</td>
+<td>open (flagged F-4C69-01)</td>
+<td>The final (113-106) is verified by five independent reads; the summary-line quarters sum to the printed final and agree with the player box; the period table&#x27;s Q3 cell (37) does not. Both readings are preserved.</td>
+<td>A league correction, or a third official reading of the quarter split (e.g. the official game page&#x27;s box-score period table).</td>
+<td>Re-read https://www.nba.com/game/atl-vs-mil-0022600243/box-score quarter table and watch the statsdmz book URL for a revised PDF (hash comparison).</td>
+<td>verification session</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+</tr>
+<tr>
+<td>Q-4C69-05</td>
+<td>Scheduled refresh</td>
+<td>Does the official games-page JSON number overtime periods as period 5 (OT1) and 6 (OT2) in its periods array?</td>
+<td>open — verified for regulation only</td>
+<td>Regulation games verified cell-by-cell against game books (periods 1-4). The ingest maps periods 5/6 to ot1/ot2; no completed OT game has yet been ingested from a captured games page.</td>
+<td>A captured games page containing a finished OT game (the 2026-11-15 capture was taken while NYK@TOR was still in Q3).</td>
+<td>The next scheduled run&#x27;s capture of a finished OT game settles this: results_feed verify requires the period sum to equal the final, so a wrong assumption is flagged, never published.</td>
+<td>scheduled job</td>
+<td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>Q-4C69-06</td>
+<td>Injury capture</td>
+<td>What is the correct participation status for the injury-report rows whose status cell the PDF extraction drops (e.g. Butler III, Jimmy in the 11/16 01:45 PM filing)?</td>
+<td>open (flagged F-4C69-04)</td>
+<td>The row and its reason are printed in the official PDF; the extraction shifts the status cell. The row is kept verbatim as an extraction quirk — never guessed into shape.</td>
+<td>The status value as printed in the PDF&#x27;s native layout.</td>
+<td>Cross-read the same filing&#x27;s row on a second extraction path (e.g. the official box-score inactives at tip), then record the value with both reads linked.</td>
+<td>verification session</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf</a></td>
+</tr>
+<tr>
+<td>Q-4C69-07</td>
+<td>Player logs</td>
+<td>When will per-player game logs (MIN/PTS/REB/AST/opponent) cover every player on the injury reports?</td>
+<td>open (carried: 84 pending in the 11/15 capture)</td>
+<td>The 2026-11-14 game books give complete logs for the ten teams that played; the injury report names 84 players whose teams&#x27; books (11/15-11/16) are not yet transcribed. The scheduled job now downloads every finished game&#x27;s book into its capture dir.</td>
+<td>Transcriptions of the 2026-11-15 and 2026-11-16 game books (PDF text extraction by the session agent; the parse validates points-sum identities).</td>
+<td>Transcribe the downloaded game books game by game with scripts/parse_gamebook.py (arithmetic-identity gate); the scheduler suggestion S-4C69-01 would automate the extraction.</td>
+<td>capture session</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a></td>
 </tr>
 </tbody></table></div>
 </main>

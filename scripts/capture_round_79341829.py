@@ -82,6 +82,7 @@ def parse_injury_raw(path):
     ctx = {"game_date": None, "game_time_et": None, "matchup": None,
            "team_name": None, "team": None}
     for line in text.splitlines():
+        line = line.lstrip()
         if not line.startswith("|"):
             continue
         if set(line.replace("|", "").replace(" ", "")) <= {"-"}:

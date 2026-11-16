@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Official standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html" class="active">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 107 items: 29 high, 62 medium, 16 low severity.
+<em>decisions</em>. 113 items: 31 high, 65 medium, 17 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -1220,6 +1220,72 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>handled — parser rules published</td>
 <td>2026-11-15</td>
 <td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf</a></td>
+</tr>
+<tr>
+<td>F-4C69-01</td>
+<td>Results integrity</td>
+<td>2026-11-15 ATL @ MIL (0022600243): the official game book&#x27;s period table reads MIL Q3 = 37 (row sums to 116) while its summary line reads 27 (row sums to the printed final 106).</td>
+<td>One official document carries two incompatible readings of the same period cell. The final is verified; the quarter split is contested.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Check for an official correction or a third reading (game page box-score period table); both readings are preserved in data/app/results_feed.json (quarter_conflict_note) and data/app/finals_1115_4c69ab99.json.</td>
+<td>open</td>
+<td>2026-11-16 settlement round (arena/4c69ab99-nba3)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+</tr>
+<tr>
+<td>F-4C69-02</td>
+<td>Repository hygiene</td>
+<td>Four stale open pull requests (#94, #95, #96, #98) from earlier sessions predate the 2026-11-16T00:57Z coordinated capture and carry conflicting copies of shared files (C449-F-07).</td>
+<td>Unmerged, they keep stale branches alive and would silently revert newer work if merged by mistake. Branch #98 carried 4 of the 9 verified 11/15 finals with values consistent with this round&#x27;s settlement.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Close each with a pointer note; branches stay available for reference (done in this round).</td>
+<td>closed in this round — see COORDINATION.md entry 2026-11-16 arena/4c69ab99-nba3</td>
+<td>2026-11-16 (arena/4c69ab99-nba3)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/pulls" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pulls</a></td>
+</tr>
+<tr>
+<td>F-4C69-03</td>
+<td>Injury capture</td>
+<td>The 11/16 01:45 PM filing prints &#x27;Mathurin, Bennedict&#x27; where the 11/16 01:30 PM filing prints &#x27;Mathurin, Benedict&#x27; (New Orleans).</td>
+<td>Two consecutive official filings spell the same player&#x27;s name differently; a name-keyed diff shows one row removed and one added.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Keep both spellings as printed (done); reconcile only against a third official read (e.g. the team&#x27;s game-book roster).</td>
+<td>open</td>
+<td>2026-11-16 injury capture (arena/4c69ab99-nba3)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf</a></td>
+</tr>
+<tr>
+<td>F-4C69-04</td>
+<td>Injury capture</td>
+<td>PDF extraction quirk: in the 11/16 01:45 PM filing the row &#x27;Butler III, Jimmy | Injury/Illness - Right ACL Repair / Surgery&#x27; loses its status cell (GSW).</td>
+<td>The extraction shifts columns on some rows; guessing the status would violate the no-inference rule.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Cross-read the row on a second extraction path (Q-4C69-06); the row is kept verbatim in official_injuries_2026-11-16_0145PM.json under extraction_quirks.</td>
+<td>open</td>
+<td>2026-11-16 injury capture (arena/4c69ab99-nba3)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf</a></td>
+</tr>
+<tr>
+<td>F-4C69-05</td>
+<td>Market data</td>
+<td>Closing lines remain uncaptured (closing_lines.json empty) — the market-anchored prior prints the model line without its market anchor.</td>
+<td>The brief&#x27;s prior requires closing lines weighted by measured OOS log-loss; no licensed source is wired yet (Q-4C69-03, S-4C69-03).</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Wire a licensed odds source; until then the anchor cell stays blank and flagged.</td>
+<td>open (carried as K-08)</td>
+<td>carried into this round</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
+</tr>
+<tr>
+<td>F-4C69-06</td>
+<td>Legal / publication</td>
+<td>NBA Properties terms section 9(iv) review is still unresolved (carried).</td>
+<td>Potential publication constraint on league-derived tables; the bet surface stays gated regardless.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Counsel review of the clause against this site&#x27;s derived tables (Q-4C69-01).</td>
+<td>open (carried)</td>
+<td>carried into this round</td>
+<td><a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">https://www.nba.com/termsofuse</a></td>
 </tr>
 </tbody></table></div>
 

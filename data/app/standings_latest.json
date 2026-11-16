@@ -1,0 +1,23 @@
+{
+ "schema": "nba3/standings-derived/v1",
+ "source_label": "standings snapshot derived from the post-game W-L records printed on the official nba.com games pages (scripts/refresh_official.py)",
+ "count": 2,
+ "teams": [
+  {
+   "team": "ATL",
+   "w": 7,
+   "l": 4,
+   "as_of_game": "2026-11-16 0022600903",
+   "source": "https://www.nba.com/games?date=2026-11-16",
+   "game_page": "https://www.nba.com/game/atl-vs-mil-0022600903"
+  },
+  {
+   "team": "MIL",
+   "w": 4,
+   "l": 10,
+   "as_of_game": "2026-11-16 0022600903",
+   "source": "https://www.nba.com/games?date=2026-11-16",
+   "game_page": "https://www.nba.com/game/atl-vs-mil-0022600903"
+  }
+ ]
+}

@@ -47,6 +47,7 @@ NAV = [
         ("Prices for the window", "app/picks.html"),
         ("Injuries & rotation", "app/injuries.html"),
         ("Report availability", "app/freshness.html"),
+        ("Official standings", "app/standings.html"),
         ("Game flow", "app/gameflow.html"),
         ("Refresh & provenance gates", "app/refresh.html"),
     ]),
@@ -108,6 +109,15 @@ def _load_new():
     NEW["flags_session"] = rd("data/app/flags_79341829.json", [])
     NEW["questions_session"] = rd("data/app/questions_79341829.json", [])
     NEW["suggestions_session"] = rd("data/app/suggestions_79341829.json", [])
+    # session arena/4c69ab99-nba3: the 2026-11-16 captures and registers
+    NEW["inj1116"] = rd("data/app/official_injuries_2026-11-16_0145PM.json", {"rows": []})
+    NEW["delta1116"] = rd("data/app/injury_delta_1116.json", {})
+    NEW["standings"] = rd("data/app/standings_2026-11-16.json", {})
+    NEW["standings_latest"] = rd("data/app/standings_latest.json", {})
+    NEW["summary_4c69"] = rd("data/app/summary_4c69ab99.json", {})
+    NEW["flags_session"] = NEW["flags_session"] + rd("data/app/flags_4c69ab99.json", [])
+    NEW["questions_session"] = NEW["questions_session"] + rd("data/app/questions_4c69ab99.json", [])
+    NEW["suggestions_session"] = NEW["suggestions_session"] + rd("data/app/suggestions_4c69ab99.json", [])
     ledger = []
     p = os.path.join(ROOT, "data", "app", "ledger", "ledger.jsonl")
     if os.path.exists(p):
@@ -396,6 +406,16 @@ def page_summary(d):
     funded = [s for s in strategies if s["tier"] == "T1"]
     provisional = [s for s in strategies if s["tier"] == "T2"]
     body = []
+    # ---- latest round summary (session arena/4c69ab99-nba3), reviewer-facing headline block
+    s4 = NEW.get("summary_4c69") or {}
+    if s4.get("bullets"):
+        items = "\n".join(f"<li>{esc(b)}</li>" for b in s4["bullets"])
+        body.append(f"""
+<div class="callout"><p><strong>{esc(s4.get('title', 'Latest round'))}</strong>
+({esc(str(s4.get('when', '')))}) — session <code>{esc(str(s4.get('id', '')))}</code>:</p>
+<ul>{items}</ul>
+<p>Sources: {" · ".join(f'<a href="{esc(u)}" target="_blank" rel="noopener noreferrer">{esc(u)}</a>' for u in s4.get('sources', []))}</p></div>
+""")
 
     est = NEW.get("est") or {}
     body.append(f"""
@@ -1379,6 +1399,76 @@ def page_injuries(d):
     inj = d["injuries"]
     lab = d["lab"]
     body = []
+    # ---- banner: the CURRENT newest official report, with revision + retrieval times (brief).
+    nj = NEW.get("inj1116") or {}
+    if nj.get("rows"):
+        body.append(f"""
+<div class="callout"><p><strong>Injury-page banner — current newest official report:
+revision time {esc(nj.get('report_revision_time', ''))}</strong>
+(<a href="{esc(nj.get('source_url', ''))}" target="_blank" rel="noopener noreferrer">PDF</a> ·
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/{esc(nj.get('raw_file', ''))}" target="_blank" rel="noopener noreferrer">verbatim transcript</a>),
+<strong>retrieval time {esc(str(nj.get('retrieved_stamp', '')))}</strong>
+({esc(nj.get('retrieval', ''))}). {esc(str(nj.get('player_rows', 0)))} player rows ·
+{esc(str(nj.get('not_submitted_rows', 0)))} sides printed “NOT YET SUBMITTED” ·
+{esc(str(len(nj.get('extraction_quirks', []))))} extraction-quirk line(s) kept verbatim
+(never repaired). The newest listing on the
+<a href="{esc(nj.get('index_url', ''))}" target="_blank" rel="noopener noreferrer">official index</a>
+at read time ran 12:00 AM through 1:45 PM ET for 11/16. Consecutive-report diff
+(01:45 PM vs 01:30 PM, 15 minutes apart) and the diff against the previous archived report are
+below in <a href="#s1d">section 1d</a>; the archived 11/15 table and its own diffs stay in
+sections 1–1c unchanged.</p></div>
+""")
+        rows = []
+        for r in nj.get("rows", []):
+            rows.append([
+                esc(str(r.get("game_date") or "")), esc(str(r.get("matchup") or "")),
+                esc(str(r.get("team") or "")), esc(str(r.get("player") or "")),
+                esc(str(r.get("status") or "")), esc(str(r.get("reason") or "")),
+                src_cell([nj.get("source_url", "https://official.nba.com/nba-injury-report-2026-27-season/")],
+                         "official report"),
+            ])
+        body.append('<h2 id="s1d">1d. 2026-11-16 01:45 PM ET capture (current newest)</h2>')
+        body.append(table(["Game date", "Matchup", "Team", "Player", "Status", "Reason", "Source"],
+                          rows, "injuries-1116"))
+        qrows = [[f"<code>{esc(q)}</code>",
+                  src_cell([nj.get("source_url", "")], "official report")]
+                 for q in nj.get("extraction_quirks", [])]
+        if qrows:
+            body.append("<p>Extraction quirks (verbatim lines whose status cell the PDF "
+                        "extraction dropped — kept as printed, never guessed):</p>")
+            body.append(table(["Verbatim line", "Source"], qrows, "injuries-1116-quirks"))
+        d1 = NEW.get("delta1116") or {}
+        dc = d1.get("diff_consecutive") or {}
+        dp = d1.get("diff_previous_archived") or {}
+        if dc:
+            crows = []
+            for r in dc.get("player_rows_added", []):
+                crows.append(["added", esc(str(r.get("key"))), esc(str(r.get("status"))),
+                              esc(str(r.get("reason"))),
+                              src_cell([dc.get("new_report", "")], "new filing")])
+            for r in dc.get("player_rows_removed", []):
+                crows.append(["removed", esc(str(r.get("key"))), esc(str(r.get("status"))),
+                              esc(str(r.get("reason"))),
+                              src_cell([dc.get("prior_report", "")], "prior filing")])
+            for r in dc.get("status_changes", []):
+                crows.append([f"status {esc(str(r.get('from')))} → {esc(str(r.get('to')))}",
+                              esc(str(r.get("key"))), esc(str(r.get("to"))),
+                              esc(str(r.get("reason"))),
+                              src_cell([dc.get("new_report", "")], "new filing")])
+            body.append(f"""
+<p><strong>Consecutive-report diff</strong> — {esc(dc.get('new_report_stamp', ''))} vs
+{esc(dc.get('prior_report_stamp', ''))} ({esc(dc.get('prior_label', 'prior filing'))}):
+{len(dc.get('player_rows_added', []))} added, {len(dc.get('player_rows_removed', []))} removed,
+{len(dc.get('status_changes', []))} status changes on overlapping rows.
+Previous archived report diff ({esc(dp.get('prior_report_stamp', ''))}):
+{len(dp.get('player_rows_added', []))} added, {len(dp.get('player_rows_removed', []))} removed,
+{len(dp.get('status_changes', []))} status changes (different game-day sections, so keys barely overlap).</p>
+""")
+            if crows:
+                body.append(table(["Change", "Key (game date, team, player)", "Status", "Reason",
+                                   "Source"], crows, "injury-delta-1116"))
+            for n in d1.get("notes", []):
+                body.append(f"<p class=\"small\">{esc(n)}</p>")
     body.append(f"""
 <p>Transcribed from the official NBA injury report
 <strong>{esc(inj['report_stamp'])}</strong> (<a href="{esc(inj['source_url'])}" target="_blank" rel="noopener noreferrer">PDF</a>).
@@ -1566,6 +1656,49 @@ the kind of number that gets a bankroll staked on it.</p>
 def _base(path):
     """File name only - the manifest stores repo-relative paths for readers, not for display."""
     return (path or "").split("/")[-1] if path else "\u2014"
+
+
+def page_standings(d):
+    st = NEW.get("standings") or {}
+    body = []
+    body.append(f"""
+<p>Official 2026-27 regular-season standings captured from the
+<a href="{esc(st.get('source_url', 'https://www.nba.com/standings'))}" target="_blank" rel="noopener noreferrer">nba.com standings page</a>
+(Overall, by conference). Records reflect every completed game through 2026-11-15 — including the nine
+2026-11-15 finals settled in the results feed. Retrieval window:
+<strong>{esc(str(st.get('retrieval_window_utc', '')))}</strong>. Every row links its official team page.</p>
+<p>Cross-checks: {esc(" · ".join(st.get('cross_checks', [])))}</p>
+""")
+    gpc = st.get("games_played_check") or {}
+    if gpc:
+        body.append(f'<p>Identity check: sum of wins = sum of losses = '
+                    f'<strong>{esc(str(gpc.get("sum_wins", "")))}</strong> completed games '
+                    f'({esc(str(gpc.get("note", "")))}).</p>')
+    for conf, label in (("east", "Eastern Conference"), ("west", "Western Conference")):
+        rows = []
+        for t in st.get(conf, []):
+            rows.append([
+                esc(str(t.get("rank", ""))), esc(t.get("team", "")),
+                esc(str(t.get("w", ""))) + "-" + esc(str(t.get("l", ""))),
+                esc(str(t.get("win_pct", ""))), esc(str(t.get("gb", ""))),
+                esc(str(t.get("conf", ""))), esc(str(t.get("div", ""))),
+                esc(str(t.get("home", ""))), esc(str(t.get("road", ""))),
+                esc(str(t.get("ot", ""))), esc(str(t.get("last10", ""))),
+                esc(str(t.get("streak", ""))),
+                src_cell([t.get("team_url", st.get("source_url", ""))], "official team page"),
+            ])
+        body.append(f"<h2>{esc(label)}</h2>")
+        body.append(table(["#", "Team", "W-L", "WIN%", "GB", "Conf", "Div", "Home", "Road",
+                           "OT", "Last 10", "Streak", "Source"], rows, f"standings-{conf}"))
+    latest = NEW.get("standings_latest") or {}
+    if latest.get("teams"):
+        body.append(f"""
+<p>The scheduled refresh job keeps a derived standings snapshot as well
+(data/app/standings_latest.json): W-L per team taken from the post-game records printed on the
+official games pages it ingests each run ({esc(str(latest.get('count', 0)))} teams), so standings
+stay current between manual captures of the standings page.</p>
+""")
+    return "\n".join(body)
 
 
 def page_freshness(d):
@@ -2902,6 +3035,8 @@ def main():
         ("app/injuries.html", "Injuries, rotation impact & report status", "Projection surface (public)", page_injuries(d), "app/injuries.html"),
         ("app/freshness.html", "Report availability & freshness", "Projection surface (public)",
          page_freshness(d), "app/freshness.html"),
+        ("app/standings.html", "Official standings", "Projection surface (public)",
+         page_standings(d), "app/standings.html"),
         ("app/gameflow.html", "Game flow", "Projection surface (public)", page_gameflow(d), "app/gameflow.html"),
         ("app/refresh.html", "Refresh & provenance gates", "Projection surface (public)",
          page_refresh(d), "app/refresh.html"),
