@@ -3,13 +3,51 @@
 import os
 import sys
 import unittest
+from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import freshness_gates_round_79341829 as freshness_gates  # noqa: E402
+import freshness_gates as live_freshness_gates  # noqa: E402
 
 
 class FreshnessGatesTest(unittest.TestCase):
+    def test_live_gate_selects_newest_report_by_real_clock_time(self):
+        import pathlib
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as td:
+            injury_dir = pathlib.Path(td)
+            # This lexical ordering is wrong: "12_00AM" sorts after "01_00PM".
+            for filename in (
+                "Injury-Report_2026-11-15_12_00AM.md",
+                "Injury-Report_2026-11-15_01_00PM.md",
+                "Injury-Report_2026-11-15_11_45PM.md",
+                "Injury-Report_2026-11-16_12_00AM.md",
+            ):
+                (injury_dir / filename).touch()
+            with mock.patch.object(live_freshness_gates, "INJ", injury_dir):
+                self.assertEqual(
+                    live_freshness_gates.latest_report().name,
+                    "Injury-Report_2026-11-16_12_00AM.md",
+                )
+                (injury_dir / "Injury-Report_2026-11-16_12_00AM.md").unlink()
+                self.assertEqual(
+                    live_freshness_gates.latest_report().name,
+                    "Injury-Report_2026-11-15_11_45PM.md",
+                )
+
+    def test_live_gate_rejects_unparseable_report_filename(self):
+        import pathlib
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as td:
+            injury_dir = pathlib.Path(td)
+            (injury_dir / "Injury-Report_2026-11-15_latest.md").touch()
+            with mock.patch.object(live_freshness_gates, "INJ", injury_dir):
+                with self.assertRaisesRegex(ValueError, "unexpected archived injury report"):
+                    live_freshness_gates.latest_report()
+
     def test_report_structure(self):
         rep = freshness_gates.evaluate()
         ids = [g["id"] for g in rep["gates"]]

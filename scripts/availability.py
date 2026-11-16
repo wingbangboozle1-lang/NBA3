@@ -33,7 +33,8 @@ OUT = ROOT / "data" / "live" / "availability.json"
 
 
 def latest() -> pathlib.Path:
-    return sorted(INJ.glob("Injury-Report_*.md"))[-1]
+    from freshness_gates import latest_report
+    return latest_report()
 
 
 def build() -> dict:

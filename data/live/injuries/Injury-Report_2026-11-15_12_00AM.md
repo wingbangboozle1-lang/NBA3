@@ -3,8 +3,9 @@
      Provenance note, stated plainly because it matters for a diff: this transcription was written
      by deriving it from the 06:00 a.m. transcription and applying exactly the differences the
      12:00 a.m. read showed -- the report timestamp on all seven page headers, and one player-name
-     spelling (Markovic, Bogojub here vs Bogoljub in the 06:00 a.m. file). The 12:00 a.m. PDF also
-     writes 'Embiid, Joel' where the 06:00 a.m. PDF writes 'Embid, Joel'; that difference is kept.
+     spelling (Markovic, Bogojub here vs Bogoljub in the 06:00 a.m. file). The 12:00 a.m. PDF
+     writes 'Embiid, Joel'; the official 06:00 a.m. PDF also writes 'Embiid, Joel', while the
+     06:15 a.m. PDF writes 'Embid, Joel'. These spellings are transcribed as printed.
      scripts/injury_archive.py prints the diff between all three files so any missed difference
      is visible rather than hidden. -->
 

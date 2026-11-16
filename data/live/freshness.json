@@ -24,11 +24,11 @@
    "name": "The model used the newest archived injury report",
    "passed": true,
    "value": {
-    "model_used": "Injury-Report_2026-11-15_12_00AM",
-    "newest_on_disk": "Injury-Report_2026-11-15_12_00AM"
+    "model_used": "Injury-Report_2026-11-15_06_15AM",
+    "newest_on_disk": "Injury-Report_2026-11-15_06_15AM"
    },
    "rule": "the engine must read the newest archived report, not an older one",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
   },
   {
    "id": "F3",
@@ -39,7 +39,7 @@
     "slate_start": "2026-11-15"
    },
    "rule": "report date >= first slate date",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
   },
   {
    "id": "F4",
@@ -73,6 +73,11 @@
    "value": {
     "reports": [
      {
+      "file": "Injury-Report_2026-11-15_12_00AM.md",
+      "bytes": 11298,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+     },
+     {
       "file": "Injury-Report_2026-11-15_06_00AM.md",
       "bytes": 11000,
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf"
@@ -81,17 +86,12 @@
       "file": "Injury-Report_2026-11-15_06_15AM.md",
       "bytes": 10757,
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-     },
-     {
-      "file": "Injury-Report_2026-11-15_12_00AM.md",
-      "bytes": 11222,
-      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
      }
     ],
     "problems": []
    },
    "rule": "one file per report, URL inside the file",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
   },
   {
    "id": "F7",
