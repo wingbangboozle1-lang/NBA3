@@ -5027,141 +5027,6 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 
 ---
 
-<<<<<<< HEAD
-## Session `arena/4054e125-nba3` — CLAIM (2026-11-16 18:2x UTC): results-feed currency + settlement automation, standings/team-stat refresh, 11/16 injury archive, integration
-
-Claim written and pushed before any other work (board rule). Base: `main` @ `907771b` (record of PR #109 merge). Branch is fixed as `arena/4054e125-nba3`.
-
-**Takeover note (handoff).** Open PRs #94 (`arena/42d69dc5-nba3`), #95 (`arena/43d54bfe-nba3`), #96 (`arena/3d625d23-nba3`), #98 (`arena/c94a5531-nba3`) have had **no commits for 16–18 hours** (last commits 2026-11-16 00:00–02:28 UTC; now 18:20 UTC), far beyond the 60-minute stale-claim rule. This session takes over their unfinished work items (11/15 settlement, refresh-pipeline rolling duties, injury freshness) and will re-verify any salvaged values from official sources before use. The stale PRs are superseded and will be closed with a pointer to this record.
-
-| # | Task | Status | Owner | File scope |
-|---|------|--------|-------|------------|
-| P1 | Board claim (this block), pushed first | done (this commit) | 4054e125 | `COORDINATION.md` (append-only) |
-| P2 | Per-game results feed current through 11/15 finals: one row per game (date, teams, final score, quarter scores), settle ONLY after verified finals; ~~ATL@MIL stays withheld~~ DECISION REVISED on evidence (see completion record): settled with the game-page LINESCORES quarters and the game-book conflict flagged | done | 4054e125 | `data/app/results_feed.json`, `data/live/results/`, `scripts/results_feed.py`, new `scripts/ingest_results.py` |
-| P3 | Scheduled-job extension: standings + three team-stat pages captured with provenance; chain ingests finished games from the official game-card feed (NOT the game books - see completion record for the scope note), settles the finished game day and the sealed ledger, and rebuilds only after freshness+provenance gates pass | done | 4054e125 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `data/live/standings.json` |
-| P4 | Injury PDFs for 11/16: every report with timestamp archived (newest archived this session; every index report archived by the scheduled job going forward - gap flagged 1116-F-02), consecutive reports diffed, banner shows revision + retrieval time | done | 4054e125 | `data/live/injuries/`, `data/app/injuries*`, `scripts/injury_archive.py` |
-| P5 | Site: settlement stamps visible, standings page, exec summary/questions/suggestions updated, Flagged for Review current | done | 4054e125 | `scripts/build_app.py`, `app/`, `index.html` |
-| P6 | Integration: tests green, PR to `main`, merge, Pages deploy check, record here | done (this commit) | 4054e125 | `COORDINATION.md` |
-
----
-
-## WORK LOG - arena/4054e125-nba3 (2026-11-16, results feed / settlement / standings / injuries / integration)
-
-### What was done (all values line-by-line from official sources, links below; nothing inferred)
-
-1. **11/15 results feed settled at game day end (P2).** All nine finals of 2026-11-15 read twice
-   (official scoreboard https://www.nba.com/games?date=2026-11-15 and each game's official summary
-   page LINESCORES), quarter/OT scores read from the game pages, cross-checked against the game-card
-   feed capture at data/app/refresh/2026-11-16T00-57Z (four games final at capture) and the official
-   game-book transcriptions in audit_00b0c780/data/finals_1115.json. Rows written to
-   data/app/results_feed.json (23 rows, all settled, settlement stamps visible) and
-   data/live/results/games_2026-11-15.json + settled_2026-11-15.json. Sealed pick ledger settled
-   from the verified finals: 9 SETTLED entries appended, 43 entries, hash chain intact
-   (scripts/pick_ledger.py verify: 0 problems). NYK@TOR OT scores captured (q5 columns added to the
-   feed schema; verify/settle arithmetic includes OT).
-2. **ATL@MIL quarter conflict resolved and flagged, never repaired.** The official statsdmz game
-   book prints MIL Q3=37 (sums 116, contradicts its own printed FINAL 106); the official game-page
-   LINESCORES give 27 (sums 106) and the AP recap on the page ("led 87-80 after three") corroborates
-   27. Published value: LINESCORES (27), with both readings recorded on the row and on
-   app/flagged.html (1116-F-01). The game-book transcription is untouched.
-3. **Standings (P3a).** https://www.nba.com/standings captured 2026-11-16 (all 30 teams, every
-   printed column) into data/live/raw/standings_2026-11-16.md + data/live/standings.json via
-   scripts/capture_standings.py. Checks (refuse-to-publish on failure): 30 unique teams, WIN% =
-   W/(W+L), GB = games-behind formula vs the conference leader (ties print "--"), HOME+ROAD+Neutral
-   sum to W-L, DIV<=CONF<=GP, LAST10 = min(10,GP). Every team's record cross-checked against the
-   records printed on the official game cards read the same day (30/30 match, table in the capture).
-   Site page app/standings.html, every row linked to the official standings page.
-4. **Injury reports (P4).** Newest official report (2026-11-16 01:15 PM ET) archived verbatim
-   (data/live/injuries/Injury-Report_2026-11-16_01_15PM.md, source URL + retrieval stamp
-   2026-11-16T18:35Z in the header). Consecutive-report diff vs the last archived report
-   (11/15 06:15 AM): 1 status change (Adams, Steven HOU: Probable -> Out), 61 added / 70 removed
-   rows (the newer report covers the 11/16-11/17 slate; removals are played games leaving the
-   report). data/live/injuries/deltas.json + archive_index.json regenerated (now carry per-report
-   retrieval stamps). Injuries page banner shows revision time + retrieval time (section 1d).
-5. **Model re-cut after settlement.** estimators.py now folds every captured game day in
-   data/live/results/ into its sample (F9 enforced: sample end >= newest settled game date); the
-   79341829 estimator chain re-cut the same way (HCA measured over 197 games, luck z-scores, rho,
-   OOS all re-measured from the official log). The round replay (data/rounds/2026-11-16) keeps its
-   own frozen reading: its game log now de-duplicates the feed against its own results.json, so the
-   pinned 22-game replay reproduces byte-for-byte and 0022600243 stays excluded there by that
-   session's design (its I2 gate); the app feed settles it with the conflict flagged.
-6. **Freshness/provenance gates extended (P3b).** F11 (standings capture exists, 30 teams, https +
-   retrieval stamp, arithmetic checks green) and F12 (every verified final settled; every withheld
-   row flagged) added; F4/F9 now cover every settled game day file. 12/12 live gates pass.
-7. **Scheduled refresh extended (P3b).** scripts/refresh_official.py now (a) fetches the standings
-   page (required) and promotes it via scripts/standings_feed.py (strict: markdown / SSR HTML table /
-   __NEXT_DATA__ modes; only a full 30-team parse with every printed column overwrites the verified
-   capture, a partial parse writes data/app/standings_current.json and a flag), (b) ingests finished
-   games from the game-card feed embedded in the fetched games pages (scripts/gamecard_feed.py;
-   a card whose period scores do not sum to its printed final is rejected and reported, never
-   repaired), (c) runs results-feed settle --all-done + pick-ledger settle at the end of every run
-   (settle each finished game day the moment its finals are verified), (d) archives every injury
-   report the official index lists (verbatim pdftotext text + PDF URL + sha256 at retrieval +
-   retrieval stamp -> data/app/injury_reports_archive/; poppler installed in refresh.yml).
-8. **Replay verification (the CI drift gates re-run locally, byte-for-byte).** 79341829 chain
-   (capture/estimators/minutes/feed verify/ledger verify/prereg verify/round gates): drift-free.
-   2ebb1e75 live chain (10 steps): drift-free. strategy_lab: drift-free. assemble_canonical +
-   build_app: drift-free. round chain (gates/model/site): drift-free. Tests: 198 in tests/ + 29 in
-   pipeline/tests, all passing. tools/check_site.py PASS.
-9. **Site.** New app/standings.html; injuries page section 1d (newest report, revision + retrieval
-   times, consecutive diff table, extraction-artifact notes); executive summary settled-results card;
-   6 flagged items (app/flagged.html), 4 open questions, 4 suggestions with options/recommendation/
-   dependency/decision (app/questions.html, app/suggestions.html); settlement page shows all 23 rows
-   with settlement stamps and per-row source links.
-
-### Irregularities logged (flagged, not repaired)
-- ATL@MIL 0022600243 game-book period table vs game-page LINESCORES (MIL Q3 37 vs 27) - flag
-  1116-F-01, question 1116-Q-01. Published value = game-page LINESCORES; both readings recorded.
-- Injury PDF 2026-11-16 01:15 PM page-break column shifts (GSW@NOP block loses one column; two rows
-  lose all leading cells) - parser publishes only rows with a recognisable status, damaged rows kept
-  as UNPARSEABLE/UNATTRIBUTED raw cells (flag 1116-F-03).
-- Reports between 11/15 06:15 AM and 11/16 01:15 PM not archived (index listed 53 on 11/16) - the
-  consecutive diff spans a gap (flag 1116-F-02); the scheduled job now archives every report.
-- 11/13 feed rows settled on the verified final alone (quarters never captured; stamped as such) -
-  flag 1116-F-04.
-- 11/15 player game logs not yet transcribed (9 game books exist as official URLs; 11/14 books are
-  captured) - flag 1116-F-05, question 1116-Q-03.
-- 11/19 games (0022600270-0022600273) not priced in the pinned round window (11/16-11/18) - flag
-  1116-F-06, question 1116-Q-02.
-- Closing-line capture still absent (market anchor stays null) - question 1116-Q-04 (carried).
-
-### Sources read this session (agent fetch tool, 2026-11-16)
-- https://www.nba.com/games?date=2026-11-15 (scoreboard, 9 finals + team records)
-- 9 game pages https://www.nba.com/game/<slug>-0022600236..0022600244 (LINESCORES + GAME INFO)
-- https://www.nba.com/standings (30-team table, all columns)
-- https://official.nba.com/nba-injury-report-2026-27-season/ + ak-static.cms.nba.com
-  Injury-Report_2026-11-16_01_15PM.pdf (chunks 0-1)
-- Game-page schedule strips: slate 11/16 (8), 11/17 (5), 11/18 (12), 11/19 (4) - 29 games with ids
-- Dead ends (do not retry): cdn.nba.com liveData boxscore JSON (HTTP 500); data.nba.com gamedetail
-  JSON (AccessDenied). Use www.nba.com/game/ pages.
-
-### Takeover of stale PRs (per board policy, handoff logged)
-PR #94 (results feed), #95 (live pipeline), #96 (games HTML captures), #98 (11/15 book) were 16-18h
-stale with no commits. Their scopes were taken over by this session (claim 348b3ec); their PRs are
-closed with a comment naming what superseded each. Nothing of #94's schema work was lost: the
-settled_2026-11-15.json schema from refs/pull/94/head was salvaged and used for
-data/live/results/settled_2026-11-15.json.
-
-### COMPLETION RECORD - arena/4054e125-nba3 (2026-11-16)
-
-- **Decision revised (documented, justified):** the claim said ATL@MIL would stay withheld for the
-  quarter conflict. After reading the official game-page LINESCORES (MIL Q3=27, sums to the
-  four-times-verified final 106) and the AP recap on the same page ("led 87-80 the end of the
-  third"), the game-book period table (Q3=37, sums 116) is the outlier. The row is SETTLED with the
-  LINESCORES quarters, the conflict is recorded on the row and on app/flagged.html (1116-F-01), and
-  the game-book transcription is not altered. Both readings remain visible for review.
-- **Scope note:** the claim listed `scripts/ingest_results.py`; the ingest shipped as
-  `scripts/gamecard_feed.py` + `results_feed.py ingest` (same file scope family, fewer files), plus
-  `scripts/standings_feed.py` for strict standings promotion. Game books are NOT parsed in CI (no
-  PDF text extraction on the committed fixtures); the runner-side ingest reads the official
-  game-card feed from the games pages the job already fetches, with the same sum-check rule, and
-  the game books remain the settlement cross-check sources.
-- **Verification:** every CI drift-gated replay re-run locally and byte-identical (79341829 chain,
-  2ebb1e75 chain, strategy_lab, assemble_canonical+build_app, round chain). 198 + 29 tests green.
-  12/12 freshness gates pass. tools/check_site.py PASS.
-- **PR:** see the PR conversation of this branch for the link; merged without waiting per board
-  policy, Pages deploy confirmed and recorded as a PR comment immediately after the merge.
-=======
 ## Session `arena/f238d508-nba3` (current) — CLAIM: clean live GitHub Pages site, official-source verification of the current 3-day slate, flag irregularities, PR → merge → Pages deploy
 
 **Session ID:** `arena/f238d508-nba3`. Workspace branch `arena/f238d508-nba3`, based on `main` @ `907771b` (merge of PR #109). Claim written and pushed before any other work started, per the board rule. The `session-<id>/<task>` per-task branch scheme cannot be used (Arena binds this workspace to one branch), so scope is enforced by file path below and recorded here before work starts.
@@ -5744,4 +5609,137 @@ Window is now **29 games across four days** (11/16–11/19), the extra day read 
 page by this session, with its four cards' records cross-checked against the standings capture (8/8
 agree, 0 mismatches) and the venue left blank because a scoreboard card does not print one. Tests:
 **65 OK**. Flags: **13** (5 high).
->>>>>>> origin/main
+
+## Session `arena/4054e125-nba3` — CLAIM (2026-11-16 18:2x UTC): results-feed currency + settlement automation, standings/team-stat refresh, 11/16 injury archive, integration
+
+Claim written and pushed before any other work (board rule). Base: `main` @ `907771b` (record of PR #109 merge). Branch is fixed as `arena/4054e125-nba3`.
+
+**Takeover note (handoff).** Open PRs #94 (`arena/42d69dc5-nba3`), #95 (`arena/43d54bfe-nba3`), #96 (`arena/3d625d23-nba3`), #98 (`arena/c94a5531-nba3`) have had **no commits for 16–18 hours** (last commits 2026-11-16 00:00–02:28 UTC; now 18:20 UTC), far beyond the 60-minute stale-claim rule. This session takes over their unfinished work items (11/15 settlement, refresh-pipeline rolling duties, injury freshness) and will re-verify any salvaged values from official sources before use. The stale PRs are superseded and will be closed with a pointer to this record.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| P1 | Board claim (this block), pushed first | done (this commit) | 4054e125 | `COORDINATION.md` (append-only) |
+| P2 | Per-game results feed current through 11/15 finals: one row per game (date, teams, final score, quarter scores), settle ONLY after verified finals; ~~ATL@MIL stays withheld~~ DECISION REVISED on evidence (see completion record): settled with the game-page LINESCORES quarters and the game-book conflict flagged | done | 4054e125 | `data/app/results_feed.json`, `data/live/results/`, `scripts/results_feed.py`, new `scripts/ingest_results.py` |
+| P3 | Scheduled-job extension: standings + three team-stat pages captured with provenance; chain ingests finished games from the official game-card feed (NOT the game books - see completion record for the scope note), settles the finished game day and the sealed ledger, and rebuilds only after freshness+provenance gates pass | done | 4054e125 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `data/live/standings.json` |
+| P4 | Injury PDFs for 11/16: every report with timestamp archived (newest archived this session; every index report archived by the scheduled job going forward - gap flagged 1116-F-02), consecutive reports diffed, banner shows revision + retrieval time | done | 4054e125 | `data/live/injuries/`, `data/app/injuries*`, `scripts/injury_archive.py` |
+| P5 | Site: settlement stamps visible, standings page, exec summary/questions/suggestions updated, Flagged for Review current | done | 4054e125 | `scripts/build_app.py`, `app/`, `index.html` |
+| P6 | Integration: tests green, PR to `main`, merge, Pages deploy check, record here | done (this commit) | 4054e125 | `COORDINATION.md` |
+
+---
+
+## WORK LOG - arena/4054e125-nba3 (2026-11-16, results feed / settlement / standings / injuries / integration)
+
+### What was done (all values line-by-line from official sources, links below; nothing inferred)
+
+1. **11/15 results feed settled at game day end (P2).** All nine finals of 2026-11-15 read twice
+   (official scoreboard https://www.nba.com/games?date=2026-11-15 and each game's official summary
+   page LINESCORES), quarter/OT scores read from the game pages, cross-checked against the game-card
+   feed capture at data/app/refresh/2026-11-16T00-57Z (four games final at capture) and the official
+   game-book transcriptions in audit_00b0c780/data/finals_1115.json. Rows written to
+   data/app/results_feed.json (23 rows, all settled, settlement stamps visible) and
+   data/live/results/games_2026-11-15.json + settled_2026-11-15.json. Sealed pick ledger settled
+   from the verified finals: 9 SETTLED entries appended, 43 entries, hash chain intact
+   (scripts/pick_ledger.py verify: 0 problems). NYK@TOR OT scores captured (q5 columns added to the
+   feed schema; verify/settle arithmetic includes OT).
+2. **ATL@MIL quarter conflict resolved and flagged, never repaired.** The official statsdmz game
+   book prints MIL Q3=37 (sums 116, contradicts its own printed FINAL 106); the official game-page
+   LINESCORES give 27 (sums 106) and the AP recap on the page ("led 87-80 after three") corroborates
+   27. Published value: LINESCORES (27), with both readings recorded on the row and on
+   app/flagged.html (1116-F-01). The game-book transcription is untouched.
+3. **Standings (P3a).** https://www.nba.com/standings captured 2026-11-16 (all 30 teams, every
+   printed column) into data/live/raw/standings_2026-11-16.md + data/live/standings.json via
+   scripts/capture_standings.py. Checks (refuse-to-publish on failure): 30 unique teams, WIN% =
+   W/(W+L), GB = games-behind formula vs the conference leader (ties print "--"), HOME+ROAD+Neutral
+   sum to W-L, DIV<=CONF<=GP, LAST10 = min(10,GP). Every team's record cross-checked against the
+   records printed on the official game cards read the same day (30/30 match, table in the capture).
+   Site page app/standings.html, every row linked to the official standings page.
+4. **Injury reports (P4).** Newest official report (2026-11-16 01:15 PM ET) archived verbatim
+   (data/live/injuries/Injury-Report_2026-11-16_01_15PM.md, source URL + retrieval stamp
+   2026-11-16T18:35Z in the header). Consecutive-report diff vs the last archived report
+   (11/15 06:15 AM): 1 status change (Adams, Steven HOU: Probable -> Out), 61 added / 70 removed
+   rows (the newer report covers the 11/16-11/17 slate; removals are played games leaving the
+   report). data/live/injuries/deltas.json + archive_index.json regenerated (now carry per-report
+   retrieval stamps). Injuries page banner shows revision time + retrieval time (section 1d).
+5. **Model re-cut after settlement.** estimators.py now folds every captured game day in
+   data/live/results/ into its sample (F9 enforced: sample end >= newest settled game date); the
+   79341829 estimator chain re-cut the same way (HCA measured over 197 games, luck z-scores, rho,
+   OOS all re-measured from the official log). The round replay (data/rounds/2026-11-16) keeps its
+   own frozen reading: its game log now de-duplicates the feed against its own results.json, so the
+   pinned 22-game replay reproduces byte-for-byte and 0022600243 stays excluded there by that
+   session's design (its I2 gate); the app feed settles it with the conflict flagged.
+6. **Freshness/provenance gates extended (P3b).** F11 (standings capture exists, 30 teams, https +
+   retrieval stamp, arithmetic checks green) and F12 (every verified final settled; every withheld
+   row flagged) added; F4/F9 now cover every settled game day file. 12/12 live gates pass.
+7. **Scheduled refresh extended (P3b).** scripts/refresh_official.py now (a) fetches the standings
+   page (required) and promotes it via scripts/standings_feed.py (strict: markdown / SSR HTML table /
+   __NEXT_DATA__ modes; only a full 30-team parse with every printed column overwrites the verified
+   capture, a partial parse writes data/app/standings_current.json and a flag), (b) ingests finished
+   games from the game-card feed embedded in the fetched games pages (scripts/gamecard_feed.py;
+   a card whose period scores do not sum to its printed final is rejected and reported, never
+   repaired), (c) runs results-feed settle --all-done + pick-ledger settle at the end of every run
+   (settle each finished game day the moment its finals are verified), (d) archives every injury
+   report the official index lists (verbatim pdftotext text + PDF URL + sha256 at retrieval +
+   retrieval stamp -> data/app/injury_reports_archive/; poppler installed in refresh.yml).
+8. **Replay verification (the CI drift gates re-run locally, byte-for-byte).** 79341829 chain
+   (capture/estimators/minutes/feed verify/ledger verify/prereg verify/round gates): drift-free.
+   2ebb1e75 live chain (10 steps): drift-free. strategy_lab: drift-free. assemble_canonical +
+   build_app: drift-free. round chain (gates/model/site): drift-free. Tests: 198 in tests/ + 29 in
+   pipeline/tests, all passing. tools/check_site.py PASS.
+9. **Site.** New app/standings.html; injuries page section 1d (newest report, revision + retrieval
+   times, consecutive diff table, extraction-artifact notes); executive summary settled-results card;
+   6 flagged items (app/flagged.html), 4 open questions, 4 suggestions with options/recommendation/
+   dependency/decision (app/questions.html, app/suggestions.html); settlement page shows all 23 rows
+   with settlement stamps and per-row source links.
+
+### Irregularities logged (flagged, not repaired)
+- ATL@MIL 0022600243 game-book period table vs game-page LINESCORES (MIL Q3 37 vs 27) - flag
+  1116-F-01, question 1116-Q-01. Published value = game-page LINESCORES; both readings recorded.
+- Injury PDF 2026-11-16 01:15 PM page-break column shifts (GSW@NOP block loses one column; two rows
+  lose all leading cells) - parser publishes only rows with a recognisable status, damaged rows kept
+  as UNPARSEABLE/UNATTRIBUTED raw cells (flag 1116-F-03).
+- Reports between 11/15 06:15 AM and 11/16 01:15 PM not archived (index listed 53 on 11/16) - the
+  consecutive diff spans a gap (flag 1116-F-02); the scheduled job now archives every report.
+- 11/13 feed rows settled on the verified final alone (quarters never captured; stamped as such) -
+  flag 1116-F-04.
+- 11/15 player game logs not yet transcribed (9 game books exist as official URLs; 11/14 books are
+  captured) - flag 1116-F-05, question 1116-Q-03.
+- 11/19 games (0022600270-0022600273) not priced in the pinned round window (11/16-11/18) - flag
+  1116-F-06, question 1116-Q-02.
+- Closing-line capture still absent (market anchor stays null) - question 1116-Q-04 (carried).
+
+### Sources read this session (agent fetch tool, 2026-11-16)
+- https://www.nba.com/games?date=2026-11-15 (scoreboard, 9 finals + team records)
+- 9 game pages https://www.nba.com/game/<slug>-0022600236..0022600244 (LINESCORES + GAME INFO)
+- https://www.nba.com/standings (30-team table, all columns)
+- https://official.nba.com/nba-injury-report-2026-27-season/ + ak-static.cms.nba.com
+  Injury-Report_2026-11-16_01_15PM.pdf (chunks 0-1)
+- Game-page schedule strips: slate 11/16 (8), 11/17 (5), 11/18 (12), 11/19 (4) - 29 games with ids
+- Dead ends (do not retry): cdn.nba.com liveData boxscore JSON (HTTP 500); data.nba.com gamedetail
+  JSON (AccessDenied). Use www.nba.com/game/ pages.
+
+### Takeover of stale PRs (per board policy, handoff logged)
+PR #94 (results feed), #95 (live pipeline), #96 (games HTML captures), #98 (11/15 book) were 16-18h
+stale with no commits. Their scopes were taken over by this session (claim 348b3ec); their PRs are
+closed with a comment naming what superseded each. Nothing of #94's schema work was lost: the
+settled_2026-11-15.json schema from refs/pull/94/head was salvaged and used for
+data/live/results/settled_2026-11-15.json.
+
+### COMPLETION RECORD - arena/4054e125-nba3 (2026-11-16)
+
+- **Decision revised (documented, justified):** the claim said ATL@MIL would stay withheld for the
+  quarter conflict. After reading the official game-page LINESCORES (MIL Q3=27, sums to the
+  four-times-verified final 106) and the AP recap on the same page ("led 87-80 the end of the
+  third"), the game-book period table (Q3=37, sums 116) is the outlier. The row is SETTLED with the
+  LINESCORES quarters, the conflict is recorded on the row and on app/flagged.html (1116-F-01), and
+  the game-book transcription is not altered. Both readings remain visible for review.
+- **Scope note:** the claim listed `scripts/ingest_results.py`; the ingest shipped as
+  `scripts/gamecard_feed.py` + `results_feed.py ingest` (same file scope family, fewer files), plus
+  `scripts/standings_feed.py` for strict standings promotion. Game books are NOT parsed in CI (no
+  PDF text extraction on the committed fixtures); the runner-side ingest reads the official
+  game-card feed from the games pages the job already fetches, with the same sum-check rule, and
+  the game books remain the settlement cross-check sources.
+- **Verification:** every CI drift-gated replay re-run locally and byte-identical (79341829 chain,
+  2ebb1e75 chain, strategy_lab, assemble_canonical+build_app, round chain). 198 + 29 tests green.
+  12/12 freshness gates pass. tools/check_site.py PASS.
+- **PR:** see the PR conversation of this branch for the link; merged without waiting per board
+  policy, Pages deploy confirmed and recorded as a PR comment immediately after the merge.
