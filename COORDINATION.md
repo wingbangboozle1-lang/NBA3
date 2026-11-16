@@ -5108,3 +5108,37 @@ files are logged here instead of editing them.
 
 No other session has claims on `origin/main` at claim time (`907771b`). This session does not touch files owned by sessions `f879620b` (`docs/`, `tools/`, `tests/test_validate_gates.py`), `7c532e8c-nba3` (`site/`, `scripts/build_site.py`), `9ed6085f-nba3` (`data/*.csv`, `pipeline/`), `00b0c780` (`data/app/ledger/`, `audit_00b0c780/`), or `8f4fac33` (`round/`, `scripts/refresh_2026_11_16.py`) except through logged change requests.
 
+
+## Session `arena/fbd2484b-nba3` (current) — claim (2026-11-16 UTC)
+
+Session ID: `fbd2484b`. Branch is fixed by the workspace to `arena/fbd2484b-nba3`
+(branched from `main` @ `907771b`). The brief's `session-<id>/<task>` branch naming cannot be
+used here; non-overlapping file scopes are kept inside this one branch instead.
+
+### Why this scope, and what it does not touch
+
+`main` @ `907771b` publishes an 11/16 injury snapshot of **09:15 AM ET**. On 2026-11-16 the
+official index lists 11/16 reports through **1:00 PM ET**, and I have already read that PDF
+directly. So the published availability picture is stale on its own stated terms. This session
+captures the newer official filing, diffs consecutive reports, and publishes the delta with
+gates, requirements, questions, suggestions and flags.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F13 11/16 1:00 PM ET official injury capture + consecutive-report diff + gates + requirements/questions/suggestions/flags + dashboard | in progress | `fbd2484b` | `scripts/round2_2026_11_16.py`, `data/rounds/2026-11-16-1300PM/`, `round2/`, `tests/test_round2_2026_11_16.py`, `COORDINATION.md`, `.github/workflows/pages.yml` (one build step + one `cp -r round2`) |
+
+Explicitly **not** in scope, and not edited: `scripts/refresh_2026_11_16.py`,
+`scripts/round_model_2026_11_16.py`, `scripts/build_round_site.py`, `data/rounds/2026-11-16/`,
+`round/`, `app/`, `index.html`, `projection/`, `bet/`, `data/live/`, `ledger/`, `prereg/`.
+Those belong to earlier sessions and are drift-checked by CI. `round/` and `data/rounds/`
+are read here, never written.
+
+No other session has an unexpired claim on the paths above (`gh pr list --state open` shows
+PRs #94–#98 open from earlier sessions on unrelated trees).
+
+### Verified network constraint (recorded because it changes what "verified" can mean here)
+
+In this sandbox `curl` reaches `github.com` only; `official.nba.com` and
+`ak-static.cms.nba.com` fail at TLS (`curl: (35) SSL_ERROR_SYSCALL`). The Arena page-fetch
+tool *does* reach them. So every official value below was read with the fetch tool and its
+retrieval stamp is recorded per artefact. Raw `curl` output is never used as evidence.
