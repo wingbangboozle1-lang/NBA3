@@ -4646,3 +4646,21 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/ae64ffc4-nba3` — CLAIM: close the official injury-report freshness gap and validate the rolling refresh gates
+
+**Session ID:** `arena/ae64ffc4-nba3`. Arena-assigned branch `arena/ae64ffc4-nba3` (base `5fde67eef57178f4c69ad41d18adc15fc6fca1fc`); branch name is fixed by the workspace. Claim written before implementation work.
+
+**Why this round exists.** The latest coordination record flags F-R6: the public injury snapshot is stamped 2026-11-15 06:15 AM ET even though later reports were recorded in the board, and the existing F1 gate compares only reports already on disk. The current task is to make official-index freshness a fail-closed rebuild gate, then re-check the current official source and make only source-backed changes. All reported values not re-confirmed in this session remain unverified and must stay flagged.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| A1 | Re-read the official injury-report index and the current report(s); record retrieval/provenance and a consecutive-report diff without inferring unattributed rows | in progress | `data/live/injuries/` (new capture files only), `data/app/` (new source manifest/delta only), `COORDINATION.md` |
+| A2 | Add a fail-closed comparison between the newest official-index report and the selected local capture; a failed/missing source must prevent canonical rebuild | in progress | `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `.github/workflows/refresh.yml` |
+| A3 | Add offline regressions for report ordering, index-to-local parity, retrieval timestamps, and no rebuild on freshness failure | in progress | `tests/test_refresh_official.py`, `tests/test_freshness_gates.py` |
+| A4 | Publish current timestamp/provenance and F-R6 disposition on the canonical injury/freshness/flagged surfaces via their generators; retain projection/bet separation | pending | `scripts/build_app.py`, `app/` (generated), `index.html` (generated only) |
+| A5 | Replay all repository checks, inspect the final diff, create PR from this assigned branch, merge only if CI passes, and verify Pages deployment | pending | `COORDINATION.md`, `README.md` (log only) |
+
+**Non-overlap.** Earlier refresh, report-feed, ledger, estimators, and site tasks listed in this board are complete. This claim is specifically limited to the F-R6 freshness/provenance gap, fresh-source audit, and related tests/site status. It does not authorize changing a value without re-reading its linked official source. If the official source cannot be reached, A1 stays flagged and no fresh value is published.
