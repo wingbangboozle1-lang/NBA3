@@ -49,8 +49,32 @@ def parse_stamp(s: str) -> dt.datetime:
     return dt.datetime.fromisoformat(s)
 
 
+_INJURY_REPORT_NAME = re.compile(
+    r"^Injury-Report_(\d{4}-\d{2}-\d{2})_(\d{2})_(\d{2})(AM|PM)\.md$"
+)
+
+
+def report_datetime(path: pathlib.Path) -> dt.datetime:
+    """Parse the report's local date/time, respecting the PDF's 12-hour filename format.
+
+    Lexicographic sorting is unsafe here: on the same date ``12_00AM`` sorts after
+    ``01_00PM`` even though midnight is earlier. The official injury-report filenames
+    encode Eastern local time; only the ordering is needed, so no timezone conversion is
+    applied.
+    """
+    match = _INJURY_REPORT_NAME.match(path.name)
+    if not match:
+        raise ValueError(f"unexpected archived injury report filename: {path.name}")
+    day, hh, mm, meridiem = match.groups()
+    hour = int(hh) % 12 + (12 if meridiem == "PM" else 0)
+    return dt.datetime.strptime(f"{day} {hour:02d}:{int(mm):02d}", "%Y-%m-%d %H:%M")
+
+
 def latest_report() -> pathlib.Path:
-    return sorted(INJ.glob("Injury-Report_*.md"))[-1]
+    reports = list(INJ.glob("Injury-Report_*.md"))
+    if not reports:
+        raise FileNotFoundError(f"no archived injury reports found under {INJ}")
+    return max(reports, key=report_datetime)
 
 
 def check(max_age_hours: float | None = None) -> list[dict]:
