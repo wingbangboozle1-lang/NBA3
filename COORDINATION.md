@@ -4870,3 +4870,8 @@ The official report index re-read on 2026-11-16 lists 11/16 reports through 09:3
 - Run records on GitHub Actions: https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752 and https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157 (job logs not retrievable through the API; failure step identified from the step list)
 - Committed captures: `data/app/refresh/2026-11-16T00-57Z/` (games pages, manifest with sha256 per artifact), `data/app/official_slate_1115_1118.json` (previously verified 34-game slate)
 
+#### PR #104 integration/deployment record (F12)
+
+- PR [#104](https://github.com/wingbangboozle1-lang/NBA3/pull/104) merged 2026-11-16 14:36:29Z as `82158c7c6890495fc6d3013eab2361c35600abdb`.
+- Full pull-request build **43887474998** passed. Main build/deploy run [43887499663](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887499663) passed; Pages run [43887498367](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887498367) passed. The GitHub Pages API reports `built`. Live [Flagged for Review](https://wingbangboozle1-lang.github.io/NBA3/projection/flagged.html) was fetched and confirms the dated stale-report alert and direct links to the official index / listed PDF.
+- The official-index freshness issue is a published warning, not resolved: the 11/16 09:30 AM PDF remains untranscribed in this repo, and the scheduled refresh's commit step remains unverified after earlier failures. No availability or wager recommendation for the 11/16 slate is asserted from that PDF.
