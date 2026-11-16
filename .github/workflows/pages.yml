@@ -376,7 +376,11 @@ jobs:
           python3 scripts/results_feed.py verify
           python3 scripts/pick_ledger.py verify
           python3 scripts/preregister.py verify
-          python3 scripts/freshness_gates_round_79341829.py --manifest data/app/refresh/2026-11-15T11-33Z/manifest.json
+          # --now-from-manifest: evaluate F2 at the manifest's newest source read,
+          # not the wall clock, so an offline CI replay cannot go red at 00:00 UTC
+          # while the committed captures are still the newest official ones.
+          # The scheduled refresh (refresh.yml) keeps the wall clock on purpose.
+          python3 scripts/freshness_gates_round_79341829.py --manifest data/app/refresh/2026-11-15T11-33Z/manifest.json --now-from-manifest
           git diff --exit-code -- data/app/results_feed.json data/app/estimators.json \
             data/app/minutes_model.json data/app/official_injuries_2026-11-15_0615AM_79341829.json \
             data/app/injury_delta_1115.json data/app/player_game_logs.json \

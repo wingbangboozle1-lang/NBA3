@@ -125,12 +125,41 @@ def evaluate(manifest_path=None, now=None):
     return report
 
 
+def _now_from_manifest(manifest_path):
+    """Newest artifact retrieval stamp in the manifest, as a UTC datetime.
+
+    Integration note (session arena/f300fe08-nba3): F2 compares the stored slate
+    window against today..today+3, so evaluating with the wall clock makes CI red
+    for every push after 00:00 UTC, regardless of the committed captures. The
+    scheduled refresh (refresh.yml) must keep the wall clock -- detecting a
+    slipped window is its job -- but the offline CI replay evaluates at the
+    manifest's own newest source read: deterministic, and it rolls forward by
+    itself when the next capture lands.
+    """
+    man = _load(manifest_path)
+    stamps = []
+    for a in man.get("artifacts", []):
+        s = a.get("retrieved_utc") or a.get("retrieved_stamp") or ""
+        try:
+            stamps.append(datetime.strptime(s, "%Y-%m-%dT%H:%MZ").replace(tzinfo=timezone.utc))
+        except ValueError:
+            continue
+    return max(stamps) if stamps else None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest")
     ap.add_argument("--json-out")
+    ap.add_argument("--now-from-manifest", action="store_true",
+                    help="evaluate at the manifest's newest source read instead of "
+                         "the wall clock (offline CI replay; the scheduled refresh "
+                         "keeps the wall clock)")
     args = ap.parse_args()
-    rep = evaluate(args.manifest)
+    now = None
+    if args.now_from_manifest and args.manifest and os.path.exists(args.manifest):
+        now = _now_from_manifest(args.manifest)
+    rep = evaluate(args.manifest, now=now)
     for g in rep["gates"]:
         print(f"[{'PASS' if g['pass'] else 'FAIL'}] {g['id']}: {g['detail']}")
     print("GATES " + ("PASS — rebuild may run" if rep["pass"] else "FAIL — rebuild refused"))
