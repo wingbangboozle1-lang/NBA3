@@ -412,6 +412,7 @@ jobs:
           cp -r hub _pages/hub
           cp -r projection _pages/projection
           cp -r bet _pages/bet
+          cp -r rolling _pages/rolling
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

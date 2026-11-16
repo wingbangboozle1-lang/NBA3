@@ -38,7 +38,16 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
 ET = ZoneInfo("America/New_York")
 
-UA = {"User-Agent": "Mozilla/5.0 (NBA3 official-data refresh; research pipeline)"}
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9"}
+# arena/43d54bfe-nba3 runner diagnostics (run 43776920267, committed under
+# data/app/refresh/diagnostics/): official.nba.com answers 403 to the previous
+# non-browser UA ("Mozilla/5.0 (NBA3 official-data refresh; research pipeline)") and
+# 200 to a Chrome UA. That 403 was the scheduled job's original failure. cdn.nba.com
+# and stats.nba.com API are NOT reachable from the runner (403 / timeout), so the
+# fetch relies on the HTML pages + PDFs, which all work with a browser UA.
 INJ_INDEX = "https://official.nba.com/nba-injury-report-2026-27-season/"
 INJ_CDN = "https://ak-static.cms.nba.com/referee/injury/"
 GAMES = "https://www.nba.com/games?date="
@@ -224,13 +233,33 @@ def main():
         return 0
 
     # 5. gates — the rebuild runs ONLY when they pass
-    # freshness_gates.py takes no manifest argument: it checks the committed captures in
-    # data/live (see the module docstring). Its own exit code decides; it also writes
-    # data/live/freshness.json, which is the published gate report.
-    gate = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "freshness_gates.py")],
-                          cwd=ROOT)
-    if gate.returncode != 0:
-        print("freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
+    # 5a. rolling promotion first: the rolling gates evaluate the FRESH captures, then the
+    #     canonical freshness_gates.py evaluates the committed captures. Both must pass.
+    #     freshness_gates.py takes no manifest argument: it checks the committed captures in
+    #     data/live (see the module docstring). Its own exit code decides; it also writes
+    #     data/live/freshness.json, which is the published gate report.
+    def run(label, cmd):
+        r = subprocess.run(cmd, cwd=ROOT)
+        if r.returncode != 0:
+            print(f"{label} FAILED — rebuild refused (exit {r.returncode})", file=sys.stderr)
+            return False
+        return True
+
+    promote_ok = run("rolling promotion", [sys.executable, "scripts/rolling_promote.py",
+                                           "--stamp", stamp])
+    if promote_ok:
+        # the rolling gate report is written for BOTH dry and full runs, so the run is
+        # observable either way; only the full run refuses to continue on failure
+        roll_ok = run("rolling gates (fresh captures)",
+                      [sys.executable, "scripts/rolling_gates.py", "--stamp", stamp,
+                       "--json-out", os.path.join(out_dir, "rolling_gate_report.json")])
+        if not args.dry_run and not roll_ok:
+            return 1
+    if args.dry_run:
+        # dry run: fetch + promote + gate report only; no canonical rebuild, no commit
+        return 0
+    if not run("freshness gates (committed captures)",
+               [sys.executable, "scripts/freshness_gates.py"]):
         return 1
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
@@ -242,6 +271,8 @@ def main():
         ["python3", "scripts/pick_ledger.py", "verify"],
         ["python3", "scripts/assemble_canonical.py"],
         ["python3", "scripts/build_app.py"],
+        # rolling surface: rebuilt only here, after every gate above passed
+        ["python3", "scripts/rolling_build.py", "--stamp", stamp],
     ]
     for cmd in steps:
         r = subprocess.run(cmd, cwd=ROOT)

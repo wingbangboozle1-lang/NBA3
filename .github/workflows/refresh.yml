@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pipeline dependencies (pypdf for official PDF text extraction)
+        run: python3 -m pip install --disable-pip-version-check -r requirements.txt
+
       - name: Fetch official sources (injury report, schedule, results, game books, team stats)
         run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
@@ -35,7 +38,7 @@ jobs:
         run: |
           git config user.name "nba3-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/app
+          git add data/app rolling/
           if git diff --cached --quiet; then
             echo "no changes to refresh"
           else
