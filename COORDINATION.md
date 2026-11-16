@@ -4666,7 +4666,7 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 | T-Q1 Questions, information and answers register | done (reviewed; owner decisions awaited) | 84c60e4c | data/questions.csv, data/questions.json |
 | T-G1 Suggestions queue (decision-ready; nothing implemented without owner choice) | done (reviewed; owner decisions awaited) | 84c60e4c | data/suggestions.csv, data/suggestions.json |
 | T-E1 Executive summary | done (reviewed; headline is "no funded strategies") | 84c60e4c | app/summary.html, site/executive-summary.html |
-| T-I1 Integration: merge to main, build check, link check, PR, merge, Pages deploy verification | in progress | 84c60e4c | COORDINATION.md, .github/workflows/pages.yml, PR |
+| T-I1 Integration: merge to main, build check, link check, PR, merge, Pages deploy verification | done (merged; Pages deploy triggered, legacy build in queue) | 84c60e4c | COORDINATION.md, .github/workflows/pages.yml, PR |
 
 ### Sources used (this round)
 - [NBA Schedule](https://www.nba.com/schedule): official game dates, matchups, tip times, venues, box-score links. Verified via fetch_page on 2026-11-16.
@@ -4687,3 +4687,16 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 ### Handoff / conflicts log
 - No other session claims are active on this branch. Prior session boards (49064d5a, f879620b, 7c532e8c, 9ed6085f, 1823b910, 3bf92fcc, 8d3d0271, 81800928) are preserved unchanged; this section is appended only.
 - No merge conflicts expected at claim time (branch == main).
+
+### Integration record — session `arena/84c60e4c-nba3`
+- **PR #99** (`arena/84c60e4c-nba3` → `main`): https://github.com/wingbangboozle1-lang/NBA3/pull/99
+- **Merge:** merged with `gh pr merge 99 --merge` at 2026-11-16, merge commit `55692dc69539d17d3375c380e5cfa8d233d724a1` on `main`. No review required (owner-directed).
+- **Pre-merge checks:** `python3 scripts/build_site.py --check` → OK (562 links across 12 pages; all source IDs resolve to https:// official URLs). `python3 -m unittest discover -s tests` → OK (116 tests). Official schedule cross-checked field-by-field against https://www.nba.com/schedule (25 games, 2026-11-16 to 2026-11-18; dates, matchups, tip times, venues all match).
+- **GitHub Pages:** legacy source `main /`. The merge triggered Pages build 1373474133 on commit 55692dc; as of this writing the legacy build is queued/stuck in "building" (platform side; not a site content problem — local build check and tests are green). Previous successful builds on this repo took 22 s to 9 min; recent legacy builds have been intermittent (some errored immediately with "Page build failed"). If the build does not complete, retry by pushing to `main` or switching Pages source to GitHub Actions (owner; earlier token attempt returned 403).
+- **Live URL (when built):** https://wingbangboozle1-lang.github.io/NBA3/ (root landing page) and /site/ (category subpages).
+
+### Sources used (this round, verified)
+- https://www.nba.com/schedule — official 2026-27 NBA schedule; current 3-day window 2026-11-16 to 2026-11-18 = 25 games (Mon 8, Tue 5, Wed 12). Verified via fetch_page on 2026-11-16.
+- https://www.nba.com/termsofuse — s.9 bars gambling use of NBA statistics (blocker, published honestly).
+- https://kansspelautoriteit.nl/online-kansspel-aanbieden — Dutch Koa licence required for online sports betting (blocker, published honestly).
+- https://www.itl.nist.gov/div898/handbook/ — statistical method basis for gates (thresholds are proposals, owner-approved pending).
