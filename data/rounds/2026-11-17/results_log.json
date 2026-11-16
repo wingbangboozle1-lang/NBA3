@@ -1,0 +1,637 @@
+{
+ "schema": "nba3.rounds.results_log/v1",
+ "source_label": "Verified per-game results. 2026-10-20..2026-11-14 (188 games) is the log session bb0c83a4 reconciled to the official W/L/GP of the 30 clubs; the nine 2026-11-15 finals were read by session 8f4fac33 from each game's official game book. One row per game: date, teams, final score, quarter scores where the game book's own period table sums to the printed final.",
+ "log_end": "2026-11-15",
+ "count": 197,
+ "games_2026_11_15": [
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600236",
+   "away": "IND",
+   "away_pts": 124,
+   "home": "PHI",
+   "home_pts": 131,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "game_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+   "quarter_scores": {
+    "away": [
+     35,
+     22,
+     30,
+     37
+    ],
+    "home": [
+     29,
+     29,
+     39,
+     34
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600237",
+   "away": "LAL",
+   "away_pts": 131,
+   "home": "PHX",
+   "home_pts": 123,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "game_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
+   "quarter_scores": {
+    "away": [
+     33,
+     31,
+     40,
+     27
+    ],
+    "home": [
+     24,
+     30,
+     26,
+     43
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600238",
+   "away": "CHA",
+   "away_pts": 105,
+   "home": "LAC",
+   "home_pts": 113,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "game_url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+   "quarter_scores": {
+    "away": [
+     21,
+     31,
+     31,
+     22
+    ],
+    "home": [
+     22,
+     29,
+     33,
+     29
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600239",
+   "away": "SAS",
+   "away_pts": 110,
+   "home": "UTA",
+   "home_pts": 102,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "game_url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+   "quarter_scores": {
+    "away": [
+     31,
+     27,
+     23,
+     29
+    ],
+    "home": [
+     33,
+     22,
+     26,
+     21
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600240",
+   "away": "DAL",
+   "away_pts": 94,
+   "home": "BOS",
+   "home_pts": 131,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+   "game_url": "https://www.nba.com/game/dal-vs-bos-0022600240",
+   "quarter_scores": {
+    "away": [
+     9,
+     28,
+     34,
+     23
+    ],
+    "home": [
+     42,
+     25,
+     37,
+     27
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600241",
+   "away": "NYK",
+   "away_pts": 112,
+   "home": "TOR",
+   "home_pts": 108,
+   "ot": 1,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+   "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600241",
+   "quarter_scores": {
+    "away": [
+     23,
+     24,
+     20,
+     28,
+     17
+    ],
+    "home": [
+     17,
+     26,
+     31,
+     21,
+     13
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600242",
+   "away": "HOU",
+   "away_pts": 147,
+   "home": "WAS",
+   "home_pts": 119,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+   "game_url": "https://www.nba.com/game/hou-vs-was-0022600242",
+   "quarter_scores": {
+    "away": [
+     36,
+     37,
+     46,
+     28
+    ],
+    "home": [
+     31,
+     23,
+     34,
+     31
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600243",
+   "away": "ATL",
+   "away_pts": 113,
+   "home": "MIL",
+   "home_pts": 106,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+   "game_url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+   "quarter_scores": {
+    "away": [
+     18,
+     37,
+     32,
+     26
+    ],
+    "home": [
+     37,
+     16,
+     37,
+     26
+    ]
+   },
+   "quarter_scores_verified": false,
+   "settled": false,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600244",
+   "away": "OKC",
+   "away_pts": 125,
+   "home": "SAC",
+   "home_pts": 103,
+   "ot": 0,
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
+   "game_url": "https://www.nba.com/game/okc-vs-sac-0022600244",
+   "quarter_scores": {
+    "away": [
+     32,
+     30,
+     32,
+     31
+    ],
+    "home": [
+     24,
+     26,
+     30,
+     23
+    ]
+   },
+   "quarter_scores_verified": true,
+   "settled": true,
+   "score_verified_by": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  }
+ ],
+ "home_measured": {
+  "games": 197,
+  "home_wins": 102,
+  "home_win_rate": 0.517766,
+  "ot_games": 11,
+  "note": "measured over the verified results log only; the log is the 188 games through 2026-11-14 plus the 2026-11-15 finals read from the official game books",
+  "log_end": "2026-11-15"
+ },
+ "reconciliation": {
+  "games_in_log": 197,
+  "sum_log_gp": 394,
+  "gp_sum_equals_twice_games": true,
+  "teams": [
+   {
+    "team": "BOS",
+    "standings_w": 11,
+    "standings_l": 2,
+    "standings_gp": 13,
+    "log_w": 11,
+    "log_l": 2,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "PHI",
+    "standings_w": 11,
+    "standings_l": 3,
+    "standings_gp": 14,
+    "log_w": 11,
+    "log_l": 3,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "DET",
+    "standings_w": 8,
+    "standings_l": 4,
+    "standings_gp": 12,
+    "log_w": 8,
+    "log_l": 4,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "ATL",
+    "standings_w": 8,
+    "standings_l": 6,
+    "standings_gp": 14,
+    "log_w": 8,
+    "log_l": 6,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "MIA",
+    "standings_w": 7,
+    "standings_l": 6,
+    "standings_gp": 13,
+    "log_w": 7,
+    "log_l": 6,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "NYK",
+    "standings_w": 7,
+    "standings_l": 6,
+    "standings_gp": 13,
+    "log_w": 7,
+    "log_l": 6,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "CLE",
+    "standings_w": 7,
+    "standings_l": 7,
+    "standings_gp": 14,
+    "log_w": 7,
+    "log_l": 7,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "ORL",
+    "standings_w": 5,
+    "standings_l": 7,
+    "standings_gp": 12,
+    "log_w": 5,
+    "log_l": 7,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "TOR",
+    "standings_w": 5,
+    "standings_l": 8,
+    "standings_gp": 13,
+    "log_w": 5,
+    "log_l": 8,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "IND",
+    "standings_w": 5,
+    "standings_l": 9,
+    "standings_gp": 14,
+    "log_w": 5,
+    "log_l": 9,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "CHA",
+    "standings_w": 4,
+    "standings_l": 9,
+    "standings_gp": 13,
+    "log_w": 4,
+    "log_l": 9,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "WAS",
+    "standings_w": 4,
+    "standings_l": 10,
+    "standings_gp": 14,
+    "log_w": 4,
+    "log_l": 10,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "BKN",
+    "standings_w": 3,
+    "standings_l": 9,
+    "standings_gp": 12,
+    "log_w": 3,
+    "log_l": 9,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "CHI",
+    "standings_w": 3,
+    "standings_l": 9,
+    "standings_gp": 12,
+    "log_w": 3,
+    "log_l": 9,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "MIL",
+    "standings_w": 1,
+    "standings_l": 13,
+    "standings_gp": 14,
+    "log_w": 1,
+    "log_l": 13,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "SAS",
+    "standings_w": 12,
+    "standings_l": 2,
+    "standings_gp": 14,
+    "log_w": 12,
+    "log_l": 2,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "LAL",
+    "standings_w": 12,
+    "standings_l": 2,
+    "standings_gp": 14,
+    "log_w": 12,
+    "log_l": 2,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "HOU",
+    "standings_w": 11,
+    "standings_l": 3,
+    "standings_gp": 14,
+    "log_w": 11,
+    "log_l": 3,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "POR",
+    "standings_w": 9,
+    "standings_l": 3,
+    "standings_gp": 12,
+    "log_w": 9,
+    "log_l": 3,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "MIN",
+    "standings_w": 9,
+    "standings_l": 4,
+    "standings_gp": 13,
+    "log_w": 9,
+    "log_l": 4,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "MEM",
+    "standings_w": 9,
+    "standings_l": 4,
+    "standings_gp": 13,
+    "log_w": 9,
+    "log_l": 4,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "OKC",
+    "standings_w": 9,
+    "standings_l": 5,
+    "standings_gp": 14,
+    "log_w": 9,
+    "log_l": 5,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "DEN",
+    "standings_w": 7,
+    "standings_l": 4,
+    "standings_gp": 11,
+    "log_w": 7,
+    "log_l": 4,
+    "log_gp": 11,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "GSW",
+    "standings_w": 8,
+    "standings_l": 5,
+    "standings_gp": 13,
+    "log_w": 8,
+    "log_l": 5,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "DAL",
+    "standings_w": 7,
+    "standings_l": 7,
+    "standings_gp": 14,
+    "log_w": 7,
+    "log_l": 7,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "PHX",
+    "standings_w": 5,
+    "standings_l": 7,
+    "standings_gp": 12,
+    "log_w": 5,
+    "log_l": 7,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "LAC",
+    "standings_w": 4,
+    "standings_l": 8,
+    "standings_gp": 12,
+    "log_w": 4,
+    "log_l": 8,
+    "log_gp": 12,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "NOP",
+    "standings_w": 4,
+    "standings_l": 10,
+    "standings_gp": 14,
+    "log_w": 4,
+    "log_l": 10,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "SAC",
+    "standings_w": 1,
+    "standings_l": 12,
+    "standings_gp": 13,
+    "log_w": 1,
+    "log_l": 12,
+    "log_gp": 13,
+    "gp_ok": true,
+    "w_ok": true
+   },
+   {
+    "team": "UTA",
+    "standings_w": 1,
+    "standings_l": 13,
+    "standings_gp": 14,
+    "log_w": 1,
+    "log_l": 13,
+    "log_gp": 14,
+    "gp_ok": true,
+    "w_ok": true
+   }
+  ],
+  "teams_reconciled": 30,
+  "teams_total": 30
+ },
+ "games_thru_2026_11_16": 197
+}
