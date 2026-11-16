@@ -324,6 +324,7 @@ def refresh_and_delta():
     audit0130 = read_json(os.path.join(ROOT, "audit_736efb4b", "data",
                                        "official_injury_report_2026-11-14_0130PM.json"))
     avail = read_json(os.path.join(APP, "report_availability.json"))
+    b2b = avail.get("b2b_correspondence") or avail.get("b2b_correspondence_1114")
 
     db_rows = cap.canonical(
         cap.load_rows(os.path.join(APP, "official_injuries_2026-11-14_1130PM_raw.md")),
@@ -433,10 +434,12 @@ def refresh_and_delta():
                                          "not_yet_due", "no_report_covers_date")},
             "games_fully_priced_on_availability": c["games_fully_priced_on_availability"],
             "b2b_correspondence": {
-                "date": avail["b2b_correspondence"]["date"],
-                "unfiled": avail["b2b_correspondence"]["teams_that_have_not"],
-                "on_back_to_back": avail["b2b_correspondence"]["teams_on_a_back_to_back"],
-                "exactly_b2b": avail["b2b_correspondence"]["unfiled_are_exactly_the_b2b_teams"],
+                # read re-pointed (arena/c94a5531-nba3): the merged report_availability
+                # writer names the section after the earliest covered date
+                "date": b2b["date"],
+                "unfiled": b2b["teams_that_have_not"],
+                "on_back_to_back": b2b["teams_on_a_back_to_back"],
+                "exactly_b2b": b2b["unfiled_are_exactly_the_b2b_teams"],
                 "note": ("DAL is the only 11/15 team on a back-to-back (it played 11/14, per "
                          "the extended results log) and the only team still NOT YET SUBMITTED; "
                          "NYK has zero rows on a date the report covers, so no 11/15 game is "

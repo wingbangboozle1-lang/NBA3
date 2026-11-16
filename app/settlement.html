@@ -12,12 +12,12 @@
   <div class="wrap">
     <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
     <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
-      <span class="stamp-warn">official report filed for 5 of 54 team-sides · 11/14 5/10 filed · 11/15 0/18 filed · 11/16 0/16 filed (no report covers this date) · 11/17 0/10 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
   </div>
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html" class="active">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html" class="active">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -28,12 +28,12 @@
   </div>
 
 <p>Every game in the official per-game results feed: date, teams, final score and quarter scores,
-settled only from verified official finals. 14 of
-14 rows are settled. A row settles only when the game state is Final and
+settled only from verified official finals. 18 of
+18 rows are settled. A row settles only when the game state is Final and
 the quarter scores sum to the printed final for both teams (checked offline in
 <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_15.py">capture_official_2026_11_15.py</a>
 and <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py">results_feed.py</a>).
-A row is settled only when the game state is Final AND the quarter scores sum to the printed final for both teams (checked offline). Rows without captured quarter scores stay unsettled and flagged.</p>
+A row is settled only when the game state is Final AND verified from an official source; when quarter scores are captured they must sum to the printed final for both teams (checked offline). Rows without captured quarter scores settle from the verified final alone and carry the flag &#x27;quarter scores not captured&#x27; in the settlement stamp. (Wording amended 2026-11-15 by arena/c94a5531-nba3 after flagging that the previous text contradicted settle() behavior on the 2026-11-13 rows.)</p>
 
 <div class="table-wrap"><table>
 <caption id="results-feed"></caption>
@@ -201,6 +201,50 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
 <td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>CHA @ LAC</td>
+<td>105 - 113</td>
+<td>21 / 31 / 31 / 22</td>
+<td>22 / 29 / 33 / 29</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T00:38Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>IND @ PHI</td>
+<td>124 - 131</td>
+<td>35 / 22 / 30 / 37</td>
+<td>29 / 29 / 39 / 34</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T00:21Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>LAL @ PHX</td>
+<td>131 - 123</td>
+<td>33 / 31 / 40 / 27</td>
+<td>24 / 30 / 26 / 43</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T00:21Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>SAS @ UTA</td>
+<td>110 - 102</td>
+<td>31 / 27 / 23 / 29</td>
+<td>33 / 22 / 26 / 21</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T00:38Z (game day end, 2026-11-15) from the official final SAS 110 - UTA 102; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 </tbody></table></div>
 </main>
