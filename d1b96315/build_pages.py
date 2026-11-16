@@ -176,7 +176,8 @@ official revision until this page was built. Report index: {link(A['urls']['inde
 <h1>2026-11-16 roll: fresh inputs, settled 11/15, and a model that says how little it knows</h1>
 <p class="lead">Everything on this site was re-read from the official NBA documents on the game day,
 then put through the gates the brief sets. The roll produced four things worth your attention: the
-injury snapshot the site was publishing was four hours stale; one official game book contradicts
+injury snapshot the site was publishing was four hours stale at this session's base (a parallel
+session has since published the same newest revision, and the two parses agree row for row); one official game book contradicts
 itself on a quarter score; the league's own standings put home-court a third of what this repo had
 been pinning; and the two estimators agree closely on exactly {len(agreed)} of the
 {len(pub)} games in the window.</p>
@@ -194,8 +195,9 @@ been pinning; and the two estimators agree closely on exactly {len(agreed)} of t
 <h2>What this session changed</h2>
 <table><thead><tr><th>#</th><th>finding</th><th>the measurement</th><th>status</th><th>where</th><th>sources</th></tr></thead><tbody>
 <tr><td>1</td><td>the published injury snapshot was stale on the game day</td>
-<td>4 h 05 m behind; 19 rows and 4 clubs' filings missing; Marcus Smart's suspension and Anthony
-Edwards' absence were not on any surface while their games were still un-tipped</td>
+<td>4 h 05 m behind at base; the day's filing hop is 11:30 → <b>01:00 PM</b> (+18 rows, 4 status
+changes), not the 01:15 PM revision everyone points at. Marcus Smart's suspension, three downgrades and
+three clubs' filings were absent from the canonical capture tree, and the scheduled job is still why</td>
 <td>{'<span class="tag bad">fixed here, needs the job rewired</span>'}</td><td><a href="injuries.html">Injuries</a></td><td>{src_cell([A["urls"]["index"], A["urls"]["pdf_1315"], "data/rounds/2026-11-16/injuries.json"])}</td></tr>
 <tr><td>2</td><td>11/15 settled from a fresh official re-read, one row per game</td>
 <td>9 games, 9 with a verified final, quarter vectors printed and summed; the 8 rows main had
