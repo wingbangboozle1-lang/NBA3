@@ -9,7 +9,7 @@ import sys
 import tempfile
 import unittest
 import urllib.error
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -220,13 +220,44 @@ class CommittedCaptureSlateTests(unittest.TestCase):
         self.assertEqual(got, want)
 
     def test_published_slate_matches_the_promotion(self):
+        """The published slate must replay exactly from its OWN capture directory.
+
+        The scheduled refresh promotes a ROLLING window (today..today+3 ET), so the
+        published file legitimately stops matching the fixed 2026-11-16T00-57Z
+        capture after the window rolls. The directory that produced the published
+        file is named by its retrieved_utc stamp; the fetch step writes that
+        directory before the tests run, so the replay is exact both in CI and for
+        any committed refresh. Structural checks (count, unique ids) always run.
+        """
         path = os.path.join(ROOT, "data", "app", "official_slate_current.json")
         published = json.load(open(path, encoding="utf-8"))
-        rows, _ = ro.promote_slate_rows(self._pages()) if os.path.isdir(self.CAPTURE) else ([], [])
-        if rows:
-            self.assertEqual(published["games"], rows)
         self.assertEqual(published["count"], len(published["games"]))
         self.assertEqual(len({g["game_id"] for g in published["games"]}), published["count"])
+        stamp = (published.get("retrieved_utc") or "").replace(":", "-")
+        capture = os.path.join(ROOT, "data", "app", "refresh", stamp)
+        if not os.path.isdir(capture):
+            self.skipTest(f"capture directory for {stamp!r} not present — "
+                          "replay impossible; structural checks above still ran")
+        # Reproduce the refresh exactly: pages are today..today+3 Eastern (the range
+        # write_slate promoted from), not every games_*.html in the directory — the
+        # fetch also stores the two previous game days there.
+        with open(os.path.join(capture, "manifest.json"), encoding="utf-8") as fh:
+            man = json.load(fh)
+        today = date.fromisoformat(man["today_et"])
+        pages = {}
+        for i in range(4):
+            d = (today + timedelta(days=i)).isoformat()
+            fn = os.path.join(capture, f"games_{d}.html")
+            if os.path.exists(fn):
+                with open(fn, encoding="utf-8", errors="replace") as fh:
+                    pages[d] = fh.read()
+        rows, _ = ro.promote_slate_rows(pages)
+        self.assertTrue(rows, f"no game cards found in {capture}")
+        self.assertEqual(published["games"], rows)
+        # the promoted window is the capture's own Eastern date range
+        win = published["window"]
+        self.assertEqual(win["from"], min(r["date"] for r in rows))
+        self.assertEqual(win["to"], max(r["date"] for r in rows))
 
 
 class GateCallTests(unittest.TestCase):
