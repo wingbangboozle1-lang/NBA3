@@ -4776,3 +4776,5 @@ Branch: `arena/07f22dad-nba3` (Arena-assigned; based on `27245fa3b82499b27569f47
 #### Scope extension — F11 producer alignment
 
 The live gate correctly exposed that its producer (`scripts/estimators.py`) uses the same unsafe lexicographic sort. Extending this claim to include that producer and its deterministic generated output/dependents (`data/live/`, `projection/`, `bet/`, `ledger/`) so the model cannot continue writing the older snapshot name. No other session claims these paths in the current board. This is a necessary integration fix for F11, not a separate feature.
+
+The initial full producer replay also showed `scripts/injury_archive.py` sorted the consecutive-report diff chain lexically (`06:15 AM -> 12:00 AM`). Extending F11 scope to `scripts/injury_archive.py` and a dedicated archive-order regression test so the public diff timeline uses the same chronological ordering as the model and gate.
