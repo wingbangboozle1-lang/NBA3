@@ -1,26 +1,25 @@
 #!/usr/bin/env python3
-"""Scheduled official-data refresh (session arena/79341829-nba3; repaired in arena/81800928-nba3).
+"""Scheduled official-data capture, preflight, and gated publication.
 
-Runs on the GitHub runner (network available). The sandbox in this session cannot reach
-nba.com, so this job is exercised by CI tests against committed fixtures; the live path:
+The GitHub runner fetches the official injury index/newest PDF, the NBA selected-date game
+pages for the previous two result dates and the four-date rolling slate (today through +3),
+official standings and three team-stat pages. Each response is kept under
+``data/app/refresh/<stamp>/`` with a per-response UTC retrieval time, run stamp, byte count,
+SHA-256, and source URL in ``manifest.json``.
 
-  1. FETCH  the official injury index + newest report PDF, the nba.com schedule/results
-            pages for today..today+3 and the past two game days, every finished game's
-            official game book (statsdmz PDF), and the three official team-stat pages.
-            Every artifact is stored under data/app/refresh/<stamp>/ with URL, retrieval
-            stamp and sha256 (manifest.json). Every URL is attempted with retries; a URL
-            that still fails is recorded in manifest["errors"] and never aborts the run.
-  2. GATES  scripts/freshness_gates.py MUST pass (freshness + provenance).
-  3. REBUILD ONLY AFTER THE GATES PASS: parse new game books into the results feed,
-            settle the previous game day, publish/verify the pick ledger, re-cut estimator
-            inputs, then assemble_canonical.py + build_app.py and the test suite.
-  4. COMMIT  the refreshed captures and rebuilt outputs on success; on any failure the
-            run exits non-zero WITHOUT rebuilding (and the site keeps the last good build).
+Before any published file is promoted, ``refresh_preflight.py`` validates that exact capture:
+source integrity, the newest indexed injury PDF, all four schedule pages, a complete daily
+schedule feed, and current-run parsed 30-team standings and statistics. It then runs the
+existing committed-snapshot gate to a report inside the capture directory (not data/live).
+Only after both gate sets pass may the slate be promoted and the rebuild chain start. The
+workflow archives raw captures/gate reports separately; it commits publication outputs only
+when the entire fetch, gate, rebuild, and test chain succeeds.
 
-Dates are Eastern (the NBA schedule's day), not UTC. Injury reports are ordered by their
-real clock time, not by sorting the filename strings.
+The standings/team-stat parser contract is intentionally fail-closed. The saved NBA stats
+page shells do not themselves prove 30 current team rows; no old snapshot is silently reused.
+Dates are Eastern, and injury reports are ordered by their actual 12-hour clock time.
 
-Usage: python3 scripts/refresh_official.py [--dry-run] [--stamp 2026-11-15T12-00Z]
+Usage: python3 scripts/refresh_official.py [--dry-run] [--stamp 2026-11-16T14-00-00Z]
 """
 import argparse
 import hashlib
@@ -33,6 +32,8 @@ import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
+
+import rolling_promote
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 APP = os.path.join(ROOT, "data", "app")
@@ -48,10 +49,29 @@ TEAM_PAGES = [
     "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
 ]
+STANDINGS_PAGE = "https://www.nba.com/standings"
 RETRIES = 3
 RETRY_SLEEP_S = 5
 
 REPORT_RE = re.compile(r"Injury-Report_(\d{4}-\d{2}-\d{2})_(\d{2})_(\d{2})(AM|PM)\.pdf")
+RUN_STAMP_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T(?:\d{2}-\d{2}(?:-\d{2})?|\d{2}:\d{2}(?::\d{2})?)Z$"
+)
+
+
+def valid_run_stamp(value):
+    """Accept only safe, timestamp-shaped run-directory names."""
+    if not isinstance(value, str) or not RUN_STAMP_RE.fullmatch(value):
+        return False
+    formats = ("%Y-%m-%dT%H-%MZ", "%Y-%m-%dT%H-%M-%SZ",
+               "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ")
+    for fmt in formats:
+        try:
+            datetime.strptime(value, fmt)
+            return True
+        except ValueError:
+            continue
+    return False
 
 
 def report_time(y, hh, mm, ap):
@@ -59,8 +79,11 @@ def report_time(y, hh, mm, ap):
 
     12:00 AM is midnight (hour 0), 12:xx PM is noon (hour 12), 1:00 PM is 13:00.
     """
-    h = int(hh) % 12 + (12 if ap == "PM" else 0)
-    return datetime.strptime(f"{y} {h:02d}:{int(mm):02d}", "%Y-%m-%d %H:%M")
+    hour_12, minute = int(hh), int(mm)
+    if not 1 <= hour_12 <= 12 or not 0 <= minute <= 59 or ap not in {"AM", "PM"}:
+        raise ValueError("invalid report time in official index")
+    hour = hour_12 % 12 + (12 if ap == "PM" else 0)
+    return datetime.strptime(f"{y} {hour:02d}:{minute:02d}", "%Y-%m-%d %H:%M")
 
 
 def newest_report(index_html):
@@ -72,12 +95,23 @@ def newest_report(index_html):
     found = set(REPORT_RE.findall(index_html))
     if not found:
         return None
-    best = max(found, key=lambda t: report_time(*t))
+    try:
+        best = max(found, key=lambda t: report_time(*t))
+    except ValueError:
+        # A malformed report link makes the index's chronology ambiguous; do not fall back
+        # to an older report that happens to parse.
+        return None
     return best
 
 
 def et_today(now_utc):
     return now_utc.astimezone(ET).date()
+
+
+def schedule_fetch_plan(today_et):
+    """Return the two prior result days and all four required rolling slate days."""
+    return [((today_et + timedelta(days=off)).isoformat(), 0 <= off <= 3)
+            for off in range(-2, 4)]
 
 
 class Fetcher:
@@ -95,10 +129,13 @@ class Fetcher:
                 req = urllib.request.Request(url, headers=UA)
                 with urllib.request.urlopen(req, timeout=60) as resp:
                     data = resp.read()
+                if not data:
+                    raise ValueError("empty response body is not a valid capture")
                 with open(dest, "wb") as fh:
                     fh.write(data)
+                retrieved = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
                 self.artifacts.append({
-                    "url": url, "retrieved_utc": self.stamp,
+                    "url": url, "retrieved_utc": retrieved, "run_stamp": self.stamp,
                     "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
                     "file": os.path.relpath(dest, ROOT)})
                 return data
@@ -120,15 +157,29 @@ def main():
     ap.add_argument("--stamp")
     args = ap.parse_args()
     now = datetime.now(timezone.utc)
-    stamp = args.stamp or now.strftime("%Y-%m-%dT%H-%MZ")
+    stamp = args.stamp or now.strftime("%Y-%m-%dT%H-%M-%SZ")
+    if not valid_run_stamp(stamp):
+        print("invalid refresh stamp; expected a safe UTC timestamp such as "
+              "2026-11-16T14-00-00Z", file=sys.stderr)
+        return 2
     out_dir = os.path.join(APP, "refresh", stamp)
-    os.makedirs(out_dir, exist_ok=True)
+    try:
+        # Captures are immutable: retries/reruns must not silently overwrite an older
+        # manifest or replace files that a previous gate report already attested.
+        os.makedirs(out_dir)
+    except FileExistsError:
+        print(f"refresh capture already exists; refusing to overwrite: {out_dir}",
+              file=sys.stderr)
+        return 2
     f = Fetcher(stamp)
     today_et = et_today(now)
-    manifest = {"stamp": stamp, "today_et": today_et.isoformat(), "newest_injury_report": None,
-                "artifacts": f.artifacts, "errors": f.errors, "gamebooks": 0}
+    manifest = {"stamp": stamp, "started_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "finished_utc": None, "today_et": today_et.isoformat(),
+                "newest_injury_report": None, "artifacts": f.artifacts,
+                "errors": f.errors, "gamebooks": 0}
 
     def finish(code):
+        manifest["finished_utc"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as fh:
             json.dump(manifest, fh, indent=1)
             fh.write("\n")
@@ -154,51 +205,41 @@ def main():
              label="newest injury report PDF") is None:
         return finish(2)
 
-    # 2. schedule/results pages: today..today+3 and the two previous game days (Eastern dates)
-    for off in range(-2, 4):
-        d = (today_et + timedelta(days=off)).isoformat()
+    # 2. schedule/results pages: today..today+3 are all required; the previous two
+    # Eastern game days are optional inputs for verified-result discovery only.
+    for d, required in schedule_fetch_plan(today_et):
         f.get(GAMES + d, os.path.join(out_dir, f"games_{d}.html"),
-              required=(off == 0), label=f"games page {d}")
+              required=required, label=f"games page {d}")
 
-    # 3. team-stat pages (required: the model's team inputs)
+    # 3. refresh the official standings page and all three official team-stat pages.
+    # The raw HTML is provenance evidence; the rebuild gate separately requires parsed
+    # current-run inputs tied to these exact artifact hashes.
+    f.get(STANDINGS_PAGE, os.path.join(out_dir, "standings.html"), required=True,
+          label="official standings page")
     for i, url in enumerate(TEAM_PAGES):
         f.get(url, os.path.join(out_dir, f"teams_{i}.html"), required=True,
               label=f"team stats page {i}")
 
-    # 3b. promote the schedule window from the fetched games pages (game links are the
-    #     parseable part of the scoreboard HTML; tip times stay blank and flagged when the
-    #     page pattern does not carry them — never inferred)
-    rows = []
-    for off in range(0, 4):
-        d = (today_et + timedelta(days=off)).isoformat()
-        page = os.path.join(out_dir, f"games_{d}.html")
-        if not os.path.exists(page):
-            continue
-        html = open(page, encoding="utf-8", errors="replace").read()
-        seen = set()
-        for m in re.finditer(r"/game/([a-z]{3})-vs-([a-z]{3})-(\d{10})/", html):
-            a, h, gid = m.group(1).upper(), m.group(2).upper(), m.group(3)
-            if gid in seen:
-                continue
-            seen.add(gid)
-            rows.append({"date": d, "time_et": None, "away": a, "home": h, "game_id": gid,
-                         "away_record": None, "home_record": None,
-                         "game_url": f"https://www.nba.com/game/{a.lower()}-vs-{h.lower()}-{gid}",
-                         "source": f"https://www.nba.com/games?date={d}"})
-    rows.sort(key=lambda r: (r["date"], r["game_id"]))
-    if rows:
-        slate = {"source_url": GAMES + rows[0]["date"],
-                 "source_label": ("official schedule pages for the rolling window, promoted by "
-                                  "scripts/refresh_official.py from the fetched game links"),
-                 "retrieved_on": stamp[:10], "retrieved_utc": stamp,
-                 "window": {"from": rows[0]["date"], "to": rows[-1]["date"]},
-                 "count": len(rows), "games": rows,
-                 "notes": ["tip times are blank where the page pattern did not carry them — "
-                           "blank and flagged, never inferred"]}
-        with open(os.path.join(APP, "official_slate_current.json"), "w", encoding="utf-8") as fh:
-            json.dump(slate, fh, indent=1)
-            fh.write("\n")
-        print(f"slate promoted: {len(rows)} games -> data/app/official_slate_current.json")
+    # 3b. Parse the structured NBA selected-date feed. The official per-day calendar count
+    # must match the card rows for every date; incidental recap/game links are ignored.
+    schedule_pages = {}
+    for offset in range(4):
+        day = (today_et + timedelta(days=offset)).isoformat()
+        page = os.path.join(out_dir, f"games_{day}.html")
+        if os.path.isfile(page):
+            with open(page, encoding="utf-8", errors="replace") as handle:
+                schedule_pages[day] = handle.read()
+    slate_result = rolling_promote.build_rolling_slate(
+        schedule_pages, today_et, stamp=stamp, games_url_prefix=GAMES, days=4)
+    if slate_result["slate"] is not None:
+        staged_path = os.path.join(out_dir, "promoted_slate.json")
+        rolling_promote.write_json_atomic(staged_path, slate_result["slate"])
+        print(f"complete slate staged: {slate_result['slate']['count']} games -> "
+              f"data/app/refresh/{stamp}/promoted_slate.json; daily counts: "
+              f"{slate_result['daily_counts']}")
+    else:
+        print("rolling slate not staged; official schedule completeness failed: "
+              + "; ".join(slate_result["errors"][:8]), file=sys.stderr)
 
     # 4. game books for every finished game found on the two previous Eastern game days
     gb = 0
@@ -207,33 +248,61 @@ def main():
         page = os.path.join(out_dir, f"games_{day.isoformat()}.html")
         if not os.path.exists(page):
             continue
-        html = open(page, encoding="utf-8", errors="replace").read()
+        with open(page, encoding="utf-8", errors="replace") as handle:
+            html = handle.read()
         for a, h in sorted(set(re.findall(r"boxscore/([a-z]{3})-vs-([a-z]{3})", html))):
             url = GAMEBOOK.format(d=day.strftime("%Y%m%d"), a=a.upper(), h=h.upper())
             dest = os.path.join(out_dir, f"{day.strftime('%Y%m%d')}_{a.upper()}{h.upper()}.pdf")
             if f.get(url, dest, required=False, label=f"game book {a.upper()}{h.upper()}") is not None:
                 gb += 1
     manifest["gamebooks"] = gb
-    finish(0)
+    finish(0)  # persist the complete manifest before the gates read it
 
-    if f.errors and any(e["required"] for e in f.errors):
-        print("required official sources failed — rebuild refused; last good build kept",
+    # 5. Gate the NEW capture first. freshness_gates.py alone is insufficient here: it
+    # checks the last published data/live snapshot, not these files. This preflight verifies
+    # each artifact's bytes/hash/source, the newest injury PDF vs the official index, all
+    # four upcoming schedule dates, and current-run parsed standings/stat snapshots.
+    preflight_report = os.path.join(out_dir, "provenance_gates.json")
+    preflight = subprocess.run(
+        [sys.executable, os.path.join(ROOT, "scripts", "refresh_preflight.py"),
+         "--stamp", stamp, "--json-out", preflight_report], cwd=ROOT)
+    if preflight.returncode != 0:
+        print("new-capture freshness/provenance gates FAILED — no slate promotion or rebuild",
               file=sys.stderr)
         return 1
-    if args.dry_run:
-        return 0
-
-    # 5. gates — the rebuild runs ONLY when they pass
-    # freshness_gates.py takes no manifest argument: it checks the committed captures in
-    # data/live (see the module docstring). Its own exit code decides; it also writes
-    # data/live/freshness.json, which is the published gate report.
-    gate = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "freshness_gates.py")],
-                          cwd=ROOT)
-    if gate.returncode != 0:
-        print("freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
+    if not os.path.isfile(preflight_report):
+        print("new-capture gate returned success without writing its report — rebuild refused",
+              file=sys.stderr)
         return 1
 
-    # 6. rebuild chain (offline scripts on the refreshed captures)
+    # The committed-snapshot gate is still an additional check. Direct its report into the
+    # run directory so even a failed check cannot overwrite data/live/freshness.json.
+    published_gate_report = os.path.join(out_dir, "published_snapshot_gates.json")
+    gate = subprocess.run(
+        [sys.executable, os.path.join(ROOT, "scripts", "freshness_gates.py"),
+         "--json-out", published_gate_report], cwd=ROOT)
+    if gate.returncode != 0:
+        print("published-snapshot freshness gates FAILED — no promotion or rebuild", file=sys.stderr)
+        return 1
+    if not os.path.isfile(published_gate_report):
+        print("published-snapshot gate returned success without its report — rebuild refused",
+              file=sys.stderr)
+        return 1
+
+    if args.dry_run:
+        # fetch + both gate reports only; no public snapshot, model, page, ledger or commit
+        return 0
+
+    # 6. Promote only after both gate sets pass. The staged slate stays inside the immutable
+    # refresh directory if either gate fails.
+    staged_slate = os.path.join(out_dir, "promoted_slate.json")
+    if not os.path.isfile(staged_slate):
+        print("fresh gate passed but staged slate is missing — rebuild refused", file=sys.stderr)
+        return 1
+    rolling_promote.promote_slate(
+        staged_slate, os.path.join(APP, "official_slate_current.json"))
+
+    # 7. rebuild chain (offline scripts on the refreshed captures)
     steps = [
         ["python3", "scripts/estimators.py"],
         ["python3", "scripts/minutes_model.py"],

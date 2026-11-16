@@ -13,6 +13,12 @@ on:
 permissions:
   contents: write
 
+# Serialize scheduled/manual runs so their timestamped capture directories and push
+# sequences cannot race; refresh_official.py also refuses to overwrite a reused stamp.
+concurrency:
+  group: official-data-refresh
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -23,23 +29,45 @@ jobs:
         run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
       - name: Unit tests (capture, feed, ledger, estimators, gates)
+        if: ${{ always() }}
         run: |
           python3 -m unittest discover -s tests -p "test_*1115*.py" -v
           python3 -m unittest discover -s tests -p "test_results_feed.py" -v
           python3 -m unittest discover -s tests -p "test_pick_ledger.py" -v
           python3 -m unittest discover -s tests -p "test_freshness_gates.py" -v
+          python3 -m unittest discover -s tests -p "test_refresh_preflight.py" -v
+          python3 -m unittest discover -s tests -p "test_rolling_refresh.py" -v
           python3 -m unittest tests/test_refresh_official.py -v
 
-      - name: Commit refreshed captures and rebuilt outputs
-        if: github.event.inputs.dry_run != 'true'
+      # Raw PDFs and source manifests are audit evidence even when a gate refuses a rebuild.
+      # Only the immutable capture directory is committed from this always-run step.
+      - name: Archive source captures and gate report
+        if: ${{ always() && github.event.inputs.dry_run != 'true' }}
         run: |
           git config user.name "nba3-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/app
+          git add -A data/app/refresh/
           if git diff --cached --quiet; then
-            echo "no changes to refresh"
+            echo "no new official captures to archive"
           else
-            git commit -m "scheduled official refresh $(date -u +%Y-%m-%dT%H:%MZ)"
+            git commit -m "archive official refresh captures $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      # This step is skipped if fetching, the fresh-capture gate, the published-snapshot
+      # gate, rebuilding, or tests failed. It commits generated site surfaces only after
+      # the full chain succeeds.
+      - name: Commit rebuilt publication outputs
+        if: ${{ success() && github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name "nba3-refresh-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A data/app data/live app index.html archive.html ledger projection bet
+          if git diff --cached --quiet; then
+            echo "no publication changes to commit"
+          else
+            git commit -m "publish gated official refresh $(date -u +%Y-%m-%dT%H:%MZ)"
             git pull --rebase origin main
             git push origin HEAD:main
           fi

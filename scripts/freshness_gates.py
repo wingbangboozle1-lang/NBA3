@@ -19,7 +19,9 @@ stamp makes every run differ and the gate can never pass. Staleness against the 
 scheduling concern (the capture step re-fetches), and can be enforced explicitly with
 --max-report-age-hours when a human runs it.
 
-Run: python3 scripts/freshness_gates.py [--max-report-age-hours N]
+Run: python3 scripts/freshness_gates.py [--max-report-age-hours N] [--json-out PATH]
+By default the report replaces data/live/freshness.json. A scheduled refresh passes --json-out
+under its immutable capture directory so a failed gate cannot modify the published snapshot.
 Exit code 1 if any gate fails.
 """
 
@@ -183,6 +185,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-report-age-hours", type=float, default=None)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--json-out", help="write the report here instead of data/live/freshness.json")
     args = ap.parse_args()
     gates = check(args.max_report_age_hours)
     failed = [g for g in gates if not g["passed"]]
@@ -193,7 +196,8 @@ def main() -> int:
                                     "build differ."),
                "counts": {"gates": len(gates), "passed": len(gates) - len(failed), "failed": len(failed)},
                "gates": gates}
-    out = LIVE / "freshness.json"
+    out = pathlib.Path(args.json_out) if args.json_out else LIVE / "freshness.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=1) + "\n")
     if args.json:
         print(json.dumps(payload["counts"]))
