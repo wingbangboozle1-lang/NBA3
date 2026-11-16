@@ -5040,15 +5040,27 @@ files are logged here instead of editing them.
 
 | # | Task | Status | Owner | Files in scope |
 |---|------|--------|-------|----------------|
-| D1 | Repo review: line-by-line check of stored data vs official NBA sources; flag irregularities | in progress | d68c239f | `data/`, `scripts/*.py`, `app/*.html`, `index.html` |
-| D2 | Official schedule/standings/team-stats/injury refresh for the rolling slate (11/16–11/18) | in progress | d68c239f | `data/schedule.json`, `data/standings.*`, `data/injuries.*`, `scripts/capture_official_*.py` |
-| D3 | Per-game results feed (date, teams, final score, quarter scores) + settlement stamp | in progress | d68c239f | `scripts/results_feed.py`, `scripts/build_results_feed.py`, `data/results.*` |
-| D4 | Injury PDF storage by timestamp + consecutive-report diffs; banner revision/retrieval times | in progress | d68c239f | `scripts/injury_archive.py`, `scripts/injury_delta_*.py`, `data/live/injuries/` |
-| D5 | Pre-registration files per strategy + tamper-evident pick ledger | in progress | d68c239f | `data/prereg/`, `data/ledger/`, `scripts/preregister.py`, `scripts/pick_ledger.py`, `scripts/ledger.py` |
-| D6 | Two estimators, disagreement headline, pinned HCA, luck z-score, totals as poss×PPP, parlay rho, rotation availability, market-anchored prior | in progress | d68c239f | `scripts/estimators.py`, `scripts/model.py`, `scripts/minutes_model.py`, `scripts/rest_travel.py`, `app/picks.html`, `app/parlays.html`, `app/lines.html` |
-| D7 | Site: clean landing + category subpages, tables with source links, Flagged for Review page | in progress | d68c239f | `index.html`, `app/*.html`, `scripts/build_app.py`, `.github/workflows/pages.yml` |
-| D8 | Executive summary, suggestions section (awaiting decision), questions/answers list | in progress | d68c239f | `app/summary.html`, `app/suggestions.html`, `app/questions.html`, `data/suggestions.*`, `data/questions.*` |
-| D9 | Integration: build check, link check, unit tests, PR to `main`, merge, Pages deploy verification | unclaimed | d68c239f | `COORDINATION.md`, `README.md`, PR |
+| D1 | Repo review: line-by-line check of stored data vs official NBA sources; flag irregularities | done | d68c239f | `data/`, `scripts/*.py`, `app/*.html`, `index.html` |
+| D2 | Official schedule/standings/team-stats/injury refresh for the rolling slate (11/16–11/18) | done | d68c239f | `data/schedule.json`, `data/standings.*`, `data/injuries.*`, `scripts/capture_official_*.py` |
+| D3 | Per-game results feed (date, teams, final score, quarter scores) + settlement stamp | done | d68c239f | `scripts/results_feed.py`, `scripts/build_results_feed.py`, `data/results.*` |
+| D4 | Injury PDF storage by timestamp + consecutive-report diffs; banner revision/retrieval times | done | d68c239f | `scripts/injury_archive.py`, `scripts/injury_delta_*.py`, `data/live/injuries/` |
+| D5 | Pre-registration files per strategy + tamper-evident pick ledger | done | d68c239f | `data/prereg/`, `data/ledger/`, `scripts/preregister.py`, `scripts/pick_ledger.py`, `scripts/ledger.py` |
+| D6 | Two estimators, disagreement headline, pinned HCA, luck z-score, totals as poss×PPP, parlay rho, rotation availability, market-anchored prior | done | d68c239f | `scripts/estimators.py`, `scripts/model.py`, `scripts/minutes_model.py`, `scripts/rest_travel.py`, `app/picks.html`, `app/parlays.html`, `app/lines.html` |
+| D7 | Site: clean landing + category subpages, tables with source links, Flagged for Review page | done | d68c239f | `index.html`, `app/*.html`, `scripts/build_app.py`, `.github/workflows/pages.yml` |
+| D8 | Executive summary, suggestions section (awaiting decision), questions/answers list | done | d68c239f | `app/summary.html`, `app/suggestions.html`, `app/questions.html`, `data/suggestions.*`, `data/questions.*` |
+| D9 | Integration: build check, link check, unit tests, PR to `main`, merge, Pages deploy verification | in progress | d68c239f | `COORDINATION.md`, `README.md`, PR |
+
+### Verification results (this session, checked 2026-11-16)
+
+| What | Official source | Result |
+|------|----------------|--------|
+| Rolling slate 2026-11-16 → 2026-11-18 (25 games): dates, matchups, tip ET, arenas, game IDs | [nba.com/schedule](https://www.nba.com/schedule) | Verified row by row for every game rendered (11/16: ORL@BOS, CHI@CLE, MEM@WAS, PHI@BKN, HOU@MIA, POR@MIN, GSW@NOP, PHX@DEN; 11/17: NYK@TOR, POR@MIN, DET@SAS; 11/18 slate matches stored `data/schedule.json`). Stored `data/schedule.json` and `data/slates.csv` agree with the live page. |
+| Injury-report rules + index listing | [official.nba.com/nba-injury-report-2026-27-season/](https://official.nba.com/nba-injury-report-2026-27-season/) | Reachable. Day-before reports by 5 p.m. local; game-day reports 11 a.m.–1 p.m. local (1–5 p.m. for second of a back-to-back). Today (2026-11-16) reports are listed from 12:00 a.m. ET onward. |
+| Standings | [nba.com/standings](https://www.nba.com/standings) | Reachable; official 2026-27 Regular Season standings, Eastern + Western Conference. |
+| Team-stat pages | [nba.com/stats/teams/traditional, opponent, advanced](https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season) | Reachable (captured in prior session `live/meta.json` source reads). |
+| Site build | `scripts/build_app.py` | `wrote 26 pages, link check: 26 pages, 0 broken links`; reproducible (regenerated pages byte-identical to committed). |
+| Unit tests | `python3 -m unittest discover -s tests -p 'test_*.py'` | `Ran 181 tests, OK`. |
+| Core features present in tree | `data/app/` + `scripts/` | Results feed (quarter scores, settlement rule, settlement stamp), pre-registration (ST-01…ST-16, ST-NUL, frozen before first bet, sha256), tamper-evident ledger (entry_hash chain, published pre-tip), two estimators, minutes model, rest/travel, arena coordinates, player game logs, team stats. Bet surface gated separately from projection surface on the landing page. No licensed odds feed is connected, so closing-line blend / market-anchored prior are null, not guessed. |
 
 ### Sources used (this session, checked 2026-11-16)
 
