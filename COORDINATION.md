@@ -4646,3 +4646,33 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/28407740-nba3` — CLAIM: rolling refresh freshness/provenance integration
+
+**Session ID:** `arena/28407740-nba3`. Workspace branch is fixed to `arena/28407740-nba3`, based on
+`main` at `5fde67eef57178f4c69ad41d18adc15fc6fca1fc`; all work stays on this branch.
+
+**Task:** close the documented stale-data gap in the scheduled refresh. The job must validate the
+artifacts it just fetched (not only the older committed `data/live/` snapshot), include the required
+official rolling schedule, standings, traditional/opponent/advanced team statistics, and injury
+report provenance, and refuse any rebuild/publication unless the refreshed inputs and the model's
+consumed inputs agree. Record current-report archival/diff coverage and any remaining data that cannot
+be validated; do not fill missing values by inference.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| R1 | Fresh-capture manifest/provenance validation; latest-index report must match captured PDF; required rolling schedule/standings/three stats sources | in progress | `arena/28407740-nba3` | `scripts/refresh_official.py`, `scripts/freshness_gates.py` |
+| R2 | Offline regression tests proving fresh-capture failures block rebuild and required source coverage is complete | in progress | `arena/28407740-nba3` | `tests/test_refresh_manifest.py` (new), `tests/test_freshness_gates.py` only if needed |
+| R3 | Wire the fresh-data gate into the scheduled workflow without weakening existing CI checks | in progress | `arena/28407740-nba3` | `.github/workflows/refresh.yml` |
+| R4 | Record verification, source links, limitations, and integration outcome | in progress | `arena/28407740-nba3` | `COORDINATION.md` (append-only) |
+
+**Coordination / takeover note.** The prior scheduled-refresh repair (session `81800928`, PR #92) is
+already merged. Its retry, report-time sorting, Eastern-date handling and offline tests are preserved.
+Its own completion record explicitly leaves F-R1 open: fetched files are written under
+`data/app/refresh/`, while the current gates/model consume the older fixed `data/live/` snapshot.
+This claim takes only that documented follow-up; it does not rewrite the prior work. The just-fetched
+capture directory `data/app/refresh/2026-11-16T00-57Z/` exists in the checkout and reports the
+2026-11-15 07:45 PM ET PDF and all three team-stat URLs, but this is not proof that the published
+model consumed them. No manual data transcription or source claim is made by this claim.
