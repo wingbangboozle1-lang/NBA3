@@ -121,6 +121,12 @@ def parse_gamebook(text: str, *, game_id: str, date: str, away: str, home: str,
     for raw in text.splitlines():
         line = raw.rstrip()
         if not line.startswith("|"):
+            # one extraction emits the team headers as markdown headings, not table rows
+            head = line.upper()
+            if "VISITOR:" in head or "HOME:" in head:
+                loc = "away" if "VISITOR:" in head else "home"
+                block = (away, away_team, loc) if loc == "away" else (home, home_team, loc)
+                in_periods = False
             continue
         header = line.upper()
         if "VISITOR:" in header or "HOME:" in header:
@@ -210,6 +216,10 @@ def parse_gamebook(text: str, *, game_id: str, date: str, away: str, home: str,
         jersey = ints[0] if ints else ""
         player = names[0] if names else ""
         position = pos_cells[0] if pos_cells else ""
+        if player:                         # "4 Sion James" -> jersey "4", player "Sion James"
+            m = re.fullmatch(r"(\d{1,2})\s+(.+)", player)
+            if m:
+                jersey, player = m.group(1), m.group(2)
         if not player or not re.search(r"[A-Za-z]", player):
             out.rejected.append((block[0], line))
             continue

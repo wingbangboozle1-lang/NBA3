@@ -2,7 +2,7 @@
  "schema": "nba3.live.game_result/v1",
  "feed": "official per-game result feed",
  "game_date": "2026-11-15",
- "retrieved_utc": "2026-11-15T23:55Z",
+ "retrieved_utc": "2026-11-16T00:38Z",
  "settlement_rule": "A game is FINAL only when the official NBA game page shows 'Final' (or 'Final/OT') AND the gamebook PDF prints a FINAL line whose four quarters sum to it. Both conditions are checked in scripts/build_results_feed.py and the per-row 'verified' flag records the outcome.",
  "games": [
   {
@@ -16,8 +16,18 @@
    "venue": "Xfinity Mobile Arena",
    "city": "Philadelphia, PA",
    "status": "Final",
-   "away_q": [35, 22, 30, 37],
-   "home_q": [29, 29, 39, 34],
+   "away_q": [
+    35,
+    22,
+    30,
+    37
+   ],
+   "home_q": [
+    29,
+    29,
+    39,
+    34
+   ],
    "away_final": 124,
    "home_final": 131,
    "ot": false,
@@ -39,8 +49,18 @@
    "venue": "Mortgage Matchup Center",
    "city": "Phoenix, AZ",
    "status": "Final",
-   "away_q": [33, 31, 40, 27],
-   "home_q": [24, 30, 26, 43],
+   "away_q": [
+    33,
+    31,
+    40,
+    27
+   ],
+   "home_q": [
+    24,
+    30,
+    26,
+    43
+   ],
    "away_final": 131,
    "home_final": 123,
    "ot": false,
@@ -50,12 +70,79 @@
    "source_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
    "retrieved_utc": "2026-11-15T23:55Z"
+  },
+  {
+   "game_id": "0022600238",
+   "date": "2026-11-15",
+   "tip_et": "4:30 PM",
+   "away": "CHA",
+   "away_name": "Charlotte Hornets",
+   "home": "LAC",
+   "home_name": "LA Clippers",
+   "venue": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "status": "Final",
+   "away_q": [
+    21,
+    31,
+    31,
+    22
+   ],
+   "home_q": [
+    22,
+    29,
+    33,
+    29
+   ],
+   "away_final": 105,
+   "home_final": 113,
+   "ot": false,
+   "attendance": 17487,
+   "away_record": "4-9",
+   "home_record": "4-8",
+   "source_url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "retrieved_utc": "2026-11-16T00:47Z"
+  },
+  {
+   "game_id": "0022600239",
+   "date": "2026-11-15",
+   "tip_et": "5:00 PM",
+   "away": "SAS",
+   "away_name": "San Antonio Spurs",
+   "home": "UTA",
+   "home_name": "Utah Jazz",
+   "venue": "Delta Center",
+   "city": "Salt Lake City, UT",
+   "status": "Final",
+   "away_q": [
+    31,
+    27,
+    23,
+    29
+   ],
+   "home_q": [
+    33,
+    22,
+    26,
+    21
+   ],
+   "away_final": 110,
+   "home_final": 102,
+   "ot": false,
+   "attendance": 17867,
+   "away_record": "12-2",
+   "home_record": "1-13",
+   "source_url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "retrieved_utc": "2026-11-16T00:47Z"
   }
  ],
  "notes": [
   "Statuses 'Final' and the final scores were read twice from official pages: the scoreboard (https://www.nba.com/games?date=2026-11-15) and each game's summary page, both read 2026-11-15 ~23:49-23:59Z; each final also appears on the other game's summary sidebar.",
   "Quarter lines are taken from the official gamebook PDF's 'SCORE BY PERIOD' table (transcribed verbatim in data/live/raw/gamebook_20261115_INDPHI.md and _LALPHX.md). The scoreboard view fetched here does not print quarter lines, so no second quarter-line source is claimed: the builder checks the gamebook's printed FINAL against the sum of its printed quarters AND against the game-page final.",
   "Tip times, venues and pre-game records come from the committed official schedule capture data/app/official_slate_1115_1118.json (nba.com/schedule?date=2026-11-15) and the games pages.",
-  "The other seven 11/15 games (0022600238 CHA@LAC, 0022600239 SAS@UTA, 0022600240 DAL@BOS, 0022600241 NYK@TOR in progress; 0022600242 HOU@WAS, 0022600243 ATL@MIL, 0022600244 OKC@SAC not started at retrieval) have no row here yet: a row is written only when the final is verified. They are picked up by the next refresh after they end."
+  "The other seven 11/15 games (0022600238 CHA@LAC, 0022600239 SAS@UTA, 0022600240 DAL@BOS, 0022600241 NYK@TOR in progress; 0022600242 HOU@WAS, 0022600243 ATL@MIL, 0022600244 OKC@SAC not started at retrieval) have no row here yet: a row is written only when the final is verified. They are picked up by the next refresh after they end.",
+  "2026-11-16T00:47Z: 0022600238 (CHA 105 @ LAC 113) and 0022600239 (SAS 110 @ UTA 102) read as Final on their official game pages and the 2026-11-15 schedule page; both game books captured verbatim, printed period lines sum exactly to the printed finals (21+31+31+22=105 vs 22+29+33+29=113; 31+27+23+29=110 vs 33+22+26+21=102). Remaining 11/15 games LIVE or PREGAME at this read: 0022600240 DAL@BOS, 0022600241 NYK@TOR, 0022600242 HOU@WAS, 0022600243 ATL@MIL, 0022600244 OKC@SAC."
  ]
 }

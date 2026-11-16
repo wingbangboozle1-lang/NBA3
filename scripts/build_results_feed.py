@@ -45,6 +45,8 @@ BOOKS = {
 BOOKS_20261115 = {
     "0022600236": ("20261115_INDPHI", "IND", "PHI", "Indiana Pacers", "Philadelphia 76ers"),
     "0022600237": ("20261115_LALPHX", "LAL", "PHX", "Los Angeles Lakers", "Phoenix Suns"),
+    "0022600238": ("20261115_CHALAC", "CHA", "LAC", "Charlotte Hornets", "LA Clippers"),
+    "0022600239": ("20261115_SASUTA", "SAS", "UTA", "San Antonio Spurs", "Utah Jazz"),
 }
 
 # Per-day wiring. settled_utc is the stamp of the build that last confirmed the finals against

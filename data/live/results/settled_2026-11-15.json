@@ -6,8 +6,8 @@
  "settlement_stamp_note": "The stamp is the time this build last confirmed the finals against the official pages. It moves only when the official values are re-read.",
  "one_row_per_game": true,
  "counts": {
-  "games": 2,
-  "verified": 2,
+  "games": 4,
+  "verified": 4,
   "unverified": 0
  },
  "games": [
@@ -92,6 +92,88 @@
    "source_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
    "retrieved_utc": "2026-11-15T23:55Z"
+  },
+  {
+   "game_id": "0022600238",
+   "date": "2026-11-15",
+   "tip_et": "4:30 PM",
+   "away": "CHA",
+   "home": "LAC",
+   "away_name": "Charlotte Hornets",
+   "home_name": "LA Clippers",
+   "venue": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "status": "Final",
+   "away_q": [
+    21,
+    31,
+    31,
+    22
+   ],
+   "home_q": [
+    22,
+    29,
+    33,
+    29
+   ],
+   "away_final": 105,
+   "home_final": 113,
+   "away_margin": -8,
+   "total_points": 218,
+   "ot": false,
+   "winner": "LAC",
+   "attendance": 17487,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/cha-vs-lac-0022600238",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf"
+   },
+   "source_url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "retrieved_utc": "2026-11-16T00:47Z"
+  },
+  {
+   "game_id": "0022600239",
+   "date": "2026-11-15",
+   "tip_et": "5:00 PM",
+   "away": "SAS",
+   "home": "UTA",
+   "away_name": "San Antonio Spurs",
+   "home_name": "Utah Jazz",
+   "venue": "Delta Center",
+   "city": "Salt Lake City, UT",
+   "status": "Final",
+   "away_q": [
+    31,
+    27,
+    23,
+    29
+   ],
+   "home_q": [
+    33,
+    22,
+    26,
+    21
+   ],
+   "away_final": 110,
+   "home_final": 102,
+   "away_margin": 8,
+   "total_points": 212,
+   "ot": false,
+   "winner": "SAS",
+   "attendance": 17867,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/sas-vs-uta-0022600239",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf"
+   },
+   "source_url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "retrieved_utc": "2026-11-16T00:47Z"
   }
  ]
 }
