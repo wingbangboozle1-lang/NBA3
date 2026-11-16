@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources · NBA 2026-11-16 game-day roll (arena/d1b96315-nba3)</title>
+<style>
+:root{--ink:#14202b;--mut:#5b6b78;--line:#dfe5ea;--bg:#f7f9fb;--ok:#1d7a46;--warn:#9a6b00;--bad:#b3261e;--acc:#1f5fa8;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:12px 22px;position:sticky;top:0;z-index:3}
+header .t{font-weight:700;font-size:16px}header .sub{color:var(--mut);font-size:12.5px}
+nav{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{font-size:12.5px;padding:3px 8px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--acc);background:#fff}
+nav a.on{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+main{padding:20px 22px 60px;max-width:1500px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16.5px;margin:26px 0 8px}h3{font-size:14px;margin:18px 0 6px}
+p{margin:6px 0}.mut{color:var(--mut)}.small{font-size:12.5px}.lead{font-size:15.5px;max-width:1100px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin:12px 0 4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card .k{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+.card .v{font-size:21px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.card .n{font-size:11.5px;color:var(--mut);margin-top:3px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:12.8px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+th{background:#eef3f7;font-weight:600;position:sticky;top:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+td.num,th.num{text-align:right}tr:hover td{background:#f2f7fb}
+.tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.ok{background:#e3f3ea;color:var(--ok)}.bad{background:#fbe7e5;color:var(--bad)}.warn{background:#fdf3dc;color:var(--warn)}
+.info{background:#e6effa;color:var(--acc)}.grey{background:#eef1f4;color:var(--mut)}
+.none{color:#9aa8b3;font-style:italic}
+.note{background:#fff;border-left:3px solid var(--acc);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.warnbox{background:#fff;border-left:3px solid var(--warn);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.badbox{background:#fff;border-left:3px solid var(--bad);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+code{background:#eef3f7;padding:1px 4px;border-radius:4px;font-size:12px}
+a.src{font-size:11.5px;color:var(--acc);text-decoration:none;border-bottom:1px dotted var(--acc)}
+ul{margin:6px 0 6px 20px;padding:0}li{margin:3px 0}
+.q{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:9px 0}
+.q h4{margin:0 0 5px;font-size:13.5px}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:14px 22px;color:var(--mut);font-size:12px}
+</style></head>
+<body>
+<header>
+  <div class="t">NBA · 2026-11-16 game-day roll <span class="tag info">session arena/d1b96315-nba3</span></div>
+  <div class="sub">Official sources only · every row linked · unconfirmed values left blank and flagged ·
+    projection surface and bet surface kept apart</div>
+  <nav><a href="index.html" class="">Roll</a><a href="injuries.html" class="">Injuries</a><a href="results.html" class="">Results</a><a href="standings.html" class="">Standings</a><a href="lines.html" class="">Originated lines</a><a href="pricing.html" class="">Pricing &amp; rho</a><a href="model.html" class="">Method</a><a href="gates.html" class="">Gates &amp; leaderboard</a><a href="ledger.html" class="">Ledger</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="sources.html" class="on">Sources</a><a href="flagged.html" class="">Flagged for review</a></nav>
+</header>
+<main>
+
+
+<h1>Source register: what was read, when, and what it settled</h1>
+<p class="lead">Every number on this site traces to one of these rows. Where a page could not be read,
+the row says so and the dependent value is blank — a rule the whole tree follows, not a caption.</p>
+<div class="scroll"><table class=""><thead><tr><th class="">source</th><th class="">kind</th><th class="">url</th><th class="">retrieved (UTC)</th><th class="">used for</th><th class="">what it confirmed</th><th class="">class</th></tr></thead><tbody><tr><td class="">official injury report, 11:30 AM ET revision</td><td class="">PDF (fetched + transcribed here)</td><td class=""><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf" rel="noopener">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf</a></td><td class="">2026-11-16T18:28Z</td><td class="">the morning step of the day&#x27;s diff; the availability input for tonight</td><td class="">72 rows / 57 player rows; identical content to the 09:15 snapshot the site published</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">official injury report, 01:15 PM ET revision</td><td class="">PDF (fetched + transcribed here)</td><td class=""><a class="src" href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf" rel="noopener">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf</a></td><td class="">2026-11-16T18:26Z</td><td class="">the newest filing state per club; every availability column on the lines page</td><td class="">87 rows / 76 player rows; 4 status changes and 19 new rows since 11:30</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">injury report index for the 2026-27 season</td><td class="">HTML</td><td class=""><a class="src" href="https://official.nba.com/nba-injury-report-2026-27-season/" rel="noopener">https://official.nba.com/nba-injury-report-2026-27-season/</a></td><td class="">2026-11-16T18:24Z</td><td class="">proving the 01:15 PM ET revision exists and is newer than the published snapshot</td><td class="">revisions listed 12:00 AM → 01:15 PM ET on 11/16</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">09:15 AM ET snapshot the site had published</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/injuries.json" rel="noopener">data/rounds/2026-11-16/injuries.json</a></td><td class="">2026-11-16T14:35Z</td><td class="">the older side of the whole-day diff, re-shaped without re-deriving any value</td><td class="">72 rows / 57 player rows / 15 unfiled</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">scoreboard, game day 2026-11-15</td><td class="">HTML</td><td class=""><a class="src" href="https://www.nba.com/games?date=2026-11-15" rel="noopener">https://www.nba.com/games?date=2026-11-15</a></td><td class="">2026-11-16T18:30Z</td><td class="">all nine finals, re-read independently of main</td><td class="">9 finals; 8 agree with main&#x27;s settled rows; ATL@MIL final confirmed</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">game book ATL @ MIL (0022600243)</td><td class="">PDF (fetched + transcribed here)</td><td class=""><a class="src" href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" rel="noopener">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a></td><td class="">2026-11-16T18:30Z</td><td class="">quarter vector for the blocked row; inactives for both clubs</td><td class="">the period table and the recap line disagree on Milwaukee&#x27;s Q3; the final is confirmed three ways</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">game books IND @ PHI and DAL @ BOS (11/15)</td><td class="">PDFs (fetched + transcribed here)</td><td class=""><a class="src" href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" rel="noopener">https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf</a></td><td class="">2026-11-16T18:44Z</td><td class="">per-player minutes/points/rebounds/assists for four more clubs; an independent quarter re-read</td><td class="">52 player rows added (BOS, DAL, IND, PHI); minutes sum to 240.00 per club; IND&#x27;s readable rows sum to its printed 124</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">scoreboard, game day 2026-11-16</td><td class="">HTML</td><td class=""><a class="src" href="https://www.nba.com/games?date=2026-11-16" rel="noopener">https://www.nba.com/games?date=2026-11-16</a></td><td class="">2026-11-16T18:30Z</td><td class="">re-verification of tonight&#x27;s slate rows; the calendar counts for the whole window</td><td class="">6 of 8 cards present in the fetched chunk (all 8 present in the report&#x27;s matchup list); no odds rendered</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">scoreboard cards, game day 2026-11-19</td><td class="">HTML</td><td class=""><a class="src" href="https://www.nba.com/games?date=2026-11-19" rel="noopener">https://www.nba.com/games?date=2026-11-19</a></td><td class="">2026-11-16T19:05Z</td><td class="">the fourth day of the pricing window (4 games), so lines reach three days ahead</td><td class="">4 cards with ids 0022600270-273, all four printed 8:00 PM ET; no venue and no odds on a card, so both are blank; the printed records match the standings page</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">league standings, 2026-27</td><td class="">HTML (both chunks)</td><td class=""><a class="src" href="https://www.nba.com/standings" rel="noopener">https://www.nba.com/standings</a></td><td class="">2026-11-16T18:31Z</td><td class="">the measured home-win rate the HCA pin is now computed from; all 30 rows</td><td class="">30 rows, all splits; 102-94 in 196 home games; every identity check passes</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">Teams Advanced, 2026-27 Regular Season</td><td class="">HTML (both chunks)</td><td class=""><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td><td class="">2026-11-16T18:33Z</td><td class="">estimator B&#x27;s off/def/pace/possessions inputs; the cross-check of main&#x27;s three-page capture</td><td class="">30 rows; W+L=GP everywhere; NetRtg within the page&#x27;s own rounding (max residual 0.1)</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">the round&#x27;s three-page team-stat capture</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/team_stats.json" rel="noopener">data/rounds/2026-11-16/team_stats.json</a></td><td class="">captured 2026-11-16T14:25Z by arena/8f4fac33-nba3</td><td class="">the naive scoring averages printed beside every possessions-model total</td><td class="">30 teams × traditional/opponent/advanced, each block with its own source_url; agrees with this session&#x27;s live advanced read</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">canonical result feed</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" rel="noopener">data/app/results_feed.json</a></td><td class="">as published on main</td><td class="">the 11/13 and 11/14 finals in the estimation log, and their quarter vectors</td><td class="">14 settled finals; the 11/14 rows carry quarter scores, the 11/13 rows do not</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">per-player logs for 11/14</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/player_game_logs.json" rel="noopener">data/app/player_game_logs.json</a></td><td class="">as published on main</td><td class="">the rotation input for the 8 of tonight&#x27;s 16 clubs with no 11/15 box</td><td class="">173 rows, 10 clubs, date 2026-11-14 only — the coverage gap is D-08</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">official rolling slate 11/16-11/18</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/slate.json" rel="noopener">data/rounds/2026-11-16/slate.json</a></td><td class="">as published on main</td><td class="">the window&#x27;s 29 games, venues and tip times</td><td class="">25 rows, no duplicate ids; tonight&#x27;s 8 re-verified row by row where the page chunk carried them</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">main&#x27;s sealed app pick ledger</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" rel="noopener">data/app/ledger/ledger.jsonl</a></td><td class="">as published on main</td><td class="">independent chain verification and the K-17 recipe test</td><td class="">34 entries, chain intact; entry_hash = sha256(canon({prev, body})), 34/34; body alone 0/34</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">the bet-surface ledger on main</td><td class="">repo artefact</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/ledger/ledger.jsonl" rel="noopener">ledger/ledger.jsonl</a></td><td class="">as published on main</td><td class="">independent chain verification</td><td class="">11 entries, chain intact under the recipe scripts/ledger.py documents</td><td class=""><span class="tag ok">official</span></td></tr>
+<tr><td class="">scheduled refresh run</td><td class="">CI</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575" rel="noopener">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575</a></td><td class="">2026-11-16T18:20Z</td><td class="">the failing-step identification behind D-01/D-02</td><td class="">job refresh, step &#x27;Unit tests (capture, feed, ledger, estimators, gates)&#x27;, 19 s; log body unreachable from this sandbox</td><td class=""><span class="tag warn">general reference</span></td></tr>
+<tr><td class="">arena coordinates</td><td class="">repo artefact (general reference)</td><td class=""><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/arena_coordinates.json" rel="noopener">data/app/arena_coordinates.json</a></td><td class="">2026-11-15T11:47Z</td><td class="">travel distance only, labelled as derived arithmetic on every row</td><td class="">arena names cross-checked against the official schedule; coordinates are not an NBA-published figure</td><td class=""><span class="tag warn">general reference</span></td></tr></tbody></table></div>
+<div class="warnbox"><b>One input is not official.</b> The arena coordinates used for travel distance
+come from a general-reference table committed on main (<code>data/app/arena_coordinates.json</code>,
+Wikipedia via the MediaWiki API, read 2026-11-15T11:47Z). The arena <i>name</i> on every travel row is
+cross-checked against the official schedule and mismatches are printed; the coordinates themselves are
+not an NBA-published figure, and the distance is labelled as derived arithmetic wherever it appears
+(board items K-06 / CR-06).</div>
+<p class="small mut">Two fetch paths that were tried and do not work, recorded so the next session does
+not repeat them: the OSS proxy URLs in the tool's own results return
+<code>SignatureDoesNotMatch</code> for every one of these PDFs (fetch the
+<code>ak-static.cms.nba.com</code> URL directly), and
+<code>www.nba.com/stats/standings?Season=2026-27…</code> returns "Content Unavailable" — the working
+URL is <code>www.nba.com/standings</code>, and its 15th Western row only appears in the page's second
+chunk, which is why both chunks were read.</p>
+
+</main>
+<footer>Built by <code>d1b96315/build_pages.py</code> from <code>d1b96315/data/*.json</code>, which are
+built by <code>capture.py</code>, <code>boxlog.py</code>, <code>model.py</code>, <code>flags.py</code>
+and <code>ledger.py</code>. No value on any page is typed by hand. Canonical site:
+<a href="https://wingbangboozle1-lang.github.io/NBA3/index.html" rel="noopener">NBA3 dashboard</a> · this tree: <a href="https://wingbangboozle1-lang.github.io/NBA3/d1b96315/pages/index.html" rel="noopener">d1b96315/</a></footer>
+</body></html>

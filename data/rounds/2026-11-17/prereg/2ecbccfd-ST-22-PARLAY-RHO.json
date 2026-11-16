@@ -1,0 +1,19 @@
+{
+ "id": "ST-22-PARLAY-RHO",
+ "name": "Same-night two-leg parlay priced with the measured correlation",
+ "signal": "combine two legs of one date only where the rho-adjusted joint price is better than the product of the two naive prices by more than the noise band of rho; the naive product is printed beside the price, always",
+ "thresholds": {
+  "max_abs_rho": 0.15,
+  "min_edge_pp": 1.0
+ },
+ "universe": "unordered pairs of games on one date within the round window",
+ "settlement_rule": "parlay: both legs must win on their official finals; one leg without a verified final voids the whole ticket, it is not scored as a loss",
+ "stake_rule": "1 unit, no more than one parlay per date",
+ "luck_policy": "refused if either leg's club is outside the +/-2 luck band",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "blocked_because": "the measured same-night margin correlation is 0.012 with a 95% interval of [-0.057, 0.081], so no rho adjustment can clear 1.0 pp of edge; the parlays are still priced with rho and the naive product is printed next to them, as required",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "64c3bd148fa8df6251cd294cbfb664a0f9d97113c6a77bff4621740deedb44f2"
+}

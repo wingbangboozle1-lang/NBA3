@@ -1,0 +1,51 @@
+{
+ "schema": "nba3.rounds.gates/v1",
+ "round": "2026-11-17",
+ "written_utc": "2026-11-16T19:30Z",
+ "policy": "the site is rebuilt only from artefacts that clear these gates; a failing gate is a reason to stop, and the remedy column says who to blame",
+ "gates": [
+  {
+   "id": "F1_report_is_for_this_game_day",
+   "name": "newest official injury report is filed for the game day priced",
+   "pass": true,
+   "detail": "newest revision printed: 2026-11-16 01:15 PM ET; read 2026-11-16T18:30Z",
+   "remedy_if_failing": "wait for the next filing window; the league files by 5 p.m. local the day before, 1 p.m. for back-second games, and on game day between 11 a.m. and 1 p.m. ET"
+  },
+  {
+   "id": "F2_both_revisions_retained",
+   "name": "two revisions of the same game day are stored, so a diff is possible",
+   "pass": true,
+   "detail": "2 revisions: 2026-11-16 09:15 AM ET, 2026-11-16 01:15 PM ET",
+   "remedy_if_failing": "the diff is the point: one revision is a snapshot, two are a status change"
+  },
+  {
+   "id": "F3_transcripts_hash",
+   "name": "every transcript hashes to what the artefact records",
+   "pass": true,
+   "detail": "4 transcripts checked against the sha256 written into the artefacts",
+   "remedy_if_failing": "a mismatch means a committed transcript was edited after it was parsed: revert the transcript or rebuild the artefact, never both silently"
+  },
+  {
+   "id": "F4_all_sources_https_nba",
+   "name": "every published row names an https NBA source",
+   "pass": true,
+   "detail": "injury rows point at the ak-static PDF, standings at nba.com/standings",
+   "remedy_if_failing": "a row without an NBA source must be dropped from the artefact, not relabelled"
+  },
+  {
+   "id": "F5_standings_reconcile_with_log",
+   "name": "the standings table and the results log describe the same games",
+   "pass": true,
+   "detail": "30/30 clubs reconcile; sum of games played 394 = 2 x 197",
+   "remedy_if_failing": "if a club stops reconciling, one of the two sources moved: re-read both before publishing a line"
+  },
+  {
+   "id": "F6_results_settled_only_on_finals",
+   "name": "no result is used before its official final is verified",
+   "pass": true,
+   "detail": "9/9 of the 2026-11-15 rows have a final printed by an official source; the one with a quarter conflict is excluded from quarter-level measures",
+   "remedy_if_failing": "a game with no verified final stays unsettled; a settlement stamp must name the source"
+  }
+ ],
+ "all_pass": true
+}

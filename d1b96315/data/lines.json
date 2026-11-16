@@ -1,0 +1,6184 @@
+{
+ "schema": "nba3.d1b96315.lines/v1",
+ "stamp": "2026-11-16T18:55Z",
+ "count": 29,
+ "surface": "projection",
+ "lines": [
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600245",
+   "away": "ORL",
+   "home": "BOS",
+   "venue": "TD Garden",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/orl-vs-bos-0022600245",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": 23.19,
+   "estimator_b_margin": 9.47,
+   "disagreement_margin_points": 13.72,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 16.33,
+   "possessions": 97.95,
+   "ppp_away": 1.074,
+   "ppp_home": 1.1615,
+   "total_possessions_model": 218.97,
+   "total_naive_scoring_average": 223.8,
+   "total_gap_between_the_two_methods": 4.83,
+   "availability": {
+    "away": {
+     "team": "ORL",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "BOS",
+     "listed_on_report": 1,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Queta, Neemias",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no club row on the 11/16 report carries an applied status"
+     ],
+     "rotation_source": {
+      "date": "2026-11-15",
+      "opponent": "DAL",
+      "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf"
+     },
+     "minutes_share_removed": null,
+     "top8_share_before": 0.7049,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "nothing to apply"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "nothing to apply",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "TD Garden",
+    "away_arena": "Kia Center",
+    "home_arena": "TD Garden",
+    "km": 1796.2,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.001,
+    "home": 0.537
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 4,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 1,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 13.72 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9141,
+    "p_leg_2": 0.2216,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1916,
+    "p_parlay_naive_product": 0.2025,
+    "difference_in_probability_points": -1.09,
+    "fair_american_measured_rho": 421.9,
+    "fair_american_naive": 393.8,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600246",
+   "away": "CHI",
+   "home": "CLE",
+   "venue": "Rocket Arena",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/chi-vs-cle-0022600246",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": -11.67,
+   "estimator_b_margin": 7.14,
+   "disagreement_margin_points": 18.81,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -2.27,
+   "possessions": 102.62,
+   "ppp_away": 1.124,
+   "ppp_home": 1.1848,
+   "total_possessions_model": 236.93,
+   "total_naive_scoring_average": 232.1,
+   "total_gap_between_the_two_methods": 4.83,
+   "availability": {
+    "away": {
+     "team": "CHI",
+     "listed_on_report": 5,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Smith, Jalen",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Isaac Okoro",
+       "min_before": 31.03,
+       "added_min": 0.0,
+       "min_after": 31.03
+      },
+      {
+       "player": "Norman Powell",
+       "min_before": 30.1,
+       "added_min": 0.0,
+       "min_after": 30.1
+      },
+      {
+       "player": "Matas Buzelis",
+       "min_before": 29.8,
+       "added_min": 0.0,
+       "min_after": 29.8
+      },
+      {
+       "player": "Zach Collins",
+       "min_before": 28.18,
+       "added_min": 0.0,
+       "min_after": 28.18
+      },
+      {
+       "player": "Josh Giddey",
+       "min_before": 26.23,
+       "added_min": 0.0,
+       "min_after": 26.23
+      },
+      {
+       "player": "Patrick Williams",
+       "min_before": 25.68,
+       "added_min": 0.0,
+       "min_after": 25.68
+      },
+      {
+       "player": "Tre Jones",
+       "min_before": 24.28,
+       "added_min": 0.0,
+       "min_after": 24.28
+      },
+      {
+       "player": "Buddy Hield",
+       "min_before": 20.37,
+       "added_min": 0.0,
+       "min_after": 20.37
+      },
+      {
+       "player": "Leonard Miller",
+       "min_before": 17.3,
+       "added_min": 0.0,
+       "min_after": 17.3
+      },
+      {
+       "player": "Noa Essengue",
+       "min_before": 7.02,
+       "added_min": 0.0,
+       "min_after": 7.02
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): caleb wilson, jaylin sellers, orlando robinson, tobe awaka"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "MIN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.8987,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    },
+    "home": {
+     "team": "CLE",
+     "listed_on_report": 7,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Jaylon Tyson",
+       "min": 33.62,
+       "pts": 18,
+       "share_of_team_minutes": 0.1401
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Watson, Peyton",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Tyrese Proctor",
+       "min_before": 34.08,
+       "added_min": 5.55,
+       "min_after": 39.63
+      },
+      {
+       "player": "Mario Hezonja",
+       "min_before": 34.05,
+       "added_min": 5.55,
+       "min_after": 39.6
+      },
+      {
+       "player": "Meleek Thomas",
+       "min_before": 33.55,
+       "added_min": 5.47,
+       "min_after": 39.02
+      },
+      {
+       "player": "Craig Porter Jr.",
+       "min_before": 28.37,
+       "added_min": 4.62,
+       "min_after": 32.99
+      },
+      {
+       "player": "Thomas Bryant",
+       "min_before": 27.42,
+       "added_min": 4.47,
+       "min_after": 31.89
+      },
+      {
+       "player": "Norchad Omier",
+       "min_before": 26.75,
+       "added_min": 4.36,
+       "min_after": 31.11
+      },
+      {
+       "player": "Riley Minix",
+       "min_before": 22.17,
+       "added_min": 3.61,
+       "min_after": 25.78
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): evan mobley, jr. ernest udeh, khalifa diop, nae'qwan tomlin, sam merrill"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "DAL",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+     },
+     "minutes_share_removed": 0.1401,
+     "top8_share_before": 1.0,
+     "points_lost_per_game": 0.24,
+     "ortg_delta": 0.24,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.1401,
+     "out_applied": [
+      "Jaylon Tyson"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Rocket Arena",
+    "away_arena": "United Center",
+    "home_arena": "Rocket Arena",
+    "km": 498.8,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.141,
+    "home": -0.271
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 5,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 7,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 18.81 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5753,
+    "p_leg_2": 0.5972,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3115,
+    "p_parlay_naive_product": 0.3436,
+    "difference_in_probability_points": -3.21,
+    "fair_american_measured_rho": 221.0,
+    "fair_american_naive": 191.0,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600247",
+   "away": "MEM",
+   "home": "WAS",
+   "venue": "Capital One Arena",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/mem-vs-was-0022600247",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": -32.93,
+   "estimator_b_margin": -4.72,
+   "disagreement_margin_points": 28.21,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -18.83,
+   "possessions": 101.26,
+   "ppp_away": 1.1545,
+   "ppp_home": 1.099,
+   "total_possessions_model": 228.19,
+   "total_naive_scoring_average": 231.2,
+   "total_gap_between_the_two_methods": 3.01,
+   "availability": {
+    "away": {
+     "team": "MEM",
+     "listed_on_report": 7,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Isaiah Stewart",
+       "min": 15.15,
+       "pts": 11,
+       "share_of_team_minutes": 0.0631
+      },
+      {
+       "player": "GG Jackson",
+       "min": 2.87,
+       "pts": 3,
+       "share_of_team_minutes": 0.012
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Edey, Zach",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Post, Quinten",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Cam Spencer",
+       "min_before": 33.92,
+       "added_min": 2.75,
+       "min_after": 36.67
+      },
+      {
+       "player": "Cedric Coward",
+       "min_before": 32.82,
+       "added_min": 2.66,
+       "min_after": 35.48
+      },
+      {
+       "player": "Javon Small",
+       "min_before": 29.8,
+       "added_min": 2.42,
+       "min_after": 32.22
+      },
+      {
+       "player": "Taylor Hendricks",
+       "min_before": 29.02,
+       "added_min": 2.36,
+       "min_after": 31.38
+      },
+      {
+       "player": "Cameron Boozer",
+       "min_before": 28.78,
+       "added_min": 2.34,
+       "min_after": 31.12
+      },
+      {
+       "player": "Jaylen Wells",
+       "min_before": 24.58,
+       "added_min": 2.0,
+       "min_after": 26.58
+      },
+      {
+       "player": "Olivier-Maxence Prosper",
+       "min_before": 20.05,
+       "added_min": 1.63,
+       "min_after": 21.68
+      },
+      {
+       "player": "Kris Murray",
+       "min_before": 19.48,
+       "added_min": 1.58,
+       "min_after": 21.06
+      },
+      {
+       "player": "Karim L\u00f3pez",
+       "min_before": 1.77,
+       "added_min": 0.14,
+       "min_after": 1.91
+      },
+      {
+       "player": "Jahmai Mashack",
+       "min_before": 1.77,
+       "added_min": 0.14,
+       "min_after": 1.91
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): richie saunders, scotty jr pippen, ty jerome"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "BKN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+     },
+     "minutes_share_removed": 0.0751,
+     "top8_share_before": 0.9102,
+     "points_lost_per_game": 4.66,
+     "ortg_delta": 4.6,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    },
+    "home": {
+     "team": "WAS",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Johnson, Tre",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Okpara, Felix",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "applied",
+     "minutes_share_removed": 0.0751,
+     "out_applied": [
+      "Isaiah Stewart",
+      "GG Jackson"
+     ]
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Capital One Arena",
+    "away_arena": "FedExForum",
+    "home_arena": "Capital One Arena",
+    "km": 1228.7,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.055,
+    "home": -0.455
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 7,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 6,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 28.21 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9424,
+    "p_leg_2": 0.4025,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3696,
+    "p_parlay_naive_product": 0.3793,
+    "difference_in_probability_points": -0.97,
+    "fair_american_measured_rho": 170.5,
+    "fair_american_naive": 163.6,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600248",
+   "away": "PHI",
+   "home": "BKN",
+   "venue": "Barclays Center",
+   "tip_et": "7:30 PM ET",
+   "game_url": "https://www.nba.com/game/phi-vs-bkn-0022600248",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": -5.3,
+   "estimator_b_margin": -2.64,
+   "disagreement_margin_points": 2.66,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": -3.97,
+   "possessions": 100.31,
+   "ppp_away": 1.1298,
+   "ppp_home": 1.0945,
+   "total_possessions_model": 223.12,
+   "total_naive_scoring_average": 222.8,
+   "total_gap_between_the_two_methods": 0.32,
+   "availability": {
+    "away": {
+     "team": "PHI",
+     "listed_on_report": 5,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "LeBron James",
+       "min": 32.7833,
+       "pts": 15,
+       "share_of_team_minutes": 0.1366
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Embiid, Joel",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Tyrese Maxey",
+       "min_before": 35.5333,
+       "added_min": 5.62,
+       "min_after": 41.15
+      },
+      {
+       "player": "Dean Wade",
+       "min_before": 35.05,
+       "added_min": 5.55,
+       "min_after": 40.6
+      },
+      {
+       "player": "Jaylen Brown",
+       "min_before": 32.4667,
+       "added_min": 5.14,
+       "min_after": 37.6
+      },
+      {
+       "player": "VJ Edgecombe",
+       "min_before": 30.8167,
+       "added_min": 4.88,
+       "min_after": 35.69
+      },
+      {
+       "player": "Jabari Walker",
+       "min_before": 24.7,
+       "added_min": 3.91,
+       "min_after": 28.61
+      },
+      {
+       "player": "Kentavious Caldwell-Pope",
+       "min_before": 22.2667,
+       "added_min": 3.52,
+       "min_after": 25.79
+      },
+      {
+       "player": "Anfernee Simons",
+       "min_before": 15.4667,
+       "added_min": 2.45,
+       "min_after": 17.91
+      },
+      {
+       "player": "Labaron Philon Jr.",
+       "min_before": 6.1,
+       "added_min": 0.97,
+       "min_after": 7.07
+      },
+      {
+       "player": "Tacko Fall",
+       "min_before": 4.8167,
+       "added_min": 0.76,
+       "min_after": 5.58
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): adem bona, ariel hukporti, dominick barlow"
+     ],
+     "rotation_source": {
+      "date": "2026-11-15",
+      "opponent": "IND",
+      "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+     },
+     "minutes_share_removed": 0.1366,
+     "top8_share_before": 0.9545,
+     "points_lost_per_game": 2.34,
+     "ortg_delta": 2.34,
+     "status": "applied",
+     "rows_without_readable_points": 5,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    },
+    "home": {
+     "team": "BKN",
+     "listed_on_report": 5,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Drake Powell",
+       "min": 1.77,
+       "pts": 2,
+       "share_of_team_minutes": 0.0074
+      }
+     ],
+     "out_not_applied": [],
+     "replacement_shares": [
+      {
+       "player": "Noah Clowney",
+       "min_before": 35.02,
+       "added_min": 0.26,
+       "min_after": 35.28
+      },
+      {
+       "player": "Julius Randle",
+       "min_before": 31.38,
+       "added_min": 0.23,
+       "min_after": 31.61
+      },
+      {
+       "player": "Day'Ron Sharpe",
+       "min_before": 27.78,
+       "added_min": 0.21,
+       "min_after": 27.99
+      },
+      {
+       "player": "Danny Wolf",
+       "min_before": 27.7,
+       "added_min": 0.21,
+       "min_after": 27.91
+      },
+      {
+       "player": "Egor Demin",
+       "min_before": 27.45,
+       "added_min": 0.2,
+       "min_after": 27.65
+      },
+      {
+       "player": "Mikel Brown Jr.",
+       "min_before": 19.95,
+       "added_min": 0.15,
+       "min_after": 20.1
+      },
+      {
+       "player": "Nolan Traore",
+       "min_before": 19.8,
+       "added_min": 0.15,
+       "min_after": 19.95
+      },
+      {
+       "player": "Moritz Wagner",
+       "min_before": 18.45,
+       "added_min": 0.14,
+       "min_after": 18.59
+      },
+      {
+       "player": "Chaney Johnson",
+       "min_before": 12.35,
+       "added_min": 0.09,
+       "min_after": 12.44
+      },
+      {
+       "player": "Terance Mann",
+       "min_before": 9.45,
+       "added_min": 0.07,
+       "min_after": 9.52
+      },
+      {
+       "player": "Keon Ellis",
+       "min_before": 7.13,
+       "added_min": 0.05,
+       "min_after": 7.18
+      },
+      {
+       "player": "Josh Minott",
+       "min_before": 1.77,
+       "added_min": 0.01,
+       "min_after": 1.78
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): ben saraf, grant nelson, joshua jefferson, tyler bilodeau"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "MEM",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+     },
+     "minutes_share_removed": 0.0074,
+     "top8_share_before": 0.8647,
+     "points_lost_per_game": 1.2,
+     "ortg_delta": 1.19,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "applied",
+     "minutes_share_removed": 0.1366,
+     "out_applied": [
+      "LeBron James"
+     ]
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0074,
+     "out_applied": [
+      "Drake Powell"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Barclays Center",
+    "away_arena": "Wells Fargo Center",
+    "home_arena": "Barclays Center",
+    "km": null,
+    "status": "a coordinate is blank in the table; distance left blank, not estimated (flag F-COORD on Flagged for Review)",
+    "same_building_back_to_back": null,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 1.807,
+    "home": -0.81
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 5,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 5,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6301,
+    "p_leg_2": 0.2971,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1589,
+    "p_parlay_naive_product": 0.1872,
+    "difference_in_probability_points": -2.83,
+    "fair_american_measured_rho": 529.3,
+    "fair_american_naive": 434.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600249",
+   "away": "HOU",
+   "home": "MIA",
+   "venue": "Kaseya Center",
+   "tip_et": "7:30 PM ET",
+   "game_url": "https://www.nba.com/game/hou-vs-mia-0022600249",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": -5.48,
+   "estimator_b_margin": -5.13,
+   "disagreement_margin_points": 0.35,
+   "headline_confidence": "agreeing",
+   "blend_margin_underneath": -5.31,
+   "possessions": 100.55,
+   "ppp_away": 1.187,
+   "ppp_home": 1.127,
+   "total_possessions_model": 232.67,
+   "total_naive_scoring_average": 237.1,
+   "total_gap_between_the_two_methods": 4.43,
+   "availability": {
+    "away": {
+     "team": "HOU",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Thompson, Amen",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MIA",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Jovic, Nikola",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Thompson, Klay",
+       "status": "Available",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Bam Adebayo",
+       "min_before": 36.1,
+       "added_min": 0.0,
+       "min_after": 36.1
+      },
+      {
+       "player": "Davion Mitchell",
+       "min_before": 32.3,
+       "added_min": 0.0,
+       "min_after": 32.3
+      },
+      {
+       "player": "Giannis Antetokounmpo",
+       "min_before": 30.92,
+       "added_min": 0.0,
+       "min_after": 30.92
+      },
+      {
+       "player": "Myron Gardner",
+       "min_before": 26.03,
+       "added_min": 0.0,
+       "min_after": 26.03
+      },
+      {
+       "player": "Ryan Conwell",
+       "min_before": 25.8,
+       "added_min": 0.0,
+       "min_after": 25.8
+      },
+      {
+       "player": "Andrew Wiggins",
+       "min_before": 22.92,
+       "added_min": 0.0,
+       "min_after": 22.92
+      },
+      {
+       "player": "Klay Thompson",
+       "min_before": 20.22,
+       "added_min": 0.0,
+       "min_after": 20.22
+      },
+      {
+       "player": "Bobby Portis Jr.",
+       "min_before": 17.6,
+       "added_min": 0.0,
+       "min_after": 17.6
+      },
+      {
+       "player": "Simone Fontecchio",
+       "min_before": 14.2,
+       "added_min": 0.0,
+       "min_after": 14.2
+      },
+      {
+       "player": "Nikola Jovic",
+       "min_before": 11.15,
+       "added_min": 0.0,
+       "min_after": 11.15
+      },
+      {
+       "player": "Tre Donaldson",
+       "min_before": 1.38,
+       "added_min": 0.0,
+       "min_after": 1.38
+      },
+      {
+       "player": "Keshad Johnson",
+       "min_before": 1.38,
+       "added_min": 0.0,
+       "min_after": 1.38
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): pelle larsson, vladislav goldin"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "DET",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.8829,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Kaseya Center",
+    "away_arena": "Toyota Center",
+    "home_arena": "Kaseya Center",
+    "km": 1555.4,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.513,
+    "home": 0.523
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 6,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 4,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6716,
+    "p_leg_2": 0.5024,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3067,
+    "p_parlay_naive_product": 0.3374,
+    "difference_in_probability_points": -3.06,
+    "fair_american_measured_rho": 226.0,
+    "fair_american_naive": 196.4,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600250",
+   "away": "POR",
+   "home": "MIN",
+   "venue": "Target Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600250",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -1.4,
+   "estimator_b_margin": 3.57,
+   "disagreement_margin_points": 4.97,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": 1.09,
+   "possessions": 101.34,
+   "ppp_away": 1.1165,
+   "ppp_home": 1.1428,
+   "total_possessions_model": 228.96,
+   "total_naive_scoring_average": 237.9,
+   "total_gap_between_the_two_methods": 8.94,
+   "availability": {
+    "away": {
+     "team": "POR",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MIN",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Jaylen Clark",
+       "min": 3.35,
+       "pts": 0,
+       "share_of_team_minutes": 0.014
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Beringer, Joan",
+       "status": "Available",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Jaden McDaniels",
+       "min_before": 37.02,
+       "added_min": 0.52,
+       "min_after": 37.54
+      },
+      {
+       "player": "Jonathan Kuminga",
+       "min_before": 35.38,
+       "added_min": 0.5,
+       "min_after": 35.88
+      },
+      {
+       "player": "Ayo Dosunmu",
+       "min_before": 33.07,
+       "added_min": 0.47,
+       "min_after": 33.54
+      },
+      {
+       "player": "LaMelo Ball",
+       "min_before": 29.85,
+       "added_min": 0.42,
+       "min_after": 30.27
+      },
+      {
+       "player": "Rudy Gobert",
+       "min_before": 26.88,
+       "added_min": 0.38,
+       "min_after": 27.26
+      },
+      {
+       "player": "Terrence Shannon Jr",
+       "min_before": 21.75,
+       "added_min": 0.31,
+       "min_after": 22.06
+      },
+      {
+       "player": "Bones Hyland",
+       "min_before": 21.3,
+       "added_min": 0.3,
+       "min_after": 21.6
+      },
+      {
+       "player": "Trey Lyles",
+       "min_before": 18.77,
+       "added_min": 0.27,
+       "min_after": 19.04
+      },
+      {
+       "player": "Joan Beringer",
+       "min_before": 12.65,
+       "added_min": 0.18,
+       "min_after": 12.83
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): anthony edwards, donte divincenzo"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "CHI",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+     },
+     "minutes_share_removed": 0.014,
+     "top8_share_before": 0.9333,
+     "points_lost_per_game": -1.5,
+     "ortg_delta": -1.47,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.014,
+     "out_applied": [
+      "Jaylen Clark"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Target Center",
+    "away_arena": "Moda Center",
+    "home_arena": "Target Center",
+    "km": 2288.5,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.597,
+    "home": -0.418
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 4,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 4,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5363,
+    "p_leg_2": 0.4194,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1918,
+    "p_parlay_naive_product": 0.2249,
+    "difference_in_probability_points": -3.31,
+    "fair_american_measured_rho": 421.3,
+    "fair_american_naive": 344.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600251",
+   "away": "GSW",
+   "home": "NOP",
+   "venue": "Smoothie King Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/gsw-vs-nop-0022600251",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": 8.24,
+   "estimator_b_margin": -5.65,
+   "disagreement_margin_points": 13.89,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 1.3,
+   "possessions": 102.31,
+   "ppp_away": 1.1805,
+   "ppp_home": 1.1165,
+   "total_possessions_model": 235.01,
+   "total_naive_scoring_average": 232.6,
+   "total_gap_between_the_two_methods": 2.41,
+   "availability": {
+    "away": {
+     "team": "GSW",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Butler III, Jimmy",
+       "status": null,
+       "why": "status cell not readable in the official PDF extraction"
+      },
+      {
+       "player": "Santos, Gui",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "NOP",
+     "listed_on_report": 8,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Dia, Malik",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Pierre Jr., Jaron",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Reese, Julian",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Saddiq Bey",
+       "min_before": 40.55,
+       "added_min": 0.0,
+       "min_after": 40.55
+      },
+      {
+       "player": "Jeremiah Fears",
+       "min_before": 32.73,
+       "added_min": 0.0,
+       "min_after": 32.73
+      },
+      {
+       "player": "Zion Williamson",
+       "min_before": 30.77,
+       "added_min": 0.0,
+       "min_after": 30.77
+      },
+      {
+       "player": "Herbert Jones",
+       "min_before": 27.48,
+       "added_min": 0.0,
+       "min_after": 27.48
+      },
+      {
+       "player": "Derik Queen",
+       "min_before": 24.97,
+       "added_min": 0.0,
+       "min_after": 24.97
+      },
+      {
+       "player": "Jordan Poole",
+       "min_before": 23.92,
+       "added_min": 0.0,
+       "min_after": 23.92
+      },
+      {
+       "player": "Jaron Pierre Jr.",
+       "min_before": 23.3,
+       "added_min": 0.0,
+       "min_after": 23.3
+      },
+      {
+       "player": "Yves Missi",
+       "min_before": 22.05,
+       "added_min": 0.0,
+       "min_after": 22.05
+      },
+      {
+       "player": "Karlo Matkovic",
+       "min_before": 14.23,
+       "added_min": 0.0,
+       "min_after": 14.23
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): benedict mathurin, bryce mcgowens, dejounte murray, trendon watford, trey iii murphy"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "DEN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.9407,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Smoothie King Center",
+    "away_arena": "Chase Center",
+    "home_arena": "Smoothie King Center",
+    "km": 3089.9,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.172,
+    "home": -0.218
+   },
+   "injury_filing": {
+    "away": {
+     "status": "filed",
+     "player_rows": 6,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 8,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 13.89 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5433,
+    "p_leg_2": 0.5548,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2681,
+    "p_parlay_naive_product": 0.3014,
+    "difference_in_probability_points": -3.33,
+    "fair_american_measured_rho": 272.9,
+    "fair_american_naive": 231.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600252",
+   "away": "PHX",
+   "home": "DEN",
+   "venue": "Ball Arena",
+   "tip_et": "9:00 PM ET",
+   "game_url": "https://www.nba.com/game/phx-vs-den-0022600252",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 0.61,
+   "estimator_b_margin": 3.61,
+   "disagreement_margin_points": 3.0,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": 2.11,
+   "possessions": 98.7,
+   "ppp_away": 1.145,
+   "ppp_home": 1.1725,
+   "total_possessions_model": 228.74,
+   "total_naive_scoring_average": 227.3,
+   "total_gap_between_the_two_methods": 1.44,
+   "availability": {
+    "away": {
+     "team": "PHX",
+     "listed_on_report": 1,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": null,
+       "status": null,
+       "why": "status cell not readable in the official PDF extraction"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "DEN",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [
+      {
+       "player": "Jamal Murray",
+       "min_before": 37.95,
+       "added_min": 0.0,
+       "min_after": 37.95
+      },
+      {
+       "player": "Nikola Jokic",
+       "min_before": 37.13,
+       "added_min": 0.0,
+       "min_after": 37.13
+      },
+      {
+       "player": "Aaron Gordon",
+       "min_before": 32.53,
+       "added_min": 0.0,
+       "min_after": 32.53
+      },
+      {
+       "player": "Cam Johnson",
+       "min_before": 30.77,
+       "added_min": 0.0,
+       "min_after": 30.77
+      },
+      {
+       "player": "Christian Braun",
+       "min_before": 27.77,
+       "added_min": 0.0,
+       "min_after": 27.77
+      },
+      {
+       "player": "DeMar DeRozan",
+       "min_before": 23.82,
+       "added_min": 0.0,
+       "min_after": 23.82
+      },
+      {
+       "player": "Trevon Brazile",
+       "min_before": 15.62,
+       "added_min": 0.0,
+       "min_after": 15.62
+      },
+      {
+       "player": "Marvin Bagley III",
+       "min_before": 13.1,
+       "added_min": 0.0,
+       "min_after": 13.1
+      },
+      {
+       "player": "Spencer Jones",
+       "min_before": 11.5,
+       "added_min": 0.0,
+       "min_after": 11.5
+      },
+      {
+       "player": "Tyus Jones",
+       "min_before": 9.82,
+       "added_min": 0.0,
+       "min_after": 9.82
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): cam whitmore, daron ii holmes, julian strawther, ryan nembhard"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "NOP",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.9112,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Ball Arena",
+    "away_arena": "PHX Arena",
+    "home_arena": "Ball Arena",
+    "km": null,
+    "status": "a coordinate is blank in the table; distance left blank, not estimated (flag F-COORD on Flagged for Review)",
+    "same_building_back_to_back": null,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.077,
+    "home": 0.711
+   },
+   "injury_filing": {
+    "away": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "filed",
+     "player_rows": 4,
+     "markers": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5701,
+    "p_leg_2": 0.4146,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2036,
+    "p_parlay_naive_product": 0.2363,
+    "difference_in_probability_points": -3.27,
+    "fair_american_measured_rho": 391.1,
+    "fair_american_naive": 323.1,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600257",
+   "away": "UTA",
+   "home": "LAC",
+   "venue": "Intuit Dome",
+   "tip_et": "10:30 PM ET",
+   "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 1.56,
+   "estimator_b_margin": 4.55,
+   "disagreement_margin_points": 2.99,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": 3.05,
+   "possessions": 101.34,
+   "ppp_away": 1.102,
+   "ppp_home": 1.138,
+   "total_possessions_model": 227.0,
+   "total_naive_scoring_average": 219.4,
+   "total_gap_between_the_two_methods": 7.6,
+   "availability": {
+    "away": {
+     "team": "UTA",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "LAC",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Intuit Dome",
+    "away_arena": "Delta Center",
+    "home_arena": "Intuit Dome",
+    "km": 948.0,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -1.637,
+    "home": -0.556
+   },
+   "injury_filing": {
+    "away": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6007,
+    "p_leg_2": 0.3768,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1949,
+    "p_parlay_naive_product": 0.2263,
+    "difference_in_probability_points": -3.15,
+    "fair_american_measured_rho": 413.1,
+    "fair_american_naive": 341.8,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600256",
+   "away": "CHA",
+   "home": "LAL",
+   "venue": "Crypto.com Arena",
+   "tip_et": "11:00 PM ET",
+   "game_url": "https://www.nba.com/game/cha-vs-lal-0022600256",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 4.6,
+   "estimator_b_margin": 10.36,
+   "disagreement_margin_points": 5.76,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 7.48,
+   "possessions": 98.59,
+   "ppp_away": 1.0825,
+   "ppp_home": 1.1785,
+   "total_possessions_model": 222.91,
+   "total_naive_scoring_average": 221.9,
+   "total_gap_between_the_two_methods": 1.01,
+   "availability": {
+    "away": {
+     "team": "CHA",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "LAL",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Crypto.com Arena",
+    "away_arena": "Spectrum Center",
+    "home_arena": "Crypto.com Arena",
+    "km": 3406.5,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.354,
+    "home": 1.454
+   },
+   "injury_filing": {
+    "away": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 5.76 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7343,
+    "p_leg_2": 0.293,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1903,
+    "p_parlay_naive_product": 0.2151,
+    "difference_in_probability_points": -2.48,
+    "fair_american_measured_rho": 425.4,
+    "fair_american_naive": 364.8,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600253",
+   "away": "NYK",
+   "home": "TOR",
+   "venue": "Scotiabank Arena",
+   "tip_et": "7:30 PM ET",
+   "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600253",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -3.99,
+   "estimator_b_margin": -1.12,
+   "disagreement_margin_points": 2.87,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": -2.56,
+   "possessions": 98.42,
+   "ppp_away": 1.1295,
+   "ppp_home": 1.109,
+   "total_possessions_model": 220.31,
+   "total_naive_scoring_average": 223.7,
+   "total_gap_between_the_two_methods": 3.39,
+   "availability": {
+    "away": {
+     "team": "NYK",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "TOR",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Scotiabank Arena",
+    "away_arena": "Madison Square Garden",
+    "home_arena": "Scotiabank Arena",
+    "km": 547.8,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.625,
+    "home": -1.063
+   },
+   "injury_filing": {
+    "away": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5848,
+    "p_leg_2": 0.2447,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1167,
+    "p_parlay_naive_product": 0.1431,
+    "difference_in_probability_points": -2.64,
+    "fair_american_measured_rho": 756.9,
+    "fair_american_naive": 598.9,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600254",
+   "away": "POR",
+   "home": "MIN",
+   "venue": "Target Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -1.4,
+   "estimator_b_margin": 3.57,
+   "disagreement_margin_points": 4.97,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": 1.09,
+   "possessions": 101.34,
+   "ppp_away": 1.1165,
+   "ppp_home": 1.1428,
+   "total_possessions_model": 228.96,
+   "total_naive_scoring_average": 237.9,
+   "total_gap_between_the_two_methods": 8.94,
+   "availability": {
+    "away": {
+     "team": "POR",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MIN",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Jaylen Clark",
+       "min": 3.35,
+       "pts": 0,
+       "share_of_team_minutes": 0.014
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Beringer, Joan",
+       "status": "Available",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Jaden McDaniels",
+       "min_before": 37.02,
+       "added_min": 0.52,
+       "min_after": 37.54
+      },
+      {
+       "player": "Jonathan Kuminga",
+       "min_before": 35.38,
+       "added_min": 0.5,
+       "min_after": 35.88
+      },
+      {
+       "player": "Ayo Dosunmu",
+       "min_before": 33.07,
+       "added_min": 0.47,
+       "min_after": 33.54
+      },
+      {
+       "player": "LaMelo Ball",
+       "min_before": 29.85,
+       "added_min": 0.42,
+       "min_after": 30.27
+      },
+      {
+       "player": "Rudy Gobert",
+       "min_before": 26.88,
+       "added_min": 0.38,
+       "min_after": 27.26
+      },
+      {
+       "player": "Terrence Shannon Jr",
+       "min_before": 21.75,
+       "added_min": 0.31,
+       "min_after": 22.06
+      },
+      {
+       "player": "Bones Hyland",
+       "min_before": 21.3,
+       "added_min": 0.3,
+       "min_after": 21.6
+      },
+      {
+       "player": "Trey Lyles",
+       "min_before": 18.77,
+       "added_min": 0.27,
+       "min_after": 19.04
+      },
+      {
+       "player": "Joan Beringer",
+       "min_before": 12.65,
+       "added_min": 0.18,
+       "min_after": 12.83
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): anthony edwards, donte divincenzo"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "CHI",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+     },
+     "minutes_share_removed": 0.014,
+     "top8_share_before": 0.9333,
+     "points_lost_per_game": -1.5,
+     "ortg_delta": -1.47,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.014,
+     "out_applied": [
+      "Jaylen Clark"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Target Center",
+    "away_arena": "Moda Center",
+    "home_arena": "Target Center",
+    "km": 2288.5,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.597,
+    "home": -0.418
+   },
+   "injury_filing": {
+    "away": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5363,
+    "p_leg_2": 0.4194,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1918,
+    "p_parlay_naive_product": 0.2249,
+    "difference_in_probability_points": -3.31,
+    "fair_american_measured_rho": 421.3,
+    "fair_american_naive": 344.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600255",
+   "away": "DET",
+   "home": "SAS",
+   "venue": "Frost Bank Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 29.17,
+   "estimator_b_margin": 4.77,
+   "disagreement_margin_points": 24.4,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 16.97,
+   "possessions": 100.53,
+   "ppp_away": 1.1035,
+   "ppp_home": 1.142,
+   "total_possessions_model": 225.74,
+   "total_naive_scoring_average": 234.5,
+   "total_gap_between_the_two_methods": 8.76,
+   "availability": {
+    "away": {
+     "team": "DET",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no club row on the 11/16 report carries an applied status"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "MIA",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+     },
+     "minutes_share_removed": null,
+     "top8_share_before": 0.8952,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "nothing to apply"
+    },
+    "home": {
+     "team": "SAS",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "nothing to apply",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Frost Bank Center",
+    "away_arena": "Little Caesars Arena",
+    "home_arena": "Frost Bank Center",
+    "km": 1989.4,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.406,
+    "home": 0.83
+   },
+   "injury_filing": {
+    "away": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "not_submitted",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 24.4 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9222,
+    "p_leg_2": 0.3501,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3109,
+    "p_parlay_naive_product": 0.3229,
+    "difference_in_probability_points": -1.2,
+    "fair_american_measured_rho": 221.7,
+    "fair_american_naive": 209.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600268",
+   "away": "UTA",
+   "home": "LAL",
+   "venue": "Crypto.com Arena",
+   "tip_et": "10:00 PM ET",
+   "game_url": "https://www.nba.com/game/uta-vs-lal-0022600268",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -1.84,
+   "estimator_b_margin": 10.62,
+   "disagreement_margin_points": 12.46,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 4.39,
+   "possessions": 101.22,
+   "ppp_away": 1.0955,
+   "ppp_home": 1.1915,
+   "total_possessions_model": 231.49,
+   "total_naive_scoring_average": 229.9,
+   "total_gap_between_the_two_methods": 1.59,
+   "availability": {
+    "away": {
+     "team": "UTA",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "LAL",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Crypto.com Arena",
+    "away_arena": "Delta Center",
+    "home_arena": "Crypto.com Arena",
+    "km": 935.0,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -1.637,
+    "home": 1.454
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 12.46 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6433,
+    "p_leg_2": 0.4758,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2744,
+    "p_parlay_naive_product": 0.3061,
+    "difference_in_probability_points": -3.17,
+    "fair_american_measured_rho": 264.4,
+    "fair_american_naive": 226.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600269",
+   "away": "PHX",
+   "home": "SAC",
+   "venue": "Golden 1 Center",
+   "tip_et": "10:00 PM ET",
+   "game_url": "https://www.nba.com/game/phx-vs-sac-0022600269",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -9.78,
+   "estimator_b_margin": -3.49,
+   "disagreement_margin_points": 6.29,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -6.63,
+   "possessions": 99.75,
+   "ppp_away": 1.1705,
+   "ppp_home": 1.1265,
+   "total_possessions_model": 229.13,
+   "total_naive_scoring_average": 220.5,
+   "total_gap_between_the_two_methods": 8.63,
+   "availability": {
+    "away": {
+     "team": "PHX",
+     "listed_on_report": 1,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": null,
+       "status": null,
+       "why": "status cell not readable in the official PDF extraction"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "SAC",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Golden 1 Center",
+    "away_arena": "PHX Arena",
+    "home_arena": "Golden 1 Center",
+    "km": null,
+    "status": "a coordinate is blank in the table; distance left blank, not estimated (flag F-COORD on Flagged for Review)",
+    "same_building_back_to_back": null,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.077,
+    "home": -1.314
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 6.29 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7104,
+    "p_leg_2": 0.4232,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2719,
+    "p_parlay_naive_product": 0.3006,
+    "difference_in_probability_points": -2.88,
+    "fair_american_measured_rho": 267.8,
+    "fair_american_naive": 232.6,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600258",
+   "away": "MEM",
+   "home": "CLE",
+   "venue": "Rocket Arena",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/mem-vs-cle-0022600258",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -21.54,
+   "estimator_b_margin": -0.48,
+   "disagreement_margin_points": 21.06,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -11.01,
+   "possessions": 100.94,
+   "ppp_away": 1.149,
+   "ppp_home": 1.1353,
+   "total_possessions_model": 230.58,
+   "total_naive_scoring_average": 238.1,
+   "total_gap_between_the_two_methods": 7.52,
+   "availability": {
+    "away": {
+     "team": "MEM",
+     "listed_on_report": 7,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Isaiah Stewart",
+       "min": 15.15,
+       "pts": 11,
+       "share_of_team_minutes": 0.0631
+      },
+      {
+       "player": "GG Jackson",
+       "min": 2.87,
+       "pts": 3,
+       "share_of_team_minutes": 0.012
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Edey, Zach",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Post, Quinten",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Cam Spencer",
+       "min_before": 33.92,
+       "added_min": 2.75,
+       "min_after": 36.67
+      },
+      {
+       "player": "Cedric Coward",
+       "min_before": 32.82,
+       "added_min": 2.66,
+       "min_after": 35.48
+      },
+      {
+       "player": "Javon Small",
+       "min_before": 29.8,
+       "added_min": 2.42,
+       "min_after": 32.22
+      },
+      {
+       "player": "Taylor Hendricks",
+       "min_before": 29.02,
+       "added_min": 2.36,
+       "min_after": 31.38
+      },
+      {
+       "player": "Cameron Boozer",
+       "min_before": 28.78,
+       "added_min": 2.34,
+       "min_after": 31.12
+      },
+      {
+       "player": "Jaylen Wells",
+       "min_before": 24.58,
+       "added_min": 2.0,
+       "min_after": 26.58
+      },
+      {
+       "player": "Olivier-Maxence Prosper",
+       "min_before": 20.05,
+       "added_min": 1.63,
+       "min_after": 21.68
+      },
+      {
+       "player": "Kris Murray",
+       "min_before": 19.48,
+       "added_min": 1.58,
+       "min_after": 21.06
+      },
+      {
+       "player": "Karim L\u00f3pez",
+       "min_before": 1.77,
+       "added_min": 0.14,
+       "min_after": 1.91
+      },
+      {
+       "player": "Jahmai Mashack",
+       "min_before": 1.77,
+       "added_min": 0.14,
+       "min_after": 1.91
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): richie saunders, scotty jr pippen, ty jerome"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "BKN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+     },
+     "minutes_share_removed": 0.0751,
+     "top8_share_before": 0.9102,
+     "points_lost_per_game": 4.66,
+     "ortg_delta": 4.6,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    },
+    "home": {
+     "team": "CLE",
+     "listed_on_report": 7,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Jaylon Tyson",
+       "min": 33.62,
+       "pts": 18,
+       "share_of_team_minutes": 0.1401
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Watson, Peyton",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Tyrese Proctor",
+       "min_before": 34.08,
+       "added_min": 5.55,
+       "min_after": 39.63
+      },
+      {
+       "player": "Mario Hezonja",
+       "min_before": 34.05,
+       "added_min": 5.55,
+       "min_after": 39.6
+      },
+      {
+       "player": "Meleek Thomas",
+       "min_before": 33.55,
+       "added_min": 5.47,
+       "min_after": 39.02
+      },
+      {
+       "player": "Craig Porter Jr.",
+       "min_before": 28.37,
+       "added_min": 4.62,
+       "min_after": 32.99
+      },
+      {
+       "player": "Thomas Bryant",
+       "min_before": 27.42,
+       "added_min": 4.47,
+       "min_after": 31.89
+      },
+      {
+       "player": "Norchad Omier",
+       "min_before": 26.75,
+       "added_min": 4.36,
+       "min_after": 31.11
+      },
+      {
+       "player": "Riley Minix",
+       "min_before": 22.17,
+       "added_min": 3.61,
+       "min_after": 25.78
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): evan mobley, jr. ernest udeh, khalifa diop, nae'qwan tomlin, sam merrill"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "DAL",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+     },
+     "minutes_share_removed": 0.1401,
+     "top8_share_before": 1.0,
+     "points_lost_per_game": 0.24,
+     "ortg_delta": 0.24,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "applied",
+     "minutes_share_removed": 0.0751,
+     "out_applied": [
+      "Isaiah Stewart",
+      "GG Jackson"
+     ]
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.1401,
+     "out_applied": [
+      "Jaylon Tyson"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Rocket Arena",
+    "away_arena": "FedExForum",
+    "home_arena": "Rocket Arena",
+    "km": 1015.0,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.055,
+    "home": -0.271
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 21.06 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.8215,
+    "p_leg_2": 0.4554,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.352,
+    "p_parlay_naive_product": 0.3741,
+    "difference_in_probability_points": -2.21,
+    "fair_american_measured_rho": 184.1,
+    "fair_american_naive": 167.3,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600259",
+   "away": "HOU",
+   "home": "IND",
+   "venue": "Gainbridge Fieldhouse",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/hou-vs-ind-0022600259",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -12.15,
+   "estimator_b_margin": -5.31,
+   "disagreement_margin_points": 6.84,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -8.73,
+   "possessions": 99.35,
+   "ppp_away": 1.1705,
+   "ppp_home": 1.108,
+   "total_possessions_model": 226.37,
+   "total_naive_scoring_average": 230.5,
+   "total_gap_between_the_two_methods": 4.13,
+   "availability": {
+    "away": {
+     "team": "HOU",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Thompson, Amen",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "IND",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no club row on the 11/16 report carries an applied status"
+     ],
+     "rotation_source": {
+      "date": "2026-11-15",
+      "opponent": "PHI",
+      "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+     },
+     "minutes_share_removed": null,
+     "top8_share_before": 0.844,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "nothing to apply"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "nothing to apply",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Gainbridge Fieldhouse",
+    "away_arena": "Toyota Center",
+    "home_arena": "Gainbridge Fieldhouse",
+    "km": 1393.6,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.513,
+    "home": -0.734
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 6.84 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7674,
+    "p_leg_2": 0.3634,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2539,
+    "p_parlay_naive_product": 0.2789,
+    "difference_in_probability_points": -2.5,
+    "fair_american_measured_rho": 293.9,
+    "fair_american_naive": 258.6,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600260",
+   "away": "MIL",
+   "home": "MIA",
+   "venue": "Kaseya Center",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/mil-vs-mia-0022600260",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 14.42,
+   "estimator_b_margin": 7.02,
+   "disagreement_margin_points": 7.4,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 10.72,
+   "possessions": 102.08,
+   "ppp_away": 1.108,
+   "ppp_home": 1.168,
+   "total_possessions_model": 232.33,
+   "total_naive_scoring_average": 224.8,
+   "total_gap_between_the_two_methods": 7.53,
+   "availability": {
+    "away": {
+     "team": "MIL",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MIA",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Jovic, Nikola",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Thompson, Klay",
+       "status": "Available",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Bam Adebayo",
+       "min_before": 36.1,
+       "added_min": 0.0,
+       "min_after": 36.1
+      },
+      {
+       "player": "Davion Mitchell",
+       "min_before": 32.3,
+       "added_min": 0.0,
+       "min_after": 32.3
+      },
+      {
+       "player": "Giannis Antetokounmpo",
+       "min_before": 30.92,
+       "added_min": 0.0,
+       "min_after": 30.92
+      },
+      {
+       "player": "Myron Gardner",
+       "min_before": 26.03,
+       "added_min": 0.0,
+       "min_after": 26.03
+      },
+      {
+       "player": "Ryan Conwell",
+       "min_before": 25.8,
+       "added_min": 0.0,
+       "min_after": 25.8
+      },
+      {
+       "player": "Andrew Wiggins",
+       "min_before": 22.92,
+       "added_min": 0.0,
+       "min_after": 22.92
+      },
+      {
+       "player": "Klay Thompson",
+       "min_before": 20.22,
+       "added_min": 0.0,
+       "min_after": 20.22
+      },
+      {
+       "player": "Bobby Portis Jr.",
+       "min_before": 17.6,
+       "added_min": 0.0,
+       "min_after": 17.6
+      },
+      {
+       "player": "Simone Fontecchio",
+       "min_before": 14.2,
+       "added_min": 0.0,
+       "min_after": 14.2
+      },
+      {
+       "player": "Nikola Jovic",
+       "min_before": 11.15,
+       "added_min": 0.0,
+       "min_after": 11.15
+      },
+      {
+       "player": "Tre Donaldson",
+       "min_before": 1.38,
+       "added_min": 0.0,
+       "min_after": 1.38
+      },
+      {
+       "player": "Keshad Johnson",
+       "min_before": 1.38,
+       "added_min": 0.0,
+       "min_after": 1.38
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): pelle larsson, vladislav goldin"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "DET",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.8829,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Kaseya Center",
+    "away_arena": "Fiserv Forum",
+    "home_arena": "Kaseya Center",
+    "km": 2044.1,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -1.343,
+    "home": 0.523
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 7.4 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.8151,
+    "p_leg_2": 0.4947,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3807,
+    "p_parlay_naive_product": 0.4032,
+    "difference_in_probability_points": -2.26,
+    "fair_american_measured_rho": 162.7,
+    "fair_american_naive": 148.0,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600261",
+   "away": "PHI",
+   "home": "ORL",
+   "venue": "Kia Center",
+   "tip_et": "7:00 PM ET",
+   "game_url": "https://www.nba.com/game/phi-vs-orl-0022600261",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -4.96,
+   "estimator_b_margin": -0.77,
+   "disagreement_margin_points": 4.19,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": -2.86,
+   "possessions": 99.52,
+   "ppp_away": 1.1168,
+   "ppp_home": 1.1,
+   "total_possessions_model": 220.62,
+   "total_naive_scoring_average": 220.9,
+   "total_gap_between_the_two_methods": 0.28,
+   "availability": {
+    "away": {
+     "team": "PHI",
+     "listed_on_report": 5,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "LeBron James",
+       "min": 32.7833,
+       "pts": 15,
+       "share_of_team_minutes": 0.1366
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Embiid, Joel",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Tyrese Maxey",
+       "min_before": 35.5333,
+       "added_min": 5.62,
+       "min_after": 41.15
+      },
+      {
+       "player": "Dean Wade",
+       "min_before": 35.05,
+       "added_min": 5.55,
+       "min_after": 40.6
+      },
+      {
+       "player": "Jaylen Brown",
+       "min_before": 32.4667,
+       "added_min": 5.14,
+       "min_after": 37.6
+      },
+      {
+       "player": "VJ Edgecombe",
+       "min_before": 30.8167,
+       "added_min": 4.88,
+       "min_after": 35.69
+      },
+      {
+       "player": "Jabari Walker",
+       "min_before": 24.7,
+       "added_min": 3.91,
+       "min_after": 28.61
+      },
+      {
+       "player": "Kentavious Caldwell-Pope",
+       "min_before": 22.2667,
+       "added_min": 3.52,
+       "min_after": 25.79
+      },
+      {
+       "player": "Anfernee Simons",
+       "min_before": 15.4667,
+       "added_min": 2.45,
+       "min_after": 17.91
+      },
+      {
+       "player": "Labaron Philon Jr.",
+       "min_before": 6.1,
+       "added_min": 0.97,
+       "min_after": 7.07
+      },
+      {
+       "player": "Tacko Fall",
+       "min_before": 4.8167,
+       "added_min": 0.76,
+       "min_after": 5.58
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): adem bona, ariel hukporti, dominick barlow"
+     ],
+     "rotation_source": {
+      "date": "2026-11-15",
+      "opponent": "IND",
+      "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+     },
+     "minutes_share_removed": 0.1366,
+     "top8_share_before": 0.9545,
+     "points_lost_per_game": 2.34,
+     "ortg_delta": 2.34,
+     "status": "applied",
+     "rows_without_readable_points": 5,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    },
+    "home": {
+     "team": "ORL",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "applied",
+     "minutes_share_removed": 0.1366,
+     "out_applied": [
+      "LeBron James"
+     ]
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Kia Center",
+    "away_arena": "Wells Fargo Center",
+    "home_arena": "Kia Center",
+    "km": null,
+    "status": "a coordinate is blank in the table; distance left blank, not estimated (flag F-COORD on Flagged for Review)",
+    "same_building_back_to_back": null,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 1.807,
+    "home": -0.001
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5946,
+    "p_leg_2": 0.2502,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1222,
+    "p_parlay_naive_product": 0.1488,
+    "difference_in_probability_points": -2.66,
+    "fair_american_measured_rho": 718.6,
+    "fair_american_naive": 572.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600262",
+   "away": "CHI",
+   "home": "BKN",
+   "venue": "Barclays Center",
+   "tip_et": "7:30 PM ET",
+   "game_url": "https://www.nba.com/game/chi-vs-bkn-0022600262",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -7.33,
+   "estimator_b_margin": 2.7,
+   "disagreement_margin_points": 10.03,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -2.32,
+   "possessions": 102.54,
+   "ppp_away": 1.127,
+   "ppp_home": 1.1445,
+   "total_possessions_model": 232.92,
+   "total_naive_scoring_average": 224.8,
+   "total_gap_between_the_two_methods": 8.12,
+   "availability": {
+    "away": {
+     "team": "CHI",
+     "listed_on_report": 5,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Smith, Jalen",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Isaac Okoro",
+       "min_before": 31.03,
+       "added_min": 0.0,
+       "min_after": 31.03
+      },
+      {
+       "player": "Norman Powell",
+       "min_before": 30.1,
+       "added_min": 0.0,
+       "min_after": 30.1
+      },
+      {
+       "player": "Matas Buzelis",
+       "min_before": 29.8,
+       "added_min": 0.0,
+       "min_after": 29.8
+      },
+      {
+       "player": "Zach Collins",
+       "min_before": 28.18,
+       "added_min": 0.0,
+       "min_after": 28.18
+      },
+      {
+       "player": "Josh Giddey",
+       "min_before": 26.23,
+       "added_min": 0.0,
+       "min_after": 26.23
+      },
+      {
+       "player": "Patrick Williams",
+       "min_before": 25.68,
+       "added_min": 0.0,
+       "min_after": 25.68
+      },
+      {
+       "player": "Tre Jones",
+       "min_before": 24.28,
+       "added_min": 0.0,
+       "min_after": 24.28
+      },
+      {
+       "player": "Buddy Hield",
+       "min_before": 20.37,
+       "added_min": 0.0,
+       "min_after": 20.37
+      },
+      {
+       "player": "Leonard Miller",
+       "min_before": 17.3,
+       "added_min": 0.0,
+       "min_after": 17.3
+      },
+      {
+       "player": "Noa Essengue",
+       "min_before": 7.02,
+       "added_min": 0.0,
+       "min_after": 7.02
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): caleb wilson, jaylin sellers, orlando robinson, tobe awaka"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "MIN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.8987,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    },
+    "home": {
+     "team": "BKN",
+     "listed_on_report": 5,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Drake Powell",
+       "min": 1.77,
+       "pts": 2,
+       "share_of_team_minutes": 0.0074
+      }
+     ],
+     "out_not_applied": [],
+     "replacement_shares": [
+      {
+       "player": "Noah Clowney",
+       "min_before": 35.02,
+       "added_min": 0.26,
+       "min_after": 35.28
+      },
+      {
+       "player": "Julius Randle",
+       "min_before": 31.38,
+       "added_min": 0.23,
+       "min_after": 31.61
+      },
+      {
+       "player": "Day'Ron Sharpe",
+       "min_before": 27.78,
+       "added_min": 0.21,
+       "min_after": 27.99
+      },
+      {
+       "player": "Danny Wolf",
+       "min_before": 27.7,
+       "added_min": 0.21,
+       "min_after": 27.91
+      },
+      {
+       "player": "Egor Demin",
+       "min_before": 27.45,
+       "added_min": 0.2,
+       "min_after": 27.65
+      },
+      {
+       "player": "Mikel Brown Jr.",
+       "min_before": 19.95,
+       "added_min": 0.15,
+       "min_after": 20.1
+      },
+      {
+       "player": "Nolan Traore",
+       "min_before": 19.8,
+       "added_min": 0.15,
+       "min_after": 19.95
+      },
+      {
+       "player": "Moritz Wagner",
+       "min_before": 18.45,
+       "added_min": 0.14,
+       "min_after": 18.59
+      },
+      {
+       "player": "Chaney Johnson",
+       "min_before": 12.35,
+       "added_min": 0.09,
+       "min_after": 12.44
+      },
+      {
+       "player": "Terance Mann",
+       "min_before": 9.45,
+       "added_min": 0.07,
+       "min_after": 9.52
+      },
+      {
+       "player": "Keon Ellis",
+       "min_before": 7.13,
+       "added_min": 0.05,
+       "min_after": 7.18
+      },
+      {
+       "player": "Josh Minott",
+       "min_before": 1.77,
+       "added_min": 0.01,
+       "min_after": 1.78
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): ben saraf, grant nelson, joshua jefferson, tyler bilodeau"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "MEM",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+     },
+     "minutes_share_removed": 0.0074,
+     "top8_share_before": 0.8647,
+     "points_lost_per_game": 1.2,
+     "ortg_delta": 1.19,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0074,
+     "out_applied": [
+      "Drake Powell"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Barclays Center",
+    "away_arena": "United Center",
+    "home_arena": "Barclays Center",
+    "km": 1151.2,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.141,
+    "home": -0.81
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 10.03 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5769,
+    "p_leg_2": 0.508,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2599,
+    "p_parlay_naive_product": 0.2931,
+    "difference_in_probability_points": -3.32,
+    "fair_american_measured_rho": 284.8,
+    "fair_american_naive": 241.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600263",
+   "away": "WAS",
+   "home": "TOR",
+   "venue": "Scotiabank Arena",
+   "tip_et": "7:30 PM ET",
+   "game_url": "https://www.nba.com/game/was-vs-tor-0022600263",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 10.75,
+   "estimator_b_margin": 5.18,
+   "disagreement_margin_points": 5.57,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 7.97,
+   "possessions": 100.65,
+   "ppp_away": 1.108,
+   "ppp_home": 1.1505,
+   "total_possessions_model": 227.32,
+   "total_naive_scoring_average": 224.4,
+   "total_gap_between_the_two_methods": 2.92,
+   "availability": {
+    "away": {
+     "team": "WAS",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Johnson, Tre",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Okpara, Felix",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "TOR",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Scotiabank Arena",
+    "away_arena": "Capital One Arena",
+    "home_arena": "Scotiabank Arena",
+    "km": 563.2,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.455,
+    "home": -1.063
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 5.57 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7475,
+    "p_leg_2": 0.3837,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2604,
+    "p_parlay_naive_product": 0.2868,
+    "difference_in_probability_points": -2.64,
+    "fair_american_measured_rho": 284.1,
+    "fair_american_naive": 248.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600264",
+   "away": "DET",
+   "home": "NOP",
+   "venue": "Smoothie King Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/det-vs-nop-0022600264",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -0.56,
+   "estimator_b_margin": -6.09,
+   "disagreement_margin_points": 5.53,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -3.33,
+   "possessions": 102.75,
+   "ppp_away": 1.1705,
+   "ppp_home": 1.1025,
+   "total_possessions_model": 233.55,
+   "total_naive_scoring_average": 231.6,
+   "total_gap_between_the_two_methods": 1.95,
+   "availability": {
+    "away": {
+     "team": "DET",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no club row on the 11/16 report carries an applied status"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "MIA",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+     },
+     "minutes_share_removed": null,
+     "top8_share_before": 0.8952,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "nothing to apply"
+    },
+    "home": {
+     "team": "NOP",
+     "listed_on_report": 8,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Dia, Malik",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Pierre Jr., Jaron",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Reese, Julian",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Saddiq Bey",
+       "min_before": 40.55,
+       "added_min": 0.0,
+       "min_after": 40.55
+      },
+      {
+       "player": "Jeremiah Fears",
+       "min_before": 32.73,
+       "added_min": 0.0,
+       "min_after": 32.73
+      },
+      {
+       "player": "Zion Williamson",
+       "min_before": 30.77,
+       "added_min": 0.0,
+       "min_after": 30.77
+      },
+      {
+       "player": "Herbert Jones",
+       "min_before": 27.48,
+       "added_min": 0.0,
+       "min_after": 27.48
+      },
+      {
+       "player": "Derik Queen",
+       "min_before": 24.97,
+       "added_min": 0.0,
+       "min_after": 24.97
+      },
+      {
+       "player": "Jordan Poole",
+       "min_before": 23.92,
+       "added_min": 0.0,
+       "min_after": 23.92
+      },
+      {
+       "player": "Jaron Pierre Jr.",
+       "min_before": 23.3,
+       "added_min": 0.0,
+       "min_after": 23.3
+      },
+      {
+       "player": "Yves Missi",
+       "min_before": 22.05,
+       "added_min": 0.0,
+       "min_after": 22.05
+      },
+      {
+       "player": "Karlo Matkovic",
+       "min_before": 14.23,
+       "added_min": 0.0,
+       "min_after": 14.23
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): benedict mathurin, bryce mcgowens, dejounte murray, trendon watford, trey iii murphy"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "DEN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.9407,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "nothing to apply",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Smoothie King Center",
+    "away_arena": "Little Caesars Arena",
+    "home_arena": "Smoothie King Center",
+    "km": 1514.2,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.406,
+    "home": -0.218
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 5.53 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6097,
+    "p_leg_2": 0.5222,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2859,
+    "p_parlay_naive_product": 0.3184,
+    "difference_in_probability_points": -3.25,
+    "fair_american_measured_rho": 249.8,
+    "fair_american_naive": 214.1,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600265",
+   "away": "ATL",
+   "home": "OKC",
+   "venue": "Paycom Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/atl-vs-okc-0022600265",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 7.38,
+   "estimator_b_margin": 2.58,
+   "disagreement_margin_points": 4.8,
+   "headline_confidence": "watch",
+   "blend_margin_underneath": 4.98,
+   "possessions": 101.65,
+   "ppp_away": 1.106,
+   "ppp_home": 1.1225,
+   "total_possessions_model": 226.53,
+   "total_naive_scoring_average": 229.9,
+   "total_gap_between_the_two_methods": 3.37,
+   "availability": {
+    "away": {
+     "team": "ATL",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "OKC",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Paycom Center",
+    "away_arena": "State Farm Arena",
+    "home_arena": "Paycom Center",
+    "km": 1214.5,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.248,
+    "home": 0.223
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6615,
+    "p_leg_2": 0.3668,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2129,
+    "p_parlay_naive_product": 0.2426,
+    "difference_in_probability_points": -2.97,
+    "fair_american_measured_rho": 369.7,
+    "fair_american_naive": 312.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600267",
+   "away": "GSW",
+   "home": "DAL",
+   "venue": "American Airlines Center",
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/gsw-vs-dal-0022600267",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": 8.58,
+   "estimator_b_margin": -2.51,
+   "disagreement_margin_points": 11.09,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 3.03,
+   "possessions": 100.42,
+   "ppp_away": 1.153,
+   "ppp_home": 1.119,
+   "total_possessions_model": 228.15,
+   "total_naive_scoring_average": 228.8,
+   "total_gap_between_the_two_methods": 0.65,
+   "availability": {
+    "away": {
+     "team": "GSW",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Butler III, Jimmy",
+       "status": null,
+       "why": "status cell not readable in the official PDF extraction"
+      },
+      {
+       "player": "Santos, Gui",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "DAL",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no club row on the 11/16 report carries an applied status"
+     ],
+     "rotation_source": {
+      "date": "2026-11-15",
+      "opponent": "BOS",
+      "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf"
+     },
+     "minutes_share_removed": null,
+     "top8_share_before": 0.8443,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "nothing to apply"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "nothing to apply",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 3,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "American Airlines Center",
+    "away_arena": "Chase Center",
+    "home_arena": "American Airlines Center",
+    "km": 2378.7,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.172,
+    "home": 0.459
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 11.09 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6001,
+    "p_leg_2": 0.4017,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.209,
+    "p_parlay_naive_product": 0.241,
+    "difference_in_probability_points": -3.2,
+    "fair_american_measured_rho": 378.4,
+    "fair_american_naive": 314.9,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600266",
+   "away": "BOS",
+   "home": "DEN",
+   "venue": "Ball Arena",
+   "tip_et": "9:30 PM ET",
+   "game_url": "https://www.nba.com/game/bos-vs-den-0022600266",
+   "source_url": "https://www.nba.com/schedule?date=2026-11-16",
+   "slate_row_reverified_by_d1b96315": false,
+   "estimator_a_margin": -26.61,
+   "estimator_b_margin": -5.22,
+   "disagreement_margin_points": 21.39,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -15.91,
+   "possessions": 97.98,
+   "ppp_away": 1.168,
+   "ppp_home": 1.1055,
+   "total_possessions_model": 222.76,
+   "total_naive_scoring_average": 230.1,
+   "total_gap_between_the_two_methods": 7.34,
+   "availability": {
+    "away": {
+     "team": "BOS",
+     "listed_on_report": 1,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Queta, Neemias",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no club row on the 11/16 report carries an applied status"
+     ],
+     "rotation_source": {
+      "date": "2026-11-15",
+      "opponent": "DAL",
+      "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf"
+     },
+     "minutes_share_removed": null,
+     "top8_share_before": 0.7049,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "nothing to apply"
+    },
+    "home": {
+     "team": "DEN",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [
+      {
+       "player": "Jamal Murray",
+       "min_before": 37.95,
+       "added_min": 0.0,
+       "min_after": 37.95
+      },
+      {
+       "player": "Nikola Jokic",
+       "min_before": 37.13,
+       "added_min": 0.0,
+       "min_after": 37.13
+      },
+      {
+       "player": "Aaron Gordon",
+       "min_before": 32.53,
+       "added_min": 0.0,
+       "min_after": 32.53
+      },
+      {
+       "player": "Cam Johnson",
+       "min_before": 30.77,
+       "added_min": 0.0,
+       "min_after": 30.77
+      },
+      {
+       "player": "Christian Braun",
+       "min_before": 27.77,
+       "added_min": 0.0,
+       "min_after": 27.77
+      },
+      {
+       "player": "DeMar DeRozan",
+       "min_before": 23.82,
+       "added_min": 0.0,
+       "min_after": 23.82
+      },
+      {
+       "player": "Trevon Brazile",
+       "min_before": 15.62,
+       "added_min": 0.0,
+       "min_after": 15.62
+      },
+      {
+       "player": "Marvin Bagley III",
+       "min_before": 13.1,
+       "added_min": 0.0,
+       "min_after": 13.1
+      },
+      {
+       "player": "Spencer Jones",
+       "min_before": 11.5,
+       "added_min": 0.0,
+       "min_after": 11.5
+      },
+      {
+       "player": "Tyus Jones",
+       "min_before": 9.82,
+       "added_min": 0.0,
+       "min_after": 9.82
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): cam whitmore, daron ii holmes, julian strawther, ryan nembhard"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "NOP",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+     },
+     "minutes_share_removed": 0.0,
+     "top8_share_before": 0.9112,
+     "points_lost_per_game": 0.0,
+     "ortg_delta": 0.0,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "nothing to apply",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": "Ball Arena",
+    "away_arena": "TD Garden",
+    "home_arena": "Ball Arena",
+    "km": 2842.0,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.537,
+    "home": 0.711
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 21.39 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9084,
+    "p_leg_2": 0.2901,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2507,
+    "p_parlay_naive_product": 0.2635,
+    "difference_in_probability_points": -1.28,
+    "fair_american_measured_rho": 298.8,
+    "fair_american_naive": 279.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-19",
+   "game_id": "0022600273",
+   "away": "LAC",
+   "home": "SAS",
+   "venue": null,
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/lac-vs-sas-0022600273",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": 9.15,
+   "estimator_b_margin": 9.17,
+   "disagreement_margin_points": 0.02,
+   "headline_confidence": "agreeing",
+   "blend_margin_underneath": 9.16,
+   "possessions": 100.23,
+   "ppp_away": 1.09,
+   "ppp_home": 1.1725,
+   "total_possessions_model": 226.77,
+   "total_naive_scoring_average": 231.1,
+   "total_gap_between_the_two_methods": 4.33,
+   "availability": {
+    "away": {
+     "team": "LAC",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "SAS",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": null,
+    "away_arena": "Intuit Dome",
+    "home_arena": "Frost Bank Center",
+    "km": 1945.8,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.556,
+    "home": 0.83
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": true,
+   "bet_block": null,
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7783,
+    "p_leg_2": 0.3719,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2649,
+    "p_parlay_naive_product": 0.2894,
+    "difference_in_probability_points": -2.45,
+    "fair_american_measured_rho": 277.5,
+    "fair_american_naive": 245.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-19",
+   "game_id": "0022600270",
+   "away": "GSW",
+   "home": "MEM",
+   "venue": null,
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/gsw-vs-mem-0022600270",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": 40.12,
+   "estimator_b_margin": 0.85,
+   "disagreement_margin_points": 39.27,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 20.49,
+   "possessions": 100.96,
+   "ppp_away": 1.1325,
+   "ppp_home": 1.132,
+   "total_possessions_model": 228.62,
+   "total_naive_scoring_average": 237.3,
+   "total_gap_between_the_two_methods": 8.68,
+   "availability": {
+    "away": {
+     "team": "GSW",
+     "listed_on_report": 6,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [
+      {
+       "player": "Butler III, Jimmy",
+       "status": null,
+       "why": "status cell not readable in the official PDF extraction"
+      },
+      {
+       "player": "Santos, Gui",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MEM",
+     "listed_on_report": 7,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Isaiah Stewart",
+       "min": 15.15,
+       "pts": 11,
+       "share_of_team_minutes": 0.0631
+      },
+      {
+       "player": "GG Jackson",
+       "min": 2.87,
+       "pts": 3,
+       "share_of_team_minutes": 0.012
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Edey, Zach",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      },
+      {
+       "player": "Post, Quinten",
+       "status": "Questionable",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Cam Spencer",
+       "min_before": 33.92,
+       "added_min": 2.75,
+       "min_after": 36.67
+      },
+      {
+       "player": "Cedric Coward",
+       "min_before": 32.82,
+       "added_min": 2.66,
+       "min_after": 35.48
+      },
+      {
+       "player": "Javon Small",
+       "min_before": 29.8,
+       "added_min": 2.42,
+       "min_after": 32.22
+      },
+      {
+       "player": "Taylor Hendricks",
+       "min_before": 29.02,
+       "added_min": 2.36,
+       "min_after": 31.38
+      },
+      {
+       "player": "Cameron Boozer",
+       "min_before": 28.78,
+       "added_min": 2.34,
+       "min_after": 31.12
+      },
+      {
+       "player": "Jaylen Wells",
+       "min_before": 24.58,
+       "added_min": 2.0,
+       "min_after": 26.58
+      },
+      {
+       "player": "Olivier-Maxence Prosper",
+       "min_before": 20.05,
+       "added_min": 1.63,
+       "min_after": 21.68
+      },
+      {
+       "player": "Kris Murray",
+       "min_before": 19.48,
+       "added_min": 1.58,
+       "min_after": 21.06
+      },
+      {
+       "player": "Karim L\u00f3pez",
+       "min_before": 1.77,
+       "added_min": 0.14,
+       "min_after": 1.91
+      },
+      {
+       "player": "Jahmai Mashack",
+       "min_before": 1.77,
+       "added_min": 0.14,
+       "min_after": 1.91
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): richie saunders, scotty jr pippen, ty jerome"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "BKN",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+     },
+     "minutes_share_removed": 0.0751,
+     "top8_share_before": 0.9102,
+     "points_lost_per_game": 4.66,
+     "ortg_delta": 4.6,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.0751,
+     "out_applied": [
+      "Isaiah Stewart",
+      "GG Jackson"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": null,
+    "away_arena": "Chase Center",
+    "home_arena": "FedExForum",
+    "km": 2892.5,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.172,
+    "home": 0.055
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 39.27 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9568,
+    "p_leg_2": 0.4119,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3864,
+    "p_parlay_naive_product": 0.3941,
+    "difference_in_probability_points": -0.77,
+    "fair_american_measured_rho": 158.8,
+    "fair_american_naive": 153.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-19",
+   "game_id": "0022600272",
+   "away": "NYK",
+   "home": "MIN",
+   "venue": null,
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/nyk-vs-min-0022600272",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": -1.78,
+   "estimator_b_margin": 4.61,
+   "disagreement_margin_points": 6.39,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": 1.42,
+   "possessions": 99.34,
+   "ppp_away": 1.091,
+   "ppp_home": 1.1284,
+   "total_possessions_model": 220.47,
+   "total_naive_scoring_average": 228.2,
+   "total_gap_between_the_two_methods": 7.73,
+   "availability": {
+    "away": {
+     "team": "NYK",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MIN",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [
+      {
+       "player": "Jaylen Clark",
+       "min": 3.35,
+       "pts": 0,
+       "share_of_team_minutes": 0.014
+      }
+     ],
+     "out_not_applied": [
+      {
+       "player": "Beringer, Joan",
+       "status": "Available",
+       "why": "game-time decision: a Questionable tag is not applied"
+      }
+     ],
+     "replacement_shares": [
+      {
+       "player": "Jaden McDaniels",
+       "min_before": 37.02,
+       "added_min": 0.52,
+       "min_after": 37.54
+      },
+      {
+       "player": "Jonathan Kuminga",
+       "min_before": 35.38,
+       "added_min": 0.5,
+       "min_after": 35.88
+      },
+      {
+       "player": "Ayo Dosunmu",
+       "min_before": 33.07,
+       "added_min": 0.47,
+       "min_after": 33.54
+      },
+      {
+       "player": "LaMelo Ball",
+       "min_before": 29.85,
+       "added_min": 0.42,
+       "min_after": 30.27
+      },
+      {
+       "player": "Rudy Gobert",
+       "min_before": 26.88,
+       "added_min": 0.38,
+       "min_after": 27.26
+      },
+      {
+       "player": "Terrence Shannon Jr",
+       "min_before": 21.75,
+       "added_min": 0.31,
+       "min_after": 22.06
+      },
+      {
+       "player": "Bones Hyland",
+       "min_before": 21.3,
+       "added_min": 0.3,
+       "min_after": 21.6
+      },
+      {
+       "player": "Trey Lyles",
+       "min_before": 18.77,
+       "added_min": 0.27,
+       "min_after": 19.04
+      },
+      {
+       "player": "Joan Beringer",
+       "min_before": 12.65,
+       "added_min": 0.18,
+       "min_after": 12.83
+      }
+     ],
+     "notes": [
+      "listed Out/Doubtful but absent from the captured box (not in that game's rotation): anthony edwards, donte divincenzo"
+     ],
+     "rotation_source": {
+      "date": "2026-11-14",
+      "opponent": "CHI",
+      "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+     },
+     "minutes_share_removed": 0.014,
+     "top8_share_before": 0.9333,
+     "points_lost_per_game": -1.5,
+     "ortg_delta": -1.47,
+     "status": "applied",
+     "rows_without_readable_points": 0,
+     "caveat": "built on one captured box score for the club: the rate is that game's points per minute, redistributed pro rata to the minutes each available player actually played. It is a redistribution model, not a guess at the coach's plan"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "applied",
+     "minutes_share_removed": 0.014,
+     "out_applied": [
+      "Jaylen Clark"
+     ]
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": null,
+    "away_arena": "Madison Square Garden",
+    "home_arena": "Target Center",
+    "km": 1635.9,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": -0.625,
+    "home": -0.418
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 6.39 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5473,
+    "p_leg_2": 0.2475,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1087,
+    "p_parlay_naive_product": 0.1355,
+    "difference_in_probability_points": -2.68,
+    "fair_american_measured_rho": 820.2,
+    "fair_american_naive": 638.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  },
+  {
+   "date": "2026-11-19",
+   "game_id": "0022600271",
+   "away": "POR",
+   "home": "MIL",
+   "venue": null,
+   "tip_et": "8:00 PM ET",
+   "game_url": "https://www.nba.com/game/por-vs-mil-0022600271",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "slate_row_reverified_by_d1b96315": true,
+   "estimator_a_margin": -4.49,
+   "estimator_b_margin": -9.77,
+   "disagreement_margin_points": 5.28,
+   "headline_confidence": "too wide to publish as a bet",
+   "blend_margin_underneath": -7.13,
+   "possessions": 100.69,
+   "ppp_away": 1.1885,
+   "ppp_home": 1.0825,
+   "total_possessions_model": 228.67,
+   "total_naive_scoring_average": 225.7,
+   "total_gap_between_the_two_methods": 2.97,
+   "availability": {
+    "away": {
+     "team": "POR",
+     "listed_on_report": 4,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    },
+    "home": {
+     "team": "MIL",
+     "listed_on_report": 0,
+     "applied_statuses": [
+      "Out",
+      "Doubtful"
+     ],
+     "out_applied": [],
+     "out_not_applied": [],
+     "replacement_shares": [],
+     "notes": [
+      "no captured official box score for this club anywhere in the repo; the availability adjustment is not applied (input gap, Q04)"
+     ],
+     "rotation_source": null,
+     "minutes_share_removed": null,
+     "top8_share_before": null,
+     "points_lost_per_game": null,
+     "ortg_delta": null,
+     "status": "no rotation data"
+    }
+   },
+   "rotation_availability": {
+    "away": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    },
+    "home": {
+     "status": "no rotation data",
+     "minutes_share_removed": null,
+     "out_applied": []
+    }
+   },
+   "rest": {
+    "away": {
+     "days_since_last_game": 2,
+     "back_to_back": false,
+     "three_in_four": true,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 3,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    },
+    "home": {
+     "days_since_last_game": 1,
+     "back_to_back": true,
+     "three_in_four": false,
+     "definition": {
+      "three_in_four": "at least 3 games in the four-day window that ends on this game date (the game itself included)",
+      "back_to_back": "the previous game was yesterday",
+      "source": "official slate for the window + verified finals from 2026-11-13 on"
+     },
+     "games_in_the_four_day_window": 2,
+     "caveat": "measured on the verified finals this repo holds (2026-11-13 onward) plus the official slate; a slate date inside the window counts as a scheduled appearance, not as a played result. No games before 11/13 are captured here, so a flag on 11/13 or 11/14 is truncated and understated"
+    }
+   },
+   "travel": {
+    "venue_on_official_schedule": null,
+    "away_arena": "Moda Center",
+    "home_arena": "Fiserv Forum",
+    "km": 2757.9,
+    "status": "computed (haversine, derived \u2014 not an NBA-published figure)",
+    "same_building_back_to_back": false,
+    "coordinate_source": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=...",
+    "retrieved": "2026-11-15T11:47Z"
+   },
+   "luck_z": {
+    "away": 0.597,
+    "home": -1.343
+   },
+   "injury_filing": {
+    "away": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    },
+    "home": {
+     "status": "outside_report_window",
+     "player_rows": 0,
+     "report_dates": [
+      "11/16/2026",
+      "11/17/2026"
+     ]
+    }
+   },
+   "publishable": true,
+   "surface": "projection",
+   "bet_eligible": false,
+   "bet_block": "estimator disagreement 5.28 > the frozen cap 5.0",
+   "parlay_price": {
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7246,
+    "p_leg_2": 0.413,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2713,
+    "p_parlay_naive_product": 0.2993,
+    "difference_in_probability_points": -2.8,
+    "fair_american_measured_rho": 268.6,
+    "fair_american_naive": 234.1,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  }
+ ]
+}

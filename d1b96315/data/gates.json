@@ -1,0 +1,366 @@
+{
+ "schema": "nba3.d1b96315.gates/v1",
+ "stamp": "2026-11-16T18:55Z",
+ "rule": "all eight gates must pass before a strategy is funded; a failing gate is printed with its measurement, never dropped",
+ "strategies": [
+  {
+   "id": "D-S1",
+   "name": "side of our own number where both estimators agree",
+   "signal": "sign(est_a_margin) == sign(est_b_margin) and |est_a - est_b| <= 2.5",
+   "stake_rule": "1 unit, flat, no martingale",
+   "n_candidates": 2,
+   "gates": {
+    "G1_sample_depth": {
+     "pass": false,
+     "measured": "23 verified finals (needs 60)",
+     "rule": "about four games per club in the log before a strategy may be funded"
+    },
+    "G2_freshness": {
+     "pass": true,
+     "measured": "newest official injury revision used: 11/16/26 01:15 PM (retrieved 2026-11-16T18:26Z); standings and team stats retrieved 2026-11-16T18:31Z",
+     "rule": "every input must be read on the day it is used for; a stale input blocks the rebuild rather than quietly ageing the line"
+    },
+    "G3_provenance": {
+     "pass": true,
+     "measured": "team-stat rows failing their own printed identities: none; the arena-coordinate table is the one non-official input and it is labelled on every row that uses it",
+     "rule": "no row is published without a source link to an official page"
+    },
+    "G4_out_of_sample": {
+     "pass": true,
+     "measured": "leave-one-game-out skill against the pinned-HCA baseline: 0.321 (rmse 11.7104 vs baseline 17.2463)",
+     "rule": "an estimator must beat the no-skill baseline out of sample by more than 5%"
+    },
+    "G5_luck_band": {
+     "pass": true,
+     "measured": "clubs outside the band: none",
+     "rule": "a funded strategy may not lean on a club more than 2.0 sd from its efficiency-based win expectation"
+    },
+    "G6_disagreement_cap": {
+     "pass": true,
+     "measured": "2 candidate rows on the 11/16-11/18 window inside the 5.0-point cap",
+     "rule": "the two independent estimators must agree within the frozen cap"
+    },
+    "G7_pretip_seal": {
+     "pass": true,
+     "measured": "every published line is hashed and appended to d1b96315/ledger/ledger.jsonl before its tip; the seal and the verifier are d1b96315/ledger.py",
+     "rule": "a pick may not enter the ledger after its tip without an earlier hash"
+    },
+    "G8_price_feed": {
+     "pass": false,
+     "measured": "no licensed market price feed in this repository: no closing line, no juice, so ROI cannot be computed and no strategy can be funded",
+     "rule": "a strategy cannot be funded against a price this system invented for itself"
+    }
+   },
+   "gates_passed": "6/8",
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ],
+   "status": "not funded",
+   "reward_points": 0
+  },
+  {
+   "id": "D-S2",
+   "name": "availability-weighted side (estimator B only)",
+   "signal": "the availability delta is applied to at least one club and |est_b_margin| >= 4.0",
+   "stake_rule": "1 unit, flat",
+   "n_candidates": 8,
+   "gates": {
+    "G1_sample_depth": {
+     "pass": false,
+     "measured": "23 verified finals (needs 60)",
+     "rule": "about four games per club in the log before a strategy may be funded"
+    },
+    "G2_freshness": {
+     "pass": true,
+     "measured": "newest official injury revision used: 11/16/26 01:15 PM (retrieved 2026-11-16T18:26Z); standings and team stats retrieved 2026-11-16T18:31Z",
+     "rule": "every input must be read on the day it is used for; a stale input blocks the rebuild rather than quietly ageing the line"
+    },
+    "G3_provenance": {
+     "pass": true,
+     "measured": "team-stat rows failing their own printed identities: none; the arena-coordinate table is the one non-official input and it is labelled on every row that uses it",
+     "rule": "no row is published without a source link to an official page"
+    },
+    "G4_out_of_sample": {
+     "pass": true,
+     "measured": "leave-one-game-out skill against the pinned-HCA baseline: 0.321 (rmse 11.7104 vs baseline 17.2463)",
+     "rule": "an estimator must beat the no-skill baseline out of sample by more than 5%"
+    },
+    "G5_luck_band": {
+     "pass": true,
+     "measured": "clubs outside the band: none",
+     "rule": "a funded strategy may not lean on a club more than 2.0 sd from its efficiency-based win expectation"
+    },
+    "G6_disagreement_cap": {
+     "pass": true,
+     "measured": "8 candidate rows on the 11/16-11/18 window inside the 5.0-point cap",
+     "rule": "the two independent estimators must agree within the frozen cap"
+    },
+    "G7_pretip_seal": {
+     "pass": true,
+     "measured": "every published line is hashed and appended to d1b96315/ledger/ledger.jsonl before its tip; the seal and the verifier are d1b96315/ledger.py",
+     "rule": "a pick may not enter the ledger after its tip without an earlier hash"
+    },
+    "G8_price_feed": {
+     "pass": false,
+     "measured": "no licensed market price feed in this repository: no closing line, no juice, so ROI cannot be computed and no strategy can be funded",
+     "rule": "a strategy cannot be funded against a price this system invented for itself"
+    }
+   },
+   "gates_passed": "6/8",
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ],
+   "status": "not funded",
+   "reward_points": 0
+  },
+  {
+   "id": "D-S3",
+   "name": "total from the possessions model",
+   "signal": "|total_possessions_model - total_naive_scoring_average| >= 4.0",
+   "stake_rule": "1 unit, flat, on the possessions side",
+   "n_candidates": 16,
+   "gates": {
+    "G1_sample_depth": {
+     "pass": false,
+     "measured": "23 verified finals (needs 60)",
+     "rule": "about four games per club in the log before a strategy may be funded"
+    },
+    "G2_freshness": {
+     "pass": true,
+     "measured": "newest official injury revision used: 11/16/26 01:15 PM (retrieved 2026-11-16T18:26Z); standings and team stats retrieved 2026-11-16T18:31Z",
+     "rule": "every input must be read on the day it is used for; a stale input blocks the rebuild rather than quietly ageing the line"
+    },
+    "G3_provenance": {
+     "pass": true,
+     "measured": "team-stat rows failing their own printed identities: none; the arena-coordinate table is the one non-official input and it is labelled on every row that uses it",
+     "rule": "no row is published without a source link to an official page"
+    },
+    "G4_out_of_sample": {
+     "pass": true,
+     "measured": "leave-one-game-out skill against the pinned-HCA baseline: 0.321 (rmse 11.7104 vs baseline 17.2463)",
+     "rule": "an estimator must beat the no-skill baseline out of sample by more than 5%"
+    },
+    "G5_luck_band": {
+     "pass": true,
+     "measured": "clubs outside the band: none",
+     "rule": "a funded strategy may not lean on a club more than 2.0 sd from its efficiency-based win expectation"
+    },
+    "G6_disagreement_cap": {
+     "pass": true,
+     "measured": "16 candidate rows on the 11/16-11/18 window inside the 5.0-point cap",
+     "rule": "the two independent estimators must agree within the frozen cap"
+    },
+    "G7_pretip_seal": {
+     "pass": true,
+     "measured": "every published line is hashed and appended to d1b96315/ledger/ledger.jsonl before its tip; the seal and the verifier are d1b96315/ledger.py",
+     "rule": "a pick may not enter the ledger after its tip without an earlier hash"
+    },
+    "G8_price_feed": {
+     "pass": false,
+     "measured": "no licensed market price feed in this repository: no closing line, no juice, so ROI cannot be computed and no strategy can be funded",
+     "rule": "a strategy cannot be funded against a price this system invented for itself"
+    }
+   },
+   "gates_passed": "6/8",
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ],
+   "status": "not funded",
+   "reward_points": 0
+  },
+  {
+   "id": "D-S4",
+   "name": "same-game parlay, side + our total, priced with the measured rho",
+   "signal": "leg 1 |blend margin| >= 4.0, leg 2 |our total - league mean total| >= 4.0, priced with rho(margin, total) measured on the verified finals",
+   "stake_rule": "0.5 unit, flat",
+   "n_candidates": 29,
+   "gates": {
+    "G1_sample_depth": {
+     "pass": false,
+     "measured": "23 verified finals (needs 60)",
+     "rule": "about four games per club in the log before a strategy may be funded"
+    },
+    "G2_freshness": {
+     "pass": true,
+     "measured": "newest official injury revision used: 11/16/26 01:15 PM (retrieved 2026-11-16T18:26Z); standings and team stats retrieved 2026-11-16T18:31Z",
+     "rule": "every input must be read on the day it is used for; a stale input blocks the rebuild rather than quietly ageing the line"
+    },
+    "G3_provenance": {
+     "pass": true,
+     "measured": "team-stat rows failing their own printed identities: none; the arena-coordinate table is the one non-official input and it is labelled on every row that uses it",
+     "rule": "no row is published without a source link to an official page"
+    },
+    "G4_out_of_sample": {
+     "pass": true,
+     "measured": "leave-one-game-out skill against the pinned-HCA baseline: 0.321 (rmse 11.7104 vs baseline 17.2463)",
+     "rule": "an estimator must beat the no-skill baseline out of sample by more than 5%"
+    },
+    "G5_luck_band": {
+     "pass": true,
+     "measured": "clubs outside the band: none",
+     "rule": "a funded strategy may not lean on a club more than 2.0 sd from its efficiency-based win expectation"
+    },
+    "G6_disagreement_cap": {
+     "pass": true,
+     "measured": "29 candidate rows on the 11/16-11/18 window inside the 5.0-point cap",
+     "rule": "the two independent estimators must agree within the frozen cap"
+    },
+    "G7_pretip_seal": {
+     "pass": true,
+     "measured": "every published line is hashed and appended to d1b96315/ledger/ledger.jsonl before its tip; the seal and the verifier are d1b96315/ledger.py",
+     "rule": "a pick may not enter the ledger after its tip without an earlier hash"
+    },
+    "G8_price_feed": {
+     "pass": false,
+     "measured": "no licensed market price feed in this repository: no closing line, no juice, so ROI cannot be computed and no strategy can be funded",
+     "rule": "a strategy cannot be funded against a price this system invented for itself"
+    }
+   },
+   "gates_passed": "6/8",
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ],
+   "status": "not funded",
+   "reward_points": 0
+  },
+  {
+   "id": "D-S5",
+   "name": "player-prop combo",
+   "signal": "not defined: no player market data and no per-player projection feed exists for the whole slate",
+   "stake_rule": "n/a",
+   "n_candidates": 0,
+   "gates": {
+    "G1_sample_depth": {
+     "pass": false,
+     "measured": "23 verified finals (needs 60)",
+     "rule": "about four games per club in the log before a strategy may be funded"
+    },
+    "G2_freshness": {
+     "pass": true,
+     "measured": "newest official injury revision used: 11/16/26 01:15 PM (retrieved 2026-11-16T18:26Z); standings and team stats retrieved 2026-11-16T18:31Z",
+     "rule": "every input must be read on the day it is used for; a stale input blocks the rebuild rather than quietly ageing the line"
+    },
+    "G3_provenance": {
+     "pass": true,
+     "measured": "team-stat rows failing their own printed identities: none; the arena-coordinate table is the one non-official input and it is labelled on every row that uses it",
+     "rule": "no row is published without a source link to an official page"
+    },
+    "G4_out_of_sample": {
+     "pass": true,
+     "measured": "leave-one-game-out skill against the pinned-HCA baseline: 0.321 (rmse 11.7104 vs baseline 17.2463)",
+     "rule": "an estimator must beat the no-skill baseline out of sample by more than 5%"
+    },
+    "G5_luck_band": {
+     "pass": true,
+     "measured": "clubs outside the band: none",
+     "rule": "a funded strategy may not lean on a club more than 2.0 sd from its efficiency-based win expectation"
+    },
+    "G6_disagreement_cap": {
+     "pass": false,
+     "measured": "0 candidate rows on the 11/16-11/18 window inside the 5.0-point cap",
+     "rule": "the two independent estimators must agree within the frozen cap"
+    },
+    "G7_pretip_seal": {
+     "pass": true,
+     "measured": "every published line is hashed and appended to d1b96315/ledger/ledger.jsonl before its tip; the seal and the verifier are d1b96315/ledger.py",
+     "rule": "a pick may not enter the ledger after its tip without an earlier hash"
+    },
+    "G8_price_feed": {
+     "pass": false,
+     "measured": "no licensed market price feed in this repository: no closing line, no juice, so ROI cannot be computed and no strategy can be funded",
+     "rule": "a strategy cannot be funded against a price this system invented for itself"
+    }
+   },
+   "gates_passed": "5/8",
+   "blocking": [
+    "G1_sample_depth",
+    "G6_disagreement_cap",
+    "G8_price_feed"
+   ],
+   "status": "not funded",
+   "reward_points": 0
+  }
+ ],
+ "summary": {
+  "strategies": 5,
+  "funded": 0,
+  "gates_blocking_any_strategy": [
+   "G1_sample_depth",
+   "G6_disagreement_cap",
+   "G8_price_feed"
+  ],
+  "leaderboard_note": "rewards are 0 everywhere because G1 and G8 fail for every strategy; the leaderboard ranks by gates passed and out-of-sample skill, never by profit that does not exist"
+ },
+ "leaderboard": [
+  {
+   "rank": 1,
+   "id": "D-S1",
+   "name": "side of our own number where both estimators agree",
+   "gates_passed": "6/8",
+   "candidates": 2,
+   "status": "not funded",
+   "reward_points": 0,
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ]
+  },
+  {
+   "rank": 2,
+   "id": "D-S2",
+   "name": "availability-weighted side (estimator B only)",
+   "gates_passed": "6/8",
+   "candidates": 8,
+   "status": "not funded",
+   "reward_points": 0,
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ]
+  },
+  {
+   "rank": 3,
+   "id": "D-S3",
+   "name": "total from the possessions model",
+   "gates_passed": "6/8",
+   "candidates": 16,
+   "status": "not funded",
+   "reward_points": 0,
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ]
+  },
+  {
+   "rank": 4,
+   "id": "D-S4",
+   "name": "same-game parlay, side + our total, priced with the measured rho",
+   "gates_passed": "6/8",
+   "candidates": 29,
+   "status": "not funded",
+   "reward_points": 0,
+   "blocking": [
+    "G1_sample_depth",
+    "G8_price_feed"
+   ]
+  },
+  {
+   "rank": 5,
+   "id": "D-S5",
+   "name": "player-prop combo",
+   "gates_passed": "5/8",
+   "candidates": 0,
+   "status": "not funded",
+   "reward_points": 0,
+   "blocking": [
+    "G1_sample_depth",
+    "G6_disagreement_cap",
+    "G8_price_feed"
+   ]
+  }
+ ]
+}

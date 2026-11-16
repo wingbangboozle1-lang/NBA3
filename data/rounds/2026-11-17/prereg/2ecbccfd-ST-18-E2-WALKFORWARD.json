@@ -1,0 +1,18 @@
+{
+ "id": "ST-18-E2-WALKFORWARD",
+ "name": "Walk-forward margin from the verified results log",
+ "signal": "bet the club with the better points-differential-per-game measured only over games strictly before tip-off, adjusted by the pinned home-court value",
+ "thresholds": {
+  "min_games_per_side": 3,
+  "min_edge_points": 0.0
+ },
+ "universe": "games where both clubs have at least 3 captured games before tip",
+ "settlement_rule": "SPREAD vs the originated line: the pick wins if the chosen club beats the originated margin by more than zero; ties (exact margin) are void",
+ "stake_rule": "1 unit per pick, maximum 4 units per game day",
+ "luck_policy": "refused for any club outside the +/-2 luck band",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "7b22da91dc9c752b333824b704930c04958bc446ec923564cfb4781e4902e448"
+}

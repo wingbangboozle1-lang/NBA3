@@ -1,0 +1,18 @@
+{
+ "id": "ST-19-DISAGREEMENT-GATE",
+ "name": "Trade only where the two estimators agree on the sign",
+ "signal": "publish a pick only where estimator A and estimator B name the same side, and rank picks by the size of their disagreement; the disagreement is the headline, the blend is printed underneath and is never the headline",
+ "thresholds": {
+  "max_disagreement_points": 100.0,
+  "require_sign_agreement": true
+ },
+ "universe": "the round window's games where both estimators are computable",
+ "settlement_rule": "MONEYLINE, official final of the game's own page; void without a final",
+ "stake_rule": "1 unit",
+ "luck_policy": "refused for any club outside the +/-2 luck band",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "4e11a0ee332e8812bfc5fefe30056a09c3f825191c35adebf82c7acad60cea78"
+}

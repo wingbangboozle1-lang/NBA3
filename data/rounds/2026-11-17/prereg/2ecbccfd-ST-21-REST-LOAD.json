@@ -1,0 +1,20 @@
+{
+ "id": "ST-21-REST-LOAD",
+ "name": "Measured rest load, half weight",
+ "signal": "bet the side that is not on a back-to-back or 3-in-4 when the other is, applying the measured margin gap between those rest states at half weight per side",
+ "thresholds": {
+  "min_rest_gap_days": 1,
+  "min_measured_penalty_points": 1.0,
+  "min_penalty_z": 1.645
+ },
+ "universe": "games of the round window where both sides' previous game dates are known",
+ "settlement_rule": "SPREAD vs the originated line; exact-margin ties are void",
+ "stake_rule": "1 unit",
+ "luck_policy": "refused for any club outside the +/-2 luck band",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "blocked_because": "the measured back-to-back gap is 2.888 points with a standard error of 2.908 (z = 0.99), which fails the frozen z floor of 1.645, so this strategy is registered but refused until the gap is real",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "7e0098f7dfc2d3c90d1bb2c06c0a6d7dde7aa0d3fb2747c26b7ab064abc78ea5"
+}
