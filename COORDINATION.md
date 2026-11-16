@@ -5024,3 +5024,43 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 - **No market anchor** until a licensed closing-line feed exists; the field is null, not guessed.
 - **No player-prop price** until per-player logs are captured; no rho, so no number.
 - Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
+
+---
+
+## Session `arena/ef6e2e6c-nba3` (current) — CLAIM (2026-11-16 ~18:25 UTC)
+
+Session ID: `ef6e2e6c`. Branch: `arena/ef6e2e6c-nba3` (branched from `main` @ `907771b`,
+i.e. after PR #109). Claim pushed before any other work, per the coordination rules.
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| E0 | Claim + board push (this section) | done | ef6e2e6c | `COORDINATION.md` (this section only) |
+| E1 | Diagnose and repair the failing scheduled refresh job (runs 43815576157 + 43864808752 failed at the commit step; run 43925193575 failed at the unit-test step after a successful fetch+rebuild) so the 23:15 UTC cron can land its commit | in progress | ef6e2e6c | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `tests/test_refresh_official.py`, `tests/test_capture_1115.py`, `tests/test_results_feed.py`, `tests/test_pick_ledger.py`, `tests/test_freshness_gates.py` (test repairs only, evidence-based), `audit_ef6e2e6c/**` (new) |
+| E2 | 11/16 evening official capture round: newest official 11/16 injury report + delta, slate re-read 11/16→11/19, game-day state; gates first, rebuild only if they pass | in progress | ef6e2e6c | `data/rounds/2026-11-16-eve/**` (new tree), `audit_ef6e2e6c/**` |
+| E3 | Disposition of the four stale CONFLICTING PRs #94/#95/#96/#98 (no commits in ~18 h, 60-minute rule applies): review each, port genuinely-missing verified content, close with notes | in progress | ef6e2e6c | `COORDINATION.md` (this section) + PR comments/close |
+| E4 | Integration: full offline replay of every test suite + site link check, PR → `main` → merge → confirm GitHub Pages deploy → record here | in progress | ef6e2e6c | `COORDINATION.md` (this section), PR |
+
+### Standing state at claim time (verified locally)
+
+- `main` @ `907771b` (PR #109 merged 2026-11-16T14:57Z, Pages run 43891946591 success).
+- Scheduled refresh runs: 43776978055 (last success), 43742524756 fail, 43815576157 (05:15Z) fail
+  at **commit step**, 43864808752 (11:15Z) fail at **commit step**, 43925193575 (17:15Z) fail at
+  **unit-test step** (fetch + gates + rebuild chain all succeeded in that run).
+- CI log download is unreachable from this sandbox (`results-receiver.actions.githubusercontent.com`
+  is outside the egress allowlist — `curl` SSL_ERROR_SYSCALL, `gh run view --log-failed` EOF), so E1
+  reproduces the failure with an offline-equivalent replay + a diagnostic run, not from CI logs.
+- Canonical `data/app/results_feed.json` holds 11/13 (9) + 11/14 (5) finals only; 11/15 finals live
+  in `data/rounds/2026-11-16/results.json` (8/9 settled; `0022600243` ATL@MIL blocked on the
+  documented quarter discrepancy — Q09; do not "fix" that gate).
+- Published `data/live/` freshness reference is 2026-11-15T11:49Z (newest archived report
+  11/15 06:15 AM ET) — behind the official index; the stale-injury alert (F12, session 07f22dad)
+  is the published flag for this.
+
+### No-overlap statement
+
+- `round/`, `scripts/refresh_2026_11_16.py`, `scripts/round_model_2026_11_16.py`,
+  `scripts/build_round_site.py`, `data/rounds/2026-11-16/` belong to session `8f4fac33`
+  (read their final record above; not rebuilt by this session — E2 writes a separate tree).
+- `data/live/**` capture scripts belong to `2ebb1e75`/`94e6d41b`/`07f22dad`; this session does not
+  edit their capture code. E1 touches only the scheduled-job workflow, `refresh_official.py`, and
+  tests, which the refresh-repair sessions (`81800928`, `c449d46a`) have completed and handed on.
