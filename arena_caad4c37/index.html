@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview — NBA3 brief-coverage audit</title>
+<meta name="description" content="Line-by-line verification of the NBA3 brief against main, session arena/caad4c37-nba3.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html">NBA3 <span>/</span> brief-coverage audit</a>
+  <div class="stamp">Session arena/caad4c37-nba3 · verified against main @ 5fde67e · re-read 2026-11-16 ·
+    every row links to the official source it was checked against</div>
+</div></header>
+<nav class="site"><div class="wrap"><a href="index.html" class="on">Overview</a><a href="requirements.html" class="">Brief coverage</a><a href="result-feed.html" class="">Result feed &amp; quarters</a><a href="injuries.html" class="">Injury chain</a><a href="flagged.html" class="">Flagged for review</a><a href="questions.html" class="">Open questions</a><a href="suggestions.html" class="">Suggestions</a><a href="sources.html" class="">Sources</a></div></nav>
+<main class="wrap">
+  <h1>Overview</h1>
+  <p class="lede">A line-by-line verification of the twenty-item brief against the published site, plus the two gaps this session could close from official sources. Every claim below was checked by opening a file, not read off a summary.</p>
+
+<div class="cards"><div class="card"><div class="k">11 / 20</div><div class="l">brief items done with no caveat</div></div><div class="card"><div class="k">4</div><div class="l">done, but with a published caveat</div></div><div class="card"><div class="k">4</div><div class="l">partial — blank and flagged</div></div><div class="card"><div class="k">1</div><div class="l">blocked on a missing input</div></div></div>
+
+<h2>What this session did</h2>
+<div class="note">It did not rebuild the model. It re-read <span class="mono">main @ 5fde67e</span>
+line by line against the brief, then closed the two gaps it could close from official sources and
+logged the rest as change requests. Everything here is generated from committed files, so it can be
+re-checked without re-running a fetch.</div>
+
+<h3>Two gaps closed</h3>
+<ul class="tight">
+<li><strong>Quarter scores.</strong> Every <span class="mono">*_q1..*_q4</span> field in the
+published result feed was null. The field is printed by the official game books, so it was read
+from them: 100 of 112 quarter cells are
+now written, each accepted only where the printed quarters sum to the printed final.
+11 of 14 games have both teams' quarters;
+3 have one side blank and flagged.</li>
+<li><strong>Late-evening injury reports.</strong> The newest report stored anywhere on main was
+11/15 06:15 AM ET. The official index lists 11/15 reports through 09:00 PM ET. Both the 08:45 PM
+and 09:00 PM versions were fetched and stored with their revision and retrieval times and diffed:
+the consecutive pair shows no change, and the gap back to the published baseline shows
+21 status changes and 72 new filings.</li>
+</ul>
+
+<h3>What it found instead</h3>
+<ul class="tight">
+<li>The published injury banner is <strong>14h45m behind</strong> the newest official report, and
+the freshness gate cannot see it because it compares on-disk reports with each other.</li>
+<li>Travel distance is <strong>blank on every row</strong> — the coordinate file the code reads is
+empty, while a populated one sits elsewhere in the repository.</li>
+<li>Minutes redistribution and per-player game logs each cover <strong>10 of 30 teams</strong>.</li>
+<li>The market-anchored prior is implemented and <strong>correctly refuses</strong> to publish
+without a closing-line feed.</li>
+</ul>
+
+<h2>Brief coverage</h2>
+<div class="table-wrap"><table>
+<caption>The brief as written, with the status verified by this session</caption>
+<thead><tr><th>ID</th><th>Requirement</th><th>Area</th><th>Status</th><th>Official source</th></tr></thead>
+<tbody>
+<tr><td><a href="requirements.html#B01">B01</a></td><td>Extend the scheduled job to refresh the official schedule, standings, team statistics and injury report for each rolling slate, then rebuild only afte…</td><td>Pipeline</td><td><span class="pill warn">Done, with a caveat</span></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">NBA Official — injury report index (2026-27 season)</a></td></tr><tr><td><a href="requirements.html#B02">B02</a></td><td>Keep an official per-game result feed current and settle only after final scores are verified; store one row per game: date, teams, final score, quart…</td><td>Data</td><td><span class="pill warn">Done, with a caveat</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_ATLCHI.pdf" target="_blank" rel="noopener noreferrer">NBA official game book — ATL @ CHI, 2026-11-13</a></td></tr><tr><td><a href="requirements.html#B03">B03</a></td><td>Store every injury PDF with its timestamp and diff consecutive reports to detect status changes.</td><td>Data</td><td><span class="pill warn">Done, with a caveat</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf" target="_blank" rel="noopener noreferrer">NBA official injury report — 11/15/26 09:00 PM ET</a></td></tr><tr><td><a href="requirements.html#B04">B04</a></td><td>Freeze a pre-registration file per strategy before its first bet: signal, thresholds, universe, and the exact settlement rule.</td><td>Governance</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">NBA Stats glossary — official definitions used by the settlement rules</a></td></tr><tr><td><a href="requirements.html#B05">B05</a></td><td>Add a tamper-evident ledger: hash each published pick, publish the hash before tip, and verify after settlement.</td><td>Governance</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">NBA official scoreboard — the tips the pre-tip stamps are measured against</a></td></tr><tr><td><a href="requirements.html#B06">B06</a></td><td>Split the site into &#x27;projection&#x27; (safe to publish now) and &#x27;bet&#x27; (gated) surfaces, and never mix them.</td><td>Site</td><td><span class="pill warn">Partial - blank and flagged</span></td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">NBA official schedule — the projection surface&#x27;s subject matter</a></td></tr><tr><td><a href="requirements.html#B07">B07</a></td><td>Keep two independent estimators and publish their disagreement as the primary confidence signal, rather than a single blended rating.</td><td>Model</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/stats/teams/advanced" target="_blank" rel="noopener noreferrer">NBA official advanced team stats — estimator B inputs</a></td></tr><tr><td><a href="requirements.html#B08">B08</a></td><td>Pin home-court advantage to the measured home-win rate instead of fitting it freely.</td><td>Model</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">NBA official scoreboard — the completed-game log the rate is measured over</a></td></tr><tr><td><a href="requirements.html#B09">B09</a></td><td>Report luck as a z-score per team and refuse to publish a strategy that leans on a team outside the noise band.</td><td>Model</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/stats/teams/traditional" target="_blank" rel="noopener noreferrer">NBA official traditional team stats — win/loss inputs to the expected-wins baseline</a></td></tr><tr><td><a href="requirements.html#B10">B10</a></td><td>Compute rest, back-to-back and 3-in-4 from the official schedule (already possible) and add travel distance from a sourced arena-coordinate table.</td><td>Model</td><td><span class="pill warn">Partial - blank and flagged</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">NBA official schedule — the rest arithmetic&#x27;s source</a></td></tr><tr><td><a href="requirements.html#B11">B11</a></td><td>Model minutes redistribution explicitly: for each team, the top-8 minutes shares and the replacement shares when a player is out.</td><td>Model</td><td><span class="pill warn">Partial - blank and flagged</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">NBA official game book — the minutes source used for the 10 covered team-games</a></td></tr><tr><td><a href="requirements.html#B12">B12</a></td><td>Stop publishing a single blended rating as the headline; publish the disagreement between the two estimators as the headline and the blend underneath.</td><td>Site</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/stats/teams/opponent" target="_blank" rel="noopener noreferrer">NBA official opponent team stats — estimator B inputs</a></td></tr><tr><td><a href="requirements.html#B13">B13</a></td><td>Price every parlay with the measured rho and print the naive product next to it, instead of withholding the price entirely.</td><td>Model</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">NBA official scoreboard — the completed games the residual correlation is measured over</a></td></tr><tr><td><a href="requirements.html#B14">B14</a></td><td>Put rotation availability on the picks page as its own column.</td><td>Site</td><td><span class="pill ok">Done</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">NBA official injury report feeding the rotation-availability column</a></td></tr><tr><td><a href="requirements.html#B15">B15</a></td><td>Add a market-anchored prior: blend the model line with the closing line, weight by measured out-of-sample log-loss.</td><td>Model</td><td><span class="pill bad">Blocked</span></td><td><a href="https://www.nba.com/stats/help/glossary" target="_blank" rel="noopener noreferrer">NBA Stats glossary — the official quantities the prior would blend against</a></td></tr><tr><td><a href="requirements.html#B16">B16</a></td><td>Model the total as possessions x points-per-possession, not as an average of team scoring averages.</td><td>Model</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/stats/teams/advanced" target="_blank" rel="noopener noreferrer">NBA official advanced team stats — pace and efficiency inputs</a></td></tr><tr><td><a href="requirements.html#B17">B17</a></td><td>Show the injury-report revision time and retrieval time in the Injuries page banner.</td><td>Site</td><td><span class="pill warn">Done, with a caveat</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf" target="_blank" rel="noopener noreferrer">NBA official injury report — 11/15/26 09:00 PM ET (newest on the official index)</a></td></tr><tr><td><a href="requirements.html#B18">B18</a></td><td>Settle the sealed ledger from official finals as soon as each game day ends, and keep the settlement stamp visible.</td><td>Governance</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">NBA official scoreboard — the official finals the settlements are made from</a></td></tr><tr><td><a href="requirements.html#B19">B19</a></td><td>Re-read the three official team-stat pages (traditional, opponent, advanced) and re-cut the model inputs.</td><td>Data</td><td><span class="pill ok">Done</span></td><td><a href="https://www.nba.com/stats/teams/traditional" target="_blank" rel="noopener noreferrer">NBA official traditional team stats (2026-27)</a></td></tr><tr><td><a href="requirements.html#B20">B20</a></td><td>Capture per-player game logs (minutes, points, rebounds, assists, and the opponent) for at least the players who appear on an injury report.</td><td>Data</td><td><span class="pill warn">Partial - blank and flagged</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">NBA official game book — one of the 11/14 game books in the capture</a></td></tr></tbody>
+</table></div>
+
+<h2>Where to go next</h2>
+<div class="cards">
+<div class="card"><div class="k">11</div>
+<div class="l"><a href="flagged.html">flagged irregularities</a>, each with its source</div></div>
+<div class="card"><div class="k">8</div>
+<div class="l"><a href="questions.html">open questions</a> that block a decision</div></div>
+<div class="card"><div class="k">7</div>
+<div class="l"><a href="suggestions.html">suggestions</a>, none implemented</div></div>
+<div class="card"><div class="k">160</div>
+<div class="l">rows in the newest stored injury report
+(11/15/26 09:00 PM)</div></div>
+</div>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built by <span class="mono">arena/caad4c37-nba3</span> from committed files only. No value on these
+  pages was inferred: a figure that could not be confirmed from an official source is rendered as
+  a blank cell marked <span class="blank">unverified</span>.
+</div></footer>
+</body>
+</html>

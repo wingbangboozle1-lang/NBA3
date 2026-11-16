@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suggestions — NBA3 brief-coverage audit</title>
+<meta name="description" content="Line-by-line verification of the NBA3 brief against main, session arena/caad4c37-nba3.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html">NBA3 <span>/</span> brief-coverage audit</a>
+  <div class="stamp">Session arena/caad4c37-nba3 · verified against main @ 5fde67e · re-read 2026-11-16 ·
+    every row links to the official source it was checked against</div>
+</div></header>
+<nav class="site"><div class="wrap"><a href="index.html" class="">Overview</a><a href="requirements.html" class="">Brief coverage</a><a href="result-feed.html" class="">Result feed &amp; quarters</a><a href="injuries.html" class="">Injury chain</a><a href="flagged.html" class="">Flagged for review</a><a href="questions.html" class="">Open questions</a><a href="suggestions.html" class="on">Suggestions</a><a href="sources.html" class="">Sources</a></div></nav>
+<main class="wrap">
+  <h1>Suggestions</h1>
+  <p class="lede">Ways to improve the site and the decision it supports, with the options and a recommendation for each. Nothing here has been implemented.</p>
+
+<div class="note">These exist so a path can be chosen before anything is built. Each row gives the
+options, which one this session would pick, and the finding that prompted it. None of them has been
+implemented, and none will be until one is chosen.</div>
+<div class="table-wrap"><table>
+<caption>Nothing here has been implemented — each is a choice for the owner</caption>
+<thead><tr><th>ID</th><th>Area</th><th>Suggestion</th><th>Options</th><th>Recommendation</th><th>Linked finding</th><th>Status</th><th>Official source</th></tr></thead>
+<tbody>
+<tr><td><strong>S-CAAD4C37-01</strong></td><td>Pipeline</td><td>Make the freshness gate compare the newest on-disk report with the newest report on the official index, not just with itself.</td><td>(a) fail the rebuild when the index is newer; (b) publish a staleness banner and continue; (c) auto-capture the newer report and rebuild.</td><td>(c) with (b) as the fallback when the capture fails. Option (a) trades a stale surface for no surface, which is the wrong default for an informational page.</td><td>F-CAAD4C37-06, F-CAAD4C37-13</td><td><span class="pill warn">Awaiting your choice</span></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official source of F-CAAD4C37-06</a></td></tr><tr><td><strong>S-CAAD4C37-02</strong></td><td>Model</td><td>Point rest_travel.py at the populated coordinate table so travel distance stops being blank everywhere.</td><td>(a) repoint to data/app/arena_coordinates.json and label every distance &#x27;derived, not NBA-published&#x27;; (b) wait for an authoritative coordinate source; (c) drop the travel column entirely.</td><td>(a). The caveat is already written into the coordinate file; publishing a labelled derived distance is more useful than publishing a blank, provided the label travels with it.</td><td>F-CAAD4C37-07</td><td><span class="pill warn">Awaiting your choice</span></td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official source of F-CAAD4C37-07</a></td></tr><tr><td><strong>S-CAAD4C37-03</strong></td><td>Data</td><td>Close the last 12 quarter cells by reading the NBA box-score HTML page for the three affected games.</td><td>(a) try the HTML reader once and fill whatever it confirms; (b) accept the cells as permanently blank and say so on the page.</td><td>(a) as a one-off, then (b) for whatever still fails. Twelve cells out of 112 is not worth an ongoing pipeline.</td><td>F-CAAD4C37-02, F-CAAD4C37-03, F-CAAD4C37-05</td><td><span class="pill warn">Awaiting your choice</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf" target="_blank" rel="noopener noreferrer">official source of F-CAAD4C37-02</a></td></tr><tr><td><strong>S-CAAD4C37-04</strong></td><td>Data</td><td>Capture game books for a fixed window (e.g. every game of the current season to date) so minutes shares and player logs cover all 30 teams.</td><td>(a) full season to date; (b) rolling 14 days; (c) leave at one slate.</td><td>(a) once, then (b) as the steady state. The parser is already strict and the fetches are one call per game.</td><td>F-CAAD4C37-08, F-CAAD4C37-10</td><td><span class="pill warn">Awaiting your choice</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official source of F-CAAD4C37-08</a></td></tr><tr><td><strong>S-CAAD4C37-05</strong></td><td>Site</td><td>Put a &#x27;last verified&#x27; stamp on every page banner, not only the injuries page.</td><td>(a) every page; (b) only pages whose data can go stale (injuries, result feed, slate); (c) leave as is.</td><td>(b). A stamp on a page whose data cannot go stale is noise; a stamp on one that can is the cheapest staleness detector there is.</td><td>F-CAAD4C37-06</td><td><span class="pill warn">Awaiting your choice</span></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official source of F-CAAD4C37-06</a></td></tr><tr><td><strong>S-CAAD4C37-06</strong></td><td>Site</td><td>Publish one consolidated landing page that lists every dashboard surface in the repository with its data date, so a stale surface is visible at a glance.</td><td>(a) a generated index with data dates; (b) a hand-maintained list; (c) nothing.</td><td>(a). The repository now holds roughly twenty independently built surfaces; without a dated index a reader cannot tell which one is current.</td><td>F-CAAD4C37-11</td><td><span class="pill warn">Awaiting your choice</span></td><td><span class="blank">unverified</span></td></tr><tr><td><strong>S-CAAD4C37-07</strong></td><td>Process</td><td>Give each parallel session a pre-registered namespace so the site stops gaining a new dashboard per session.</td><td>(a) namespace allocated at claim time in COORDINATION.md; (b) keep the current free-for-all and reconcile at the end; (c) cap the number of concurrent sessions.</td><td>(a). It costs one line per claim and removes the reconciliation debt that every integration round is currently paying.</td><td>F-CAAD4C37-11</td><td><span class="pill warn">Awaiting your choice</span></td><td><span class="blank">unverified</span></td></tr></tbody>
+</table></div>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built by <span class="mono">arena/caad4c37-nba3</span> from committed files only. No value on these
+  pages was inferred: a figure that could not be confirmed from an official source is rendered as
+  a blank cell marked <span class="blank">unverified</span>.
+</div></footer>
+</body>
+</html>

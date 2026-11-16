@@ -1,0 +1,279 @@
+{
+  "schema": "nba3.arena_caad4c37.register/v1",
+  "session": "arena/caad4c37-nba3",
+  "note": "Three registers: flagged irregularities found by this session's line-by-line re-read, open questions that block a decision, and site-improvement suggestions. Nothing in the suggestions register has been implemented — each is 'Awaiting your choice' by design.",
+  "flags": [
+    {
+      "id": "F-CAAD4C37-01",
+      "severity": "medium",
+      "title": "CLE @ MIA game book prints two different third quarters",
+      "detail": "The period table in the official game book prints Miami 29 | 25 | 28 | 41 | FINAL 123, but the four quarters sum to 123 while the line-score text line directly beneath it prints HEAT 29 25 38 41 133, and Miami's own team-totals row in the same PDF ends in 133. The official scoreboard also says 133.",
+      "disposition": "Resolved to 29 | 25 | 38 | 41 = 133, because the text line, the team-totals row and the official scoreboard agree and only one table cell disagrees. The table reading is preserved in the stored excerpt — it was not overwritten.",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261113/20261113_CLEMIA.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-02",
+      "severity": "medium",
+      "title": "Golden State's quarter scores are absent from the GSW @ SAS game book extraction",
+      "detail": "The PDF text extraction returns the period-table header and the San Antonio row only. No Golden State period row and no Warriors line-score text line was returned. Golden State's final (85) is confirmed by its team-totals row, but its quarters are not.",
+      "disposition": "Left blank and flagged. Not inferred from the final or from San Antonio's quarters.",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-03",
+      "severity": "medium",
+      "title": "Memphis's period row in the MEM @ NOP game book is corrupt in the extraction",
+      "detail": "The row prints five values ('25 | 25 | 27 | 140') against a six-column header: Q4 and FINAL are missing and the fourth value, 140, is neither a quarter score nor the official final (142). No Memphis line-score text line was returned.",
+      "disposition": "Left blank and flagged. New Orleans' quarters are confirmed (28 30 28 25 = 111).",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261113/20261113_MEMNOP.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-04",
+      "severity": "medium",
+      "title": "OKC @ LAC game book period table is internally inconsistent by one point",
+      "detail": "The table prints LA 32 | 24 | 25 | 31 | FINAL 113 — the quarters sum to 112. The line-score text line prints 33 | 24 | 25 | 31 | 113, which sums to 113, and LA's team-totals row ends in 113.",
+      "disposition": "Resolved to 33 | 24 | 25 | 31 = 113 on the same three-way agreement used for F-CAAD4C37-01. Table reading preserved.",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261113/20261113_OKCLAC.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-05",
+      "severity": "medium",
+      "title": "Orlando's period row in the MIL @ ORL game book fails its own arithmetic",
+      "detail": "The row prints 33 | 30 | 32 | 33 | FINAL 107; the quarters sum to 128. The trailing line-score line is truncated to 'MAGIC 23 29' and cannot complete it. The PDF was fetched a second time and returned an identical extraction, so this is not a transient read error. Milwaukee's row is consistent (15 22 35 27 = 99).",
+      "disposition": "Orlando's quarters left blank and flagged. Its final (107) is confirmed by the team-totals row.",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-06",
+      "severity": "high",
+      "title": "The published injury banner is 14h45m behind the newest official report",
+      "detail": "app/injuries.html prints revision time 2026-11-15 06:15 AM ET. The official index read at 2026-11-16T02:13Z lists 11/15 reports through 09:00 PM ET and no 11/16 report yet. Diffing the two: 21 player status changes and 72 player rows newly filed. The gate that should catch this compares the newest report on disk, not the newest on the official index.",
+      "disposition": "Not fixed here — the injuries page and its banner are owned by another session. Logged as change request CR-CAAD4C37-02. This session's stored chain makes the gap measurable.",
+      "source_url": "https://official.nba.com/nba-injury-report-2026-27-season/"
+    },
+    {
+      "id": "F-CAAD4C37-07",
+      "severity": "high",
+      "title": "Travel distance is unverified for every row, and the coordinate table the code reads is not the one that is populated",
+      "detail": "rest_travel.py reads data/live/arena_coords.json and records latitude null for every venue it cannot source, so every travel object reads km null / status UNVERIFIED. Meanwhile data/app/arena_coordinates.json holds 30 arenas with coordinates — a different file. The populated table also states in its own source_label that the coordinates come from Wikipedia, not the NBA.",
+      "disposition": "Not fixed — data/live/ is outside this session's scope. Logged as change request CR-CAAD4C37-03.",
+      "source_url": "https://www.nba.com/schedule?date=2026-11-15"
+    },
+    {
+      "id": "F-CAAD4C37-08",
+      "severity": "medium",
+      "title": "Minutes-redistribution has measured top-8 shares for 10 of 30 team-games",
+      "detail": "minutes_shares.json holds measured top-8 shares for the ten teams that played 2026-11-14. For every other team, minutes_model.json records share_source 'none - blank and flagged (no captured minutes source)', so the replacement-share half of the requirement cannot be exercised.",
+      "disposition": "Not fixed — would require capturing and parsing game books for a far larger set of games. Logged as change request CR-CAAD4C37-04.",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-09",
+      "severity": "medium",
+      "title": "Market-anchored prior is blocked: no closing-line feed is connected",
+      "detail": "market_anchored_prior reads feed_status 'not connected', blended_lines empty, and carries the flag 'blank + unverified: no closing-line feed is connected, so no blended line may be published'. The weighting formula itself is implemented.",
+      "disposition": "Correct behaviour (refuse rather than substitute a proxy). Needs an owner decision on whether to obtain a feed. See Q-03.",
+      "source_url": "https://www.nba.com/stats/help/glossary"
+    },
+    {
+      "id": "F-CAAD4C37-10",
+      "severity": "medium",
+      "title": "Per-player game logs cover 10 of 30 teams, so most injured players have no logged minutes",
+      "detail": "player_game_logs.json holds 173 rows, complete for the ten teams that played 2026-11-14. The brief asks for logs 'for at least the players who appear on an injury report'; players who are Out on the other 20 teams are not covered.",
+      "disposition": "Not fixed. Logged as change request CR-CAAD4C37-05.",
+      "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+      "id": "F-CAAD4C37-13",
+      "severity": "high",
+      "title": "Carried from session arena/81800928: the freshness gate cannot see a newer report on the official index",
+      "detail": "F-R6 / CR-81800928-01: freshness_gates.py F1 checks only the newest report on disk, so it passes while the official feed has moved on. Session 81800928 could not verify the repaired job on a runner because the integration token cannot dispatch workflows.",
+      "disposition": "Still open. This session independently reproduced the consequence: the published banner is 14h45m stale (F-CAAD4C37-06). Re-stated as CR-CAAD4C37-02 so it is attached to fresh evidence.",
+      "source_url": "https://official.nba.com/nba-injury-report-2026-27-season/"
+    }
+  ],
+  "process_notes": [
+    {
+      "id": "P-CAAD4C37-01",
+      "title": "Four parallel sessions had open pull requests to main at the same time",
+      "detail": "PR #94 (MERGEABLE), #95, #96 and #98 (all CONFLICTING) were open when this session claimed. Between them they touch app/*.html, index.html, scripts/build_app.py, scripts/refresh_official.py, .github/workflows/* and COORDINATION.md — every shared output the brief designates as integration-only.",
+      "disposition": "This session edited none of those files and logged its wiring request as CR-CAAD4C37-01 instead. Recorded so the merge order and any conflict resolution is reviewable.",
+      "why_not_in_the_table_above": "These are repository-process findings, not data findings. The brief requires every row of the flagged table to carry an official-source link, and the only link for these is the repository's own pull-request list, so they are listed here instead of being given a source link they cannot honestly carry."
+    },
+    {
+      "id": "P-CAAD4C37-02",
+      "title": "The projection / bet split is a navigation split on main, not two publishable surfaces",
+      "detail": "Stand-alone /projection/ and /bet/ trees exist only in open PR #94. On main the split is two labelled navigation groups inside one tree, which means a reader can still reach a gated page by URL.",
+      "disposition": "Owner decision recorded as Q-CAAD4C37-06; not changed here.",
+      "why_not_in_the_table_above": "Same reason: the evidence is a pull request, not an official source."
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q-CAAD4C37-01",
+      "question": "Should the injury archive store every 15-minute version the league publishes, or only the change-points?",
+      "known": "The official index lists 75 versions for 11/15 alone (12:00 AM through 09:00 PM, every 15 minutes). This session's consecutive pair 08:45 PM -> 09:00 PM showed zero changes, so most versions carry no new information.",
+      "missing": "A storage budget and a retention policy, and a decision on whether unchanged versions are worth keeping for audit.",
+      "how_to_discover": "Run the capture hourly for a week and count how many consecutive pairs contain a change; size the archive from that rate rather than from the nominal 96-per-day figure.",
+      "blocks": "B03"
+    },
+    {
+      "id": "Q-CAAD4C37-02",
+      "question": "Where should arena coordinates come from, given the NBA does not publish them?",
+      "known": "data/app/arena_coordinates.json holds 30 arenas with coordinates, sourced from Wikipedia and labelled as general-reference data; the NBA does not publish coordinates, so every travel figure derived from them is a derived value.",
+      "missing": "An owner decision on whether a general-reference coordinate source is acceptable for a published travel-distance column, or whether the column should stay blank.",
+      "how_to_discover": "Decide first, then measure: the code already exists and the distances appear the moment the coordinate file is populated. The block is a policy block, not a technical one.",
+      "blocks": "B10"
+    },
+    {
+      "id": "Q-CAAD4C37-03",
+      "question": "Is a closing-line feed available to this project?",
+      "known": "The market-anchored prior is implemented and correctly refuses to publish without one. Nothing in the repository connects to a price feed.",
+      "missing": "Whether an odds feed is licensed, affordable, or permitted at all in the owner's jurisdiction.",
+      "how_to_discover": "This cannot be discovered from NBA sources — it needs the owner's answer on jurisdiction, licensing and budget. Until then the honest output is the blank that is already published.",
+      "blocks": "B15"
+    },
+    {
+      "id": "Q-CAAD4C37-04",
+      "question": "How many games of game books should be captured to make minutes shares and player logs cover all 30 teams?",
+      "known": "Ten team-games (the 11/14 slate) are captured today. Each game book is a single PDF fetch and parses cleanly with the repository's existing strict parser.",
+      "missing": "The target depth (one full season? 20 games per team?) and whether historical seasons are in scope.",
+      "how_to_discover": "Pilot: capture one full week of game books, measure the parse-acceptance rate, then extrapolate. The pilot is cheap; the decision is not.",
+      "blocks": "B11, B20"
+    },
+    {
+      "id": "Q-CAAD4C37-05",
+      "question": "Should the 12 missing quarter cells be chased with a second reader, or accepted as permanently blank?",
+      "known": "Three team-sides could not be confirmed from the game book PDFs even after a second fetch of one of them. The NBA box-score HTML page is an alternative official reader but is JavaScript-rendered and expensive to extract.",
+      "missing": "Whether the owner wants the extra coverage badly enough to accept a second, differently-shaped extraction path.",
+      "how_to_discover": "Try the HTML box-score page once for one of the three games; if it yields a self-consistent row, the same path closes all three.",
+      "blocks": "B02"
+    },
+    {
+      "id": "Q-CAAD4C37-06",
+      "question": "Projection and bet: two directory trees, or one tree with a gated navigation?",
+      "known": "Main uses one tree with a labelled navigation split; open PR #94 builds two separate trees. Two trees make the boundary enforceable by deployment; one tree keeps a single navigation and a single build.",
+      "missing": "An owner decision. Both are defensible and they are not both publishable.",
+      "how_to_discover": "Not a data question. It needs the owner's answer, and it should be answered before PR #94 merges rather than after.",
+      "blocks": "B06"
+    },
+    {
+      "id": "Q-CAAD4C37-07",
+      "question": "Should a stale refresh fail the rebuild, or publish a staleness banner?",
+      "known": "Today the gate passes while the feed is stale, and the banner quietly shows an old revision time. This session measured the gap at 14h45m with 21 status changes inside it.",
+      "missing": "The owner's tolerance: is a stale injury surface worse than no injury surface?",
+      "how_to_discover": "Decide the policy, then the gate is a few lines. The measurement needed to inform the decision already exists in this session's delta output.",
+      "blocks": "B01, B17"
+    },
+    {
+      "id": "Q-CAAD4C37-08",
+      "question": "What is the settlement rule when the official game book and the official scoreboard disagree?",
+      "known": "No such case has been observed in the 14 settled games. But the game books were found to be internally inconsistent in two of nine reads, so a disagreement with the scoreboard is plausible.",
+      "missing": "A written precedence rule, fixed before the first disagreement rather than during it.",
+      "how_to_discover": "Write the rule now (this session's working assumption is: scoreboard wins for the final, game book wins for the quarter split, and the row is flagged when they disagree) and have the owner confirm or replace it.",
+      "blocks": "B02, B18"
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "S-CAAD4C37-01",
+      "area": "Pipeline",
+      "suggestion": "Make the freshness gate compare the newest on-disk report with the newest report on the official index, not just with itself.",
+      "options": "(a) fail the rebuild when the index is newer; (b) publish a staleness banner and continue; (c) auto-capture the newer report and rebuild.",
+      "recommendation": "(c) with (b) as the fallback when the capture fails. Option (a) trades a stale surface for no surface, which is the wrong default for an informational page.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-06, F-CAAD4C37-13"
+    },
+    {
+      "id": "S-CAAD4C37-02",
+      "area": "Model",
+      "suggestion": "Point rest_travel.py at the populated coordinate table so travel distance stops being blank everywhere.",
+      "options": "(a) repoint to data/app/arena_coordinates.json and label every distance 'derived, not NBA-published'; (b) wait for an authoritative coordinate source; (c) drop the travel column entirely.",
+      "recommendation": "(a). The caveat is already written into the coordinate file; publishing a labelled derived distance is more useful than publishing a blank, provided the label travels with it.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-07"
+    },
+    {
+      "id": "S-CAAD4C37-03",
+      "area": "Data",
+      "suggestion": "Close the last 12 quarter cells by reading the NBA box-score HTML page for the three affected games.",
+      "options": "(a) try the HTML reader once and fill whatever it confirms; (b) accept the cells as permanently blank and say so on the page.",
+      "recommendation": "(a) as a one-off, then (b) for whatever still fails. Twelve cells out of 112 is not worth an ongoing pipeline.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-02, F-CAAD4C37-03, F-CAAD4C37-05"
+    },
+    {
+      "id": "S-CAAD4C37-04",
+      "area": "Data",
+      "suggestion": "Capture game books for a fixed window (e.g. every game of the current season to date) so minutes shares and player logs cover all 30 teams.",
+      "options": "(a) full season to date; (b) rolling 14 days; (c) leave at one slate.",
+      "recommendation": "(a) once, then (b) as the steady state. The parser is already strict and the fetches are one call per game.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-08, F-CAAD4C37-10"
+    },
+    {
+      "id": "S-CAAD4C37-05",
+      "area": "Site",
+      "suggestion": "Put a 'last verified' stamp on every page banner, not only the injuries page.",
+      "options": "(a) every page; (b) only pages whose data can go stale (injuries, result feed, slate); (c) leave as is.",
+      "recommendation": "(b). A stamp on a page whose data cannot go stale is noise; a stamp on one that can is the cheapest staleness detector there is.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-06"
+    },
+    {
+      "id": "S-CAAD4C37-06",
+      "area": "Site",
+      "suggestion": "Publish one consolidated landing page that lists every dashboard surface in the repository with its data date, so a stale surface is visible at a glance.",
+      "options": "(a) a generated index with data dates; (b) a hand-maintained list; (c) nothing.",
+      "recommendation": "(a). The repository now holds roughly twenty independently built surfaces; without a dated index a reader cannot tell which one is current.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-11"
+    },
+    {
+      "id": "S-CAAD4C37-07",
+      "area": "Process",
+      "suggestion": "Give each parallel session a pre-registered namespace so the site stops gaining a new dashboard per session.",
+      "options": "(a) namespace allocated at claim time in COORDINATION.md; (b) keep the current free-for-all and reconcile at the end; (c) cap the number of concurrent sessions.",
+      "recommendation": "(a). It costs one line per claim and removes the reconciliation debt that every integration round is currently paying.",
+      "status": "Awaiting your choice",
+      "linked_flag": "F-CAAD4C37-11"
+    }
+  ],
+  "change_requests": [
+    {
+      "id": "CR-CAAD4C37-01",
+      "to": "owner of .github/workflows/pages.yml",
+      "request": "Add 'cp -r arena_caad4c37 _pages/arena_caad4c37' to the Stage combined Pages artifact step and one navigation tile.",
+      "why": "pages.yml is claimed by open PRs #95, #96 and #98, so this session logs the request instead of editing the file.",
+      "status": "requested, not executed"
+    },
+    {
+      "id": "CR-CAAD4C37-02",
+      "to": "owner of scripts/freshness_gates.py and app/injuries.html",
+      "request": "Add an F-gate that compares the newest on-disk injury report with the newest report on the official index, and surface the gap on the injuries banner.",
+      "why": "The published banner is 14h45m behind the official feed with 21 status changes inside the gap (F-CAAD4C37-06). Re-states CR-81800928-01 against fresh evidence.",
+      "status": "requested, not executed"
+    },
+    {
+      "id": "CR-CAAD4C37-03",
+      "to": "owner of scripts/rest_travel.py and data/live/arena_coords.json",
+      "request": "Point rest_travel.py at the populated coordinate table so travel distance stops being blank on every row.",
+      "why": "Every travel object reads km null / status UNVERIFIED because the file the script reads is empty while a populated table exists elsewhere in the repository (F-CAAD4C37-07).",
+      "status": "requested, not executed"
+    },
+    {
+      "id": "CR-CAAD4C37-04",
+      "to": "owner of scripts/minutes_model.py",
+      "request": "Feed the minutes-redistribution model from captured game books for more than the 11/14 slate, or state the coverage limit on the injuries page.",
+      "why": "Measured top-8 shares exist for 10 of 30 team-games, so the replacement-share half of the requirement is unexercised for two thirds of the league (F-CAAD4C37-08).",
+      "status": "requested, not executed"
+    },
+    {
+      "id": "CR-CAAD4C37-05",
+      "to": "owner of the player-game-log capture",
+      "request": "Extend per-player game logs to cover players who appear on an injury report regardless of whether their team played on the captured slate.",
+      "why": "The brief asks for logs 'for at least the players who appear on an injury report'; today only 10 of 30 teams are covered (F-CAAD4C37-10).",
+      "status": "requested, not executed"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Injury-report chain — NBA3 brief-coverage audit</title>
+<meta name="description" content="Line-by-line verification of the NBA3 brief against main, session arena/caad4c37-nba3.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html">NBA3 <span>/</span> brief-coverage audit</a>
+  <div class="stamp">Session arena/caad4c37-nba3 · verified against main @ 5fde67e · re-read 2026-11-16 ·
+    every row links to the official source it was checked against</div>
+</div></header>
+<nav class="site"><div class="wrap"><a href="index.html" class="">Overview</a><a href="requirements.html" class="">Brief coverage</a><a href="result-feed.html" class="">Result feed &amp; quarters</a><a href="injuries.html" class="on">Injury chain</a><a href="flagged.html" class="">Flagged for review</a><a href="questions.html" class="">Open questions</a><a href="suggestions.html" class="">Suggestions</a><a href="sources.html" class="">Sources</a></div></nav>
+<main class="wrap">
+  <h1>Injury-report chain</h1>
+  <p class="lede">Every stored version of the official injury report with both of its timestamps, and the diff between consecutive versions that shows the status changes.</p>
+
+<div class="note bad"><strong>The published banner is behind the official feed.</strong>
+<span class="mono">app/injuries.html</span> prints revision time 2026-11-15 06:15 AM ET. The
+official index read at 2026-11-16T02:13Z lists 11/15 reports through 09:00 PM ET and no 11/16
+report yet. The gap is 14h45m, and the delta below shows what happened inside it. The gate that
+should catch this compares the newest report <em>on disk</em> with itself, not with the index —
+carried as <span class="mono">CR-CAAD4C37-02</span>.</div>
+
+<h2>Stored versions</h2>
+<div class="table-wrap"><table>
+<caption>One stored file per official version, each carrying both the revision time printed in the PDF and the UTC retrieval time</caption>
+<thead><tr><th>Revision time (ET)</th><th>Retrieved (UTC)</th><th>Rows</th><th>Player rows</th><th>NOT YET SUBMITTED</th><th>Unattributed</th><th>Status counts</th><th>Captured by</th><th>Role</th><th>Official source</th></tr></thead>
+<tbody>
+<tr><td><strong>11/15/26 06:15 AM</strong></td><td>2026-11-15T11:33Z</td><td><span class="num">101</span></td><td><span class="num">84</span></td><td><span class="num">17</span></td><td><span class="num">13</span></td><td>Out 62 · Doubtful 1 · Questionable 17 · Probable 2 · Available 2</td><td>arena/2ebb1e75-nba3</td><td>newest report committed on main before this session (published baseline)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td></tr><tr><td><strong>11/15/26 08:45 PM</strong></td><td>2026-11-16T02:24Z</td><td><span class="num">160</span></td><td><span class="num">155</span></td><td><span class="num">5</span></td><td><span class="num">0</span></td><td>Out 124 · Questionable 11 · Available 20</td><td>arena/caad4c37-nba3</td><td>captured by this session</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_08_45PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td></tr><tr><td><strong>11/15/26 09:00 PM</strong></td><td>2026-11-16T02:14Z</td><td><span class="num">160</span></td><td><span class="num">155</span></td><td><span class="num">5</span></td><td><span class="num">18</span></td><td>Out 124 · Questionable 11 · Available 20</td><td>arena/caad4c37-nba3</td><td>newest report listed on the official index at read time</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td></tr></tbody>
+</table></div>
+
+<h2>Diffs</h2>
+<div class="table-wrap"><table>
+<caption>Consecutive versions are diffed to surface status changes</caption>
+<thead><tr><th>Pair</th><th>Consecutive</th><th>Status changes</th><th>Reason changes</th><th>Added</th><th>Removed</th><th>What changed</th><th>Official source</th></tr></thead>
+<tbody>
+<tr><td>11/15/26 06:15 AM → 11/15/26 08:45 PM</td><td>no</td><td><span class="num">21</span></td><td><span class="num">1</span></td><td><span class="num">+72</span></td><td><span class="num">−1</span></td><td><ul class="tight"><li>Achiuwa, Precious (Sacramento Kings): Questionable → <strong>Out</strong></li><li>Adams, Steven (Houston Rockets): Probable → <strong>Available</strong></li><li>Barnes, Scottie (Toronto Raptors): Questionable → <strong>Available</strong></li><li>Carrington, Bub (Washington Wizards): Questionable → <strong>Available</strong></li><li>Carter, Devin (Boston Celtics): Questionable → <strong>Available</strong></li><li>Cenac Jr., Christopher (Boston Celtics): Questionable → <strong>Available</strong></li><li>James, Bronny (Los Angeles Lakers): Questionable → <strong>Available</strong></li><li>Johnson, Tre (Washington Wizards): Questionable → <strong>Out</strong></li><li>Landale, Jock (Atlanta Hawks): Available → <strong>Out</strong></li><li>McConnell, T.J. (Indiana Pacers): Probable → <strong>Available</strong></li><li>Mitchell, Ajay (Oklahoma City Thunder): Questionable → <strong>Available</strong></li><li>Mitchell, Dillon (Boston Celtics): Questionable → <strong>Available</strong></li><li>Murray, Keegan (Sacramento Kings): Questionable → <strong>Available</strong></li><li>Nembhard, Andrew (Indiana Pacers): Questionable → <strong>Out</strong></li><li>Nesmith, Aaron (Indiana Pacers): Questionable → <strong>Available</strong></li><li>Okpara, Felix (Washington Wizards): Questionable → <strong>Out</strong></li><li>Sarr, Alex (Washington Wizards): Questionable → <strong>Available</strong></li><li>Sexton, Collin (Los Angeles Lakers): Questionable → <strong>Available</strong></li><li>Thiero, Adou (Los Angeles Lakers): Questionable → <strong>Available</strong></li><li>Williams, Amari (Boston Celtics): Questionable → <strong>Available</strong></li><li>Wilson, Jalen (Atlanta Hawks): Doubtful → <strong>Out</strong></li></ul></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_08_45PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td></tr><tr><td>11/15/26 08:45 PM → 11/15/26 09:00 PM</td><td>yes</td><td><span class="num">0</span></td><td><span class="num">0</span></td><td><span class="num">+0</span></td><td><span class="num">−0</span></td><td><span class="pill ok">no status changed</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td></tr></tbody>
+</table></div>
+
+<div class="note">The 72 added rows between 06:15 AM and 08:45 PM are mostly teams filing, not 72
+new injuries: both reports cover the same game dates (11/15/2026 and 11/16/2026), so the added rows
+are new filings. The single removed row is the official PDF changing
+"Embid, Joel" to "Embiid, Joel" — a spelling change, reported as a remove plus an add rather than
+merged, because merging it would be a guess about identity.</div>
+
+<h2>Retrieval times, and why they are printed separately</h2>
+<div class="note">A report has two times that matter and they are not the same thing. The
+<strong>revision time</strong> is printed inside the PDF and tells you how old the league's
+information is. The <strong>retrieval time</strong> tells you how old <em>our</em> copy is. Both
+are recorded per file, so a stale publication is distinguishable from a stale source.</div>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built by <span class="mono">arena/caad4c37-nba3</span> from committed files only. No value on these
+  pages was inferred: a figure that could not be confirmed from an official source is rendered as
+  a blank cell marked <span class="blank">unverified</span>.
+</div></footer>
+</body>
+</html>

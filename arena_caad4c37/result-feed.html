@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Result feed &amp; quarter scores — NBA3 brief-coverage audit</title>
+<meta name="description" content="Line-by-line verification of the NBA3 brief against main, session arena/caad4c37-nba3.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html">NBA3 <span>/</span> brief-coverage audit</a>
+  <div class="stamp">Session arena/caad4c37-nba3 · verified against main @ 5fde67e · re-read 2026-11-16 ·
+    every row links to the official source it was checked against</div>
+</div></header>
+<nav class="site"><div class="wrap"><a href="index.html" class="">Overview</a><a href="requirements.html" class="">Brief coverage</a><a href="result-feed.html" class="on">Result feed &amp; quarters</a><a href="injuries.html" class="">Injury chain</a><a href="flagged.html" class="">Flagged for review</a><a href="questions.html" class="">Open questions</a><a href="suggestions.html" class="">Suggestions</a><a href="sources.html" class="">Sources</a></div></nav>
+<main class="wrap">
+  <h1>Result feed &amp; quarter scores</h1>
+  <p class="lede">One row per game: date, teams, final score, quarter scores — filled from the official game books, with anything the source did not print left blank.</p>
+
+<div class="cards">
+<div class="card"><div class="k">14</div><div class="l">games in the feed</div></div>
+<div class="card"><div class="k">11</div>
+<div class="l">both teams' quarters verified</div></div>
+<div class="card"><div class="k">3</div>
+<div class="l">one side blank and flagged</div></div>
+<div class="card"><div class="k">100/112</div>
+<div class="l">quarter cells written</div></div>
+</div>
+
+<div class="note">Before this session every quarter cell in
+<span class="mono">data/app/results_feed.json</span> was null with the note
+"quarter scores not captured — blank, flagged". The official game books print a
+"SCORE BY PERIOD" block, so the field was obtainable from an official source after all.
+A quarter score is written only where the printed quarters sum to the printed final; that test is
+the game book's own arithmetic, and it is what makes a corrupted extraction detectable instead of
+usable.</div>
+
+<div class="table-wrap"><table>
+<caption>One row per game: date, teams, final score, quarter scores. A quarter score is written only where an official NBA game book printed it and the printed quarters sum to the printed final. Anything else stays null and is flagged; nothing is inferred from a total, a possession count or another game.</caption>
+<thead><tr><th>Date</th><th>Matchup</th><th>Away final</th><th>Home final</th><th>Away quarters</th><th>Home quarters</th><th>State</th><th>Quarters</th><th>Verification note</th><th>Official source</th></tr></thead>
+<tbody>
+<tr><td>2026-11-13</td><td>ATL @ CHI</td><td><span class="num">117</span></td><td><span class="num">125</span></td><td><span class="num">24 · 29 · 30 · 27 · 7</span></td><td><span class="num">33 · 27 · 24 · 26 · 15</span></td><td>Final/OT</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_ATLCHI.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>CLE @ MIA</td><td><span class="num">121</span></td><td><span class="num">133</span></td><td><span class="num">27 · 30 · 34 · 30</span></td><td><span class="num">29 · 25 · 38 · 41</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_CLEMIA.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>GSW @ SAS</td><td><span class="num">85</span></td><td><span class="num">123</span></td><td><span class="num"><span class="blank">unverified</span></span></td><td><span class="num">38 · 25 · 34 · 26</span></td><td>Final</td><td><span class="pill dim">warn</span></td><td>no period row printed for this team</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>MEM @ NOP</td><td><span class="num">142</span></td><td><span class="num">111</span></td><td><span class="num"><span class="blank">unverified</span></span></td><td><span class="num">28 · 30 · 28 · 25</span></td><td>Final</td><td><span class="pill dim">warn</span></td><td>period row printed but its own columns do not sum to its final (corrupt extraction)</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_MEMNOP.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>MIL @ ORL</td><td><span class="num">99</span></td><td><span class="num">107</span></td><td><span class="num">15 · 22 · 35 · 27</span></td><td><span class="num"><span class="blank">unverified</span></span></td><td>Final</td><td><span class="pill dim">warn</span></td><td>period row printed but its own columns do not sum to its final (corrupt extraction)</td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>NYK @ IND</td><td><span class="num">104</span></td><td><span class="num">106</span></td><td><span class="num">27 · 22 · 35 · 20</span></td><td><span class="num">26 · 32 · 27 · 21</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_NYKIND.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>OKC @ LAC</td><td><span class="num">112</span></td><td><span class="num">113</span></td><td><span class="num">27 · 17 · 40 · 28</span></td><td><span class="num">33 · 24 · 25 · 31</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_OKCLAC.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>POR @ SAC</td><td><span class="num">120</span></td><td><span class="num">107</span></td><td><span class="num">34 · 30 · 29 · 27</span></td><td><span class="num">25 · 28 · 25 · 29</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-13</td><td>UTA @ HOU</td><td><span class="num">118</span></td><td><span class="num">125</span></td><td><span class="num">27 · 26 · 36 · 29</span></td><td><span class="num">27 · 36 · 29 · 33</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-14</td><td>BKN @ MEM</td><td><span class="num">110</span></td><td><span class="num">129</span></td><td><span class="num">23 · 31 · 30 · 26</span></td><td><span class="num">38 · 33 · 32 · 26</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-14</td><td>CHI @ MIN</td><td><span class="num">117</span></td><td><span class="num">106</span></td><td><span class="num">29 · 29 · 30 · 29</span></td><td><span class="num">17 · 28 · 35 · 26</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-14</td><td>DAL @ CLE</td><td><span class="num">117</span></td><td><span class="num">127</span></td><td><span class="num">33 · 20 · 38 · 26</span></td><td><span class="num">33 · 38 · 34 · 22</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-14</td><td>DEN @ NOP</td><td><span class="num">116</span></td><td><span class="num">108</span></td><td><span class="num">29 · 27 · 30 · 30</span></td><td><span class="num">23 · 28 · 31 · 26</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr><tr><td>2026-11-14</td><td>DET @ MIA</td><td><span class="num">117</span></td><td><span class="num">137</span></td><td><span class="num">39 · 21 · 26 · 31</span></td><td><span class="num">37 · 31 · 35 · 34</span></td><td>Final</td><td><span class="pill dim">ok</span></td><td><span class="pill ok">sums to the printed final</span></td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td></tr></tbody>
+</table></div>
+
+<h2>Why three team-sides are still blank</h2>
+<ul class="tight">
+<li><strong>GSW in GSW @ SAS</strong> — the extraction returned the San Antonio row only; no
+Warriors period row and no Warriors line-score line exists in it.</li>
+<li><strong>MEM in MEM @ NOP</strong> — the row prints five values against a six-column header
+(25 · 25 · 27 · 140): Q4 and FINAL are missing and 140 is neither a quarter nor the official final
+of 142.</li>
+<li><strong>ORL in MIL @ ORL</strong> — the row prints 33 · 30 · 32 · 33 · FINAL 107, which sums to
+128. The PDF was fetched twice and returned the identical extraction, so it is not a transient
+read error.</li>
+</ul>
+<div class="note bad">None of these was filled in. Deriving a missing quarter from the final and
+the other three quarters would produce a number that looks verified and is not, which is the one
+failure mode this project cannot afford.</div>
+
+<h2>Two rows where the official PDF contradicts itself</h2>
+<div class="note warn">In CLE @ MIA and OKC @ LAC the rendered period table disagrees with the
+line-score text line printed beneath it in the same document. Both were resolved to the text line,
+because the text line, the team-totals row and the official scoreboard all agree and only one table
+cell disagrees. The table reading is preserved in the stored excerpts — it was not overwritten.
+Both are listed on the <a href="flagged.html">Flagged for review</a> page.</div>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built by <span class="mono">arena/caad4c37-nba3</span> from committed files only. No value on these
+  pages was inferred: a figure that could not be confirmed from an official source is rendered as
+  a blank cell marked <span class="blank">unverified</span>.
+</div></footer>
+</body>
+</html>
