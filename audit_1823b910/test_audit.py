@@ -233,7 +233,9 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(by_id["RR-01"], "PASS")   # every JSON parses
         self.assertEqual(by_id["RR-02"], "PASS")   # no conflict markers
         self.assertEqual(by_id["RR-03"], "FAIL")   # snapshot is stale
-        self.assertEqual(by_id["RR-04"], "FAIL")   # availability layer disagrees
+        # Integration (f300fe08): the availability layer now agrees with the
+        # published injury rows (both 06:15 AM); the finding records the repair.
+        self.assertEqual(by_id["RR-04"], "PASS")   # availability layer agrees
         self.assertEqual(by_id["RR-05"], "FAIL")   # lines are injury-blind
         self.assertEqual(len(rr["findings"]), 8)
 

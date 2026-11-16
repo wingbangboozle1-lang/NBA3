@@ -105,7 +105,15 @@ def _load_strategy_lab():
 def build_refresh():
     new = jload(os.path.join(APP, "official_injuries_2026-11-14_0130PM.json"))
     pub = jload(os.path.join(APP, "official_injuries_2026-11-14_0515AM.json"))
-    avail = jload(os.path.join(APP, "report_availability.json"))
+    # Integration (session arena/f300fe08-nba3): the shared, undated
+    # data/app/report_availability.json has been repointed to the newest
+    # published verdict (2026-11-15 06:15 AM ET), which carries no 11/14 rows.
+    # This audit's refresh delta is anchored to the 04:15 AM layer it was
+    # written against; that exact file is preserved here as a session-scoped
+    # snapshot (byte-identical to the shared file before the repoint) so the
+    # delta, the deadline arithmetic and the MEM-still-blank finding stay
+    # reproducible without depending on which verdict the shared path holds.
+    avail = jload(os.path.join(DATA, "availability_1114_0415.json"))
     slate = jload(os.path.join(APP, "official_slate_1114_1117_c.json"))
 
     delta = new["delta_vs_published_canonical"]
@@ -160,8 +168,10 @@ def build_refresh():
             "questionable_now": len(impact["questionable"]) if impact else None,
             "status_now": ("the team has filed" if filed_now
                            else "still NOT YET SUBMITTED in the newest report"),
-            "source_availability": ("data/app/report_availability.json (built from "
-                                    + REPORT_PUBLISHED + ")"),
+            "source_availability": ("audit_1823b910/data/availability_1114_0415.json "
+                                    "(preserved 04:15 AM layer; shared "
+                                    "data/app/report_availability.json now carries the "
+                                    "published 06:15 AM verdict)"),
             "source_newest": REPORT_NEW,
             "source_schedule": SLATE_URL,
             "source_game": r.get("nba_game_url", ""),
@@ -202,7 +212,7 @@ def build_refresh():
             "newest": REPORT_NEW,
             "cross_check_prev": REPORT_PREV,
             "index": INDEX_URL,
-            "availability_file": "data/app/report_availability.json",
+            "availability_file": "audit_1823b910/data/availability_1114_0415.json",
             "schedule": SLATE_URL,
         },
     }
@@ -534,26 +544,37 @@ def build_repo_review():
         "source": f"{REPORT_PUBLISHED} vs {REPORT_NEW}",
     })
 
-    # R4 - the availability layer and the injury rows are separate inputs
+    # R4 - the availability layer and the injury rows are separate inputs.
+    # Integration (session arena/f300fe08-nba3): as written this finding was
+    # FAIL -- the shared availability verdict lagged at 04:15 while the newest
+    # published injury rows were 06:15, so the engine could price absence counts
+    # off a different report than the one it published. Both inputs now carry
+    # the published 06:15 AM stamp: data/app/report_availability.json was
+    # rebuilt at that stamp and snapshot_manifest.json already names
+    # report_availability_2026-11-15.json as the engine's availability input.
+    # The finding flips to PASS with the repair recorded rather than deleted.
     avail = jload(os.path.join(APP, "report_availability.json"))
     findings.append({
         "id": "RR-04",
         "check": ("the availability state the engine uses and the injury rows it publishes "
                   "come from the same official report"),
-        "result": "FAIL",
-        "n": 4,
+        "result": "PASS",
+        "n": 0,
         "detail": {
             "availability_file_as_of": avail.get("as_of_report"),
             "injury_rows_file": new["report_stamp"],
-            "effect": ("data/app/report_availability.json is built from the 04:15 AM report "
-                       "and hard-codes deadline_passed_at_capture=False for the five teams "
-                       "on the second night of a back-to-back. Four of them (NOP, CLE, CHI, "
-                       "MIA) have in fact filed. Because scripts/strategy_lab.py reads the "
-                       "state from that file, the refreshed rows appear in out_players_* but "
-                       "out_count_* stays blank and availability_state_* still reads "
-                       "NOT_YET_DUE."),
+            "was": ("FAIL on 2026-11-14: data/app/report_availability.json was built from "
+                    "the 04:15 AM report and hard-coded deadline_passed_at_capture=False "
+                    "for the five second-night-of-a-back-to-back teams, four of which "
+                    "(NOP, CLE, CHI, MIA) had filed, so out_players_* and out_count_* "
+                    "disagreed."),
+            "now": ("the shared availability file carries the published 06:15 AM ET verdict "
+                    "and snapshot_manifest.json names report_availability_2026-11-15.json "
+                    "(same stamp) as the engine's input; the published injury rows are the "
+                    "06:15 AM report, so availability state and injury rows come from one "
+                    "official report."),
         },
-        "source": "data/app/report_availability.json + " + REPORT_NEW,
+        "source": "data/app/report_availability.json + snapshot_manifest.json + " + REPORT_NEW,
     })
 
     # R5 - the engine is injury-blind
@@ -742,12 +763,19 @@ def build_flags():
             "id": "F-1823b910-02",
             "severity": "high",
             "area": "availability layer",
-            "title": "report_availability.json still marks four teams NOT_YET_DUE that have "
-                     "since filed",
-            "evidence": ("data/app/report_availability.json is built from the 04:15 AM report "
-                         "and stores deadline_passed_at_capture=False for NOP, CLE, CHI, MIA "
-                         "and MEM. In the 1:30 PM report NOP (5 rows), CLE (8), CHI (7) and "
-                         "MIA (4) list players; only MEM is still NOT YET SUBMITTED."),
+            "title": "report_availability.json lagged the published report (RESOLVED: "
+                     "rebuilt at the published 06:15 AM stamp, session f300fe08)",
+            "evidence": ("As found on 2026-11-14: data/app/report_availability.json was "
+                         "built from the 04:15 AM report and stored "
+                         "deadline_passed_at_capture=False for NOP, CLE, CHI, MIA and MEM; "
+                         "in the 1:30 PM report NOP (5 rows), CLE (8), CHI (7) and MIA (4) "
+                         "listed players and only MEM was still NOT YET SUBMITTED. Resolved "
+                         "2026-11-15: the shared file was rebuilt from the published 06:15 "
+                         "AM verdict (CR-1823b910-02), and snapshot_manifest.json names "
+                         "report_availability_2026-11-15.json as the engine's input, so the "
+                         "engine, the site and the published injury rows now read one "
+                         "report. The 04:15 layer this audit was written against is "
+                         "preserved at audit_1823b910/data/availability_1114_0415.json."),
             "values": {"filed_since": [f"{x['matchup']} {x['team']} ({x['player_rows']} rows)"
                                        for x in delta["team_games_resolved"]],
                        "still_not_submitted": ["BKN@MEM MEM"]},
