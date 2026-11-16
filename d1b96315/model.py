@@ -163,7 +163,35 @@ def game_log():
                       "settled": bool(row["settled"]),
                       "source": row["sources"]["scoreboard"], "gamebook": row["sources"]["gamebook"],
                       "ingested_by": "d1b96315/data/results_2026-11-15.json"})
-    games.sort(key=lambda g: (g["date"], g["game_id"] or ""))
+    # main's feed and this session's own scoreboard read now cover the same day, so the same final can
+    # arrive twice. Duplicates are dropped, preferring the row that carries the game book and the
+    # quarter vector — a log with a game in it twice would train *and* be tested on it, which turns a
+    # leave-one-game-out number into a leak. (An intermediate build of this roll did exactly that, and
+    # the assertion in d1b96315/tests/test_roll.py is what caught it.)
+    def score(g):
+        return (1 if g.get("gamebook") else 0) + (1 if g.get("quarters") else 0) \
+            + (1 if g["ingested_by"].startswith("d1b96315") else 0)
+
+    best: dict[tuple, dict] = {}
+    dropped = 0
+    for g in games:
+        key = g["game_id"] or (g["date"], g["away"], g["home"])
+        prior = best.get(key)
+        if prior is not None:
+            dropped += 1
+            if score(g) <= score(prior):
+                continue
+            note = (f"duplicate row for {key}: kept the richer of the two official captures "
+                    f"(feed row vs this session's read)")
+        else:
+            note = None
+        best[key] = g
+        if note:
+            excluded.append(note)
+
+    games = sorted(best.values(), key=lambda g: (g["date"], g["game_id"] or ""))
+    if dropped:
+        excluded.append(f"{dropped} duplicate final(s) removed from the log before fitting")
     return games, excluded
 
 

@@ -230,24 +230,32 @@ def verify_tree(path: pathlib.Path, recipe: str) -> dict:
                         "entry": {k: v for k, v in e.items() if k != "entry_hash"}})
         elif recipe == "chain_hash_pair_body":
             want = sha({"prev": e.get("prev_hash"), "body": e.get("body")})
-            body = e.get("body") or {}
-            if sha(body.get("payload", {})) != body.get("payload_sha256"):
-                problems.append({"line": i, "problem": "body.payload_sha256 does not recompute"})
         elif recipe == "minus_entry_hash":
             want = sha({k: v for k, v in e.items() if k != "entry_hash"})
         else:
             want = None
         if want is not None and want != e.get("entry_hash"):
             problems.append({"line": i, "problem": "entry_hash does not recompute"})
-        if recipe in ("minus_entry_hash", "pair") and e.get("kind") == "PUBLISH":
-            if sha(e.get("payload", e.get("pick"))) != e.get("payload_sha256", e.get("pick_sha256")):
-                problems.append({"line": i, "problem": "payload/pick hash does not recompute"})
+        # the payload-hash check applies only to entries that carry a payload: a settlement entry
+        # records the *copied* hash of the publish entry it grades, so re-hashing its own body would
+        # be wrong, not evidence of tampering (this is how main's tree stores SETTLED rows)
+        for holder in (e, e.get("body") or {}):
+            if isinstance(holder, dict) and isinstance(holder.get("payload"), dict):
+                want = sha(holder["payload"])
+                got = holder.get("payload_sha256") or holder.get("pick_sha256")
+                if got and want != got:
+                    problems.append({"line": i, "problem": "payload hash does not recompute"})
         prev = e.get("entry_hash")
     try:
         shown = str(path.relative_to(ROOT))
     except ValueError:                    # a temp copy, as the tamper test passes in
         shown = str(path)
-    return {"file": shown, "entries": len(entries),
+    kinds = {}
+    for e in entries:
+        body = e.get("body") if isinstance(e.get("body"), dict) else e
+        k = str(e.get("kind") or body.get("state") or "entry")
+        kinds[k] = kinds.get(k, 0) + 1
+    return {"file": shown, "entries": len(entries), "kinds": kinds,
             "recipe": recipe, "problems": problems,
             "result": "CHAIN INTACT" if not problems and entries else
                       ("EMPTY" if not entries else "PROBLEMS"),
@@ -264,23 +272,42 @@ def amend(now: datetime) -> dict:
     """
     entries = read(LFILE)
     prev = entries[-1]["entry_hash"] if entries else GENESIS
-    already = {e.get("amends") for e in entries if e["kind"] == "AMEND"}
+    # the newest recorded value for each pick is what a re-amendment has to beat; a second fix to the
+    # model must not be blocked by the first amendment, and must not rewrite it either
+    latest: dict[str, dict] = {}
+    for e in entries:
+        if e["kind"] == "PUBLISH":
+            latest[e["pick_id"]] = {"sealed": e["payload"], "count": 0}
+        elif e["kind"] == "AMEND":
+            latest[e["amends"]] = {"sealed": e["sealed"], "count": e.get("amendment_no", 1),
+                                   "current": e["current"]}
     cur = {r["game_id"]: r for r in load(LINES)["lines"]}
     fields = ("estimator_a_margin", "estimator_b_margin", "disagreement_margin_points",
               "total_possessions_model")
     added = []
     for e in entries:
-        if e["kind"] != "PUBLISH" or e["pick_id"] in already:
+        if e["kind"] != "PUBLISH":
             continue
         c = cur.get(e["game_id"])
         if not c:
             continue
-        deltas = [(f, e["payload"].get(f), c.get(f)) for f in fields
-                  if abs((e["payload"].get(f) or 0) - (c.get(f) or 0)) > 0.005]
+        ref = latest.get(e["pick_id"], {})
+        compare_to = ref.get("current") or e["payload"]      # what the last amendment recorded
+        sealed = ref.get("sealed", e["payload"]) and e["payload"]
+        if ref.get("current"):
+            deltas = [(f, compare_to.get(f), c.get(f)) for f in fields
+                      if abs((compare_to.get(f) or 0) - (c.get(f) or 0)) > 0.005]
+        else:
+            deltas = [(f, e["payload"].get(f), c.get(f)) for f in fields
+                      if abs((e["payload"].get(f) or 0) - (c.get(f) or 0)) > 0.005]
         if not deltas:
             continue
-        body = {"amends": e["pick_id"], "publish_entry_hash": e["entry_hash"],
+        no = ref.get("count", 0) + 1
+        body = {"amends": e["pick_id"], "amendment_no": no,
+                "publish_entry_hash": e["entry_hash"],
+                "re_amendment": no > 1,
                 "sealed": {f: e["payload"].get(f) for f in fields},
+                "supersedes_recorded": {f: compare_to.get(f) for f in fields} if no > 1 else None,
                 "current": {f: c.get(f) for f in fields},
                 "max_delta_points": round(max(abs((a or 0) - (b or 0)) for _, a, b in deltas), 2),
                 "why": "the model changed after this line was sealed: the injury parser now carries a "
@@ -288,7 +315,8 @@ def amend(now: datetime) -> dict:
                        "the earlier build silently dropped (board flag D-05). The sealed entry is "
                        "left exactly as it was; this entry records what the same row reads now",
                 "stamp": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
-        entry = {"seq": len(entries) + 1, "kind": "AMEND", "pick_id": f"{e['pick_id']}-amend",
+        entry = {"seq": len(entries) + 1, "kind": "AMEND",
+                 "pick_id": f"{e['pick_id']}-amend-{no}" if no > 1 else f"{e['pick_id']}-amend",
                  "game_id": e["game_id"], "date": e["date"], "prev_hash": prev, **body}
         entry["entry_hash"] = sha({"prev": prev, "entry": {k: v for k, v in entry.items()
                                                             if k != "entry_hash"}})
@@ -330,7 +358,11 @@ def verify(now: datetime | None = None) -> dict:
         "finding": "the hash is over the PAIR {prev, body} produced by chain_hash() in "
                    "scripts/pick_ledger.py, not over the body alone — which is why hashing the body "
                    "under four canonicalisations never reproduced it. The recipe is documented in the "
-                   "writer and CI already runs `python3 scripts/pick_ledger.py verify`, which passes.",
+                   "writer and CI already runs `python3 scripts/pick_ledger.py verify`, which passes. "
+                   "Note for anyone re-deriving this: a SETTLED entry carries payload_sha256 but no "
+                   "payload of its own — it copies the hash of the publish entry it grades — so "
+                   "re-hashing its body is a false alarm, not tampering. This session's first verifier "
+                   "made exactly that mistake and reported 9 problems before the kind check was added.",
         "verifier_in_repo": "scripts/pick_ledger.py verify",
         "conclusion": "K-17 resolved as a documentation gap, not a linkage break. No entry was "
                       "re-hashed and no file in another session's tree was modified.",

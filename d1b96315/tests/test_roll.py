@@ -327,7 +327,15 @@ class TestModel(unittest.TestCase):
         again = round(model.phi_inv(self.st["measured_home_win_rate"]) * s, 2)
         self.assertEqual(hc["hca_points_used"], again)
         self.assertEqual(len(settled), self.m["inputs"]["settled_finals_used"])
-        self.assertEqual(len(settled), 23)
+        self.assertGreaterEqual(len(settled), 23,
+                                "the log may only grow as main's feed grows; a shrink is a bug")
+        # every game in the log must be a distinct official final
+        keys = {(g["date"], g["game_id"] or (g["away"], g["home"])) for g in settled}
+        self.assertEqual(len(settled), len(keys),
+                         "a final appears in the log twice: the estimator would be testing itself")
+        # and the de-duplication must have kept exactly one row per official game id
+        ids = [g["game_id"] for g in settled if g.get("game_id")]
+        self.assertEqual(len(ids), len(set(ids)))
 
     def test_the_disagreement_column_is_the_absolute_difference(self):
         for r in self.lines:
@@ -529,6 +537,16 @@ class TestLedger(unittest.TestCase):
         self.led = mod("ledger")
         self.check = art("ledger_check.json")
 
+    def test_a_settlement_entry_is_not_flagged_for_lacking_a_payload(self):
+        # main's tree stores SETTLED entries whose payload_sha256 is the copied hash of the publish
+        # entry they grade; a verifier that re-hashes the settlement body would call that tampering
+        led = mod("ledger")
+        res = led.verify_tree(ROOT / "data/app/ledger/ledger.jsonl", "chain_hash_pair_body")
+        self.assertEqual([], res["problems"], res["problems"][:2])
+        self.assertIn("SETTLED", json.dumps(res["kinds"]) + json.dumps(
+            [json.loads(x)["body"].get("state") for x in
+             (ROOT / "data/app/ledger/ledger.jsonl").read_text().splitlines() if x.strip()]))
+
     def test_all_three_chains_verify(self):
         for key in ("d1b96315", "ledger_A", "ledger_B"):
             tree = self.check["trees"][key]
@@ -540,6 +558,7 @@ class TestLedger(unittest.TestCase):
         k = self.check["k17_resolution"]
         n = k["entries"]
         self.assertEqual(f"{n}/{n}", k["recompute_with_chain_hash_prev_and_body"])
+        self.assertGreaterEqual(n, 34, "main's chain has grown since the first read of the day")
         self.assertEqual(f"0/{n}", k["recompute_with_body_alone"])
 
     def test_tampering_one_character_breaks_the_chain(self):
@@ -680,7 +699,7 @@ class TestPages(unittest.TestCase):
     def test_flagged_page_lists_every_register_row_with_a_severity(self):
         text = (self.PAGES / "flagged.html").read_text(encoding="utf-8")
         flags = art("flags.json")["flags"]
-        self.assertEqual(13, len(flags))
+        self.assertEqual(15, len(flags))
         for f in flags:
             self.assertIn(f'id="{f["id"]}"', text, f["id"])
             self.assertIn(f["severity"], ("high", "medium", "low"))
