@@ -4398,3 +4398,48 @@ existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review pa
 **Non-overlap:** the two OPEN PRs are untouched — #90 (`arena/94e6d41b-nba3`, scope `app/*`, `data/app/*`, `scripts/{assemble_canonical,build_app,strategy_lab,capture_official_2026_11_15,report_availability}.py`, `pages.yml`) and #85 (`arena/5a67ab8c-nba3`, scope `data/v2/*`, `pipeline/v2/*`, `scripts/build_v2.py`, `v2/*`). This session does not edit those files; no rebases of their branches. `pages.yml` and `index.html` are NOT in this session's scope unless a runner-diagnosed fix requires a refresh-workflow-only change (refresh.yml only). Append-only edits to `COORDINATION.md` (merge conflicts resolved by keeping both sides).
 
 **Why this task:** the rolling refresh (fetch official schedule/standings/team stats/injury report → freshness+provenance gates → rebuild only on pass) is the brief's first line item, and its only scheduled run failed. Diagnosis note: the workspace sandbox cannot reach `*.nba.com` hosts (proxy allowlist), so the fetch failure is observable only on the runner; diagnostics therefore run inside Actions and commit their findings back to this branch.
+
+### Session `arena/43d54bfe-nba3` — progress record 1 (2026-11-16 ~00:40 UTC)
+
+**F1 root cause — CONFIRMED by runner evidence, not inference.** The diagnose workflow
+(`.github/workflows/diagnose-official-fetch.yml`, run [43776920267](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43776920267))
+fetched every official source from the runner and committed the results to
+`data/app/refresh/diagnostics/official_fetch_diagnostics.{json,md}`:
+
+| Source class | Result on the runner |
+|---|---|
+| `official.nba.com` injury index | **200 with a browser UA; 403 with the pipeline's old UA** |
+| `ak-static.cms.nba.com` injury PDFs (11/15 06:15 AM, 11/15 05:00 PM, 11/14 04:15 AM) | 200 OK |
+| `www.nba.com/games?date=…` pages | 200 OK, `/game/` links present |
+| `www.nba.com/stats/teams/{traditional,opponent,advanced}` | 200 OK |
+| `statsdmz.nba.com` game books | 200 OK |
+| `cdn.nba.com` static/liveData JSON | **403 (not reachable)** |
+| `stats.nba.com` API (standings, team dashboards) | **read timeouts (not reachable)** |
+| `www.nba.com/schedule` page | 200 but no `/game/` links in the served HTML |
+
+So the original scheduled-run failure was official.nba.com's 403 against the old
+`"Mozilla/5.0 (NBA3 official-data refresh; research pipeline)"` UA — the exact first fetch of
+`scripts/refresh_official.py`. Fixed by switching to the browser UA that the diagnostics prove
+works (commit e292af5, with the evidence comment in-source). cdn.nba.com/stats.nba.com being
+unreachable is a standing constraint for any future refactor: the fetchable official surfaces
+are the HTML pages and the PDFs, both of which the pipeline now uses.
+
+**F-R1 (rolling slate cannot roll) — implemented.** New rolling namespace that never touches a
+drift-gated artifact: `scripts/rolling_promote.py` (promotes the fetched raw artifacts into
+`data/app/rolling/`: newest injury report archived verbatim + row-parsed from the PDF with
+pypdf + consecutive-report status diff; official game books parsed into one row per game with
+date/teams/final/quarters and settled with a visible stamp), `scripts/rolling_gates.py`
+(G1 provenance+required source classes, G2 archived report == official index newest, G3 slate
+window today..today+3 ET, G4 every fetched game book verified by quarter sums == finals,
+G5 row completeness), `scripts/rolling_build.py` (rolling/*.html: status, slate, injuries
+banner with revision+retrieval times, results+settlement stamps, gates). Wired into
+`scripts/refresh_official.py` between fetch and rebuild: promote → rolling gates →
+freshness gates → rebuild chain + rolling build; any failure refuses the rebuild. Tests:
+`tests/test_rolling_refresh.py` (12 tests, fixtures generated with pypdf; full suite 128 OK).
+`refresh.yml` installs `pypdf` and commits `rolling/`; `pages.yml` stages `_pages/rolling`.
+Initial honest pages committed (they render "NOT EVALUATED" until the first refresh run).
+
+**File-scope change request note.** `scripts/refresh_official.py` was repaired by session
+81800928 (R1–R3, PR #92, merged). This session made two scoped edits to that file: the UA
+constant (F1 evidence) and the gate/promote/rebuild wiring (F-R1). Owner session's board
+record is complete; both edits are logged here per protocol.
