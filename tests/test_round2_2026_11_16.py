@@ -334,6 +334,16 @@ class Registers(unittest.TestCase):
             self.assertNotIn("the 1:00 PM ET filing is captured, diffed and published", row[3],
                              f"{row[0]} still presents the superseded filing as the fix")
 
+    def test_the_not_submitted_flag_matches_the_chain(self):
+        """F13-04 once said 'twelve clubs' after the current filing had 11. Derive, then pin."""
+        chain = load("injury_chain.json")["chain"]
+        counts = [c["not_submitted"] for c in chain]
+        self.assertEqual(counts, [15, 12, 11])
+        flag = next(f for f in REG.FLAGS if f[0] == "F13-04")
+        blob = " ".join(flag)
+        for n in counts:
+            self.assertIn(str(n), blob, f"F13-04 does not mention the {n}-club stage")
+
     def test_questions_cover_every_state(self):
         states = {q[2] for q in REG.QUESTIONS}
         self.assertTrue({"known", "unknown", "discoverable"} <= states)

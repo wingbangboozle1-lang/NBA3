@@ -325,12 +325,13 @@ FLAGS = [
      "These are left null and counted, not back-filled from the earlier filing.",
      "1 row has no status and is excluded from status counts; the reason-only row is kept",
      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf", "recorded"),
-    ("F13-04", "Twelve clubs had not submitted at 1:00 PM ET",
-     "Boston, Charlotte, Detroit, LA Clippers, LA Lakers, Minnesota, New York, Phoenix, Portland, "
-     "San Antonio, Toronto and Utah printed 'NOT YET SUBMITTED'. Their absence from the injury "
-     "rows means unknown, not zero.",
+    ("F13-04", "Clubs that printed NOT YET SUBMITTED",
+     "15 clubs at 09:15 AM, 12 at 01:00 PM, 11 at 01:15 PM ET. At the current filing: Charlotte, "
+     "Detroit, LA Clippers, LA Lakers, Minnesota, New York, Phoenix, Portland, San Antonio, "
+     "Toronto and Utah. Boston, Houston, Philadelphia and Washington filed during the afternoon. "
+     "Their absence from the injury rows means unknown, not zero.",
      "published as an explicit value on every affected club row and game row",
-     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf", "withheld"),
+     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf", "withheld"),
     ("F13-05", "The official standings print two clubs at seed 1 in the West",
      "San Antonio and the Lakers are both 12-2 and both numbered 1; no club is numbered 2. The "
      "printed seeds are copied exactly and not renumbered here.",
