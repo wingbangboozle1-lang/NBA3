@@ -64,15 +64,15 @@
    "evidence": [
     {
      "path": "data/app/results_feed.json",
-     "contains": "\"settled_count\": 14"
+     "contains": "\"quarter_check\""
     },
     {
      "path": "scripts/build_results_feed.py",
      "contains": null
     }
    ],
-   "gap": "14 settled rows on main, none for 2026-11-15 (K-03). 2026-11-13 rows carry no quarter scores (see the feed's own quarter_check field).",
-   "next": "Settle the nine 11/15 finals after both official reads agree (K-02 quarter conflict to be resolved first).",
+   "gap": "SUPERSEDED 2026-11-16 (arena/4054e125-nba3): all nine 2026-11-15 finals are settled on the feed with quarter scores captured from the official game-page LINESCORES (the ATL@MIL game-book conflict is flagged as 1116-F-01, both readings recorded). Original gap: 14 settled rows on main, none for 2026-11-15 (K-03). 2026-11-13 rows still carry no quarter scores (see the feed's own quarter_check field).",
+   "next": "Backfill the 2026-11-13 quarter scores from each game's official summary page LINESCORES.",
    "official": [
     "https://www.nba.com/schedule",
     "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"

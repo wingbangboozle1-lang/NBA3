@@ -20,7 +20,7 @@
    "id": "K-02",
    "severity": "medium",
    "title": "ATL @ MIL game book contradicts itself on Milwaukee Q3",
-   "detail": "The period table prints 37 for Milwaukee in Q3; the summary line prints 27. Only 27 reproduces the printed FINAL of 106. The final is confirmed by the schedule, the summary line and the sum of the Bucks' player points in the same book. The Q3 split is therefore unresolved and must not be settled as a quarter-level result until a third read settles it.",
+   "detail": "SUPERSEDED 2026-11-16 (arena/4054e125-nba3): the third read landed - the official game-page LINESCORES gives MIL Q3=27 (sums to the printed FINAL 106) and the AP recap on the same page (87-80 after three) corroborates 27; the feed settles with the LINESCORES quarters and the game-book conflict flagged (app/flagged.html 1116-F-01). Original finding: The period table prints 37 for Milwaukee in Q3; the summary line prints 27. Only 27 reproduces the printed FINAL of 106. The final is confirmed by the schedule, the summary line and the sum of the Bucks' player points in the same book. The Q3 split is therefore unresolved and must not be settled as a quarter-level result until a third read settles it.",
    "sources": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
     "https://www.nba.com/schedule"
@@ -32,7 +32,7 @@
    "id": "K-03",
    "severity": "high",
    "title": "Five 11/15 finals are unsettled on main; PR #98 settles four",
-   "detail": "All nine 2026-11-15 games are Final on the official schedule. Main's result feed has no 11/15 rows and the ledger has zero settlements. Open PR #98 (arena/c94a5531-nba3) settles IND@PHI, LAL@PHX, CHA@LAC and SAS@UTA; its values match this audit's independent reads exactly. DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and OKC@SAC are settled nowhere. The two published 11/15 moneyline picks (PHI, HOU) would both settle as wins.",
+   "detail": "SUPERSEDED 2026-11-16 (arena/4054e125-nba3): all nine 2026-11-15 finals are settled on the main feed (23 rows, quarters captured, settlement stamps visible) and the sealed ledger carries 9 settlement entries (43 total, chain intact); PR #98 was taken over and closed. Original finding: All nine 2026-11-15 games are Final on the official schedule. Main's result feed has no 11/15 rows and the ledger has zero settlements. Open PR #98 (arena/c94a5531-nba3) settles IND@PHI, LAL@PHX, CHA@LAC and SAS@UTA; its values match this audit's independent reads exactly. DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and OKC@SAC are settled nowhere. The two published 11/15 moneyline picks (PHI, HOU) would both settle as wins.",
    "sources": [
     "https://www.nba.com/schedule",
     "https://github.com/wingbangboozle1-lang/NBA3/pull/98"
@@ -56,7 +56,7 @@
    "id": "K-05",
    "severity": "high",
    "title": "Injuries banner is a day behind and prints two retrieval stamps",
-   "detail": "The banner shows revision 2026-11-15 06:15 AM ET. The official index lists 39 reports for 2026-11-16, the newest at 9:30 AM ET. An earlier read of the same index in this session recorded 27 reports to 9:15 AM; the page as fetched for this audit lists 39, so the index changed during the session or the earlier count was wrong (recorded, not resolved). The banner prints retrieval 2026-11-15T11:40Z in one place and 11:33Z in another.",
+   "detail": "SUPERSEDED 2026-11-16 (arena/4054e125-nba3): the injuries banner now shows the newest archived report (revision 2026-11-16 01:15 PM ET) with its retrieval stamp and a consecutive-report diff in section 1d. Original finding: The banner shows revision 2026-11-15 06:15 AM ET. The official index lists 39 reports for 2026-11-16, the newest at 9:30 AM ET. An earlier read of the same index in this session recorded 27 reports to 9:15 AM; the page as fetched for this audit lists 39, so the index changed during the session or the earlier count was wrong (recorded, not resolved). The banner prints retrieval 2026-11-15T11:40Z in one place and 11:33Z in another.",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
     "https://wingbangboozle1-lang.github.io/NBA3/app/injuries.html"

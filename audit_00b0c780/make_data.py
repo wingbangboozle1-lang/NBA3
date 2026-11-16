@@ -276,6 +276,11 @@ STATUSES = [
     "Built, one-day input", "Not met", "Blocked (external)",
 ]
 
+# R03's evidence literal must stay verifiable as the feed grows AND keep this script's
+# output independent of the live feed (the drift gate re-runs it). The old literal
+# ('"settled_count": 14') pinned a count and broke both ways: it failed the evidence test
+# after arena/4054e125-nba3 settled 2026-11-15, and a count read at build time would drift
+# this tree at the next settlement. A stable structural literal is the fix.
 REQUIREMENTS = [
     dict(id="R01", item="Collect, organise and analyse NBA data", status="Met (partly)",
          evidence=[{"path": "data/app/official_team_stats_2026-11-15.json", "contains": '"traditional"'},
@@ -294,11 +299,14 @@ REQUIREMENTS = [
          official=["https://official.nba.com/nba-injury-report-2026-27-season/"]),
     dict(id="R03", item="Keep an official per-game result feed current; settle only after final scores are verified; one row per game (date, teams, final, quarter scores)",
          status="Met (partly)",
-         evidence=[{"path": "data/app/results_feed.json", "contains": '"settled_count": 14'},
+         evidence=[{"path": "data/app/results_feed.json", "contains": '"quarter_check"'},
                    {"path": "scripts/build_results_feed.py", "contains": None}],
-         gap=("14 settled rows on main, none for 2026-11-15 (K-03). 2026-11-13 rows carry no quarter scores "
-              "(see the feed's own quarter_check field)."),
-         next="Settle the nine 11/15 finals after both official reads agree (K-02 quarter conflict to be resolved first).",
+         gap=("SUPERSEDED 2026-11-16 (arena/4054e125-nba3): all nine 2026-11-15 finals are settled on the "
+              "feed with quarter scores captured from the official game-page LINESCORES (the ATL@MIL "
+              "game-book conflict is flagged as 1116-F-01, both readings recorded). Original gap: 14 "
+              "settled rows on main, none for 2026-11-15 (K-03). 2026-11-13 rows still carry no quarter "
+              "scores (see the feed's own quarter_check field)."),
+         next="Backfill the 2026-11-13 quarter scores from each game's official summary page LINESCORES.",
          official=["https://www.nba.com/schedule", "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"]),
     dict(id="R04", item="Store every injury PDF with its timestamp and diff consecutive reports to detect status changes",
          status="Met (partly)",
@@ -475,14 +483,22 @@ FLAGS = [
                   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"],
          owner="refresh-job owner; PR #102 (arena/07f22dad-nba3) touches the same area", blocks="publishing a fresh window"),
     dict(id="K-02", severity="medium", title="ATL @ MIL game book contradicts itself on Milwaukee Q3",
-         detail=("The period table prints 37 for Milwaukee in Q3; the summary line prints 27. Only 27 reproduces the "
+         detail=("SUPERSEDED 2026-11-16 (arena/4054e125-nba3): the third read landed - the official game-page "
+                 "LINESCORES gives MIL Q3=27 (sums to the printed FINAL 106) and the AP recap on the same page "
+                 "(87-80 after three) corroborates 27; the feed settles with the LINESCORES quarters and the "
+                 "game-book conflict flagged (app/flagged.html 1116-F-01). Original finding: "
+                 "The period table prints 37 for Milwaukee in Q3; the summary line prints 27. Only 27 reproduces the "
                  "printed FINAL of 106. The final is confirmed by the schedule, the summary line and the sum of the "
                  "Bucks' player points in the same book. The Q3 split is therefore unresolved and must not be "
                  "settled as a quarter-level result until a third read settles it."),
          sources=["https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf", "https://www.nba.com/schedule"],
          owner="results-feed owner; a third official read of the game page LINESCORE", blocks="quarter-level settlement of ATL @ MIL"),
     dict(id="K-03", severity="high", title="Five 11/15 finals are unsettled on main; PR #98 settles four",
-         detail=("All nine 2026-11-15 games are Final on the official schedule. Main's result feed has no 11/15 rows and the "
+         detail=("SUPERSEDED 2026-11-16 (arena/4054e125-nba3): all nine 2026-11-15 finals are settled on the "
+                 "main feed (23 rows, quarters captured, settlement stamps visible) and the sealed ledger "
+                 "carries 9 settlement entries (43 total, chain intact); PR #98 was taken over and closed. "
+                 "Original finding: "
+                 "All nine 2026-11-15 games are Final on the official schedule. Main's result feed has no 11/15 rows and the "
                  "ledger has zero settlements. Open PR #98 (arena/c94a5531-nba3) settles IND@PHI, LAL@PHX, CHA@LAC and "
                  "SAS@UTA; its values match this audit's independent reads exactly. DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and "
                  "OKC@SAC are settled nowhere. The two published 11/15 moneyline picks (PHI, HOU) would both settle as wins."),
@@ -494,7 +510,10 @@ FLAGS = [
          sources=["https://wingbangboozle1-lang.github.io/NBA3/", "https://www.nba.com/schedule"],
          owner="manifest / integration owner", blocks="R23 window"),
     dict(id="K-05", severity="high", title="Injuries banner is a day behind and prints two retrieval stamps",
-         detail=("The banner shows revision 2026-11-15 06:15 AM ET. The official index lists 39 reports for 2026-11-16, "
+         detail=("SUPERSEDED 2026-11-16 (arena/4054e125-nba3): the injuries banner now shows the newest "
+                 "archived report (revision 2026-11-16 01:15 PM ET) with its retrieval stamp and a "
+                 "consecutive-report diff in section 1d. Original finding: "
+                 "The banner shows revision 2026-11-15 06:15 AM ET. The official index lists 39 reports for 2026-11-16, "
                  "the newest at 9:30 AM ET. An earlier read of the same index in this session recorded 27 reports to 9:15 AM; "
                  "the page as fetched for this audit lists 39, so the index changed during the session or the earlier count was wrong (recorded, not resolved). "
                  "The banner prints retrieval 2026-11-15T11:40Z in one place and 11:33Z in another."),
