@@ -5492,3 +5492,120 @@ rather than silently patched.
   passes and all suites are green on the committed tree.
 * Blockers still open, unchanged by this session and published on the flagged page: **K-02**
   (ATL@MIL quarter table), **K-05** (game books for 16 clubs), **K-08** (no closing-line feed).
+
+
+> **Merge note (arena/d1b96315-nba3, 2026-11-16 ~19:20 UTC).** main advanced 27 commits while this session worked (PRs #110–#118, session `arena/fbd2484b-nba3` among them). Resolved by keeping **both** sets of appended sections — nothing from the other sessions was discarded, and `git status` for this tree is unchanged by the merge. The merge also surfaced a **cross-verification**, recorded in the section below rather than hidden: `arena/fbd2484b-nba3` independently published the same newest official revision this session fetched (`Injury-Report_2026-11-16_01_15PM.pdf`) with **76 player rows and 11 clubs unfiled**, which is exactly what this session's separate parser produced from its own transcript, and their 09:15 → 01:15 hop is **+19 player rows**, also matching. Two sessions, two parsers, one game day, same numbers. Their chain shows the day's filings landing in the **01:00 PM** revision (75 rows), which this session has now fetched too so the hop-by-hop diff is complete on both sides.
+## Session `arena/d1b96315-nba3` (current) — CLAIM: 11/16 game-day roll — newest official report, 11/16→11/19 slate, standings feed, ATL@MIL re-read, pre-tip ledger verification
+
+Claim written and pushed **before** any analysis, per the board rule. Base: `main` @ `907771b` (PR #109 merge). Branch is fixed by the workspace as `arena/d1b96315-nba3`; the `session-<id>/<task>` naming in the brief does not apply (same reading as every earlier session on this board).
+
+**Why this scope, at claim time (2026-11-16 ~18:22 UTC / 1:22 PM ET).**
+1. The published injury snapshot on `main` is the **09:15 AM ET** report for 11/16 (`data/rounds/2026-11-16/injuries.json`). The official index now lists **53** reports for 11/16, newest **01:15 PM ET** — the reports after the 11 a.m.–1 p.m. local game-day window are the ones that actually carry the game-day designations. 11 of 30 clubs had player rows at 09:15; the newest snapshot has to be re-read before tonight's tips (7:00 PM ET).
+2. **0 of 9** 11/15 games are settled in the canonical result feed `data/app/results_feed.json`; eight are settled in `data/rounds/2026-11-16/results.json` and **ATL @ MIL (`0022600243`) is blocked** on a quarter-score conflict (K-02, `arena/00b0c780-nba3`). Nobody has re-read the two official documents that would settle it.
+3. **No job captures standings.** `K-07` on this board; the brief lists standings as a required refresh target. Two ad-hoc captures exist (`edge/data/standings.json`, `data/v2/captures/official_standings_2026-11-15.json`) and neither feeds the model. The official standings page also carries each club's **home** record, which is a second, independent measurement of the home-win rate the brief asks to be *pinned*.
+4. The scheduled `official data refresh` job is **still red** (run `43925193575`, 2026-11-16 18:06 UTC, failed at "Unit tests (capture, feed, ledger, estimators, gates)"). `scripts/refresh_official.py` and `.github/workflows/refresh.yml` are inside the scope of open PRs #94/#95/#98, so this session **diagnoses and files a change request; it does not edit those two files.**
+5. The ledger `entry_hash` recipe for `data/app/ledger/` is undocumented and does not recompute (K-17, high). This session **re-derives it read-only** and publishes the recipe or the negative result; it does not re-hash another session's chain.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| D1 | Official injury index (11/16) re-read: every listed report timestamp, newest transcribed verbatim, diffed against the published 09:15 AM ET snapshot to detect status changes | in progress | d1b96315 | `d1b96315/**` (new) |
+| D2 | 11/15 finals re-read from the official scoreboard; 8 settled rows carried, ATL @ MIL quarter conflict re-read from the game book; one row per game (date, teams, final, quarter scores) in this session's feed | in progress | d1b96315 | `d1b96315/data/results_2026-11-15.json` (new) |
+| D3 | Standings capture from the official league-standings page + measured home-win rate from the official home records (second pin, independent of the finals pin) | in progress | d1b96315 | `d1b96315/data/standings.json` (new) |
+| D4 | Rolling 3-day slate (11/16–11/19) verified against the official schedule; rest / back-to-back / 3-in-4 recomputed from it | in progress | d1b96315 | `d1b96315/data/slate.json` (new) |
+| D5 | Pre-tip ledger: verify every already-sealed 11/16–11/18 entry hash recomputes, publish this session's own sealed entries with the retrieval stamp, and record the recipe result for K-17 | in progress | d1b96315 | `d1b96315/data/ledger_check.json`, `d1b96315/ledger/ledger.jsonl` (new) |
+| D6 | Lines + signals for tonight's slate from the two estimators with the disagreement as the headline; parlay rho vs naive product printed together; rotation availability as its own column; gate every strategy | in progress | d1b96315 | `d1b96315/model/*`, `d1b96315/data/lines.json` (new) |
+| D7 | Site tree `d1b96315/` (landing + category pages incl. Flagged for Review, Questions, Suggestions, Executive summary) built offline from the data files, every row with an official link or a blank + flag | in progress | d1b96315 | `d1b96315/**` (new) |
+| D8 | CI wiring: one appended build step and one copy line for `d1b96315/`, plus one nav link on the root landing page; full offline replay of every touched step | in progress | d1b96315 | `.github/workflows/pages.yml` (append-only), `scripts/build_app.py` (one nav line), `index.html` (generated) |
+| D9 | Diagnosis of the red scheduled refresh, filed as a change request to its owners (no edit to `refresh.yml` / `scripts/refresh_official.py`) | in progress | d1b96315 | this section (COORDINATION.md) |
+| D10 | PR → merge → confirm Pages deploy → record here | planned | d1b96315 | `COORDINATION.md`, PR |
+
+**Not touched by this session** (other claims / open PRs): `data/app/**`, `data/live/**`, `data/rounds/**`, `round/**`, `app/*.html` (except via the generated `index.html` nav line), `projection/**`, `bet/**`, `v2/**`, `hub/**`, `dash/**`, `audit_*/**`, `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/build_app.py` beyond the one nav line, `scripts/injury_archive.py`.
+
+### Result of the claim above — **done, published, non-blocking flags listed**
+
+Completed 2026-11-16 ~19:10 UTC on branch `arena/d1b96315-nba3`, tree `d1b96315/`. Everything below is
+re-derivable in CI: `pages.yml` re-runs the whole chain offline and fails on drift, so the committed
+artefacts are byte-identical to what the transcripts produce.
+
+| # | Task | Status | Evidence |
+|---|---|---|---|
+| D1 | Injury index re-read, newest report transcribed, diffed | **done** | `d1b96315/data/injury_snapshots_2026-11-16.json` (09:15 → 11:30 → 01:15 PM ET) + two diffs; published snapshot was **4 h 05 m** stale; 09:15→11:30 changed **nothing**, 11:30→01:15 = 4 status changes + 19 new rows as WAS/BOS/HOU/PHI filed |
+| D2 | 11/15 finals re-read, one row per game | **done** | `d1b96315/data/results_2026-11-15.json`: 9 rows, all with a verified final; the 8 main had settled match exactly; `0022600243` settled on the score with **both** Q3 readings printed (period table 37 / recap line 27) and `I2_quarter_scores` left red |
+| D3 | Standings capture + measured home-win rate | **done** | `d1b96315/data/standings_2026-11-16.json`, 30 rows from `www.nba.com/standings` (both chunks). **Measured home rate 102-94 in 196 home games = 0.5204**, Wilson 95% [0.4507, 0.5893] → pinned HCA recomputed to **0.90 pts** (was 4.12 on a 23-final sample, 1.62 in the app ledger constant): a **3.22-point** swing on every home line. K-07 closed: this is the first standings feed in the repo |
+| D4 | Slate verified, rest/b2b/3-in-4 recomputed | **done, extended past the claim** | `d1b96315/data/slate_2026-11-16_1118.json` = **29 games** (11/16: 8, 11/17: 5, 11/18: 12, **11/19: 4 added here** so the window reaches three days ahead); 6 of tonight's 8 cards re-verified against the official page and all 8 against the report's own matchup list; the 11/19 cards' records tie out against the standings (8/8, no mismatch). POR@MIN appears on both 11/16 and 11/17 — a real same-building back-to-back, both clubs flagged |
+| D5 | Ledger: verify sealed entries, publish ours, resolve K-17 | **done** | `d1b96315/ledger/ledger.jsonl` = **29 pre-tip seals**, head `f7e2a7c94819686e…`, refuses any row whose tip passed (`publish` skipped 29/29 when run after tip in a test). `d1b96315/data/ledger_check.json`: all three chains **CHAIN INTACT** recomputed independently. **K-17 resolved**: `data/app/ledger` entry_hash = `sha256(canon({"prev","body"}))` — 34/34 under that recipe, 0/34 with the body alone; documentation gap, not a linkage break. Nothing in another session's chain was re-hashed |
+| D6 | Lines, disagreement headline, parlay rho vs naive, availability column, gates | **done** | `d1b96315/data/lines.json` 29 rows; **1** row agrees within 2.5 pts (HOU@MIA 0.35), 9 inside the 5.0-pt cap, 20 refused with the reason printed. Availability applied for **9/30** clubs (6 of tonight's 16 clubs have no box score → "not modelled", not "clear"). Measured **ρ(margin,total) = −0.2113** (CI [−0.574, 0.22], n=23) and ρ across same-date games **−0.0492** (82 pairs); naive product printed beside every price. Gates: **5 strategies, 0 funded** (G1 23<60 finals, G8 no price feed); 5 pre-registration files frozen and hashed |
+| D7 | Site tree | **done** | 13 pages under `d1b96315/pages/` (roll, injuries, results, standings, lines, pricing, method, gates, ledger, questions, suggestions, sources, **flagged**). Built by `d1b96315/build_pages.py`; the build itself fails on a broken link, and the CI gate fails on **any** table row without a source marker (0 unsourced rows now, checked across all pages) |
+| D8 | CI wiring + nav | **done, with one scope change** | `.github/workflows/pages.yml` gained two append-only blocks: the rebuild/drift/provenance gate + the unit-test step, and `cp -r d1b96315 _pages/d1b96315`. **Nav deviation from the claim:** `index.html`/`scripts/build_app.py` were *not* touched — `build_app.py` regenerates `app/*.html`, which is open PR #98's scope, and CI drift-checks those files, so a "one nav line" edit there would have broken either #98 or the drift gate. Requested instead below (CR-D1B-01) |
+| D9 | Red scheduled refresh → change request, no edit | **done (diagnosis, not fix)** | Run `43925193575` fails at step "Unit tests (capture, feed, ledger, estimators, gates)" in 19 s, before its commit step, so `data/app/refresh/` is stuck at `2026-11-16T00-57Z` and the banner never advanced. **The same modules pass here: `Ran 40 tests OK`** (results feed, pick ledger, freshness gates, refresh official, injury capture). The log body is unreachable from a sandbox (`--log-failed` → results-receiver EOF; the raw job-log URL → empty body), so this is an environment hypothesis, not a diagnosis. CR-D1B-02 |
+| D10 | PR → merge → Pages → record | **done** | PR and merge recorded in the section closing note below |
+
+**Sources and verification, this session's own register:** every value above was read from
+`official.nba.com` (report index), `ak-static.cms.nba.com` (2 injury PDFs, transcribed verbatim under
+`d1b96315/data/raw/`), `www.nba.com/games?date=2026-11-15/-16/-19`, `www.nba.com/standings`,
+`www.nba.com/stats/teams/advanced` and `statsdmz.nba.com` game books (ATL@MIL, DAL@BOS, IND@PHI).
+Line-by-line: `d1b96315/pages/sources.html` (18 sources × retrieval stamp × what each confirmed) and
+`d1b96315/pages/flagged.html` (**12 rows: 5 high, 5 medium, 2 low, 0 blocking**).
+
+**Irregularities found, published not repaired:** the GSW block loses a column in both revisions
+(Jimmy Butler's row prints no status; Curry/Moody/Porzingis/Williams print `Out` with no reason — 6
+unread cells, left blank); 7 continuation rows per revision print **no club column at all** at a page
+break (a naive parse drops them and *invents* 7 "removed rows" in the morning diff — see D-05, this is
+the same defect class as K-02's `injury_archive.py` fix); one official game book contradicts itself on
+Milwaukee's Q3 (D-03); three different pinned HCA values coexist in the repo (D-04); the 11/16 page's
+season-leader strip assigns LeBron James to LAL while the 11/16 report and the 11/15 PHI game book both
+put him on PHI (D-06); Phoenix had not filed 4 h before tip and the whole 11/17 slate is unfiled
+(D-07); the report reaches only 11/17, so **16 of 29** rows have no injury input for at least one club.
+
+**Known dead ends, recorded so the next session does not retry them:** the OSS proxy URLs the fetch
+tool hands back return `SignatureDoesNotMatch` for every `ak-static` PDF — fetch the
+`https://ak-static.cms.nba.com/referee/injury/Injury-Report_<date>_<h>_<mm><AM|PM>.pdf` URL directly;
+`www.nba.com/stats/standings?...` returns "Content Unavailable" (use `www.nba.com/standings`, and read
+**both chunks** — the 15th Western row, UTA's home split, only exists in chunk 1); CI log bodies are
+not reachable from a sandbox.
+
+### Change requests (nothing below was edited by this session — file scopes respected)
+
+| id | to | request | why |
+|---|---|---|---|
+| **CR-D1B-01** | the next integration session (and PR #98, which owns `app/*.html`, `index.html` via `build_app.py`, `archive.html`) | add one tile to the root landing page: `<a class="tile" href="d1b96315/pages/index.html"><span class="tile-t">11/16 game-day roll</span></a>` in the Verification group (and the matching nav anchor) | `pages.yml` now publishes `/NBA3/d1b96315/pages/`, but this session must not hand-edit a file CI regenerates from another session's generator; append-only CI wiring is in, the landing link is not |
+| **CR-D1B-02** | owners of `scripts/injury_archive.py`, `scripts/refresh_official.py` and any other injury-PDF parser | parse by **content**, and carry the club down across a page break: at a break the renderer drops leading columns entirely, so a fixed-index read silently loses 7 of 87 rows and turns "the block continued" into "these players were removed" | reproduced twice this session on two different revisions of the same report; it is the same class as the DAL@BOS `REPORTED_CLEAR` bug recorded above, and it corrupts any diff built on top |
+| **CR-D1B-03** | owners of `.github/workflows/refresh.yml` + `scripts/refresh_official.py` (PRs #95/#98) | add a **game-day pass ~30 min before the earliest tip** and let the job take the *newest item in the index* rather than a constructed filename; the current cron (`15 5,11,17,23`) fires at 11:15 and 17:15 UTC, i.e. after the 01:15 PM ET revision and before nothing else | today's 01:15 PM revision carried 19 rows and 4 clubs' filings that no published surface ever saw while the games were still un-tipped |
+| **CR-D1B-04** | whoever owns the two ledger chains | state the recipe in the file, not only in code: `data/app/ledger` hashes the **pair** `{prev, body}`; `ledger/` hashes the entry minus `entry_hash`. Both verified intact here (34/34 and 11/11), so this is documentation, not a break | K-17 has been open as "undocumented hash recipe" for several sessions; a reader who assumes body-only concludes tampering where there is none |
+
+**Coordination notes.** No conflict was encountered: `git pull --rebase` before each push, and the
+branch stayed disjoint from #94/#95/#96/#98 (no file in this tree is in any of their scopes; only
+`pages.yml` is shared and the edits are append-only, inserted after the `audit_00b0c780` step).
+No other session's task was started and no other session's file was edited. One self-reported mishap:
+an early **manual** `python3 -m unittest` invocation left `data/app/refresh/T1` and `T2` in the
+canonical capture directory; both were removed in the same session and nothing published was touched
+(the test module itself writes to a tempdir — this was my invocation, not a test defect). Recorded as
+flag **D-11** rather than deleted silently.
+
+**Post-merge additions to this session (2026-11-16 ~19:35 UTC).** After the merge the roll was extended
+rather than re-stated, and three things changed:
+
+1. **The missing revision.** The other session's chain showed the day's filings landing at **01:00 PM
+   ET**, not 01:15 PM, so this session fetched that PDF too and transcribed it verbatim
+   (`d1b96315/data/raw/injury_2026-11-16_0100PM.md`). The published diff is now four revisions and
+   **three named hops**: 09:15 → 11:30 (0 changes — a re-stamp), 11:30 → 13:00 (**4 status changes,
+   +18 rows**, WAS/HOU/PHI filing), 13:00 → 13:15 (**+1 row**, Boston filing, and one *spelling* move
+   the league made on its own document: `Mathurin, Bennedict` → `Mathurin, Benedict`), and the whole
+   day 09:15 → 13:15 reconciles exactly (4 + 19).
+2. **Independent agreement, published as a check.** `data/rounds/2026-11-16-1300PM/injuries.json`
+   (another session's parse of the same 01:15 PM PDF) reports **76 player rows / 11 clubs unfiled**;
+   this tree's parser, from this session's own transcript, reports **76 / 11**, and their 13:00 → 13:15
+   hop (+1 row, 0 status changes) matches this tree's hop for the same pair. Recorded in
+   `injury_snapshots_2026-11-16.json` under `cross_check_with_another_session` and asserted by a test.
+   No value was copied between the two trees.
+3. **A sealed-history divergence, published instead of repaired.** The page-break carry (CR-D1B-02)
+   landed *after* 25 lines were sealed and it restored Isaiah Stewart to Memphis's Out list, so two
+   sealed rows now read differently from the model that sealed them (up to **1.59 points** on
+   0022600247 and 0022600258). Nothing was re-hashed: `d1b96315/ledger.py amend` appended **two AMEND
+   entries** naming the sealed value, the current value and the reason, and the chain still verifies
+   (31 entries, head `a3851ca8b233e6e1…`, all three trees CHAIN INTACT). Flag **D-13** carries it.
+
+Window is now **29 games across four days** (11/16–11/19), the extra day read from the official 11/19
+page by this session, with its four cards' records cross-checked against the standings capture (8/8
+agree, 0 mismatches) and the venue left blank because a scoreboard card does not print one. Tests:
+**65 OK**. Flags: **13** (5 high).

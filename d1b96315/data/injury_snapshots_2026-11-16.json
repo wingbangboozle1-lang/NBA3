@@ -1,0 +1,76 @@
+{
+ "game_date": "2026-11-16",
+ "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+ "chain_note": "the four official revisions of this game day that can be reconstructed from documents on disk, oldest first: the 09:15 AM snapshot the site had already published (read from its published artefact, not re-fetched), then the 11:30 AM, 01:00 PM and 01:15 PM PDFs fetched and transcribed verbatim by this session. The league issues many revisions a day \u2014 the index lists 53 slots for 11/16 \u2014 so a diff is only meaningful as a pair of named documents, and every pair below is named.",
+ "cross_check_with_another_session": {
+  "their_file": "data/rounds/2026-11-16-1300PM/injuries.json",
+  "their_stamp": "0115",
+  "their_player_rows": 76,
+  "their_not_submitted": 11,
+  "their_source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+  "mine_player_rows": 76,
+  "mine_not_submitted": 11,
+  "agree": true,
+  "note": "independent second read of the same official PDF by another session's parser; only the counts are compared here, and no value in this tree is taken from it"
+ },
+ "revisions": [
+  {
+   "report_stamp": "2026-11-16 09:15 AM ET",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "retrieved_utc": "2026-11-16T14:35Z",
+   "count": 72,
+   "player_rows": 57,
+   "club_not_yet_submitted": 15,
+   "read_from": "data/rounds/2026-11-16/injuries.json"
+  },
+  {
+   "report_stamp": "11/16/26 11:30 AM",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf",
+   "retrieved_utc": "2026-11-16T18:28Z",
+   "count": 72,
+   "player_rows": 57,
+   "club_not_yet_submitted": 15,
+   "read_from": "d1b96315 (this session)"
+  },
+  {
+   "report_stamp": "11/16/26 01:00 PM",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
+   "retrieved_utc": "2026-11-16T19:12Z",
+   "count": 87,
+   "player_rows": 75,
+   "club_not_yet_submitted": 12,
+   "read_from": "d1b96315 (this session)"
+  },
+  {
+   "report_stamp": "11/16/26 01:15 PM",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "retrieved_utc": "2026-11-16T18:26Z",
+   "count": 87,
+   "player_rows": 76,
+   "club_not_yet_submitted": 11,
+   "read_from": "d1b96315 (this session)"
+  }
+ ],
+ "diffs": [
+  {
+   "file": "injury_delta_2026-11-16_0915_to_1130.json",
+   "label": "09:15 AM \u2192 11:30 AM \u2014 the revision the site had not yet read"
+  },
+  {
+   "file": "injury_delta_2026-11-16_1130_to_1300.json",
+   "label": "11:30 AM \u2192 01:00 PM \u2014 the day's filing hop"
+  },
+  {
+   "file": "injury_delta_2026-11-16_1300_to_1315.json",
+   "label": "01:00 PM \u2192 01:15 PM \u2014 the last quarter-hour before the first tip"
+  },
+  {
+   "file": "injury_delta_2026-11-16_1130_to_1315.json",
+   "label": "11:30 AM \u2192 01:15 PM \u2014 the pair this session fetched first"
+  },
+  {
+   "file": "injury_delta_2026-11-16_0915_to_1315.json",
+   "label": "09:15 AM \u2192 01:15 PM \u2014 the whole game day so far"
+  }
+ ]
+}

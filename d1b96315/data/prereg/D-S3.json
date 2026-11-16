@@ -1,0 +1,19 @@
+{
+ "strategy_id": "D-S3",
+ "name": "total from the possessions model",
+ "signal": "|total_possessions_model - total_naive_scoring_average| >= 4.0",
+ "thresholds": {
+  "disagreement_cap_points": 5.0,
+  "luck_z_band": 2.0,
+  "min_verified_finals": 60
+ },
+ "universe": "every game on the official rolling slate for today .. today+2, all 30 clubs",
+ "settlement_rule": "settle only from an official final that the nba.com scoreboard and the game book agree on; a game whose printed quarter scores do not sum to its final is settled on the score alone and flagged; a game with no verified final stays unsettled",
+ "stake_rule": "1 unit, flat, on the possessions side",
+ "home_court_used_by_this_strategy": 0.9,
+ "frozen_before_first_bet": true,
+ "frozen_stamp": "2026-11-16T18:55Z",
+ "frozen_by": "arena/d1b96315-nba3",
+ "note": "frozen before any bet because no strategy is funded; editing this file changes its hash, and the hash is published in the ledger",
+ "sha256": "e0a6fe8fe45eef6859653016a256cdb0b5fb56b314b3b6fb35a32e48aef923ab"
+}

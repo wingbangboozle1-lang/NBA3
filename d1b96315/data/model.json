@@ -1,0 +1,1120 @@
+{
+ "schema": "nba3.d1b96315.model/v1",
+ "generated_for": "2026-11-16 .. 2026-11-18",
+ "session": "arena/d1b96315-nba3",
+ "stamp": "2026-11-16T18:55Z",
+ "headline": "the disagreement between the two independent estimators is the confidence signal; the blend is printed underneath it and is never the headline",
+ "inputs": {
+  "settled_finals_used": 23,
+  "excluded_rows": [],
+  "date_range": [
+   "2026-11-13",
+   "2026-11-15"
+  ],
+  "injury_report": {
+   "revision_time_et": "11/16/26 01:15 PM",
+   "retrieval_time_utc": "2026-11-16T18:26Z",
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "rows": 87,
+   "player_rows": 76,
+   "club_not_yet_submitted": 11,
+   "unread_cells": [
+    "club column absent for Memphis Grizzlies / Jerome, Ty: carried from the block above the page break",
+    "club column absent for Memphis Grizzlies / Pippen Jr., Scotty: carried from the block above the page break",
+    "club column absent for Memphis Grizzlies / Post, Quinten: carried from the block above the page break",
+    "club column absent for Memphis Grizzlies / Saunders, Richie: carried from the block above the page break",
+    "club column absent for Memphis Grizzlies / Stewart, Isaiah: carried from the block above the page break",
+    "club column absent for New Orleans Pelicans / Reese, Julian: carried from the block above the page break",
+    "club column absent for New Orleans Pelicans / Watford, Trendon: carried from the block above the page break",
+    "reason not readable for Golden State Warriors / Curry, Stephen",
+    "reason not readable for Golden State Warriors / Moody, Moses",
+    "reason not readable for Golden State Warriors / Porzingis, Kristaps",
+    "reason not readable for Golden State Warriors / Santos, Gui",
+    "reason not readable for Golden State Warriors / Williams, Brandon",
+    "status not readable for Golden State Warriors / Butler III, Jimmy"
+   ]
+  },
+  "standings": {
+   "source": "https://www.nba.com/standings",
+   "retrieved_utc": "2026-11-16T18:31Z",
+   "completeness_identity": {
+    "home_games": 196,
+    "neutral_games": 1.0,
+    "total_wins": 197,
+    "identity": "home games + neutral games = total games = total wins = total losses"
+   }
+  },
+  "team_stats": {
+   "source": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+   "retrieved_utc": "2026-11-16T18:33Z",
+   "rows": 30,
+   "rows_failing_checks": [],
+   "max_abs_residuals": {
+    "net_rtg": 0.1,
+    "pace_minus_poss_per_48": 0.33
+   }
+  },
+  "slate": {
+   "source": "https://www.nba.com/schedule?date=2026-11-16",
+   "count": 29,
+   "count_by_date": {
+    "2026-11-16": 8,
+    "2026-11-17": 5,
+    "2026-11-18": 12,
+    "2026-11-19": 4
+   },
+   "reverified_rows": [
+    "0022600245",
+    "0022600246",
+    "0022600247",
+    "0022600248",
+    "0022600249",
+    "0022600251"
+   ],
+   "calendar_counts": {
+    "15": 9,
+    "16": 8,
+    "17": 5,
+    "18": 12,
+    "19": 4
+   }
+  },
+  "player_logs": {
+   "teams_1115": [
+    "BOS",
+    "DAL",
+    "IND",
+    "PHI"
+   ],
+   "rows_1115": 52,
+   "unread_cells_1115": [
+    "BOS Baylor Scheierman: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Chris Cenac Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Devin Carter: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Hugo Gonz\u00e1lez: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Luka Garza: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Mitchell Robinson: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Payton Pritchard: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Ron Harper Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "BOS Sam Hauser: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Jett Howard: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Marcus Sasser: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Morez Johnson Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Moussa Ciss\u00e9: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Tobi Lawal: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Walter Clayton Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "DAL Zaccharie Risacher: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "PHI Anfernee Simons: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "PHI Dean Wade: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "PHI Kentavious Caldwell-Pope: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "PHI Labaron Philon Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+    "PHI Tacko Fall: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank"
+   ],
+   "teams_1114": [
+    "BKN",
+    "CHI",
+    "CLE",
+    "DAL",
+    "DEN",
+    "DET",
+    "MEM",
+    "MIA",
+    "MIN",
+    "NOP"
+   ],
+   "source_1115": {
+    "player_logs_2026-11-15_dalbos.json": {
+     "count": 27,
+     "unread_cells": [
+      "BOS Baylor Scheierman: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Chris Cenac Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Devin Carter: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Hugo Gonz\u00e1lez: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Luka Garza: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Mitchell Robinson: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Payton Pritchard: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Ron Harper Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "BOS Sam Hauser: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Jett Howard: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Marcus Sasser: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Morez Johnson Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Moussa Ciss\u00e9: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Tobi Lawal: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Walter Clayton Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "DAL Zaccharie Risacher: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank"
+     ],
+     "checks": {
+      "rows": 27,
+      "minutes_sum_vs_240": {
+       "BOS": {
+        "parsed": 239.99,
+        "printed": 240.0,
+        "residual": -0.01
+       },
+       "DAL": {
+        "parsed": 240.01,
+        "printed": 240.0,
+        "residual": 0.01
+       }
+      },
+      "points_identity": {
+       "BOS": {
+        "printed_team_total": 131,
+        "sum_of_readable_rows": 74,
+        "rows_with_unread_pts": 9,
+        "residual_points_in_unread_rows": 57,
+        "readable_rows_only_match": false
+       },
+       "DAL": {
+        "printed_team_total": 94,
+        "sum_of_readable_rows": 53,
+        "rows_with_unread_pts": 7,
+        "residual_points_in_unread_rows": 41,
+        "readable_rows_only_match": false
+       }
+      }
+     },
+     "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf"
+    },
+    "player_logs_2026-11-15_indphi.json": {
+     "count": 25,
+     "unread_cells": [
+      "PHI Anfernee Simons: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "PHI Dean Wade: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "PHI Kentavious Caldwell-Pope: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "PHI Labaron Philon Jr.: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank",
+      "PHI Tacko Fall: 1 stat cell(s) missing after MIN in the transcript (15 of 16 present); minutes kept, stats left blank"
+     ],
+     "checks": {
+      "rows": 25,
+      "minutes_sum_vs_240": {
+       "IND": {
+        "parsed": 240.0,
+        "printed": 240.0,
+        "residual": 0.0
+       },
+       "PHI": {
+        "parsed": 240.01,
+        "printed": 240.0,
+        "residual": 0.01
+       }
+      },
+      "points_identity": {
+       "IND": {
+        "printed_team_total": 124,
+        "sum_of_readable_rows": 124,
+        "rows_with_unread_pts": 0,
+        "residual_points_in_unread_rows": 0,
+        "readable_rows_only_match": true
+       },
+       "PHI": {
+        "printed_team_total": null,
+        "sum_of_readable_rows": 95,
+        "rows_with_unread_pts": 5,
+        "residual_points_in_unread_rows": null,
+        "readable_rows_only_match": false
+       }
+      }
+     },
+     "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+    }
+   }
+  }
+ },
+ "home_court": {
+  "pinned": true,
+  "pin_source": "official league standings, HOME column summed over all 30 clubs (102-94 in 196 home games)",
+  "measured_home_win_rate_standings": 0.5204,
+  "wilson95_standings": [
+   0.4507,
+   0.5893
+  ],
+  "measured_home_win_rate_finals_log": 0.5652,
+  "finals_log_n": 23,
+  "wilson95_finals_log": [
+   0.3681,
+   0.7437
+  ],
+  "sd_home_margin_finals_log": 17.619,
+  "hca_points_used": 0.9,
+  "hca_formula": "Phi^-1(home win rate) x sd(home margin): the rate from the standings (n = 196), the spread from the verified finals (n = 23). Neither estimator may move this number.",
+  "why_pinned": "fitting HCA inside a short log lets the ratings absorb the season's luck; the brief pins it to the measured rate, so it is measured once and used twice",
+  "two_readings_disagree_by": 0.0448,
+  "readings_note": "the finals log is 23 games and its Wilson interval is wide; the standings measurement covers the whole league to date and is the pin. The gap is published, not averaged away.",
+  "previously_published_in_this_repo": {
+   "d1b96315_this_build": 0.9,
+   "data_rounds_2026_11_16": {
+    "hca_points": 4.12,
+    "basis": "measured on the finals in that capture only",
+    "home_win_rate": 0.5909,
+    "n_games": 22,
+    "source_file": "data/rounds/2026-11-16/model.json"
+   },
+   "data_app_ledger_constant": {
+    "hca_points": [
+     1.62
+    ],
+    "source_file": "data/app/ledger/ledger.jsonl",
+    "note": "the value every sealed entry in that chain records; it is a constant, not a measurement recomputed per game day"
+   },
+   "spread_between_the_three_points": 3.22,
+   "effect_on_this_builds_lines": {
+    "vs_the_round_capture": -3.22,
+    "reading": "every home margin in this build is this many points smaller than the same model run at the previously pinned value; the number moved because the pin moved from a 23-final sample to the whole league's home/away split"
+   }
+  }
+ },
+ "estimator_a": {
+  "name": "Massey ratings on verified final margins, pinned HCA, ridge chosen by leave-one-game-out",
+  "inputs_used": "final margins only: no efficiency data, no availability data",
+  "ridge_candidates": [
+   {
+    "ridge": 0.001,
+    "loo_rmse": 11.7104
+   },
+   {
+    "ridge": 0.01,
+    "loo_rmse": 11.7428
+   },
+   {
+    "ridge": 0.1,
+    "loo_rmse": 12.0454
+   },
+   {
+    "ridge": 1.0,
+    "loo_rmse": 13.7677
+   },
+   {
+    "ridge": 10.0,
+    "loo_rmse": 16.3353
+   }
+  ],
+  "ridge_chosen": {
+   "ridge": 0.001,
+   "loo_rmse": 11.7104
+  },
+  "baseline_loo_rmse_predicting_only_the_pinned_hca": 17.2463,
+  "out_of_sample_skill_vs_baseline": 0.321,
+  "residual_sd_points": 11.953,
+  "ratings": {
+   "ATL": 1.279,
+   "BKN": 0.14,
+   "BOS": 22.772,
+   "CHA": 0.747,
+   "CHI": 8.374,
+   "CLE": -4.196,
+   "DAL": -13.306,
+   "DEN": -4.737,
+   "DET": -12.179,
+   "GSW": -20.984,
+   "HOU": 13.292,
+   "IND": 0.247,
+   "LAC": 7.848,
+   "LAL": 4.448,
+   "MEM": 18.24,
+   "MIA": 6.909,
+   "MIL": -6.615,
+   "MIN": -3.522,
+   "NOP": -13.642,
+   "NYK": -0.847,
+   "OKC": 7.757,
+   "ORL": 0.485,
+   "PHI": 6.341,
+   "PHX": -4.448,
+   "POR": -1.226,
+   "SAC": -15.127,
+   "SAS": 16.095,
+   "TOR": -5.741,
+   "UTA": 7.19,
+   "WAS": -15.592
+  },
+  "games_fitted_on": 23,
+  "atl_mil_note": "0022600243 (ATL @ MIL) is included: the final 113-106 is confirmed by the scoreboard, the game-book recap line and the box-score team totals. Only its quarter split is disputed, and estimator A uses margins, not quarters.",
+  "stability_across_the_ridge_sweep": {
+   "table": [
+    {
+     "ridge": 0.001,
+     "loo_rmse": 11.7104,
+     "max_abs_shift_on_tonights_lines": 0.0,
+     "mean_abs_shift": 0.0
+    },
+    {
+     "ridge": 0.01,
+     "loo_rmse": 11.7428,
+     "max_abs_shift_on_tonights_lines": 0.29,
+     "mean_abs_shift": 0.13
+    },
+    {
+     "ridge": 0.1,
+     "loo_rmse": 12.0454,
+     "max_abs_shift_on_tonights_lines": 2.69,
+     "mean_abs_shift": 1.18
+    },
+    {
+     "ridge": 1.0,
+     "loo_rmse": 13.7677,
+     "max_abs_shift_on_tonights_lines": 11.48,
+     "mean_abs_shift": 5.43
+    },
+    {
+     "ridge": 10.0,
+     "loo_rmse": 16.3353,
+     "max_abs_shift_on_tonights_lines": 27.64,
+     "mean_abs_shift": 9.75
+    }
+   ],
+   "why": "23 verified finals cannot determine 30 club ratings on its own; the ridge is the only thing holding the system up, so the page prints how much tonight's numbers move when the ridge moves. A line that shifts by more than the disagreement cap under this test is not a number anyone should bet, and it is not published as one."
+  }
+ },
+ "estimator_b": {
+  "name": "possessions x points-per-possession from the official advanced table, with the minutes-redistribution availability adjustment",
+  "formula": "poss = mean(possessions per game of the two clubs); pts_t = poss x ((off_rtg_t - availability_delta_t) + def_rtg_opp) / 2 / 100; margin = pts_home - pts_away + pinned hca; total = pts_home + pts_away",
+  "availability_status_by_team": {
+   "ATL": "no rotation data",
+   "BKN": "applied",
+   "BOS": "nothing to apply",
+   "CHA": "no rotation data",
+   "CHI": "applied",
+   "CLE": "applied",
+   "DAL": "nothing to apply",
+   "DEN": "applied",
+   "DET": "nothing to apply",
+   "GSW": "no rotation data",
+   "HOU": "no rotation data",
+   "IND": "nothing to apply",
+   "LAC": "no rotation data",
+   "LAL": "no rotation data",
+   "MEM": "applied",
+   "MIA": "applied",
+   "MIL": "no rotation data",
+   "MIN": "applied",
+   "NOP": "applied",
+   "NYK": "no rotation data",
+   "OKC": "no rotation data",
+   "ORL": "no rotation data",
+   "PHI": "applied",
+   "PHX": "no rotation data",
+   "POR": "no rotation data",
+   "SAC": "no rotation data",
+   "SAS": "no rotation data",
+   "TOR": "no rotation data",
+   "UTA": "no rotation data",
+   "WAS": "no rotation data"
+  },
+  "teams_adjusted": [
+   "BKN",
+   "CHI",
+   "CLE",
+   "DEN",
+   "MEM",
+   "MIA",
+   "MIN",
+   "NOP",
+   "PHI"
+  ],
+  "teams_not_adjusted": [
+   "ATL",
+   "BOS",
+   "CHA",
+   "DAL",
+   "DET",
+   "GSW",
+   "HOU",
+   "IND",
+   "LAC",
+   "LAL",
+   "MIL",
+   "NYK",
+   "OKC",
+   "ORL",
+   "PHX",
+   "POR",
+   "SAC",
+   "SAS",
+   "TOR",
+   "UTA",
+   "WAS"
+  ],
+  "coverage_of_tonight": {
+   "BKN": "applied",
+   "BOS": "nothing to apply",
+   "CHI": "applied",
+   "CLE": "applied",
+   "DEN": "applied",
+   "GSW": "no rotation data",
+   "HOU": "no rotation data",
+   "MEM": "applied",
+   "MIA": "applied",
+   "MIN": "applied",
+   "NOP": "applied",
+   "ORL": "no rotation data",
+   "PHI": "applied",
+   "PHX": "no rotation data",
+   "POR": "no rotation data",
+   "WAS": "no rotation data"
+  }
+ },
+ "totals_model": {
+  "chosen": "possessions x points per possession",
+  "rejected": "the average of the two clubs' scoring averages",
+  "why": "a scoring average already contains the pace the team actually played and the opponent it faced; adding two of them makes a total that no single game implies. Both are printed for every row so the difference is auditable.",
+  "league_mean_total_from_verified_finals": 232.57,
+  "sd_total": 17.73
+ },
+ "injury_coverage": {
+  "rule": "one official injury filing state per club per game, read from the newest revision; a club the report does not cover for that date is 'unknown', never 'clear'",
+  "states": {},
+  "rows_by_state": {
+   "filed&filed": 7,
+   "filed&not_submitted": 1,
+   "not_submitted&not_submitted": 5,
+   "outside_report_window&outside_report_window": 16
+  },
+  "rows_total": 29,
+  "rows_with_no_usable_filing_either_side": 21,
+  "rows_missing_at_least_one_side": 21,
+  "latest_revision_et": "11/16/26 01:15 PM",
+  "latest_revision_retrieved_utc": "2026-11-16T18:26Z",
+  "report_player_rows": 76,
+  "clubs_filed": [
+   "BKN",
+   "BOS",
+   "CHI",
+   "CLE",
+   "DEN",
+   "GSW",
+   "HOU",
+   "MEM",
+   "MIA",
+   "MIN",
+   "NOP",
+   "ORL",
+   "PHI",
+   "POR",
+   "WAS"
+  ],
+  "clubs_not_submitted": [
+   "CHA",
+   "DET",
+   "LAC",
+   "LAL",
+   "MIN",
+   "NYK",
+   "PHX",
+   "POR",
+   "SAS",
+   "TOR",
+   "UTA"
+  ]
+ },
+ "luck_z": {
+  "ATL": 0.248,
+  "BKN": -0.81,
+  "BOS": 0.537,
+  "CHA": 0.354,
+  "CHI": -0.141,
+  "CLE": -0.271,
+  "DAL": 0.459,
+  "DEN": 0.711,
+  "DET": 0.406,
+  "GSW": 0.172,
+  "HOU": 0.513,
+  "IND": -0.734,
+  "LAC": -0.556,
+  "LAL": 1.454,
+  "MEM": 0.055,
+  "MIA": 0.523,
+  "MIL": -1.343,
+  "MIN": -0.418,
+  "NOP": -0.218,
+  "NYK": -0.625,
+  "OKC": 0.223,
+  "ORL": -0.001,
+  "PHI": 1.807,
+  "PHX": 0.077,
+  "POR": 0.597,
+  "SAC": -1.314,
+  "SAS": 0.83,
+  "TOR": -1.063,
+  "UTA": -1.637,
+  "WAS": -0.455
+ },
+ "luck_formula": "expected wins = GP x Phi(net_rtg / sd(home margin from the verified finals)); z = (wins - expected) / sqrt(GP x p x (1 - p)). sd = 17.62 points",
+ "luck_rule": "|z| > 2.0 keeps a club out of any bet-eligible row on this site",
+ "clubs_outside_the_noise_band": {},
+ "pricing": {
+  "measured_on": {
+   "settled_games": 23,
+   "same_date_game_pairs": 82
+  },
+  "rho_margin_vs_total": -0.2113,
+  "rho_margin_vs_total_ci95": [
+   -0.574,
+   0.22
+  ],
+  "rho_cross_game_margin": -0.0492,
+  "rho_cross_game_ci95": [
+   -0.263,
+   0.17
+  ],
+  "rho_method": "both rhos are measured on the verified finals in this repo: margin against total, and the margin of one game against the margin of another game on the same date. Nothing is assumed from another league or season.",
+  "leg_probability_method": "p(favourite covers our line) = Phi(|edge| / residual sd); p(over our total) = Phi(|our total - league mean total| / sd total)",
+  "copula": "Gaussian: p_parlay = Phi2(Phi^-1(p1), Phi^-1(p2); rho). The naive price p1 x p2 is printed beside it on every row, so the correlation effect is visible, not hidden.",
+  "parlays": [
+   {
+    "game_id": "0022600245",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9141,
+    "p_leg_2": 0.2216,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1916,
+    "p_parlay_naive_product": 0.2025,
+    "difference_in_probability_points": -1.09,
+    "fair_american_measured_rho": 421.9,
+    "fair_american_naive": 393.8,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600246",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5753,
+    "p_leg_2": 0.5972,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3115,
+    "p_parlay_naive_product": 0.3436,
+    "difference_in_probability_points": -3.21,
+    "fair_american_measured_rho": 221.0,
+    "fair_american_naive": 191.0,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600247",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9424,
+    "p_leg_2": 0.4025,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3696,
+    "p_parlay_naive_product": 0.3793,
+    "difference_in_probability_points": -0.97,
+    "fair_american_measured_rho": 170.5,
+    "fair_american_naive": 163.6,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600248",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6301,
+    "p_leg_2": 0.2971,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1589,
+    "p_parlay_naive_product": 0.1872,
+    "difference_in_probability_points": -2.83,
+    "fair_american_measured_rho": 529.3,
+    "fair_american_naive": 434.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600249",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6716,
+    "p_leg_2": 0.5024,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3067,
+    "p_parlay_naive_product": 0.3374,
+    "difference_in_probability_points": -3.06,
+    "fair_american_measured_rho": 226.0,
+    "fair_american_naive": 196.4,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600250",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5363,
+    "p_leg_2": 0.4194,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1918,
+    "p_parlay_naive_product": 0.2249,
+    "difference_in_probability_points": -3.31,
+    "fair_american_measured_rho": 421.3,
+    "fair_american_naive": 344.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600251",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5433,
+    "p_leg_2": 0.5548,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2681,
+    "p_parlay_naive_product": 0.3014,
+    "difference_in_probability_points": -3.33,
+    "fair_american_measured_rho": 272.9,
+    "fair_american_naive": 231.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600252",
+    "date": "2026-11-16",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5701,
+    "p_leg_2": 0.4146,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2036,
+    "p_parlay_naive_product": 0.2363,
+    "difference_in_probability_points": -3.27,
+    "fair_american_measured_rho": 391.1,
+    "fair_american_naive": 323.1,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600257",
+    "date": "2026-11-17",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6007,
+    "p_leg_2": 0.3768,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1949,
+    "p_parlay_naive_product": 0.2263,
+    "difference_in_probability_points": -3.15,
+    "fair_american_measured_rho": 413.1,
+    "fair_american_naive": 341.8,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600256",
+    "date": "2026-11-17",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7343,
+    "p_leg_2": 0.293,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1903,
+    "p_parlay_naive_product": 0.2151,
+    "difference_in_probability_points": -2.48,
+    "fair_american_measured_rho": 425.4,
+    "fair_american_naive": 364.8,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600253",
+    "date": "2026-11-17",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5848,
+    "p_leg_2": 0.2447,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1167,
+    "p_parlay_naive_product": 0.1431,
+    "difference_in_probability_points": -2.64,
+    "fair_american_measured_rho": 756.9,
+    "fair_american_naive": 598.9,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600254",
+    "date": "2026-11-17",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5363,
+    "p_leg_2": 0.4194,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1918,
+    "p_parlay_naive_product": 0.2249,
+    "difference_in_probability_points": -3.31,
+    "fair_american_measured_rho": 421.3,
+    "fair_american_naive": 344.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600255",
+    "date": "2026-11-17",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9222,
+    "p_leg_2": 0.3501,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3109,
+    "p_parlay_naive_product": 0.3229,
+    "difference_in_probability_points": -1.2,
+    "fair_american_measured_rho": 221.7,
+    "fair_american_naive": 209.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600268",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6433,
+    "p_leg_2": 0.4758,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2744,
+    "p_parlay_naive_product": 0.3061,
+    "difference_in_probability_points": -3.17,
+    "fair_american_measured_rho": 264.4,
+    "fair_american_naive": 226.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600269",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7104,
+    "p_leg_2": 0.4232,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2719,
+    "p_parlay_naive_product": 0.3006,
+    "difference_in_probability_points": -2.88,
+    "fair_american_measured_rho": 267.8,
+    "fair_american_naive": 232.6,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600258",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.8215,
+    "p_leg_2": 0.4554,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.352,
+    "p_parlay_naive_product": 0.3741,
+    "difference_in_probability_points": -2.21,
+    "fair_american_measured_rho": 184.1,
+    "fair_american_naive": 167.3,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600259",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7674,
+    "p_leg_2": 0.3634,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2539,
+    "p_parlay_naive_product": 0.2789,
+    "difference_in_probability_points": -2.5,
+    "fair_american_measured_rho": 293.9,
+    "fair_american_naive": 258.6,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600260",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.8151,
+    "p_leg_2": 0.4947,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3807,
+    "p_parlay_naive_product": 0.4032,
+    "difference_in_probability_points": -2.26,
+    "fair_american_measured_rho": 162.7,
+    "fair_american_naive": 148.0,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600261",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5946,
+    "p_leg_2": 0.2502,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1222,
+    "p_parlay_naive_product": 0.1488,
+    "difference_in_probability_points": -2.66,
+    "fair_american_measured_rho": 718.6,
+    "fair_american_naive": 572.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600262",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5769,
+    "p_leg_2": 0.508,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2599,
+    "p_parlay_naive_product": 0.2931,
+    "difference_in_probability_points": -3.32,
+    "fair_american_measured_rho": 284.8,
+    "fair_american_naive": 241.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600263",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7475,
+    "p_leg_2": 0.3837,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2604,
+    "p_parlay_naive_product": 0.2868,
+    "difference_in_probability_points": -2.64,
+    "fair_american_measured_rho": 284.1,
+    "fair_american_naive": 248.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600264",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6097,
+    "p_leg_2": 0.5222,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2859,
+    "p_parlay_naive_product": 0.3184,
+    "difference_in_probability_points": -3.25,
+    "fair_american_measured_rho": 249.8,
+    "fair_american_naive": 214.1,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600265",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6615,
+    "p_leg_2": 0.3668,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2129,
+    "p_parlay_naive_product": 0.2426,
+    "difference_in_probability_points": -2.97,
+    "fair_american_measured_rho": 369.7,
+    "fair_american_naive": 312.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600267",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.6001,
+    "p_leg_2": 0.4017,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.209,
+    "p_parlay_naive_product": 0.241,
+    "difference_in_probability_points": -3.2,
+    "fair_american_measured_rho": 378.4,
+    "fair_american_naive": 314.9,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600266",
+    "date": "2026-11-18",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9084,
+    "p_leg_2": 0.2901,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2507,
+    "p_parlay_naive_product": 0.2635,
+    "difference_in_probability_points": -1.28,
+    "fair_american_measured_rho": 298.8,
+    "fair_american_naive": 279.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600273",
+    "date": "2026-11-19",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7783,
+    "p_leg_2": 0.3719,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2649,
+    "p_parlay_naive_product": 0.2894,
+    "difference_in_probability_points": -2.45,
+    "fair_american_measured_rho": 277.5,
+    "fair_american_naive": 245.5,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600270",
+    "date": "2026-11-19",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.9568,
+    "p_leg_2": 0.4119,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.3864,
+    "p_parlay_naive_product": 0.3941,
+    "difference_in_probability_points": -0.77,
+    "fair_american_measured_rho": 158.8,
+    "fair_american_naive": 153.7,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600272",
+    "date": "2026-11-19",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.5473,
+    "p_leg_2": 0.2475,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.1087,
+    "p_parlay_naive_product": 0.1355,
+    "difference_in_probability_points": -2.68,
+    "fair_american_measured_rho": 820.2,
+    "fair_american_naive": 638.2,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   },
+   {
+    "game_id": "0022600271",
+    "date": "2026-11-19",
+    "legs": [
+     "home side at our originated number",
+     "game total over our number"
+    ],
+    "p_leg_1": 0.7246,
+    "p_leg_2": 0.413,
+    "rho_used": -0.2113,
+    "p_parlay_measured_rho": 0.2713,
+    "p_parlay_naive_product": 0.2993,
+    "difference_in_probability_points": -2.8,
+    "fair_american_measured_rho": 268.6,
+    "fair_american_naive": 234.1,
+    "surface": "projection \u2014 this is a price we publish, not a bet we place",
+    "status": "priced"
+   }
+  ]
+ },
+ "game_flow": {
+  "games_with_official_quarter_scores": 13,
+  "sources": [
+   "data/app/results_feed.json (2026-11-14 rows)",
+   "d1b96315/data/results_2026-11-15.json (2026-11-15 rows)"
+  ],
+  "share_of_points_by_quarter": {
+   "Q1": 0.2476,
+   "Q2": 0.2382,
+   "Q3": 0.2747,
+   "Q4": 0.2395,
+   "sum": 1.0
+  },
+  "back_to_back_fourth_quarter": {
+   "definition": "4th-quarter points minus 3rd-quarter points, by club, split on whether the club played the previous day (verified finals only)",
+   "on_a_back_to_back": {
+    "n": 6,
+    "mean": -6.0
+   },
+   "rested": {
+    "n": 20,
+    "mean": -3.6
+   },
+   "note": "small n; published as a measurement with its sample size, not as a rule"
+  }
+ },
+ "market_anchor": {
+  "prior_weight": null,
+  "closing_line": null,
+  "measured_log_loss": null,
+  "reason": "no licensed closing-line feed exists in this repository, so the blend weight cannot be measured out of sample. The field is null; the requirement stays open on the Questions page (Q01)."
+ }
+}

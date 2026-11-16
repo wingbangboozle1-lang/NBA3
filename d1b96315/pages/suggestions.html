@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suggestions · NBA 2026-11-16 game-day roll (arena/d1b96315-nba3)</title>
+<style>
+:root{--ink:#14202b;--mut:#5b6b78;--line:#dfe5ea;--bg:#f7f9fb;--ok:#1d7a46;--warn:#9a6b00;--bad:#b3261e;--acc:#1f5fa8;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:12px 22px;position:sticky;top:0;z-index:3}
+header .t{font-weight:700;font-size:16px}header .sub{color:var(--mut);font-size:12.5px}
+nav{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{font-size:12.5px;padding:3px 8px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--acc);background:#fff}
+nav a.on{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+main{padding:20px 22px 60px;max-width:1500px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16.5px;margin:26px 0 8px}h3{font-size:14px;margin:18px 0 6px}
+p{margin:6px 0}.mut{color:var(--mut)}.small{font-size:12.5px}.lead{font-size:15.5px;max-width:1100px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin:12px 0 4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card .k{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+.card .v{font-size:21px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.card .n{font-size:11.5px;color:var(--mut);margin-top:3px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:12.8px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+th{background:#eef3f7;font-weight:600;position:sticky;top:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+td.num,th.num{text-align:right}tr:hover td{background:#f2f7fb}
+.tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.ok{background:#e3f3ea;color:var(--ok)}.bad{background:#fbe7e5;color:var(--bad)}.warn{background:#fdf3dc;color:var(--warn)}
+.info{background:#e6effa;color:var(--acc)}.grey{background:#eef1f4;color:var(--mut)}
+.none{color:#9aa8b3;font-style:italic}
+.note{background:#fff;border-left:3px solid var(--acc);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.warnbox{background:#fff;border-left:3px solid var(--warn);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.badbox{background:#fff;border-left:3px solid var(--bad);padding:9px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+code{background:#eef3f7;padding:1px 4px;border-radius:4px;font-size:12px}
+a.src{font-size:11.5px;color:var(--acc);text-decoration:none;border-bottom:1px dotted var(--acc)}
+ul{margin:6px 0 6px 20px;padding:0}li{margin:3px 0}
+.q{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:9px 0}
+.q h4{margin:0 0 5px;font-size:13.5px}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:14px 22px;color:var(--mut);font-size:12px}
+</style></head>
+<body>
+<header>
+  <div class="t">NBA · 2026-11-16 game-day roll <span class="tag info">session arena/d1b96315-nba3</span></div>
+  <div class="sub">Official sources only · every row linked · unconfirmed values left blank and flagged ·
+    projection surface and bet surface kept apart</div>
+  <nav><a href="index.html" class="">Roll</a><a href="injuries.html" class="">Injuries</a><a href="results.html" class="">Results</a><a href="standings.html" class="">Standings</a><a href="lines.html" class="">Originated lines</a><a href="pricing.html" class="">Pricing &amp; rho</a><a href="model.html" class="">Method</a><a href="gates.html" class="">Gates &amp; leaderboard</a><a href="ledger.html" class="">Ledger</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="on">Suggestions</a><a href="sources.html" class="">Sources</a><a href="flagged.html" class="">Flagged for review</a></nav>
+</header>
+<main>
+
+
+<h1>Four paths, pick one before anything is implemented</h1>
+<p class="lead">Each path is a single decision with its cost, what it unlocks, and what it costs in
+re-work. They are ordered by how much of the brief they unblock per hour of owner time, not by how
+nice they sound.</p>
+<div class="q" id="p1"><h4><span class="tag info">Path 1</span> Pin home court to the league-wide measurement, everywhere</h4><p class="small mut">cost: one constant, one re-seal</p><p><b>Do</b> Adopt 0.9 points (measured on 196 home games) in the round model, the app estimators and the ledger, and record the old value as history rather than overwriting it.</p><p><b>Buy</b> The current three-way split (0.90 / 4.12 / 1.62) is the largest single disagreement in the repo and it moves every home line. A pin built on 196 games beats one built on 23.</p><p><b>Pay</b> Every already-sealed entry keeps its old constant — that is the point of the chain — so two published surfaces will show different numbers for one game day unless the choice is stated on the page. Half a day of work: the constant, the note, a re-run of the two builders.</p><p><b>Otherwise</b> Do nothing: keep publishing three numbers and let readers find the 3.2-point swing themselves.</p></div><div class="q" id="p2"><h4><span class="tag info">Path 2</span> Get a price feed, even a manual one</h4><p class="small mut">cost: one capture job + one table</p><p><b>Do</b> A closing-line table with date, game, market, line, source, stamp — captured the same way the injury PDFs are. Manual entry of published closing numbers is acceptable if it is stamped and sourced, because it is then a source like any other.</p><p><b>Buy</b> It unlocks G8, which blocks all five strategies today, and turns the model-anchored prior from a null field into a measured log-loss weight. Without it no line on this site can ever be scored as skill.</p><p><b>Pay</b> Nothing in the model changes, so nothing published now is invalidated. The bet surface stays empty until the depth gate clears as well, so expect &#x27;we can finally measure&#x27;, not &#x27;we can bet&#x27;.</p><p><b>Otherwise</b> Wait for a licensed feed: cleaner, but the board has listed this gap for several sessions and a stamped manual table costs one afternoon.</p></div><div class="q" id="p3"><h4><span class="tag info">Path 3</span> Capture one game book per game, every day</h4><p class="small mut">cost: six to ten PDFs a day</p><p><b>Do</b> Extend the capture job with the official per-game book (the same URL pattern already used for the ATL@MIL re-read). That gives per-player minutes for all 30 clubs, real top-8 shares, and the quarter vectors for every game instead of 13 of 23.</p><p><b>Buy</b> It moves the availability model from 9 clubs to 30, makes player-prop work possible, and gives game-flow its own verified input instead of a partial one. It also makes the I2 quarter gate testable on a real population.</p><p><b>Pay</b> The transcripts are large: keep them under the session tree or a data path, not in &lt;code&gt;app/&lt;/code&gt;, and expect the PDF renderer&#x27;s column-shift artefact on every one of them — parse by content and count the unread cells, as this tree does.</p><p><b>Otherwise</b> Keep covering the handful of games a session happens to re-read: cheaper, and it is why six clubs on tonight&#x27;s slate have no modelled availability at all.</p></div><div class="q" id="p4"><h4><span class="tag info">Path 4</span> Chase the newest revision on game day</h4><p class="small mut">cost: one cron line + one index read</p><p><b>Do</b> Read the report index, take the newest item, and add a pre-tip pass (~30 min before the earliest tip of a block). The freshness gate then measures a gap that is actually the league&#x27;s latest document.</p><p><b>Buy</b> Today&#x27;s published snapshot was about 4 h 05 m behind, and the missing rows were the ones that mattered: 19 rows appeared when four clubs filed, including a league suspension and two starters moved to Out.</p><p><b>Pay</b> The gate already exists; this changes what it measures, so more rows will legitimately fail the rebuild until the job keeps up. Expect the red-build count to rise before it falls.</p><p><b>Otherwise</b> Keep the four fixed crons: simple, and it is what left the 01:15 PM filing unpublished today.</p></div>
+<h2>And one that needs no decision</h2>
+<div class="note">The scheduled job is red now, and every freshness number on this site inherits that.
+The fix is a diagnosis, not a choice: read run 43925193575's log in the Actions UI (the log body is not
+reachable from a sandbox) and re-run. Nothing on this list is worth doing before the refresh path is
+green, because every one of them assumes the repo is looking at today's documents.</div>
+
+</main>
+<footer>Built by <code>d1b96315/build_pages.py</code> from <code>d1b96315/data/*.json</code>, which are
+built by <code>capture.py</code>, <code>boxlog.py</code>, <code>model.py</code>, <code>flags.py</code>
+and <code>ledger.py</code>. No value on any page is typed by hand. Canonical site:
+<a href="https://wingbangboozle1-lang.github.io/NBA3/index.html" rel="noopener">NBA3 dashboard</a> · this tree: <a href="https://wingbangboozle1-lang.github.io/NBA3/d1b96315/pages/index.html" rel="noopener">d1b96315/</a></footer>
+</body></html>
