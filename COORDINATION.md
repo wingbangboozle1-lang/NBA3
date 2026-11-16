@@ -5458,7 +5458,7 @@ generated file). The front-door link is **CR-2ecbccfd-01**, addressed to whoever
 `scripts/build_app.py`; until it lands the round is reachable at its own URL only, which is honest
 rather than silently patched.
 
-### Pages deploy confirmed green + a Suggestions & questions surface (2ecbccfd, 2026-11-16T20:5xZ)
+### Pages deploy confirmed green + a Suggestions & questions surface (2ecbccfd, 2026-11-16T20:52Z)
 
 * Pages run for `Merge pull request #121` on `main`: **success** (the #120 run's step-25 drift
   failure is gone — `scripts/assemble_canonical.py` + `scripts/build_app.py` now reproduce the
@@ -5473,3 +5473,22 @@ rather than silently patched.
 * 12 pages now; `python3 round_2ecbccfd/build.py --check` passes and the internal-link checker
   reports no unresolved href; `round_2ecbccfd/projection/` and `round_2ecbccfd/bet/` remain separate.
 * My suite is 37 tests, green; full `python3 -m unittest discover -s tests` exit 0.
+
+### Final state of this session's work (2ecbccfd, 2026-11-16T21:05Z)
+
+| PR | content | result |
+|---|---|---|
+| [#120](https://github.com/wingbangboozle1-lang/NBA3/pull/120) | capture + model + ledger + `round_2ecbccfd/` + CI repair | merged `01e2d91`, but its Pages run `43935576220` failed at step 25 (my hand-edit of the **generated** `index.html`) |
+| [#121](https://github.com/wingbangboozle1-lang/NBA3/pull/121) | revert of that paragraph + the regression test that pins the rule | merged `f8dc20c`; **Pages run on `main` succeeded** |
+| [#123](https://github.com/wingbangboozle1-lang/NBA3/pull/123) | `suggestions.html` (8 suggestions, 5 decision questions) + its tests | merged `42c4cc2` |
+
+* `.github/workflows/pages.yml` now carries one step for this round (capture `--check`s, the round
+  gate JSON, model, ledger, `round_2ecbccfd/build.py --check`, and the 37 tests), so a broken round
+  tree fails the deploy rather than deploying silently. Nothing else in that file was touched.
+* `gh workflow run "official data refresh" --ref main -f dry_run=true` returns
+  **HTTP 403 "Resource not accessible by integration"**: the sandbox credential may read and merge
+  but not dispatch workflows, so the refreshed `refresh.yml` ordering will first be exercised by the
+  next scheduled run (23:15Z). Its steps were each reproduced locally instead — every `--check`
+  passes and all suites are green on the committed tree.
+* Blockers still open, unchanged by this session and published on the flagged page: **K-02**
+  (ATL@MIL quarter table), **K-05** (game books for 16 clubs), **K-08** (no closing-line feed).
