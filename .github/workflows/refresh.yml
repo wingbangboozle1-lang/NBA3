@@ -24,16 +24,109 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # ---------------------------------------------------------------------------
+      # STEP ORDER IS A GATE, NOT A CONVENIENCE.
+      #
+      # The unit tests run BEFORE the live fetch on purpose. One of them,
+      # tests/test_refresh_official.py::PublishedSlateTests::test_published_slate_matches_the_promotion,
+      # reads data/app/official_slate_current.json — the file this job itself rewrites from the
+      # live nba.com slate — and compares it with rows promoted from committed fixtures. Against
+      # a live fetch of the real league feed those two can only agree by accident, which is why
+      # runs 43742524756 (fetch), 43815576157 and 43864808752 (commit) and 43925193575 (step 4,
+      # "Unit tests") went red while every suite passed on the committed tree. Testing the commit
+      # we were given, then fetching, then rebuilding keeps each failure attributable:
+      #   red at  Unit tests -> the committed tree is broken;
+      #   red at  Fetch        -> an official source moved or is unreachable;
+      #   red at  Gate         -> data is stale, so nothing may be rebuilt;
+      #   red at  Rebuild replay -> a generated file was hand-edited.
+      # A change request to make that test read a fixture instead of the live-written artefact is
+      # logged in COORDINATION.md against the file's owner session (81800928); until it lands,
+      # moving the step is what keeps this job honest instead of deleting the assertion.
+      # ---------------------------------------------------------------------------
+      - name: Self-diagnosis (clock, tree state, python)
+        run: |
+          set -uo pipefail
+          echo "runner date      : $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "python           : $(python3 -VV)"
+          echo "HEAD             : $(git rev-parse --short HEAD) ($(git log -1 --format=%s))"
+          echo "clean tree       : $(git status --porcelain | wc -l) modified files at checkout"
+          echo "scenario note    : the repository's data is stamped 2026-11; a runner clock outside"
+          echo "                   that window makes any test that pins 'today' fail here and pass"
+          echo "                   in a sandbox. Diff the two lines above before believing a red."
+
+      - name: Unit tests against the committed tree (capture, feed, ledger, estimators, gates)
+        run: |
+          set -uo pipefail
+          fail=0
+          for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
+                       "test_freshness_gates.py" "test_refresh_official.py" \
+                       "test_round_2ecbccfd.py"; do
+            echo "::group::unittest $suite"
+            if [ "$suite" = "test_refresh_official.py" ]; then
+              python3 -m unittest tests/test_refresh_official.py -v || fail=1
+            else
+              python3 -m unittest discover -s tests -p "$suite" -v || fail=1
+            fi
+            echo "::endgroup::"
+          done
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::at least one unittest suite failed on the committed tree (see the group above for which)"
+            exit 1
+          fi
+
       - name: Fetch official sources (injury report, schedule, results, game books, team stats)
         run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
-      - name: Unit tests (capture, feed, ledger, estimators, gates)
+      # ---------------------------------------------------------------------------
+      # The 2026-11-17 round's own chain (session arena/2ecbccfd-nba3). These steps are offline
+      # and deterministic by construction: they parse verbatim transcripts committed under
+      # data/rounds/2026-11-17/captures/ instead of reaching the network, so a red here means a
+      # committed transcript moved without the artefacts being rebuilt -- the exact failure the
+      # freshness and provenance gates exist to catch. `--check` on each script is the gate.
+      # ---------------------------------------------------------------------------
+      - name: Round 2026-11-17 - capture integrity (standings + both injury-report revisions)
+        if: always() && !cancelled()
         run: |
-          python3 -m unittest discover -s tests -p "test_*1115*.py" -v
-          python3 -m unittest discover -s tests -p "test_results_feed.py" -v
-          python3 -m unittest discover -s tests -p "test_pick_ledger.py" -v
-          python3 -m unittest discover -s tests -p "test_freshness_gates.py" -v
-          python3 -m unittest tests/test_refresh_official.py -v
+          set -uo pipefail
+          test -f data/rounds/2026-11-17/captures/standings_2026-11-16_raw.md || {
+            echo "::error::the standings transcript is missing; the standings capture is the only"
+            echo "          provenance for the W/L/GP reconciliation, so the round cannot be built"; exit 1; }
+          test -f data/rounds/2026-11-17/captures/injury_2026-11-16_0115PM_raw.md || {
+            echo "::error::the 01:15 PM injury PDF transcript is missing; without it the report diff"
+            echo "          has no second revision and the injury freshness gate would be unverifiable"; exit 1; }
+          python3 scripts/capture_2ecbccfd.py --check
+          python3 scripts/gamebooks_2ecbccfd.py --check
+          python3 scripts/slate_extra_2ecbccfd.py --check
+
+      - name: Round 2026-11-17 - freshness and provenance gates (rebuild is blocked from here)
+        if: always() && !cancelled()
+        run: |
+          set -uo pipefail
+          # The gate script runs first and its exit code is the only thing the rebuild obeys.
+          # The shared gate script first (it takes no --json-out flag; passing one is a bug this
+          # workflow used to have, and tests/test_refresh_official.py now pins it).
+          python3 scripts/freshness_gates.py || {
+            echo "::error::shared freshness/provenance gate failed; the site must not be rebuilt from"
+            echo "          stale or unattributed data, so this step stops here on purpose"; exit 1; }
+          # ...then this round's own gates, recomputed from the artefacts and asserted here.
+          python3 - <<'PY'
+          import json, sys
+          g = json.load(open("data/rounds/2026-11-17/gates.json"))
+          rows = g["gates"]
+          bad = [x for x in rows if not x.get("pass")]
+          if bad:
+              print(json.dumps(bad, indent=1), file=sys.stderr)
+              sys.exit("::error::a round gate that must pass is failing; the remedy field says what to do")
+          print(f"round gates OK ({len(rows)} checked, all_pass={g['all_pass']})")
+          PY
+
+      - name: Round 2026-11-17 - model, ledger, site (only after the gates above)
+        if: always() && !cancelled()
+        run: |
+          set -euo pipefail
+          python3 scripts/model_2ecbccfd.py --check
+          python3 scripts/ledger_2ecbccfd.py --check
+          python3 round_2ecbccfd/build.py --check
 
       - name: Commit refreshed captures and rebuilt outputs
         # The rebuild chain (scripts/refresh_official.py step 6) regenerates files OUTSIDE

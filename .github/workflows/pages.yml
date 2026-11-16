@@ -559,6 +559,33 @@ jobs:
       - name: Unit tests (game-day roll — capture, settlement, model, gates, ledger, pages — arena/d1b96315-nba3)
         run: python3 -m unittest discover -s d1b96315/tests -p 'test_*.py' 2>&1 | tail -25
 
+      - name: 2026-11-17 round (arena/2ecbccfd) - capture integrity, gates, model, ledger, site
+        # One step for this round, the way every other round tree is wired here. Everything is an
+        # offline replay from committed transcripts, so a red means a committed input moved without
+        # the artefacts being rebuilt: the standings/injury/box-score captures are re-derived and
+        # diffed, the round's own freshness+provenance gates are asserted, the model and the sealed
+        # pick chain are recomputed, the 12 pages are rebuilt and byte-compared, and the round's
+        # tests run -- including the ones that keep this session out of round2/ (fbd2484b) and out
+        # of the generated front door.
+        run: |
+          set -uo pipefail
+          python3 scripts/capture_2ecbccfd.py --check
+          python3 scripts/gamebooks_2ecbccfd.py --check
+          python3 scripts/slate_extra_2ecbccfd.py --check
+          python3 - <<'PY'
+          import json, sys
+          g = json.load(open("data/rounds/2026-11-17/gates.json"))
+          bad = [x for x in g["gates"] if not x.get("pass")]
+          if bad:
+              print(json.dumps(bad, indent=1), file=sys.stderr)
+              sys.exit("::error::a round gate is failing; its remedy_if_failing field says what to do")
+          print(f"round gates OK ({len(g['gates'])} checked)")
+          PY
+          python3 scripts/model_2ecbccfd.py --check
+          python3 scripts/ledger_2ecbccfd.py --check
+          python3 round_2ecbccfd/build.py --check
+          python3 -m unittest discover -s tests -p "test_round_2ecbccfd.py" -v
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -590,6 +617,9 @@ jobs:
           cp -r hub _pages/hub
           cp -r round _pages/round
           cp -r round2 _pages/round2
+          # 2026-11-17 round (session 2ecbccfd). round2/ was already taken by fbd2484b's F13
+          # surface, so this round publishes as round_2ecbccfd/; one line, nothing else here moved.
+          cp -r round_2ecbccfd _pages/round_2ecbccfd
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet

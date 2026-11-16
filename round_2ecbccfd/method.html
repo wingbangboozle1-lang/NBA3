@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method · NBA3 2026-11-17</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header><h1>Method</h1><div class="sub">formulas, what is measured, what is pinned, what is blank and why</div></header>
+<nav><a href="index.html">Overview</a><a href="projection/lines.html">Projection · lines</a><a href="projection/rotations.html">Projection · rotations</a><a href="injuries.html">Injuries</a><a href="standings.html">Standings</a><a href="results.html">Results log</a><a href="strategies.html">Strategies</a><a href="ledger.html">Ledger</a><a href="method.html" class=on>Method</a><a href="bet/index.html">Bet (gated)</a><a href="suggestions.html">Suggestions & questions</a><a href="flagged.html">Flagged for review</a></nav>
+<main>
+
+
+<section><h2>How a line is made here</h2><ol>
+<li><b>Possessions, not averages.</b> A total is pace × points-per-possession, with pace from the
+official advanced page and each side's ppp as the mean of its own rate and its opponent's allowed
+rate. An average of two points-per-game figures is never used: it silently double-counts pace.</li>
+<li><b>Home court is pinned.</b> 0.76 points, which is
+probit(0.5178) × the log's margin s.d. 16.97.
+The standings' own HOME splits give 0.87
+independently; with the one neutral-site game removed from the denominator the two agree to
+0.87 exactly.</li>
+<li><b>Two estimators, disagreement as the headline.</b> A = season aggregates; B = the verified
+game log, recomputed only from games before tip. The published confidence signal is |A − B|; the
+blend sits underneath at equal weight, with no optimisation against outcomes.</li>
+<li><b>Rest is measured, not assumed.</b> Back-to-back games in this log have been outscored by
+-1.40 per game on average and rested games by
+1.49, a gap of 2.89 points
+with a standard error of 2.91 (z = 0.99).
+That is why the adjustment is applied at half weight per side, and why a strategy built on it is
+refused by its own frozen z-floor.</li>
+<li><b>Luck is a z-score.</b> Actual minus Pythagenpat-expected wins, standardised; 0
+clubs outside ±2 tonight.</li>
+<li><b>Correlation is measured and then priced.</b> Same-night margin rho is
+0.012 on 808 game
+pairs, CI95 [-0.057, 0.081];
+totals -0.033, home-win indicators
+-0.013. Parlays are priced with this rho and the naive product
+is printed next to them on the bet surface.</li>
+<li><b>Minutes are modelled per man.</b> Out/Doubtful players lose their captured mean minutes and
+the club's next-ranked men absorb them one-for-one; points impact stays blank because no captured
+source prints a bench per-minute scoring rate.</li>
+<li><b>The market anchor is off.</b> A closing-line blend needs a closing line and a measured
+out-of-sample log-loss to weight it; the feed reports &quot;not connected&quot; with 0 rows, so the
+weight is unestimated and the blended line is blank on every row.</li>
+</ol></section>
+<section><h2>Freshness and provenance, as the job enforces them</h2>
+<div class="note">The scheduled job fetches, gates, and only then rebuilds. Gates in this round:
+14/14 pass, and each is recomputed from
+the artefacts on disk rather than recorded by hand — see the <a href="index.html">gate board</a>.
+The injury gate compares the newest report's <i>printed</i> revision time against the game day being
+priced; the provenance gate requires an https NBA source on every published row; the settlement gate
+requires a verified official final per game.</div>
+<pre class="mono" style="background:#0f1728;border:1px solid #233047;border-radius:10px;padding:12px;overflow:auto">{
+ &quot;gates&quot;: [
+  {
+   &quot;id&quot;: &quot;G1_fresh_injury&quot;,
+   &quot;name&quot;: &quot;newest official injury report is for the game day being priced&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;latest report 2026-11-16 01:15 PM ET, retrieved 2026-11-16T18:30Z&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G2_provenance&quot;,
+   &quot;name&quot;: &quot;every published row names an https official source&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;29 lines, each with the slate page that printed it&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G3_standings_reconcile&quot;,
+   &quot;name&quot;: &quot;standings W/L reconcile with the results log for all 30 clubs&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;{\&quot;games_in_log\&quot;: 197, \&quot;sum_log_gp\&quot;: 394, \&quot;gp_sum_equals_twice_games\&quot;: true, \&quot;teams\&quot;: [{\&quot;team\&quot;: \&quot;BOS\&quot;, \&quot;standings_w\&quot;: 11, \&quot;standings_l\&quot;: 2, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 11, \&quot;log_l\&quot;: 2, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;PHI\&quot;, \&quot;standings_w\&quot;: 11, \&quot;standings_l\&quot;: 3, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 11, \&quot;log_l\&quot;: 3, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;DET\&quot;, \&quot;standings_w\&quot;: 8, \&quot;standings_l\&quot;: 4, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 8, \&quot;log_l\&quot;: 4, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;ATL\&quot;, \&quot;standings_w\&quot;: 8, \&quot;standings_l\&quot;: 6, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 8, \&quot;log_l\&quot;: 6, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;MIA\&quot;, \&quot;standings_w\&quot;: 7, \&quot;standings_l\&quot;: 6, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 7, \&quot;log_l\&quot;: 6, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;NYK\&quot;, \&quot;standings_w\&quot;: 7, \&quot;standings_l\&quot;: 6, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 7, \&quot;log_l\&quot;: 6, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;CLE\&quot;, \&quot;standings_w\&quot;: 7, \&quot;standings_l\&quot;: 7, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 7, \&quot;log_l\&quot;: 7, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;ORL\&quot;, \&quot;standings_w\&quot;: 5, \&quot;standings_l\&quot;: 7, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 5, \&quot;log_l\&quot;: 7, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;TOR\&quot;, \&quot;standings_w\&quot;: 5, \&quot;standings_l\&quot;: 8, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 5, \&quot;log_l\&quot;: 8, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;IND\&quot;, \&quot;standings_w\&quot;: 5, \&quot;standings_l\&quot;: 9, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 5, \&quot;log_l\&quot;: 9, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;CHA\&quot;, \&quot;standings_w\&quot;: 4, \&quot;standings_l\&quot;: 9, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 4, \&quot;log_l\&quot;: 9, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;WAS\&quot;, \&quot;standings_w\&quot;: 4, \&quot;standings_l\&quot;: 10, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 4, \&quot;log_l\&quot;: 10, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;BKN\&quot;, \&quot;standings_w\&quot;: 3, \&quot;standings_l\&quot;: 9, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 3, \&quot;log_l\&quot;: 9, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;CHI\&quot;, \&quot;standings_w\&quot;: 3, \&quot;standings_l\&quot;: 9, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 3, \&quot;log_l\&quot;: 9, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;MIL\&quot;, \&quot;standings_w\&quot;: 1, \&quot;standings_l\&quot;: 13, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 1, \&quot;log_l\&quot;: 13, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;SAS\&quot;, \&quot;standings_w\&quot;: 12, \&quot;standings_l\&quot;: 2, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 12, \&quot;log_l\&quot;: 2, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;LAL\&quot;, \&quot;standings_w\&quot;: 12, \&quot;standings_l\&quot;: 2, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 12, \&quot;log_l\&quot;: 2, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;HOU\&quot;, \&quot;standings_w\&quot;: 11, \&quot;standings_l\&quot;: 3, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 11, \&quot;log_l\&quot;: 3, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;POR\&quot;, \&quot;standings_w\&quot;: 9, \&quot;standings_l\&quot;: 3, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 9, \&quot;log_l\&quot;: 3, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;MIN\&quot;, \&quot;standings_w\&quot;: 9, \&quot;standings_l\&quot;: 4, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 9, \&quot;log_l\&quot;: 4, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;MEM\&quot;, \&quot;standings_w\&quot;: 9, \&quot;standings_l\&quot;: 4, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 9, \&quot;log_l\&quot;: 4, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;OKC\&quot;, \&quot;standings_w\&quot;: 9, \&quot;standings_l\&quot;: 5, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 9, \&quot;log_l\&quot;: 5, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;DEN\&quot;, \&quot;standings_w\&quot;: 7, \&quot;standings_l\&quot;: 4, \&quot;standings_gp\&quot;: 11, \&quot;log_w\&quot;: 7, \&quot;log_l\&quot;: 4, \&quot;log_gp\&quot;: 11, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;GSW\&quot;, \&quot;standings_w\&quot;: 8, \&quot;standings_l\&quot;: 5, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 8, \&quot;log_l\&quot;: 5, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;DAL\&quot;, \&quot;standings_w\&quot;: 7, \&quot;standings_l\&quot;: 7, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 7, \&quot;log_l\&quot;: 7, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;PHX\&quot;, \&quot;standings_w\&quot;: 5, \&quot;standings_l\&quot;: 7, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 5, \&quot;log_l\&quot;: 7, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;LAC\&quot;, \&quot;standings_w\&quot;: 4, \&quot;standings_l\&quot;: 8, \&quot;standings_gp\&quot;: 12, \&quot;log_w\&quot;: 4, \&quot;log_l\&quot;: 8, \&quot;log_gp\&quot;: 12, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;NOP\&quot;, \&quot;standings_w\&quot;: 4, \&quot;standings_l\&quot;: 10, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 4, \&quot;log_l\&quot;: 10, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;SAC\&quot;, \&quot;standings_w\&quot;: 1, \&quot;standings_l\&quot;: 12, \&quot;standings_gp\&quot;: 13, \&quot;log_w\&quot;: 1, \&quot;log_l\&quot;: 12, \&quot;log_gp\&quot;: 13, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}, {\&quot;team\&quot;: \&quot;UTA\&quot;, \&quot;standings_w\&quot;: 1, \&quot;standings_l\&quot;: 13, \&quot;standings_gp\&quot;: 14, \&quot;log_w\&quot;: 1, \&quot;log_l\&quot;: 13, \&quot;log_gp\&quot;: 14, \&quot;gp_ok\&quot;: true, \&quot;w_ok\&quot;: true}], \&quot;teams_reconciled\&quot;: 30, \&quot;teams_total\&quot;: 30}&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G4_gp_identity&quot;,
+   &quot;name&quot;: &quot;sum of games played equals twice the number of games&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;394 = 2 x 197&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G5_settlement_only_final&quot;,
+   &quot;name&quot;: &quot;a result settles only from a verified official final&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;9/9 of the 2026-11-15 rows have a final printed by an official source and cross-read where a conflict was found; 1 row keeps an unresolved quarter table and is excluded from quarter-level measures (see data/rounds/2026-11-17/results_log.json)&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G6_hca_pinned&quot;,
+   &quot;name&quot;: &quot;home-court is pinned to the measured rate, never fitted&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;0.7561 points from a 0.5178 home-win rate&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G7_two_estimators&quot;,
+   &quot;name&quot;: &quot;two independent estimators and a published disagreement&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;29 of 29 lines have both estimators&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G8_luck_band&quot;,
+   &quot;name&quot;: &quot;no strategy is published that leans on a team outside the noise band&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;teams outside +/-2 z: none&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G9_no_pricing_without_market&quot;,
+   &quot;name&quot;: &quot;a blended market line is published only where a closing feed exists&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;row&quot;,
+   &quot;detail&quot;: &quot;closing-line feed is \&quot;not connected\&quot; with 0 rows, so every row&#x27;s blended line is blank; a blank that proves the gate held, not a failure&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G10_rho_measured&quot;,
+   &quot;name&quot;: &quot;parlays are priced with a measured rho, not an assumption&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;rho 0.012 on 808 same-date game pairs&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G11_minutes_modelled&quot;,
+   &quot;name&quot;: &quot;rotation minutes redistribution is modelled where books exist&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;5 sides have a captured game book on the game day&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G12_universe_complete&quot;,
+   &quot;name&quot;: &quot;every club on the slate appears in the team-stat pages&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;30 of 30 clubs found in the traditional page&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G13_prereg_frozen&quot;,
+   &quot;name&quot;: &quot;each strategy is frozen before its first pick&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;see data/rounds/2026-11-17/prereg/ - write-once files, hash-chained&quot;
+  },
+  {
+   &quot;id&quot;: &quot;G14_no_leakage&quot;,
+   &quot;name&quot;: &quot;a backtest signal uses only inputs available before tip&quot;,
+   &quot;pass&quot;: true,
+   &quot;scope&quot;: &quot;build&quot;,
+   &quot;detail&quot;: &quot;E2 is recomputed strictly from games before each date; season aggregates are available only as one snapshot, so aggregate-based signals are not backtested&quot;
+  }
+ ]
+}</pre>
+</section>
+<section><h2>Where a value could not be had</h2><ul>
+<li>Venues for 2026-11-19: the game cards the slate was read from do not print one, so
+<span class="mono">venue</span> is null on those rows and the arena name is marked
+<span class="mono">venue_is_official: false</span>.</li>
+<li>Travel distance is computed from a Wikipedia-sourced arena-coordinate table — derived, not an
+NBA fact, and never priced into a line.</li>
+<li>Quarter scores for ATL@MIL: see <a href="results.html">the results page</a>.</li>
+<li>Game-date attribution for 11/18 cards read off a neighbouring page: excluded from this round's
+window rather than inferred; only games whose date the slate printed are priced.</li>
+</ul></section>
+</main>
+<footer>Built 2026-11-16T19:35Z by session <span class="mono">arena/2ecbccfd-nba3</span> from
+<span class="mono">data/rounds/2026-11-17/</span>. Every row links to the page that printed it;
+blanks are blanks because no official source printed a value, and the flag boxes above name each
+one. Deterministic rebuild: <span class="mono">python3 round_2ecbccfd/build.py --check</span>.</footer>
+</body></html>

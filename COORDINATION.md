@@ -5277,6 +5277,222 @@ wrong, each now fixed and pinned by its own test:
 
 Final state on `main`: **227 tests OK**, **18/18 gates**, site builds at 13 pages / 596 links /
 353 sourced rows / 0 problems, artefacts byte-reproducible.
+## Session `arena/2ecbccfd-nba3` — claims (2026-11-16T18:25Z)
+
+Session ID `2ecbccfd`. Branch fixed by the workspace to `arena/2ecbccfd-nba3`, branched from `main`
+@ `907771bcae5e822e2eada0a801ffec4a6336ccc9` (the PR #109 merge). No other session branch has a
+newer commit than this base: `git ls-remote origin` shows 60+ historical session branches, all
+already merged or abandoned; the only live automation is the `official data refresh` schedule,
+which has failed on its last four runs.
+
+### Task board (this session)
+
+| # | Task | Status | Owner | Files in scope (exclusive) |
+|---|------|--------|-------|----------------------------|
+| C1 | Repair + extend the scheduled refresh job: standings, team stats, injury PDF, rolling slate, gates before rebuild | in progress | 2ecbccfd | `.github/workflows/refresh.yml`, `scripts/refresh_2ecbccfd.py`, `tests/test_refresh_2ecbccfd.py` |
+| C2 | Fresh official capture 2026-11-16/17: injury reports, slate, finals, standings, three team-stat pages, player game logs | in progress | 2ecbccfd | `data/rounds/2026-11-17/captures/**`, `data/rounds/2026-11-17/*.json`, `data/rounds/2026-11-17/*.csv` |
+| C3 | Per-game result feed with quarter scores + settlement of 11/15 and 11/16 from official finals | in progress | 2ecbccfd | `data/rounds/2026-11-17/results.json`, `scripts/settle_2ecbccfd.py` |
+| C4 | Injury PDF diff (status changes) + rotation-minutes redistribution | in progress | 2ecbccfd | `data/rounds/2026-11-17/injury_delta.json`, `data/rounds/2026-11-17/minutes.json` |
+| C5 | Pre-registration freeze, tamper-evident ledger (hash before tip, verify after settlement) | in progress | 2ecbccfd | `data/rounds/2026-11-17/prereg/**`, `data/rounds/2026-11-17/ledger.jsonl`, `scripts/ledger_2ecbccfd.py` |
+| C6 | Two-estimator model, pinned HCA, luck z, travel, rho-priced parlays, possession totals, market anchor | in progress | 2ecbccfd | `scripts/model_2ecbccfd.py`, `data/rounds/2026-11-17/model.json` |
+| C7 | Site for this round: projection vs bet split, flagged/questions/suggestions/exec summary | in progress | 2ecbccfd | `round2/**` |
+| C8 | Integration: COORDINATION record, PR to main, merge, Pages deploy check | open | 2ecbccfd | `COORDINATION.md`, `index.html` (one nav link only) |
+
+Rules I follow: I do not edit `app/`, `data/app/**`, `round/**`, `scripts/build_app.py`,
+`scripts/build_round_site.py`, `scripts/refresh_official.py`, `scripts/round_model_2026_11_16.py`
+or any other session's owned file. If I need a change there it goes in the change-request log
+below. `index.html` gets exactly one new nav link (C8) and nothing else.
+
+### Change requests raised
+
+(append below as needed)
+
+---
+
+## C8 completed — round 2026-11-17 (session `arena/2ecbccfd-nba3`), 2026-11-16T19:45Z
+
+**Task delivered.** Scope honoured: only `.github/workflows/refresh.yml`,
+`scripts/{capture,model,gamebooks,slate_extra,ledger}_2ecbccfd.py`,
+`tests/test_round_2ecbccfd.py`, `data/rounds/2026-11-17/**`, `round2/**`, this file, and one link
+paragraph in `index.html`. No file owned by another session was rewritten.
+
+### What was built (all offline, deterministic, `--check`-able)
+| file | what it does |
+|---|---|
+| `data/rounds/2026-11-17/captures/*.md` | 7 verbatim transcripts of official pages/PDFs, each with its source URL, retrieval stamp and sha256 |
+| `scripts/capture_2ecbccfd.py` | parses standings + both injury-report revisions → `standings.json`, `injuries.json`, `injury_delta.json`, `results_log.json`, `manifest.json`, `gates.json` |
+| `scripts/gamebooks_2ecbccfd.py` | parses 4 official 11/15 box-score PDFs → `player_logs_2026-11-15.json` (106 player rows, 8 club-games) |
+| `scripts/slate_extra_2ecbccfd.py` | the 11/19 slate window extension → `slate_extra_2026-11-19.json` |
+| `scripts/model_2ecbccfd.py` | two independent estimators, pinned HCA, luck z-scores, measured ρ, parlay pricing, 7 strategies, 14 gates → `model.json` |
+| `scripts/ledger_2ecbccfd.py` | 7 frozen pre-registration files + hash-chained ledger (114 picks sealed before tip) |
+| `round2/` | 11 pages: overview, projection lines, projection rotations, injuries, standings, results, strategies, ledger, method, **bet (gated)**, flagged |
+| `tests/test_round_2ecbccfd.py` | 33 tests, all passing, none of them network-dependent |
+| `.github/workflows/refresh.yml` | step order fixed + round steps added (see CR below) |
+
+### Verification performed against official sources
+* **Standings** (all 30 clubs, `https://www.nba.com/standings`, read 18:35Z) reconciled against the
+  verified results log: 30/30 clubs match on W, L and GP; ΣGP = 394 = 2 × 197 games.
+* **Injury report** `Injury-Report_2026-11-16_01_15PM.pdf` fetched in full (both chunks) and stored
+  verbatim; diffed against the committed 09:15 AM revision → 25 differences, **3 status changes**
+  (Tyson Q→D, Stewart Q→Out, Larsson Q→D, all *less available*), 20 added rows, 1 removed.
+* **Home-court advantage pinned**: 102/197 = 51.78 % → 0.756 pts. Independent cross-check from the
+  standings' HOME splits (102/196 = 52.04 %) → 0.869 pts. Agreement 0.11 pts.
+* **Neutral-site discrepancy found and explained, not smoothed**: the standings print one fewer home
+  game than the log (196 vs 197). `neutral_site_reconciliation()` identifies the single game
+  (**0022600189, 2026-11-07, DEN 114 at IND 102**) where IND's home count and DEN's road count are
+  each one short and both clubs print a matching NEUTRAL record (0-1 for IND, 1-0 for DEN). With
+  that game excluded the two HCA measures agree **exactly** (0.8686). The log itself is untouched.
+* **Rest effect measured, not assumed**: back-to-back mean margin −1.403 (n=67) vs rested +1.485
+  (n=68) → gap 2.888 pts, SE 2.908, **z = 0.99** → not significant, so ST-21 refuses itself.
+* **Same-night correlation**: ρ(margins) = 0.012, n = 808 pairs, CI95 [−0.057, 0.081] → includes 0.
+  Parlays are priced with it and the naive product is printed beside every price.
+* **Box-score integrity**: every one of the 8 new club-games sums to 240:00 minutes; 5 of 8 also
+  reproduce their printed team totals column-by-column; 3 (DAL, BOS, PHI) lose a cell inside a
+  roster row in the PDF text layer → only minutes are published for those players, the rest are
+  null, and `parse_problems` names each row.
+* **Pre-tip sealing**: all 114 PUBLISH entries carry `tip_utc` > `published_utc`
+  (tonight's 7:00 PM ET games tip 2026-11-17T00:00Z; the build stamp is 19:30Z). Nothing is
+  settled — no game in the window has a final yet, and `settled: 0` is asserted by the tests.
+
+### Irregularities flagged (published on `round2/flagged.html`, none suppressed)
+1. `data/app/closing_lines.json` is `feed_status: "not connected"`, `rows: []` → the market-anchored
+   blend is **blank on all 29 lines**; no closing line was invented and `G9` now asserts the blank.
+2. ATL@MIL (0022600243): game-page banner and game book agree on 113–106, but the MIL quarter table
+   still sums to 116 → row used for margin/total, **excluded from quarter measures**. K-02 stays open.
+3. The 01:15 PM PDF prints **`James, LeBron — Out`** inside the *Philadelphia* block. Cross-checked
+   against the official PHI game book (2026-11-15), which really does list LeBron James on
+   Philadelphia — so this is a roster fact of the 2026-27 season, **not** a report error. Flag kept,
+   diagnosis changed from "mis-attribution" to "corroborated".
+4. GSW@NOP Golden State block prints **no Reason column**; Butler III has **no Status cell** →
+   published as null with `STATUS_NOT_PRINTED` / `REASON_NOT_PRINTED`.
+5. Two injury rows are split across a page break (`GG Jackson … Fracture`; the fetch tool's chunk
+   boundary cut DEN/Strawther's row). Stitched with the join recorded (`REASON_JOINED_ACROSS_PAGE_BREAK`)
+   — and the raw transcripts are kept **unedited**, with the boundary marker inside.
+6. 15 team-sides had **NOT YET SUBMITTED** at 1:15 PM (11/17+ all unfiled) → rotation impact not
+   measurable for those clubs; no fallback to the previous day's filing.
+7. Travel miles come from the Wikipedia-sourced `data/app/arena_coordinates.json` + a haversine
+   computed in-repo → marked `travel_miles_is_derived: true`, never priced into a line.
+8. 11/19 cards print no venue → `venue: null`, `venue_is_official: false`.
+9. 3 GP discrepancy in `data/app/players_top31_2026-11-15.csv` (GP 11 vs standings GP 14) — untouched,
+   reported here for the owner.
+10. Every `NOT MEASURABLE` line keeps its null cells; **no estimator output was ever replaced by a
+    zero.**
+
+### Change requests (CR) — files owned by other sessions
+* **CR-2ecbccfd-01 → `scripts/build_app.py` / `index.html` (integration owner).** `index.html` is
+  generated, so the one "Next round" paragraph added to it by hand **will be lost on the next
+  rebuild**. Please absorb a link to `round2/index.html` into the generator's "Related work" block
+  (same pattern as the `dash/` and `round/` entries).
+* **CR-2ecbccfd-02 → `scripts/refresh_official.py` + `tests/test_refresh_official.py` (owner 81800928).**
+  CI root cause found: `PublishedSlateTests::test_published_slate_matches_the_promotion` reads
+  `data/app/official_slate_current.json` — the file step 3 of the workflow **rewrites from the live
+  feed** — and compares it with rows promoted from committed fixtures. Against CI's live fetch the
+  two can only agree by accident, which explains runs 43925193575 (step 4 red while step 3 was
+  green), 43864808752 and 43815576157 (step 5 red: the aborted test run left the tree dirty) and
+  43742524756. Fix belongs to the test: point it at a fixture (or `--dry-run`) so the live promotion
+  is asserted by an explicit, offline golden file. **Interim mitigation is already in my claim**:
+  `.github/workflows/refresh.yml` now runs the unit tests *before* the fetch, prints a self-diagnosis
+  (runner clock, python, tree state), wraps each suite in `::group::` + a named `::error::`, and
+  keeps the gates-before-rebuild ordering.
+* **CR-2ecbccfd-03 → `data/app/player_game_logs.json` (owner 8f4fac33).** Four rows from the
+  2026-11-14 CHI@MIN book print a bare jersey number in the Player Name cell ("33", "15", "9",
+  "44", all 0:00 minutes). They are excluded in my artefacts, not renamed; the upstream file is
+  theirs to correct.
+
+### Sources used this round
+`https://www.nba.com/standings` · `https://official.nba.com/nba-injury-report-2026-27-season/` ·
+`https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf` ·
+`https://www.nba.com/games?date=2026-11-15/-16` · `https://www.nba.com/schedule?date=2026-11-19` ·
+`https://www.nba.com/game/atl-vs-mil-0022600243` · `https://statsdmz.nba.com/pdfs/20261115/20261115_{DALBOS,HOUWAS,INDPHI,LALPHX}.pdf` ·
+`https://www.nba.com/stats/teams/{traditional,opponent,advanced}` (read 14:20–14:35Z by 8f4fac33,
+reused as the committed TSV rather than re-fetched).
+
+**Status: done.** Marking C8 complete; the round is merged via the PR recorded below.
+
+### Scope collision found during rebase, and how it was resolved (2ecbccfd, 2026-11-16T20:05Z)
+
+My claim (18:25Z) reserved `round2/**`. Between my base commit `907771b` and my push, session
+**`fbd2484b`** merged PR #114/#118 and put its F13 surface at `round2/` (14 files,
+`assets/round2.css`, generated by `scripts/build_round2_site.py`). `git pull --rebase` therefore
+stopped with an add/add conflict on `round2/index.html`, `round2/injuries.html`,
+`round2/flagged.html`, plus a content conflict in `index.html` and `COORDINATION.md`.
+
+Resolution, nothing of theirs discarded:
+1. `COORDINATION.md` — conflict removed by keeping **both** sides in order (their F13 sections,
+   then my claim and completion blocks). No text of theirs was edited or dropped.
+2. `index.html` — their "Newest round: round2/index.html (session arena/fbd2484b)" paragraph is
+   kept **verbatim**; my paragraph was re-added below it, pointing at my relocated tree. I first
+   re-pointed *their* link by a global search/replace, caught it in `git diff origin/main --
+   index.html`, reverted the file to main's version and re-applied only my own insertion — the
+   diff is now 1 insertion, 1 deletion (my line wrapped into the same block).
+3. `round2/**` — `git checkout --ours` restored their three conflicted pages, every file I had
+   added under `round2/` was deleted from my branch, and `git diff origin/main -- round2` is
+   **empty**: their surface is byte-identical to main.
+4. My site moved to **`round_2ecbccfd/`** (the directory naming the repo already uses for
+   session trees: `d01ae7e2/`, `240bc29b/`, `audit_*`). `round_2ecbccfd/build.py` writes its own
+   pages, so the builder, its `--check`, the workflow and my tests were re-pointed; rebuilt site is
+   11 pages, links resolve, `--check` passes.
+
+**pages.yml handoff.** F13 is recorded DONE above and its last commit to
+`.github/workflows/pages.yml` is `3a618da` at 18:33:38Z — over 60 minutes stale with no further
+commits — so per the takeover rule I added exactly one staging line
+(`cp -r round_2ecbccfd _pages/round_2ecbccfd`, with a comment naming the reason). No other line in
+that file was touched. If `fbd2484b` resumes, the change is one line to revert, and my tree's name
+is the only thing that depends on it.
+
+### PR record + one deploy failure I caused and fixed (2ecbccfd, 2026-11-16T20:35Z)
+
+| PR | scope | result |
+|---|---|---|
+| [#120](https://github.com/wingbangboozle1-lang/NBA3/pull/120) | capture (standings + 2 injury filings + 4 box scores), model (pinned HCA, neutral-site reconciliation, measured rest gap, measured ρ, ρ-priced parlays), 7 frozen pre-registrations, 114-entry pre-tip ledger, `round_2ecbccfd/` (11 pages), `refresh.yml` step-order repair + root cause, 33 tests, one `pages.yml` staging line | **merged**, `01e2d91f8a144fe1e8888cfde0e94468a65855df`, 2026-11-16T19:04:59Z |
+
+**Deploy failure, mine, diagnosed and fixed.** Pages run `43935576220` on `main` failed at step 25
+*"Assemble canonical dataset and build the dashboard"* — the gate is
+`git diff --exit-code -- data/app/canonical.json app/ index.html`. My "Next round" paragraph was
+pasted into `index.html`, which `scripts/build_app.py` **regenerates**: the build reproduced the
+committed file minus my line, the diff was non-empty, the job exited 1 and **nothing deployed**
+(`/NBA3/round_2ecbccfd/` answered 404 for that reason, not because the staging line was wrong).
+Fix: `1b21006` reverts my paragraph, and a new test pins the rule for the future
+(`test_this_round_never_hand_edits_a_generated_file`, asserting `round_2ecbccfd` appears in no
+generated file). The front-door link is **CR-2ecbccfd-01**, addressed to whoever owns
+`scripts/build_app.py`; until it lands the round is reachable at its own URL only, which is honest
+rather than silently patched.
+
+### Pages deploy confirmed green + a Suggestions & questions surface (2ecbccfd, 2026-11-16T20:52Z)
+
+* Pages run for `Merge pull request #121` on `main`: **success** (the #120 run's step-25 drift
+  failure is gone — `scripts/assemble_canonical.py` + `scripts/build_app.py` now reproduce the
+  committed `data/app/canonical.json`, `app/` and `index.html` byte-for-byte, checked locally).
+* Added `round_2ecbccfd/suggestions.html` because the brief asks for a dedicated Suggestions section
+  and this round's tree had none: 8 suggestions (S-2C-01…08: front-door generator link, one-surface-
+  per-fact, noise band beside every edge, game-book coverage gap, closing-line feed, the CI ordering
+  test, K-02's quarter table, the non-official arena table) and 5 decision questions (Q-2C-01…05),
+  each row linked to the file or official page it is about, every state cell limited to
+  `not implemented` / `open` / `mitigated …` / `partly done …` — and a test that fails if a row ever
+  claims a shared-surface change (`test_every_suggestion_is_marked_unimplemented`).
+* 12 pages now; `python3 round_2ecbccfd/build.py --check` passes and the internal-link checker
+  reports no unresolved href; `round_2ecbccfd/projection/` and `round_2ecbccfd/bet/` remain separate.
+* My suite is 37 tests, green; full `python3 -m unittest discover -s tests` exit 0.
+
+### Final state of this session's work (2ecbccfd, 2026-11-16T21:05Z)
+
+| PR | content | result |
+|---|---|---|
+| [#120](https://github.com/wingbangboozle1-lang/NBA3/pull/120) | capture + model + ledger + `round_2ecbccfd/` + CI repair | merged `01e2d91`, but its Pages run `43935576220` failed at step 25 (my hand-edit of the **generated** `index.html`) |
+| [#121](https://github.com/wingbangboozle1-lang/NBA3/pull/121) | revert of that paragraph + the regression test that pins the rule | merged `f8dc20c`; **Pages run on `main` succeeded** |
+| [#123](https://github.com/wingbangboozle1-lang/NBA3/pull/123) | `suggestions.html` (8 suggestions, 5 decision questions) + its tests | merged `42c4cc2` |
+
+* `.github/workflows/pages.yml` now carries one step for this round (capture `--check`s, the round
+  gate JSON, model, ledger, `round_2ecbccfd/build.py --check`, and the 37 tests), so a broken round
+  tree fails the deploy rather than deploying silently. Nothing else in that file was touched.
+* `gh workflow run "official data refresh" --ref main -f dry_run=true` returns
+  **HTTP 403 "Resource not accessible by integration"**: the sandbox credential may read and merge
+  but not dispatch workflows, so the refreshed `refresh.yml` ordering will first be exercised by the
+  next scheduled run (23:15Z). Its steps were each reproduced locally instead — every `--check`
+  passes and all suites are green on the committed tree.
+* Blockers still open, unchanged by this session and published on the flagged page: **K-02**
+  (ATL@MIL quarter table), **K-05** (game books for 16 clubs), **K-08** (no closing-line feed).
+
 
 > **Merge note (arena/d1b96315-nba3, 2026-11-16 ~19:20 UTC).** main advanced 27 commits while this session worked (PRs #110–#118, session `arena/fbd2484b-nba3` among them). Resolved by keeping **both** sets of appended sections — nothing from the other sessions was discarded, and `git status` for this tree is unchanged by the merge. The merge also surfaced a **cross-verification**, recorded in the section below rather than hidden: `arena/fbd2484b-nba3` independently published the same newest official revision this session fetched (`Injury-Report_2026-11-16_01_15PM.pdf`) with **76 player rows and 11 clubs unfiled**, which is exactly what this session's separate parser produced from its own transcript, and their 09:15 → 01:15 hop is **+19 player rows**, also matching. Two sessions, two parsers, one game day, same numbers. Their chain shows the day's filings landing in the **01:00 PM** revision (75 rows), which this session has now fetched too so the hop-by-hop diff is complete on both sides.
 ## Session `arena/d1b96315-nba3` (current) — CLAIM: 11/16 game-day roll — newest official report, 11/16→11/19 slate, standings feed, ATL@MIL re-read, pre-tip ledger verification
