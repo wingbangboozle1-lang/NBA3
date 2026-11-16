@@ -264,6 +264,14 @@ def run_refresh(now, stamp, out_dir, app_dir, *, dry_run=False, attempts=3,
             ["python3", "scripts/pick_ledger.py", "verify"],
             ["python3", "scripts/assemble_canonical.py"],
             ["python3", "scripts/build_app.py"],
+            # live namespace: rebuild the per-day result feeds, re-cut the model from the
+            # newest archived report, settle the ledger, then the gates are re-run by CI
+            ["python3", "scripts/build_results_feed.py"],
+            ["python3", "scripts/build_results_feed.py", "--day", "2026-11-15"],
+            ["python3", "scripts/estimators.py"],
+            ["python3", "scripts/availability.py"],
+            ["python3", "scripts/rest_travel.py"],
+            ["python3", "scripts/ledger.py"],
         ]
     for cmd in rebuild_steps:
         r = subprocess.run(cmd, cwd=ROOT)

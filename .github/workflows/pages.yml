@@ -398,6 +398,7 @@ jobs:
         run: |
           python3 scripts/injury_archive.py
           python3 scripts/build_results_feed.py
+          python3 scripts/build_results_feed.py --day 2026-11-15
           python3 scripts/estimators.py
           python3 scripts/availability.py
           python3 scripts/rest_travel.py
