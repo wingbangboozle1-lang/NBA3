@@ -5024,3 +5024,46 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 - **No market anchor** until a licensed closing-line feed exists; the field is null, not guessed.
 - **No player-prop price** until per-player logs are captured; no rho, so no number.
 - Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
+
+
+---
+
+## Session `arena/d68c239f-nba3` — current (started 2026-11-16)
+
+Session ID: `d68c239f` (branch `arena/d68c239f-nba3`, based on `origin/main` @ `907771b`).
+Per Arena policy this workspace is bound to one branch, so the `session-<id>/<task>` naming in the
+brief cannot be used; all work stays on `arena/d68c239f-nba3`. Non-overlapping file scopes are
+recorded below and this session edits only its claimed files; change requests to other sessions'
+files are logged here instead of editing them.
+
+### Claimed tasks (this session)
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| D1 | Repo review: line-by-line check of stored data vs official NBA sources; flag irregularities | in progress | d68c239f | `data/`, `scripts/*.py`, `app/*.html`, `index.html` |
+| D2 | Official schedule/standings/team-stats/injury refresh for the rolling slate (11/16–11/18) | in progress | d68c239f | `data/schedule.json`, `data/standings.*`, `data/injuries.*`, `scripts/capture_official_*.py` |
+| D3 | Per-game results feed (date, teams, final score, quarter scores) + settlement stamp | in progress | d68c239f | `scripts/results_feed.py`, `scripts/build_results_feed.py`, `data/results.*` |
+| D4 | Injury PDF storage by timestamp + consecutive-report diffs; banner revision/retrieval times | in progress | d68c239f | `scripts/injury_archive.py`, `scripts/injury_delta_*.py`, `data/live/injuries/` |
+| D5 | Pre-registration files per strategy + tamper-evident pick ledger | in progress | d68c239f | `data/prereg/`, `data/ledger/`, `scripts/preregister.py`, `scripts/pick_ledger.py`, `scripts/ledger.py` |
+| D6 | Two estimators, disagreement headline, pinned HCA, luck z-score, totals as poss×PPP, parlay rho, rotation availability, market-anchored prior | in progress | d68c239f | `scripts/estimators.py`, `scripts/model.py`, `scripts/minutes_model.py`, `scripts/rest_travel.py`, `app/picks.html`, `app/parlays.html`, `app/lines.html` |
+| D7 | Site: clean landing + category subpages, tables with source links, Flagged for Review page | in progress | d68c239f | `index.html`, `app/*.html`, `scripts/build_app.py`, `.github/workflows/pages.yml` |
+| D8 | Executive summary, suggestions section (awaiting decision), questions/answers list | in progress | d68c239f | `app/summary.html`, `app/suggestions.html`, `app/questions.html`, `data/suggestions.*`, `data/questions.*` |
+| D9 | Integration: build check, link check, unit tests, PR to `main`, merge, Pages deploy verification | unclaimed | d68c239f | `COORDINATION.md`, `README.md`, PR |
+
+### Sources used (this session, checked 2026-11-16)
+
+- [NBA Schedule](https://www.nba.com/schedule): live official schedule, week of Nov 16–22 2026 (tip times, arenas, game IDs).
+- [NBA Team stats glossary](https://www.nba.com/stats/help/glossary): official statistical terminology.
+- [NBA Official injury report index, 2026-27 season](https://official.nba.com/nba-injury-report-2026-27-season/): reporting deadlines and report listing.
+- [NBA.com Terms of Use](https://www.nba.com/termsofuse): gambling-use boundary (standing blocker for the bet surface).
+
+### Irregularities / open items carried in (not blocking the site publish; listed on Flagged for Review)
+
+- No licensed odds source; closing-line blend and market-anchored prior are null, not guessed (D6).
+- Standings not captured by any scheduled job (D2); stored as blank/flagged.
+- Injury PDFs not fetched as byte artifacts in this environment; rows transcribed from previously captured official PDFs (D4).
+- ATL@MIL `0022600243` quarter-score conflict (Q3 printed 27 vs recap 37): row withheld by the quarter-scores gate; both readings kept, no repair (D3).
+
+### Coordination notes
+
+No other session has claims on `origin/main` at claim time (`907771b`). This session does not touch files owned by sessions `f879620b` (`docs/`, `tools/`, `tests/test_validate_gates.py`), `7c532e8c-nba3` (`site/`, `scripts/build_site.py`), `9ed6085f-nba3` (`data/*.csv`, `pipeline/`), `00b0c780` (`data/app/ledger/`, `audit_00b0c780/`), or `8f4fac33` (`round/`, `scripts/refresh_2026_11_16.py`) except through logged change requests.
