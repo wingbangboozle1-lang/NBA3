@@ -5025,7 +5025,6 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 - **No player-prop price** until per-player logs are captured; no rho, so no number.
 - Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
 
-<<<<<<< HEAD
 ---
 
 ## Session `arena/f238d508-nba3` (current) — CLAIM: clean live GitHub Pages site, official-source verification of the current 3-day slate, flag irregularities, PR → merge → Pages deploy
