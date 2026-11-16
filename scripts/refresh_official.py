@@ -258,8 +258,13 @@ def main():
     if args.dry_run:
         # dry run: fetch + promote + gate report only; no canonical rebuild, no commit
         return 0
-    if not run("freshness gates (committed captures)",
-               [sys.executable, "scripts/freshness_gates.py"]):
+    # freshness gates on the committed captures (data/live). Kept in the exact shape the
+    # static ordering tests (tests/test_refresh_ordering.py, PR #94) index on: the gate must
+    # sit after the fetch and before any rebuild, and its nonzero exit must refuse it.
+    gate = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "freshness_gates.py")],
+                          cwd=ROOT)
+    if gate.returncode != 0:
+        print("freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
         return 1
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
