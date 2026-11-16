@@ -1,13 +1,13 @@
 {
- "stamp": "2026-11-16T19:03:09Z",
+ "stamp": "2026-11-16T19:09:16Z",
  "trees": {
   "d1b96315": {
    "file": "d1b96315/ledger/ledger.jsonl",
-   "entries": 29,
+   "entries": 31,
    "recipe": "pair",
    "problems": [],
    "result": "CHAIN INTACT",
-   "head_hash": "f7e2a7c94819686e5778c64a7ee6a34079741223a4df326a67b4a0ca2a1ab48d"
+   "head_hash": "a3851ca8b233e6e15898281e19a7698b52cf8e90328454c01158dd3f5bc7bfef"
   },
   "ledger_A": {
    "file": "ledger/ledger.jsonl",
@@ -36,10 +36,15 @@
   "conclusion": "K-17 resolved as a documentation gap, not a linkage break. No entry was re-hashed and no file in another session's tree was modified."
  },
  "ledger": {
-  "entries": 29,
+  "entries": 31,
   "published_pre_tip": 29,
+  "amendments": 2,
+  "amended_picks": [
+   "0022600247-d1b96315-amend",
+   "0022600258-d1b96315-amend"
+  ],
   "settled": 0,
-  "head_hash": "f7e2a7c94819686e5778c64a7ee6a34079741223a4df326a67b4a0ca2a1ab48d",
+  "head_hash": "a3851ca8b233e6e15898281e19a7698b52cf8e90328454c01158dd3f5bc7bfef",
   "settlement_stamps": []
  }
 }

@@ -1,0 +1,44 @@
+{
+ "older_stamp": "11/16/26 01:00 PM",
+ "newer_stamp": "11/16/26 01:15 PM",
+ "rule": "a change is a difference in the Current Status or Reason cell of the same (club, player) key between two consecutive revisions; a row that appears or disappears is reported separately and never treated as a status change; rows whose spelling differs between the revisions are paired by club+surname and reported under spelling_moves",
+ "status_changes": [],
+ "rows_added": [
+  {
+   "club": "Boston Celtics",
+   "player": "Queta, Neemias",
+   "status": "Questionable",
+   "change": "row not present in the older revision"
+  }
+ ],
+ "rows_removed": [],
+ "spelling_moves": [
+  {
+   "club": "New Orleans Pelicans",
+   "older_spelling": "Mathurin, Bennedict",
+   "newer_spelling": "Mathurin, Benedict",
+   "older_status": "Out",
+   "newer_status": "Out",
+   "note": "the two official revisions spell the same club+player differently; not counted as an added row, and the status change (if any) is reported here so nothing is hidden by the key mismatch",
+   "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
+   "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  }
+ ],
+ "counts": {
+  "status_changes": 0,
+  "rows_added": 1,
+  "rows_removed": 0,
+  "spelling_moves": 1,
+  "older_rows": 87,
+  "newer_rows": 87,
+  "older_player_rows": 75,
+  "newer_player_rows": 76,
+  "older_club_markers": 12,
+  "newer_club_markers": 11
+ },
+ "older_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
+ "newer_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+ "older_retrieved_utc": "2026-11-16T19:12Z",
+ "newer_retrieved_utc": "2026-11-16T18:26Z",
+ "note": "the final quarter-hour before tip: the 01:15 PM revision against the 01:00 PM one"
+}

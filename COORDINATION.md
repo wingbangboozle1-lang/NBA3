@@ -5365,3 +5365,31 @@ an early **manual** `python3 -m unittest` invocation left `data/app/refresh/T1` 
 canonical capture directory; both were removed in the same session and nothing published was touched
 (the test module itself writes to a tempdir — this was my invocation, not a test defect). Recorded as
 flag **D-11** rather than deleted silently.
+
+**Post-merge additions to this session (2026-11-16 ~19:35 UTC).** After the merge the roll was extended
+rather than re-stated, and three things changed:
+
+1. **The missing revision.** The other session's chain showed the day's filings landing at **01:00 PM
+   ET**, not 01:15 PM, so this session fetched that PDF too and transcribed it verbatim
+   (`d1b96315/data/raw/injury_2026-11-16_0100PM.md`). The published diff is now four revisions and
+   **three named hops**: 09:15 → 11:30 (0 changes — a re-stamp), 11:30 → 13:00 (**4 status changes,
+   +18 rows**, WAS/HOU/PHI filing), 13:00 → 13:15 (**+1 row**, Boston filing, and one *spelling* move
+   the league made on its own document: `Mathurin, Bennedict` → `Mathurin, Benedict`), and the whole
+   day 09:15 → 13:15 reconciles exactly (4 + 19).
+2. **Independent agreement, published as a check.** `data/rounds/2026-11-16-1300PM/injuries.json`
+   (another session's parse of the same 01:15 PM PDF) reports **76 player rows / 11 clubs unfiled**;
+   this tree's parser, from this session's own transcript, reports **76 / 11**, and their 13:00 → 13:15
+   hop (+1 row, 0 status changes) matches this tree's hop for the same pair. Recorded in
+   `injury_snapshots_2026-11-16.json` under `cross_check_with_another_session` and asserted by a test.
+   No value was copied between the two trees.
+3. **A sealed-history divergence, published instead of repaired.** The page-break carry (CR-D1B-02)
+   landed *after* 25 lines were sealed and it restored Isaiah Stewart to Memphis's Out list, so two
+   sealed rows now read differently from the model that sealed them (up to **1.59 points** on
+   0022600247 and 0022600258). Nothing was re-hashed: `d1b96315/ledger.py amend` appended **two AMEND
+   entries** naming the sealed value, the current value and the reason, and the chain still verifies
+   (31 entries, head `a3851ca8b233e6e1…`, all three trees CHAIN INTACT). Flag **D-13** carries it.
+
+Window is now **29 games across four days** (11/16–11/19), the extra day read from the official 11/19
+page by this session, with its four cards' records cross-checked against the standings capture (8/8
+agree, 0 mismatches) and the venue left blank because a scoreboard card does not print one. Tests:
+**65 OK**. Flags: **13** (5 high).

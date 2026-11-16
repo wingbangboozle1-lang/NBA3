@@ -35,6 +35,8 @@ ROOT = HERE.parent
 
 INJ_URL_1130 = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_11_30AM.pdf"
 INJ_URL_1315 = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+INJ_URL_1300 = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf"
+OTHER_SESSION_ROUND = ROOT / "data" / "rounds" / "2026-11-16-1300PM" / "injuries.json"
 INJ_INDEX = "https://official.nba.com/nba-injury-report-2026-27-season/"
 STANDINGS_URL = "https://www.nba.com/standings"
 ADVANCED_URL = "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
@@ -690,33 +692,74 @@ def main(check: bool = False) -> int:
 
     def build():
         inj_1130 = parse_injury(RAW / "injury_2026-11-16_1130AM.md", INJ_URL_1130)
+        inj_1300 = parse_injury(RAW / "injury_2026-11-16_0100PM.md", INJ_URL_1300)
         inj_1315 = parse_injury(RAW / "injury_2026-11-16_0115PM.md", INJ_URL_1315)
-        snaps = [inj_1130, inj_1315]
+        snaps = [inj_1130, inj_1300, inj_1315]
         published = None
         if PUBLISHED_0915.exists():
             published = load_published_as_report(PUBLISHED_0915)
-            snaps = [published, inj_1130, inj_1315]
+            snaps = [published, inj_1130, inj_1300, inj_1315]
+        # a second session, on a different branch of the same day's work, published its own read of
+        # the newest revision; compare counts only, never copy a value from it
+        cross = None
+        if OTHER_SESSION_ROUND.exists():
+            o = json.loads(OTHER_SESSION_ROUND.read_text(encoding="utf-8"))
+            cross = {
+                "their_file": "data/rounds/2026-11-16-1300PM/injuries.json",
+                "their_stamp": o.get("label") or o.get("report_stamp"),
+                "their_player_rows": o.get("player_rows"), "their_not_submitted": o.get("not_submitted_rows"),
+                "their_source_url": o.get("source_url"),
+                "mine_player_rows": inj_1315["player_rows"], "mine_not_submitted": inj_1315["club_marker_rows"],
+                "agree": (o.get("player_rows") == inj_1315["player_rows"]
+                          and o.get("not_submitted_rows") == inj_1315["club_marker_rows"]),
+                "note": "independent second read of the same official PDF by another session's parser; "
+                        "only the counts are compared here, and no value in this tree is taken from it",
+            }
         arts = {
             "injuries_2026-11-16_latest.json": inj_1315,
             "injuries_2026-11-16_1130AM.json": inj_1130,
             "injury_snapshots_2026-11-16.json": {
                 "game_date": "2026-11-16",
                 "index_url": INJ_INDEX,
-                "chain_note": "the three official revisions this session can reconstruct for the "
-                               "game day, oldest first: the 09:15 AM snapshot the site had already "
-                               "published (read from disk), then the 11:30 AM and 01:15 PM PDFs "
-                               "fetched and transcribed here. The report index lists revisions from "
-                               "12:00 AM to 01:15 PM ET on 11/16.",
+                "chain_note": "the four official revisions of this game day that can be reconstructed "
+                               "from documents on disk, oldest first: the 09:15 AM snapshot the site "
+                               "had already published (read from its published artefact, not re-fetched), "
+                               "then the 11:30 AM, 01:00 PM and 01:15 PM PDFs fetched and transcribed "
+                               "verbatim by this session. The league issues many revisions a day — the "
+                               "index lists 53 slots for 11/16 — so a diff is only meaningful as a pair "
+                               "of named documents, and every pair below is named.",
+                "cross_check_with_another_session": cross,
                 "revisions": [{"report_stamp": s["report_stamp"], "source_url": s["source_url"],
                                "retrieved_utc": s.get("retrieved_utc"), "count": s["count"],
                                "player_rows": s["player_rows"],
                                "club_not_yet_submitted": s["club_marker_rows"],
                                "read_from": s.get("read_from", "d1b96315 (this session)")}
-                              for s in snaps]},
+                              for s in snaps],
+                "diffs": [
+                    {"file": "injury_delta_2026-11-16_0915_to_1130.json",
+                     "label": "09:15 AM → 11:30 AM — the revision the site had not yet read"},
+                    {"file": "injury_delta_2026-11-16_1130_to_1300.json",
+                     "label": "11:30 AM → 01:00 PM — the day's filing hop"},
+                    {"file": "injury_delta_2026-11-16_1300_to_1315.json",
+                     "label": "01:00 PM → 01:15 PM — the last quarter-hour before the first tip"},
+                    {"file": "injury_delta_2026-11-16_1130_to_1315.json",
+                     "label": "11:30 AM → 01:15 PM — the pair this session fetched first"},
+                    {"file": "injury_delta_2026-11-16_0915_to_1315.json",
+                     "label": "09:15 AM → 01:15 PM — the whole game day so far"},
+                ],
+            },
+            "injury_delta_2026-11-16_1130_to_1300.json": diff_reports(
+                inj_1130, inj_1300,
+                note="the filing hop of the day: between 11:30 AM and 01:00 PM ET the league took "
+                     "Washington, Houston, Philadelphia and the two downgrades onto the report"),
+            "injury_delta_2026-11-16_1300_to_1315.json": diff_reports(
+                inj_1300, inj_1315,
+                note="the final quarter-hour before tip: the 01:15 PM revision against the 01:00 PM "
+                     "one"),
             "injury_delta_2026-11-16_1130_to_1315.json": diff_reports(
                 inj_1130, inj_1315,
-                note="consecutive official revisions, both PDFs fetched and transcribed by this "
-                     "session"),
+                note="the two revisions first fetched by this session, kept so the pair the round was "
+                     "built on can still be checked against it"),
             "standings_2026-11-16.json": parse_standings(RAW / "standings_2026-11-16.md"),
             "team_advanced_2026-11-16.json": parse_advanced(RAW / "teams_advanced_2026-11-16.md"),
         }

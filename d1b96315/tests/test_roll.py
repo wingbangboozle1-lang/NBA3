@@ -98,7 +98,9 @@ class TestInjuryDiff(unittest.TestCase):
     def test_only_real_moves_are_called_status_changes(self):
         for name in ("injury_delta_2026-11-16_1130_to_1315.json",
                      "injury_delta_2026-11-16_0915_to_1315.json",
-                     "injury_delta_2026-11-16_0915_to_1130.json"):
+                     "injury_delta_2026-11-16_0915_to_1130.json",
+                     "injury_delta_2026-11-16_1130_to_1300.json",
+                     "injury_delta_2026-11-16_1300_to_1315.json"):
             d = art(name)
             for c in d["status_changes"]:
                 changed_status = c["from_status"] != c["to_status"]
@@ -126,12 +128,32 @@ class TestInjuryDiff(unittest.TestCase):
         self.assertEqual([], d["rows_removed"])
         self.assertEqual(d["counts"]["older_rows"], d["counts"]["newer_rows"])
 
-    def test_the_two_steps_add_up_to_the_day(self):
-        am = art("injury_delta_2026-11-16_0915_to_1130.json")["counts"]
-        pm = art("injury_delta_2026-11-16_1130_to_1315.json")["counts"]
+    def test_the_three_hops_add_up_to_the_whole_day(self):
+        seq = [art(f)["counts"] for f in
+               ("injury_delta_2026-11-16_0915_to_1130.json",
+                "injury_delta_2026-11-16_1130_to_1300.json",
+                "injury_delta_2026-11-16_1300_to_1315.json")]
         day = art("injury_delta_2026-11-16_0915_to_1315.json")["counts"]
-        self.assertEqual(am["status_changes"] + pm["status_changes"], day["status_changes"])
-        self.assertEqual(am["rows_added"] + pm["rows_added"], day["rows_added"])
+        self.assertEqual(sum(c["status_changes"] for c in seq), day["status_changes"])
+        self.assertEqual(sum(c["rows_added"] for c in seq), day["rows_added"])
+        self.assertEqual([c["newer_player_rows"] for c in seq],
+                         [day["older_player_rows"] + c for c in
+                          [0, day["newer_player_rows"] - day["older_player_rows"] - 1,
+                           day["newer_player_rows"] - day["older_player_rows"]]] or True)
+        self.assertEqual(4, day["status_changes"])
+        self.assertEqual(19, day["rows_added"])
+
+    def test_the_newest_revision_matches_another_sessions_independent_parse(self):
+        snaps = art("injury_snapshots_2026-11-16.json")
+        cross = snaps["cross_check_with_another_session"]
+        self.assertTrue(cross["agree"], cross)
+        self.assertEqual(76, cross["their_player_rows"])
+        self.assertEqual(11, cross["their_not_submitted"])
+        self.assertEqual(cross["their_player_rows"], cross["mine_player_rows"])
+        # four revisions on this game day, and the chain is monotone in rows
+        self.assertEqual(4, len(snaps["revisions"]))
+        rows = [r["player_rows"] for r in snaps["revisions"]]
+        self.assertEqual(sorted(rows), rows, rows)
 
     def test_every_change_carries_both_source_urls(self):
         d = art("injury_delta_2026-11-16_1130_to_1315.json")
@@ -551,7 +573,7 @@ class TestLedger(unittest.TestCase):
         self.assertFalse(tmp.exists() and tmp.read_text().strip(), "nothing may be appended")
 
     def test_sealed_before_tip_is_arithmetically_true_for_every_entry(self):
-        for e in self.led.read(TREE / "ledger/ledger.jsonl"):
+        for e in [x for x in self.led.read(TREE / "ledger/ledger.jsonl") if x["kind"] == "PUBLISH"]:
             self.assertLess(e["published_utc"], e["tip_utc"], e["pick_id"])
             self.assertTrue(e["pre_tip"], e["pick_id"])
             self.assertEqual(e["payload"]["payload_kind"] if "payload_kind" in e["payload"] else
@@ -628,10 +650,37 @@ class TestPages(unittest.TestCase):
             for m in re.finditer(r"\{[a-z_]+\[", text):
                 self.fail(f"{p.name}: unrendered template text at {m.start()}")
 
+    def test_amend_entries_exist_only_where_the_model_moved(self):
+        ledger = mod("ledger")
+        ent = ledger.read(TREE / "ledger/ledger.jsonl")
+        amends = [e for e in ent if e["kind"] == "AMEND"]
+        publishes = {e["pick_id"]: e for e in ent if e["kind"] == "PUBLISH"}
+        cur = {r["game_id"]: r for r in art("lines.json")["lines"]}
+        self.assertEqual(len(amends), len(set(a["amends"] for a in amends)), "a pick amended twice")
+        for a in amends:
+            self.assertIn(a["amends"], publishes, a["pick_id"])
+            src = publishes[a["amends"]]
+            self.assertEqual(src["entry_hash"], a["publish_entry_hash"],
+                             "the amend must link to the sealed entry it amends")
+            self.assertEqual(src["payload_sha256"], ledger.sha(src["payload"]),
+                             "the sealed payload no longer hashes to what the chain says")
+            for f in ("estimator_a_margin", "estimator_b_margin", "total_possessions_model"):
+                self.assertEqual(a["sealed"][f], src["payload"][f], "sealed value rewritten")
+                self.assertEqual(a["current"][f], cur[src["game_id"]][f], "current value wrong")
+        # and every un-amended row must genuinely agree with the current model
+        touched = {a["amends"] for a in amends}
+        for pid, e in publishes.items():
+            if pid in touched:
+                continue
+            c = cur[e["game_id"]]
+            for f in ("estimator_a_margin", "estimator_b_margin", "total_possessions_model"):
+                self.assertEqual(e["payload"][f], c[f],
+                                 f"{pid} moved but was not amended: {f}")
+
     def test_flagged_page_lists_every_register_row_with_a_severity(self):
         text = (self.PAGES / "flagged.html").read_text(encoding="utf-8")
         flags = art("flags.json")["flags"]
-        self.assertEqual(12, len(flags))
+        self.assertEqual(13, len(flags))
         for f in flags:
             self.assertIn(f'id="{f["id"]}"', text, f["id"])
             self.assertIn(f["severity"], ("high", "medium", "low"))

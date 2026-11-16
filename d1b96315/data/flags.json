@@ -4,10 +4,10 @@
  "session": "arena/d1b96315-nba3",
  "rule": "nothing on this list blocks the merge; every row carries at least one official source link and a value that could not be confirmed is left blank rather than inferred",
  "counts": {
-  "rows": 12,
+  "rows": 13,
   "by_severity": {
    "high": 5,
-   "medium": 5,
+   "medium": 6,
    "low": 2
   },
   "blocking_merge": 0
@@ -18,10 +18,10 @@
    "id": "D-01",
    "severity": "high",
    "surface": "data plane / freshness",
-   "title": "the published injury snapshot was 4 h 05 m behind the newest official revision",
-   "measured": "site published 2026-11-16 09:15 AM ET (retrieved 2026-11-16T14:35Z); the newest official 11/16 revision is 01:15 PM ET; rows 72 -> 87, player rows 57 -> 76, clubs still unfiled 15 -> 11",
-   "why_it_matters": "the whole afternoon's availability news \u2014 Marcus Out on a league suspension, Anthony Edwards Out, Jaylon Tyson and Pelle Larsson downgraded to Doubtful, Isaiah Stewart to Out, and 19 rows added when Washington, Boston, Houston and Philadelphia filed \u2014 was absent from every published surface while its games were still un-tipped",
-   "action": "the refresh job must run its gates on the newest revision in the index, not on the one it last managed to fetch; D-02 is why it did not",
+   "title": "at this session's base the published snapshot was 4 h 05 m behind the newest official revision, and the scheduled job is the reason",
+   "measured": "at base 2026-11-16 09:15 AM ET (retrieved 2026-11-16T14:35Z) was the newest published report; the day's actual chain is 09:15 AM (57 player rows / 15 clubs unfiled) \u2192 11:30 AM (no change, a re-stamp) \u2192 01:00 PM (75 / 12 \u2014 the filing hop) \u2192 01:15 PM (76 / 11). While this session worked, main gained a round from arena/fbd2484b-nba3 that published the same 01:15 PM revision, and its parser's counts agree row-for-row with this session's independent read (76 player rows, 11 clubs unfiled) \u2014 the round is now fresh, the scheduled job still is not: data/app/refresh/ is stuck at 2026-11-16T00-57Z",
+   "why_it_matters": "the afternoon's availability news \u2014 Marcus Smart Out on a league suspension, Jaylon Tyson, Isaiah Stewart and Pelle Larsson downgraded, 19 rows added when Washington, Houston, Philadelphia and finally Boston filed \u2014 reached the round tree by another session's work but never reached the canonical capture directory or the app surfaces, because the cron fired at 11:15 and 17:15 UTC and its last run died before its commit step",
+   "action": "CR-D1B-03 on the board: a game-day pass ~30 minutes before the earliest tip, taking the newest item in the index rather than a constructed filename; D-02 is why nothing advanced on its own",
    "blocks_merge": false,
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
@@ -192,7 +192,7 @@
    "severity": "medium",
    "surface": "ledger / tamper evidence",
    "title": "the second ledger chain is verifiable, but its recipe was never written down",
-   "measured": "independent re-verification of all three chains: data/app/ledger/ledger.jsonl 34 entries, 34/34 recompute with sha256(canon({prev, body})) and 0/34 with the body alone; ledger/ledger.jsonl 11 entries intact under its documented recipe; this session's chain 29 entries, head f7e2a7c94819686e..., 0 settled",
+   "measured": "independent re-verification of all three chains: data/app/ledger/ledger.jsonl 34 entries, 34/34 recompute with sha256(canon({prev, body})) and 0/34 with the body alone; ledger/ledger.jsonl 11 entries intact under its documented recipe; this session's chain 29 entries, head a3851ca8b233e6e1..., 0 settled",
    "why_it_matters": "board item K-17 called this 'undocumented hash recipe' and left it open; the hash is over the {prev, body} pair produced by chain_hash() in scripts/pick_ledger.py, so the chain is intact and the 'problem' was missing documentation, not a linkage break",
    "action": "nothing re-hashed, nothing in another session's tree modified; the verifier here (d1b96315/ledger.py verify) is the recipe, restated in code and in this row",
    "blocks_merge": false,
@@ -202,6 +202,21 @@
     "scripts/pick_ledger.py",
     "d1b96315/data/ledger_check.json",
     "d1b96315/ledger/ledger.jsonl"
+   ]
+  },
+  {
+   "id": "D-13",
+   "severity": "medium",
+   "surface": "ledger / sealed history",
+   "title": "two sealed lines disagree with the model that sealed them, because a parser fix landed between the seal and now",
+   "measured": "2 AMEND entries appended to 29 seals (0022600247-d1b96315-amend, 0022600258-d1b96315-amend): the page-break carry that recovered 7 dropped injury rows also restored Isaiah Stewart to Memphis's Out list, which moves estimator B's margin on the two Memphis games by up to 1.59 points. The sealed payloads were left byte for byte as they were",
+   "why_it_matters": "this is what an honest fix looks like in a tamper-evident ledger: the old hash stays and the divergence is published. Silently re-hashing would have made the chain agree with today's model and stopped being evidence about what was actually published before tip",
+   "action": "read the ledger page's amend panel; no action needed for tonight's games, whose sealed numbers and current numbers already agree",
+   "blocks_merge": false,
+   "sources": [
+    "d1b96315/ledger/ledger.jsonl",
+    "d1b96315/data/ledger_check.json",
+    "d1b96315/data/lines.json"
    ]
   }
  ]

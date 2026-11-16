@@ -335,10 +335,54 @@ def p_injuries(A) -> str:
                         src_cell([A["urls"]["pdf_1315"]])])
         return out
 
-    steps_ok = (dam["counts"]["status_changes"] + dpm["counts"]["status_changes"]
-                == A["delta_day"]["counts"]["status_changes"])
+    hops = [h["file"] for h in snaps["diffs"]]
+    loaded = {f: json.loads((DATA / f).read_text(encoding="utf-8")) for f in hops}
+    parts = []
+    for h in snaps["diffs"]:
+        d = loaded[h["file"]]
+        c = d["counts"]
+        parts.append(
+            f'<h3>{e(h["label"])}</h3><p class="small mut">{e(d["note"])} · '
+            f'{c["older_rows"]} rows / {c["older_player_rows"]} player rows / '
+            f'{c["older_club_markers"]} unfiled → <b>{c["newer_rows"]} rows / '
+            f'{c["newer_player_rows"]} player rows / {c["newer_club_markers"]} unfiled</b> · '
+            f'<b>{c["status_changes"]}</b> status changes, <b>{c["rows_added"]}</b> rows added, '
+            f'<b>{c["rows_removed"]}</b> rows dropped, <b>{c["spelling_moves"]}</b> spelling moves · '
+            f'<a class="src" href="{e(REPO_BLOB + "d1b96315/data/" + h["file"])}">json</a></p>'
+            + table(["club", "player", "matchup", "status move", "older reason", "newer reason",
+                     "kind", "sources"], changes(d))
+            + f'<p class="small mut">Rule: {e(d["rule"])}</p>')
+    diff_html = chr(10).join(parts)
+    hops_seq = ["injury_delta_2026-11-16_0915_to_1130.json",
+                "injury_delta_2026-11-16_1130_to_1300.json",
+                "injury_delta_2026-11-16_1300_to_1315.json"]
+    seq = [loaded[f]["counts"] for f in hops_seq]
+    day = loaded["injury_delta_2026-11-16_0915_to_1315.json"]["counts"]
+    steps_ok = (sum(c["status_changes"] for c in seq) == day["status_changes"]
+                and sum(c["rows_added"] for c in seq) == day["rows_added"])
+    cross = snaps.get("cross_check_with_another_session") or {}
+    cross_html = ""
+    if cross:
+        okc = ('<span class="tag ok">agree</span>' if cross.get("agree")
+               else '<span class="tag bad">disagree</span>')
+        cross_html = (
+            '<h2>Cross-check against a second session\'s independent read of the same PDF</h2>'
+            '<div class="note">' + okc + ' <code>' + e(str(cross["their_file"])) + '</code> (another '
+            'session\'s parser, from its own transcript of <code>'
+            + e(str(cross["their_source_url"]).rsplit("/", 1)[-1]) + '</code>) reports <b>'
+            + str(cross["their_player_rows"]) + ' player rows</b> and <b>'
+            + str(cross["their_not_submitted"]) + ' clubs unfiled</b>; this tree\'s parser, from this '
+            'session\'s own transcript, reports <b>' + str(cross["mine_player_rows"]) + '</b> and <b>'
+            + str(cross["mine_not_submitted"]) + '</b>. Their 01:00 PM hop holds '
+            + str(seq[1]["newer_player_rows"]) + ' player rows and their 01:00 → 01:15 hop adds exactly '
+            'one row with no status change, which is what the same two hops produce here ('
+            + str(seq[1]["newer_player_rows"]) + ' → ' + str(seq[2]["newer_player_rows"]) + ', '
+            + str(seq[2]["status_changes"]) + ' changes, ' + str(seq[2]["rows_added"]) + ' added). '
+            + e(str(cross["note"])) + ' ' + src_cell([cross["their_file"], A["urls"]["pdf_1315"]])
+            + '</div>')
+
     body = f"""
-<h1>Injury report: three official revisions of one game day, diffed</h1>
+<h1>Injury report: four official revisions of one game day, diffed hop by hop</h1>
 <p class="lead">The report is re-issued through the afternoon, so the only defensible statement about
 availability is "as of {e(lat['report_stamp'])} ET". Below: the revisions, the two consecutive diffs,
 every row the newest revision carries, and the cells the official PDF itself does not print.</p>
@@ -346,10 +390,11 @@ every row the newest revision carries, and the cells the official PDF itself doe
 {card("newest revision", e(lat['report_stamp']), f"retrieved {e(lat['retrieved_utc'])}")}
 {card("player rows", f"{lat['player_rows']}", f"was {pub['player_rows']} at 09:15")}
 {card("clubs still unfiled", f"{lat['club_marker_rows']}", f"was {pub['not_submitted_rows']}")}
-{card("status changes, afternoon", f"{dpm['counts']['status_changes']}",
-      f"plus {dpm['counts']['rows_added']} rows added when four clubs filed")}
-{card("09:15 → 11:30 step", f"{dam['counts']['status_changes']} changes",
-      "the mid-morning revision re-stamped the document and changed nothing for the clubs that had filed")}
+{card("status changes across the day", f"{day['status_changes']}",
+      f"+{day['rows_added']} player rows, {day['spelling_moves']} spelling move, "
+      f"{day['rows_removed']} rows dropped")}
+{card("the filing hop", f"{seq[1]['status_changes']} changes / +{seq[1]['rows_added']} rows",
+      "11:30 AM → 01:00 PM: Washington, Houston and Philadelphia filed; three downgrades landed")}
 {card("unread cells in the PDF", f"{len(unread)}", "Golden State's block, printed with a column missing")}
 </div>
 
@@ -357,22 +402,19 @@ every row the newest revision carries, and the cells the official PDF itself doe
 {table(["report stamp as printed", "^rows", "^player rows", "^clubs unfiled", "retrieved (UTC)", "source", "read from"], rev_rows())}
 <p class="small mut">{e(snaps['chain_note'])}</p>
 
-<h2>Diff 1 — 11:30 AM → 01:15 PM ET (both revisions fetched and transcribed by this session)</h2>
-{table(["club", "player", "matchup", "status move", "reason at 11:30", "reason at 01:15", "kind", "sources"], changes(dpm))}
-<p class="small mut">Rule: {e(dpm['rule'])}</p>
+<h2>The revisions, and every hop between them</h2>
+<p class="small mut">The league issues many revisions a day — the index lists 53 slots for 11/16 — so a
+diff is only meaningful as a pair of named documents. Each section names its pair, prints its own
+counts, and links its JSON; rows are reproduced exactly as the PDF renders them.</p>
+{diff_html}
 
-<h2>Diff 2 — 09:15 AM (what the site had published) → 01:15 PM ET, the whole day</h2>
-{table(["club", "player", "matchup", "status move", "older reason", "newer reason", "kind", "sources"], changes(A["delta_day"]))}
-<p class="small mut">{e(A['delta_day']['note'])}. Older side read from
-<code>{e(A['delta_day'].get('older_read_from', ''))}</code> — {e(A['delta_day'].get('older_provenance_note', ''))}</p>
-<p class="small">Step-by-step check: {dam['counts']['status_changes']} changes in the morning step +
-{dpm['counts']['status_changes']} in the afternoon step =
-{A['delta_day']['counts']['status_changes']} across the day
-({'the two steps add up to the whole-day diff' if steps_ok else 'the steps do NOT add up: see D-05, the page-break rows'});
-rows {pub['count']} → {morn['count']} → {lat['count']}.
-Morning step: <a href="{e(REPO_BLOB + 'd1b96315/data/injury_delta_2026-11-16_0915_to_1130.json')}">json</a> ·
-afternoon step: <a href="{e(REPO_BLOB + 'd1b96315/data/injury_delta_2026-11-16_1130_to_1315.json')}">json</a> ·
-whole day: <a href="{e(REPO_BLOB + 'd1b96315/data/injury_delta_2026-11-16_0915_to_1315.json')}">json</a></p>
+{cross_html}
+
+<p class="small">Step-by-step check: {seq[0]["status_changes"]} + {seq[1]["status_changes"]} +
+{seq[2]["status_changes"]} changes = {day["status_changes"]} across the day, and
+{seq[0]["rows_added"]} + {seq[1]["rows_added"]} + {seq[2]["rows_added"]} = {day["rows_added"]} rows added
+('the three hops add up to the whole-day diff exactly' if steps_ok else 'the hops do NOT add up — see D-05, the page-break rows');
+rows {pub["count"]} → {morn["count"]} → {seq[1]["newer_rows"]} → {lat["count"]}</p>
 
 <h2>Who has filed, and who is out tonight, by club</h2>
 {table(["club", "filing state", "^player rows", "Out / Doubtful the availability model applies", "source"], club_rows())}
@@ -949,7 +991,11 @@ def p_ledger(A) -> str:
     t = led["trees"]
     k17 = led["k17_resolution"]
     rows = []
+    amends = []
     for en in ent:
+        if en["kind"] == "AMEND":
+            amends.append(en)
+            continue
         pre = en["payload"]
         rows.append([f'<span class="num">{en["seq"]}</span>', e(en["pick_id"]), e(en["game_id"]),
                      e(en["date"]), f'{e(pre["away"])} @ {e(pre["home"])}',
@@ -974,6 +1020,28 @@ def p_ledger(A) -> str:
                             e(v["problems"] or "none"), src_cell([writer, v["file"]])])
     verify_table = table(["tree", "file", "^entries", "recipe used", "result", "problems",
                           "verifier + chain"], verify_rows)
+    if amends:
+        am_rows = []
+        for a in amends:
+            sealed, current = a["sealed"], a["current"]
+            am_rows.append([e(a["pick_id"]), e(a["amends"]), e(a["game_id"]),
+                            " · ".join(f'{k.replace("_margin", "").replace("_points", "")} '
+                                       f'{sealed[k]} → {current[k]}'
+                                       for k in ("estimator_a_margin", "estimator_b_margin",
+                                                 "total_possessions_model")),
+                            f'<b>{a["max_delta_points"]}</b> pts', e(a["stamp"]),
+                            src_cell(["d1b96315/ledger/ledger.jsonl", "d1b96315/data/lines.json"])])
+        amend_html = (
+            '<h2>Two sealed lines were amended, not edited</h2><div class="badbox">'
+            'The page-break carry that fixed the injury parser (flag D-05) landed <i>after</i> '
+            f'{len(amends)} of these seals, and two Memphis rows were among the rows it recovered, so '
+            'the model now reads a different number for those games than the number that was hashed. '
+            'A sealed entry is never rewritten — that would destroy the evidence — so the chain carries '
+            'an appended AMEND entry naming both values and why they differ.</div>'
+            + table(["amend entry", "amends", "game", "sealed → current", "^max delta", "stamped",
+                     "sources"], am_rows))
+    else:
+        amend_html = ""
     body = f"""
 <h1>Ledger: every published line hashed before its tip</h1>
 <p class="lead">{led['ledger']['published_pre_tip']} entries, each one the hash of a line this session
@@ -989,6 +1057,7 @@ money, no funded strategy, and no back-dated hash: a row whose tip had already p
 </div>
 {ent_table}
 
+{amend_html}
 <h2>The three chains, verified by one script</h2>
 {verify_table}
 <div class="note"><b>Board item K-17, resolved.</b> {e(k17['finding'])}<br>

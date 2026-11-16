@@ -254,6 +254,52 @@ def verify_tree(path: pathlib.Path, recipe: str) -> dict:
             "head_hash": entries[-1]["entry_hash"] if entries else None}
 
 
+def amend(now: datetime) -> dict:
+    """Append an AMEND entry for every sealed pick whose *current* line differs from the sealed one.
+
+    A sealed entry is never edited — that is the whole point of the chain. When a model fix lands
+    after a seal (this session's page-break carry moved two Memphis rows), the honest record is an
+    appended entry that names both values and says why they differ, so a reader can see the
+    divergence instead of finding a chain that quietly matches today's numbers.
+    """
+    entries = read(LFILE)
+    prev = entries[-1]["entry_hash"] if entries else GENESIS
+    already = {e.get("amends") for e in entries if e["kind"] == "AMEND"}
+    cur = {r["game_id"]: r for r in load(LINES)["lines"]}
+    fields = ("estimator_a_margin", "estimator_b_margin", "disagreement_margin_points",
+              "total_possessions_model")
+    added = []
+    for e in entries:
+        if e["kind"] != "PUBLISH" or e["pick_id"] in already:
+            continue
+        c = cur.get(e["game_id"])
+        if not c:
+            continue
+        deltas = [(f, e["payload"].get(f), c.get(f)) for f in fields
+                  if abs((e["payload"].get(f) or 0) - (c.get(f) or 0)) > 0.005]
+        if not deltas:
+            continue
+        body = {"amends": e["pick_id"], "publish_entry_hash": e["entry_hash"],
+                "sealed": {f: e["payload"].get(f) for f in fields},
+                "current": {f: c.get(f) for f in fields},
+                "max_delta_points": round(max(abs((a or 0) - (b or 0)) for _, a, b in deltas), 2),
+                "why": "the model changed after this line was sealed: the injury parser now carries a "
+                       "club across a PDF page break, so the availability adjustment applies to rows "
+                       "the earlier build silently dropped (board flag D-05). The sealed entry is "
+                       "left exactly as it was; this entry records what the same row reads now",
+                "stamp": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
+        entry = {"seq": len(entries) + 1, "kind": "AMEND", "pick_id": f"{e['pick_id']}-amend",
+                 "game_id": e["game_id"], "date": e["date"], "prev_hash": prev, **body}
+        entry["entry_hash"] = sha({"prev": prev, "entry": {k: v for k, v in entry.items()
+                                                            if k != "entry_hash"}})
+        entries.append(entry)
+        with LFILE.open("a", encoding="utf-8") as fh:
+            fh.write(canon(entry) + "\n")
+        prev = entry["entry_hash"]
+        added.append(entry["pick_id"])
+    return {"amended": added, "entries": len(entries), "head_hash": prev}
+
+
 def verify(now: datetime) -> dict:
     out = {"stamp": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "trees": {}}
     out["trees"]["d1b96315"] = verify_tree(LFILE, "pair")
@@ -285,6 +331,8 @@ def verify(now: datetime) -> dict:
     out["ledger"] = {
         "entries": len(ent),
         "published_pre_tip": sum(1 for e in ent if e["kind"] == "PUBLISH"),
+        "amendments": sum(1 for e in ent if e["kind"] == "AMEND"),
+        "amended_picks": [e["pick_id"] for e in ent if e["kind"] == "AMEND"],
         "settled": sum(1 for e in ent if e["kind"] == "SETTLE"),
         "head_hash": ent[-1]["entry_hash"] if ent else None,
         "settlement_stamps": [{"pick_id": e["pick_id"], "stamp": e["stamp"],
@@ -300,7 +348,7 @@ def load(p: pathlib.Path):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("action", choices=["publish", "settle", "verify", "seal-round"])
+    ap.add_argument("action", choices=["publish", "settle", "amend", "verify", "seal-round"])
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--now", default=None, help="override the clock, ISO-8601 UTC (for tests)")
     a = ap.parse_args()
@@ -310,12 +358,15 @@ def main() -> int:
         res = publish(now)
     elif a.action == "settle":
         res = settle(now)
+    elif a.action == "amend":
+        res = amend(now)
     elif a.action == "seal-round":
         p = publish(now)
         s = settle(now)
+        m = amend(now)
         v = verify(now)
         (D / "ledger_check.json").write_text(json.dumps(v, indent=1) + "\n", encoding="utf-8")
-        res = {"publish": p, "settle": s, "verify": v}
+        res = {"publish": p, "settle": s, "amend": m, "verify": v}
     else:
         v = verify(now)
         (D / "ledger_check.json").write_text(json.dumps(v, indent=1) + "\n", encoding="utf-8")

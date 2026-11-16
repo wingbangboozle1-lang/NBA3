@@ -73,18 +73,26 @@ def build() -> dict:
 
     rows = [
         {"id": "D-01", "severity": "high", "surface": "data plane / freshness",
-         "title": "the published injury snapshot was 4 h 05 m behind the newest official revision",
-         "measured": f"site published {pub['report_stamp']} (retrieved {pub['retrieved_utc']}); the "
-                     f"newest official 11/16 revision is 01:15 PM ET; rows {pub['count']} -> "
-                     f"{latest['count']}, player rows {pub['player_rows']} -> {latest['player_rows']}, "
-                     f"clubs still unfiled {pub['not_submitted_rows']} -> {latest['club_marker_rows']}",
-         "why_it_matters": "the whole afternoon's availability news — Marcus Out on a league "
-                           "suspension, Anthony Edwards Out, Jaylon Tyson and Pelle Larsson "
-                           "downgraded to Doubtful, Isaiah Stewart to Out, and 19 rows added when "
-                           "Washington, Boston, Houston and Philadelphia filed — was absent from every "
-                           "published surface while its games were still un-tipped",
-         "action": "the refresh job must run its gates on the newest revision in the index, not on the "
-                   "one it last managed to fetch; D-02 is why it did not",
+         "title": "at this session's base the published snapshot was 4 h 05 m behind the newest "
+                  "official revision, and the scheduled job is the reason",
+         "measured": f"at base {pub['report_stamp']} (retrieved {pub['retrieved_utc']}) was the newest "
+                     f"published report; the day's actual chain is 09:15 AM (57 player rows / 15 clubs "
+                     f"unfiled) → 11:30 AM (no change, a re-stamp) → 01:00 PM (75 / 12 — the filing "
+                     f"hop) → 01:15 PM ({latest['player_rows']} / {latest['club_marker_rows']}). While "
+                     f"this session worked, main gained a round from arena/fbd2484b-nba3 that published "
+                     f"the same 01:15 PM revision, and its parser's counts agree row-for-row with this "
+                     f"session's independent read (76 player rows, 11 clubs unfiled) — the round is now "
+                     f"fresh, the scheduled job still is not: data/app/refresh/ is stuck at "
+                     f"2026-11-16T00-57Z",
+         "why_it_matters": "the afternoon's availability news — Marcus Smart Out on a league "
+                           "suspension, Jaylon Tyson, Isaiah Stewart and Pelle Larsson downgraded, "
+                           "19 rows added when Washington, Houston, Philadelphia and finally Boston "
+                           "filed — reached the round tree by another session's work but never reached "
+                           "the canonical capture directory or the app surfaces, because the cron fired "
+                           "at 11:15 and 17:15 UTC and its last run died before its commit step",
+         "action": "CR-D1B-03 on the board: a game-day pass ~30 minutes before the earliest tip, "
+                   "taking the newest item in the index rather than a constructed filename; D-02 is "
+                   "why nothing advanced on its own",
          "blocks_merge": False,
          "sources": [OFFICIAL["index"], OFFICIAL["pdf_1315"], OFFICIAL["pdf_0915"],
                      "data/rounds/2026-11-16/injuries.json",
@@ -298,6 +306,25 @@ def build() -> dict:
                      "scripts/pick_ledger.py", "d1b96315/data/ledger_check.json",
                      "d1b96315/ledger/ledger.jsonl"]},
     ]
+    rows.append(
+        {"id": "D-13", "severity": "medium", "surface": "ledger / sealed history",
+         "title": "two sealed lines disagree with the model that sealed them, because a parser fix "
+                  "landed between the seal and now",
+         "measured": f"{led['ledger']['amendments']} AMEND entries appended to "
+                     f"{led['ledger']['published_pre_tip']} seals "
+                     f"({', '.join(led['ledger']['amended_picks'])}): the page-break carry that "
+                     "recovered 7 dropped injury rows also restored Isaiah Stewart to Memphis's Out "
+                     "list, which moves estimator B's margin on the two Memphis games by up to 1.59 "
+                     "points. The sealed payloads were left byte for byte as they were",
+         "why_it_matters": "this is what an honest fix looks like in a tamper-evident ledger: the old "
+                           "hash stays and the divergence is published. Silently re-hashing would have "
+                           "made the chain agree with today's model and stopped being evidence about "
+                           "what was actually published before tip",
+         "action": "read the ledger page's amend panel; no action needed for tonight's games, whose "
+                   "sealed numbers and current numbers already agree",
+         "blocks_merge": False,
+         "sources": ["d1b96315/ledger/ledger.jsonl", "d1b96315/data/ledger_check.json",
+                     "d1b96315/data/lines.json"]})
     return {"schema": "nba3.d1b96315.flags/v1", "stamp": STAMP, "session": "arena/d1b96315-nba3",
             "rule": "nothing on this list blocks the merge; every row carries at least one official "
                     "source link and a value that could not be confirmed is left blank rather than "
