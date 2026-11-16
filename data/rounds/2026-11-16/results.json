@@ -1,0 +1,509 @@
+{
+ "schema": "nba3.rounds.results/v1",
+ "game_date": "2026-11-15",
+ "source_label": "Official final scores and quarter scores. Every row is read from that game's official game book (statsdmz.nba.com PDF) and cross-checked against the game book's own recap line and against the nba.com scoreboard for the same date.",
+ "retrieved_utc": "2026-11-16T14:40Z",
+ "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+ "one_row_per_game": true,
+ "count": 9,
+ "settled_count": 8,
+ "blocked_count": 1,
+ "settlement_rule": "A row settles only when, for BOTH teams, the four (or five) printed quarter scores sum to that team's printed FINAL, AND the game book's recap line restates the same quarters. Anything else is published unsettled with the arithmetic shown.",
+ "rows": [
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600236",
+   "away": "IND",
+   "home": "PHI",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "game_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    35,
+    22,
+    30,
+    37
+   ],
+   "home_quarters": [
+    29,
+    29,
+    39,
+    34
+   ],
+   "away_final": 124,
+   "home_final": 131,
+   "quarter_sums": {
+    "away": 124,
+    "home": 131
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "76ERS 29 29 39 34 131",
+   "recap_label_check": {
+    "recap_label": "76ERS",
+    "away_label": "Pacers",
+    "home_label": "76ERS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": -7,
+   "total_points": 255
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600237",
+   "away": "LAL",
+   "home": "PHX",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "game_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    33,
+    31,
+    40,
+    27
+   ],
+   "home_quarters": [
+    24,
+    30,
+    26,
+    43
+   ],
+   "away_final": 131,
+   "home_final": 123,
+   "quarter_sums": {
+    "away": 131,
+    "home": 123
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "SUNS 24 30 26 43 123",
+   "recap_label_check": {
+    "recap_label": "SUNS",
+    "away_label": "Lakers",
+    "home_label": "SUNS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": 8,
+   "total_points": 254
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600238",
+   "away": "CHA",
+   "home": "LAC",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "game_url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    21,
+    31,
+    31,
+    22
+   ],
+   "home_quarters": [
+    22,
+    29,
+    33,
+    29
+   ],
+   "away_final": 105,
+   "home_final": 113,
+   "quarter_sums": {
+    "away": 105,
+    "home": 113
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "CLIPPERS 22 29 33 29 113",
+   "recap_label_check": {
+    "recap_label": "CLIPPERS",
+    "away_label": "Hornets",
+    "home_label": "CLIPPERS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": -8,
+   "total_points": 218
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600239",
+   "away": "SAS",
+   "home": "UTA",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "game_url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    31,
+    27,
+    23,
+    29
+   ],
+   "home_quarters": [
+    33,
+    22,
+    26,
+    21
+   ],
+   "away_final": 110,
+   "home_final": 102,
+   "quarter_sums": {
+    "away": 110,
+    "home": 102
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "JAZZ 33 22 26 21 102",
+   "recap_label_check": {
+    "recap_label": "JAZZ",
+    "away_label": "Spurs",
+    "home_label": "JAZZ",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": 8,
+   "total_points": 212
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600240",
+   "away": "DAL",
+   "home": "BOS",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+   "game_url": "https://www.nba.com/game/dal-vs-bos-0022600240",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    9,
+    28,
+    34,
+    23
+   ],
+   "home_quarters": [
+    42,
+    25,
+    37,
+    27
+   ],
+   "away_final": 94,
+   "home_final": 131,
+   "quarter_sums": {
+    "away": 94,
+    "home": 131
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "CELTICS 42 25 37 27 131",
+   "recap_label_check": {
+    "recap_label": "CELTICS",
+    "away_label": "Mavericks",
+    "home_label": "CELTICS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": -37,
+   "total_points": 225
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600241",
+   "away": "NYK",
+   "home": "TOR",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+   "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600241",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    23,
+    24,
+    20,
+    28,
+    17
+   ],
+   "home_quarters": [
+    17,
+    26,
+    31,
+    21,
+    13
+   ],
+   "away_final": 112,
+   "home_final": 108,
+   "quarter_sums": {
+    "away": 112,
+    "home": 108
+   },
+   "periods_printed": 5,
+   "ot": true,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "RAPTORS 17 26",
+   "recap_label_check": {
+    "recap_label": "RAPTORS",
+    "away_label": "Knicks",
+    "home_label": "RAPTORS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 2,
+   "recap_values_expected": 6,
+   "recap_truncated": true,
+   "recap_matches": false,
+   "conflict": {
+    "what": "the game book's recap line is truncated in the PDF extraction",
+    "team": "home",
+    "period_table": [
+     17,
+     26,
+     31,
+     21,
+     13
+    ],
+    "recap_line": [
+     17
+    ],
+    "quarters_differing": [],
+    "values_printed": 2,
+    "values_expected": 6,
+    "arithmetic": {
+     "period_table_sums_to_printed_final": true
+    },
+    "resolution": "no numeric contradiction: the table sums to the printed final and the truncated recap agrees on every value it does print; the row is settled on the period table and the truncation is recorded, with no value taken from the recap"
+   },
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": 4,
+   "total_points": 220
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600242",
+   "away": "HOU",
+   "home": "WAS",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+   "game_url": "https://www.nba.com/game/hou-vs-was-0022600242",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    36,
+    37,
+    46,
+    28
+   ],
+   "home_quarters": [
+    31,
+    23,
+    34,
+    31
+   ],
+   "away_final": 147,
+   "home_final": 119,
+   "quarter_sums": {
+    "away": 147,
+    "home": 119
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "WIZARDS 31 23 34 31 119",
+   "recap_label_check": {
+    "recap_label": "WIZARDS",
+    "away_label": "Rockets",
+    "home_label": "WIZARDS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": 28,
+   "total_points": 266
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600243",
+   "away": "ATL",
+   "home": "MIL",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+   "game_url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    18,
+    37,
+    32,
+    26
+   ],
+   "home_quarters": [
+    37,
+    16,
+    37,
+    26
+   ],
+   "away_final": 113,
+   "home_final": 106,
+   "quarter_sums": {
+    "away": 113,
+    "home": 116
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": false,
+   "own_recap_line": "BUCKS 37 16 27 26 106",
+   "recap_label_check": {
+    "recap_label": "BUCKS",
+    "away_label": "Hawks",
+    "home_label": "BUCKS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": false,
+   "conflict": {
+    "what": "the game book's own recap line disagrees with its SCORE BY PERIOD table for the same team",
+    "team": "home",
+    "period_table": [
+     37,
+     16,
+     37,
+     26
+    ],
+    "recap_line": [
+     37,
+     16,
+     27,
+     26
+    ],
+    "quarters_differing": [
+     3
+    ],
+    "arithmetic": {
+     "period_table_sums_to_printed_final": false,
+     "recap_sums_to_printed_final": true
+    },
+    "resolution": "unresolved -- published as printed, row flagged"
+   },
+   "verified": false,
+   "settled": false,
+   "settlement_blocked_because": "MIL quarters sum to 116 but the final prints 106; the game book's recap line contradicts its period table",
+   "settlement_stamp": null,
+   "away_margin": 7,
+   "total_points": 219
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600244",
+   "away": "OKC",
+   "home": "SAC",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
+   "game_url": "https://www.nba.com/game/okc-vs-sac-0022600244",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
+   "scoreboard_url": "https://www.nba.com/games?date=2026-11-15",
+   "away_quarters": [
+    32,
+    30,
+    32,
+    31
+   ],
+   "home_quarters": [
+    24,
+    26,
+    30,
+    23
+   ],
+   "away_final": 125,
+   "home_final": 103,
+   "quarter_sums": {
+    "away": 125,
+    "home": 103
+   },
+   "periods_printed": 4,
+   "ot": false,
+   "away_sum_ok": true,
+   "home_sum_ok": true,
+   "own_recap_line": "KINGS 24 26 30 23 103",
+   "recap_label_check": {
+    "recap_label": "KINGS",
+    "away_label": "Thunder",
+    "home_label": "KINGS",
+    "resolved_to": "home"
+   },
+   "recap_values_printed": 5,
+   "recap_values_expected": 5,
+   "recap_truncated": false,
+   "recap_matches": true,
+   "conflict": null,
+   "verified": true,
+   "settled": true,
+   "settlement_basis": "quarter scores sum to the printed final for both teams, and the game book's recap line restates the same numbers",
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "away_margin": 22,
+   "total_points": 228
+  }
+ ]
+}

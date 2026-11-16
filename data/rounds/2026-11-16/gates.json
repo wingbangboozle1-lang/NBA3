@@ -1,0 +1,162 @@
+{
+ "evaluated_utc": "2026-11-16T14:45Z",
+ "evaluated_at_note": "Fixed evaluation instant so the replay is deterministic. The scheduled job passes its own clock instead.",
+ "rule": "REBUILD ONLY AFTER THE BUILD-SCOPE GATES PASS. Freshness and provenance gates (F*, P*) block the whole rebuild: a page assembled from a stale or unattributable document is not published. Integrity gates (I*) withhold the rows they name (published unsettled, with the failed arithmetic shown) and do not stop the rest of the publication.",
+ "gate_count": 14,
+ "pass_count": 13,
+ "blocking_failures": [],
+ "row_level_failures": [
+  "I2_quarter_scores"
+ ],
+ "rebuild_allowed": true,
+ "rows_withheld_from_settlement": 1,
+ "gates": [
+  {
+   "id": "F1_injury_freshness",
+   "name": "the injury report parsed is the newest one the official index listed at read time",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "index newest at read: 2026-11-16 09:15 AM ET; parsed: 2026-11-16 09:15 AM ET",
+   "measured": {
+    "index_newest": "2026-11-16 09:15 AM ET",
+    "parsed": "2026-11-16 09:15 AM ET"
+   }
+  },
+  {
+   "id": "F2_slate_window",
+   "name": "the slate covers today .. today+2 league days",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "dates present: ['2026-11-16', '2026-11-17', '2026-11-18']; required 2026-11-16..2026-11-18",
+   "measured": {
+    "count_by_date": {
+     "2026-11-16": 8,
+     "2026-11-17": 5,
+     "2026-11-18": 12
+    }
+   }
+  },
+  {
+   "id": "F3_game_day_complete",
+   "name": "every game of the closed game day has a result-feed row",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "9 rows for 2026-11-15 (the official scoreboard lists 9 games); 8 settled, 1 published unsettled with the arithmetic shown",
+   "measured": {
+    "rows": 9,
+    "settled": 8,
+    "blocked": 1
+   }
+  },
+  {
+   "id": "P1_artifact_provenance",
+   "name": "every stored artefact carries an https URL, a sha256 and a retrieval stamp",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "13 artefacts; missing provenance: none"
+  },
+  {
+   "id": "P2_row_sources",
+   "name": "every published row carries an https source link",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "0 rows without a source: none"
+  },
+  {
+   "id": "P3_team_stat_pages",
+   "name": "the three official team-stat pages each list 30 teams",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "30 team rows parsed from the three pages; 30 required",
+   "measured": {
+    "teams": 30,
+    "pages": [
+     "traditional",
+     "opponent",
+     "advanced"
+    ]
+   }
+  },
+  {
+   "id": "I1_injury_attribution",
+   "name": "every injury player row resolves to a team",
+   "pass": true,
+   "blocking": false,
+   "scope": "row",
+   "detail": "0 player row(s) had no team cell even after page-break carries",
+   "measured": {
+    "unattributed": 0,
+    "carried_cells": 78
+   }
+  },
+  {
+   "id": "I2_quarter_scores",
+   "name": "quarter scores sum to the printed final for both teams",
+   "pass": false,
+   "blocking": true,
+   "scope": "row",
+   "detail": "1 row(s) fail the sum check and are published unsettled with the arithmetic shown: ['0022600243']"
+  },
+  {
+   "id": "I3_slate_injury_overlap",
+   "name": "every team with an injury row is a team playing inside the slate window",
+   "pass": true,
+   "blocking": true,
+   "scope": "row",
+   "detail": "injury teams outside the window: none (30 slate teams, 11 injury-report teams)"
+  },
+  {
+   "id": "I4_results_match_scoreboard",
+   "name": "the result feed has one row per official game",
+   "pass": true,
+   "blocking": true,
+   "scope": "row",
+   "detail": "9 rows vs 9 games printed by the official scoreboard for 2026-11-15",
+   "measured": {
+    "rows": 9
+   }
+  },
+  {
+   "id": "I5_no_duplicate_games",
+   "name": "no game id appears twice in the slate",
+   "pass": true,
+   "blocking": true,
+   "scope": "row",
+   "detail": "duplicates: none"
+  },
+  {
+   "id": "I6_settlement_count",
+   "name": "the declared settled count equals the rows actually settled",
+   "pass": true,
+   "blocking": true,
+   "scope": "row",
+   "detail": "declared 8; rows with settled=true 8"
+  },
+  {
+   "id": "I7_withheld_rows_published",
+   "name": "every row withheld from settlement is still published",
+   "pass": true,
+   "blocking": true,
+   "scope": "row",
+   "detail": "1 row(s) published unsettled: ['0022600243']; 1 row(s) failed the quarter-sum check"
+  },
+  {
+   "id": "I8_team_stat_identities",
+   "name": "the three team-stat pages satisfy their own arithmetic",
+   "pass": true,
+   "blocking": true,
+   "scope": "build",
+   "detail": "7 identities checked; failing: none",
+   "measured": {
+    "checked": 7,
+    "failing": []
+   }
+  }
+ ]
+}

@@ -1,0 +1,108 @@
+{
+ "session": "arena/8f4fac33-nba3",
+ "generated_utc": "2026-11-16T14:45Z",
+ "purpose": "Rolling-slate refresh: official schedule, injury report, results/quarter scores and the three official team-stat pages, each stored with its URL, sha256 and retrieval stamp so the gates can be replayed offline.",
+ "official_index": {
+  "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+  "retrieved_utc": "2026-11-16T14:35Z",
+  "newest_report_listed": "2026-11-16 09:15 AM ET",
+  "read": "the index's November 16 list ran from 12:00 a.m. ET to 9:15 a.m. ET when it was read; 9:15 a.m. is the newest it listed"
+ },
+ "artifacts": [
+  {
+   "path": "data/app/official_injuries_2026-11-16_0915AM_raw.md",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "retrieved_utc": "2026-11-16T14:35Z",
+   "sha256": "46987d249102ffeaab6145606f84bff016d0c360e902435d286316e117721475",
+   "what": "official injury report 11/16/26 09:15 AM ET"
+  },
+  {
+   "path": "data/rounds/2026-11-16/raw/official_schedule_2026-11-16_18.txt",
+   "url": "https://www.nba.com/schedule?date=2026-11-16",
+   "retrieved_utc": "2026-11-16T14:20Z",
+   "sha256": "fa6fa41cdb8720f7197fdec5f87a10bda970848d044f0ce7fcce0a29ef1d5e45",
+   "what": "official schedule 2026-11-16..18"
+  },
+  {
+   "path": "data/rounds/2026-11-16/raw/official_gamebooks_2026-11-15.md",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "19e42cd3856e00309d9c94d4b0dd7f9de720c23f99764de3869b094e20d814ba",
+   "what": "the nine official game books of 2026-11-15"
+  },
+  {
+   "path": "data/app/team_stats_2026-11-16.tsv",
+   "url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "retrieved_utc": "2026-11-16T14:30Z",
+   "sha256": "7e429d3b0b42df4de22af5e294107f53dd4491e6b0461d5011007bb4e435f437",
+   "what": "official team traditional / opponent / advanced pages"
+  },
+  {
+   "path": "gamebook:0022600236",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "816646911e38975296cc21da3b67851a81b726c3a106c8c3eaa7cf107d3ac8e4",
+   "what": "official game book IND@PHI"
+  },
+  {
+   "path": "gamebook:0022600237",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "faf3e594b5fa2a994dfece1c07464b1cf73662686ee0f2365da269dec2edcc23",
+   "what": "official game book LAL@PHX"
+  },
+  {
+   "path": "gamebook:0022600238",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "d4ed4f906c1b80d4bc64b45139a98502a9f0890b6a82092617b04932eb2cc041",
+   "what": "official game book CHA@LAC"
+  },
+  {
+   "path": "gamebook:0022600239",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "6e1948e3d4dd7a20dbfdfb78ca728da44515fb98126a47e4c1bb3fa3149d2591",
+   "what": "official game book SAS@UTA"
+  },
+  {
+   "path": "gamebook:0022600240",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "4726f0db652e56d536d96c68875c1f0d44a05b8360c008125dd6e2afc511f5c5",
+   "what": "official game book DAL@BOS"
+  },
+  {
+   "path": "gamebook:0022600241",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "c41b31ec1e5166aa06a53ded5665cb52d9c5262139851c440664318e170150ea",
+   "what": "official game book NYK@TOR"
+  },
+  {
+   "path": "gamebook:0022600242",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "2328e16526e259450c841d7172fdf8a86a566c6043e4339f25393d421774b73a",
+   "what": "official game book HOU@WAS"
+  },
+  {
+   "path": "gamebook:0022600243",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "44304a257c2b7fcd4450e2a1459e9ff1487d830d877bc25acae897102069ddd2",
+   "what": "official game book ATL@MIL"
+  },
+  {
+   "path": "gamebook:0022600244",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z",
+   "sha256": "76bb65baf253bc740e77ac06c37034ebbfadb5a9cf92ed2e21a17257de6da9e5",
+   "what": "official game book OKC@SAC"
+  }
+ ],
+ "gates_summary": {
+  "rebuild_allowed": true,
+  "blocking_failures": []
+ }
+}
