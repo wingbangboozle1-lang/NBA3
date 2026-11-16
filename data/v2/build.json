@@ -316,40 +316,40 @@
   },
   "team_statistics_captured_utc": "2026-11-15T11:38Z",
   "schedule_games": 22,
-  "finals_used": 188
+  "finals_used": 190
  },
  "home_court": {
-  "n_games": 188,
-  "home_wins": 99,
-  "home_win_rate": 0.526595744680851,
-  "margin_sd": 16.8989689258436,
-  "hca_points": 1.7994610264366775,
+  "n_games": 190,
+  "home_wins": 100,
+  "home_win_rate": 0.5263157894736842,
+  "margin_sd": 16.82870354952795,
+  "hca_points": 1.773080883830954,
   "method": "logit(p_home) * sd(margin); pinned, not fitted",
   "note": "The pin is exact on the win rate and assumes only that the margin distribution is roughly normal. It is stated as a derivation, not a fact."
  },
  "error_summary": {
-  "n": 135,
-  "a_margin_rmse": 15.350545,
-  "b_margin_rmse": 13.83242,
-  "b_total_rmse": 17.600916,
-  "a_margin_bias": 1.228572,
-  "b_margin_bias": 1.316248,
-  "b_total_bias": 0.856789,
-  "a_margin_mae": 12.293065,
-  "b_margin_mae": 11.013338,
-  "b_total_mae": 13.686187
+  "n": 137,
+  "a_margin_rmse": 15.242142,
+  "b_margin_rmse": 13.737438,
+  "b_total_rmse": 17.785256,
+  "a_margin_bias": 1.20485,
+  "b_margin_bias": 1.294771,
+  "b_total_bias": 1.237999,
+  "a_margin_mae": 12.155694,
+  "b_margin_mae": 10.902995,
+  "b_total_mae": 13.880107
  },
  "leakage_audit": {
-  "n_forecasts": 135,
+  "n_forecasts": 137,
   "snapshot_date": "2026-11-15",
   "first_forecast_date": "2026-10-26",
-  "last_forecast_date": "2026-11-14",
+  "last_forecast_date": "2026-11-15",
   "caveat": "estimator B is fitted on a single snapshot; every forecast before the snapshot date is priced with information from after the game",
-  "b_margin_rmse": 13.8324,
-  "a_margin_rmse": 15.3505,
+  "b_margin_rmse": 13.7374,
+  "a_margin_rmse": 15.2421,
   "contamination_floor_rmse": 9.0,
   "forecasts_before_snapshot": 135,
-  "forecasts_on_snapshot_date": 0,
+  "forecasts_on_snapshot_date": 2,
   "b_beats_plausible_floor": false,
   "a_only_is_clean": true,
   "note": "estimator A is clean: it is fitted only on finals dated strictly before the game being priced, so its 15.2 RMSE is a genuine out-of-sample figure",
@@ -365,40 +365,40 @@
    "city": "Philadelphia, PA",
    "tip_note": "1:00 PM",
    "estimator_a": {
-    "margin": 4.513194515261325
+    "margin": 4.703600871468433
    },
    "estimator_b": {
-    "margin": 3.7001745499558742,
+    "margin": 3.6737944073501505,
     "total": 222.62110971980258
    },
    "disagreement": {
     "spread": {
-     "a": 4.513,
-     "b": 3.7,
-     "gap_points": 0.813,
-     "signed_gap_b_minus_a": -0.813
+     "a": 4.704,
+     "b": 3.674,
+     "gap_points": 1.03,
+     "signed_gap_b_minus_a": -1.03
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 3.7,
+    "margin": 3.67,
     "total": 222.62,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -15.97,
-     23.37
+     -15.86,
+     23.21
     ],
     "total_80pct": [
-     200.06,
-     245.18
+     199.83,
+     245.41
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.571058,
-    "away_win": 0.428942,
+    "home_win": 0.571047,
+    "away_win": 0.428953,
     "home_fair_american": -133,
     "away_fair_american": 133
    },
@@ -457,42 +457,42 @@
    "city": "Phoenix, AZ",
    "tip_note": "4:00 PM",
    "estimator_a": {
-    "margin": -4.720462579188521
+    "margin": -5.040734597149967
    },
    "estimator_b": {
-    "margin": -4.390235580392181,
+    "margin": -4.416615722997905,
     "total": 232.43947940771935
    },
    "disagreement": {
     "spread": {
-     "a": -4.72,
-     "b": -4.39,
-     "gap_points": 0.33,
-     "signed_gap_b_minus_a": 0.33
+     "a": -5.041,
+     "b": -4.417,
+     "gap_points": 0.624,
+     "signed_gap_b_minus_a": 0.624
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -4.39,
+    "margin": -4.42,
     "total": 232.44,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -24.06,
-     15.28
+     -23.95,
+     15.12
     ],
     "total_80pct": [
-     209.88,
-     255.0
+     209.65,
+     255.23
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.415872,
-    "away_win": 0.584128,
-    "home_fair_american": 140,
-    "away_fair_american": -140
+    "home_win": 0.414789,
+    "away_win": 0.585211,
+    "home_fair_american": 141,
+    "away_fair_american": -141
    },
    "rest_travel": {
     "away": {
@@ -542,40 +542,40 @@
    "city": "Inglewood, CA",
    "tip_note": "4:30 PM",
    "estimator_a": {
-    "margin": 6.411532168681797
+    "margin": 6.392322075838809
    },
    "estimator_b": {
-    "margin": 4.880592934413659,
+    "margin": 4.854212791807935,
     "total": 217.95645780195045
    },
    "disagreement": {
     "spread": {
-     "a": 6.412,
-     "b": 4.881,
-     "gap_points": 1.531,
-     "signed_gap_b_minus_a": -1.531
+     "a": 6.392,
+     "b": 4.854,
+     "gap_points": 1.538,
+     "signed_gap_b_minus_a": -1.538
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 4.88,
+    "margin": 4.85,
     "total": 217.96,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -14.79,
-     24.55
+     -14.68,
+     24.39
     ],
     "total_80pct": [
-     195.4,
-     240.51
+     195.16,
+     240.75
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.593359,
-    "away_win": 0.406641,
+    "home_win": 0.593504,
+    "away_win": 0.406496,
     "home_fair_american": -146,
     "away_fair_american": 146
    },
@@ -633,42 +633,42 @@
    "city": "Salt Lake City, UT",
    "tip_note": "5:00 PM",
    "estimator_a": {
-    "margin": -11.581122005251196
+    "margin": -11.595665548965348
    },
    "estimator_b": {
-    "margin": -10.251759372789431,
+    "margin": -10.278139515395155,
     "total": 222.89801602465334
    },
    "disagreement": {
     "spread": {
-     "a": -11.581,
-     "b": -10.252,
-     "gap_points": 1.329,
-     "signed_gap_b_minus_a": 1.329
+     "a": -11.596,
+     "b": -10.278,
+     "gap_points": 1.318,
+     "signed_gap_b_minus_a": 1.318
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -10.25,
+    "margin": -10.28,
     "total": 222.9,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -29.93,
-     9.42
+     -29.81,
+     9.26
     ],
     "total_80pct": [
-     200.34,
-     245.46
+     200.1,
+     245.69
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.309901,
-    "away_win": 0.690099,
-    "home_fair_american": 223,
-    "away_fair_american": -223
+    "home_win": 0.30822,
+    "away_win": 0.69178,
+    "home_fair_american": 224,
+    "away_fair_american": -224
    },
    "rest_travel": {
     "away": {
@@ -721,26 +721,26 @@
    "city": "Boston, MA",
    "tip_note": "6:00 PM",
    "estimator_a": {
-    "margin": 6.418533278874103
+    "margin": 6.407418865761274
    },
    "estimator_b": null,
    "disagreement": null,
    "agreement_label": "unknown",
    "originated_line": {
-    "margin": 6.42,
+    "margin": 6.41,
     "total": null,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -13.25,
-     26.09
+     -13.13,
+     25.94
     ],
     "total_80pct": null,
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.621957,
-    "away_win": 0.378043,
+    "home_win": 0.62258,
+    "away_win": 0.37742,
     "home_fair_american": -165,
     "away_fair_american": 165
    },
@@ -792,40 +792,40 @@
    "city": "Toronto, ON",
    "tip_note": "6:00 PM",
    "estimator_a": {
-    "margin": 0.03991556138469954
+    "margin": 0.012222869463708541
    },
    "estimator_b": {
-    "margin": -0.576698103998093,
+    "margin": -0.6030782466038165,
     "total": 220.16956956521736
    },
    "disagreement": {
     "spread": {
-     "a": 0.04,
-     "b": -0.577,
-     "gap_points": 0.617,
-     "signed_gap_b_minus_a": -0.617
+     "a": 0.012,
+     "b": -0.603,
+     "gap_points": 0.615,
+     "signed_gap_b_minus_a": -0.615
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -0.58,
+    "margin": -0.6,
     "total": 220.17,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -20.25,
-     19.1
+     -20.14,
+     18.93
     ],
     "total_80pct": [
-     197.61,
-     242.73
+     197.38,
+     242.96
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.488867,
-    "away_win": 0.511133,
+    "home_win": 0.488276,
+    "away_win": 0.511724,
     "home_fair_american": 105,
     "away_fair_american": -105
    },
@@ -878,42 +878,42 @@
    "city": "Washington, DC",
    "tip_note": "7:00 PM",
    "estimator_a": {
-    "margin": -8.43534854862922
+    "margin": -8.462924580078806
    },
    "estimator_b": {
-    "margin": -5.4766965399831085,
+    "margin": -5.503076682588832,
     "total": 223.07507819604874
    },
    "disagreement": {
     "spread": {
-     "a": -8.435,
-     "b": -5.477,
-     "gap_points": 2.959,
-     "signed_gap_b_minus_a": 2.959
+     "a": -8.463,
+     "b": -5.503,
+     "gap_points": 2.96,
+     "signed_gap_b_minus_a": 2.96
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -5.48,
+    "margin": -5.5,
     "total": 223.08,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -25.15,
-     14.2
+     -25.04,
+     14.03
     ],
     "total_80pct": [
-     200.52,
-     245.63
+     200.28,
+     245.87
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.395488,
-    "away_win": 0.604512,
-    "home_fair_american": 153,
-    "away_fair_american": -153
+    "home_win": 0.394276,
+    "away_win": 0.605724,
+    "home_fair_american": 154,
+    "away_fair_american": -154
    },
    "rest_travel": {
     "away": {
@@ -962,42 +962,42 @@
    "city": "Milwaukee, WI",
    "tip_note": "8:00 PM",
    "estimator_a": {
-    "margin": -6.091992868742837
+    "margin": -6.107784742603965
    },
    "estimator_b": {
-    "margin": -5.992344935995095,
+    "margin": -6.018725078600818,
     "total": 229.76426202997322
    },
    "disagreement": {
     "spread": {
-     "a": -6.092,
-     "b": -5.992,
-     "gap_points": 0.1,
-     "signed_gap_b_minus_a": 0.1
+     "a": -6.108,
+     "b": -6.019,
+     "gap_points": 0.089,
+     "signed_gap_b_minus_a": 0.089
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -5.99,
+    "margin": -6.02,
     "total": 229.76,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -25.67,
-     13.68
+     -25.55,
+     13.52
     ],
     "total_80pct": [
-     207.21,
-     252.32
+     206.97,
+     252.56
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.385909,
-    "away_win": 0.614091,
-    "home_fair_american": 159,
-    "away_fair_american": -159
+    "home_win": 0.384638,
+    "away_win": 0.615362,
+    "home_fair_american": 160,
+    "away_fair_american": -160
    },
    "rest_travel": {
     "away": {
@@ -1048,42 +1048,42 @@
    "city": "Sacramento, CA",
    "tip_note": "9:00 PM",
    "estimator_a": {
-    "margin": -8.24256434583849
+    "margin": -8.248965829365664
    },
    "estimator_b": {
-    "margin": -6.407465886573743,
+    "margin": -6.433846029179467,
     "total": 223.96661949820145
    },
    "disagreement": {
     "spread": {
-     "a": -8.243,
-     "b": -6.407,
-     "gap_points": 1.835,
-     "signed_gap_b_minus_a": 1.835
+     "a": -8.249,
+     "b": -6.434,
+     "gap_points": 1.815,
+     "signed_gap_b_minus_a": 1.815
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -6.41,
+    "margin": -6.43,
     "total": 223.97,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -26.08,
-     13.27
+     -25.97,
+     13.1
     ],
     "total_80pct": [
-     201.41,
-     246.52
+     201.17,
+     246.76
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.378247,
-    "away_win": 0.621753,
-    "home_fair_american": 164,
-    "away_fair_american": -164
+    "home_win": 0.376931,
+    "away_win": 0.623069,
+    "home_fair_american": 165,
+    "away_fair_american": -165
    },
    "rest_travel": {
     "away": {
@@ -1141,42 +1141,42 @@
    "city": "Boston, MA",
    "tip_note": "7:00 PM",
    "estimator_a": {
-    "margin": 10.051477214603551
+    "margin": 10.038112999179678
    },
    "estimator_b": {
-    "margin": 9.624545125621696,
+    "margin": 9.598164983015973,
     "total": 217.86904246141845
    },
    "disagreement": {
     "spread": {
-     "a": 10.051,
-     "b": 9.625,
-     "gap_points": 0.427,
-     "signed_gap_b_minus_a": -0.427
+     "a": 10.038,
+     "b": 9.598,
+     "gap_points": 0.44,
+     "signed_gap_b_minus_a": -0.44
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 9.62,
+    "margin": 9.6,
     "total": 217.87,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -10.05,
-     29.3
+     -9.94,
+     29.13
     ],
     "total_80pct": [
-     195.31,
-     240.43
+     195.08,
+     240.66
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.679313,
-    "away_win": 0.320687,
-    "home_fair_american": -212,
-    "away_fair_american": 212
+    "home_win": 0.680023,
+    "away_win": 0.319977,
+    "home_fair_american": -213,
+    "away_fair_american": 213
    },
    "rest_travel": {
     "away": {
@@ -1221,40 +1221,40 @@
    "city": "Cleveland, OH",
    "tip_note": "7:00 PM",
    "estimator_a": {
-    "margin": 8.31648599796683
+    "margin": 8.288847312762336
    },
    "estimator_b": {
-    "margin": 8.098525904908277,
+    "margin": 8.072145762302553,
     "total": 234.99221593702137
    },
    "disagreement": {
     "spread": {
-     "a": 8.316,
-     "b": 8.099,
-     "gap_points": 0.218,
-     "signed_gap_b_minus_a": -0.218
+     "a": 8.289,
+     "b": 8.072,
+     "gap_points": 0.217,
+     "signed_gap_b_minus_a": -0.217
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 8.1,
+    "margin": 8.07,
     "total": 234.99,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -11.57,
-     27.77
+     -11.46,
+     27.61
     ],
     "total_80pct": [
-     212.43,
-     257.55
+     212.2,
+     257.79
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.652444,
-    "away_win": 0.347556,
+    "home_win": 0.652986,
+    "away_win": 0.347014,
     "home_fair_american": -188,
     "away_fair_american": 188
    },
@@ -1301,40 +1301,40 @@
    "city": "Washington, DC",
    "tip_note": "7:00 PM",
    "estimator_a": {
-    "margin": -6.675475085876883
+    "margin": -6.703459718003492
    },
    "estimator_b": {
-    "margin": -5.45995049161981,
+    "margin": -5.486330634225533,
     "total": 226.27767938416306
    },
    "disagreement": {
     "spread": {
-     "a": -6.675,
-     "b": -5.46,
-     "gap_points": 1.216,
-     "signed_gap_b_minus_a": 1.216
+     "a": -6.703,
+     "b": -5.486,
+     "gap_points": 1.217,
+     "signed_gap_b_minus_a": 1.217
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -5.46,
+    "margin": -5.49,
     "total": 226.28,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -25.13,
-     14.21
+     -25.02,
+     14.05
     ],
     "total_80pct": [
-     203.72,
-     248.84
+     203.48,
+     249.07
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.3958,
-    "away_win": 0.6042,
+    "home_win": 0.39459,
+    "away_win": 0.60541,
     "home_fair_american": 153,
     "away_fair_american": -153
    },
@@ -1381,49 +1381,49 @@
    "city": "Brooklyn, NY",
    "tip_note": "7:30 PM",
    "estimator_a": {
-    "margin": -2.5519432029540017
+    "margin": -2.7041075920017428
    },
    "estimator_b": {
-    "margin": -2.1790861014167326,
+    "margin": -2.205466244022456,
     "total": 222.50767371307114
    },
    "disagreement": {
     "spread": {
-     "a": -2.552,
-     "b": -2.179,
-     "gap_points": 0.373,
-     "signed_gap_b_minus_a": 0.373
+     "a": -2.704,
+     "b": -2.205,
+     "gap_points": 0.499,
+     "signed_gap_b_minus_a": 0.499
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -2.18,
+    "margin": -2.21,
     "total": 222.51,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -21.85,
-     17.49
+     -21.74,
+     17.33
     ],
     "total_80pct": [
-     199.95,
-     245.07
+     199.71,
+     245.3
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.458007,
-    "away_win": 0.541993,
-    "home_fair_american": 118,
-    "away_fair_american": -118
+    "home_win": 0.457203,
+    "away_win": 0.542797,
+    "home_fair_american": 119,
+    "away_fair_american": -119
    },
    "rest_travel": {
     "away": {
      "team": "PHI",
-     "rest_days": 4,
-     "back_to_back": false,
-     "games_in_4_nights": 1,
+     "rest_days": 1,
+     "back_to_back": true,
+     "games_in_4_nights": 2,
      "three_in_four": false,
      "previous_venue_team": "PHI",
      "travel_km": 133.6,
@@ -1461,40 +1461,40 @@
    "city": "Miami, FL",
    "tip_note": "7:30 PM",
    "estimator_a": {
-    "margin": -4.786924835318216
+    "margin": -4.805101072305652
    },
    "estimator_b": {
-    "margin": -3.2480325484442494,
+    "margin": -3.274412691049973,
     "total": 229.95922245664417
    },
    "disagreement": {
     "spread": {
-     "a": -4.787,
-     "b": -3.248,
-     "gap_points": 1.539,
-     "signed_gap_b_minus_a": 1.539
+     "a": -4.805,
+     "b": -3.274,
+     "gap_points": 1.531,
+     "signed_gap_b_minus_a": 1.531
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -3.25,
+    "margin": -3.27,
     "total": 229.96,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -22.92,
-     16.43
+     -22.81,
+     16.26
     ],
     "total_80pct": [
-     207.4,
-     252.52
+     207.17,
+     252.75
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.437548,
-    "away_win": 0.562452,
+    "home_win": 0.436607,
+    "away_win": 0.563393,
     "home_fair_american": 129,
     "away_fair_american": -129
    },
@@ -1541,40 +1541,40 @@
    "city": "Minneapolis, MN",
    "tip_note": "8:00 PM",
    "estimator_a": {
-    "margin": 3.071991567470416
+    "margin": 3.0532593764131195
    },
    "estimator_b": {
-    "margin": 3.5796456453173167,
+    "margin": 3.553265502711593,
     "total": 227.46209813660562
    },
    "disagreement": {
     "spread": {
-     "a": 3.072,
-     "b": 3.58,
-     "gap_points": 0.508,
-     "signed_gap_b_minus_a": 0.508
+     "a": 3.053,
+     "b": 3.553,
+     "gap_points": 0.5,
+     "signed_gap_b_minus_a": 0.5
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 3.58,
+    "margin": 3.55,
     "total": 227.46,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -16.09,
-     23.25
+     -15.98,
+     23.09
     ],
     "total_80pct": [
-     204.9,
-     250.02
+     204.67,
+     250.26
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.568767,
-    "away_win": 0.431233,
+    "home_win": 0.56874,
+    "away_win": 0.43126,
     "home_fair_american": -132,
     "away_fair_american": 132
    },
@@ -1621,42 +1621,42 @@
    "city": "New Orleans, LA",
    "tip_note": "8:00 PM",
    "estimator_a": {
-    "margin": -7.976003982987246
+    "margin": -8.003674560752732
    },
    "estimator_b": {
-    "margin": -4.711122548805449,
+    "margin": -4.737502691411173,
     "total": 231.3369850053747
    },
    "disagreement": {
     "spread": {
-     "a": -7.976,
-     "b": -4.711,
-     "gap_points": 3.265,
-     "signed_gap_b_minus_a": 3.265
+     "a": -8.004,
+     "b": -4.738,
+     "gap_points": 3.266,
+     "signed_gap_b_minus_a": 3.266
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -4.71,
+    "margin": -4.74,
     "total": 231.34,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -24.38,
-     14.96
+     -24.27,
+     14.8
     ],
     "total_80pct": [
-     208.78,
-     253.89
+     208.54,
+     254.13
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.409826,
-    "away_win": 0.590174,
-    "home_fair_american": 144,
-    "away_fair_american": -144
+    "home_win": 0.408704,
+    "away_win": 0.591296,
+    "home_fair_american": 145,
+    "away_fair_american": -145
    },
    "rest_travel": {
     "away": {
@@ -1701,49 +1701,49 @@
    "city": "Denver, CO",
    "tip_note": "9:00 PM",
    "estimator_a": {
-    "margin": 4.908107137201916
+    "margin": 5.014289836375666
    },
    "estimator_b": {
-    "margin": 4.889826153016787,
+    "margin": 4.863446010411064,
     "total": 226.58631716412825
    },
    "disagreement": {
     "spread": {
-     "a": 4.908,
-     "b": 4.89,
-     "gap_points": 0.018,
-     "signed_gap_b_minus_a": -0.018
+     "a": 5.014,
+     "b": 4.863,
+     "gap_points": 0.151,
+     "signed_gap_b_minus_a": -0.151
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 4.89,
+    "margin": 4.86,
     "total": 226.59,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -14.78,
-     24.56
+     -14.67,
+     24.4
     ],
     "total_80pct": [
-     204.03,
-     249.14
+     203.79,
+     249.38
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.593533,
-    "away_win": 0.406467,
+    "home_win": 0.593679,
+    "away_win": 0.406321,
     "home_fair_american": -146,
     "away_fair_american": 146
    },
    "rest_travel": {
     "away": {
      "team": "PHX",
-     "rest_days": 4,
-     "back_to_back": false,
-     "games_in_4_nights": 1,
+     "rest_days": 1,
+     "back_to_back": true,
+     "games_in_4_nights": 2,
      "three_in_four": false,
      "previous_venue_team": "PHX",
      "travel_km": 942.1,
@@ -1781,40 +1781,40 @@
    "city": "Toronto, ON",
    "tip_note": "7:30 PM",
    "estimator_a": {
-    "margin": 0.03991556138469954
+    "margin": 0.012222869463708541
    },
    "estimator_b": {
-    "margin": -0.576698103998093,
+    "margin": -0.6030782466038165,
     "total": 220.16956956521736
    },
    "disagreement": {
     "spread": {
-     "a": 0.04,
-     "b": -0.577,
-     "gap_points": 0.617,
-     "signed_gap_b_minus_a": -0.617
+     "a": 0.012,
+     "b": -0.603,
+     "gap_points": 0.615,
+     "signed_gap_b_minus_a": -0.615
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": -0.58,
+    "margin": -0.6,
     "total": 220.17,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -20.25,
-     19.1
+     -20.14,
+     18.93
     ],
     "total_80pct": [
-     197.61,
-     242.73
+     197.38,
+     242.96
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.488867,
-    "away_win": 0.511133,
+    "home_win": 0.488276,
+    "away_win": 0.511724,
     "home_fair_american": 105,
     "away_fair_american": -105
    },
@@ -1861,40 +1861,40 @@
    "city": "Minneapolis, MN",
    "tip_note": "8:00 PM",
    "estimator_a": {
-    "margin": 3.071991567470416
+    "margin": 3.0532593764131195
    },
    "estimator_b": {
-    "margin": 3.5796456453173167,
+    "margin": 3.553265502711593,
     "total": 227.46209813660562
    },
    "disagreement": {
     "spread": {
-     "a": 3.072,
-     "b": 3.58,
-     "gap_points": 0.508,
-     "signed_gap_b_minus_a": 0.508
+     "a": 3.053,
+     "b": 3.553,
+     "gap_points": 0.5,
+     "signed_gap_b_minus_a": 0.5
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 3.58,
+    "margin": 3.55,
     "total": 227.46,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -16.09,
-     23.25
+     -15.98,
+     23.09
     ],
     "total_80pct": [
-     204.9,
-     250.02
+     204.67,
+     250.26
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.568767,
-    "away_win": 0.431233,
+    "home_win": 0.56874,
+    "away_win": 0.43126,
     "home_fair_american": -132,
     "away_fair_american": 132
    },
@@ -1941,42 +1941,42 @@
    "city": "San Antonio, TX",
    "tip_note": "8:00 PM",
    "estimator_a": {
-    "margin": 6.954424356093856
+    "margin": 6.906457185496659
    },
    "estimator_b": {
-    "margin": 5.765839352297943,
+    "margin": 5.739459209692219,
     "total": 222.6722924963252
    },
    "disagreement": {
     "spread": {
-     "a": 6.954,
-     "b": 5.766,
-     "gap_points": 1.189,
-     "signed_gap_b_minus_a": -1.189
+     "a": 6.906,
+     "b": 5.739,
+     "gap_points": 1.167,
+     "signed_gap_b_minus_a": -1.167
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 5.77,
+    "margin": 5.74,
     "total": 222.67,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -13.91,
-     25.44
+     -13.79,
+     25.27
     ],
     "total_80pct": [
-     200.11,
-     245.23
+     199.88,
+     245.47
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.609892,
-    "away_win": 0.390108,
-    "home_fair_american": -156,
-    "away_fair_american": 156
+    "home_win": 0.61015,
+    "away_win": 0.38985,
+    "home_fair_american": -157,
+    "away_fair_american": 157
    },
    "rest_travel": {
     "away": {
@@ -2021,40 +2021,40 @@
    "city": "Inglewood, CA",
    "tip_note": "10:30 PM",
    "estimator_a": {
-    "margin": 4.8133287329534955
+    "margin": 4.789349260041723
    },
    "estimator_b": {
-    "margin": 4.676575004257566,
+    "margin": 4.650194861651842,
     "total": 224.92738978494623
    },
    "disagreement": {
     "spread": {
-     "a": 4.813,
-     "b": 4.677,
-     "gap_points": 0.137,
-     "signed_gap_b_minus_a": -0.137
+     "a": 4.789,
+     "b": 4.65,
+     "gap_points": 0.139,
+     "signed_gap_b_minus_a": -0.139
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 4.68,
+    "margin": 4.65,
     "total": 224.93,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -15.0,
-     24.35
+     -14.88,
+     24.18
     ],
     "total_80pct": [
-     202.37,
-     247.48
+     202.13,
+     247.72
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.589524,
-    "away_win": 0.410476,
+    "home_win": 0.589643,
+    "away_win": 0.410357,
     "home_fair_american": -144,
     "away_fair_american": 144
    },
@@ -2101,42 +2101,42 @@
    "city": "Los Angeles, CA",
    "tip_note": "11:00 PM",
    "estimator_a": {
-    "margin": 13.676705025871573
+    "margin": 13.791640705659168
    },
    "estimator_b": {
-    "margin": 11.336792681964152,
+    "margin": 11.310412539358428,
     "total": 222.24672794021626
    },
    "disagreement": {
     "spread": {
-     "a": 13.677,
-     "b": 11.337,
-     "gap_points": 2.34,
-     "signed_gap_b_minus_a": -2.34
+     "a": 13.792,
+     "b": 11.31,
+     "gap_points": 2.481,
+     "signed_gap_b_minus_a": -2.481
     },
     "total": null
    },
    "agreement_label": "agree",
    "originated_line": {
-    "margin": 11.34,
+    "margin": 11.31,
     "total": 222.25,
-    "margin_sd": 15.351,
-    "total_sd": 17.601,
+    "margin_sd": 15.242,
+    "total_sd": 17.785,
     "margin_80pct": [
-     -8.34,
-     31.01
+     -8.22,
+     30.84
     ],
     "total_80pct": [
-     199.69,
-     244.8
+     199.45,
+     245.04
     ],
     "note": "originated by this project from the official team pages; there is no market line to compare against in this repository"
    },
    "probs": {
-    "home_win": 0.708374,
-    "away_win": 0.291626,
-    "home_fair_american": -243,
-    "away_fair_american": 243
+    "home_win": 0.709255,
+    "away_win": 0.290745,
+    "home_fair_american": -244,
+    "away_fair_american": 244
    },
    "rest_travel": {
     "away": {
@@ -2151,12 +2151,12 @@
     },
     "home": {
      "team": "LAL",
-     "rest_days": 6,
+     "rest_days": 2,
      "back_to_back": false,
-     "games_in_4_nights": 1,
+     "games_in_4_nights": 2,
      "three_in_four": false,
-     "previous_venue_team": "MIL",
-     "travel_km": 2804.0,
+     "previous_venue_team": "PHX",
+     "travel_km": 576.6,
      "travel_kind": "great-circle lower bound"
     }
    },
@@ -2503,22 +2503,22 @@
     "lookahead_ok": true
    },
    "scored": {
-    "n": 30,
+    "n": 31,
     "wins": 13,
-    "rate": 0.433333,
+    "rate": 0.419355,
     "rate_ci95": [
-     0.273775,
-     0.608027
+     0.264155,
+     0.592337
     ],
-    "edge_pp": -6.6667,
-    "edge_vs_breakeven_pp": -9.0476,
-    "p_two_sided_vs_coin": 0.58466471,
-    "p_one_sided_vs_breakeven": 0.88001329,
+    "edge_pp": -8.0645,
+    "edge_vs_breakeven_pp": -10.4455,
+    "p_two_sided_vs_coin": 0.47312966,
+    "p_one_sided_vs_breakeven": 0.9106533,
     "first_half_rate": 0.466667,
-    "second_half_rate": 0.4,
-    "stability_gap_pp": 6.6667,
-    "roi_paper": -0.172727,
-    "profit_units_paper": -5.1818,
+    "second_half_rate": 0.375,
+    "stability_gap_pp": 9.1667,
+    "roi_paper": -0.199413,
+    "profit_units_paper": -6.1818,
     "required_n": null,
     "assumed_price": -110,
     "breakeven_used": 0.52381,
@@ -2547,7 +2547,7 @@
      {
       "gate": "G3 sample",
       "pass": false,
-      "detail": "n = 30, needs 100"
+      "detail": "n = 31, needs 100"
      },
      {
       "gate": "G4 power",
@@ -2557,7 +2557,7 @@
      {
       "gate": "G5 significance",
       "pass": false,
-      "detail": "exact binomial p = 0.58466471 vs alpha 0.05"
+      "detail": "exact binomial p = 0.47312966 vs alpha 0.05"
      },
      {
       "gate": "G6 FDR",
@@ -2567,17 +2567,17 @@
      {
       "gate": "G7 stability",
       "pass": true,
-      "detail": "half-to-half gap = 6.6667 pp (budget 30 pp)"
+      "detail": "half-to-half gap = 9.1667 pp (budget 30 pp)"
      },
      {
       "gate": "G8 economics",
       "pass": false,
-      "detail": "edge over the price actually paid -9.0476 pp (breakeven 0.52381), needs 1.5 pp"
+      "detail": "edge over the price actually paid -10.4455 pp (breakeven 0.52381), needs 1.5 pp"
      },
      {
       "gate": "G9 luck",
       "pass": false,
-      "detail": "best edge -6.6667 pp vs board luck threshold 28.57 pp"
+      "detail": "best edge -8.0645 pp vs board luck threshold 28.57 pp"
      },
      {
       "gate": "G10 pre-registration",
@@ -2647,23 +2647,23 @@
     "lookahead_ok": true
    },
    "scored": {
-    "n": 30,
-    "wins": 17,
-    "rate": 0.566667,
+    "n": 31,
+    "wins": 18,
+    "rate": 0.580645,
     "rate_ci95": [
-     0.391973,
-     0.726225
+     0.407663,
+     0.735845
     ],
-    "edge_pp": 6.6667,
-    "edge_vs_breakeven_pp": 4.2857,
-    "p_two_sided_vs_coin": 0.58466471,
-    "p_one_sided_vs_breakeven": 0.38830128,
+    "edge_pp": 8.0645,
+    "edge_vs_breakeven_pp": 5.6836,
+    "p_two_sided_vs_coin": 0.47312966,
+    "p_one_sided_vs_breakeven": 0.32618738,
     "first_half_rate": 0.533333,
-    "second_half_rate": 0.6,
-    "stability_gap_pp": 6.6667,
-    "roi_paper": 0.081818,
-    "profit_units_paper": 2.4545,
-    "required_n": 832,
+    "second_half_rate": 0.625,
+    "stability_gap_pp": 9.1667,
+    "roi_paper": 0.108504,
+    "profit_units_paper": 3.3636,
+    "required_n": 471,
     "assumed_price": -110,
     "breakeven_used": 0.52381,
     "distinct_prices": 1,
@@ -2691,17 +2691,17 @@
      {
       "gate": "G3 sample",
       "pass": false,
-      "detail": "n = 30, needs 100"
+      "detail": "n = 31, needs 100"
      },
      {
       "gate": "G4 power",
       "pass": false,
-      "detail": "n = 30, needs 832 for the observed edge"
+      "detail": "n = 31, needs 471 for the observed edge"
      },
      {
       "gate": "G5 significance",
       "pass": false,
-      "detail": "exact binomial p = 0.58466471 vs alpha 0.05"
+      "detail": "exact binomial p = 0.47312966 vs alpha 0.05"
      },
      {
       "gate": "G6 FDR",
@@ -2711,17 +2711,17 @@
      {
       "gate": "G7 stability",
       "pass": true,
-      "detail": "half-to-half gap = 6.6667 pp (budget 30 pp)"
+      "detail": "half-to-half gap = 9.1667 pp (budget 30 pp)"
      },
      {
       "gate": "G8 economics",
       "pass": true,
-      "detail": "edge over the price actually paid 4.2857 pp (breakeven 0.52381), needs 1.5 pp"
+      "detail": "edge over the price actually paid 5.6836 pp (breakeven 0.52381), needs 1.5 pp"
      },
      {
       "gate": "G9 luck",
       "pass": false,
-      "detail": "best edge 6.6667 pp vs board luck threshold 28.57 pp"
+      "detail": "best edge 8.0645 pp vs board luck threshold 28.57 pp"
      },
      {
       "gate": "G10 pre-registration",
@@ -3370,28 +3370,28 @@
     "lookahead_ok": true
    },
    "scored": {
-    "n": 99,
-    "wins": 75,
-    "rate": 0.757576,
+    "n": 101,
+    "wins": 77,
+    "rate": 0.762376,
     "rate_ci95": [
-     0.664572,
-     0.831337
+     0.670725,
+     0.8348
     ],
-    "edge_pp": 25.7576,
-    "edge_vs_breakeven_pp": 14.8569,
-    "p_two_sided_vs_coin": 2.8e-07,
-    "p_one_sided_vs_breakeven": 1.47e-06,
-    "first_half_rate": 0.755102,
-    "second_half_rate": 0.76,
-    "stability_gap_pp": 0.4898,
-    "roi_paper": 0.258048,
-    "profit_units_paper": 25.5468,
-    "required_n": 25,
+    "edge_pp": 26.2376,
+    "edge_vs_breakeven_pp": 15.1217,
+    "p_two_sided_vs_coin": 1.2e-07,
+    "p_one_sided_vs_breakeven": 6.9e-07,
+    "first_half_rate": 0.76,
+    "second_half_rate": 0.764706,
+    "stability_gap_pp": 0.4706,
+    "roi_paper": 0.266061,
+    "profit_units_paper": 26.8722,
+    "required_n": 24,
     "assumed_price": -110,
-    "breakeven_used": 0.609007,
-    "distinct_prices": 70,
+    "breakeven_used": 0.611159,
+    "distinct_prices": 67,
     "price_range": [
-     -305,
+     -308,
      -100
     ],
     "unpriced_bets": 0,
@@ -3413,38 +3413,38 @@
      },
      {
       "gate": "G3 sample",
-      "pass": false,
-      "detail": "n = 99, needs 100"
+      "pass": true,
+      "detail": "n = 101, needs 100"
      },
      {
       "gate": "G4 power",
       "pass": true,
-      "detail": "n = 99, needs 25 for the observed edge"
+      "detail": "n = 101, needs 24 for the observed edge"
      },
      {
       "gate": "G5 significance",
       "pass": true,
-      "detail": "exact binomial p = 2.8e-07 vs alpha 0.05"
+      "detail": "exact binomial p = 1.2e-07 vs alpha 0.05"
      },
      {
       "gate": "G6 FDR",
       "pass": true,
-      "detail": "BH q = 2e-06 vs q 0.1"
+      "detail": "BH q = 1e-06 vs q 0.1"
      },
      {
       "gate": "G7 stability",
       "pass": true,
-      "detail": "half-to-half gap = 0.4898 pp (budget 30 pp)"
+      "detail": "half-to-half gap = 0.4706 pp (budget 30 pp)"
      },
      {
       "gate": "G8 economics",
       "pass": true,
-      "detail": "edge over the price actually paid 14.8569 pp (breakeven 0.609007), needs 1.5 pp"
+      "detail": "edge over the price actually paid 15.1217 pp (breakeven 0.611159), needs 1.5 pp"
      },
      {
       "gate": "G9 luck",
       "pass": false,
-      "detail": "best edge 25.7576 pp vs board luck threshold 28.57 pp"
+      "detail": "best edge 26.2376 pp vs board luck threshold 28.57 pp"
      },
      {
       "gate": "G10 pre-registration",
@@ -3458,7 +3458,6 @@
      }
     ],
     "failing": [
-     "G3 sample",
      "G9 luck",
      "G11 price reality"
     ],
@@ -3472,7 +3471,7 @@
     "detail": "B was fitted on the 2026-11-15 team-statistics snapshot and applied to games played before it, so this rule's backtest number may not be used to rank it or to claim skill",
     "q_value_usable": false
    },
-   "q_value_raw": 1.68e-06
+   "q_value_raw": 7.199999999999999e-07
   },
   {
    "rule": {
@@ -3516,29 +3515,29 @@
     "lookahead_ok": true
    },
    "scored": {
-    "n": 99,
+    "n": 101,
     "wins": 24,
-    "rate": 0.242424,
+    "rate": 0.237624,
     "rate_ci95": [
-     0.168663,
-     0.335428
+     0.1652,
+     0.329275
     ],
-    "edge_pp": -25.7576,
-    "edge_vs_breakeven_pp": -14.8569,
-    "p_two_sided_vs_coin": 2.8e-07,
+    "edge_pp": -26.2376,
+    "edge_vs_breakeven_pp": -15.1217,
+    "p_two_sided_vs_coin": 1.2e-07,
     "p_one_sided_vs_breakeven": 1.0,
-    "first_half_rate": 0.244898,
-    "second_half_rate": 0.24,
-    "stability_gap_pp": 0.4898,
-    "roi_paper": -0.405152,
-    "profit_units_paper": -40.11,
+    "first_half_rate": 0.24,
+    "second_half_rate": 0.235294,
+    "stability_gap_pp": 0.4706,
+    "roi_paper": -0.415842,
+    "profit_units_paper": -42.0,
     "required_n": null,
     "assumed_price": -110,
-    "breakeven_used": 0.390993,
-    "distinct_prices": 70,
+    "breakeven_used": 0.388841,
+    "distinct_prices": 67,
     "price_range": [
      100,
-     305
+     308
     ],
     "unpriced_bets": 0,
     "breakeven_at_minus_110": 0.52381
@@ -3559,8 +3558,8 @@
      },
      {
       "gate": "G3 sample",
-      "pass": false,
-      "detail": "n = 99, needs 100"
+      "pass": true,
+      "detail": "n = 101, needs 100"
      },
      {
       "gate": "G4 power",
@@ -3570,27 +3569,27 @@
      {
       "gate": "G5 significance",
       "pass": true,
-      "detail": "exact binomial p = 2.8e-07 vs alpha 0.05"
+      "detail": "exact binomial p = 1.2e-07 vs alpha 0.05"
      },
      {
       "gate": "G6 FDR",
       "pass": true,
-      "detail": "BH q = 2e-06 vs q 0.1"
+      "detail": "BH q = 1e-06 vs q 0.1"
      },
      {
       "gate": "G7 stability",
       "pass": true,
-      "detail": "half-to-half gap = 0.4898 pp (budget 30 pp)"
+      "detail": "half-to-half gap = 0.4706 pp (budget 30 pp)"
      },
      {
       "gate": "G8 economics",
       "pass": false,
-      "detail": "edge over the price actually paid -14.8569 pp (breakeven 0.390993), needs 1.5 pp"
+      "detail": "edge over the price actually paid -15.1217 pp (breakeven 0.388841), needs 1.5 pp"
      },
      {
       "gate": "G9 luck",
       "pass": false,
-      "detail": "best edge -25.7576 pp vs board luck threshold 28.57 pp"
+      "detail": "best edge -26.2376 pp vs board luck threshold 28.57 pp"
      },
      {
       "gate": "G10 pre-registration",
@@ -3604,7 +3603,6 @@
      }
     ],
     "failing": [
-     "G3 sample",
      "G4 power",
      "G8 economics",
      "G9 luck",
@@ -3620,7 +3618,7 @@
     "detail": "B was fitted on the 2026-11-15 team-statistics snapshot and applied to games played before it, so this rule's backtest number may not be used to rank it or to claim skill",
     "q_value_usable": false
    },
-   "q_value_raw": 1.68e-06
+   "q_value_raw": 7.199999999999999e-07
   },
   {
    "rule": {
@@ -3923,22 +3921,22 @@
     "lookahead_ok": true
    },
    "scored": {
-    "n": 24,
+    "n": 25,
     "wins": 7,
-    "rate": 0.291667,
+    "rate": 0.28,
     "rate_ci95": [
-     0.149146,
-     0.491677
+     0.142839,
+     0.475766
     ],
-    "edge_pp": -20.8333,
-    "edge_vs_breakeven_pp": -23.2143,
-    "p_two_sided_vs_coin": 0.06391466,
-    "p_one_sided_vs_breakeven": 0.99398407,
+    "edge_pp": -22.0,
+    "edge_vs_breakeven_pp": -24.381,
+    "p_two_sided_vs_coin": 0.04328525,
+    "p_one_sided_vs_breakeven": 0.99629241,
     "first_half_rate": 0.25,
-    "second_half_rate": 0.333333,
-    "stability_gap_pp": 8.3333,
-    "roi_paper": -0.443182,
-    "profit_units_paper": -10.6364,
+    "second_half_rate": 0.307692,
+    "stability_gap_pp": 5.7692,
+    "roi_paper": -0.465455,
+    "profit_units_paper": -11.6364,
     "required_n": null,
     "assumed_price": -110,
     "breakeven_used": 0.52381,
@@ -3967,7 +3965,7 @@
      {
       "gate": "G3 sample",
       "pass": false,
-      "detail": "n = 24, needs 100"
+      "detail": "n = 25, needs 100"
      },
      {
       "gate": "G4 power",
@@ -3976,28 +3974,28 @@
      },
      {
       "gate": "G5 significance",
-      "pass": false,
-      "detail": "exact binomial p = 0.06391466 vs alpha 0.05"
+      "pass": true,
+      "detail": "exact binomial p = 0.04328525 vs alpha 0.05"
      },
      {
       "gate": "G6 FDR",
       "pass": false,
-      "detail": "BH q = 0.255659 vs q 0.1"
+      "detail": "BH q = 0.173141 vs q 0.1"
      },
      {
       "gate": "G7 stability",
       "pass": true,
-      "detail": "half-to-half gap = 8.3333 pp (budget 30 pp)"
+      "detail": "half-to-half gap = 5.7692 pp (budget 30 pp)"
      },
      {
       "gate": "G8 economics",
       "pass": false,
-      "detail": "edge over the price actually paid -23.2143 pp (breakeven 0.52381), needs 1.5 pp"
+      "detail": "edge over the price actually paid -24.381 pp (breakeven 0.52381), needs 1.5 pp"
      },
      {
       "gate": "G9 luck",
       "pass": false,
-      "detail": "best edge -20.8333 pp vs board luck threshold 28.57 pp"
+      "detail": "best edge -22.0 pp vs board luck threshold 28.57 pp"
      },
      {
       "gate": "G10 pre-registration",
@@ -4013,7 +4011,6 @@
     "failing": [
      "G3 sample",
      "G4 power",
-     "G5 significance",
      "G6 FDR",
      "G8 economics",
      "G9 luck",
@@ -4029,7 +4026,7 @@
     "detail": "B was fitted on the 2026-11-15 team-statistics snapshot and applied to games played before it, so this rule's backtest number may not be used to rank it or to claim skill",
     "q_value_usable": false
    },
-   "q_value_raw": 0.25565864
+   "q_value_raw": 0.173141
   },
   {
    "rule": {
@@ -4571,23 +4568,23 @@
     "lookahead_ok": true
    },
    "scored": {
-    "n": 135,
-    "wins": 72,
-    "rate": 0.533333,
+    "n": 137,
+    "wins": 73,
+    "rate": 0.532847,
     "rate_ci95": [
-     0.449423,
-     0.6154
+     0.449549,
+     0.614353
     ],
-    "edge_pp": 3.3333,
-    "edge_vs_breakeven_pp": 0.9524,
-    "p_two_sided_vs_coin": 0.49126246,
-    "p_one_sided_vs_breakeven": 0.44671305,
-    "first_half_rate": 0.567164,
-    "second_half_rate": 0.5,
-    "stability_gap_pp": 6.7164,
-    "roi_paper": 0.018182,
-    "profit_units_paper": 2.4545,
-    "required_n": 16979,
+    "edge_pp": 3.2847,
+    "edge_vs_breakeven_pp": 0.9037,
+    "p_two_sided_vs_coin": 0.49444245,
+    "p_one_sided_vs_breakeven": 0.4503229,
+    "first_half_rate": 0.558824,
+    "second_half_rate": 0.507246,
+    "stability_gap_pp": 5.1577,
+    "roi_paper": 0.017253,
+    "profit_units_paper": 2.3636,
+    "required_n": 18858,
     "assumed_price": -110,
     "breakeven_used": 0.52381,
     "distinct_prices": 1,
@@ -4615,17 +4612,17 @@
      {
       "gate": "G3 sample",
       "pass": true,
-      "detail": "n = 135, needs 100"
+      "detail": "n = 137, needs 100"
      },
      {
       "gate": "G4 power",
       "pass": false,
-      "detail": "n = 135, needs 16979 for the observed edge"
+      "detail": "n = 137, needs 18858 for the observed edge"
      },
      {
       "gate": "G5 significance",
       "pass": false,
-      "detail": "exact binomial p = 0.49126246 vs alpha 0.05"
+      "detail": "exact binomial p = 0.49444245 vs alpha 0.05"
      },
      {
       "gate": "G6 FDR",
@@ -4635,17 +4632,17 @@
      {
       "gate": "G7 stability",
       "pass": true,
-      "detail": "half-to-half gap = 6.7164 pp (budget 30 pp)"
+      "detail": "half-to-half gap = 5.1577 pp (budget 30 pp)"
      },
      {
       "gate": "G8 economics",
       "pass": false,
-      "detail": "edge over the price actually paid 0.9524 pp (breakeven 0.52381), needs 1.5 pp"
+      "detail": "edge over the price actually paid 0.9037 pp (breakeven 0.52381), needs 1.5 pp"
      },
      {
       "gate": "G9 luck",
       "pass": false,
-      "detail": "best edge 3.3333 pp vs board luck threshold 28.57 pp"
+      "detail": "best edge 3.2847 pp vs board luck threshold 28.57 pp"
      },
      {
       "gate": "G10 pre-registration",
@@ -4680,7 +4677,7 @@
   "rules_skipped_no_sample": 0,
   "ci": 0.95,
   "threshold_pp": 28.5714,
-  "median_best_pp": 15.0,
+  "median_best_pp": 14.5161,
   "baseline": "coin flip at 50%, matching how each rule's edge is measured",
   "note": "the threshold is the 95th percentile of the single best edge across all screened rules under a zero-skill null; it grows with the number of rules"
  },
@@ -6156,6 +6153,27 @@
    "on_final_scores_before_build": true
   },
   {
+   "strategy_id": "S03",
+   "preregistration_sha256": "74d652a8f8c2b818f85b8e234937ca645b08738c76c7482044f63c39b73ab2e7",
+   "pick": {
+    "strategy_id": "S03",
+    "game_id": "0022600237",
+    "date": "2026-11-15",
+    "side": "under",
+    "line": 232.43947940771935,
+    "market": "total",
+    "price_american": -110
+   },
+   "pick_sha256": "4bc90d5dd488bb128a5e5c29f8be491c18b1774130cfc62b0158b11c55756d16",
+   "issued_utc": "2026-11-15T11:51:00+00:00",
+   "tip_utc": "2026-11-15T23:59:00Z",
+   "published_before_tip": true,
+   "settlement": "loss",
+   "settlement_stamp": "2026-11-15T12:10:00+00:00",
+   "settlement_source": "https://www.nba.com/game/0022600237",
+   "on_final_scores_before_build": true
+  },
+  {
    "strategy_id": "S04",
    "preregistration_sha256": "6161c845414c1e20528f13e10ef8f1dd4846e627d5e6e07e0a11297759b90445",
    "pick": {
@@ -6783,6 +6801,27 @@
    "settlement": "loss",
    "settlement_stamp": "2026-11-15T12:10:00+00:00",
    "settlement_source": "https://www.nba.com/game/0022600235",
+   "on_final_scores_before_build": true
+  },
+  {
+   "strategy_id": "S04",
+   "preregistration_sha256": "6161c845414c1e20528f13e10ef8f1dd4846e627d5e6e07e0a11297759b90445",
+   "pick": {
+    "strategy_id": "S04",
+    "game_id": "0022600237",
+    "date": "2026-11-15",
+    "side": "over",
+    "line": 232.43947940771935,
+    "market": "total",
+    "price_american": -110
+   },
+   "pick_sha256": "32c8961cea05bf5b890a939f56026c6d100be89544786695c2d74d2680922aaf",
+   "issued_utc": "2026-11-15T11:51:00+00:00",
+   "tip_utc": "2026-11-15T23:59:00Z",
+   "published_before_tip": true,
+   "settlement": "win",
+   "settlement_stamp": "2026-11-15T12:10:00+00:00",
+   "settlement_source": "https://www.nba.com/game/0022600237",
    "on_final_scores_before_build": true
   },
   {
@@ -8559,9 +8598,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -149
+    "price_american": -150
    },
-   "pick_sha256": "a6512f486b989d4c42e657adf30d20aa6c9eab986ec8a04ce23236014394d15b",
+   "pick_sha256": "d1ac7cd55e264b2b997f991087e737e2d80dd1702261bfb7e4d0817d397b1b3e",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-26T23:59:00Z",
    "published_before_tip": false,
@@ -8580,9 +8619,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -176
+    "price_american": -177
    },
-   "pick_sha256": "3383c9974fb796a729442cb86abd1f75a4d5bce3bb5b01aa9c970b58176b621b",
+   "pick_sha256": "c6e54cb48c1505e9b17310d63d5c61996f3932273d27df675a6610cb8b169005",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-26T23:59:00Z",
    "published_before_tip": false,
@@ -8601,9 +8640,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -193
+    "price_american": -194
    },
-   "pick_sha256": "285874b42a62771bc59f7f54c1eb768bbe444e43bae21da834d56dd1ced163e6",
+   "pick_sha256": "d6e022134e19384e980a6cd666b4d4dc0a82da096418ca7835d3ca4a363dcca2",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-26T23:59:00Z",
    "published_before_tip": false,
@@ -8643,9 +8682,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -196
+    "price_american": -197
    },
-   "pick_sha256": "a7b0dd266f878ae312a3bd352b28fdbb8552f2e1d9821d5845b43ef1c7c4279a",
+   "pick_sha256": "ab91b43bbcfa58172edf10b883a52fdd66aee64af17ea53453fb86a71a5d7926",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-27T23:59:00Z",
    "published_before_tip": false,
@@ -8685,9 +8724,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -208
+    "price_american": -209
    },
-   "pick_sha256": "67cfc17e39aff79d52f395a0c705c0c66eb1aec9f379a4e47e57e7c4fbf66b33",
+   "pick_sha256": "6b97bd919b2396275c266506cdd50db4a9b328c53e09262ac65bbb216097863b",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-28T23:59:00Z",
    "published_before_tip": false,
@@ -8706,9 +8745,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -138
+    "price_american": -139
    },
-   "pick_sha256": "2b557de91c2564538d34c6f0ab3dd258ef9080014897036e8303b785c98b225f",
+   "pick_sha256": "9d2344b3848b9588e921d44cb62db7f35adac5ef1289a7abfcb83c347940705f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-28T23:59:00Z",
    "published_before_tip": false,
@@ -8727,9 +8766,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -177
+    "price_american": -178
    },
-   "pick_sha256": "2c4b5f435d59631ac7d9d5d3bf4fb5a6407e669e1e123b2bf5db5797ca87bb63",
+   "pick_sha256": "98725ab1ab18bb118da7a75f4b34a1c9d2f43e3a280dd0111d321ad60419d1cf",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-28T23:59:00Z",
    "published_before_tip": false,
@@ -8790,9 +8829,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -119
+    "price_american": -120
    },
-   "pick_sha256": "04eeda9866db2e29f2f8dffef60e34bb01de5457a04475544e997e177682e041",
+   "pick_sha256": "c3451f8094117dae15d37f308558bfd498a2e54993c802bc602725aaa3b7b0d5",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-30T23:59:00Z",
    "published_before_tip": false,
@@ -8811,9 +8850,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -231
+    "price_american": -232
    },
-   "pick_sha256": "c711c387140be8726beb530b004f071555fa10e5c45828c7d540932953f50c74",
+   "pick_sha256": "5eed9221852d80ee4ef41bc5f5801216a4c966e196d92f1f16009e79735d48da",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-30T23:59:00Z",
    "published_before_tip": false,
@@ -8874,9 +8913,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -183
+    "price_american": -184
    },
-   "pick_sha256": "10e44a316fc979f43bd92d9a262b1d31c731a995c335b8665555ea6b3965285c",
+   "pick_sha256": "7728ad41003d91c2ef60a7ccc14e4010a5c8f04dcc999b4ba8232459a4f95d24",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-30T23:59:00Z",
    "published_before_tip": false,
@@ -8937,9 +8976,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -150
+    "price_american": -151
    },
-   "pick_sha256": "f72fc70281ef3971d64f9f3a67132abfbb254df37f6c0108abdd364bf948dab0",
+   "pick_sha256": "337ccf26efcfa576b8141b69d3e9f84ae8b3c03ea18d410f791386178a9dd975",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -8958,9 +8997,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -135
+    "price_american": -136
    },
-   "pick_sha256": "74a7dfbd175eaa3b5342c10698abbe80f7032c1caadf795309b4c65c6d485cd7",
+   "pick_sha256": "caab2ac9d67bc57a2bd95530a3ac5ae629d320a42de18a9c1b366bcce6ecc072",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -8979,9 +9018,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -256
+    "price_american": -258
    },
-   "pick_sha256": "76b5e2cf3f9e59101fd5f00b5acd47c2663e4ffb122fb5bb7a1b4ff74519cba1",
+   "pick_sha256": "1f4a471636e169a8a7430afb8de961d1fdcb3360fb58b143eb6ca4dffa7be104",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -9000,9 +9039,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -166
+    "price_american": -167
    },
-   "pick_sha256": "b730e3a8edfbc53a91648558d4d8459ba623b27b8dd8a93cf73e00aaf4359272",
+   "pick_sha256": "2de4164bc27227a98f1cc5cec3dc216372b027ed60e3ffcff908cba6c2c7494f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -9042,9 +9081,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -163
+    "price_american": -164
    },
-   "pick_sha256": "c127e8f1e919a5b99152b58dcdf519f769b1b9167afb96fa1ae819231fe6e9e5",
+   "pick_sha256": "167c45adf9835003dec0328462c8fa9e3cc09ae1dd0ff1276e982a5787b3076f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-01T23:59:00Z",
    "published_before_tip": false,
@@ -9063,9 +9102,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -132
+    "price_american": -133
    },
-   "pick_sha256": "a1986fe08320eacd5b5417d7cb5735c1a71184a60c24d63c374e151bc3b12218",
+   "pick_sha256": "7c2086e2964ab73e0d6aecd81f74af47ad2a6f06a85757f424f2d93d52f63a22",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-01T23:59:00Z",
    "published_before_tip": false,
@@ -9084,9 +9123,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -162
+    "price_american": -163
    },
-   "pick_sha256": "734bbd2e8636bf49fc46423594f651d65c0074dadba0835a94f9cf98da45165c",
+   "pick_sha256": "9f9c16d86fee820225104cdc877c2a3098ca15ad5789bd0f69e39589227fc2b7",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-01T23:59:00Z",
    "published_before_tip": false,
@@ -9168,9 +9207,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -180
+    "price_american": -181
    },
-   "pick_sha256": "91d070b96407521ade8f449fe054e5930343f09097538556fb28cfc8fc8f2eed",
+   "pick_sha256": "6e77a3afc00db2d3a265fec3e96c4dfb26bbdf16797ffc75152af80909385ccd",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -9189,9 +9228,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -184
+    "price_american": -185
    },
-   "pick_sha256": "c5fcbc5ab8512dad1f19711005679e5a93e0d2f5d808a9b1ea40a7156b482ae2",
+   "pick_sha256": "9dfbc8cbb839d4ae24908e3e7a487e6c81016bd1f353702da66e5ba38a0883f1",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -9210,9 +9249,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -223
+    "price_american": -224
    },
-   "pick_sha256": "c1eb3a3c07532b9a393a0295ad57f6a0960bfa88cb73ef8f6e7e67ac877eb58d",
+   "pick_sha256": "8ae59d51498f0b286d7822184d9e9180ae78a0384bfe6ddf36d8963258f7d345",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -9231,9 +9270,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -305
+    "price_american": -308
    },
-   "pick_sha256": "83e372368f6a40542fc53726445f94c9ad2eaa6fa376dceef240ac9eea288b0c",
+   "pick_sha256": "3536d209780c38c85cffbece388a7aa3374f09cb439726bc4d5ae0aab26f1ea5",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -9399,9 +9438,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -209
+    "price_american": -210
    },
-   "pick_sha256": "6a939e22f23226167c89f9c0b7d6962b6a1e839a1f7fdcbf8fc32a4ff2b0235a",
+   "pick_sha256": "323628955ac68feb9ece509c9be99b7af79043b5a2bc5f0d61ff10e9f9eadd82",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-04T23:59:00Z",
    "published_before_tip": false,
@@ -9483,9 +9522,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -149
+    "price_american": -150
    },
-   "pick_sha256": "1e22f1711760111fa96f66965a5a51ff5fea46d46a699085a2273cee09cd2ca1",
+   "pick_sha256": "0797d805a1fba184190ae6ecca8a01abca56ca66a7c82cd0d61114757748fc9e",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-04T23:59:00Z",
    "published_before_tip": false,
@@ -9504,9 +9543,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -209
+    "price_american": -210
    },
-   "pick_sha256": "a8566b1b2747988ed8a2b746954ceb404c8abe79270af797f7864555dc0e2304",
+   "pick_sha256": "fbc90cb81d4a7ed020d93d549ab3a6666cdf11fdaba17444417adf32c5cd77d7",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-04T23:59:00Z",
    "published_before_tip": false,
@@ -9588,9 +9627,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -214
+    "price_american": -215
    },
-   "pick_sha256": "a059c16f8d33ee078b37e85a6908b72196893b1401c24f02a15821aff9157a84",
+   "pick_sha256": "efe1ca96cb9739ecdc3741571a04553b5fb0402a0cc67738f8cce1ee2e718796",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-06T23:59:00Z",
    "published_before_tip": false,
@@ -9672,9 +9711,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -111
+    "price_american": -112
    },
-   "pick_sha256": "f5d866f445b49688ccd48d52c71e5899f58e5f8ee5b67d1ba4c8933b3906e58f",
+   "pick_sha256": "386bf297d9ad62ad97a6408a16cc3701d9967bfafe8bf63a5178a644908c2bd1",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-06T23:59:00Z",
    "published_before_tip": false,
@@ -9693,9 +9732,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -249
+    "price_american": -251
    },
-   "pick_sha256": "acf221892875434c6081bde61c082d0774a40200ec28231e356326a08b08eff3",
+   "pick_sha256": "a45a332d5378f38b8f338c9c4400f9a7cebb1284232cf4c831d270c3e2214af6",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-06T23:59:00Z",
    "published_before_tip": false,
@@ -9756,9 +9795,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -156
+    "price_american": -157
    },
-   "pick_sha256": "756d1e91b581f764aa5b15b20c95ff25cc286c601e9c166b01d4f1f01a80eccc",
+   "pick_sha256": "878edbf6686fcbc82cefa9f604ef6e77d2e2cd1bfd06e72d9768f4d6cd80421c",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-07T23:59:00Z",
    "published_before_tip": false,
@@ -9777,9 +9816,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -151
+    "price_american": -152
    },
-   "pick_sha256": "fedc4b4493f047a77adc7ff16390afdfe02d27eaf934f5cc3cfc1345fa05a2e8",
+   "pick_sha256": "8a86b6ff8b4d72e7148a3e5402aa3b22f972773f1acd7b6e8387ec2bb1cfe1b6",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-07T23:59:00Z",
    "published_before_tip": false,
@@ -9840,9 +9879,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -263
+    "price_american": -265
    },
-   "pick_sha256": "dbef8dd5aa5ae4c988620c25033be6f4792741b570082a92b055da0dd2683bab",
+   "pick_sha256": "0917a290ebfec18d4ffbf0db8eec4c7e2d882ab0f2bcb79ec726428a2c3fee88",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-08T23:59:00Z",
    "published_before_tip": false,
@@ -9861,9 +9900,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -243
+    "price_american": -245
    },
-   "pick_sha256": "3d6be6b89d7852999f5fd473b70ccd652e3e0706a43b5d2442ef2cad71a5545b",
+   "pick_sha256": "24f84722d4031daea2fc6d412ced2aaa3680ad8dd429c54fa81326ab3cae48d4",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-08T23:59:00Z",
    "published_before_tip": false,
@@ -9945,9 +9984,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -164
+    "price_american": -165
    },
-   "pick_sha256": "19542fba7d79062e321a6bb2e79a9c275f0068f839cd58207e25850a2930d988",
+   "pick_sha256": "9ff17c570631450bd5419add680e530512effc3a4af0fdad164f91e84b3c32ac",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-09T23:59:00Z",
    "published_before_tip": false,
@@ -10008,9 +10047,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -178
+    "price_american": -179
    },
-   "pick_sha256": "2659b5d75387f39491cdd0c066411c4cb74915b56005594cd6358c871566ccfd",
+   "pick_sha256": "8eecf796c96a09fd22d286df0d0ac7810f94a7d082a7cd66a7c6838b3aeb816e",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-09T23:59:00Z",
    "published_before_tip": false,
@@ -10029,9 +10068,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -242
+    "price_american": -243
    },
-   "pick_sha256": "b590614495b321afa7955a32c35d939f7dc7a01cc1b9732a240fca8b0c614744",
+   "pick_sha256": "d7af32825bd86347ee3aac5a5024c4d81ed2a7eda9fbfa2e842bc88a953b1893",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-10T23:59:00Z",
    "published_before_tip": false,
@@ -10155,9 +10194,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -132
+    "price_american": -133
    },
-   "pick_sha256": "5ea474f67366ab8ef4f4d3e23f61b49f22559bc0cfb7dc2878ad0e9e625d7359",
+   "pick_sha256": "0958347349a154abb5ee16ffd73e78cae8f580f3e91a0595dbb7bb001ea76eaf",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -10176,9 +10215,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -235
+    "price_american": -237
    },
-   "pick_sha256": "f09217cc16bbc8e3df135594f0a7ed384cf4d7743a9ad819ff7b9c5497d04cca",
+   "pick_sha256": "2fb1317c7a9a5523fe16811e05c5a14cd38d95b30f605d6d3d7f44220c96eac8",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -10218,9 +10257,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -214
+    "price_american": -215
    },
-   "pick_sha256": "20f2dbe250b9ca665a8adda9359a2f2dda9f715a0aecc91ffd084211f6fd270a",
+   "pick_sha256": "a482ef063a634d731910f0166947d06a287d5c1345f627ff4327b6907da93639",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -10281,9 +10320,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -132
+    "price_american": -133
    },
-   "pick_sha256": "4c4a6322425c1d010d5461c973fb0378bec46fa990d50e8081102a0d23f84b65",
+   "pick_sha256": "ea60d5b0ac0974b1a6876ab6d48066f29cbe2112035de21b0103ec2284e26cf2",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -10365,9 +10404,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -129
+    "price_american": -130
    },
-   "pick_sha256": "a33fe76d9aa0a24cee623cefd6243af9c1641b70f8f89db9005460c9149a76e3",
+   "pick_sha256": "6ee62287f3e32f75818d8c28df29ff50c5e39a902cc3943951c2ba6218ee38ca",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10386,9 +10425,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -152
+    "price_american": -153
    },
-   "pick_sha256": "7fa655e98fa54b833a5b49d28334fd73c19da6ef949dadef1f8b53d3827e2155",
+   "pick_sha256": "6a0d9234d2fd33203ebbe46e93f7c35f7f49c1ce3f30982f5d618429b59d0cae",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10428,9 +10467,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -153
+    "price_american": -154
    },
-   "pick_sha256": "cc583db5ddb35ec684ca3d52a48e22f8c5a6871f27335830439363ff6d534909",
+   "pick_sha256": "f253006003c85c5f40541d3d63dbad82d0faa13bf378df45de7925e98dbffc79",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10449,9 +10488,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -187
+    "price_american": -188
    },
-   "pick_sha256": "7e5c62798def76cc48f50ac3ca37ac15aac7ae19d88da5700b4631331c3036a5",
+   "pick_sha256": "a0475fd3f9854da5135b5288302347772800ff95aac5ba8ee6ce1613086fe277",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10470,9 +10509,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -229
+    "price_american": -231
    },
-   "pick_sha256": "63e70132cbef15c42bd76d727a2fd4837721f4cd496801289c6e31c276eb0b50",
+   "pick_sha256": "08677584c4e45502440bb4a5563794a0c5f211706cf689488f752ca26f43490d",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10491,9 +10530,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -150
+    "price_american": -151
    },
-   "pick_sha256": "e53004b150fcb4a139d929a2907f76f47650985ec81e1c7a0ea3cbaa5dc14227",
+   "pick_sha256": "d60740b2bee1d4887f08ead8337a39a6be294485e886df9019c76d9a1312205d",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10512,9 +10551,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -209
+    "price_american": -210
    },
-   "pick_sha256": "7ded3c5f7ba0d88991ab41f3d26472815484f1cf3d84d46e535f3aca2b6064ba",
+   "pick_sha256": "9e135f2d6624d3521d23ea1e16184837d1bc228fac234efe2003f0367dfb40fd",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -10596,9 +10635,9 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -204
+    "price_american": -205
    },
-   "pick_sha256": "043cc15067cd9b612b4b277054b9e7d4a88cd2fd57cd93e3ed92845a83f93e9d",
+   "pick_sha256": "d1e30c31c4d2e60a375e7c92e6be1e2a86e4ff96819242b7acc57f7c3121d269",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-14T23:59:00Z",
    "published_before_tip": false,
@@ -10617,15 +10656,57 @@
     "side": "favourite",
     "line": null,
     "market": "moneyline",
-    "price_american": -277
+    "price_american": -280
    },
-   "pick_sha256": "2dc8c46201f7e73648beb1866eaa2ee257877f3ed1290e6dbaf392f502d14fb9",
+   "pick_sha256": "57a7225be6def48b75462087c1241b508f6962a006362ada196cc55a82fc3a28",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-14T23:59:00Z",
    "published_before_tip": false,
    "settlement": "loss",
    "settlement_stamp": "2026-11-15T12:10:00+00:00",
    "settlement_source": "https://www.nba.com/game/0022600235",
+   "on_final_scores_before_build": true
+  },
+  {
+   "strategy_id": "S09",
+   "preregistration_sha256": "32ffe24a54d7fe1ff2c5607cd73503cc4efd2fc3d0e3d7ccb08153d9ac659c78",
+   "pick": {
+    "strategy_id": "S09",
+    "game_id": "0022600236",
+    "date": "2026-11-15",
+    "side": "favourite",
+    "line": null,
+    "market": "moneyline",
+    "price_american": -133
+   },
+   "pick_sha256": "677e1cfda80ab8194ef6db10aea9415816a0e75de2b687cf9a2c0df1600e929f",
+   "issued_utc": "2026-11-15T11:51:00+00:00",
+   "tip_utc": "2026-11-15T23:59:00Z",
+   "published_before_tip": true,
+   "settlement": "win",
+   "settlement_stamp": "2026-11-15T12:10:00+00:00",
+   "settlement_source": "https://www.nba.com/game/0022600236",
+   "on_final_scores_before_build": true
+  },
+  {
+   "strategy_id": "S09",
+   "preregistration_sha256": "32ffe24a54d7fe1ff2c5607cd73503cc4efd2fc3d0e3d7ccb08153d9ac659c78",
+   "pick": {
+    "strategy_id": "S09",
+    "game_id": "0022600237",
+    "date": "2026-11-15",
+    "side": "favourite",
+    "line": null,
+    "market": "moneyline",
+    "price_american": -141
+   },
+   "pick_sha256": "006a05cb32c8c619401d36f9badd2fef633a2722426a70b488e4dc64c4f3c99c",
+   "issued_utc": "2026-11-15T11:51:00+00:00",
+   "tip_utc": "2026-11-15T23:59:00Z",
+   "published_before_tip": true,
+   "settlement": "win",
+   "settlement_stamp": "2026-11-15T12:10:00+00:00",
+   "settlement_source": "https://www.nba.com/game/0022600237",
    "on_final_scores_before_build": true
   },
   {
@@ -10638,9 +10719,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 149
+    "price_american": 150
    },
-   "pick_sha256": "5e8c46abcb5b6df98a390d70fc254b1c4f292de09d7db31540fbd602bb40e678",
+   "pick_sha256": "14809a393efaa5cc964e779c17a5e3cb6ca1ae3e6cbbd0f5a4f8f758ebc40de9",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-26T23:59:00Z",
    "published_before_tip": false,
@@ -10659,9 +10740,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 176
+    "price_american": 177
    },
-   "pick_sha256": "92c8ad663c7bb8d4e0e60d54146ea048881c5bee17f524ae714cc4803e2fe595",
+   "pick_sha256": "91159c7b75a6307861b8a0b1e3c280be0be15595f5e02305dfa49b1e8355d279",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-26T23:59:00Z",
    "published_before_tip": false,
@@ -10680,9 +10761,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 193
+    "price_american": 194
    },
-   "pick_sha256": "8bb86f53f58e46be7de86bd296d22016cb91435991d603e3906b4514e4c475a3",
+   "pick_sha256": "1c1640a3d6bf09c8410358f0506c0b905063599312983da80f97d3ddda76d144",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-26T23:59:00Z",
    "published_before_tip": false,
@@ -10722,9 +10803,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 196
+    "price_american": 197
    },
-   "pick_sha256": "61369ccdc84a8ba7d081a9a3cc3e9141585f6b59221c59b9bd6773fcb021c2db",
+   "pick_sha256": "43bb35cc8ff0b05cf23daf496a17f7dc0404a0d5127a35640cac31a4dbc15dea",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-27T23:59:00Z",
    "published_before_tip": false,
@@ -10764,9 +10845,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 208
+    "price_american": 209
    },
-   "pick_sha256": "7ddea362d532d6698a13325206dabc0771979fc3b1a94c2dec4ee9779548cf35",
+   "pick_sha256": "7046c51a2011e6f99053bf28ec852c1502bd94c8e0c228834fe3f6024552605b",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-28T23:59:00Z",
    "published_before_tip": false,
@@ -10785,9 +10866,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 138
+    "price_american": 139
    },
-   "pick_sha256": "e90d2917d904d867db7abebe1b597958d800f68f48ecad974ffda0037d890490",
+   "pick_sha256": "2fa8d1bd93ea0a45eb99c74be780ae7f892431ebf55a9838f79982c9129c45e9",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-28T23:59:00Z",
    "published_before_tip": false,
@@ -10806,9 +10887,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 177
+    "price_american": 178
    },
-   "pick_sha256": "ea5910596b7f49cbae5fa73a66fed3ca177ef849383db06a6446d50f6f30196e",
+   "pick_sha256": "b4e0068e9fdce0c2f1f923e11a03b355c500119cad05b9df0fbaed05f846ca5d",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-28T23:59:00Z",
    "published_before_tip": false,
@@ -10869,9 +10950,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 119
+    "price_american": 120
    },
-   "pick_sha256": "eb4ad18e7c7e109791d3dfd85ff9cc611aa32d9ef2fa72e7e22d30a89ed19ea6",
+   "pick_sha256": "a7d57ab0554a36b4b1ead03f9ca842b2c74989c619f13a697e26ea2a9ea46990",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-30T23:59:00Z",
    "published_before_tip": false,
@@ -10890,9 +10971,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 231
+    "price_american": 232
    },
-   "pick_sha256": "2fe47e76a0c3835a1e0c50cbf97b7e8555c75116883b4601aa007dcf0e949724",
+   "pick_sha256": "3379fb402f66d885a77abd1cc3cc64a8663bed6d79d8cb923a59c092b1182799",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-30T23:59:00Z",
    "published_before_tip": false,
@@ -10953,9 +11034,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 183
+    "price_american": 184
    },
-   "pick_sha256": "06c45ceec9fc48b7d36c1fbdf97e9c607dbe702392453041761b031da5cfb844",
+   "pick_sha256": "a827e24a197901ab824ee15de241cfc5addb70b335b0e2207f7e28317141c719",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-30T23:59:00Z",
    "published_before_tip": false,
@@ -11016,9 +11097,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 150
+    "price_american": 151
    },
-   "pick_sha256": "4fcd4d9730255dc13b1f411ff91363c515ed97f8496d92b4c64a0bb0ab496e04",
+   "pick_sha256": "d18988b33fea45912c56041acd83415ebe3c05ca0d4736e287fbe4f60bd5ac42",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -11037,9 +11118,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 135
+    "price_american": 136
    },
-   "pick_sha256": "a70bea91150a104dac9ed6ebba263b545b723c238a786d4a5eb7fb149cd942b3",
+   "pick_sha256": "2e49c95a3242a676cb7bf58ccce9cad498692e1aa2ef217041f1b09d22b9cc27",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -11058,9 +11139,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 256
+    "price_american": 258
    },
-   "pick_sha256": "cb677aa751b67620b568ac2228758eb7bffa866d01fb08fb9bb6a5fcf36823d8",
+   "pick_sha256": "0186993dbf9be842de1242b0f7308f7d3cb07020ac339c14583324f2155ea13f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -11079,9 +11160,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 166
+    "price_american": 167
    },
-   "pick_sha256": "e619790db36a55759e0723c712d140648a95d549acf0b6840a1242de8034350f",
+   "pick_sha256": "1f81841fa48761b1b801c3280d26caa028b1f6d07aff0ad96cd601a8c1dce1fb",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-10-31T23:59:00Z",
    "published_before_tip": false,
@@ -11121,9 +11202,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 163
+    "price_american": 164
    },
-   "pick_sha256": "a064725fe3af2a27e5947b1f536fb880493dec411dca649964cde32a5c0013f9",
+   "pick_sha256": "ab566345c5b2a2d9694cb710178c7b18d5d1ed02a02d6f6f287564e41142c8c8",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-01T23:59:00Z",
    "published_before_tip": false,
@@ -11142,9 +11223,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 132
+    "price_american": 133
    },
-   "pick_sha256": "5a0de13eeaa02356bf8a23e9c3f89d12395a21bb7e34695fc8003938e2889430",
+   "pick_sha256": "43de600687b0e922d51972f7090f13c7a6733ef66876e16cf0065571a670ae08",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-01T23:59:00Z",
    "published_before_tip": false,
@@ -11163,9 +11244,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 162
+    "price_american": 163
    },
-   "pick_sha256": "24de34464a53ca7be0b56acebe44bd1965d3c315b7720924c026ccfdf2ad45b1",
+   "pick_sha256": "982e95d40725faac696089d8ea1d8698c4ad8d2cd6c25fc3362633ad42b6c47c",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-01T23:59:00Z",
    "published_before_tip": false,
@@ -11247,9 +11328,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 180
+    "price_american": 181
    },
-   "pick_sha256": "35ff1bbc8b574f0a00843a8f31afad14c5e8c2eab8e4c99b1a64511edec29911",
+   "pick_sha256": "c84b5a33bd00bec7b7323eebed6f9bf8d93189461f7a1da73f6edee3192bd1da",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -11268,9 +11349,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 184
+    "price_american": 185
    },
-   "pick_sha256": "3aee59c1f91dd99a6750b8977eab4c6eeaa0918fc891d884fc8b27171c4db8c3",
+   "pick_sha256": "13b6447abeb1a5223db8f5ff9cada0d0fdda440a2ec80351b60815d776443545",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -11289,9 +11370,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 223
+    "price_american": 224
    },
-   "pick_sha256": "34d89a5df85d8170a54118760446742d6d651fd27b6acf91d275d9c4e2b376fe",
+   "pick_sha256": "aab8769069039c452a2441fa79957e8fbf172717c4555c3812451befbda78245",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -11310,9 +11391,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 305
+    "price_american": 308
    },
-   "pick_sha256": "f7240caac1195165b38b480735e5b03a3f2883b1ee151269c59fad58879780b6",
+   "pick_sha256": "9836ae14307be58d24708689ed8391cecf34cd8064c156d7e2b6d5dc9cd9a6f7",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-02T23:59:00Z",
    "published_before_tip": false,
@@ -11478,9 +11559,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 209
+    "price_american": 210
    },
-   "pick_sha256": "1e5f6842cfc8afeee460fc093f54a6cf48678a6e75546fe35da3000716ff4c23",
+   "pick_sha256": "dbde674fa74946addbd38e66c39e3dce8b9bb06601b4e8d30cbdfa08cd4973e9",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-04T23:59:00Z",
    "published_before_tip": false,
@@ -11562,9 +11643,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 149
+    "price_american": 150
    },
-   "pick_sha256": "b23e297eb9f10e5d4a3128bca03b16fb9980cc18dd222087ba5edde7c0b0e37c",
+   "pick_sha256": "10ee91ba50d0623248e806534fd9eb49516d4a62270b7a4a4635aeb0d864c23b",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-04T23:59:00Z",
    "published_before_tip": false,
@@ -11583,9 +11664,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 209
+    "price_american": 210
    },
-   "pick_sha256": "54dfc66db161a821aa5892caf1172d9b4649f85e0594ac0ad5644a6486f548a2",
+   "pick_sha256": "92895adef18392f16f92d4bd159c5f6205df5299992d5d2e3f8a8d68cc548727",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-04T23:59:00Z",
    "published_before_tip": false,
@@ -11667,9 +11748,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 214
+    "price_american": 215
    },
-   "pick_sha256": "8d07f4403ac16742be3c91edf4c8092f047472ce12df982ceb74a9f0173cf91b",
+   "pick_sha256": "68a3770a808f20b29d584c6a59fc9c84b3fea2e72953041073265f5283aedfcc",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-06T23:59:00Z",
    "published_before_tip": false,
@@ -11751,9 +11832,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 111
+    "price_american": 112
    },
-   "pick_sha256": "17448255bb8c47d6cc15aa156eaa3fea79755764ea11de546a8df0ec22a8e9be",
+   "pick_sha256": "4761597e4d55b801bbd73033962027675dcd159a654d3aee7fc27cb3ceb204b8",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-06T23:59:00Z",
    "published_before_tip": false,
@@ -11772,9 +11853,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 249
+    "price_american": 251
    },
-   "pick_sha256": "114e3f301213870863ce09443c04489a3506a7c4d4249aa6722393783a2d9091",
+   "pick_sha256": "4c4ca8a6b5886e826d3894202de4dc3ce8b3e598888c567174e019cb3e3f25b4",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-06T23:59:00Z",
    "published_before_tip": false,
@@ -11835,9 +11916,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 156
+    "price_american": 157
    },
-   "pick_sha256": "01025a97bb3015c6c9b4c2c868d1f85082b25764eed30cf32b503ec0e0b78db1",
+   "pick_sha256": "00e2646e61e5421ed6146fa9b31139378cc5951eb433e2065447b61ac08d6cde",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-07T23:59:00Z",
    "published_before_tip": false,
@@ -11856,9 +11937,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 151
+    "price_american": 152
    },
-   "pick_sha256": "defebea3aa343f1c0522a81600a2d6aecf9b45129fe489a06a5902e0d1ca7139",
+   "pick_sha256": "92dfff8cef67e0ba70c8e7376836edfc86c138411da782bcfaf72272f400e56f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-07T23:59:00Z",
    "published_before_tip": false,
@@ -11919,9 +12000,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 263
+    "price_american": 265
    },
-   "pick_sha256": "c9e258fbbd80ac6bd1f16104403a06418239c7b3134b46ed6002c282e65fa108",
+   "pick_sha256": "591d91b19d07201727ad26545bcc746d8baf8397bc0bda7637668b30d11fb628",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-08T23:59:00Z",
    "published_before_tip": false,
@@ -11940,9 +12021,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 243
+    "price_american": 245
    },
-   "pick_sha256": "1a5dfb07e957ceb5b9c032a8bc060bdb73dc60a2bcfc53a5fdc2003bd45bcf26",
+   "pick_sha256": "d41dcc16683ede6bea2875f59ed3d9fab35afe1fdd2941b7022a2d940cded344",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-08T23:59:00Z",
    "published_before_tip": false,
@@ -12024,9 +12105,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 164
+    "price_american": 165
    },
-   "pick_sha256": "488a342549fe130a304cbca14688cb790791dae83711772a9d2cc428ebde863a",
+   "pick_sha256": "f498bee0b7bd0427850d79b4c436070d5680f3f6021893a843a06d1d64b752cf",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-09T23:59:00Z",
    "published_before_tip": false,
@@ -12087,9 +12168,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 178
+    "price_american": 179
    },
-   "pick_sha256": "d32c2de963f1d8b62efd121fff3c644e9dacb6bfe206704c7cee39a3e3c2c335",
+   "pick_sha256": "b418c2eb35c85898bdf8ba722878f6c39ce0db846ddfa18400deaed87a5b366c",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-09T23:59:00Z",
    "published_before_tip": false,
@@ -12108,9 +12189,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 242
+    "price_american": 243
    },
-   "pick_sha256": "c5bfed682ac1063b8a357f88edc81b2a523e2494a05e886edb56b8bb5a594d91",
+   "pick_sha256": "e3df65b82585e63466a6845ce1dbbfc9cba89502754e101bbdecbe55345c55fc",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-10T23:59:00Z",
    "published_before_tip": false,
@@ -12234,9 +12315,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 132
+    "price_american": 133
    },
-   "pick_sha256": "1fd0da60867c41f9d04c333977ae9a87838ba8e80c51ae8e38c400fe9f147cd4",
+   "pick_sha256": "484268b72bfa50061a03676bf38ac5042979910f0737288f3f59264d5c547203",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -12255,9 +12336,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 235
+    "price_american": 237
    },
-   "pick_sha256": "6ad8ae9c9b0a7bd83c99c9e38f780d3df94dad74742cbd8bca1a00604317cc8f",
+   "pick_sha256": "409f3e3de4efeee696ee46809345cb7911e5e0f0d1ca673acc8dccb60a6d0e78",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -12297,9 +12378,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 214
+    "price_american": 215
    },
-   "pick_sha256": "d873159e956f99647a121e64484703ff4979927f4b077ec08c4c72acc9bdef10",
+   "pick_sha256": "5dbb704c57ba2cc629ffa66071cdd1470f83408de2e7fd8e64fd57d78dba19af",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -12360,9 +12441,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 132
+    "price_american": 133
    },
-   "pick_sha256": "2965c0fb4acd478c9a5cb0bd7af2ede4ad47cfae280c1a099f170f34c0607f18",
+   "pick_sha256": "44d6cbb02dacebfcfad089f399fa2fab4e4a76586e2838f04aa8d16789390502",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-11T23:59:00Z",
    "published_before_tip": false,
@@ -12444,9 +12525,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 129
+    "price_american": 130
    },
-   "pick_sha256": "739b6085829bb7eccbfed2af14dac66bf3ef050075e70af9cd3295f17af1621d",
+   "pick_sha256": "083b0adb0d833375bf27d106385473584c43a02998f2b22b4026662d15478439",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12465,9 +12546,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 152
+    "price_american": 153
    },
-   "pick_sha256": "d7275363849a9642cdc107eca70fd5f97f7980ef54505fb6f311791666b67903",
+   "pick_sha256": "a8bc85915a951f4c0ee8474f999000bdbfff2930188eee5f622c89e0c5fd20d8",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12507,9 +12588,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 153
+    "price_american": 154
    },
-   "pick_sha256": "9eafdfaf82200b6a471c4d5ec0927855cad69cf6816263b9efb2ec8e9a6ca17e",
+   "pick_sha256": "eb8cdbf25b0854cd3eb7a9334a5af3c281a26fcfd2dfe77589152b6c0407931f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12528,9 +12609,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 187
+    "price_american": 188
    },
-   "pick_sha256": "00c781f3e73a2e2b74cc622639553f0c7070840d0a2f0d4d44fc27c4abcdc889",
+   "pick_sha256": "9987b31725e4d245feec8673f1d4fe6596a2fff2a5a818d1ed04915601afa87f",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12549,9 +12630,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 229
+    "price_american": 231
    },
-   "pick_sha256": "2a8380a7cb0b1f78265c91c54630d6bdd93f50ad1900692959a6d9b446a016b8",
+   "pick_sha256": "adecb887b50fef4cfaf6b1badeea4c8e4066771c3b8e76e3d5f8bdfe276630d0",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12570,9 +12651,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 150
+    "price_american": 151
    },
-   "pick_sha256": "a94b3f05684e3ed5e0d8e02b6f6a7b432f81c737767606aced4182920e977737",
+   "pick_sha256": "af2a267e019981145d0c3c91b1e08bcf550dc7607270b4e6fa217d325694ed23",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12591,9 +12672,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 209
+    "price_american": 210
    },
-   "pick_sha256": "8bc408bba373e0717bddffcac7320ebd1ec246a60fe81f77c083a400cae9ea91",
+   "pick_sha256": "05fab66e281a64039ba5b6e40123d6c01fe874d353cf76c648e0ab1ea272640b",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-13T23:59:00Z",
    "published_before_tip": false,
@@ -12675,9 +12756,9 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 204
+    "price_american": 205
    },
-   "pick_sha256": "d345396ecea5d315c48dde6615e7c81de177abaa692119cf2ecddc686042396f",
+   "pick_sha256": "fb02fa405c048f2432b01a8b7fd61ed787bcebad8867fb43e26b6cad1d4854a3",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-14T23:59:00Z",
    "published_before_tip": false,
@@ -12696,15 +12777,57 @@
     "side": "underdog",
     "line": null,
     "market": "moneyline",
-    "price_american": 277
+    "price_american": 280
    },
-   "pick_sha256": "902b851f29d0dae8b006de3849d2c07a0424aebb2e2a34ea66161e5135907f91",
+   "pick_sha256": "fda183c889d5c26a0701a8b819c53fc223758609b02ff25e52b191d8060074e7",
    "issued_utc": "2026-11-15T11:51:00+00:00",
    "tip_utc": "2026-11-14T23:59:00Z",
    "published_before_tip": false,
    "settlement": "win",
    "settlement_stamp": "2026-11-15T12:10:00+00:00",
    "settlement_source": "https://www.nba.com/game/0022600235",
+   "on_final_scores_before_build": true
+  },
+  {
+   "strategy_id": "S10",
+   "preregistration_sha256": "6efaba47f1708d8882efb485bdf1b7efe55a526ec54cf04fc74d9bb6989ec6ad",
+   "pick": {
+    "strategy_id": "S10",
+    "game_id": "0022600236",
+    "date": "2026-11-15",
+    "side": "underdog",
+    "line": null,
+    "market": "moneyline",
+    "price_american": 133
+   },
+   "pick_sha256": "89e02278d6156389e7fc296889ac3f6976736579946ad6ab3fda53301206db82",
+   "issued_utc": "2026-11-15T11:51:00+00:00",
+   "tip_utc": "2026-11-15T23:59:00Z",
+   "published_before_tip": true,
+   "settlement": "loss",
+   "settlement_stamp": "2026-11-15T12:10:00+00:00",
+   "settlement_source": "https://www.nba.com/game/0022600236",
+   "on_final_scores_before_build": true
+  },
+  {
+   "strategy_id": "S10",
+   "preregistration_sha256": "6efaba47f1708d8882efb485bdf1b7efe55a526ec54cf04fc74d9bb6989ec6ad",
+   "pick": {
+    "strategy_id": "S10",
+    "game_id": "0022600237",
+    "date": "2026-11-15",
+    "side": "underdog",
+    "line": null,
+    "market": "moneyline",
+    "price_american": 141
+   },
+   "pick_sha256": "abd279ccddec221d7ade9103624f563a3a81c75f3dc4521796c6f131ffcb080e",
+   "issued_utc": "2026-11-15T11:51:00+00:00",
+   "tip_utc": "2026-11-15T23:59:00Z",
+   "published_before_tip": true,
+   "settlement": "loss",
+   "settlement_stamp": "2026-11-15T12:10:00+00:00",
+   "settlement_source": "https://www.nba.com/game/0022600237",
    "on_final_scores_before_build": true
   },
   {
@@ -12957,132 +13080,6 @@
    "settlement": "loss",
    "settlement_stamp": "2026-11-15T12:10:00+00:00",
    "settlement_source": "https://www.nba.com/game/0022600032",
-   "on_final_scores_before_build": true
-  },
-  {
-   "strategy_id": "P01",
-   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
-   "pick": {
-    "strategy_id": "P01",
-    "game_id": "0022600202",
-    "date": "2026-11-08",
-    "side": "sgp",
-    "line": 232.85719741159485,
-    "market": "sgp",
-    "price_american": -110
-   },
-   "pick_sha256": "feef2575da2e02322b1b7824b865d587badab1ff80a0bf592c26c4e5114a76e4",
-   "issued_utc": "2026-11-15T11:51:00+00:00",
-   "tip_utc": "2026-11-08T23:59:00Z",
-   "published_before_tip": false,
-   "settlement": "win",
-   "settlement_stamp": "2026-11-15T12:10:00+00:00",
-   "settlement_source": "https://www.nba.com/game/0022600202",
-   "on_final_scores_before_build": true
-  },
-  {
-   "strategy_id": "P01",
-   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
-   "pick": {
-    "strategy_id": "P01",
-    "game_id": "0022600203",
-    "date": "2026-11-09",
-    "side": "sgp",
-    "line": 234.96812579054242,
-    "market": "sgp",
-    "price_american": -110
-   },
-   "pick_sha256": "404b98dd66f8b5a3d2ababc0137246386f81a13b2076fd971920a47d9084f97a",
-   "issued_utc": "2026-11-15T11:51:00+00:00",
-   "tip_utc": "2026-11-09T23:59:00Z",
-   "published_before_tip": false,
-   "settlement": "loss",
-   "settlement_stamp": "2026-11-15T12:10:00+00:00",
-   "settlement_source": "https://www.nba.com/game/0022600203",
-   "on_final_scores_before_build": true
-  },
-  {
-   "strategy_id": "P01",
-   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
-   "pick": {
-    "strategy_id": "P01",
-    "game_id": "0022600210",
-    "date": "2026-11-09",
-    "side": "sgp",
-    "line": 231.3369850053747,
-    "market": "sgp",
-    "price_american": -110
-   },
-   "pick_sha256": "f95fe5a773a84d74ed84100a45e8d9b7c29767de2911330a5cdd4359d397edfc",
-   "issued_utc": "2026-11-15T11:51:00+00:00",
-   "tip_utc": "2026-11-09T23:59:00Z",
-   "published_before_tip": false,
-   "settlement": "win",
-   "settlement_stamp": "2026-11-15T12:10:00+00:00",
-   "settlement_source": "https://www.nba.com/game/0022600210",
-   "on_final_scores_before_build": true
-  },
-  {
-   "strategy_id": "P01",
-   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
-   "pick": {
-    "strategy_id": "P01",
-    "game_id": "0022600220",
-    "date": "2026-11-11",
-    "side": "sgp",
-    "line": 230.953557945306,
-    "market": "sgp",
-    "price_american": -110
-   },
-   "pick_sha256": "e7e2421896ba9cd2dbc96c561d5283589d0732f0591584adf65c43b168f625bb",
-   "issued_utc": "2026-11-15T11:51:00+00:00",
-   "tip_utc": "2026-11-11T23:59:00Z",
-   "published_before_tip": false,
-   "settlement": "loss",
-   "settlement_stamp": "2026-11-15T12:10:00+00:00",
-   "settlement_source": "https://www.nba.com/game/0022600220",
-   "on_final_scores_before_build": true
-  },
-  {
-   "strategy_id": "P01",
-   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
-   "pick": {
-    "strategy_id": "P01",
-    "game_id": "0022600222",
-    "date": "2026-11-11",
-    "side": "sgp",
-    "line": 231.35646553367013,
-    "market": "sgp",
-    "price_american": -110
-   },
-   "pick_sha256": "856126e8700bb3b3fedb401506d77c32c996c0f39475027e8b678fae9f5dfef5",
-   "issued_utc": "2026-11-15T11:51:00+00:00",
-   "tip_utc": "2026-11-11T23:59:00Z",
-   "published_before_tip": false,
-   "settlement": "loss",
-   "settlement_stamp": "2026-11-15T12:10:00+00:00",
-   "settlement_source": "https://www.nba.com/game/0022600222",
-   "on_final_scores_before_build": true
-  },
-  {
-   "strategy_id": "P01",
-   "preregistration_sha256": "ecd1f6b94dcdd60da69c2001bed54bc54b136aeba56021e149f0a019e07cf6fe",
-   "pick": {
-    "strategy_id": "P01",
-    "game_id": "0022600223",
-    "date": "2026-11-11",
-    "side": "sgp",
-    "line": 230.0993483971297,
-    "market": "sgp",
-    "price_american": -110
-   },
-   "pick_sha256": "659d19640f58b3176083ab0c43c18a4030def06b3088f6408cbe6c2be5ce2a02",
-   "issued_utc": "2026-11-15T11:51:00+00:00",
-   "tip_utc": "2026-11-11T23:59:00Z",
-   "published_before_tip": false,
-   "settlement": "loss",
-   "settlement_stamp": "2026-11-15T12:10:00+00:00",
-   "settlement_source": "https://www.nba.com/game/0022600223",
    "on_final_scores_before_build": true
   }
  ],
@@ -13578,6 +13575,13 @@
    "published_before_tip": false
   },
   {
+   "row_strategy": "S03",
+   "stored_sha256": "4bc90d5dd488bb128a5e5c29f8be491c18b1774130cfc62b0158b11c55756d16",
+   "recomputed_sha256": "4bc90d5dd488bb128a5e5c29f8be491c18b1774130cfc62b0158b11c55756d16",
+   "matches": true,
+   "published_before_tip": true
+  },
+  {
    "row_strategy": "S04",
    "stored_sha256": "ad42c4b45e917d9debe8828201e1ab4e77ac8bcbd1b92d5b7d546b7c168d722b",
    "recomputed_sha256": "ad42c4b45e917d9debe8828201e1ab4e77ac8bcbd1b92d5b7d546b7c168d722b",
@@ -13786,6 +13790,13 @@
    "recomputed_sha256": "634e37351073133de4b9ed39f3691f6b23082000ad5d4a0278346ea7a5d7959f",
    "matches": true,
    "published_before_tip": false
+  },
+  {
+   "row_strategy": "S04",
+   "stored_sha256": "32c8961cea05bf5b890a939f56026c6d100be89544786695c2d74d2680922aaf",
+   "recomputed_sha256": "32c8961cea05bf5b890a939f56026c6d100be89544786695c2d74d2680922aaf",
+   "matches": true,
+   "published_before_tip": true
   },
   {
    "row_strategy": "S05",
@@ -14377,22 +14388,22 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "a6512f486b989d4c42e657adf30d20aa6c9eab986ec8a04ce23236014394d15b",
-   "recomputed_sha256": "a6512f486b989d4c42e657adf30d20aa6c9eab986ec8a04ce23236014394d15b",
+   "stored_sha256": "d1ac7cd55e264b2b997f991087e737e2d80dd1702261bfb7e4d0817d397b1b3e",
+   "recomputed_sha256": "d1ac7cd55e264b2b997f991087e737e2d80dd1702261bfb7e4d0817d397b1b3e",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "3383c9974fb796a729442cb86abd1f75a4d5bce3bb5b01aa9c970b58176b621b",
-   "recomputed_sha256": "3383c9974fb796a729442cb86abd1f75a4d5bce3bb5b01aa9c970b58176b621b",
+   "stored_sha256": "c6e54cb48c1505e9b17310d63d5c61996f3932273d27df675a6610cb8b169005",
+   "recomputed_sha256": "c6e54cb48c1505e9b17310d63d5c61996f3932273d27df675a6610cb8b169005",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "285874b42a62771bc59f7f54c1eb768bbe444e43bae21da834d56dd1ced163e6",
-   "recomputed_sha256": "285874b42a62771bc59f7f54c1eb768bbe444e43bae21da834d56dd1ced163e6",
+   "stored_sha256": "d6e022134e19384e980a6cd666b4d4dc0a82da096418ca7835d3ca4a363dcca2",
+   "recomputed_sha256": "d6e022134e19384e980a6cd666b4d4dc0a82da096418ca7835d3ca4a363dcca2",
    "matches": true,
    "published_before_tip": false
   },
@@ -14405,8 +14416,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "a7b0dd266f878ae312a3bd352b28fdbb8552f2e1d9821d5845b43ef1c7c4279a",
-   "recomputed_sha256": "a7b0dd266f878ae312a3bd352b28fdbb8552f2e1d9821d5845b43ef1c7c4279a",
+   "stored_sha256": "ab91b43bbcfa58172edf10b883a52fdd66aee64af17ea53453fb86a71a5d7926",
+   "recomputed_sha256": "ab91b43bbcfa58172edf10b883a52fdd66aee64af17ea53453fb86a71a5d7926",
    "matches": true,
    "published_before_tip": false
   },
@@ -14419,22 +14430,22 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "67cfc17e39aff79d52f395a0c705c0c66eb1aec9f379a4e47e57e7c4fbf66b33",
-   "recomputed_sha256": "67cfc17e39aff79d52f395a0c705c0c66eb1aec9f379a4e47e57e7c4fbf66b33",
+   "stored_sha256": "6b97bd919b2396275c266506cdd50db4a9b328c53e09262ac65bbb216097863b",
+   "recomputed_sha256": "6b97bd919b2396275c266506cdd50db4a9b328c53e09262ac65bbb216097863b",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "2b557de91c2564538d34c6f0ab3dd258ef9080014897036e8303b785c98b225f",
-   "recomputed_sha256": "2b557de91c2564538d34c6f0ab3dd258ef9080014897036e8303b785c98b225f",
+   "stored_sha256": "9d2344b3848b9588e921d44cb62db7f35adac5ef1289a7abfcb83c347940705f",
+   "recomputed_sha256": "9d2344b3848b9588e921d44cb62db7f35adac5ef1289a7abfcb83c347940705f",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "2c4b5f435d59631ac7d9d5d3bf4fb5a6407e669e1e123b2bf5db5797ca87bb63",
-   "recomputed_sha256": "2c4b5f435d59631ac7d9d5d3bf4fb5a6407e669e1e123b2bf5db5797ca87bb63",
+   "stored_sha256": "98725ab1ab18bb118da7a75f4b34a1c9d2f43e3a280dd0111d321ad60419d1cf",
+   "recomputed_sha256": "98725ab1ab18bb118da7a75f4b34a1c9d2f43e3a280dd0111d321ad60419d1cf",
    "matches": true,
    "published_before_tip": false
   },
@@ -14454,15 +14465,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "04eeda9866db2e29f2f8dffef60e34bb01de5457a04475544e997e177682e041",
-   "recomputed_sha256": "04eeda9866db2e29f2f8dffef60e34bb01de5457a04475544e997e177682e041",
+   "stored_sha256": "c3451f8094117dae15d37f308558bfd498a2e54993c802bc602725aaa3b7b0d5",
+   "recomputed_sha256": "c3451f8094117dae15d37f308558bfd498a2e54993c802bc602725aaa3b7b0d5",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "c711c387140be8726beb530b004f071555fa10e5c45828c7d540932953f50c74",
-   "recomputed_sha256": "c711c387140be8726beb530b004f071555fa10e5c45828c7d540932953f50c74",
+   "stored_sha256": "5eed9221852d80ee4ef41bc5f5801216a4c966e196d92f1f16009e79735d48da",
+   "recomputed_sha256": "5eed9221852d80ee4ef41bc5f5801216a4c966e196d92f1f16009e79735d48da",
    "matches": true,
    "published_before_tip": false
   },
@@ -14482,8 +14493,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "10e44a316fc979f43bd92d9a262b1d31c731a995c335b8665555ea6b3965285c",
-   "recomputed_sha256": "10e44a316fc979f43bd92d9a262b1d31c731a995c335b8665555ea6b3965285c",
+   "stored_sha256": "7728ad41003d91c2ef60a7ccc14e4010a5c8f04dcc999b4ba8232459a4f95d24",
+   "recomputed_sha256": "7728ad41003d91c2ef60a7ccc14e4010a5c8f04dcc999b4ba8232459a4f95d24",
    "matches": true,
    "published_before_tip": false
   },
@@ -14503,29 +14514,29 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "f72fc70281ef3971d64f9f3a67132abfbb254df37f6c0108abdd364bf948dab0",
-   "recomputed_sha256": "f72fc70281ef3971d64f9f3a67132abfbb254df37f6c0108abdd364bf948dab0",
+   "stored_sha256": "337ccf26efcfa576b8141b69d3e9f84ae8b3c03ea18d410f791386178a9dd975",
+   "recomputed_sha256": "337ccf26efcfa576b8141b69d3e9f84ae8b3c03ea18d410f791386178a9dd975",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "74a7dfbd175eaa3b5342c10698abbe80f7032c1caadf795309b4c65c6d485cd7",
-   "recomputed_sha256": "74a7dfbd175eaa3b5342c10698abbe80f7032c1caadf795309b4c65c6d485cd7",
+   "stored_sha256": "caab2ac9d67bc57a2bd95530a3ac5ae629d320a42de18a9c1b366bcce6ecc072",
+   "recomputed_sha256": "caab2ac9d67bc57a2bd95530a3ac5ae629d320a42de18a9c1b366bcce6ecc072",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "76b5e2cf3f9e59101fd5f00b5acd47c2663e4ffb122fb5bb7a1b4ff74519cba1",
-   "recomputed_sha256": "76b5e2cf3f9e59101fd5f00b5acd47c2663e4ffb122fb5bb7a1b4ff74519cba1",
+   "stored_sha256": "1f4a471636e169a8a7430afb8de961d1fdcb3360fb58b143eb6ca4dffa7be104",
+   "recomputed_sha256": "1f4a471636e169a8a7430afb8de961d1fdcb3360fb58b143eb6ca4dffa7be104",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "b730e3a8edfbc53a91648558d4d8459ba623b27b8dd8a93cf73e00aaf4359272",
-   "recomputed_sha256": "b730e3a8edfbc53a91648558d4d8459ba623b27b8dd8a93cf73e00aaf4359272",
+   "stored_sha256": "2de4164bc27227a98f1cc5cec3dc216372b027ed60e3ffcff908cba6c2c7494f",
+   "recomputed_sha256": "2de4164bc27227a98f1cc5cec3dc216372b027ed60e3ffcff908cba6c2c7494f",
    "matches": true,
    "published_before_tip": false
   },
@@ -14538,22 +14549,22 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "c127e8f1e919a5b99152b58dcdf519f769b1b9167afb96fa1ae819231fe6e9e5",
-   "recomputed_sha256": "c127e8f1e919a5b99152b58dcdf519f769b1b9167afb96fa1ae819231fe6e9e5",
+   "stored_sha256": "167c45adf9835003dec0328462c8fa9e3cc09ae1dd0ff1276e982a5787b3076f",
+   "recomputed_sha256": "167c45adf9835003dec0328462c8fa9e3cc09ae1dd0ff1276e982a5787b3076f",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "a1986fe08320eacd5b5417d7cb5735c1a71184a60c24d63c374e151bc3b12218",
-   "recomputed_sha256": "a1986fe08320eacd5b5417d7cb5735c1a71184a60c24d63c374e151bc3b12218",
+   "stored_sha256": "7c2086e2964ab73e0d6aecd81f74af47ad2a6f06a85757f424f2d93d52f63a22",
+   "recomputed_sha256": "7c2086e2964ab73e0d6aecd81f74af47ad2a6f06a85757f424f2d93d52f63a22",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "734bbd2e8636bf49fc46423594f651d65c0074dadba0835a94f9cf98da45165c",
-   "recomputed_sha256": "734bbd2e8636bf49fc46423594f651d65c0074dadba0835a94f9cf98da45165c",
+   "stored_sha256": "9f9c16d86fee820225104cdc877c2a3098ca15ad5789bd0f69e39589227fc2b7",
+   "recomputed_sha256": "9f9c16d86fee820225104cdc877c2a3098ca15ad5789bd0f69e39589227fc2b7",
    "matches": true,
    "published_before_tip": false
   },
@@ -14580,29 +14591,29 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "91d070b96407521ade8f449fe054e5930343f09097538556fb28cfc8fc8f2eed",
-   "recomputed_sha256": "91d070b96407521ade8f449fe054e5930343f09097538556fb28cfc8fc8f2eed",
+   "stored_sha256": "6e77a3afc00db2d3a265fec3e96c4dfb26bbdf16797ffc75152af80909385ccd",
+   "recomputed_sha256": "6e77a3afc00db2d3a265fec3e96c4dfb26bbdf16797ffc75152af80909385ccd",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "c5fcbc5ab8512dad1f19711005679e5a93e0d2f5d808a9b1ea40a7156b482ae2",
-   "recomputed_sha256": "c5fcbc5ab8512dad1f19711005679e5a93e0d2f5d808a9b1ea40a7156b482ae2",
+   "stored_sha256": "9dfbc8cbb839d4ae24908e3e7a487e6c81016bd1f353702da66e5ba38a0883f1",
+   "recomputed_sha256": "9dfbc8cbb839d4ae24908e3e7a487e6c81016bd1f353702da66e5ba38a0883f1",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "c1eb3a3c07532b9a393a0295ad57f6a0960bfa88cb73ef8f6e7e67ac877eb58d",
-   "recomputed_sha256": "c1eb3a3c07532b9a393a0295ad57f6a0960bfa88cb73ef8f6e7e67ac877eb58d",
+   "stored_sha256": "8ae59d51498f0b286d7822184d9e9180ae78a0384bfe6ddf36d8963258f7d345",
+   "recomputed_sha256": "8ae59d51498f0b286d7822184d9e9180ae78a0384bfe6ddf36d8963258f7d345",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "83e372368f6a40542fc53726445f94c9ad2eaa6fa376dceef240ac9eea288b0c",
-   "recomputed_sha256": "83e372368f6a40542fc53726445f94c9ad2eaa6fa376dceef240ac9eea288b0c",
+   "stored_sha256": "3536d209780c38c85cffbece388a7aa3374f09cb439726bc4d5ae0aab26f1ea5",
+   "recomputed_sha256": "3536d209780c38c85cffbece388a7aa3374f09cb439726bc4d5ae0aab26f1ea5",
    "matches": true,
    "published_before_tip": false
   },
@@ -14657,8 +14668,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "6a939e22f23226167c89f9c0b7d6962b6a1e839a1f7fdcbf8fc32a4ff2b0235a",
-   "recomputed_sha256": "6a939e22f23226167c89f9c0b7d6962b6a1e839a1f7fdcbf8fc32a4ff2b0235a",
+   "stored_sha256": "323628955ac68feb9ece509c9be99b7af79043b5a2bc5f0d61ff10e9f9eadd82",
+   "recomputed_sha256": "323628955ac68feb9ece509c9be99b7af79043b5a2bc5f0d61ff10e9f9eadd82",
    "matches": true,
    "published_before_tip": false
   },
@@ -14685,15 +14696,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "1e22f1711760111fa96f66965a5a51ff5fea46d46a699085a2273cee09cd2ca1",
-   "recomputed_sha256": "1e22f1711760111fa96f66965a5a51ff5fea46d46a699085a2273cee09cd2ca1",
+   "stored_sha256": "0797d805a1fba184190ae6ecca8a01abca56ca66a7c82cd0d61114757748fc9e",
+   "recomputed_sha256": "0797d805a1fba184190ae6ecca8a01abca56ca66a7c82cd0d61114757748fc9e",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "a8566b1b2747988ed8a2b746954ceb404c8abe79270af797f7864555dc0e2304",
-   "recomputed_sha256": "a8566b1b2747988ed8a2b746954ceb404c8abe79270af797f7864555dc0e2304",
+   "stored_sha256": "fbc90cb81d4a7ed020d93d549ab3a6666cdf11fdaba17444417adf32c5cd77d7",
+   "recomputed_sha256": "fbc90cb81d4a7ed020d93d549ab3a6666cdf11fdaba17444417adf32c5cd77d7",
    "matches": true,
    "published_before_tip": false
   },
@@ -14720,8 +14731,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "a059c16f8d33ee078b37e85a6908b72196893b1401c24f02a15821aff9157a84",
-   "recomputed_sha256": "a059c16f8d33ee078b37e85a6908b72196893b1401c24f02a15821aff9157a84",
+   "stored_sha256": "efe1ca96cb9739ecdc3741571a04553b5fb0402a0cc67738f8cce1ee2e718796",
+   "recomputed_sha256": "efe1ca96cb9739ecdc3741571a04553b5fb0402a0cc67738f8cce1ee2e718796",
    "matches": true,
    "published_before_tip": false
   },
@@ -14748,15 +14759,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "f5d866f445b49688ccd48d52c71e5899f58e5f8ee5b67d1ba4c8933b3906e58f",
-   "recomputed_sha256": "f5d866f445b49688ccd48d52c71e5899f58e5f8ee5b67d1ba4c8933b3906e58f",
+   "stored_sha256": "386bf297d9ad62ad97a6408a16cc3701d9967bfafe8bf63a5178a644908c2bd1",
+   "recomputed_sha256": "386bf297d9ad62ad97a6408a16cc3701d9967bfafe8bf63a5178a644908c2bd1",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "acf221892875434c6081bde61c082d0774a40200ec28231e356326a08b08eff3",
-   "recomputed_sha256": "acf221892875434c6081bde61c082d0774a40200ec28231e356326a08b08eff3",
+   "stored_sha256": "a45a332d5378f38b8f338c9c4400f9a7cebb1284232cf4c831d270c3e2214af6",
+   "recomputed_sha256": "a45a332d5378f38b8f338c9c4400f9a7cebb1284232cf4c831d270c3e2214af6",
    "matches": true,
    "published_before_tip": false
   },
@@ -14776,15 +14787,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "756d1e91b581f764aa5b15b20c95ff25cc286c601e9c166b01d4f1f01a80eccc",
-   "recomputed_sha256": "756d1e91b581f764aa5b15b20c95ff25cc286c601e9c166b01d4f1f01a80eccc",
+   "stored_sha256": "878edbf6686fcbc82cefa9f604ef6e77d2e2cd1bfd06e72d9768f4d6cd80421c",
+   "recomputed_sha256": "878edbf6686fcbc82cefa9f604ef6e77d2e2cd1bfd06e72d9768f4d6cd80421c",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "fedc4b4493f047a77adc7ff16390afdfe02d27eaf934f5cc3cfc1345fa05a2e8",
-   "recomputed_sha256": "fedc4b4493f047a77adc7ff16390afdfe02d27eaf934f5cc3cfc1345fa05a2e8",
+   "stored_sha256": "8a86b6ff8b4d72e7148a3e5402aa3b22f972773f1acd7b6e8387ec2bb1cfe1b6",
+   "recomputed_sha256": "8a86b6ff8b4d72e7148a3e5402aa3b22f972773f1acd7b6e8387ec2bb1cfe1b6",
    "matches": true,
    "published_before_tip": false
   },
@@ -14804,15 +14815,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "dbef8dd5aa5ae4c988620c25033be6f4792741b570082a92b055da0dd2683bab",
-   "recomputed_sha256": "dbef8dd5aa5ae4c988620c25033be6f4792741b570082a92b055da0dd2683bab",
+   "stored_sha256": "0917a290ebfec18d4ffbf0db8eec4c7e2d882ab0f2bcb79ec726428a2c3fee88",
+   "recomputed_sha256": "0917a290ebfec18d4ffbf0db8eec4c7e2d882ab0f2bcb79ec726428a2c3fee88",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "3d6be6b89d7852999f5fd473b70ccd652e3e0706a43b5d2442ef2cad71a5545b",
-   "recomputed_sha256": "3d6be6b89d7852999f5fd473b70ccd652e3e0706a43b5d2442ef2cad71a5545b",
+   "stored_sha256": "24f84722d4031daea2fc6d412ced2aaa3680ad8dd429c54fa81326ab3cae48d4",
+   "recomputed_sha256": "24f84722d4031daea2fc6d412ced2aaa3680ad8dd429c54fa81326ab3cae48d4",
    "matches": true,
    "published_before_tip": false
   },
@@ -14839,8 +14850,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "19542fba7d79062e321a6bb2e79a9c275f0068f839cd58207e25850a2930d988",
-   "recomputed_sha256": "19542fba7d79062e321a6bb2e79a9c275f0068f839cd58207e25850a2930d988",
+   "stored_sha256": "9ff17c570631450bd5419add680e530512effc3a4af0fdad164f91e84b3c32ac",
+   "recomputed_sha256": "9ff17c570631450bd5419add680e530512effc3a4af0fdad164f91e84b3c32ac",
    "matches": true,
    "published_before_tip": false
   },
@@ -14860,15 +14871,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "2659b5d75387f39491cdd0c066411c4cb74915b56005594cd6358c871566ccfd",
-   "recomputed_sha256": "2659b5d75387f39491cdd0c066411c4cb74915b56005594cd6358c871566ccfd",
+   "stored_sha256": "8eecf796c96a09fd22d286df0d0ac7810f94a7d082a7cd66a7c6838b3aeb816e",
+   "recomputed_sha256": "8eecf796c96a09fd22d286df0d0ac7810f94a7d082a7cd66a7c6838b3aeb816e",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "b590614495b321afa7955a32c35d939f7dc7a01cc1b9732a240fca8b0c614744",
-   "recomputed_sha256": "b590614495b321afa7955a32c35d939f7dc7a01cc1b9732a240fca8b0c614744",
+   "stored_sha256": "d7af32825bd86347ee3aac5a5024c4d81ed2a7eda9fbfa2e842bc88a953b1893",
+   "recomputed_sha256": "d7af32825bd86347ee3aac5a5024c4d81ed2a7eda9fbfa2e842bc88a953b1893",
    "matches": true,
    "published_before_tip": false
   },
@@ -14909,15 +14920,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "5ea474f67366ab8ef4f4d3e23f61b49f22559bc0cfb7dc2878ad0e9e625d7359",
-   "recomputed_sha256": "5ea474f67366ab8ef4f4d3e23f61b49f22559bc0cfb7dc2878ad0e9e625d7359",
+   "stored_sha256": "0958347349a154abb5ee16ffd73e78cae8f580f3e91a0595dbb7bb001ea76eaf",
+   "recomputed_sha256": "0958347349a154abb5ee16ffd73e78cae8f580f3e91a0595dbb7bb001ea76eaf",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "f09217cc16bbc8e3df135594f0a7ed384cf4d7743a9ad819ff7b9c5497d04cca",
-   "recomputed_sha256": "f09217cc16bbc8e3df135594f0a7ed384cf4d7743a9ad819ff7b9c5497d04cca",
+   "stored_sha256": "2fb1317c7a9a5523fe16811e05c5a14cd38d95b30f605d6d3d7f44220c96eac8",
+   "recomputed_sha256": "2fb1317c7a9a5523fe16811e05c5a14cd38d95b30f605d6d3d7f44220c96eac8",
    "matches": true,
    "published_before_tip": false
   },
@@ -14930,8 +14941,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "20f2dbe250b9ca665a8adda9359a2f2dda9f715a0aecc91ffd084211f6fd270a",
-   "recomputed_sha256": "20f2dbe250b9ca665a8adda9359a2f2dda9f715a0aecc91ffd084211f6fd270a",
+   "stored_sha256": "a482ef063a634d731910f0166947d06a287d5c1345f627ff4327b6907da93639",
+   "recomputed_sha256": "a482ef063a634d731910f0166947d06a287d5c1345f627ff4327b6907da93639",
    "matches": true,
    "published_before_tip": false
   },
@@ -14951,8 +14962,8 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "4c4a6322425c1d010d5461c973fb0378bec46fa990d50e8081102a0d23f84b65",
-   "recomputed_sha256": "4c4a6322425c1d010d5461c973fb0378bec46fa990d50e8081102a0d23f84b65",
+   "stored_sha256": "ea60d5b0ac0974b1a6876ab6d48066f29cbe2112035de21b0103ec2284e26cf2",
+   "recomputed_sha256": "ea60d5b0ac0974b1a6876ab6d48066f29cbe2112035de21b0103ec2284e26cf2",
    "matches": true,
    "published_before_tip": false
   },
@@ -14979,15 +14990,15 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "a33fe76d9aa0a24cee623cefd6243af9c1641b70f8f89db9005460c9149a76e3",
-   "recomputed_sha256": "a33fe76d9aa0a24cee623cefd6243af9c1641b70f8f89db9005460c9149a76e3",
+   "stored_sha256": "6ee62287f3e32f75818d8c28df29ff50c5e39a902cc3943951c2ba6218ee38ca",
+   "recomputed_sha256": "6ee62287f3e32f75818d8c28df29ff50c5e39a902cc3943951c2ba6218ee38ca",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "7fa655e98fa54b833a5b49d28334fd73c19da6ef949dadef1f8b53d3827e2155",
-   "recomputed_sha256": "7fa655e98fa54b833a5b49d28334fd73c19da6ef949dadef1f8b53d3827e2155",
+   "stored_sha256": "6a0d9234d2fd33203ebbe46e93f7c35f7f49c1ce3f30982f5d618429b59d0cae",
+   "recomputed_sha256": "6a0d9234d2fd33203ebbe46e93f7c35f7f49c1ce3f30982f5d618429b59d0cae",
    "matches": true,
    "published_before_tip": false
   },
@@ -15000,36 +15011,36 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "cc583db5ddb35ec684ca3d52a48e22f8c5a6871f27335830439363ff6d534909",
-   "recomputed_sha256": "cc583db5ddb35ec684ca3d52a48e22f8c5a6871f27335830439363ff6d534909",
+   "stored_sha256": "f253006003c85c5f40541d3d63dbad82d0faa13bf378df45de7925e98dbffc79",
+   "recomputed_sha256": "f253006003c85c5f40541d3d63dbad82d0faa13bf378df45de7925e98dbffc79",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "7e5c62798def76cc48f50ac3ca37ac15aac7ae19d88da5700b4631331c3036a5",
-   "recomputed_sha256": "7e5c62798def76cc48f50ac3ca37ac15aac7ae19d88da5700b4631331c3036a5",
+   "stored_sha256": "a0475fd3f9854da5135b5288302347772800ff95aac5ba8ee6ce1613086fe277",
+   "recomputed_sha256": "a0475fd3f9854da5135b5288302347772800ff95aac5ba8ee6ce1613086fe277",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "63e70132cbef15c42bd76d727a2fd4837721f4cd496801289c6e31c276eb0b50",
-   "recomputed_sha256": "63e70132cbef15c42bd76d727a2fd4837721f4cd496801289c6e31c276eb0b50",
+   "stored_sha256": "08677584c4e45502440bb4a5563794a0c5f211706cf689488f752ca26f43490d",
+   "recomputed_sha256": "08677584c4e45502440bb4a5563794a0c5f211706cf689488f752ca26f43490d",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "e53004b150fcb4a139d929a2907f76f47650985ec81e1c7a0ea3cbaa5dc14227",
-   "recomputed_sha256": "e53004b150fcb4a139d929a2907f76f47650985ec81e1c7a0ea3cbaa5dc14227",
+   "stored_sha256": "d60740b2bee1d4887f08ead8337a39a6be294485e886df9019c76d9a1312205d",
+   "recomputed_sha256": "d60740b2bee1d4887f08ead8337a39a6be294485e886df9019c76d9a1312205d",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "7ded3c5f7ba0d88991ab41f3d26472815484f1cf3d84d46e535f3aca2b6064ba",
-   "recomputed_sha256": "7ded3c5f7ba0d88991ab41f3d26472815484f1cf3d84d46e535f3aca2b6064ba",
+   "stored_sha256": "9e135f2d6624d3521d23ea1e16184837d1bc228fac234efe2003f0367dfb40fd",
+   "recomputed_sha256": "9e135f2d6624d3521d23ea1e16184837d1bc228fac234efe2003f0367dfb40fd",
    "matches": true,
    "published_before_tip": false
   },
@@ -15056,36 +15067,50 @@
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "043cc15067cd9b612b4b277054b9e7d4a88cd2fd57cd93e3ed92845a83f93e9d",
-   "recomputed_sha256": "043cc15067cd9b612b4b277054b9e7d4a88cd2fd57cd93e3ed92845a83f93e9d",
+   "stored_sha256": "d1e30c31c4d2e60a375e7c92e6be1e2a86e4ff96819242b7acc57f7c3121d269",
+   "recomputed_sha256": "d1e30c31c4d2e60a375e7c92e6be1e2a86e4ff96819242b7acc57f7c3121d269",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S09",
-   "stored_sha256": "2dc8c46201f7e73648beb1866eaa2ee257877f3ed1290e6dbaf392f502d14fb9",
-   "recomputed_sha256": "2dc8c46201f7e73648beb1866eaa2ee257877f3ed1290e6dbaf392f502d14fb9",
+   "stored_sha256": "57a7225be6def48b75462087c1241b508f6962a006362ada196cc55a82fc3a28",
+   "recomputed_sha256": "57a7225be6def48b75462087c1241b508f6962a006362ada196cc55a82fc3a28",
+   "matches": true,
+   "published_before_tip": false
+  },
+  {
+   "row_strategy": "S09",
+   "stored_sha256": "677e1cfda80ab8194ef6db10aea9415816a0e75de2b687cf9a2c0df1600e929f",
+   "recomputed_sha256": "677e1cfda80ab8194ef6db10aea9415816a0e75de2b687cf9a2c0df1600e929f",
+   "matches": true,
+   "published_before_tip": true
+  },
+  {
+   "row_strategy": "S09",
+   "stored_sha256": "006a05cb32c8c619401d36f9badd2fef633a2722426a70b488e4dc64c4f3c99c",
+   "recomputed_sha256": "006a05cb32c8c619401d36f9badd2fef633a2722426a70b488e4dc64c4f3c99c",
+   "matches": true,
+   "published_before_tip": true
+  },
+  {
+   "row_strategy": "S10",
+   "stored_sha256": "14809a393efaa5cc964e779c17a5e3cb6ca1ae3e6cbbd0f5a4f8f758ebc40de9",
+   "recomputed_sha256": "14809a393efaa5cc964e779c17a5e3cb6ca1ae3e6cbbd0f5a4f8f758ebc40de9",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "5e8c46abcb5b6df98a390d70fc254b1c4f292de09d7db31540fbd602bb40e678",
-   "recomputed_sha256": "5e8c46abcb5b6df98a390d70fc254b1c4f292de09d7db31540fbd602bb40e678",
+   "stored_sha256": "91159c7b75a6307861b8a0b1e3c280be0be15595f5e02305dfa49b1e8355d279",
+   "recomputed_sha256": "91159c7b75a6307861b8a0b1e3c280be0be15595f5e02305dfa49b1e8355d279",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "92c8ad663c7bb8d4e0e60d54146ea048881c5bee17f524ae714cc4803e2fe595",
-   "recomputed_sha256": "92c8ad663c7bb8d4e0e60d54146ea048881c5bee17f524ae714cc4803e2fe595",
-   "matches": true,
-   "published_before_tip": false
-  },
-  {
-   "row_strategy": "S10",
-   "stored_sha256": "8bb86f53f58e46be7de86bd296d22016cb91435991d603e3906b4514e4c475a3",
-   "recomputed_sha256": "8bb86f53f58e46be7de86bd296d22016cb91435991d603e3906b4514e4c475a3",
+   "stored_sha256": "1c1640a3d6bf09c8410358f0506c0b905063599312983da80f97d3ddda76d144",
+   "recomputed_sha256": "1c1640a3d6bf09c8410358f0506c0b905063599312983da80f97d3ddda76d144",
    "matches": true,
    "published_before_tip": false
   },
@@ -15098,8 +15123,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "61369ccdc84a8ba7d081a9a3cc3e9141585f6b59221c59b9bd6773fcb021c2db",
-   "recomputed_sha256": "61369ccdc84a8ba7d081a9a3cc3e9141585f6b59221c59b9bd6773fcb021c2db",
+   "stored_sha256": "43bb35cc8ff0b05cf23daf496a17f7dc0404a0d5127a35640cac31a4dbc15dea",
+   "recomputed_sha256": "43bb35cc8ff0b05cf23daf496a17f7dc0404a0d5127a35640cac31a4dbc15dea",
    "matches": true,
    "published_before_tip": false
   },
@@ -15112,22 +15137,22 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "7ddea362d532d6698a13325206dabc0771979fc3b1a94c2dec4ee9779548cf35",
-   "recomputed_sha256": "7ddea362d532d6698a13325206dabc0771979fc3b1a94c2dec4ee9779548cf35",
+   "stored_sha256": "7046c51a2011e6f99053bf28ec852c1502bd94c8e0c228834fe3f6024552605b",
+   "recomputed_sha256": "7046c51a2011e6f99053bf28ec852c1502bd94c8e0c228834fe3f6024552605b",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "e90d2917d904d867db7abebe1b597958d800f68f48ecad974ffda0037d890490",
-   "recomputed_sha256": "e90d2917d904d867db7abebe1b597958d800f68f48ecad974ffda0037d890490",
+   "stored_sha256": "2fa8d1bd93ea0a45eb99c74be780ae7f892431ebf55a9838f79982c9129c45e9",
+   "recomputed_sha256": "2fa8d1bd93ea0a45eb99c74be780ae7f892431ebf55a9838f79982c9129c45e9",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "ea5910596b7f49cbae5fa73a66fed3ca177ef849383db06a6446d50f6f30196e",
-   "recomputed_sha256": "ea5910596b7f49cbae5fa73a66fed3ca177ef849383db06a6446d50f6f30196e",
+   "stored_sha256": "b4e0068e9fdce0c2f1f923e11a03b355c500119cad05b9df0fbaed05f846ca5d",
+   "recomputed_sha256": "b4e0068e9fdce0c2f1f923e11a03b355c500119cad05b9df0fbaed05f846ca5d",
    "matches": true,
    "published_before_tip": false
   },
@@ -15147,15 +15172,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "eb4ad18e7c7e109791d3dfd85ff9cc611aa32d9ef2fa72e7e22d30a89ed19ea6",
-   "recomputed_sha256": "eb4ad18e7c7e109791d3dfd85ff9cc611aa32d9ef2fa72e7e22d30a89ed19ea6",
+   "stored_sha256": "a7d57ab0554a36b4b1ead03f9ca842b2c74989c619f13a697e26ea2a9ea46990",
+   "recomputed_sha256": "a7d57ab0554a36b4b1ead03f9ca842b2c74989c619f13a697e26ea2a9ea46990",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "2fe47e76a0c3835a1e0c50cbf97b7e8555c75116883b4601aa007dcf0e949724",
-   "recomputed_sha256": "2fe47e76a0c3835a1e0c50cbf97b7e8555c75116883b4601aa007dcf0e949724",
+   "stored_sha256": "3379fb402f66d885a77abd1cc3cc64a8663bed6d79d8cb923a59c092b1182799",
+   "recomputed_sha256": "3379fb402f66d885a77abd1cc3cc64a8663bed6d79d8cb923a59c092b1182799",
    "matches": true,
    "published_before_tip": false
   },
@@ -15175,8 +15200,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "06c45ceec9fc48b7d36c1fbdf97e9c607dbe702392453041761b031da5cfb844",
-   "recomputed_sha256": "06c45ceec9fc48b7d36c1fbdf97e9c607dbe702392453041761b031da5cfb844",
+   "stored_sha256": "a827e24a197901ab824ee15de241cfc5addb70b335b0e2207f7e28317141c719",
+   "recomputed_sha256": "a827e24a197901ab824ee15de241cfc5addb70b335b0e2207f7e28317141c719",
    "matches": true,
    "published_before_tip": false
   },
@@ -15196,29 +15221,29 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "4fcd4d9730255dc13b1f411ff91363c515ed97f8496d92b4c64a0bb0ab496e04",
-   "recomputed_sha256": "4fcd4d9730255dc13b1f411ff91363c515ed97f8496d92b4c64a0bb0ab496e04",
+   "stored_sha256": "d18988b33fea45912c56041acd83415ebe3c05ca0d4736e287fbe4f60bd5ac42",
+   "recomputed_sha256": "d18988b33fea45912c56041acd83415ebe3c05ca0d4736e287fbe4f60bd5ac42",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "a70bea91150a104dac9ed6ebba263b545b723c238a786d4a5eb7fb149cd942b3",
-   "recomputed_sha256": "a70bea91150a104dac9ed6ebba263b545b723c238a786d4a5eb7fb149cd942b3",
+   "stored_sha256": "2e49c95a3242a676cb7bf58ccce9cad498692e1aa2ef217041f1b09d22b9cc27",
+   "recomputed_sha256": "2e49c95a3242a676cb7bf58ccce9cad498692e1aa2ef217041f1b09d22b9cc27",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "cb677aa751b67620b568ac2228758eb7bffa866d01fb08fb9bb6a5fcf36823d8",
-   "recomputed_sha256": "cb677aa751b67620b568ac2228758eb7bffa866d01fb08fb9bb6a5fcf36823d8",
+   "stored_sha256": "0186993dbf9be842de1242b0f7308f7d3cb07020ac339c14583324f2155ea13f",
+   "recomputed_sha256": "0186993dbf9be842de1242b0f7308f7d3cb07020ac339c14583324f2155ea13f",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "e619790db36a55759e0723c712d140648a95d549acf0b6840a1242de8034350f",
-   "recomputed_sha256": "e619790db36a55759e0723c712d140648a95d549acf0b6840a1242de8034350f",
+   "stored_sha256": "1f81841fa48761b1b801c3280d26caa028b1f6d07aff0ad96cd601a8c1dce1fb",
+   "recomputed_sha256": "1f81841fa48761b1b801c3280d26caa028b1f6d07aff0ad96cd601a8c1dce1fb",
    "matches": true,
    "published_before_tip": false
   },
@@ -15231,22 +15256,22 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "a064725fe3af2a27e5947b1f536fb880493dec411dca649964cde32a5c0013f9",
-   "recomputed_sha256": "a064725fe3af2a27e5947b1f536fb880493dec411dca649964cde32a5c0013f9",
+   "stored_sha256": "ab566345c5b2a2d9694cb710178c7b18d5d1ed02a02d6f6f287564e41142c8c8",
+   "recomputed_sha256": "ab566345c5b2a2d9694cb710178c7b18d5d1ed02a02d6f6f287564e41142c8c8",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "5a0de13eeaa02356bf8a23e9c3f89d12395a21bb7e34695fc8003938e2889430",
-   "recomputed_sha256": "5a0de13eeaa02356bf8a23e9c3f89d12395a21bb7e34695fc8003938e2889430",
+   "stored_sha256": "43de600687b0e922d51972f7090f13c7a6733ef66876e16cf0065571a670ae08",
+   "recomputed_sha256": "43de600687b0e922d51972f7090f13c7a6733ef66876e16cf0065571a670ae08",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "24de34464a53ca7be0b56acebe44bd1965d3c315b7720924c026ccfdf2ad45b1",
-   "recomputed_sha256": "24de34464a53ca7be0b56acebe44bd1965d3c315b7720924c026ccfdf2ad45b1",
+   "stored_sha256": "982e95d40725faac696089d8ea1d8698c4ad8d2cd6c25fc3362633ad42b6c47c",
+   "recomputed_sha256": "982e95d40725faac696089d8ea1d8698c4ad8d2cd6c25fc3362633ad42b6c47c",
    "matches": true,
    "published_before_tip": false
   },
@@ -15273,29 +15298,29 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "35ff1bbc8b574f0a00843a8f31afad14c5e8c2eab8e4c99b1a64511edec29911",
-   "recomputed_sha256": "35ff1bbc8b574f0a00843a8f31afad14c5e8c2eab8e4c99b1a64511edec29911",
+   "stored_sha256": "c84b5a33bd00bec7b7323eebed6f9bf8d93189461f7a1da73f6edee3192bd1da",
+   "recomputed_sha256": "c84b5a33bd00bec7b7323eebed6f9bf8d93189461f7a1da73f6edee3192bd1da",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "3aee59c1f91dd99a6750b8977eab4c6eeaa0918fc891d884fc8b27171c4db8c3",
-   "recomputed_sha256": "3aee59c1f91dd99a6750b8977eab4c6eeaa0918fc891d884fc8b27171c4db8c3",
+   "stored_sha256": "13b6447abeb1a5223db8f5ff9cada0d0fdda440a2ec80351b60815d776443545",
+   "recomputed_sha256": "13b6447abeb1a5223db8f5ff9cada0d0fdda440a2ec80351b60815d776443545",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "34d89a5df85d8170a54118760446742d6d651fd27b6acf91d275d9c4e2b376fe",
-   "recomputed_sha256": "34d89a5df85d8170a54118760446742d6d651fd27b6acf91d275d9c4e2b376fe",
+   "stored_sha256": "aab8769069039c452a2441fa79957e8fbf172717c4555c3812451befbda78245",
+   "recomputed_sha256": "aab8769069039c452a2441fa79957e8fbf172717c4555c3812451befbda78245",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "f7240caac1195165b38b480735e5b03a3f2883b1ee151269c59fad58879780b6",
-   "recomputed_sha256": "f7240caac1195165b38b480735e5b03a3f2883b1ee151269c59fad58879780b6",
+   "stored_sha256": "9836ae14307be58d24708689ed8391cecf34cd8064c156d7e2b6d5dc9cd9a6f7",
+   "recomputed_sha256": "9836ae14307be58d24708689ed8391cecf34cd8064c156d7e2b6d5dc9cd9a6f7",
    "matches": true,
    "published_before_tip": false
   },
@@ -15350,8 +15375,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "1e5f6842cfc8afeee460fc093f54a6cf48678a6e75546fe35da3000716ff4c23",
-   "recomputed_sha256": "1e5f6842cfc8afeee460fc093f54a6cf48678a6e75546fe35da3000716ff4c23",
+   "stored_sha256": "dbde674fa74946addbd38e66c39e3dce8b9bb06601b4e8d30cbdfa08cd4973e9",
+   "recomputed_sha256": "dbde674fa74946addbd38e66c39e3dce8b9bb06601b4e8d30cbdfa08cd4973e9",
    "matches": true,
    "published_before_tip": false
   },
@@ -15378,15 +15403,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "b23e297eb9f10e5d4a3128bca03b16fb9980cc18dd222087ba5edde7c0b0e37c",
-   "recomputed_sha256": "b23e297eb9f10e5d4a3128bca03b16fb9980cc18dd222087ba5edde7c0b0e37c",
+   "stored_sha256": "10ee91ba50d0623248e806534fd9eb49516d4a62270b7a4a4635aeb0d864c23b",
+   "recomputed_sha256": "10ee91ba50d0623248e806534fd9eb49516d4a62270b7a4a4635aeb0d864c23b",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "54dfc66db161a821aa5892caf1172d9b4649f85e0594ac0ad5644a6486f548a2",
-   "recomputed_sha256": "54dfc66db161a821aa5892caf1172d9b4649f85e0594ac0ad5644a6486f548a2",
+   "stored_sha256": "92895adef18392f16f92d4bd159c5f6205df5299992d5d2e3f8a8d68cc548727",
+   "recomputed_sha256": "92895adef18392f16f92d4bd159c5f6205df5299992d5d2e3f8a8d68cc548727",
    "matches": true,
    "published_before_tip": false
   },
@@ -15413,8 +15438,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "8d07f4403ac16742be3c91edf4c8092f047472ce12df982ceb74a9f0173cf91b",
-   "recomputed_sha256": "8d07f4403ac16742be3c91edf4c8092f047472ce12df982ceb74a9f0173cf91b",
+   "stored_sha256": "68a3770a808f20b29d584c6a59fc9c84b3fea2e72953041073265f5283aedfcc",
+   "recomputed_sha256": "68a3770a808f20b29d584c6a59fc9c84b3fea2e72953041073265f5283aedfcc",
    "matches": true,
    "published_before_tip": false
   },
@@ -15441,15 +15466,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "17448255bb8c47d6cc15aa156eaa3fea79755764ea11de546a8df0ec22a8e9be",
-   "recomputed_sha256": "17448255bb8c47d6cc15aa156eaa3fea79755764ea11de546a8df0ec22a8e9be",
+   "stored_sha256": "4761597e4d55b801bbd73033962027675dcd159a654d3aee7fc27cb3ceb204b8",
+   "recomputed_sha256": "4761597e4d55b801bbd73033962027675dcd159a654d3aee7fc27cb3ceb204b8",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "114e3f301213870863ce09443c04489a3506a7c4d4249aa6722393783a2d9091",
-   "recomputed_sha256": "114e3f301213870863ce09443c04489a3506a7c4d4249aa6722393783a2d9091",
+   "stored_sha256": "4c4ca8a6b5886e826d3894202de4dc3ce8b3e598888c567174e019cb3e3f25b4",
+   "recomputed_sha256": "4c4ca8a6b5886e826d3894202de4dc3ce8b3e598888c567174e019cb3e3f25b4",
    "matches": true,
    "published_before_tip": false
   },
@@ -15469,15 +15494,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "01025a97bb3015c6c9b4c2c868d1f85082b25764eed30cf32b503ec0e0b78db1",
-   "recomputed_sha256": "01025a97bb3015c6c9b4c2c868d1f85082b25764eed30cf32b503ec0e0b78db1",
+   "stored_sha256": "00e2646e61e5421ed6146fa9b31139378cc5951eb433e2065447b61ac08d6cde",
+   "recomputed_sha256": "00e2646e61e5421ed6146fa9b31139378cc5951eb433e2065447b61ac08d6cde",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "defebea3aa343f1c0522a81600a2d6aecf9b45129fe489a06a5902e0d1ca7139",
-   "recomputed_sha256": "defebea3aa343f1c0522a81600a2d6aecf9b45129fe489a06a5902e0d1ca7139",
+   "stored_sha256": "92dfff8cef67e0ba70c8e7376836edfc86c138411da782bcfaf72272f400e56f",
+   "recomputed_sha256": "92dfff8cef67e0ba70c8e7376836edfc86c138411da782bcfaf72272f400e56f",
    "matches": true,
    "published_before_tip": false
   },
@@ -15497,15 +15522,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "c9e258fbbd80ac6bd1f16104403a06418239c7b3134b46ed6002c282e65fa108",
-   "recomputed_sha256": "c9e258fbbd80ac6bd1f16104403a06418239c7b3134b46ed6002c282e65fa108",
+   "stored_sha256": "591d91b19d07201727ad26545bcc746d8baf8397bc0bda7637668b30d11fb628",
+   "recomputed_sha256": "591d91b19d07201727ad26545bcc746d8baf8397bc0bda7637668b30d11fb628",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "1a5dfb07e957ceb5b9c032a8bc060bdb73dc60a2bcfc53a5fdc2003bd45bcf26",
-   "recomputed_sha256": "1a5dfb07e957ceb5b9c032a8bc060bdb73dc60a2bcfc53a5fdc2003bd45bcf26",
+   "stored_sha256": "d41dcc16683ede6bea2875f59ed3d9fab35afe1fdd2941b7022a2d940cded344",
+   "recomputed_sha256": "d41dcc16683ede6bea2875f59ed3d9fab35afe1fdd2941b7022a2d940cded344",
    "matches": true,
    "published_before_tip": false
   },
@@ -15532,8 +15557,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "488a342549fe130a304cbca14688cb790791dae83711772a9d2cc428ebde863a",
-   "recomputed_sha256": "488a342549fe130a304cbca14688cb790791dae83711772a9d2cc428ebde863a",
+   "stored_sha256": "f498bee0b7bd0427850d79b4c436070d5680f3f6021893a843a06d1d64b752cf",
+   "recomputed_sha256": "f498bee0b7bd0427850d79b4c436070d5680f3f6021893a843a06d1d64b752cf",
    "matches": true,
    "published_before_tip": false
   },
@@ -15553,15 +15578,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "d32c2de963f1d8b62efd121fff3c644e9dacb6bfe206704c7cee39a3e3c2c335",
-   "recomputed_sha256": "d32c2de963f1d8b62efd121fff3c644e9dacb6bfe206704c7cee39a3e3c2c335",
+   "stored_sha256": "b418c2eb35c85898bdf8ba722878f6c39ce0db846ddfa18400deaed87a5b366c",
+   "recomputed_sha256": "b418c2eb35c85898bdf8ba722878f6c39ce0db846ddfa18400deaed87a5b366c",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "c5bfed682ac1063b8a357f88edc81b2a523e2494a05e886edb56b8bb5a594d91",
-   "recomputed_sha256": "c5bfed682ac1063b8a357f88edc81b2a523e2494a05e886edb56b8bb5a594d91",
+   "stored_sha256": "e3df65b82585e63466a6845ce1dbbfc9cba89502754e101bbdecbe55345c55fc",
+   "recomputed_sha256": "e3df65b82585e63466a6845ce1dbbfc9cba89502754e101bbdecbe55345c55fc",
    "matches": true,
    "published_before_tip": false
   },
@@ -15602,15 +15627,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "1fd0da60867c41f9d04c333977ae9a87838ba8e80c51ae8e38c400fe9f147cd4",
-   "recomputed_sha256": "1fd0da60867c41f9d04c333977ae9a87838ba8e80c51ae8e38c400fe9f147cd4",
+   "stored_sha256": "484268b72bfa50061a03676bf38ac5042979910f0737288f3f59264d5c547203",
+   "recomputed_sha256": "484268b72bfa50061a03676bf38ac5042979910f0737288f3f59264d5c547203",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "6ad8ae9c9b0a7bd83c99c9e38f780d3df94dad74742cbd8bca1a00604317cc8f",
-   "recomputed_sha256": "6ad8ae9c9b0a7bd83c99c9e38f780d3df94dad74742cbd8bca1a00604317cc8f",
+   "stored_sha256": "409f3e3de4efeee696ee46809345cb7911e5e0f0d1ca673acc8dccb60a6d0e78",
+   "recomputed_sha256": "409f3e3de4efeee696ee46809345cb7911e5e0f0d1ca673acc8dccb60a6d0e78",
    "matches": true,
    "published_before_tip": false
   },
@@ -15623,8 +15648,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "d873159e956f99647a121e64484703ff4979927f4b077ec08c4c72acc9bdef10",
-   "recomputed_sha256": "d873159e956f99647a121e64484703ff4979927f4b077ec08c4c72acc9bdef10",
+   "stored_sha256": "5dbb704c57ba2cc629ffa66071cdd1470f83408de2e7fd8e64fd57d78dba19af",
+   "recomputed_sha256": "5dbb704c57ba2cc629ffa66071cdd1470f83408de2e7fd8e64fd57d78dba19af",
    "matches": true,
    "published_before_tip": false
   },
@@ -15644,8 +15669,8 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "2965c0fb4acd478c9a5cb0bd7af2ede4ad47cfae280c1a099f170f34c0607f18",
-   "recomputed_sha256": "2965c0fb4acd478c9a5cb0bd7af2ede4ad47cfae280c1a099f170f34c0607f18",
+   "stored_sha256": "44d6cbb02dacebfcfad089f399fa2fab4e4a76586e2838f04aa8d16789390502",
+   "recomputed_sha256": "44d6cbb02dacebfcfad089f399fa2fab4e4a76586e2838f04aa8d16789390502",
    "matches": true,
    "published_before_tip": false
   },
@@ -15672,15 +15697,15 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "739b6085829bb7eccbfed2af14dac66bf3ef050075e70af9cd3295f17af1621d",
-   "recomputed_sha256": "739b6085829bb7eccbfed2af14dac66bf3ef050075e70af9cd3295f17af1621d",
+   "stored_sha256": "083b0adb0d833375bf27d106385473584c43a02998f2b22b4026662d15478439",
+   "recomputed_sha256": "083b0adb0d833375bf27d106385473584c43a02998f2b22b4026662d15478439",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "d7275363849a9642cdc107eca70fd5f97f7980ef54505fb6f311791666b67903",
-   "recomputed_sha256": "d7275363849a9642cdc107eca70fd5f97f7980ef54505fb6f311791666b67903",
+   "stored_sha256": "a8bc85915a951f4c0ee8474f999000bdbfff2930188eee5f622c89e0c5fd20d8",
+   "recomputed_sha256": "a8bc85915a951f4c0ee8474f999000bdbfff2930188eee5f622c89e0c5fd20d8",
    "matches": true,
    "published_before_tip": false
   },
@@ -15693,36 +15718,36 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "9eafdfaf82200b6a471c4d5ec0927855cad69cf6816263b9efb2ec8e9a6ca17e",
-   "recomputed_sha256": "9eafdfaf82200b6a471c4d5ec0927855cad69cf6816263b9efb2ec8e9a6ca17e",
+   "stored_sha256": "eb8cdbf25b0854cd3eb7a9334a5af3c281a26fcfd2dfe77589152b6c0407931f",
+   "recomputed_sha256": "eb8cdbf25b0854cd3eb7a9334a5af3c281a26fcfd2dfe77589152b6c0407931f",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "00c781f3e73a2e2b74cc622639553f0c7070840d0a2f0d4d44fc27c4abcdc889",
-   "recomputed_sha256": "00c781f3e73a2e2b74cc622639553f0c7070840d0a2f0d4d44fc27c4abcdc889",
+   "stored_sha256": "9987b31725e4d245feec8673f1d4fe6596a2fff2a5a818d1ed04915601afa87f",
+   "recomputed_sha256": "9987b31725e4d245feec8673f1d4fe6596a2fff2a5a818d1ed04915601afa87f",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "2a8380a7cb0b1f78265c91c54630d6bdd93f50ad1900692959a6d9b446a016b8",
-   "recomputed_sha256": "2a8380a7cb0b1f78265c91c54630d6bdd93f50ad1900692959a6d9b446a016b8",
+   "stored_sha256": "adecb887b50fef4cfaf6b1badeea4c8e4066771c3b8e76e3d5f8bdfe276630d0",
+   "recomputed_sha256": "adecb887b50fef4cfaf6b1badeea4c8e4066771c3b8e76e3d5f8bdfe276630d0",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "a94b3f05684e3ed5e0d8e02b6f6a7b432f81c737767606aced4182920e977737",
-   "recomputed_sha256": "a94b3f05684e3ed5e0d8e02b6f6a7b432f81c737767606aced4182920e977737",
+   "stored_sha256": "af2a267e019981145d0c3c91b1e08bcf550dc7607270b4e6fa217d325694ed23",
+   "recomputed_sha256": "af2a267e019981145d0c3c91b1e08bcf550dc7607270b4e6fa217d325694ed23",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "8bc408bba373e0717bddffcac7320ebd1ec246a60fe81f77c083a400cae9ea91",
-   "recomputed_sha256": "8bc408bba373e0717bddffcac7320ebd1ec246a60fe81f77c083a400cae9ea91",
+   "stored_sha256": "05fab66e281a64039ba5b6e40123d6c01fe874d353cf76c648e0ab1ea272640b",
+   "recomputed_sha256": "05fab66e281a64039ba5b6e40123d6c01fe874d353cf76c648e0ab1ea272640b",
    "matches": true,
    "published_before_tip": false
   },
@@ -15749,17 +15774,31 @@
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "d345396ecea5d315c48dde6615e7c81de177abaa692119cf2ecddc686042396f",
-   "recomputed_sha256": "d345396ecea5d315c48dde6615e7c81de177abaa692119cf2ecddc686042396f",
+   "stored_sha256": "fb02fa405c048f2432b01a8b7fd61ed787bcebad8867fb43e26b6cad1d4854a3",
+   "recomputed_sha256": "fb02fa405c048f2432b01a8b7fd61ed787bcebad8867fb43e26b6cad1d4854a3",
    "matches": true,
    "published_before_tip": false
   },
   {
    "row_strategy": "S10",
-   "stored_sha256": "902b851f29d0dae8b006de3849d2c07a0424aebb2e2a34ea66161e5135907f91",
-   "recomputed_sha256": "902b851f29d0dae8b006de3849d2c07a0424aebb2e2a34ea66161e5135907f91",
+   "stored_sha256": "fda183c889d5c26a0701a8b819c53fc223758609b02ff25e52b191d8060074e7",
+   "recomputed_sha256": "fda183c889d5c26a0701a8b819c53fc223758609b02ff25e52b191d8060074e7",
    "matches": true,
    "published_before_tip": false
+  },
+  {
+   "row_strategy": "S10",
+   "stored_sha256": "89e02278d6156389e7fc296889ac3f6976736579946ad6ab3fda53301206db82",
+   "recomputed_sha256": "89e02278d6156389e7fc296889ac3f6976736579946ad6ab3fda53301206db82",
+   "matches": true,
+   "published_before_tip": true
+  },
+  {
+   "row_strategy": "S10",
+   "stored_sha256": "abd279ccddec221d7ade9103624f563a3a81c75f3dc4521796c6f131ffcb080e",
+   "recomputed_sha256": "abd279ccddec221d7ade9103624f563a3a81c75f3dc4521796c6f131ffcb080e",
+   "matches": true,
+   "published_before_tip": true
   },
   {
    "row_strategy": "P01",
@@ -15844,93 +15883,51 @@
    "recomputed_sha256": "f9c8644ca63b7ccca2016fa4b0dfb509ac5381b29a2a025518bc2ed027af49e2",
    "matches": true,
    "published_before_tip": false
-  },
-  {
-   "row_strategy": "P01",
-   "stored_sha256": "feef2575da2e02322b1b7824b865d587badab1ff80a0bf592c26c4e5114a76e4",
-   "recomputed_sha256": "feef2575da2e02322b1b7824b865d587badab1ff80a0bf592c26c4e5114a76e4",
-   "matches": true,
-   "published_before_tip": false
-  },
-  {
-   "row_strategy": "P01",
-   "stored_sha256": "404b98dd66f8b5a3d2ababc0137246386f81a13b2076fd971920a47d9084f97a",
-   "recomputed_sha256": "404b98dd66f8b5a3d2ababc0137246386f81a13b2076fd971920a47d9084f97a",
-   "matches": true,
-   "published_before_tip": false
-  },
-  {
-   "row_strategy": "P01",
-   "stored_sha256": "f95fe5a773a84d74ed84100a45e8d9b7c29767de2911330a5cdd4359d397edfc",
-   "recomputed_sha256": "f95fe5a773a84d74ed84100a45e8d9b7c29767de2911330a5cdd4359d397edfc",
-   "matches": true,
-   "published_before_tip": false
-  },
-  {
-   "row_strategy": "P01",
-   "stored_sha256": "e7e2421896ba9cd2dbc96c561d5283589d0732f0591584adf65c43b168f625bb",
-   "recomputed_sha256": "e7e2421896ba9cd2dbc96c561d5283589d0732f0591584adf65c43b168f625bb",
-   "matches": true,
-   "published_before_tip": false
-  },
-  {
-   "row_strategy": "P01",
-   "stored_sha256": "856126e8700bb3b3fedb401506d77c32c996c0f39475027e8b678fae9f5dfef5",
-   "recomputed_sha256": "856126e8700bb3b3fedb401506d77c32c996c0f39475027e8b678fae9f5dfef5",
-   "matches": true,
-   "published_before_tip": false
-  },
-  {
-   "row_strategy": "P01",
-   "stored_sha256": "659d19640f58b3176083ab0c43c18a4030def06b3088f6408cbe6c2be5ce2a02",
-   "recomputed_sha256": "659d19640f58b3176083ab0c43c18a4030def06b3088f6408cbe6c2be5ce2a02",
-   "matches": true,
-   "published_before_tip": false
   }
  ],
  "ledger_counts": {
-  "n": 541,
+  "n": 550,
   "all_hashes_match": true,
-  "published_before_tip": 0
+  "published_before_tip": 9
  },
  "correlations": [
   {
    "pair": "home points vs away points, same game",
    "used_for": "whether a same-game side + total parlay may be priced as independent",
    "stat": "Pearson r",
-   "value": 0.122578,
+   "value": 0.131926,
    "ci95": [
-    -0.020899,
-    0.261108
+    -0.010627,
+    0.269223
    ],
-   "n": 188,
+   "n": 190,
    "source_url": "https://www.nba.com/schedule"
   },
   {
    "pair": "final margin vs final total, same game",
    "used_for": "pricing a side and a total in the same parlay",
    "stat": "Pearson r",
-   "value": -0.018214,
+   "value": -0.019933,
    "ci95": [
-    -0.160905,
-    0.125223
+    -0.161828,
+    0.122768
    ],
-   "n": 188,
+   "n": 190,
    "source_url": "https://www.nba.com/schedule"
   },
   {
    "pair": "cover AND over, same game (vs our originated line)",
    "used_for": "the same-game parlay dependence ratio",
    "stat": "phi",
-   "value": 0.07558,
+   "value": 0.073701,
    "ci95": [
     null,
     null
    ],
-   "n": 135,
-   "joint_rate": 0.311111,
-   "independent_product": 0.292346,
-   "dependence_ratio": 1.064189,
+   "n": 137,
+   "joint_rate": 0.313869,
+   "independent_product": 0.295594,
+   "dependence_ratio": 1.061824,
    "source_url": "https://www.nba.com/schedule"
   }
  ],
@@ -15958,47 +15955,47 @@
  ],
  "team_luck": {
   "z": {
-   "DET": 0.6166,
-   "BOS": 1.7762,
-   "NYK": -0.7383,
-   "PHI": 2.0981,
-   "SAS": 1.5529,
-   "OKC": 0.608,
-   "MIA": 0.4161,
-   "MIN": 0.1595,
-   "LAL": 2.438,
-   "GSW": 0.5281,
-   "ORL": -0.1527,
+   "DET": 0.6196,
+   "BOS": 1.7748,
+   "NYK": -0.7373,
+   "PHI": 2.334,
+   "SAS": 1.5532,
+   "OKC": 0.6064,
+   "MIA": 0.4166,
+   "MIN": 0.1593,
+   "LAL": 2.6998,
+   "GSW": 0.5275,
+   "ORL": -0.1537,
    "ATL": 0.0407,
-   "WAS": -1.0336,
-   "MIL": -2.9537,
-   "BKN": -1.3886,
-   "CHA": -0.1241,
-   "TOR": -0.8314,
-   "CHI": -0.5881,
-   "MEM": 0.3083,
-   "UTA": -3.8697,
-   "NOP": -0.7102,
-   "IND": -0.6776,
-   "HOU": 1.2387,
-   "DAL": 0.3728,
-   "POR": 1.2749,
-   "PHX": 0.2166,
-   "LAC": -1.2314,
-   "SAC": -2.4764,
-   "CLE": -0.2032,
-   "DEN": 0.889
+   "WAS": -1.0339,
+   "MIL": -2.9596,
+   "BKN": -1.3921,
+   "CHA": -0.124,
+   "TOR": -0.831,
+   "CHI": -0.5869,
+   "MEM": 0.3077,
+   "UTA": -3.8674,
+   "NOP": -0.7099,
+   "IND": -0.8572,
+   "HOU": 1.2359,
+   "DAL": 0.3718,
+   "POR": 1.2768,
+   "PHX": -0.0101,
+   "LAC": -1.2297,
+   "SAC": -2.4774,
+   "CLE": -0.202,
+   "DEN": 0.8876
   },
   "n_games": {
    "DET": 12,
    "BOS": 12,
    "NYK": 12,
-   "PHI": 13,
+   "PHI": 14,
    "SAS": 13,
    "OKC": 13,
    "MIA": 13,
    "MIN": 13,
-   "LAL": 13,
+   "LAL": 14,
    "GSW": 13,
    "ORL": 12,
    "ATL": 13,
@@ -16011,11 +16008,11 @@
    "MEM": 13,
    "UTA": 13,
    "NOP": 14,
-   "IND": 13,
+   "IND": 14,
    "HOU": 13,
    "DAL": 13,
    "POR": 12,
-   "PHX": 11,
+   "PHX": 12,
    "LAC": 11,
    "SAC": 12,
    "CLE": 14,
@@ -16023,28 +16020,24 @@
   },
   "band": {
    "k": 2.0,
-   "n_inside": 28,
-   "n_outside": 2,
+   "n_inside": 29,
+   "n_outside": 1,
    "outside": [
     [
      "UTA",
-     -2.6753744822298544
-    ],
-    [
-     "MIL",
-     -2.02846242799434
+     -2.6167878022768862
     ]
    ]
   },
   "note": "z is residual wins vs the rating's expectation, divided by the standard error of the sum. Outside +/-2 means the team has run hot or cold beyond what the rating explains; strategies leaning on such a team are not publishable."
  },
  "parlays": {
-  "rho_used": -0.018214,
+  "rho_used": -0.019933,
   "rho_ci95": [
-   -0.160905,
-   0.125223
+   -0.161828,
+   0.122768
   ],
-  "rho_n": 188,
+  "rho_n": 190,
   "rows": [
    {
     "game_id": "0022600236",
@@ -16052,26 +16045,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.571058,
+      "prob": 0.571047,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.571058,
+     "p_side": 0.571047,
      "p_total": 0.5,
-     "naive_product": 0.285529,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.285523,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.282678,
-     "dependence_ratio": 0.990015,
-     "difference_pp": -0.2851,
+     "copula_price": 0.282403,
+     "dependence_ratio": 0.989072,
+     "difference_pp": -0.312,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16084,26 +16077,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.584128,
+      "prob": 0.585211,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.584128,
+     "p_side": 0.585211,
      "p_total": 0.5,
-     "naive_product": 0.292064,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.292606,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.289231,
-     "dependence_ratio": 0.990302,
-     "difference_pp": -0.2833,
+     "copula_price": 0.289507,
+     "dependence_ratio": 0.989412,
+     "difference_pp": -0.3098,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16116,26 +16109,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.593359,
+      "prob": 0.593504,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.593359,
+     "p_side": 0.593504,
      "p_total": 0.5,
-     "naive_product": 0.296679,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.296752,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.293862,
-     "dependence_ratio": 0.990503,
-     "difference_pp": -0.2817,
+     "copula_price": 0.293669,
+     "dependence_ratio": 0.98961,
+     "difference_pp": -0.3083,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16148,26 +16141,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.690099,
+      "prob": 0.69178,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.690099,
+     "p_side": 0.69178,
      "p_total": 0.5,
-     "naive_product": 0.34505,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.34589,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.342488,
-     "dependence_ratio": 0.992577,
-     "difference_pp": -0.2561,
+     "copula_price": 0.343094,
+     "dependence_ratio": 0.991915,
+     "difference_pp": -0.2796,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16180,26 +16173,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.621957,
+      "prob": 0.62258,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.621957,
+     "p_side": 0.62258,
      "p_total": 0.5,
-     "naive_product": 0.310978,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.31129,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.308218,
-     "dependence_ratio": 0.991123,
-     "difference_pp": -0.2761,
+     "copula_price": 0.30827,
+     "dependence_ratio": 0.9903,
+     "difference_pp": -0.302,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16212,26 +16205,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.511133,
+      "prob": 0.511724,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.511133,
+     "p_side": 0.511724,
      "p_total": 0.5,
-     "naive_product": 0.255566,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.255862,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.25267,
-     "dependence_ratio": 0.988667,
-     "difference_pp": -0.2896,
+     "copula_price": 0.252692,
+     "dependence_ratio": 0.987612,
+     "difference_pp": -0.317,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16244,26 +16237,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.604512,
+      "prob": 0.605724,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.604512,
+     "p_side": 0.605724,
      "p_total": 0.5,
-     "naive_product": 0.302256,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.302862,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.299459,
-     "dependence_ratio": 0.990746,
-     "difference_pp": -0.2797,
+     "copula_price": 0.299803,
+     "dependence_ratio": 0.989901,
+     "difference_pp": -0.3059,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16276,26 +16269,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.614091,
+      "prob": 0.615362,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.614091,
+     "p_side": 0.615362,
      "p_total": 0.5,
-     "naive_product": 0.307046,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.307681,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.304268,
-     "dependence_ratio": 0.990953,
-     "difference_pp": -0.2778,
+     "copula_price": 0.304644,
+     "dependence_ratio": 0.990129,
+     "difference_pp": -0.3037,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16308,26 +16301,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.621753,
+      "prob": 0.623069,
       "source_url": "https://www.nba.com/schedule?date=2026-11-15"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.621753,
+     "p_side": 0.623069,
      "p_total": 0.5,
-     "naive_product": 0.310877,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.311534,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.308115,
-     "dependence_ratio": 0.991118,
-     "difference_pp": -0.2761,
+     "copula_price": 0.308516,
+     "dependence_ratio": 0.990311,
+     "difference_pp": -0.3018,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16340,26 +16333,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.679313,
+      "prob": 0.680023,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.679313,
+     "p_side": 0.680023,
      "p_total": 0.5,
-     "naive_product": 0.339656,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.340012,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.337057,
-     "dependence_ratio": 0.992348,
-     "difference_pp": -0.2599,
+     "copula_price": 0.33717,
+     "dependence_ratio": 0.991642,
+     "difference_pp": -0.2842,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16372,26 +16365,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.652444,
+      "prob": 0.652986,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.652444,
+     "p_side": 0.652986,
      "p_total": 0.5,
-     "naive_product": 0.326222,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.326493,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.323539,
-     "dependence_ratio": 0.991776,
-     "difference_pp": -0.2683,
+     "copula_price": 0.323559,
+     "dependence_ratio": 0.991013,
+     "difference_pp": -0.2934,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16404,26 +16397,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.6042,
+      "prob": 0.60541,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.6042,
+     "p_side": 0.60541,
      "p_total": 0.5,
-     "naive_product": 0.3021,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.302705,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.299302,
-     "dependence_ratio": 0.990739,
-     "difference_pp": -0.2798,
+     "copula_price": 0.299646,
+     "dependence_ratio": 0.989894,
+     "difference_pp": -0.3059,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16436,26 +16429,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.541993,
+      "prob": 0.542797,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.541993,
+     "p_side": 0.542797,
      "p_total": 0.5,
-     "naive_product": 0.270996,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.271398,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.268115,
-     "dependence_ratio": 0.989368,
-     "difference_pp": -0.2881,
+     "copula_price": 0.268246,
+     "dependence_ratio": 0.988384,
+     "difference_pp": -0.3153,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16468,26 +16461,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.562452,
+      "prob": 0.563393,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.562452,
+     "p_side": 0.563393,
      "p_total": 0.5,
-     "naive_product": 0.281226,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.281697,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.278364,
-     "dependence_ratio": 0.989824,
-     "difference_pp": -0.2862,
+     "copula_price": 0.278566,
+     "dependence_ratio": 0.988887,
+     "difference_pp": -0.3131,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16500,26 +16493,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.568767,
+      "prob": 0.56874,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.568767,
+     "p_side": 0.56874,
      "p_total": 0.5,
-     "naive_product": 0.284384,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.28437,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.281529,
-     "dependence_ratio": 0.989964,
-     "difference_pp": -0.2854,
+     "copula_price": 0.281246,
+     "dependence_ratio": 0.989016,
+     "difference_pp": -0.3124,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16532,26 +16525,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.590174,
+      "prob": 0.591296,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.590174,
+     "p_side": 0.591296,
      "p_total": 0.5,
-     "naive_product": 0.295087,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.295648,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.292264,
-     "dependence_ratio": 0.990434,
-     "difference_pp": -0.2823,
+     "copula_price": 0.292561,
+     "dependence_ratio": 0.989558,
+     "difference_pp": -0.3087,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16564,26 +16557,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.593533,
+      "prob": 0.593679,
       "source_url": "https://www.nba.com/schedule?date=2026-11-16"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.593533,
+     "p_side": 0.593679,
      "p_total": 0.5,
-     "naive_product": 0.296766,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.296839,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.293949,
-     "dependence_ratio": 0.990507,
-     "difference_pp": -0.2817,
+     "copula_price": 0.293757,
+     "dependence_ratio": 0.989615,
+     "difference_pp": -0.3083,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16596,26 +16589,26 @@
     "legs": [
      {
       "leg": "away moneyline",
-      "prob": 0.511133,
+      "prob": 0.511724,
       "source_url": "https://www.nba.com/schedule?date=2026-11-17"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.511133,
+     "p_side": 0.511724,
      "p_total": 0.5,
-     "naive_product": 0.255566,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.255862,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.25267,
-     "dependence_ratio": 0.988667,
-     "difference_pp": -0.2896,
+     "copula_price": 0.252692,
+     "dependence_ratio": 0.987612,
+     "difference_pp": -0.317,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16628,26 +16621,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.568767,
+      "prob": 0.56874,
       "source_url": "https://www.nba.com/schedule?date=2026-11-17"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.568767,
+     "p_side": 0.56874,
      "p_total": 0.5,
-     "naive_product": 0.284384,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.28437,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.281529,
-     "dependence_ratio": 0.989964,
-     "difference_pp": -0.2854,
+     "copula_price": 0.281246,
+     "dependence_ratio": 0.989016,
+     "difference_pp": -0.3124,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16660,26 +16653,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.609892,
+      "prob": 0.61015,
       "source_url": "https://www.nba.com/schedule?date=2026-11-17"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.609892,
+     "p_side": 0.61015,
      "p_total": 0.5,
-     "naive_product": 0.304946,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.305075,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.30216,
-     "dependence_ratio": 0.990862,
-     "difference_pp": -0.2786,
+     "copula_price": 0.302026,
+     "dependence_ratio": 0.990006,
+     "difference_pp": -0.3049,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16692,26 +16685,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.589524,
+      "prob": 0.589643,
       "source_url": "https://www.nba.com/schedule?date=2026-11-17"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.589524,
+     "p_side": 0.589643,
      "p_total": 0.5,
-     "naive_product": 0.294762,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.294822,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.291938,
-     "dependence_ratio": 0.99042,
-     "difference_pp": -0.2824,
+     "copula_price": 0.291731,
+     "dependence_ratio": 0.989518,
+     "difference_pp": -0.309,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16724,26 +16717,26 @@
     "legs": [
      {
       "leg": "home moneyline",
-      "prob": 0.708374,
+      "prob": 0.709255,
       "source_url": "https://www.nba.com/schedule?date=2026-11-17"
      }
     ],
     "sgp": {
      "legs": 2,
-     "p_side": 0.708374,
+     "p_side": 0.709255,
      "p_total": 0.5,
-     "naive_product": 0.354187,
-     "rho": -0.018214,
-     "rho_n": 188,
+     "naive_product": 0.354627,
+     "rho": -0.019933,
+     "rho_n": 190,
      "rho_ci95": [
-      -0.160905,
-      0.125223
+      -0.161828,
+      0.122768
      ],
      "rho_measurable": true,
      "priced": true,
-     "copula_price": 0.351695,
-     "dependence_ratio": 0.992964,
-     "difference_pp": -0.2492,
+     "copula_price": 0.351904,
+     "dependence_ratio": 0.992321,
+     "difference_pp": -0.2723,
      "note": "the copula price is the one to quote; the naive product is printed beside it because the brief requires both",
      "rho_note": "the measured r is inside its own 95% interval of zero at this n; treat the correction as a direction, not a magnitude"
     },
@@ -16755,7 +16748,7 @@
    "n": 22,
    "n_priced_with_measured_rho": 22,
    "n_naive_only": 0,
-   "mean_dependence_ratio": 0.990629,
+   "mean_dependence_ratio": 0.989761,
    "note": "a dependence ratio below 1 means the naive product overstates the parlay and the bookmaker's product price would be too generous"
   },
   "blocked": [
@@ -16774,7 +16767,7 @@
    "id": "FV2-06",
    "severity": "high",
    "flag": "estimator B's walk-forward grades are contaminated by a single dated snapshot",
-   "detail": "B was fitted on the 2026-11-15 team-statistics snapshot and used to price all 135 earlier games. Its error (13.8324) is not an out-of-sample figure and no ranking may cite it.",
+   "detail": "B was fitted on the 2026-11-15 team-statistics snapshot and used to price all 135 earlier games. Its error (13.7374) is not an out-of-sample figure and no ranking may cite it.",
    "fix": "capture a per-date team-statistics history, or restrict B's backtest to games on or after the snapshot"
   },
   {
