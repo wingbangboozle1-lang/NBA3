@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earlier sessions · NBA3</title>
+<link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">NBA3 <span>· originated lines &amp; verification</span></div>
+  <div class="stamp">official sources read 2026-11-16 14:45 UTC · session arena/8f4fac33</div>
+</div></header>
+<nav class="cats"><div class="wrap"><div class="cat"><b>Overview</b><a href="overview.html">What this is</a><a href="requirements.html">Brief coverage</a><a href="methodology.html">Method &amp; rules</a></div><div class="cat"><b>Projections (safe to publish)</b><a href="slate.html">Slate 11/16–18</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="totals.html">Totals</a><a href="context.html">Game context</a></div><div class="cat"><b>Official data</b><a href="injuries.html">Injuries 11/16</a><a href="injury-delta.html">Injury diff</a><a href="results.html">Results 11/15</a><a href="team-stats.html">Team statistics</a></div><div class="cat"><b>Bet surface (gated)</b><a href="strategies.html">Strategy board</a><a href="pricing.html">Prices &amp; parlays</a></div><div class="cat"><b>Decision support</b><a href="questions.html">Open questions</a><a href="suggestions.html">Site suggestions</a></div><div class="cat"><b>Verification</b><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a><a href="archive.html" aria-current="page">Earlier sessions</a></div></div></nav>
+<main><div class="wrap">
+<div class="crumb">Verification</div>
+
+<div class="crumb">Verification</div>
+<h1>Earlier sessions</h1>
+<p class="lede">This repository has had many sessions. This build is the 2026-11-16 round and it owns
+the front door; the trees below were built earlier and are kept for the record. None of them is
+current.</p>
+
+<div class="note">The navigation on this site does not link into the older trees: they carry
+different numbers from older data, and mixing them into one navigation is how a reader ends up
+comparing two different worlds. They are listed here, with the script that builds them, so anything
+worth carrying forward can be found.</div>
+
+<div class="table-wrap"><table class=""><thead><tr><th class="">Tree</th><th class="">What it is</th><th class="">Built by</th><th class="">Current official source</th></tr></thead><tbody><tr><td class="">/app/ (earlier canonical dashboard)</td><td class="">the dashboard this session replaces as the front door</td><td class=""><code>scripts/build_app.py</code></td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">www.nba.com</a></td></tr><tr><td class="">/audit_94e6d41b/</td><td class="">11/15 game-day refresh audit</td><td class=""><code>audit_94e6d41b/</code></td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">www.nba.com</a></td></tr><tr><td class="">/audit_1823b910/</td><td class="">independent second transcription, 11/14 01:30 PM report</td><td class=""><code>audit_1823b910/</code></td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">www.nba.com</a></td></tr></tbody><caption class="small" style="caption-side:bottom;padding:8px 10px;text-align:left">Kept in the deployment for provenance; not merged into this dashboard's numbers.</caption></table></div>
+
+</div></main>
+<footer><div class="wrap">
+  Every published value carries an <code>https</code> link to the official NBA document it came from.
+  Anything that could not be confirmed is printed as <span class="na">—</span> and listed on the
+  <a href="flagged.html">Flagged for review</a> page. Built by
+  <code>scripts/build_round_site.py</code>; the CI replay fails if this tree drifts from a rebuild.
+</div></footer>
+</body>
+</html>

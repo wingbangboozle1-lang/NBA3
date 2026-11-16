@@ -2698,7 +2698,11 @@ def build_index(d):
     xref = ('<p class="small">Related work: <a href="dash/index.html"><b>Unified dashboard '
             '(session e40cd215)</b></a> — a second, independent integration round: 174-game '
             're-verification, 22 originated lines from a separate engine, 9 gates, measured '
-            'parlay dependence, cross-engine reconciliation and a flagged register.</p>')
+            'parlay dependence, cross-engine reconciliation and a flagged register.</p>'
+            '<p class="small">Later round: <a href="round/index.html"><b>2026-11-16 dashboard '
+            '(session arena/8f4fac33)</b></a> — the 11/16 official refresh, a 14-gate report with '
+            'build/row scope, two independent estimators with their disagreement as the headline, '
+            'and an injury diff taken between two filings for the <i>same</i> game day.</p>')
     res = _res(d)
     luck = _luck(d)
     strategies = d["strategies"]

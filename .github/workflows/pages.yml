@@ -251,6 +251,27 @@ jobs:
             git --no-pager diff -- data/app/canonical.json | head -40
             exit 1
           }
+      - name: 11/16 refresh gates, two-estimator model and the round dashboard (arena/8f4fac33)
+        run: |
+          # The refresh parses committed verbatim captures only, so it needs no network. A failure
+          # here means a real input changed or a gate failed; the gate report prints which.
+          python3 scripts/refresh_2026_11_16.py --gates > /tmp/gates.txt || { cat /tmp/gates.txt; exit 1; }
+          cat /tmp/gates.txt
+          # The model is deterministic; the diff below is what proves it.
+          python3 scripts/round_model_2026_11_16.py
+          python3 scripts/build_round_site.py
+          git diff --exit-code -- data/rounds/2026-11-16 round/ || {
+            echo "The 11/16 round artefacts or pages drifted from what is committed."
+            git --no-pager diff --stat -- data/rounds/2026-11-16 round/ | tail -20
+            exit 1
+          }
+          test -z "$(git status --porcelain -- round/ data/rounds/2026-11-16)" || {
+            echo 'round/ or data/rounds/2026-11-16 has untracked output; regenerate and commit'
+            git status --porcelain -- round/ data/rounds/2026-11-16
+            exit 1
+          }
+      - name: 11/16 round unit tests (arena/8f4fac33)
+        run: python3 -m unittest tests.test_round_2026_11_16 -v
       - name: Originated-lines attribution and availability labels (arena/bb0c83a4)
         run: python3 -m unittest tests.test_lines_attribution -v
       - name: Build and verify the consolidated dashboard (hub/)
@@ -483,6 +504,7 @@ jobs:
           cp -r verify _pages/verify
           cp -r d01ae7e2 _pages/d01ae7e2
           cp -r hub _pages/hub
+          cp -r round _pages/round
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet

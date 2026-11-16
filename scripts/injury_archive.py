@@ -61,10 +61,20 @@ def parse(path: pathlib.Path) -> dict:
             continue
         # Team-level row: matchup + team, player blank, status 'NOT YET SUBMITTED'
         if "NOT YET SUBMITTED" in " ".join(cells).upper():
-            team = next((c for c in cells[3:5] if c), "")
-            date = cells[0] if re.match(r"\d\d/\d\d/\d{4}", cells[0]) else ""
-            game_time = cells[1] if re.match(r"\d\d:\d\d \(ET\)", cells[1]) else ""
-            matchup = cells[2] if "@" in cells[2] else ""
+            # The team cell's INDEX MOVES. On a full row it is cells[3]; on a page-break
+            # continuation the league's printer has dropped a leading cell and it is cells[2].
+            # Reading only cells[3:5] therefore threw away the team name on exactly the rows the
+            # page break damaged -- which is how 4 of the 15 placeholders arrived blank. The cell
+            # is located by content instead: the first cell that is not a date, a time, a matchup
+            # or the placeholder itself.
+            date = next((c for c in cells if re.match(r"\d\d/\d\d/\d{4}$", c)), "")
+            game_time = next((c for c in cells if re.match(r"\d\d:\d\d \(ET\)", c)), "")
+            matchup = next((c for c in cells if "@" in c), "")
+            team = next((c for c in cells
+                         if c and not re.match(r"\d\d/\d\d/\d{4}$", c)
+                         and not re.match(r"\d\d:\d\d \(ET\)", c)
+                         and "@" not in c
+                         and "NOT YET SUBMITTED" not in c.upper()), "")
             team_rows.append({"date": date, "game_time": game_time,
                               "matchup": matchup, "team": team,
                               "kind": "NOT_YET_SUBMITTED"})

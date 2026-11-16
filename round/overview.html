@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What this is · NBA3</title>
+<link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">NBA3 <span>· originated lines &amp; verification</span></div>
+  <div class="stamp">official sources read 2026-11-16 14:45 UTC · session arena/8f4fac33</div>
+</div></header>
+<nav class="cats"><div class="wrap"><div class="cat"><b>Overview</b><a href="overview.html" aria-current="page">What this is</a><a href="requirements.html">Brief coverage</a><a href="methodology.html">Method &amp; rules</a></div><div class="cat"><b>Projections (safe to publish)</b><a href="slate.html">Slate 11/16–18</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="totals.html">Totals</a><a href="context.html">Game context</a></div><div class="cat"><b>Official data</b><a href="injuries.html">Injuries 11/16</a><a href="injury-delta.html">Injury diff</a><a href="results.html">Results 11/15</a><a href="team-stats.html">Team statistics</a></div><div class="cat"><b>Bet surface (gated)</b><a href="strategies.html">Strategy board</a><a href="pricing.html">Prices &amp; parlays</a></div><div class="cat"><b>Decision support</b><a href="questions.html">Open questions</a><a href="suggestions.html">Site suggestions</a></div><div class="cat"><b>Verification</b><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a><a href="archive.html">Earlier sessions</a></div></div></nav>
+<main><div class="wrap">
+<div class="crumb">Overview</div>
+
+<div class="crumb">Overview</div>
+<h1>What this is, and what it refuses to do</h1>
+<p class="lede">NBA3 originates its own NBA lines from official data, then tries to prove the lines
+are worth anything. This page is the state of that work on 2026-11-16: what was verified, what the
+model says, and what is still missing.</p>
+
+<h2>The headline</h2>
+<div class="badbox"><b>Zero strategies are funded.</b> That is not a bug. The rule this project
+adopted is that a strategy may not lean on a team whose record sits outside a ±2 z-score band, and
+at 22 captured finals no team has the four games needed for its z-score to mean anything. So every
+one of the 25 candidate rules is blocked, with the reason printed on each row of the
+<a href="strategies.html">strategy board</a>.</div>
+
+<h2>What was verified, line by line</h2>
+<div class="table-wrap"><table class=""><thead><tr><th class="">Area</th><th class="">What was read</th><th class="">Result</th><th class="">Source</th><th class="">Status</th></tr></thead><tbody><tr><td class="">Official schedule</td><td class="">25 games 2026-11-16 → 2026-11-18</td><td class="">{&#x27;2026-11-16&#x27;: 8, &#x27;2026-11-17&#x27;: 5, &#x27;2026-11-18&#x27;: 12}</td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">nba.com/schedule</a></td><td class=""><span class="pill ok">verified</span></td></tr><tr><td class="">Injury report</td><td class="">11/16/26 09:15 AM ET, newest on the official index at read time</td><td class="">72 rows</td><td class=""><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">PDF</a></td><td class=""><span class="pill ok">verified</span></td></tr><tr><td class="">Finals feed</td><td class="">2026-11-15 league day, one row per game</td><td class="">8/9 settled</td><td class=""><a href="https://www.nba.com/games?date=2026-11-15" rel="noopener">nba.com/games</a></td><td class=""><span class="pill warn">1 withheld</span></td></tr><tr><td class="">Team statistics</td><td class="">traditional + opponent + advanced, re-cut to one row per team</td><td class="">30 teams</td><td class=""><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">advanced</a></td><td class=""><span class="pill ok">verified</span></td></tr><tr><td class="">Home-court advantage</td><td class="">z(home_win_rate) x sd(home margin), with z the inverse normal CDF; this is the margin that would produce exactly the measured home-win rate on the measured spread</td><td class="">4.12 pts (rate 0.5909, n=22)</td><td class=""><a href="https://www.nba.com/games?date=2026-11-14" rel="noopener">nba.com/games</a></td><td class=""><span class="pill ok">measured</span></td></tr><tr><td class="">Estimator A</td><td class="">result-based ridge Massey on final margins</td><td class="">walk-forward RMSE 13.4282 vs baseline 17.0505</td><td class=""><a href="https://www.nba.com/games?date=2026-11-15" rel="noopener">nba.com/games</a></td><td class=""><span class="pill ok">measured</span></td></tr><tr><td class="">No funded strategies</td><td class="">no team has 4 captured games, so none can clear the ±2 band</td><td class="">0 of 25</td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">nba.com/schedule</a></td><td class=""><span class="pill warn">blocked by rule</span></td></tr><tr><td class="">Closing line</td><td class="">no licensed closing-line feed is connected</td><td class=""><span class="na" title="not confirmed from an official source">—</span></td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">nba.com/schedule</a></td><td class=""><span class="pill bad">unverified</span></td></tr></tbody></table></div>
+
+<h2>How to read the projection pages</h2>
+<dl class="kv">
+  <dt>Disagreement</dt><dd>|A − B| in points between the two estimators. It is the <b>primary</b>
+  confidence signal and it is the first number on every line row.</dd>
+  <dt>Blend</dt><dd>the mean of the two, published underneath the disagreement, never as the
+  headline.</dd>
+  <dt>Total</dt><dd>possessions × points-per-possession, with the rejected alternative (the sum of
+  the two teams' scoring averages) printed beside it.</dd>
+  <dt>—</dt><dd>a value that could not be confirmed from an official document. Never a zero, never
+  an average of other values.</dd>
+</dl>
+
+<h2>What is missing, and what it blocks</h2>
+<p class="lede">Four gaps drive almost every other limitation. Each is on the
+<a href="questions.html">open questions</a> page with what is known, what is missing, and how to
+get it.</p>
+<ul>
+  <li><b>Game-log depth.</b> 22 finals is enough to fit a rating and not enough to prove one.
+  It blocks every luck-based gate and every strategy.</li>
+  <li><b>A licensed odds feed.</b> Without a closing line there is no market-anchored prior and no
+  way to measure log-loss against a market. The field is left null.</li>
+  <li><b>Per-player game logs.</b> Without them there is no measured rho for player-prop combos, so
+  those parlay prices are withheld rather than invented.</li>
+  <li><b>Licensing and jurisdiction.</b> The league's terms restrict gambling use of its
+  statistics, and the operator's jurisdiction is unknown. This is a research dashboard, not a
+  betting service.</li>
+</ul>
+
+</div></main>
+<footer><div class="wrap">
+  Every published value carries an <code>https</code> link to the official NBA document it came from.
+  Anything that could not be confirmed is printed as <span class="na">—</span> and listed on the
+  <a href="flagged.html">Flagged for review</a> page. Built by
+  <code>scripts/build_round_site.py</code>; the CI replay fails if this tree drifts from a rebuild.
+</div></footer>
+</body>
+</html>
