@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review — NBA3 audit</title><style>
+:root { --ink:#16202c; --mut:#5b6b7c; --line:#dfe6ee; --bg:#f5f7fa; --card:#fff;
+        --ok:#137a3f; --warn:#a4560a; --bad:#b3261e; --accent:#1a5fb4; }
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+       color:var(--ink); background:var(--bg); }
+header { background:var(--card); border-bottom:1px solid var(--line); padding:14px 22px; }
+header a { color:var(--accent); text-decoration:none; margin-right:14px; font-weight:600; }
+header a:hover { text-decoration:underline; }
+main { max-width:1180px; margin:18px auto; padding:0 16px 48px; }
+h1 { font-size:24px; margin:10px 0 4px; } h2 { font-size:18px; margin:26px 0 8px; }
+.sub { color:var(--mut); margin-bottom:14px; }
+.cards { display:flex; flex-wrap:wrap; gap:12px; margin:14px 0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 16px; min-width:150px; }
+.card b { display:block; font-size:22px; } .card span { color:var(--mut); font-size:13px; }
+table { border-collapse:collapse; width:100%; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:13.5px; }
+th,td { border-bottom:1px solid var(--line); padding:7px 9px; text-align:left;
+        vertical-align:top; }
+th { background:#eef2f7; font-weight:600; position:sticky; top:0; }
+tr:last-child td { border-bottom:none; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+a { color:var(--accent); }
+.tag { display:inline-block; padding:1px 7px; border-radius:99px; font-size:12px; font-weight:600; }
+.t-out { background:#fdecea; color:var(--bad); } .t-doub { background:#fdecea; color:var(--bad); }
+.t-q { background:#fff4e0; color:var(--warn); } .t-pro { background:#e8f4ff; color:var(--accent); }
+.t-av { background:#e6f6ec; color:var(--ok); } .t-nus { background:#eceff3; color:var(--mut); }
+.t-ok { background:#e6f6ec; color:var(--ok); } .t-flag { background:#fff4e0; color:var(--warn); }
+.note { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--accent);
+        border-radius:8px; padding:10px 14px; margin:12px 0; font-size:14px; }
+.note.warn { border-left-color:var(--warn); } .note.ok { border-left-color:var(--ok); }
+.small { font-size:13px; color:var(--mut); }
+footer { color:var(--mut); font-size:13px; padding:18px 22px; border-top:1px solid var(--line);
+         background:var(--card); margin-top:30px; }
+.wrap { overflow-x:auto; }
+</style></head>
+<body><header><a href="../index.html">NBA3 home</a><a href="index.html">Overview</a> <a href="injuries.html">Injuries 01:30 PM</a> <a href="delta.html">Injury delta</a> <a href="slate.html">Slate 11/16-19</a> <a href="results.html">Results 11/15</a> <a href="flags.html" style="font-weight:700;text-decoration:underline">Flagged</a> <a href="sources.html">Sources</a></header>
+<main>
+<h1>Flagged for review — this round</h1>
+<p class="sub">9 items · none blocks the merge · every item links its source.
+Repo-wide register: <a href="../app/flagged.html">app/flagged.html</a>.</p>
+<div class="wrap"><table>
+<tr><th>ID</th><th>Severity</th><th>Status</th><th>Item</th><th>Sources</th></tr><tr><td>EVE-F01</td><td>medium</td><td>resolved-published</td><td><b>ATL@MIL gamebook SCORE BY PERIOD table is self-inconsistent (MIL Q3=37 sums 116 vs its own FINAL 106)</b><br><span class="small">The round-2026-11-16 capture left 0022600243 blocked (Q09). This session read three official documents: the game page LINESCORE (MIL 37/16/27/26=106), the gamebook summary line (BUCKS 37 16 27 26 106) and the gamebook team totals (106). All three agree on Q3=27; the period-table cell 37 is arithmetically impossible against its own printed final. Q3=27 adopted, both readings preserved in results_2026-11-15.json; day now 9/9 settled.</span></td><td><a href="https://www.nba.com/game/atl-vs-mil-0022600243">source</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf">source</a></td></tr><tr><td>EVE-F02</td><td>low</td><td>open</td><td><b>Butler III, Jimmy row carries no Current Status cell in both the 09:15 and 01:30 PM official prints</b><br><span class="small">The printed row shows the reason (Right ACL Repair / Surgery) where the status column should be. Published blank with a note; never copied from an earlier report. Same treatment as session 8f4fac33&#x27;s 09:15 capture.</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf">source</a></td></tr><tr><td>EVE-F03</td><td>low</td><td>open</td><td><b>Mathurin name printed &#x27;Bennedict&#x27; at 09:15 AM and &#x27;Benedict&#x27; at 01:30 PM</b><br><span class="small">Delta reports this as delisted + newly_listed (no silent merge; the normaliser only merges case/accents/punctuation). Status is Out in both prints.</span></td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf">source</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf">source</a></td></tr><tr><td>EVE-F04</td><td>high</td><td>repair-pending-live-run</td><td><b>Scheduled official refresh failed at the unit-test step in run 43925193575 (and at the commit step in 43815576157 / 43864808752)</b><br><span class="small">Root cause reproduced offline: the fetch legitimately promotes the rolling official_slate_current.json (window starts 11/16), and three tests were coupled to the old fixed window (25 not greater than 30; published slate != fixed 00-57Z capture replay; settlement target off-slate). Repairs committed on this branch (tests/test_pick_ledger.py, tests/test_refresh_official.py); full 181-test suite green in a correct-order CI simulation (promote -&gt; gates -&gt; rebuild -&gt; tests). The commit-step failure was already repaired by session c449d46a (PR #107). Live validation = the 23:15 UTC cron run after merge.</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575">source</a></td></tr><tr><td>EVE-F05</td><td>high</td><td>open</td><td><b>Canonical data/live injury archive still holds the 11/15 06:15 AM ET report; the scheduled fetch stores but does not archive the newest PDF</b><br><span class="small">refresh_official.py downloads the newest report PDF into data/app/refresh/&lt;stamp&gt;/ with sha256 + retrieval stamp (provenance kept), but the published archive data/live/injuries (drives F1-F10 gates and the Injuries pages) is only updated by agent-transcribed captures. Flags F12 (session 07f22dad) and F-R6 (session 81800928) remain open. Fixing this needs a decision on automated PDF text extraction (see suggestions).</span></td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">source</a></td></tr><tr><td>EVE-F06</td><td>medium</td><td>open</td><td><b>Canonical results feed holds 11/13-11/14 only; 11/15 finals live in round trees</b><br><span class="small">data/app/results_feed.json has 14 rows (9+5). The 11/15 day (9 games) is verified/settled in data/rounds/2026-11-16/results.json and re-published 9/9 in data/rounds/2026-11-16-eve/results_2026-11-15.json, but no ingest path appends new finals to the canonical feed: build_results_feed.py is pinned to 11/14 and parses agent-transcribed gamebook text. Needs a reviewer decision (automated gamebook extraction vs scheduled agent capture).</span></td><td><a href="https://www.nba.com/games?date=2026-11-15">source</a></td></tr><tr><td>EVE-F07</td><td>info</td><td>informational</td><td><b>No 11/16 finals existed at capture time (first tip 7:00 PM ET)</b><br><span class="small">All eight 11/16 games tip 7:00-9:00 PM ET (23:00-00:00 UTC). This capture records slate, tips, records and the 01:30 PM injury report only; finals and settlement are left to the next scheduled refresh or a later capture. Nothing about 11/16 outcomes is published here.</span></td><td><a href="https://www.nba.com/games?date=2026-11-16">source</a></td></tr><tr><td>EVE-F08</td><td>low</td><td>open</td><td><b>Manual workflow dispatch is blocked for the repository integration token (HTTP 403)</b><br><span class="small">gh workflow run refresh.yml --ref &lt;branch&gt; returns 403 Resource not accessible by integration (same limitation prior sessions recorded for Pages settings). The scheduled cron (05:15/11:15/17:15/23:15 UTC) is therefore the only way to exercise the job end to end; validation of the E1 repair relies on the 23:15 UTC run after merge.</span></td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml">source</a></td></tr><tr><td>EVE-F09</td><td>medium</td><td>open</td><td><b>Estimator window is pinned to official_slate_1115_1118.json while the published slate rolls</b><br><span class="small">estimators_round_79341829.py prefers official_slate_current.json when present (so CI stays consistent), but minutes_model.py and lab.json still read the pinned 11/15-11/18 files; after the window rolls past 11/18 the canonical app pages will price a stale window while round/ prices the live one. Architectural decision needed (see suggestions) - not changed in this session.</span></td><td><a href="https://www.nba.com/games?date=2026-11-16">source</a></td></tr></table></div>
+</main>
+<footer>Session <b>arena/ef6e2e6c-nba3</b> · 2026-11-16 evening round · every value below is
+linked to an official NBA source; unverified values are blank and flagged, never inferred.</footer>
+</body></html>

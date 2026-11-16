@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results 11/15 — NBA3 audit</title><style>
+:root { --ink:#16202c; --mut:#5b6b7c; --line:#dfe6ee; --bg:#f5f7fa; --card:#fff;
+        --ok:#137a3f; --warn:#a4560a; --bad:#b3261e; --accent:#1a5fb4; }
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+       color:var(--ink); background:var(--bg); }
+header { background:var(--card); border-bottom:1px solid var(--line); padding:14px 22px; }
+header a { color:var(--accent); text-decoration:none; margin-right:14px; font-weight:600; }
+header a:hover { text-decoration:underline; }
+main { max-width:1180px; margin:18px auto; padding:0 16px 48px; }
+h1 { font-size:24px; margin:10px 0 4px; } h2 { font-size:18px; margin:26px 0 8px; }
+.sub { color:var(--mut); margin-bottom:14px; }
+.cards { display:flex; flex-wrap:wrap; gap:12px; margin:14px 0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 16px; min-width:150px; }
+.card b { display:block; font-size:22px; } .card span { color:var(--mut); font-size:13px; }
+table { border-collapse:collapse; width:100%; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:13.5px; }
+th,td { border-bottom:1px solid var(--line); padding:7px 9px; text-align:left;
+        vertical-align:top; }
+th { background:#eef2f7; font-weight:600; position:sticky; top:0; }
+tr:last-child td { border-bottom:none; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+a { color:var(--accent); }
+.tag { display:inline-block; padding:1px 7px; border-radius:99px; font-size:12px; font-weight:600; }
+.t-out { background:#fdecea; color:var(--bad); } .t-doub { background:#fdecea; color:var(--bad); }
+.t-q { background:#fff4e0; color:var(--warn); } .t-pro { background:#e8f4ff; color:var(--accent); }
+.t-av { background:#e6f6ec; color:var(--ok); } .t-nus { background:#eceff3; color:var(--mut); }
+.t-ok { background:#e6f6ec; color:var(--ok); } .t-flag { background:#fff4e0; color:var(--warn); }
+.note { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--accent);
+        border-radius:8px; padding:10px 14px; margin:12px 0; font-size:14px; }
+.note.warn { border-left-color:var(--warn); } .note.ok { border-left-color:var(--ok); }
+.small { font-size:13px; color:var(--mut); }
+footer { color:var(--mut); font-size:13px; padding:18px 22px; border-top:1px solid var(--line);
+         background:var(--card); margin-top:30px; }
+.wrap { overflow-x:auto; }
+</style></head>
+<body><header><a href="../index.html">NBA3 home</a><a href="index.html">Overview</a> <a href="injuries.html">Injuries 01:30 PM</a> <a href="delta.html">Injury delta</a> <a href="slate.html">Slate 11/16-19</a> <a href="results.html" style="font-weight:700;text-decoration:underline">Results 11/15</a> <a href="flags.html">Flagged</a> <a href="sources.html">Sources</a></header>
+<main>
+<h1>Results — 11/15 game day (settled 9/9)</h1>
+<p class="sub">Settlement rule: quarter sums must equal the printed final for both teams AND the
+official game-page final must equal the gamebook final. Rows re-published from the
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/results.json">round capture</a>
+except ATL@MIL, resolved here.</p>
+<div class="wrap"><table>
+<tr><th>Date</th><th>Matchup</th><th>Game id</th><th class="num">Final</th>
+<th class="num">Away quarters</th><th class="num">Home quarters</th><th>State</th><th>Source</th></tr>
+<tr><td>2026-11-15</td><td>IND @ PHI</td><td>0022600236</td><td class="num"><b>124–131</b></td><td class="num">35/22/30/37</td><td class="num">29/29/39/34</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/ind-vs-phi-0022600236">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>LAL @ PHX</td><td>0022600237</td><td class="num"><b>131–123</b></td><td class="num">33/31/40/27</td><td class="num">24/30/26/43</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/lal-vs-phx-0022600237">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>CHA @ LAC</td><td>0022600238</td><td class="num"><b>105–113</b></td><td class="num">21/31/31/22</td><td class="num">22/29/33/29</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/cha-vs-lac-0022600238">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>SAS @ UTA</td><td>0022600239</td><td class="num"><b>110–102</b></td><td class="num">31/27/23/29</td><td class="num">33/22/26/21</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/sas-vs-uta-0022600239">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>DAL @ BOS</td><td>0022600240</td><td class="num"><b>94–131</b></td><td class="num">9/28/34/23</td><td class="num">42/25/37/27</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/dal-vs-bos-0022600240">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>NYK @ TOR</td><td>0022600241</td><td class="num"><b>112–108</b></td><td class="num">23/24/20/28/17</td><td class="num">17/26/31/21/13</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>HOU @ WAS</td><td>0022600242</td><td class="num"><b>147–119</b></td><td class="num">36/37/46/28</td><td class="num">31/23/34/31</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/hou-vs-was-0022600242">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>ATL @ MIL</td><td>0022600243</td><td class="num"><b>113–106</b></td><td class="num">18/37/32/26</td><td class="num">37/16/27/26 <span class="small">(period-table reading 37/16/37/26 rejected — self-inconsistent; see <a href="#atlmil">detail</a>)</span></td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/atl-vs-mil-0022600243">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf">gamebook</a></td></tr><tr><td>2026-11-15</td><td>OKC @ SAC</td><td>0022600244</td><td class="num"><b>125–103</b></td><td class="num">32/30/32/31</td><td class="num">24/26/30/23</td><td><span class="tag t-ok">settled</span></td><td><a href="https://www.nba.com/game/okc-vs-sac-0022600244">game page</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf">gamebook</a></td></tr></table></div>
+<h2 id="atlmil">ATL @ MIL (0022600243) — resolution of the blocked row</h2>
+<div class="note ok">Settled 2026-11-16T19:20Z by this session. Three official reads agree on
+<b>ATL 113 – MIL 106</b> with MIL quarters 37/16/<b>27</b>/26 (sums to 106). The gamebook's
+SCORE BY PERIOD table prints MIL Q3=37 (sums 116 against its own printed FINAL 106) — rejected as
+self-inconsistent, preserved below. The AP recap on the official page corroborates 27:
+55-53 at the half, 87-80 after three quarters.</div>
+<div class="wrap"><table>
+<tr><th>Read</th><th>Value as printed</th><th>Source</th></tr><tr><td>game page LINESCORE</td><td>ATL 18/37/32/26=113; MIL 37/16/27/26=106</td><td><a href="https://www.nba.com/game/atl-vs-mil-0022600243">open</a></td></tr><tr><td>gamebook summary line</td><td>BUCKS 37 16 27 26 106</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf">open</a></td></tr><tr><td>gamebook team totals</td><td>ATL 113, MIL 106</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf">open</a></td></tr><tr><td>gamebook SCORE BY PERIOD (rejected cell)</td><td>MIL row prints 37/16/37/26 = 116 vs FINAL 106 (self-inconsistent)</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf">open</a></td></tr><tr><td>AP recap on official page</td><td>55-53 half; 87-80 after three; final 113-106</td><td><a href="https://www.nba.com/game/atl-vs-mil-0022600243">open</a></td></tr></table></div>
+<p class="small">Supersedes the blocked row in
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/results.json">data/rounds/2026-11-16/results.json</a>
+(round question Q09); both readings remain available in
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16-eve/results_2026-11-15.json">results_2026-11-15.json</a>.</p>
+</main>
+<footer>Session <b>arena/ef6e2e6c-nba3</b> · 2026-11-16 evening round · every value below is
+linked to an official NBA source; unverified values are blank and flagged, never inferred.</footer>
+</body></html>

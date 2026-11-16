@@ -1,0 +1,111 @@
+# Injury Report: 11/16/26 01:30 PM
+
+Source: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf
+Retrieved via the agent fetch tool, 2026-11-16 (chunk 0 of 2) — verbatim markdown rendering of the official PDF, copied cell for cell.
+
+## Injury Report: 11/16/26 01:30 PM
+
+| Game Date | Game Time | Matchup | Team | Player Name | Current Status | Reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Chicago Bulls | Awaka, Tobe | Out | Injury/Illness - Disc Irritation |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Chicago Bulls | Robinson, Orlando | Out | G League - On Assignment |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Chicago Bulls | Sellers, Jaylin | Out | G League - Two-Way |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Chicago Bulls | Smith, Jalen | Questionable | Injury/Illness - Left Finger Sprain |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Chicago Bulls | Wilson, Caleb | Out | Injury/Illness - Right Metacarpal Fracture |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Diop, Khalifa | Out | G League - On Assignment |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Merrill, Sam | Out | Injury/Illness - Right Elbow Injury Management |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Mobley, Evan | Out | Injury/Illness - Left Great Toe Sprain |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Tomlin, Nae'Qwan | Out | Injury/Illness - Low Back Stress Reaction |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Tyson, Jaylon | Doubtful | Injury/Illness - Right Ankle Injury Management |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Udeh, Jr., Ernest | Out | G League - Two-Way |
+| 11/16/2026 | 07:00 (ET) | CHI@CLE | Cleveland Cavaliers | Watson, Peyton | Questionable | Injury/Illness - Right Abdominal Soreness |
+| 11/16/2026 | 07:00 (ET) | MEM@WAS | Memphis Grizzlies | Edey, Zach | Questionable | Injury/Illness - Left Ankle Injury Management |
+| 11/16/2026 | 07:00 (ET) | MEM@WAS | Memphis Grizzlies | Jackson, GG | Out | Injury/Illness - Left 5th Metatarsal |
+
+---
+
+**Injury Report: 11/16/26 01:30 PM**
+
+|  |  | Fracture |  |  |
+| --- | --- | --- | --- | --- |
+|  |  | Jerome, Ty | Out | Injury/Illness - Right Hip Soreness |
+|  |  | Pippen Jr., Scotty | Out | Injury/Illness - Lumbar Disc Herniation |
+|  |  | Post, Quinten | Questionable | Injury/Illness - Concussion Protocol |
+|  |  | Saunders, Richie | Out | Injury/Illness - Right Knee Surgery |
+|  |  | Stewart, Isaiah | Out | Injury/Illness - Illness |
+|  | Washington Wizards | Beekman, Reece | Out | Injury/Illness - Right AC Joint Injury |
+|  | Washington Wizards | Champagne, Justin | Out | Injury/Illness - Right Foot Surgery |
+|  | Washington Wizards | Johnson, Tre | Questionable | Injury/Illness - Low Back Soreness |
+|  | Washington Wizards | Okpara, Felix | Questionable | G League - Two-Way |
+|  | Washington Wizards | Vukcevic, Tristan | Out | Injury/Illness - Left Hip Impingement |
+|  | Washington Wizards | Watkins, Jamir | Out | Injury/Illness - Left ACL Repair / Surgery |
+| ORL@BOS | Orlando Magic | Banchero, Paolo | Out | Injury/Illness - Right High Ankle Sprain |
+| ORL@BOS | Orlando Magic | Isaac, Jonathan | Out | Injury/Illness - Left Knee Injury Management |
+| ORL@BOS | Orlando Magic | Nelson, Izaiyah | Out | Injury/Illness - Left Ankle Injury Recovery |
+| ORL@BOS | Orlando Magic | Penda, Noah | Out | Injury/Illness - Right Partially Torn Hamstring |
+
+---
+
+**Injury Report: 11/16/26 01:30 PM**
+
+|  |  | Boston Celtics | Queta, Neemias | Questionable | Rest |
+| --- | --- | --- | --- | --- | --- |
+| 07:30 (ET) | HOU@MIA | Houston Rockets | Adams, Steven | Out | Injury/Illness - Left Lower Leg Injury Management |
+| 07:30 (ET) | HOU@MIA | Houston Rockets | Capela, Clint | Out | Injury/Illness - Right Ankle Sprain |
+| 07:30 (ET) | HOU@MIA | Houston Rockets | Copeland, Quadir | Out | G League - Two-Way |
+| 07:30 (ET) | HOU@MIA | Houston Rockets | Phillips, Julian | Out | G League - Two-Way |
+| 07:30 (ET) | HOU@MIA | Houston Rockets | Smart, Marcus | Out | League Suspension |
+| 07:30 (ET) | HOU@MIA | Houston Rockets | Thompson, Amen | Questionable | Injury/Illness - Left Knee Soreness |
+| 07:30 (ET) | HOU@MIA | Miami Heat | Goldin, Vladislav | Out | G League - Two-Way |
+| 07:30 (ET) | HOU@MIA | Miami Heat | Jovic, Nikola | Questionable | Injury/Illness - Illness |
+| 07:30 (ET) | HOU@MIA | Miami Heat | Larsson, Pelle | Doubtful | Injury/Illness - Illness |
+| 07:30 (ET) | HOU@MIA | Miami Heat | Thompson, Klay | Available | Injury/Illness - Left Ankle Sprain |
+| 07:30 (ET) | PHI@BKN | Philadelphia 76ers | Barlow, Dominick | Out | Injury/Illness - Low Back Stress Reaction |
+| 07:30 (ET) | PHI@BKN | Philadelphia 76ers | Bona, Adem | Out | Injury/Illness - Cervical Spine Sprain |
+| 07:30 (ET) | PHI@BKN | Philadelphia 76ers | Embiid, Joel | Questionable | Injury/Illness - Right Foot Plantar Fascia Injury Management |
+| 07:30 (ET) | PHI@BKN | Philadelphia 76ers | Hukporti, Ariel | Out | Injury/Illness - Right Achilles Tendon Rupture / Tear |
+| 07:30 (ET) | PHI@BKN | Philadelphia 76ers | James, LeBron | Out | Injury/Illness - Low Back/Sciatica Management |
+
+---
+
+**Injury Report: 11/16/26 01:30 PM**
+
+|  |  | Brooklyn Nets | Bilodeau, Tyler | Out | G League - Two-Way |
+| --- | --- | --- | --- | --- | --- |
+|  |  | Brooklyn Nets | Jefferson, Joshua | Out | G League - On Assignment |
+|  |  | Brooklyn Nets | Nelson, Grant | Out | G League - Two-Way |
+|  |  | Brooklyn Nets | Powell, Drake | Out | G League - On Assignment |
+|  |  | Brooklyn Nets | Saraf, Ben | Out | G League - On Assignment |
+|  | 08:00 (ET) | GSW@NOP | Golden State Warriors | Butler III, Jimmy | Injury/Illness - Right ACL Repair / Surgery |
+|  | 08:00 (ET) | GSW@NOP | Golden State Warriors | Curry, Stephen | Out |
+|  | 08:00 (ET) | GSW@NOP | Golden State Warriors | Moody, Moses | Out |
+|  | 08:00 (ET) | GSW@NOP | Golden State Warriors | Porzingis, Kristaps | Out |
+|  | 08:00 (ET) | GSW@NOP | Golden State Warriors | Santos, Gui | Questionable |
+|  | 08:00 (ET) | GSW@NOP | Golden State Warriors | Williams, Brandon | Out |
+|  | 08:00 (ET) | New Orleans Pelicans | Dia, Malik | Probable | G League - Two-Way |
+|  | 08:00 (ET) | New Orleans Pelicans | Mathurin, Benedict | Out | Injury/Illness - Left Plantar Fasciitis |
+|  | 08:00 (ET) | New Orleans Pelicans | McGowens, Bryce | Out | Injury/Illness - Left Elbow Infection |
+|  | 08:00 (ET) | New Orleans Pelicans | Murphy III, Trey | Out | Injury/Illness - Bilateral Patellar Tendinopathy |
+|  | 08:00 (ET) | New Orleans Pelicans | Murray, Dejounte | Out | Injury/Illness - Left Ankle Sprain |
+|  | 08:00 (ET) | New Orleans Pelicans | Pierre Jr., Jaron | Probable | G League - Two-Way |
+
+---
+
+**Injury Report: 11/16/26 01:30 PM**
+
+|  |  |  |  | Reese, Julian | Probable | G League - Two-Way |
+| --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  | Watford, Trendon | Out | Injury/Illness - Right Ankle Sprain |
+|  |  | POR@MIN | Portland Trail Blazers | Krejci, Vit | Out | Injury/Illness - Left Ankle Fracture |
+|  |  | POR@MIN | Portland Trail Blazers | Morant, Ja | Out | Injury/Illness - Left Hamstring Strain |
+|  |  | POR@MIN | Portland Trail Blazers | Sharpe, Shaedon | Out | Injury/Illness - Right Knee Surgery |
+|  |  | POR@MIN | Portland Trail Blazers | Youngblood, Chris | Out | Injury/Illness - Right Heel Contusion / Bone Bruise |
+|  |  | POR@MIN | Minnesota Timberwolves | Beringer, Joan | Available | Injury/Illness - Face Mask |
+|  |  | POR@MIN | Minnesota Timberwolves | Clark, Jaylen | Out | Injury/Illness - Right Hamstring Strain |
+|  |  | POR@MIN | Minnesota Timberwolves | DiVincenzo, Donte | Out | Injury/Illness - Right Achilles Tendon Repair / Surgery |
+|  |  | POR@MIN | Minnesota Timberwolves | Edwards, Anthony | Out | Injury/Illness - Right Knee Arthroscopy |
+| 09:00 (ET) | PHX@DEN | Phoenix Suns |  |  | NOT YET SUBMITTED |
+| 09:00 (ET) | PHX@DEN | Denver Nuggets | Holmes II, DaRon | Out | G League - On Assignment |
+| 09:00 (ET) | PHX@DEN | Denver Nuggets | Nembhard, Ryan | Out | G League - Two-Way |
+| 09:00 (ET) | PHX@DEN | Denver Nuggets | Strawther, Julian | Out | Injury/Illness - Left Knee Sprain |
+| 09:00 (ET) | PHX@DEN | Denver

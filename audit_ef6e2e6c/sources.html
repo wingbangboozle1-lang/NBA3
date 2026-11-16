@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources — NBA3 audit</title><style>
+:root { --ink:#16202c; --mut:#5b6b7c; --line:#dfe6ee; --bg:#f5f7fa; --card:#fff;
+        --ok:#137a3f; --warn:#a4560a; --bad:#b3261e; --accent:#1a5fb4; }
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+       color:var(--ink); background:var(--bg); }
+header { background:var(--card); border-bottom:1px solid var(--line); padding:14px 22px; }
+header a { color:var(--accent); text-decoration:none; margin-right:14px; font-weight:600; }
+header a:hover { text-decoration:underline; }
+main { max-width:1180px; margin:18px auto; padding:0 16px 48px; }
+h1 { font-size:24px; margin:10px 0 4px; } h2 { font-size:18px; margin:26px 0 8px; }
+.sub { color:var(--mut); margin-bottom:14px; }
+.cards { display:flex; flex-wrap:wrap; gap:12px; margin:14px 0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 16px; min-width:150px; }
+.card b { display:block; font-size:22px; } .card span { color:var(--mut); font-size:13px; }
+table { border-collapse:collapse; width:100%; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:13.5px; }
+th,td { border-bottom:1px solid var(--line); padding:7px 9px; text-align:left;
+        vertical-align:top; }
+th { background:#eef2f7; font-weight:600; position:sticky; top:0; }
+tr:last-child td { border-bottom:none; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+a { color:var(--accent); }
+.tag { display:inline-block; padding:1px 7px; border-radius:99px; font-size:12px; font-weight:600; }
+.t-out { background:#fdecea; color:var(--bad); } .t-doub { background:#fdecea; color:var(--bad); }
+.t-q { background:#fff4e0; color:var(--warn); } .t-pro { background:#e8f4ff; color:var(--accent); }
+.t-av { background:#e6f6ec; color:var(--ok); } .t-nus { background:#eceff3; color:var(--mut); }
+.t-ok { background:#e6f6ec; color:var(--ok); } .t-flag { background:#fff4e0; color:var(--warn); }
+.note { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--accent);
+        border-radius:8px; padding:10px 14px; margin:12px 0; font-size:14px; }
+.note.warn { border-left-color:var(--warn); } .note.ok { border-left-color:var(--ok); }
+.small { font-size:13px; color:var(--mut); }
+footer { color:var(--mut); font-size:13px; padding:18px 22px; border-top:1px solid var(--line);
+         background:var(--card); margin-top:30px; }
+.wrap { overflow-x:auto; }
+</style></head>
+<body><header><a href="../index.html">NBA3 home</a><a href="index.html">Overview</a> <a href="injuries.html">Injuries 01:30 PM</a> <a href="delta.html">Injury delta</a> <a href="slate.html">Slate 11/16-19</a> <a href="results.html">Results 11/15</a> <a href="flags.html">Flagged</a> <a href="sources.html" style="font-weight:700;text-decoration:underline">Sources</a></header>
+<main>
+<h1>Source register — 2026-11-16 evening round</h1>
+<p class="sub">Every official read behind the pages on this site, with its retrieval stamp.</p>
+<div class="wrap"><table>
+<tr><th>ID</th><th>Label</th><th>URL</th><th>Retrieved (UTC)</th></tr><tr><td>S-INDEX</td><td>Official NBA injury-report index</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">https://official.nba.com/nba-injury-report-2026-27-season/</a></td><td>2026-11-16T19:05Z</td></tr><tr><td>S-REP-0130</td><td>Injury report 11/16 01:30 PM ET (newest at read time)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf</a></td><td>2026-11-16T19:05Z</td></tr><tr><td>S-REP-0915</td><td>Injury report 11/16 09:15 AM ET (delta base, session 8f4fac33)</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf</a></td><td>2026-11-16T14:40Z</td></tr><tr><td>S-SLATE</td><td>Official schedule listing (game-page render, 11/16-11/20 window)</td><td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td><td>2026-11-16T19:10Z</td></tr><tr><td>S-ATLMIL-PAGE</td><td>ATL@MIL official game page (final + linescore + recap)</td><td><a href="https://www.nba.com/game/atl-vs-mil-0022600243">https://www.nba.com/game/atl-vs-mil-0022600243</a></td><td>2026-11-16T19:15Z</td></tr><tr><td>S-ATLMIL-BOOK</td><td>ATL@MIL official gamebook PDF</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a></td><td>2026-11-16T19:15Z</td></tr><tr><td>S-SCOREBOARD-1115</td><td>Official scoreboard 11/15</td><td><a href="https://www.nba.com/games?date=2026-11-15">https://www.nba.com/games?date=2026-11-15</a></td><td>2026-11-16T19:15Z</td></tr><tr><td>S-ROUND-RESULTS</td><td>Round 2026-11-16 results capture (session 8f4fac33)</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/results.json">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/results.json</a></td><td>2026-11-16T14:40Z</td></tr><tr><td>S-COMMITTED-SLATE</td><td>Committed verified slate 11/15-11/18 (34 games)</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_slate_1115_1118.json">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_slate_1115_1118.json</a></td><td>2026-11-16T19:25Z</td></tr></table></div>
+<p class="small">Raw transcripts: <code>data/rounds/2026-11-16-eve/raw/</code>
+(verbatim injury-report markdown + <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16-eve/raw/READS.md">READS.md</a>).</p>
+</main>
+<footer>Session <b>arena/ef6e2e6c-nba3</b> · 2026-11-16 evening round · every value below is
+linked to an official NBA source; unverified values are blank and flagged, never inferred.</footer>
+</body></html>

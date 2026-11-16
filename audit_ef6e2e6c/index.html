@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-11-16 evening refresh — NBA3 audit</title><style>
+:root { --ink:#16202c; --mut:#5b6b7c; --line:#dfe6ee; --bg:#f5f7fa; --card:#fff;
+        --ok:#137a3f; --warn:#a4560a; --bad:#b3261e; --accent:#1a5fb4; }
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+       color:var(--ink); background:var(--bg); }
+header { background:var(--card); border-bottom:1px solid var(--line); padding:14px 22px; }
+header a { color:var(--accent); text-decoration:none; margin-right:14px; font-weight:600; }
+header a:hover { text-decoration:underline; }
+main { max-width:1180px; margin:18px auto; padding:0 16px 48px; }
+h1 { font-size:24px; margin:10px 0 4px; } h2 { font-size:18px; margin:26px 0 8px; }
+.sub { color:var(--mut); margin-bottom:14px; }
+.cards { display:flex; flex-wrap:wrap; gap:12px; margin:14px 0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+        padding:12px 16px; min-width:150px; }
+.card b { display:block; font-size:22px; } .card span { color:var(--mut); font-size:13px; }
+table { border-collapse:collapse; width:100%; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:13.5px; }
+th,td { border-bottom:1px solid var(--line); padding:7px 9px; text-align:left;
+        vertical-align:top; }
+th { background:#eef2f7; font-weight:600; position:sticky; top:0; }
+tr:last-child td { border-bottom:none; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+a { color:var(--accent); }
+.tag { display:inline-block; padding:1px 7px; border-radius:99px; font-size:12px; font-weight:600; }
+.t-out { background:#fdecea; color:var(--bad); } .t-doub { background:#fdecea; color:var(--bad); }
+.t-q { background:#fff4e0; color:var(--warn); } .t-pro { background:#e8f4ff; color:var(--accent); }
+.t-av { background:#e6f6ec; color:var(--ok); } .t-nus { background:#eceff3; color:var(--mut); }
+.t-ok { background:#e6f6ec; color:var(--ok); } .t-flag { background:#fff4e0; color:var(--warn); }
+.note { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--accent);
+        border-radius:8px; padding:10px 14px; margin:12px 0; font-size:14px; }
+.note.warn { border-left-color:var(--warn); } .note.ok { border-left-color:var(--ok); }
+.small { font-size:13px; color:var(--mut); }
+footer { color:var(--mut); font-size:13px; padding:18px 22px; border-top:1px solid var(--line);
+         background:var(--card); margin-top:30px; }
+.wrap { overflow-x:auto; }
+</style></head>
+<body><header><a href="../index.html">NBA3 home</a><a href="index.html" style="font-weight:700;text-decoration:underline">Overview</a> <a href="injuries.html">Injuries 01:30 PM</a> <a href="delta.html">Injury delta</a> <a href="slate.html">Slate 11/16-19</a> <a href="results.html">Results 11/15</a> <a href="flags.html">Flagged</a> <a href="sources.html">Sources</a></header>
+<main>
+<h1>2026-11-16 evening refresh — session arena/ef6e2e6c-nba3</h1>
+<p class="sub">Official capture read 19:05–19:30 UTC · newest injury report 1:30 PM ET ·
+slate window 11/16→11/19 · 11/15 game day now settled 9/9.</p>
+<div class="cards">
+ <div class="card"><b>87</b><span>injury rows (01:30 PM)</span></div>
+ <div class="card"><b>76</b><span>player rows</span></div>
+ <div class="card"><b>6</b><span>status changes vs 09:15</span></div>
+ <div class="card"><b>29</b><span>slate games (4 days)</span></div>
+ <div class="card"><b>9/9</b><span>11/15 finals settled</span></div>
+ <div class="card"><b>9</b><span>flags raised</span></div>
+</div>
+<div class="note ok"><b>ATL@MIL settled.</b> The game day's last blocked game
+(0022600243) is now verified from three official reads — the game page linescore, the gamebook
+summary line and the gamebook team totals all give ATL 113 – MIL 106 with MIL quarters
+37/16/<b>27</b>/26. The gamebook's own SCORE BY PERIOD cell (Q3=37, which sums to 116 against its
+printed final of 106) is rejected as self-inconsistent and preserved as a flagged reading.
+See <a href="results.html">Results</a>.</div>
+<div class="note warn"><b>Scheduled refresh repair (E1).</b> Runs 43815576157 / 43864808752 failed
+at the commit step (already repaired by session c449d46a) and run 43925193575 failed at the unit-test
+step. The root cause was reproduced offline: tests coupled to the rolling
+<code>official_slate_current.json</code>. Three test files were decoupled; the full 181-test suite
+passes in a correct-order CI simulation. Live validation is the 23:15 UTC cron run after merge.
+See flag EVE-F04.</div>
+<h2>What this round captured</h2>
+<table><tr><th>Artefact</th><th>Contents</th></tr>
+<tr><td><a href="injuries.html">Injuries 01:30 PM</a></td>
+<td>87 rows transcribed cell-for-cell from the official PDF, parser validation PASS,
+every row linked to the report</td></tr>
+<tr><td><a href="delta.html">Injury delta</a></td>
+<td>09:15 AM → 01:30 PM: 6 status changes,
+1 reason change, 20 newly listed,
+1 delisted, 4 teams filed</td></tr>
+<tr><td><a href="slate.html">Slate 11/16–11/19</a></td>
+<td>29 games with official tips and records; 11/16–11/18 cross-checked
+game-by-game against the committed verified slate (0 mismatches)</td></tr>
+<tr><td><a href="results.html">Results 11/15</a></td>
+<td>9 rows, 9 settled, including the ATL@MIL resolution with all readings kept</td></tr>
+<tr><td><a href="flags.html">Flagged for review</a></td>
+<td>9 items with source links — none blocks the merge</td></tr>
+<tr><td><a href="sources.html">Sources</a></td>
+<td>9 official reads with retrieval stamps</td></tr></table>
+<h2>Scope boundaries</h2>
+<p class="small">No 11/16 finals exist at capture time (first tip 7:00 PM ET) — nothing about
+today's outcomes is published. No lines, picks, projections or performance claims are made here;
+this is capture + verification only. Repo-wide decision pages:
+<a href="../app/summary.html">executive summary</a> ·
+<a href="../app/questions.html">open questions</a> ·
+<a href="../app/suggestions.html">suggestions</a> ·
+<a href="../app/flagged.html">repo flagged register</a>.</p>
+</main>
+<footer>Session <b>arena/ef6e2e6c-nba3</b> · 2026-11-16 evening round · every value below is
+linked to an official NBA source; unverified values are blank and flagged, never inferred.</footer>
+</body></html>
