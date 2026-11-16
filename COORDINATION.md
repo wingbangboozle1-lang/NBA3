@@ -4804,6 +4804,13 @@ Official PDF re-reads also found a reversed spelling example in the archived `da
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| F12: Correct the injury-name diff direction and publish the independently re-read official-index staleness as an explicit review alert | in progress | `07f22dad` | `scripts/build_live_site.py`, `projection/injuries.html`, `projection/flagged.html`, `tests/test_injury_archive_order.py`, `COORDINATION.md` |
+| F12: Correct the injury-name diff direction and publish the independently re-read official-index staleness as an explicit review alert | needs review (published on projection Flagged page) | `07f22dad` | `scripts/build_live_site.py`, `projection/injuries.html`, `projection/flagged.html`, `tests/test_injury_archive_order.py`, `COORDINATION.md` |
 
 The official report index re-read on 2026-11-16 lists 11/16 reports through 09:30 AM ET, while the repository projection snapshot remains the 11/15 06:15 AM report. The live index/PDF source links are recorded below in the change. The PDF contents beyond the report-index listing are not being represented as transcribed or verified.
+
+### F12 verification and disposition
+
+- Directly fetched the official injury index on 2026-11-16: it lists 11/16 reports through 09:30 AM ET. Linked report listing: [official index](https://official.nba.com/nba-injury-report-2026-27-season/); newest listed document link: [11/16 09:30 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_30AM.pdf).
+- Updated `projection/injuries.html` generation with an explicit red stale-data warning. It says the report PDF is *not transcribed*, so it does not assert player statuses from it. Added the same freshness gap as a row on `projection/flagged.html`, linked to both official sources. Corrected the name-order warning: official PDFs read `Embiid` at 11/15 06:00 AM, `Embid` at 06:15 AM, and `Embiid` at 12:00 AM. The static captured spellings in the two provenance notes now match the official PDFs; no injury statuses or reasons were edited.
+- `python3 scripts/build_live_site.py --check` passed; `python3 -m unittest discover -s tests -q` → 121 passed; page-level regression confirms the staleness alert/source links and chronological spellings. Existing non-fatal ResourceWarnings remain in older tests.
+- F12 is `needs review` because the stale status is now published on the Flagged for Review page and requires the scheduled fetch/parser/commit path to ingest a newer report before the alert can be cleared.
