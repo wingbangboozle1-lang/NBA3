@@ -4646,3 +4646,38 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/10f37a08-nba3` — CLAIM: fail-closed scheduled refresh freshness/provenance gate
+
+**Session ID:** `10f37a08`. Arena-assigned branch: `arena/10f37a08-nba3`, based on `main` at
+`5fde67eef57178f4c69ad41d18adc15fc6fca1fc`. The workspace binds this session to that branch; no
+separate session or integration branch will be created.
+
+**Why this round exists.** The previous refresh repair records F-R6 as open: the official index can
+list a report newer than the model snapshot, while the scheduled workflow calls the legacy static
+`freshness_gates.py` without the just-written manifest. The newer round gate accepts any re-read
+index (`index_rechecked`) without proving that the indexed report matches the report consumed by the
+model. This leaves a path where a stale snapshot can pass and be rebuilt. This task closes that
+unsafe path; it does not claim to solve source parsing / promotion that is not implemented.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| R10-1 | Inspect refresh-to-build flow and add a gate against the newest official-index injury report and fresh-run provenance | in progress | `10f37a08` | `scripts/refresh_official.py`, new `scripts/refresh_provenance.py` |
+| R10-2 | Offline tests for newer/same/missing index reports, artifact hash/source/timestamp, and no-rebuild failure path | in progress | `10f37a08` | new `tests/test_refresh_provenance.py`, `tests/test_refresh_official.py` |
+| R10-3 | Wire refresh gate/tests into scheduled workflow; verify no rebuild occurs before all checks pass | in progress | `10f37a08` | `.github/workflows/refresh.yml` |
+| R10-4 | Record official sources, test/build outcomes, and unresolved data-ingestion blockers | pending | `10f37a08` | append-only `COORDINATION.md` |
+
+**Non-overlap.** The earlier `arena/81800928` repair is merged and its fetch/date-selection tests are
+retained. This claim reopens only the unresolved F-R6/F-R1 safety gap on top of `main`; it does not
+edit canonical data, generated app/site pages, shared navigation, or the root landing page. No current
+uncompleted claim on this board owns the listed files.
+
+**Sources to verify during work:** NBA official injury report index
+<https://official.nba.com/nba-injury-report-2026-27-season/>; NBA injury-report PDF CDN
+<https://ak-static.cms.nba.com/referee/injury/>; NBA official schedule
+<https://www.nba.com/games> and official team-stat pages
+<https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season>,
+<https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season>,
+<https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season>.
