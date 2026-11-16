@@ -5609,3 +5609,31 @@ Window is now **29 games across four days** (11/16–11/19), the extra day read 
 page by this session, with its four cards' records cross-checked against the standings capture (8/8
 agree, 0 mismatches) and the venue left blank because a scoreboard card does not print one. Tests:
 **65 OK**. Flags: **13** (5 high).
+
+**PR & merge record for `arena/d1b96315-nba3`, and one repo-wide breakage found on the way.**
+
+- **PR #122** — `d1b96315: 11/16 game-day roll` → merged **2026-11-16T19:13:49Z**, merge commit
+  `781da9447db2c8af601fbebc9ad16b0284736638`. PR run `43936857125` **success** (both new steps ran and
+  passed on the runner); main run `43937143534` **success** (build + deploy), so
+  `https://wingbangboozle1-lang.github.io/NBA3/d1b96315/pages/` is live.
+- **PR #127** — post-publish copy + count audit (the deployed pages, not the source, revealed four
+  hardcoded counts and several Python list literals in prose) → merged **19:18:36Z**, merge commit
+  `9e6edfe9d9d30489452b3d29d88acf3c20796396`, main run **success**, deployed.
+- Conflicts during the work: two, both `git pull`-style merges of main (27 commits, then 15 more).
+  `COORDINATION.md` conflicted twice and `.github/workflows/pages.yml` once — each resolved by keeping
+  **both** sides (the board is append-only, and the other sessions' steps — `arena/2ecbccfd`'s
+  `2026-11-17 round` step and its `cp -r round_2ecbccfd` copy line — are all still present and were
+  re-verified by parsing the merged YAML: 53 steps, my 2 steps + my copy line intact). Nothing from
+  another session was discarded. First `git push` of the roll surfaced a real bug in **my own** CI
+  block: an unquoted step name containing `: ` broke YAML parsing and the workflow died in 0 s with no
+  jobs; fixed in the next commit and re-verified with an actual parser, which is the lesson recorded
+  here.
+
+| id | severity | request | evidence |
+|---|---|---|---|
+| **CR-D1B-05** | **blocking for every session** | `audit_7f3b89af/build.py:536` runs `git show d320fea:data/app/canonical.json` and `audit_94e6d41b/analysis.py` references the same commit. **`d320fea` no longer exists in the repository** — it is unreachable from any ref, so the runner's `fetch-depth: 0` clone does not carry it and the command exits 128. Fix: read the comparison baseline from `HEAD`/the tree (or from a tag that will not be GC'd), and stop pinning a bare SHA from a deleted PR head. Not fixed here because both files are other sessions' scopes and no open PR touches `audit_7f3b89af/`. | main run `43938052014` (PR #129, `567e87f`) **failed at 19:19:00Z** on step "Independent audit tree (session 7f3b89af) — fresh captures, checks, analysis, pages"; reproduced independently at `origin/main` with none of this session's steps present, same traceback (`CalledProcessError: 'git show d320fea:data/app/canonical.json' returned non-zero exit status 128`); `git cat-file -t d320fea` → `fatal: Not a valid object name` in a full clone. The last green deploy before it was `9e6edfe` (this session's #127), so the breakage appeared between 19:18:36Z and 19:19:00Z — consistent with PR #98's head branch being deleted and the object being collected. |
+
+**Effect on this session's deliverable:** none of the published content changed — the site is live and
+complete as of `9e6edfe`; the Pages workflow is red for *subsequent* merges until CR-D1B-05 is fixed,
+which is why the record above is committed and pushed but the follow-up deploy of any later docs change
+cannot be claimed.
