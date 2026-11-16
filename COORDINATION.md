@@ -2052,8 +2052,7 @@ verdict is published on the site rather than buried.
 | CR-37 | `data/requirements.csv` was still publishing "lines: Not started" and "picks: blocked" after those outputs existed. Rewritten against the current build. |
 | CR-38 | Two superseded 2025-26 injury-index entries sit in the same source table as live sources. |
 | CR-39 | Workflow did not cover the canonical dataset. Steps added. |
-| CR-40 | **The base commit carried unresolved `<<<<<<< HEAD` conflict markers in `.github/workflows/pages.yml`** — invalid YAML, so every CI run on that commit would have failed at parse time. Resolved by rebasing onto main's fix and re-applying this session's steps. |
-| CR-41 | **My own capture script miscounted the non-filing teams**: `is_team_not_submitted` tested the Current Status column only, but the PDF prints NOT YET SUBMITTED in the Reason column. The page read "122 player rows, 0 not-submitted" instead of 117 and 5. Fixed. No spread or total moved, so this was a labelling defect, not a numeric one. |
+| CR-40 | **The base commit carried unresolved `| CR-41 | **My own capture script miscounted the non-filing teams**: `is_team_not_submitted` tested the Current Status column only, but the PDF prints NOT YET SUBMITTED in the Reason column. The page read "122 player rows, 0 not-submitted" instead of 117 and 5. Fixed. No spread or total moved, so this was a labelling defect, not a numeric one. |
 | CR-42 | Replacing the `app/` engine invalidated the hard-coded expectation in `audit36/check.py`. Flagged; change request CR-8D-04 logged; their file not edited. |
 
 ### Integration: conflicts resolved, nothing discarded
@@ -5277,3 +5276,31 @@ wrong, each now fixed and pinned by its own test:
 
 Final state on `main`: **227 tests OK**, **18/18 gates**, site builds at 13 pages / 596 links /
 353 sourced rows / 0 problems, artefacts byte-reproducible.
+
+---
+
+## Session `arena/4a59430d-nba3` (current) — CLAIM: repair the scheduled refresh's failing test step, add standings refresh, roll the results feed + settlement into the job, site integration
+
+**Session ID:** `arena/4a59430d-nba3`. Workspace branch `arena/4a59430d-nba3`, branched from `main` @ `907771bcae5e822e2eada0a801ffec4a6336ccc9` (PR #109 merge, the current head). Claim committed and pushed before any other edit (2026-11-16 ~18:35 UTC).
+
+**Evidence read at claim time (no inference):**
+- Scheduled run `43925193575` (2026-11-16T18:05:41Z, head `907771b`) failed at step **"Unit tests (capture, feed, ledger, estimators, gates)"** (job API `133502664578`: step 3 Fetch SUCCESS, step 4 unit tests FAILURE, step 5 Commit SKIPPED). The c449d46a commit-step repair (PR #107) stands; this is a different failure, downstream.
+- Root cause identified in-repo: `tests/test_refresh_official.py::CommittedCaptureSlateTests::test_published_slate_matches_the_promotion` asserts the *mutable* published file `data/app/official_slate_current.json` equals a re-promotion of the *fixed* committed capture `data/app/refresh/2026-11-16T00-57Z`. The refresh legitimately rewrites the published file every run (window rolls to today..today+3), so the assertion must fail on the runner from the first run after the 00:57Z promotion. Verified: the test passes on the committed tree and cannot pass after any live refresh. This, not the data, is the defect.
+- Job logs remain unretrievable via the API (EOF) — same platform issue recorded by sessions c449d46a and 00b0c780; the conclusion above is from the job-steps API plus local reproduction, and the local tree was verified green (`tests/test_refresh_official.py` OK on the committed state).
+- Sandbox egress to nba.com hosts is blocked (`curl` exit 000 to ak-static/official/cdn/statsdmz/www), while `https://www.nba.com/standings` fetched server-side renders the full standings table (fetched 2026-11-16 ~18:30 UTC) — the standings page is SSR and parseable by the runner like the games pages.
+- `cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json` still returns HTTP 500 (fetched again this session; matches session 7c532e8c's record) — no live JSON feed is available; nothing is sourced from it.
+- Gap against the brief, verified in code: (a) the refresh chain runs `results_feed.py verify` but never `settle`, and never touches standings at all; (b) `pick_ledger.py settle` would re-append duplicate SETTLED entries on a second run (no already-settled guard) — it is safe to call only once per pick today; (c) the canonical `data/app/results_feed.json` has no 2026-11-15 rows (14 rows: 11/13, 11/14) although the 11/15 finals with quarter scores are captured verbatim in `data/rounds/2026-11-16/raw/official_gamebooks_2026-11-15.md` — `capture_round_79341829.py` ingests only `data/app/gamebooks/*.md`.
+
+**Open PRs #94, #95, #96, #98** — re-checked at claim: still open, `mergeable: UNKNOWN` (dirty), no commits since 2026-11-16 ~00:00–02:28Z, and they touch the same files this session claims (`.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `tests/`). Same decision as sessions c449d46a and 8f4fac33: **not merged, not closed, not edited** — their refresh edits are superseded by this repair; content unique to them (settle/flag batches) is re-derived from the official sources here, not copied blind. Logged for their owners.
+
+| Task | Status | Owner | Files in scope |
+|---|---|---|---|
+| W1 Unbreak the scheduled run: make `test_published_slate_matches_the_promotion` assert refresh-stable invariants (internal consistency, window ordering, phantom-rule) instead of equality with one fixed capture; keep the pinned offline capture-comparison test | in progress | 4a59430d | `tests/test_refresh_official.py` |
+| W2 Standings into the scheduled job: fetch `https://www.nba.com/standings` + server-rendered table parse → `data/app/standings_current.json` (URL + retrieval stamp + sha256 in the manifest; rows only from the captured HTML; parser fails soft, blanks stay blank); offline re-promotion flag for CI replay | in progress | 4a59430d | `scripts/refresh_official.py`, `tests/test_refresh_official.py` (added cases) |
+| W3 Roll the results feed + settlement into the job: split the committed 11/15 verbatim game-book transcription into `data/app/gamebooks/` per-game files (deterministic extraction from the committed raw, provenance headers carried); add `results_feed settle` for the fetched previous game days + `pick_ledger settle` to the rebuild chain; guard `pick_ledger settle` against double-settling the same pick | in progress | 4a59430d | `scripts/refresh_official.py`, `scripts/results_feed.py` (settle-previous subcommand only), `scripts/pick_ledger.py`, `tests/test_pick_ledger.py`, `data/app/gamebooks/*.md` (new files), regenerated `data/app/{results_feed,player_game_logs,minutes_shares}.json`, `data/app/ledger/ledger.jsonl` (append-only) |
+| W4 Site integration: standings page + root navigation (tile for `app/standings.html`, tile for `/audit_00b0c780/pages/` per CR-00b0c780-05, which has no owner); regenerate canonical pages | in progress | 4a59430d | `scripts/build_app.py`, `scripts/assemble_canonical.py` (standings pass-through only), `app/`, `index.html` (generated) |
+| W5 Full offline replay of every CI step, PR → merge → Pages deploy, then dispatch `official data refresh` once to confirm the scheduled path goes green on the runner | pending | 4a59430d | `COORDINATION.md`, PR |
+
+**Standing rules honoured:** ledger and `prereg/` append-only (settle appends, nothing rewritten); every published row carries an official https source or is blank + flagged; no predecessor audit trees touched; no manual input from the owner; nothing inferred (no tip times, no scores, no standings rows that are not in the captured HTML).
+
+**Not claimed here (left as-is, with the reasons on the site):** ATL@MIL `0022600243` stays unsettled (quarter arithmetic conflict, Q09); no market anchor (no licensed closing-line feed; `closing_lines.json` stays `not connected`); no funded strategy (the ≥4-games-per-team validation gate has not yet been met on the app feed — adding 11/15 moves it to 4 captured games for the ten 11/15 teams, the gate re-evaluates on the data, no threshold is softened); runner-side PDF→text auto-transcription (needs its own parser and verification; proposed on the suggestions queue).
