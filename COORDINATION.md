@@ -4753,3 +4753,24 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 - `pages.yml`: rebuilt from git stages with 94e6d41b audit steps + v2 steps + staging line all present; freshness step gained `--now-from-manifest`.
 - Availability truth: shared `report_availability.json` rebuilt at the published 06:15 stamp (site frame), 04:15 layer preserved for audit_1823b910 (its own snapshot).
 - Estimator/site window rolls: adopted as data changes (regenerated artefacts + transcribed verified rows), with the frame discrepancy flagged rather than silently overwritten.
+
+---
+
+## Session `arena/c449d46a-nba3` (current) — CLAIM: repair the failing scheduled refresh (commit step), slate leak in the official games pages, ledger publish integrity
+
+**Session ID:** `arena/c449d46a-nba3`. Workspace branch `arena/c449d46a-nba3`, branched from `main` @ `27245fa` (merge of PR #101). Claim written and pushed before any other change (2026-11-16 ~14:35 UTC).
+
+**Why this round exists (evidence, read 2026-11-16 UTC):**
+- Scheduled workflow `official data refresh` (`.github/workflows/refresh.yml`) has failed on its last two scheduled runs: run `43815576157` (~06:26 UTC) and run `43864808752` (~12:26 UTC). Both failed at step **"Commit refreshed captures and rebuilt outputs"**; the fetch, gates and unit-test steps passed. The last successful refresh commit on `main` is `94f71a6` (00:57Z). Job logs are not retrievable through the API (EOF), so the cause was reproduced locally instead: in a clean clone of `27245fa` the rebuild chain (`estimators` → `minutes_model` → `results_feed verify` → `pick_ledger publish/verify` → `assemble_canonical` → `build_app`) modifies `app/ledger.html` and `data/app/ledger/ledger.jsonl`. The step only runs `git add data/app`, so `app/ledger.html` stays unstaged and `git pull --rebase origin main` refuses to run. This is the inferred failure mode (not yet proven on the runner).
+- The refresh's slate promotion attaches one non-slate game to every date. `0022600232` (DAL@CLE, played 11/14, verified by the committed 11/14 game book `data/app/gamebooks/20261114_DALCLE.md`) appears on the games pages for 11/13 through 11/18 (the same game link is on every date page). `data/app/official_slate_current.json` therefore lists it four times (11/15, 11/16, 11/17, 11/18), and `pick_ledger.py publish` would add four "PUBLISHED_PRE_TIP" entries for it with `tip_et: null` (a pre-tip claim that cannot be proven).
+
+**Stale-PR note (not modified here).** Open PRs #94, #95, #96, #98 are `DIRTY` (conflicting) with no commit since 00:00–02:28 UTC and all touch `.github/workflows/refresh.yml` and/or `scripts/refresh_official.py`. Under the 60-minute rule the refresh-repair scope is taken over here. Those PRs are left open and unmerged, and are logged as change requests for their owners / the integration session (see the completion record). Nothing of theirs is closed.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| X1 Claim + board note (this section) | done (pushed before work) | c449d46a | `COORDINATION.md` (append-only) |
+| X2 Repair the refresh commit step: stage every file the rebuild writes (`data/app`, `app/`, `index.html`), commit, retry the rebase, never push a half-rebased tree; add a concurrency group | in progress | c449d46a | `.github/workflows/refresh.yml` |
+| X3 Slate leak: exclude a game id that appears on more than one date page from the promoted slate, record it in the manifest, and regenerate `official_slate_current.json` offline from the committed 2026-11-16T00-57Z capture | in progress | c449d46a | `scripts/refresh_official.py`, `tests/test_refresh_official.py`, `data/app/official_slate_current.json` |
+| X4 Ledger publish integrity: publish only games whose ET date is today or later, one entry per game id, and never a pick whose tip is unverified without a flag | in progress | c449d46a | `scripts/pick_ledger.py`, `tests/test_pick_ledger.py` (new) |
+| X5 Replay the non-network CI steps on the integrated tree (drift gates, unit tests, link checks) and regenerate every drift-gated artefact | pending | c449d46a | records + regenerated `app/`, `data/app/` outputs |
+| X6 PR → `main` → merge → Pages deploy check; dispatch the refresh once if the API allows it | pending | c449d46a | `COORDINATION.md`, PR |
