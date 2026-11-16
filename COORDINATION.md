@@ -4489,3 +4489,30 @@ logged as RF-1 for the owner.
 **PR #95 opened** from this branch with the full summary, sources and flags; CI runs on the PR.
 Merge policy per the brief: merge without waiting for approval once the build is green; the
 Pages deploy is then confirmed before recording the result here.
+
+### Session `arena/43d54bfe-nba3` — progress record 3 (2026-11-16 ~01:30 UTC): first successful scheduled refresh on `main`
+
+Main commit `94f71a6` ("scheduled official refresh 2026-11-16T00-57Z") is the pipeline's first
+completed runner round: 11 artifacts, **0 errors**, injury index 46 KB, newest official report
+**Injury-Report_2026-11-15_07_45PM.pdf (108,938 bytes, archived verbatim — supersedes the 06:15
+AM capture and resolves flag F-R6 by pipeline action)**, six games pages (370–572 KB), the
+three team-stat pages, and a promoted `official_slate_current.json` with **37 games across
+11/15..11/18** (real official game ids + per-game source URLs; tip times blank where the page
+does not carry them, per the never-infer rule). `gamebooks: 0` is correct for that run: the ET
+date was still 11/15, so only 11/13–11/14 books were in scope and those were already stored.
+
+Nuance recorded for accuracy: the runner diagnostics' 403 was for a `python-urllib/…` UA;
+the refresh's Mozilla-style UA evidently passes official.nba.com's checks, which is why this
+round succeeded. The browser-UA change in `refresh_official.py` stays (it is the most
+browser-like and matched every diagnostic pass).
+
+New constraint discovered by inspecting this round's artifacts: **the nba.com stats pages are
+client-rendered** — the fetched team HTML (322 KB each) contains the page shell and nav, but no
+GP/W% table rows; the table loads from the stats API that runners cannot reach (RF-2). The
+refresh therefore stores the pages as provenance but cannot re-cut team-stat rows from them on
+the runner. Model inputs keep the last verbatim capture until a parseable official source is
+reachable; flag added to `rolling/flagged.html`.
+
+Also on `main`: the round-gate F2 time-bomb (stored 11/15..11/18 window vs the 11/16 wall
+clock) is unfixed on main and will fail every CI evaluation from 2026-11-16 00:00 UTC onward.
+PR #95 carries the `--as-of` fix; merging it restores CI.

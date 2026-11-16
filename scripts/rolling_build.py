@@ -99,6 +99,13 @@ FLAGS = [
      "NOT COMPUTABLE with weight left blank, per the never-infer rule (Q1 on the Questions "
      "page remains the blocking decision).",
      "https://www.nba.com/games"),
+    ("RF-7", "nba.com team-stat tables are client-rendered; the runner cannot parse rows",
+     "The first successful scheduled round (main 94f71a6) stored the three team-stat pages "
+     "(~322 KB each) but they contain the page shell only — the GP/W% tables load from the "
+     "stats API that runners cannot reach (RF-2). The refresh keeps the pages as provenance "
+     "and the model keeps the last verbatim capture; re-cutting team stats on the runner "
+     "needs a reachable machine-readable official source (owner decision).",
+     "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season"),
     ("RF-6", "Travel distance source is a general-reference (Wikipedia) capture",
      "data/app/arena_coordinates.json carries Wikipedia article coordinates cross-checked "
      "against official game-book venues; the NBA does not publish arena coordinates. The "
