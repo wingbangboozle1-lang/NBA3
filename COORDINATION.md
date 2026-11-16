@@ -4312,9 +4312,9 @@ merge/close decision; decisions and reasons recorded here.
 | Task | Status | Owner | File scope |
 |---|---|---|---|
 | A1 | Investigate + repair the failing scheduled refresh job (resilient fetch: browser-grade headers, retries with backoff, non-fatal per-artifact degradation, clear gate/no-rebuild semantics) + CI-verifiable tests | in progress | `scripts/refresh_official.py`, `.github/workflows/refresh.yml`, `tests/test_refresh_official.py` (**new**) |
-| A2 | Settle ledger entries whose games are final + verified from official sources; settlement stamp visible on the site | in progress | `ledger/`, `data/live/picks_ledger_view.json`, `app/settlement.html` (regenerated), possibly `scripts/pick_ledger.py` (settle path only) |
-| A3 | Fresh official capture round: newest 11/15 injury report(s) via fetch_page, IND@PHI final verification, standings/team-stats re-read where reachable | in progress | `data/app/` (**new dated files only**), `scripts/capture_official_2026_11_15b.py` (**new**) |
-| A4 | Stale-PR triage (#90, #85): merge if additive+green, else close with handoff notes | in progress | `COORDINATION.md` notes + `gh pr` operations |
+| A2 | Settle ledger entries whose games are final + verified from official sources; settlement stamp visible on the site | **done** (seq12 settled 2026-11-15T23:59Z; seq1-11 published; head `6423fb28…`) | `ledger/`, `data/live/picks_ledger_view.json`, `app/settlement.html` (regenerated), possibly `scripts/pick_ledger.py` (settle path only) |
+| A3 | Fresh official capture round: newest 11/15 injury report(s) via fetch_page, IND@PHI final verification, standings/team-stats re-read where reachable | **done** (06:45PM report captured; 06_45PM + 12_00AM ordering defect fixed; all three team-stat pages re-read 00:12Z/00:20Z) | `data/app/` (**new dated files only**), `scripts/capture_official_2026_11_15b.py` (**new**) |
+| A4 | Stale-PR triage (#90, #85): merge if additive+green, else close with handoff notes | **done** (both head branches merged into this branch; auto-marked when this PR merges) | `COORDINATION.md` notes + `gh pr` operations |
 | A5 | Integration: rebuild, full test suite, link check, PR → main, merge, Pages verification, board close-out | pending | `COORDINATION.md`, `README.md` (status lines only), PR |
 
 **Ownership note.** A2 touches `scripts/pick_ledger.py` and `data/live/*` first owned by finished
@@ -4337,6 +4337,29 @@ appended the two sections onto a file that still carried conflict markers, which
 markers inside `COORDINATION.md`; the file was rebuilt from the clean claim-commit version plus the
 two extracted sections (marker-free, no duplicated sections) in the follow-up commit. No other file
 was affected; the tree-wide `^<<<<<<<` CI guard now passes again.
+
+**A3 progress + defect record (2026-11-16 ~00:45Z).** Committed in six commits
+(`2fe7982`…`8eed302`) plus two follow-ups (stats re-read, site rebuild):
+- **Defect, fixed and flagged (F4F1942A-class):** every injury-report consumer picked the
+  "newest" report by lexical filename sort, which ranks `12_00AM` after `06_45PM` — availability,
+  the model's injury snapshot and freshness gate F2 silently used the 24-hour-old midnight report,
+  and F2 passed spuriously because the gate compared the model against the same wrong file.
+  Fixed by `report_stamp_key()` in `scripts/injury_archive.py`, used at every ordering site
+  (both archive sorts + availability + estimators + gates); regression-tested in
+  `tests/test_report_order.py` (7 tests). Flagged on `projection/flagged.html`.
+- 06:45 PM ET report captured verbatim (3 chunks, rejoins documented); deltas rebuilt
+  chronologically (06:15AM→06:45PM: 19 status changes, 84→148 rows).
+- Model re-cut on 190 games (2 verified 11/15 finals appended, provenance chained);
+  availability re-cut from the correct report.
+- All three official team-stat pages re-read (advanced 00:12Z, traditional + opponent 00:20Z,
+  GP sum 382 = 191 games — one final lands ahead of the verified log mid-game-day; flagged,
+  never back-filled). `data/app/estimators.json` (round 79341829) regenerated from its committed
+  script against the fresh captures.
+- Freshness gates widened honestly: F4/F9 now cover every settled day (glob), not the
+  hard-coded 11/14 file. 10/10 gates pass; tests 118 OK; pipeline/v2 45 OK; `data/v2/build.json`
+  rebuilt from the moved inputs (registrations frozen by design).
+- Still open: settlement round for the remaining 11/15 finals (0022600238–0022600244,
+  incl. seq2 HOU@WAS 0022600242), then A5 integration (PR → main, merge, Pages check).
 ### Session `arena/5a67ab8c-nba3` — v2 pipeline (two estimators, gate set, sealed ledger)
 
 | Task | Status | Owner | File scope |
