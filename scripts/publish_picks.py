@@ -28,12 +28,17 @@ import rest_travel                                              # noqa: E402
 
 MODEL = ROOT / "data" / "live" / "model.json"
 SLATE = ROOT / "data" / "live" / "slate_2026-11-15.json"
-SETTLED = ROOT / "data" / "live" / "results" / "settled_2026-11-14.json"
+# Every settled game day, oldest first. Settlement is additive: a new day is a new file.
+SETTLED_DAYS = sorted((ROOT / "data" / "live" / "results").glob("settled_*.json"))
 OUT_PICKS = ROOT / "data" / "live" / "picks_ledger_view.json"
 OUT_GATES = ROOT / "data" / "live" / "gates.json"
 
 # An explicitly declared "now" so the build is reproducible. CI passes the real clock.
 NOW = "2026-11-15T12:10Z"
+# The settlement stamp is the moment the official finals were last re-read and verified
+# (2026-11-15 session 4f194ba2: scoreboard + game summary pages + gamebook PDFs), not the
+# publish clock. Declared, like NOW, so the artefact reproduces byte for byte.
+SETTLE_NOW = "2026-11-15T23:59Z"
 
 
 def tip_iso(date: str, tip_et: str) -> str:
@@ -147,8 +152,13 @@ def main() -> None:
              "the validation gate yet, so no totals pick is sealed")
 
     # ---- settlement: only VERIFIED official finals
-    settled = json.loads(SETTLED.read_text())
-    finals = {g["game_id"]: g for g in settled["games"]}
+    finals = {}
+    for path in SETTLED_DAYS:
+        day = json.loads(path.read_text())
+        for g in day["games"]:
+            if g["game_id"] in finals:
+                raise ValueError(f"game {g['game_id']} settled in two feeds")
+            finals[g["game_id"]] = g
     already_settled = {e["game_id"] for e in ledger.read_ledger() if e["kind"] == "SETTLE"}
     for gid, f in finals.items():
         if not f["verified"]:
@@ -162,7 +172,7 @@ def main() -> None:
                               "detail": "already settled; append-only ledger is not rewritten"})
             continue
         try:
-            ledger.settle(gid, final=f, now=NOW, source_url=f["source_url"])
+            ledger.settle(gid, final=f, now=SETTLE_NOW, source_url=f["source_url"])
             gate_rows.append({"strategy": "ALL", "game_id": gid, "game": f"{f['away']} @ {f['home']}",
                               "gate": "G5_settlement_final_verified", "passed": True,
                               "detail": f"settled from {f['source_url']} ({f['gamebook_url']})"})
@@ -177,7 +187,7 @@ def main() -> None:
     entries = ledger.read_ledger()
     OUT_PICKS.write_text(json.dumps({
         "schema": "nba3.live.ledger_view/v1",
-        "generated_utc": NOW,
+        "generated_utc": max(NOW, SETTLE_NOW),
         "integrity": v,
         "entries": entries,
         "note": ("Entries are append-only. Every pick carries the sha256 published before tip; every "
@@ -185,7 +195,7 @@ def main() -> None:
     }, indent=1) + "\n")
     OUT_GATES.write_text(json.dumps({
         "schema": "nba3.live.gates/v1",
-        "generated_utc": NOW,
+        "generated_utc": max(NOW, SETTLE_NOW),
         "gate_order": ["G1_preregistered", "G2_before_tip", "G3_signal_present",
                        "G4_validated", "G5_settlement_final_verified"],
         "counts": {"rows": len(gate_rows),

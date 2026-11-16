@@ -10,9 +10,12 @@ Any row that fails is written with verified=false and the reason, never correcte
 Player logs come from the same gamebooks. scripts/parse_gamebook.py accepts a player row only if
 it reconciles arithmetically; rejected rows are published as rejected, with the raw line.
 
-Outputs:
-  data/live/results/settled_2026-11-14.json    one row per settled game, with the stamp
-  data/live/player_game_logs.json              per-player logs (minutes, pts, reb, ast, opponent)
+Outputs (per --day, default 2026-11-14 — the default run stays byte-identical):
+  data/live/results/settled_<day>.json         one row per settled game, with the stamp
+  data/live/player_game_logs[[_<day>]].json    per-player logs (minutes, pts, reb, ast, opponent)
+
+Days are added by capture (a raw gamebook transcription in data/live/raw/ plus a feed row in
+data/live/results/games_<day>.json) and registered in DAYS below — never by editing values.
 """
 
 from __future__ import annotations
@@ -39,9 +42,33 @@ BOOKS = {
     "0022600235": ("20261114_CHIMIN", "CHI", "MIN", "Chicago Bulls", "Minnesota Timberwolves"),
 }
 
+BOOKS_20261115 = {
+    "0022600236": ("20261115_INDPHI", "IND", "PHI", "Indiana Pacers", "Philadelphia 76ers"),
+    "0022600237": ("20261115_LALPHX", "LAL", "PHX", "Los Angeles Lakers", "Phoenix Suns"),
+}
 
-def settle(feed_game: dict) -> dict:
-    name = BOOKS[feed_game["game_id"]][0]
+# Per-day wiring. settled_utc is the stamp of the build that last confirmed the finals against
+# the official pages; it moves only when official values are re-read (never the wall clock).
+DAYS = {
+    "2026-11-14": {
+        "books": BOOKS,
+        "feed": FEED,
+        "settled": OUT_SETTLED,
+        "logs": OUT_LOGS,
+        "settled_utc": "2026-11-15T11:52Z",
+    },
+    "2026-11-15": {
+        "books": BOOKS_20261115,
+        "feed": ROOT / "data" / "live" / "results" / "games_2026-11-15.json",
+        "settled": ROOT / "data" / "live" / "results" / "settled_2026-11-15.json",
+        "logs": ROOT / "data" / "live" / "player_game_logs_2026-11-15.json",
+        "settled_utc": "2026-11-15T23:59Z",
+    },
+}
+
+
+def settle(feed_game: dict, books: dict | None = None) -> dict:
+    name = (books or BOOKS)[feed_game["game_id"]][0]
     path = RAW / f"gamebook_{name}.md"
     text = path.read_text(encoding="utf-8")
     away, home = feed_game["away"], feed_game["home"]
@@ -116,18 +143,20 @@ def settle(feed_game: dict) -> dict:
     }
 
 
-def main() -> None:
-    feed = json.loads(FEED.read_text())
-    settled = [settle(g) for g in feed["games"]]
+def main(day: str = "2026-11-14") -> None:
+    cfg = DAYS[day]
+    feed = json.loads(cfg["feed"].read_text())
+    settled = [settle(g, cfg["books"]) for g in feed["games"]]
     settled.sort(key=lambda g: g["game_id"])
 
     all_rows, per_book = [], {}
-    for gid, (name, away, home, away_name, home_name) in BOOKS.items():
+    d8 = day.replace("-", "")
+    for gid, (name, away, home, away_name, home_name) in cfg["books"].items():
         path = RAW / f"gamebook_{name}.md"
         parsed = parse_gamebook(path.read_text(encoding="utf-8"),
-                                game_id=gid, date="2026-11-14", away=away, home=home,
+                                game_id=gid, date=day, away=away, home=home,
                                 away_team=away_name, home_team=home_name,
-                                source_url=f"https://statsdmz.nba.com/pdfs/20261114/{name}.pdf")
+                                source_url=f"https://statsdmz.nba.com/pdfs/{d8}/{name}.pdf")
         s = summarise(parsed)
         per_book[gid] = s
         all_rows.extend(r.as_row() for r in parsed.accepted)
@@ -135,8 +164,8 @@ def main() -> None:
     payload_settled = {
         "schema": "nba3.live.settled_feed/v1",
         "session": "arena/2ebb1e75-nba3",
-        "game_date": "2026-11-14",
-        "settled_utc": "2026-11-15T11:52Z",
+        "game_date": day,
+        "settled_utc": cfg["settled_utc"],
         "settlement_stamp_note": ("The stamp is the time this build last confirmed the finals "
                                   "against the official pages. It moves only when the official "
                                   "values are re-read."),
@@ -146,12 +175,12 @@ def main() -> None:
                    "unverified": sum(1 for g in settled if not g["verified"])},
         "games": settled,
     }
-    OUT_SETTLED.write_text(json.dumps(payload_settled, indent=1) + "\n")
+    cfg["settled"].write_text(json.dumps(payload_settled, indent=1) + "\n")
 
     payload_logs = {
         "schema": "nba3.live.player_logs/v1",
         "session": "arena/2ebb1e75-nba3",
-        "game_date": "2026-11-14",
+        "game_date": day,
         "what": ("Per-player game logs (minutes, points, rebounds, assists, steals, blocks, "
                  "turnovers, shooting, and the opponent) for every player whose row reconciled "
                  "arithmetically in the official gamebook."),
@@ -170,7 +199,7 @@ def main() -> None:
                             if s["rejected_detail"]},
         "rows": sorted(all_rows, key=lambda r: (r["game_id"], r["team"], -r["min"])),
     }
-    OUT_LOGS.write_text(json.dumps(payload_logs, indent=1) + "\n")
+    cfg["logs"].write_text(json.dumps(payload_logs, indent=1) + "\n")
 
     print(f"settled {payload_settled['counts']['games']} games "
           f"({payload_settled['counts']['verified']} verified)")
@@ -183,4 +212,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--day", default="2026-11-14", choices=sorted(DAYS))
+    main(ap.parse_args().day)

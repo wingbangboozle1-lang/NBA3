@@ -1,11 +1,11 @@
 {
  "schema": "nba3.live.ledger_view/v1",
- "generated_utc": "2026-11-15T12:10Z",
+ "generated_utc": "2026-11-15T23:59Z",
  "integrity": {
-  "entries": 11,
+  "entries": 12,
   "published": 11,
-  "settled": 0,
-  "head_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+  "settled": 1,
+  "head_hash": "6423fb289f7ffbd2fd8808d534d985b62f859190db69fe69909ae1d5bc75e312",
   "verified": true,
   "problems": []
  },
@@ -249,6 +249,76 @@
    "prev_hash": "ac622348f6e9eabe5dc497be2a369af79ffb8fc8b7062274b45f2783f44e1807",
    "published_utc": "2026-11-15T12:10Z",
    "seq": 11
+  },
+  {
+   "entry_hash": "6423fb289f7ffbd2fd8808d534d985b62f859190db69fe69909ae1d5bc75e312",
+   "final": {
+    "attendance": 21024,
+    "away": "IND",
+    "away_final": 124,
+    "away_margin": -7,
+    "away_name": "Indiana Pacers",
+    "away_q": [
+     35,
+     22,
+     30,
+     37
+    ],
+    "city": "Philadelphia, PA",
+    "date": "2026-11-15",
+    "game_id": "0022600236",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "home": "PHI",
+    "home_final": 131,
+    "home_name": "Philadelphia 76ers",
+    "home_q": [
+     29,
+     29,
+     39,
+     34
+    ],
+    "ot": false,
+    "retrieved_utc": "2026-11-15T23:49Z",
+    "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+    "status": "Final",
+    "tip_et": "1:00 PM",
+    "total_points": 255,
+    "venue": "Xfinity Mobile Arena",
+    "verification": {
+     "failures": [],
+     "game_page": "https://www.nba.com/game/ind-vs-phi-0022600236",
+     "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+     "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page"
+    },
+    "verified": true,
+    "winner": "PHI"
+   },
+   "game_id": "0022600236",
+   "kind": "SETTLE",
+   "pick": {
+    "date": "2026-11-15",
+    "game_id": "0022600236",
+    "headline_signal": "disagreement 12.896 pp",
+    "line": null,
+    "matchup": "IND @ PHI",
+    "origin": "originated fair price from the two estimators",
+    "pick": "PHI moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": true,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "1:00 PM",
+    "tip_et_iso": "2026-11-15T18:00Z"
+   },
+   "pick_sha256": "14ab330115b411b214385686644bf0e755e23693237441fa778f20fd0fe9918b",
+   "pick_sha256_at_publish": "14ab330115b411b214385686644bf0e755e23693237441fa778f20fd0fe9918b",
+   "prev_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+   "result": {
+    "margin": 7,
+    "outcome": "WIN"
+   },
+   "seq": 12,
+   "settled_utc": "2026-11-15T23:59Z",
+   "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236"
   }
  ],
  "note": "Entries are append-only. Every pick carries the sha256 published before tip; every settlement repeats that hash and the official final it was graded against."

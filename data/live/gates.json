@@ -1,6 +1,6 @@
 {
  "schema": "nba3.live.gates/v1",
- "generated_utc": "2026-11-15T12:10Z",
+ "generated_utc": "2026-11-15T23:59Z",
  "gate_order": [
   "G1_preregistered",
   "G2_before_tip",
@@ -9,8 +9,8 @@
   "G5_settlement_final_verified"
  ],
  "counts": {
-  "rows": 225,
-  "passed": 148,
+  "rows": 227,
+  "passed": 150,
   "failed": 77
  },
  "rows": [
@@ -1813,6 +1813,22 @@
    "gate": "G5_settlement_final_verified",
    "passed": true,
    "detail": "no published pick for this game (no published pick for 0022600235)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600236",
+   "game": "IND @ PHI",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "settled from https://www.nba.com/game/ind-vs-phi-0022600236 (https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600237",
+   "game": "LAL @ PHX",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600237)"
   }
  ]
 }

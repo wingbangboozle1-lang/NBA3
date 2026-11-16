@@ -1,0 +1,97 @@
+{
+ "schema": "nba3.live.settled_feed/v1",
+ "session": "arena/2ebb1e75-nba3",
+ "game_date": "2026-11-15",
+ "settled_utc": "2026-11-15T23:59Z",
+ "settlement_stamp_note": "The stamp is the time this build last confirmed the finals against the official pages. It moves only when the official values are re-read.",
+ "one_row_per_game": true,
+ "counts": {
+  "games": 2,
+  "verified": 2,
+  "unverified": 0
+ },
+ "games": [
+  {
+   "game_id": "0022600236",
+   "date": "2026-11-15",
+   "tip_et": "1:00 PM",
+   "away": "IND",
+   "home": "PHI",
+   "away_name": "Indiana Pacers",
+   "home_name": "Philadelphia 76ers",
+   "venue": "Xfinity Mobile Arena",
+   "city": "Philadelphia, PA",
+   "status": "Final",
+   "away_q": [
+    35,
+    22,
+    30,
+    37
+   ],
+   "home_q": [
+    29,
+    29,
+    39,
+    34
+   ],
+   "away_final": 124,
+   "home_final": 131,
+   "away_margin": -7,
+   "total_points": 255,
+   "ot": false,
+   "winner": "PHI",
+   "attendance": 21024,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/ind-vs-phi-0022600236",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+   },
+   "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "retrieved_utc": "2026-11-15T23:49Z"
+  },
+  {
+   "game_id": "0022600237",
+   "date": "2026-11-15",
+   "tip_et": "4:00 PM",
+   "away": "LAL",
+   "home": "PHX",
+   "away_name": "Los Angeles Lakers",
+   "home_name": "Phoenix Suns",
+   "venue": "Mortgage Matchup Center",
+   "city": "Phoenix, AZ",
+   "status": "Final",
+   "away_q": [
+    33,
+    31,
+    40,
+    27
+   ],
+   "home_q": [
+    24,
+    30,
+    26,
+    43
+   ],
+   "away_final": 131,
+   "home_final": 123,
+   "away_margin": 8,
+   "total_points": 254,
+   "ot": false,
+   "winner": "LAL",
+   "attendance": 17071,
+   "verified": true,
+   "verification": {
+    "rule": "settled only when the game page says Final AND the gamebook's printed FINAL equals the sum of its four printed quarters AND both agree with the game page",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/lal-vs-phx-0022600237",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf"
+   },
+   "source_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "retrieved_utc": "2026-11-15T23:55Z"
+  }
+ ]
+}
