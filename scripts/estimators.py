@@ -488,10 +488,14 @@ def main() -> None:
     logs_path = LOGS
     logs = json.loads(logs_path.read_text())["rows"] if logs_path.exists() else []
     inj = json.loads((ROOT / "data" / "live" / "injuries" / "archive_index.json").read_text())
-    latest = sorted(p.stem for p in (ROOT / "data" / "live" / "injuries").glob("Injury-Report_*.md"))[-1]
+    # Share the actual-clock ordering with the freshness gate. Lexical sorting makes
+    # 12:00 AM appear newer than 06:15 AM on the same report date.
+    from freshness_gates import latest_report
+    latest_path = latest_report()
+    latest = latest_path.stem
     import importlib
     ia = importlib.import_module("injury_archive")
-    rep = ia.parse(ROOT / "data" / "live" / "injuries" / f"{latest}.md")
+    rep = ia.parse(latest_path)
     out_by_team: dict[str, list[str]] = {}
     status_by_team: dict[str, dict[str, str]] = {}
     for row in rep["player_rows"]:

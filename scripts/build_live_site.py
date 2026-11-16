@@ -549,6 +549,12 @@ def proj_injuries(ctx) -> str:
 {link(rep['source_url'], 'official PDF')}. The revision time is the report's own header; the retrieval
 time is when this session fetched it. Both are shown because they answer different questions: which
 report this is, and how old our copy is.</div>"""]
+    body.append(f"""<div class="callout bad"><strong>STALE — injury snapshot is not current for the 2026-11-16 slate.</strong>
+The official injury index, checked 2026-11-16, lists November 16 reports through 09:30 AM ET, while this
+page's newest stored report is {esc(rep['stamp'])}. The 09:30 AM report has not been transcribed into
+this repository here, so this warning confirms only that the index advanced—not any player's status.
+Do not treat these archived availability rows as current for today's games. Sources: {link('https://official.nba.com/nba-injury-report-2026-27-season/', 'official index')}
+· {link('https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_30AM.pdf', '09:30 AM report listed by the index')}.</div>""")
     body.append("<h2>Rotation availability — its own column</h2>")
     body.append("""<p>Every team-side of every slate game carries one of three states. The third state is
 the one that matters: when the official report's team row says the club has not yet submitted,
@@ -593,11 +599,11 @@ reproducible without a network call. {esc(a['storage_rule'])}</p>""")
                        "Added (verbatim name)", "Removed (verbatim name)", "Source"], dr,
                       "report-deltas"))
     body.append("""<div class="callout warn"><strong>What the diff actually found.</strong> Across the
-three archived reports there were <strong>zero status changes</strong>. The only differences are
-spelling corrections inside the official PDFs (<code>Embid → Embiid</code>,
-<code>Bogoljub → Bogojub</code>), which surface as one row added and one removed. Those are flagged as
-irregularities on the Flagged page rather than smoothed away, because a name-matching ledger that
-silently normalises them would hide a real transcription risk in the official feed.</div>""")
+three archived reports there were <strong>zero status changes</strong>. Name spellings differ in the
+transcriptions: Joel is <code>Embiid</code> at 12:00 AM and 06:00 AM, then <code>Embid</code> at 06:15 AM;
+Bogoljub is printed at 06:00 and 06:15 AM, while the earlier 12:00 AM report prints Bogojub. These
+are published as added/removed rows and flagged rather than smoothed away. This is the archived
+11/15 sequence only; the separate stale-data warning above applies to the current 11/16 slate.</div>""")
     return page("projection", "Injuries & rotation", "Projection surface", "\n".join(body),
                 "injuries.html",
                 lead=f"Report revision {rep['stamp']}, retrieved {rep['retrieved_utc']}, with rotation "
@@ -728,12 +734,23 @@ def proj_flagged(ctx) -> str:
          "themselves are verified from two official reads."),
         link("https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf", "gamebook")])
     rows.append([
+        "Current injury report is newer than the stored snapshot",
+        "STALE — do not use for current-slate availability",
+        ("As checked on 2026-11-16, the official index lists 11/16 reports through 09:30 AM ET; "
+         "this repository's newest archived report is 11/15 06:15 AM. The 09:30 AM PDF has not been "
+         "transcribed here. This proves an index/repository freshness gap only; it does not assert any "
+         "player's status from the untranscribed report."),
+        link("https://official.nba.com/nba-injury-report-2026-27-season/", "official index") + " · " +
+        link("https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_30AM.pdf", "09:30 AM PDF")])
+    rows.append([
         "Injury report name spellings",
         "Flagged as irregular",
-        ("The official PDFs spell the same player <code>Embid</code> then <code>Embiid</code>, and "
-         "<code>Bogoljub</code> then <code>Bogojub</code>, between consecutive revisions. A ledger that "
-         "normalises names would hide this; the diff reports it as one row added and one removed."),
-        link("https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf", "PDF")])
+        ("The official 06:00 AM PDF spells Joel Embiid <code>Embiid</code>; the next 06:15 AM PDF "
+         "prints <code>Embid</code>; the earlier 12:00 AM PDF prints <code>Embiid</code>. These are "
+         "reported verbatim and surface as added/removed rows, not status changes."),
+        link("https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf", "06:00 PDF") + " · " +
+        link("https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf", "06:15 PDF") + " · " +
+        link("https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf", "12:00 AM PDF")])
     rows.append([
         "13 unattributed injury rows per report",
         "Blank team column, flagged",

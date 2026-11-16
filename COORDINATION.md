@@ -4774,3 +4774,61 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 | X4 Ledger publish integrity: publish only games whose ET date is today or later, one entry per game id, and never a pick whose tip is unverified without a flag | in progress | c449d46a | `scripts/pick_ledger.py`, `tests/test_pick_ledger.py` (new) |
 | X5 Replay the non-network CI steps on the integrated tree (drift gates, unit tests, link checks) and regenerate every drift-gated artefact | pending | c449d46a | records + regenerated `app/`, `data/app/` outputs |
 | X6 PR → `main` → merge → Pages deploy check; dispatch the refresh once if the API allows it | pending | c449d46a | `COORDINATION.md`, PR |
+## Session `arena/07f22dad-nba3` — claim (2026-11-16 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F11: Make the scheduled injury freshness gate order report filenames by actual 12-hour clock time, align all downstream consumers, and correct verified provenance-note errors | done (PR #102 merged; Pages deploy passed) | `07f22dad` | `scripts/freshness_gates.py`, `scripts/estimators.py`, `scripts/injury_archive.py`, `scripts/availability.py`, `tests/test_freshness_gates.py`, `tests/test_injury_archive_order.py`, `data/live/`, `projection/`, `COORDINATION.md` |
+
+Branch: `arena/07f22dad-nba3` (Arena-assigned; based on `27245fa3b82499b27569f4754c3c7394a49e09f7`). This is a narrow correctness fix discovered while reviewing the live refresh path. No other active claims were found in the current board. The filename ordering defect is not a claim that any current injury data is verified or current; the scope is only correct selection of the newest dated report already archived on disk.
+
+### Session `arena/07f22dad-nba3` — completion (F11)
+
+- **Fix:** `scripts/freshness_gates.py` now orders archived injury reports by parsed calendar date and real 12-hour report time (`12:00 AM` → hour 0, `12:00 PM` → hour 12), rather than lexicographic filename order. Malformed matching filenames fail closed with a clear `ValueError`; an empty archive raises `FileNotFoundError`.
+- **Regression checks:** `python3 -m unittest tests.test_freshness_gates -v` → 5 passed; full `python3 -m unittest discover -s tests -q` → 118 passed; `git diff --check` → clean.
+- **Live-gate replay:** `python3 scripts/freshness_gates.py --json` produced 9/10 gates passed. Correct chronology exposed a real existing mismatch: `data/live/model.json` names `Injury-Report_2026-11-15_12_00AM`, while the newest *archived on disk* report is `Injury-Report_2026-11-15_06_15AM`. F2 therefore correctly fails rather than silently treating midnight as later than 6:15 AM. No pick/line/model snapshot was changed in this task.
+- **Provenance reviewed:** the two archived reports include their official source URLs and retrieval stamps: [11/15 12:00 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf), [11/15 06:15 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf); their archive notes refer to the [official injury report index](https://official.nba.com/nba-injury-report-2026-27-season/). This verifies the archived-file comparison only, not the current online newest report on 2026-11-16.
+- **Change request CR-07F22-01 (integration/site owner):** propagate the F2 mismatch as a clearly labeled item on the public Flagged for Review page, and decide whether to re-cut model inputs from the newer archived report. Do not point the model snapshot at a different report without rebuilding dependent minutes/projections/ledger artifacts and re-running the gates. The site/data files are shared integration outputs and were not edited here.
+- Scope is complete for `scripts/freshness_gates.py` + regression tests. Remaining F2 data recut / public flag is explicitly open; this session did not claim the full refresh pipeline is current or that the site was redeployed.
+
+#### Scope extension — F11 producer alignment
+
+The live gate correctly exposed that its producer (`scripts/estimators.py`) uses the same unsafe lexicographic sort. Extending this claim to include that producer and its deterministic generated output/dependents (`data/live/`, `projection/`, `bet/`, `ledger/`) so the model cannot continue writing the older snapshot name. No other session claims these paths in the current board. This is a necessary integration fix for F11, not a separate feature.
+
+The initial full producer replay also showed `scripts/injury_archive.py` sorted the consecutive-report diff chain lexically (`06:15 AM -> 12:00 AM`). Extending F11 scope to `scripts/injury_archive.py` and a dedicated archive-order regression test so the public diff timeline uses the same chronological ordering as the model and gate.
+
+The same stale lexical selection was also present in `scripts/availability.py` (the public rotation-availability feed) and F6's report listing. F11 scope now includes `scripts/availability.py`; availability, model, gate, and consecutive diff chain all share the one chronology parser.
+
+Official PDF re-reads also found a reversed spelling example in the archived `data/live/injuries/NOTES.md` and 12:00 AM capture note. Extend F11 scope to those two provenance-note files: correct the spelling sequence only after citing the actual official PDFs and add a fixture assertion. The rows themselves are unchanged.
+
+#### F11 closeout and source re-verification
+
+- Final implementation uses `scripts/freshness_gates.report_datetime()` consistently in the freshness gate, estimator input selector, injury archive diff timeline, and rotation availability selector. `F6` also lists archived report files chronologically. This fixed the report order: 2026-11-15 12:00 AM → 06:00 AM → 06:15 AM.
+- Rebuilt only from the already archived report set: `injury_archive.py`, `estimators.py`, `availability.py`, `freshness_gates.py`, `repo_review.py`, and `build_live_site.py`. F2 now reports `model_used == newest_on_disk == Injury-Report_2026-11-15_06_15AM`; F1–F10 all pass. Projection Injuries banner and availability rows now point to the 06:15 AM capture and show its original retrieval stamp. No bet was sealed (the ledger remains verified and the generated pick pass sealed zero picks).
+- Re-read the exact official PDFs directly: [11/15 12:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf), [11/15 06:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf), and [11/15 06:15 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf). The pages confirm the real clock order and the exact Joel Embiid spelling in the first relevant table: `Embiid` at 12:00 AM and 06:00 AM; `Embid` at 06:15 AM. Corrected the two archived explanatory notes; no transcribed injury row was changed.
+- Verification: 119 tests pass; `python3 scripts/build_site.py --check` validates 166 injury rows, 25 games, 11 source entries, and 617 links across 12 pages; `git diff --check` clean. Existing test suite emits non-fatal `ResourceWarning`s for unclosed files in older tests/scripts; these are pre-existing and were not modified.
+- **CR-07F22-01 resolved for the live projection outputs:** the archived chronology/model pointer mismatch is fixed and the rebuilt projection pages now carry the 06:15 AM report. This does not verify which report is newest on the live NBA index on 2026-11-16; the scheduled fetch/index comparison remains separate and must supply that evidence.
+
+#### PR #102 integration/deployment record
+
+- PR **[#102](https://github.com/wingbangboozle1-lang/NBA3/pull/102)** merged 2026-11-16 14:30:56Z, merge commit `450c54a61f32b0740efcc36b3159c24d79c04cdc`.
+- GitHub Actions **Build and deploy NBA Edge Lab** run [43886537895](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43886537895) completed successfully on the merge commit, including the complete build/test suite and Pages deploy step. GitHub Pages API reports `status: built`; live page [projection/injuries.html](https://wingbangboozle1-lang.github.io/NBA3/projection/injuries.html) was fetched and confirmed to publish the 06:15 AM report revision, retrieval stamp, source-linked availability rows, and separate projection/bet surfaces.
+- **Open operational flag F-RF-01:** the two most recent scheduled `official data refresh` runs before this merge, [43864808752](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752) and [43815576157](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157), failed in the final “Commit refreshed captures and rebuilt outputs” step after source fetch and tests passed. The hosted run logs could not be retrieved in this environment (GitHub Actions log endpoint returned EOF); exact cause is therefore **unverified**, not guessed. The subsequent PR-triggered full build/deploy succeeded, but that is not proof the scheduled fetch-and-commit path is fixed. The next scheduled run must be checked; if the final commit step fails again, diagnose from runner logs before changing workflow behavior.
+- Non-fatal GitHub runner notices: Node 20 action runtime deprecation and `ubuntu-latest` migration notice; all build/deploy steps themselves passed.
+
+---
+
+## Session `arena/07f22dad-nba3` — follow-up claim F12 (2026-11-16 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F12: Correct the injury-name diff direction and publish the independently re-read official-index staleness as an explicit review alert | needs review (published on projection Flagged page) | `07f22dad` | `scripts/build_live_site.py`, `projection/injuries.html`, `projection/flagged.html`, `tests/test_injury_archive_order.py`, `COORDINATION.md` |
+
+The official report index re-read on 2026-11-16 lists 11/16 reports through 09:30 AM ET, while the repository projection snapshot remains the 11/15 06:15 AM report. The live index/PDF source links are recorded below in the change. The PDF contents beyond the report-index listing are not being represented as transcribed or verified.
+
+### F12 verification and disposition
+
+- Directly fetched the official injury index on 2026-11-16: it lists 11/16 reports through 09:30 AM ET. Linked report listing: [official index](https://official.nba.com/nba-injury-report-2026-27-season/); newest listed document link: [11/16 09:30 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_30AM.pdf).
+- Updated `projection/injuries.html` generation with an explicit red stale-data warning. It says the report PDF is *not transcribed*, so it does not assert player statuses from it. Added the same freshness gap as a row on `projection/flagged.html`, linked to both official sources. Corrected the name-order warning: official PDFs read `Embiid` at 11/15 06:00 AM, `Embid` at 06:15 AM, and `Embiid` at 12:00 AM. The static captured spellings in the two provenance notes now match the official PDFs; no injury statuses or reasons were edited.
+- `python3 scripts/build_live_site.py --check` passed; `python3 -m unittest discover -s tests -q` → 121 passed; page-level regression confirms the staleness alert/source links and chronological spellings. Existing non-fatal ResourceWarnings remain in older tests.
+- F12 is `needs review` because the stale status is now published on the Flagged for Review page and requires the scheduled fetch/parser/commit path to ingest a newer report before the alert can be cleared.
