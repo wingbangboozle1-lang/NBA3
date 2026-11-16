@@ -4797,3 +4797,13 @@ Official PDF re-reads also found a reversed spelling example in the archived `da
 - GitHub Actions **Build and deploy NBA Edge Lab** run [43886537895](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43886537895) completed successfully on the merge commit, including the complete build/test suite and Pages deploy step. GitHub Pages API reports `status: built`; live page [projection/injuries.html](https://wingbangboozle1-lang.github.io/NBA3/projection/injuries.html) was fetched and confirmed to publish the 06:15 AM report revision, retrieval stamp, source-linked availability rows, and separate projection/bet surfaces.
 - **Open operational flag F-RF-01:** the two most recent scheduled `official data refresh` runs before this merge, [43864808752](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752) and [43815576157](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157), failed in the final “Commit refreshed captures and rebuilt outputs” step after source fetch and tests passed. The hosted run logs could not be retrieved in this environment (GitHub Actions log endpoint returned EOF); exact cause is therefore **unverified**, not guessed. The subsequent PR-triggered full build/deploy succeeded, but that is not proof the scheduled fetch-and-commit path is fixed. The next scheduled run must be checked; if the final commit step fails again, diagnose from runner logs before changing workflow behavior.
 - Non-fatal GitHub runner notices: Node 20 action runtime deprecation and `ubuntu-latest` migration notice; all build/deploy steps themselves passed.
+
+---
+
+## Session `arena/07f22dad-nba3` — follow-up claim F12 (2026-11-16 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F12: Correct the injury-name diff direction and publish the independently re-read official-index staleness as an explicit review alert | in progress | `07f22dad` | `scripts/build_live_site.py`, `projection/injuries.html`, `projection/flagged.html`, `tests/test_injury_archive_order.py`, `COORDINATION.md` |
+
+The official report index re-read on 2026-11-16 lists 11/16 reports through 09:30 AM ET, while the repository projection snapshot remains the 11/15 06:15 AM report. The live index/PDF source links are recorded below in the change. The PDF contents beyond the report-index listing are not being represented as transcribed or verified.
