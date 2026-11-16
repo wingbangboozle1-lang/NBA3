@@ -5902,3 +5902,22 @@ Branch `arena/4c69ab99-nba3`, commits `b98af6f`, `a09d453`, `d590d2e` on top of 
   PR #98's four verified finals agree exactly with this round's settlement values.
 - The games-page JSON's OT period numbering (period 5 = OT1) is verified for regulation only;
   the results-feed sum check flags any wrong assumption instead of publishing it (Q-4C69-05).
+
+**PR / merge / deploy record (arena/4c69ab99-nba3, 2026-11-16).**
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/128 — merged 2026-11-16T19:26:58Z
+  into `main`, merge commit `676cd135` (`gh pr merge 128 --merge`).
+- GitHub Pages: deploy run `43939448430` **completed / success**; the Pages API reports the
+  site `built` on commit `676cd135` at https://wingbangboozle1-lang.github.io/NBA3/
+  (legacy branch-root deployment — the served tree is the repository root on `main`).
+- Conflict handling during the round (protocol): two merges of moving `main` (PRs
+  #122/#125/#126/#127/#129/#131/#132 landed while this round was in flight). Both
+  COORDINATION.md conflicts were resolved as append-only splices keeping both sides in full
+  (verified zero dropped/duplicated headings, splice notes embedded); the shared script/data
+  conflicts were resolved by adopting the merged-main implementations (q5 OT schema,
+  gamecard ingest, standings promotion, settle --all-done) with this session's unique
+  deltas re-applied on top. 293/293 tests green at merge time.
+- Mutual cross-verification: sessions arena/4054e125 and arena/4c69ab99 independently
+  settled the same nine 2026-11-15 finals from official sources — identical scores on every
+  row; the ATL@MIL quarter conflict is recorded with THREE official readings on main
+  (game book period table 37; game-page LINESCORES + summary line 27; AP recap quarter
+  total requiring 27).
