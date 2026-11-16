@@ -270,6 +270,26 @@ jobs:
             git status --porcelain -- round/ data/rounds/2026-11-16
             exit 1
           }
+      - name: 11/16 1:00 PM ET filing round (arena/fbd2484b) - rebuild, gates, drift check
+        run: |
+          # The refresh parses committed verbatim transcripts only: no network. A non-zero exit
+          # here means a build-scope freshness/provenance gate failed, and the rebuild is refused.
+          python3 scripts/round2_2026_11_16.py --gates
+          python3 scripts/round2_2026_11_16.py
+          python3 scripts/build_round2_site.py
+          git diff --exit-code -- data/rounds/2026-11-16-1300PM round2 || {
+            echo "The 1:00 PM ET round artefacts or pages drifted from what is committed."
+            git --no-pager diff --stat -- data/rounds/2026-11-16-1300PM round2 | tail -20
+            exit 1
+          }
+          test -z "$(git status --porcelain -- round2/ data/rounds/2026-11-16-1300PM)" || {
+            echo 'round2/ or data/rounds/2026-11-16-1300PM has untracked output; regenerate and commit'
+            git status --porcelain -- round2/ data/rounds/2026-11-16-1300PM
+            exit 1
+          }
+      - name: 11/16 1:00 PM ET round unit tests (arena/fbd2484b)
+        run: python3 -m unittest tests.test_round2_2026_11_16 -v
+
       - name: 11/16 round unit tests (arena/8f4fac33)
         run: python3 -m unittest tests.test_round_2026_11_16 -v
       - name: Originated-lines attribution and availability labels (arena/bb0c83a4)
@@ -505,6 +525,7 @@ jobs:
           cp -r d01ae7e2 _pages/d01ae7e2
           cp -r hub _pages/hub
           cp -r round _pages/round
+          cp -r round2 _pages/round2
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet

@@ -5108,3 +5108,133 @@ files are logged here instead of editing them.
 
 No other session has claims on `origin/main` at claim time (`907771b`). This session does not touch files owned by sessions `f879620b` (`docs/`, `tools/`, `tests/test_validate_gates.py`), `7c532e8c-nba3` (`site/`, `scripts/build_site.py`), `9ed6085f-nba3` (`data/*.csv`, `pipeline/`), `00b0c780` (`data/app/ledger/`, `audit_00b0c780/`), or `8f4fac33` (`round/`, `scripts/refresh_2026_11_16.py`) except through logged change requests.
 
+
+## Session `arena/fbd2484b-nba3` (current) — claim (2026-11-16 UTC)
+
+Session ID: `fbd2484b`. Branch is fixed by the workspace to `arena/fbd2484b-nba3`
+(branched from `main` @ `907771b`). The brief's `session-<id>/<task>` branch naming cannot be
+used here; non-overlapping file scopes are kept inside this one branch instead.
+
+### Why this scope, and what it does not touch
+
+`main` @ `907771b` publishes an 11/16 injury snapshot of **09:15 AM ET**. On 2026-11-16 the
+official index lists 11/16 reports through **1:00 PM ET**, and I have already read that PDF
+directly. So the published availability picture is stale on its own stated terms. This session
+captures the newer official filing, diffs consecutive reports, and publishes the delta with
+gates, requirements, questions, suggestions and flags.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F13 11/16 1:00 PM ET official injury capture + consecutive-report diff + gates + requirements/questions/suggestions/flags + dashboard | in progress | `fbd2484b` | `scripts/round2_2026_11_16.py`, `data/rounds/2026-11-16-1300PM/`, `round2/`, `tests/test_round2_2026_11_16.py`, `COORDINATION.md`, `.github/workflows/pages.yml` (one build step + one `cp -r round2`) |
+
+Explicitly **not** in scope, and not edited: `scripts/refresh_2026_11_16.py`,
+`scripts/round_model_2026_11_16.py`, `scripts/build_round_site.py`, `data/rounds/2026-11-16/`,
+`round/`, `app/`, `index.html`, `projection/`, `bet/`, `data/live/`, `ledger/`, `prereg/`.
+Those belong to earlier sessions and are drift-checked by CI. `round/` and `data/rounds/`
+are read here, never written.
+
+No other session has an unexpired claim on the paths above (`gh pr list --state open` shows
+PRs #94–#98 open from earlier sessions on unrelated trees).
+
+### Verified network constraint (recorded because it changes what "verified" can mean here)
+
+In this sandbox `curl` reaches `github.com` only; `official.nba.com` and
+`ak-static.cms.nba.com` fail at TLS (`curl: (35) SSL_ERROR_SYSCALL`). The Arena page-fetch
+tool *does* reach them. So every official value below was read with the fetch tool and its
+retrieval stamp is recorded per artefact. Raw `curl` output is never used as evidence.
+
+---
+
+## F13 — DONE (session `arena/fbd2484b-nba3`), 2026-11-16
+
+**Scope:** `scripts/round2_2026_11_16.py`, `scripts/round2_registers.py`,
+`scripts/build_round2_site.py`, `data/rounds/2026-11-16-1300PM/`, `round2/`,
+`tests/test_round2_2026_11_16.py`, the `round2` step + staging line in
+`.github/workflows/pages.yml`, and one `<p class="small">` nav line in `scripts/build_app.py`.
+Nothing owned by another session was edited.
+
+### What was built
+
+A third dashboard surface at `round2/`, covering the **same-day filing chain** for
+2026-11-16 — which is what the task actually asks for and what the earlier rounds did not do:
+they compared filings across different game days.
+
+| Filing | Player rows | Clubs not submitted |
+|---|---|---|
+| 09:15 AM ET | 57 | 15 |
+| 01:00 PM ET | 75 | 12 |
+| **01:15 PM ET (current)** | **76** | **11** |
+
+Each consecutive pair is diffed by the identical rule.
+
+### Verified findings
+
+- **09:15 → 01:00:** 4 rows moved (Tyson and Larsson `Questionable→Doubtful`, Stewart
+  `Questionable→Out`, GG Jackson reason-only), 18 players added, 0 removed. The 18 additions
+  are exactly the three clubs that stopped printing `NOT YET SUBMITTED` (HOU, PHI, WAS).
+- **01:00 → 01:15:** no status changed; **Boston filed for the first time** (Queta,
+  Neemias — Questionable, Rest); one printed name changed spelling.
+- **Name spelling, not a squad change.** New Orleans printed `Mathurin, Bennedict` at 1:00 PM
+  and `Mathurin, Benedict` at 1:15 PM. Same club, same game, one edit apart, Out both times.
+  A naive key-based diff calls that one player leaving and another arriving. It is now
+  detected by name distance and reported in its own category (`I8a`).
+- **A row with no matchup cell.** Boston's 1:15 PM row puts the club where the matchup goes.
+  Resolved from the official schedule (Boston's only game on 11/16 is ORL@BOS), recorded on
+  the row as `recovered`, and checked by `I5`.
+- **Home-court advantage** pinned to the measured rate: **102/196 = 0.520408** (z vs 0.5 =
+  0.5714). Road wins equal home losses — mirror check passes.
+- **Estimator disagreement** (the headline) is median **2.63** points per 100 possessions,
+  max 7.13 (MIL), min 0.33 (DAL), after centring each estimator on its own league mean. The
+  centring is the fix for a real defect: B's declared constant was masquerading as disagreement.
+- **Totals identity disclosed, not hidden.** With season rates only, `poss × ppp` reproduces
+  the naive sum to ≤0.1 pts because the official off rating *is* `100 × pts/poss`. The formula
+  is still the correct object; the two only diverge with opponent-specific ppp. Pinned by
+  `I10` and stated on the page.
+- **Luck:** largest |z| in the league is **1.66**, so zero clubs sit outside the ±2 band and
+  no strategy is permitted to lean on any of them.
+
+### Gates
+
+**18/18 pass, no blocking failure, `rebuild_allowed: true`.** Scope is explicit per gate:
+`build` (blocks publication), `row` (withholds one row), `advisory` (never blocks, always
+published). Added this session: `I10` totals identity, `I8a` spelling change, and
+`F5_newer_filing_listed_since_capture` as the advisory that stops the page implying it is a
+live feed.
+
+### Irregularities published, not fixed
+
+- **1:15 PM PDF lists `James, LeBron | Out | Low Back/Sciatica Management` under
+  Philadelphia 76ers.** Published verbatim; not "corrected". (`F13-04`)
+- One row prints **no status at all** (`Butler III, Jimmy`, GSW@NOP). Left `null`, counted,
+  and `I6` allows ≤1. Never back-filled.
+- 11 clubs still had not submitted at 1:15 PM ET. That is a fact about filing, **not** a
+  statement that nobody is out; every availability figure for them is unknown.
+- `http://` / live-JSON feeds remain unreachable from this sandbox; `curl` to NBA hosts
+  returns `SSL_ERROR_SYSCALL`. All captures came from the fetch tool and are stored verbatim.
+
+### Verification
+
+- `python3 -m unittest discover -s tests -p 'test_*.py'` → **222 tests, OK**
+  (181 pre-existing + 41 new in `tests/test_round2_2026_11_16.py`).
+- `scripts/round2_2026_11_16.py --check` → artefacts reproduce byte-for-byte.
+- `scripts/build_round2_site.py` → **13 pages, 596 links, 353 sourced table rows, 0 problems**.
+  The build fails outright on any data row without an official link, any non-official
+  evidence host, or any broken internal href.
+- `scripts/build_app.py --check` → 26 pages, 0 broken links (drift-checked tree intact).
+- `scripts/refresh_2026_11_16.py --gates` → no blocking failure; `freshness_gates.py` → 10/10.
+- Every one of the 75→76 player rows was re-checked field by field against its stored
+  transcript: **0 mismatches**.
+
+### Sources
+
+- Injury index: https://official.nba.com/nba-injury-report-2026-27-season/
+- Current filing: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf
+- Diff base: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf
+- Earliest in chain: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf
+- Standings: https://www.nba.com/standings · Schedule: https://www.nba.com/schedule?date=2026-11-16
+- Team stats: https://www.nba.com/stats/teams/traditional · `/advanced` · `/opponent`
+
+**Still blocked (unchanged, and stated as such on the site):** no licensed closing-line
+feed, so no market-anchored prior and no bet; no measured per-player minutes for this slate,
+so no per-player prop; no rho for this slate, so no parlay pricing; NBA Terms of Use §9(iv)
+bars gambling use of NBA stats.
