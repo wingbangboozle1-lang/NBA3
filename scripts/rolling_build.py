@@ -57,7 +57,56 @@ CSS = (":root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8f
        "padding:16px 0 30px}\n")
 
 NAV = [("index.html", "Status"), ("slate.html", "Slate"), ("injuries.html", "Injuries"),
-       ("results.html", "Results & settlement"), ("gates.html", "Gates")]
+       ("results.html", "Results & settlement"), ("gates.html", "Gates"),
+       ("flagged.html", "Flagged for Review")]
+
+# Flagged for Review (session arena/43d54bfe-nba3). Flagged items do not block anything;
+# each states what is unverified or pending and the official source or repo evidence to
+# review. The owner chooses the path before any follow-up change.
+FLAGS = [
+    ("RF-1", "Open PRs #85 and #90 are CONFLICTING with main",
+     "PR #85 (arena/5a67ab8c, v2 pipeline) and PR #90 (arena/94e6d41b, game-day refresh "
+     "2026-11-15) have not been updated for main's churn since 2026-11-15 morning; GitHub "
+     "reports mergeStateStatus DIRTY for both. Their own core builds/tests were reproduced "
+     "locally and pass (build_v2.py + 45 v2 tests for #85). Neither branch may be pushed by "
+     "another session; the owners (or the repository owner) must rebase and re-run CI.",
+     "https://github.com/wingbangboozle1-lang/NBA3/pull/85"),
+    ("RF-2", "cdn.nba.com and stats.nba.com API are unreachable from Actions runners",
+     "Runner diagnostics (run 43776920267, committed under data/app/refresh/diagnostics/) "
+     "recorded 403s for cdn.nba.com static/liveData JSON and read-timeouts for the "
+     "stats.nba.com API. Machine-readable official JSON cannot back the refresh; the fetch "
+     "uses the official HTML pages and PDFs, which all return 200 with a browser UA. Any "
+     "future refactor that assumes JSON endpoints will fail.",
+     "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43776920267"),
+    ("RF-3", "Offline replay gates are date-pinned; live freshness lives on the runner",
+     "scripts/freshness_gates_round_79341829.py now takes --as-of and the CI step pins "
+     "2026-11-15 so CI remains a byte-replay integrity check (it otherwise began failing "
+     "for every branch at 2026-11-16 00:00 UTC because the stored 11/15..11/18 window aged "
+     "out). Freshness of NEW captures is enforced on the runner by "
+     "scripts/rolling_gates.py (G1–G5) before any rebuild. If a scheduled refresh misses "
+     "a day, the rolling page shows the stale capture stamp — the site does not silently "
+     "claim freshness.",
+     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/rolling_gates.py"),
+    ("RF-4", "Rolling surface starts 'NOT EVALUATED' until the first scheduled run",
+     "The rolling pages were generated from an honest empty state: no runner capture has "
+     "been promoted into data/app/rolling/ yet. The next scheduled 'official data refresh' "
+     "(05:15/11:15/17:15/23:15 UTC) is expected to fill slate/injuries/results with "
+     "official sources and flip the gate verdict to PASS. Unverified until then.",
+     "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"),
+    ("RF-5", "Market-anchored prior remains blank (no licensed closing line)",
+     "The model line cannot be blended with a market line: no licensed odds source exists "
+     "in the repository and the official fetched pages do not print prices. The prior stays "
+     "NOT COMPUTABLE with weight left blank, per the never-infer rule (Q1 on the Questions "
+     "page remains the blocking decision).",
+     "https://www.nba.com/games"),
+    ("RF-6", "Travel distance source is a general-reference (Wikipedia) capture",
+     "data/app/arena_coordinates.json carries Wikipedia article coordinates cross-checked "
+     "against official game-book venues; the NBA does not publish arena coordinates. The "
+     "live rest/travel model leaves travel blank+UNVERIFIED rather than consume a "
+     "non-official source (Q2 on the Questions page). Two arenas returned no coordinates "
+     "and stay blank.",
+     "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json"),
+]
 
 
 def esc(x) -> str:
@@ -267,6 +316,20 @@ from stored artifacts, so it replays offline in CI.</p>
 <div class="tw"><table><thead><tr><th>Gate</th><th>Verdict</th><th>Detail</th></tr></thead>
 <tbody>{gate_rows}</tbody></table></div>"""
     write("gates.html", "Gates", body, stamp, "gates.html")
+
+    # ---------------- flagged for review
+    frows = "".join(
+        "<tr><td>" + esc(fid) + "</td><td>" + esc(title) + "</td><td>" + esc(detail)
+        + '</td><td><a href="' + esc(link) + '">review evidence</a></td></tr>'
+        for fid, title, detail, link in FLAGS)
+    body = f"""<h1>Flagged for Review — session <code>arena/43d54bfe-nba3</code></h1>
+<p class="lead">Flagged items are published for review and block nothing. Each row states
+what is unverified or pending a decision, and links the evidence (official source, run, or
+repository artifact). Per the standing brief, these do not block the merge; review after the
+site is live and request changes.</p>
+<div class="tw"><table><thead><tr><th>ID</th><th>Flag</th><th>Detail</th><th>Evidence</th>
+</tr></thead><tbody>{frows}</tbody></table></div>"""
+    write("flagged.html", "Flagged for Review", body, stamp, "flagged.html")
 
 
 def main() -> int:

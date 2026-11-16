@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for Review — NBA3 Rolling</title>
+<meta name="description" content="NBA3 rolling official refresh: every row links to an official NBA source; unconfirmed values are blank and flagged.">
+<style>:root{--ink:#14181f;--mut:#5b6675;--line:#dfe4ea;--bg:#fff;--soft:#f6f8fa;--acc:#1b4f9c;--warn:#8a5a00;--bad:#a3241c;--ok:#1c6b3a}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{background:var(--ink);color:#fff;padding:14px 0}
+header.site a{color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.brand{font-weight:700;text-decoration:none}
+.brand span{background:#fff;color:var(--ink);border-radius:3px;padding:1px 5px;margin-right:7px}
+.stamp{color:#b9c3d0;font-size:13px;margin-top:3px}
+nav.site{background:var(--soft);border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
+nav.site a{margin-right:14px;color:var(--acc);text-decoration:none}
+nav.site a.active{font-weight:700;border-bottom:2px solid var(--acc)}
+main{padding:26px 0 60px}
+h1{font-size:26px;margin:4px 0 6px}
+h2{font-size:19px;margin:30px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.lead{color:var(--mut);max-width:74ch}
+.tw{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+a{color:var(--acc)}
+.chip{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ok{background:#e4f3e9;color:var(--ok)}.bad{background:#fbe6e4;color:var(--bad)}
+.warn{background:#fdf1d8;color:var(--warn)}.grey{background:#eceff3;color:var(--mut)}
+.unv{color:var(--bad);font-size:12px}
+.callout{background:var(--soft);border-left:3px solid var(--acc);padding:11px 14px;margin:16px 0;border-radius:0 5px 5px 0}
+.callout.bad{border-left-color:var(--bad);background:#fdf4f3}
+code{background:var(--soft);padding:1px 5px;border-radius:3px;font-size:12.5px}
+footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;padding:16px 0 30px}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><span>NBA3</span>Rolling refresh</a>
+<div class="stamp">Rolling capture no-capture-yet · session <code>arena/43d54bfe-nba3</code> · rebuild only after the freshness and provenance gates pass</div>
+</div></header>
+<nav class="site"><div class="wrap"><a href="index.html">Status</a><a href="slate.html">Slate</a><a href="injuries.html">Injuries</a><a href="results.html">Results & settlement</a><a href="gates.html">Gates</a><a href="flagged.html" class="active">Flagged for Review</a></div></nav>
+<main><div class="wrap"><h1>Flagged for Review — session <code>arena/43d54bfe-nba3</code></h1>
+<p class="lead">Flagged items are published for review and block nothing. Each row states
+what is unverified or pending a decision, and links the evidence (official source, run, or
+repository artifact). Per the standing brief, these do not block the merge; review after the
+site is live and request changes.</p>
+<div class="tw"><table><thead><tr><th>ID</th><th>Flag</th><th>Detail</th><th>Evidence</th>
+</tr></thead><tbody><tr><td>RF-1</td><td>Open PRs #85 and #90 are CONFLICTING with main</td><td>PR #85 (arena/5a67ab8c, v2 pipeline) and PR #90 (arena/94e6d41b, game-day refresh 2026-11-15) have not been updated for main&#x27;s churn since 2026-11-15 morning; GitHub reports mergeStateStatus DIRTY for both. Their own core builds/tests were reproduced locally and pass (build_v2.py + 45 v2 tests for #85). Neither branch may be pushed by another session; the owners (or the repository owner) must rebase and re-run CI.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/pull/85">review evidence</a></td></tr><tr><td>RF-2</td><td>cdn.nba.com and stats.nba.com API are unreachable from Actions runners</td><td>Runner diagnostics (run 43776920267, committed under data/app/refresh/diagnostics/) recorded 403s for cdn.nba.com static/liveData JSON and read-timeouts for the stats.nba.com API. Machine-readable official JSON cannot back the refresh; the fetch uses the official HTML pages and PDFs, which all return 200 with a browser UA. Any future refactor that assumes JSON endpoints will fail.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43776920267">review evidence</a></td></tr><tr><td>RF-3</td><td>Offline replay gates are date-pinned; live freshness lives on the runner</td><td>scripts/freshness_gates_round_79341829.py now takes --as-of and the CI step pins 2026-11-15 so CI remains a byte-replay integrity check (it otherwise began failing for every branch at 2026-11-16 00:00 UTC because the stored 11/15..11/18 window aged out). Freshness of NEW captures is enforced on the runner by scripts/rolling_gates.py (G1–G5) before any rebuild. If a scheduled refresh misses a day, the rolling page shows the stale capture stamp — the site does not silently claim freshness.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/rolling_gates.py">review evidence</a></td></tr><tr><td>RF-4</td><td>Rolling surface starts &#x27;NOT EVALUATED&#x27; until the first scheduled run</td><td>The rolling pages were generated from an honest empty state: no runner capture has been promoted into data/app/rolling/ yet. The next scheduled &#x27;official data refresh&#x27; (05:15/11:15/17:15/23:15 UTC) is expected to fill slate/injuries/results with official sources and flip the gate verdict to PASS. Unverified until then.</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml">review evidence</a></td></tr><tr><td>RF-5</td><td>Market-anchored prior remains blank (no licensed closing line)</td><td>The model line cannot be blended with a market line: no licensed odds source exists in the repository and the official fetched pages do not print prices. The prior stays NOT COMPUTABLE with weight left blank, per the never-infer rule (Q1 on the Questions page remains the blocking decision).</td><td><a href="https://www.nba.com/games">review evidence</a></td></tr><tr><td>RF-6</td><td>Travel distance source is a general-reference (Wikipedia) capture</td><td>data/app/arena_coordinates.json carries Wikipedia article coordinates cross-checked against official game-book venues; the NBA does not publish arena coordinates. The live rest/travel model leaves travel blank+UNVERIFIED rather than consume a non-official source (Q2 on the Questions page). Two arenas returned no coordinates and stay blank.</td><td><a href="https://en.wikipedia.org/w/api.php?action=query&amp;prop=coordinates&amp;format=json">review evidence</a></td></tr></tbody></table></div></div></main>
+<footer class="site"><div class="wrap">Sources are the official NBA pages and PDFs each row links to. Unverified cells are deliberately blank and flagged; values are never inferred.</div></footer>
+</body>
+</html>
