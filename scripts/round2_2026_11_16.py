@@ -271,6 +271,10 @@ def parse_injury_report(path: str, *, label: str, retrieved: str, pdf_url: str,
             seam_rows.append({
                 "line": line_idx + 1,
                 "printed_cells": cells,
+                "team": next((c for k, c in zip(kinds, cells) if k == "team"), None),
+                "player": next((c for k, c in zip(kinds, cells) if k == "player"), None),
+                "status": next((c for k, c in zip(kinds, cells) if k == "status"), None),
+                "matchup": next((c for k, c in zip(kinds, cells) if k == "matchup"), None),
                 "note": ("page break falls inside this row; the head and tail cells are "
                          "printed on separate lines in the transcript and merged here"),
             })
@@ -493,6 +497,8 @@ def diff_reports(new: dict, old: dict) -> dict:
         "changes": changes,
         "added": added,
         "removed": removed,
+        "new_report_teams_not_submitted": sorted(new["teams_not_yet_submitted"]),
+        "old_report_teams_not_submitted": sorted(old["teams_not_yet_submitted"]),
         "rule": ("A change is (same matchup, same club, same player) with a different printed "
                  "status or reason. A player on only one side is an addition or a removal, "
                  "never a change. No row is matched by position."),
@@ -1063,7 +1069,7 @@ def matchup_total(abbr_a: str, abbr_b: str, tm: dict, hca: dict) -> dict:
         "margin_from_net_rtg": rnd((a["net_rtg"] - b["net_rtg"]) * poss / 100.0, 2),
         "hca_points": None,
         "identity_disclosure": (
-            "With only full-season club rates captured, possessions x points-per-possession and "
+            "Identity disclosure: with only full-season club rates captured, possessions x points-per-possession and "
             "the sum of the two clubs' scoring averages agree to within rounding, because the "
             "official off rating IS 100 * points / possessions. The formula is still the model - "
             "it is the correct object - but on season-wide inputs it cannot differ from the "

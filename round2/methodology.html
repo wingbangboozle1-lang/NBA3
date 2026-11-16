@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology · NBA3 round 2026-11-16 1:00 PM ET</title>
+<link rel="stylesheet" href="assets/round2.css">
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand">NBA3 · 1:00 PM ET round <small>session fbd2484b</small></div>
+    <div class="muted" style="font-size:12.5px">filing 2026-11-16 01:00 PM ET · supersedes 09:15 AM ET</div>
+  </div>
+  <nav class="pages"><a href="index.html" class="">Overview</a><a href="summary.html" class="">Executive summary</a><a href="injuries.html" class="">Injury filing &amp; diff</a><a href="consequences.html" class="">Consequences &amp; rotation</a><a href="gameflow.html" class="">Game flow</a><a href="slate.html" class="">Slate &amp; totals</a><a href="estimators.html" class="">Two estimators</a><a href="methodology.html" class="on">Methodology</a><a href="requirements.html" class="">Requirements</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="flagged.html" class="">Flagged for review</a><a href="verification.html" class="">Verification log</a></nav>
+</header>
+<main>
+<h1>Methodology</h1>
+<p class="lead">Every number on this site is either printed by an official document, computed from one by arithmetic stated here, or declared as a constant and flagged. Nothing is fitted, except where this page says so and the brief requires it.</p>
+<h2>Home-court advantage, pinned</h2>
+<div class="callout ok"><h4>The prior is the measurement</h4><p>102 home wins in 196 home decisions across all 30 clubs = <strong>0.520408</strong>. Against a 0.5 null that is z = +0.57. No parameter is estimated: the brief requires the measured rate, and this is it.</p><p style="margin-bottom:0">Pinned, not fitted: the home posterior is the measured rate, 102/196. No free parameter is estimated. If the mirror check fails the build stops, because a table where road wins != home losses cannot be used for this measurement.</p></div>
+<div class="table-wrap"><table class="tbl">
+<caption>Road wins equal home losses exactly; gate I2 refuses the build if that ever stops being true.</caption>
+<thead><tr><th>Split</th><th>League W–L</th><th>Source</th></tr></thead><tbody>
+<tr><td>Home</td><td>102–94</td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>Road</td><td>94–102</td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>Neutral</td><td>1–1</td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+</tbody></table></div>
+<h2>What is declared, not measured</h2>
+<div class="table-wrap"><table class="tbl">
+<caption>A declared constant is one a reader could disagree with. That is the point of listing them.</caption>
+<thead><tr><th>Constant</th><th>Value</th><th>Why it is a constant</th><th>Source</th></tr></thead><tbody>
+<tr><td>Second-chance points per offensive rebound</td><td>0.30</td><td>Not printed by any captured official document; shifts estimator B's level, cancelled by centring</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>Single-game margin standard deviation</td><td>12.0</td><td>Used only inside the luck z; a league-wide basketball constant, stated so the reader can see the dependency</td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>Severity weights (Out/Doubtful/Questionable/Available)</td><td>3 / 2 / 1 / 0</td><td>A sort key for the availability table, not a projection</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf" rel="noopener">official injury PDF 2026-11-16 01:00 PM ET</a></td></tr>
+</tbody></table></div>
+<h2>The totals model</h2>
+<p>Expected total = shared possessions × (points per possession, away + home). Both clubs play the same number of possessions in a game, so the game's possession count is the mean of the two clubs' pace. Points per possession is the official offensive rating divided by 100. The naive alternative — adding the two clubs' season scoring averages — is printed beside every total, and the identity between them on season-wide inputs is disclosed on the <a href="slate.html">Slate</a> page.</p>
+<h2>Rules the pipeline will not break</h2>
+<ul><li><strong>No repair.</strong> A document that contradicts itself is published with both readings and the row is withheld.</li><li><strong>No inference.</strong> A cell the document does not print is null and counted.</li><li><strong>No positional attribution.</strong> Cells are classified by content; a matchup is never inherited across a page break.</li><li><strong>No silent splice.</strong> A row split by a page break is merged, counted and tested.</li><li><strong>No clock in the artefacts.</strong> The same inputs reproduce the same bytes, so CI diffs the tree.</li></ul>
+<h2>Gate scope</h2>
+<p>A <strong>build-scope</strong> gate stops the whole publication; a <strong>row-scope</strong> gate withholds only its own row and publishes the reason. This round has no build-scope failure. Full report on <a href="verification.html">Verification</a>.</p>
+</main>
+<footer><div class="in">
+Every value on this site names the official document it came from. Values an official document
+does not print are shown as <span class="unv">— unverified</span> and are listed on the
+<a href="flagged.html">Flagged for review</a> page. Generated by
+<code>scripts/build_round2_site.py</code> from <code>data/rounds/2026-11-16-1300PM/</code>.
+</div></footer>
+</body>
+</html>

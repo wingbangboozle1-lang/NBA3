@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary · NBA3 round 2026-11-16 1:00 PM ET</title>
+<link rel="stylesheet" href="assets/round2.css">
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand">NBA3 · 1:00 PM ET round <small>session fbd2484b</small></div>
+    <div class="muted" style="font-size:12.5px">filing 2026-11-16 01:00 PM ET · supersedes 09:15 AM ET</div>
+  </div>
+  <nav class="pages"><a href="index.html" class="">Overview</a><a href="summary.html" class="on">Executive summary</a><a href="injuries.html" class="">Injury filing &amp; diff</a><a href="consequences.html" class="">Consequences &amp; rotation</a><a href="gameflow.html" class="">Game flow</a><a href="slate.html" class="">Slate &amp; totals</a><a href="estimators.html" class="">Two estimators</a><a href="methodology.html" class="">Methodology</a><a href="requirements.html" class="">Requirements</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="flagged.html" class="">Flagged for review</a><a href="verification.html" class="">Verification log</a></nav>
+</header>
+<main>
+<h1>Executive summary</h1>
+<p class="stamp">Filing <strong>2026-11-16 01:00 PM ET</strong> · retrieved <code>2026-11-16T14:52Z</code> · supersedes the 09:15 AM ET filing published before this round.</p>
+<h2>The five things that matter</h2>
+<div class="callout"><h4>1. The site was publishing a 3¾-hour-old injury picture.</h4>The official index already listed filings through 1:00 PM ET while the site showed 09:15 AM ET. <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf" rel="noopener">the 1:00 PM filing</a> is now captured and published.</div>
+<div class="callout"><h4>2. 4 rows moved between the two filings.</h4>Three players worsened (Tyson and Larsson to Doubtful, Stewart to Out) and one row's reason changed while its status did not (Jackson, GG).</div>
+<div class="callout"><h4>3. Three clubs filed for the first time.</h4>Houston, Philadelphia and Washington named 18 players between 09:15 and 1:00 PM. Before that they were <code>NOT YET SUBMITTED</code>, which is not the same as healthy.</div>
+<div class="callout"><h4>4. Twelve clubs are still unknown.</h4>Boston, Charlotte, Detroit, LA Clippers, LA Lakers, Minnesota, New York, Phoenix, Portland, San Antonio, Toronto and Utah had not submitted at 1:00 PM ET.</div>
+<div class="callout"><h4>5. Nothing here is a bet.</h4>No price feed, no measured per-player minutes, and the strategy gate has not passed. The bet surface stays empty and says why.</div>
+<h2>Numbers this round measured from official tables</h2>
+<div class="table-wrap"><table class="tbl">
+<thead><tr><th>Measure</th><th>Value</th><th>Basis</th><th>Source</th></tr></thead><tbody>
+<tr><td>Home-court advantage (pinned, not fitted)</td><td>0.520408</td><td>102 home wins in 196 home decisions</td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>League points per possession</td><td>1.1322</td><td>mean of 30 clubs; league off rating 113.22</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>League possessions per game</td><td>100.47</td><td>mean of 30 clubs</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>Estimator disagreement (median)</td><td>2.63</td><td>points per 100 possessions, league median</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
+<tr><td>Clubs outside the luck noise band</td><td>0</td><td>largest |z| in the league is 1.66 (band is ±2)</td><td><a href="https://www.nba.com/standings" rel="noopener">official standings</a></td></tr>
+<tr><td>Gates passed</td><td>16/16</td><td>no blocking failure; rebuild allowed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">official schedule</a></td></tr>
+</tbody></table></div>
+<h2>What is blocked, and by what</h2>
+<div class="table-wrap"><table class="tbl">
+<caption>Each blocked item needs one specific document or feed; none of them is a modelling choice.</caption>
+<thead><tr><th>Req</th><th>Requirement</th><th>Why it is blocked</th><th>Source</th></tr></thead><tbody>
+<tr><td>R03</td><td>Official per-game result feed: one row per game with date, teams, final score, quarter scores</td><td>no 2026-11-16 game has been played at capture time, so no result row exists for it; the 11/15 feed exists and is unchanged by this round</td><td><a href="https://www.nba.com/games?date=2026-11-16" rel="noopener">official games</a></td></tr>
+<tr><td>R13</td><td>Model minutes redistribution explicitly: top-8 minute shares and replacement shares when a player is out</td><td>needs per-player minutes for the clubs on this slate; the official injury report prints status only. Reported as BLOCKED with the unblocking step, not estimated</td><td><a href="https://www.nba.com/stats/players/traditional" rel="noopener">player stats: traditional</a></td></tr>
+<tr><td>R14</td><td>Price every parlay with the measured rho and print the naive product beside it</td><td>no rho has been measured for the 11/16 slate, so no parlays are priced; the mechanism and the naive-product column already exist from the prior round</td><td><a href="https://www.nba.com/stats/teams/opponent" rel="noopener">team stats: opponent</a></td></tr>
+<tr><td>R16</td><td>Market-anchored prior: blend model with closing line weighted by measured out-of-sample log-loss</td><td>no licensed closing-line feed is connected; the blend field is null and flagged, never guessed</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">official schedule</a></td></tr>
+<tr><td>R19</td><td>Settle the sealed ledger from official finals as soon as each game day ends, keeping the settlement stamp visible</td><td>the 11/16 game day has not ended at capture time; nothing from 11/16 can be settled yet</td><td><a href="https://www.nba.com/games?date=2026-11-16" rel="noopener">official games</a></td></tr>
+<tr><td>R21</td><td>Capture per-player game logs (minutes, points, rebounds, assists, opponent) at least for players on an injury report</td><td>99 reconciled player rows exist for 11/14 gamebooks only; none of the 11/16 slate&#x27;s players has a captured log, so the requirement is not met for this slate</td><td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" rel="noopener">official gamebook PDF</a></td></tr>
+</tbody></table></div>
+<h2>What to read next</h2>
+<p>For the row-by-row evidence, open <a href="injuries.html">Injury filing &amp; diff</a>. For the decisions that cannot yet be made, open <a href="questions.html">Questions</a>. For changes to the site, open <a href="suggestions.html">Suggestions</a> — none of them is implemented.</p>
+</main>
+<footer><div class="in">
+Every value on this site names the official document it came from. Values an official document
+does not print are shown as <span class="unv">— unverified</span> and are listed on the
+<a href="flagged.html">Flagged for review</a> page. Generated by
+<code>scripts/build_round2_site.py</code> from <code>data/rounds/2026-11-16-1300PM/</code>.
+</div></footer>
+</body>
+</html>
