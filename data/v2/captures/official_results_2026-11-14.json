@@ -1,0 +1,81 @@
+{
+  "kind": "official_results",
+  "purpose": "One row per finished game: date, both teams, final score, and the quarter line score. The quarter scores exist so a total can be settled properly (a game that went to overtime, or one decided after three quarters, is not the same bet) and so the second-half / game-flow work has a real number rather than a narrative.",
+  "season": "2026-27",
+  "captured_utc": "2026-11-15T11:56Z",
+  "verification_rule": "Every row below was read TWICE from two different official surfaces of the same nba.com data: the schedule page (which prints just the final) and the game page (which prints the Q1-Q4 line score). A row is only accepted when the two agree AND the four quarter values sum to the final on each side. The sums are checked arithmetically by scripts/results_feed.py, not by eye.",
+  "sources": {
+    "schedule": "https://www.nba.com/schedule?date=2026-11-14",
+    "game_page_pattern": "https://www.nba.com/game/<away>-vs-<home>-<game_id>"
+  },
+  "games": [
+    {
+      "date": "2026-11-14",
+      "game_id": "0022600231",
+      "away": "DEN", "home": "NOP",
+      "away_final": 116, "home_final": 108,
+      "away_quarters": [29, 27, 30, 30],
+      "home_quarters": [23, 28, 31, 26],
+      "overtime_periods": 0,
+      "status": "Final",
+      "game_url": "https://www.nba.com/game/den-vs-nop-0022600231",
+      "schedule_score_agrees": true
+    },
+    {
+      "date": "2026-11-14",
+      "game_id": "0022600232",
+      "away": "DAL", "home": "CLE",
+      "away_final": 117, "home_final": 127,
+      "away_quarters": [33, 20, 38, 26],
+      "home_quarters": [33, 38, 34, 22],
+      "overtime_periods": 0,
+      "status": "Final",
+      "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
+      "schedule_score_agrees": true
+    },
+    {
+      "date": "2026-11-14",
+      "game_id": "0022600233",
+      "away": "DET", "home": "MIA",
+      "away_final": 117, "home_final": 137,
+      "away_quarters": [39, 21, 26, 31],
+      "home_quarters": [37, 31, 35, 34],
+      "overtime_periods": 0,
+      "status": "Final",
+      "game_url": "https://www.nba.com/game/det-vs-mia-0022600233",
+      "schedule_score_agrees": true
+    },
+    {
+      "date": "2026-11-14",
+      "game_id": "0022600234",
+      "away": "BKN", "home": "MEM",
+      "away_final": 110, "home_final": 129,
+      "away_quarters": [23, 31, 30, 26],
+      "home_quarters": [38, 33, 32, 26],
+      "overtime_periods": 0,
+      "status": "Final",
+      "game_url": "https://www.nba.com/game/bkn-vs-mem-0022600234",
+      "schedule_score_agrees": true
+    },
+    {
+      "date": "2026-11-14",
+      "game_id": "0022600235",
+      "away": "CHI", "home": "MIN",
+      "away_final": 117, "home_final": 106,
+      "away_quarters": [29, 29, 30, 29],
+      "home_quarters": [17, 28, 35, 26],
+      "overtime_periods": 0,
+      "status": "Final",
+      "game_url": "https://www.nba.com/game/chi-vs-min-0022600235",
+      "schedule_score_agrees": true
+    }
+  ],
+  "coverage": {
+    "games_with_quarter_scores": 5,
+    "dates_with_quarter_scores": ["2026-11-14"],
+    "games_with_final_only": 183,
+    "games_with_final_only_source": "data/origin/games.csv (the 183-game log through 2026-11-13, captured by earlier sessions from the official scoreboard)",
+    "why_the_older_games_have_no_quarters": "Quarter scores were never captured for 2026-10-20 .. 2026-11-13. Filling them would mean re-reading 183 game pages, and until that is done they are recorded as null. They are NOT reconstructed from the final: a quarter split cannot be derived from a final score.",
+    "flag": "FV2-06"
+  }
+}

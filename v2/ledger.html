@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sealed ledger — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Audit</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html" class="active">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Audit</div>
+    <h1>Sealed ledger</h1>
+    <p class="lead">Sealed picks and their hashes.</p>
+  </div>
+
+<p>Every graded pick is sealed with a SHA-256 hash computed from the pick as issued, and the hash is
+stored before the result. Recomputing it after settlement must reproduce it; if it does not, the
+pick was edited.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Item</th><th>Value</th></tr></thead><tbody>
+<tr><td>Rows sealed</td><td>541</td></tr>
+<tr><td>Hashes that recompute exactly</td><td>True</td></tr>
+<tr><td>Rows recorded as published before tip</td><td>0</td></tr>
+<tr><td>Pre-registration file</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/v2/registrations.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/v2/registrations.json</a></td></tr>
+</tbody></table></div>
+<div class="callout warn"><p><strong>Be precise about what is proved here.</strong> All 541 rows recompute, so no pick has been altered since it was written. What is <strong>not</strong> yet proved is that the picks existed before the games: these rows are settled retroactively against already-played finals, and the ledger honestly records that zero rows were published before tip. A live slate will produce the first forward-dated rows.</p></div>
+<h2>Most recent 60 of 541 rows</h2>
+<div class="table-wrap"><table>
+<caption id="ledger"></caption>
+<thead><tr><th>Strategy</th><th>Date</th><th>Game</th><th>Side</th><th>Line</th><th>Price</th><th>Pick hash</th><th>Settled</th><th>Source</th></tr></thead><tbody>
+<tr><td>S01</td><td>2026-10-28</td><td>0022600132</td><td>away</td><td>8.92</td><td>-110</td><td><code>3ca66d3805c6214b…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600132" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-10-28</td><td>0022600139</td><td>away</td><td>7.85</td><td>-110</td><td><code>707eed492635d648…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600139" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-10-30</td><td>0022600016</td><td>away</td><td>7.87</td><td>-110</td><td><code>770d39c855cb787c…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600016" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-10-30</td><td>0022600019</td><td>away</td><td>7.24</td><td>-110</td><td><code>eb067bf4ee9f0179…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600019" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-10-31</td><td>0022600150</td><td>away</td><td>11.46</td><td>-110</td><td><code>bfa0bbe3f3180115…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600150" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-02</td><td>0022600163</td><td>away</td><td>9.11</td><td>-110</td><td><code>546e237b5aae6cc0…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600163" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-02</td><td>0022600165</td><td>away</td><td>7.47</td><td>-110</td><td><code>41d499a202995b11…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600165" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-02</td><td>0022600166</td><td>away</td><td>12.93</td><td>-110</td><td><code>459920feed9c3884…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600166" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-02</td><td>0022600168</td><td>away</td><td>7.85</td><td>-110</td><td><code>6ef37f202062c5cf…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600168" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-02</td><td>0022600170</td><td>away</td><td>7.21</td><td>-110</td><td><code>c8556e2b281abec3…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600170" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-04</td><td>0022600175</td><td>away</td><td>8.70</td><td>-110</td><td><code>8bda9477c4ecf817…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600175" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-04</td><td>0022600177</td><td>away</td><td>8.40</td><td>-110</td><td><code>b63bda71db7e081e…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600177" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-04</td><td>0022600178</td><td>away</td><td>8.94</td><td>-110</td><td><code>6f8f9a5c2a8a74a6…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600178" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-07</td><td>0022600193</td><td>away</td><td>7.86</td><td>-110</td><td><code>fd28d6c027cb23ec…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600193" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-08</td><td>0022600198</td><td>away</td><td>12.02</td><td>-110</td><td><code>78604f917160c1a4…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600198" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-09</td><td>0022600205</td><td>away</td><td>8.21</td><td>-110</td><td><code>c1d91c3db18cccf1…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600205" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-10</td><td>0022600211</td><td>away</td><td>10.32</td><td>-110</td><td><code>2efbb031b44d7baf…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600211" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-13</td><td>0022600039</td><td>away</td><td>13.16</td><td>-110</td><td><code>6698744eea993147…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600039" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-14</td><td>0022600234</td><td>away</td><td>8.58</td><td>-110</td><td><code>a496710349c67a32…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600234" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S01</td><td>2026-11-14</td><td>0022600235</td><td>away</td><td>16.36</td><td>-110</td><td><code>601d559ad6e5b29a…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600235" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-10-28</td><td>0022600132</td><td>home</td><td>8.92</td><td>-110</td><td><code>76d7040e05fbf724…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600132" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-10-28</td><td>0022600139</td><td>home</td><td>7.85</td><td>-110</td><td><code>8e9fc3cb161e7c34…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600139" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-10-30</td><td>0022600016</td><td>home</td><td>7.87</td><td>-110</td><td><code>b0cf52a5f4e93db0…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600016" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-10-30</td><td>0022600019</td><td>home</td><td>7.24</td><td>-110</td><td><code>f89fd505abb9c031…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600019" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-10-31</td><td>0022600150</td><td>home</td><td>11.46</td><td>-110</td><td><code>97d201ce40e53470…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600150" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-02</td><td>0022600163</td><td>home</td><td>9.11</td><td>-110</td><td><code>f9d02689547d3c50…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600163" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-02</td><td>0022600165</td><td>home</td><td>7.47</td><td>-110</td><td><code>6d759aa6187bffc0…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600165" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-02</td><td>0022600166</td><td>home</td><td>12.93</td><td>-110</td><td><code>c65b47bd16ca3b60…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600166" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-02</td><td>0022600168</td><td>home</td><td>7.85</td><td>-110</td><td><code>a88f7f1b23af8a80…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600168" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-02</td><td>0022600170</td><td>home</td><td>7.21</td><td>-110</td><td><code>86d744881b45c1c2…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600170" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-04</td><td>0022600175</td><td>home</td><td>8.70</td><td>-110</td><td><code>1eb1d73756160c1d…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600175" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-04</td><td>0022600177</td><td>home</td><td>8.40</td><td>-110</td><td><code>934263cb865ed64f…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600177" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-04</td><td>0022600178</td><td>home</td><td>8.94</td><td>-110</td><td><code>a9473b55f1cd2b5e…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600178" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-07</td><td>0022600193</td><td>home</td><td>7.86</td><td>-110</td><td><code>8d3c1986e8998237…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600193" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-08</td><td>0022600198</td><td>home</td><td>12.02</td><td>-110</td><td><code>6e6a9b6fba5c4c43…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600198" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-09</td><td>0022600205</td><td>home</td><td>8.21</td><td>-110</td><td><code>53cc585b8281d4f7…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600205" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-10</td><td>0022600211</td><td>home</td><td>10.32</td><td>-110</td><td><code>724e4eccac79910c…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600211" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-13</td><td>0022600039</td><td>home</td><td>13.16</td><td>-110</td><td><code>e53a78f7fe40de58…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600039" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-14</td><td>0022600234</td><td>home</td><td>8.58</td><td>-110</td><td><code>4d6d77f504280380…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600234" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S02</td><td>2026-11-14</td><td>0022600235</td><td>home</td><td>16.36</td><td>-110</td><td><code>633ad75da529a815…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600235" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-27</td><td>0022600131</td><td>under</td><td>233.95</td><td>-110</td><td><code>fff3bbee83887877…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600131" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-28</td><td>0022600132</td><td>under</td><td>234.79</td><td>-110</td><td><code>977b3d3b0d668a5e…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600132" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-28</td><td>0022600140</td><td>under</td><td>230.17</td><td>-110</td><td><code>0d8360ae1afb50c9…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600140" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-28</td><td>0022600143</td><td>under</td><td>232.12</td><td>-110</td><td><code>ddd79a75253c61db…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600143" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-29</td><td>0022600144</td><td>under</td><td>232.51</td><td>-110</td><td><code>1d928ab8458ea110…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600144" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-29</td><td>0022600145</td><td>under</td><td>232.54</td><td>-110</td><td><code>6b1646e3e93379d1…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600145" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-29</td><td>0022600146</td><td>under</td><td>230.79</td><td>-110</td><td><code>1f7478134b8eeffc…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600146" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-30</td><td>0022600020</td><td>under</td><td>230.56</td><td>-110</td><td><code>5cfbcc4743b88ae2…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600020" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-30</td><td>0022600023</td><td>under</td><td>231.78</td><td>-110</td><td><code>1e895e5809e764ac…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600023" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-10-31</td><td>0022600149</td><td>under</td><td>234.48</td><td>-110</td><td><code>f4ca106123ee4015…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600149" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-01</td><td>0022600157</td><td>under</td><td>231.93</td><td>-110</td><td><code>bc82501ff891bc48…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600157" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-02</td><td>0022600165</td><td>under</td><td>232.89</td><td>-110</td><td><code>d8216628abde9b0b…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600165" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-02</td><td>0022600172</td><td>under</td><td>236.40</td><td>-110</td><td><code>995bc37e17bb139b…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600172" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-04</td><td>0022600185</td><td>under</td><td>232.99</td><td>-110</td><td><code>391e28272ddf2b4a…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600185" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-04</td><td>0022600186</td><td>under</td><td>231.99</td><td>-110</td><td><code>8d6fd8580ee5f6b0…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600186" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-05</td><td>0022600188</td><td>under</td><td>231.66</td><td>-110</td><td><code>d0c137de14301f2d…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600188" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-06</td><td>0022600032</td><td>under</td><td>233.95</td><td>-110</td><td><code>6281191a46defc54…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600032" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-08</td><td>0022600201</td><td>under</td><td>231.67</td><td>-110</td><td><code>fcff88e0889d2e80…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600201" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-08</td><td>0022600202</td><td>under</td><td>232.86</td><td>-110</td><td><code>20bb2bbc06d3bfb5…</code></td><td>win</td><td><a href="https://www.nba.com/game/0022600202" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+<tr><td>S03</td><td>2026-11-09</td><td>0022600203</td><td>under</td><td>234.97</td><td>-110</td><td><code>43b49f47be669028…</code></td><td>loss</td><td><a href="https://www.nba.com/game/0022600203" target="_blank" rel="noopener noreferrer">official final</a></td></tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

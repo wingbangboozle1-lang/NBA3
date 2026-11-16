@@ -529,3 +529,22 @@ Branch `arena/79341829-nba3`. Everything below is captured line-by-line from off
 | Strategy leaderboard, picks ≤3 days ahead, injury→rotation tracking, game flow, exec summary, review/choose suggestions, Q&A register | done (existing pages, refreshed) |
 
 Open decisions: `data/app/questions_79341829.json` (Q-793-01…04). Suggestions with options/recommendations: `data/app/suggestions_79341829.json` (S-793-01…03). Repository review flags: `data/app/flags_79341829.json`.
+
+## Game-day refresh (2026-11-15, session arena/94e6d41b-nba3) — adopted as canonical
+
+The 2026-11-15 06:15 AM ET official injury report (101 rows), the five 11/14 finals, and the rolling
+11/15→11/18 slate are captured verbatim, and the refreshed build is **adopted as canonical**: 34 originated
+lines across the new window. The refresh moves price fields on 22 of 27 shared games; the NF-90 name-join
+fix itself changes zero fields (proved leg-by-leg). Settlement of the 11/14 finals against the published
+picks: 2 cover / 3 no-cover, 3 over / 2 under, 2 held-before-tip; props 6 over / 1 under / 2 push.
+
+Full audit, every row linked to its official source: **`/audit_94e6d41b/`** —
+[overview](audit_94e6d41b/pages/index.html) ·
+[refresh](audit_94e6d41b/pages/refresh.html) ·
+[line invariance](audit_94e6d41b/pages/invariance.html) ·
+[settlement](audit_94e6d41b/pages/settlement.html) ·
+[rotation impact](audit_94e6d41b/pages/rotation.html) ·
+[repo review](audit_94e6d41b/pages/review.html) ·
+[flagged](audit_94e6d41b/pages/flags.html) ·
+[questions](audit_94e6d41b/pages/questions.html) ·
+[suggestions](audit_94e6d41b/pages/suggestions.html).

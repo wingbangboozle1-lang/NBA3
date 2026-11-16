@@ -1,0 +1,395 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "pick_window": "2026-11-14 .. 2026-11-16",
+ "picks_generated_on": "2026-11-14T00:49:56+00:00",
+ "results_source": "https://www.nba.com/games?date=2026-11-14",
+ "results_second_capture": "https://www.nba.com/schedule?date=2026-11-15 recap block (scores agree game for game)",
+ "results_third_read": "https://www.nba.com/games?date=2026-11-14 re-read 2026-11-15 ~12:15 UTC at settlement time (scores agree)",
+ "quarter_scores": null,
+ "quarter_scores_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
+ "strategy_status_verbatim": {
+  "STRAT1": "provisional (passes all gates except minimum sample size)",
+  "STRAT2": "provisional (passes all gates except minimum sample size)",
+  "STRAT3": "not eligible: G1_sample>=100, G3_roi>0@-110, G4_perm_p<0.10",
+  "STRAT4": "not eligible: G1_sample>=100, G4_perm_p<0.10"
+ },
+ "picks_rows": [
+  {
+   "pick_date": "2026-11-14",
+   "matchup_published": "DEN @ NOP",
+   "matchup_official": "DEN@NOP",
+   "game_id": "0022600231",
+   "tip_et": "7:00p",
+   "published": {
+    "origin_spread": "DEN -8.6",
+    "origin_total": 232.9,
+    "fair_ml_home": 205,
+    "fair_ml_away": -205,
+    "model_p_home": 0.327,
+    "confidence": "HIGH",
+    "availability_flag": "PARTIAL_REPORT",
+    "held_before_tip": false,
+    "singles_view": "Model side: DEN (spread). Strategy status: provisional (passes all gates except minimum sample size)."
+   },
+   "official_result": {
+    "away": "DEN",
+    "away_pts": 116,
+    "home": "NOP",
+    "home_pts": 108,
+    "total": 224,
+    "margin_home": -8,
+    "ot": 0,
+    "state": "Final",
+    "quarters": null,
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
+    "source": "https://www.nba.com/games?date=2026-11-14"
+   },
+   "grading": {
+    "spread": {
+     "side": "DEN",
+     "line": -8.6,
+     "side_margin": 8,
+     "result": "no_cover",
+     "decision_margin": -0.6
+    },
+    "total": {
+     "line": 232.9,
+     "actual": 224,
+     "result": "UNDER"
+    },
+    "winner": "DEN",
+    "note": "Paper grade against our own originated line. The published strategy statuses are provisional / not eligible (see the picks file), so nothing here is a settled bet."
+   }
+  },
+  {
+   "pick_date": "2026-11-14",
+   "matchup_published": "DAL @ CLE",
+   "matchup_official": "DAL@CLE",
+   "game_id": "0022600232",
+   "tip_et": "7:30p",
+   "published": {
+    "origin_spread": "CLE -7.9",
+    "origin_total": 229.1,
+    "fair_ml_home": -194,
+    "fair_ml_away": 194,
+    "model_p_home": 0.66,
+    "confidence": "MEDIUM",
+    "availability_flag": "AVAILABILITY_RISK",
+    "held_before_tip": true,
+    "singles_view": "Model side: CLE (spread) — HELD: availability risk on official report; re-check after lineups post."
+   },
+   "official_result": {
+    "away": "DAL",
+    "away_pts": 117,
+    "home": "CLE",
+    "home_pts": 127,
+    "total": 244,
+    "margin_home": 10,
+    "ot": 0,
+    "state": "Final",
+    "quarters": null,
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
+    "source": "https://www.nba.com/games?date=2026-11-14"
+   },
+   "grading": {
+    "spread": {
+     "side": "CLE",
+     "line": -7.9,
+     "side_margin": 10,
+     "result": "cover",
+     "decision_margin": 2.1
+    },
+    "total": {
+     "line": 229.1,
+     "actual": 244,
+     "result": "OVER"
+    },
+    "winner": "CLE",
+    "note": "Paper grade against our own originated line. The published strategy statuses are provisional / not eligible (see the picks file), so nothing here is a settled bet."
+   }
+  },
+  {
+   "pick_date": "2026-11-14",
+   "matchup_published": "BRK @ MEM",
+   "matchup_official": "BKN@MEM",
+   "game_id": "0022600234",
+   "tip_et": "8:00p",
+   "published": {
+    "origin_spread": "MEM -9.1",
+    "origin_total": 228.8,
+    "fair_ml_home": -214,
+    "fair_ml_away": 214,
+    "model_p_home": 0.682,
+    "confidence": "HIGH",
+    "availability_flag": "NO_REPORT",
+    "held_before_tip": false,
+    "singles_view": "Model side: MEM (spread). Strategy status: provisional (passes all gates except minimum sample size)."
+   },
+   "official_result": {
+    "away": "BKN",
+    "away_pts": 110,
+    "home": "MEM",
+    "home_pts": 129,
+    "total": 239,
+    "margin_home": 19,
+    "ot": 0,
+    "state": "Final",
+    "quarters": null,
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
+    "source": "https://www.nba.com/games?date=2026-11-14"
+   },
+   "grading": {
+    "spread": {
+     "side": "MEM",
+     "line": -9.1,
+     "side_margin": 19,
+     "result": "cover",
+     "decision_margin": 9.9
+    },
+    "total": {
+     "line": 228.8,
+     "actual": 239,
+     "result": "OVER"
+    },
+    "winner": "MEM",
+    "note": "Paper grade against our own originated line. The published strategy statuses are provisional / not eligible (see the picks file), so nothing here is a settled bet."
+   }
+  },
+  {
+   "pick_date": "2026-11-14",
+   "matchup_published": "DET @ MIA",
+   "matchup_official": "DET@MIA",
+   "game_id": "0022600233",
+   "tip_et": "8:00p",
+   "published": {
+    "origin_spread": "DET -6.5",
+    "origin_total": 229.9,
+    "fair_ml_home": 172,
+    "fair_ml_away": -172,
+    "model_p_home": 0.367,
+    "confidence": "MEDIUM",
+    "availability_flag": "AVAILABILITY_RISK",
+    "held_before_tip": true,
+    "singles_view": "Model side: DET (spread) — HELD: availability risk on official report; re-check after lineups post."
+   },
+   "official_result": {
+    "away": "DET",
+    "away_pts": 117,
+    "home": "MIA",
+    "home_pts": 137,
+    "total": 254,
+    "margin_home": 20,
+    "ot": 0,
+    "state": "Final",
+    "quarters": null,
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
+    "source": "https://www.nba.com/games?date=2026-11-14"
+   },
+   "grading": {
+    "spread": {
+     "side": "DET",
+     "line": -6.5,
+     "side_margin": -20,
+     "result": "no_cover",
+     "decision_margin": -26.5
+    },
+    "total": {
+     "line": 229.9,
+     "actual": 254,
+     "result": "OVER"
+    },
+    "winner": "MIA",
+    "note": "Paper grade against our own originated line. The published strategy statuses are provisional / not eligible (see the picks file), so nothing here is a settled bet."
+   }
+  },
+  {
+   "pick_date": "2026-11-14",
+   "matchup_published": "CHI @ MIN",
+   "matchup_official": "CHI@MIN",
+   "game_id": "0022600235",
+   "tip_et": "8:00p",
+   "published": {
+    "origin_spread": "MIN -17.4",
+    "origin_total": 232.1,
+    "fair_ml_home": -432,
+    "fair_ml_away": 432,
+    "model_p_home": 0.812,
+    "confidence": "HIGH",
+    "availability_flag": "PARTIAL_REPORT",
+    "held_before_tip": false,
+    "singles_view": "Model side: MIN (spread). Strategy status: provisional (passes all gates except minimum sample size)."
+   },
+   "official_result": {
+    "away": "CHI",
+    "away_pts": 117,
+    "home": "MIN",
+    "home_pts": 106,
+    "total": 223,
+    "margin_home": -11,
+    "ot": 0,
+    "state": "Final",
+    "quarters": null,
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
+    "source": "https://www.nba.com/games?date=2026-11-14"
+   },
+   "grading": {
+    "spread": {
+     "side": "MIN",
+     "line": -17.4,
+     "side_margin": -11,
+     "result": "no_cover",
+     "decision_margin": -28.4
+    },
+    "total": {
+     "line": 232.1,
+     "actual": 223,
+     "result": "UNDER"
+    },
+    "winner": "CHI",
+    "note": "Paper grade against our own originated line. The published strategy statuses are provisional / not eligible (see the picks file), so nothing here is a settled bet."
+   }
+  }
+ ],
+ "props_rows": [
+  {
+   "player": "Nikola Jokić",
+   "team": "DEN",
+   "matchup": "DEN @ NOP",
+   "stat": "points",
+   "origin_line": 24,
+   "published_p_over": 0.556,
+   "fair_over_price": 79,
+   "vol_assumption": "sd = 0.3 x mean (UNVALIDATED assumption)",
+   "actual": 26,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement",
+   "result": "OVER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Nikola Jokić",
+   "team": "DEN",
+   "matchup": "DEN @ NOP",
+   "stat": "rebounds",
+   "origin_line": 11,
+   "published_p_over": 0.573,
+   "fair_over_price": 74,
+   "vol_assumption": "sd = 0.35 x mean (UNVALIDATED assumption)",
+   "actual": 8,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement",
+   "result": "UNDER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Nikola Jokić",
+   "team": "DEN",
+   "matchup": "DEN @ NOP",
+   "stat": "assists",
+   "origin_line": 9,
+   "published_p_over": 0.563,
+   "fair_over_price": 77,
+   "vol_assumption": "sd = 0.35 x mean (UNVALIDATED assumption)",
+   "actual": 10,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement",
+   "result": "OVER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Cade Cunningham",
+   "team": "DET",
+   "matchup": "DET @ MIA",
+   "stat": "points",
+   "origin_line": 25,
+   "published_p_over": 0.527,
+   "fair_over_price": 89,
+   "vol_assumption": "sd = 0.3 x mean (UNVALIDATED assumption)",
+   "actual": 33,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement",
+   "result": "OVER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Cade Cunningham",
+   "team": "DET",
+   "matchup": "DET @ MIA",
+   "stat": "rebounds",
+   "origin_line": 5,
+   "published_p_over": 0.565,
+   "fair_over_price": 76,
+   "vol_assumption": "sd = 0.35 x mean (UNVALIDATED assumption)",
+   "actual": 5,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement",
+   "result": "PUSH",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Cade Cunningham",
+   "team": "DET",
+   "matchup": "DET @ MIA",
+   "stat": "assists",
+   "origin_line": 8,
+   "published_p_over": 0.586,
+   "fair_over_price": 70,
+   "vol_assumption": "sd = 0.35 x mean (UNVALIDATED assumption)",
+   "actual": 8,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement",
+   "result": "PUSH",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Giannis Antetokounmpo",
+   "team": "MIA",
+   "matchup": "DET @ MIA",
+   "stat": "points",
+   "origin_line": 28,
+   "published_p_over": 0.538,
+   "fair_over_price": 85,
+   "vol_assumption": "sd = 0.3 x mean (UNVALIDATED assumption)",
+   "actual": 34,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement; also read on the player's box-score page at capture",
+   "result": "OVER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Giannis Antetokounmpo",
+   "team": "MIA",
+   "matchup": "DET @ MIA",
+   "stat": "rebounds",
+   "origin_line": 13,
+   "published_p_over": 0.581,
+   "fair_over_price": 72,
+   "vol_assumption": "sd = 0.35 x mean (UNVALIDATED assumption)",
+   "actual": 14,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement; also read on the player's box-score page at capture",
+   "result": "OVER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  },
+  {
+   "player": "Giannis Antetokounmpo",
+   "team": "MIA",
+   "matchup": "DET @ MIA",
+   "stat": "assists",
+   "origin_line": 5,
+   "published_p_over": 0.565,
+   "fair_over_price": 76,
+   "vol_assumption": "sd = 0.35 x mean (UNVALIDATED assumption)",
+   "actual": 8,
+   "actual_source": "https://www.nba.com/games?date=2026-11-14 game-leader card (PTS/REB/AST), read 2026-11-15 at capture and again at settlement; also read on the player's box-score page at capture",
+   "result": "OVER",
+   "note": "The prop file is marked NOT VALIDATED (research only). Actuals are the official game-leader rows; a game-leader card gives the team leader, and each of these three players led or co-led their game in the relevant stat, which is why the actual is readable there."
+  }
+ ],
+ "props_not_validated_verbatim": "NOT VALIDATED — player-prop strategy has no backtest sample yet; research only.",
+ "summary": {
+  "games": 5,
+  "spread_cover": 2,
+  "spread_no_cover": 3,
+  "spread_push": 0,
+  "overs": 3,
+  "unders": 2,
+  "held_before_tip": 2,
+  "props_over": 6,
+  "props_under": 1,
+  "props_push": 2
+ }
+}

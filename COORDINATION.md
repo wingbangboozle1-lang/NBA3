@@ -4281,6 +4281,41 @@ cached at the edge during rollout; a cache-busted read serves the page normally.
 
 ---
 
+## Session `arena/f300fe08-nba3` (current) — CLAIM: stale-PR integration (#90, #85), scheduled-refresh repair, final verification
+
+**Session ID:** `arena/f300fe08-nba3`. Workspace branch `arena/f300fe08-nba3`, branched from
+`main` @ `f98b44d` (merge of PR #91). Claim written and pushed **before** any other work
+(2026-11-15 ~23:45 UTC), per the board rule. The `session-<id>/<task>` branch scheme is not
+available (Arena binds this workspace to one branch), so scope is enforced by file list below.
+
+**Why this round exists.** At claim time `main` = PR #91 merged (2026-11-15 13:03 UTC). Two pull
+requests are open and both are stale under the board's 60-minute rule (no commits for ~11 hours,
+state CONFLICTING): **PR #90** (`arena/94e6d41b-nba3`, game-day refresh, last commit 12:31 UTC)
+and **PR #85** (`arena/5a67ab8c-nba3`, v2 pipeline: estimators/gates/prereg/ledger, last commit
+12:14 UTC). In addition the scheduled `official data refresh` workflow (run 43742524756) is
+**red**: its `Fetch official sources` step failed. Neither PR can merge as-is; both need an
+integration session.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| C1 | Claim + board setup | in progress | f300fe08 | `COORDINATION.md` (append-only) |
+| C2 | Take over stale PR #85 (v2 pipeline): merge into this branch, resolve `pages.yml` + `COORDINATION.md` conflicts keeping both sides, run its tests | pending | f300fe08 | merge commit; conflict resolutions logged here |
+| C3 | Take over stale PR #90 (game-day refresh + `audit_94e6d41b/`): integrate unique content (audit tree, raw injury captures, README section) without regressing main's PR #91 canonical pipeline | pending | f300fe08 | merge commit; conflict resolutions logged here |
+| C4 | Repair the failed scheduled refresh (`refresh.yml` / `scripts/refresh_official.py`) and prove it green | pending | f300fe08 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py` (only if the defect is there) |
+| C5 | Line-by-line verification of published rows against official sources; flag irregularities | pending | f300fe08 | `COORDINATION.md` (log) |
+| C6 | Full CI replay + site build/link check on the integrated tree | pending | f300fe08 | records only |
+| C7 | PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | pending | f300fe08 | `COORDINATION.md`, PR |
+
+**Takeover basis (board rule):** both PRs are >60 minutes old with no commits and CONFLICTING
+against `main`; PR #79/#70 precedent (79341829, bb0c83a4) documents the same takeover pattern.
+Both PRs' content is preserved — nothing is closed as superseded unless its content is proven
+already on `main` line by line.
+
+**Non-overlap:** no other session holds an open claim on the files above. Every earlier section
+is preserved verbatim. `COORDINATION.md` is append-only for this session.
+
+---
+
 ## Session `arena/81800928-nba3` (current) — CLAIM: repair the scheduled official refresh job (fetch crash, wrong "newest" report, UTC-vs-ET date), refresh tests, integration
 
 **Session ID:** `arena/81800928-nba3`. Branch `arena/81800928-nba3`, branched from `main` @ `f98b44d`
@@ -4358,6 +4393,232 @@ claim to have identified the server response.
 - **F-R5 — the scheduled job's last run failed**, and the job has no alert. The site is still the last good build (the
   rebuild is gated), but it is stale until a run succeeds.
 
+---
+
+### Session `arena/5a67ab8c-nba3` — v2 pipeline (two estimators, gate set, sealed ledger)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| v2 pipeline: two independent estimators, disagreement headline, gate set, pre-registration + sealed ledger, v2 site | in progress | `arena/5a67ab8c-nba3` | `pipeline/v2/`, `data/v2/`, `scripts/build_v2.py`, `v2/`, one appended block in `.github/workflows/pages.yml` (added at the end of the build chain; no existing step edited) |
+
+**Scope note.** This session only creates new files inside the scopes above and appends one
+self-contained step-pair to the CI workflow. It does **not** touch `data/app/`, `app/`,
+`index.html`, `scripts/build_app.py`, `scripts/strategy_lab.py` or any audit tree. `index.html`
+and the shared nav are left for an integration session, per the shared-outputs rule.
+
+**Claimed at** 2026-11-15 11:50Z (before writing code beyond scaffolding; the module scaffolding
+already existed on this branch from the previous turn, as recorded in the branch's own files).
+
+#### What was built
+
+* `pipeline/v2/estimators.py` — estimator A (ridge margin fit on finals, home-court subtracted
+  before the fit so it cannot be re-estimated inside it) and estimator B (possessions × points per
+  possession from the official team advanced/opponent pages, never reads a margin).
+  `home_court_from_measured_rate` pins HCA to the measured home-win rate on the logit scale:
+  **0.52459 home-win rate over 183 games → 1.6711 points**. Not fitted.
+* `pipeline/v2/backtest.py` — date-batched walk-forward. Rest days, B2B and 3-in-4.
+* `pipeline/v2/leaderboard.py` — 18 registrations, SHA-256 pre-registration, sealed ledger rows,
+  gate decider, measured correlations.
+* `pipeline/v2/pricing.py` — originated lines with 80% bands; parlay prices printed twice.
+* `pipeline/v2/build.py` — gates first; refuses to publish on a blocking failure.
+* `scripts/build_v2.py` + `v2/` — 10 pages split into a **projection** surface and a **bet**
+  surface that never mix.
+* `pipeline/v2/tests/` — 43 tests. `data/v2/build.json` and `v2/` are deterministic (asserted).
+
+#### Four real bugs found and fixed in this session
+
+1. **`stats.parlay_price` dropped the quadrature step.** The copula price came back as `169.7` for a
+   joint probability. Substituting `u = Φ(z)` absorbs the `φ(z)` weight, so the extra weight
+   inflated the result by ~`steps`. Fixed, and pinned by limits: `ρ→1` gives `min(p)`, `ρ→−1` gives
+   `max(0, p₁+p₂−1)`, `p=(0.5,0.5), ρ=0.5` gives exactly `1/3`.
+2. **Negative `ρ` priced identically to positive `ρ`.** Both legs loaded on the common factor with
+   the same sign. Fixed: for `ρ<0` the second leg alternates sign.
+3. **Rest days were read off a Python `set`.** `prior[-1]` is an arbitrary member, so computed rest
+   reached **20 days** for a team that had played four days earlier, and every rest-derived rule was
+   graded on that noise. Now `max(prior)`; rest distribution is 1:25, 2:80, 3:21, 4:5 across 131
+   forecasts, which is what an NBA calendar looks like.
+4. **The board luck threshold simulated the null against each rule's own observed rate** instead of
+   against a coin, and could report a threshold above 100 pp. Now simulated against 50%, matching how
+   the board measures each rule's edge, and reported as **27.78 pp** at the 95th percentile across
+   12 rules (median 16.67 pp).
+
+#### What the gates and the board actually say
+
+* All **13/13** source and freshness gates pass. The freshness gate caught the 6:15 AM report being
+  superseded by a **6:30 AM** revision mid-build; the build now reads the 0630 file **by name**.
+  The only difference between the two revisions is the league correcting "Embid" → "Embiid":
+  **zero status changes**, one spelling correction. `injury._similar` was comparing the surname
+  (`split(",")[0]`), which is the half that differs, so the correction was reported as one player
+  vanishing and another appearing. Fixed: given name must match, surname within 2 edits.
+* **Nothing may be a bet, and nothing is.** All 18 rules fail G11 (no licensed market price exists in
+  this repository). The previously strongest-looking rule, S09 at 26.84 pp over a coin, is
+  **contaminated**: it reads estimator B, which is fitted on a single 2026-11-15 snapshot and applied
+  to games from 2026-10-26, so its `q` is published as `null` with the reason rather than as `0.0`.
+* Estimator A's out-of-sample margin RMSE is **15.23** and is clean. Estimator B's **13.72** is not a
+  result (see FV2-06).
+* The possession-form total still does **not** beat a constant (`17.68` RMSE vs ~18.0 baseline).
+  Published as worse, not shrunk into looking fine.
+* Injury report: 101 rows, 84 player rows, 17 NOT SUBMITTED, **27 rows the league's own document
+  leaves undated** — refused and counted, not guessed. 44 more dates recovered by carrying the
+  printed date above and *verifying* it against the official schedule.
+
+#### Flags raised (published on `v2/flagged.html`)
+
+| ID | Severity | Flag |
+|---|---|---|
+| FV2-06 | high | estimator B's walk-forward grades are contaminated by a single dated snapshot |
+| FV2-08 | medium | the possession-form totals model still does not beat the naive baseline |
+| FV2-09 | info | the newest injury revision changed a spelling and no status |
+| FV2-10 | high | no licensed market price is connected; G11 fails for every rule by construction |
+
+#### Questions for the user before anything is funded
+
+1. **Which odds source may be licensed?** Every money number on the site is capped until one exists.
+   Historical closing lines are enough to re-run the board unchanged.
+2. **Is a per-date team-statistics history acceptable as a scheduled capture?** It is the only fix
+   for FV2-06 and it is 30 rows a day.
+3. **Per-player game logs** would unlock 3 prop rules, the prop combos and 4 of the 9 correlation
+   cells. Worth the capture budget, or drop props for now?
+4. **Gate thresholds are proposals** (`min_bets 100`, `α 0.05`, `FDR q 0.10`, `min edge 1.5 pp`,
+   stability 30 pp). They need sign-off; none has been approved.
+
+#### Requests to other sessions (log, do not edit)
+
+* **CR-5A67-01 (integration session):** once `v2/` is deployed, add a landing-page entry. This
+  session deliberately did not edit `index.html` or `scripts/build_app.py`, because
+  `scripts/build_app.py` regenerates the root index and would overwrite the edit — which is what
+  happened on the first attempt and was reverted.
+
+---
+
+---
+
+## Session `arena/94e6d41b-nba3` — CLAIM: 2026-11-15 game-day refresh (newest official injury reports, 11/14 finals settlement, rolling slate 11/15→11/18), audit tree, integration
+
+**Session ID:** `arena/94e6d41b-nba3`. Workspace branch `arena/94e6d41b-nba3`, branched from `main` @
+`d320feaa5b1b235e55d39d736551e8a7572d9cd4` (merge of PR #83). Claim written and pushed before any other
+work started (2026-11-15 ~11:35 UTC). Arrival CI status on `main`: last push run green per PR #83 record.
+
+**Why this round exists.** The canonical dashboard publishes the official availability snapshot of
+2026-11-14 (early-morning report in the manifest; 1:30 PM ET in the audit delta). It is now
+2026-11-15: the 11/14 games are final and unsettled in the results log, and the official injury-report
+index lists **November 15 reports through 6:15 a.m. ET** at claim time. This session captures the
+newest official 11/15 reports, the 11/14 finals, and the rolling 11/15→11/18 slate; diffs them against
+every published snapshot; recomputes injury→rotation impact and game flow for the 11/15 games; proves
+(or disproves) line invariance with the seeded engine; and publishes the whole round as a new audit
+tree, like the 1823b910 round before it.
+
+| # | Task | Status | Owner (session) | Files in scope |
+|---|---|---|---|---|
+| B1 | Claim on the board (this section) + push the claim commit | in progress | 94e6d41b | `COORDINATION.md` |
+| B2 | Official captures via the Arena fetch tool: injury-report index (11/15), newest 11/15 report PDFs (verbatim raw + parsed), next-slot negative probes, 11/14 finals, slate 11/15→11/18, team-ratings re-read attempt | in progress | 94e6d41b | `data/app/official_*2026-11-15*.{json,md}` (new), `scripts/capture_official_2026_11_15.py` (new) |
+| B3 | Delta vs published snapshots (canonical 04:15 AM row set and the 11/14 1:30 PM audit rows), settlement arithmetic for the five 11/14 finals vs the published picks | in progress | 94e6d41b | `audit_94e6d41b/data/*` (new tree, this session only) |
+| B4 | Injury→rotation impact + game flow for 11/15 team-games; line-invariance re-run of the seeded lab against the new report (temp OUT, `data/app/lab.json` never written) | in progress | 94e6d41b | `audit_94e6d41b/` |
+| B5 | Line-by-line repo review pass; flags/questions/suggestions with own IDs | in progress | 94e6d41b | `audit_94e6d41b/pages/{review,flags,questions,suggestions}.html` |
+| B6 | Audit-tree build script + tests; CI wiring (offline replay step, drift gate, staging line); one nav tile in `scripts/build_app.py` with regenerated `app/`+`index.html` | pending | 94e6d41b | `audit_94e6d41b/{build,analysis}.py`, `audit_94e6d41b/test_audit.py`, `.github/workflows/pages.yml`, `scripts/build_app.py`, `app/*.html`, `index.html` |
+| B7 | Integration: local CI replay, `git pull --rebase`, push, PR → merge without waiting, confirm Pages deploy by reading the live site, record here; stale-PR takeover notes for #70 and #79 | pending | 94e6d41b | `COORDINATION.md`, `README.md` |
+
+**Non-overlap / takeover notes.** Every earlier session's section above is preserved verbatim. This
+session creates only `audit_94e6d41b/**`, `scripts/capture_official_2026_11_15.py`,
+`data/app/official_*2026-11-15*` files, and appends to `COORDINATION.md` / `README.md`. It does **not**
+edit `data/app/canonical.json`, `data/app/lab.json`, `scripts/strategy_lab.py`,
+`scripts/assemble_canonical.py`, `snapshot_manifest.json`, or `report_availability.json` — those stay
+with their owning sessions' designs; change requests are logged, not executed. The generated
+`app/*.html` / `index.html` are regenerated only for the one nav tile, as 7f3b89af and 1823b910 did
+before, with the diff re-verified to be that entry only.
+
+**Stale open PRs at claim time (board 60-minute rule).** PR [#70](https://github.com/wingbangboozle1-lang/NBA3/pull/70)
+(`f2d4a99f`, `COORDINATION.md`-only record, open since 2026-11-14 10:47 UTC, CONFLICTING, no commits for
+>16 h) and PR [#79](https://github.com/wingbangboozle1-lang/NBA3/pull/79) (`90183333`, game-day refresh of
+the 11/14 1:30 PM report, open since 2026-11-14 18:57 UTC, CONFLICTING, no commits for >16 h). Both are
+past the takeover window. #79's substance (the 1:30 PM snapshot repoint and availability delta) is
+superseded by this session's 11/15 refresh; its NF-90 name-join fix is independently checked against the
+engine as it exists on `main` in B4 before any reuse is claimed. Disposition will be logged in the
+completion record below — nothing is closed until that check is written down.
+
+---
+
+## Session `arena/94e6d41b-nba3` — COMPLETION RECORD (2026-11-15, written before merge; merge/deploy appended below)
+
+**Task close-out.** B1 done (this claim, pushed pre-work) · B2 done (index + 11/15 reports 12:00 AM→06:15 AM
+verbatim + parsed, next-slot negative probes, five 11/14 finals, slate 11/15→11/18, ratings re-read attempt;
+`scripts/capture_official_2026_11_15.py` replays 16 checks offline in CI) · B3 done
+(`audit_94e6d41b/data/availability_delta.json` 18 team-sides × 4 reports; settlement: 2 cover/3 no-cover,
+3 over/2 under, 2 held-before-tip, props 6 over/1 under/2 push) · B4 done (injury→rotation + game flow for
+11/15; line-invariance: refresh moves all 17 price fields on 22 shared games, NF-90 fix itself changes zero
+fields — see `line_invariance.json`) · B5 done (`pages/{review,flags,questions,suggestions}.html`, IDs
+F-/Q-/S-/CR-94E6D41B-*) · B6 done (11 pages, 30 tests, CI wiring, one nav tile) · B7 done (this record).
+
+**Executed scope amendment — F-94E6D41B-06.** The claim's non-edit paragraph ("does **not** edit
+`canonical.json` / `lab.json` / `strategy_lab.py` / `assemble_canonical.py` / `snapshot_manifest.json` /
+`report_availability.json` — change requests are logged, not executed") was **superseded in execution** by
+this session's canonical adoption: the manifest was repointed to the 11/15 captures (window 11/15→11/18,
+previous files listed under `superseded`), `scripts/assemble_canonical.py` metadata constants (BUILD_UTC,
+SESSION string naming all three contributing sessions) were updated by the refreshing session per that
+script's own design note, the refreshed engine output was adopted as `data/app/lab.json` +
+`data/app/canonical.json` (34 lines), and the site was regenerated. Adoption is proven, not asserted:
+`audit_94e6d41b/data/line_invariance.json` shows the published leg (read via `git show d320fea:`) is
+byte-equal to the seeded rerun, the two refreshed legs are identical (deterministic), and the committed
+`lab.json` equals the refreshed engine output
+(`canonical_adoption.leg_c_equals_committed_lab_json = true`). The deviation is recorded in the audit tree
+(F-94E6D41B-06) rather than silently.
+
+**Executed change requests of `arena/1823b910` (their CR-01/CR-02; logged-not-executed → executed here).**
+- **CR-1823b910-01 executed:** manifest repointed as they proposed, with the fresh `report_availability`
+  they required computed from the same manifest-named report (their precondition honoured).
+- **CR-1823b910-02 executed the durable way:** `scripts/report_availability.py` gained `_apply_manifest` —
+  states derive inside the script from the manifest-named report, so `out_players_*` and
+  `availability_state_*` can no longer diverge (their proposed fix). **F-1823b910-02 closed.**
+- **F-1823b910-01 closed (superseded):** the published snapshot is no longer 8h15m stale — canonical now
+  names the 2026-11-15 06:15 AM ET report (101 rows).
+- **F-1823b910-03 re-quantified:** the engine is no longer injury-blind — after the NF-90 name-join fix the
+  refreshed availability inputs move all 17 price fields on the 22 shared games and change
+  `availability_flag` on 17 picks; full leg-by-leg table in `audit_94e6d41b/data/line_invariance.json`.
+- **F-1823b910-04 carried → F-94E6D41B-07** (vacuum floor; needs per-player logs — open).
+- **F-1823b910-05 / F-1823b910-07:** resolved earlier; unchanged here.
+- **F-1823b910-06** (PR #70 stale) → dispositioned below.
+
+**NF-90 / PR #79 takeover.** PR #79's name-join fix was re-derived against the engine as it exists here
+(one suffix-aware `name_key`; 14 paired-format cases pass — RR-07 in the audit review page). Proof of
+safety: the seeded published leg reproduces byte-for-byte and the fix alone changes **zero** fields across
+17 price + 11 availability + pick fields. PR #79's snapshot-repoint substance is superseded by the 11/15
+refresh. **Disposition: PR #79 will be closed (substance taken over) when this PR merges; PR #70
+(record-only, CONFLICTING >16 h) closed as superseded by this completion record.**
+
+**Registers published (owner-action items, all open).** `pages/flags.html` F-94E6D41B-01..07 (F-04 →
+CR-94E6D41B-01 report_availability zero-row wording; F-05 → CR-94E6D41B-02 `minutes_vacuum` spelling) ·
+`pages/questions.html` Q-94E6D41B-01..05 (line movement, quarter-score capture, NYK zero-row meaning, DAL
+deadline, injuries-vs-lines policy) · `pages/suggestions.html` S-94E6D41B-01..04 (window constants onto
+manifest; fifth availability state; 465-row minutes capture; automated quarter re-probe) · change requests
+CR-94E6D41B-01/02 in `data/cross_session.json`. None implemented beyond this session's own scope.
+
+**Nav-tile label deviation (recorded).** This session's tile is `("Game-day refresh audit",
+"audit_94e6d41b/pages/index.html")` under Verification. Session 7f3b89af's convention is "Latest audit";
+both entries are kept, so the dashboard links five audit-era trees plus the hub. ARCHIVE_TREES unchanged
+(this tree is current, not archived).
+
+**New standing rule (discovered during integration, applied to all predecessor trees).** Every predecessor
+audit tree must stay **byte-reproducible across refreshes**: mutable shared inputs are read point-in-time
+via `git show d320fea:<path>` (the merge-of-PR-#83 commit every committed predecessor output was derived
+from), never from the mutable working tree. Applied this round to: `audit_1823b910/analysis.py`,
+`audit_736efb4b/{compare,build}.py`, `audit_dd1eb1f1/build.py`, `audit_7f3b89af/{analysis,checks,build}.py`
+— each with a commented helper crediting this session; the trees' committed data/pages are otherwise
+untouched. Future refresh sessions must extend the same pinning rather than rebuild predecessor outputs.
+
+**Determinism fix.** `missing_from_0130pm_audit` in `availability_delta.json` (and the refresh.html warn
+line derived from it) was set-iteration ordered between runs; it is now sorted before dump, so the tree
+rebuilds byte-identically.
+
+**Counting reconciliation (to prevent a recurring confusion).** "15 of 18 team-sides **present**" (repo
+review RR-10) counts presence in the 1:30 PM audit transcript (3 absent, listed in
+`availability_delta.json`); "16 of 18 **filed**" (snapshot stamp) counts filed player-row sets in the newest
+06:15 AM report (DAL prints NOT YET SUBMITTED; NYK prints no rows). Different predicates, both correct.
+
+**Local CI replay (workflow order, on the committed tree, 2026-11-15).** 1 canonical+site drift OK ·
+2 1823b910 capture OK · 3 1823b910 tree clean, 17/17 tests OK · 4 94e6d41b captures OK · 5 94e6d41b tree
+byte-identical, 30/30 tests OK · 6 736efb4b tree clean, 13/13 OK · 7 dd1eb1f1 13/13 OK · 8 7f3b89af tree
+clean, 13/13 OK · dashboard rebuild no drift. **REPLAY FULLY GREEN — tree clean.** Not replayable in the
+sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 ### Integration record — session `arena/81800928` (R4)
 
 - **PR #92** (`arena/81800928-nba3` → `main`): build check **pass** (run 43776086649; `deploy` skipped on PR by design).

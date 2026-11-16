@@ -36,14 +36,15 @@
   {
    "id": "RR-04",
    "check": "the availability state the engine uses and the injury rows it publishes come from the same official report",
-   "result": "FAIL",
-   "n": 4,
+   "result": "PASS",
+   "n": 0,
    "detail": {
-    "availability_file_as_of": "2026-11-14 04:15 AM ET",
+    "availability_file_as_of": "2026-11-15 06:15 AM ET",
     "injury_rows_file": "2026-11-14 01:30 PM ET",
-    "effect": "data/app/report_availability.json is built from the 04:15 AM report and hard-codes deadline_passed_at_capture=False for the five teams on the second night of a back-to-back. Four of them (NOP, CLE, CHI, MIA) have in fact filed. Because scripts/strategy_lab.py reads the state from that file, the refreshed rows appear in out_players_* but out_count_* stays blank and availability_state_* still reads NOT_YET_DUE."
+    "was": "FAIL on 2026-11-14: data/app/report_availability.json was built from the 04:15 AM report and hard-coded deadline_passed_at_capture=False for the five second-night-of-a-back-to-back teams, four of which (NOP, CLE, CHI, MIA) had filed, so out_players_* and out_count_* disagreed.",
+    "now": "the shared availability file carries the published 06:15 AM ET verdict and snapshot_manifest.json names report_availability_2026-11-15.json (same stamp) as the engine's input; the published injury rows are the 06:15 AM report, so availability state and injury rows come from one official report."
    },
-   "source": "data/app/report_availability.json + https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
+   "source": "data/app/report_availability.json + snapshot_manifest.json + https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-14_01_30PM.pdf"
   },
   {
    "id": "RR-05",

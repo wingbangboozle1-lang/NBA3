@@ -1,0 +1,70 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "note": "Flagged items do not block anything. Each names an owner and the official source that supports it.",
+ "flags": [
+  {
+   "id": "F-94E6D41B-01",
+   "severity": "low",
+   "area": "capture fidelity",
+   "title": "The five extractions of the same injury reports disagree on two printed name cells",
+   "evidence": "The 06:15 AM document prints 'Embid, Joel' in the fetch extraction while the 06:00 AM / 05:45 AM / 12:00 AM / 11:30 PM documents print 'Embiid, Joel'; the 12:00 AM extraction prints 'Markovic, Bogojub' while the others print 'Markovic, Bogoljub'. The canonical snapshot publishes the 06:15 AM document's own reading; the other four spellings are preserved verbatim in the committed raw files and the variants join identically after ASCII folding (capture checks C3c).",
+   "owner": "arena/94e6d41b-nba3",
+   "status": "open (read-noise monitoring)"
+  },
+  {
+   "id": "F-94E6D41B-02",
+   "severity": "medium",
+   "area": "results completeness",
+   "title": "Quarter scores for the 2026-11-14 finals are not text-extractable from any official source reached",
+   "evidence": "The scoreboard card, box-score page and game summary print no per-quarter line score in text-extractable form; cdn.nba.com liveData returns HTTP 500, stats.nba.com is blocked, data.nba.com returns S3 AccessDenied. The finals are stored with quarters null and the flag attached rather than inferred from play-by-play text.",
+   "owner": "arena/94e6d41b-nba3",
+   "status": "open (re-probe each refresh)"
+  },
+  {
+   "id": "F-94E6D41B-03",
+   "severity": "low",
+   "area": "naming",
+   "title": "The official players page renders PTS-descending order even when the URL asks for a MIN sort",
+   "evidence": "players_top31_2026-11-15.csv and the previous capture (players_top31_2026-11-14c.csv) are both non-MIN-monotone: the site renders its default ranking regardless of the SortColumn parameter. The file name says top31-by-minutes but the content is rows 1-31 of the official table in rendered order. Convention unchanged; naming flagged.",
+   "owner": "any refresh session",
+   "status": "open (renaming is an owner decision)"
+  },
+  {
+   "id": "F-94E6D41B-04",
+   "severity": "medium",
+   "area": "availability semantics",
+   "title": "A team with zero rows on a date the report does cover is published as 'no official report covers this date'",
+   "evidence": "NYK filed no player rows for NYK@TOR in the 06:15 AM report (Toronto filed four). scripts/report_availability.py has no distinct state for 'covered date, team absent', so NYK's state reads NO_OFFICIAL_REPORT_COVERS_THIS_DATE while the date itself IS covered - the message is misleading even though the no-inference treatment (unknown, never healthy) is correct. Engine and availability-script change; logged, not edited.",
+   "owner": "owner of scripts/report_availability.py",
+   "status": "open (change request CR-94E6D41B-01)"
+  },
+  {
+   "id": "F-94E6D41B-05",
+   "severity": "low",
+   "area": "engine cosmetics",
+   "title": "The engine's vacated-minutes field is spelled minutes_vacuum",
+   "evidence": "scripts/strategy_lab.py's injury_impact rows carry minutes_vacuum/pts_vacuum (for 'vacated'). Purely cosmetic; reproduced verbatim in rotation_impact.json.",
+   "owner": "owner of scripts/strategy_lab.py",
+   "status": "open (change request CR-94E6D41B-02)"
+  },
+  {
+   "id": "F-94E6D41B-06",
+   "severity": "low",
+   "area": "process",
+   "title": "This session executed two change requests its own claim had marked log-only",
+   "evidence": "The claim's non-overlap paragraph listed snapshot_manifest.json and report_availability.json as non-edits. The rolling refresh they scope (B4: 'line-invariance re-run of the seeded lab against the new report') is impossible without repointing those files, and both were executed per 1823b910's own suggestions S-1823b910-01/S-1823b910-02 (findings F-1823b910-01/F-1823b910-02). The amendment below the claim section on COORDINATION.md records this, the owning sessions' files are untouched, and no parallel session was live (board 60-minute rule; both stale PRs past takeover). The strategy_lab.py NF-90 fix is the third executed item, covered by the same amendment and proven line-invariant in line_invariance.json.",
+   "owner": "arena/94e6d41b-nba3",
+   "status": "resolved by amendment (board record)"
+  },
+  {
+   "id": "F-94E6D41B-07",
+   "severity": "medium",
+   "area": "results completeness (carried)",
+   "title": "F-1823b910-04 carried: the minutes/production vacuum is a floor for most listed players",
+   "evidence": "On the 11/15 report only Haliburton (33.0 min / 21.8 pts) and Reaves (35.3 / 24.7) are inside the captured top-31 table; every other listed Out/Doubtful player counts toward players_without_official_minutes. Suggestion S-1823b910-04 (extend the minutes capture) remains open.",
+   "owner": "any refresh session",
+   "status": "open (carried from 1823b910)"
+  }
+ ]
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Audit</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html" class="active">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Audit</div>
+    <h1>Flagged</h1>
+    <p class="lead">Known wrong and unverified.</p>
+  </div>
+
+<p>Everything that could not be verified or that is known to be wrong. Nothing here blocks the site
+from building; all of it blocks a claim.</p>
+
+<div class="table-wrap"><table>
+<caption id="flags"></caption>
+<thead><tr><th>ID</th><th>Severity</th><th>Flag</th><th>Detail</th><th>Fix</th><th>Source</th></tr></thead><tbody>
+<tr><td>FV2-06</td><td><span class="chip chip-bad">high</span></td><td>estimator B&#x27;s walk-forward grades are contaminated by a single dated snapshot</td><td>B was fitted on the 2026-11-15 team-statistics snapshot and used to price all 135 earlier games. Its error (13.8324) is not an out-of-sample figure and no ranking may cite it.</td><td>capture a per-date team-statistics history, or restrict B&#x27;s backtest to games on or after the snapshot</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+<tr><td>FV2-09</td><td><span class="chip chip-bad">info</span></td><td>the newest injury report changed nothing but a spelling</td><td>the 0630 report differs from 0615 only by &#x27;Embid&#x27; -&gt; &#x27;Embiid&#x27;; zero status changes. Published so a reader cannot mistake a revision for a new injury.</td><td>none needed</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+<tr><td>FV2-10</td><td><span class="chip chip-bad">high</span></td><td>no licensed market price is connected to this repository</td><td>every edge on the site is measured against the project&#x27;s own originated line at an assumed -110. No rule can demonstrate value against a real market until a price feed exists, so G11 fails for all of them by construction.</td><td>connect a licensed historical odds source, then re-run the board unchanged</td><td><a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3</a></td></tr>
+</tbody></table></div>
+<h2>Unattributed injury rows</h2>
+
+<p>13 rows in the newest report sit on page fragments
+where the league's own document prints no team, and are refused rather than assigned. They are
+counted here so the omission is visible.</p>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

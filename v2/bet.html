@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bet — gated — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Bet</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html" class="active">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Bet</div>
+    <h1>Bet — gated</h1>
+    <p class="lead">The gated surface. Empty, correctly.</p>
+  </div>
+
+<p>This is the gated surface. A strategy appears as a bet only if it passes every gate: sufficient
+sample, adequate power, exact-binomial significance, false-discovery control across the whole board,
+half-to-half stability, an edge that clears the price actually paid, an edge above the board-wide
+luck threshold, a pre-registration hash recorded before the first bet, and a real market price.</p>
+
+<div class="callout warn"><p><strong>There are no bets on this page, and that is the correct result.</strong> No licensed market price is connected to this repository, so the final gate fails for every rule by construction. Every edge on the board is measured against the project's own originated line and an assumed -110, which can tell you whether our own line is biased but cannot tell you whether a bookmaker would have paid.</p></div>
+
+<div class="table-wrap"><table>
+<caption id="bet-board"></caption>
+<thead><tr><th>ID</th><th>Rule</th><th>Market</th><th>May be a bet</th><th>May be published</th><th>Tier</th><th>Failing gates</th><th>Source</th></tr></thead><tbody>
+<tr><td><a href="leaderboard.html#S01">S01</a></td><td>Fade the big home favourite</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S02">S02</a></td><td>Back the big home favourite</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S03">S03</a></td><td>Under a high total</td><td>total</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S04">S04</a></td><td>Over a high total</td><td>total</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S05">S05</a></td><td>Rested home team vs a back-to-back road team</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S06">S06</a></td><td>Fade the rested home team</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S07">S07</a></td><td>Back the home team on a back-to-back</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S08">S08</a></td><td>Fade the home team on a back-to-back</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S09">S09</a></td><td>Moneyline the model favourite</td><td>moneyline</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S10">S10</a></td><td>Moneyline the model underdog</td><td>moneyline</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S11">S11</a></td><td>Take the side the estimators disagree on</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G7 stability, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#S12">S12</a></td><td>Fade the side the estimators disagree on</td><td>spread</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G7 stability, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#P01">P01</a></td><td>Same-game: model side plus Under</td><td>sgp</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#P02">P02</a></td><td>Cross-game: two independent sides</td><td>cross</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G2 look-ahead, G3 sample, G4 power, G5 significance, G6 FDR, G7 stability, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#R01">R01</a></td><td>Player points over his season average</td><td>player_points</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G7 stability, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#R02">R02</a></td><td>Player points under his season average</td><td>player_points</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G7 stability, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#R03">R03</a></td><td>Two-team player-points combo</td><td>player_combo</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G3 sample, G4 power, G5 significance, G6 FDR, G7 stability, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+<tr><td><a href="leaderboard.html#N01">N01</a></td><td>NULL CONTROL: a coin flip</td><td>moneyline</td><td><strong>no</strong></td><td>no</td><td>T5 not demonstrated</td><td>G4 power, G5 significance, G6 FDR, G8 economics, G9 luck, G11 price reality</td><td><a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">https://www.nba.com/schedule</a></td></tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

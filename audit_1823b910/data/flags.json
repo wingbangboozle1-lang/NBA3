@@ -24,8 +24,8 @@
    "id": "F-1823b910-02",
    "severity": "high",
    "area": "availability layer",
-   "title": "report_availability.json still marks four teams NOT_YET_DUE that have since filed",
-   "evidence": "data/app/report_availability.json is built from the 04:15 AM report and stores deadline_passed_at_capture=False for NOP, CLE, CHI, MIA and MEM. In the 1:30 PM report NOP (5 rows), CLE (8), CHI (7) and MIA (4) list players; only MEM is still NOT YET SUBMITTED.",
+   "title": "report_availability.json lagged the published report (RESOLVED: rebuilt at the published 06:15 AM stamp, session f300fe08)",
+   "evidence": "As found on 2026-11-14: data/app/report_availability.json was built from the 04:15 AM report and stored deadline_passed_at_capture=False for NOP, CLE, CHI, MIA and MEM; in the 1:30 PM report NOP (5 rows), CLE (8), CHI (7) and MIA (4) listed players and only MEM was still NOT YET SUBMITTED. Resolved 2026-11-15: the shared file was rebuilt from the published 06:15 AM verdict (CR-1823b910-02), and snapshot_manifest.json names report_availability_2026-11-15.json as the engine's input, so the engine, the site and the published injury rows now read one report. The 04:15 layer this audit was written against is preserved at audit_1823b910/data/availability_1114_0415.json.",
    "values": {
     "filed_since": [
      "CHI@MIN CHI (7 rows)",

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method — NBA3 v2</title>
+<meta name="description" content="NBA3 v2: two independent estimators, gated strategies, pre-registered and hashed, settled from official finals.">
+<link rel="stylesheet" href="../app/assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> v2 pipeline</a>
+    <div class="stamp">Published surface: <strong>Method</strong></div>
+  </div>
+</header>
+<nav class="site-nav"><div class="wrap"><div class="nav-group"><span class="nav-cat">Start</span><span class="nav-links"><a href="index.html">Overview</a> <a href="method.html" class="active">Method</a></span></div><div class="nav-group"><span class="nav-cat">Projection (safe to publish)</span><span class="nav-links"><a href="projection.html">Originated lines</a> <a href="context.html">Game context: rest, travel, injuries</a></span></div><div class="nav-group"><span class="nav-cat">Bet (gated)</span><span class="nav-links"><a href="bet.html">Gated board</a></span></div><div class="nav-group"><span class="nav-cat">Audit</span><span class="nav-links"><a href="gates.html">Source &amp; freshness gates</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="ledger.html">Sealed ledger</a> <a href="correlations.html">Correlations</a> <a href="flagged.html">Flagged for review</a></span></div></div></nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Method</div>
+    <h1>Method</h1>
+    <p class="lead">How the pipeline works, and what is broken.</p>
+  </div>
+
+<p>Two independent estimators, disagreement published as the headline, blend underneath. This page
+says how each piece works and, where a piece does not work, that it does not.</p>
+
+<h2>Estimator A — result-based</h2>
+<p>Ridge least squares on final margins, one team strength per team, with the home-court term
+subtracted before the fit so it cannot be re-estimated inside it. Every forecast is made from games
+dated strictly before the game being priced, and the home-court pin is recomputed from history at
+each date too, so neither the ratings nor the pin see the future.</p>
+
+<h2>Estimator B — efficiency-based</h2>
+<p>Possessions times points per possession, from the official team advanced and opponent pages.
+Never looks at a final margin, which is what makes it a genuinely different method rather than a
+re-parameterisation of A.</p>
+
+<pre>points per possession  = (points per game x games) / possessions
+expected possessions   = (pace_home + pace_away) / 2
+total                  = possessions x (ppp_home + ppp_away)
+margin                 = possessions x (ppp_home - ppp_away) + hca_points</pre>
+
+<p>The total is built that way on purpose. A total computed as the average of two team scoring
+averages double-counts pace and cannot be corrected afterwards; the possession form at least has the
+right units. It still does not beat a constant league total out of sample, and the site says so on
+the page where the totals appear.</p>
+
+<h2>Disagreement</h2>
+<p>The headline number is the gap between the estimators in points, and beside it the same gap
+divided by their combined error. Three points of disagreement when each method is typically wrong by
+fifteen is nothing; three points when each is wrong by four is a real fight. Only the second
+statement is worth acting on, so the label is computed from the ratio and the raw gap is never shown
+alone.</p>
+
+<h2>Gates</h2>
+<p>Eleven gates per rule: provenance, look-ahead, sample, power, exact-binomial significance,
+Benjamini-Hochberg control across the board, half-to-half stability, economics against the price
+actually paid, the board-wide luck threshold, pre-registration, and whether a real market price
+exists. The last one fails for everything, which is the honest state of a repository with no odds
+feed.</p>
+
+<h2>Ledger</h2>
+<p>Each pick is hashed with SHA-256 over its canonical JSON before settlement; the hash is stored
+and recomputed after. The strategy's own registration — signal, thresholds, universe, settlement
+rule — is hashed the same way and frozen in <code>data/v2/registrations.json</code> on the first
+build, so a rule cannot be re-stamped forward to stay ahead of a bet.</p>
+
+<h2>Modules</h2>
+<p><code>__init__.py</code>, <code>backtest.py</code>, <code>build.py</code>, <code>estimators.py</code>, <code>gates.py</code>, <code>injury.py</code>, <code>leaderboard.py</code>, <code>pricing.py</code>, <code>schedule_context.py</code>, <code>stats.py</code>, <code>strategies.py</code></p>
+
+<h2>Reproducibility</h2>
+<p>The build is seeded and byte-identical across runs; a test asserts it. Two things had to be
+pinned for that to be true — the publication timestamp to the minute, and the registration stamps to
+a file written once.</p>
+
+<h2>Known broken</h2>
+<ul>
+<li>The totals model does not beat a constant. Published as worse, not shrunk into looking fine.</li>
+<li>Estimator B's backtest is contaminated by its single dated snapshot (FV2-06).</li>
+<li>Player props and four of the nine correlation cells need per-player game logs that do not exist
+in this repository.</li>
+<li>The travel term is a great-circle lower bound from a secondary source, not route mileage.</li>
+<li>No market price, so no rule can be shown to have value.</li>
+</ul>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+<p><strong>NBA3 v2</strong> — research, not betting advice. Every table row links to its official
+source. Values that could not be confirmed are left blank and listed on the
+<a href="flagged.html">flagged page</a>. The v1 dashboard is at
+<a href="../index.html">the root index</a>.</p>
+</div></footer>
+</body>
+</html>

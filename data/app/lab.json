@@ -11,10 +11,10 @@
    "canonical": "data/origin/games.csv",
    "second_capture": "data/app/games_2026-11-14c.csv",
    "rows_canonical": 188,
-   "rows_second": 183,
-   "identical": false,
+   "rows_second": 188,
+   "identical": true,
    "detail": [
-    "only in canonical: 2026-11-14/0022600231/DEN/116/NOP/108/False; 2026-11-14/0022600232/DAL/117/CLE/127/False; 2026-11-14/0022600233/DET/117/MIA/137/False; 2026-11-14/0022600234/BKN/110/MEM/129/False; 2026-11-14/0022600235/CHI/117/MIN/106/False"
+    "two sessions extended data/origin/games.csv and data/app/games_2026-11-14c.csv independently from the official scoreboard; the row sets agree exactly, including game id, both scores and the overtime flag. Row order differs (each file appends where it likes); the engine sorts by date and game id, so order is not a finding."
    ]
   },
   "oos_games": 145,

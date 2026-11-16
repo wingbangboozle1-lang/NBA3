@@ -306,7 +306,9 @@ def page_refresh(refresh):
     p.h2("Reading order")
     p.p(f"The baseline is the {link(REPORT_0515, '05:15 AM ET report')}, which is what "
         f"{link('https://wingbangboozle1-lang.github.io/NBA3/app/injuries.html', 'the canonical injuries page')} "
-        f"publishes (it is content-identical to the 04:15 AM snapshot the engine reads). The "
+        f"publishes (it is content-identical to the 04:15 AM snapshot the engine read when "
+        f"this baseline was published; the engine's availability input has since been "
+        f"repointed by snapshot_manifest.json to the published 06:15 AM verdict). The "
         f"refreshed report is the {link(REPORT_NEW, '1:30 PM ET report')}. Both were fetched "
         f"verbatim; the {link(REPORT_PREV, '1:00 PM ET report')} was fetched independently and "
         "is used only to confirm cells the 1:30 PM extraction does not print.")
