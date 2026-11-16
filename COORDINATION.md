@@ -4646,3 +4646,40 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/1c759e95-nba3` (current) — CLAIM: 11/16 early-round freshness + line-by-line verification, then final integration (stale PR takeover, CI replay, PR → merge → Pages)
+
+**Session ID:** `arena/1c759e95-nba3`. Branch `arena/1c759e95-nba3`, branched from `main` @ `5fde67e`
+(merge of PR #97). Claim committed and pushed before any other work started (2026-11-16 ~02:15 UTC).
+Arena fixes the branch name, so scope is enforced by the file list below.
+
+**Why this round exists.** At claim time it is 2026-11-16 ~02:15 UTC (2026-11-15 ~21:15 ET): the
+11/15 slate is finishing, four pull requests are open and stale/CONFLICTING or red
+(#94 MERGEABLE but build FAILURE, #95 CONFLICTING, #96 CONFLICTING, #98 CONFLICTING — last
+commits 00:00–01:15 UTC, i.e. ≥60 minutes ago on three of four), and no session currently holds an
+integration claim. This session takes the verification round for its own namespace and then the
+final integration role the brief assigns (merge, re-verify line by line, build, publish, record).
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| I1 | Claim + board setup (this section) | in progress | 1c759e95 | `COORDINATION.md` (append-only) |
+| I2 | Freshness round: newest official injury report(s) on the official index as of now, verbatim capture + parsed rows + diff vs the newest captured report; 11/15 finals status sweep (all 9 games) captured in this session's namespace | pending | 1c759e95 | `audit_1c759e95/**` (new tree, this session only), `data/app/*_1c759e95.*` (new files) |
+| I3 | Line-by-line verification pass with a source link per row; flags/questions/suggestions with own IDs (F-1C759e95-*, Q-1C759e95-*, S-1C759e95-*) | pending | 1c759e95 | `audit_1c759e95/**` |
+| I4 | Integration: take over stale PRs #94/#95/#96/#98 (60-minute rule), merge into this branch keeping both sides, resolve conflicts without discarding any session's work, run the full pages.yml check suite locally, fix failures until green | pending | 1c759e95 | merge commits + conflict resolutions logged here |
+| I5 | Shared outputs (final integration session only): regenerate `app/*.html` + `index.html` nav so every merged surface is linked; rebuild all site trees; link check | pending | 1c759e95 | `scripts/build_app.py` regeneration output, `index.html`, `app/*.html` |
+| I6 | PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | pending | 1c759e95 | `COORDINATION.md`, PR |
+
+**Non-overlap.** This session does not edit `projection/**`, `bet/**`, `rolling/**`, `slate/**`,
+`data/slate/**`, `data/live/**` (owners: #94, #95, #96) except where an I4 takeover merge makes this
+session the owner of the merged result — every such conflict resolution will be logged here.
+Captures use the `_1c759e95` suffix so no session's files are overwritten. COORDINATION.md is
+append-only for this session; all earlier sections are preserved verbatim.
+
+**Takeover basis (board rule).** PRs #94 (open since 2026-11-15 23:00 UTC-era, last push 00:00:59
+UTC), #96 (last push 00:45:37 UTC), #98 (last push 01:03:58 UTC) are ≥60 minutes without commits at
+integration time and CONFLICTING or red; #95 last push 01:15:20 UTC. Content of every PR is
+preserved — nothing is closed unless its content is proven already on `main` line by line, and the
+disposition of each is recorded below.
+
