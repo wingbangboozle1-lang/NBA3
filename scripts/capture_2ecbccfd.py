@@ -392,6 +392,21 @@ def extended_log():
     log = load_log()
     d = json.loads(read(RESULTS_1115_JSON))
     added = []
+    # Corroboration read by THIS session, kept in this round's artefact rather than written into
+    # session 8f4fac33's file (shared outputs are not mine to edit).
+    corroborated = {
+        "0022600243": {
+            "url": ATL_MIL_GAME_URL,
+            "retrieved_utc": "2026-11-16T18:52Z",
+            "printed": "ATL 113 Final 106 MIL, Sunday, November 15th, 2026, Fiserv Forum",
+            "agrees_with_game_book": True,
+            "note": ("the game page's own scoreboard banner restates the same final as the game "
+                     "book, so the FINAL score is verified by two official printings; the "
+                     "quarter table on that page was not reached in the fetched chunks, so the "
+                     "period breakdown stays unverified and this row is excluded from every "
+                     "quarter-level measure"),
+        }
+    }
     for g in d["rows"]:
         row = {
             "date": g["date"], "game_id": g["game_id"], "away": g["away"],
@@ -402,6 +417,11 @@ def extended_log():
             "quarter_scores_verified": bool(g.get("away_sum_ok")) and bool(g.get("home_sum_ok")),
             "settled": bool(g.get("settled")),
             "score_verified_by": [g["source_url"], g["scoreboard_url"]],
+            "final_verified": bool(g.get("verified")) or g["game_id"] in corroborated,
+            "final_corroboration": corroborated.get(g["game_id"]),
+            "quarter_status": ("verified" if (g.get("away_sum_ok") and g.get("home_sum_ok"))
+                                else "conflict_unresolved_do_not_use"),
+            "used_for_quarter_measures": bool(g.get("away_sum_ok") and g.get("home_sum_ok")),
         }
         log.append(row)
         added.append(row)
@@ -550,6 +570,11 @@ def main():
             "home_measured": home,
             "reconciliation": recon,
             "games_thru_2026_11_16": len(tonight),
+            "settlement_note": ("every row's final score is printed by an official source; one row "
+                                "(ATL@MIL 0022600243) has a quarter table that does not sum to its "
+                                "own printed final, so it is used for margin and total measures and "
+                                "excluded from quarter-level ones, and its quarter cells are printed "
+                                "as captured with the conflict named"),
         },
         "injuries.json": {
             "schema": "nba3.rounds.injuries/v1",

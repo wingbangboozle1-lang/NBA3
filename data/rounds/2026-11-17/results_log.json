@@ -33,7 +33,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -64,7 +68,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -95,7 +103,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -126,7 +138,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -157,7 +173,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -190,7 +210,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -221,7 +245,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   },
   {
    "date": "2026-11-15",
@@ -252,7 +280,17 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": {
+    "url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+    "retrieved_utc": "2026-11-16T18:52Z",
+    "printed": "ATL 113 Final 106 MIL, Sunday, November 15th, 2026, Fiserv Forum",
+    "agrees_with_game_book": true,
+    "note": "the game page's own scoreboard banner restates the same final as the game book, so the FINAL score is verified by two official printings; the quarter table on that page was not reached in the fetched chunks, so the period breakdown stays unverified and this row is excluded from every quarter-level measure"
+   },
+   "quarter_status": "conflict_unresolved_do_not_use",
+   "used_for_quarter_measures": false
   },
   {
    "date": "2026-11-15",
@@ -283,7 +321,11 @@
    "score_verified_by": [
     "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
     "https://www.nba.com/games?date=2026-11-15"
-   ]
+   ],
+   "final_verified": true,
+   "final_corroboration": null,
+   "quarter_status": "verified",
+   "used_for_quarter_measures": true
   }
  ],
  "home_measured": {
@@ -633,5 +675,6 @@
   "teams_reconciled": 30,
   "teams_total": 30
  },
- "games_thru_2026_11_16": 197
+ "games_thru_2026_11_16": 197,
+ "settlement_note": "every row's final score is printed by an official source; one row (ATL@MIL 0022600243) has a quarter table that does not sum to its own printed final, so it is used for margin and total measures and excluded from quarter-level ones, and its quarter cells are printed as captured with the conflict named"
 }
