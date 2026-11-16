@@ -4738,7 +4738,7 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 
 ### C7 — PR, merge, Pages
 - PR: https://github.com/wingbangboozle1-lang/NBA3/pull/97 → merged (`5fde67ee`).
-- Follow-up reconciliation PR for the post-refresh state (this record + `b53d625`): linked in this section after creation.
+- Follow-up reconciliation PR for the post-refresh state (this record + `b53d625`): **https://github.com/wingbangboozle1-lang/NBA3/pull/100** (created after this section was drafted; merged in the same round).
 - **Pages deploy:** rolling deploys for every `main` push since 55692dc were cancelled/superseded or failed platform-side (legacy build; flagged as F-F300-03 / 84c60e4c's irregularity). Each push retries the deploy per the standing retry rule; final status is appended below when a run completes.
 
 ### Sources used (this round, verified with the fetch tool)
