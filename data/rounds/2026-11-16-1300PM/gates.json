@@ -1,13 +1,13 @@
 {
- "gate_count": 17,
- "pass_count": 16,
+ "gate_count": 18,
+ "pass_count": 18,
  "blocking_failures": [],
  "row_level_failures": [],
  "advisories": [
   {
    "id": "F5_newer_filing_listed_since_capture",
-   "pass": false,
-   "detail": "captured 2026-11-16 01:00 PM ET; the index re-read at 2026-11-16T15:12Z listed 2026-11-16 01:15 PM ET (53 slots). The captured filing was the newest at ITS read time; it has since been superseded by one filing."
+   "pass": true,
+   "detail": "captured 2026-11-16 01:15 PM ET; the index re-read at 2026-11-16T15:12Z listed nothing newer (53 slots for the day). A filing can still arrive after this build; the index is the authority, not this page."
   }
  ],
  "rebuild_allowed": true,
@@ -18,11 +18,11 @@
    "name": "the captured filing is the newest the official index lists",
    "pass": true,
    "scope": "build",
-   "detail": "index newest at read: 2026-11-16 01:00 PM ET; captured: 2026-11-16 01:00 PM ET",
+   "detail": "index newest at second read: 2026-11-16 01:15 PM ET; captured: 2026-11-16 01:15 PM ET",
    "measured": {
-    "index_newest": "2026-11-16 01:00 PM ET",
-    "captured": "2026-11-16 01:00 PM ET",
-    "index_slots_for_11_16": 52
+    "index_newest": "2026-11-16 01:15 PM ET",
+    "captured": "2026-11-16 01:15 PM ET",
+    "index_slots_for_11_16": 53
    }
   },
   {
@@ -30,13 +30,13 @@
    "name": "the stamp printed inside the PDF matches its filename",
    "pass": true,
    "scope": "build",
-   "detail": "PDF header stamps parsed: ['11/16/26 01:00 PM']",
+   "detail": "PDF header stamps parsed: ['11/16/26 01:15 PM']",
    "measured": {
     "stamps": [
-     "11/16/26 01:00 PM"
+     "11/16/26 01:15 PM"
     ],
     "expected": [
-     "11/16/26 01:00 PM"
+     "11/16/26 01:15 PM"
     ]
    }
   },
@@ -45,9 +45,9 @@
    "name": "this filing is strictly newer than the one main publishes",
    "pass": true,
    "scope": "build",
-   "detail": "captured 2026-11-16 01:00 PM ET vs published 2026-11-16 09:15 AM ET",
+   "detail": "captured 2026-11-16 01:15 PM ET vs published on main 2026-11-16 09:15 AM ET",
    "measured": {
-    "captured": "2026-11-16 01:00 PM ET",
+    "captured": "2026-11-16 01:15 PM ET",
     "previously_published": "2026-11-16 09:15 AM ET"
    }
   },
@@ -70,10 +70,10 @@
    "name": "every captured document carries an https source URL and a sha256",
    "pass": true,
    "scope": "build",
-   "detail": "1:00 PM transcript sha256=09172cec34fcc917...",
+   "detail": "1:00 PM transcript sha256=0e0e280d619889db...",
    "measured": {
-    "transcript_sha256": "09172cec34fcc917bcaf4e6e5f65a0e4de01f16bf60a49f65d812311d363137b",
-    "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf"
+    "transcript_sha256": "0e0e280d619889db1d247ab93c0032dc2a8265754400f6141d9404bcec3f8fb7",
+    "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
    }
   },
   {
@@ -89,11 +89,11 @@
   {
    "id": "F5_newer_filing_listed_since_capture",
    "name": "no newer official filing was listed when the index was re-read after the build",
-   "pass": false,
+   "pass": true,
    "scope": "advisory",
-   "detail": "captured 2026-11-16 01:00 PM ET; the index re-read at 2026-11-16T15:12Z listed 2026-11-16 01:15 PM ET (53 slots). The captured filing was the newest at ITS read time; it has since been superseded by one filing.",
+   "detail": "captured 2026-11-16 01:15 PM ET; the index re-read at 2026-11-16T15:12Z listed nothing newer (53 slots for the day). A filing can still arrive after this build; the index is the authority, not this page.",
    "measured": {
-    "captured": "2026-11-16 01:00 PM ET",
+    "captured": "2026-11-16 01:15 PM ET",
     "reread_newest": "2026-11-16 01:15 PM ET",
     "reread_at": "2026-11-16T15:12Z",
     "reread_slots": 53
@@ -181,13 +181,35 @@
    }
   },
   {
+   "id": "I8a_spelling_change_detected",
+   "name": "a name printed differently in two filings is a spelling change, not a squad change",
+   "pass": true,
+   "scope": "build",
+   "detail": "1 spelling change(s), 0 genuine removal(s)",
+   "measured": {
+    "spelling": [
+     {
+      "matchup": "GSW@NOP",
+      "team": "New Orleans Pelicans",
+      "was_name": "Mathurin, Bennedict",
+      "now_name": "Mathurin, Benedict",
+      "edit_distance": 1,
+      "was_status": "Out",
+      "now_status": "Out",
+      "note": "same club and game, printed name within two edits: a spelling change in the document, not a squad change. The status is compared but the player is the same."
+     }
+    ],
+    "removed": []
+   }
+  },
+  {
    "id": "I8_diff_is_positional_free",
    "name": "the consecutive-report diff matched no row by position",
    "pass": true,
    "scope": "build",
-   "detail": "75 keys compared on (matchup, club, player)",
+   "detail": "77 keys compared on (matchup, club, player)",
    "measured": {
-    "keys": 75
+    "keys": 77
    }
   },
   {

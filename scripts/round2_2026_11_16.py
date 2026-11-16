@@ -59,6 +59,8 @@ INJURY_PDF_1300 = ("https://ak-static.cms.nba.com/referee/injury/"
                    "Injury-Report_2026-11-16_01_00PM.pdf")
 INJURY_PDF_0915 = ("https://ak-static.cms.nba.com/referee/injury/"
                    "Injury-Report_2026-11-16_09_15AM.pdf")
+INJURY_PDF_0115 = ("https://ak-static.cms.nba.com/referee/injury/"
+                   "Injury-Report_2026-11-16_01_15PM.pdf")
 SCHEDULE_URL = "https://www.nba.com/schedule?date=2026-11-16"
 STANDINGS_URL = "https://www.nba.com/standings"
 STATS_TRADITIONAL_URL = "https://www.nba.com/stats/teams/traditional"
@@ -67,10 +69,13 @@ STATS_ADVANCED_URL = "https://www.nba.com/stats/teams/advanced"
 
 RETRIEVED_1300 = "2026-11-16T14:52Z"   # Arena fetch tool, PDF chunks 0+1 of 2
 RETRIEVED_0915 = "2026-11-16T14:35Z"   # recorded when session 8f4fac33 captured it
+RETRIEVED_0115 = "2026-11-16T15:20Z"   # this session, after the index advanced
 
 REPORT_STAMP_1300 = "2026-11-16 01:00 PM ET"
 REPORT_STAMP_0915 = "2026-11-16 09:15 AM ET"
-INDEX_NEWEST_AT_READ = "2026-11-16 01:00 PM ET"
+REPORT_STAMP_0115 = "2026-11-16 01:15 PM ET"
+INDEX_NEWEST_AT_READ = "2026-11-16 01:00 PM ET"     # when the 1:00 PM PDF was captured
+INDEX_NEWEST_AT_READ_2 = "2026-11-16 01:15 PM ET"   # when the index was re-read
 INDEX_SLOT_COUNT_1116 = 52          # slots listed when the 1:00 PM PDF was captured
 # The index was re-read once more, after the artefacts were built, and had advanced. Recorded
 # here because a capture is only ever "newest at its read time"; claiming otherwise would be the
@@ -441,6 +446,29 @@ def parse_injury_report(path: str, *, label: str, retrieved: str, pdf_url: str,
 # 2. consecutive-report diff
 # ----------------------------------------------------------------------------------------------
 
+def _levenshtein(a: str, b: str) -> int:
+    if a == b:
+        return 0
+    if not a:
+        return len(b)
+    if not b:
+        return len(a)
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        prev = cur
+    return prev[-1]
+
+
+def _normalise_name(name: str) -> str:
+    """Lower-case the whole printed name. The official format is 'Surname, First', and the
+    spelling difference on this pair is in the FIRST name (Bennedict / Benedict), so comparing
+    only the surname would miss it."""
+    return re.sub(r"[^a-z]", "", (name or "").lower())
+
+
 def diff_reports(new: dict, old: dict) -> dict:
     """Row-by-row status change between two filings.
 
@@ -489,6 +517,41 @@ def diff_reports(new: dict, old: dict) -> dict:
         else:
             unchanged += 1
 
+    # A player whose NAME is printed differently in the two filings is not a player who left and
+    # another who arrived. Pair the removals with the additions inside the same matchup and club
+    # when the surname is within two edits, and report it as its own category. The 11/15 Embiid /
+    # Embid case is the precedent; on this pair it is Mathurin, Bennedict / Benedict.
+    spelling = []
+    still_removed = []
+    used_added = set()
+    for r in removed:
+        match = None
+        for i, a in enumerate(added):
+            if i in used_added:
+                continue
+            if a["matchup"] != r["matchup"] or a["team"] != r["team"]:
+                continue
+            d = _levenshtein(_normalise_name(a["player"]), _normalise_name(r["player"]))
+            if 0 < d <= 2:
+                match = (i, a, d)
+                break
+        if match:
+            i, a, d = match
+            used_added.add(i)
+            spelling.append({
+                "matchup": r["matchup"], "team": r["team"],
+                "was_name": r["player"], "now_name": a["player"],
+                "edit_distance": d,
+                "was_status": r["was_status"], "now_status": a["now_status"],
+                "note": ("same club and game, printed name within two edits: a spelling change in "
+                         "the document, not a squad change. The status is compared but the player "
+                         "is the same."),
+            })
+        else:
+            still_removed.append(r)
+    added = [a for i, a in enumerate(added) if i not in used_added]
+    removed = still_removed
+
     return {
         "new_report": new["source_url"],
         "new_stamp": REPORT_STAMP_1300 if new["label"] == "1300" else new["label"],
@@ -503,6 +566,7 @@ def diff_reports(new: dict, old: dict) -> dict:
         "changes": changes,
         "added": added,
         "removed": removed,
+        "name_spelling_changes": spelling,
         "new_report_teams_not_submitted": sorted(new["teams_not_yet_submitted"]),
         "old_report_teams_not_submitted": sorted(old["teams_not_yet_submitted"]),
         "rule": ("A change is (same matchup, same club, same player) with a different printed "
@@ -1100,22 +1164,22 @@ def evaluate_gates(a: dict, b: dict, delta: dict, schedule: dict, standings: dic
 
     # --- freshness / provenance: these block the whole build -------------------------------
     g("F1_report_is_newest_listed", "the captured filing is the newest the official index lists",
-      REPORT_STAMP_1300 == INDEX_NEWEST_AT_READ, "build",
-      f"index newest at read: {INDEX_NEWEST_AT_READ}; captured: {REPORT_STAMP_1300}",
-      {"index_newest": INDEX_NEWEST_AT_READ, "captured": REPORT_STAMP_1300,
-       "index_slots_for_11_16": INDEX_SLOT_COUNT_1116})
+      REPORT_STAMP_0115 == INDEX_NEWEST_AT_READ_2, "build",
+      f"index newest at second read: {INDEX_NEWEST_AT_READ_2}; captured: {REPORT_STAMP_0115}",
+      {"index_newest": INDEX_NEWEST_AT_READ_2, "captured": REPORT_STAMP_0115,
+       "index_slots_for_11_16": INDEX_REREAD_SLOT_COUNT})
 
-    stamps_ok = a["pdf_header_stamps"] == ["11/16/26 01:00 PM"]
+    stamps_ok = a["pdf_header_stamps"] == ["11/16/26 01:15 PM"]
     g("F2_pdf_header_matches_filename", "the stamp printed inside the PDF matches its filename",
       stamps_ok, "build",
       f"PDF header stamps parsed: {a['pdf_header_stamps']}",
-      {"stamps": a["pdf_header_stamps"], "expected": ["11/16/26 01:00 PM"]})
+      {"stamps": a["pdf_header_stamps"], "expected": ["11/16/26 01:15 PM"]})
 
     g("F3_supersedes_published_snapshot",
       "this filing is strictly newer than the one main publishes",
-      _stamp_key(REPORT_STAMP_1300) > _stamp_key(REPORT_STAMP_0915), "build",
-      f"captured {REPORT_STAMP_1300} vs published {REPORT_STAMP_0915}",
-      {"captured": REPORT_STAMP_1300, "previously_published": REPORT_STAMP_0915})
+      _stamp_key(REPORT_STAMP_0115) > _stamp_key(REPORT_STAMP_0915), "build",
+      f"captured {REPORT_STAMP_0115} vs published on main {REPORT_STAMP_0915}",
+      {"captured": REPORT_STAMP_0115, "previously_published": REPORT_STAMP_0915})
 
     g("F4_slate_covers_today_plus_two",
       "the official schedule covers the required today..today+2 window",
@@ -1139,16 +1203,18 @@ def evaluate_gates(a: dict, b: dict, delta: dict, schedule: dict, standings: dic
       {"unattributed": a["rows_with_unattributed_team"]})
 
     # --- advisory: never blocks, always published -----------------------------------------
-    newer = _stamp_key(INDEX_REREAD_NEWEST) > _stamp_key(REPORT_STAMP_1300)
+    newer = _stamp_key(INDEX_REREAD_NEWEST) > _stamp_key(REPORT_STAMP_0115)
     g("F5_newer_filing_listed_since_capture",
       "no newer official filing was listed when the index was re-read after the build",
       not newer, "advisory",
-      (f"captured {REPORT_STAMP_1300}; the index re-read at {INDEX_REREAD_AT} listed "
-       f"{INDEX_REREAD_NEWEST} ({INDEX_REREAD_SLOT_COUNT} slots). The captured filing was the "
-       f"newest at ITS read time; it has since been superseded by one filing."
+      (f"captured {REPORT_STAMP_0115}; the index re-read at {INDEX_REREAD_AT} listed "
+       f"{INDEX_REREAD_NEWEST} ({INDEX_REREAD_SLOT_COUNT} slots), which is newer. The captured "
+       f"filing was newest at ITS own read time and has since been superseded."
        if newer else
-       f"captured {REPORT_STAMP_1300}; the index re-read listed nothing newer"),
-      {"captured": REPORT_STAMP_1300, "reread_newest": INDEX_REREAD_NEWEST,
+       f"captured {REPORT_STAMP_0115}; the index re-read at {INDEX_REREAD_AT} listed nothing "
+       f"newer ({INDEX_REREAD_SLOT_COUNT} slots for the day). A filing can still arrive after "
+       f"this build; the index is the authority, not this page."),
+      {"captured": REPORT_STAMP_0115, "reread_newest": INDEX_REREAD_NEWEST,
        "reread_at": INDEX_REREAD_AT, "reread_slots": INDEX_REREAD_SLOT_COUNT})
 
     # --- integrity: these withhold a row, not the build -----------------------------------
@@ -1198,6 +1264,15 @@ def evaluate_gates(a: dict, b: dict, delta: dict, schedule: dict, standings: dic
       a["seam_splice_row_count"] == 1, "build",
       f"{a['seam_splice_row_count']} spliced row(s); spill rows dropped: {len(a['dropped_spill_rows'])}",
       {"spliced": a["seam_splice_row_count"], "dropped_spill": len(a["dropped_spill_rows"])})
+
+    g("I8a_spelling_change_detected",
+      "a name printed differently in two filings is a spelling change, not a squad change",
+      len(delta["name_spelling_changes"]) == 1 and delta["removed"] == [],
+      "build",
+      f"{len(delta['name_spelling_changes'])} spelling change(s), "
+      f"{len(delta['removed'])} genuine removal(s)",
+      {"spelling": delta["name_spelling_changes"],
+       "removed": [r["player"] for r in delta["removed"]]})
 
     g("I8_diff_is_positional_free",
       "the consecutive-report diff matched no row by position",
@@ -1265,14 +1340,22 @@ def build_all() -> dict:
     stats = load_team_stats()
     hca = measure_home_advantage(standings)
 
-    a = parse_injury_report(raw("official_injuries_2026-11-16_0100PM.md"),
+    # The CURRENT report is the newest filing the index lists: 1:15 PM ET. The 1:00 PM ET filing
+    # is its diff base, because two filings on the same game day are the comparison that shows a
+    # status change. The 09:15 AM filing is kept as the second step of the chain, so the whole
+    # afternoon is visible rather than only the last hop.
+    a = parse_injury_report(raw("official_injuries_2026-11-16_0115PM.md"),
+                            label="0115", retrieved=RETRIEVED_0115,
+                            pdf_url=INJURY_PDF_0115, schedule_rows=schedule["games"])
+    b = parse_injury_report(raw("official_injuries_2026-11-16_0100PM.md"),
                             label="1300", retrieved=RETRIEVED_1300,
                             pdf_url=INJURY_PDF_1300, schedule_rows=schedule["games"])
-    b = parse_injury_report(os.path.join(ROOT, "data", "app",
+    c = parse_injury_report(os.path.join(ROOT, "data", "app",
                                          "official_injuries_2026-11-16_0915AM_raw.md"),
                             label="0915", retrieved=RETRIEVED_0915,
                             pdf_url=INJURY_PDF_0915, schedule_rows=schedule["games"])
     delta = diff_reports(a, b)
+    delta_earlier = diff_reports(b, c)
     consequences = consequence_analysis(a, delta, standings, stats, schedule)
     flow = game_flow(a, delta, schedule, stats)
     lg = league_averages(stats["rows"])
@@ -1291,15 +1374,18 @@ def build_all() -> dict:
     # provenance manifest
     manifest = {
         "session": SESSION,
-        "round": "2026-11-16 1:00 PM ET filing (round 2)",
+        "round": "2026-11-16 filings: 1:15 PM ET (current), 1:00 PM ET and 09:15 AM ET (chain)",
         "index_url": INJURY_INDEX_URL,
         "documents": [
-            {"role": "injury filing (this round)", "url": INJURY_PDF_1300,
-             "retrieved_utc": RETRIEVED_1300, "transcript": a["transcript"],
-             "sha256": a["transcript_sha256"], "stamp": REPORT_STAMP_1300},
-            {"role": "injury filing (previous, diff base)", "url": INJURY_PDF_0915,
-             "retrieved_utc": RETRIEVED_0915, "transcript": b["transcript"],
-             "sha256": b["transcript_sha256"], "stamp": REPORT_STAMP_0915},
+            {"role": "injury filing (current)", "url": INJURY_PDF_0115,
+             "retrieved_utc": RETRIEVED_0115, "transcript": a["transcript"],
+             "sha256": a["transcript_sha256"], "stamp": REPORT_STAMP_0115},
+            {"role": "injury filing (previous, diff base)", "url": INJURY_PDF_1300,
+             "retrieved_utc": RETRIEVED_1300, "transcript": b["transcript"],
+             "sha256": b["transcript_sha256"], "stamp": REPORT_STAMP_1300},
+            {"role": "injury filing (earliest in the chain)", "url": INJURY_PDF_0915,
+             "retrieved_utc": RETRIEVED_0915, "transcript": c["transcript"],
+             "sha256": c["transcript_sha256"], "stamp": REPORT_STAMP_0915},
             {"role": "schedule", "url": SCHEDULE_URL,
              "transcript": schedule["transcript"],
              "sha256": schedule["transcript_sha256"]},
@@ -1326,9 +1412,11 @@ def build_all() -> dict:
     return {
         "manifest": manifest,
         "gates": gates,
-        "injuries_1300": a,
-        "injuries_0915": b,
+        "injuries": a,
+        "injuries_1300": b,
+        "injuries_0915": c,
         "delta": delta,
+        "delta_earlier": delta_earlier,
         "schedule": schedule,
         "standings": standings,
         "team_stats": stats,
@@ -1344,8 +1432,27 @@ def write_artifacts(bundle: dict) -> list:
     written = []
     written.append(write_json("refresh.json", bundle["manifest"]))
     written.append(write_json("gates.json", bundle["gates"]))
-    written.append(write_json("injuries.json", bundle["injuries_1300"]))
+    written.append(write_json("injuries.json", bundle["injuries"]))
     written.append(write_json("injury_delta.json", bundle["delta"]))
+    written.append(write_json("injury_chain.json", {
+        "current_stamp": REPORT_STAMP_0115,
+        "index_slots_for_the_day": INDEX_REREAD_SLOT_COUNT,
+        "chain": [
+            {"stamp": REPORT_STAMP_0915, "url": INJURY_PDF_0915,
+             "player_rows": bundle["injuries_0915"]["player_rows"],
+             "not_submitted": bundle["injuries_0915"]["not_submitted_rows"]},
+            {"stamp": REPORT_STAMP_1300, "url": INJURY_PDF_1300,
+             "player_rows": bundle["injuries_1300"]["player_rows"],
+             "not_submitted": bundle["injuries_1300"]["not_submitted_rows"]},
+            {"stamp": REPORT_STAMP_0115, "url": INJURY_PDF_0115,
+             "player_rows": bundle["injuries"]["player_rows"],
+             "not_submitted": bundle["injuries"]["not_submitted_rows"]},
+        ],
+        "earlier_hop": bundle["delta_earlier"],
+        "note": ("The three same-day filings, in order. Each hop is diffed by the same rule. This "
+                 "is what a series of consecutive reports looks like: information arriving, not "
+                 "one snapshot replacing another."),
+    }))
     written.append(write_json("schedule.json", bundle["schedule"]))
     written.append(write_json("standings.json", bundle["standings"]))
     written.append(write_json("team_stats.json", bundle["team_stats"]))

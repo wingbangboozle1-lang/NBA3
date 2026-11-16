@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Requirements · NBA3 round 2026-11-16 1:00 PM ET</title>
+<title>Requirements · NBA3 official filings 2026-11-16</title>
 <link rel="stylesheet" href="assets/round2.css">
 </head>
 <body>
 <header class="top">
   <div class="bar">
-    <div class="brand">NBA3 · 1:00 PM ET round <small>session fbd2484b</small></div>
-    <div class="muted" style="font-size:12.5px">filing 2026-11-16 01:00 PM ET · supersedes 09:15 AM ET</div>
+    <div class="brand">NBA3 · 11/16 filing chain <small>session fbd2484b</small></div>
+    <div class="muted" style="font-size:12.5px">current filing 2026-11-16 01:15 PM ET · chain 09:15 AM → 01:00 PM → 01:15 PM</div>
   </div>
   <nav class="pages"><a href="index.html" class="">Overview</a><a href="summary.html" class="">Executive summary</a><a href="injuries.html" class="">Injury filing &amp; diff</a><a href="consequences.html" class="">Consequences &amp; rotation</a><a href="gameflow.html" class="">Game flow</a><a href="slate.html" class="">Slate &amp; totals</a><a href="estimators.html" class="">Two estimators</a><a href="methodology.html" class="">Methodology</a><a href="requirements.html" class="on">Requirements</a><a href="questions.html" class="">Questions</a><a href="suggestions.html" class="">Suggestions</a><a href="flagged.html" class="">Flagged for review</a><a href="verification.html" class="">Verification log</a></nav>
 </header>
 <main>
-<div class="callout warn" style="margin:.9rem 0 0"><h4>Superseded by a later official filing</h4>captured 2026-11-16 01:00 PM ET; the index re-read at 2026-11-16T15:12Z listed 2026-11-16 01:15 PM ET (53 slots). The captured filing was the newest at ITS read time; it has since been superseded by one filing. <strong>This page is a record of the 1:00 PM ET filing, not a live feed.</strong> <a href="flagged.html">See F13-15</a>.</div>
+
 <h1>Requirements register</h1>
 <p class="lead">One row per requirement in the brief, with a verdict read from an artefact in this repository rather than asserted. A unit test asserts that every named file really contains the string quoted beside it, so this table cannot drift away from the code.</p>
 <div class="grid"><div class="card"><div class="k">blocked</div><div class="v">6</div><div class="s">requirements</div></div><div class="card"><div class="k">met</div><div class="v">19</div><div class="s">requirements</div></div><div class="card"><div class="k">met partly</div><div class="v">8</div><div class="s">requirements</div></div></div>
@@ -27,7 +27,7 @@
 <tr><td>R02</td><td>Rebuild only after freshness and provenance gates pass</td><td><span class="chip chip-ok">Met</span></td><td>17 gates with explicit build / row / advisory scope; rebuild_allowed is False if any build-scope gate fails</td><td><code>data/rounds/2026-11-16-1300PM/gates.json</code></td><td>&quot;rebuild_allowed&quot;: true</td><td><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">official schedule</a></td></tr>
 <tr><td>R03</td><td>Official per-game result feed: one row per game with date, teams, final score, quarter scores</td><td><span class="chip chip-bad">Blocked</span></td><td>no 2026-11-16 game has been played at capture time, so no result row exists for it; the 11/15 feed exists and is unchanged by this round</td><td><code>data/rounds/2026-11-16/gates.json</code></td><td>&quot;F3_game_day_complete&quot;</td><td><a href="https://www.nba.com/games?date=2026-11-16" rel="noopener">official games</a></td></tr>
 <tr><td>R04</td><td>Settle only after final scores are verified</td><td><span class="chip chip-ok">Met</span></td><td>the prior round withholds ATL@MIL rather than repairing its quarter arithmetic; unchanged here</td><td><code>data/rounds/2026-11-16/flags.csv</code></td><td>ATL @ MIL</td><td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" rel="noopener">official gamebook PDF</a></td></tr>
-<tr><td>R05</td><td>Store every injury PDF with a timestamp and diff consecutive reports to detect status changes</td><td><span class="chip chip-ok">Met</span></td><td>this round stores the 1:00 PM ET PDF verbatim with its sha256 and retrieval stamp, and diffs it against the 09:15 AM ET filing: 4 status/reason changes, 18 additions, 0 removals</td><td><code>data/rounds/2026-11-16-1300PM/injury_delta.json</code></td><td>&quot;status_or_reason_changes&quot;: 4</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf" rel="noopener">official injury PDF 2026-11-16 01:00 PM ET</a></td></tr>
+<tr><td>R05</td><td>Store every injury PDF with a timestamp and diff consecutive reports to detect status changes</td><td><span class="chip chip-ok">Met</span></td><td>three same-day filings (09:15 AM, 01:00 PM, 01:15 PM ET) are stored verbatim with sha256 and retrieval stamps, and each consecutive pair is diffed: 4 rows moved in the first hop, 1 addition and 1 spelling change in the second</td><td><code>data/rounds/2026-11-16-1300PM/injury_chain.json</code></td><td>&quot;current_stamp&quot;</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf" rel="noopener">official injury PDF 2026-11-16 01:00 PM ET</a></td></tr>
 <tr><td>R06</td><td>Pre-register a strategy file before its first bet (signal, thresholds, universe, settlement rule)</td><td><span class="chip chip-warn">Met (partly)</span></td><td>three pre-registration files exist and are frozen before any bet; no strategy has been funded, so the mechanism is implemented and unused</td><td><code>prereg/S2_ESTIMATOR_DISAGREEMENT.json</code></td><td>settlement</td><td><a href="https://www.nba.com/stats/help/glossary" rel="noopener">NBA stats glossary</a></td></tr>
 <tr><td>R07</td><td>Tamper-evident ledger: hash each published pick, publish the hash before tip, verify after settlement</td><td><span class="chip chip-warn">Met (partly)</span></td><td>11 PUBLISH entries with recomputable prev_hash/entry_hash/pick_sha256 chains; nothing settled this round because no 11/16 game is final</td><td><code>ledger/ledger.jsonl</code></td><td>&quot;kind&quot;: &quot;PUBLISH&quot;</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" rel="noopener">official schedule</a></td></tr>
 <tr><td>R08</td><td>Two surfaces: projection (safe to publish now) vs bet (gated), never mixed</td><td><span class="chip chip-ok">Met</span></td><td>separate output trees with a gate that refuses to write a bet row without a passing strategy</td><td><code>projection/index.html</code></td><td>projection</td><td><a href="https://www.nba.com/stats/teams/advanced" rel="noopener">team stats: advanced</a></td></tr>
@@ -67,8 +67,11 @@
 <footer><div class="in">
 Every value on this site names the official document it came from. Values an official document
 does not print are shown as <span class="unv">— unverified</span> and are listed on the
-<a href="flagged.html">Flagged for review</a> page. Generated by
-<code>scripts/build_round2_site.py</code> from <code>data/rounds/2026-11-16-1300PM/</code>.
+<a href="flagged.html">Flagged for review</a> page.<br>
+<strong>This is a record of a filing, not a live feed: the official index is the authority, not
+this page.</strong> The index updates every 15 minutes and advanced once while this round was
+being built. Generated by <code>scripts/build_round2_site.py</code> from
+<code>data/rounds/2026-11-16-1300PM/</code>.
 </div></footer>
 </body>
 </html>

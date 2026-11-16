@@ -1,17 +1,17 @@
 {
- "label": "1300",
- "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
+ "label": "0115",
+ "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
  "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
- "transcript": "data/rounds/2026-11-16-1300PM/raw/official_injuries_2026-11-16_0100PM.md",
- "transcript_sha256": "09172cec34fcc917bcaf4e6e5f65a0e4de01f16bf60a49f65d812311d363137b",
- "retrieved_utc": "2026-11-16T14:52Z",
- "retrieval": "Arena fetch tool, PDF text extraction, chunk 0 of 2 then chunk 1 of 2",
+ "transcript": "data/rounds/2026-11-16-1300PM/raw/official_injuries_2026-11-16_0115PM.md",
+ "transcript_sha256": "0e0e280d619889db1d247ab93c0032dc2a8265754400f6141d9404bcec3f8fb7",
+ "retrieved_utc": "2026-11-16T15:20Z",
+ "retrieval": "Arena fetch tool, PDF text extraction (captured by session 8f4fac33-nba3)",
  "pdf_header_stamps": [
-  "11/16/26 01:00 PM"
+  "11/16/26 01:15 PM"
  ],
  "row_count": 87,
- "player_rows": 75,
- "not_submitted_rows": 12,
+ "player_rows": 76,
+ "not_submitted_rows": 11,
  "rows_with_missing_status": 1,
  "rows_with_missing_status_detail": [
   {
@@ -30,6 +30,7 @@
    "line": 129,
    "printed_cells": [
     "",
+    "PHX@DEN",
     "Denver Nuggets",
     "Whitmore, Cam",
     "Out",
@@ -38,7 +39,7 @@
    "team": "Denver Nuggets",
    "player": "Whitmore, Cam",
    "status": "Out",
-   "matchup": null,
+   "matchup": "PHX@DEN",
    "note": "page break falls inside this row; the head and tail cells are printed on separate lines in the transcript and merged here"
   }
  ],
@@ -58,14 +59,14 @@
    "line": 127,
    "printed_cells": [
     "",
-    "09:00 (ET)",
-    "PHX@DEN"
+    "09:00 (ET)"
    ]
   }
  ],
  "unparsed_rows": [],
- "teams_with_player_rows": 14,
+ "teams_with_player_rows": 15,
  "teams_with_player_rows_detail": {
+  "Boston Celtics": 1,
   "Brooklyn Nets": 5,
   "Chicago Bulls": 5,
   "Cleveland Cavaliers": 7,
@@ -82,7 +83,6 @@
   "Washington Wizards": 6
  },
  "teams_not_yet_submitted": {
-  "Boston Celtics": 1,
   "Phoenix Suns": 1,
   "New York Knicks": 1,
   "Toronto Raptors": 1,
@@ -575,22 +575,23 @@
    "line": 61
   },
   {
-   "kind": "not_submitted",
+   "kind": "player",
    "game_date": "11/16/2026",
    "game_time": "07:00 (ET)",
    "matchup": "ORL@BOS",
    "matchup_printed": false,
    "team": "Boston Celtics",
-   "player": null,
-   "status": null,
-   "reason": "NOT YET SUBMITTED",
+   "player": "Queta, Neemias",
+   "status": "Questionable",
+   "reason": "Rest",
    "recovered": [
     "game_date",
     "game_time",
     "matchup"
    ],
    "attribution": "recovered",
-   "line": 67
+   "line": 67,
+   "matchup_recovered_from": "official schedule: the club's only game on this date"
   },
   {
    "kind": "player",
@@ -1046,7 +1047,7 @@
    "matchup": "GSW@NOP",
    "matchup_printed": true,
    "team": "New Orleans Pelicans",
-   "player": "Mathurin, Bennedict",
+   "player": "Mathurin, Benedict",
    "status": "Out",
    "reason": "Injury/Illness - Left Plantar Fasciitis",
    "recovered": [
@@ -1365,19 +1366,17 @@
    "game_date": "11/16/2026",
    "game_time": "09:00 (ET)",
    "matchup": "PHX@DEN",
-   "matchup_printed": false,
+   "matchup_printed": true,
    "team": "Denver Nuggets",
    "player": "Whitmore, Cam",
    "status": "Out",
    "reason": "G League - Two-Way",
    "recovered": [
     "game_date",
-    "game_time",
-    "matchup"
+    "game_time"
    ],
    "attribution": "recovered",
-   "line": 129,
-   "matchup_recovered_from": "official schedule: the club's only game on this date"
+   "line": 129
   },
   {
    "kind": "not_submitted",

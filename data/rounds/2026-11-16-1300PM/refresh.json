@@ -1,10 +1,18 @@
 {
  "session": "arena/fbd2484b-nba3",
- "round": "2026-11-16 1:00 PM ET filing (round 2)",
+ "round": "2026-11-16 filings: 1:15 PM ET (current), 1:00 PM ET and 09:15 AM ET (chain)",
  "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
  "documents": [
   {
-   "role": "injury filing (this round)",
+   "role": "injury filing (current)",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
+   "retrieved_utc": "2026-11-16T15:20Z",
+   "transcript": "data/rounds/2026-11-16-1300PM/raw/official_injuries_2026-11-16_0115PM.md",
+   "sha256": "0e0e280d619889db1d247ab93c0032dc2a8265754400f6141d9404bcec3f8fb7",
+   "stamp": "2026-11-16 01:15 PM ET"
+  },
+  {
+   "role": "injury filing (previous, diff base)",
    "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf",
    "retrieved_utc": "2026-11-16T14:52Z",
    "transcript": "data/rounds/2026-11-16-1300PM/raw/official_injuries_2026-11-16_0100PM.md",
@@ -12,7 +20,7 @@
    "stamp": "2026-11-16 01:00 PM ET"
   },
   {
-   "role": "injury filing (previous, diff base)",
+   "role": "injury filing (earliest in the chain)",
    "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
    "retrieved_utc": "2026-11-16T14:35Z",
    "transcript": "data/app/official_injuries_2026-11-16_0915AM_raw.md",

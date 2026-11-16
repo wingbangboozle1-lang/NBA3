@@ -35,8 +35,8 @@ REQUIREMENTS = [
      "data/rounds/2026-11-16/flags.csv", "ATL @ MIL",
      "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf"),
     ("R05", "Store every injury PDF with a timestamp and diff consecutive reports to detect status changes",
-     "met", "this round stores the 1:00 PM ET PDF verbatim with its sha256 and retrieval stamp, and diffs it against the 09:15 AM ET filing: 4 status/reason changes, 18 additions, 0 removals",
-     "data/rounds/2026-11-16-1300PM/injury_delta.json", '"status_or_reason_changes": 4',
+     "met", "three same-day filings (09:15 AM, 01:00 PM, 01:15 PM ET) are stored verbatim with sha256 and retrieval stamps, and each consecutive pair is diffed: 4 rows moved in the first hop, 1 addition and 1 spelling change in the second",
+     "data/rounds/2026-11-16-1300PM/injury_chain.json", '"current_stamp"',
      "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_00PM.pdf"),
     ("R06", "Pre-register a strategy file before its first bet (signal, thresholds, universe, settlement rule)",
      "met_partly", "three pre-registration files exist and are frozen before any bet; no strategy has been funded, so the mechanism is implemented and unused",
@@ -158,11 +158,12 @@ REQUIREMENTS = [
 # ----------------------------------------------------------------------------------------------
 
 QUESTIONS = [
-    ("Q01", "Is the 1:00 PM ET filing the last one before tonight's tips?",
+    ("Q01", "Is the current filing the last one before tonight's tips?",
      "unknown",
-     "The index updates every 15 minutes and reports continue all day; a later filing is certain. "
-     "This round states what the 1:00 PM filing says and no more.",
-     "Fetch the index again immediately before any bet decision.",
+     "No. The index updates every 15 minutes and had already advanced once during this session "
+     "(52 → 53 filings for the day). This page states what the 1:15 PM ET filing says and no more.",
+     "Re-fetch the index immediately before any bet decision; the chain on the Injuries page is "
+     "the record of how fast it moves.",
      "https://official.nba.com/nba-injury-report-2026-27-season/"),
     ("Q02", "What are the closing lines for tonight's games?",
      "unknown",
@@ -177,10 +178,11 @@ QUESTIONS = [
      "Capture the official gamebooks for the clubs on this slate and parse per-player minutes.",
      "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"),
     ("Q04", "Which clubs still have not submitted at tip time, and does that change anything?",
-     "unknown",
-     "12 clubs had not submitted at 1:00 PM ET. Filing is required between 11 a.m. and 1 p.m. "
-     "local on a game day, so some of these should file later. A club that never files is a "
-     "different situation from a club that filed 'nobody out'.",
+     "discoverable",
+     "11 clubs had not submitted at 1:15 PM ET, down from 15 at 09:15 AM and 12 at 1:00 PM: "
+     "Boston, Houston, Philadelphia and Washington all filed during the afternoon. Filing is "
+     "required between 11 a.m. and 1 p.m. local, so the rest should follow. A club that never "
+     "files is a different situation from a club that filed 'nobody out'.",
      "Read the last filing before each tip; the index keeps every version.",
      "https://official.nba.com/nba-injury-report-2026-27-season/"),
     ("Q05", "Is the NBA's own data licence compatible with a wagering product?",
@@ -375,13 +377,27 @@ FLAGS = [
      "stamp is recorded per document.",
      "provenance records the retrieval method and time for every document",
      "https://official.nba.com/nba-injury-report-2026-27-season/", "recorded"),
-    ("F13-15", "A newer filing was listed after this round was built",
-     "Re-reading the official index after the build showed a 1:15 PM ET filing (53 slots for the "
-     "day, against 52 at capture time). The captured 1:00 PM filing was the newest at its own read "
-     "time; it is not the newest now, and no page claims it is.",
-     "published as an advisory gate and a banner; transcribing the 1:15 PM filing is the next round's job, "
-     "and the delta mechanism is what makes it cheap",
-     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf", "open"),
+    ("F13-15", "The index advanced while this round was in progress",
+     "The index listed 52 filings when the 1:00 PM PDF was captured and 53 when it was re-read "
+     "minutes later, the extra one being 1:15 PM ET. A capture is only ever newest at its own "
+     "read time.",
+     "captured the 1:15 PM filing as well and made it the current one; the advisory gate now "
+     "records that no newer filing was listed at the final read, and states that the index, not "
+     "this page, remains the authority",
+     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf", "resolved"),
+    ("F13-16", "A club printed a player with no matchup cell",
+     "At 1:15 PM Boston's row reads '|  |  | Boston Celtics | Queta, Neemias | Questionable | Rest |'. "
+     "The club sits in the matchup position and the matchup itself is blank, so the game cannot be "
+     "read from that row alone.",
+     "resolved from the official schedule (Boston has exactly one game on 11/16, ORL@BOS), recorded "
+     "on the row as recovered, and checked by gate I5",
+     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf", "resolved"),
+    ("F13-17", "A player's printed name changed between two filings",
+     "New Orleans printed 'Mathurin, Bennedict' at 1:00 PM and 'Mathurin, Benedict' at 1:15 PM, one "
+     "edit apart, Out both times. Read naively this is one player leaving and another arriving.",
+     "detected as a spelling change by name-distance within the same club and game, and reported in "
+     "its own category rather than as an addition plus a removal",
+     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf", "resolved"),
     ("F13-14", "An earlier parser draft mis-filed five Brooklyn Nets rows",
      "The 09:15 AM transcript's page break put the Nets block under HOU@MIA. A parser that "
      "inherits the previous matchup assigned them to the wrong game, which made the diff show "
