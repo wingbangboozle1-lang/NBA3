@@ -1,0 +1,286 @@
+{
+ "schema": "nba3.slate.arena_coordinates/v1",
+ "session": "arena/3d625d23-nba3",
+ "retrieved_utc": "2026-11-15T23-50Z",
+ "source_kind": "general reference (Wikipedia article coordinates), NOT NBA-published",
+ "api_url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json&titles=Mortgage%20Matchup%20Center",
+ "cross_check": "Arena identity and city are cross-checked against the arena printed on the official schedule page (https://www.nba.com/schedule?date=2026-11-16) for that club's home games.",
+ "count": 30,
+ "verified": 30,
+ "blank": 0,
+ "arenas": [
+  {
+   "team": "ATL",
+   "arena": "State Farm Arena",
+   "city": "Atlanta, GA",
+   "lat": 33.75722222,
+   "lon": -84.39638889,
+   "coord_source": "https://en.wikipedia.org/wiki/State_Farm_Arena",
+   "verified": true
+  },
+  {
+   "team": "BKN",
+   "arena": "Barclays Center",
+   "city": "Brooklyn, NY",
+   "lat": 40.68266111,
+   "lon": -73.975225,
+   "coord_source": "https://en.wikipedia.org/wiki/Barclays_Center",
+   "verified": true
+  },
+  {
+   "team": "BOS",
+   "arena": "TD Garden",
+   "city": "Boston, MA",
+   "lat": 42.36638889,
+   "lon": -71.06222222,
+   "coord_source": "https://en.wikipedia.org/wiki/TD_Garden",
+   "verified": true
+  },
+  {
+   "team": "CHA",
+   "arena": "Spectrum Center",
+   "city": "Charlotte, NC",
+   "lat": 35.225,
+   "lon": -80.83916667,
+   "coord_source": "https://en.wikipedia.org/wiki/Spectrum_Center",
+   "verified": true
+  },
+  {
+   "team": "CHI",
+   "arena": "United Center",
+   "city": "Chicago, IL",
+   "lat": 41.88055556,
+   "lon": -87.67416667,
+   "coord_source": "https://en.wikipedia.org/wiki/United_Center",
+   "verified": true
+  },
+  {
+   "team": "CLE",
+   "arena": "Rocket Arena",
+   "city": "Cleveland, OH",
+   "lat": 41.49638889,
+   "lon": -81.68805556,
+   "coord_source": "https://en.wikipedia.org/wiki/Rocket_Arena",
+   "verified": true
+  },
+  {
+   "team": "DAL",
+   "arena": "American Airlines Center",
+   "city": "Dallas, TX",
+   "lat": 32.79055556,
+   "lon": -96.81027778,
+   "coord_source": "https://en.wikipedia.org/wiki/American_Airlines_Center",
+   "verified": true
+  },
+  {
+   "team": "DEN",
+   "arena": "Ball Arena",
+   "city": "Denver, CO",
+   "lat": 39.74861111,
+   "lon": -105.0075,
+   "coord_source": "https://en.wikipedia.org/wiki/Ball_Arena",
+   "verified": true
+  },
+  {
+   "team": "DET",
+   "arena": "Little Caesars Arena",
+   "city": "Detroit, MI",
+   "lat": 42.34111111,
+   "lon": -83.055,
+   "coord_source": "https://en.wikipedia.org/wiki/Little_Caesars_Arena",
+   "verified": true
+  },
+  {
+   "team": "GSW",
+   "arena": "Chase Center",
+   "city": "San Francisco, CA",
+   "lat": 37.76805556,
+   "lon": -122.3875,
+   "coord_source": "https://en.wikipedia.org/wiki/Chase_Center",
+   "verified": true
+  },
+  {
+   "team": "HOU",
+   "arena": "Toyota Center",
+   "city": "Houston, TX",
+   "lat": 29.75083333,
+   "lon": -95.36222222,
+   "coord_source": "https://en.wikipedia.org/wiki/Toyota_Center",
+   "verified": true
+  },
+  {
+   "team": "IND",
+   "arena": "Gainbridge Fieldhouse",
+   "city": "Indianapolis, IN",
+   "lat": 39.76388889,
+   "lon": -86.15555556,
+   "coord_source": "https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse",
+   "verified": true
+  },
+  {
+   "team": "LAC",
+   "arena": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "lat": 33.9451,
+   "lon": -118.3431,
+   "coord_source": "https://en.wikipedia.org/wiki/Intuit_Dome",
+   "verified": true
+  },
+  {
+   "team": "LAL",
+   "arena": "Crypto.com Arena",
+   "city": "Los Angeles, CA",
+   "lat": 34.04305556,
+   "lon": -118.26722222,
+   "coord_source": "https://en.wikipedia.org/wiki/Crypto.com_Arena",
+   "verified": true
+  },
+  {
+   "team": "MEM",
+   "arena": "FedExForum",
+   "city": "Memphis, TN",
+   "lat": 35.13833333,
+   "lon": -90.05055556,
+   "coord_source": "https://en.wikipedia.org/wiki/FedExForum",
+   "verified": true
+  },
+  {
+   "team": "MIA",
+   "arena": "Kaseya Center",
+   "city": "Miami, FL",
+   "lat": 25.78138889,
+   "lon": -80.18805556,
+   "coord_source": "https://en.wikipedia.org/wiki/Kaseya_Center",
+   "verified": true
+  },
+  {
+   "team": "MIL",
+   "arena": "Fiserv Forum",
+   "city": "Milwaukee, WI",
+   "lat": 43.04502778,
+   "lon": -87.91816667,
+   "coord_source": "https://en.wikipedia.org/wiki/Fiserv_Forum",
+   "verified": true
+  },
+  {
+   "team": "MIN",
+   "arena": "Target Center",
+   "city": "Minneapolis, MN",
+   "lat": 44.97944444,
+   "lon": -93.27611111,
+   "coord_source": "https://en.wikipedia.org/wiki/Target_Center",
+   "verified": true
+  },
+  {
+   "team": "NOP",
+   "arena": "Smoothie King Center",
+   "city": "New Orleans, LA",
+   "lat": 29.94888889,
+   "lon": -90.08194444,
+   "coord_source": "https://en.wikipedia.org/wiki/Smoothie_King_Center",
+   "verified": true
+  },
+  {
+   "team": "NYK",
+   "arena": "Madison Square Garden",
+   "city": "New York, NY",
+   "lat": 40.75055556,
+   "lon": -73.99361111,
+   "coord_source": "https://en.wikipedia.org/wiki/Madison_Square_Garden",
+   "verified": true
+  },
+  {
+   "team": "OKC",
+   "arena": "Paycom Center",
+   "city": "Oklahoma City, OK",
+   "lat": 35.46333333,
+   "lon": -97.515,
+   "coord_source": "https://en.wikipedia.org/wiki/Paycom_Center",
+   "verified": true
+  },
+  {
+   "team": "ORL",
+   "arena": "Kia Center",
+   "city": "Orlando, FL",
+   "lat": 28.53916667,
+   "lon": -81.38361111,
+   "coord_source": "https://en.wikipedia.org/wiki/Kia_Center",
+   "verified": true
+  },
+  {
+   "team": "PHI",
+   "arena": "Xfinity Mobile Arena",
+   "city": "Philadelphia, PA",
+   "lat": 39.90111,
+   "lon": -75.17194,
+   "coord_source": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena",
+   "verified": true,
+   "note": "The official schedule page prints 'Xfinity Mobile Arena, Philadelphia, PA' for the 11/15 IND@PHI game. Wikipedia's 'Wells Fargo Center (Philadelphia)' is a redirect to that article, which is why the coordinates API returned nothing for the old title. Coordinates read from the article infobox: 39.90111; -75.17194."
+  },
+  {
+   "team": "PHX",
+   "arena": "Mortgage Matchup Center",
+   "city": "Phoenix, AZ",
+   "lat": 33.44583333,
+   "lon": -112.07138889,
+   "coord_source": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center",
+   "verified": true,
+   "note": "The official schedule page prints 'Mortgage Matchup Center, Phoenix, AZ' for the 11/15 LAL@PHX game. The previous table looked up the old title 'PHX Arena' (pageid 81244835), which carries no coordinates; the current title does."
+  },
+  {
+   "team": "POR",
+   "arena": "Moda Center",
+   "city": "Portland, OR",
+   "lat": 45.53166667,
+   "lon": -122.66666667,
+   "coord_source": "https://en.wikipedia.org/wiki/Moda_Center",
+   "verified": true
+  },
+  {
+   "team": "SAC",
+   "arena": "Golden 1 Center",
+   "city": "Sacramento, CA",
+   "lat": 38.58036111,
+   "lon": -121.49961111,
+   "coord_source": "https://en.wikipedia.org/wiki/Golden_1_Center",
+   "verified": true
+  },
+  {
+   "team": "SAS",
+   "arena": "Frost Bank Center",
+   "city": "San Antonio, TX",
+   "lat": 29.42694444,
+   "lon": -98.4375,
+   "coord_source": "https://en.wikipedia.org/wiki/Frost_Bank_Center",
+   "verified": true
+  },
+  {
+   "team": "TOR",
+   "arena": "Scotiabank Arena",
+   "city": "Toronto, ON",
+   "lat": 43.64333333,
+   "lon": -79.37916667,
+   "coord_source": "https://en.wikipedia.org/wiki/Scotiabank_Arena",
+   "verified": true
+  },
+  {
+   "team": "UTA",
+   "arena": "Delta Center",
+   "city": "Salt Lake City, UT",
+   "lat": 40.76833333,
+   "lon": -111.90111111,
+   "coord_source": "https://en.wikipedia.org/wiki/Delta_Center",
+   "verified": true
+  },
+  {
+   "team": "WAS",
+   "arena": "Capital One Arena",
+   "city": "Washington, DC",
+   "lat": 38.89805556,
+   "lon": -77.02083333,
+   "coord_source": "https://en.wikipedia.org/wiki/Capital_One_Arena",
+   "verified": true
+  }
+ ],
+ "previous_table": "data/app/arena_coordinates.json (session arena/bb0c83a4-nba3): 28/30 with coordinates; the two blanks are filled here and the two arena names corrected to the ones the official schedule prints."
+}

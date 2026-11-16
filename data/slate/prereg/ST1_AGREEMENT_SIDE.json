@@ -1,0 +1,24 @@
+{
+ "id": "ST1_AGREEMENT_SIDE",
+ "name": "Estimator-agreement side",
+ "hypothesis": "When the two independent estimators land within 3 points of each other, the originated spread is measuring a real gap rather than estimator noise, so the side is worth taking; when they disagree, the spread is not.",
+ "signal": "blend_margin, |E1_margin - E2_margin|",
+ "universe": "every game in the rolling window (up to three days ahead) with both estimators available",
+ "thresholds": {
+  "max_disagreement_pts": 3.0,
+  "min_abs_margin": 1.0
+ },
+ "rule": "take the home side to cover the originated spread when the two margins have the same sign and their disagreement is <= 3.0 points; otherwise no bet",
+ "market": "spread (originated)",
+ "refusals": [
+  "no bet if either club's luck z-score is outside +-1.96 (noise band)",
+  "no bet if the official injury report has not been filed for that game date",
+  "no bet if the game's rotation minutes are unmeasurable for BOTH clubs and the disagreement is above 1.0 point"
+ ],
+ "settlement": "home covers when (home_pts - away_pts) > (-blend_margin); a push (exactly equal) settles as a loss. Settled from the official final score.",
+ "schema": "nba3.slate.prereg/v1",
+ "session": "arena/3d625d23-nba3",
+ "frozen_utc": "2026-11-15T23-50Z",
+ "frozen_before_first_bet": true,
+ "status": "frozen \u2014 not eligible for publication until it clears its gates"
+}

@@ -1,0 +1,3093 @@
+{
+ "schema": "nba3.slate.injury_report/v1",
+ "session": "arena/3d625d23-nba3",
+ "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+ "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+ "report_stamp": "2026-11-15 06:30 PM ET",
+ "report_stamp_source": "printed on every page of the PDF as 'Injury Report: 11/15/26 06:30 PM'",
+ "retrieved_utc": "2026-11-15T23-50Z",
+ "retrieval": "fetch_page of the PDF listed on the official index (3 chunks); transcribed row by row into data/slate/raw/injury_2026-11-15_0630PM.md, then parsed here",
+ "transcript_sha256": "c5e366435108a754e4070c873d58957f371c9cb6424ffe9b89153752ed397b09",
+ "count": 155,
+ "player_rows": 150,
+ "not_submitted_rows": 6,
+ "rows_by_game_date": {
+  "2026-11-15": 96,
+  "2026-11-16": 59
+ },
+ "team_carry_forward_rows": [
+  15,
+  16,
+  33,
+  51,
+  52,
+  68,
+  69,
+  70,
+  71,
+  133,
+  134,
+  135,
+  136,
+  137,
+  151,
+  152,
+  153
+ ],
+ "context_printed_rows": {
+  "1": "date+time+matchup",
+  "11": "time+matchup",
+  "19": "time",
+  "29": "time",
+  "41": "time",
+  "58": "time",
+  "72": "time",
+  "84": "time",
+  "97": "date+time+matchup",
+  "117": "matchup",
+  "122": "time+matchup",
+  "126": "time+matchup",
+  "132": "time+matchup",
+  "146": "matchup",
+  "154": "time+matchup"
+ },
+ "status_counts": {
+  "Available": 19,
+  "Out": 117,
+  "Questionable": 13
+ },
+ "rows": [
+  {
+   "row": 1,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Indiana Pacers",
+   "team": "IND",
+   "player": "Furphy, Johnny",
+   "status": "Out",
+   "reason": "Injury/Illness - Right ACL Repair / Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "row",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 2,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Indiana Pacers",
+   "team": "IND",
+   "player": "Haliburton, Tyrese",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 3,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Indiana Pacers",
+   "team": "IND",
+   "player": "McConnell, T.J.",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 4,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Indiana Pacers",
+   "team": "IND",
+   "player": "Nembhard, Andrew",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hip Soreness / Tightness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 5,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Indiana Pacers",
+   "team": "IND",
+   "player": "Nesmith, Aaron",
+   "status": "Available",
+   "reason": "Injury/Illness - Left Hand Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 6,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Indiana Pacers",
+   "team": "IND",
+   "player": "Sheppard, Ben",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Meniscus Tear",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 7,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Philadelphia 76ers",
+   "team": "PHI",
+   "player": "Barlow, Dominick",
+   "status": "Out",
+   "reason": "Injury/Illness - Low Back Stress Reaction",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 8,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Philadelphia 76ers",
+   "team": "PHI",
+   "player": "Bona, Adem",
+   "status": "Out",
+   "reason": "Injury/Illness - Cervical Spine Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 9,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Philadelphia 76ers",
+   "team": "PHI",
+   "player": "Embiid, Joel",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Foot Plantar Fascia Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 10,
+   "game_date": "2026-11-15",
+   "game_time_et": "01:00",
+   "matchup": "IND@PHI",
+   "team_name": "Philadelphia 76ers",
+   "team": "PHI",
+   "player": "Hukporti, Ariel",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Achilles Tendon Rupture / Tear",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 11,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Los Angeles Lakers",
+   "team": "LAL",
+   "player": "Carr, Cameron",
+   "status": "Out",
+   "reason": "Injury/Illness - Illness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 12,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Los Angeles Lakers",
+   "team": "LAL",
+   "player": "Grimes, Quentin",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Finger Splint",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 13,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Los Angeles Lakers",
+   "team": "LAL",
+   "player": "James, Bronny",
+   "status": "Available",
+   "reason": "Injury/Illness - Illness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 14,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Los Angeles Lakers",
+   "team": "LAL",
+   "player": "Reaves, Austin",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Heel Contusion / Bone Bruise",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 15,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Los Angeles Lakers",
+   "team": "LAL",
+   "player": "Sexton, Collin",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Orbital Laceration",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 16,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Los Angeles Lakers",
+   "team": "LAL",
+   "player": "Thiero, Adou",
+   "status": "Available",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 17,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Phoenix Suns",
+   "team": "PHX",
+   "player": "Timme, Drew",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 18,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:00",
+   "matchup": "LAL@PHX",
+   "team_name": "Phoenix Suns",
+   "team": "PHX",
+   "player": "Williams, Mark",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Shoulder Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 19,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "Charlotte Hornets",
+   "team": "CHA",
+   "player": "Ajayi, Michael",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 20,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "Charlotte Hornets",
+   "team": "CHA",
+   "player": "Boswell, Kylan",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 21,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "Charlotte Hornets",
+   "team": "CHA",
+   "player": "Knueppel, Kon",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 22,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "Charlotte Hornets",
+   "team": "CHA",
+   "player": "Schroder, Dennis",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 23,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "Charlotte Hornets",
+   "team": "CHA",
+   "player": "Steinbach, Hannes",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 24,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "LA Clippers",
+   "team": "LAC",
+   "player": "Beal, Bradley",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 25,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "LA Clippers",
+   "team": "LAC",
+   "player": "Ingram, Brandon",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Heel Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 26,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "LA Clippers",
+   "team": "LAC",
+   "player": "Martinelli, Nick",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 27,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "LA Clippers",
+   "team": "LAC",
+   "player": "Miller, Jordan",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Rotator Cuff Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 28,
+   "game_date": "2026-11-15",
+   "game_time_et": "04:30",
+   "matchup": "CHA@LAC",
+   "team_name": "LA Clippers",
+   "team": "LAC",
+   "player": "Niederhauser, Yanic Konan",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Lisfranc Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 29,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "San Antonio Spurs",
+   "team": "SAS",
+   "player": "Brown, Maliq",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 30,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "San Antonio Spurs",
+   "team": "SAS",
+   "player": "Fox, De'Aaron",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hip Tightness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 31,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "San Antonio Spurs",
+   "team": "SAS",
+   "player": "Gillespie, Ja'Kobi",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 32,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "San Antonio Spurs",
+   "team": "SAS",
+   "player": "Harris, Tobias",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Calf Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 33,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "San Antonio Spurs",
+   "team": "SAS",
+   "player": "Quaintance, Jayden",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 34,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Alexander, Trey",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 35,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Bufkin, Kobe",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 36,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Hayes, Jaxson",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 37,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Ingram, Harrison",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 38,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Jackson Jr., Jaren",
+   "status": "Out",
+   "reason": "Injury/Illness - Right MCL Tear",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 39,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Markkanen, Lauri",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Hand Fracture",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 40,
+   "game_date": "2026-11-15",
+   "game_time_et": "05:00",
+   "matchup": "SAS@UTA",
+   "team_name": "Utah Jazz",
+   "team": "UTA",
+   "player": "Nurkic, Jusuf",
+   "status": "Out",
+   "reason": "Injury/Illness - Right 2nd Plantar Plate Tear",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 41,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Aldama, Santi",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 42,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Biberovic, Tarik",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Heel Bursitis",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 43,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Christie, Max",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 44,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "de Larrea, Sergio",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 45,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Gafford, Daniel",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Shoulder Stinger",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 46,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Irving, Kyrie",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 47,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Lively II, Dereck",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Foot Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 48,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Dallas Mavericks",
+   "team": "DAL",
+   "player": "Martin, Caleb",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Thumb Splint",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 49,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Boston Celtics",
+   "team": "BOS",
+   "player": "Carter, Devin",
+   "status": "Available",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 50,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Boston Celtics",
+   "team": "BOS",
+   "player": "Cenac Jr., Christopher",
+   "status": "Available",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 51,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Boston Celtics",
+   "team": "BOS",
+   "player": "Mitchell, Dillon",
+   "status": "Available",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 52,
+   "game_date": "2026-11-15",
+   "game_time_et": "06:00",
+   "matchup": "DAL@BOS",
+   "team_name": "Boston Celtics",
+   "team": "BOS",
+   "player": "Williams, Amari",
+   "status": "Available",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 53,
+   "game_date": "2026-11-15",
+   "game_time_et": null,
+   "matchup": "NYK@TOR",
+   "team_name": "Toronto Raptors",
+   "team": "TOR",
+   "player": "Barnes, Scottie",
+   "status": "Available",
+   "reason": "Injury/Illness - Left Groin Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 54,
+   "game_date": "2026-11-15",
+   "game_time_et": null,
+   "matchup": "NYK@TOR",
+   "team_name": "Toronto Raptors",
+   "team": "TOR",
+   "player": "Bittle, Nate",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Foot Avulsion Fracture",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 55,
+   "game_date": "2026-11-15",
+   "game_time_et": null,
+   "matchup": "NYK@TOR",
+   "team_name": "Toronto Raptors",
+   "team": "TOR",
+   "player": "Leonard, Kawhi",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 56,
+   "game_date": "2026-11-15",
+   "game_time_et": null,
+   "matchup": "NYK@TOR",
+   "team_name": "Toronto Raptors",
+   "team": "TOR",
+   "player": "McCullar Jr., Kevin",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 57,
+   "game_date": "2026-11-15",
+   "game_time_et": null,
+   "matchup": "NYK@TOR",
+   "team_name": "Toronto Raptors",
+   "team": "TOR",
+   "player": "Smith, Malachi",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 58,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": "Adams, Steven",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Soleus Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 59,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": "Capela, Clint",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 60,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": "Copeland, Quadir",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 61,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": "Phillips, Julian",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 62,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": "Smart, Marcus",
+   "status": "Out",
+   "reason": "League Suspension",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 63,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": "VanVleet, Fred",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 64,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Beekman, Reece",
+   "status": "Out",
+   "reason": "Injury/Illness - Right AC Joint Injury",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 65,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Carrington, Bub",
+   "status": "Available",
+   "reason": "Injury/Illness - Chest / Sternum Contusion",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 66,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Champagne, Justin",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Foot Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 67,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Johnson, Tre",
+   "status": "Out",
+   "reason": "Injury/Illness - Low Back Soreness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 68,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Okpara, Felix",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 69,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Sarr, Alex",
+   "status": "Available",
+   "reason": "Injury/Illness - Illness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 70,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Vukcevic, Tristan",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hip Impingement",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 71,
+   "game_date": "2026-11-15",
+   "game_time_et": "07:00",
+   "matchup": "HOU@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": "Watkins, Jamir",
+   "status": "Out",
+   "reason": "Injury/Illness - Left ACL Repair / Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 72,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Flemings, Kingston",
+   "status": "Out",
+   "reason": "Injury/Illness - Lumbar Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 73,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Gilbert, Keshon",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Inflammation; Non-Surgical Procedure",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 74,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Gueye, Mouhamed",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Foot Fracture",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 75,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Landale, Jock",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Hip Inflammation",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 76,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Newell, Asa",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Great Toe Hyperextension",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 77,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Veesaar, Henri",
+   "status": "Out",
+   "reason": "Injury/Illness - Right ACL Tear",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 78,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Atlanta Hawks",
+   "team": "ATL",
+   "player": "Wilson, Jalen",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 79,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Milwaukee Bucks",
+   "team": "MIL",
+   "player": "Dieng, Ousmane",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Finger Fracture",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 80,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Milwaukee Bucks",
+   "team": "MIL",
+   "player": "Jones, Kam",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 81,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Milwaukee Bucks",
+   "team": "MIL",
+   "player": "Markovic, Bogoljub",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 82,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Milwaukee Bucks",
+   "team": "MIL",
+   "player": "Nance, Pete",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 83,
+   "game_date": "2026-11-15",
+   "game_time_et": "08:00",
+   "matchup": "ATL@MIL",
+   "team_name": "Milwaukee Bucks",
+   "team": "MIL",
+   "player": "Rollins, Ryan",
+   "status": "Out",
+   "reason": "Injury/Illness - Illness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 84,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Ryan, Cormac",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 85,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Holmgren, Chet",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee/ Injury Recovery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 86,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Mitchell, Ajay",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 87,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Sorber, Thomas",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 88,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Wallace, Cason",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Shoulder Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 89,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Williams, Jalen",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 90,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Oklahoma City Thunder",
+   "team": "OKC",
+   "player": "Williams, Jaylin",
+   "status": "Out",
+   "reason": "Injury/Illness - Low Back Spasms",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 91,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Sacramento Kings",
+   "team": "SAC",
+   "player": "Achiuwa, Precious",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Left Ankle Soreness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 92,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Sacramento Kings",
+   "team": "SAC",
+   "player": "Mogbo, Jonathan",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 93,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Sacramento Kings",
+   "team": "SAC",
+   "player": "Murray, Keegan",
+   "status": "Available",
+   "reason": "-",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 94,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Sacramento Kings",
+   "team": "SAC",
+   "player": "Pedulla, Sean",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 95,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Sacramento Kings",
+   "team": "SAC",
+   "player": "Raynaud, Maxime",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Patella Subluxation",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 96,
+   "game_date": "2026-11-15",
+   "game_time_et": "09:00",
+   "matchup": "OKC@SAC",
+   "team_name": "Sacramento Kings",
+   "team": "SAC",
+   "player": "Simmons, Ben",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 97,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Chicago Bulls",
+   "team": "CHI",
+   "player": "Awaka, Tobe",
+   "status": "Out",
+   "reason": "Injury/Illness - Disc Irritation",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "row",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 98,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Chicago Bulls",
+   "team": "CHI",
+   "player": "Robinson, Orlando",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 99,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Chicago Bulls",
+   "team": "CHI",
+   "player": "Sellers, Jaylin",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 100,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Chicago Bulls",
+   "team": "CHI",
+   "player": "Smith, Jalen",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Left Finger Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 101,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Chicago Bulls",
+   "team": "CHI",
+   "player": "Wilson, Caleb",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Metacarpal Fracture",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 102,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Diop, Khalifa",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 103,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Merrill, Sam",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Elbow Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 104,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Mobley, Evan",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Great Toe Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 105,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Tomlin, Nae'Qwan",
+   "status": "Out",
+   "reason": "Injury/Illness - Low Back Stress Reaction",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 106,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Tyson, Jaylon",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Right Ankle Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 107,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Udeh, Jr., Ernest",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 108,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:00",
+   "matchup": "CHI@CLE",
+   "team_name": "Cleveland Cavaliers",
+   "team": "CLE",
+   "player": "Watson, Peyton",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Right Abdominal Soreness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 109,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Edey, Zach",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Left Ankle Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 110,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Jackson, GG",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Foot Injury",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 111,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Jerome, Ty",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Hip Soreness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 112,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Pippen Jr., Scotty",
+   "status": "Out",
+   "reason": "Injury/Illness - Lumbar Disc Herniation",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 113,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Post, Quinten",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Concussion Protocol",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 114,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Saunders, Richie",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 115,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Memphis Grizzlies",
+   "team": "MEM",
+   "player": "Stewart, Isaiah",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Illness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 116,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "MEM@WAS",
+   "team_name": "Washington Wizards",
+   "team": "WAS",
+   "player": null,
+   "status": null,
+   "reason": null,
+   "is_team_not_submitted": true,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 117,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "ORL@BOS",
+   "team_name": "Orlando Magic",
+   "team": "ORL",
+   "player": "Banchero, Paolo",
+   "status": "Out",
+   "reason": "Injury/Illness - Right High Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 118,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "ORL@BOS",
+   "team_name": "Orlando Magic",
+   "team": "ORL",
+   "player": "Isaac, Jonathan",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Injury Management",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 119,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "ORL@BOS",
+   "team_name": "Orlando Magic",
+   "team": "ORL",
+   "player": "Nelson, Izaiyah",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Injury Recovery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 120,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "ORL@BOS",
+   "team_name": "Orlando Magic",
+   "team": "ORL",
+   "player": "Penda, Noah",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Partially Torn Hamstring",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 121,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "ORL@BOS",
+   "team_name": "Boston Celtics",
+   "team": "BOS",
+   "player": "Penda, Noah",
+   "status": null,
+   "reason": "NOT YET SUBMITTED",
+   "is_team_not_submitted": true,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 122,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "HOU@MIA",
+   "team_name": "Houston Rockets",
+   "team": "HOU",
+   "player": null,
+   "status": null,
+   "reason": null,
+   "is_team_not_submitted": true,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 123,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "HOU@MIA",
+   "team_name": "Miami Heat",
+   "team": "MIA",
+   "player": "Goldin, Vladislav",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 124,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "HOU@MIA",
+   "team_name": "Miami Heat",
+   "team": "MIA",
+   "player": "Larsson, Pelle",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Illness",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 125,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "HOU@MIA",
+   "team_name": "Miami Heat",
+   "team": "MIA",
+   "player": "Thompson, Klay",
+   "status": "Available",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 126,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "PHI@BKN",
+   "team_name": "Philadelphia 76ers",
+   "team": "PHI",
+   "player": null,
+   "status": null,
+   "reason": null,
+   "is_team_not_submitted": true,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 127,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "PHI@BKN",
+   "team_name": "Brooklyn Nets",
+   "team": "BKN",
+   "player": "Bilodeau, Tyler",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 128,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "PHI@BKN",
+   "team_name": "Brooklyn Nets",
+   "team": "BKN",
+   "player": "Jefferson, Joshua",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 129,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "PHI@BKN",
+   "team_name": "Brooklyn Nets",
+   "team": "BKN",
+   "player": "Nelson, Grant",
+   "status": "Out",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 130,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "PHI@BKN",
+   "team_name": "Brooklyn Nets",
+   "team": "BKN",
+   "player": "Powell, Drake",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 131,
+   "game_date": "2026-11-16",
+   "game_time_et": "07:30",
+   "matchup": "PHI@BKN",
+   "team_name": "Brooklyn Nets",
+   "team": "BKN",
+   "player": "Saraf, Ben",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 132,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "Golden State Warriors",
+   "team": "GSW",
+   "player": "Butler III, Jimmy",
+   "status": "Out",
+   "reason": "Injury/Illness - Right ACL Repair / Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 133,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "Golden State Warriors",
+   "team": "GSW",
+   "player": "Curry, Stephen",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Oblique Tear",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 134,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "Golden State Warriors",
+   "team": "GSW",
+   "player": "Moody, Moses",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Patellar Tendon Repair / Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 135,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "Golden State Warriors",
+   "team": "GSW",
+   "player": "Porzingis, Kristaps",
+   "status": "Out",
+   "reason": "Not With Team",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 136,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "Golden State Warriors",
+   "team": "GSW",
+   "player": "Santos, Gui",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Right Ankle Inflammation",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 137,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "Golden State Warriors",
+   "team": "GSW",
+   "player": "Williams, Brandon",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 138,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Dia, Malik",
+   "status": "Questionable",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 139,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Mathurin, Bennedict",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Plantar Fasciitis",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 140,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "McGowens, Bryce",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Elbow Infection",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 141,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Murphy III, Trey",
+   "status": "Out",
+   "reason": "Injury/Illness - Bilateral Patellar Tendinopathy",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 142,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Murray, Dejounte",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 143,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Pierre Jr., Jaron",
+   "status": "Questionable",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 144,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Reese, Julian",
+   "status": "Questionable",
+   "reason": "G League - Two-Way",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 145,
+   "game_date": "2026-11-16",
+   "game_time_et": "08:00",
+   "matchup": "GSW@NOP",
+   "team_name": "New Orleans Pelicans",
+   "team": "NOP",
+   "player": "Watford, Trendon",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Ankle Sprain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 146,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Portland Trail Blazers",
+   "team": "POR",
+   "player": "Krejci, Vit",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Fracture",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 147,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Portland Trail Blazers",
+   "team": "POR",
+   "player": "Morant, Ja",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 148,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Portland Trail Blazers",
+   "team": "POR",
+   "player": "Sharpe, Shaedon",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 149,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Portland Trail Blazers",
+   "team": "POR",
+   "player": "Youngblood, Chris",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Heel Contusion / Bone Bruise",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 150,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Minnesota Timberwolves",
+   "team": "MIN",
+   "player": "Beringer, Joan",
+   "status": "Available",
+   "reason": "Injury/Illness - Face Mask",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 151,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Minnesota Timberwolves",
+   "team": "MIN",
+   "player": "Clark, Jaylen",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Hamstring Strain",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 152,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Minnesota Timberwolves",
+   "team": "MIN",
+   "player": "DiVincenzo, Donte",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 153,
+   "game_date": "2026-11-16",
+   "game_time_et": null,
+   "matchup": "POR@MIN",
+   "team_name": "Minnesota Timberwolves",
+   "team": "MIN",
+   "player": "Edwards, Anthony",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Arthroscopy",
+   "is_team_not_submitted": false,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "carried forward"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 154,
+   "game_date": "2026-11-16",
+   "game_time_et": "09:00",
+   "matchup": "PHX@DEN",
+   "team_name": "Phoenix Suns",
+   "team": "PHX",
+   "player": null,
+   "status": null,
+   "reason": null,
+   "is_team_not_submitted": true,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "row",
+    "matchup": "row",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  },
+  {
+   "row": 155,
+   "game_date": "2026-11-16",
+   "game_time_et": "09:00",
+   "matchup": "PHX@DEN",
+   "team_name": "Denver Nuggets",
+   "team": "DEN",
+   "player": null,
+   "status": null,
+   "reason": null,
+   "is_team_not_submitted": true,
+   "cell_provenance": {
+    "game_date": "carried forward",
+    "game_time_et": "carried forward",
+    "matchup": "carried forward",
+    "team_name": "row"
+   },
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+  }
+ ],
+ "flags": [
+  {
+   "row": 15,
+   "player": "Sexton, Collin",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 16,
+   "player": "Thiero, Adou",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 33,
+   "player": "Quaintance, Jayden",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 51,
+   "player": "Mitchell, Dillon",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 52,
+   "player": "Williams, Amari",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 68,
+   "player": "Okpara, Felix",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 69,
+   "player": "Sarr, Alex",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 70,
+   "player": "Vukcevic, Tristan",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 71,
+   "player": "Watkins, Jamir",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 133,
+   "player": "Curry, Stephen",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 134,
+   "player": "Moody, Moses",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 135,
+   "player": "Porzingis, Kristaps",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 136,
+   "player": "Santos, Gui",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 137,
+   "player": "Williams, Brandon",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 151,
+   "player": "Clark, Jaylen",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 152,
+   "player": "DiVincenzo, Donte",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  },
+  {
+   "row": 153,
+   "player": "Edwards, Anthony",
+   "flag": "Team cell blank on the page; value carried forward from the row above (layout inference, not a printed value)."
+  }
+ ]
+}

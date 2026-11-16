@@ -1,0 +1,253 @@
+{
+ "schema": "nba3.slate.luck/v1",
+ "session": "arena/3d625d23-nba3",
+ "rule": "z = (actual wins - expected wins) / sqrt(sum p(1-p)) over the walk-forward out-of-sample games, where p is E1's pre-game probability for that club. |z| > 1.96 means the club's record is outside the noise band: a strategy may not lean on it.",
+ "oos_games": 129,
+ "teams": [
+  {
+   "team": "ATL",
+   "expected_wins": 5.17,
+   "actual_wins": 5,
+   "var_sum": 1.694,
+   "z": -0.13,
+   "outside_noise_band": false
+  },
+  {
+   "team": "BKN",
+   "expected_wins": 2.61,
+   "actual_wins": 3,
+   "var_sum": 1.649,
+   "z": 0.306,
+   "outside_noise_band": false
+  },
+  {
+   "team": "BOS",
+   "expected_wins": 4.68,
+   "actual_wins": 7,
+   "var_sum": 1.697,
+   "z": 1.778,
+   "outside_noise_band": false
+  },
+  {
+   "team": "CHA",
+   "expected_wins": 2.2,
+   "actual_wins": 1,
+   "var_sum": 1.445,
+   "z": -0.998,
+   "outside_noise_band": false
+  },
+  {
+   "team": "CHI",
+   "expected_wins": 1.65,
+   "actual_wins": 2,
+   "var_sum": 1.254,
+   "z": 0.314,
+   "outside_noise_band": false
+  },
+  {
+   "team": "CLE",
+   "expected_wins": 5.36,
+   "actual_wins": 4,
+   "var_sum": 2.278,
+   "z": -0.903,
+   "outside_noise_band": false
+  },
+  {
+   "team": "DAL",
+   "expected_wins": 4.98,
+   "actual_wins": 5,
+   "var_sum": 1.861,
+   "z": 0.014,
+   "outside_noise_band": false
+  },
+  {
+   "team": "DEN",
+   "expected_wins": 3.94,
+   "actual_wins": 6,
+   "var_sum": 1.867,
+   "z": 1.506,
+   "outside_noise_band": false
+  },
+  {
+   "team": "DET",
+   "expected_wins": 4.5,
+   "actual_wins": 4,
+   "var_sum": 1.513,
+   "z": -0.407,
+   "outside_noise_band": false
+  },
+  {
+   "team": "GSW",
+   "expected_wins": 5.24,
+   "actual_wins": 7,
+   "var_sum": 1.899,
+   "z": 1.278,
+   "outside_noise_band": false
+  },
+  {
+   "team": "HOU",
+   "expected_wins": 6.3,
+   "actual_wins": 6,
+   "var_sum": 1.804,
+   "z": -0.222,
+   "outside_noise_band": false
+  },
+  {
+   "team": "IND",
+   "expected_wins": 3.49,
+   "actual_wins": 3,
+   "var_sum": 1.904,
+   "z": -0.353,
+   "outside_noise_band": false
+  },
+  {
+   "team": "LAC",
+   "expected_wins": 3.44,
+   "actual_wins": 2,
+   "var_sum": 1.897,
+   "z": -1.044,
+   "outside_noise_band": false
+  },
+  {
+   "team": "LAL",
+   "expected_wins": 5.92,
+   "actual_wins": 8,
+   "var_sum": 1.915,
+   "z": 1.504,
+   "outside_noise_band": false
+  },
+  {
+   "team": "MEM",
+   "expected_wins": 6.11,
+   "actual_wins": 5,
+   "var_sum": 1.739,
+   "z": -0.844,
+   "outside_noise_band": false
+  },
+  {
+   "team": "MIA",
+   "expected_wins": 3.24,
+   "actual_wins": 6,
+   "var_sum": 1.85,
+   "z": 2.028,
+   "outside_noise_band": true
+  },
+  {
+   "team": "MIL",
+   "expected_wins": 2.04,
+   "actual_wins": 0,
+   "var_sum": 1.521,
+   "z": -1.656,
+   "outside_noise_band": false
+  },
+  {
+   "team": "MIN",
+   "expected_wins": 6.27,
+   "actual_wins": 6,
+   "var_sum": 1.676,
+   "z": -0.206,
+   "outside_noise_band": false
+  },
+  {
+   "team": "NOP",
+   "expected_wins": 4.53,
+   "actual_wins": 4,
+   "var_sum": 2.433,
+   "z": -0.342,
+   "outside_noise_band": false
+  },
+  {
+   "team": "NYK",
+   "expected_wins": 4.79,
+   "actual_wins": 5,
+   "var_sum": 1.743,
+   "z": 0.158,
+   "outside_noise_band": false
+  },
+  {
+   "team": "OKC",
+   "expected_wins": 5.02,
+   "actual_wins": 4,
+   "var_sum": 2.016,
+   "z": -0.72,
+   "outside_noise_band": false
+  },
+  {
+   "team": "ORL",
+   "expected_wins": 4.03,
+   "actual_wins": 4,
+   "var_sum": 2.009,
+   "z": -0.018,
+   "outside_noise_band": false
+  },
+  {
+   "team": "PHI",
+   "expected_wins": 5.05,
+   "actual_wins": 7,
+   "var_sum": 2.037,
+   "z": 1.367,
+   "outside_noise_band": false
+  },
+  {
+   "team": "PHX",
+   "expected_wins": 3.62,
+   "actual_wins": 4,
+   "var_sum": 1.687,
+   "z": 0.289,
+   "outside_noise_band": false
+  },
+  {
+   "team": "POR",
+   "expected_wins": 5.51,
+   "actual_wins": 6,
+   "var_sum": 2.059,
+   "z": 0.34,
+   "outside_noise_band": false
+  },
+  {
+   "team": "SAC",
+   "expected_wins": 2.68,
+   "actual_wins": 1,
+   "var_sum": 1.592,
+   "z": -1.328,
+   "outside_noise_band": false
+  },
+  {
+   "team": "SAS",
+   "expected_wins": 5.87,
+   "actual_wins": 9,
+   "var_sum": 1.834,
+   "z": 2.308,
+   "outside_noise_band": true
+  },
+  {
+   "team": "TOR",
+   "expected_wins": 4.9,
+   "actual_wins": 3,
+   "var_sum": 2.119,
+   "z": -1.303,
+   "outside_noise_band": false
+  },
+  {
+   "team": "UTA",
+   "expected_wins": 3.2,
+   "actual_wins": 0,
+   "var_sum": 1.917,
+   "z": -2.311,
+   "outside_noise_band": true
+  },
+  {
+   "team": "WAS",
+   "expected_wins": 2.66,
+   "actual_wins": 2,
+   "var_sum": 1.663,
+   "z": -0.511,
+   "outside_noise_band": false
+  }
+ ],
+ "outside_band": [
+  "MIA",
+  "SAS",
+  "UTA"
+ ]
+}

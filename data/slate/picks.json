@@ -1,0 +1,692 @@
+{
+ "schema": "nba3.slate.picks/v1",
+ "session": "arena/3d625d23-nba3",
+ "published_utc": "2026-11-15T23-50Z",
+ "strategies": [
+  "ST1_AGREEMENT_SIDE",
+  "ST2_PACING_TOTAL",
+  "ST3_REST_TRAVEL_FADE"
+ ],
+ "counts": {
+  "candidates": 75,
+  "bets": 6,
+  "skipped": 69,
+  "sealed_new": 0,
+  "sealed_total": 6
+ },
+ "candidates": [
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600245",
+   "date": "2026-11-16",
+   "matchup": "ORL@BOS",
+   "bet": null,
+   "skip_reason": "estimators disagree by 7.01 pts (> 3.0)"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600245",
+   "date": "2026-11-16",
+   "matchup": "ORL@BOS",
+   "market": "total",
+   "line": 218.67,
+   "side": "under",
+   "bet": "under 218.67",
+   "why": "E2 - E1 = -4.29 pts",
+   "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/orl-vs-bos-0022600245"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600245",
+   "date": "2026-11-16",
+   "matchup": "ORL@BOS",
+   "bet": null,
+   "skip_reason": "away club is not on a back-to-back"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600246",
+   "date": "2026-11-16",
+   "matchup": "CHI@CLE",
+   "bet": null,
+   "skip_reason": "estimators disagree by 6.15 pts (> 3.0)"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600246",
+   "date": "2026-11-16",
+   "matchup": "CHI@CLE",
+   "market": "total",
+   "line": 247.54,
+   "side": "under",
+   "bet": "under 247.54",
+   "why": "E2 - E1 = -7.50 pts",
+   "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/chi-vs-cle-0022600246"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600246",
+   "date": "2026-11-16",
+   "matchup": "CHI@CLE",
+   "bet": null,
+   "skip_reason": "away club is not on a back-to-back"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600247",
+   "date": "2026-11-16",
+   "matchup": "MEM@WAS",
+   "bet": null,
+   "skip_reason": "estimators disagree by 3.50 pts (> 3.0)"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600247",
+   "date": "2026-11-16",
+   "matchup": "MEM@WAS",
+   "bet": null,
+   "skip_reason": "total gap -3.87 pts is inside 4.0"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600247",
+   "date": "2026-11-16",
+   "matchup": "MEM@WAS",
+   "bet": null,
+   "skip_reason": "away club is not on a back-to-back"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600248",
+   "date": "2026-11-16",
+   "matchup": "PHI@BKN",
+   "bet": null,
+   "skip_reason": "estimators disagree by 3.18 pts (> 3.0)"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600248",
+   "date": "2026-11-16",
+   "matchup": "PHI@BKN",
+   "market": "total",
+   "line": 225.91,
+   "side": "under",
+   "bet": "under 225.91",
+   "why": "E2 - E1 = -4.09 pts",
+   "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phi-vs-bkn-0022600248"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600248",
+   "date": "2026-11-16",
+   "matchup": "PHI@BKN",
+   "bet": null,
+   "skip_reason": "away travel 0.0 mi is under 1000"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600249",
+   "date": "2026-11-16",
+   "matchup": "HOU@MIA",
+   "bet": null,
+   "skip_reason": "luck: MIA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600249",
+   "date": "2026-11-16",
+   "matchup": "HOU@MIA",
+   "bet": null,
+   "skip_reason": "luck: MIA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600249",
+   "date": "2026-11-16",
+   "matchup": "HOU@MIA",
+   "bet": null,
+   "skip_reason": "luck: MIA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600250",
+   "date": "2026-11-16",
+   "matchup": "POR@MIN",
+   "bet": null,
+   "skip_reason": "estimators disagree by 3.97 pts (> 3.0)"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600250",
+   "date": "2026-11-16",
+   "matchup": "POR@MIN",
+   "bet": null,
+   "skip_reason": "total gap -0.91 pts is inside 4.0"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600250",
+   "date": "2026-11-16",
+   "matchup": "POR@MIN",
+   "bet": null,
+   "skip_reason": "away club is not on a back-to-back"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600251",
+   "date": "2026-11-16",
+   "matchup": "GSW@NOP",
+   "market": "spread",
+   "line": 10.44,
+   "side": "home",
+   "bet": "home 10.44",
+   "why": "disagreement 1.39 pts",
+   "settlement": "home covers when (home_pts - away_pts) > (-blend_margin); a push (exactly equal) settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/gsw-vs-nop-0022600251"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600251",
+   "date": "2026-11-16",
+   "matchup": "GSW@NOP",
+   "bet": null,
+   "skip_reason": "total gap -1.47 pts is inside 4.0"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600251",
+   "date": "2026-11-16",
+   "matchup": "GSW@NOP",
+   "bet": null,
+   "skip_reason": "away club is not on a back-to-back"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600252",
+   "date": "2026-11-16",
+   "matchup": "PHX@DEN",
+   "market": "spread",
+   "line": -3.44,
+   "side": "home",
+   "bet": "home -3.44",
+   "why": "disagreement 2.89 pts",
+   "settlement": "home covers when (home_pts - away_pts) > (-blend_margin); a push (exactly equal) settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phx-vs-den-0022600252"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600252",
+   "date": "2026-11-16",
+   "matchup": "PHX@DEN",
+   "market": "total",
+   "line": 227.33,
+   "side": "over",
+   "bet": "over 227.33",
+   "why": "E2 - E1 = 4.03 pts",
+   "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phx-vs-den-0022600252"
+   },
+   "stake": "none \u2014 research ledger, no money is staked"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600252",
+   "date": "2026-11-16",
+   "matchup": "PHX@DEN",
+   "bet": null,
+   "skip_reason": "away travel 0.0 mi is under 1000"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600253",
+   "date": "2026-11-17",
+   "matchup": "NYK@TOR",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600253",
+   "date": "2026-11-17",
+   "matchup": "NYK@TOR",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600253",
+   "date": "2026-11-17",
+   "matchup": "NYK@TOR",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600254",
+   "date": "2026-11-17",
+   "matchup": "POR@MIN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600254",
+   "date": "2026-11-17",
+   "matchup": "POR@MIN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600254",
+   "date": "2026-11-17",
+   "matchup": "POR@MIN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600255",
+   "date": "2026-11-17",
+   "matchup": "DET@SAS",
+   "bet": null,
+   "skip_reason": "luck: SAS outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600255",
+   "date": "2026-11-17",
+   "matchup": "DET@SAS",
+   "bet": null,
+   "skip_reason": "luck: SAS outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600255",
+   "date": "2026-11-17",
+   "matchup": "DET@SAS",
+   "bet": null,
+   "skip_reason": "luck: SAS outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600256",
+   "date": "2026-11-17",
+   "matchup": "CHA@LAL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600256",
+   "date": "2026-11-17",
+   "matchup": "CHA@LAL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600256",
+   "date": "2026-11-17",
+   "matchup": "CHA@LAL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600257",
+   "date": "2026-11-17",
+   "matchup": "UTA@LAC",
+   "bet": null,
+   "skip_reason": "luck: UTA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600257",
+   "date": "2026-11-17",
+   "matchup": "UTA@LAC",
+   "bet": null,
+   "skip_reason": "luck: UTA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600257",
+   "date": "2026-11-17",
+   "matchup": "UTA@LAC",
+   "bet": null,
+   "skip_reason": "luck: UTA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600258",
+   "date": "2026-11-18",
+   "matchup": "MEM@CLE",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600258",
+   "date": "2026-11-18",
+   "matchup": "MEM@CLE",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600258",
+   "date": "2026-11-18",
+   "matchup": "MEM@CLE",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600259",
+   "date": "2026-11-18",
+   "matchup": "HOU@IND",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600259",
+   "date": "2026-11-18",
+   "matchup": "HOU@IND",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600259",
+   "date": "2026-11-18",
+   "matchup": "HOU@IND",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600260",
+   "date": "2026-11-18",
+   "matchup": "MIL@MIA",
+   "bet": null,
+   "skip_reason": "luck: MIA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600260",
+   "date": "2026-11-18",
+   "matchup": "MIL@MIA",
+   "bet": null,
+   "skip_reason": "luck: MIA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600260",
+   "date": "2026-11-18",
+   "matchup": "MIL@MIA",
+   "bet": null,
+   "skip_reason": "luck: MIA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600261",
+   "date": "2026-11-18",
+   "matchup": "PHI@ORL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600261",
+   "date": "2026-11-18",
+   "matchup": "PHI@ORL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600261",
+   "date": "2026-11-18",
+   "matchup": "PHI@ORL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600262",
+   "date": "2026-11-18",
+   "matchup": "CHI@BKN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600262",
+   "date": "2026-11-18",
+   "matchup": "CHI@BKN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600262",
+   "date": "2026-11-18",
+   "matchup": "CHI@BKN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600263",
+   "date": "2026-11-18",
+   "matchup": "WAS@TOR",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600263",
+   "date": "2026-11-18",
+   "matchup": "WAS@TOR",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600263",
+   "date": "2026-11-18",
+   "matchup": "WAS@TOR",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600264",
+   "date": "2026-11-18",
+   "matchup": "DET@NOP",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600264",
+   "date": "2026-11-18",
+   "matchup": "DET@NOP",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600264",
+   "date": "2026-11-18",
+   "matchup": "DET@NOP",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600265",
+   "date": "2026-11-18",
+   "matchup": "ATL@OKC",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600265",
+   "date": "2026-11-18",
+   "matchup": "ATL@OKC",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600265",
+   "date": "2026-11-18",
+   "matchup": "ATL@OKC",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600266",
+   "date": "2026-11-18",
+   "matchup": "BOS@DEN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600266",
+   "date": "2026-11-18",
+   "matchup": "BOS@DEN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600266",
+   "date": "2026-11-18",
+   "matchup": "BOS@DEN",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600267",
+   "date": "2026-11-18",
+   "matchup": "GSW@DAL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600267",
+   "date": "2026-11-18",
+   "matchup": "GSW@DAL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600267",
+   "date": "2026-11-18",
+   "matchup": "GSW@DAL",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600268",
+   "date": "2026-11-18",
+   "matchup": "UTA@LAL",
+   "bet": null,
+   "skip_reason": "luck: UTA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600268",
+   "date": "2026-11-18",
+   "matchup": "UTA@LAL",
+   "bet": null,
+   "skip_reason": "luck: UTA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600268",
+   "date": "2026-11-18",
+   "matchup": "UTA@LAL",
+   "bet": null,
+   "skip_reason": "luck: UTA outside the +-1.96 band"
+  },
+  {
+   "strategy": "ST1_AGREEMENT_SIDE",
+   "game_id": "0022600269",
+   "date": "2026-11-18",
+   "matchup": "PHX@SAC",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST2_PACING_TOTAL",
+   "game_id": "0022600269",
+   "date": "2026-11-18",
+   "matchup": "PHX@SAC",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  },
+  {
+   "strategy": "ST3_REST_TRAVEL_FADE",
+   "game_id": "0022600269",
+   "date": "2026-11-18",
+   "matchup": "PHX@SAC",
+   "bet": null,
+   "skip_reason": "no official injury report filed for this game date yet"
+  }
+ ],
+ "ledger_head": "38d803e6f9b41b19553e6f2c9705228765472708c922b4692b4033ed58409612"
+}

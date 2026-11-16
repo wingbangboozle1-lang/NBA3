@@ -1,0 +1,44 @@
+{
+ "schema": "nba3.slate.injury_archive/v1",
+ "session": "arena/3d625d23-nba3",
+ "note": "Every injury report this repository holds for 2026-11-15, in filing order, each with its own revision stamp (printed on the PDF), the retrieval stamp and, where the round stored one, the transcript hash. A new filing is a new entry; archived reports are never overwritten.",
+ "index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+ "count": 4,
+ "reports": [
+  {
+   "stamp": "2026-11-15 12:00 AM ET",
+   "file": "data/live/injuries/Injury-Report_2026-11-15_12_00AM.md",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf",
+   "retrieved_utc": "2026-11-15T11:33Z",
+   "session": "arena/2ebb1e75-nba3"
+  },
+  {
+   "stamp": "2026-11-15 06:00 AM ET",
+   "file": "data/live/injuries/Injury-Report_2026-11-15_06_00AM.md",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf",
+   "retrieved_utc": "2026-11-15T11:33Z",
+   "session": "arena/2ebb1e75-nba3"
+  },
+  {
+   "stamp": "2026-11-15 06:15 AM ET",
+   "file": "data/app/official_injuries_2026-11-15_0615AM_raw.md",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+   "retrieved_utc": "2026-11-15T11:40Z",
+   "session": "arena/bb0c83a4-nba3",
+   "parsed": "data/app/official_injuries_2026-11-15_0615AM.json",
+   "rows": 101
+  },
+  {
+   "stamp": "2026-11-15 06:30 PM ET",
+   "file": "data/slate/raw/injury_2026-11-15_0630PM.md",
+   "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+   "retrieved_utc": "2026-11-15T23-50Z",
+   "session": "arena/3d625d23-nba3",
+   "parsed": "data/slate/injuries/injury_2026-11-15_0630PM.json",
+   "rows": 155,
+   "transcript_sha256": "c5e366435108a754e4070c873d58957f371c9cb6424ffe9b89153752ed397b09"
+  }
+ ],
+ "deltas": "data/slate/injuries/deltas.json",
+ "diff_rule": "consecutive entries are diffed; see deltas.json"
+}

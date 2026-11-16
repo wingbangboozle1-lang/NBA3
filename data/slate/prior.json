@@ -1,0 +1,12 @@
+{
+ "schema": "nba3.slate.market_prior/v1",
+ "session": "arena/3d625d23-nba3",
+ "feed_status": "not connected",
+ "formula": "blended = w*model + (1-w)*closing, w = exp(-LL_model) / (exp(-LL_model) + exp(-LL_closing))",
+ "w_model": 1.0,
+ "w_closing": null,
+ "logloss_model": 0.6057,
+ "logloss_closing": null,
+ "rows": [],
+ "note": "No licensed closing-line feed is connected in this environment, so every blended line is BLANK and flagged; the model line is published alone and the weight is computed from the model side only."
+}

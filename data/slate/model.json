@@ -1,0 +1,1928 @@
+{
+ "schema": "nba3.slate.model/v1",
+ "session": "arena/3d625d23-nba3",
+ "generated_utc": "2026-11-15T23-50Z",
+ "generated_from": "the newest official source read in this round (never a wall clock)",
+ "hca": {
+  "rule": "HCA is pinned to the measured home-win rate, never fitted: HCA = sigma x probit(home_win_rate), where sigma is the standard deviation of the game margin (home - away) over the official log.",
+  "home_wins": 100,
+  "games": 189,
+  "home_win_rate": 0.5291,
+  "margin_sigma_pts": 16.858,
+  "hca_points": 1.231,
+  "sources": [
+   "data/origin/games.csv (official results capture, 188 games)",
+   "data/live/results/settled_2026-11-14.json (5 finals, official game books)",
+   "data/slate/results_feed.json (11/15 IND@PHI, official game book)"
+  ]
+ },
+ "log": {
+  "games": 189,
+  "first": "2026-10-20",
+  "last": "2026-11-15",
+  "sources": [
+   "data/origin/games.csv (official results capture, 188 games)",
+   "data/live/results/settled_2026-11-14.json (5 finals, official game books)",
+   "data/slate/results_feed.json (11/15 IND@PHI, official game book)"
+  ]
+ },
+ "estimators": {
+  "E1": {
+   "name": "results log",
+   "inputs": "official game log (margins and totals)",
+   "fitting": "least-squares ratings on game margin with HCA pinned; a symmetric team 'environment' term for the total",
+   "oos": {
+    "n": 129,
+    "log_loss": 0.6057,
+    "accuracy": 0.6744,
+    "mae_margin": 12.438,
+    "mae_total": 14.452,
+    "baseline_log_loss": 0.6931,
+    "walk_forward": "fit on all earlier games, score game 61 onward",
+    "shrink_k": 6.0,
+    "shrink_sensitivity": [
+     {
+      "shrink_k": 0.0,
+      "log_loss": 0.6834,
+      "accuracy": 0.6822,
+      "mae_margin": 13.06,
+      "mae_total": 16.16
+     },
+     {
+      "shrink_k": 6.0,
+      "log_loss": 0.6057,
+      "accuracy": 0.6744,
+      "mae_margin": 12.44,
+      "mae_total": 14.45
+     },
+     {
+      "shrink_k": 12.0,
+      "log_loss": 0.6158,
+      "accuracy": 0.6744,
+      "mae_margin": 12.58,
+      "mae_total": 14.32
+     },
+     {
+      "shrink_k": 20.0,
+      "log_loss": 0.6312,
+      "accuracy": 0.6667,
+      "mae_margin": 12.84,
+      "mae_total": 14.45
+     }
+    ],
+    "shrink_note": "the shrink constant is fixed before scoring; the grid is published so the choice can be inspected. Selecting the constant by looking at these four rows would be selection, so the figure above should be read as slightly optimistic."
+   }
+  },
+  "E2": {
+   "name": "efficiency page",
+   "inputs": "official team advanced page (OffRtg, DefRtg, Pace) + official standings",
+   "fitting": "total = possessions x points-per-possession; ppp = OffRtg/100 x DefRtg_opp/100 / (league ppp), possessions = mean pace of the two clubs",
+   "league_ppp": 1.1314,
+   "oos": {
+    "n": 1,
+    "log_loss": 0.476,
+    "accuracy": 1.0,
+    "note": "only games settled after the page was read can score E2 out of sample; one so far, which is far too few to weight it"
+   }
+  }
+ },
+ "blend": {
+  "rule": "w_i = exp(-logloss_i) normalised; an estimator receives weight only once it has at least 30 out-of-sample games. Until then the measured estimator carries the blend and the weights are published with the sample sizes.",
+  "w_E1": 1.0,
+  "w_E2": 0.0,
+  "n_oos_E1": 129,
+  "n_oos_E2": 1,
+  "logloss_E1": 0.6057,
+  "logloss_E2": 0.476,
+  "blend_is_measured": false,
+  "note": "E2's weight is 0 because the official efficiency page is a single current snapshot: it has produced one out-of-sample game so far. The blend therefore equals E1 today and the published headline is the disagreement, not the blend."
+ },
+ "headline": "disagreement",
+ "headline_rule": "the headline number on every projection row is |E1 - E2| (points and win probability). The blend is printed underneath it and is never the headline.",
+ "projections": [
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600245",
+   "away": "ORL",
+   "home": "BOS",
+   "tip_et": "7:00 PM ET",
+   "venue": "TD Garden",
+   "city": "Boston, MA",
+   "E1_margin": 9.11,
+   "E2_margin": 16.12,
+   "disagreement_pts": 7.01,
+   "blend_margin": 9.11,
+   "E1_total": 218.67,
+   "E2_total": 214.38,
+   "total_disagreement": 4.29,
+   "blend_total": 218.67,
+   "possessions": 97.43,
+   "p_home_E1": 0.7055,
+   "p_home_E2": 0.8305,
+   "p_disagreement": 0.1249,
+   "rest_travel": {
+    "away_rest_days": 2,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 0,
+    "home_b2b": true,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "ORL",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "BOS",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/orl-vs-bos-0022600245"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600246",
+   "away": "CHI",
+   "home": "CLE",
+   "tip_et": "7:00 PM ET",
+   "venue": "Rocket Arena",
+   "city": "Cleveland, OH",
+   "E1_margin": 8.02,
+   "E2_margin": 14.17,
+   "disagreement_pts": 6.15,
+   "blend_margin": 8.02,
+   "E1_total": 247.54,
+   "E2_total": 240.04,
+   "total_disagreement": 7.5,
+   "blend_total": 247.54,
+   "possessions": 101.77,
+   "p_home_E1": 0.6829,
+   "p_home_E2": 0.7997,
+   "p_disagreement": 0.1168,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 630.3,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 3,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "CHI",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "CLE",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [
+      "20 Jaylon Tyson"
+     ],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/chi-vs-cle-0022600246"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600247",
+   "away": "MEM",
+   "home": "WAS",
+   "tip_et": "7:00 PM ET",
+   "venue": "Capital One Arena",
+   "city": "Washington, DC",
+   "E1_margin": -9.43,
+   "E2_margin": -12.93,
+   "disagreement_pts": 3.5,
+   "blend_margin": -9.43,
+   "E1_total": 230.25,
+   "E2_total": 226.38,
+   "total_disagreement": 3.87,
+   "blend_total": 230.25,
+   "possessions": 100.04,
+   "p_home_E1": 0.288,
+   "p_home_E2": 0.2216,
+   "p_disagreement": 0.0665,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 0,
+    "home_b2b": true,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "MEM",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "WAS",
+     "game": "2026-11-12",
+     "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf",
+     "top8_size": 8,
+     "out_in_top8": [
+      "Tre Johnson"
+     ],
+     "minutes_at_risk": 29.6,
+     "share_at_risk": 0.102,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/mem-vs-was-0022600247"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600248",
+   "away": "PHI",
+   "home": "BKN",
+   "tip_et": "7:30 PM ET",
+   "venue": "Barclays Center",
+   "city": "Brooklyn, NY",
+   "E1_margin": -3.67,
+   "E2_margin": -6.85,
+   "disagreement_pts": 3.18,
+   "blend_margin": -3.67,
+   "E1_total": 225.91,
+   "E2_total": 221.82,
+   "total_disagreement": 4.09,
+   "blend_total": 225.91,
+   "possessions": 99.84,
+   "p_home_E1": 0.4139,
+   "p_home_E2": 0.3422,
+   "p_disagreement": 0.0717,
+   "rest_travel": {
+    "away_rest_days": 0,
+    "away_b2b": true,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 954.5
+   },
+   "rotation": {
+    "away": {
+     "team": "PHI",
+     "game": "2026-11-15",
+     "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "BKN",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phi-vs-bkn-0022600248"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600249",
+   "away": "HOU",
+   "home": "MIA",
+   "tip_et": "7:30 PM ET",
+   "venue": "Kaseya Center",
+   "city": "Miami, FL",
+   "E1_margin": -7.15,
+   "E2_margin": -9.57,
+   "disagreement_pts": 2.42,
+   "blend_margin": -7.15,
+   "E1_total": 233.96,
+   "E2_total": 234.13,
+   "total_disagreement": 0.17,
+   "blend_total": 233.96,
+   "possessions": 99.95,
+   "p_home_E1": 0.3357,
+   "p_home_E2": 0.2851,
+   "p_disagreement": 0.0506,
+   "rest_travel": {
+    "away_rest_days": 0,
+    "away_b2b": true,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 924.8,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 3,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "HOU",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+     "top8_size": 8,
+     "out_in_top8": [
+      "Fred VanVleet"
+     ],
+     "minutes_at_risk": 33.8,
+     "share_at_risk": 0.1408,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "MIA",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/hou-vs-mia-0022600249"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600250",
+   "away": "POR",
+   "home": "MIN",
+   "tip_et": "8:00 PM ET",
+   "venue": "Target Center",
+   "city": "Minneapolis, MN",
+   "E1_margin": 1.48,
+   "E2_margin": 5.45,
+   "disagreement_pts": 3.97,
+   "blend_margin": 1.48,
+   "E1_total": 226.71,
+   "E2_total": 225.8,
+   "total_disagreement": 0.92,
+   "blend_total": 226.71,
+   "possessions": 100.97,
+   "p_home_E1": 0.535,
+   "p_home_E2": 0.6268,
+   "p_disagreement": 0.0918,
+   "rest_travel": {
+    "away_rest_days": 2,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 1511.1,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "POR",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "MIN",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/por-vs-min-0022600250"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600251",
+   "away": "GSW",
+   "home": "NOP",
+   "tip_et": "8:00 PM ET",
+   "venue": "Smoothie King Center",
+   "city": "New Orleans, LA",
+   "E1_margin": -10.44,
+   "E2_margin": -11.83,
+   "disagreement_pts": 1.39,
+   "blend_margin": -10.44,
+   "E1_total": 236.52,
+   "E2_total": 235.05,
+   "total_disagreement": 1.48,
+   "blend_total": 236.52,
+   "possessions": 100.75,
+   "p_home_E1": 0.2679,
+   "p_home_E2": 0.2415,
+   "p_disagreement": 0.0264,
+   "rest_travel": {
+    "away_rest_days": 2,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 502.7,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 3,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "GSW",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [
+      "15 Gui Santos"
+     ],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "NOP",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/gsw-vs-nop-0022600251"
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600252",
+   "away": "PHX",
+   "home": "DEN",
+   "tip_et": "9:00 PM ET",
+   "venue": "Ball Arena",
+   "city": "Denver, CO",
+   "E1_margin": 3.44,
+   "E2_margin": 6.33,
+   "disagreement_pts": 2.89,
+   "blend_margin": 3.44,
+   "E1_total": 227.33,
+   "E2_total": 231.36,
+   "total_disagreement": 4.02,
+   "blend_total": 227.33,
+   "possessions": 98.06,
+   "p_home_E1": 0.5809,
+   "p_home_E2": 0.6464,
+   "p_disagreement": 0.0656,
+   "rest_travel": {
+    "away_rest_days": 0,
+    "away_b2b": true,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 1081.2
+   },
+   "rotation": {
+    "away": {
+     "team": "PHX",
+     "game": "2026-11-12",
+     "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "DEN",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phx-vs-den-0022600252"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600253",
+   "away": "NYK",
+   "home": "TOR",
+   "tip_et": "7:30 PM ET",
+   "venue": "Scotiabank Arena",
+   "city": "Toronto, ON",
+   "E1_margin": 0.12,
+   "E2_margin": -2.92,
+   "disagreement_pts": 3.04,
+   "blend_margin": 0.12,
+   "E1_total": 215.36,
+   "E2_total": 219.02,
+   "total_disagreement": 3.66,
+   "blend_total": 215.36,
+   "possessions": 97.75,
+   "p_home_E1": 0.5028,
+   "p_home_E2": 0.4311,
+   "p_disagreement": 0.0716,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "NYK",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    },
+    "home": {
+     "team": "TOR",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/nyk-vs-tor-0022600253"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600254",
+   "away": "POR",
+   "home": "MIN",
+   "tip_et": "8:00 PM ET",
+   "venue": "Target Center",
+   "city": "Minneapolis, MN",
+   "E1_margin": 1.48,
+   "E2_margin": 5.45,
+   "disagreement_pts": 3.97,
+   "blend_margin": 1.48,
+   "E1_total": 226.71,
+   "E2_total": 225.8,
+   "total_disagreement": 0.92,
+   "blend_total": 226.71,
+   "possessions": 100.97,
+   "p_home_E1": 0.535,
+   "p_home_E2": 0.6268,
+   "p_disagreement": 0.0918,
+   "rest_travel": {
+    "away_rest_days": 0,
+    "away_b2b": true,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 0,
+    "home_b2b": true,
+    "home_games_in_4d": 3,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "POR",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "MIN",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/por-vs-min-0022600254"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600255",
+   "away": "DET",
+   "home": "SAS",
+   "tip_et": "8:00 PM ET",
+   "venue": "Frost Bank Center",
+   "city": "San Antonio, TX",
+   "E1_margin": 9.33,
+   "E2_margin": 9.1,
+   "disagreement_pts": 0.24,
+   "blend_margin": 9.33,
+   "E1_total": 228.16,
+   "E2_total": 221.17,
+   "total_disagreement": 6.99,
+   "blend_total": 228.16,
+   "possessions": 99.21,
+   "p_home_E1": 0.7101,
+   "p_home_E2": 0.7053,
+   "p_disagreement": 0.0048,
+   "rest_travel": {
+    "away_rest_days": 2,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 1144.1,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 1089.8
+   },
+   "rotation": {
+    "away": {
+     "team": "DET",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "SAS",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/det-vs-sas-0022600255"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600256",
+   "away": "CHA",
+   "home": "LAL",
+   "tip_et": "11:00 PM ET",
+   "venue": "Crypto.com Arena",
+   "city": "Los Angeles, CA",
+   "E1_margin": 15.82,
+   "E2_margin": 20.22,
+   "disagreement_pts": 4.39,
+   "blend_margin": 15.82,
+   "E1_total": 218.06,
+   "E2_total": 220.87,
+   "total_disagreement": 2.81,
+   "blend_total": 218.06,
+   "possessions": 98.66,
+   "p_home_E1": 0.8261,
+   "p_home_E2": 0.8848,
+   "p_disagreement": 0.0587,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 8.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 358.3
+   },
+   "rotation": {
+    "away": {
+     "team": "CHA",
+     "game": "2026-11-12",
+     "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "LAL",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/cha-vs-lal-0022600256"
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600257",
+   "away": "UTA",
+   "home": "LAC",
+   "tip_et": "10:30 PM ET",
+   "venue": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "E1_margin": 4.17,
+   "E2_margin": 7.69,
+   "disagreement_pts": 3.51,
+   "blend_margin": 4.17,
+   "E1_total": 224.76,
+   "E2_total": 222.51,
+   "total_disagreement": 2.24,
+   "blend_total": 224.76,
+   "possessions": 100.53,
+   "p_home_E1": 0.5978,
+   "p_home_E2": 0.6758,
+   "p_disagreement": 0.078,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "UTA",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "LAC",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/uta-vs-lac-0022600257"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600258",
+   "away": "MEM",
+   "home": "CLE",
+   "tip_et": "7:00 PM ET",
+   "venue": "Rocket Arena",
+   "city": "Cleveland, OH",
+   "E1_margin": -2.68,
+   "E2_margin": -6.08,
+   "disagreement_pts": 3.41,
+   "blend_margin": -2.68,
+   "E1_total": 238.47,
+   "E2_total": 235.65,
+   "total_disagreement": 2.82,
+   "blend_total": 238.47,
+   "possessions": 100.09,
+   "p_home_E1": 0.4369,
+   "p_home_E2": 0.3591,
+   "p_disagreement": 0.0778,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 304.7,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "MEM",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "CLE",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [
+      "20 Jaylon Tyson"
+     ],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/mem-vs-cle-0022600258"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600259",
+   "away": "HOU",
+   "home": "IND",
+   "tip_et": "7:00 PM ET",
+   "venue": "Gainbridge Fieldhouse",
+   "city": "Indianapolis, IN",
+   "E1_margin": -9.67,
+   "E2_margin": -9.72,
+   "disagreement_pts": 0.05,
+   "blend_margin": -9.67,
+   "E1_total": 224.81,
+   "E2_total": 225.55,
+   "total_disagreement": 0.74,
+   "blend_total": 224.81,
+   "possessions": 99.34,
+   "p_home_E1": 0.283,
+   "p_home_E2": 0.282,
+   "p_disagreement": 0.001,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 1025.7,
+    "home_rest_days": 2,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 582.5
+   },
+   "rotation": {
+    "away": {
+     "team": "HOU",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+     "top8_size": 8,
+     "out_in_top8": [
+      "Fred VanVleet"
+     ],
+     "minutes_at_risk": 33.8,
+     "share_at_risk": 0.1408,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "IND",
+     "game": "2026-11-15",
+     "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/hou-vs-ind-0022600259"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600260",
+   "away": "MIL",
+   "home": "MIA",
+   "tip_et": "7:00 PM ET",
+   "venue": "Kaseya Center",
+   "city": "Miami, FL",
+   "E1_margin": 9.09,
+   "E2_margin": 14.51,
+   "disagreement_pts": 5.42,
+   "blend_margin": 9.09,
+   "E1_total": 235.56,
+   "E2_total": 233.43,
+   "total_disagreement": 2.14,
+   "blend_total": 235.56,
+   "possessions": 101.4,
+   "p_home_E1": 0.7051,
+   "p_home_E2": 0.8053,
+   "p_disagreement": 0.1002,
+   "rest_travel": {
+    "away_rest_days": 2,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "MIL",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf",
+     "top8_size": 8,
+     "out_in_top8": [
+      "Ryan Rollins"
+     ],
+     "minutes_at_risk": 28.9,
+     "share_at_risk": 0.1206,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "MIA",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/mil-vs-mia-0022600260"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600261",
+   "away": "PHI",
+   "home": "ORL",
+   "tip_et": "7:00 PM ET",
+   "venue": "Kia Center",
+   "city": "Orlando, FL",
+   "E1_margin": -1.68,
+   "E2_margin": -4.34,
+   "disagreement_pts": 2.66,
+   "blend_margin": -1.68,
+   "E1_total": 222.17,
+   "E2_total": 217.78,
+   "total_disagreement": 4.39,
+   "blend_total": 222.17,
+   "possessions": 99.22,
+   "p_home_E1": 0.4603,
+   "p_home_E2": 0.3985,
+   "p_disagreement": 0.0618,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 938.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 1116.1
+   },
+   "rotation": {
+    "away": {
+     "team": "PHI",
+     "game": "2026-11-15",
+     "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "ORL",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phi-vs-orl-0022600261"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600262",
+   "away": "CHI",
+   "home": "BKN",
+   "tip_et": "7:30 PM ET",
+   "venue": "Barclays Center",
+   "city": "Brooklyn, NY",
+   "E1_margin": 2.24,
+   "E2_margin": 5.89,
+   "disagreement_pts": 3.65,
+   "blend_margin": 2.24,
+   "E1_total": 241.04,
+   "E2_total": 232.66,
+   "total_disagreement": 8.38,
+   "blend_total": 241.04,
+   "possessions": 101.64,
+   "p_home_E1": 0.5528,
+   "p_home_E2": 0.6366,
+   "p_disagreement": 0.0838,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 405.4,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "CHI",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "BKN",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/chi-vs-bkn-0022600262"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600263",
+   "away": "WAS",
+   "home": "TOR",
+   "tip_et": "7:30 PM ET",
+   "venue": "Scotiabank Arena",
+   "city": "Toronto, ON",
+   "E1_margin": 8.09,
+   "E2_margin": 8.51,
+   "disagreement_pts": 0.42,
+   "blend_margin": 8.09,
+   "E1_total": 226.69,
+   "E2_total": 223.49,
+   "total_disagreement": 3.2,
+   "blend_total": 226.69,
+   "possessions": 99.75,
+   "p_home_E1": 0.6843,
+   "p_home_E2": 0.6932,
+   "p_disagreement": 0.0089,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 0,
+    "home_b2b": true,
+    "home_games_in_4d": 3,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "WAS",
+     "game": "2026-11-12",
+     "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf",
+     "top8_size": 8,
+     "out_in_top8": [
+      "Tre Johnson"
+     ],
+     "minutes_at_risk": 29.6,
+     "share_at_risk": 0.102,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "TOR",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/was-vs-tor-0022600263"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600264",
+   "away": "DET",
+   "home": "NOP",
+   "tip_et": "8:00 PM ET",
+   "venue": "Smoothie King Center",
+   "city": "New Orleans, LA",
+   "E1_margin": -6.85,
+   "E2_margin": -12.45,
+   "disagreement_pts": 5.6,
+   "blend_margin": -6.85,
+   "E1_total": 238.94,
+   "E2_total": 229.93,
+   "total_disagreement": 9.01,
+   "blend_total": 238.94,
+   "possessions": 100.66,
+   "p_home_E1": 0.3423,
+   "p_home_E2": 0.2301,
+   "p_disagreement": 0.1122,
+   "rest_travel": {
+    "away_rest_days": 0,
+    "away_b2b": true,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 502.7,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "DET",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "NOP",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/det-vs-nop-0022600264"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600265",
+   "away": "ATL",
+   "home": "OKC",
+   "tip_et": "8:00 PM ET",
+   "venue": "Paycom Center",
+   "city": "Oklahoma City, OK",
+   "E1_margin": 7.47,
+   "E2_margin": 3.57,
+   "disagreement_pts": 3.9,
+   "blend_margin": 7.47,
+   "E1_total": 222.76,
+   "E2_total": 222.96,
+   "total_disagreement": 0.2,
+   "blend_total": 222.76,
+   "possessions": 101.06,
+   "p_home_E1": 0.6712,
+   "p_home_E2": 0.5838,
+   "p_disagreement": 0.0874,
+   "rest_travel": {
+    "away_rest_days": 2,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 732.6,
+    "home_rest_days": 2,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 1336.6
+   },
+   "rotation": {
+    "away": {
+     "team": "ATL",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    },
+    "home": {
+     "team": "OKC",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/atl-vs-okc-0022600265"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600266",
+   "away": "BOS",
+   "home": "DEN",
+   "tip_et": "9:30 PM ET",
+   "venue": "Ball Arena",
+   "city": "Denver, CO",
+   "E1_margin": -1.27,
+   "E2_margin": -9.21,
+   "disagreement_pts": 7.94,
+   "blend_margin": -1.27,
+   "E1_total": 218.72,
+   "E2_total": 220.79,
+   "total_disagreement": 2.07,
+   "blend_total": 218.72,
+   "possessions": 97.15,
+   "p_home_E1": 0.4699,
+   "p_home_E2": 0.2924,
+   "p_disagreement": 0.1775,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 0.0,
+    "home_rest_days": 1,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "BOS",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    },
+    "home": {
+     "team": "DEN",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/bos-vs-den-0022600266"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600267",
+   "away": "GSW",
+   "home": "DAL",
+   "tip_et": "8:00 PM ET",
+   "venue": "American Airlines Center",
+   "city": "Dallas, TX",
+   "E1_margin": -2.04,
+   "E2_margin": -2.86,
+   "disagreement_pts": 0.82,
+   "blend_margin": -2.04,
+   "E1_total": 226.51,
+   "E2_total": 227.63,
+   "total_disagreement": 1.12,
+   "blend_total": 226.51,
+   "possessions": 100.1,
+   "p_home_E1": 0.4518,
+   "p_home_E2": 0.4326,
+   "p_disagreement": 0.0192,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 2,
+    "away_travel_mi": 442.7,
+    "home_rest_days": 2,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 1549.2
+   },
+   "rotation": {
+    "away": {
+     "team": "GSW",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [
+      "15 Gui Santos"
+     ],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "DAL",
+     "game": "2026-11-14",
+     "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+     "top8_size": 0,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/gsw-vs-dal-0022600267"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600268",
+   "away": "UTA",
+   "home": "LAL",
+   "tip_et": "10:00 PM ET",
+   "venue": "Crypto.com Arena",
+   "city": "Los Angeles, CA",
+   "E1_margin": 11.48,
+   "E2_margin": 21.01,
+   "disagreement_pts": 9.52,
+   "blend_margin": 11.48,
+   "E1_total": 228.85,
+   "E2_total": 231.67,
+   "total_disagreement": 2.82,
+   "blend_total": 228.85,
+   "possessions": 100.5,
+   "p_home_E1": 0.7521,
+   "p_home_E2": 0.8936,
+   "p_disagreement": 0.1415,
+   "rest_travel": {
+    "away_rest_days": 0,
+    "away_b2b": true,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 8.0,
+    "home_rest_days": 0,
+    "home_b2b": true,
+    "home_games_in_4d": 3,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "UTA",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "LAL",
+     "available": null,
+     "minutes_at_risk": null,
+     "out_in_top8": null,
+     "note": "no captured game book for this club \u2014 rotation minutes are blank, not inferred"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/uta-vs-lal-0022600268"
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600269",
+   "away": "PHX",
+   "home": "SAC",
+   "tip_et": "10:00 PM ET",
+   "venue": "Golden 1 Center",
+   "city": "Sacramento, CA",
+   "E1_margin": -4.17,
+   "E2_margin": -7.41,
+   "disagreement_pts": 3.25,
+   "blend_margin": -4.17,
+   "E1_total": 228.03,
+   "E2_total": 231.08,
+   "total_disagreement": 3.05,
+   "blend_total": 228.03,
+   "possessions": 99.72,
+   "p_home_E1": 0.4024,
+   "p_home_E2": 0.3301,
+   "p_disagreement": 0.0723,
+   "rest_travel": {
+    "away_rest_days": 1,
+    "away_b2b": false,
+    "away_games_in_4d": 3,
+    "away_travel_mi": 885.9,
+    "home_rest_days": 2,
+    "home_b2b": false,
+    "home_games_in_4d": 2,
+    "home_travel_mi": 0.0
+   },
+   "rotation": {
+    "away": {
+     "team": "PHX",
+     "game": "2026-11-12",
+     "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    },
+    "home": {
+     "team": "SAC",
+     "game": "2026-11-13",
+     "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf",
+     "top8_size": 8,
+     "out_in_top8": [],
+     "minutes_at_risk": 0,
+     "share_at_risk": 0,
+     "questionable_in_top8": [],
+     "note": "minutes from the most recent captured official game book for the club"
+    }
+   },
+   "sources": {
+    "slate": "https://www.nba.com/schedule?date=2026-11-16",
+    "efficiency": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "standings": "https://www.nba.com/standings",
+    "injury": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "game": "https://www.nba.com/game/phx-vs-sac-0022600269"
+   }
+  }
+ ],
+ "luck": {
+  "schema": "nba3.slate.luck/v1",
+  "session": "arena/3d625d23-nba3",
+  "rule": "z = (actual wins - expected wins) / sqrt(sum p(1-p)) over the walk-forward out-of-sample games, where p is E1's pre-game probability for that club. |z| > 1.96 means the club's record is outside the noise band: a strategy may not lean on it.",
+  "oos_games": 129,
+  "teams": [
+   {
+    "team": "ATL",
+    "expected_wins": 5.17,
+    "actual_wins": 5,
+    "var_sum": 1.694,
+    "z": -0.13,
+    "outside_noise_band": false
+   },
+   {
+    "team": "BKN",
+    "expected_wins": 2.61,
+    "actual_wins": 3,
+    "var_sum": 1.649,
+    "z": 0.306,
+    "outside_noise_band": false
+   },
+   {
+    "team": "BOS",
+    "expected_wins": 4.68,
+    "actual_wins": 7,
+    "var_sum": 1.697,
+    "z": 1.778,
+    "outside_noise_band": false
+   },
+   {
+    "team": "CHA",
+    "expected_wins": 2.2,
+    "actual_wins": 1,
+    "var_sum": 1.445,
+    "z": -0.998,
+    "outside_noise_band": false
+   },
+   {
+    "team": "CHI",
+    "expected_wins": 1.65,
+    "actual_wins": 2,
+    "var_sum": 1.254,
+    "z": 0.314,
+    "outside_noise_band": false
+   },
+   {
+    "team": "CLE",
+    "expected_wins": 5.36,
+    "actual_wins": 4,
+    "var_sum": 2.278,
+    "z": -0.903,
+    "outside_noise_band": false
+   },
+   {
+    "team": "DAL",
+    "expected_wins": 4.98,
+    "actual_wins": 5,
+    "var_sum": 1.861,
+    "z": 0.014,
+    "outside_noise_band": false
+   },
+   {
+    "team": "DEN",
+    "expected_wins": 3.94,
+    "actual_wins": 6,
+    "var_sum": 1.867,
+    "z": 1.506,
+    "outside_noise_band": false
+   },
+   {
+    "team": "DET",
+    "expected_wins": 4.5,
+    "actual_wins": 4,
+    "var_sum": 1.513,
+    "z": -0.407,
+    "outside_noise_band": false
+   },
+   {
+    "team": "GSW",
+    "expected_wins": 5.24,
+    "actual_wins": 7,
+    "var_sum": 1.899,
+    "z": 1.278,
+    "outside_noise_band": false
+   },
+   {
+    "team": "HOU",
+    "expected_wins": 6.3,
+    "actual_wins": 6,
+    "var_sum": 1.804,
+    "z": -0.222,
+    "outside_noise_band": false
+   },
+   {
+    "team": "IND",
+    "expected_wins": 3.49,
+    "actual_wins": 3,
+    "var_sum": 1.904,
+    "z": -0.353,
+    "outside_noise_band": false
+   },
+   {
+    "team": "LAC",
+    "expected_wins": 3.44,
+    "actual_wins": 2,
+    "var_sum": 1.897,
+    "z": -1.044,
+    "outside_noise_band": false
+   },
+   {
+    "team": "LAL",
+    "expected_wins": 5.92,
+    "actual_wins": 8,
+    "var_sum": 1.915,
+    "z": 1.504,
+    "outside_noise_band": false
+   },
+   {
+    "team": "MEM",
+    "expected_wins": 6.11,
+    "actual_wins": 5,
+    "var_sum": 1.739,
+    "z": -0.844,
+    "outside_noise_band": false
+   },
+   {
+    "team": "MIA",
+    "expected_wins": 3.24,
+    "actual_wins": 6,
+    "var_sum": 1.85,
+    "z": 2.028,
+    "outside_noise_band": true
+   },
+   {
+    "team": "MIL",
+    "expected_wins": 2.04,
+    "actual_wins": 0,
+    "var_sum": 1.521,
+    "z": -1.656,
+    "outside_noise_band": false
+   },
+   {
+    "team": "MIN",
+    "expected_wins": 6.27,
+    "actual_wins": 6,
+    "var_sum": 1.676,
+    "z": -0.206,
+    "outside_noise_band": false
+   },
+   {
+    "team": "NOP",
+    "expected_wins": 4.53,
+    "actual_wins": 4,
+    "var_sum": 2.433,
+    "z": -0.342,
+    "outside_noise_band": false
+   },
+   {
+    "team": "NYK",
+    "expected_wins": 4.79,
+    "actual_wins": 5,
+    "var_sum": 1.743,
+    "z": 0.158,
+    "outside_noise_band": false
+   },
+   {
+    "team": "OKC",
+    "expected_wins": 5.02,
+    "actual_wins": 4,
+    "var_sum": 2.016,
+    "z": -0.72,
+    "outside_noise_band": false
+   },
+   {
+    "team": "ORL",
+    "expected_wins": 4.03,
+    "actual_wins": 4,
+    "var_sum": 2.009,
+    "z": -0.018,
+    "outside_noise_band": false
+   },
+   {
+    "team": "PHI",
+    "expected_wins": 5.05,
+    "actual_wins": 7,
+    "var_sum": 2.037,
+    "z": 1.367,
+    "outside_noise_band": false
+   },
+   {
+    "team": "PHX",
+    "expected_wins": 3.62,
+    "actual_wins": 4,
+    "var_sum": 1.687,
+    "z": 0.289,
+    "outside_noise_band": false
+   },
+   {
+    "team": "POR",
+    "expected_wins": 5.51,
+    "actual_wins": 6,
+    "var_sum": 2.059,
+    "z": 0.34,
+    "outside_noise_band": false
+   },
+   {
+    "team": "SAC",
+    "expected_wins": 2.68,
+    "actual_wins": 1,
+    "var_sum": 1.592,
+    "z": -1.328,
+    "outside_noise_band": false
+   },
+   {
+    "team": "SAS",
+    "expected_wins": 5.87,
+    "actual_wins": 9,
+    "var_sum": 1.834,
+    "z": 2.308,
+    "outside_noise_band": true
+   },
+   {
+    "team": "TOR",
+    "expected_wins": 4.9,
+    "actual_wins": 3,
+    "var_sum": 2.119,
+    "z": -1.303,
+    "outside_noise_band": false
+   },
+   {
+    "team": "UTA",
+    "expected_wins": 3.2,
+    "actual_wins": 0,
+    "var_sum": 1.917,
+    "z": -2.311,
+    "outside_noise_band": true
+   },
+   {
+    "team": "WAS",
+    "expected_wins": 2.66,
+    "actual_wins": 2,
+    "var_sum": 1.663,
+    "z": -0.511,
+    "outside_noise_band": false
+   }
+  ],
+  "outside_band": [
+   "MIA",
+   "SAS",
+   "UTA"
+  ]
+ },
+ "correlations": {
+  "schema": "nba3.slate.correlations/v1",
+  "session": "arena/3d625d23-nba3",
+  "note": "Pearson r over the official game log (n = 189 games). These are the correlations this round can measure from official data; the cells the brief asks for that need a settled line feed are left blank.",
+  "n": 189,
+  "rows": [
+   {
+    "pair": "game margin (home - away) vs game total",
+    "r": -0.0158,
+    "n": 189,
+    "basis": "MEASURED",
+    "use": "rho for a same-game spread+total parlay"
+   },
+   {
+    "pair": "home team points vs away team points",
+    "r": 0.1278,
+    "n": 189,
+    "basis": "MEASURED",
+    "use": "rho for a same-game over/over parlay"
+   },
+   {
+    "pair": "home-win indicator, two different games on the same date, no shared club",
+    "r": -0.0127,
+    "n": 772,
+    "basis": "MEASURED",
+    "use": "rho for a cross-game parlay"
+   },
+   {
+    "pair": "player prop vs team side",
+    "r": null,
+    "n": 0,
+    "basis": "NOT MEASURED",
+    "use": "left blank: no prop line feed and no per-player prop results"
+   }
+  ],
+  "sigma_margin_pts": 16.858,
+  "sigma_total_pts": 18.828,
+  "sources": [
+   "data/origin/games.csv (official results capture, 188 games)",
+   "data/live/results/settled_2026-11-14.json (5 finals, official game books)",
+   "data/slate/results_feed.json (11/15 IND@PHI, official game book)"
+  ]
+ }
+}

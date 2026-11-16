@@ -1,0 +1,2943 @@
+{
+ "schema": "nba3.slate.player_game_logs/v1",
+ "session": "arena/3d625d23-nba3",
+ "retrieved_utc": "2026-11-15T23-50Z",
+ "what": "per-player minutes from the captured official game books (minutes, points, rebounds and assists where the box-score row survives the PTS identity check)",
+ "sources": [
+  "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
+  "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf",
+  "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf",
+  "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf",
+  "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf",
+  "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+  "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+ ],
+ "counts": {
+  "rows": 255,
+  "games": 12,
+  "injury_players_covered": 25,
+  "injury_players_not_covered": 124
+ },
+ "injury_report_matches": [
+  {
+   "player": "Powell, Drake",
+   "team": "BKN",
+   "status": "Out",
+   "reason": "G League - On Assignment",
+   "log_date": "2026-11-14",
+   "minutes": 1.77,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "player": "Tyson, Jaylon",
+   "team": "CLE",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Right Ankle Injury Management",
+   "log_date": "2026-11-14",
+   "minutes": 33.62,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "player": "Aldama, Santi",
+   "team": "DAL",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "log_date": "2026-11-14",
+   "minutes": 16.22,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "player": "Gafford, Daniel",
+   "team": "DAL",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Shoulder Stinger",
+   "log_date": "2026-11-14",
+   "minutes": 16.75,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "player": "Irving, Kyrie",
+   "team": "DAL",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Injury Management",
+   "log_date": "2026-11-14",
+   "minutes": 37.32,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "player": "Martin, Caleb",
+   "team": "DAL",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Thumb Splint",
+   "log_date": "2026-11-14",
+   "minutes": 32.7,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "player": "Santos, Gui",
+   "team": "GSW",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Right Ankle Inflammation",
+   "log_date": "2026-11-13",
+   "minutes": 21.17,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "player": "VanVleet, Fred",
+   "team": "HOU",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Knee Injury Management",
+   "log_date": "2026-11-13",
+   "minutes": 33.78,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "player": "McConnell, T.J.",
+   "team": "IND",
+   "status": "Available",
+   "reason": "Injury/Illness - Right Hamstring Strain",
+   "log_date": "2026-11-15",
+   "minutes": 19.1,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "player": "Nesmith, Aaron",
+   "team": "IND",
+   "status": "Available",
+   "reason": "Injury/Illness - Left Hand Sprain",
+   "log_date": "2026-11-15",
+   "minutes": 36.33,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "player": "Jackson, GG",
+   "team": "MEM",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Foot Injury",
+   "log_date": "2026-11-14",
+   "minutes": 2.87,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "player": "Stewart, Isaiah",
+   "team": "MEM",
+   "status": "Questionable",
+   "reason": "Injury/Illness - Illness",
+   "log_date": "2026-11-14",
+   "minutes": 15.15,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "player": "Thompson, Klay",
+   "team": "MIA",
+   "status": "Available",
+   "reason": "Injury/Illness - Left Ankle Sprain",
+   "log_date": "2026-11-14",
+   "minutes": 20.22,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "player": "Dieng, Ousmane",
+   "team": "MIL",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Finger Fracture",
+   "log_date": "2026-11-13",
+   "minutes": 4.78,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "player": "Rollins, Ryan",
+   "team": "MIL",
+   "status": "Out",
+   "reason": "Injury/Illness - Illness",
+   "log_date": "2026-11-13",
+   "minutes": 28.93,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "player": "Beringer, Joan",
+   "team": "MIN",
+   "status": "Available",
+   "reason": "Injury/Illness - Face Mask",
+   "log_date": "2026-11-14",
+   "minutes": 12.65,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "player": "Clark, Jaylen",
+   "team": "MIN",
+   "status": "Out",
+   "reason": "Injury/Illness - Right Hamstring Strain",
+   "log_date": "2026-11-14",
+   "minutes": 3.35,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "player": "Pierre Jr., Jaron",
+   "team": "NOP",
+   "status": "Questionable",
+   "reason": "G League - Two-Way",
+   "log_date": "2026-11-14",
+   "minutes": 23.3,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "player": "Murray, Keegan",
+   "team": "SAC",
+   "status": "Available",
+   "reason": "-",
+   "log_date": "2026-11-13",
+   "minutes": 39.65,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "player": "Fox, De'Aaron",
+   "team": "SAS",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Hip Tightness",
+   "log_date": "2026-11-13",
+   "minutes": 16.82,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "player": "Harris, Tobias",
+   "team": "SAS",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Calf Strain",
+   "log_date": "2026-11-13",
+   "minutes": 21.32,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "player": "Hayes, Jaxson",
+   "team": "UTA",
+   "status": "Out",
+   "reason": "Injury/Illness - Left Knee Strain",
+   "log_date": "2026-11-13",
+   "minutes": 13.45,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "player": "Carrington, Bub",
+   "team": "WAS",
+   "status": "Available",
+   "reason": "Injury/Illness - Chest / Sternum Contusion",
+   "log_date": "2026-11-12",
+   "minutes": 15.77,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "player": "Johnson, Tre",
+   "team": "WAS",
+   "status": "Out",
+   "reason": "Injury/Illness - Low Back Soreness",
+   "log_date": "2026-11-12",
+   "minutes": 29.57,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "player": "Sarr, Alex",
+   "team": "WAS",
+   "status": "Available",
+   "reason": "Injury/Illness - Illness",
+   "log_date": "2026-11-12",
+   "minutes": 44.28,
+   "opponent": null,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  }
+ ],
+ "injury_report_gaps": [
+  {
+   "player": "Flemings, Kingston",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Gilbert, Keshon",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Gueye, Mouhamed",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Landale, Jock",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Newell, Asa",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Veesaar, Henri",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Wilson, Jalen",
+   "team": "ATL",
+   "status": "Out"
+  },
+  {
+   "player": "Bilodeau, Tyler",
+   "team": "BKN",
+   "status": "Out"
+  },
+  {
+   "player": "Jefferson, Joshua",
+   "team": "BKN",
+   "status": "Out"
+  },
+  {
+   "player": "Nelson, Grant",
+   "team": "BKN",
+   "status": "Out"
+  },
+  {
+   "player": "Saraf, Ben",
+   "team": "BKN",
+   "status": "Out"
+  },
+  {
+   "player": "Carter, Devin",
+   "team": "BOS",
+   "status": "Available"
+  },
+  {
+   "player": "Cenac Jr., Christopher",
+   "team": "BOS",
+   "status": "Available"
+  },
+  {
+   "player": "Mitchell, Dillon",
+   "team": "BOS",
+   "status": "Available"
+  },
+  {
+   "player": "Penda, Noah",
+   "team": "BOS",
+   "status": null
+  },
+  {
+   "player": "Williams, Amari",
+   "team": "BOS",
+   "status": "Available"
+  },
+  {
+   "player": "Ajayi, Michael",
+   "team": "CHA",
+   "status": "Out"
+  },
+  {
+   "player": "Boswell, Kylan",
+   "team": "CHA",
+   "status": "Out"
+  },
+  {
+   "player": "Knueppel, Kon",
+   "team": "CHA",
+   "status": "Out"
+  },
+  {
+   "player": "Schroder, Dennis",
+   "team": "CHA",
+   "status": "Out"
+  },
+  {
+   "player": "Steinbach, Hannes",
+   "team": "CHA",
+   "status": "Out"
+  },
+  {
+   "player": "Awaka, Tobe",
+   "team": "CHI",
+   "status": "Out"
+  },
+  {
+   "player": "Robinson, Orlando",
+   "team": "CHI",
+   "status": "Out"
+  },
+  {
+   "player": "Sellers, Jaylin",
+   "team": "CHI",
+   "status": "Out"
+  },
+  {
+   "player": "Smith, Jalen",
+   "team": "CHI",
+   "status": "Questionable"
+  },
+  {
+   "player": "Wilson, Caleb",
+   "team": "CHI",
+   "status": "Out"
+  },
+  {
+   "player": "Diop, Khalifa",
+   "team": "CLE",
+   "status": "Out"
+  },
+  {
+   "player": "Merrill, Sam",
+   "team": "CLE",
+   "status": "Out"
+  },
+  {
+   "player": "Mobley, Evan",
+   "team": "CLE",
+   "status": "Out"
+  },
+  {
+   "player": "Tomlin, Nae'Qwan",
+   "team": "CLE",
+   "status": "Out"
+  },
+  {
+   "player": "Udeh, Jr., Ernest",
+   "team": "CLE",
+   "status": "Out"
+  },
+  {
+   "player": "Watson, Peyton",
+   "team": "CLE",
+   "status": "Questionable"
+  },
+  {
+   "player": "Biberovic, Tarik",
+   "team": "DAL",
+   "status": "Out"
+  },
+  {
+   "player": "Christie, Max",
+   "team": "DAL",
+   "status": "Out"
+  },
+  {
+   "player": "de Larrea, Sergio",
+   "team": "DAL",
+   "status": "Out"
+  },
+  {
+   "player": "Lively II, Dereck",
+   "team": "DAL",
+   "status": "Out"
+  },
+  {
+   "player": "Butler III, Jimmy",
+   "team": "GSW",
+   "status": "Out"
+  },
+  {
+   "player": "Curry, Stephen",
+   "team": "GSW",
+   "status": "Out"
+  },
+  {
+   "player": "Moody, Moses",
+   "team": "GSW",
+   "status": "Out"
+  },
+  {
+   "player": "Porzingis, Kristaps",
+   "team": "GSW",
+   "status": "Out"
+  },
+  {
+   "player": "Williams, Brandon",
+   "team": "GSW",
+   "status": "Out"
+  },
+  {
+   "player": "Adams, Steven",
+   "team": "HOU",
+   "status": "Available"
+  },
+  {
+   "player": "Capela, Clint",
+   "team": "HOU",
+   "status": "Out"
+  },
+  {
+   "player": "Copeland, Quadir",
+   "team": "HOU",
+   "status": "Out"
+  },
+  {
+   "player": "Phillips, Julian",
+   "team": "HOU",
+   "status": "Out"
+  },
+  {
+   "player": "Smart, Marcus",
+   "team": "HOU",
+   "status": "Out"
+  },
+  {
+   "player": "Furphy, Johnny",
+   "team": "IND",
+   "status": "Out"
+  },
+  {
+   "player": "Haliburton, Tyrese",
+   "team": "IND",
+   "status": "Out"
+  },
+  {
+   "player": "Nembhard, Andrew",
+   "team": "IND",
+   "status": "Out"
+  },
+  {
+   "player": "Sheppard, Ben",
+   "team": "IND",
+   "status": "Out"
+  },
+  {
+   "player": "Beal, Bradley",
+   "team": "LAC",
+   "status": "Out"
+  },
+  {
+   "player": "Ingram, Brandon",
+   "team": "LAC",
+   "status": "Out"
+  },
+  {
+   "player": "Martinelli, Nick",
+   "team": "LAC",
+   "status": "Out"
+  },
+  {
+   "player": "Miller, Jordan",
+   "team": "LAC",
+   "status": "Out"
+  },
+  {
+   "player": "Niederhauser, Yanic Konan",
+   "team": "LAC",
+   "status": "Out"
+  },
+  {
+   "player": "Carr, Cameron",
+   "team": "LAL",
+   "status": "Out"
+  },
+  {
+   "player": "Grimes, Quentin",
+   "team": "LAL",
+   "status": "Available"
+  },
+  {
+   "player": "James, Bronny",
+   "team": "LAL",
+   "status": "Available"
+  },
+  {
+   "player": "Reaves, Austin",
+   "team": "LAL",
+   "status": "Out"
+  },
+  {
+   "player": "Sexton, Collin",
+   "team": "LAL",
+   "status": "Available"
+  },
+  {
+   "player": "Thiero, Adou",
+   "team": "LAL",
+   "status": "Available"
+  },
+  {
+   "player": "Edey, Zach",
+   "team": "MEM",
+   "status": "Questionable"
+  },
+  {
+   "player": "Jerome, Ty",
+   "team": "MEM",
+   "status": "Out"
+  },
+  {
+   "player": "Pippen Jr., Scotty",
+   "team": "MEM",
+   "status": "Out"
+  },
+  {
+   "player": "Post, Quinten",
+   "team": "MEM",
+   "status": "Questionable"
+  },
+  {
+   "player": "Saunders, Richie",
+   "team": "MEM",
+   "status": "Out"
+  },
+  {
+   "player": "Goldin, Vladislav",
+   "team": "MIA",
+   "status": "Out"
+  },
+  {
+   "player": "Larsson, Pelle",
+   "team": "MIA",
+   "status": "Questionable"
+  },
+  {
+   "player": "Jones, Kam",
+   "team": "MIL",
+   "status": "Out"
+  },
+  {
+   "player": "Markovic, Bogoljub",
+   "team": "MIL",
+   "status": "Out"
+  },
+  {
+   "player": "Nance, Pete",
+   "team": "MIL",
+   "status": "Out"
+  },
+  {
+   "player": "DiVincenzo, Donte",
+   "team": "MIN",
+   "status": "Out"
+  },
+  {
+   "player": "Edwards, Anthony",
+   "team": "MIN",
+   "status": "Out"
+  },
+  {
+   "player": "Dia, Malik",
+   "team": "NOP",
+   "status": "Questionable"
+  },
+  {
+   "player": "Mathurin, Bennedict",
+   "team": "NOP",
+   "status": "Out"
+  },
+  {
+   "player": "McGowens, Bryce",
+   "team": "NOP",
+   "status": "Out"
+  },
+  {
+   "player": "Murphy III, Trey",
+   "team": "NOP",
+   "status": "Out"
+  },
+  {
+   "player": "Murray, Dejounte",
+   "team": "NOP",
+   "status": "Out"
+  },
+  {
+   "player": "Reese, Julian",
+   "team": "NOP",
+   "status": "Questionable"
+  },
+  {
+   "player": "Watford, Trendon",
+   "team": "NOP",
+   "status": "Out"
+  },
+  {
+   "player": "Holmgren, Chet",
+   "team": "OKC",
+   "status": "Out"
+  },
+  {
+   "player": "Mitchell, Ajay",
+   "team": "OKC",
+   "status": "Questionable"
+  },
+  {
+   "player": "Ryan, Cormac",
+   "team": "OKC",
+   "status": "Out"
+  },
+  {
+   "player": "Sorber, Thomas",
+   "team": "OKC",
+   "status": "Out"
+  },
+  {
+   "player": "Wallace, Cason",
+   "team": "OKC",
+   "status": "Out"
+  },
+  {
+   "player": "Williams, Jalen",
+   "team": "OKC",
+   "status": "Out"
+  },
+  {
+   "player": "Banchero, Paolo",
+   "team": "ORL",
+   "status": "Out"
+  },
+  {
+   "player": "Isaac, Jonathan",
+   "team": "ORL",
+   "status": "Out"
+  },
+  {
+   "player": "Nelson, Izaiyah",
+   "team": "ORL",
+   "status": "Out"
+  },
+  {
+   "player": "Penda, Noah",
+   "team": "ORL",
+   "status": "Out"
+  },
+  {
+   "player": "Barlow, Dominick",
+   "team": "PHI",
+   "status": "Out"
+  },
+  {
+   "player": "Bona, Adem",
+   "team": "PHI",
+   "status": "Out"
+  },
+  {
+   "player": "Embiid, Joel",
+   "team": "PHI",
+   "status": "Out"
+  },
+  {
+   "player": "Hukporti, Ariel",
+   "team": "PHI",
+   "status": "Out"
+  },
+  {
+   "player": "Timme, Drew",
+   "team": "PHX",
+   "status": "Out"
+  },
+  {
+   "player": "Williams, Mark",
+   "team": "PHX",
+   "status": "Out"
+  },
+  {
+   "player": "Krejci, Vit",
+   "team": "POR",
+   "status": "Out"
+  },
+  {
+   "player": "Morant, Ja",
+   "team": "POR",
+   "status": "Out"
+  },
+  {
+   "player": "Sharpe, Shaedon",
+   "team": "POR",
+   "status": "Out"
+  },
+  {
+   "player": "Youngblood, Chris",
+   "team": "POR",
+   "status": "Out"
+  },
+  {
+   "player": "Achiuwa, Precious",
+   "team": "SAC",
+   "status": "Questionable"
+  },
+  {
+   "player": "Mogbo, Jonathan",
+   "team": "SAC",
+   "status": "Out"
+  },
+  {
+   "player": "Pedulla, Sean",
+   "team": "SAC",
+   "status": "Out"
+  },
+  {
+   "player": "Raynaud, Maxime",
+   "team": "SAC",
+   "status": "Out"
+  },
+  {
+   "player": "Simmons, Ben",
+   "team": "SAC",
+   "status": "Out"
+  },
+  {
+   "player": "Brown, Maliq",
+   "team": "SAS",
+   "status": "Out"
+  },
+  {
+   "player": "Gillespie, Ja'Kobi",
+   "team": "SAS",
+   "status": "Out"
+  },
+  {
+   "player": "Quaintance, Jayden",
+   "team": "SAS",
+   "status": "Out"
+  },
+  {
+   "player": "Barnes, Scottie",
+   "team": "TOR",
+   "status": "Available"
+  },
+  {
+   "player": "Bittle, Nate",
+   "team": "TOR",
+   "status": "Out"
+  },
+  {
+   "player": "Leonard, Kawhi",
+   "team": "TOR",
+   "status": "Out"
+  },
+  {
+   "player": "McCullar Jr., Kevin",
+   "team": "TOR",
+   "status": "Out"
+  },
+  {
+   "player": "Smith, Malachi",
+   "team": "TOR",
+   "status": "Out"
+  },
+  {
+   "player": "Alexander, Trey",
+   "team": "UTA",
+   "status": "Out"
+  },
+  {
+   "player": "Bufkin, Kobe",
+   "team": "UTA",
+   "status": "Out"
+  },
+  {
+   "player": "Ingram, Harrison",
+   "team": "UTA",
+   "status": "Out"
+  },
+  {
+   "player": "Jackson Jr., Jaren",
+   "team": "UTA",
+   "status": "Out"
+  },
+  {
+   "player": "Markkanen, Lauri",
+   "team": "UTA",
+   "status": "Out"
+  },
+  {
+   "player": "Nurkic, Jusuf",
+   "team": "UTA",
+   "status": "Out"
+  },
+  {
+   "player": "Beekman, Reece",
+   "team": "WAS",
+   "status": "Out"
+  },
+  {
+   "player": "Champagne, Justin",
+   "team": "WAS",
+   "status": "Out"
+  },
+  {
+   "player": "Okpara, Felix",
+   "team": "WAS",
+   "status": "Out"
+  },
+  {
+   "player": "Vukcevic, Tristan",
+   "team": "WAS",
+   "status": "Out"
+  },
+  {
+   "player": "Watkins, Jamir",
+   "team": "WAS",
+   "status": "Out"
+  }
+ ],
+ "rows": [
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Aaron Nesmith",
+   "minutes": 36.33,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Pascal Siakam",
+   "minutes": 33.67,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Quenton Jackson",
+   "minutes": 30.23,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Kelly Oubre Jr.",
+   "minutes": 28.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Ivica Zubac",
+   "minutes": 22.25,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "T.J. McConnell",
+   "minutes": 19.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Jay Huff",
+   "minutes": 17.7,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Jalen Slawson",
+   "minutes": 14.37,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Obi Toppin",
+   "minutes": 14.25,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Jarace Walker",
+   "minutes": 13.65,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Larry Nance Jr.",
+   "minutes": 6.55,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "IND",
+   "team_name": "Indiana Pacers",
+   "player": "Kobe Brown",
+   "minutes": 2.98,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "0 Tyrese Maxey",
+   "minutes": 35.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "45 Dean Wade",
+   "minutes": 35.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "23 LeBron James",
+   "minutes": 32.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "7 Jaylen Brown",
+   "minutes": 32.47,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "77 VJ Edgecombe",
+   "minutes": 30.82,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "33 Jabari Walker",
+   "minutes": 24.7,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "1 Kentavious Caldwell-Pope",
+   "minutes": 22.27,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "5 Anfernee Simons",
+   "minutes": 15.47,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "00 Labaron Philon Jr.",
+   "minutes": 6.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-15",
+   "team": "PHI",
+   "team_name": "PHILADELPHIA 76ERS",
+   "player": "99 Tacko Fall",
+   "minutes": 4.82,
+   "source": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Grayson Allen",
+   "minutes": 34.08,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Naz Reid",
+   "minutes": 33.73,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Sion James",
+   "minutes": 32.03,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Moussa Diabate",
+   "minutes": 31.58,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Royce O'Neale",
+   "minutes": 21.9,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Coby White",
+   "minutes": 19.93,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Christian Anderson",
+   "minutes": 18.23,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Ryan Kalkbrenner",
+   "minutes": 16.4,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Tidjane Salaun",
+   "minutes": 16.12,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "CHA",
+   "team_name": "Charlotte Hornets",
+   "player": "Grant Williams",
+   "minutes": 16.0,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Devin Booker",
+   "minutes": 34.88,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Oso Ighodaro",
+   "minutes": 31.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Dillon Brooks",
+   "minutes": 29.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Collin Gillespie",
+   "minutes": 26.7,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Miles Bridges",
+   "minutes": 24.7,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Jordan Goodwin",
+   "minutes": 24.3,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Jalen Green",
+   "minutes": 20.88,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Luke Kennard",
+   "minutes": 20.6,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Khaman Maluach",
+   "minutes": 16.42,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "PHX",
+   "team_name": "PHOENIX SUNS",
+   "player": "Ryan Dunn",
+   "minutes": 10.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Cade Cunningham",
+   "minutes": 47.98,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Ausar Thompson",
+   "minutes": 42.9,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Daniss Jenkins",
+   "minutes": 42.28,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Duncan Robinson",
+   "minutes": 40.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Paul Reed",
+   "minutes": 37.73,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "John Collins",
+   "minutes": 25.23,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Kevin Huerter",
+   "minutes": 23.98,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Javonte Green",
+   "minutes": 15.32,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "Ronald Holland II",
+   "minutes": 13.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Trae Young",
+   "minutes": 45.08,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Alex Sarr",
+   "minutes": 44.28,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "AJ Dybantsa",
+   "minutes": 44.2,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Anthony Davis",
+   "minutes": 43.58,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Tre Johnson",
+   "minutes": 29.57,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Bilal Coulibaly",
+   "minutes": 29.4,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Kyshawn George",
+   "minutes": 25.87,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Bub Carrington",
+   "minutes": 15.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Deandre Ayton",
+   "minutes": 8.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-12",
+   "team": "WAS",
+   "team_name": "WASHINGTON WIZARDS",
+   "player": "Will Riley",
+   "minutes": 3.48,
+   "source": "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "3 Will Richard",
+   "minutes": 30.32,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "18 LJ Cryer",
+   "minutes": 23.95,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "1 Yaxel Lendeborg",
+   "minutes": 23.67,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "2 Brandin Podziemski",
+   "minutes": 22.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "15 Gui Santos",
+   "minutes": 21.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "28 Charles Bassey",
+   "minutes": 20.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "8 De' Anthony Melton",
+   "minutes": 18.35,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "23 Draymond Green",
+   "minutes": 15.73,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "32 Georges Niang",
+   "minutes": 15.23,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "33 Malevy Leons",
+   "minutes": 13.97,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "45 Graham Ike",
+   "minutes": 13.02,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "0 Gary Payton II",
+   "minutes": 12.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "GSW",
+   "team_name": "Golden State Warriors",
+   "player": "20 Al Horford",
+   "minutes": 9.85,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Dylan Harper",
+   "minutes": 25.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Stephon Castle",
+   "minutes": 25.12,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Keldon Johnson",
+   "minutes": 24.93,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Devin Vassell",
+   "minutes": 22.87,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Julian Champagnie",
+   "minutes": 22.72,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Harrison Barnes",
+   "minutes": 21.32,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Victor Wembanyama",
+   "minutes": 20.9,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Carter Bryant",
+   "minutes": 19.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "De'Aaron Fox",
+   "minutes": 16.82,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Luke Kornet",
+   "minutes": 16.2,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Jordan McLaughlin",
+   "minutes": 13.97,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAS",
+   "team_name": "SAN ANTONIO SPURS",
+   "player": "Tarris Reed Jr.",
+   "minutes": 10.9,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Tyler Herro",
+   "minutes": 33.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Myles Turner",
+   "minutes": 30.72,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Kyle Kuzma",
+   "minutes": 30.6,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Ryan Rollins",
+   "minutes": 28.93,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Jaime Jaquez Jr.",
+   "minutes": 28.27,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Nate Ament",
+   "minutes": 22.38,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Brayden Burries",
+   "minutes": 19.07,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Kel'el Ware",
+   "minutes": 17.28,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Gary Trent Jr.",
+   "minutes": 16.03,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "AJ Green",
+   "minutes": 8.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "MIL",
+   "team_name": "Milwaukee Bucks",
+   "player": "Ousmane Dieng",
+   "minutes": 4.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Anthony Black",
+   "minutes": 36.58,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Franz Wagner",
+   "minutes": 36.08,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Desmond Bane",
+   "minutes": 34.68,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Tristan da Silva",
+   "minutes": 31.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Wendell Carter Jr.",
+   "minutes": 30.12,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Jalen Suggs",
+   "minutes": 20.9,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Goga Bitadze",
+   "minutes": 17.88,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Jevon Carter",
+   "minutes": 17.32,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Nikola Vucevic",
+   "minutes": 11.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "ORL",
+   "team_name": "ORLANDO MAGIC",
+   "player": "Jamal Cain",
+   "minutes": 4.12,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "33 Toumani Camara",
+   "minutes": 35.65,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "8 Deni Avdija",
+   "minutes": 34.57,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "0 Damian Lillard",
+   "minutes": 33.0,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "5 Jrue Holiday",
+   "minutes": 26.62,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "23 Donovan Clingan",
+   "minutes": 26.55,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "91 Sidy Cissoko",
+   "minutes": 25.65,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "00 Scoot Henderson",
+   "minutes": 23.0,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "35 Robert Williams III",
+   "minutes": 16.65,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "29 Jayson Kent",
+   "minutes": 10.73,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "POR",
+   "team_name": "Portland Trail Blazers",
+   "player": "10 Branden Carlson",
+   "minutes": 7.58,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "De'Andre Hunter",
+   "minutes": 41.52,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Keegan Murray",
+   "minutes": 39.65,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Zach LaVine",
+   "minutes": 36.37,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Domantas Sabonis",
+   "minutes": 35.47,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Darius Acuff Jr.",
+   "minutes": 35.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Malik Monk",
+   "minutes": 18.25,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Dylan Cardwell",
+   "minutes": 12.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Leaky Black",
+   "minutes": 11.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Emanuel Sharp",
+   "minutes": 6.97,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "SAC",
+   "team_name": "SACRAMENTO KINGS",
+   "player": "Daeqwon Plowden",
+   "minutes": 2.28,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Amen Thompson",
+   "minutes": 40.88,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Alperen Sengun",
+   "minutes": 37.08,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Fred VanVleet",
+   "minutes": 33.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Kevin Durant",
+   "minutes": 33.42,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Tari Eason",
+   "minutes": 33.33,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Jabari Smith Jr.",
+   "minutes": 24.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Reed Sheppard",
+   "minutes": 19.15,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Bogdan Bogdanovic",
+   "minutes": 12.35,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "HOU",
+   "team_name": "HOUSTON ROCKETS",
+   "player": "Oscar Tshiebwe",
+   "minutes": 5.95,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Keyonte George",
+   "minutes": 37.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Ace Bailey",
+   "minutes": 34.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Darryn Peterson",
+   "minutes": 33.97,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Brice Sensabaugh",
+   "minutes": 26.98,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Josh Okogie",
+   "minutes": 21.72,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Mo Bamba",
+   "minutes": 19.88,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Isaiah Collier",
+   "minutes": 15.98,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Josh Green",
+   "minutes": 14.35,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Jaxson Hayes",
+   "minutes": 13.45,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Tony Bradley",
+   "minutes": 12.47,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Svi Mykhailiuk",
+   "minutes": 7.02,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-13",
+   "team": "UTA",
+   "team_name": "Utah Jazz",
+   "player": "Kyle Filipowski",
+   "minutes": 2.12,
+   "source": "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "21 Noah Clowney",
+   "minutes": 35.02,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "30 Julius Randle",
+   "minutes": 31.38,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "20 Day'Ron Sharpe",
+   "minutes": 27.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "2 Danny Wolf",
+   "minutes": 27.7,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "8 Egor Demin",
+   "minutes": 27.45,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "0 Mikel Brown Jr.",
+   "minutes": 19.95,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "10 Nolan Traore",
+   "minutes": 19.8,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "13 Moritz Wagner",
+   "minutes": 18.45,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "31 Chaney Johnson",
+   "minutes": 12.35,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "14 Terance Mann",
+   "minutes": 9.45,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "1 Keon Ellis",
+   "minutes": 7.13,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "00 Josh Minott",
+   "minutes": 1.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "BKN",
+   "team_name": "Brooklyn Nets",
+   "player": "4 Drake Powell",
+   "minutes": 1.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "24 Cam Spencer",
+   "minutes": 33.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "23 Cedric Coward",
+   "minutes": 32.82,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "10 Javon Small",
+   "minutes": 29.8,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "22 Taylor Hendricks",
+   "minutes": 29.02,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "27 Cameron Boozer",
+   "minutes": 28.78,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "0 Jaylen Wells",
+   "minutes": 24.58,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "18 Olivier-Maxence Prosper",
+   "minutes": 20.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "17 Kris Murray",
+   "minutes": 19.48,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "28 Isaiah Stewart",
+   "minutes": 15.15,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "45 GG Jackson",
+   "minutes": 2.87,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "35 Karim Lopez",
+   "minutes": 1.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MEM",
+   "team_name": "MEMPHIS GRIZZLIES",
+   "player": "21 Jahmai Mashack",
+   "minutes": 1.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "35 Isaac Okoro",
+   "minutes": 31.03,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "24 Norman Powell",
+   "minutes": 30.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "14 Matas Buzelis",
+   "minutes": 29.8,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "12 Zach Collins",
+   "minutes": 28.18,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "3 Josh Giddey",
+   "minutes": 26.23,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "44 Patrick Williams",
+   "minutes": 25.68,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "30 Tre Jones",
+   "minutes": 24.28,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "7 Buddy Hield",
+   "minutes": 20.37,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "11 Leonard Miller",
+   "minutes": 17.3,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CHI",
+   "team_name": "Chicago Bulls",
+   "player": "2 Noa Essengue",
+   "minutes": 7.02,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Jaden McDaniels",
+   "minutes": 37.02,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Jonathan Kuminga",
+   "minutes": 35.38,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Ayo Dosunmu",
+   "minutes": 33.07,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "LaMelo Ball",
+   "minutes": 29.85,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Rudy Gobert",
+   "minutes": 26.88,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Terrence Shannon Jr",
+   "minutes": 21.75,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Bones Hyland",
+   "minutes": 21.3,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Trey Lyles",
+   "minutes": 18.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Joan Beringer",
+   "minutes": 12.65,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIN",
+   "team_name": "MINNESOTA TIMBERWOLVES",
+   "player": "Jaylen Clark",
+   "minutes": 3.35,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "32 Cooper Flagg",
+   "minutes": 38.4,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "11 Kyrie Irving",
+   "minutes": 37.32,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "16 Caleb Martin",
+   "minutes": 32.7,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "3 Naji Marshall",
+   "minutes": 29.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "25 P.J. Washington Jr.",
+   "minutes": 26.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "21 Daniel Gafford",
+   "minutes": 16.75,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "34 Santi Aldama",
+   "minutes": 16.22,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "14 Morez Johnson Jr.",
+   "minutes": 14.93,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "10 Zaccharie Risacher",
+   "minutes": 14.47,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DAL",
+   "team_name": "Dallas Mavericks",
+   "player": "1 Walter Clayton Jr.",
+   "minutes": 13.27,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "24 Tyrese Proctor",
+   "minutes": 34.08,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "33 Mario Hezonja",
+   "minutes": 34.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "20 Jaylon Tyson",
+   "minutes": 33.62,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "15 Meleek Thomas",
+   "minutes": 33.55,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "9 Craig Porter Jr.",
+   "minutes": 28.37,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "3 Thomas Bryant",
+   "minutes": 27.42,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "77 Norchad Omier",
+   "minutes": 26.75,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "CLE",
+   "team_name": "CLEVELAND CAVALIERS",
+   "player": "12 Riley Minix",
+   "minutes": 22.17,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "27 Jamal Murray",
+   "minutes": 37.95,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "15 Nikola Jokic",
+   "minutes": 37.13,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "32 Aaron Gordon",
+   "minutes": 32.53,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "23 Cam Johnson",
+   "minutes": 30.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "0 Christian Braun",
+   "minutes": 27.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "10 DeMar DeRozan",
+   "minutes": 23.82,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "7 Trevon Brazile",
+   "minutes": 15.62,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "3 Marvin Bagley III",
+   "minutes": 13.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "21 Spencer Jones",
+   "minutes": 11.5,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DEN",
+   "team_name": "Denver Nuggets",
+   "player": "5 Tyus Jones",
+   "minutes": 9.82,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "41 Saddiq Bey",
+   "minutes": 40.55,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "0 Jeremiah Fears",
+   "minutes": 32.73,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "1 Zion Williamson",
+   "minutes": 30.77,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "2 Herbert Jones",
+   "minutes": 27.48,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "22 Derik Queen",
+   "minutes": 24.97,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "3 Jordan Poole",
+   "minutes": 23.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "10 Jaron Pierre Jr.",
+   "minutes": 23.3,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "21 Yves Missi",
+   "minutes": 22.05,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "NOP",
+   "team_name": "NEW ORLEANS PELICANS",
+   "player": "17 Karlo Matkovic",
+   "minutes": 14.23,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "27 Kevin Huerter",
+   "minutes": 37.83,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "2 Cade Cunningham",
+   "minutes": 36.22,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "24 Daniss Jenkins",
+   "minutes": 35.28,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "20 John Collins",
+   "minutes": 25.97,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "7 Paul Reed",
+   "minutes": 22.83,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "5 Ronald Holland II",
+   "minutes": 21.55,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "9 Ausar Thompson",
+   "minutes": 18.25,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "55 Duncan Robinson",
+   "minutes": 16.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "31 Javonte Green",
+   "minutes": 11.9,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "12 Taurean Prince",
+   "minutes": 8.27,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "13 Isaac Jones",
+   "minutes": 1.93,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "94 Elijah Harkless",
+   "minutes": 1.68,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "DET",
+   "team_name": "Detroit Pistons",
+   "player": "35 Tolu Smith",
+   "minutes": 1.38,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "13 Bam Adebayo",
+   "minutes": 36.1,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "2 Davion Mitchell",
+   "minutes": 32.3,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "7 Giannis Antetokounmpo",
+   "minutes": 30.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "15 Myron Gardner",
+   "minutes": 26.03,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "4 Ryan Conwell",
+   "minutes": 25.8,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "22 Andrew Wiggins",
+   "minutes": 22.92,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "11 Klay Thompson",
+   "minutes": 20.22,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "95 Bobby Portis Jr.",
+   "minutes": 17.6,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "0 Simone Fontecchio",
+   "minutes": 14.2,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "5 Nikola Jovic",
+   "minutes": 11.15,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "24 Tre Donaldson",
+   "minutes": 1.38,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  },
+  {
+   "date": "2026-11-14",
+   "team": "MIA",
+   "team_name": "MIAMI HEAT",
+   "player": "16 Keshad Johnson",
+   "minutes": 1.38,
+   "source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+  }
+ ],
+ "gap_rule": "A player on the injury report whose team has no captured game book is listed in injury_report_gaps and printed blank on the site. Not inferred."
+}

@@ -1,0 +1,24 @@
+{
+ "id": "ST3_REST_TRAVEL_FADE",
+ "name": "Road back-to-back travel fade",
+ "hypothesis": "A road club playing the second night of a back-to-back after a long flight under-performs the originated line more often than chance.",
+ "signal": "away_b2b, away_travel_mi (official schedule + arena coordinates)",
+ "universe": "every game in the rolling window whose travel row is complete (no blank arena coordinate)",
+ "thresholds": {
+  "min_travel_mi": 1000.0,
+  "max_abs_margin": 8.0
+ },
+ "rule": "take the home side to cover the originated spread when the away club is on a back-to-back, its travel distance is >= 1000 miles and |blend_margin| <= 8.0",
+ "market": "spread (originated)",
+ "refusals": [
+  "no bet if either club's luck z-score is outside +-1.96 (noise band)",
+  "no bet if any travel cell for the game is blank",
+  "no bet if the official injury report has not been filed for that game date"
+ ],
+ "settlement": "home covers when (home_pts - away_pts) > (-blend_margin); a push settles as a loss. Settled from the official final score.",
+ "schema": "nba3.slate.prereg/v1",
+ "session": "arena/3d625d23-nba3",
+ "frozen_utc": "2026-11-15T23-50Z",
+ "frozen_before_first_bet": true,
+ "status": "frozen \u2014 not eligible for publication until it clears its gates"
+}

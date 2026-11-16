@@ -1,0 +1,32 @@
+{
+ "schema": "nba3.slate.prereg_index/v1",
+ "session": "arena/3d625d23-nba3",
+ "rule": "a pre-registration file is written before the strategy's first bet and is never overwritten; re-running prereg leaves an existing file untouched",
+ "count": 3,
+ "written": [
+  {
+   "id": "ST1_AGREEMENT_SIDE",
+   "file": "data/slate/prereg/ST1_AGREEMENT_SIDE.json",
+   "frozen_utc": "2026-11-15T23-50Z",
+   "sha256": "228c275f04a9e4404e7ab677b867fa7a6f015e2d2b98e755d50cc4c588c0e2de"
+  },
+  {
+   "id": "ST2_PACING_TOTAL",
+   "file": "data/slate/prereg/ST2_PACING_TOTAL.json",
+   "frozen_utc": "2026-11-15T23-50Z",
+   "sha256": "5afa3da96cf494e96ba5be4f294a0be3b68e119cd45de583d5547ec137316718"
+  },
+  {
+   "id": "ST3_REST_TRAVEL_FADE",
+   "file": "data/slate/prereg/ST3_REST_TRAVEL_FADE.json",
+   "frozen_utc": "2026-11-15T23-50Z",
+   "sha256": "6ad58a0af0bf3aa72d898a5682ca256760bf0df1c534720e6f126175f9c54b8b"
+  }
+ ],
+ "left_frozen": [],
+ "files": [
+  "data/slate/prereg/ST1_AGREEMENT_SIDE.json",
+  "data/slate/prereg/ST2_PACING_TOTAL.json",
+  "data/slate/prereg/ST3_REST_TRAVEL_FADE.json"
+ ]
+}

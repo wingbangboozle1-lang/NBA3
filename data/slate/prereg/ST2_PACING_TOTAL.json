@@ -1,0 +1,22 @@
+{
+ "id": "ST2_PACING_TOTAL",
+ "name": "Possessions-versus-results total",
+ "hypothesis": "The efficiency page sees pace and efficiency shifts before the results log absorbs them, so a gap between the two totals is the signal, not noise.",
+ "signal": "E2_total - E1_total (possessions x PPP minus the results-log total)",
+ "universe": "every game in the rolling window with both estimators available",
+ "thresholds": {
+  "min_gap_pts": 4.0
+ },
+ "rule": "over when E2_total - E1_total >= +4.0; under when <= -4.0; otherwise no bet",
+ "market": "total (originated)",
+ "refusals": [
+  "no bet if either club's luck z-score is outside +-1.96 (noise band)",
+  "no bet if the official injury report has not been filed for that game date"
+ ],
+ "settlement": "over wins when (home_pts + away_pts) > blend_total, under wins when it is lower; an exact hit settles as a loss. Settled from the official final score.",
+ "schema": "nba3.slate.prereg/v1",
+ "session": "arena/3d625d23-nba3",
+ "frozen_utc": "2026-11-15T23-50Z",
+ "frozen_before_first_bet": true,
+ "status": "frozen \u2014 not eligible for publication until it clears its gates"
+}

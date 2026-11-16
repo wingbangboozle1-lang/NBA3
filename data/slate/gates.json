@@ -1,0 +1,140 @@
+{
+ "schema": "nba3.slate.gates/v1",
+ "session": "arena/3d625d23-nba3",
+ "evaluated_utc": "2026-11-15T23-50Z",
+ "rule": "the scheduled refresh rebuilds only when every gate passes; a failure leaves the last good build in place",
+ "counts": {
+  "gates": 12,
+  "passed": 12,
+  "failed": 0
+ },
+ "all_passed": true,
+ "gates": [
+  {
+   "id": "G1",
+   "name": "every capture carries a source URL, a retrieval stamp and a hash",
+   "status": "PASS",
+   "detail": "11 captures under data/slate/raw/, all with https source URL and retrieval stamp; sha256 recorded per file",
+   "sources": [
+    "data/slate/raw/"
+   ]
+  },
+  {
+   "id": "G2",
+   "name": "the newest official injury report was read and archived with its revision stamp",
+   "status": "PASS",
+   "detail": "archived filing 2026-11-15 06:30 PM ET (printed on every page of the PDF), read 2026-11-15T23-50Z; the index listed no later 11/15 filing at read time (newest link: 06:30 PM ET)",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf",
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "G3",
+   "name": "every matchup in the injury report exists on the official schedule for that date",
+   "status": "PASS",
+   "detail": "17 distinct (date, matchup) pairs checked, 0 not found",
+   "sources": [
+    "https://www.nba.com/schedule?date=2026-11-16",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_30PM.pdf"
+   ]
+  },
+  {
+   "id": "G4",
+   "name": "every settled game: quarters sum to the printed final and two official reads agree",
+   "status": "PASS",
+   "detail": "6 rows, 0 failures",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+    "data/live/results/settled_2026-11-14.json"
+   ]
+  },
+  {
+   "id": "G5",
+   "name": "official standings reconcile with the official game log, club by club",
+   "status": "PASS",
+   "detail": "30 clubs compared against 189 distinct officially settled games (the CSV through 2026-11-14 plus the verified 11/15 IND@PHI final, which the standings page already carries at its 2026-11-15T23-50Z read); 0 mismatches",
+   "sources": [
+    "https://www.nba.com/standings",
+    "data/origin/games.csv"
+   ]
+  },
+  {
+   "id": "G6",
+   "name": "the team advanced page agrees with the standings page (GP, W, L)",
+   "status": "PASS",
+   "detail": "30 clubs compared, 0 mismatches",
+   "sources": [
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/standings"
+   ]
+  },
+  {
+   "id": "G7",
+   "name": "the published window is at most three days ahead of the current slate date",
+   "status": "PASS",
+   "detail": "window 2026-11-16..2026-11-18 = 3 days ahead of 2026-11-15 (max 3); games already under way on 2026-11-15 are excluded from the betting window",
+   "sources": [
+    "https://www.nba.com/schedule?date=2026-11-16"
+   ]
+  },
+  {
+   "id": "G8",
+   "name": "a projection is published only with both estimators, or blank and flagged",
+   "status": "PASS",
+   "detail": "25 projections, 0 published with a missing estimator and no flag",
+   "sources": [
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   ]
+  },
+  {
+   "id": "G9",
+   "name": "the pick ledger hash chain verifies",
+   "status": "PASS",
+   "detail": "CHAIN INTACT \u2014 6 picks, head 38d803e6f9b41b19",
+   "sources": [
+    "data/slate/ledger/ledger.jsonl",
+    "data/slate/ledger/index.json"
+   ]
+  },
+  {
+   "id": "G10",
+   "name": "every travel cell is measured from a sourced coordinate, or blank and flagged",
+   "status": "PASS",
+   "detail": "25 team-games, 0 with a blank distance (arena coordinate not sourced \u2014 blank cells are flagged, never filled in)",
+   "sources": [
+    "data/slate/arena_coordinates.json",
+    "https://www.nba.com/schedule?date=2026-11-16"
+   ]
+  },
+  {
+   "id": "G11",
+   "name": "rotation minutes are measured from an official game book, or blank and flagged",
+   "status": "PASS",
+   "detail": "23/30 clubs have a captured game book; the other 7 print blank rotation cells with the reason, never inferred",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261112/20261112_CHAPHX.pdf",
+    "https://statsdmz.nba.com/pdfs/20261112/20261112_DETWAS.pdf",
+    "https://statsdmz.nba.com/pdfs/20261113/20261113_GSWSAS.pdf",
+    "https://statsdmz.nba.com/pdfs/20261113/20261113_MILORL.pdf",
+    "https://statsdmz.nba.com/pdfs/20261113/20261113_PORSAC.pdf",
+    "https://statsdmz.nba.com/pdfs/20261113/20261113_UTAHOU.pdf",
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+   ]
+  },
+  {
+   "id": "G12",
+   "name": "generated artefacts carry the source-read stamp, never a wall clock",
+   "status": "PASS",
+   "detail": "every artefact is stamped 2026-11-15T23-50Z (the newest official source read in this round); 0 files with a different stamp",
+   "sources": [
+    "data/slate/"
+   ]
+  }
+ ]
+}
