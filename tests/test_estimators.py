@@ -26,7 +26,18 @@ class EstimatorsTest(unittest.TestCase):
         self.assertGreaterEqual(h["games"], 180)  # official completed-game log
 
     def test_window_rows_have_both_estimators_and_disagreement(self):
-        self.assertEqual(len(self.est["window"]), 34)
+        # Integration (session arena/f300fe08-nba3): the estimator window follows
+        # the same slate resolution the script itself uses -- the promoted
+        # official_slate_current.json when a refresh has rolled one, otherwise
+        # the dated capture. Pin the artefact to that slate instead of a
+        # day-specific game count, so a legitimate refresh roll is a data
+        # change rather than a red test, while a mismatch still fails.
+        slate_path = os.path.join(APP, "official_slate_current.json")
+        if not os.path.exists(slate_path):
+            slate_path = estimators.SLATE
+        slate = json.load(open(slate_path, encoding="utf-8"))
+        self.assertEqual(slate["count"], len(slate["games"]))
+        self.assertEqual(len(self.est["window"]), slate["count"])
         for row in self.est["window"]:
             self.assertIsNotNone(row["est_a_margin"])
             self.assertIsNotNone(row["est_b_margin"])

@@ -24,7 +24,7 @@ from urllib.parse import urlparse
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA = os.path.join(ROOT, "data")
 SITE = os.path.join(ROOT, "site")
-BUILD_DATE = "2026-11-13"
+BUILD_DATE = "2026-11-16"
 REPO_URL = "https://github.com/wingbangboozle1-lang/NBA3"
 
 # Official / primary domains allowed as sources (NBA, Dutch regulator, GitHub for repo facts).
@@ -263,7 +263,7 @@ def game_flow_rows(d):
     rows = []
     inj = d["injuries"]
     for g in d["schedule"]["games"]:
-        if g["date"] not in ("2026-11-13", "2026-11-14"):
+        if g["date"] not in ("2026-11-16", "2026-11-17"):
             continue
         for side, key in (("team_1", g["team_1"]), ("team_2", g["team_2"])):
             # injury rows store ISO dates (YYYY-MM-DD), matching the schedule's date field
@@ -313,7 +313,7 @@ def render_pages(d):
     # ---------- Landing ----------
     cards = [
         ("executive-summary.html", "Executive summary", "Key facts, blockers, and what can and cannot be decided yet."),
-        ("slate.html", "3-day slate", f"{n_games} games, 11/14–11/17/2026, from the official schedule PDF."),
+        ("slate.html", "3-day slate", f"{n_games} games, 2026-11-16 to 2026-11-18, verified against nba.com/schedule."),
         ("injuries.html", "Injury tracker", f"{len(inj)} rows from the official 11/13/26 7:30 PM injury report."),
         ("game-flow.html", "Game flow", "Team status counts for games with a report; models not built."),
         ("strategies.html", "Strategies", f"{len(d['strategies'])} candidate single bets, props, parlays, and combos. All blocked."),
@@ -368,13 +368,13 @@ def render_pages(d):
 <ul class="tight">
 <li><b>Picks for the next 3 days cannot yet be responsibly generated.</b> No licensed odds, no authorized statistics, and no validated model are in place. Picks would be unsupported.</li>
 <li><b>Two legal items must be resolved first.</b> (1) NBA Terms §9 bars using NBA Statistics for gambling. (2) Dutch online sports-betting offers require a Koa licence. Both are flagged as blockers; neither is a finding of unlawfulness.</li>
-<li><b>The official 3-day slate is confirmed:</b> {n_games} games across {n_dates} dates (11/14–11/17/2026), from the official schedule. It is subject to change.</li>
+<li><b>The official 3-day slate is confirmed:</b> {n_games} games across {n_dates} dates (2026-11-16 to 2026-11-18), from the official schedule, verified 2026-11-16 (PR #99). It is subject to change.</li>
 <li><b>Injury tracking is possible from official reports, but not minutes.</b> The 11/13 7:30 PM report yields {len(inj)} rows. {n_nys} rows are 'NOT YET SUBMITTED'. The report does not quantify minutes or production.</li>
 <li><b>Correlation values and ROI are blank</b> by policy. Nothing has been measured.</li>
 </ul>
 <h2>What is verified (with links)</h2>
 <div class="table-wrap"><table class="tbl"><thead><tr><th>Fact</th><th>Source</th><th>Status</th></tr></thead><tbody>
-<tr><td>2026-27 schedule: 31 games 11/14–11/17 (Team 1 / Team 2 as printed)</td><td>{link(S['S05']['url'], 'Schedule PDF')}</td><td>{chip('Verified to source', 'ok')} subject to change</td></tr>
+<tr><td>2026-27 schedule: {n_games} games 11/16–11/18 (away @ home as printed)</td><td>{link(sched['source_url'], 'nba.com/schedule')}</td><td>{chip('Verified to source', 'ok')} subject to change</td></tr>
 <tr><td>11/13/26 7:30 PM injury report: {len(inj)} rows transcribed</td><td>{link(S['S04']['url'], 'Injury PDF')}</td><td>{chip('Verified to source', 'ok')} {n_u} rows left blank</td></tr>
 <tr><td>Injury reporting deadlines</td><td>{link(S['S02']['url'], 'Injury report index')}</td><td>{chip('Verified to source', 'ok')}</td></tr>
 <tr><td>NBA Statistics restricted for gambling use (§9)</td><td>{link(S['S07']['url'], 'Terms of Use')}</td><td>{chip('Verified to source', 'ok')} read in part</td></tr>
@@ -407,18 +407,19 @@ def render_pages(d):
             esc(g["hash_col"]) or '<span class="muted">—</span>',
             chip("Orientation confirmed", "ok") if conf else chip("Unverified order", "unverified"),
             '<span class="muted">No pick — gates not passed (7C-F-03)</span>',
-            link(sched["source_url"], "S05 schedule PDF"),
+            (link(g["nba_url"], "official game page") + " · "
+             + link(sched["source_url"], "schedule")),
         ])
     body = f"""
 <section class="card">
-<h1>3-day slate (11/14–11/17/2026)</h1>
+<h1>3-day slate (2026-11-16 to 2026-11-18)</h1>
 <p class="lede">Source: {link(sched['source_url'], sched['source_title'])}. Release page: {link(sched['release_page'], 'NBA.com schedule release')}. Tip times are the ET column. {esc(sched['times_note'])}</p>
 {banner_research()}
-<div class="banner warn"><b>Subject to change.</b> The PDF is labelled as of August 13, 2026. Re-pull before use (7C-F-09). "@" marks away @ home only where the injury report confirms it (11/14 through 11/17). For all dates the order is as printed (7C-F-10). The marker column (C/R) has no legend in the text read (7C-F-11).</div>
+<div class="banner warn"><b>Subject to change.</b> Read live from nba.com/schedule and verified 2026-11-16; re-pull before use (7C-F-09). "@" marks away @ home as printed on the official schedule page (11/16 through 11/18). Orientation was confirmed against the official schedule page when this window was verified (7C-F-10 applies to the retired 11/14 PDF extract); the marker column stays blank because the page prints no legend (7C-F-11).</div>
 {table(["Game #", "Day / date", "Matchup", "Tip (ET)", "National TV", "Marker", "Orientation", "Pick / line", "Source"], rows, "slate", True)}
 </section>
 """
-    out["slate.html"] = ("3-day slate", body, "Official 2026-27 schedule for 11/14–11/17/2026.")
+    out["slate.html"] = ("3-day slate", body, "Official 2026-27 schedule for 2026-11-16 to 2026-11-18.")
 
     # ---------- Injuries ----------
     rows = []
@@ -469,8 +470,8 @@ def render_pages(d):
         ])
     body = f"""
 <section class="card">
-<h1>Game flow and injury impact (11/14–11/17)</h1>
-<p class="lede">Counts below come only from attributed rows of the official 11/13 7:30 PM report (attribution R or S). Unattributed rows (U) are excluded and noted. Games on 11/15–11/17 have no published report in this snapshot.</p>
+<h1>Game flow and injury impact (11/16–11/17)</h1>
+<p class="lede">Counts below come only from attributed rows of the official 11/13 7:30 PM report (attribution R or S). Unattributed rows (U) are excluded and noted. Only games the 11/13 7:30 PM report covers appear (11/16–11/17 in this window); 11/18 has no rows in this snapshot.</p>
 {banner_research()}
 <div class="banner warn"><b>Game-flow analysis is not built.</b> Pace, possessions, scoring model, lineup and minutes data are not verified (7C-F-04, 7C-F-05). The two rightmost columns stay blank until authorized data exists. Counts are facts about the report, not impact estimates.</div>
 {table(["Game #", "Date", "Matchup (schedule order)", "Team", "Out", "Questionable / Doubtful", "Probable", "Available", "Rows", "Team status", "Rotation minutes effect", "Production effect", "Sources"], rows, "gameflow", True)}
