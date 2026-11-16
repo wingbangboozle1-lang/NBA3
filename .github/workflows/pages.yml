@@ -601,6 +601,8 @@ jobs:
           cp -r audit_736efb4b _pages/audit_736efb4b
           cp -r audit_7f3b89af _pages/audit_7f3b89af
           cp -r audit_00b0c780 _pages/audit_00b0c780
+          rm -rf audit_ef6e2e6c/__pycache__
+          cp -r audit_ef6e2e6c _pages/audit_ef6e2e6c
           rm -rf d1b96315/__pycache__ d1b96315/tests/__pycache__
           cp -r d1b96315 _pages/d1b96315
           cp executive-summary.html _pages/
