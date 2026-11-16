@@ -1158,9 +1158,24 @@ def evaluate_gates(a: dict, b: dict, delta: dict, schedule: dict, standings: dic
                    flow: dict) -> dict:
     gates = []
 
+    # Every gate names the document it actually checks. Attributing a standings check to the
+    # injury PDF would be a false citation, which is worse than no citation.
+    INJ = a["source_url"]
+    STAND = STANDINGS_URL
+    SCHED = SCHEDULE_URL
+    TEAM = "https://www.nba.com/stats/teams/advanced"
+    DOC = {
+        "F1": INJ, "F2": INJ, "F3": INJ, "F4": SCHED, "F5": INJ,
+        "P1": INJ, "P2": INJ,
+        "I1": STAND, "I2": STAND, "I3": TEAM, "I4": TEAM,
+        "I5": INJ, "I6": INJ, "I7": INJ, "I8": INJ, "I8a": INJ,
+        "I9": INJ, "I10": TEAM,
+    }
+
     def g(gid, name, ok, scope, detail, measured=None):
         gates.append({"id": gid, "name": name, "pass": bool(ok), "scope": scope,
-                      "detail": detail, "measured": measured})
+                      "detail": detail, "measured": measured,
+                      "document": DOC.get(gid.split("_")[0], INJ)})
 
     # --- freshness / provenance: these block the whole build -------------------------------
     g("F1_report_is_newest_listed", "the captured filing is the newest the official index lists",
