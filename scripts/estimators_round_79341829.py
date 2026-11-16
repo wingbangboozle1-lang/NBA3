@@ -336,13 +336,18 @@ def main():
         return 2 * R * math.asin(math.sqrt(h))
 
     # previous game per team from the completed log (for rest + travel)
-    last_game = {}
-    for g in games:
-        last_game[g["away"]] = g
-        last_game[g["home"]] = g
+    # arena/c94a5531-nba3 fix: look strictly before the row's own date. The old
+    # 'last occurrence in the log' collapsed to the row's own game once that game
+    # was completed and joined the log (rest 0, travel 0 km from its own arena).
+    def last_before(team, game_date):
+        prev = None
+        for g in games:
+            if g["date"] < game_date and team in (g["away"], g["home"]):
+                prev = g
+        return prev
 
     def rest_for(team, game_date):
-        lg = last_game.get(team)
+        lg = last_before(team, game_date)
         if not lg:
             return {"days_rest": None, "b2b": None, "three_in_4": None,
                     "note": "no earlier game in the stored log"}
@@ -355,8 +360,8 @@ def main():
         return {"days_rest": gap, "b2b": gap == 1, "three_in_4": three >= 2,
                 "last_game": lg["date"]}
 
-    def travel_for(team, game_home):
-        lg = last_game.get(team)
+    def travel_for(team, game_home, game_date):
+        lg = last_before(team, game_date)
         cur = team_arena.get(game_home)
         if not lg or not cur:
             return {"km": None, "from_arena": None,
@@ -394,7 +399,7 @@ def main():
             "home_win_prob": round(p_home_win, 3),
             "hca_points_pinned": round(hca_pts, 2),
             "rest": {"away": ra, "home": ta},
-            "travel_km": {"away": travel_for(away, home), "home": travel_for(home, home)},
+            "travel_km": {"away": travel_for(away, home, g["date"]), "home": travel_for(home, home, g["date"])},
             "luck_z": {"away": luck.get(away, {}).get("luck_z"), "home": luck.get(home, {}).get("luck_z")},
             "luck_band_flag": (f"{t} outside |z|>2 luck noise band"
                                for t in (away, home) if luck.get(t, {}).get("outside_noise_band")),

@@ -4590,3 +4590,56 @@ job (`.github/workflows/refresh.yml`, `scripts/refresh_official.py`) — PR #92'
 main (bde463f) and unclaimed since. Scope: rolling-slate schedule/standings/team-stats/injury
 refresh + nightly results settlement (results_feed + pick_ledger settle, now idempotent),
 rebuild only after freshness+provenance gates pass.
+
+### 2026-11-16T02:35Z — arena/c94a5531-nba3 progress: C5-lite done; availability/lab/audit regen; F-C94-01/02 resolved; travel self-reference bug fixed
+
+**C5-lite done (pushed).** `scripts/promote_gamebooks.py` (6 offline tests in
+`tests/test_promote_gamebooks.py`): game-book → results_feed promotion with printed checks only
+(quarter sums == finals; player PTS identity; flagged-and-skipped, never guessed); appends
+`player_game_logs` + `minutes_shares` rows. The refresh job chain is now
+promote (non-blocking) → results_feed verify + settle → pick_ledger settle → estimators ×2 →
+minutes_model → publish/verify → prereg verify → assemble_canonical → build_app. The 4 tonight
+books were promoted (logs 276 rows, shares 18 team-games) and cross-validated against the
+independent capture path (103/103 lines identical; one documented difference: Simons REB/AST
+capture 0/0-from-totals-residue vs promote null-as-unidentifiable — both honest).
+
+**Build repair (C6 prerequisite).** The 'Availability rule replay' CI step was RED at the merge
+commit: the committed `report_availability_2026-11-15.json` was the pre-merge writer's output.
+Both availability files regenerated exactly as CI replays them; `audit_94e6d41b/analysis.py`
+read re-pointed (merged writer names the section `b2b_correspondence`; the audit expected
+`b2b_correspondence_1114` — read-only re-point, no evidence touched); `lab.json` regenerated
+from the merged engine (audit invariant `sha(lab.json) == line_invariance.c_refreshed_1` now
+holds); audit regen contract run (30/30); site rebuilt (26 pages, 0 broken links). All three
+drift gates (capture / availability / audit) byte-green post-commit.
+
+**F-C94-01 RESOLVED (was a misread).** `travel_km.from_arena` names the team's PREVIOUS game
+arena (travel origin), not its home arena. Checked every flagged example against the log:
+DAL prev @CLE 11/14 → 'Rocket Arena' ✓; BOS prev @TOR 11/11 → 'Scotiabank Arena' ✓; NYK prev
+@IND 11/13 → 'Gainbridge Fieldhouse' ✓; UTA prev @HOU 11/13 → 'Toyota Center' ✓. Mechanism
+correct.
+
+**F-C94-02 RESOLVED.** PHX Arena 33.44583/-112.07139 and Wells Fargo Center (PHI)
+39.90111/-75.17194 filled from a sourced Wikipedia infobox coordinate read (2026-11-16T02:25Z)
+— they had been left blank rather than inferred. Venue renames at read recorded in each row's
+flag (Wikipedia titles now 'Mortgage Matchup Center' / 'Xfinity Mobile Arena').
+
+**New bug found + fixed in `estimators_round_79341829.py` (travel/rest self-reference).** The
+previous-game lookup kept the team's last occurrence in the completed log; once a window game
+completed and joined the log (the feed union), its own row became its "previous game" — rest 0,
+travel 0 km from its own arena, permanently for every completed window date. Fixed to look
+strictly before the row's date (`last_before`). Spot-check after fix: IND→PHI 937.4 km from
+Gainbridge (rest 2), LAL→PHX 2352.2 km from Fiserv (rest 4), NYK→TOR 708.5 km from Gainbridge
+(rest 2). Sealed picks untouched (point-in-time); results_feed/pick_ledger/prereg verify all
+green after the regen.
+
+**Plan revision — the deferred games.csv cut is CANCELLED; the results feed is the extension
+mechanism.** `data/origin/games.csv` stays the honest 11/14-closed snapshot (188 rows) that the
+CI-pinned `official_team_ratings_2026-11-15.json` records reconcile against (that pin is the
+12:25Z snapshot, meaningful only as a pair). Nightly results continue to enter through the
+verified `results_feed.json`, which `load_completed()` unions — no dual bookkeeping, no
+mid-slate pin churn. The C5-lite refresh job settles future games into the feed automatically.
+
+**Status:** 4 of 9 finals verified + settled (two agreeing official reads each; quarter sums ==
+finals). Remaining: NYK@TOR, DAL@BOS, HOU@WAS, ATL@MIL, OKC@SAC — the C5-lite refresh job owns
+them if the session ends first (its promote path needs only the game book + printed checks).
+PR #98 open for this branch.
