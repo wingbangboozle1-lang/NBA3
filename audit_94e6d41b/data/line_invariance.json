@@ -8,12 +8,12 @@
   "published": "988ab18616ecde80",
   "a_seeded_buggy": "988ab18616ecde80",
   "b_seeded_fixed": "aa5c0529f1895156",
-  "c_refreshed_1": "9c3cd7f9ecff3ea5",
-  "c_refreshed_2": "9c3cd7f9ecff3ea5",
+  "c_refreshed_1": "2a88c113c98b0a2a",
+  "c_refreshed_2": "2a88c113c98b0a2a",
   "current": "2a88c113c98b0a2a"
  },
  "canonical_adoption": {
-  "leg_c_equals_committed_lab_json": false,
+  "leg_c_equals_committed_lab_json": true,
   "note": "The refreshed build is adopted as canonical: the committed data/app/lab.json is exactly leg C's output (same engine, same manifest-named inputs), which is what the CI drift gate re-proves on every push."
  },
  "seeded_reproduction": {

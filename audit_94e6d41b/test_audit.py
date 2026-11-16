@@ -228,8 +228,19 @@ class TestRefreshAndDelta(unittest.TestCase):
         self.assertEqual(self.inj["not_submitted_rows"], 17)
 
     def test_capture_checks_all_pass(self):
-        self.assertTrue(all(c["result"] == "PASS" for c in self.inj["checks"]),
-                        "the capture script's own checks include a FAIL")
+        # Integration (f300fe08): the canonical 06:15 AM capture on main is
+        # session bb0c83a4's transcription and records its checks under
+        # cross_checks (dict of {ok: ...}); this session's capture recorded a
+        # checks list. Accept either schema; both must be all-green.
+        if "checks" in self.inj:
+            self.assertTrue(all(c["result"] == "PASS" for c in self.inj["checks"]),
+                            "the capture script's own checks include a FAIL")
+        else:
+            cc = self.inj["cross_checks"]
+            self.assertTrue(cc, "capture cross_checks missing")
+            self.assertTrue(all(v.get("ok") for v in cc.values()),
+                            "a capture cross-check is not ok: "
+                            + str([k for k, v in cc.items() if not v.get("ok")]))
 
     def test_status_changes_are_empty(self):
         self.assertEqual(self.refresh["counts"]["status_changes_overnight"], 0)

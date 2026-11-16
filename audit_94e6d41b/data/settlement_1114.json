@@ -7,7 +7,7 @@
  "results_second_capture": "https://www.nba.com/schedule?date=2026-11-15 recap block (scores agree game for game)",
  "results_third_read": "https://www.nba.com/games?date=2026-11-14 re-read 2026-11-15 ~12:15 UTC at settlement time (scores agree)",
  "quarter_scores": null,
- "quarter_scores_note": "The user requirement asks for quarter scores per game. The official scoreboard card, the box-score page and the game summary page print no per-quarter line score in text-extractable form in this environment, and the JSON endpoints are unreachable (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null and are flagged (F-94E6D41B-02) rather than inferred from the play-by-play text.",
+ "quarter_scores_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
  "strategy_status_verbatim": {
   "STRAT1": "provisional (passes all gates except minimum sample size)",
   "STRAT2": "provisional (passes all gates except minimum sample size)",
@@ -42,7 +42,7 @@
     "ot": 0,
     "state": "Final",
     "quarters": null,
-    "quarters_note": "The user requirement asks for quarter scores per game. The official scoreboard card, the box-score page and the game summary page print no per-quarter line score in text-extractable form in this environment, and the JSON endpoints are unreachable (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null and are flagged (F-94E6D41B-02) rather than inferred from the play-by-play text.",
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
     "source": "https://www.nba.com/games?date=2026-11-14"
    },
    "grading": {
@@ -89,7 +89,7 @@
     "ot": 0,
     "state": "Final",
     "quarters": null,
-    "quarters_note": "The user requirement asks for quarter scores per game. The official scoreboard card, the box-score page and the game summary page print no per-quarter line score in text-extractable form in this environment, and the JSON endpoints are unreachable (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null and are flagged (F-94E6D41B-02) rather than inferred from the play-by-play text.",
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
     "source": "https://www.nba.com/games?date=2026-11-14"
    },
    "grading": {
@@ -136,7 +136,7 @@
     "ot": 0,
     "state": "Final",
     "quarters": null,
-    "quarters_note": "The user requirement asks for quarter scores per game. The official scoreboard card, the box-score page and the game summary page print no per-quarter line score in text-extractable form in this environment, and the JSON endpoints are unreachable (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null and are flagged (F-94E6D41B-02) rather than inferred from the play-by-play text.",
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
     "source": "https://www.nba.com/games?date=2026-11-14"
    },
    "grading": {
@@ -183,7 +183,7 @@
     "ot": 0,
     "state": "Final",
     "quarters": null,
-    "quarters_note": "The user requirement asks for quarter scores per game. The official scoreboard card, the box-score page and the game summary page print no per-quarter line score in text-extractable form in this environment, and the JSON endpoints are unreachable (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null and are flagged (F-94E6D41B-02) rather than inferred from the play-by-play text.",
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
     "source": "https://www.nba.com/games?date=2026-11-14"
    },
    "grading": {
@@ -230,7 +230,7 @@
     "ot": 0,
     "state": "Final",
     "quarters": null,
-    "quarters_note": "The user requirement asks for quarter scores per game. The official scoreboard card, the box-score page and the game summary page print no per-quarter line score in text-extractable form in this environment, and the JSON endpoints are unreachable (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null and are flagged (F-94E6D41B-02) rather than inferred from the play-by-play text.",
+    "quarters_note": "The official scoreboard capture prints no per-quarter line score (cdn.nba.com liveData -> HTTP 500; stats.nba.com -> blocked; data.nba.com -> S3 AccessDenied). Quarters stay null in this file and are flagged (F-94E6D41B-02) rather than inferred; quarter scores from the official game books are in data/app/results_feed.json.",
     "source": "https://www.nba.com/games?date=2026-11-14"
    },
    "grading": {

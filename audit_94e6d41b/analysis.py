@@ -482,6 +482,19 @@ def settle():
     picks = read_json(os.path.join(ROOT, "data", "picks", "picks_2026-11-14_to_16.json"))
     props = read_json(os.path.join(ROOT, "data", "picks", "props_2026-11-14_to_16.json"))
     results = read_json(os.path.join(APP, "official_results_2026-11-14.json"))
+    # Integration (f300fe08): main's canonical official_results_2026-11-14.json
+    # (session bb0c83a4's capture) does not carry this session's note key; the
+    # quarters are null in both captures. Quarter line scores for these five
+    # finals are published from the official game books in
+    # data/app/results_feed.json.
+    quarter_note = results.get("quarter_scores_note") or (
+        "The official scoreboard capture prints no per-quarter "
+        "line score (cdn.nba.com liveData -> HTTP 500; "
+        "stats.nba.com -> blocked; data.nba.com -> S3 "
+        "AccessDenied). Quarters stay null in this file and "
+        "are flagged (F-94E6D41B-02) rather than inferred; "
+        "quarter scores from the official game books are in "
+        "data/app/results_feed.json.")
     finals = {g["game_id"]: g for g in results["games"]}
     by_pair = {}
     for g in finals.values():
@@ -515,7 +528,7 @@ def settle():
                                 "home_pts": g["home_pts"], "total": total,
                                 "margin_home": g["home_pts"] - g["away_pts"], "ot": g["ot"],
                                 "state": g["state"], "quarters": None,
-                                "quarters_note": results["quarter_scores_note"],
+                                "quarters_note": quarter_note,
                                 "source": results["source_url"]},
             "grading": {
                 "spread": {"side": side, "line": line, "side_margin": side_margin,
@@ -568,7 +581,7 @@ def settle():
         "results_second_capture": "https://www.nba.com/schedule?date=2026-11-15 recap block (scores agree game for game)",
         "results_third_read": "https://www.nba.com/games?date=2026-11-14 re-read 2026-11-15 ~12:15 UTC at settlement time (scores agree)",
         "quarter_scores": None,
-        "quarter_scores_note": results["quarter_scores_note"],
+        "quarter_scores_note": quarter_note,
         "strategy_status_verbatim": picks["strategy_status"],
         "picks_rows": rows,
         "props_rows": prop_rows,
