@@ -4972,3 +4972,55 @@ Claim written and committed **before** any other work (board rule). Base: `main`
 - Live check (fetched 2026-11-16): `https://wingbangboozle1-lang.github.io/NBA3/audit_00b0c780/pages/index.html` and `/injuries.html` serve the new pages (39 reports to 9:30 AM ET; banner 11/15 06:15 AM). The other five pages are built from the same generator.
 - Not done (owner decisions or other claims): settlement of the nine 11/15 games (none settled on `main`); injury PDFs not fetched; refresh workflow unrepaired (CR-03); root navigation tile not added (CR-05); standings and closing-line data absent (K-07, K-08).
 - Branch note: the claim commit `e05037b` was re-based onto `main` (`43a9a38`) to resolve a conflict; the remote branch was then advanced with a history-only merge (`09870f4`) rather than force-pushed.
+
+---
+
+## Session `arena/8f4fac33-nba3` — DONE (2026-11-16 ~15:05 UTC)
+
+**PR #109 — MERGED as `c100b7c42e3490f5048d9c83f6e237444906edb1` at 2026-11-16T14:57:08Z.**
+Pages deploy run `43891203497`: build **success**, deploy **success**.
+`gh api repos/.../pages` → `status: built`, latest build on commit `c100b7c`, no error.
+Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/round/`.
+
+### Files owned by this session (do not rebuild without reading this block)
+
+| Path | What it is |
+|---|---|
+| `scripts/refresh_2026_11_16.py` | offline refresh: 5 parsers, 14 gates with `build`/`row` scope |
+| `scripts/round_model_2026_11_16.py` | two estimators, pinned HCA, totals, luck z, pricing, strategy gate |
+| `scripts/build_round_site.py` | writes `round/` (20 pages) — **does not touch `app/` or `index.html`** |
+| `data/rounds/2026-11-16/` | all artefacts + the four hand-verified registers (flags/questions/sources/requirements) |
+| `tests/test_round_2026_11_16.py` | 46 tests pinning every unit bug found this round |
+| `.github/workflows/pages.yml` | one added build step + `cp -r round _pages/round` |
+
+`round/` is this session's output tree. `app/` and root `index.html` belong to
+`scripts/build_app.py`; this session only added one link to `round/index.html` inside it.
+
+### Result of the round
+
+- `refresh_2026_11_16.py --gates` → **13/14 gates pass, no build-scoped failure, rebuild allowed.**
+  The one failure is `I2_quarter_scores` on `0022600243` (ATL@MIL), scoped to `row` — it withholds
+  that row, by design. See the note below; **do not "fix" this gate to green.**
+- 25 originated lines for 11/16–11/18; **0/25 strategies published** (no team has 4 captured games).
+- 181/181 tests pass repo-wide; full offline replay is deterministic and drift-free.
+
+### Corrections this round made to other sessions' output (all verified, all regenerated)
+
+1. **`scripts/injury_archive.py` — team-cell locator.** The club cell of a `NOT YET SUBMITTED` row
+   moves left at a page break. The old fixed-index read (`cells[3:5]`) returned a whitespace cell
+   for **Dallas's 11/15 row**, so `data/live/availability.json` published DAL @ BOS as
+   `REPORTED_CLEAR` — i.e. "nobody out" — when the truth was that the club **had not submitted**.
+   Now located by content. Regenerated: `data/live/availability.json`,
+   `data/live/injuries/deltas.json`, `projection/injuries.html`. 19 NOT_SUBMITTED sides, not 18.
+2. **`scripts/build_round_site.py` wrote into `app/`**, which `build_app.py` owns and
+   `tests/test_lines_attribution.py` reads; it broke 38 tests. Moved to `round/`.
+
+### Open items handed on (nothing here blocks the merge)
+
+- **ATL@MIL `0022600243`** stays unsettled. Period table Q3 = 37 (sums 116) vs printed final 106 vs
+  recap line Q3 = 27 (sums 106). Both readings kept, arithmetic published, no repair. Q09 on
+  `round/questions.html` names the two documents needed to settle it.
+- **No funded strategy** until ~4 captured games per team exist. This is the gate working.
+- **No market anchor** until a licensed closing-line feed exists; the field is null, not guessed.
+- **No player-prop price** until per-player logs are captured; no rho, so no number.
+- Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
