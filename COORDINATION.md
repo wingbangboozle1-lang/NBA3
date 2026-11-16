@@ -5036,11 +5036,11 @@ Claim written and pushed before any other work (board rule). Base: `main` @ `907
 | # | Task | Status | Owner | File scope |
 |---|------|--------|-------|------------|
 | P1 | Board claim (this block), pushed first | done (this commit) | 4054e125 | `COORDINATION.md` (append-only) |
-| P2 | Per-game results feed current through 11/15 finals: one row per game (date, teams, final score, quarter scores), settle ONLY after verified finals; ATL@MIL stays withheld (quarter conflict) | in progress | 4054e125 | `data/app/results_feed.json`, `data/live/results/`, `scripts/results_feed.py`, new `scripts/ingest_results.py` |
-| P3 | Scheduled-job extension: standings + three team-stat pages captured with provenance; chain ingests game books into the results feed, settles the finished game day and the sealed ledger, and rebuilds only after freshness+provenance gates pass | in progress | 4054e125 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `data/live/standings.json` |
-| P4 | Injury PDFs for 11/16: every report with timestamp archived, consecutive reports diffed, banner shows revision + retrieval time | in progress | 4054e125 | `data/live/injuries/`, `data/app/injuries*`, `scripts/injury_archive.py` |
-| P5 | Site: settlement stamps visible, standings page, exec summary/questions/suggestions updated, Flagged for Review current | in progress | 4054e125 | `scripts/build_app.py`, `app/`, `index.html` |
-| P6 | Integration: tests green, PR to `main`, merge, Pages deploy check, record here | unclaimed | 4054e125 | `COORDINATION.md` |
+| P2 | Per-game results feed current through 11/15 finals: one row per game (date, teams, final score, quarter scores), settle ONLY after verified finals; ~~ATL@MIL stays withheld~~ DECISION REVISED on evidence (see completion record): settled with the game-page LINESCORES quarters and the game-book conflict flagged | done | 4054e125 | `data/app/results_feed.json`, `data/live/results/`, `scripts/results_feed.py`, new `scripts/ingest_results.py` |
+| P3 | Scheduled-job extension: standings + three team-stat pages captured with provenance; chain ingests finished games from the official game-card feed (NOT the game books - see completion record for the scope note), settles the finished game day and the sealed ledger, and rebuilds only after freshness+provenance gates pass | done | 4054e125 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `data/live/standings.json` |
+| P4 | Injury PDFs for 11/16: every report with timestamp archived (newest archived this session; every index report archived by the scheduled job going forward - gap flagged 1116-F-02), consecutive reports diffed, banner shows revision + retrieval time | done | 4054e125 | `data/live/injuries/`, `data/app/injuries*`, `scripts/injury_archive.py` |
+| P5 | Site: settlement stamps visible, standings page, exec summary/questions/suggestions updated, Flagged for Review current | done | 4054e125 | `scripts/build_app.py`, `app/`, `index.html` |
+| P6 | Integration: tests green, PR to `main`, merge, Pages deploy check, record here | done (this commit) | 4054e125 | `COORDINATION.md` |
 
 ---
 
@@ -5140,3 +5140,23 @@ stale with no commits. Their scopes were taken over by this session (claim 348b3
 closed with a comment naming what superseded each. Nothing of #94's schema work was lost: the
 settled_2026-11-15.json schema from refs/pull/94/head was salvaged and used for
 data/live/results/settled_2026-11-15.json.
+
+### COMPLETION RECORD - arena/4054e125-nba3 (2026-11-16)
+
+- **Decision revised (documented, justified):** the claim said ATL@MIL would stay withheld for the
+  quarter conflict. After reading the official game-page LINESCORES (MIL Q3=27, sums to the
+  four-times-verified final 106) and the AP recap on the same page ("led 87-80 the end of the
+  third"), the game-book period table (Q3=37, sums 116) is the outlier. The row is SETTLED with the
+  LINESCORES quarters, the conflict is recorded on the row and on app/flagged.html (1116-F-01), and
+  the game-book transcription is not altered. Both readings remain visible for review.
+- **Scope note:** the claim listed `scripts/ingest_results.py`; the ingest shipped as
+  `scripts/gamecard_feed.py` + `results_feed.py ingest` (same file scope family, fewer files), plus
+  `scripts/standings_feed.py` for strict standings promotion. Game books are NOT parsed in CI (no
+  PDF text extraction on the committed fixtures); the runner-side ingest reads the official
+  game-card feed from the games pages the job already fetches, with the same sum-check rule, and
+  the game books remain the settlement cross-check sources.
+- **Verification:** every CI drift-gated replay re-run locally and byte-identical (79341829 chain,
+  2ebb1e75 chain, strategy_lab, assemble_canonical+build_app, round chain). 198 + 29 tests green.
+  12/12 freshness gates pass. tools/check_site.py PASS.
+- **PR:** see the PR conversation of this branch for the link; merged without waiting per board
+  policy, Pages deploy confirmed and recorded as a PR comment immediately after the merge.
