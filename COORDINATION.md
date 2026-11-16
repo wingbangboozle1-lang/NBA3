@@ -4646,3 +4646,52 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/43225bc7-nba3` (current) — CLAIM: 11/15 night round — settle the 11/15 finals, roll the window to 11/16→11/18, repair the slate-promotion defect, verify line by line
+
+**Session ID:** `arena/43225bc7-nba3`. Branch `arena/43225bc7-nba3`, branched from `main` @
+`5fde67e` (merge of PR #97). Claim appended and pushed **before** any other work started
+(2026-11-16 ~02:20 UTC). Arena binds this workspace to one branch, so the `session-<id>/<task>`
+scheme in the brief is not usable here; scope is enforced by the file list below.
+
+**Arrival state.** `main` is green (last Pages deploy run 43776527337 → success; the run for
+`5fde67e` was still queued at claim time). The scheduled `official data refresh` job succeeded on
+2026-11-15 23:50 UTC (run 43776978055) — the first success after the 17:41 UTC failure — and it
+committed `94f71a6 scheduled official refresh 2026-11-16T00:57Z`.
+
+**Why this round exists.** The published canonical/live dashboards still name the **11/15 06:15 AM ET**
+injury report and a slate whose *11/15 games were unsettled* at the time of capture. As of
+2026-11-16 02:15 UTC (11/15 21:15 ET) the official record has moved:
+
+| Official fact | Source (read 2026-11-16 ~02:1xZ) |
+|---|---|
+| The 11/15 index lists reports through **9:00 p.m. ET** — nine hours past the published 06:15 AM snapshot | <https://official.nba.com/nba-injury-report-2026-27-season/> |
+| **6 of the 9** 11/15 games are final with scores; 3 are still in progress | <https://www.nba.com/schedule?date=2026-11-15> |
+| No 11/16 report exists yet (`12_00AM` probe → `AccessDenied`), so 9:00 PM 11/15 is the newest | <https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf> |
+| The rolling window is now **11/16 (8 games), 11/17 (5), 11/18 (12)** | <https://www.nba.com/games?date=2026-11-15> calendar |
+
+**Defect found at claim time (fixed this round, see F-43225BC7-01).** The scheduled refresh's slate
+promotion writes one row per *game link found in each day's page*, but the games page for date D
+also renders the neighbouring days' cards. `data/app/official_slate_current.json` (committed by the
+23:50 UTC refresh) therefore contains **37 rows for a 25-game window**, with the same `game_id`
+under two dates — e.g. `0022600232` (DAL@CLE) is written under both `2026-11-15` and `2026-11-16`.
+Counted from the committed fetch: the 11/15 page carries 9 ids and the 11/16 page 9 ids, but the
+union is 16 distinct games, not 18. This is a data-integrity defect in a published artefact.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| N1 | Claim + board record (this section) | done | 43225bc7 | `COORDINATION.md` |
+| N2 | Capture the newest official injury report (11/15 9:00 PM ET) verbatim + timestamp + diff against the published 06:15 AM snapshot; archive every report on disk | in progress | 43225bc7 | `data/live/injuries/`, `data/app/official_injuries_2026-11-15_0900PM*` |
+| N3 | Official per-game result feed for the 11/15 finals (date, teams, final score, quarter scores), one row per game, only for verified finals | in progress | 43225bc7 | `data/app/official_results_2026-11-15.json`, `data/live/results/games_2026-11-15.json` |
+| N4 | Roll the window to 11/16→11/18 (≤3 days) from the official schedule; 25 games, 0 duplicates | in progress | 43225bc7 | `data/app/official_slate_1116_1118.json`, `data/app/official_slate_current.json` |
+| N5 | Repair the slate-promotion duplication defect in the scheduled refresh + offline test | in progress | 43225bc7 | `scripts/refresh_official.py`, `tests/test_refresh_official.py` |
+| N6 | Re-run the live pipeline (feed → estimators → availability → rest/travel → ledger → picks → gates → site) on the rolled window and prove it deterministic | pending | 43225bc7 | `data/live/**`, `app/*.html`, `index.html` (generated) |
+| N7 | Line-by-line re-verification of published rows against the official pages; flags/questions/suggestions for anything unconfirmed | pending | 43225bc7 | `COORDINATION.md` (log) |
+| N8 | Full offline CI replay; PR → merge; confirm Pages deploy; record here | pending | 43225bc7 | `COORDINATION.md` |
+
+**Non-overlap.** This session edits only the files above plus `COORDINATION.md`/`README.md` records.
+It does not edit `pipeline/v2/**`, `data/v2/**`, `v2/**`, or any `audit_*` tree. The four open PRs
+(#94, #95, #96, #98) are logged in N8's disposition note, not merged wholesale: each carries content
+this session does not re-verify line by line, and the board forbids merging unverified shared output.
