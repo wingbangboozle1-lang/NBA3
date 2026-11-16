@@ -144,7 +144,7 @@ def build() -> dict:
                      f"{pub_hca['data_rounds_2026_11_16']['n_games']} finals "
                      f"(rate {pub_hca['data_rounds_2026_11_16']['home_win_rate']}); every entry in "
                      f"data/app/ledger/ledger.jsonl records the constant "
-                     f"{pub_hca['data_app_ledger_constant']['hca_points']}. Spread: "
+                     f"{pub_hca['data_app_ledger_constant']['hca_points'][0]}. Spread: "
                      f"{pub_hca['spread_between_the_three_points']} points",
          "why_it_matters": f"the pin is applied to every line, so this build's home margins are "
                            f"{pub_hca['effect_on_this_builds_lines']['vs_the_round_capture']} points "

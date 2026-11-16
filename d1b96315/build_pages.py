@@ -34,6 +34,40 @@ NAV = [("index", "Roll"), ("injuries", "Injuries"), ("results", "Results"),
        ("flagged", "Flagged for review")]
 
 
+def lst(v, sep=", "):
+    """A list printed as prose, never as a Python literal."""
+    if not v:
+        return "none"
+    return sep.join(str(x) for x in v)
+
+
+def rng(v):
+    """A confidence interval as `a to b`, not as a bracketed list."""
+    return lst(v, " to ")
+
+
+def pct(v):
+    return f"{v * 100:.1f}%" if isinstance(v, (int, float)) else "—"
+
+
+def slate_counts(d):
+    return lst([f"{k}: {v} games" for k, v in d.items()], " · ")
+
+
+def cal_counts(d):
+    return lst([f"Nov {int(k)} → {v}" for k, v in d.items()], " · ")
+
+
+def qshares(d):
+    return lst([f"{k} {v}" for k, v in d.items()], " · ")
+
+
+def b2b_text(d):
+    a, r = d["on_a_back_to_back"], d["rested"]
+    return (f"on a back-to-back n={a['n']} mean {a['mean']}, rested n={r['n']} mean {r['mean']} "
+            f"(4th-quarter points minus 3rd)")
+
+
 def load(name: str) -> dict:
     return json.loads((DATA / name).read_text(encoding="utf-8"))
 
@@ -182,11 +216,11 @@ itself on a quarter score; the league's own standings put home-court a third of 
 been pinning; and the two estimators agree closely on exactly {len(agreed)} of the
 {len(pub)} games in the window.</p>
 <div class="cards">
-{card("official revisions read", f"3", f"09:15 AM (already published) · 11:30 AM · {e(lat['report_stamp'])} — <a class='src' href='injuries.html'>diff</a>")}
+{card("official revisions read", f"{len(A['snaps']['revisions'])}", f"09:15 AM (already published) · 11:30 AM · 01:00 PM · {e(lat['report_stamp'])} — <a class='src' href='injuries.html'>diff</a>")}
 {card("player rows on the report", f"{lat['player_rows']}", f"was {A['pub_inj']['player_rows']} at 09:15; +{lat['player_rows'] - A['pub_inj']['player_rows']}")}
-{card("11/15 finals settled", f"{res['settled_count']}/{res['count']}", "one row per game, quarter sums checked — <a class='src' href='results.html'>table</a>")}
+{card("11/15 finals settled", f"{res['settled_count']}/{res['count']}", "one row per game, quarter vectors printed — <a class='src' href='results.html'>table</a>")}
 {card("measured home-win rate", f"{st['measured_home_win_rate'] * 100:.1f}%", f"{st['measured_home_wins']}-{st['measured_home_games'] - st['measured_home_wins']} of {st['measured_home_games']} home games — <a class='src' href='standings.html'>source</a>")}
-{card("home-court now pinned", f"{hc['hca_points_used']} pts", f"was {m['home_court']['previously_published_in_this_repo']['data_rounds_2026_11_16']['hca_points']} in the round capture, {m['home_court']['previously_published_in_this_repo']['data_app_ledger_constant']['hca_points']} in the app ledger")}
+{card("home-court now pinned", f"{hc['hca_points_used']} pts", f"was {m['home_court']['previously_published_in_this_repo']['data_rounds_2026_11_16']['hca_points']} in the round capture, {lst(m['home_court']['previously_published_in_this_repo']['data_app_ledger_constant']['hca_points'], ' / ')} in the app ledger")}
 {card("estimators agreeing", f"{len(agreed)}/{len(pub)}", f"within 2.5 pts of margin; {len(bet_ok)} rows inside the 5.0-point cap")}
 {card("strategies funded", f"{A['gates']['summary']['funded']}/{A['gates']['summary']['strategies']}", f"blocked by {', '.join(A['gates']['summary']['gates_blocking_any_strategy'])} — <a class='src' href='gates.html'>board</a>")}
 {card("picks sealed pre-tip", f"{A['ledger']['ledger']['published_pre_tip']}", f"head {e(A['ledger']['ledger']['head_hash'][:12])}… — <a class='src' href='ledger.html'>chain</a>")}
@@ -200,7 +234,7 @@ changes), not the 01:15 PM revision everyone points at. Marcus Smart's suspensio
 three clubs' filings were absent from the canonical capture tree, and the scheduled job is still why</td>
 <td>{'<span class="tag bad">fixed here, needs the job rewired</span>'}</td><td><a href="injuries.html">Injuries</a></td><td>{src_cell([A["urls"]["index"], A["urls"]["pdf_1315"], "data/rounds/2026-11-16/injuries.json"])}</td></tr>
 <tr><td>2</td><td>11/15 settled from a fresh official re-read, one row per game</td>
-<td>9 games, 9 with a verified final, quarter vectors printed and summed; the 8 rows main had
+<td>{res['count']} games, {res['settled_count']} with a verified final, quarter vectors printed and summed; the 8 rows main had
 settled match exactly; ATL@MIL's final is confirmed three ways while its quarter row is not</td>
 <td><span class="tag ok">settled with one footnote</span></td><td><a href="results.html">Results</a></td><td>{src_cell([A["urls"]["games_1115"], A["urls"]["book_atlmil"], "d1b96315/data/results_2026-11-15.json"])}</td></tr>
 <tr><td>3</td><td>no standings capture existed anywhere in the repo (board item K-07)</td>
@@ -210,7 +244,7 @@ home-court pin is now computed from</td><td><span class="tag ok">closed</span></
 <tr><td>4</td><td>three different home-court values pinned in three places</td>
 <td>{hc['hca_points_used']} (this build, league-wide measured) vs
 {m['home_court']['previously_published_in_this_repo']['data_rounds_2026_11_16']['hca_points']} (round capture, 23 finals)
-vs {m['home_court']['previously_published_in_this_repo']['data_app_ledger_constant']['hca_points']} (every sealed app-ledger entry)
+vs {lst(m['home_court']['previously_published_in_this_repo']['data_app_ledger_constant']['hca_points'])} (every sealed app-ledger entry)
 — a {m['home_court']['previously_published_in_this_repo']['spread_between_the_three_points']}-point swing on every home line</td>
 <td><span class="tag warn">owner decision needed</span></td><td><a href="model.html#hca">Method</a></td><td>{src_cell([A["urls"]["standings"], "data/rounds/2026-11-16/model.json", "data/app/ledger/ledger.jsonl"])}</td></tr>
 <tr><td>5</td><td>luck refused to clear anyone</td>
@@ -219,7 +253,7 @@ rule did not fire; the clubs nearest the edge are printed instead of hidden</td>
 <td><span class="tag ok">measured</span></td><td><a href="model.html#luck">Method</a></td><td>{src_cell([A["urls"]["advanced"], "d1b96315/data/model.json"])}</td></tr>
 <tr><td>6</td><td>parlays priced with a measured correlation</td>
 <td>ρ(margin, total) = {m['pricing']['rho_margin_vs_total']} (95% CI
-{m['pricing']['rho_margin_vs_total_ci95']}) on {m['pricing']['measured_on']['settled_games']} games;
+{rng(m['pricing']['rho_margin_vs_total_ci95'])}) on {m['pricing']['measured_on']['settled_games']} games;
 the naive product sits beside it on every row</td><td><span class="tag warn">projection only, no price to beat</span></td>
 <td><a href="pricing.html">Pricing</a></td><td>{src_cell(["d1b96315/data/model.json", "d1b96315/data/results_2026-11-15.json"])}</td></tr>
 <tr><td>7</td><td>per-player minutes redistribution is only possible for 9 of 30 clubs</td>
@@ -230,12 +264,12 @@ the naive product sits beside it on every row</td><td><span class="tag warn">pro
 
 <h2>Read it in this order</h2>
 <div class="grid2">
-<div class="q"><h4>The numbers, with their sources</h4><p class="small"><a href="injuries.html">Injuries</a> (three revisions, two diffs, every status change linked) ·
+<div class="q"><h4>The numbers, with their sources</h4><p class="small"><a href="injuries.html">Injuries</a> ({len(A['snaps']['revisions'])} revisions, {len(A['snaps']['diffs'])} named diffs, every status change linked) ·
 <a href="results.html">Results</a> (nine finals, quarter vectors, the disputed one footnoted) ·
 <a href="standings.html">Standings</a> (30 rows, the home-rate measurement) ·
-<a href="lines.html">Originated lines</a> (25 rows, both estimators, availability, rest, travel, luck)</p></div>
+<a href="lines.html">Originated lines</a> ({len(pub)} rows over four days, both estimators, availability, rest, travel, luck)</p></div>
 <div class="q"><h4>Whether any of it may be bet</h4><p class="small"><a href="gates.html">Gates &amp; leaderboard</a> (8 gates × 5 strategies, all measurements printed) ·
-<a href="ledger.html">Ledger</a> (25 pre-tip seals, three chains verified, board item K-17 resolved) ·
+<a href="ledger.html">Ledger</a> ({A['ledger']['ledger']['published_pre_tip']} pre-tip seals + {A['ledger']['ledger']['amendments']} appended amendments, three chains verified, board item K-17 resolved) ·
 <a href="pricing.html">Pricing &amp; rho</a> · <a href="model.html">Method</a></p></div>
 <div class="q"><h4>What is missing and what to do</h4><p class="small"><a href="questions.html">Questions</a> (known vs unknown, each with the way to find out) ·
 <a href="suggestions.html">Suggestions</a> (four paths, pick one) ·
@@ -556,8 +590,8 @@ finals log ({m['home_court']['measured_home_win_rate_finals_log']}, n={m['home_c
 neutral {st['checks']['neutral_record']['neutral_w'] + st['checks']['neutral_record']['neutral_l'] // 2 * 2 // 2:.0f}
 = {st['checks']['w_equals_l']['sum_w']} total ✓ (the single neutral game is Indiana @ Denver, printed in both clubs' Neutral column)</li>
 <li>rows whose home+road+neutral split does not equal GP:
-{st['checks']['rows_failing_location_split'] or 'none'} ✓</li>
-<li>rows whose printed WIN% does not recompute from W/(W+L): {st['checks']['rows_failing_win_pct'] or 'none'} ✓</li>
+{lst(st['checks']['rows_failing_location_split'])} ✓</li>
+<li>rows whose printed WIN% does not recompute from W/(W+L): {lst(st['checks']['rows_failing_win_pct'])} ✓</li>
 </ul>
 <p class="small mut">Neutral-site games are excluded from the home-win measurement because the page
 prints them in their own column. The same page carries the full Paragraph L.2 tie-break procedure text
@@ -698,8 +732,8 @@ report, not about the players.</li>
 chunk this session fetched carries {len(m['inputs']['slate']['reverified_rows'])} of tonight's 8 cards,
 and all 8 matchups with their tip times appear in the 01:15 PM revision, which is a second official
 document agreeing with the window. The page's own calendar strip reads
-{json.dumps(m['inputs']['slate']['calendar_counts'])}, matching the published counts
-{json.dumps(m['inputs']['slate']['count_by_date'])} plus the 9 games already played on 11/15.</p>
+{cal_counts(m['inputs']['slate']['calendar_counts'])}, matching the published counts
+{slate_counts(m['inputs']['slate']['count_by_date'])} plus the 9 games already played on 11/15.</p>
 """
     return page("lines", "Originated lines", body)
 
@@ -722,8 +756,8 @@ def p_pricing(A) -> str:
 probabilities, because the legs share one game. Both numbers are printed for every row, so the
 correlation effect is auditable instead of assumed.</p>
 <div class="cards">
-{card("ρ(margin, total)", f"{pr['rho_margin_vs_total']}", f"95% CI {pr['rho_margin_vs_total_ci95']} on n={pr['measured_on']['settled_games']} games")}
-{card("ρ across games, same date", f"{pr['rho_cross_game_margin']}", f"95% CI {pr['rho_cross_game_ci95']} on {pr['measured_on']['same_date_game_pairs']} pairs")}
+{card("ρ(margin, total)", f"{pr['rho_margin_vs_total']}", f"95% CI {' / '.join(str(x) for x in pr['rho_margin_vs_total_ci95'])} on n={pr['measured_on']['settled_games']} games")}
+{card("ρ across games, same date", f"{pr['rho_cross_game_margin']}", f"95% CI {rng(pr['rho_cross_game_ci95'])} on {pr['measured_on']['same_date_game_pairs']} pairs")}
 {card("model residual sd", f"{m['estimator_a']['residual_sd_points']} pts", "leave-one-game-out, so it is out-of-sample")}
 {card("rows priced", f"{len(pr['parlays'])}", "every publishable row in the window")}
 </div>
@@ -734,13 +768,13 @@ correlation effect is auditable instead of assumed.</p>
 <ul>
 <li>The measured ρ between a game's margin and its total is
 <b>{pr['rho_margin_vs_total']}</b> — negative, and its interval
-{pr['rho_margin_vs_total_ci95']} straddles zero at n={pr['measured_on']['settled_games']}. So the honest
+{rng(pr['rho_margin_vs_total_ci95'])} straddles zero at n={pr['measured_on']['settled_games']}. So the honest
 statement is "we measured a small negative dependence and we cannot yet separate it from noise". The
 pricing effect is {min(p['difference_in_probability_points'] for p in pr['parlays']):.2f} to
 {max(p['difference_in_probability_points'] for p in pr['parlays']):+.2f} probability points, which is
 printed rather than hidden, and it is <i>smaller</i> than the residual sd of the model itself.</li>
 <li>Cross-game dependence — the thing that makes a multi-leg slip dangerous — measured
-{pr['rho_cross_game_margin']} ({pr['rho_cross_game_ci95']}) across
+{pr['rho_cross_game_margin']} ({rng(pr['rho_cross_game_ci95'])}) across
 {pr['measured_on']['same_date_game_pairs']} same-date pairs. It is near zero, which is why no same-date
 multi-leg is priced here as if it were safe: near zero with an interval that wide is "unknown", not
 "independent".</li>
@@ -749,9 +783,8 @@ can be scored as skill yet ({link("gates.html", "gate G8")}; {link("questions.ht
 </ul>
 <p class="small mut">Game-flow measurement that feeds the total column: share of all points scored by
 quarter on the {m['game_flow']['games_with_official_quarter_scores']} games with official quarter scores:
-{json.dumps(m['game_flow']['share_of_points_by_quarter'])}. Back-to-back clubs'
-4th-minus-3rd-quarter differential: {json.dumps(m['game_flow']['back_to_back_fourth_quarter']['on_a_back_to_back'])}
-vs rested {json.dumps(m['game_flow']['back_to_back_fourth_quarter']['rested'])} — published as a
+{qshares(m['game_flow']['share_of_points_by_quarter'])}. Back-to-back clubs'
+4th-minus-3rd-quarter differential: {b2b_text(m['game_flow']['back_to_back_fourth_quarter'])} — published as a
 measurement with its sample size, not as a rule.</p>
 """
     return page("pricing", "Pricing & rho", body)
@@ -772,7 +805,7 @@ def p_model(A) -> str:
          "sum of the HOME column over all 30 clubs (" + str(A["standings"]["measured_home_wins"]) + " home wins in "
          + str(A["standings"]["measured_home_games"]) + " home games), neutral-site games excluded",
          src_cell([A["urls"]["standings"]])],
-        ["Wilson 95% interval on that rate", e(str(hc["wilson95_standings"])),
+        ["Wilson 95% interval on that rate", rng(hc["wilson95_standings"]),
          str(A["standings"]["measured_home_games"]) + " home games", "derived"],
         ["measured home-win rate, this season's finals log",
          str(hc["measured_home_win_rate_finals_log"]) + " (n=" + str(hc["finals_log_n"]) + ")",
@@ -786,7 +819,7 @@ def p_model(A) -> str:
          str(prev_repo["data_rounds_2026_11_16"]["hca_points"]) + " pts",
          "same formula on a " + str(prev_repo["data_rounds_2026_11_16"]["n_games"]) + "-final sample",
          src_cell(["data/rounds/2026-11-16/model.json"])],
-        ["constant recorded in the app pick ledger", e(str(prev_repo["data_app_ledger_constant"]["hca_points"])),
+        ["constant recorded in the app pick ledger", lst(prev_repo["data_app_ledger_constant"]["hca_points"]),
          "written into every sealed entry there, never recomputed per game day",
          src_cell(["data/app/ledger/ledger.jsonl"])],
         ["spread between the three", "<b>" + str(prev_repo["spread_between_the_three_points"]) + " pts</b>",
@@ -902,7 +935,7 @@ can see it was evaluated rather than skipped.</p>
 {e(m['inputs']['injury_report']['retrieval_time_utc'])}; standings
 {e(m['inputs']['standings']['retrieved_utc'])}; team stats {e(m['inputs']['team_stats']['retrieved_utc'])}
 (rows {m['inputs']['team_stats']['rows']}, rows failing their own printed identities
-{m['inputs']['team_stats']['rows_failing_checks'] or 'none'}, max residual
+{lst(m['inputs']['team_stats']['rows_failing_checks'])}, max residual
 {m['inputs']['team_stats']['max_abs_residuals']['net_rtg']} on NetRtg and
 {m['inputs']['team_stats']['max_abs_residuals']['pace_minus_poss_per_48']} on pace-vs-possession
 — the page's own rounding, printed rather than reconciled).</p>
@@ -1158,7 +1191,7 @@ def p_questions(A) -> str:
         ("Q09", "parlay ρ", "known and weak",
          "Is the measured correlation strong enough to price with?",
          f"ρ(margin, total) = {m['pricing']['rho_margin_vs_total']} with a 95% interval of "
-         f"{m['pricing']['rho_margin_vs_total_ci95']} on {m['pricing']['measured_on']['settled_games']} "
+         f"{rng(m['pricing']['rho_margin_vs_total_ci95'])} on {m['pricing']['measured_on']['settled_games']} "
          "games: the interval straddles zero, so the measurement is honest but not decisive.",
          "It resolves itself as the log grows; the naive product is printed beside every priced row so "
          "a reader can see the effect's size today.",

@@ -67,7 +67,7 @@
    "severity": "high",
    "surface": "model / home-court advantage",
    "title": "three different home-court values are pinned in this repository at once",
-   "measured": "this build pins 0.9 from the league-wide measured home-win rate 0.5204 (102-94 in 196 home games, Wilson 95% [0.4507, 0.5893]); the round capture pins 4.12 from 22 finals (rate 0.5909); every entry in data/app/ledger/ledger.jsonl records the constant [1.62]. Spread: 3.22 points",
+   "measured": "this build pins 0.9 from the league-wide measured home-win rate 0.5204 (102-94 in 196 home games, Wilson 95% [0.4507, 0.5893]); the round capture pins 4.12 from 22 finals (rate 0.5909); every entry in data/app/ledger/ledger.jsonl records the constant 1.62. Spread: 3.22 points",
    "why_it_matters": "the pin is applied to every line, so this build's home margins are -3.22 points different from the same model run at the previously pinned value; the brief requires the pin to be the measured home-win rate, and the league-wide measurement (n = 196) beats a 23-final sample (n = 22), but two published surfaces now disagree and neither is wrong on its own basis",
    "action": "owner decision: adopt the standings-based pin everywhere (this session's recommendation) or keep the short-sample pin for continuity with the sealed ledger entries; do not silently re-pin, because the sealed hashes contain the old value",
    "blocks_merge": false,
