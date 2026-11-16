@@ -36725,6 +36725,136 @@
    ],
    "status": "Open - owner decision",
    "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F01",
+   "area": "Results feed / settlement",
+   "severity": "medium",
+   "found_on": "2026-11-16",
+   "item": "ATL@MIL gamebook SCORE BY PERIOD table is self-inconsistent (MIL Q3=37 sums 116 vs its own FINAL 106)",
+   "why": "The round-2026-11-16 capture left 0022600243 blocked (Q09). This session read three official documents: the game page LINESCORE (MIL 37/16/27/26=106), the gamebook summary line (BUCKS 37 16 27 26 106) and the gamebook team totals (106). All three agree on Q3=27; the period-table cell 37 is arithmetically impossible against its own printed final. Q3=27 adopted, both readings preserved in results_2026-11-15.json; day now 9/9 settled.",
+   "action_needed": "Done for this round: resolution published with all readings kept; main's feed carries the same Q3=27. Review the three-read logic before relying on MIL quarters downstream.",
+   "sources": [
+    "https://www.nba.com/game/atl-vs-mil-0022600243",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf"
+   ],
+   "status": "resolved-published",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F02",
+   "area": "Injury capture",
+   "severity": "low",
+   "found_on": "2026-11-16",
+   "item": "Butler III, Jimmy row carries no Current Status cell in both the 09:15 and 01:30 PM official prints",
+   "why": "The printed row shows the reason (Right ACL Repair / Surgery) where the status column should be. Published blank with a note; never copied from an earlier report. Same treatment as session 8f4fac33's 09:15 capture.",
+   "action_needed": "Owner: decide whether a second official read can supply the missing status; until then keep blank.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf"
+   ],
+   "status": "open",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F03",
+   "area": "Injury capture",
+   "severity": "low",
+   "found_on": "2026-11-16",
+   "item": "Mathurin name printed 'Bennedict' at 09:15 AM and 'Benedict' at 01:30 PM",
+   "why": "Delta reports this as delisted + newly_listed (no silent merge; the normaliser only merges case/accents/punctuation). Status is Out in both prints.",
+   "action_needed": "Owner: no action required for correctness (delta reports remove+add); review only if name normalisation should ever merge one-letter spellings.",
+   "sources": [
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+    "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf"
+   ],
+   "status": "open",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F04",
+   "area": "Scheduled job",
+   "severity": "high",
+   "found_on": "2026-11-16",
+   "item": "Scheduled official refresh failures (commit step 43815576157/43864808752; unit-test step 43925193575) — repaired; awaiting the 23:15 UTC run",
+   "why": "Root cause reproduced offline in this session (correct-order CI simulation: promote -> gates -> rebuild -> tests): three tests were coupled to the fixed official_slate_current.json window while the fetch legitimately promotes a rolling window (25 not greater than 30; published slate != fixed 00-57Z capture replay). On main the repair landed from several sessions: commit-step staging (c449d46a/8a07a7c), roll-safe tests (4c69ab99, taking the same diagnosis further: expected set derived from window intersect slate, newest-manifest replay), standings/results-ingest chain steps (4054e125, 259cfa6). This session's own fixture-based test edits were superseded and dropped in the merge in favour of main's roll-safe versions. Offline verification on the merged tree: all five refresh CI groups green in the rolling simulation, 293/293 full suite, refresh.yml commit step includes git add -A + rebase retry. Live validation = the next cron run.",
+   "action_needed": "Owner: confirm the 23:15 UTC cron run turns green AND commits; only then is the scheduled job verified end to end on the runner.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
+   ],
+   "status": "repaired on main; live cron validation pending (23:15 UTC)",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F05",
+   "area": "Injury archive",
+   "severity": "high",
+   "found_on": "2026-11-16",
+   "item": "Canonical injury archive advanced to 11/16 01:15 PM ET and the scheduled job now archives index reports (was: archive stuck at 11/15 06:15 AM)",
+   "why": "At claim time data/live/injuries held only the 11/15 06:15 AM report (flags F12/F-R6). Since then main landed 5bf65ed (11/16 01:15 PM stored verbatim, consecutive-report diff, live pipeline regenerated: model reads the newest report) and 798d917 (the scheduled refresh archives every index report with text+sha256+stamp). Verified on the merged tree: newest on disk = Injury-Report_2026-11-16_01_15PM, model_used matches, freshness gates 12/12. Note: this round's official capture read the newer 01:30 PM ET report (data/rounds/2026-11-16-eve/), which the next scheduled archive step should pick up.",
+   "action_needed": "Closed by main (5bf65ed + 798d917); verify the next scheduled run archives the 01:30 PM report this round captured.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/injuries/archive_index.json"
+   ],
+   "status": "resolved on main before this round merged; verification recorded",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F06",
+   "area": "Results feed / settlement",
+   "severity": "medium",
+   "found_on": "2026-11-16",
+   "item": "Results feed now carries all nine 11/15 finals (23 rows, 23 settled) with ingest+settle chain steps",
+   "why": "At claim time data/app/results_feed.json held only 11/13+11/14 (14 rows) and 11/15 lived only in round trees. Main landed cd639de (nine verified 11/15 finals from official LINESCORES, settle at game day end) and 259cfa6 (results ingest + settle steps in the scheduled chain, byte-for-byte replay). This session independently verified all nine finals including the ATL@MIL three-read resolution (Q3=27) and cross-checked main's quarter values row by row against the round's verbatim period transcript - exact agreement on all regulation games and on the OT row (q5). 11/13 rows still carry no quarter scores (feed's own quarter_check flags them).",
+   "action_needed": "Closed for 11/13-11/15 (23/23 settled, ingest in the scheduled chain); keep the chain extending each game day.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json"
+   ],
+   "status": "resolved for 11/13-11/15; ongoing ingest path now in the scheduled job",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F07",
+   "area": "Capture window",
+   "severity": "info",
+   "found_on": "2026-11-16",
+   "item": "No 11/16 finals existed at capture time (first tip 7:00 PM ET)",
+   "why": "All eight 11/16 games tip 7:00-9:00 PM ET (23:00-00:00 UTC). This capture records slate, tips, records and the 01:30 PM injury report only; finals and settlement are left to the next scheduled refresh or a later capture. Nothing about 11/16 outcomes is published here.",
+   "action_needed": "No action: the 23:15 run records 11/16 finals.",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-16"
+   ],
+   "status": "informational",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F08",
+   "area": "CI / workflows",
+   "severity": "low",
+   "found_on": "2026-11-16",
+   "item": "Manual workflow dispatch is blocked for the repository integration token (HTTP 403)",
+   "why": "gh workflow run refresh.yml --ref <branch> returns 403 Resource not accessible by integration (same limitation prior sessions recorded for Pages settings). The scheduled cron (05:15/11:15/17:15/23:15 UTC) is therefore the only way to exercise the job end to end; validation of the E1 repair relies on the 23:15 UTC run after merge.",
+   "action_needed": "Owner: grant Actions dispatch permission to the integration token, or rely on cron; note in runbook.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"
+   ],
+   "status": "open",
+   "legacy_ref": ""
+  },
+  {
+   "id": "EVE-F09",
+   "area": "Estimator window",
+   "severity": "medium",
+   "found_on": "2026-11-16",
+   "item": "Estimator window is pinned to official_slate_1115_1118.json while the published slate rolls",
+   "why": "estimators_round_79341829.py prefers official_slate_current.json when present (so CI stays consistent), but minutes_model.py and lab.json still read the pinned 11/15-11/18 files; after the window rolls past 11/18 the canonical app pages will price a stale window while round/ prices the live one. Architectural decision needed (see suggestions) - not changed in this session.",
+   "action_needed": "Owner: decide whether minutes_model/lab should roll with official_slate_current.json like estimators_round does, before the window passes 11/18.",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-16"
+   ],
+   "status": "open",
+   "legacy_ref": ""
   }
  ],
  "review_findings": [

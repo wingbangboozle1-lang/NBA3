@@ -294,11 +294,14 @@ REQUIREMENTS = [
          official=["https://official.nba.com/nba-injury-report-2026-27-season/"]),
     dict(id="R03", item="Keep an official per-game result feed current; settle only after final scores are verified; one row per game (date, teams, final, quarter scores)",
          status="Met (partly)",
-         evidence=[{"path": "data/app/results_feed.json", "contains": '"settled_count": 14'},
+         evidence=[{"path": "data/app/results_feed.json", "contains": '"settled_count": 23'},
                    {"path": "scripts/build_results_feed.py", "contains": None}],
-         gap=("14 settled rows on main, none for 2026-11-15 (K-03). 2026-11-13 rows carry no quarter scores "
-              "(see the feed's own quarter_check field)."),
-         next="Settle the nine 11/15 finals after both official reads agree (K-02 quarter conflict to be resolved first).",
+         gap=("23 settled rows on main covering 2026-11-13, 11-14 and all nine 2026-11-15 finals "
+              "(11/15 settled 2026-11-16; the ATL@MIL quarter conflict resolved from three official "
+              "reads, Q3=27, and NYK@TOR carries q5 OT quarters). The 2026-11-13 rows still carry no "
+              "quarter scores (see the feed's own quarter_check field), so the quarter-score part of "
+              "the requirement remains partly met."),
+         next="Capture quarter scores for the nine 2026-11-13 rows, then keep extending the feed each game day.",
          official=["https://www.nba.com/schedule", "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"]),
     dict(id="R04", item="Store every injury PDF with its timestamp and diff consecutive reports to detect status changes",
          status="Met (partly)",

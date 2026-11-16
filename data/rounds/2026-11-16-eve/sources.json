@@ -1,0 +1,61 @@
+{
+ "schema": "nba3.round.sources/v1",
+ "generated_utc": "2026-11-16T19:30Z",
+ "generated_by": "arena/ef6e2e6c-nba3",
+ "sources": [
+  {
+   "id": "S-INDEX",
+   "label": "Official NBA injury-report index",
+   "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "retrieved_utc": "2026-11-16T19:05Z"
+  },
+  {
+   "id": "S-REP-0130",
+   "label": "Injury report 11/16 01:30 PM ET (newest at read time)",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf",
+   "retrieved_utc": "2026-11-16T19:05Z"
+  },
+  {
+   "id": "S-REP-0915",
+   "label": "Injury report 11/16 09:15 AM ET (delta base, session 8f4fac33)",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
+   "retrieved_utc": "2026-11-16T14:40Z"
+  },
+  {
+   "id": "S-SLATE",
+   "label": "Official schedule listing (game-page render, 11/16-11/20 window)",
+   "url": "https://www.nba.com/game/gsw-vs-nop-0022600251",
+   "retrieved_utc": "2026-11-16T19:10Z"
+  },
+  {
+   "id": "S-ATLMIL-PAGE",
+   "label": "ATL@MIL official game page (final + linescore + recap)",
+   "url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+   "retrieved_utc": "2026-11-16T19:15Z"
+  },
+  {
+   "id": "S-ATLMIL-BOOK",
+   "label": "ATL@MIL official gamebook PDF",
+   "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+   "retrieved_utc": "2026-11-16T19:15Z"
+  },
+  {
+   "id": "S-SCOREBOARD-1115",
+   "label": "Official scoreboard 11/15",
+   "url": "https://www.nba.com/games?date=2026-11-15",
+   "retrieved_utc": "2026-11-16T19:15Z"
+  },
+  {
+   "id": "S-ROUND-RESULTS",
+   "label": "Round 2026-11-16 results capture (session 8f4fac33)",
+   "url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/results.json",
+   "retrieved_utc": "2026-11-16T14:40Z"
+  },
+  {
+   "id": "S-COMMITTED-SLATE",
+   "label": "Committed verified slate 11/15-11/18 (34 games)",
+   "url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_slate_1115_1118.json",
+   "retrieved_utc": "2026-11-16T19:25Z"
+  }
+ ]
+}
