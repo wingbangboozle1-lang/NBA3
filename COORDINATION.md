@@ -5042,13 +5042,13 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| F1 Session claim + board note | in progress | f238d508 | `COORDINATION.md` |
-| F2 Official-source verification of current 3-day slate (schedule + injury index) | done | f238d508 | nba.com/schedule, official.nba.com injury index (links above) |
-| F3 Clean landing page + category subpages, source-linked tables, current-window awareness | in progress | f238d508 | `index.html`, `scripts/build_app.py`, `app/*.html`, `data/app/canonical.json` (flags only) |
-| F4 Flag irregularities on Flagged for Review page + landing freshness notice | in progress | f238d508 | `app/flagged.html`, `data/app/canonical.json` (flags) |
-| F5 Suggestions/questions/executive summary decision-ready review | in progress | f238d508 | `app/suggestions.html`, `app/questions.html`, `app/summary.html` |
-| F6 Run verification (unit tests, link/source checks, build) | pending | f238d508 | `tests/`, `scripts/build_site.py`, `tools/check_site.py` |
-| F7 PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | pending | f238d508 | `COORDINATION.md`, PR |
+| F1 Session claim + board note | done | f238d508 | `COORDINATION.md` |
+| F2 Official-source verification of current 3-day slate (schedule + injury index) | done | f238d508 | nba.com/schedule (25 games 11/16–11/18, field-verified), official.nba.com injury index (deadlines read) |
+| F3 Clean landing page + category subpages, source-linked tables, current-window awareness | done | f238d508 | `index.html`, `scripts/build_app.py` (freshness notice), `app/*.html` (regenerated) |
+| F4 Flag irregularities on Flagged for Review page + landing freshness notice | done | f238d508 | `app/flagged.html`, `data/app/canonical.json` (flag F-F238-01 added, 99 total) |
+| F5 Suggestions/questions/executive summary decision-ready review | done | f238d508 | `app/suggestions.html` (46 suggestions, none implemented without owner choice), `app/questions.html` (47 questions), `app/summary.html` (executive summary) — all present and linked from the landing page |
+| F6 Run verification (unit tests, link/source checks, build) | done | f238d508 | `tests/` pass; `scripts/build_app.py` 26 pages/0 broken links; `scripts/build_site.py --check` OK (617 links, 12 pages); `tools/check_site.py` PASS |
+| F7 PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | in progress | f238d508 | `COORDINATION.md`, PR |
 
 **Non-overlap.** No other session holds an open claim. This session touches only the paths above; it does not edit other sessions' capture, model, estimator, ledger, or audit artefacts, and it does not infer any game value (the staleness is a metadata flag, not a filled-in number).
 

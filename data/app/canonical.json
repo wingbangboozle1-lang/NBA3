@@ -36725,6 +36725,21 @@
    ],
    "status": "Open - owner decision",
    "legacy_ref": ""
+  },
+  {
+   "id": "F-F238-01",
+   "area": "Front door / snapshot",
+   "item": "Published window is stale vs today (2026-11-16)",
+   "why": "The root dashboard (index.html, built from data/app/canonical.json) publishes window 2026-11-15 -> 2026-11-18 with snapshot 2026-11-14, while today is 2026-11-16 UTC and the 11/15 games are already final. The current 3-day slate (11/16-11/18, 25 games) is verified field by field against https://www.nba.com/schedule and is published at /round/ (session arena/8f4fac33, PR #109). No game value is inferred; the staleness is a metadata flag only.",
+   "action_needed": "Run the official refresh pipeline (scripts/refresh_official.py, then assemble_canonical + build_app) on the GitHub runner to repoint the front door at the current window. Until then, link readers to /round/ for the current-window view.",
+   "sources": [
+    "https://www.nba.com/schedule?date=2026-11-16",
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "Open - owner review",
+   "severity": "high",
+   "legacy_ref": "",
+   "found_on": "2026-11-16"
   }
  ],
  "review_findings": [
