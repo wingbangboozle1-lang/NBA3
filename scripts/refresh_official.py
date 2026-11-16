@@ -6,14 +6,18 @@ nba.com, so this job is exercised by CI tests against committed fixtures; the li
 
   1. FETCH  the official injury index + newest report PDF, the nba.com schedule/results
             pages for today..today+3 and the past two game days, every finished game's
-            official game book (statsdmz PDF), and the three official team-stat pages.
-            Every artifact is stored under data/app/refresh/<stamp>/ with URL, retrieval
+            official game book (statsdmz PDF), the three official team-stat pages and the
+            official standings page. Every artifact is stored under data/app/refresh/<stamp>/ with URL, retrieval
             stamp and sha256 (manifest.json). Every URL is attempted with retries; a URL
             that still fails is recorded in manifest["errors"] and never aborts the run.
+  1b.PROMOTE the standings page through scripts/standings_feed.py (strict: only a full
+            30-team parse with all printed columns overwrites data/live/standings.json;
+            a partial parse is recorded in the manifest and keeps the verified capture).
   2. GATES  scripts/freshness_gates.py MUST pass (freshness + provenance).
-  3. REBUILD ONLY AFTER THE GATES PASS: parse new game books into the results feed,
-            settle the previous game day, publish/verify the pick ledger, re-cut estimator
-            inputs, then assemble_canonical.py + build_app.py and the test suite.
+  3. REBUILD ONLY AFTER THE GATES PASS: ingest the game-card finals from the fetched
+            games pages into the results feed (arithmetic-checked), settle every finished
+            game day and the sealed pick ledger, publish/verify the pick ledger,
+            re-cut estimator inputs, then assemble_canonical.py + build_app.py.
   4. COMMIT  the refreshed captures and rebuilt outputs on success; on any failure the
             run exits non-zero WITHOUT rebuilding (and the site keeps the last good build).
 
@@ -43,6 +47,7 @@ UA = {"User-Agent": "Mozilla/5.0 (NBA3 official-data refresh; research pipeline)
 INJ_INDEX = "https://official.nba.com/nba-injury-report-2026-27-season/"
 INJ_CDN = "https://ak-static.cms.nba.com/referee/injury/"
 GAMES = "https://www.nba.com/games?date="
+STANDINGS_URL = "https://www.nba.com/standings"
 GAMEBOOK = "https://statsdmz.nba.com/pdfs/{d}/{d}_{a}{h}.pdf"
 TEAM_PAGES = [
     "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
@@ -250,6 +255,10 @@ def main():
              label="newest injury report PDF") is None:
         return finish(2)
 
+    # 1b. standings page (required: the brief's refresh set; promotion is best-effort below)
+    f.get(STANDINGS_URL, os.path.join(out_dir, "standings.html"), required=True,
+          label="standings page")
+
     # 2. schedule/results pages: today..today+3 and the two previous game days (Eastern dates)
     for off in range(-2, 4):
         d = (today_et + timedelta(days=off)).isoformat()
@@ -260,6 +269,23 @@ def main():
     for i, url in enumerate(TEAM_PAGES):
         f.get(url, os.path.join(out_dir, f"teams_{i}.html"), required=True,
               label=f"team stats page {i}")
+
+    # 3c. standings promotion (strict; a partial or failed parse is recorded and the
+    #     previously verified capture is kept — never overwritten by a guess)
+    manifest["standings_promotion"] = {"state": "not attempted"}
+    st_path = os.path.join(out_dir, "standings.html")
+    if os.path.exists(st_path):
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "standings_feed.py"),
+                            "promote", "--html", st_path, "--source", STANDINGS_URL,
+                            "--retrieved", f"{stamp}Z" if not stamp.endswith("Z") else stamp,
+                            "--out", os.path.join(ROOT, "data", "live", "standings.json"),
+                            "--partial-out", os.path.join(APP, "standings_current.json")],
+                           cwd=ROOT, capture_output=True, text=True)
+        manifest["standings_promotion"] = {
+            "state": "promoted" if r.returncode == 0 and "full" in r.stdout else
+                     ("partial" if r.returncode == 0 else "failed"),
+            "stdout": r.stdout.strip(), "stderr": r.stderr.strip()}
+        print(f"standings promotion: {manifest['standings_promotion']['state']}")
 
     # 3b. promote the schedule window from the fetched games pages (game links are the
     #     parseable part of the scoreboard HTML; tip times stay blank and flagged when the
@@ -312,6 +338,13 @@ def main():
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
     steps = [
+        # keep the official per-game results feed current and settle each finished game
+        # day from verified finals (the brief: settle as soon as the game day ends);
+        # ingest refuses rows whose period scores do not sum to the printed final
+        ["python3", "scripts/results_feed.py", "ingest", "--capture-dir", out_dir],
+        ["python3", "scripts/results_feed.py", "verify"],
+        ["python3", "scripts/results_feed.py", "settle", "--all-done"],
+        ["python3", "scripts/pick_ledger.py", "settle"],
         ["python3", "scripts/estimators.py"],
         # the window the pick ledger publishes from (data/app/estimators.json) is written by
         # this script; the line above writes data/live/model.json only. Missing from the chain
