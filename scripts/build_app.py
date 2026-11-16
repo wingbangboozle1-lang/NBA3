@@ -2702,7 +2702,12 @@ def build_index(d):
             '<p class="small">Later round: <a href="round/index.html"><b>2026-11-16 dashboard '
             '(session arena/8f4fac33)</b></a> — the 11/16 official refresh, a 14-gate report with '
             'build/row scope, two independent estimators with their disagreement as the headline, '
-            'and an injury diff taken between two filings for the <i>same</i> game day.</p>')
+            'and an injury diff taken between two filings for the <i>same</i> game day.</p>'
+            '<p class="small">Newest round: <a href="round2/index.html"><b>1:00 PM ET filing '
+            '(session arena/fbd2484b)</b></a> — the official 11/16 1:00 p.m. ET injury filing, '
+            'captured and diffed against the 09:15 a.m. filing this site previously published: '
+            'four rows moved, three clubs filed for the first time, twelve had still not '
+            'submitted. Sixteen blocking gates plus one advisory, two centred estimators, and the two surfaces kept apart.</p>')
     res = _res(d)
     luck = _luck(d)
     strategies = d["strategies"]
@@ -2723,6 +2728,12 @@ def build_index(d):
   {d['slate']['count']} official games · {len(d['lines'])} originated lines ·
   {len(d['picks'])} priced games · {d['injuries']['count']} official injury rows ·
   {len(d['flags'])} flagged items · snapshot {BUILD_DATE}</p>
+</section>
+<section class="freshness">
+  <h3>Data freshness — read first</h3>
+  <p><strong>Reference date: 2026-11-16 (UTC).</strong> The published canonical snapshot (window 2026-11-15 → 2026-11-18, built {BUILD_DATE}) is older than today: 11/15 games are already final. Do not treat those lines as live.</p>
+  <p><strong>Current 3-day window (11/16 → 11/18):</strong> 25 official games verified field by field against <a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">nba.com/schedule</a> — dates, matchups, tip times, venues and game IDs match. Live current-window view: <a href="round/index.html"><b>2026-11-16 dashboard</b></a> (two-estimator projections, disagreement headline, 14 gates, injury diff between two same-day filings).</p>
+  <p class="small">No game value is inferred anywhere on this site. Anything that could not be confirmed from an official source is left blank and listed on the <a href="app/flagged.html">Flagged for review</a> page.</p>
 </section>
 <div class="cards">
   <div class="card"><div class="k">Verified official rows</div><div class="v">{verified_official}</div>
