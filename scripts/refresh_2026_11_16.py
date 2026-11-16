@@ -69,6 +69,19 @@ INJURY_PDF = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11
 INJURY_STAMP = "2026-11-16 09:15 AM ET"
 INJURY_RETRIEVED = "2026-11-16T14:35Z"      # when the PDF was read with the fetch tool
 
+# TWO prior reports, for two different purposes.
+#
+# SAME_DAY_* is the correct diff base: the 11/16 12:00 AM ET filing covers the same game day as the
+# 09:15 AM filing, so a difference between them is an injury status change.  This is the diff the
+# brief asks for and the one the injury-diff page leads with.
+#
+# PRIOR_* is the previous game day's last filing.  It is kept only to show whole-report turnover,
+# which is dominated by the slate changing and is explicitly labelled as NOT injury news.
+SAME_DAY_INJURY_PDF = ("https://ak-static.cms.nba.com/referee/injury/"
+                       "Injury-Report_2026-11-16_12_00AM.pdf")
+SAME_DAY_INJURY_STAMP = "2026-11-16 12:00 AM ET"
+SAME_DAY_INJURY_RAW = os.path.join(RAW, "official_injury_report_2026-11-16_1200AM.txt")
+
 PRIOR_INJURY_PDF = ("https://ak-static.cms.nba.com/referee/injury/"
                     "Injury-Report_2026-11-15_06_15AM.pdf")
 PRIOR_INJURY_STAMP = "2026-11-15 06:15 AM ET"
@@ -166,186 +179,306 @@ def parse_schedule():
 # 2. injury report -- parsed with the repo's existing, tested parser (scripts/injury_archive.py)
 # ---------------------------------------------------------------------------------------------
 def parse_injuries():
+    """Read the two committed official injury reports and diff them on the SAME GAME DAY.
+
+    Two documents, two purposes:
+
+      * 11/16 12:00 AM ET  -> the diff base.  Same game day as the 09:15 AM report, so any
+        difference between the two is an injury status change by the league.
+      * 11/16 09:15 AM ET  -> the report published on this site.
+
+    A third document (11/15 06:15 AM ET) is read only to show whole-report turnover, which is
+    dominated by the slate changing from one game day to the next and is labelled as such.
+
+    Both documents are normalised by the SAME function, so a page-break defect in the league's
+    printer is resolved by one rule rather than two.
+    """
     sys.path.insert(0, HERE)
     import injury_archive as IA                                    # noqa: E402
+    from pathlib import Path                                       # noqa: E402
 
-    cur = IA.parse(__import__("pathlib").Path(
-        os.path.join(APP, "official_injuries_2026-11-16_0915AM_raw.md")))
-    prior = IA.parse(__import__("pathlib").Path(
-        os.path.join(APP, "official_injuries_2026-11-15_0615AM_raw.md")))
+    cur = IA.parse(Path(os.path.join(APP, "official_injuries_2026-11-16_0915AM_raw.md")))
+    same_day = IA.parse(Path(SAME_DAY_INJURY_RAW))
+    prior = IA.parse(Path(os.path.join(APP, "official_injuries_2026-11-15_0615AM_raw.md")))
 
-    # --- provenance: replay the PDF extractor's page breaks so no cell is left unexplained.
-    # The extractor drops leading columns on rows that continue a table across a page break.
-    # A dropped cell is *carried forward* only from the same game block above it, and only for
-    # the four identifying columns; a dropped STATUS is never filled in.  Every fill is recorded.
+    def resolve_identifiers(rows, stamp_label):
+        """Carry the four identifying columns across page breaks; attribute blank TEAM cells.
+
+        Nothing here invents a STATUS. It repairs only date / tip / matchup / team, and every
+        repair is recorded with the value it was carried from and the row it was carried from.
+        """
+        fills, carry_team = [], []
+        last = {"date": "", "game_time": "", "matchup": ""}
+        for i, r in enumerate(rows):
+            # ORDER MATTERS. The matchup is carried BEFORE the team, because a continuation row's
+            # team belongs to the matchup of the row itself -- not to the last team printed before
+            # the break. Carrying team first attributes Memphis's players to Washington.
+            if not r.get("matchup") and last["matchup"]:
+                r["matchup"] = last["matchup"]
+                r.setdefault("carried", []).append("matchup")
+                fills.append({"report": stamp_label, "row_index": i, "player": r.get("player"),
+                              "field": "matchup", "value": last["matchup"],
+                              "filled_from": "the same game block above (page-break continuation)"})
+            for k in ("date", "game_time"):
+                if not r.get(k) and last[k]:
+                    r[k] = last[k]
+                    r.setdefault("carried", []).append(k)
+                    fills.append({"report": stamp_label, "row_index": i, "player": r.get("player"),
+                                  "field": k, "value": last[k],
+                                  "filled_from": "the same game block above (page-break continuation)"})
+                elif r.get(k):
+                    last[k] = r[k]
+            if r.get("matchup"):
+                last["matchup"] = r["matchup"]
+
+        for i, r in enumerate(rows):
+            if r.get("team") and r["team"] != "UNATTRIBUTED":
+                continue
+            matchup = r.get("matchup") or ""
+            if "@" not in matchup or i == 0:
+                continue
+            prev = rows[i - 1]
+            prev_team = prev.get("team")
+            if not prev_team or prev_team == "UNATTRIBUTED":
+                continue
+            if prev.get("matchup") != matchup:
+                continue
+            clubs = {NAME_OF.get(matchup.split("@")[0]), NAME_OF.get(matchup.split("@")[1])}
+            if prev_team not in clubs:
+                continue
+            r["team"] = prev_team
+            r["team_attributed"] = True
+            r["team_attribution_evidence"] = (
+                f"the TEAM cell is blank in the extraction because {prev_team}'s rows continue "
+                f"across a page break; the row immediately above in the same game block "
+                f"({prev.get('player')}) is printed as {prev_team}, and {prev_team} is one of the "
+                f"two clubs in {matchup}")
+            carry_team.append({"player": r.get("player"), "matchup": matchup, "team": prev_team,
+                               "printed_row_above": prev.get("player"),
+                               "evidence": r["team_attribution_evidence"]})
+        return fills, carry_team
+
+    fills, carry_team = resolve_identifiers(cur["player_rows"], INJURY_STAMP)
+    same_day_fills, same_day_attributed = resolve_identifiers(
+        same_day["player_rows"], SAME_DAY_INJURY_STAMP)
+    resolve_identifiers(prior["player_rows"], PRIOR_INJURY_STAMP)
+
     rows = cur["player_rows"]
-    fills = []
-    last = {"date": "", "game_time": "", "matchup": "", "team": ""}
-    for i, r in enumerate(rows):
-        # ORDER MATTERS. The matchup must be carried FIRST, because the team column of a page-break
-        # continuation belongs to the matchup of the row itself -- not to the last team printed
-        # before the break. Carrying team from the previous block would attribute Memphis's
-        # players to Washington in the 11/16 09:15 report.
-        if not r.get("matchup") and last["matchup"]:
-            r["matchup"] = last["matchup"]
-            r.setdefault("carried", []).append("matchup")
-            fills.append({"row_index": i, "player": r.get("player"), "field": "matchup",
-                          "filled_from": "the same game block above (page-break continuation)",
-                          "value": last["matchup"]})
-        for k in ("date", "game_time"):
-            if not r.get(k) and last[k]:
-                r[k] = last[k]
-                r.setdefault("carried", []).append(k)
-                fills.append({"row_index": i, "player": r.get("player"), "field": k,
-                              "filled_from": "the same game block above (page-break continuation)",
-                              "value": last[k]})
-            elif r.get(k):
-                last[k] = r[k]
-        if r.get("matchup"):
-            last["matchup"] = r["matchup"]
-            last["team"] = r.get("team", "")
-        elif r.get("team"):
-            last["team"] = r["team"]
-
-    # --- identify the one row whose STATUS cell is not printed at all.
-    missing_status = [r for r in cur["unparseable_rows"]
-                      if r.get("raw") and len(r["raw"]) == 6 and r["raw"][4] in STATUSES]
-    # (the extractor already classifies the two shapes differently; re-derive explicitly here)
-    missing_status = []
-    for u in cur["unparseable_rows"]:
-        cells = u.get("raw") or []
-        player = cells[4] if len(cells) > 4 else ""
-        if player and "NOT YET SUBMITTED" not in " ".join(cells).upper():
-            missing_status.append({
-                "player": player,
-                "cells_as_printed": cells,
-                "team": cells[3] if len(cells) > 3 else "",
-                "game_time": cells[1] if len(cells) > 1 else "",
-                "matchup": cells[2] if len(cells) > 2 else "",
-                "status": None,
-                "reason": cells[5] if len(cells) > 5 else "",
-                "reason_note": "the STATUS column is absent from this row in the PDF extraction; "
-                               "the REASON text sits where STATUS normally is",
-                "published_as": "status=null, listed on the Flagged for Review page",
-            })
-
-    # --- team coverage: which of the window's teams filed player rows, which printed
-    #     NOT YET SUBMITTED, and which printed nothing at all.
-    filed, not_submitted = {}, {}
-    for r in rows:
-        t = r.get("team")
-        if t and t != "UNATTRIBUTED":
-            filed[t] = filed.get(t, 0) + 1
-    for t in cur["team_rows"]:
-        name = t.get("team")
-        if name:
-            not_submitted[name] = not_submitted.get(name, 0) + 1
-    # NOT_YET_SUBMITTED rows whose team cell was dropped to '' are attributed from the matchup
-    # above them ONLY where the matchup names exactly one team that has no other row.
-    unattributed_team_rows = [t for t in cur["team_rows"] if not t.get("team")]
-
-    # ATTRIBUTION of a blank TEAM cell.  The official PDF prints one block per club; where a
-    # club's rows continue across a page break the extractor drops the team cell.  A row is
-    # attributed ONLY IF the row IMMEDIATELY ABOVE it has (a) the same matchup and (b) a printed
-    # club, and that club is one of the two clubs in the matchup.  The evidence is written onto
-    # the row; nothing is filled from a name list, a previous report, a jersey number or a guess
-    # at who is on which roster.
-    carry_team = []
-    for i, r in enumerate(rows):
-        if r.get("team") and r["team"] != "UNATTRIBUTED":
-            continue
-        matchup = r.get("matchup") or ""
-        if "@" not in matchup or i == 0:
-            continue
-        prev = rows[i - 1]
-        prev_team = prev.get("team")
-        if not prev_team or prev_team == "UNATTRIBUTED":
-            continue
-        if prev.get("matchup") != matchup:
-            continue
-        if ABBR_OF.get(prev_team) not in matchup.split("@"):
-            continue
-        r["team"] = prev_team
-        r["team_attributed"] = True
-        r["team_attribution_evidence"] = (
-            f"the TEAM cell is blank in the extraction because {prev_team}'s rows continue across "
-            f"a page break; the row immediately above in the same game block ({prev.get('player')}) "
-            f"is printed as {prev_team}, and {prev_team} is one of the two clubs in {matchup}")
-        carry_team.append({"player": r.get("player"), "matchup": matchup, "team": prev_team,
-                           "printed_row_above": prev.get("player"),
-                           "evidence": r["team_attribution_evidence"]})
     for r in rows:
         r["source_url"] = INJURY_PDF
+
+    # RESCUE the rows the generic parser could not fit into its seven-column shape.
+    #
+    # The league's printer omits the Current Status cell for a row every so often, which leaves the
+    # extraction with one cell fewer than the header promises. Dropping such a row would hide a
+    # real injury listing; inferring a status for it would be an invention. The rescue therefore
+    # keeps the row with status = None and records the raw cells verbatim so the reader can see
+    # exactly what the document printed.
+    #
+    # CORROBORATION: the 11/16 12:00 AM ET filing prints the identical defect for the identical
+    # player, nine hours earlier. That is two independent official documents, so the defect is a
+    # property of the league's printer and not of this project's extractor.
+    def rescue_unparseable(report, stamp_label, pdf_url):
+        """Turn the parser's UNPARSEABLE bucket into published rows with a NULL status.
+
+        Applied to EVERY report that takes part in the diff. If it were applied only to the newer
+        document, a player rescued in one filing and not the other would be reported as "newly
+        listed" when in fact both documents list him identically -- a false change produced by an
+        asymmetry in the tooling rather than by the league. That is exactly what happened to
+        Jimmy Butler III on the first run of this diff.
+        """
+        out_rows = []
+        for un in report.get("unparseable_rows", []):
+            cells = list(un.get("raw", []))
+            # the six-cell shape is: [blank date, time, matchup, team, player, reason]
+            if len(cells) != 6 or not cells[4] or not cells[5]:
+                continue
+            out_rows.append({
+                "kind": "player", "date": "", "game_time": cells[1], "matchup": cells[2],
+                "team": cells[3], "player": cells[4], "status": None, "reason": cells[5],
+                "key": IA.norm_name(cells[4]),
+                "status_missing_note": (
+                    "the PDF prints six cells for this row where the header promises seven: the "
+                    "Current Status cell is absent and the REASON text occupies the status "
+                    "position. Published with a blank status rather than an inferred one."),
+                "parse_path": "rescued from the parser's unparseable bucket",
+                "raw_cells": cells,
+                "source_url": pdf_url,
+                "report": stamp_label,
+            })
+        return out_rows
+
+    rescued = rescue_unparseable(cur, INJURY_STAMP, INJURY_PDF)
+    rows.extend(rescued)
+    # the base and the prior report are rescued by the SAME rule before they are diffed
+    same_day["player_rows"].extend(
+        rescue_unparseable(same_day, SAME_DAY_INJURY_STAMP, SAME_DAY_INJURY_PDF))
+    prior["player_rows"].extend(
+        rescue_unparseable(prior, PRIOR_INJURY_STAMP, PRIOR_INJURY_PDF))
     for r in rows:
-        if "carried" in r:
-            r["carried_note"] = ("this cell was blank in the extraction because the table "
-                                 "continued across a page break; it was carried from the same "
-                                 "game block above and the carry is recorded, not guessed")
+        r.setdefault("source_url", INJURY_PDF)
+    missing_status = [r for r in rows if not r.get("status")]
+    for r in missing_status:
+        r["status_missing_note"] = (
+            "the PDF prints no Current Status cell for this row; the REASON text occupies the "
+            "status position. Published blank rather than copied from an earlier report.")
+
+    # The NOT YET SUBMITTED placeholders are team-level rows. They get the same carry treatment,
+    # in document order, so a placeholder that lost its date / tip / matchup at a page break
+    # inherits them from the game block above it rather than arriving blank.
+    team_rows = [dict(r) for r in cur.get("team_rows", [])]
+    team_fills, last_t = [], {"date": "", "game_time": "", "matchup": ""}
+    for i, r in enumerate(team_rows):
+        for k in ("date", "game_time", "matchup"):
+            if not r.get(k) and last_t[k]:
+                r[k] = last_t[k]
+                r.setdefault("carried", []).append(k)
+                team_fills.append({"row_index": i, "team": r.get("team"), "field": k,
+                                   "value": last_t[k],
+                                   "filled_from": "the same game block above (page-break continuation)"})
+            elif r.get(k):
+                last_t[k] = r[k]
+        r["source_url"] = INJURY_PDF
+        r["status"] = None
+        r["reason"] = "NOT YET SUBMITTED"
+
+    rows = rows + team_rows
+    player_rows = [r for r in rows if r.get("player")]
+    not_submitted = [r for r in team_rows if "NOT YET SUBMITTED" in (r.get("reason") or "")]
+    teams_with_rows = {}
+    for r in player_rows:
+        teams_with_rows[r.get("team") or "UNATTRIBUTED"] = teams_with_rows.get(
+            r.get("team") or "UNATTRIBUTED", 0) + 1
 
     out = {
         "source_url": INJURY_PDF,
         "index_url": INJURY_INDEX_URL,
         "report_stamp": INJURY_STAMP,
         "retrieved_utc": INJURY_RETRIEVED,
-        "retrieval": "Arena fetch tool, PDF text extraction, chunk 0 of 1",
-        "count": len(rows) + len(missing_status),
-        "player_rows": len(rows),
+        "retrieval": "Arena fetch tool, PDF text extraction; the verbatim transcript is committed "
+                     "at data/app/official_injuries_2026-11-16_0915AM_raw.md",
+        "count": len(rows),
+        "player_rows": len(player_rows),
         "rows_with_missing_status": len(missing_status),
-        "not_submitted_rows": len(cur["team_rows"]),
-        "rows_by_game_date": {},
-        "teams_with_player_rows": len(filed),
-        "teams_with_player_rows_detail": dict(sorted(filed.items())),
-        "teams_not_yet_submitted": dict(sorted(not_submitted.items())),
-        "not_submitted_rows_without_team_cell": len(unattributed_team_rows),
+        "not_submitted_rows": len(not_submitted),
+        "rows_by_game_date": _count_by(player_rows, "date"),
+        "teams_with_player_rows": len([t for t in teams_with_rows if t != "UNATTRIBUTED"]),
+        "teams_with_player_rows_detail": teams_with_rows,
+        "teams_not_yet_submitted": _count_by(not_submitted, "team"),
+        "not_submitted_rows_without_team_cell": len([r for r in not_submitted if not r.get("team")]),
         "not_submitted_note": (
-            "A NOT YET SUBMITTED row is a team-level placeholder: the league prints it when a "
-            "club has not filed. It is not a player row and no player is implied by it."),
+            "A NOT YET SUBMITTED row is a team-level placeholder: the league prints it when a club "
+            "has not filed. It is not a player row and no player is implied by it."),
         "page_break_fills": fills,
+        "page_break_fills_team_rows": team_fills,
         "team_cells_attributed": carry_team,
         "rows_with_missing_status_detail": missing_status,
+        "rows_rescued_from_unparseable": rescued,
+        "unparseable_count": len(rescued),
         "rows": rows,
+        "prior_report_url": PRIOR_INJURY_PDF,
+        "prior_report_stamp": PRIOR_INJURY_STAMP,
+        "same_day_base": {
+            "url": SAME_DAY_INJURY_PDF, "stamp": SAME_DAY_INJURY_STAMP,
+            "player_rows": len(same_day["player_rows"]),
+            "page_break_fills": len(same_day_fills),
+            "team_cells_attributed": len(same_day_attributed),
+        },
     }
-    counts = {}
-    for r in rows:
-        counts[r.get("date") or "unresolved"] = counts.get(r.get("date") or "unresolved", 0) + 1
-    out["rows_by_game_date"] = counts
-    out["prior_report_url"] = PRIOR_INJURY_PDF
-    out["prior_report_stamp"] = PRIOR_INJURY_STAMP
 
-    # --- diff consecutive reports (the brief asks for exactly this)
-    delta = IA.diff(prior, cur)
-    changes = []
-    for c in delta.get("status_changes", []):
-        changes.append({"player": c.get("player"), "team": c.get("team_current") or c.get("team"),
-                        "from": c.get("status_before"), "to": c.get("status_after"),
-                        "reason_after": c.get("reason_after"),
-                        "source_url": INJURY_PDF,
-                        "prior_source_url": PRIOR_INJURY_PDF})
-    added = [{"player": a.get("player"), "team": a.get("team"), "status": a.get("status"),
-              "reason": a.get("reason"), "game_date": a.get("date") or (
-                  "#".join([INJURY_PDF]) and None)}
-             for a in delta.get("added", [])]
-    removed = [{"player": a.get("player"), "team": a.get("team"), "status": a.get("status"),
-                "reason": a.get("reason")} for a in delta.get("removed", [])]
+    # ---------------------------------------------------------------------------------------
+    # the diff that means something: same game day, status string compared
+    # ---------------------------------------------------------------------------------------
+    def key_of(r):
+        return r.get("key") or IA.norm_name(r.get("player") or "")
+
+    def group_by_matchup(rows_):
+        out_map = {}
+        for r in rows_:
+            m = (r.get("matchup") or "").strip()
+            if not m:
+                continue
+            out_map.setdefault(m, {})[key_of(r)] = r
+        return out_map
+
+    cur_map = group_by_matchup(cur["player_rows"])
+    base_map = group_by_matchup(same_day["player_rows"])
+    shared_matchups = sorted(set(cur_map) & set(base_map))
+
+    changes, unchanged, newly_listed, delisted = [], 0, [], []
+    for m in shared_matchups:
+        cmap, bmap = cur_map[m], base_map[m]
+        for k, c in cmap.items():
+            b = bmap.get(k)
+            if b is None:
+                newly_listed.append({"player": c.get("player"), "team": c.get("team"),
+                                     "matchup": m, "status": c.get("status"),
+                                     "reason": c.get("reason")})
+                continue
+            if (c.get("status") or "") != (b.get("status") or ""):
+                changes.append({
+                    "player": c.get("player"), "team": c.get("team"), "matchup": m,
+                    "from": b.get("status"), "to": c.get("status"),
+                    "reason_before": b.get("reason"), "reason_after": c.get("reason"),
+                    "source_url": INJURY_PDF, "prior_source_url": SAME_DAY_INJURY_PDF})
+            else:
+                unchanged += 1
+        for k, b in bmap.items():
+            if k not in cmap:
+                delisted.append({"player": b.get("player"), "team": b.get("team"), "matchup": m,
+                                 "status": b.get("status"), "reason": b.get("reason")})
+
+    # whole-report turnover vs the PREVIOUS GAME DAY -- explicitly not injury news
+    cur_keys = {key_of(r) for r in cur["player_rows"]}
+    prior_keys = {key_of(r) for r in prior["player_rows"]}
 
     out_delta = {
         "current_report": {"url": INJURY_PDF, "stamp": INJURY_STAMP},
-        "prior_report": {"url": PRIOR_INJURY_PDF, "stamp": PRIOR_INJURY_STAMP},
-        "method": ("rows are matched on a conservative normalised player key (case, accents and "
-                   "punctuation folded; a one-letter spelling difference does not merge), then "
-                   "compared on the printed status string"),
+        "prior_report": {"url": SAME_DAY_INJURY_PDF, "stamp": SAME_DAY_INJURY_STAMP},
+        "whole_report_base": {"url": PRIOR_INJURY_PDF, "stamp": PRIOR_INJURY_STAMP},
+        "method": (
+            "Lead diff is SAME GAME DAY: the 11/16 12:00 AM ET filing against the 11/16 09:15 AM "
+            "ET filing, matched on a conservative normalised player key inside each matchup and "
+            "compared on the printed status string. The earlier 11/15 filing is a different game "
+            "day, so comparing the whole documents would report slate turnover, not injury news; "
+            "that comparison is published separately and labelled as turnover."),
+        "shared_matchups": shared_matchups,
         "status_change_count": len(changes),
-        "added_count": len(added),
-        "removed_count": len(removed),
         "status_changes": changes,
-        "added": added,
-        "removed": removed,
-        "caveat": ("A player who moves from one game date to the next (11/16 -> 11/17) appears "
-                   "in both reports; the diff above is a whole-report diff, so a status that is "
-                   "unchanged prints no change. Only the printed strings are compared."),
+        "unchanged_count": unchanged,
+        "newly_listed_count": len(newly_listed),
+        "newly_listed": newly_listed,
+        "delisted_count": len(delisted),
+        "delisted": delisted,
+        "turnover_added_count": len([r for r in cur["player_rows"] if key_of(r) not in prior_keys]),
+        "turnover_removed_count": len([r for r in prior["player_rows"] if key_of(r) not in cur_keys]),
+        "caveat": (
+            "The whole-document comparison of 11/15 against 11/16 is NOT injury news: the two "
+            "documents describe different basketball games, so a player simply appears or "
+            "disappears with the slate. A status change is only reported where BOTH reports list "
+            "the same player for the same matchup and the printed status string differs. A player "
+            "who appears in only one of the two documents is reported as newly listed or delisted, "
+            "never as a status change."),
+    }
+    out["delta_summary"] = {
+        "base_stamp": SAME_DAY_INJURY_STAMP,
+        "shared_matchups": len(shared_matchups),
+        "status_change_count": len(changes),
+        "unchanged_count": unchanged,
+        "newly_listed_count": len(newly_listed),
+        "delisted_count": len(delisted),
+        "turnover_added_count": out_delta["turnover_added_count"],
+        "turnover_removed_count": out_delta["turnover_removed_count"],
     }
     return out, out_delta
 
+
+def _count_by(rows, field):
+    c = {}
+    for r in rows:
+        k = r.get(field) or "unresolved"
+        c[k] = c.get(k, 0) + 1
+    return c
 
 # ---------------------------------------------------------------------------------------------
 # 3. results feed -- quarter scores from the game book, cross-checked three ways

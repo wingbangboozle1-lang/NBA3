@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method &amp; rules · NBA3</title>
+<link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">NBA3 <span>· originated lines &amp; verification</span></div>
+  <div class="stamp">official sources read 2026-11-16 14:45 UTC · session arena/8f4fac33</div>
+</div></header>
+<nav class="cats"><div class="wrap"><div class="cat"><b>Overview</b><a href="overview.html">What this is</a><a href="requirements.html">Brief coverage</a><a href="methodology.html" aria-current="page">Method &amp; rules</a></div><div class="cat"><b>Projections (safe to publish)</b><a href="slate.html">Slate 11/16–18</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="totals.html">Totals</a><a href="context.html">Game context</a></div><div class="cat"><b>Official data</b><a href="injuries.html">Injuries 11/16</a><a href="injury-delta.html">Injury diff</a><a href="results.html">Results 11/15</a><a href="team-stats.html">Team statistics</a></div><div class="cat"><b>Bet surface (gated)</b><a href="strategies.html">Strategy board</a><a href="pricing.html">Prices &amp; parlays</a></div><div class="cat"><b>Decision support</b><a href="questions.html">Open questions</a><a href="suggestions.html">Site suggestions</a></div><div class="cat"><b>Verification</b><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a><a href="archive.html">Earlier sessions</a></div></div></nav>
+<main><div class="wrap">
+<div class="crumb">Overview</div>
+
+<div class="crumb">Overview</div>
+<h1>The rules this build obeys</h1>
+<p class="lede">These are enforced by code and re-checked by tests, not just written down. Each one
+exists because breaking it produces a number that looks plausible and is wrong.</p>
+
+<h2>Data rules</h2>
+<ol>
+  <li><b>No value without a document.</b> Every published row carries an <code>https</code> link to
+  the official document it came from. The build refuses a row that does not.</li>
+  <li><b>No inference.</b> A cell the document does not print stays null. The one injury row whose
+  status cell is missing is published null, not copied from the previous report.</li>
+  <li><b>No repair of an official document.</b> Where ATL@MIL's game book contradicts itself, both
+  readings are kept and the row is published unsettled.</li>
+  <li><b>Carried cells are recorded.</b> When a table continues across a page break, the cell is
+  carried from the printed row above and the carry is written onto the row with its evidence.</li>
+</ol>
+
+<h2>Gate rules</h2>
+<ol>
+  <li><b>Rebuild only after the gates pass.</b> Freshness and provenance gates have build scope:
+  if one fails, nothing is rebuilt and the site keeps its last good state.</li>
+  <li><b>Integrity gates have row scope.</b> A contradictory game book withholds its own row, with
+  the failed arithmetic shown, and does not blind the reader to everything else.</li>
+  <li><b>Freshness is measured against the official index</b>, not against the file on disk. The
+  gate compares the newest report the league lists with the one the build parsed.</li>
+</ol>
+
+<h2>Model rules</h2>
+<ol>
+  <li><b>Two estimators, no shared input.</b> The disagreement is the headline; the blend is
+  underneath.</li>
+  <li><b>Home court is pinned</b> to the measured home-win rate, not fitted freely.</li>
+  <li><b>The total is possessions × points-per-possession</b>, with the naive sum printed beside
+  it.</li>
+  <li><b>Luck is a z-score</b>, and a strategy leaning on a team outside ±2 is not published.</li>
+  <li><b>Shrinkage is chosen on past games only</b>, by leave-one-game-out, never on the games
+  being forecast.</li>
+  <li><b>Both parlay prices are printed.</b> The naive product and the price implied by the
+  measured ρ.</li>
+  <li><b>Nothing is invented when the input is absent.</b> No closing line means no market anchor;
+  no per-player logs means no prop rho.</li>
+</ol>
+
+<h2>The market-anchored prior, ready to switch on</h2>
+<p>The brief asks for the model line to be blended with the closing line, weighted by measured
+out-of-sample log-loss:</p>
+<p><code>blended = w · model + (1 − w) · closing, &nbsp; w = exp(−LL_model) / (exp(−LL_model) + exp(−LL_closing))</code></p>
+<p>The formula is implemented; the weight is null because there is no closing line to measure
+<code>LL_closing</code> from. Filling it with a chosen weight would be the invented number this
+project refuses to print.</p>
+
+</div></main>
+<footer><div class="wrap">
+  Every published value carries an <code>https</code> link to the official NBA document it came from.
+  Anything that could not be confirmed is printed as <span class="na">—</span> and listed on the
+  <a href="flagged.html">Flagged for review</a> page. Built by
+  <code>scripts/build_round_site.py</code>; the CI replay fails if this tree drifts from a rebuild.
+</div></footer>
+</body>
+</html>

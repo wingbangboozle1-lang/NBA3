@@ -63,11 +63,12 @@ class TestRefreshCapture(unittest.TestCase):
             self.assertIn(g["game_id"], g["game_url"])
 
     def test_injury_report_row_counts(self):
-        # 56 parsed player rows + 1 row whose STATUS cell the PDF does not print
-        self.assertEqual(self.inj["player_rows"], 56)
+        # 56 cleanly parsed player rows + 1 rescued row whose STATUS cell the PDF does not print,
+        # + 15 team-level NOT YET SUBMITTED placeholders
+        self.assertEqual(self.inj["player_rows"], 57)
         self.assertEqual(self.inj["rows_with_missing_status"], 1)
-        self.assertEqual(self.inj["count"], 57)
         self.assertEqual(self.inj["not_submitted_rows"], 15)
+        self.assertEqual(self.inj["count"], 72)
 
     def test_missing_status_is_null_not_inferred(self):
         (row,) = self.inj["rows_with_missing_status_detail"]
@@ -75,6 +76,24 @@ class TestRefreshCapture(unittest.TestCase):
         self.assertIsNone(row["status"],
                           "the one row with no printed STATUS must stay null; copying a status "
                           "from the previous report would be an inference")
+
+    def test_the_missing_status_row_is_published_not_dropped(self):
+        """The parser's unparseable bucket used to swallow this row entirely, which hid a real
+        injury listing. It must now reach the table with a null status and its raw cells."""
+        (rescued,) = self.inj["rows_rescued_from_unparseable"]
+        self.assertEqual(rescued["player"], "Butler III, Jimmy")
+        self.assertEqual(rescued["team"], "Golden State Warriors")
+        self.assertEqual(len(rescued["raw_cells"]), 6)
+        self.assertTrue(rescued["status_missing_note"])
+
+    def test_every_not_yet_submitted_placeholder_keeps_its_team(self):
+        """4 of the 15 placeholders arrive with the team cell shifted one column left; reading a
+        fixed index lost the club name on exactly those rows."""
+        self.assertEqual(self.inj["not_submitted_rows_without_team_cell"], 0)
+        self.assertEqual(len(self.inj["teams_not_yet_submitted"]), 15)
+        for team, n in self.inj["teams_not_yet_submitted"].items():
+            self.assertEqual(n, 1, team)
+            self.assertTrue(team.strip(), "a placeholder with no club name is unusable")
 
     def test_page_break_fills_are_recorded_not_silent(self):
         # every carried cell must name the field and the value that was carried
@@ -90,12 +109,33 @@ class TestRefreshCapture(unittest.TestCase):
         self.assertTrue(all(r.get("team_attribution_evidence")
                             for r in self.inj["rows"] if r.get("team_attributed")))
 
-    def test_injury_delta_is_a_real_diff(self):
-        # the two reports are for different days, so there must be movement in both directions
-        self.assertGreaterEqual(self.delta["added_count"], 1)
-        self.assertGreaterEqual(self.delta["removed_count"], 1)
+    def test_injury_delta_is_a_same_game_day_diff(self):
+        """The lead diff must compare two filings that describe the SAME games. Comparing the
+        11/15 filing with the 11/16 filing produces slate turnover dressed up as injury news."""
+        self.assertEqual(self.delta["prior_report"]["stamp"], "2026-11-16 12:00 AM ET")
+        self.assertEqual(self.delta["current_report"]["stamp"], "2026-11-16 09:15 AM ET")
+        self.assertGreaterEqual(len(self.delta["shared_matchups"]), 7)
         for c in self.delta["status_changes"]:
             self.assertNotEqual(c["from"], c["to"])
+
+    def test_the_measured_zero_is_represented_as_zero(self):
+        """57 players are listed on both filings with identical status strings, the rescued
+        Butler row among them. The delta must say so explicitly rather than leaving an empty
+        table that could be read as a parsing failure."""
+        self.assertEqual(self.delta["status_change_count"], len(self.delta["status_changes"]))
+        self.assertEqual(self.delta["unchanged_count"], 57)
+        self.assertEqual(self.delta["newly_listed_count"], 0)
+        self.assertEqual(self.delta["delisted_count"], 0)
+
+    def test_turnover_is_reported_separately_and_labelled(self):
+        self.assertGreater(self.delta["turnover_added_count"], 0)
+        self.assertGreater(self.delta["turnover_removed_count"], 0)
+        self.assertIn("NOT injury news", self.delta["caveat"])
+
+    def test_phi_bkn_is_called_out_as_incomparable(self):
+        """Both clubs were NOT YET SUBMITTED in the midnight filing, so that game cannot appear in
+        a status diff and the page must say why rather than silently omitting it."""
+        self.assertNotIn("PHI@BKN", self.delta["shared_matchups"])
 
     def test_results_cover_the_whole_game_day(self):
         self.assertEqual(self.res["count"], 9)

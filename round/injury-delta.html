@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Injury diff · NBA3</title>
+<link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">NBA3 <span>· originated lines &amp; verification</span></div>
+  <div class="stamp">official sources read 2026-11-16 14:45 UTC · session arena/8f4fac33</div>
+</div></header>
+<nav class="cats"><div class="wrap"><div class="cat"><b>Overview</b><a href="overview.html">What this is</a><a href="requirements.html">Brief coverage</a><a href="methodology.html">Method &amp; rules</a></div><div class="cat"><b>Projections (safe to publish)</b><a href="slate.html">Slate 11/16–18</a><a href="projections.html">Two estimators</a><a href="lines.html">Originated lines</a><a href="totals.html">Totals</a><a href="context.html">Game context</a></div><div class="cat"><b>Official data</b><a href="injuries.html">Injuries 11/16</a><a href="injury-delta.html" aria-current="page">Injury diff</a><a href="results.html">Results 11/15</a><a href="team-stats.html">Team statistics</a></div><div class="cat"><b>Bet surface (gated)</b><a href="strategies.html">Strategy board</a><a href="pricing.html">Prices &amp; parlays</a></div><div class="cat"><b>Decision support</b><a href="questions.html">Open questions</a><a href="suggestions.html">Site suggestions</a></div><div class="cat"><b>Verification</b><a href="sources.html">Sources</a><a href="flagged.html">Flagged for review</a><a href="archive.html">Earlier sessions</a></div></div></nav>
+<main><div class="wrap">
+<div class="crumb">Official data</div>
+
+<div class="crumb">Official data</div>
+<h1>What changed between two official reports on the same game day</h1>
+<p class="lede">The diff that matters compares two filings that describe <b>the same games</b>:
+the 2026-11-16 12:00 AM ET filing against the 2026-11-16 09:15 AM ET filing, both
+for the 2026-11-16 game day. A difference between them is a status change by the league.</p>
+
+<div class="badbox">
+<b>0 status changes in the nine and a quarter hours
+between the two filings.</b> Of the 57 players listed on both documents, every
+printed status string is identical. That is the finding, and it is worth stating plainly because it
+is a genuine measured zero rather than a parsing failure: the two documents are matched row by row
+inside each matchup on a normalised player key, and the comparison is on the printed string.
+Nothing in the report moved between midnight and 9:15 a.m. ET.
+</div>
+
+<div class="cards">
+  <div class="card"><div class="k">Rows compared</div><div class="v">57</div>
+    <div class="s">players printed on both filings. Both documents lose the same cells at the same
+    page breaks, which is why the same normalisation is applied to both.</div>
+    <div class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf" rel="noopener">base</a> <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">current</a></div></div>
+  <div class="card"><div class="k">Status changes</div><div class="v">0</div>
+    <div class="s">printed status differs between the two filings</div>
+    <div class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">current</a></div></div>
+  <div class="card"><div class="k">Newly listed / dropped</div>
+    <div class="v">0 / 0</div>
+    <div class="s">a player in one document and not the other. Reported as such, never as a status
+    change.</div>
+    <div class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf" rel="noopener">base</a></div></div>
+  <div class="card"><div class="k">Matchups covered</div><div class="v">7</div>
+    <div class="s">of the 8 games on 11/16. PHI@BKN is absent from the midnight base, where both
+    clubs read <code>NOT YET SUBMITTED</code>; it cannot be compared.</div>
+    <div class="src"><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">schedule</a></div></div>
+</div>
+
+<h2>Status changes</h2>
+<p class="small">None. The table is shown empty rather than omitted, so the absence of a change is visible.</p>
+<div class="table-wrap"><table class=""><thead><tr><th class="">Player</th><th class="">Team</th><th class="">Matchup</th><th class="">From</th><th class="">To</th><th class="">Reason (newer filing)</th><th class="">Newer</th><th class="">Base</th></tr></thead><tbody></tbody><caption class="small" style="caption-side:bottom;padding:8px 10px;text-align:left">Only rows printed in BOTH filings with different status strings appear here. Each row links to both documents.</caption></table></div>
+
+<h2>Why the obvious diff is the wrong diff</h2>
+<p>Comparing the whole 11/15 filing with the whole 11/16 filing looks like the natural thing to do,
+and it produces a dramatic-looking table: hundreds of players "added" and "removed". Almost none of
+it is injury news. The two documents describe different basketball games, so a player who is not
+playing on 11/15 simply disappears and a player who is playing on 11/16 simply appears. For the
+record, that comparison on this pair yields <b>57 rows present only in
+the newer report</b> and <b>84 only in the earlier one</b> — slate
+turnover, not status movement. It is printed here once, labelled, and not used for anything.</p>
+
+<h2>A defect that two official documents agree on</h2>
+<div class="warnbox"><b>Jimmy Butler III has no printed status in either filing.</b> Both the
+12:00 AM ET and the 09:15 AM ET reports print six cells for his row where the header promises seven:
+the <code>Current Status</code> cell is absent and the reason text sits where the status belongs.
+Because both documents show the same defect for the same player, it is a property of the league's
+printer rather than of this project's extraction. The row is published with a blank status — it is
+not inferred, and it is not copied from an earlier day's report — and it appears on the
+<a href="injuries.html">injuries page</a> and on <a href="flagged.html">flagged</a>.</div>
+
+</div></main>
+<footer><div class="wrap">
+  Every published value carries an <code>https</code> link to the official NBA document it came from.
+  Anything that could not be confirmed is printed as <span class="na">—</span> and listed on the
+  <a href="flagged.html">Flagged for review</a> page. Built by
+  <code>scripts/build_round_site.py</code>; the CI replay fails if this tree drifts from a rebuild.
+</div></footer>
+</body>
+</html>
