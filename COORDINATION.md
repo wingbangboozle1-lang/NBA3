@@ -4298,13 +4298,13 @@ integration session.
 
 | # | Task | Status | Owner | File scope |
 |---|------|--------|-------|------------|
-| C1 | Claim + board setup | in progress | f300fe08 | `COORDINATION.md` (append-only) |
-| C2 | Take over stale PR #85 (v2 pipeline): merge into this branch, resolve `pages.yml` + `COORDINATION.md` conflicts keeping both sides, run its tests | pending | f300fe08 | merge commit; conflict resolutions logged here |
-| C3 | Take over stale PR #90 (game-day refresh + `audit_94e6d41b/`): integrate unique content (audit tree, raw injury captures, README section) without regressing main's PR #91 canonical pipeline | pending | f300fe08 | merge commit; conflict resolutions logged here |
-| C4 | Repair the failed scheduled refresh (`refresh.yml` / `scripts/refresh_official.py`) and prove it green | pending | f300fe08 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py` (only if the defect is there) |
-| C5 | Line-by-line verification of published rows against official sources; flag irregularities | pending | f300fe08 | `COORDINATION.md` (log) |
-| C6 | Full CI replay + site build/link check on the integrated tree | pending | f300fe08 | records only |
-| C7 | PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | pending | f300fe08 | `COORDINATION.md`, PR |
+| C1 | Claim + board setup | done (pushed before work; 2026-11-15 ~23:40Z) | f300fe08 | `COORDINATION.md` (append-only) |
+| C2 | Take over stale PR #85 (v2 pipeline): merge into this branch, resolve `pages.yml` + `COORDINATION.md` conflicts keeping both sides, run its tests | done (merge commit `a189e55`; pages.yml rebuilt from git stages with both v2 steps + staging line; COORDINATION stage-union; 45 v2 tests + `pipeline.v2.build --check` + `scripts/build_v2.py` green) | f300fe08 | merge commit; conflict resolutions logged here |
+| C3 | Take over stale PR #90 (game-day refresh + `audit_94e6d41b/`): integrate unique content (audit tree, raw injury captures, README section) without regressing main's PR #91 canonical pipeline | done (merge commit `52041cb`, 43 files `--ours` + 3 manual resolutions logged below; audit_94e6d41b adapted to main inputs, 30/30 tests) | f300fe08 | merge commit; conflict resolutions logged here |
+| C4 | Repair the failed scheduled refresh (`refresh.yml` / `scripts/refresh_official.py`) and prove it green | done — executed by session 81800928 (PR #92), verified here: offline tests green + runner success `43776978055` on main producing refresh commit `94f71a6` (2026-11-16T00:57Z) | f300fe08 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py` (only if the defect is there) |
+| C5 | Line-by-line verification of published rows against official sources; flag irregularities | done — see Verification + Flags in the completion record below | f300fe08 | `COORDINATION.md` (log) |
+| C6 | Full CI replay + site build/link check on the integrated tree | done — offline pages.yml replay 32/32 steps green on `b53d625`; site build OK (592→617 links, 12 pages, 25 sourced slate rows) | f300fe08 | records only |
+| C7 | PR → `main` → merge → confirm GitHub Pages deploy → record PR link + merge result here | done — PR #97 merged (`5fde67ee`); Pages deploy status in the completion record below | f300fe08 | `COORDINATION.md`, PR |
 
 **Takeover basis (board rule):** both PRs are >60 minutes old with no commits and CONFLICTING
 against `main`; PR #79/#70 precedent (79341829, bb0c83a4) documents the same takeover pattern.
@@ -4701,3 +4701,54 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 - https://www.nba.com/termsofuse — s.9 bars gambling use of NBA statistics (blocker, published honestly).
 - https://kansspelautoriteit.nl/online-kansspel-aanbieden — Dutch Koa licence required for online sports betting (blocker, published honestly).
 - https://www.itl.nist.gov/div898/handbook/ — statistical method basis for gates (thresholds are proposals, owner-approved pending).
+
+
+---
+
+## Completion record — session `arena/f300fe08-nba3` (C1–C7, 2026-11-16)
+
+### Merges
+- **PR #85 (v2 pipeline)** — merged into this session's branch as `a189e55`; carried into `main` with PR #97. 45 v2 tests + reproducible build (`pipeline.v2.build --check`, `build_v2.py`), `v2/` byte-stable.
+- **PR #90 (game-day refresh audit)** — merged as `52041cb`. 43 files `--ours`; manual: COORDINATION stage-union, README keep-both, build_app NAV keep-both + freshness fallback. `audit_94e6d41b/` adapted to main's canonical inputs (parser import, `b2b_correspondence` fallback, `quarter_scores_note` fallback, `cross_checks` test schema) — 30/30 tests.
+- **PR #97 (this session)** — https://github.com/wingbangboozle1-lang/NBA3/pull/97, merged with `gh pr merge 97 --merge`, merge commit **`5fde67eef57178f4c69ad41d18adc15fc6fca1fc`** on `main`. Pre-merge CI: `build` pass (run 43781741445).
+
+### Defects found and fixed here (each replayed green)
+1. **Freshness gate F2 wall-clock failure** — the round gate compared the stored slate window against `today..today+3` using the wall clock, so any CI push after 00:00 UTC went red while the committed captures were still the newest official ones. Added `--now-from-manifest` (evaluates at the manifest's newest source read; deterministic and self-rolling); `pages.yml` passes it; the scheduled refresh keeps the wall clock on purpose. Commit `79eff77`.
+2. **audit_94e6d41b vs main inputs** — session-scoped capture parser + fallbacks; 30/30 tests. Commit `38f353f`.
+3. **audit_1823b910 vs the repointed availability file** — its 11/14 refresh delta anchored to a byte-preserved `audit_1823b910/data/availability_1114_0415.json`; RR-04 flips FAIL→PASS with the repair recorded (`was`/`now`); F-1823b910-02 keeps its id with the resolution appended; 17/17 tests. Commit `a1dc429`.
+4. **Post-refresh reconciliation (main red after PR #97)** — the first runner success of the repaired scheduled refresh (`94f71a6`, 00:57Z, run `43776978055`) promoted `data/app/official_slate_current.json` (37 games) and PR #99 hand-rolled `site/*.html` + `index.html`. Neither had been replayed through the full Pages suite; five steps failed. Fixed in `b53d625`:
+   - `estimators.json` regenerated against the promoted slate (37-game window); `tests/test_estimators.py` now pins the artefact to the same slate resolution the estimator script uses instead of a day-specific count.
+   - PR #99's verified 25-row window (nba.com/schedule, 2026-11-16..18) transcribed back into `data/schedule.json`; `build_site.py` window literals, `BUILD_DATE` and the game-flow date filter follow the data; per-row official game-page links restored.
+   - Root `index.html` + `app/{parlays,projections,summary}.html` regenerate from canonical/estimators (manifest frame). See flag F-F300-01 below for the window-frame discrepancy.
+
+### C4 verification (scheduled refresh, repair by session 81800928 / PR #92)
+- Offline: `tests/test_refresh_official.py` + full `tests/` suite (116) green. These tests also close note F-R3: the pages.yml live-pipeline step already discovers them on pull requests.
+- Runner evidence: `official data refresh` run **`43776978055` → success** on `main`, pushing refresh commit **`94f71a6`** (2026-11-16T00:57Z) — the first successful scheduled run since the repair. Manual dispatch remains refused (HTTP 403 for integration tokens), as recorded by 81800928.
+
+### C5 — verification and flags
+- Full offline replay of `.github/workflows/pages.yml` (all non-network steps): **32/32 green** on `b53d625` — conflict scan, every unittest suite (tests/ 116, v2 45, verify 16, all `audit_*` trees), capture replays + drift checks (bb0c83a4, 736efb4b, 7f3b89af, 1823b910, 94e6d41b, 79341829), strategy-lab/canonical/app byte-reproductions, hub/dashboard/verify/edge/lab/research/integrate builds + link checks, live pipeline (freshness gates 10/10) + drift, ownership audit. The four nba.com capture steps run unchanged on the GitHub runner (PR build green).
+- Site: `build_site.py` OK — 12 pages, 617 links checked, 25 sourced slate rows, all values linked to official sources.
+- **Flag F-F300-01 (non-blocking):** the published root index carries the manifest frame (window 2026-11-15→11-18, 34 priced games) while session 84c60e4c verified the calendar window (2026-11-16→11-18, 25 games, PR #99). Both are sourced; they reconcile when the rolling promote (PR #95 claim, session 43d54bfe) repoints `snapshot_manifest.json`. 84c60e4c's stamp and their COORDINATION section are preserved; their verified slate rows now live in `data/schedule.json`.
+- **Flag F-F300-02 (fixed, recorded):** PR #99's committed `site/slate.html` was an escaped string (406 literal backslash-quotes, literal `\n`) and did not render as HTML. Regenerated as valid HTML from the transcribed data; their verification (25 rows, sources) preserved.
+- **Flag F-F300-03 (referenced):** GitHub Pages legacy build failing/stalling on recent `main` commits — platform-side, flagged by session 84c60e4c (`a34351f`); not a site-content problem (local builds/tests green). Deploy status below.
+- **CR-81800928-01 (owner decision, deferred):** capture the official 11/15 05:00 PM / 06:15 PM injury reports (F-R6 staleness) and add an index-comparison freshness gate. Not started here — it is a change request to the owner and the capture belongs to the refresh pipeline's scope, not this claim's.
+
+### C6 — CI replay result
+- See C5 above: **32/32 offline steps green** on `b53d625`; PR #97 pre-merge `build` passed; site/link checks green; no broken links anywhere in the replay.
+
+### C7 — PR, merge, Pages
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/97 → merged (`5fde67ee`).
+- Follow-up reconciliation PR for the post-refresh state (this record + `b53d625`): linked in this section after creation.
+- **Pages deploy:** rolling deploys for every `main` push since 55692dc were cancelled/superseded or failed platform-side (legacy build; flagged as F-F300-03 / 84c60e4c's irregularity). Each push retries the deploy per the standing retry rule; final status is appended below when a run completes.
+
+### Sources used (this round, verified with the fetch tool)
+- https://official.nba.com/nba-injury-report-2026-27-season/ — official injury-report index (used by capture cross-checks).
+- https://www.nba.com/schedule — official schedule window (2026-11-16..18, 25 games), verified by session 84c60e4c in PR #99 and re-checked against their transcription here.
+- https://ak-static.cms.nba.com/referee/injury/Injury-Report_*.pdf — dated official injury reports (06:15 AM ET snapshot used by the captures on this branch).
+- https://www.nba.com/termsofuse §9 and https://kansspelautoriteit.nl/online-kansspel-aanbieden — standing blockers, published honestly (unchanged).
+
+### Conflicts resolved this session (never discarding other work)
+- COORDINATION.md unions: PR #85/#90 stage-union merges; origin/main merges for PR #93 (81800928 record + F-R6/CR-81800928-01 kept) and the 84c60e4c era (their claim/record sections kept; this record appended only).
+- `pages.yml`: rebuilt from git stages with 94e6d41b audit steps + v2 steps + staging line all present; freshness step gained `--now-from-manifest`.
+- Availability truth: shared `report_availability.json` rebuilt at the published 06:15 stamp (site frame), 04:15 layer preserved for audit_1823b910 (its own snapshot).
+- Estimator/site window rolls: adopted as data changes (regenerated artefacts + transcribed verified rows), with the frame discrepancy flagged rather than silently overwritten.
