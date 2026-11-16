@@ -28,7 +28,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 100 items: 25 high, 59 medium, 16 low severity.
+<em>decisions</em>. 107 items: 29 high, 62 medium, 16 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -1044,6 +1044,83 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Not re-verified this round</td>
 <td>2026-11-14</td>
 <td><a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
+</tr>
+<tr>
+<td>C449-F-01</td>
+<td>Scheduled job</td>
+<td>The scheduled &#x27;official data refresh&#x27; failed on its last two scheduled runs (43815576157 and 43864808752). Both failed at the commit step, after the fetch, gates and unit tests had passed. The last refresh commit on main is 94f71a6 (2026-11-16 00:57Z).</td>
+<td>A refresh that fetches but never commits leaves the published site on the last good build, so the &#x27;rolling slate&#x27; is not rolling. Job logs were not retrievable through the API (EOF), so the cause was reproduced in a clean clone: the rebuild chain changes app/ledger.html outside the staged data/app path, and git pull --rebase refuses to run with unstaged changes. The fix is in this round; it is not yet proven on the runner.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Owner: confirm the next scheduled run (or a manual dispatch, if the API allows it) commits. Until then treat the refresh as NOT verified on the runner.</td>
+<td>Repaired in branch arena/c449d46a-nba3; runner confirmation pending</td>
+<td>2026-11-16</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml</a></td>
+</tr>
+<tr>
+<td>C449-F-02</td>
+<td>Slate / schedule</td>
+<td>The refresh&#x27;s promoted slate (data/app/official_slate_current.json, 37 rows) listed the finished game DAL@CLE 0022600232 four times (11/15, 11/16, 11/17, 11/18) and omitted ATL@MIL 0022600243 on 11/15. The estimator window inherited the same 37 rows.</td>
+<td>The old parser matched only links that end in a slash. A newsletter embed on each games page linked the 11/14 game, and the real game cards (href without a trailing slash) were missed. The fixed rule reads only game cards whose data-content date equals the page date. It reproduces the previously verified 34-game slate exactly (same ids, dates, teams).</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>None for the data (34 rows now). Keep the cross-check test in tests/test_refresh_official.py.</td>
+<td>Corrected in branch arena/c449d46a-nba3 (34 rows, 0 excluded)</td>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/game/dal-vs-cle-0022600232" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/dal-vs-cle-0022600232</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a> · <a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-mil-0022600243</a></td>
+</tr>
+<tr>
+<td>C449-F-03</td>
+<td>Pick ledger</td>
+<td>pick_ledger.py publish checked duplicates only against the chain at the start of the run, so one game id appended several times in a single run. It also had no tip-time gate: a game already played could be published as PUBLISHED_PRE_TIP.</td>
+<td>The committed chain is not affected: 34 entries, 34 unique pick ids, all published at 12:xx UTC on 2026-11-15 (about 7 AM ET), before the earliest 11/15 tip (1:00 PM ET). The defective rows were never pushed. The fix publishes only games dated today or later, requires a verified tip time for games tipping today, de-duplicates within the run, and requires the (date, game id) pair to be on the official slate.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>None for committed history. Settlement is still not automated in the scheduled job (see C449-F-06).</td>
+<td>Corrected in branch arena/c449d46a-nba3; 12 ledger tests pass</td>
+<td>2026-11-16</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>C449-F-04</td>
+<td>Model headline</td>
+<td>Because the window is now the verified 34 games (not 37), the published headline moved: mean two-estimator disagreement 6.31 -&gt; 7.07 points on the window; the window&#x27;s per-date counts are now 9 / 8 / 5 / 12 for 11/15-11/18, matching the official calendar counts on the NBA games page (15 = 9 games, 16 = 8, 17 = 5, 18 = 12). Out-of-sample log-loss values are unchanged (estimator A 0.6535; estimator B is in-sample only).</td>
+<td>Only the window membership changed; the estimator code and captures did not. The new value is the correct value for the verified window, but readers who saw 6.31 should know why it moved.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>None. Recorded so the change is visible.</td>
+<td>Recorded</td>
+<td>2026-11-16</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>C449-F-05</td>
+<td>Scheduled job</td>
+<td>The scheduled rebuild chain never ran the estimator script that writes the ledger&#x27;s window (data/app/estimators.json). The chain ran scripts/estimators.py, which writes data/live/model.json. So even a successful scheduled run would have published from a stale window.</td>
+<td>Found while tracing F-02. Fixed by adding scripts/estimators_round_79341829.py to the chain before the ledger step.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>None beyond confirming the next scheduled run.</td>
+<td>Corrected in branch arena/c449d46a-nba3</td>
+<td>2026-11-16</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py</a></td>
+</tr>
+<tr>
+<td>C449-F-06</td>
+<td>Settlement</td>
+<td>The scheduled job verifies the results feed but does not settle the ledger. The brief requires settlement only after final scores are verified, with a visible settlement stamp, as soon as each game day ends.</td>
+<td>Today&#x27;s chain runs results_feed.py verify and pick_ledger.py verify; pick_ledger.py settle is not in the job. Adding it unattended would be a change to what gets written on each run and needs an owner decision on the rule.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Owner decision: approve adding &#x27;pick_ledger.py settle&#x27; to the scheduled chain after results_feed verifies official finals.</td>
+<td>Open - owner decision</td>
+<td>2026-11-16</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml</a></td>
+</tr>
+<tr>
+<td>C449-F-07</td>
+<td>Repository coordination</td>
+<td>Open PRs #94, #95, #96 and #98 are conflicting (DIRTY), have had no commit since 00:00-02:28 UTC, and all touch .github/workflows/refresh.yml and/or scripts/refresh_official.py. They were not closed or merged in this round.</td>
+<td>Under the coordination board&#x27;s 60-minute rule the refresh-repair scope was taken over here. Merging any of them without rebasing onto the repair would reintroduce the commit-step defect or the slate leak.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Owner or integration session: close them as superseded, or rebase them onto arena/c449d46a-nba3 and take only their non-overlapping content.</td>
+<td>Open - owner decision</td>
+<td>2026-11-16</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/pull/94" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pull/94</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/pull/95" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pull/95</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/pull/96" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pull/96</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/pull/98" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/pull/98</a></td>
 </tr>
 <tr>
 <td>793-F-01</td>
