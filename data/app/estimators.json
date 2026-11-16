@@ -7,14 +7,14 @@
   "totals": "possessions x points-per-possession (estimator B) beside the ridge total (A)",
   "parlays": "measured rho printed with every correlated price; naive product printed beside it",
   "market_prior": "blank unless a closing-line feed is connected; weight formula printed in data/app/closing_lines.json",
-  "disagreement_headline_mean": 7.1
+  "disagreement_headline_mean": 6.8
  },
  "hca_measurement": {
-  "home_wins": 99,
-  "games": 188,
-  "home_win_rate": 0.5266,
-  "margin_sd": 16.9,
-  "hca_points_pinned": 1.13,
+  "home_wins": 102,
+  "games": 197,
+  "home_win_rate": 0.5178,
+  "margin_sd": 16.97,
+  "hca_points_pinned": 0.76,
   "formula": "hca = Phi^-1(home-win rate) * SD(margin) over the official log",
   "sources": [
    "https://www.nba.com/games?date=2026-11-14",
@@ -24,18 +24,18 @@
  },
  "estimator_a": {
   "name": "ridge margin model (Massey-style), HCA pinned",
-  "oos_log_loss": 0.6535,
-  "oos_accuracy": 0.664,
-  "oos_games": 143,
+  "oos_log_loss": 0.648,
+  "oos_accuracy": 0.697,
+  "oos_games": 152,
   "oos_sample": "expanding walk-forward over the official completed-game log (games 1-45 warm-up; each later game predicted from games before it)",
   "resid_sd": 16.12,
   "source": "data/origin/games.csv + data/app/results_feed.json (official finals)"
  },
  "estimator_b": {
   "name": "possession efficiency (possessions x PPP) from the three official pages",
-  "log_loss_in_sample": 0.5117,
-  "accuracy_in_sample": 0.787,
-  "resid_sd": 13.6,
+  "log_loss_in_sample": 0.5004,
+  "accuracy_in_sample": 0.802,
+  "resid_sd": 13.54,
   "label": "IN-SAMPLE against the 2026-11-15 stat snapshot (no historical snapshots are stored) \u2014 flagged, not presented as out-of-sample",
   "sources": [
    "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
@@ -50,15 +50,15 @@
   },
   "note": "the blend is published underneath the disagreement, never as the headline"
  },
- "rho_measured": -0.031,
- "rho_note": "correlation of the ridge model's margin and total residuals over the 188-game official log; used for every same-game parlay price",
+ "rho_measured": -0.052,
+ "rho_note": "correlation of the ridge model's margin and total residuals over the 197-game official log; used for every same-game parlay price",
  "luck_band": {
   "ATL": {
    "team": "ATL",
-   "games_oos": 10,
-   "wins": 5,
-   "expected_wins": 5.3,
-   "luck_z": -0.19,
+   "games_oos": 11,
+   "wins": 6,
+   "expected_wins": 5.89,
+   "luck_z": 0.07,
    "close_games": 3,
    "close_wins": 3,
    "outside_noise_band": false,
@@ -66,10 +66,10 @@
   },
   "BOS": {
    "team": "BOS",
-   "games_oos": 10,
-   "wins": 9,
-   "expected_wins": 5.5,
-   "luck_z": 2.24,
+   "games_oos": 11,
+   "wins": 10,
+   "expected_wins": 6.11,
+   "luck_z": 2.37,
    "close_games": 2,
    "close_wins": 2,
    "outside_noise_band": true,
@@ -79,8 +79,8 @@
    "team": "BKN",
    "games_oos": 9,
    "wins": 3,
-   "expected_wins": 4.02,
-   "luck_z": -0.69,
+   "expected_wins": 4.07,
+   "luck_z": -0.72,
    "close_games": 2,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -88,20 +88,20 @@
   },
   "CHA": {
    "team": "CHA",
-   "games_oos": 8,
+   "games_oos": 9,
    "wins": 1,
-   "expected_wins": 3.56,
-   "luck_z": -1.82,
+   "expected_wins": 3.99,
+   "luck_z": -2.01,
    "close_games": 2,
    "close_wins": 0,
-   "outside_noise_band": false,
+   "outside_noise_band": true,
    "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
   },
   "CHI": {
    "team": "CHI",
    "games_oos": 9,
    "wins": 2,
-   "expected_wins": 3.63,
+   "expected_wins": 3.64,
    "luck_z": -1.12,
    "close_games": 1,
    "close_wins": 0,
@@ -112,8 +112,8 @@
    "team": "CLE",
    "games_oos": 11,
    "wins": 5,
-   "expected_wins": 5.63,
-   "luck_z": -0.38,
+   "expected_wins": 5.64,
+   "luck_z": -0.39,
    "close_games": 2,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -121,10 +121,10 @@
   },
   "DAL": {
    "team": "DAL",
-   "games_oos": 10,
+   "games_oos": 11,
    "wins": 6,
-   "expected_wins": 5.16,
-   "luck_z": 0.54,
+   "expected_wins": 5.56,
+   "luck_z": 0.27,
    "close_games": 4,
    "close_wins": 3,
    "outside_noise_band": false,
@@ -134,8 +134,8 @@
    "team": "DEN",
    "games_oos": 9,
    "wins": 6,
-   "expected_wins": 4.39,
-   "luck_z": 1.08,
+   "expected_wins": 4.41,
+   "luck_z": 1.06,
    "close_games": 1,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -145,7 +145,7 @@
    "team": "DET",
    "games_oos": 9,
    "wins": 5,
-   "expected_wins": 4.95,
+   "expected_wins": 4.96,
    "luck_z": 0.03,
    "close_games": 2,
    "close_wins": 1,
@@ -156,7 +156,7 @@
    "team": "GSW",
    "games_oos": 10,
    "wins": 8,
-   "expected_wins": 5.15,
+   "expected_wins": 5.13,
    "luck_z": 1.82,
    "close_games": 2,
    "close_wins": 2,
@@ -165,10 +165,10 @@
   },
   "HOU": {
    "team": "HOU",
-   "games_oos": 10,
-   "wins": 7,
-   "expected_wins": 5.55,
-   "luck_z": 0.93,
+   "games_oos": 11,
+   "wins": 8,
+   "expected_wins": 6.11,
+   "luck_z": 1.15,
    "close_games": 2,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -176,10 +176,10 @@
   },
   "IND": {
    "team": "IND",
-   "games_oos": 10,
+   "games_oos": 11,
    "wins": 3,
-   "expected_wins": 4.9,
-   "luck_z": -1.21,
+   "expected_wins": 5.33,
+   "luck_z": -1.41,
    "close_games": 5,
    "close_wins": 2,
    "outside_noise_band": false,
@@ -187,10 +187,10 @@
   },
   "LAC": {
    "team": "LAC",
-   "games_oos": 8,
-   "wins": 2,
-   "expected_wins": 3.82,
-   "luck_z": -1.29,
+   "games_oos": 9,
+   "wins": 3,
+   "expected_wins": 4.36,
+   "luck_z": -0.91,
    "close_games": 2,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -198,10 +198,10 @@
   },
   "LAL": {
    "team": "LAL",
-   "games_oos": 10,
-   "wins": 8,
-   "expected_wins": 5.27,
-   "luck_z": 1.74,
+   "games_oos": 11,
+   "wins": 9,
+   "expected_wins": 5.86,
+   "luck_z": 1.91,
    "close_games": 1,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -211,8 +211,8 @@
    "team": "MEM",
    "games_oos": 10,
    "wins": 6,
-   "expected_wins": 5.56,
-   "luck_z": 0.28,
+   "expected_wins": 5.54,
+   "luck_z": 0.29,
    "close_games": 4,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -222,8 +222,8 @@
    "team": "MIA",
    "games_oos": 10,
    "wins": 7,
-   "expected_wins": 4.72,
-   "luck_z": 1.45,
+   "expected_wins": 4.74,
+   "luck_z": 1.44,
    "close_games": 2,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -231,10 +231,10 @@
   },
   "MIL": {
    "team": "MIL",
-   "games_oos": 10,
+   "games_oos": 11,
    "wins": 1,
-   "expected_wins": 4.23,
-   "luck_z": -2.08,
+   "expected_wins": 4.63,
+   "luck_z": -2.22,
    "close_games": 0,
    "close_wins": 0,
    "outside_noise_band": true,
@@ -244,8 +244,8 @@
    "team": "MIN",
    "games_oos": 9,
    "wins": 6,
-   "expected_wins": 5.22,
-   "luck_z": 0.54,
+   "expected_wins": 5.19,
+   "luck_z": 0.55,
    "close_games": 1,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -255,8 +255,8 @@
    "team": "NOP",
    "games_oos": 11,
    "wins": 4,
-   "expected_wins": 5.44,
-   "luck_z": -0.87,
+   "expected_wins": 5.39,
+   "luck_z": -0.84,
    "close_games": 1,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -264,21 +264,21 @@
   },
   "NYK": {
    "team": "NYK",
-   "games_oos": 9,
-   "wins": 6,
-   "expected_wins": 4.82,
-   "luck_z": 0.79,
-   "close_games": 2,
-   "close_wins": 0,
+   "games_oos": 10,
+   "wins": 7,
+   "expected_wins": 5.32,
+   "luck_z": 1.07,
+   "close_games": 3,
+   "close_wins": 1,
    "outside_noise_band": false,
    "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
   },
   "OKC": {
    "team": "OKC",
-   "games_oos": 10,
-   "wins": 5,
-   "expected_wins": 4.99,
-   "luck_z": 0.01,
+   "games_oos": 11,
+   "wins": 6,
+   "expected_wins": 5.62,
+   "luck_z": 0.23,
    "close_games": 2,
    "close_wins": 1,
    "outside_noise_band": false,
@@ -288,8 +288,8 @@
    "team": "ORL",
    "games_oos": 9,
    "wins": 4,
-   "expected_wins": 4.27,
-   "luck_z": -0.18,
+   "expected_wins": 4.29,
+   "luck_z": -0.2,
    "close_games": 0,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -297,10 +297,10 @@
   },
   "PHI": {
    "team": "PHI",
-   "games_oos": 9,
-   "wins": 7,
-   "expected_wins": 4.66,
-   "luck_z": 1.57,
+   "games_oos": 10,
+   "wins": 8,
+   "expected_wins": 5.22,
+   "luck_z": 1.77,
    "close_games": 3,
    "close_wins": 3,
    "outside_noise_band": false,
@@ -308,10 +308,10 @@
   },
   "PHX": {
    "team": "PHX",
-   "games_oos": 9,
+   "games_oos": 10,
    "wins": 4,
-   "expected_wins": 4.28,
-   "luck_z": -0.19,
+   "expected_wins": 4.67,
+   "luck_z": -0.43,
    "close_games": 3,
    "close_wins": 2,
    "outside_noise_band": false,
@@ -321,8 +321,8 @@
    "team": "POR",
    "games_oos": 10,
    "wins": 7,
-   "expected_wins": 5.27,
-   "luck_z": 1.1,
+   "expected_wins": 5.28,
+   "luck_z": 1.09,
    "close_games": 0,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -330,21 +330,21 @@
   },
   "SAC": {
    "team": "SAC",
-   "games_oos": 9,
+   "games_oos": 10,
    "wins": 1,
-   "expected_wins": 3.89,
-   "luck_z": -1.95,
+   "expected_wins": 4.28,
+   "luck_z": -2.1,
    "close_games": 0,
    "close_wins": 0,
-   "outside_noise_band": false,
+   "outside_noise_band": true,
    "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
   },
   "SAS": {
    "team": "SAS",
-   "games_oos": 10,
-   "wins": 10,
-   "expected_wins": 5.52,
-   "luck_z": 2.86,
+   "games_oos": 11,
+   "wins": 11,
+   "expected_wins": 6.17,
+   "luck_z": 2.95,
    "close_games": 2,
    "close_wins": 2,
    "outside_noise_band": true,
@@ -352,21 +352,21 @@
   },
   "TOR": {
    "team": "TOR",
-   "games_oos": 9,
+   "games_oos": 10,
    "wins": 3,
-   "expected_wins": 4.74,
-   "luck_z": -1.16,
-   "close_games": 1,
+   "expected_wins": 5.24,
+   "luck_z": -1.42,
+   "close_games": 2,
    "close_wins": 0,
    "outside_noise_band": false,
    "source": "walk-forward predictions over data/origin/games.csv + data/app/results_feed.json"
   },
   "UTA": {
    "team": "UTA",
-   "games_oos": 10,
+   "games_oos": 11,
    "wins": 0,
-   "expected_wins": 4.37,
-   "luck_z": -2.8,
+   "expected_wins": 4.72,
+   "luck_z": -2.89,
    "close_games": 1,
    "close_wins": 0,
    "outside_noise_band": true,
@@ -374,10 +374,10 @@
   },
   "WAS": {
    "team": "WAS",
-   "games_oos": 9,
+   "games_oos": 10,
    "wins": 2,
-   "expected_wins": 4.21,
-   "luck_z": -1.48,
+   "expected_wins": 4.64,
+   "luck_z": -1.68,
    "close_games": 1,
    "close_wins": 0,
    "outside_noise_band": false,
@@ -391,35 +391,35 @@
    "tip_et": null,
    "away": "IND",
    "home": "PHI",
-   "est_a_margin": 2.4,
-   "est_b_margin": 4.2,
-   "disagreement_abs": 1.8,
-   "blend_margin": 3.3,
-   "est_a_total": 103.2,
+   "est_a_margin": 2.3,
+   "est_b_margin": 3.8,
+   "disagreement_abs": 1.5,
+   "blend_margin": 3.0,
+   "est_a_total": 109.3,
    "est_b_total": 217.6,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.6,
-   "blend_total": 160.4,
-   "home_win_prob": 0.581,
-   "hca_points_pinned": 1.13,
+   "blend_total": 163.4,
+   "home_win_prob": 0.575,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 3,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
      "km": null,
-     "from_arena": "Gainbridge Fieldhouse",
+     "from_arena": "Wells Fargo Center",
      "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
     },
     "home": {
@@ -429,8 +429,8 @@
     }
    },
    "luck_z": {
-    "away": -1.21,
-    "home": 1.57
+    "away": -1.41,
+    "home": 1.77
    },
    "luck_band_flag": [],
    "sources": [
@@ -445,35 +445,35 @@
    "tip_et": null,
    "away": "LAL",
    "home": "PHX",
-   "est_a_margin": -2.3,
-   "est_b_margin": -10.9,
-   "disagreement_abs": 8.7,
-   "blend_margin": -6.6,
-   "est_a_total": 103.5,
+   "est_a_margin": -2.8,
+   "est_b_margin": -11.3,
+   "disagreement_abs": 8.5,
+   "blend_margin": -7.1,
+   "est_a_total": 109.8,
    "est_b_total": 239.5,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.5,
-   "blend_total": 171.5,
-   "home_win_prob": 0.341,
-   "hca_points_pinned": 1.13,
+   "blend_total": 174.7,
+   "home_win_prob": 0.331,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 4,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-11"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 3,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
      "km": null,
-     "from_arena": "Fiserv Forum",
+     "from_arena": "PHX Arena",
      "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
     },
     "home": {
@@ -483,8 +483,8 @@
     }
    },
    "luck_z": {
-    "away": 1.74,
-    "home": -0.19
+    "away": 1.91,
+    "home": -0.43
    },
    "luck_band_flag": [],
    "sources": [
@@ -499,36 +499,36 @@
    "tip_et": null,
    "away": "CHA",
    "home": "LAC",
-   "est_a_margin": 3.0,
-   "est_b_margin": 7.4,
-   "disagreement_abs": 4.4,
-   "blend_margin": 5.2,
-   "est_a_total": 92.1,
+   "est_a_margin": 2.9,
+   "est_b_margin": 7.0,
+   "disagreement_abs": 4.1,
+   "blend_margin": 5.0,
+   "est_a_total": 97.2,
    "est_b_total": 212.3,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 98.7,
-   "blend_total": 152.2,
-   "home_win_prob": 0.627,
-   "hca_points_pinned": 1.13,
+   "blend_total": 154.7,
+   "home_win_prob": 0.621,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 3,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": null,
-     "from_arena": "PHX Arena",
-     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+     "km": 0.0,
+     "from_arena": "Intuit Dome",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
      "km": 0.0,
@@ -537,10 +537,12 @@
     }
    },
    "luck_z": {
-    "away": -1.82,
-    "home": -1.29
+    "away": -2.01,
+    "home": -0.91
    },
-   "luck_band_flag": [],
+   "luck_band_flag": [
+    "CHA outside |z|>2 luck noise band"
+   ],
    "sources": [
     "https://www.nba.com/games?date=2026-11-14",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
@@ -553,46 +555,46 @@
    "tip_et": null,
    "away": "SAS",
    "home": "UTA",
-   "est_a_margin": -5.8,
-   "est_b_margin": -22.9,
-   "disagreement_abs": 17.2,
-   "blend_margin": -14.3,
-   "est_a_total": 104.6,
+   "est_a_margin": -6.2,
+   "est_b_margin": -23.3,
+   "disagreement_abs": 17.1,
+   "blend_margin": -14.7,
+   "est_a_total": 108.7,
    "est_b_total": 221.5,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.7,
-   "blend_total": 163.0,
-   "home_win_prob": 0.187,
-   "hca_points_pinned": 1.13,
+   "blend_total": 165.1,
+   "home_win_prob": 0.18,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 1753.9,
-     "from_arena": "Frost Bank Center",
+     "km": 0.0,
+     "from_arena": "Delta Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 1932.1,
-     "from_arena": "Toyota Center",
+     "km": 0.0,
+     "from_arena": "Delta Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": 2.86,
-    "home": -2.8
+    "away": 2.95,
+    "home": -2.89
    },
    "luck_band_flag": [
     "SAS outside |z|>2 luck noise band",
@@ -610,46 +612,46 @@
    "tip_et": null,
    "away": "DAL",
    "home": "BOS",
-   "est_a_margin": 3.8,
-   "est_b_margin": 12.7,
-   "disagreement_abs": 8.9,
-   "blend_margin": 8.3,
-   "est_a_total": 100.3,
+   "est_a_margin": 4.9,
+   "est_b_margin": 12.4,
+   "disagreement_abs": 7.4,
+   "blend_margin": 8.7,
+   "est_a_total": 105.1,
    "est_b_total": 219.3,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 98.6,
-   "blend_total": 159.8,
-   "home_win_prob": 0.696,
-   "hca_points_pinned": 1.13,
+   "blend_total": 162.2,
+   "home_win_prob": 0.704,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 1,
-     "b2b": true,
+     "days_rest": 0,
+     "b2b": false,
      "three_in_4": true,
-     "last_game": "2026-11-14"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 4,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-11"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 883.7,
-     "from_arena": "Rocket Arena",
+     "km": 0.0,
+     "from_arena": "TD Garden",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 690.7,
-     "from_arena": "Scotiabank Arena",
+     "km": 0.0,
+     "from_arena": "TD Garden",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": 0.54,
-    "home": 2.24
+    "away": 0.27,
+    "home": 2.37
    },
    "luck_band_flag": [
     "BOS outside |z|>2 luck noise band"
@@ -666,46 +668,46 @@
    "tip_et": null,
    "away": "NYK",
    "home": "TOR",
-   "est_a_margin": 0.1,
-   "est_b_margin": -3.0,
-   "disagreement_abs": 3.1,
-   "blend_margin": -1.5,
-   "est_a_total": 96.3,
+   "est_a_margin": -0.5,
+   "est_b_margin": -3.4,
+   "disagreement_abs": 2.9,
+   "blend_margin": -2.0,
+   "est_a_total": 101.4,
    "est_b_total": 219.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 97.8,
-   "blend_total": 157.7,
-   "home_win_prob": 0.463,
-   "hca_points_pinned": 1.13,
+   "blend_total": 160.3,
+   "home_win_prob": 0.452,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 3,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 708.5,
-     "from_arena": "Gainbridge Fieldhouse",
+     "km": 0.0,
+     "from_arena": "Scotiabank Arena",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": null,
-     "from_arena": "Wells Fargo Center",
-     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+     "km": 0.0,
+     "from_arena": "Scotiabank Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": 0.79,
-    "home": -1.16
+    "away": 1.07,
+    "home": -1.42
    },
    "luck_band_flag": [],
    "sources": [
@@ -720,35 +722,35 @@
    "tip_et": null,
    "away": "HOU",
    "home": "WAS",
-   "est_a_margin": -3.5,
-   "est_b_margin": -13.3,
-   "disagreement_abs": 9.8,
-   "blend_margin": -8.4,
-   "est_a_total": 104.8,
+   "est_a_margin": -5.0,
+   "est_b_margin": -13.7,
+   "disagreement_abs": 8.7,
+   "blend_margin": -9.3,
+   "est_a_total": 111.1,
    "est_b_total": 223.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 98.5,
-   "blend_total": 164.0,
-   "home_win_prob": 0.301,
-   "hca_points_pinned": 1.13,
+   "blend_total": 167.1,
+   "home_win_prob": 0.281,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 3,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 1961.9,
-     "from_arena": "Toyota Center",
+     "km": 0.0,
+     "from_arena": "Capital One Arena",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
@@ -758,8 +760,8 @@
     }
    },
    "luck_z": {
-    "away": 0.93,
-    "home": -1.48
+    "away": 1.15,
+    "home": -1.68
    },
    "luck_band_flag": [],
    "sources": [
@@ -774,46 +776,46 @@
    "tip_et": null,
    "away": "ATL",
    "home": "MIL",
-   "est_a_margin": -3.1,
-   "est_b_margin": -14.8,
-   "disagreement_abs": 11.7,
-   "blend_margin": -9.0,
-   "est_a_total": 107.9,
+   "est_a_margin": -3.6,
+   "est_b_margin": -15.2,
+   "disagreement_abs": 11.6,
+   "blend_margin": -9.4,
+   "est_a_total": 111.9,
    "est_b_total": 229.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.9,
-   "blend_total": 168.5,
-   "home_win_prob": 0.289,
-   "hca_points_pinned": 1.13,
+   "blend_total": 170.5,
+   "home_win_prob": 0.28,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 131.0,
-     "from_arena": "United Center",
+     "km": 0.0,
+     "from_arena": "Fiserv Forum",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 1715.9,
-     "from_arena": "Kia Center",
+     "km": 0.0,
+     "from_arena": "Fiserv Forum",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": -0.19,
-    "home": -2.08
+    "away": 0.07,
+    "home": -2.22
    },
    "luck_band_flag": [
     "MIL outside |z|>2 luck noise band"
@@ -830,35 +832,35 @@
    "tip_et": null,
    "away": "OKC",
    "home": "SAC",
-   "est_a_margin": -3.7,
-   "est_b_margin": -14.5,
-   "disagreement_abs": 10.8,
-   "blend_margin": -9.1,
-   "est_a_total": 100.7,
+   "est_a_margin": -4.8,
+   "est_b_margin": -14.9,
+   "disagreement_abs": 10.1,
+   "blend_margin": -9.9,
+   "est_a_total": 105.9,
    "est_b_total": 222.1,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.8,
-   "blend_total": 161.4,
-   "home_win_prob": 0.286,
-   "hca_points_pinned": 1.13,
+   "blend_total": 164.0,
+   "home_win_prob": 0.27,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 2,
+     "days_rest": 0,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 587.9,
-     "from_arena": "Intuit Dome",
+     "km": 0.0,
+     "from_arena": "Golden 1 Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
@@ -868,10 +870,12 @@
     }
    },
    "luck_z": {
-    "away": 0.01,
-    "home": -1.95
+    "away": 0.23,
+    "home": -2.1
    },
-   "luck_band_flag": [],
+   "luck_band_flag": [
+    "SAC outside |z|>2 luck noise band"
+   ],
    "sources": [
     "https://www.nba.com/games?date=2026-11-14",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
@@ -884,17 +888,17 @@
    "tip_et": null,
    "away": "ORL",
    "home": "BOS",
-   "est_a_margin": 5.3,
-   "est_b_margin": 16.0,
-   "disagreement_abs": 10.7,
+   "est_a_margin": 5.7,
+   "est_b_margin": 15.7,
+   "disagreement_abs": 9.9,
    "blend_margin": 10.7,
-   "est_a_total": 96.3,
+   "est_a_total": 98.2,
    "est_b_total": 214.5,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 97.4,
-   "blend_total": 155.4,
-   "home_win_prob": 0.746,
-   "hca_points_pinned": 1.13,
+   "blend_total": 156.4,
+   "home_win_prob": 0.747,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 3,
@@ -903,10 +907,10 @@
      "last_game": "2026-11-13"
     },
     "home": {
-     "days_rest": 5,
-     "b2b": false,
+     "days_rest": 1,
+     "b2b": true,
      "three_in_4": false,
-     "last_game": "2026-11-11"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
@@ -916,14 +920,14 @@
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 690.7,
-     "from_arena": "Scotiabank Arena",
+     "km": 0.0,
+     "from_arena": "TD Garden",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": -0.18,
-    "home": 2.24
+    "away": -0.2,
+    "home": 2.37
    },
    "luck_band_flag": [
     "BOS outside |z|>2 luck noise band"
@@ -940,17 +944,17 @@
    "tip_et": null,
    "away": "CHI",
    "home": "CLE",
-   "est_a_margin": 4.5,
-   "est_b_margin": 14.1,
-   "disagreement_abs": 9.5,
-   "blend_margin": 9.3,
-   "est_a_total": 112.4,
+   "est_a_margin": 4.1,
+   "est_b_margin": 13.7,
+   "disagreement_abs": 9.6,
+   "blend_margin": 8.9,
+   "est_a_total": 111.1,
    "est_b_total": 240.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.8,
-   "blend_total": 176.3,
-   "home_win_prob": 0.718,
-   "hca_points_pinned": 1.13,
+   "blend_total": 175.6,
+   "home_win_prob": 0.71,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 2,
@@ -979,7 +983,7 @@
    },
    "luck_z": {
     "away": -1.12,
-    "home": -0.38
+    "home": -0.39
    },
    "luck_band_flag": [],
    "sources": [
@@ -994,17 +998,17 @@
    "tip_et": null,
    "away": "MEM",
    "home": "WAS",
-   "est_a_margin": -3.1,
-   "est_b_margin": -13.0,
-   "disagreement_abs": 10.0,
-   "blend_margin": -8.1,
-   "est_a_total": 107.2,
+   "est_a_margin": -4.0,
+   "est_b_margin": -13.4,
+   "disagreement_abs": 9.4,
+   "blend_margin": -8.7,
+   "est_a_total": 110.1,
    "est_b_total": 226.5,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.0,
-   "blend_total": 166.9,
-   "home_win_prob": 0.309,
-   "hca_points_pinned": 1.13,
+   "blend_total": 168.3,
+   "home_win_prob": 0.294,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 2,
@@ -1013,10 +1017,10 @@
      "last_game": "2026-11-14"
     },
     "home": {
-     "days_rest": 4,
-     "b2b": false,
+     "days_rest": 1,
+     "b2b": true,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
@@ -1032,8 +1036,8 @@
     }
    },
    "luck_z": {
-    "away": 0.28,
-    "home": -1.48
+    "away": 0.29,
+    "home": -1.68
    },
    "luck_band_flag": [],
    "sources": [
@@ -1048,23 +1052,23 @@
    "tip_et": null,
    "away": "PHI",
    "home": "BKN",
-   "est_a_margin": -1.0,
-   "est_b_margin": -6.4,
-   "disagreement_abs": 5.4,
-   "blend_margin": -3.7,
-   "est_a_total": 101.3,
+   "est_a_margin": -1.6,
+   "est_b_margin": -6.8,
+   "disagreement_abs": 5.2,
+   "blend_margin": -4.2,
+   "est_a_total": 103.9,
    "est_b_total": 219.7,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.8,
-   "blend_total": 160.5,
-   "home_win_prob": 0.409,
-   "hca_points_pinned": 1.13,
+   "blend_total": 161.8,
+   "home_win_prob": 0.398,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 4,
-     "b2b": false,
+     "days_rest": 1,
+     "b2b": true,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
      "days_rest": 2,
@@ -1086,8 +1090,8 @@
     }
    },
    "luck_z": {
-    "away": 1.57,
-    "home": -0.69
+    "away": 1.77,
+    "home": -0.72
    },
    "luck_band_flag": [],
    "sources": [
@@ -1102,23 +1106,23 @@
    "tip_et": null,
    "away": "HOU",
    "home": "MIA",
-   "est_a_margin": -1.9,
-   "est_b_margin": -9.7,
-   "disagreement_abs": 7.7,
-   "blend_margin": -5.8,
-   "est_a_total": 108.4,
+   "est_a_margin": -2.9,
+   "est_b_margin": -10.1,
+   "disagreement_abs": 7.2,
+   "blend_margin": -6.5,
+   "est_a_total": 111.1,
    "est_b_total": 234.3,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.0,
-   "blend_total": 171.4,
-   "home_win_prob": 0.359,
-   "hca_points_pinned": 1.13,
+   "blend_total": 172.7,
+   "home_win_prob": 0.344,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 3,
-     "b2b": false,
-     "three_in_4": false,
-     "last_game": "2026-11-13"
+     "days_rest": 1,
+     "b2b": true,
+     "three_in_4": true,
+     "last_game": "2026-11-15"
     },
     "home": {
      "days_rest": 2,
@@ -1129,8 +1133,8 @@
    },
    "travel_km": {
     "away": {
-     "km": 1555.5,
-     "from_arena": "Toyota Center",
+     "km": 1488.3,
+     "from_arena": "Capital One Arena",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
@@ -1140,8 +1144,8 @@
     }
    },
    "luck_z": {
-    "away": 0.93,
-    "home": 1.45
+    "away": 1.15,
+    "home": 1.44
    },
    "luck_band_flag": [],
    "sources": [
@@ -1156,17 +1160,17 @@
    "tip_et": null,
    "away": "POR",
    "home": "MIN",
-   "est_a_margin": 2.1,
-   "est_b_margin": 5.4,
+   "est_a_margin": 1.8,
+   "est_b_margin": 5.0,
    "disagreement_abs": 3.2,
-   "blend_margin": 3.7,
-   "est_a_total": 103.5,
+   "blend_margin": 3.4,
+   "est_a_total": 102.5,
    "est_b_total": 225.9,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.0,
-   "blend_total": 164.7,
-   "home_win_prob": 0.591,
-   "hca_points_pinned": 1.13,
+   "blend_total": 164.2,
+   "home_win_prob": 0.583,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 3,
@@ -1194,8 +1198,8 @@
     }
    },
    "luck_z": {
-    "away": 1.1,
-    "home": 0.54
+    "away": 1.09,
+    "home": 0.55
    },
    "luck_band_flag": [],
    "sources": [
@@ -1210,17 +1214,17 @@
    "tip_et": null,
    "away": "GSW",
    "home": "NOP",
-   "est_a_margin": -3.4,
-   "est_b_margin": -11.9,
+   "est_a_margin": -3.8,
+   "est_b_margin": -12.3,
    "disagreement_abs": 8.5,
-   "blend_margin": -7.7,
-   "est_a_total": 113.9,
+   "blend_margin": -8.0,
+   "est_a_total": 113.2,
    "est_b_total": 235.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.7,
-   "blend_total": 174.6,
-   "home_win_prob": 0.317,
-   "hca_points_pinned": 1.13,
+   "blend_total": 174.2,
+   "home_win_prob": 0.309,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 3,
@@ -1249,7 +1253,7 @@
    },
    "luck_z": {
     "away": 1.82,
-    "home": -0.87
+    "home": -0.84
    },
    "luck_band_flag": [],
    "sources": [
@@ -1264,23 +1268,23 @@
    "tip_et": null,
    "away": "PHX",
    "home": "DEN",
-   "est_a_margin": 2.7,
-   "est_b_margin": 6.2,
-   "disagreement_abs": 3.5,
-   "blend_margin": 4.5,
-   "est_a_total": 94.2,
+   "est_a_margin": 2.4,
+   "est_b_margin": 5.9,
+   "disagreement_abs": 3.4,
+   "blend_margin": 4.1,
+   "est_a_total": 97.2,
    "est_b_total": 231.5,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 98.1,
-   "blend_total": 162.9,
-   "home_win_prob": 0.61,
-   "hca_points_pinned": 1.13,
+   "blend_total": 164.3,
+   "home_win_prob": 0.601,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 4,
-     "b2b": false,
+     "days_rest": 1,
+     "b2b": true,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
      "days_rest": 2,
@@ -1302,8 +1306,8 @@
     }
    },
    "luck_z": {
-    "away": -0.19,
-    "home": 1.08
+    "away": -0.43,
+    "home": 1.06
    },
    "luck_band_flag": [],
    "sources": [
@@ -1318,46 +1322,46 @@
    "tip_et": null,
    "away": "NYK",
    "home": "TOR",
-   "est_a_margin": 0.1,
-   "est_b_margin": -3.0,
-   "disagreement_abs": 3.1,
-   "blend_margin": -1.5,
-   "est_a_total": 96.3,
+   "est_a_margin": -0.5,
+   "est_b_margin": -3.4,
+   "disagreement_abs": 2.9,
+   "blend_margin": -2.0,
+   "est_a_total": 101.4,
    "est_b_total": 219.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 97.8,
-   "blend_total": 157.7,
-   "home_win_prob": 0.463,
-   "hca_points_pinned": 1.13,
+   "blend_total": 160.3,
+   "home_win_prob": 0.452,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 4,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 5,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 708.5,
-     "from_arena": "Gainbridge Fieldhouse",
+     "km": 0.0,
+     "from_arena": "Scotiabank Arena",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": null,
-     "from_arena": "Wells Fargo Center",
-     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+     "km": 0.0,
+     "from_arena": "Scotiabank Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": 0.79,
-    "home": -1.16
+    "away": 1.07,
+    "home": -1.42
    },
    "luck_band_flag": [],
    "sources": [
@@ -1372,17 +1376,17 @@
    "tip_et": null,
    "away": "POR",
    "home": "MIN",
-   "est_a_margin": 2.1,
-   "est_b_margin": 5.4,
+   "est_a_margin": 1.8,
+   "est_b_margin": 5.0,
    "disagreement_abs": 3.2,
-   "blend_margin": 3.7,
-   "est_a_total": 103.5,
+   "blend_margin": 3.4,
+   "est_a_total": 102.5,
    "est_b_total": 225.9,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.0,
-   "blend_total": 164.7,
-   "home_win_prob": 0.591,
-   "hca_points_pinned": 1.13,
+   "blend_total": 164.2,
+   "home_win_prob": 0.583,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 4,
@@ -1410,8 +1414,8 @@
     }
    },
    "luck_z": {
-    "away": 1.1,
-    "home": 0.54
+    "away": 1.09,
+    "home": 0.55
    },
    "luck_band_flag": [],
    "sources": [
@@ -1426,17 +1430,17 @@
    "tip_et": null,
    "away": "DET",
    "home": "SAS",
-   "est_a_margin": 3.5,
-   "est_b_margin": 9.0,
+   "est_a_margin": 3.2,
+   "est_b_margin": 8.6,
    "disagreement_abs": 5.5,
-   "blend_margin": 6.3,
-   "est_a_total": 102.7,
+   "blend_margin": 5.9,
+   "est_a_total": 104.0,
    "est_b_total": 221.3,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.2,
-   "blend_total": 162.0,
-   "home_win_prob": 0.651,
-   "hca_points_pinned": 1.13,
+   "blend_total": 162.6,
+   "home_win_prob": 0.643,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 3,
@@ -1445,10 +1449,10 @@
      "last_game": "2026-11-14"
     },
     "home": {
-     "days_rest": 4,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
@@ -1458,14 +1462,14 @@
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 0.0,
-     "from_arena": "Frost Bank Center",
+     "km": 1753.9,
+     "from_arena": "Delta Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
     "away": 0.03,
-    "home": 2.86
+    "home": 2.95
    },
    "luck_band_flag": [
     "SAS outside |z|>2 luck noise band"
@@ -1482,48 +1486,50 @@
    "tip_et": null,
    "away": "CHA",
    "home": "LAL",
-   "est_a_margin": 6.7,
-   "est_b_margin": 20.1,
-   "disagreement_abs": 13.4,
-   "blend_margin": 13.4,
-   "est_a_total": 100.5,
+   "est_a_margin": 6.5,
+   "est_b_margin": 19.8,
+   "disagreement_abs": 13.2,
+   "blend_margin": 13.1,
+   "est_a_total": 106.1,
    "est_b_total": 221.0,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 98.7,
-   "blend_total": 160.8,
-   "home_win_prob": 0.797,
-   "hca_points_pinned": 1.13,
+   "blend_total": 163.6,
+   "home_win_prob": 0.793,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 5,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 6,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-11"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
+     "km": 12.9,
+     "from_arena": "Intuit Dome",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
      "km": null,
      "from_arena": "PHX Arena",
      "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
-    },
-    "home": {
-     "km": 2804.0,
-     "from_arena": "Fiserv Forum",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": -1.82,
-    "home": 1.74
+    "away": -2.01,
+    "home": 1.91
    },
-   "luck_band_flag": [],
+   "luck_band_flag": [
+    "CHA outside |z|>2 luck noise band"
+   ],
    "sources": [
     "https://www.nba.com/games?date=2026-11-14",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
@@ -1536,35 +1542,35 @@
    "tip_et": null,
    "away": "UTA",
    "home": "LAC",
-   "est_a_margin": 2.8,
-   "est_b_margin": 7.6,
-   "disagreement_abs": 4.7,
-   "blend_margin": 5.2,
-   "est_a_total": 99.4,
+   "est_a_margin": 2.7,
+   "est_b_margin": 7.2,
+   "disagreement_abs": 4.6,
+   "blend_margin": 4.9,
+   "est_a_total": 104.1,
    "est_b_total": 222.7,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.5,
-   "blend_total": 161.0,
-   "home_win_prob": 0.627,
-   "hca_points_pinned": 1.13,
+   "blend_total": 163.4,
+   "home_win_prob": 0.62,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 4,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 4,
+     "days_rest": 2,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 2215.2,
-     "from_arena": "Toyota Center",
+     "km": 948.0,
+     "from_arena": "Delta Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
@@ -1574,8 +1580,8 @@
     }
    },
    "luck_z": {
-    "away": -2.8,
-    "home": -1.29
+    "away": -2.89,
+    "home": -0.91
    },
    "luck_band_flag": [
     "UTA outside |z|>2 luck noise band"
@@ -1592,17 +1598,17 @@
    "tip_et": null,
    "away": "MEM",
    "home": "CLE",
-   "est_a_margin": -0.7,
-   "est_b_margin": -6.2,
+   "est_a_margin": -1.1,
+   "est_b_margin": -6.6,
    "disagreement_abs": 5.5,
-   "blend_margin": -3.4,
-   "est_a_total": 112.5,
+   "blend_margin": -3.8,
+   "est_a_total": 111.5,
    "est_b_total": 235.8,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.1,
-   "blend_total": 174.1,
-   "home_win_prob": 0.416,
-   "hca_points_pinned": 1.13,
+   "blend_total": 173.7,
+   "home_win_prob": 0.407,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 4,
@@ -1630,8 +1636,8 @@
     }
    },
    "luck_z": {
-    "away": 0.28,
-    "home": -0.38
+    "away": 0.29,
+    "home": -0.39
    },
    "luck_band_flag": [],
    "sources": [
@@ -1646,46 +1652,46 @@
    "tip_et": null,
    "away": "HOU",
    "home": "IND",
-   "est_a_margin": -2.4,
-   "est_b_margin": -9.3,
-   "disagreement_abs": 6.9,
-   "blend_margin": -5.9,
-   "est_a_total": 104.0,
+   "est_a_margin": -3.5,
+   "est_b_margin": -9.7,
+   "disagreement_abs": 6.2,
+   "blend_margin": -6.6,
+   "est_a_total": 110.1,
    "est_b_total": 223.5,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.3,
-   "blend_total": 163.8,
-   "home_win_prob": 0.358,
-   "hca_points_pinned": 1.13,
+   "blend_total": 166.8,
+   "home_win_prob": 0.341,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 1393.6,
-     "from_arena": "Toyota Center",
+     "km": 791.2,
+     "from_arena": "Capital One Arena",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 0.0,
-     "from_arena": "Gainbridge Fieldhouse",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
+     "km": null,
+     "from_arena": "Wells Fargo Center",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
     }
    },
    "luck_z": {
-    "away": 0.93,
-    "home": -1.21
+    "away": 1.15,
+    "home": -1.41
    },
    "luck_band_flag": [],
    "sources": [
@@ -1700,23 +1706,23 @@
    "tip_et": null,
    "away": "MIL",
    "home": "MIA",
-   "est_a_margin": 4.8,
-   "est_b_margin": 14.4,
+   "est_a_margin": 4.5,
+   "est_b_margin": 14.0,
    "disagreement_abs": 9.6,
-   "blend_margin": 9.6,
-   "est_a_total": 109.4,
+   "blend_margin": 9.3,
+   "est_a_total": 110.9,
    "est_b_total": 233.6,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.4,
-   "blend_total": 171.5,
-   "home_win_prob": 0.725,
-   "hca_points_pinned": 1.13,
+   "blend_total": 172.2,
+   "home_win_prob": 0.717,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
      "days_rest": 4,
@@ -1727,8 +1733,8 @@
    },
    "travel_km": {
     "away": {
-     "km": 328.7,
-     "from_arena": "Kia Center",
+     "km": 2044.1,
+     "from_arena": "Fiserv Forum",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
@@ -1738,8 +1744,8 @@
     }
    },
    "luck_z": {
-    "away": -2.08,
-    "home": 1.45
+    "away": -2.22,
+    "home": 1.44
    },
    "luck_band_flag": [
     "MIL outside |z|>2 luck noise band"
@@ -1756,23 +1762,23 @@
    "tip_et": null,
    "away": "PHI",
    "home": "ORL",
-   "est_a_margin": -0.6,
-   "est_b_margin": -3.9,
-   "disagreement_abs": 3.3,
-   "blend_margin": -2.2,
-   "est_a_total": 99.9,
+   "est_a_margin": -1.1,
+   "est_b_margin": -4.3,
+   "disagreement_abs": 3.2,
+   "blend_margin": -2.7,
+   "est_a_total": 102.3,
    "est_b_total": 215.7,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.1,
-   "blend_total": 157.8,
-   "home_win_prob": 0.445,
-   "hca_points_pinned": 1.13,
+   "blend_total": 159.0,
+   "home_win_prob": 0.434,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 6,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
      "days_rest": 5,
@@ -1794,8 +1800,8 @@
     }
    },
    "luck_z": {
-    "away": 1.57,
-    "home": -0.18
+    "away": 1.77,
+    "home": -0.2
    },
    "luck_band_flag": [],
    "sources": [
@@ -1810,17 +1816,17 @@
    "tip_et": null,
    "away": "CHI",
    "home": "BKN",
-   "est_a_margin": 2.3,
-   "est_b_margin": 5.8,
+   "est_a_margin": 1.9,
+   "est_b_margin": 5.4,
    "disagreement_abs": 3.5,
-   "blend_margin": 4.0,
-   "est_a_total": 104.3,
+   "blend_margin": 3.6,
+   "est_a_total": 103.2,
    "est_b_total": 232.8,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.6,
-   "blend_total": 168.6,
-   "home_win_prob": 0.599,
-   "hca_points_pinned": 1.13,
+   "blend_total": 168.0,
+   "home_win_prob": 0.59,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 4,
@@ -1849,7 +1855,7 @@
    },
    "luck_z": {
     "away": -1.12,
-    "home": -0.69
+    "home": -0.72
    },
    "luck_band_flag": [],
    "sources": [
@@ -1864,29 +1870,29 @@
    "tip_et": null,
    "away": "WAS",
    "home": "TOR",
-   "est_a_margin": 3.5,
-   "est_b_margin": 8.4,
-   "disagreement_abs": 5.0,
-   "blend_margin": 5.9,
-   "est_a_total": 103.1,
+   "est_a_margin": 3.6,
+   "est_b_margin": 8.0,
+   "disagreement_abs": 4.5,
+   "blend_margin": 5.8,
+   "est_a_total": 108.8,
    "est_b_total": 223.6,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.8,
-   "blend_total": 163.3,
-   "home_win_prob": 0.644,
-   "hca_points_pinned": 1.13,
+   "blend_total": 166.2,
+   "home_win_prob": 0.641,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 6,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 6,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
@@ -1896,14 +1902,14 @@
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": null,
-     "from_arena": "Wells Fargo Center",
-     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
+     "km": 0.0,
+     "from_arena": "Scotiabank Arena",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": -1.48,
-    "home": -1.16
+    "away": -1.68,
+    "home": -1.42
    },
    "luck_band_flag": [],
    "sources": [
@@ -1918,17 +1924,17 @@
    "tip_et": null,
    "away": "DET",
    "home": "NOP",
-   "est_a_margin": -3.4,
-   "est_b_margin": -12.6,
+   "est_a_margin": -3.7,
+   "est_b_margin": -12.9,
    "disagreement_abs": 9.2,
-   "blend_margin": -8.0,
-   "est_a_total": 110.4,
+   "blend_margin": -8.3,
+   "est_a_total": 109.6,
    "est_b_total": 230.1,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.7,
-   "blend_total": 170.3,
-   "home_win_prob": 0.31,
-   "hca_points_pinned": 1.13,
+   "blend_total": 169.8,
+   "home_win_prob": 0.303,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 4,
@@ -1957,7 +1963,7 @@
    },
    "luck_z": {
     "away": 0.03,
-    "home": -0.87
+    "home": -0.84
    },
    "luck_band_flag": [],
    "sources": [
@@ -1972,46 +1978,46 @@
    "tip_et": null,
    "away": "ATL",
    "home": "OKC",
-   "est_a_margin": 2.4,
-   "est_b_margin": 3.5,
-   "disagreement_abs": 1.1,
-   "blend_margin": 2.9,
-   "est_a_total": 105.4,
+   "est_a_margin": 2.3,
+   "est_b_margin": 3.1,
+   "disagreement_abs": 0.8,
+   "blend_margin": 2.7,
+   "est_a_total": 110.0,
    "est_b_total": 223.1,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 101.1,
-   "blend_total": 164.3,
-   "home_win_prob": 0.572,
-   "hca_points_pinned": 1.13,
+   "blend_total": 166.5,
+   "home_win_prob": 0.566,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 1111.8,
-     "from_arena": "United Center",
+     "km": 1178.9,
+     "from_arena": "Fiserv Forum",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 1907.9,
-     "from_arena": "Intuit Dome",
+     "km": 2151.0,
+     "from_arena": "Golden 1 Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
-    "away": -0.19,
-    "home": 0.01
+    "away": 0.07,
+    "home": 0.23
    },
    "luck_band_flag": [],
    "sources": [
@@ -2026,23 +2032,23 @@
    "tip_et": null,
    "away": "BOS",
    "home": "DEN",
-   "est_a_margin": -1.2,
-   "est_b_margin": -9.3,
-   "disagreement_abs": 8.1,
-   "blend_margin": -5.3,
-   "est_a_total": 94.2,
+   "est_a_margin": -2.4,
+   "est_b_margin": -9.7,
+   "disagreement_abs": 7.3,
+   "blend_margin": -6.0,
+   "est_a_total": 96.4,
    "est_b_total": 220.9,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 97.1,
-   "blend_total": 157.6,
-   "home_win_prob": 0.372,
-   "hca_points_pinned": 1.13,
+   "blend_total": 158.7,
+   "home_win_prob": 0.354,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 7,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-11"
+     "last_game": "2026-11-15"
     },
     "home": {
      "days_rest": 4,
@@ -2053,8 +2059,8 @@
    },
    "travel_km": {
     "away": {
-     "km": 2162.4,
-     "from_arena": "Scotiabank Arena",
+     "km": 2842.0,
+     "from_arena": "TD Garden",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
@@ -2064,8 +2070,8 @@
     }
    },
    "luck_z": {
-    "away": 2.24,
-    "home": 1.08
+    "away": 2.37,
+    "home": 1.06
    },
    "luck_band_flag": [
     "BOS outside |z|>2 luck noise band"
@@ -2082,17 +2088,17 @@
    "tip_et": null,
    "away": "GSW",
    "home": "DAL",
-   "est_a_margin": -0.2,
-   "est_b_margin": -3.0,
-   "disagreement_abs": 2.8,
-   "blend_margin": -1.6,
-   "est_a_total": 106.2,
+   "est_a_margin": -1.3,
+   "est_b_margin": -3.3,
+   "disagreement_abs": 2.1,
+   "blend_margin": -2.3,
+   "est_a_total": 108.1,
    "est_b_total": 227.8,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.1,
-   "blend_total": 167.0,
-   "home_win_prob": 0.461,
-   "hca_points_pinned": 1.13,
+   "blend_total": 167.9,
+   "home_win_prob": 0.443,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
      "days_rest": 5,
@@ -2101,10 +2107,10 @@
      "last_game": "2026-11-13"
     },
     "home": {
-     "days_rest": 4,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-14"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
@@ -2114,14 +2120,14 @@
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 1649.4,
-     "from_arena": "Rocket Arena",
+     "km": 2493.3,
+     "from_arena": "TD Garden",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     }
    },
    "luck_z": {
     "away": 1.82,
-    "home": 0.54
+    "home": 0.27
    },
    "luck_band_flag": [],
    "sources": [
@@ -2136,46 +2142,46 @@
    "tip_et": null,
    "away": "UTA",
    "home": "LAL",
-   "est_a_margin": 6.5,
-   "est_b_margin": 20.9,
-   "disagreement_abs": 14.4,
-   "blend_margin": 13.7,
-   "est_a_total": 107.8,
+   "est_a_margin": 6.3,
+   "est_b_margin": 20.5,
+   "disagreement_abs": 14.3,
+   "blend_margin": 13.4,
+   "est_a_total": 113.1,
    "est_b_total": 231.8,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 100.5,
-   "blend_total": 169.8,
-   "home_win_prob": 0.802,
-   "hca_points_pinned": 1.13,
+   "blend_total": 172.4,
+   "home_win_prob": 0.797,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 7,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-11"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
     "away": {
-     "km": 2209.3,
-     "from_arena": "Toyota Center",
+     "km": 935.0,
+     "from_arena": "Delta Center",
      "method": "haversine on Wikipedia arena coordinates (reference source)"
     },
     "home": {
-     "km": 2804.0,
-     "from_arena": "Fiserv Forum",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
+     "km": null,
+     "from_arena": "PHX Arena",
+     "flag": "arena coordinates missing for one endpoint (see arena_coordinates.json)"
     }
    },
    "luck_z": {
-    "away": -2.8,
-    "home": 1.74
+    "away": -2.89,
+    "home": 1.91
    },
    "luck_band_flag": [
     "UTA outside |z|>2 luck noise band"
@@ -2192,29 +2198,29 @@
    "tip_et": null,
    "away": "PHX",
    "home": "SAC",
-   "est_a_margin": -1.2,
-   "est_b_margin": -7.5,
-   "disagreement_abs": 6.3,
-   "blend_margin": -4.4,
-   "est_a_total": 97.9,
+   "est_a_margin": -1.9,
+   "est_b_margin": -7.9,
+   "disagreement_abs": 6.0,
+   "blend_margin": -4.9,
+   "est_a_total": 103.9,
    "est_b_total": 231.2,
    "total_model": "possessions x PPP (est. B); ridge total (est. A)",
    "possessions": 99.7,
-   "blend_total": 164.6,
-   "home_win_prob": 0.394,
-   "hca_points_pinned": 1.13,
+   "blend_total": 167.6,
+   "home_win_prob": 0.381,
+   "hca_points_pinned": 0.76,
    "rest": {
     "away": {
-     "days_rest": 6,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-12"
+     "last_game": "2026-11-15"
     },
     "home": {
-     "days_rest": 5,
+     "days_rest": 3,
      "b2b": false,
      "three_in_4": false,
-     "last_game": "2026-11-13"
+     "last_game": "2026-11-15"
     }
    },
    "travel_km": {
@@ -2230,10 +2236,12 @@
     }
    },
    "luck_z": {
-    "away": -0.19,
-    "home": -1.95
+    "away": -0.43,
+    "home": -2.1
    },
-   "luck_band_flag": [],
+   "luck_band_flag": [
+    "SAC outside |z|>2 luck noise band"
+   ],
    "sources": [
     "https://www.nba.com/games?date=2026-11-14",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
@@ -2245,100 +2253,100 @@
   {
    "game_id": "0022600236",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.5811,
+   "p_side": 0.5738,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.2954,
-   "naive_product": 0.2905,
-   "ratio_joint_over_naive": 1.017,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.2951,
+   "naive_product": 0.2869,
+   "ratio_joint_over_naive": 1.029,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600237",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.3411,
+   "p_side": 0.3298,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.1752,
-   "naive_product": 0.1706,
-   "ratio_joint_over_naive": 1.027,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.1724,
+   "naive_product": 0.1649,
+   "ratio_joint_over_naive": 1.046,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600238",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.6265,
+   "p_side": 0.6218,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.318,
-   "naive_product": 0.3132,
-   "ratio_joint_over_naive": 1.015,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.3188,
+   "naive_product": 0.3109,
+   "ratio_joint_over_naive": 1.026,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600239",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.1875,
+   "p_side": 0.1808,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.0971,
-   "naive_product": 0.0938,
-   "ratio_joint_over_naive": 1.036,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.0959,
+   "naive_product": 0.0904,
+   "ratio_joint_over_naive": 1.061,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600240",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.6967,
+   "p_side": 0.7053,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.3527,
-   "naive_product": 0.3483,
-   "ratio_joint_over_naive": 1.013,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.3599,
+   "naive_product": 0.3527,
+   "ratio_joint_over_naive": 1.02,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600241",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.4629,
+   "p_side": 0.4506,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.2365,
-   "naive_product": 0.2315,
-   "ratio_joint_over_naive": 1.022,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.2336,
+   "naive_product": 0.2253,
+   "ratio_joint_over_naive": 1.037,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600242",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.3012,
+   "p_side": 0.2819,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.155,
-   "naive_product": 0.1506,
-   "ratio_joint_over_naive": 1.029,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.148,
+   "naive_product": 0.141,
+   "ratio_joint_over_naive": 1.05,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600243",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.2883,
+   "p_side": 0.2799,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.1485,
-   "naive_product": 0.1442,
-   "ratio_joint_over_naive": 1.03,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.1469,
+   "naive_product": 0.1399,
+   "ratio_joint_over_naive": 1.05,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
    "game_id": "0022600244",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.2862,
+   "p_side": 0.2695,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.1474,
-   "naive_product": 0.1431,
-   "ratio_joint_over_naive": 1.03,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.1416,
+   "naive_product": 0.1348,
+   "ratio_joint_over_naive": 1.051,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
@@ -2346,10 +2354,10 @@
    "legs": "home side + over (same game, our own lines)",
    "p_side": 0.7466,
    "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.3773,
+   "rho_measured": -0.052,
+   "joint_price_rho": 0.38,
    "naive_product": 0.3733,
-   "ratio_joint_over_naive": 1.011,
+   "ratio_joint_over_naive": 1.018,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   }
  ],
