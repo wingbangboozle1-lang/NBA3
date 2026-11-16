@@ -521,37 +521,22 @@ def main():
             "settled": False,
             "settlement_stamp": None,
         })
-    feed_rows.sort(key=lambda r: (r["date"], r["away"]))
-    # preserve settlement state already stamped by results_feed.py settle (idempotent re-capture)
+    # settlement state + the 2026-11-15 evening rows (arena/c94a5531-nba3, C3):
+    # the feed document is assembled by scripts/extend_results_feed_2026_11_15c.py
+    # so this replay byte-matches the committed feed. Settlement stamps are
+    # preserved from the existing file or the pick ledger — never recomputed.
+    prev_feed = None
     if os.path.exists(RESULTS_JSON):
         prev_feed = json.load(open(RESULTS_JSON, encoding="utf-8"))
-        prev_by_key = {(g["date"], g["away"], g["home"]): g for g in prev_feed.get("games", [])}
-        for r in feed_rows:
-            old = prev_by_key.get((r["date"], r["away"], r["home"]))
-            if old and old.get("settled"):
-                r["settled"] = True
-                r["settlement_stamp"] = old.get("settlement_stamp")
-
-    feed = {
-        "source_label": ("Official per-game result feed. 2026-11-14 rows come from the official "
-                         "game books (statsdmz.nba.com PDFs linked from each nba.com game page); "
-                         "2026-11-13 rows come from the stored official scoreboard capture "
-                         "(data/app/official_results_2026-11-13.json). One row per game: date, "
-                         "teams, final score, quarter scores."),
-        "retrieved_stamp": RETRIEVED_STAMP,
-        "settlement_rule": ("A row is settled only when the game state is Final AND the quarter "
-                            "scores sum to the printed final for both teams (checked offline). "
-                            "Rows without captured quarter scores stay unsettled and flagged."),
-        "count": len(feed_rows),
-        "settled_count": sum(1 for r in feed_rows if r["settled"]),
-        "games": feed_rows,
-        "sources": ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+    import extend_results_feed_2026_11_15c as extend_1115c  # noqa: E402
+    base_sources = ["https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-                    prior_results.get("source_url")],
-    }
+                    prior_results.get("source_url")]
+    feed = extend_1115c.build_feed_doc(feed_rows, prev_feed=prev_feed,
+                                       base_sources=base_sources)
     with open(RESULTS_JSON, "w", encoding="utf-8") as fh:
         json.dump(feed, fh, indent=1)
         fh.write("\n")

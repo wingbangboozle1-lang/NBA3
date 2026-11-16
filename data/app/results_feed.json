@@ -1,9 +1,9 @@
 {
- "source_label": "Official per-game result feed. 2026-11-14 rows come from the official game books (statsdmz.nba.com PDFs linked from each nba.com game page); 2026-11-13 rows come from the stored official scoreboard capture (data/app/official_results_2026-11-13.json). One row per game: date, teams, final score, quarter scores.",
- "retrieved_stamp": "2026-11-15T11:33Z",
- "settlement_rule": "A row is settled only when the game state is Final AND the quarter scores sum to the printed final for both teams (checked offline). Rows without captured quarter scores stay unsettled and flagged.",
- "count": 14,
- "settled_count": 14,
+ "source_label": "Official per-game results feed. 2026-11-14 rows come from the official game books (statsdmz.nba.com PDFs linked from each nba.com game page); 2026-11-13 rows come from the stored official scoreboard capture (data/app/official_results_2026-11-13.json); 2026-11-15 rows come from the game-day evening capture (game books + scoreboard cards agreeing, data/app/official_results_2026-11-15_c94a5531.json). One row per game: date, teams, final score, quarter scores.",
+ "retrieved_stamp": "2026-11-15T23:58Z",
+ "settlement_rule": "A row is settled only when the game state is Final AND verified from an official source; when quarter scores are captured they must sum to the printed final for both teams (checked offline). Rows without captured quarter scores settle from the verified final alone and carry the flag 'quarter scores not captured' in the settlement stamp. (Wording amended 2026-11-15 by arena/c94a5531-nba3 after flagging that the previous text contradicted settle() behavior on the 2026-11-13 rows.)",
+ "count": 16,
+ "settled_count": 16,
  "games": [
   {
    "date": "2026-11-13",
@@ -326,6 +326,52 @@
    "raw_file": "data/app/gamebooks/20261114_DETMIA.md",
    "settled": true,
    "settlement_stamp": "settled 2026-11-15T11:33Z from the official game book; quarter sums == finals"
+  },
+  {
+   "date": "2026-11-15",
+   "away": "IND",
+   "home": "PHI",
+   "away_pts": 124,
+   "home_pts": 131,
+   "away_q1": 35,
+   "away_q2": 22,
+   "away_q3": 30,
+   "away_q4": 37,
+   "home_q1": 29,
+   "home_q2": 29,
+   "home_q3": 39,
+   "home_q4": 34,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/games?date=2026-11-15",
+   "quarter_check": "quarter sums equal the final",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "raw_file": "data/app/gamebooks_20261115/20261115_INDPHI_c94a5531.md",
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-16T00:21Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (game book verified)"
+  },
+  {
+   "date": "2026-11-15",
+   "away": "LAL",
+   "home": "PHX",
+   "away_pts": 131,
+   "home_pts": 123,
+   "away_q1": 33,
+   "away_q2": 31,
+   "away_q3": 40,
+   "away_q4": 27,
+   "home_q1": 24,
+   "home_q2": 30,
+   "home_q3": 26,
+   "home_q4": 43,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/games?date=2026-11-15",
+   "quarter_check": "quarter sums equal the final",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+   "raw_file": "data/app/gamebooks_20261115/20261115_LALPHX_c94a5531.md",
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-16T00:21Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (game book verified)"
   }
  ],
  "sources": [
@@ -334,6 +380,9 @@
   "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
   "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
   "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-  "https://www.nba.com/games?date=2026-11-13"
+  "https://www.nba.com/games?date=2026-11-13",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+  "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+  "https://www.nba.com/games?date=2026-11-15"
  ]
 }
