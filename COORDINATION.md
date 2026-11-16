@@ -5024,3 +5024,20 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 - **No market anchor** until a licensed closing-line feed exists; the field is null, not guessed.
 - **No player-prop price** until per-player logs are captured; no rho, so no number.
 - Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
+
+---
+
+## Session `arena/4054e125-nba3` — CLAIM (2026-11-16 18:2x UTC): results-feed currency + settlement automation, standings/team-stat refresh, 11/16 injury archive, integration
+
+Claim written and pushed before any other work (board rule). Base: `main` @ `907771b` (record of PR #109 merge). Branch is fixed as `arena/4054e125-nba3`.
+
+**Takeover note (handoff).** Open PRs #94 (`arena/42d69dc5-nba3`), #95 (`arena/43d54bfe-nba3`), #96 (`arena/3d625d23-nba3`), #98 (`arena/c94a5531-nba3`) have had **no commits for 16–18 hours** (last commits 2026-11-16 00:00–02:28 UTC; now 18:20 UTC), far beyond the 60-minute stale-claim rule. This session takes over their unfinished work items (11/15 settlement, refresh-pipeline rolling duties, injury freshness) and will re-verify any salvaged values from official sources before use. The stale PRs are superseded and will be closed with a pointer to this record.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| P1 | Board claim (this block), pushed first | done (this commit) | 4054e125 | `COORDINATION.md` (append-only) |
+| P2 | Per-game results feed current through 11/15 finals: one row per game (date, teams, final score, quarter scores), settle ONLY after verified finals; ATL@MIL stays withheld (quarter conflict) | in progress | 4054e125 | `data/app/results_feed.json`, `data/live/results/`, `scripts/results_feed.py`, new `scripts/ingest_results.py` |
+| P3 | Scheduled-job extension: standings + three team-stat pages captured with provenance; chain ingests game books into the results feed, settles the finished game day and the sealed ledger, and rebuilds only after freshness+provenance gates pass | in progress | 4054e125 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`, `data/live/standings.json` |
+| P4 | Injury PDFs for 11/16: every report with timestamp archived, consecutive reports diffed, banner shows revision + retrieval time | in progress | 4054e125 | `data/live/injuries/`, `data/app/injuries*`, `scripts/injury_archive.py` |
+| P5 | Site: settlement stamps visible, standings page, exec summary/questions/suggestions updated, Flagged for Review current | in progress | 4054e125 | `scripts/build_app.py`, `app/`, `index.html` |
+| P6 | Integration: tests green, PR to `main`, merge, Pages deploy check, record here | unclaimed | 4054e125 | `COORDINATION.md` |
