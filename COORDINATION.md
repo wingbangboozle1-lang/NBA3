@@ -6033,3 +6033,84 @@ i.e. after PR #109). Claim pushed before any other work, per the coordination ru
 - `data/live/**` capture scripts belong to `2ebb1e75`/`94e6d41b`/`07f22dad`; this session does not
   edit their capture code. E1 touches only the scheduled-job workflow, `refresh_official.py`, and
   tests, which the refresh-repair sessions (`81800928`, `c449d46a`) have completed and handed on.
+
+### Completion record — E0–E4 all done (2026-11-16 ~19:55 UTC)
+
+**E0** claim pushed (d66c9ec) before any other work.
+
+**E1 — scheduled refresh: diagnosed and verified; repair landed on main.**
+- CI logs unreachable from this sandbox (egress block, recorded above), so the failure was
+  reproduced offline in a correct-order simulation (promote rolling slate → gates → rebuild →
+  the five refresh CI groups): `test_pick_ledger` failed with `25 not greater than 30` and
+  `test_refresh_official`'s published-slate pin failed, because the fetch legitimately promotes
+  a rolling window while the tests pinned the fixed 11/15–11/18 state. Run 43925193575
+  (17:15Z) failed exactly at that step; runs 43815576157/43864808752 failed at the commit step.
+- The repair on main is a superset assembled by several sessions while this round was running:
+  commit-step staging + rebase retry (c449d46a/8a07a7c), roll-safe tests (4c69ab99 — same
+  diagnosis, stronger form: expected pick set = window ∩ promoted slate; published slate replayed
+  from the newest manifest), standings/results-ingest chain steps and byte-for-byte feed replay
+  (4054e125, 259cfa6). This session's own fixture-based edits to `tests/test_pick_ledger.py` and
+  `tests/test_refresh_official.py` were **superseded and dropped in the merge** in favour of the
+  roll-safe versions; the offline methodology above is the independent verification.
+- Verified on the merged tree: rolling simulation green for all five refresh CI groups
+  (33+10+12+5+23 tests), full suite 293/293, `git add -A` + rebase-retry present in refresh.yml.
+  **Pending: the 23:15 UTC cron run must turn green AND land a commit before E1 is closed on the
+  runner (flag EVE-F04).** Manual dispatch is 403-blocked (EVE-F08).
+
+**E2 — 11/16 evening official capture (`data/rounds/2026-11-16-eve/`, site `audit_ef6e2e6c/`).**
+- Newest official injury report at read time **11/16 01:30 PM ET** transcribed cell-for-cell
+  (raw kept in `raw/`), parser validation PASS: 87 rows (76 player + 11 NOT YET SUBMITTED),
+  1 blank status flagged (Butler III — cell not printed), 71 rows with recorded carried cells.
+- Delta vs the 09:15 AM capture: 6 status changes, 1 reason change, 20 newly listed, 1 delisted
+  (Mathurin `Bennedict`→`Benedict` printed differently — reported as remove+add, not merged),
+  4 teams filed. Sources: official index + PDF, both stamps.
+- Slate read 11/16→11/19 (29 games, official tips + records); 11/16–11/18 cross-checked
+  game-by-game against the committed verified slate: **0 mismatches**; 11/19 is new to the window.
+- 7-page audit site, every row source-linked (186 table rows, 0 problems, link-checked).
+- 11/15 results re-published 9/9 settled including the **ATL@MIL three-read resolution**
+  (game page LINESCORE + gamebook summary line + gamebook team totals all give MIL Q3=27; the
+  gamebook period-table cell 37 is self-inconsistent — sums 116 against its own FINAL 106 — and
+  is preserved as a rejected reading). Main's feed carries the same Q3=27; this session's quarter
+  values were cross-checked row by row against the round's verbatim period transcript: exact
+  agreement.
+
+**E3 — stale PRs #94/#95/#96/#98.** All four were already closed on the board (C449-F-07) by the
+time disposition ran; this session posted per-PR disposition comments documenting what was
+checked: #98's results-feed line was ported and extended, then **superseded by main's own feed
+line during the merge** (main's q5-OT schema is better; this session's port files were dropped to
+avoid orphans); #94 duplicates `data/app/arena_coordinates.json` already on main (same
+Wikipedia-coordinates provenance, better coverage); #95's rolling/ site superseded by round/ +
+audit trees and its workflow edits by #107/#135-line repairs; #96's `data/slate/` parallel tree
+would duplicate canonical ledger/prereg structures — not ported.
+
+**E4 — integration, merged, Pages green.**
+- Merge of `origin/main` into this branch: COORDINATION both sides kept (protocol note in the
+  conflict header), main's roll-safe tests + feed + regenerated app pages taken, this session's
+  nav link (`build_app.py` Verification group → `audit_ef6e2e6c/index.html`) and EVE flags wiring
+  (`flags_ef6e2e6c.json` + `assemble_canonical.py`) re-applied, all derived trees regenerated to
+  **zero drift**.
+- **Pages blocker fixed:** `audit_00b0c780/make_data.py` R03 evidence pinned
+  `"settled_count": 14` against a feed that is now 23/23 — the step failed for every run since
+  19:27Z (the owner action d1b96315 recorded on the board). Updated evidence + gap + next to the
+  verified current state; audit tests 20/20; this session's PR build passed where #134's failed.
+- Verification battery on the merged tree: 293/293 unit tests; audit trees 20+13+16+17+30+26 OK;
+  pipeline 29 OK; verify 16 OK; `tools/check_site.py` PASS; freshness gates **12/12**; capture
+  replay byte-identical; ledger chain 43 entries intact; prereg 15 files; live pipeline
+  regeneration drift-free.
+- **PR #135** (E1 evidence + E2 capture + E3/E4) merged 2026-11-16T19:45:08Z;
+  **PR #136** (pages.yml `cp -r audit_ef6e2e6c` staging line — the nav link 404'd after #135's
+  deploy because the artifact staging list had no entry for this tree) merged after its build
+  passed. Pages runs: **43942592975 success** (build+deploy, unblocks main's red pages), legacy
+  pages build **43943267473 success**, follow-up deploy **43943268588 success**.
+- Live confirmed: root `index.html` serves the new nav entry
+  (`.../audit_ef6e2e6c/index.html` in Verification) and
+  `https://wingbangboozle1-lang.github.io/NBA3/audit_ef6e2e6c/flags.html` serves the updated
+  EVE flag register (the `index.html` URL returned one stale cached 404 from a pre-deploy probe;
+  the tree itself serves).
+- Flags published repo-wide: EVE-F01..09 on `app/flagged.html` (statuses updated post-merge —
+  EVE-F05/F06 resolved by main's 5bf65ed/798d917/cd639de/259cfa6, verification recorded).
+
+**Irregularities / open items handed on:** EVE-F04 (23:15 cron validation pending), EVE-F02/F03
+(blank status cell, name-form change), EVE-F07 (11/16 finals belong to the next capture — first
+tip 23:00 UTC), EVE-F08 (dispatch 403), EVE-F09 (estimator window pinning vs rolling slate —
+architecture decision), plus the repo-wide questions/suggestions registers.
