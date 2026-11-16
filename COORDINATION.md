@@ -5277,3 +5277,32 @@ wrong, each now fixed and pinned by its own test:
 
 Final state on `main`: **227 tests OK**, **18/18 gates**, site builds at 13 pages / 596 links /
 353 sourced rows / 0 problems, artefacts byte-reproducible.
+## Session `arena/2ecbccfd-nba3` — claims (2026-11-16T18:25Z)
+
+Session ID `2ecbccfd`. Branch fixed by the workspace to `arena/2ecbccfd-nba3`, branched from `main`
+@ `907771bcae5e822e2eada0a801ffec4a6336ccc9` (the PR #109 merge). No other session branch has a
+newer commit than this base: `git ls-remote origin` shows 60+ historical session branches, all
+already merged or abandoned; the only live automation is the `official data refresh` schedule,
+which has failed on its last four runs.
+
+### Task board (this session)
+
+| # | Task | Status | Owner | Files in scope (exclusive) |
+|---|------|--------|-------|----------------------------|
+| C1 | Repair + extend the scheduled refresh job: standings, team stats, injury PDF, rolling slate, gates before rebuild | in progress | 2ecbccfd | `.github/workflows/refresh.yml`, `scripts/refresh_2ecbccfd.py`, `tests/test_refresh_2ecbccfd.py` |
+| C2 | Fresh official capture 2026-11-16/17: injury reports, slate, finals, standings, three team-stat pages, player game logs | in progress | 2ecbccfd | `data/rounds/2026-11-17/captures/**`, `data/rounds/2026-11-17/*.json`, `data/rounds/2026-11-17/*.csv` |
+| C3 | Per-game result feed with quarter scores + settlement of 11/15 and 11/16 from official finals | in progress | 2ecbccfd | `data/rounds/2026-11-17/results.json`, `scripts/settle_2ecbccfd.py` |
+| C4 | Injury PDF diff (status changes) + rotation-minutes redistribution | in progress | 2ecbccfd | `data/rounds/2026-11-17/injury_delta.json`, `data/rounds/2026-11-17/minutes.json` |
+| C5 | Pre-registration freeze, tamper-evident ledger (hash before tip, verify after settlement) | in progress | 2ecbccfd | `data/rounds/2026-11-17/prereg/**`, `data/rounds/2026-11-17/ledger.jsonl`, `scripts/ledger_2ecbccfd.py` |
+| C6 | Two-estimator model, pinned HCA, luck z, travel, rho-priced parlays, possession totals, market anchor | in progress | 2ecbccfd | `scripts/model_2ecbccfd.py`, `data/rounds/2026-11-17/model.json` |
+| C7 | Site for this round: projection vs bet split, flagged/questions/suggestions/exec summary | in progress | 2ecbccfd | `round2/**` |
+| C8 | Integration: COORDINATION record, PR to main, merge, Pages deploy check | open | 2ecbccfd | `COORDINATION.md`, `index.html` (one nav link only) |
+
+Rules I follow: I do not edit `app/`, `data/app/**`, `round/**`, `scripts/build_app.py`,
+`scripts/build_round_site.py`, `scripts/refresh_official.py`, `scripts/round_model_2026_11_16.py`
+or any other session's owned file. If I need a change there it goes in the change-request log
+below. `index.html` gets exactly one new nav link (C8) and nothing else.
+
+### Change requests raised
+
+(append below as needed)
