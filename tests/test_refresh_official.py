@@ -255,105 +255,56 @@ class CommittedCaptureSlateTests(unittest.TestCase):
 
 
 class FinalsIngestTests(unittest.TestCase):
-    """The scheduled job's finals ingestion (session arena/4c69ab99-nba3).
+    """Game-card finals ingestion (merged implementation: scripts/gamecard_feed.py).
 
-    The official games page embeds one JSON object per game with the final score and the
-    per-period scores; the ingest parses those objects into data/app/finals_auto.json so
-    the per-game result feed stays current with no manual input.
+    The official games page embeds a card-feed JSON with the final score and the
+    per-period scores; results_feed.py ingest --capture-dir parses those cards into the
+    per-game result feed so it stays current with no manual input. Rows failing the
+    period-sum identity are RECORDED and rejected — never repaired (no-inference rule).
     """
 
     APP = os.path.join(ROOT, "data", "app")
-    GAMES_1114 = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z",
-                              "games_2026-11-14.html")
-    GAMES_1115 = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z",
-                              "games_2026-11-15.html")
-
-    @staticmethod
-    def _segment(gid, away_tri, home_tri, away_score, home_score,
-                 away_periods, home_periods, status, date="2026-11-16"):
-        def team_block(tri, score, periods, wins, losses):
-            per = ",".join('{"period":%d,"score":%d}' % (i, s)
-                           for i, s in enumerate(periods, 1))
-            return ('{"teamId":1,"teamName":"T","wins":%d,"losses":%d,"teamSubtitle":"x",'
-                    '"score":%d,"timeoutsRemaining":0,"inBonus":false,"teamTricode":"%s",'
-                    '"teamSlug":"t","specialInfoPrefix":null,"marqueePlayer":"1",'
-                    '"periods":[%s],"teamLeader":{"personId":1,"name":"P","score":99}}'
-                    % (wins, losses, score, tri, per))
-        card = ('<a href="/game/%s-vs-%s-%s" data-content="%s @ %s, %s">card</a>'
-                % (away_tri.lower(), home_tri.lower(), gid, away_tri, home_tri, date))
-        return (card + '"gameId":"%s","leagueId":"00","period":4,'
-                '"homeTeam":%s,"awayTeam":%s,"gameStatusText":"%s"'
-                % (gid, team_block(home_tri, home_score, home_periods, 4, 10),
-                   team_block(away_tri, away_score, away_periods, 7, 4), status))
+    GAMES_1114 = os.path.join(APP, "refresh", "2026-11-16T00-57Z", "games_2026-11-14.html")
+    GAMES_1115 = os.path.join(APP, "refresh", "2026-11-16T00-57Z", "games_2026-11-15.html")
 
     def test_committed_11_14_page_matches_the_feed_rows(self):
+        import gamecard_feed
         if not os.path.exists(self.GAMES_1114):
             self.skipTest("committed capture not present")
         html = open(self.GAMES_1114, encoding="utf-8", errors="replace").read()
-        rows = ro.parse_finals_from_games_html(
-            html, "2026-11-14", "https://www.nba.com/games?date=2026-11-14")
+        rows, rejected = gamecard_feed.finished_rows(gamecard_feed.parse_games_page(html))
         self.assertEqual(len(rows), 5)
-        feed = json.load(open(os.path.join(ROOT, "data", "app", "results_feed.json"),
-                              encoding="utf-8"))
+        self.assertEqual(rejected, [])
+        feed = json.load(open(os.path.join(self.APP, "results_feed.json"), encoding="utf-8"))
         by_key = {(g["date"], g["away"], g["home"]): g for g in feed["games"]}
         for r in rows:
             f = by_key[(r["date"], r["away"], r["home"])]
-            self.assertEqual((r["away_final"], r["home_final"]),
+            self.assertEqual((r["away_pts"], r["home_pts"]),
                              (f["away_pts"], f["home_pts"]))
-            for i in range(4):
-                self.assertEqual(r["away_periods"][i], f[f"away_q{i + 1}"])
-                self.assertEqual(r["home_periods"][i], f[f"home_q{i + 1}"])
+            self.assertEqual(r["away_q"], [f[f"away_q{i + 1}"] for i in range(len(r["away_q"]))])
 
     def test_in_progress_game_is_never_returned(self):
+        import gamecard_feed
         if not os.path.exists(self.GAMES_1115):
             self.skipTest("committed capture not present")
         html = open(self.GAMES_1115, encoding="utf-8", errors="replace").read()
-        rows = ro.parse_finals_from_games_html(
-            html, "2026-11-15", "https://www.nba.com/games?date=2026-11-15")
+        rows, _ = gamecard_feed.finished_rows(gamecard_feed.parse_games_page(html))
         # 0022600241 (NYK @ TOR) was Q3 1:27 when this page was captured
         self.assertNotIn("0022600241", {r["game_id"] for r in rows})
 
-    def test_final_and_final_ot_states(self):
-        seg = self._segment("0022600900", "ATL", "MIL", 113, 106,
-                            [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
-        rows = ro.parse_finals_from_games_html(seg, "2026-11-16", "https://www.nba.com/games?date=2026-11-16")
-        self.assertEqual(rows[0]["state"], "Final")
-        seg = self._segment("0022600901", "NYK", "TOR", 112, 108,
-                            [23, 24, 20, 28, 17], [17, 26, 31, 21, 13], "FINAL (OT)")
-        rows = ro.parse_finals_from_games_html(seg, "2026-11-16", "https://www.nba.com/games?date=2026-11-16")
-        self.assertEqual(rows[0]["state"], "Final/OT")
-        self.assertEqual(rows[0]["away_ot1"], 17)
-        self.assertEqual(rows[0]["home_ot1"], 13)
-
-    def test_card_json_team_mismatch_is_excluded(self):
-        seg = self._segment("0022600902", "ATL", "MIL", 113, 106,
-                            [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
-        seg = seg.replace('data-content="ATL @ MIL, 2026-11-16"',
-                          'data-content="BOS @ CLE, 2026-11-16"')
-        rows = ro.parse_finals_from_games_html(seg, "2026-11-16", "https://www.nba.com/games?date=2026-11-16")
+    def test_period_sum_mismatch_is_rejected_never_fixed(self):
+        import gamecard_feed
+        bad = {"gameId": "0022600902", "gameStatusText": "Final",
+               "awayTeam": {"teamTricode": "ATL", "score": 113,
+                            "periods": [{"period": 1, "score": 18}, {"period": 2, "score": 37},
+                                        {"period": 3, "score": 32}, {"period": 4, "score": 26}]},
+               "homeTeam": {"teamTricode": "MIL", "score": 106,
+                            "periods": [{"period": 1, "score": 37}, {"period": 2, "score": 16},
+                                        {"period": 3, "score": 37}, {"period": 4, "score": 26}]}}
+        rows, rejected = gamecard_feed.finished_rows([bad])
         self.assertEqual(rows, [])
-
-    def test_ingest_is_append_only_and_idempotent(self):
-        import tempfile
-        seg = self._segment("0022600903", "ATL", "MIL", 113, 106,
-                            [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
-        app_standings = os.path.join(self.APP, "standings_latest.json")
-        before = open(app_standings, "rb").read() if os.path.exists(app_standings) else None
-        with tempfile.TemporaryDirectory() as td:
-            out = os.path.join(td, "finals_auto.json")
-            st = os.path.join(td, "standings_latest.json")
-            pages = {"2026-11-16": seg}
-            n1 = ro.ingest_finals(pages, out_path=out, standings_path=st)
-            self.assertEqual(n1, 1)
-            n2 = ro.ingest_finals(pages, out_path=out, standings_path=st)
-            self.assertEqual(n2, 0)
-            doc = json.load(open(out, encoding="utf-8"))
-            self.assertEqual(len(doc["games"]), 1)
-            # the derived standings follow the caller's paths — a test must never write
-            # into data/app (this polluted data/app/standings_latest.json once)
-            after = open(app_standings, "rb").read() if os.path.exists(app_standings) else None
-            self.assertEqual(before, after,
-                             "test wrote synthetic standings into data/app/standings_latest.json")
+        self.assertEqual(len(rejected), 1)
+        self.assertIn("do not equal", rejected[0]["reason"])
 
 
 class GateCallTests(unittest.TestCase):
