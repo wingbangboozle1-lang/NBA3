@@ -183,7 +183,7 @@ def main(check=False) -> int:
     print("wrote d1b96315/data/player_logs_2026-11-15.json")
     for name, v in per_book.items():
         print(" ", name, v["count"], "rows; unread:", v["unread_cells"])
-        print("   checks:", json.dumps(v["checks"]["points_sum_vs_printed_team_total"]))
+        print("   checks:", json.dumps(v["checks"]["points_identity"]))
         print("   minutes:", json.dumps(v["checks"]["minutes_sum_vs_240"]))
     return 0
 
