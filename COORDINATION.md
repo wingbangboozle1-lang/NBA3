@@ -4646,3 +4646,18 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+## Session `arena/ca7b8b4d-nba3` (current) — CLAIM: official arena-identity verification for the travel-distance table
+
+**Session ID:** `arena/ca7b8b4d-nba3`. Branch `arena/ca7b8b4d-nba3`, branched from `main` @ `5fde67e` (merge of PR #97). Claim pushed before any other work (2026-11-16 ~02:15 UTC).
+
+**Why.** Travel distance is a requested item, but the published table is blank for all 44 team-games: `data/app/arena_coordinates.json` comes from Wikipedia (the file says so: "Coordinates are NOT published by the NBA"), and the board records no official coordinate source. Arena identity is the part that *can* be checked against an official source, so this round does that and nothing else.
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| A1 | Claim (this section) | done | ca7b8b4d | `COORDINATION.md` |
+| A2 | Read each of the 30 official NBA team pages (arena name, city) and record the official link per row | in progress | ca7b8b4d | `data/arena/nba_arenas_official_2026-11-16.json` (new) |
+| A3 | Cross-check against `data/app/arena_coordinates.json` (arena name + city); list mismatches and missing rows as flags | pending | ca7b8b4d | `data/arena/ARENA_CROSSCHECK_2026-11-16.md` (new) |
+| A4 | Coordinates: NOT computed or published here. Recorded as "no official coordinate source" unless one is found | pending | ca7b8b4d | — |
+
+**Non-overlap.** Creates only `data/arena/**` and this board section. Does not edit `data/app/*`, `scripts/estimators.py`, the site builders, or any open PR's files (#94–#98).
