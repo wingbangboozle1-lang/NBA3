@@ -24,6 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install the PDF text extractor used to transcribe captured game books
+        # Optional by design: with the library missing, scripts/refresh_official.py still
+        # stores every game's PDF with its retrieval stamp and manifest hash, it just cannot
+        # render the text into data/app/gamebooks/*.md, and the run says so out loud instead
+        # of failing. Never a hard dependency of the rebuild.
+        run: python3 -m pip install --quiet pypdf || echo "::warning::pypdf install failed; game-book PDFs will be stored but not transcribed this run"
+
       - name: Fetch official sources (injury report, schedule, results, game books, team stats)
         run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 

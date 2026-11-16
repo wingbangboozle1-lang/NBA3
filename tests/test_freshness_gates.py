@@ -62,6 +62,17 @@ class FreshnessGatesTest(unittest.TestCase):
         self.assertTrue(by["P2_team_stats"]["pass"], by["P2_team_stats"]["detail"])
         self.assertTrue(by["P3_feed_fields"]["pass"], by["P3_feed_fields"]["detail"])
 
+    def test_f3_passes_with_conflicting_print_rows_held_by_rule(self):
+        """The gate exempts a row HELD OPEN because its own document prints two readings of
+        the score (0022600243 ATL@MIL): refusing to guess is not a pipeline gap. A row that is
+        merely missing a verified final still fails (test_f3_fails_with_unsettled_final_rows).
+        """
+        rep = freshness_gates.evaluate()
+        by = {g["id"]: g for g in rep["gates"]}
+        self.assertTrue(by["F3_results_settled"]["pass"], by["F3_results_settled"]["detail"])
+        self.assertIn("held open by the conflicting-print rule",
+                      by["F3_results_settled"]["detail"])
+
     def test_f3_fails_with_unsettled_final_rows(self):
         import json, tempfile
         feed_path = os.path.join(ROOT, "data", "app", "results_feed.json")

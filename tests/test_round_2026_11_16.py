@@ -306,7 +306,10 @@ class TestModel(unittest.TestCase):
     def test_rho_is_measured_with_an_interval(self):
         p = self.m["pricing"]
         self.assertIsNotNone(p["rho"])
-        self.assertEqual(p["rho_n"], 22)
+        # 30 = the settled finals in data/app/results_feed.json after the 11/15 game day was
+        # rolled in (9 rows 11/13 + 5 rows 11/14 + 8 of the 9 11/15 rows; the ninth, ATL@MIL
+        # 0022600243, is held unsettled by design). Was 22 before session arena/4a59430d.
+        self.assertEqual(p["rho_n"], 30)
         self.assertEqual(len(p["rho_ci95"]), 2)
         self.assertLess(p["rho_ci95"][0], p["rho"])
         self.assertGreater(p["rho_ci95"][1], p["rho"])
@@ -356,7 +359,7 @@ class TestModel(unittest.TestCase):
     def test_the_unsettled_game_never_enters_the_ratings(self):
         excluded = self.m["input_games"]["excluded_unsettled"]
         self.assertEqual(excluded, ["0022600243"])
-        self.assertEqual(self.m["input_games"]["settled_finals_used"], 22)
+        self.assertEqual(self.m["input_games"]["settled_finals_used"], 30)
 
 
 class TestDeterminism(unittest.TestCase):

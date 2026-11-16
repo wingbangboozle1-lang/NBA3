@@ -1253,124 +1253,646 @@
  ],
  "minutes_redistribution": [
   {
-   "team": "ATL",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "ATL",
-   "team_name": "Atlanta Hawks",
-   "registry_url": "https://www.nba.com/team/1610612737/hawks",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "BKN",
+   "status": "MODELLED",
+   "captured_players": 11,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Noah Clowney",
+     "mean_min": 35.02,
+     "share_of_top8": 0.1739
+    },
+    {
+     "player": "Julius Randle",
+     "mean_min": 31.38,
+     "share_of_top8": 0.1558
+    },
+    {
+     "player": "Day'Ron Sharpe",
+     "mean_min": 27.78,
+     "share_of_top8": 0.1379
+    },
+    {
+     "player": "Danny Wolf",
+     "mean_min": 27.7,
+     "share_of_top8": 0.1375
+    },
+    {
+     "player": "Egor Demin",
+     "mean_min": 27.45,
+     "share_of_top8": 0.1363
+    },
+    {
+     "player": "Mikel Brown Jr.",
+     "mean_min": 19.95,
+     "share_of_top8": 0.099
+    },
+    {
+     "player": "Nolan Traore",
+     "mean_min": 19.8,
+     "share_of_top8": 0.0983
+    },
+    {
+     "player": "Chaney Johnson",
+     "mean_min": 12.35,
+     "share_of_top8": 0.0613
+    }
+   ],
+   "players_out": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Powell, Drake",
+    "Saraf, Ben"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Powell, Drake",
+    "Saraf, Ben"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Noah Clowney": 0.1739,
+    "Julius Randle": 0.1558,
+    "Day'Ron Sharpe": 0.1379,
+    "Danny Wolf": 0.1375,
+    "Egor Demin": 0.1363,
+    "Mikel Brown Jr.": 0.099,
+    "Nolan Traore": 0.0983,
+    "Chaney Johnson": 0.0613
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "BKN",
+   "team_name": "Brooklyn Nets",
+   "registry_url": "https://www.nba.com/team/1610612751/nets",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "CHA",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "CHA",
-   "team_name": "Charlotte Hornets",
-   "registry_url": "https://www.nba.com/team/1610612766/hornets",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "CHI",
+   "status": "MODELLED",
+   "captured_players": 6,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Isaac Okoro",
+     "mean_min": 31.03,
+     "share_of_top8": 0.1814
+    },
+    {
+     "player": "Norman Powell",
+     "mean_min": 30.1,
+     "share_of_top8": 0.176
+    },
+    {
+     "player": "Matas Buzelis",
+     "mean_min": 29.8,
+     "share_of_top8": 0.1742
+    },
+    {
+     "player": "Zach Collins",
+     "mean_min": 28.18,
+     "share_of_top8": 0.1648
+    },
+    {
+     "player": "Josh Giddey",
+     "mean_min": 26.23,
+     "share_of_top8": 0.1534
+    },
+    {
+     "player": "Patrick Williams",
+     "mean_min": 25.68,
+     "share_of_top8": 0.1502
+    }
+   ],
+   "players_out": [
+    "Awaka, Tobe",
+    "Robinson, Orlando",
+    "Sellers, Jaylin",
+    "Wilson, Caleb"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Awaka, Tobe",
+    "Robinson, Orlando",
+    "Sellers, Jaylin",
+    "Wilson, Caleb"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Isaac Okoro": 0.1814,
+    "Norman Powell": 0.176,
+    "Matas Buzelis": 0.1742,
+    "Zach Collins": 0.1648,
+    "Josh Giddey": 0.1534,
+    "Patrick Williams": 0.1502
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "CHI",
+   "team_name": "Chicago Bulls",
+   "registry_url": "https://www.nba.com/team/1610612741/bulls",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "HOU",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "HOU",
-   "team_name": "Houston Rockets",
-   "registry_url": "https://www.nba.com/team/1610612745/rockets",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "CLE",
+   "status": "MODELLED",
+   "captured_players": 8,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Tyrese Proctor",
+     "mean_min": 34.08,
+     "share_of_top8": 0.142
+    },
+    {
+     "player": "Mario Hezonja",
+     "mean_min": 34.05,
+     "share_of_top8": 0.1419
+    },
+    {
+     "player": "Jaylon Tyson",
+     "mean_min": 33.62,
+     "share_of_top8": 0.1401
+    },
+    {
+     "player": "Meleek Thomas",
+     "mean_min": 33.55,
+     "share_of_top8": 0.1398
+    },
+    {
+     "player": "Craig Porter Jr.",
+     "mean_min": 28.37,
+     "share_of_top8": 0.1182
+    },
+    {
+     "player": "Thomas Bryant",
+     "mean_min": 27.42,
+     "share_of_top8": 0.1142
+    },
+    {
+     "player": "Norchad Omier",
+     "mean_min": 26.75,
+     "share_of_top8": 0.1115
+    },
+    {
+     "player": "Riley Minix",
+     "mean_min": 22.17,
+     "share_of_top8": 0.0924
+    }
+   ],
+   "players_out": [
+    "Diop, Khalifa",
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Diop, Khalifa",
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Tyrese Proctor": 0.142,
+    "Mario Hezonja": 0.1419,
+    "Jaylon Tyson": 0.1401,
+    "Meleek Thomas": 0.1398,
+    "Craig Porter Jr.": 0.1182,
+    "Thomas Bryant": 0.1142,
+    "Norchad Omier": 0.1115,
+    "Riley Minix": 0.0924
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "CLE",
+   "team_name": "Cleveland Cavaliers",
+   "registry_url": "https://www.nba.com/team/1610612739/cavaliers",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "IND",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "IND",
-   "team_name": "Indiana Pacers",
-   "registry_url": "https://www.nba.com/team/1610612754/pacers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "DEN",
+   "status": "MODELLED",
+   "captured_players": 10,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Jamal Murray",
+     "mean_min": 37.95,
+     "share_of_top8": 0.1735
+    },
+    {
+     "player": "Nikola Jokic",
+     "mean_min": 37.13,
+     "share_of_top8": 0.1698
+    },
+    {
+     "player": "Aaron Gordon",
+     "mean_min": 32.53,
+     "share_of_top8": 0.1487
+    },
+    {
+     "player": "Cam Johnson",
+     "mean_min": 30.77,
+     "share_of_top8": 0.1407
+    },
+    {
+     "player": "Christian Braun",
+     "mean_min": 27.77,
+     "share_of_top8": 0.127
+    },
+    {
+     "player": "DeMar DeRozan",
+     "mean_min": 23.82,
+     "share_of_top8": 0.1089
+    },
+    {
+     "player": "Trevon Brazile",
+     "mean_min": 15.62,
+     "share_of_top8": 0.0714
+    },
+    {
+     "player": "Marvin Bagley III",
+     "mean_min": 13.1,
+     "share_of_top8": 0.0599
+    }
+   ],
+   "players_out": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Jamal Murray": 0.1735,
+    "Nikola Jokic": 0.1698,
+    "Aaron Gordon": 0.1487,
+    "Cam Johnson": 0.1407,
+    "Christian Braun": 0.127,
+    "DeMar DeRozan": 0.1089,
+    "Trevon Brazile": 0.0714,
+    "Marvin Bagley III": 0.0599
+   },
+   "replacement_share": 0.0001,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "DEN",
+   "team_name": "Denver Nuggets",
+   "registry_url": "https://www.nba.com/team/1610612743/nuggets",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "LAC",
+   "team": "GSW",
    "status": "NO_CAPTURED_LOGS",
-   "team_code": "LAC",
-   "team_name": "LA Clippers",
-   "registry_url": "https://www.nba.com/team/1610612746/clippers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team_code": "GSW",
+   "team_name": "Golden State Warriors",
+   "registry_url": "https://www.nba.com/team/1610612744/warriors",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "LAL",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "LAL",
-   "team_name": "Los Angeles Lakers",
-   "registry_url": "https://www.nba.com/team/1610612747/lakers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "MEM",
+   "status": "MODELLED",
+   "captured_players": 10,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Cam Spencer",
+     "mean_min": 33.92,
+     "share_of_top8": 0.1664
+    },
+    {
+     "player": "Cedric Coward",
+     "mean_min": 32.82,
+     "share_of_top8": 0.161
+    },
+    {
+     "player": "Taylor Hendricks",
+     "mean_min": 29.02,
+     "share_of_top8": 0.1424
+    },
+    {
+     "player": "Cameron Boozer",
+     "mean_min": 28.78,
+     "share_of_top8": 0.1412
+    },
+    {
+     "player": "Jaylen Wells",
+     "mean_min": 24.58,
+     "share_of_top8": 0.1206
+    },
+    {
+     "player": "Olivier-Maxence Prosper",
+     "mean_min": 20.05,
+     "share_of_top8": 0.0984
+    },
+    {
+     "player": "Kris Murray",
+     "mean_min": 19.48,
+     "share_of_top8": 0.0956
+    },
+    {
+     "player": "Isaiah Stewart",
+     "mean_min": 15.15,
+     "share_of_top8": 0.0743
+    }
+   ],
+   "players_out": [
+    "Jackson, GG"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Jackson, GG"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Cam Spencer": 0.1664,
+    "Cedric Coward": 0.161,
+    "Taylor Hendricks": 0.1424,
+    "Cameron Boozer": 0.1412,
+    "Jaylen Wells": 0.1206,
+    "Olivier-Maxence Prosper": 0.0984,
+    "Kris Murray": 0.0956,
+    "Isaiah Stewart": 0.0743
+   },
+   "replacement_share": 0.0001,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "MEM",
+   "team_name": "Memphis Grizzlies",
+   "registry_url": "https://www.nba.com/team/1610612763/grizzlies",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "MIL",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "MIL",
-   "team_name": "Milwaukee Bucks",
-   "registry_url": "https://www.nba.com/team/1610612749/bucks",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "MIA",
+   "status": "MODELLED",
+   "captured_players": 12,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Bam Adebayo",
+     "mean_min": 36.1,
+     "share_of_top8": 0.1704
+    },
+    {
+     "player": "Davion Mitchell",
+     "mean_min": 32.3,
+     "share_of_top8": 0.1524
+    },
+    {
+     "player": "Giannis Antetokounmpo",
+     "mean_min": 30.92,
+     "share_of_top8": 0.1459
+    },
+    {
+     "player": "Myron Gardner",
+     "mean_min": 26.03,
+     "share_of_top8": 0.1228
+    },
+    {
+     "player": "Ryan Conwell",
+     "mean_min": 25.8,
+     "share_of_top8": 0.1218
+    },
+    {
+     "player": "Andrew Wiggins",
+     "mean_min": 22.92,
+     "share_of_top8": 0.1082
+    },
+    {
+     "player": "Klay Thompson",
+     "mean_min": 20.22,
+     "share_of_top8": 0.0954
+    },
+    {
+     "player": "Bobby Portis Jr.",
+     "mean_min": 17.6,
+     "share_of_top8": 0.0831
+    }
+   ],
+   "players_out": [
+    "Goldin, Vladislav"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Goldin, Vladislav"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Bam Adebayo": 0.1704,
+    "Davion Mitchell": 0.1524,
+    "Giannis Antetokounmpo": 0.1459,
+    "Myron Gardner": 0.1228,
+    "Ryan Conwell": 0.1218,
+    "Andrew Wiggins": 0.1082,
+    "Klay Thompson": 0.0954,
+    "Bobby Portis Jr.": 0.0831
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "MIA",
+   "team_name": "Miami Heat",
+   "registry_url": "https://www.nba.com/team/1610612748/heat",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "OKC",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "OKC",
-   "team_name": "Oklahoma City Thunder",
-   "registry_url": "https://www.nba.com/team/1610612760/thunder",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "MIN",
+   "status": "MODELLED",
+   "captured_players": 10,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Jaden McDaniels",
+     "mean_min": 37.02,
+     "share_of_top8": 0.1653
+    },
+    {
+     "player": "Jonathan Kuminga",
+     "mean_min": 35.38,
+     "share_of_top8": 0.1579
+    },
+    {
+     "player": "Ayo Dosunmu",
+     "mean_min": 33.07,
+     "share_of_top8": 0.1476
+    },
+    {
+     "player": "LaMelo Ball",
+     "mean_min": 29.85,
+     "share_of_top8": 0.1332
+    },
+    {
+     "player": "Rudy Gobert",
+     "mean_min": 26.88,
+     "share_of_top8": 0.12
+    },
+    {
+     "player": "Terrence Shannon Jr",
+     "mean_min": 21.75,
+     "share_of_top8": 0.0971
+    },
+    {
+     "player": "Bones Hyland",
+     "mean_min": 21.3,
+     "share_of_top8": 0.0951
+    },
+    {
+     "player": "Trey Lyles",
+     "mean_min": 18.77,
+     "share_of_top8": 0.0838
+    }
+   ],
+   "players_out": [
+    "Clark, Jaylen",
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Clark, Jaylen",
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Jaden McDaniels": 0.1653,
+    "Jonathan Kuminga": 0.1579,
+    "Ayo Dosunmu": 0.1476,
+    "LaMelo Ball": 0.1332,
+    "Rudy Gobert": 0.12,
+    "Terrence Shannon Jr": 0.0971,
+    "Bones Hyland": 0.0951,
+    "Trey Lyles": 0.0838
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "MIN",
+   "team_name": "Minnesota Timberwolves",
+   "registry_url": "https://www.nba.com/team/1610612750/timberwolves",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "PHI",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "PHI",
-   "team_name": "Philadelphia 76ers",
-   "registry_url": "https://www.nba.com/team/1610612755/sixers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "NOP",
+   "status": "MODELLED",
+   "captured_players": 9,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Saddiq Bey",
+     "mean_min": 40.55,
+     "share_of_top8": 0.1796
+    },
+    {
+     "player": "Jeremiah Fears",
+     "mean_min": 32.73,
+     "share_of_top8": 0.145
+    },
+    {
+     "player": "Zion Williamson",
+     "mean_min": 30.77,
+     "share_of_top8": 0.1363
+    },
+    {
+     "player": "Herbert Jones",
+     "mean_min": 27.48,
+     "share_of_top8": 0.1217
+    },
+    {
+     "player": "Derik Queen",
+     "mean_min": 24.97,
+     "share_of_top8": 0.1106
+    },
+    {
+     "player": "Jordan Poole",
+     "mean_min": 23.92,
+     "share_of_top8": 0.1059
+    },
+    {
+     "player": "Jaron Pierre Jr.",
+     "mean_min": 23.3,
+     "share_of_top8": 0.1032
+    },
+    {
+     "player": "Yves Missi",
+     "mean_min": 22.05,
+     "share_of_top8": 0.0977
+    }
+   ],
+   "players_out": [
+    "Mathurin, Bennedict",
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Mathurin, Bennedict",
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Saddiq Bey": 0.1796,
+    "Jeremiah Fears": 0.145,
+    "Zion Williamson": 0.1363,
+    "Herbert Jones": 0.1217,
+    "Derik Queen": 0.1106,
+    "Jordan Poole": 0.1059,
+    "Jaron Pierre Jr.": 0.1032,
+    "Yves Missi": 0.0977
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "NOP",
+   "team_name": "New Orleans Pelicans",
+   "registry_url": "https://www.nba.com/team/1610612740/pelicans",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "PHX",
+   "team": "ORL",
    "status": "NO_CAPTURED_LOGS",
-   "team_code": "PHX",
-   "team_name": "Phoenix Suns",
-   "registry_url": "https://www.nba.com/team/1610612756/suns",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team_code": "ORL",
+   "team_name": "Orlando Magic",
+   "registry_url": "https://www.nba.com/team/1610612753/magic",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
-   "team": "SAC",
+   "team": "POR",
    "status": "NO_CAPTURED_LOGS",
-   "team_code": "SAC",
-   "team_name": "Sacramento Kings",
-   "registry_url": "https://www.nba.com/team/1610612758/kings",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "SAS",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "SAS",
-   "team_name": "San Antonio Spurs",
-   "registry_url": "https://www.nba.com/team/1610612759/spurs",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "TOR",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "TOR",
-   "team_name": "Toronto Raptors",
-   "registry_url": "https://www.nba.com/team/1610612761/raptors",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "UTA",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "UTA",
-   "team_name": "Utah Jazz",
-   "registry_url": "https://www.nba.com/team/1610612762/jazz",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "WAS",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "WAS",
-   "team_name": "Washington Wizards",
-   "registry_url": "https://www.nba.com/team/1610612764/wizards",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team_code": "POR",
+   "team_name": "Portland Trail Blazers",
+   "registry_url": "https://www.nba.com/team/1610612757/blazers",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   }
  ],
  "minutes_sensitivity": [
@@ -2255,23 +2777,28 @@
    "NOP"
   ],
   "teams_with_an_announced_absence": [
-   "Atlanta Hawks",
-   "Charlotte Hornets",
-   "Houston Rockets",
-   "Indiana Pacers",
-   "LA Clippers",
-   "Los Angeles Lakers",
-   "Milwaukee Bucks",
-   "Oklahoma City Thunder",
-   "Philadelphia 76ers",
-   "Phoenix Suns",
-   "Sacramento Kings",
-   "San Antonio Spurs",
-   "Toronto Raptors",
-   "Utah Jazz",
-   "Washington Wizards"
+   "Brooklyn Nets",
+   "Chicago Bulls",
+   "Cleveland Cavaliers",
+   "Denver Nuggets",
+   "Golden State Warriors",
+   "Memphis Grizzlies",
+   "Miami Heat",
+   "Minnesota Timberwolves",
+   "New Orleans Pelicans",
+   "Orlando Magic",
+   "Portland Trail Blazers"
   ],
-  "overlap": [],
+  "overlap": [
+   "BKN",
+   "CHI",
+   "CLE",
+   "DEN",
+   "MEM",
+   "MIA",
+   "MIN",
+   "NOP"
+  ],
   "why": "A redistribution needs both a captured game log and an announced absence for the same club. The logs cover the 11/14 slate and the archived report covers 11/15, so the overlap is what it is; the sensitivity table is illustrative and labelled."
  },
  "market_prior": {
@@ -2283,91 +2810,70 @@
   "oos_log_loss_blend_50_50": 0.616047
  },
  "injury_snapshot": {
-  "file": "Injury-Report_2026-11-15_06_15AM",
-  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "file": "Injury-Report_2026-11-16_12_00AM",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf",
   "retrieved_utc": "2026-11-15T11:33Z",
   "out_or_doubtful_by_team": {
-   "Indiana Pacers": [
-    "Furphy, Johnny",
-    "Haliburton, Tyrese",
-    "Sheppard, Ben"
+   "Chicago Bulls": [
+    "Awaka, Tobe",
+    "Robinson, Orlando",
+    "Sellers, Jaylin",
+    "Wilson, Caleb"
    ],
-   "Philadelphia 76ers": [
-    "Barlow, Dominick",
-    "Bona, Adem",
-    "Embid, Joel",
-    "Hukporti, Ariel"
+   "Cleveland Cavaliers": [
+    "Diop, Khalifa",
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
    ],
-   "Los Angeles Lakers": [
-    "Carr, Cameron",
-    "Reaves, Austin"
+   "Memphis Grizzlies": [
+    "Jackson, GG"
    ],
-   "Phoenix Suns": [
-    "Williams, Mark"
+   "Orlando Magic": [
+    "Banchero, Paolo",
+    "Isaac, Jonathan",
+    "Nelson, Izaiyah",
+    "Penda, Noah"
    ],
-   "Charlotte Hornets": [
-    "Ajayi, Michael",
-    "Boswell, Kylan",
-    "Knueppel, Kon",
-    "Schroder, Dennis",
-    "Steinbach, Hannes"
+   "Miami Heat": [
+    "Goldin, Vladislav"
    ],
-   "LA Clippers": [
-    "Beal, Bradley",
-    "Ingram, Brandon",
-    "Miller, Jordan",
-    "Niederhauser, Yanic Konan"
+   "Brooklyn Nets": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Powell, Drake",
+    "Saraf, Ben"
    ],
-   "San Antonio Spurs": [
-    "Brown, Maliq",
-    "Gillespie, Ja'Kobi",
-    "Harris, Tobias",
-    "Quaintance, Jayden"
+   "Golden State Warriors": [
+    "Curry, Stephen",
+    "Moody, Moses",
+    "Porzingis, Kristaps",
+    "Williams, Brandon"
    ],
-   "Utah Jazz": [
-    "Alexander, Trey",
-    "Bufkin, Kobe"
+   "New Orleans Pelicans": [
+    "Mathurin, Bennedict",
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte"
    ],
-   "Toronto Raptors": [
-    "Bittle, Nate",
-    "Leonard, Kawhi",
-    "McCullar Jr., Kevin",
-    "Smith, Malachi"
+   "Portland Trail Blazers": [
+    "Krejci, Vit",
+    "Morant, Ja",
+    "Sharpe, Shaedon",
+    "Youngblood, Chris"
    ],
-   "Houston Rockets": [
-    "Capela, Clint",
-    "Copeland, Quadir"
+   "Minnesota Timberwolves": [
+    "Clark, Jaylen",
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
    ],
-   "Washington Wizards": [
-    "Beekman, Reece",
-    "Champagne, Justin",
-    "Vukcevic, Tristan",
-    "Watkins, Jamir"
-   ],
-   "Atlanta Hawks": [
-    "Flemings, Kingston",
-    "Gilbert, Keshon",
-    "Gueye, Mouhamed",
-    "Newell, Asa"
-   ],
-   "Milwaukee Bucks": [
-    "Dieng, Ousmane",
-    "Jones, Kam",
-    "Markovic, Bogoljub",
-    "Nance, Pete",
-    "Ryan, Cormac"
-   ],
-   "Oklahoma City Thunder": [
-    "Holmgren, Chet",
-    "Sorber, Thomas",
-    "Wallace, Cason",
-    "Williams, Jalen",
-    "Williams, Jaylin"
-   ],
-   "Sacramento Kings": [
-    "Mogbo, Jonathan",
-    "Pedulla, Sean",
-    "Raynaud, Maxime"
+   "Denver Nuggets": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
    ]
   }
  }

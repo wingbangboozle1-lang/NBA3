@@ -49,6 +49,9 @@ TEAM_PAGES = [
     "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
 ]
+STANDINGS = "https://www.nba.com/standings"
+STANDINGS_JSON = os.path.join(APP, "official_standings_current.json")
+GAMEBOOKS_DIR = os.path.join(APP, "gamebooks")
 RETRIES = 3
 RETRY_SLEEP_S = 5
 
@@ -148,8 +151,141 @@ def write_slate(rows, stamp, excluded):
     return slate
 
 
+# --------------------------------------------------------------------- standings (added by
+# session arena/4a59430d-nba3: the brief's first requirement asks the scheduled job to refresh
+# the official STANDINGS as well as the schedule, team stats and injury report. Before this
+# commit no job in the repo captured standings at all — grep 'standings' over scripts/ found
+# only a link label and a 'no official standings row' error string.)
+
+STANDINGS_ROW_RE = re.compile(r">([A-Z]{3})\s*(\d{1,2})\s*-\s*(\d{1,2})\s*</[a-z]+>\s*<[^>]*>\s*"
+                              r"(\d\.\d{3})\s*<")
+STANDINGS_ASOF_RE = re.compile(r"(?:Last Updated|as of|through)\s*[:\-]?\s*"
+                               r"([A-Z][a-z]+ \d{1,2}, \d{4})", re.I)
+# the two record cells a game page prints per matchup: "AWAY (w-l) @ HOME (w-l)" style, and the
+# official game book's own headers "VISITOR: Indiana Pacers (5-9)" / "HOME: ... (11-3)".
+BOXSCORE_RECORD_RE = re.compile(r"boxscore/([a-z]{3})-vs-([a-z]{3})-\d{10}['\"][^>]*>\s*"
+                                r"[A-Za-z .']+?\s*\((\d{1,2})-(\d{1,2})\)\s*@\s*"
+                                r"[A-Za-z .']+?\s*\((\d{1,2})-(\d{1,2})\)")
+GAMEBOOK_RECORD_RE = re.compile(r"^\|\s*(VISITOR|HOME):\s*(.+?)\s*\((\d{1,2})-(\d{1,2})\)", re.M)
+NICK_TO_ABBR = {
+    "Hawks": "ATL", "Celtics": "BOS", "Nets": "BKN", "Hornets": "CHA", "Bulls": "CHI",
+    "Cavaliers": "CLE", "Mavericks": "DAL", "Nuggets": "DEN", "Pistons": "DET",
+    "Warriors": "GSW", "Rockets": "HOU", "Pacers": "IND", "Clippers": "LAC",
+    "Lakers": "LAL", "Grizzlies": "MEM", "Heat": "MIA", "Bucks": "MIL",
+    "Timberwolves": "MIN", "Pelicans": "NOP", "Knicks": "NYK", "Thunder": "OKC",
+    "Magic": "ORL", "76ers": "PHI", "76ERS": "PHI", "Suns": "PHX",
+    "Trail Blazers": "POR", "Kings": "SAC", "Spurs": "SAS", "Raptors": "TOR",
+    "Jazz": "UTA", "Wizards": "WAS",
+}
+
+
+def parse_standings_rows(html):
+    """Rows from the official standings page HTML, as the page prints them.
+
+    Returns [] when the page ships its table client-side only (it has in every capture so
+    far): the caller then records the standings as NOT captured — blank, flagged — rather
+    than deriving W-L from another source and calling it the standings page.
+    """
+    rows = []
+    for abbr, w, l, pct in STANDINGS_ROW_RE.findall(html):
+        rows.append({"team": abbr, "wins": int(w), "losses": int(l), "win_pct": float(pct),
+                     "source_url": STANDINGS})
+    return rows
+
+
+def parse_standings_asof(html):
+    m = STANDINGS_ASOF_RE.search(html)
+    return m.group(1) if m else None
+
+
+def game_records_from_pages(pages):
+    """(away_record, home_record) per matchup that a games page prints on its boxscore link.
+
+    These are the records the OFFICIAL schedule/results page shows for that date — the
+    standings-adjacent figures the pages themselves carry. Attributed per day, never merged
+    across days, so a stale page cannot silently overwrite a fresher number.
+    """
+    out = []
+    for d in sorted(pages):
+        for aw, ho, awl, ahl, hwl, hhl in BOXSCORE_RECORD_RE.findall(pages[d]):
+            out.append({"date": d, "away": aw.upper(), "home": ho.upper(),
+                        "away_wins": int(awl), "away_losses": int(ahl),
+                        "home_wins": int(hwl), "home_losses": int(hhl),
+                        "source_url": GAMES + d,
+                        "measure": "record printed on the official games page for that date"})
+    return out
+
+
+def records_from_gamebooks(gamebook_dir=GAMEBOOKS_DIR):
+    """Per-team records exactly as the official game books print their VISITOR/HOME headers.
+
+    A game book header is printed after that game, so a team's record is the standing after
+    the games captured so far on that date (the newest captured day per team wins). Only
+    teams whose book was actually captured appear; anything else is left blank.
+    """
+    newest = {}
+    out = []
+    if not os.path.isdir(gamebook_dir):
+        return out
+    for name in sorted(os.listdir(gamebook_dir)):
+        if not (name.startswith("20") and name.endswith(".md")):
+            continue
+        path = os.path.join(gamebook_dir, name)
+        text = open(path, encoding="utf-8", errors="replace").read()
+        day = f"{name[0:4]}-{name[4:6]}-{name[6:8]}"
+        for side, team, w, l in GAMEBOOK_RECORD_RE.findall(text):
+            abbr = next((a for nick, a in NICK_TO_ABBR.items() if nick in team), None)
+            if abbr is None:
+                continue
+            row = {"team": abbr, "wins": int(w), "losses": int(l), "as_of": day,
+                   "printed_as": f"{team} ({w}-{l})",
+                   "source_url": f"https://statsdmz.nba.com/pdfs/{day.replace('-', '')}/"
+                                 f"{name[:8]}_{name.split('_')[1][:-3]}.pdf",
+                   "raw_file": f"data/app/gamebooks/{name}",
+                   "measure": ("record printed in the official game book's "
+                               f"{side.lower()} header — the game book's own statement of that "
+                               "club's standing, cross-checked against the standings page in "
+                               "tests/test_refresh_official.py (never assumed pre- or post-game)")}
+            out.append(row)
+            cur = newest.get(abbr)
+            if cur is None or (row["as_of"], row["source_url"]) > (cur["as_of"], cur["source_url"]):
+                newest[abbr] = row
+    # no derived fields: rank, games back and win pct are only printed when an official
+    # source prints them, so they are absent from these rows rather than computed here.
+    return sorted(newest.values(), key=lambda r: r["team"])
+
+
+def promote_standings(stamp, html=None, game_rows=()):
+    """Write data/app/official_standings_current.json from what the capture actually holds."""
+    page_rows = parse_standings_rows(html) if html else []
+    books = records_from_gamebooks()
+    doc = {
+        "source_url": STANDINGS,
+        "retrieved_utc": stamp,
+        "standings_page_as_of": parse_standings_asof(html) if html else None,
+        "standings_page_rows": page_rows,
+        "game_day_records": sorted(game_rows, key=lambda r: (r["date"], r["away"], r["home"])),
+        "newest_record_per_team_from_game_books": books,
+        "count_page_rows": len(page_rows),
+        "notes": [
+            "standings_page_rows is empty when the official page ships its table client-side: "
+            "no W-L is then attributed to the standings page (blank + flagged, not inferred)",
+            "game_day_records come from the record cells the official games pages print for each "
+            "matchup on that date; they are per-day and never merged across days",
+            "newest_record_per_team_from_game_books is the record printed in each captured "
+            "official game book's VISITOR/HOME header (post-game); standings position, games back "
+            "and win pct are left blank because no captured official source prints them here",
+            "promoted by scripts/refresh_official.py; a team with no captured book has no row",
+        ],
+    }
+    with open(STANDINGS_JSON, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=1)
+        fh.write("\n")
+    return doc
+
+
 def promote_only(refresh_dir):
-    """Offline re-promotion of the slate from a committed capture directory (no network)."""
+    """Offline re-promotion of the slate (and standings) from a committed capture directory."""
     out_dir = os.path.abspath(refresh_dir)
     with open(os.path.join(out_dir, "manifest.json"), encoding="utf-8") as fh:
         man = json.load(fh)
@@ -165,10 +301,75 @@ def promote_only(refresh_dir):
         print("promote-only: no game cards found; nothing written", file=sys.stderr)
         return 1
     slate = write_slate(rows, man["stamp"], excluded)
+    standings_page = os.path.join(out_dir, "standings.html")
+    html = (open(standings_page, encoding="utf-8", errors="replace").read()
+            if os.path.exists(standings_page) else None)
+    doc = promote_standings(man["stamp"], html=html, game_rows=game_records_from_pages(pages))
     print(f"promote-only: {len(rows)} games, {len(excluded)} excluded -> "
           f"data/app/official_slate_current.json (window {slate['window']['from']}"
-          f"..{slate['window']['to']})")
+          f"..{slate['window']['to']}); standings: {doc['count_page_rows']} page rows + "
+          f"{len(doc['newest_record_per_team_from_game_books'])} game-book records + "
+          f"{len(doc['game_day_records'])} game-day record cells -> "
+          f"data/app/official_standings_current.json")
     return 0
+
+
+def pdf_to_gamebook_md(pdf_path, out_dir, source_url, retrieved_utc, linked_from=None):
+    """Transcribe a captured game-book PDF into the verbatim text form the capture parser reads.
+
+    The scheduled job stores every game's official result document (the game book PDF) with its
+    retrieval timestamp in the refresh directory and manifest; this step renders the same PDF's
+    text into data/app/gamebooks/<YYYYMMDD>_<AWAY><HOME>.md so the per-game result feed, the
+    player game logs and the minutes shares can be rebuilt from it. Nothing is edited on the
+    way: lines are printed as the PDF text layer gives them. The extraction library is optional
+    — when it is missing the PDF is left as the only artifact and the caller reports the game
+    as 'captured, not yet transcribed' (blank and flagged, never a guessed score).
+
+    Returns the written path, or None when it wrote nothing (file exists, no extractor, or no
+    text). An existing file is NEVER overwritten: a verbatim transcription already committed by
+    another session stays byte-identical.
+    """
+    name = os.path.basename(pdf_path)
+    m = re.match(r"gamebook_(\d{8})_([A-Z]{3})([A-Z]{3})\.pdf$", name)
+    if not m:
+        return None
+    day, away, home = m.group(1), m.group(2), m.group(3)
+    dest = os.path.join(out_dir, f"{day}_{away}{home}.md")
+    if os.path.exists(dest):
+        return None
+    try:
+        from pypdf import PdfReader          # wired by .github/workflows/refresh.yml
+    except Exception:
+        try:
+            from PyPDF2 import PdfReader      # older name, same API for extract_text
+        except Exception:
+            return None
+    try:
+        reader = PdfReader(pdf_path)
+        text = "\n".join((page.extract_text() or "") for page in reader.pages)
+    except Exception:
+        return None
+    if not text.strip():
+        return None
+    os.makedirs(out_dir, exist_ok=True)
+    head = [
+        "# Verbatim game-book capture - " + away + " @ " + home + ", "
+        + day[0:4] + "-" + day[4:6] + "-" + day[6:8] + " (PDF text extraction)",
+        "",
+        "- Source URL: " + source_url,
+    ]
+    if linked_from:
+        head.append("- Linked from: " + linked_from)
+    head.append("- Retrieved: " + retrieved_utc
+                + " (scripts/refresh_official.py, scheduled official data refresh)")
+    head.append("- PDF: " + os.path.relpath(pdf_path, ROOT))
+    head.append("- Fidelity: every line below is the PDF text layer exactly as extracted;"
+                " no value is edited, reconciled or supplied. Quarter rows are kept as"
+                " printed, including any overtime columns.")
+    sep = chr(10)
+    with open(dest, "w", encoding="utf-8") as fh:
+        fh.write(sep.join(head) + sep + sep + "---" + sep + sep + text.rstrip(sep) + sep)
+    return dest
 
 
 class Fetcher:
@@ -246,9 +447,22 @@ def main():
     y, hh, mm, ap_ = newest
     manifest["newest_injury_report"] = f"{y}-{hh}-{mm}{ap_}"
     pdf_name = f"Injury-Report_{y}_{hh}_{mm}{ap_}.pdf"
-    if f.get(INJ_CDN + pdf_name, os.path.join(out_dir, pdf_name), required=True,
+    pdf_dest = os.path.join(out_dir, pdf_name)
+    if f.get(INJ_CDN + pdf_name, pdf_dest, required=True,
              label="newest injury report PDF") is None:
         return finish(2)
+    # store the report's own text next to the bytes (requirement: every injury PDF is stored
+    # WITH a timestamp). The store script records the retrieval stamp, the official URL and
+    # the designation counts the text layer states unambiguously; it deliberately does not
+    # rebuild the report's table rows from the token stream (see its docstring), which stays
+    # the verbatim-transcription path that data/live/injuries/*.md uses.
+    store = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "injury_pdf_to_md.py"),
+                            pdf_dest, "-o", os.path.join(out_dir, pdf_name.replace(".pdf", ".md")),
+                            "--retrieved", stamp, "--source-url", INJ_CDN + pdf_name],
+                           cwd=ROOT, capture_output=True, text=True)
+    manifest["injury_report_stored_md"] = (pdf_name.replace(".pdf", ".md")
+                                          if store.returncode == 0 else None)
+    print((store.stderr or "").strip())
 
     # 2. schedule/results pages: today..today+3 and the two previous game days (Eastern dates)
     for off in range(-2, 4):
@@ -260,6 +474,13 @@ def main():
     for i, url in enumerate(TEAM_PAGES):
         f.get(url, os.path.join(out_dir, f"teams_{i}.html"), required=True,
               label=f"team stats page {i}")
+
+    # 3a. the official standings page (optional). Optional on purpose: the page has shipped
+    #     its table client-side in every capture so far, so it can neither gate a rebuild nor
+    #     be reported as a required failure while it yields no parsable rows. What is
+    #     captured is stored verbatim and promoted below with its own provenance.
+    f.get(STANDINGS, os.path.join(out_dir, "standings.html"), required=False,
+          label="standings page")
 
     # 3b. promote the schedule window from the fetched games pages (game links are the
     #     parseable part of the scoreboard HTML; tip times stay blank and flagged when the
@@ -276,6 +497,17 @@ def main():
         write_slate(rows, stamp, excluded)
         print(f"slate promoted: {len(rows)} games, {len(excluded)} excluded "
               f"-> data/app/official_slate_current.json")
+    spage = os.path.join(out_dir, "standings.html")
+    doc = promote_standings(stamp,
+                            html=(open(spage, encoding="utf-8", errors="replace").read()
+                                  if os.path.exists(spage) else None),
+                            game_rows=game_records_from_pages(pages))
+    print(f"standings promoted: {doc['count_page_rows']} rows from the standings page, "
+          f"{len(doc['game_day_records'])} game-day record cells, "
+          f"{len(doc['newest_record_per_team_from_game_books'])} game-book records "
+          f"-> data/app/official_standings_current.json"
+          + ("" if doc["count_page_rows"] else
+             " (the standings page printed no parsable rows — recorded as not captured)"))
 
     # 4. game books for every finished game found on the two previous Eastern game days
     gb = 0
@@ -287,11 +519,21 @@ def main():
         html = open(page, encoding="utf-8", errors="replace").read()
         for a, h in sorted(set(re.findall(r"boxscore/([a-z]{3})-vs-([a-z]{3})", html))):
             url = GAMEBOOK.format(d=day.strftime("%Y%m%d"), a=a.upper(), h=h.upper())
-            dest = os.path.join(out_dir, f"{day.strftime('%Y%m%d')}_{a.upper()}{h.upper()}.pdf")
+            dest = os.path.join(out_dir, f"gamebook_{day.strftime('%Y%m%d')}_{a.upper()}{h.upper()}.pdf")
             if f.get(url, dest, required=False, label=f"game book {a.upper()}{h.upper()}") is not None:
                 gb += 1
+                written = pdf_to_gamebook_md(
+                    dest, GAMEBOOKS_DIR, url, stamp,
+                    linked_from=f"https://www.nba.com/game/{a}-vs-{h}")
+                if written:
+                    manifest.setdefault("gamebooks_transcribed", []).append(
+                        os.path.relpath(written, ROOT))
     manifest["gamebooks"] = gb
-    finish(0)
+    manifest["gamebooks_transcribed"] = manifest.get("gamebooks_transcribed", [])
+    if gb and not manifest["gamebooks_transcribed"]:
+        print("note: game-book PDFs captured but none newly transcribed "
+              "(extractor missing or files already present) — the result feed stays on the "
+              "transcriptions already committed", file=sys.stderr)
 
     if f.errors and any(e["required"] for e in f.errors):
         print("required official sources failed — rebuild refused; last good build kept",
@@ -312,6 +554,20 @@ def main():
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
     steps = [
+        # the game books that were fetched into data/app/gamebooks/ (plus any committed
+        # verbatim transcription) become one result row per game, player logs and
+        # minutes shares. PDFs land as binaries and are transcribed by the capture round
+        # that owns that directory, so the ingestion step is a replay of committed text.
+        ["python3", "scripts/capture_round_79341829.py"],
+        ["python3", "scripts/results_feed.py", "verify"],
+        # settlement of the two most recent Eastern game days, stamped from the capture so
+        # the same inputs reproduce byte for byte (see scripts/results_feed.py --stamp-from).
+        *[[ "python3", "scripts/results_feed.py", "settle", "--date", day,
+            "--stamp-from", "capture"]
+           for day in ((today_et - timedelta(days=1)).isoformat(),
+                       (today_et - timedelta(days=2)).isoformat())],
+        ["python3", "scripts/pick_ledger.py", "settle"],
+        ["python3", "scripts/pick_ledger.py", "verify"],
         ["python3", "scripts/estimators.py"],
         # the window the pick ledger publishes from (data/app/estimators.json) is written by
         # this script; the line above writes data/live/model.json only. Missing from the chain

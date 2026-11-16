@@ -92,14 +92,24 @@ def evaluate(manifest_path=None, now=None):
          f"slate window {win.get('from')}..{win.get('to')} vs required {want[0]}..{want[-1]}; "
          f"{slate['count']} games on {dates}")
 
-    # F3 — completed games settled in the feed
+    # F3 — completed games settled in the feed.
+    # A row whose OWN official document prints two conflicting readings of the same score is
+    # held unsettled BY RULE (never repaired toward one reading — see the standing rule on
+    # 0022600243 ATL@MIL, and data/rounds/2026-11-16/raw/official_gamebooks_2026-11-15.md).
+    # That class is not a pipeline gap, so it is reported and exempted; a row that is simply
+    # missing a verified final still fails the gate.
     feed = _load(os.path.join(APP, "results_feed.json"))
     unsettled = [g for g in feed["games"] if g["state"] == "Final" and not g.get("settled")]
+    held = [g for g in unsettled if g.get("period_conflict")]
+    unsettled = [g for g in unsettled if not g.get("period_conflict")]
     gate("F3_results_settled", not unsettled,
          f"{feed.get('settled_count', 0)} of {feed['count']} rows settled; "
          f"{len(unsettled)} final-but-unsettled rows"
          + (f" (e.g. {unsettled[0]['date']} {unsettled[0]['away']}@{unsettled[0]['home']})"
-            if unsettled else ""))
+            if unsettled else "")
+         + (f"; {len(held)} held open by the conflicting-print rule "
+            f"({', '.join(g['away'] + '@' + g['home'] + ' ' + g['date'] for g in held)})"
+            if held else ""))
 
     # P2 — team-stat pages each list 30 teams
     ts = _load(os.path.join(APP, "official_team_stats_2026-11-15.json"))

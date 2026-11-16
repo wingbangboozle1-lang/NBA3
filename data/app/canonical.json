@@ -35674,6 +35674,104 @@
   },
   {
    "id": "NF-26",
+   "area": "Refresh / standings",
+   "item": "The official standings page ships no server-rendered rows, so standings cannot be refreshed from it",
+   "why": "The scheduled refresh now fetches https://www.nba.com/standings verbatim every run and promotes only what the fetched HTML prints (scripts/refresh_official.py step 3a, data/app/official_standings_current.json). In the capture taken 2026-11-16T00:57Z, and in every render this project has held, the table is drawn client-side: 0 parsable rows. No W-L is therefore attributed to the standings page, and rank / games back / win pct are left blank rather than computed.",
+   "action_needed": "Owner decision: either capture the page through a browser (the rendered DOM), or keep the record cells the official games pages and game books print as the standings source of record and label them as such (they are per-game-day, not a league table).",
+   "sources": [
+    "https://www.nba.com/standings"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "F26",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-27",
+   "area": "Refresh / injuries",
+   "item": "The newest injury report on the official index is far newer than anything in the archive",
+   "why": "Read directly from the official index on 2026-11-16: it lists 51 reports for 2026-11-16, from 12:00 a.m. ET through 1:45 p.m. ET. The repo's archive (data/live/injuries/) had nothing newer than the 11/15 06:15 a.m. ET report until this session copied the 11/16 12:00 a.m. ET verbatim transcription in; the 1:45 p.m. ET report is not held at all.",
+   "action_needed": "Run the scheduled refresh on the runner (fetches the newest report each cycle) and have the round owner ingest their 09:15/12:00 a.m. captures into the archive; do not read 'F1 passed' as 'the newest official report is in the repo'.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "F27",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-28",
+   "area": "Data capture / player logs",
+   "item": "IND@PHI 2026-11-15: the Philadelphia points column is absent from the game-book extraction",
+   "why": "The PDF's own home-block rows carry 15 values after the minutes cell instead of 16 (FG ... +/-, no PTS), and the printed 240:00 team-total row is likewise missing its final value. Player points for PHI are therefore published blank with pts_unconfirmed, never inferred from the team total; minutes, rebounds and assists are unaffected. The scores themselves are verified: 124-131 with quarter sums equal to the finals.",
+   "action_needed": "Re-extract the PDF with a layout-preserving extractor (or pdftotext -layout on the runner) in the next capture round; the capture's E5 check reports this as a gap, not a mismatch.",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "F28",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-29",
+   "area": "Data capture / player logs",
+   "item": "Four games of the 2026-11-15 slate have score-only captures and no player game logs",
+   "why": "DAL@BOS, HOU@WAS, ATL@MIL and OKC@SAC were captured as verbatim score-by-period transcriptions (data/app/gamebooks/20261115_*.md). This session's direct fetches of those four PDFs failed in the tool proxy, so the boxes were not re-fetched; player game logs and minutes shares for those eight team-sides are blank and flagged, never estimated.",
+   "action_needed": "Let the runner's next refresh fetch those four game books (it stores the PDFs and, with pypdf installed, transcribes them into data/app/gamebooks/) and re-run the capture step.",
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-16"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "F29",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-30",
+   "area": "Results feed / settlement",
+   "item": "ATL@MIL 0022600243 prints two different quarter breakdowns, so the row stays unsettled by rule",
+   "why": "The game book's period table says MIL 37 16 37 26 (sum 116) while its own recap line says 37 16 27 26 (sum 106 = the printed final). Both readings are kept exactly as printed; the row is flagged verified=false and never settled. The freshness gate F3 now reports this as 'held open by the conflicting-print rule' rather than as a pipeline gap, so refusing to guess cannot be confused with a missing capture.",
+   "action_needed": "Owner decision only: settle from the scoreboard final (113-106) with the quarter conflict noted, or leave the row permanently unsettled. Do not repair the printed quarters.",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "F30",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-31",
+   "area": "Official source / irregularity",
+   "item": "The official IND@PHI game book lists players who do not belong to those clubs",
+   "why": "The home block printed under 'HOME: PHILADELPHIA 76ERS' names Jaylen Brown and LeBron James, and the away block names Ivica Zubac on the Pacers. This is what the official document prints; the rows are transcribed as-is and flagged here rather than 'corrected', because a correction would be a guess about someone else's data.",
+   "action_needed": "Owner review with the league's document open; if the roster attribution matters to a model input, exclude that game's player rows from it and say so on the page.",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+   ],
+   "status": "Open - owner review",
+   "severity": "medium",
+   "legacy_ref": "F31",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-32",
+   "area": "CI / scheduled refresh",
+   "item": "The scheduled refresh's unit-test step was guaranteed to fail after any successful refresh",
+   "why": "tests/test_refresh_official.py compared the mutable published slate (data/app/official_slate_current.json) with a byte-for-byte re-promotion of one fixed committed capture. The refresh legitimately rolls the window to today..today+3, so run 43925193575 (2026-11-16T18:05Z) failed at that step. Replaced with refresh-stable invariants (ordering, uniqueness, own-date provenance, no pre-capture days); the capture-vs-promotion equality is still pinned by the offline capture test.",
+   "action_needed": "Confirm the next scheduled run passes its unit-test step; no further action if it does.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"
+   ],
+   "status": "Fixed in this commit - confirm on next run",
+   "severity": "medium",
+   "legacy_ref": "F32",
+   "found_on": "2026-11-13"
+  },
+  {
+   "id": "NF-33",
    "area": "Blocker",
    "item": "Use of NBA statistics for betting models and lines",
    "why": "NBA Terms §9 says NBA Statistics may not be used in connection with any gambling activity, including legal gambling, and may not feed a comprehensive regularly updated statistics database without express prior consent.",
@@ -35687,7 +35785,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-27",
+   "id": "NF-34",
    "area": "Blocker",
    "item": "Offering online sports betting or betting lines to Dutch customers",
    "why": "Ksa says only holders of a Koa licence under art. 31a of the Betting and Gaming Act may offer online gambling, including bets on sports matches. The owner is located in Naaldwijk, NL.",
@@ -35702,7 +35800,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-28",
+   "id": "NF-35",
    "area": "Blocker",
    "item": "Originated lines and picks for 11/13–11/16",
    "why": "The repository has no licensed odds feed, no historical dataset, and no validated model. Without these, no line can be originated or validated, and no pick can be responsibly generated.",
@@ -35716,7 +35814,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-29",
+   "id": "NF-36",
    "area": "Unverified",
    "item": "Historical box scores, minutes, play-by-play, and prop outcomes",
    "why": "No authorized dataset is in the repository. The NBA terms restrict statistics use (7C-F-01).",
@@ -35730,7 +35828,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-30",
+   "id": "NF-37",
    "area": "Unverified",
    "item": "Injury effect on rotation minutes and production",
    "why": "The official report gives status and reason only; it has no minutes or production fields (S04 header). No minutes projection source is verified.",
@@ -35745,7 +35843,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-31",
+   "id": "NF-38",
    "area": "Unverified",
    "item": "All correlation values and parlay joint probabilities",
    "why": "No outcomes, prices, or samples are available. Blank by policy.",
@@ -35759,7 +35857,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-32",
+   "id": "NF-39",
    "area": "Irregularity",
    "item": "Prior dashboard linked the 2025-26 NBA injury index",
    "why": "The current season index is the 2026-27 page (S02). The 2025-26 page (S03) still resolves but is superseded.",
@@ -35774,7 +35872,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-33",
+   "id": "NF-40",
    "area": "Irregularity",
    "item": "Injury PDF rows with missing team or matchup text",
    "why": "18 of 117 rows have no team or matchup in the extracted text (attribution 'U'). 19 rows take their matchup from the official schedule pairing (attribution 'S'). Some matchups have no game time printed.",
@@ -35789,7 +35887,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-34",
+   "id": "NF-41",
    "area": "Irregularity",
    "item": "Schedule may change",
    "why": "The by-date PDF is labelled 'as of August 13, 2026 | subject to change'.",
@@ -35803,7 +35901,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-35",
+   "id": "NF-42",
    "area": "Unverified",
    "item": "Home/away orientation for 11/15 and 11/16",
    "why": "Home/away is confirmed only for 11/13 and 11/14 (injury report labels). For 11/15 and 11/16 the PDF gives printed order only.",
@@ -35818,7 +35916,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-36",
+   "id": "NF-43",
    "area": "Unverified",
    "item": "Meaning of schedule markers 'R' and '#' (C)",
    "why": "The PDF text shows 'R' and 'C' in marker columns with no legend in the text read.",
@@ -35832,7 +35930,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-37",
+   "id": "NF-44",
    "area": "Irregularity",
    "item": "NBA live scoreboard JSON unavailable",
    "why": "The fetch tool returned HTTP 500 for the CDN scoreboard JSON (S10).",
@@ -35846,7 +35944,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-38",
+   "id": "NF-45",
    "area": "Unverified",
    "item": "NBA Stat Glossary coverage",
    "why": "Only the first of 10 chunks was read line by line.",
@@ -35860,7 +35958,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-39",
+   "id": "NF-46",
    "area": "Irregularity",
    "item": "Coordination protocol branch naming",
    "why": "The brief asks for session-<id>/<task> branches; Arena policy fixes the branch as arena/7c532e8c-nba3.",
@@ -35874,7 +35972,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-40",
+   "id": "NF-47",
    "area": "Irregularity",
    "item": "Two deployment mechanisms existed on GitHub Pages",
    "why": "Pages API reported a legacy build from main at '/' while the repo also had a GitHub Actions workflow (pages.yml).",
@@ -35888,7 +35986,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-41",
+   "id": "NF-48",
    "area": "Unverified",
    "item": "Dutch rules on publishing picks or tips (without offering a bet)",
    "why": "Ksa's page covers offering online gambling. It does not address free tips or analysis content.",
@@ -35902,7 +36000,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-42",
+   "id": "NF-49",
    "area": "Irregularity",
    "item": "Injury report status vocabulary includes a team-level value",
    "why": "'NOT YET SUBMITTED' appears as a status for team rows (7 rows).",
@@ -35916,7 +36014,7 @@
    "found_on": "2026-11-13"
   },
   {
-   "id": "NF-43",
+   "id": "NF-50",
    "area": "Deployment",
    "item": "GitHub Pages is still served from the legacy 'main /' source",
    "why": "gh api reports build_type=legacy with source branch main, path /. The whole public repository is therefore published, including raw JSON and CSVs. The Actions workflow also runs and uploads an artifact, but the published site is the branch build.",
@@ -35930,7 +36028,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-44",
+   "id": "NF-51",
    "area": "Site",
    "item": "Seven separate dashboards were published from earlier sessions",
    "why": "The repository contained /docs/, /site/, /lab/, /research/, /edge/ and /origin/ dashboards plus a root dashboard. They use different ID namespaces and some publish the same facts with different injury snapshots, which makes the site confusing and easy to misread.",
@@ -35944,7 +36042,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-45",
+   "id": "NF-52",
    "area": "Data",
    "item": "Two official injury snapshots are stored with different timestamps",
    "why": "data/injuries.json holds the 11/13 05:00 PM report (117 rows) while data/origin/injuries.csv holds the 11/13 05:15 PM report (118 rows) and data/app holds the 11/13 07:30 PM report (122 rows). A reader could easily compare a 7:30 PM status with a 5:00 PM status and read it as a contradiction.",
@@ -35958,7 +36056,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-46",
+   "id": "NF-53",
    "area": "Data",
    "item": "No official injury report exists yet for the 2026-11-15 and 2026-11-16 games",
    "why": "The newest report listed on the official index (11/13 07:30 PM ET) covers the 11/13 and 11/14 games only. Five teams had not submitted their report for the 11/14 game at that time.",
@@ -35972,7 +36070,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-47",
+   "id": "NF-54",
    "area": "Data",
    "item": "Player abbreviations in one earlier pipeline are not NBA abbreviations",
    "why": "data/picks/picks_2026-11-14_to_16.json prints 'BRK @ MEM'; the official NBA abbreviation is BKN (Brooklyn Nets). The same file also carries a generated timestamp and an availability flag computed from the 11/13 report.",
@@ -35986,7 +36084,7 @@
    "found_on": "2026-11-14"
   },
   {
-   "id": "NF-48",
+   "id": "NF-55",
    "area": "Verification",
    "item": "First manual transcription of the official team stats page produced 8 misread values",
    "why": "An independent manual transcription of nba.com/stats/teams/advanced on 2026-11-14 differed from the stored values for MIA, TOR, CHA, NOP and UTA. A second read of the same page confirmed the stored values and the first read was wrong. The automated cross-check caught all eight.",
@@ -38834,10 +38932,10 @@
    "requirement_from_brief": "Collect, organise and analyse NBA data",
    "category": "Data",
    "status": "Done for what is reachable",
-   "how_addressed": "Official schedule for 2026-11-14 to 2026-11-17 (27 games with game id, tip time, venue and city), official team advanced statistics for all 30 teams, official final scores for 183 games (2026-10-20 to 2026-11-13), and the official injury report 11/14/26 04:15 AM ET (49 rows: 26 player rows, 5 team rows NOT YET SUBMITTED for 11/14 and 18 for 11/15) - all captured and compared field by field with the values earlier sessions stored.",
-   "blocker_or_gap": "Historical box scores and per-player game logs were never captured. Those two gaps block the most downstream work. See CQ-39 and NF-52.",
+   "how_addressed": "Scheduled job (scripts/refresh_official.py) fetches, with retries and a per-artifact sha256 + retrieval stamp manifest, the official injury index and newest report PDF, the nba.com schedule/results pages for today..today+3 plus the two previous game days, every finished game's official game book, the three official team-stat pages (traditional, opponent, advanced) and now the standings page. The rebuild runs only after the freshness and provenance gates pass, and the run commits nothing on a failed gate. Added by session arena/4a59430d-nba3: the standings fetch (the job had none), game-book transcription into data/app/gamebooks/, per-game-day settlement of the results feed and settlement of the sealed pick ledger - all four were missing from the chain.",
+   "blocker_or_gap": "The standings page ships its table client-side, so no W-L can be attributed to it (F26); the injury archive is behind the newest official report today (F27); four games of the 11/15 slate have score-only captures and no player box (F29).",
    "evidence_url": "https://www.nba.com/schedule?date=2026-11-14",
-   "verification_status": "Captured 2026-11-14: 88/88 overlapping slate fields, 240/240 team-stat fields and 122/122 injury rows agree with the stored captures (scripts/capture_official_2026_11_14b.py). Re-read 2026-11-14 09:45Z by scripts/capture_official_2026_11_14c.py: six checks, all pass - 366 official team-games = 2 x 183, W and L columns 183/183, 18 scoreboard records, 31/31 injury rows stable, mid-slate staleness explained, slate counts 5/9/8/5"
+   "verification_status": "Offline replay on the committed capture 2026-11-16T00-57Z: 34 slate games promoted, 0 excluded, window 2026-11-15..2026-11-18; gates F1-F3 and P2-P3 all pass; 182 unit tests pass; the two new promotion paths (standings, game-book transcription) are covered by tests/test_refresh_official.py."
   },
   {
    "req_id": "RQ02",
@@ -38917,7 +39015,7 @@
    "how_addressed": "One priced row for every one of the 27 games in the 2026-11-14 to 2026-11-17 window (today plus the maximum three-day horizon) with an originated spread, originated total, fair moneylines, projected score and availability status. Generated by a pipeline that reruns without manual input.",
    "blocker_or_gap": "These are our own fair prices against our own line, so their expected value is zero by construction. No market price is connected, so nothing here is a bet and no value is claimed. See NF-55 and CS-36.",
    "evidence_url": "https://www.nba.com/schedule?date=2026-11-14",
-   "verification_status": "27 rows, one per game; 2026-11-13 games excluded because they were live at capture time (NF-54)"
+   "verification_status": "results_feed.json holds one row per game for 2026-11-13 (9), 2026-11-14 (5) and 2026-11-15 (9): date, teams, final and quarter scores; 22 of 23 rows settled from verified official finals with a visible game-day stamp; the unsettled row is ATL@MIL 0022600243, held open because its document prints two quarter readings (F30)."
   },
   {
    "req_id": "RQ10",

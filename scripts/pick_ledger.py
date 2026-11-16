@@ -153,14 +153,28 @@ def settle():
              if g.get("settled") and g.get("verified")}
     entries = read_entries()
     prev = entries[-1]["entry_hash"] if entries else GENESIS
+    # Idempotency (session arena/4a59430d-nba3): a pick already settled in the chain is
+    # never settled again. Without this guard every later refresh run would re-append a
+    # second SETTLED entry for the same pick (the PUBLISHED_PRE_TIP entry stays in the
+    # append-only chain), which the verify step still accepts but the published record
+    # would double-count.
+    already_settled = {e["body"]["pick_id"] for e in entries if e["body"].get("state") == "SETTLED"}
     n = 0
+    skipped = []
     for e in entries:
         b = e["body"]
         if b["state"] != "PUBLISHED_PRE_TIP":
             continue
+        if b["pick_id"] in already_settled:
+            continue
         key = (b["date"], b["payload"]["away"], b["payload"]["home"])
         g = final.get(key)
         if not g:
+            continue
+        if b["payload"].get("blend_margin") is None or b["payload"].get("blend_total") is None:
+            # a published row with a blank line (never priced) cannot be graded: it stays
+            # PUBLISHED_PRE_TIP and is reported as unsettled rather than guessed into a result.
+            skipped.append((b["pick_id"], "line blank at publication — cannot be graded"))
             continue
         # recompute the payload hash (tamper check at settlement time)
         ok = sha(b["payload"]) == b["payload_sha256"]

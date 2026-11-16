@@ -3,7 +3,7 @@
  "session": "arena/8f4fac33-nba3",
  "seed": 20261116,
  "input_games": {
-  "settled_finals_used": 22,
+  "settled_finals_used": 30,
   "excluded_unsettled": [
    "0022600243"
   ],
@@ -17,105 +17,105 @@
   ]
  },
  "home_court": {
-  "games": 22,
-  "home_wins": 13,
-  "home_win_rate": 0.5909,
+  "games": 30,
+  "home_wins": 16,
+  "home_win_rate": 0.5333,
   "home_win_rate_note": "measured, not fitted: it is the share of captured finals the home team won",
-  "mean_home_margin": 2.0,
-  "sd_home_margin": 17.931,
-  "implied_hca_points": 4.12,
+  "mean_home_margin": 0.867,
+  "sd_home_margin": 18.3,
+  "implied_hca_points": 1.53,
   "implied_hca_formula": "z(home_win_rate) x sd(home margin), with z the inverse normal CDF; this is the margin that would produce exactly the measured home-win rate on the measured spread",
   "pinned": true,
   "used_by": [
    "A",
    "B"
   ],
-  "caveat": "n = 22 finals. The 95% Wilson interval for the home-win rate is printed on the page; at this n it is wide and the pin should be revisited as the log grows.",
+  "caveat": "n = 30 finals. The 95% Wilson interval for the home-win rate is printed on the page; at this n it is wide and the pin should be revisited as the log grows.",
   "source": "data/app/results_feed.json + data/rounds/2026-11-16/results.json, both transcribed from official game books / the official scoreboard"
  },
  "ridge_selection": {
   "candidates": [
    {
     "ridge": 0.1,
-    "loo_rmse": 13.0461,
-    "n": 22
+    "loo_rmse": 7.391,
+    "n": 30
    },
    {
     "ridge": 0.25,
-    "loo_rmse": 13.3275,
-    "n": 22
+    "loo_rmse": 7.7297,
+    "n": 30
    },
    {
     "ridge": 0.5,
-    "loo_rmse": 13.7242,
-    "n": 22
+    "loo_rmse": 8.3606,
+    "n": 30
    },
    {
     "ridge": 1.0,
-    "loo_rmse": 14.3141,
-    "n": 22
+    "loo_rmse": 9.5253,
+    "n": 30
    },
    {
     "ridge": 2.0,
-    "loo_rmse": 15.0587,
-    "n": 22
+    "loo_rmse": 11.2288,
+    "n": 30
    },
    {
     "ridge": 4.0,
-    "loo_rmse": 15.842,
-    "n": 22
+    "loo_rmse": 13.1672,
+    "n": 30
    },
    {
     "ridge": 8.0,
-    "loo_rmse": 16.5173,
-    "n": 22
+    "loo_rmse": 14.9122,
+    "n": 30
    },
    {
     "ridge": 16.0,
-    "loo_rmse": 16.9996,
-    "n": 22
+    "loo_rmse": 16.2007,
+    "n": 30
    }
   ],
   "chosen": {
    "ridge": 0.1,
-   "loo_rmse": 13.0461,
-   "n": 22
+   "loo_rmse": 7.391,
+   "n": 30
   },
   "method": "leave-one-game-out on settled finals only"
  },
  "estimator_a": {
   "name": "result-based ridge Massey margin",
   "ratings": {
-   "ATL": 2.0446,
-   "BKN": 2.152,
-   "BOS": 20.1835,
-   "CHA": 1.033,
+   "ATL": -0.31,
+   "BKN": -0.156,
+   "BOS": 21.1217,
+   "CHA": 0.274,
    "CHI": 6.129,
-   "CLE": -3.8475,
-   "DAL": -10.6781,
-   "DEN": -3.4663,
-   "DET": -10.2561,
-   "GSW": -14.4173,
-   "HOU": 10.1278,
-   "IND": 0.0518,
-   "LAC": 5.0163,
-   "LAL": 5.7714,
-   "MEM": 17.2472,
-   "MIA": 4.5982,
-   "MIL": -1.8476,
-   "MIN": -8.1736,
-   "NOP": -15.9329,
-   "NYK": 2.4435,
-   "OKC": 8.7412,
-   "ORL": 1.8476,
-   "PHI": 2.6652,
-   "PHX": -5.7714,
-   "POR": 1.1093,
-   "SAC": -15.8998,
-   "SAS": 18.021,
-   "TOR": -5.1605,
-   "UTA": 6.2613,
-   "WAS": -19.9929
+   "CLE": -4.0392,
+   "DAL": -13.2922,
+   "DEN": -3.6249,
+   "DET": -10.6002,
+   "GSW": -18.5126,
+   "HOU": 12.3308,
+   "IND": -0.0099,
+   "LAC": 6.7577,
+   "LAL": 4.6488,
+   "MEM": 17.2984,
+   "MIA": 6.8098,
+   "MIL": -3.081,
+   "MIN": -5.8191,
+   "NOP": -13.5174,
+   "NYK": 0.0391,
+   "OKC": 7.9909,
+   "ORL": 3.081,
+   "PHI": 5.2001,
+   "PHX": -4.6488,
+   "POR": -0.2346,
+   "SAC": -14.788,
+   "SAS": 16.1062,
+   "TOR": -5.2294,
+   "UTA": 6.4558,
+   "WAS": -16.3802
   },
   "inputs": "final margins only"
  },
@@ -128,7 +128,7 @@
     "possessions": 97.38,
     "away_off_points": 4.48,
     "home_off_points": 5.36,
-    "margin_home": 5.0,
+    "margin_home": 2.41,
     "total": 217.69,
     "inputs": {
      "away": {
@@ -149,7 +149,7 @@
     "possessions": 101.77,
     "away_off_points": -6.11,
     "home_off_points": -3.46,
-    "margin_home": 6.77,
+    "margin_home": 4.18,
     "total": 235.08,
     "inputs": {
      "away": {
@@ -170,7 +170,7 @@
     "possessions": 100.09,
     "away_off_points": 2.5,
     "home_off_points": -1.0,
-    "margin_home": 0.62,
+    "margin_home": -1.97,
     "total": 227.87,
     "inputs": {
      "away": {
@@ -191,7 +191,7 @@
     "possessions": 99.84,
     "away_off_points": -3.69,
     "home_off_points": -0.5,
-    "margin_home": 7.31,
+    "margin_home": 4.72,
     "total": 223.84,
     "inputs": {
      "away": {
@@ -212,7 +212,7 @@
     "possessions": 100.09,
     "away_off_points": 5.0,
     "home_off_points": 4.0,
-    "margin_home": 3.12,
+    "margin_home": 0.53,
     "total": 231.6,
     "inputs": {
      "away": {
@@ -233,7 +233,7 @@
     "possessions": 100.97,
     "away_off_points": 14.44,
     "home_off_points": 4.95,
-    "margin_home": -5.37,
+    "margin_home": -7.96,
     "total": 227.38,
     "inputs": {
      "away": {
@@ -254,7 +254,7 @@
     "possessions": 100.75,
     "away_off_points": -3.93,
     "home_off_points": -0.71,
-    "margin_home": 7.34,
+    "margin_home": 4.75,
     "total": 231.41,
     "inputs": {
      "away": {
@@ -275,7 +275,7 @@
     "possessions": 98.23,
     "away_off_points": -0.39,
     "home_off_points": -2.46,
-    "margin_home": 2.06,
+    "margin_home": -0.53,
     "total": 227.65,
     "inputs": {
      "away": {
@@ -296,7 +296,7 @@
     "possessions": 100.13,
     "away_off_points": -10.21,
     "home_off_points": -4.81,
-    "margin_home": 9.53,
+    "margin_home": 6.94,
     "total": 224.3,
     "inputs": {
      "away": {
@@ -317,7 +317,7 @@
     "possessions": 98.65,
     "away_off_points": -11.34,
     "home_off_points": 8.38,
-    "margin_home": 23.85,
+    "margin_home": 21.26,
     "total": 223.04,
     "inputs": {
      "away": {
@@ -338,7 +338,7 @@
     "possessions": 97.6,
     "away_off_points": 1.46,
     "home_off_points": 5.27,
-    "margin_home": 7.93,
+    "margin_home": 5.34,
     "total": 218.49,
     "inputs": {
      "away": {
@@ -359,7 +359,7 @@
     "possessions": 100.97,
     "away_off_points": 14.44,
     "home_off_points": 4.95,
-    "margin_home": -5.37,
+    "margin_home": -7.96,
     "total": 227.38,
     "inputs": {
      "away": {
@@ -380,7 +380,7 @@
     "possessions": 99.12,
     "away_off_points": 7.43,
     "home_off_points": 9.91,
-    "margin_home": 6.6,
+    "margin_home": 4.01,
     "total": 222.59,
     "inputs": {
      "away": {
@@ -401,7 +401,7 @@
     "possessions": 100.43,
     "away_off_points": -8.94,
     "home_off_points": 5.93,
-    "margin_home": 18.98,
+    "margin_home": 16.39,
     "total": 229.68,
     "inputs": {
      "away": {
@@ -422,7 +422,7 @@
     "possessions": 99.94,
     "away_off_points": -5.5,
     "home_off_points": -11.69,
-    "margin_home": -2.08,
+    "margin_home": -4.67,
     "total": 229.55,
     "inputs": {
      "away": {
@@ -443,7 +443,7 @@
     "possessions": 100.09,
     "away_off_points": 3.6,
     "home_off_points": 6.51,
-    "margin_home": 7.02,
+    "margin_home": 4.43,
     "total": 231.06,
     "inputs": {
      "away": {
@@ -464,7 +464,7 @@
     "possessions": 99.47,
     "away_off_points": 8.26,
     "home_off_points": 0.2,
-    "margin_home": -3.94,
+    "margin_home": -6.53,
     "total": 226.63,
     "inputs": {
      "away": {
@@ -485,7 +485,7 @@
     "possessions": 101.59,
     "away_off_points": -10.97,
     "home_off_points": -4.27,
-    "margin_home": 10.82,
+    "margin_home": 8.23,
     "total": 231.21,
     "inputs": {
      "away": {
@@ -506,7 +506,7 @@
     "possessions": 99.22,
     "away_off_points": -1.09,
     "home_off_points": -0.6,
-    "margin_home": 4.62,
+    "margin_home": 2.03,
     "total": 221.11,
     "inputs": {
      "away": {
@@ -527,7 +527,7 @@
     "possessions": 101.64,
     "away_off_points": -6.71,
     "home_off_points": -10.67,
-    "margin_home": 0.16,
+    "margin_home": -2.43,
     "total": 231.49,
     "inputs": {
      "away": {
@@ -548,7 +548,7 @@
     "possessions": 99.64,
     "away_off_points": -2.79,
     "home_off_points": -2.89,
-    "margin_home": 4.02,
+    "margin_home": 1.43,
     "total": 225.04,
     "inputs": {
      "away": {
@@ -569,7 +569,7 @@
     "possessions": 100.66,
     "away_off_points": -5.94,
     "home_off_points": 2.11,
-    "margin_home": 12.17,
+    "margin_home": 9.58,
     "total": 228.79,
     "inputs": {
      "away": {
@@ -590,7 +590,7 @@
     "possessions": 101.25,
     "away_off_points": 4.46,
     "home_off_points": 2.33,
-    "margin_home": 1.99,
+    "margin_home": -0.6,
     "total": 225.65,
     "inputs": {
      "away": {
@@ -611,7 +611,7 @@
     "possessions": 99.92,
     "away_off_points": 1.6,
     "home_off_points": -0.2,
-    "margin_home": 2.32,
+    "margin_home": -0.27,
     "total": 227.02,
     "inputs": {
      "away": {
@@ -632,7 +632,7 @@
     "possessions": 97.1,
     "away_off_points": 4.08,
     "home_off_points": 10.58,
-    "margin_home": 10.63,
+    "margin_home": 8.04,
     "total": 220.76,
     "inputs": {
      "away": {
@@ -651,15 +651,15 @@
   "inputs": "official advanced page OffRtg / DefRtg / Pace"
  },
  "error_summary": {
-  "walk_forward_games": 14,
-  "margin_rmse_A": 13.4282,
-  "margin_rmse_baseline": 17.0505,
+  "walk_forward_games": 22,
+  "margin_rmse_A": 10.5324,
+  "margin_rmse_baseline": 17.7501,
   "baseline": "a constant predicted margin equal to the pinned home-court value",
   "note": "each game is predicted from strictly earlier games only"
  },
  "luck": {
   "method": "r_i = outcome_i - p_i for every game a team played; z = sum(r_i) / (pooled_sd x sqrt(n)), with the sd POOLED across the league because a single team's 1-2 games cannot estimate their own spread",
-  "pooled_residual_sd": 0.2935,
+  "pooled_residual_sd": 0.2934,
   "band": 2.0,
   "min_games_for_z": 4,
   "caveat": "a team with fewer than 4 captured games is reported with its z but flagged is_z_meaningful=false; the strategy gate treats a non-meaningful z as a block, not as a pass.",
@@ -668,10 +668,10 @@
    "ATL": {
     "games": 1,
     "actual_wins": 0,
-    "expected_wins": 0.32,
-    "wins_above_expectation": -0.324,
-    "residual_sd_used": 0.2935,
-    "z": -1.103,
+    "expected_wins": 0.33,
+    "wins_above_expectation": -0.332,
+    "residual_sd_used": 0.2934,
+    "z": -1.13,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -679,32 +679,32 @@
    "BKN": {
     "games": 1,
     "actual_wins": 0,
-    "expected_wins": 0.14,
-    "wins_above_expectation": -0.142,
-    "residual_sd_used": 0.2935,
-    "z": -0.484,
+    "expected_wins": 0.15,
+    "wins_above_expectation": -0.15,
+    "residual_sd_used": 0.2934,
+    "z": -0.51,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "BOS": {
-    "games": 1,
-    "actual_wins": 1,
-    "expected_wins": 0.97,
-    "wins_above_expectation": 0.026,
-    "residual_sd_used": 0.2935,
-    "z": 0.087,
+    "games": 2,
+    "actual_wins": 2,
+    "expected_wins": 1.95,
+    "wins_above_expectation": 0.05,
+    "residual_sd_used": 0.2934,
+    "z": 0.119,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "CHA": {
-    "games": 1,
+    "games": 2,
     "actual_wins": 0,
-    "expected_wins": 0.33,
-    "wins_above_expectation": -0.326,
-    "residual_sd_used": 0.2935,
-    "z": -1.11,
+    "expected_wins": 0.66,
+    "wins_above_expectation": -0.661,
+    "residual_sd_used": 0.2934,
+    "z": -1.594,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -712,10 +712,10 @@
    "CHI": {
     "games": 2,
     "actual_wins": 2,
-    "expected_wins": 1.39,
-    "wins_above_expectation": 0.609,
-    "residual_sd_used": 0.2935,
-    "z": 1.466,
+    "expected_wins": 1.38,
+    "wins_above_expectation": 0.616,
+    "residual_sd_used": 0.2934,
+    "z": 1.485,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -724,20 +724,20 @@
     "games": 2,
     "actual_wins": 1,
     "expected_wins": 0.97,
-    "wins_above_expectation": 0.029,
-    "residual_sd_used": 0.2935,
-    "z": 0.07,
+    "wins_above_expectation": 0.028,
+    "residual_sd_used": 0.2934,
+    "z": 0.069,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "DAL": {
-    "games": 2,
+    "games": 3,
     "actual_wins": 0,
-    "expected_wins": 0.3,
-    "wins_above_expectation": -0.296,
-    "residual_sd_used": 0.2935,
-    "z": -0.714,
+    "expected_wins": 0.33,
+    "wins_above_expectation": -0.327,
+    "residual_sd_used": 0.2934,
+    "z": -0.644,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -746,9 +746,9 @@
     "games": 1,
     "actual_wins": 1,
     "expected_wins": 0.68,
-    "wins_above_expectation": 0.321,
-    "residual_sd_used": 0.2935,
-    "z": 1.093,
+    "wins_above_expectation": 0.324,
+    "residual_sd_used": 0.2934,
+    "z": 1.104,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -756,10 +756,10 @@
    "DET": {
     "games": 1,
     "actual_wins": 0,
-    "expected_wins": 0.14,
-    "wins_above_expectation": -0.145,
-    "residual_sd_used": 0.2935,
-    "z": -0.494,
+    "expected_wins": 0.15,
+    "wins_above_expectation": -0.15,
+    "residual_sd_used": 0.2934,
+    "z": -0.512,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -768,53 +768,53 @@
     "games": 1,
     "actual_wins": 0,
     "expected_wins": 0.02,
-    "wins_above_expectation": -0.021,
-    "residual_sd_used": 0.2935,
-    "z": -0.071,
+    "wins_above_expectation": -0.024,
+    "residual_sd_used": 0.2934,
+    "z": -0.082,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "HOU": {
-    "games": 2,
-    "actual_wins": 2,
-    "expected_wins": 1.6,
-    "wins_above_expectation": 0.402,
-    "residual_sd_used": 0.2935,
-    "z": 0.967,
+    "games": 3,
+    "actual_wins": 3,
+    "expected_wins": 2.52,
+    "wins_above_expectation": 0.48,
+    "residual_sd_used": 0.2934,
+    "z": 0.945,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "IND": {
-    "games": 2,
+    "games": 3,
     "actual_wins": 1,
-    "expected_wins": 0.89,
-    "wins_above_expectation": 0.108,
-    "residual_sd_used": 0.2935,
-    "z": 0.26,
+    "expected_wins": 1.24,
+    "wins_above_expectation": -0.245,
+    "residual_sd_used": 0.2934,
+    "z": -0.482,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "LAC": {
-    "games": 2,
-    "actual_wins": 2,
-    "expected_wins": 1.18,
-    "wins_above_expectation": 0.817,
-    "residual_sd_used": 0.2935,
-    "z": 1.968,
-    "inside_noise_band": true,
+    "games": 3,
+    "actual_wins": 3,
+    "expected_wins": 1.85,
+    "wins_above_expectation": 1.155,
+    "residual_sd_used": 0.2934,
+    "z": 2.272,
+    "inside_noise_band": false,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "LAL": {
-    "games": 1,
-    "actual_wins": 1,
-    "expected_wins": 0.66,
-    "wins_above_expectation": 0.339,
-    "residual_sd_used": 0.2935,
-    "z": 1.157,
+    "games": 2,
+    "actual_wins": 2,
+    "expected_wins": 1.33,
+    "wins_above_expectation": 0.671,
+    "residual_sd_used": 0.2934,
+    "z": 1.617,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -822,10 +822,10 @@
    "MEM": {
     "games": 2,
     "actual_wins": 2,
-    "expected_wins": 1.81,
-    "wins_above_expectation": 0.194,
-    "residual_sd_used": 0.2935,
-    "z": 0.469,
+    "expected_wins": 1.8,
+    "wins_above_expectation": 0.205,
+    "residual_sd_used": 0.2934,
+    "z": 0.493,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -833,10 +833,10 @@
    "MIA": {
     "games": 2,
     "actual_wins": 2,
-    "expected_wins": 1.61,
-    "wins_above_expectation": 0.387,
-    "residual_sd_used": 0.2935,
-    "z": 0.932,
+    "expected_wins": 1.6,
+    "wins_above_expectation": 0.4,
+    "residual_sd_used": 0.2934,
+    "z": 0.963,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -844,10 +844,10 @@
    "MIL": {
     "games": 1,
     "actual_wins": 0,
-    "expected_wins": 0.33,
-    "wins_above_expectation": -0.331,
-    "residual_sd_used": 0.2935,
-    "z": -1.129,
+    "expected_wins": 0.34,
+    "wins_above_expectation": -0.337,
+    "residual_sd_used": 0.2934,
+    "z": -1.149,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -855,10 +855,10 @@
    "MIN": {
     "games": 1,
     "actual_wins": 0,
-    "expected_wins": 0.29,
+    "expected_wins": 0.28,
     "wins_above_expectation": -0.285,
-    "residual_sd_used": 0.2935,
-    "z": -0.971,
+    "residual_sd_used": 0.2934,
+    "z": -0.97,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -866,32 +866,32 @@
    "NOP": {
     "games": 2,
     "actual_wins": 0,
-    "expected_wins": 0.37,
-    "wins_above_expectation": -0.373,
-    "residual_sd_used": 0.2935,
-    "z": -0.899,
+    "expected_wins": 0.38,
+    "wins_above_expectation": -0.379,
+    "residual_sd_used": 0.2934,
+    "z": -0.912,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "NYK": {
-    "games": 2,
-    "actual_wins": 1,
-    "expected_wins": 1.04,
-    "wins_above_expectation": -0.039,
-    "residual_sd_used": 0.2935,
-    "z": -0.093,
+    "games": 3,
+    "actual_wins": 2,
+    "expected_wins": 1.63,
+    "wins_above_expectation": 0.37,
+    "residual_sd_used": 0.2934,
+    "z": 0.729,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "OKC": {
-    "games": 2,
-    "actual_wins": 1,
-    "expected_wins": 1.36,
-    "wins_above_expectation": -0.365,
-    "residual_sd_used": 0.2935,
-    "z": -0.879,
+    "games": 3,
+    "actual_wins": 2,
+    "expected_wins": 2.25,
+    "wins_above_expectation": -0.248,
+    "residual_sd_used": 0.2934,
+    "z": -0.488,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -899,32 +899,32 @@
    "ORL": {
     "games": 1,
     "actual_wins": 1,
-    "expected_wins": 0.67,
-    "wins_above_expectation": 0.331,
-    "residual_sd_used": 0.2935,
-    "z": 1.129,
+    "expected_wins": 0.66,
+    "wins_above_expectation": 0.337,
+    "residual_sd_used": 0.2934,
+    "z": 1.149,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "PHI": {
-    "games": 1,
-    "actual_wins": 1,
-    "expected_wins": 0.65,
-    "wins_above_expectation": 0.354,
-    "residual_sd_used": 0.2935,
-    "z": 1.205,
+    "games": 2,
+    "actual_wins": 2,
+    "expected_wins": 1.29,
+    "wins_above_expectation": 0.713,
+    "residual_sd_used": 0.2934,
+    "z": 1.717,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "PHX": {
-    "games": 1,
+    "games": 2,
     "actual_wins": 0,
-    "expected_wins": 0.34,
-    "wins_above_expectation": -0.339,
-    "residual_sd_used": 0.2935,
-    "z": -1.157,
+    "expected_wins": 0.67,
+    "wins_above_expectation": -0.671,
+    "residual_sd_used": 0.2934,
+    "z": -1.617,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -933,64 +933,64 @@
     "games": 1,
     "actual_wins": 1,
     "expected_wins": 0.76,
-    "wins_above_expectation": 0.236,
-    "residual_sd_used": 0.2935,
-    "z": 0.805,
+    "wins_above_expectation": 0.238,
+    "residual_sd_used": 0.2934,
+    "z": 0.812,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "SAC": {
-    "games": 2,
+    "games": 3,
     "actual_wins": 0,
-    "expected_wins": 0.36,
-    "wins_above_expectation": -0.362,
-    "residual_sd_used": 0.2935,
-    "z": -0.873,
+    "expected_wins": 0.48,
+    "wins_above_expectation": -0.484,
+    "residual_sd_used": 0.2934,
+    "z": -0.952,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "SAS": {
-    "games": 2,
-    "actual_wins": 2,
-    "expected_wins": 1.64,
-    "wins_above_expectation": 0.356,
-    "residual_sd_used": 0.2935,
-    "z": 0.857,
+    "games": 3,
+    "actual_wins": 3,
+    "expected_wins": 2.32,
+    "wins_above_expectation": 0.681,
+    "residual_sd_used": 0.2934,
+    "z": 1.341,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "TOR": {
-    "games": 1,
+    "games": 2,
     "actual_wins": 0,
-    "expected_wins": 0.42,
-    "wins_above_expectation": -0.423,
-    "residual_sd_used": 0.2935,
-    "z": -1.441,
-    "inside_noise_band": true,
+    "expected_wins": 0.84,
+    "wins_above_expectation": -0.838,
+    "residual_sd_used": 0.2934,
+    "z": -2.02,
+    "inside_noise_band": false,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "UTA": {
-    "games": 2,
+    "games": 3,
     "actual_wins": 0,
-    "expected_wins": 0.66,
-    "wins_above_expectation": -0.663,
-    "residual_sd_used": 0.2935,
-    "z": -1.597,
+    "expected_wins": 1.0,
+    "wins_above_expectation": -1.0,
+    "residual_sd_used": 0.2934,
+    "z": -1.968,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
    },
    "WAS": {
-    "games": 1,
+    "games": 2,
     "actual_wins": 0,
-    "expected_wins": 0.07,
-    "wins_above_expectation": -0.074,
-    "residual_sd_used": 0.2935,
-    "z": -0.251,
+    "expected_wins": 0.14,
+    "wins_above_expectation": -0.137,
+    "residual_sd_used": 0.2934,
+    "z": -0.331,
     "inside_noise_band": true,
     "is_z_meaningful": false,
     "note": "|z| <= 2 means the record is consistent with what the model expected; a strategy may not lean on a team outside that band"
@@ -1579,13 +1579,13 @@
   ]
  },
  "pricing": {
-  "rho": -0.23364836817382767,
-  "rho_n": 22,
+  "rho": -0.26916567704753935,
+  "rho_n": 30,
   "rho_ci95": [
-   -0.597,
-   0.209
+   -0.574,
+   0.101
   ],
-  "margin_sd": 17.931,
+  "margin_sd": 18.3,
   "lines": [
    {
     "game_id": "0022600245",
@@ -1594,24 +1594,24 @@
     "home": "BOS",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/orl-vs-bos-0022600245",
-    "margin_a": 22.46,
-    "margin_b": 5.0,
-    "disagreement": 17.46,
+    "margin_a": 19.57,
+    "margin_b": 2.41,
+    "disagreement": 17.16,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 13.73,
+    "blend_margin": 10.99,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 17.4559
+     "disagreement_pts": 17.160700000000002
     },
     "total_ppp": 222.57,
     "total_efficiency": 217.69,
     "total_disagreement": 4.88,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 28.5,
-    "fair_moneyline_away": -28.5,
-    "p_home": 0.7781,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 37.8,
+    "fair_moneyline_away": -37.8,
+    "p_home": 0.7259,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1622,24 +1622,24 @@
     "home": "CLE",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/chi-vs-cle-0022600246",
-    "margin_a": -5.86,
-    "margin_b": 6.77,
-    "disagreement": 12.63,
+    "margin_a": -8.64,
+    "margin_b": 4.18,
+    "disagreement": 12.82,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 0.46,
+    "blend_margin": -2.23,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 12.6265
+     "disagreement_pts": 12.8182
     },
     "total_ppp": 230.31,
     "total_efficiency": 235.08,
     "total_disagreement": -4.77,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 96.0,
-    "fair_moneyline_away": -96.0,
-    "p_home": 0.5102,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -82.3,
+    "fair_moneyline_away": 82.3,
+    "p_home": 0.4515,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1650,24 +1650,24 @@
     "home": "WAS",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/mem-vs-was-0022600247",
-    "margin_a": -33.12,
-    "margin_b": 0.62,
-    "disagreement": 33.74,
+    "margin_a": -32.15,
+    "margin_b": -1.97,
+    "disagreement": 30.18,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -16.25,
+    "blend_margin": -17.06,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 33.7401
+     "disagreement_pts": 30.178600000000003
     },
     "total_ppp": 228.52,
     "total_efficiency": 227.87,
     "total_disagreement": 0.65,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -22.3,
-    "fair_moneyline_away": 22.3,
-    "p_home": 0.1824,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -21.3,
+    "fair_moneyline_away": 21.3,
+    "p_home": 0.1756,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1678,24 +1678,24 @@
     "home": "BKN",
     "tip_et": "7:30 PM ET",
     "game_url": "https://www.nba.com/game/phi-vs-bkn-0022600248",
-    "margin_a": 3.61,
-    "margin_b": 7.31,
-    "disagreement": 3.7,
+    "margin_a": -3.83,
+    "margin_b": 4.72,
+    "disagreement": 8.55,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 5.46,
+    "blend_margin": 0.45,
     "confidence": {
-     "label": "medium",
+     "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 3.7031999999999994
+     "disagreement_pts": 8.5461
     },
     "total_ppp": 221.76,
     "total_efficiency": 223.84,
     "total_disagreement": -2.08,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 61.4,
-    "fair_moneyline_away": -61.4,
-    "p_home": 0.6196,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 96.2,
+    "fair_moneyline_away": -96.2,
+    "p_home": 0.5098,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1706,24 +1706,24 @@
     "home": "MIA",
     "tip_et": "7:30 PM ET",
     "game_url": "https://www.nba.com/game/hou-vs-mia-0022600249",
-    "margin_a": -1.41,
-    "margin_b": 3.12,
-    "disagreement": 4.53,
+    "margin_a": -3.99,
+    "margin_b": 0.53,
+    "disagreement": 4.52,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 0.86,
+    "blend_margin": -1.73,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 4.5296
+     "disagreement_pts": 4.521
     },
     "total_ppp": 236.19,
     "total_efficiency": 231.6,
     "total_disagreement": 4.59,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 92.6,
-    "fair_moneyline_away": -92.6,
-    "p_home": 0.5191,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -86.0,
+    "fair_moneyline_away": 86.0,
+    "p_home": 0.4623,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1734,24 +1734,24 @@
     "home": "MIN",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/por-vs-min-0022600250",
-    "margin_a": -5.16,
-    "margin_b": -5.37,
-    "disagreement": 0.21,
+    "margin_a": -4.05,
+    "margin_b": -7.96,
+    "disagreement": 3.91,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -5.27,
+    "blend_margin": -6.01,
     "confidence": {
-     "label": "high",
+     "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 0.2071000000000005
+     "disagreement_pts": 3.905500000000001
     },
     "total_ppp": 237.07,
     "total_efficiency": 227.38,
     "total_disagreement": 9.69,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -62.4,
-    "fair_moneyline_away": 62.4,
-    "p_home": 0.3844,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -59.1,
+    "fair_moneyline_away": 59.1,
+    "p_home": 0.3713,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1762,24 +1762,24 @@
     "home": "NOP",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/gsw-vs-nop-0022600251",
-    "margin_a": 2.6,
-    "margin_b": 7.34,
-    "disagreement": 4.74,
+    "margin_a": 6.53,
+    "margin_b": 4.75,
+    "disagreement": 1.78,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 4.97,
+    "blend_margin": 5.64,
     "confidence": {
-     "label": "low",
+     "label": "high",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 4.735600000000001
+     "disagreement_pts": 1.775199999999999
     },
     "total_ppp": 229.14,
     "total_efficiency": 231.41,
     "total_disagreement": -2.27,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 64.2,
-    "fair_moneyline_away": -64.2,
-    "p_home": 0.6092,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 61.0,
+    "fair_moneyline_away": -61.0,
+    "p_home": 0.621,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1790,24 +1790,24 @@
     "home": "DEN",
     "tip_et": "9:00 PM ET",
     "game_url": "https://www.nba.com/game/phx-vs-den-0022600252",
-    "margin_a": 6.43,
-    "margin_b": 2.06,
-    "disagreement": 4.37,
+    "margin_a": 2.55,
+    "margin_b": -0.53,
+    "disagreement": 3.08,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 4.24,
+    "blend_margin": 1.01,
     "confidence": {
-     "label": "low",
+     "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 4.3651
+     "disagreement_pts": 3.0839
     },
     "total_ppp": 226.21,
     "total_efficiency": 227.65,
     "total_disagreement": -1.44,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 68.5,
-    "fair_moneyline_away": -68.5,
-    "p_home": 0.5935,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 91.6,
+    "fair_moneyline_away": -91.6,
+    "p_home": 0.522,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1818,24 +1818,24 @@
     "home": "LAC",
     "tip_et": "10:30 PM ET",
     "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
-    "margin_a": 2.88,
-    "margin_b": 9.53,
-    "disagreement": 6.65,
+    "margin_a": 1.83,
+    "margin_b": 6.94,
+    "disagreement": 5.11,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 6.2,
+    "blend_margin": 4.39,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 6.654999999999999
+     "disagreement_pts": 5.1081
     },
     "total_ppp": 216.81,
     "total_efficiency": 224.3,
     "total_disagreement": -7.49,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 57.4,
-    "fair_moneyline_away": -57.4,
-    "p_home": 0.6352,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 68.1,
+    "fair_moneyline_away": -68.1,
+    "p_home": 0.5948,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1846,24 +1846,24 @@
     "home": "LAL",
     "tip_et": "11:00 PM ET",
     "game_url": "https://www.nba.com/game/cha-vs-lal-0022600256",
-    "margin_a": 8.86,
-    "margin_b": 23.85,
-    "disagreement": 14.99,
+    "margin_a": 5.9,
+    "margin_b": 21.26,
+    "disagreement": 15.36,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 16.35,
+    "blend_margin": 13.58,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 14.991600000000002
+     "disagreement_pts": 15.355200000000002
     },
     "total_ppp": 221.63,
     "total_efficiency": 223.04,
     "total_disagreement": -1.41,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 22.1,
-    "fair_moneyline_away": -22.1,
-    "p_home": 0.8191,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 29.7,
+    "fair_moneyline_away": -29.7,
+    "p_home": 0.771,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1874,24 +1874,24 @@
     "home": "TOR",
     "tip_et": "7:30 PM ET",
     "game_url": "https://www.nba.com/game/nyk-vs-tor-0022600253",
-    "margin_a": -3.48,
-    "margin_b": 7.93,
-    "disagreement": 11.41,
+    "margin_a": -3.74,
+    "margin_b": 5.34,
+    "disagreement": 9.08,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 2.22,
+    "blend_margin": 0.8,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 11.413999999999998
+     "disagreement_pts": 9.0785
     },
     "total_ppp": 221.84,
     "total_efficiency": 218.49,
     "total_disagreement": 3.35,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 82.1,
-    "fair_moneyline_away": -82.1,
-    "p_home": 0.5493,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 93.3,
+    "fair_moneyline_away": -93.3,
+    "p_home": 0.5174,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1902,24 +1902,24 @@
     "home": "MIN",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
-    "margin_a": -5.16,
-    "margin_b": -5.37,
-    "disagreement": 0.21,
+    "margin_a": -4.05,
+    "margin_b": -7.96,
+    "disagreement": 3.91,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -5.27,
+    "blend_margin": -6.01,
     "confidence": {
-     "label": "high",
+     "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 0.2071000000000005
+     "disagreement_pts": 3.905500000000001
     },
     "total_ppp": 237.07,
     "total_efficiency": 227.38,
     "total_disagreement": 9.69,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -62.4,
-    "fair_moneyline_away": 62.4,
-    "p_home": 0.3844,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -59.1,
+    "fair_moneyline_away": 59.1,
+    "p_home": 0.3713,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1930,24 +1930,24 @@
     "home": "SAS",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
-    "margin_a": 32.4,
-    "margin_b": 6.6,
-    "disagreement": 25.8,
+    "margin_a": 28.24,
+    "margin_b": 4.01,
+    "disagreement": 24.23,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 19.5,
+    "blend_margin": 16.12,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 25.7971
+     "disagreement_pts": 24.226400000000005
     },
     "total_ppp": 231.27,
     "total_efficiency": 222.59,
     "total_disagreement": 8.68,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 16.1,
-    "fair_moneyline_away": -16.1,
-    "p_home": 0.8616,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 23.3,
+    "fair_moneyline_away": -23.3,
+    "p_home": 0.8108,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1958,24 +1958,24 @@
     "home": "LAL",
     "tip_et": "10:00 PM ET",
     "game_url": "https://www.nba.com/game/uta-vs-lal-0022600268",
-    "margin_a": 3.63,
-    "margin_b": 18.98,
-    "disagreement": 15.35,
+    "margin_a": -0.28,
+    "margin_b": 16.39,
+    "disagreement": 16.67,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 11.31,
+    "blend_margin": 8.06,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 15.349900000000002
+     "disagreement_pts": 16.667
     },
     "total_ppp": 228.23,
     "total_efficiency": 229.68,
     "total_disagreement": -1.45,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 35.9,
-    "fair_moneyline_away": -35.9,
-    "p_home": 0.7359,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 49.2,
+    "fair_moneyline_away": -49.2,
+    "p_home": 0.6702,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -1986,24 +1986,24 @@
     "home": "SAC",
     "tip_et": "10:00 PM ET",
     "game_url": "https://www.nba.com/game/phx-vs-sac-0022600269",
-    "margin_a": -6.01,
-    "margin_b": -2.08,
-    "disagreement": 3.93,
+    "margin_a": -8.61,
+    "margin_b": -4.67,
+    "disagreement": 3.94,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -4.04,
+    "blend_margin": -6.64,
     "confidence": {
      "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 3.928400000000001
+     "disagreement_pts": 3.9392000000000014
     },
     "total_ppp": 220.99,
     "total_efficiency": 229.55,
     "total_disagreement": -8.56,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -69.7,
-    "fair_moneyline_away": 69.7,
-    "p_home": 0.4109,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -55.9,
+    "fair_moneyline_away": 55.9,
+    "p_home": 0.3584,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2014,24 +2014,24 @@
     "home": "CLE",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/mem-vs-cle-0022600258",
-    "margin_a": -16.97,
-    "margin_b": 7.02,
-    "disagreement": 23.99,
+    "margin_a": -19.81,
+    "margin_b": 4.43,
+    "disagreement": 24.24,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -4.98,
+    "blend_margin": -7.69,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 23.994699999999998
+     "disagreement_pts": 24.2376
     },
     "total_ppp": 236.08,
     "total_efficiency": 231.06,
     "total_disagreement": 5.02,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -64.1,
-    "fair_moneyline_away": 64.1,
-    "p_home": 0.3906,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -50.9,
+    "fair_moneyline_away": 50.9,
+    "p_home": 0.3372,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2042,24 +2042,24 @@
     "home": "IND",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/hou-vs-ind-0022600259",
-    "margin_a": -5.96,
-    "margin_b": -3.94,
-    "disagreement": 2.02,
+    "margin_a": -10.81,
+    "margin_b": -6.53,
+    "disagreement": 4.28,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -4.95,
+    "blend_margin": -8.67,
     "confidence": {
-     "label": "medium",
+     "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 2.0160000000000005
+     "disagreement_pts": 4.2807
     },
     "total_ppp": 230.93,
     "total_efficiency": 226.63,
     "total_disagreement": 4.3,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -64.3,
-    "fair_moneyline_away": 64.3,
-    "p_home": 0.3913,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -46.6,
+    "fair_moneyline_away": 46.6,
+    "p_home": 0.3178,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2070,24 +2070,24 @@
     "home": "MIA",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/mil-vs-mia-0022600260",
-    "margin_a": 10.57,
-    "margin_b": 10.82,
-    "disagreement": 0.25,
+    "margin_a": 11.42,
+    "margin_b": 8.23,
+    "disagreement": 3.19,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 10.69,
+    "blend_margin": 9.83,
     "confidence": {
-     "label": "high",
+     "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 0.25420000000000087
+     "disagreement_pts": 3.1907999999999994
     },
     "total_ppp": 223.56,
     "total_efficiency": 231.21,
     "total_disagreement": -7.65,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 38.0,
-    "fair_moneyline_away": -38.0,
-    "p_home": 0.7245,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 42.0,
+    "fair_moneyline_away": -42.0,
+    "p_home": 0.7044,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2098,24 +2098,24 @@
     "home": "ORL",
     "tip_et": "7:00 PM ET",
     "game_url": "https://www.nba.com/game/phi-vs-orl-0022600261",
-    "margin_a": 3.3,
-    "margin_b": 4.62,
-    "disagreement": 1.32,
+    "margin_a": -0.59,
+    "margin_b": 2.03,
+    "disagreement": 2.62,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 3.96,
+    "blend_margin": 0.72,
     "confidence": {
-     "label": "high",
+     "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 1.3176
+     "disagreement_pts": 2.6190999999999995
     },
     "total_ppp": 220.22,
     "total_efficiency": 221.11,
     "total_disagreement": -0.89,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 70.2,
-    "fair_moneyline_away": -70.2,
-    "p_home": 0.5874,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 93.9,
+    "fair_moneyline_away": -93.9,
+    "p_home": 0.5157,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2126,24 +2126,24 @@
     "home": "BKN",
     "tip_et": "7:30 PM ET",
     "game_url": "https://www.nba.com/game/chi-vs-bkn-0022600262",
-    "margin_a": 0.14,
-    "margin_b": 0.16,
-    "disagreement": 0.02,
+    "margin_a": -4.75,
+    "margin_b": -2.43,
+    "disagreement": 2.32,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 0.15,
+    "blend_margin": -3.59,
     "confidence": {
-     "label": "high",
+     "label": "medium",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 0.01699999999999932
+     "disagreement_pts": 2.324999999999999
     },
     "total_ppp": 222.83,
     "total_efficiency": 231.49,
     "total_disagreement": -8.66,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 98.7,
-    "fair_moneyline_away": -98.7,
-    "p_home": 0.5033,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -73.1,
+    "fair_moneyline_away": 73.1,
+    "p_home": 0.4222,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2154,24 +2154,24 @@
     "home": "TOR",
     "tip_et": "7:30 PM ET",
     "game_url": "https://www.nba.com/game/was-vs-tor-0022600263",
-    "margin_a": 18.95,
-    "margin_b": 4.02,
-    "disagreement": 14.93,
+    "margin_a": 12.68,
+    "margin_b": 1.43,
+    "disagreement": 11.25,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 11.49,
+    "blend_margin": 7.06,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 14.932400000000001
+     "disagreement_pts": 11.250799999999998
     },
     "total_ppp": 222.17,
     "total_efficiency": 225.04,
     "total_disagreement": -2.87,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 35.3,
-    "fair_moneyline_away": -35.3,
-    "p_home": 0.7392,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 53.8,
+    "fair_moneyline_away": -53.8,
+    "p_home": 0.6502,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2182,24 +2182,24 @@
     "home": "NOP",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/det-vs-nop-0022600264",
-    "margin_a": -1.56,
-    "margin_b": 12.17,
-    "disagreement": 13.73,
+    "margin_a": -1.39,
+    "margin_b": 9.58,
+    "disagreement": 10.97,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 5.31,
+    "blend_margin": 4.1,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 13.7268
+     "disagreement_pts": 10.967200000000002
     },
     "total_ppp": 226.93,
     "total_efficiency": 228.79,
     "total_disagreement": -1.86,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 62.2,
-    "fair_moneyline_away": -62.2,
-    "p_home": 0.6164,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 69.9,
+    "fair_moneyline_away": -69.9,
+    "p_home": 0.5886,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2210,24 +2210,24 @@
     "home": "OKC",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/atl-vs-okc-0022600265",
-    "margin_a": 10.82,
-    "margin_b": 1.99,
-    "disagreement": 8.83,
+    "margin_a": 9.83,
+    "margin_b": -0.6,
+    "disagreement": 10.43,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 6.4,
+    "blend_margin": 4.62,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 8.8266
+     "disagreement_pts": 10.4309
     },
     "total_ppp": 229.04,
     "total_efficiency": 225.65,
     "total_disagreement": 3.39,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 56.4,
-    "fair_moneyline_away": -56.4,
-    "p_home": 0.6394,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 66.8,
+    "fair_moneyline_away": -66.8,
+    "p_home": 0.5997,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2238,24 +2238,24 @@
     "home": "DAL",
     "tip_et": "8:00 PM ET",
     "game_url": "https://www.nba.com/game/gsw-vs-dal-0022600267",
-    "margin_a": 7.86,
-    "margin_b": 2.32,
-    "disagreement": 5.54,
+    "margin_a": 6.75,
+    "margin_b": -0.27,
+    "disagreement": 7.02,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": 5.09,
+    "blend_margin": 3.24,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 5.539199999999999
+     "disagreement_pts": 7.0204
     },
     "total_ppp": 227.67,
     "total_efficiency": 227.02,
     "total_disagreement": 0.65,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": 63.5,
-    "fair_moneyline_away": -63.5,
-    "p_home": 0.6117,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": 75.4,
+    "fair_moneyline_away": -75.4,
+    "p_home": 0.5703,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    },
@@ -2266,24 +2266,24 @@
     "home": "DEN",
     "tip_et": "9:30 PM ET",
     "game_url": "https://www.nba.com/game/bos-vs-den-0022600266",
-    "margin_a": -19.53,
-    "margin_b": 10.63,
-    "disagreement": 30.16,
+    "margin_a": -23.22,
+    "margin_b": 8.04,
+    "disagreement": 31.26,
     "headline": "the disagreement is the headline confidence signal; the blend is published underneath it",
-    "blend_margin": -4.45,
+    "blend_margin": -7.59,
     "confidence": {
      "label": "low",
      "rule": "<=2.0 pts high, <=4.0 pts medium, else low; the disagreement is the primary confidence signal, not the blend",
-     "disagreement_pts": 30.159799999999997
+     "disagreement_pts": 31.2566
     },
     "total_ppp": 228.04,
     "total_efficiency": 220.76,
     "total_disagreement": 7.28,
     "total_method": "possessions x points-per-possession",
-    "fair_moneyline_home": -67.2,
-    "fair_moneyline_away": 67.2,
-    "p_home": 0.402,
-    "margin_sd_used": 17.931,
+    "fair_moneyline_home": -51.3,
+    "fair_moneyline_away": 51.3,
+    "p_home": 0.3392,
+    "margin_sd_used": 18.3,
     "market_anchor": null,
     "market_anchor_note": "no licensed closing line is connected in this environment, so the market-anchored blend is NOT computed; publishing a weight chosen without a measured log-loss would be the invented number this project refuses to print"
    }
@@ -2296,19 +2296,19 @@
      "BOS moneyline (model)",
      "total over 222.57 (model line)"
     ],
-    "p_leg_1": 0.7781,
-    "p_leg_2": 0.7235,
-    "naive_product": 0.56293,
-    "naive_american": 77.6,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.7259,
+    "p_leg_2": 0.7273,
+    "naive_product": 0.52795,
+    "naive_american": 89.4,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.54088,
-    "american_with_rho": 84.9,
-    "dependence_pct": -3.92,
+    "p_joint_with_rho": 0.49953,
+    "american_with_rho": -99.8,
+    "dependence_pct": -5.38,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2318,19 +2318,19 @@
      "CLE moneyline (model)",
      "total over 230.31 (model line)"
     ],
-    "p_leg_1": 0.5102,
-    "p_leg_2": 0.5638,
-    "naive_product": 0.28763,
-    "naive_american": -40.4,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.4515,
+    "p_leg_2": 0.5716,
+    "naive_product": 0.25806,
+    "naive_american": -34.8,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.25062,
-    "american_with_rho": -33.4,
-    "dependence_pct": -12.87,
+    "p_joint_with_rho": 0.2156,
+    "american_with_rho": -27.5,
+    "dependence_pct": -16.45,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2340,19 +2340,19 @@
      "WAS moneyline (model)",
      "total over 228.52 (model line)"
     ],
-    "p_leg_1": 0.1824,
-    "p_leg_2": 0.6028,
-    "naive_product": 0.10995,
-    "naive_american": -12.4,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.1756,
+    "p_leg_2": 0.6097,
+    "naive_product": 0.10706,
+    "naive_american": -12.0,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.0854,
-    "american_with_rho": -9.3,
-    "dependence_pct": -22.33,
+    "p_joint_with_rho": 0.07937,
+    "american_with_rho": -8.6,
+    "dependence_pct": -25.86,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2362,19 +2362,19 @@
      "BKN moneyline (model)",
      "total over 221.76 (model line)"
     ],
-    "p_leg_1": 0.6196,
-    "p_leg_2": 0.7384,
-    "naive_product": 0.45752,
-    "naive_american": -84.3,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5098,
+    "p_leg_2": 0.7419,
+    "naive_product": 0.3782,
+    "naive_american": -60.8,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.4291,
-    "american_with_rho": -75.2,
-    "dependence_pct": -6.21,
+    "p_joint_with_rho": 0.34334,
+    "american_with_rho": -52.3,
+    "dependence_pct": -9.22,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2384,19 +2384,19 @@
      "MIA moneyline (model)",
      "total over 236.19 (model line)"
     ],
-    "p_leg_1": 0.5191,
-    "p_leg_2": 0.4332,
-    "naive_product": 0.22489,
-    "naive_american": -29.0,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.4623,
+    "p_leg_2": 0.4435,
+    "naive_product": 0.20505,
+    "naive_american": -25.8,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.1879,
-    "american_with_rho": -23.1,
-    "dependence_pct": -16.45,
+    "p_joint_with_rho": 0.1624,
+    "american_with_rho": -19.4,
+    "dependence_pct": -20.8,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2406,19 +2406,19 @@
      "MIN moneyline (model)",
      "total over 237.07 (model line)"
     ],
-    "p_leg_1": 0.3844,
-    "p_leg_2": 0.414,
-    "naive_product": 0.15913,
-    "naive_american": -18.9,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.3713,
+    "p_leg_2": 0.4246,
+    "naive_product": 0.15764,
+    "naive_american": -18.7,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.12434,
-    "american_with_rho": -14.2,
-    "dependence_pct": -21.86,
+    "p_joint_with_rho": 0.11771,
+    "american_with_rho": -13.3,
+    "dependence_pct": -25.33,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2428,19 +2428,19 @@
      "NOP moneyline (model)",
      "total over 229.14 (model line)"
     ],
-    "p_leg_1": 0.6092,
-    "p_leg_2": 0.5894,
-    "naive_product": 0.35904,
-    "naive_american": -56.0,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.621,
+    "p_leg_2": 0.5966,
+    "naive_product": 0.37048,
+    "naive_american": -58.9,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.32414,
-    "american_with_rho": -48.0,
-    "dependence_pct": -9.72,
+    "p_joint_with_rho": 0.33083,
+    "american_with_rho": -49.4,
+    "dependence_pct": -10.7,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2450,19 +2450,19 @@
      "DEN moneyline (model)",
      "total over 226.21 (model line)"
     ],
-    "p_leg_1": 0.5935,
-    "p_leg_2": 0.6516,
-    "naive_product": 0.38674,
-    "naive_american": -63.1,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.522,
+    "p_leg_2": 0.6573,
+    "naive_product": 0.34312,
+    "naive_american": -52.2,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.35335,
-    "american_with_rho": -54.6,
-    "dependence_pct": -8.63,
+    "p_joint_with_rho": 0.30343,
+    "american_with_rho": -43.6,
+    "dependence_pct": -11.57,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2472,19 +2472,19 @@
      "LAC moneyline (model)",
      "total over 216.81 (model line)"
     ],
-    "p_leg_1": 0.6352,
-    "p_leg_2": 0.8199,
-    "naive_product": 0.52082,
-    "naive_american": 92.0,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5948,
+    "p_leg_2": 0.8213,
+    "naive_product": 0.48853,
+    "naive_american": -95.5,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.49863,
-    "american_with_rho": -99.5,
-    "dependence_pct": -4.26,
+    "p_joint_with_rho": 0.46208,
+    "american_with_rho": -85.9,
+    "dependence_pct": -5.41,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2494,19 +2494,19 @@
      "LAL moneyline (model)",
      "total over 221.63 (model line)"
     ],
-    "p_leg_1": 0.8191,
-    "p_leg_2": 0.7408,
-    "naive_product": 0.60676,
-    "naive_american": 64.8,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.771,
+    "p_leg_2": 0.7442,
+    "naive_product": 0.57375,
+    "naive_american": 74.3,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.58823,
-    "american_with_rho": 70.0,
-    "dependence_pct": -3.05,
+    "p_joint_with_rho": 0.54923,
+    "american_with_rho": 82.1,
+    "dependence_pct": -4.27,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2516,19 +2516,19 @@
      "TOR moneyline (model)",
      "total over 221.84 (model line)"
     ],
-    "p_leg_1": 0.5493,
-    "p_leg_2": 0.7369,
-    "naive_product": 0.40481,
-    "naive_american": -68.0,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5174,
+    "p_leg_2": 0.7404,
+    "naive_product": 0.3831,
+    "naive_american": -62.1,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.37475,
-    "american_with_rho": -59.9,
-    "dependence_pct": -7.43,
+    "p_joint_with_rho": 0.34823,
+    "american_with_rho": -53.4,
+    "dependence_pct": -9.1,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2538,19 +2538,19 @@
      "MIN moneyline (model)",
      "total over 237.07 (model line)"
     ],
-    "p_leg_1": 0.3844,
-    "p_leg_2": 0.414,
-    "naive_product": 0.15913,
-    "naive_american": -18.9,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.3713,
+    "p_leg_2": 0.4246,
+    "naive_product": 0.15764,
+    "naive_american": -18.7,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.12434,
-    "american_with_rho": -14.2,
-    "dependence_pct": -21.86,
+    "p_joint_with_rho": 0.11771,
+    "american_with_rho": -13.3,
+    "dependence_pct": -25.33,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2560,19 +2560,19 @@
      "SAS moneyline (model)",
      "total over 231.27 (model line)"
     ],
-    "p_leg_1": 0.8616,
-    "p_leg_2": 0.5426,
-    "naive_product": 0.46746,
-    "naive_american": -87.8,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.8108,
+    "p_leg_2": 0.5508,
+    "naive_product": 0.44661,
+    "naive_american": -80.7,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.44732,
-    "american_with_rho": -80.9,
-    "dependence_pct": -4.31,
+    "p_joint_with_rho": 0.41816,
+    "american_with_rho": -71.9,
+    "dependence_pct": -6.37,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2582,19 +2582,19 @@
      "LAL moneyline (model)",
      "total over 228.23 (model line)"
     ],
-    "p_leg_1": 0.7359,
-    "p_leg_2": 0.609,
-    "naive_product": 0.44818,
-    "naive_american": -81.2,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.6702,
+    "p_leg_2": 0.6158,
+    "naive_product": 0.41269,
+    "naive_american": -70.3,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.41932,
-    "american_with_rho": -72.2,
-    "dependence_pct": -6.44,
+    "p_joint_with_rho": 0.3758,
+    "american_with_rho": -60.2,
+    "dependence_pct": -8.94,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2604,19 +2604,19 @@
      "SAC moneyline (model)",
      "total over 220.99 (model line)"
     ],
-    "p_leg_1": 0.4109,
-    "p_leg_2": 0.7522,
-    "naive_product": 0.30909,
-    "naive_american": -44.7,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.3584,
+    "p_leg_2": 0.7553,
+    "naive_product": 0.2707,
+    "naive_american": -37.1,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.27968,
-    "american_with_rho": -38.8,
-    "dependence_pct": -9.52,
+    "p_joint_with_rho": 0.23783,
+    "american_with_rho": -31.2,
+    "dependence_pct": -12.14,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2626,19 +2626,19 @@
      "CLE moneyline (model)",
      "total over 236.08 (model line)"
     ],
-    "p_leg_1": 0.3906,
-    "p_leg_2": 0.4357,
-    "naive_product": 0.17017,
-    "naive_american": -20.5,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.3372,
+    "p_leg_2": 0.4459,
+    "naive_product": 0.15037,
+    "naive_american": -17.7,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.13475,
-    "american_with_rho": -15.6,
-    "dependence_pct": -20.81,
+    "p_joint_with_rho": 0.11143,
+    "american_with_rho": -12.5,
+    "dependence_pct": -25.89,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2648,19 +2648,19 @@
      "IND moneyline (model)",
      "total over 230.93 (model line)"
     ],
-    "p_leg_1": 0.3913,
-    "p_leg_2": 0.5501,
-    "naive_product": 0.21525,
-    "naive_american": -27.4,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.3178,
+    "p_leg_2": 0.5582,
+    "naive_product": 0.17739,
+    "naive_american": -21.6,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.17928,
-    "american_with_rho": -21.8,
-    "dependence_pct": -16.71,
+    "p_joint_with_rho": 0.13878,
+    "american_with_rho": -16.1,
+    "dependence_pct": -21.77,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2670,19 +2670,19 @@
      "MIA moneyline (model)",
      "total over 223.56 (model line)"
     ],
-    "p_leg_1": 0.7245,
-    "p_leg_2": 0.7047,
-    "naive_product": 0.51052,
-    "naive_american": 95.9,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.7044,
+    "p_leg_2": 0.709,
+    "naive_product": 0.49941,
+    "naive_american": -99.8,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.48451,
-    "american_with_rho": -94.0,
-    "dependence_pct": -5.09,
+    "p_joint_with_rho": 0.46867,
+    "american_with_rho": -88.2,
+    "dependence_pct": -6.16,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2692,19 +2692,19 @@
      "ORL moneyline (model)",
      "total over 220.22 (model line)"
     ],
-    "p_leg_1": 0.5874,
-    "p_leg_2": 0.7656,
-    "naive_product": 0.44973,
-    "naive_american": -81.7,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5157,
+    "p_leg_2": 0.7684,
+    "naive_product": 0.39625,
+    "naive_american": -65.6,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.42224,
-    "american_with_rho": -73.1,
-    "dependence_pct": -6.11,
+    "p_joint_with_rho": 0.36349,
+    "american_with_rho": -57.1,
+    "dependence_pct": -8.27,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2714,19 +2714,19 @@
      "BKN moneyline (model)",
      "total over 222.83 (model line)"
     ],
-    "p_leg_1": 0.5033,
-    "p_leg_2": 0.7186,
-    "naive_product": 0.36166,
-    "naive_american": -56.7,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.4222,
+    "p_leg_2": 0.7225,
+    "naive_product": 0.30506,
+    "naive_american": -43.9,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.33003,
-    "american_with_rho": -49.3,
-    "dependence_pct": -8.75,
+    "p_joint_with_rho": 0.26891,
+    "american_with_rho": -36.8,
+    "dependence_pct": -11.85,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2736,19 +2736,19 @@
      "TOR moneyline (model)",
      "total over 222.17 (model line)"
     ],
-    "p_leg_1": 0.7392,
-    "p_leg_2": 0.7309,
-    "naive_product": 0.54028,
-    "naive_american": 85.1,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.6502,
+    "p_leg_2": 0.7345,
+    "naive_product": 0.4776,
+    "naive_american": -91.4,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.51633,
-    "american_with_rho": 93.7,
-    "dependence_pct": -4.43,
+    "p_joint_with_rho": 0.44583,
+    "american_with_rho": -80.5,
+    "dependence_pct": -6.65,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2758,19 +2758,19 @@
      "NOP moneyline (model)",
      "total over 226.93 (model line)"
     ],
-    "p_leg_1": 0.6164,
-    "p_leg_2": 0.6366,
-    "naive_product": 0.39242,
-    "naive_american": -64.6,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5886,
+    "p_leg_2": 0.6427,
+    "naive_product": 0.37829,
+    "naive_american": -60.8,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.3591,
-    "american_with_rho": -56.0,
-    "dependence_pct": -8.49,
+    "p_joint_with_rho": 0.33927,
+    "american_with_rho": -51.3,
+    "dependence_pct": -10.32,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2780,19 +2780,19 @@
      "OKC moneyline (model)",
      "total over 229.04 (model line)"
     ],
-    "p_leg_1": 0.6394,
-    "p_leg_2": 0.5915,
-    "naive_product": 0.37823,
-    "naive_american": -60.8,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5997,
+    "p_leg_2": 0.5987,
+    "naive_product": 0.35904,
+    "naive_american": -56.0,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.34434,
-    "american_with_rho": -52.5,
-    "dependence_pct": -8.96,
+    "p_joint_with_rho": 0.31875,
+    "american_with_rho": -46.8,
+    "dependence_pct": -11.22,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2802,19 +2802,19 @@
      "DAL moneyline (model)",
      "total over 227.67 (model line)"
     ],
-    "p_leg_1": 0.6117,
-    "p_leg_2": 0.621,
-    "naive_product": 0.37986,
-    "naive_american": -61.3,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.5703,
+    "p_leg_2": 0.6274,
+    "naive_product": 0.35783,
+    "naive_american": -55.7,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.3459,
-    "american_with_rho": -52.9,
-    "dependence_pct": -8.94,
+    "p_joint_with_rho": 0.31773,
+    "american_with_rho": -46.6,
+    "dependence_pct": -11.21,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    },
    {
@@ -2824,19 +2824,19 @@
      "DEN moneyline (model)",
      "total over 228.04 (model line)"
     ],
-    "p_leg_1": 0.402,
-    "p_leg_2": 0.6131,
-    "naive_product": 0.24647,
-    "naive_american": -32.7,
-    "measured_rho": -0.2336,
-    "rho_n": 22,
+    "p_leg_1": 0.3392,
+    "p_leg_2": 0.6197,
+    "naive_product": 0.21022,
+    "naive_american": -26.6,
+    "measured_rho": -0.2692,
+    "rho_n": 30,
     "rho_ci95": [
-     -0.597,
-     0.209
+     -0.574,
+     0.101
     ],
-    "p_joint_with_rho": 0.21129,
-    "american_with_rho": -26.8,
-    "dependence_pct": -14.27,
+    "p_joint_with_rho": 0.17167,
+    "american_with_rho": -20.7,
+    "dependence_pct": -18.34,
     "statement": "both prices are printed: the naive product a person would compute on a napkin, and the price implied by the measured dependence"
    }
   ]

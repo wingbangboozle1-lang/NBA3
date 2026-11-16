@@ -24,22 +24,22 @@
    "name": "The model used the newest archived injury report",
    "passed": true,
    "value": {
-    "model_used": "Injury-Report_2026-11-15_06_15AM",
-    "newest_on_disk": "Injury-Report_2026-11-15_06_15AM"
+    "model_used": "Injury-Report_2026-11-16_12_00AM",
+    "newest_on_disk": "Injury-Report_2026-11-16_12_00AM"
    },
    "rule": "the engine must read the newest archived report, not an older one",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
    "id": "F3",
    "name": "The injury report is not older than the slate it prices",
    "passed": true,
    "value": {
-    "report_date": "2026-11-15",
+    "report_date": "2026-11-16",
     "slate_start": "2026-11-15"
    },
    "rule": "report date >= first slate date",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
   },
   {
    "id": "F4",
@@ -86,6 +86,11 @@
       "file": "Injury-Report_2026-11-15_06_15AM.md",
       "bytes": 10757,
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+     },
+     {
+      "file": "Injury-Report_2026-11-16_12_00AM.md",
+      "bytes": 8645,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_12_00AM.pdf"
      }
     ],
     "problems": []

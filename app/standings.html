@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standings &amp; records — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="standings.html" class="active">Standings &amp; records</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Projection surface (public)</div>
+    <h1>Standings &amp; records</h1>
+    
+  </div>
+
+<p>The brief asks the scheduled job to refresh the official <em>standings</em> for the rolling
+window alongside the schedule, team statistics and injury report. The job fetches
+<a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">www.nba.com/standings</a> on every run and stores the page
+verbatim in its capture directory (see <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py">scripts/refresh_official.py</a>
+step 3a), promoting only what the fetched HTML actually prints.</p>
+<p class="note"><strong>Standing caveat:</strong> the official standings page renders its table
+client-side, so the fetched HTML carries no parsable W-L rows — the promotion records
+<strong>0 rows from the standings page</strong> and the values are published as
+<em>not captured</em> rather than being derived. The record cells the official game pages and
+game books print are shown below with their own provenance instead. Standings position, games
+back and win pct are blank for the same reason: no captured official source prints them here.</p>
+
+<p class="stamp-warn">No games-page record cells were promoted by the last refresh: the pattern that carries them did not match the fetched pages, so this table is intentionally empty (blank and flagged, not inferred). <a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">official games page</a></p>
+<div class="table-wrap"><table>
+<caption id="standings-books"></caption>
+<thead><tr>
+<th>Team</th>
+<th>W-L (as printed)</th>
+<th>Game day</th>
+<th>Rank</th>
+<th>Games back</th>
+<th>Header as printed</th>
+<th>Verbatim capture</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>BKN</td>
+<td>3-9</td>
+<td>2026-11-14</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>Brooklyn Nets (3-9)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261114_BKNMEM.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>CHI</td>
+<td>3-9</td>
+<td>2026-11-14</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>Chicago Bulls (3-9)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261114_CHIMIN.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>DEN</td>
+<td>7-4</td>
+<td>2026-11-14</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>Denver Nuggets (7-4)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261114_DENNOP.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>DET</td>
+<td>8-4</td>
+<td>2026-11-14</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>Detroit Pistons (8-4)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261114_DETMIA.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>IND</td>
+<td>5-9</td>
+<td>2026-11-15</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>Indiana Pacers (5-9)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261115_INDPHI.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>NYK</td>
+<td>7-6</td>
+<td>2026-11-15</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>New York Knicks (7-6)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261115_NYKTOR.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>PHI</td>
+<td>11-3</td>
+<td>2026-11-15</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>PHILADELPHIA 76ERS (11-3)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261115_INDPHI.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+<tr>
+<td>SAS</td>
+<td>12-2</td>
+<td>2026-11-15</td>
+<td><span class="unverified">—</span></td>
+<td><span class="unverified">—</span></td>
+<td>San Antonio Spurs (12-2)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/gamebooks/20261115_SASUTA.md">capture file</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf" target="_blank" rel="noopener noreferrer">official game book</a></td>
+</tr>
+</tbody></table></div>
+<p class="small">Promoted 2026-11-16T00-57Z by
+scripts/refresh_official.py; standings page as-of line: not printed in the fetched HTML.
+Artefact: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_standings_current.json">data/app/official_standings_current.json</a>.</p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

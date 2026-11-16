@@ -45,6 +45,7 @@ NAV = [
         ("Two-estimator projections", "app/projections.html"),
         ("Originated lines", "app/lines.html"),
         ("Prices for the window", "app/picks.html"),
+        ("Standings & records", "app/standings.html"),
         ("Injuries & rotation", "app/injuries.html"),
         ("Report availability", "app/freshness.html"),
         ("Game flow", "app/gameflow.html"),
@@ -108,6 +109,7 @@ def _load_new():
     NEW["flags_session"] = rd("data/app/flags_79341829.json", [])
     NEW["questions_session"] = rd("data/app/questions_79341829.json", [])
     NEW["suggestions_session"] = rd("data/app/suggestions_79341829.json", [])
+    NEW["standings"] = rd("data/app/official_standings_current.json", {})
     ledger = []
     p = os.path.join(ROOT, "data", "app", "ledger", "ledger.jsonl")
     if os.path.exists(p):
@@ -2677,6 +2679,71 @@ def page_requirements(d):
 # --------------------------------------------------------------------------
 # landing page
 # --------------------------------------------------------------------------
+def page_standings(d):
+    """Official standings / team records as the scheduled refresh promoted them.
+
+    The refresh captures https://www.nba.com/standings verbatim into the refresh directory
+    every run and promotes what that HTML actually prints. In every capture so far the page
+    ships its table client-side, so no W-L is attributed to it; what IS on the record are the
+    records the official pages and game books print per game day. Rows with no captured
+    official value are blank and flagged, never computed here.
+    """
+    st = NEW.get("standings") or {}
+    page_rows = st.get("standings_page_rows") or []
+    cells = st.get("game_day_records") or []
+    books = st.get("newest_record_per_team_from_game_books") or []
+    body = []
+    body.append(f"""
+<p>The brief asks the scheduled job to refresh the official <em>standings</em> for the rolling
+window alongside the schedule, team statistics and injury report. The job fetches
+{link("https://www.nba.com/standings", "www.nba.com/standings")} on every run and stores the page
+verbatim in its capture directory (see <a href="{REPO_URL}/blob/main/scripts/refresh_official.py">scripts/refresh_official.py</a>
+step 3a), promoting only what the fetched HTML actually prints.</p>
+<p class="note"><strong>Standing caveat:</strong> the official standings page renders its table
+client-side, so the fetched HTML carries no parsable W-L rows — the promotion records
+<strong>{len(page_rows)} rows from the standings page</strong> and the values are published as
+<em>not captured</em> rather than being derived. The record cells the official game pages and
+game books print are shown below with their own provenance instead. Standings position, games
+back and win pct are blank for the same reason: no captured official source prints them here.</p>
+""")
+
+    def rec(w, l):
+        if w is None or l is None:
+            return '<span class="unverified">— (not captured)</span>'
+        return f"{esc(str(w))}-{esc(str(l))}"
+
+    if cells:
+        rows = [[esc(r["date"]), f"{esc(r['away'])} @ {esc(r['home'])}",
+                 rec(r.get("away_wins"), r.get("away_losses")),
+                 rec(r.get("home_wins"), r.get("home_losses")),
+                 esc(r.get("measure", "")),
+                 src_cell([r.get("source_url")], "official page")]
+                for r in cells]
+        body.append(table(["Date", "Matchup", "Away record", "Home record", "Measure", "Source"],
+                          rows, "standings-game-day"))
+    else:
+        body.append('<p class="stamp-warn">No games-page record cells were promoted by the last '
+                    'refresh: the pattern that carries them did not match the fetched pages, so '
+                    'this table is intentionally empty (blank and flagged, not inferred). '
+                    + src_cell(["https://www.nba.com/games"], "official games page") + "</p>")
+
+    rows = [[esc(r["team"]), rec(r.get("wins"), r.get("losses")),
+             esc(r.get("as_of", "")),
+             '<span class="unverified">—</span>', '<span class="unverified">—</span>',
+             esc(r.get("printed_as", "")),
+             f'<a href="{esc(r["raw_file"].replace("data/app/gamebooks", REPO_URL + "/blob/main/data/app/gamebooks"))}">capture file</a>',
+             src_cell([r.get("source_url")], "official game book")]
+            for r in books]
+    if rows:
+        body.append(table(["Team", "W-L (as printed)", "Game day", "Rank", "Games back",
+                           "Header as printed", "Verbatim capture", "Source"],
+                          rows, "standings-books"))
+    body.append(f"""<p class="small">Promoted {esc(str(st.get('retrieved_utc') or '—'))} by
+scripts/refresh_official.py; standings page as-of line: {esc(str(st.get('standings_page_as_of') or 'not printed in the fetched HTML'))}.
+Artefact: <a href="{REPO_URL}/blob/main/data/app/official_standings_current.json">data/app/official_standings_current.json</a>.</p>""")
+    return "\n".join(body)
+
+
 def build_index(d):
     cats = []
     for cat, items in NAV:
@@ -2922,6 +2989,8 @@ def main():
         ("app/review.html", "Repository review", "Verification", page_review(d), "app/review.html"),
         ("app/flagged.html", "Flagged for review", "Verification", page_flagged(d), "app/flagged.html"),
         ("app/requirements.html", "Brief coverage", "Overview", page_requirements(d), "app/requirements.html"),
+        ("app/standings.html", "Standings & records", "Projection surface (public)",
+         page_standings(d), "app/standings.html"),
     ]
 
     written = []

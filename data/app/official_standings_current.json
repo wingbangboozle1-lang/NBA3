@@ -1,0 +1,96 @@
+{
+ "source_url": "https://www.nba.com/standings",
+ "retrieved_utc": "2026-11-16T00-57Z",
+ "standings_page_as_of": null,
+ "standings_page_rows": [],
+ "game_day_records": [],
+ "newest_record_per_team_from_game_books": [
+  {
+   "team": "BKN",
+   "wins": 3,
+   "losses": 9,
+   "as_of": "2026-11-14",
+   "printed_as": "Brooklyn Nets (3-9)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
+   "raw_file": "data/app/gamebooks/20261114_BKNMEM.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "CHI",
+   "wins": 3,
+   "losses": 9,
+   "as_of": "2026-11-14",
+   "printed_as": "Chicago Bulls (3-9)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
+   "raw_file": "data/app/gamebooks/20261114_CHIMIN.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "DEN",
+   "wins": 7,
+   "losses": 4,
+   "as_of": "2026-11-14",
+   "printed_as": "Denver Nuggets (7-4)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf",
+   "raw_file": "data/app/gamebooks/20261114_DENNOP.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "DET",
+   "wins": 8,
+   "losses": 4,
+   "as_of": "2026-11-14",
+   "printed_as": "Detroit Pistons (8-4)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
+   "raw_file": "data/app/gamebooks/20261114_DETMIA.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "IND",
+   "wins": 5,
+   "losses": 9,
+   "as_of": "2026-11-15",
+   "printed_as": "Indiana Pacers (5-9)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "raw_file": "data/app/gamebooks/20261115_INDPHI.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "NYK",
+   "wins": 7,
+   "losses": 6,
+   "as_of": "2026-11-15",
+   "printed_as": "New York Knicks (7-6)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+   "raw_file": "data/app/gamebooks/20261115_NYKTOR.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "PHI",
+   "wins": 11,
+   "losses": 3,
+   "as_of": "2026-11-15",
+   "printed_as": "PHILADELPHIA 76ERS (11-3)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+   "raw_file": "data/app/gamebooks/20261115_INDPHI.md",
+   "measure": "record printed in the official game book's home header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  },
+  {
+   "team": "SAS",
+   "wins": 12,
+   "losses": 2,
+   "as_of": "2026-11-15",
+   "printed_as": "San Antonio Spurs (12-2)",
+   "source_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+   "raw_file": "data/app/gamebooks/20261115_SASUTA.md",
+   "measure": "record printed in the official game book's visitor header \u2014 the game book's own statement of that club's standing, cross-checked against the standings page in tests/test_refresh_official.py (never assumed pre- or post-game)"
+  }
+ ],
+ "count_page_rows": 0,
+ "notes": [
+  "standings_page_rows is empty when the official page ships its table client-side: no W-L is then attributed to the standings page (blank + flagged, not inferred)",
+  "game_day_records come from the record cells the official games pages print for each matchup on that date; they are per-day and never merged across days",
+  "newest_record_per_team_from_game_books is the record printed in each captured official game book's VISITOR/HOME header (post-game); standings position, games back and win pct are left blank because no captured official source prints them here",
+  "promoted by scripts/refresh_official.py; a team with no captured book has no row"
+ ]
+}

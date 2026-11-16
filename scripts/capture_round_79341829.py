@@ -245,11 +245,20 @@ def parse_gamebook(path):
     text = open(path, encoding="utf-8").read()
     url_m = re.search(r"Source URL: (\S+)", text)
     source_url = url_m.group(1) if url_m else "https://statsdmz.nba.com/"
-    game_date = "2026-11-14"
-    gid_m = re.search(r"20261114_(\w+)\.pdf", source_url)
+    day_m = re.match(r"^20(\d{2})(\d{2})(\d{2})_", name)
+    game_date = f"20{day_m.group(1)}-{day_m.group(2)}-{day_m.group(3)}" if day_m else "2026-11-14"
+    # general session 4a59430d: the per-game capture stamp comes from the verbatim header
+    # ("- Retrieved: <stamp>") when present, so a later game day is stamped with its own
+    # retrieval time, never with the first round's constant.
+    retr_m = re.search(r"^- Retrieved: (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)", text, re.M)
+    book_retrieved = retr_m.group(1) if retr_m else RETRIEVED_STAMP
+    gid_m = re.search(r"(\d{8})_(\w+)\.pdf", source_url)
     players = []
     quarters = {}
     finals = {}
+    ot_periods = {}      # abbr -> printed overtime period scores (OT1[, OT2]) when the book prints them
+    readings = {}        # abbr -> every period reading the printed document carries
+    conflict = set()     # abbrs whose printed statements disagree — the row is flagged, never repaired
     current_side = None  # 'away' / 'home'
     nickname_of = {}
     for abbr in (away_abbr, home_abbr):
@@ -271,20 +280,63 @@ def parse_gamebook(path):
                 return int(v), True
         return int(nums[-1]) if nums else 0, False
 
+    def _record_reading(abbr, vals):
+        """One printed period row: Q1..Q4 (plus printed OT periods) then the printed FINAL.
+
+        Every reading the document prints is kept. If two printed statements of the same
+        team's periods disagree, the team lands in `conflict` and the game is flagged
+        unverified (and therefore never settled) — the row is never repaired toward one
+        reading, matching the rule in data/rounds/2026-11-16/raw/official_gamebooks_2026-11-15.md.
+        """
+        entry = (tuple(vals[:-1]), int(vals[-1]))
+        prev = readings.setdefault(abbr, [])
+        if not prev:
+            quarters[abbr] = list(entry[0][:4])
+            ot_periods[abbr] = list(entry[0][4:])
+            finals[abbr] = entry[1]
+        elif prev[0] != entry:
+            conflict.add(abbr)
+        prev.append(entry)
+
+    # some extractions lose the trailing column of a team's stat block (the header row of a
+    # 25-column away block reads 25 cells, the home block's 19-20): every stat row on such a
+    # side carries only 15 values after its minutes cell (FG … +/-) instead of 16 (… +/- PTS).
+    # A side is truncated when NO row on it delivers a 16th value — then the side has no
+    # printed player points at all, which are left blank rather than inferred from the total.
+    truncated_sides = {"away", "home"} if away_end is not None else set()
+    _ln = -1
+    for _line in text.splitlines():
+        _ln += 1
+        if not _line.startswith("|"):
+            continue
+        _c = [x.strip() for x in _line.strip().strip("|").split("|")]
+        _side = "away" if (away_end is None or _ln <= away_end) else (
+            "home" if (home_end is None or _ln > home_end) else None)
+        if _side not in truncated_sides:
+            continue
+        try:
+            _m = next(i for i, x in enumerate(_c) if re.match(r"^\d\d:\d\d$", x))
+        except StopIteration:
+            continue
+        if len(_c[_m + 1: _m + 17]) >= 16:
+            truncated_sides.discard(_side)
+
     line_no = -1
     for line in text.splitlines():
         line_no += 1
         if away_end is not None:
             current_side = "away" if line_no <= away_end else "home"
         if not line.startswith("|"):
-            # bare lines such as "CAVALIERS 33 38 34 22 127"
-            bare = re.match(r"^([A-Za-z .]+?) (\d+) (\d+) (\d+) (\d+) (\d+)$", line.strip())
-            if bare and bare.group(1).strip().lower() in nickname_of:
-                abbr = nickname_of[bare.group(1).strip().lower()]
-                qs = [int(bare.group(i)) for i in range(2, 6)]
-                final = int(bare.group(6))
-                quarters[abbr] = qs
-                finals[abbr] = final
+            # bare lines such as "CAVALIERS 33 38 34 22 127" (recap form, with or without
+            # printed overtime columns)
+            toks = line.strip().split()
+            cut = len(toks)
+            while cut > 0 and re.fullmatch(r"\d+", toks[cut - 1]):
+                cut -= 1
+            name = " ".join(toks[:cut]).strip().lower()
+            vals = toks[cut:]
+            if name in nickname_of and len(vals) >= 5 and all(re.fullmatch(r"\d+", v) for v in vals):
+                _record_reading(nickname_of[name], [int(v) for v in vals])
             continue
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         non_empty = [c for c in cells if c]
@@ -296,18 +348,15 @@ def parse_gamebook(path):
         if "HOME:" in line:
             current_side = "home"
             continue
-        # SCORE BY PERIOD table rows: | Nuggets | 29 | 27 | 30 | 30 | 116 |
+        # SCORE BY PERIOD table rows: | Nuggets | 29 | 27 | 30 | 30 | 116 | (OT columns included
+        # when the book prints them: | Knicks | 23 | 24 | 20 | 28 | 17 | 112 |)
         if len(non_empty) >= 6 and non_empty[0].lower() in nickname_of:
             try:
-                qs = [int(x) for x in non_empty[1:5]]
-                final = int(non_empty[5])
+                vals = [int(x) for x in non_empty[1:]]
             except ValueError:
-                qs = None
-            if qs and abs(sum(qs) - final) <= 3:  # OT adds >4 periods; regular rows sum exactly
-                abbr = nickname_of[non_empty[0].lower()]
-                quarters[abbr] = qs
-                finals[abbr] = final
-                continue
+                vals = None
+            if vals and len(vals) >= 5:
+                _record_reading(nickname_of[non_empty[0].lower()], vals)
         # DNP / DND / NWT rows (may be merged with a totals row or a lost-name stint row)
         joined = " | ".join(non_empty)
         if re.search(r"\b(DNP|DND|NWT)\b", joined):
@@ -357,7 +406,11 @@ def parse_gamebook(path):
             continue
         if cells[min_idx] == "240:00":
             continue  # team totals row (also carries the team PTS)
-        vals = [(v if v else "0") for v in cells[min_idx + 1: min_idx + 18]]
+        tail = cells[min_idx + 1: min_idx + 18]
+        # the PTS column is the last of the 16; on a truncated side it is simply absent and
+        # the printed values stop at +/- — recorded as blank, never inferred from the team total.
+        no_pts = current_side in truncated_sides
+        vals = [(v if v else "0") for v in tail]
         if len(vals) < 16:
             continue
         try:
@@ -381,7 +434,8 @@ def parse_gamebook(path):
             "min": round(mins, 2), "min_raw": cells[min_idx],
             "reb": int(nums[8]), "ast": int(nums[9]), "pts": pts,
             "status": "played", "dnp_reason": None, "source": source_url,
-            "pts_confirmed_by_box_arithmetic": ok_pts,
+            "pts_confirmed_by_box_arithmetic": ok_pts and not no_pts,
+            "pts_printed": None if no_pts else pts,
         })
 
     # inactive lists ("Inactive: Mavericks - Biberovic (...), Christie (...)") as 0-minute rows
@@ -421,10 +475,22 @@ def parse_gamebook(path):
         p["opponent"] = home_abbr if p["side"] == "away" else away_abbr
         p["date"] = game_date
 
+    # a team block whose printed player points do not reconcile with its printed final and
+    # where no row's points pass the box-arithmetic check: the extraction lost that block's
+    # trailing columns. The flag makes the capture report it as a gap (blank, flagged)
+    # instead of a wrong number.
+    unconfirmed = {
+        abbr for abbr, side in ((away_abbr, "away"), (home_abbr, "home"))
+        if any(p["side"] == side and p["status"] == "played" and p.get("pts_printed") is None
+               for p in players)
+    }
+
     return {
         "game_date": game_date, "away": away_abbr, "home": home_abbr,
         "source": source_url,
         "quarters": quarters, "finals": finals, "players": players,
+        "ot": ot_periods, "conflict": conflict, "unconfirmed_pts": unconfirmed,
+        "retrieved": book_retrieved,
         "raw_file": f"data/app/gamebooks/{name}",
     }
 
@@ -467,21 +533,43 @@ def main():
         away, home = b["away"], b["home"]
         fq, fh_ = b["finals"].get(away), b["finals"].get(home)
         qq = b["quarters"]
-        verified = (fq is not None and fh_ is not None
-                    and sum(qq.get(away, [])) == fq and sum(qq.get(home, [])) == fh_)
+        oo = b.get("ot", {})
+        conf = b.get("conflict", set())
+
+        def _sums_ok(abbr, final):
+            ps = qq.get(abbr)
+            if ps is None or final is None:
+                return False
+            return sum(ps) + sum(oo.get(abbr, [])) == final
+
+        verified = (fq is not None and fh_ is not None and not conf
+                    and _sums_ok(away, fq) and _sums_ok(home, fh_))
+        ot_a = oo.get(away, [])
+        ot_h = oo.get(home, [])
+
+        def _ot_field(periods, i):
+            return periods[i] if len(periods) > i else None
+
         feed_rows.append({
             "date": b["game_date"], "away": away, "home": home,
             "away_pts": fq, "home_pts": fh_,
             "away_q1": qq.get(away, [None] * 4)[0], "away_q2": qq.get(away, [None] * 4)[1],
             "away_q3": qq.get(away, [None] * 4)[2], "away_q4": qq.get(away, [None] * 4)[3],
+            "away_ot1": _ot_field(ot_a, 0), "away_ot2": _ot_field(ot_a, 1),
             "home_q1": qq.get(home, [None] * 4)[0], "home_q2": qq.get(home, [None] * 4)[1],
             "home_q3": qq.get(home, [None] * 4)[2], "home_q4": qq.get(home, [None] * 4)[3],
+            "home_ot1": _ot_field(ot_h, 0), "home_ot2": _ot_field(ot_h, 1),
             "state": "Final", "verified": verified,
             "verified_from": b["source"],
-            "quarter_check": "quarter sums equal the final" if verified else "MISMATCH",
+            "period_conflict": sorted(conf) or None,
+            "quarter_check": ("quarter sums equal the final" if verified else
+                              ("the document prints conflicting period scores for "
+                               + "/".join(sorted(conf)) + " — held unverified, not repaired")
+                              if conf else "quarter sums MISMATCH"),
             "gamebook": b["source"], "raw_file": b["raw_file"],
             "settled": verified,
-            "settlement_stamp": (f"settled {RETRIEVED_STAMP} from the official game book; "
+            "settlement_stamp": (f"settled {b.get('retrieved', RETRIEVED_STAMP)} "
+                                 f"(game day end, {b['game_date']}) from the official game book; "
                                  f"quarter sums == finals" if verified else None),
         })
         for p in b["players"]:
@@ -490,6 +578,11 @@ def main():
                     "ast", "status", "dnp_reason", "source")}
             if p.get("flag"):
                 row["flag"] = p["flag"]
+            if p["status"] == "played" and p.get("pts_printed") is None:
+                row["pts"] = None
+                row["pts_unconfirmed"] = ("the game-book extraction lost this team block's "
+                                          "trailing PTS column; the points are left blank, not "
+                                          "inferred from the team total")
             log_rows.append(row)
         for side, abbr in (("away", away), ("home", home)):
             team_players = [p for p in b["players"] if p["side"] == side and p["min"] > 0]
@@ -532,12 +625,16 @@ def main():
                 r["settled"] = True
                 r["settlement_stamp"] = old.get("settlement_stamp")
 
+    game_days = sorted({r["date"] for r in feed_rows if r["date"] != "2026-11-13"})
     feed = {
-        "source_label": ("Official per-game result feed. 2026-11-14 rows come from the official "
-                         "game books (statsdmz.nba.com PDFs linked from each nba.com game page); "
-                         "2026-11-13 rows come from the stored official scoreboard capture "
-                         "(data/app/official_results_2026-11-13.json). One row per game: date, "
-                         "teams, final score, quarter scores."),
+        "source_label": ("Official per-game result feed. Every row on a game day ("
+                         + ", ".join(game_days) + ") comes from that game's official game book "
+                         "(statsdmz.nba.com PDF linked from the nba.com game page; full box "
+                         "where the capture round fetched one, verbatim score-only transcription "
+                         "otherwise); 2026-11-13 rows come from the stored official scoreboard "
+                         "capture (data/app/official_results_2026-11-13.json). One row per game: "
+                         "date, teams, final score, quarter scores (printed overtime periods are "
+                         "kept in their own columns and included in the sums)."),
         "retrieved_stamp": RETRIEVED_STAMP,
         "settlement_rule": ("A row is settled only when the game state is Final AND the quarter "
                             "scores sum to the printed final for both teams (checked offline). "
@@ -557,16 +654,19 @@ def main():
         fh.write("\n")
 
     logs = {
-        "source_label": ("Per-player game logs captured from the official game books of the "
-                         "2026-11-14 slate: minutes, points, rebounds, assists and the opponent, "
-                         "plus DNP/inactive rows with reasons. One row per player-game."),
+        "source_label": ("Per-player game logs captured from official game books for every game "
+                         "day whose book was fetched in full (" + ", ".join(sorted({b["game_date"] for b in books if b["players"]})) + ")"
+                         ": minutes, points, rebounds, assists and the opponent, plus DNP/inactive "
+                         "rows with reasons. One row per player-game."),
         "retrieved_stamp": RETRIEVED_STAMP,
         "count": len(log_rows),
         "rows": log_rows,
-        "coverage_note": ("Coverage is complete for the ten teams that played 2026-11-14. Players "
-                          "on teams that did not play 11/14 (and any earlier-game rows) are not in "
+        "coverage_note": (f"Full boxes are captured for {len([b for b in books if b['players']])} of "
+                          f"{len(books)} game books; the remainder are verbatim score-only "
+                          "transcriptions whose games lack player rows (flagged, never guessed). "
+                          "Players on teams whose game books are not captured at all are not in "
                           "this capture; the scheduled refresh job (scripts/refresh_official.py) "
-                          "appends every completed game's game book each night."),
+                          "fetches every finished game's book each night for the next capture round."),
         "sources": [b["source"] for b in books],
     }
     with open(LOGS_JSON, "w", encoding="utf-8") as fh:
@@ -609,14 +709,38 @@ def main():
           f"{sum(1 for r in feed_rows if r['date'] == '2026-11-14')} games")
 
     box_ok = True
+    unconfirmed = []
     for b in books:
+        if not b["players"]:
+            continue  # score-only transcription (see the file's own note): no box to reconcile
         for side, abbr in (("away", b["away"]), ("home", b["home"])):
-            team_pts = sum(p["pts"] for p in b["players"] if p["side"] == side and p["status"] == "played")
-            if b["finals"].get(abbr) is not None and team_pts != b["finals"][abbr]:
-                box_ok = False
-                print(f"    box total mismatch {b['away']}@{b['home']} {abbr}: {team_pts} vs {b['finals'][abbr]}")
+            rows_s = [p for p in b["players"] if p["side"] == side and p["status"] == "played"]
+            team_pts = sum(p["pts"] for p in rows_s)
+            if b["finals"].get(abbr) is None or team_pts == b["finals"][abbr]:
+                continue
+            if abbr in b.get("unconfirmed_pts", set()):
+                # the PDF extraction never delivered a points column for this team's block
+                # (trailing cells lost): the mismatch is a capture gap, not a wrong value.
+                # Rows stay at 0 with pts_unconfirmed set — never inferred from the team total.
+                unconfirmed.append(f"{b['away']}@{b['home']} {abbr}")
+                continue
+            box_ok = False
+            print(f"    box total mismatch {b['away']}@{b['home']} {abbr}: {team_pts} vs {b['finals'][abbr]}")
     check(box_ok, "E5 player points sum to the team final in every game book",
-          f"{len(books)} game books")
+          f"{len(books)} game books" + (f"; points column not delivered by the extraction "
+                                        f"(blank + flagged, see player_game_logs.json): "
+                                        f"{', '.join(unconfirmed)}" if unconfirmed else ""))
+
+    conflict_seen = []
+    for b in books:
+        for r in feed_rows:
+            if (r["date"], r["away"], r["home"]) == (b["game_date"], b["away"], b["home"]) and b["conflict"]:
+                conflict_seen.append(f"{b['away']}@{b['home']} ({b['game_date']})")
+    conflict_handled = all(not r["verified"] for r in feed_rows
+                           if (r["date"], r["away"], r["home"]) in
+                           {(b["game_date"], b["away"], b["home"]) for b in books if b["conflict"]})
+    check(conflict_handled, "E7 every game whose document prints conflicting period scores is flagged unverified",
+          f"conflicting games: {', '.join(sorted(conflict_seen)) or 'none'} — held, not repaired")
 
     check(delta["player_rows_added"] > 0 or len(delta["status_changes"]) >= 0,
           "E6 consecutive-report diff computed", 

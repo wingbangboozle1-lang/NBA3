@@ -219,14 +219,43 @@ class CommittedCaptureSlateTests(unittest.TestCase):
         want = {(g["date"], g["game_id"], g["away"], g["home"]) for g in verified}
         self.assertEqual(got, want)
 
-    def test_published_slate_matches_the_promotion(self):
+    def test_published_slate_is_refresh_stable(self):
+        """Invariants `data/app/official_slate_current.json` must satisfy in ANY state,
+        including right after a scheduled refresh re-promoted it from live pages.
+
+        History (session arena/4a59430d-nba3): the previous version of this test compared the
+        published file byte-for-byte with the promotion of the fixed committed capture
+        `2026-11-16T00-57Z`. The refresh legitimately rewrites the published file every run
+        (the window rolls to today..today+3), so that assertion was guaranteed to fail on the
+        runner from the first run after that capture — which is exactly what broke scheduled
+        run 43925193575 (2026-11-16T18:05Z) at the unit-test step. The capture-vs-promotion
+        equality is still pinned offline by test_capture_gives_the_verified_34_games_and_no_phantom_rows,
+        which reads only committed files; the published file is checked here against rules that
+        hold for any correct promotion.
+        """
         path = os.path.join(ROOT, "data", "app", "official_slate_current.json")
         published = json.load(open(path, encoding="utf-8"))
-        rows, _ = ro.promote_slate_rows(self._pages()) if os.path.isdir(self.CAPTURE) else ([], [])
-        if rows:
-            self.assertEqual(published["games"], rows)
-        self.assertEqual(published["count"], len(published["games"]))
-        self.assertEqual(len({g["game_id"] for g in published["games"]}), published["count"])
+        games = published["games"]
+        self.assertEqual(published["count"], len(games))
+        self.assertEqual(len({g["game_id"] for g in games}), len(games),
+                         "a game id must never appear twice on the published slate")
+        self.assertEqual(games, sorted(games, key=lambda g: (g["date"], g["game_id"])),
+                         "published rows must stay sorted by (date, game_id)")
+        # the slate dates are Eastern; compare against the capture's EASTERN day, not its
+        # UTC day (the UTC-vs-ET trap fixed in session arena/81800928-nba3)
+        stamp = published["retrieved_utc"]           # e.g. "2026-11-16T00-57Z"
+        when = datetime.strptime(stamp, "%Y-%m-%dT%H-%MZ").replace(tzinfo=timezone.utc)
+        et_day = ro.et_today(when).isoformat()
+        for g in games:
+            self.assertEqual(g["source"], "https://www.nba.com/games?date=" + g["date"],
+                             "a published row must come from its own date's official page")
+            self.assertGreaterEqual(
+                g["date"], et_day,
+                "the published slate must not carry a day before its own capture's Eastern "
+                "date — this is the phantom-row class (0022600232 on 11/13..11/18) for good")
+        if games:
+            self.assertEqual(published["window"]["from"], games[0]["date"])
+            self.assertEqual(published["window"]["to"], games[-1]["date"])
 
 
 class GateCallTests(unittest.TestCase):
