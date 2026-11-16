@@ -1,0 +1,42 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "intro": "Questions this session's refresh raised. Each row says what is already known from an official source, what is missing, and how the missing piece could be discovered. Nothing here is answered by inference.",
+ "questions": [
+  {
+   "id": "Q-94E6D41B-01",
+   "question": "Do the refreshed ratings and rest move an originated line?",
+   "known": "Yes - quantified: leg B vs leg C of line_invariance.json lists every price-field move on the 22 shared games and traces it to the ratings refresh or the rest change. The refresh is a data change, not engine drift; the seeded artifact reproduces byte for byte (leg A).",
+   "missing": "Nothing material.",
+   "how_to_find": "Re-run audit_94e6d41b/analysis.py."
+  },
+  {
+   "id": "Q-94E6D41B-02",
+   "question": "Can quarter scores be captured from an official page at all?",
+   "known": "Not from any page or endpoint reached so far (F-94E6D41B-02). The box-score page's line-score table is rendered client-side from a JSON endpoint that this environment cannot reach.",
+   "missing": "A text-extractable official source of per-quarter scores.",
+   "how_to_find": "Re-probe cdn.nba.com/static/json/liveData/boxscore/boxscore_<gid>.json and the box-score page on the next refresh; try nba.com's game detail pages for a server-rendered variant."
+  },
+  {
+   "id": "Q-94E6D41B-03",
+   "question": "What does NYK's zero-row filing mean for pricing NYK@TOR?",
+   "known": "The engine leaves the game unpriced on availability (both sides must be resolved); the rollup treats NYK as unknown, never healthy.",
+   "missing": "Whether NYK's list will appear in a later game-day report (their deadline is 5 p.m. local the day before the game - they are not on a back-to-back, so the 1 p.m. game-day exception does not apply).",
+   "how_to_find": "Fetch the next 11/15 report after the deadline and compare NYK's rows; record the outcome in the next refresh's delta."
+  },
+  {
+   "id": "Q-94E6D41B-04",
+   "question": "Does DAL file by its 1 p.m. local back-to-back deadline?",
+   "known": "DAL is the only 11/15 team on a back-to-back and the only team still NOT YET SUBMITTED in the 06:15 AM report - exactly the rule's shape (b2b_correspondence in refresh.json).",
+   "missing": "DAL's filed list (due 1 p.m. local game day).",
+   "how_to_find": "Fetch the 11/15 reports after 1 p.m. ET on the next refresh."
+  },
+  {
+   "id": "Q-94E6D41B-05",
+   "question": "Should injuries ever move an originated line?",
+   "known": "They do not today (S-1823b910-03 open). The refreshed run keeps price fields independent of rollups, so the question stays an owner decision with quantified stakes: the 11/15 report vacates at least 68.3 minutes across IND/LAL (the only two teams with listed players inside the captured minutes table).",
+   "missing": "An owner decision and a defensible absence-to-margin model.",
+   "how_to_find": "Owner review of S-1823b910-03 with rotation_impact.json as the data basis."
+  }
+ ]
+}

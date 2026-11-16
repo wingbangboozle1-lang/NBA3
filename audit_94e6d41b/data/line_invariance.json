@@ -1,0 +1,3353 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "method": "scripts/strategy_lab.py was run four times in throwaway copies of the checkout (git archive HEAD, then the seeded inputs swapped back to their published state: manifest and availability from d51ac43, the results log frozen at 183 games from main @ d320fea). The published data/app/lab.json was never written; each leg wrote lab.json inside its own copy. Leg A = the engine exactly as published, seeded inputs. Leg B = the same seeded inputs with only the NF-90 name-join fix applied. Leg C = the fixed engine on the refreshed inputs (the manifest as repointed by this session, log extended to 188), run twice.",
+ "engine_input_published": "data/app/official_injuries_2026-11-14_0415AM.json (+ slate 1114_1117, ratings 1114c, players 1114c, results log frozen at 183 games, main @ d320fea state)",
+ "engine_input_refreshed": "data/app/official_injuries_2026-11-15_0615AM.json (+ slate 1115_1118, ratings 1115, players 1115, log 188 games - the log extension is itself part of this refresh)",
+ "legs_sha256": {
+  "published": "988ab18616ecde80",
+  "a_seeded_buggy": "988ab18616ecde80",
+  "b_seeded_fixed": "aa5c0529f1895156",
+  "c_refreshed_1": "9c3cd7f9ecff3ea5",
+  "c_refreshed_2": "9c3cd7f9ecff3ea5",
+  "current": "2a88c113c98b0a2a"
+ },
+ "canonical_adoption": {
+  "leg_c_equals_committed_lab_json": false,
+  "note": "The refreshed build is adopted as canonical: the committed data/app/lab.json is exactly leg C's output (same engine, same manifest-named inputs), which is what the CI drift gate re-proves on every push."
+ },
+ "seeded_reproduction": {
+  "leg_a_bytes_equal_published": true,
+  "note": "Leg A reproduces the lab.json committed at main @ d320fea (read via git show, so the proof stays stable once the refreshed build is adopted) byte for byte: same engine, same inputs, same rounding. It proves the pre-refresh artifact is exactly what the published engine produces."
+ },
+ "determinism": {
+  "leg_c_runs_equal": true,
+  "note": "The refreshed engine run twice on the same inputs produced identical bytes."
+ },
+ "fix_effect": {
+  "shared_lines": 27,
+  "price_fields_that_moved": {},
+  "availability_fields_that_changed": {},
+  "injury_impact_fields_that_changed": {
+   "minutes_vacuum": [
+    {
+     "game_id": "0022600235",
+     "team": "MIN",
+     "matchup": "CHI@MIN",
+     "a": 0.0,
+     "b": 33.7
+    }
+   ],
+   "pts_vacuum": [
+    {
+     "game_id": "0022600235",
+     "team": "MIN",
+     "matchup": "CHI@MIN",
+     "a": 0.0,
+     "b": 33.3
+    }
+   ],
+   "reb_vacuum": [
+    {
+     "game_id": "0022600235",
+     "team": "MIN",
+     "matchup": "CHI@MIN",
+     "a": 0.0,
+     "b": 4.8
+    }
+   ],
+   "ast_vacuum": [
+    {
+     "game_id": "0022600235",
+     "team": "MIN",
+     "matchup": "CHI@MIN",
+     "a": 0.0,
+     "b": 3.5
+    }
+   ],
+   "players_without_official_minutes": [
+    {
+     "game_id": "0022600235",
+     "team": "MIN",
+     "matchup": "CHI@MIN",
+     "a": 2,
+     "b": 1
+    }
+   ]
+  },
+  "picks_compared": 27,
+  "pick_fields_that_changed": {},
+  "note": "Leg B differs from leg A only by the NF-90 name-join fix. The vacated-minute fields change on exactly the team-sides whose listed players appear in the captured minutes table (on the seeded 11/14 report: MEM via Jerome and MIN via Edwards); no price field and no line-level availability field moves, so the fix cannot change an originated line. This is the field-level proof of the claim made in the engine comment."
+ },
+ "refresh_effect": {
+  "shared_lines": 22,
+  "price_fields_that_moved": {
+   "model_margin": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 4.230171,
+     "b": 4.370252
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": -4.230774,
+     "b": -4.178491
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 5.832223,
+     "b": 5.980774
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": -10.503266,
+     "b": -10.401312
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 5.791707,
+     "b": 6.322055
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 0.214362,
+     "b": 0.268987
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": -7.370476,
+     "b": -7.224414
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": -5.465511,
+     "b": -5.483645
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": -7.361509,
+     "b": -7.279944
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 9.360969,
+     "b": 9.510324
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 8.665683,
+     "b": 7.908692
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": -5.396819,
+     "b": -5.775246
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": -1.535869,
+     "b": -2.020331
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": -5.037764,
+     "b": -4.005661
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 4.196025,
+     "b": 3.167972
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": -6.881781,
+     "b": -6.953013
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 4.609726,
+     "b": 4.867074
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 0.214362,
+     "b": 0.268987
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 4.196025,
+     "b": 3.167972
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 5.44998,
+     "b": 6.489046
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 4.658112,
+     "b": 4.733394
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 12.504158,
+     "b": 12.674374
+    }
+   ],
+   "orig_spread_home": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": -4.230171,
+     "b": -4.370252
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 4.230774,
+     "b": 4.178491
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": -5.832223,
+     "b": -5.980774
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 10.503266,
+     "b": 10.401312
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": -5.791707,
+     "b": -6.322055
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": -0.214362,
+     "b": -0.268987
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 7.370476,
+     "b": 7.224414
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 5.465511,
+     "b": 5.483645
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 7.361509,
+     "b": 7.279944
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": -9.360969,
+     "b": -9.510324
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": -8.665683,
+     "b": -7.908692
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 5.396819,
+     "b": 5.775246
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 1.535869,
+     "b": 2.020331
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 5.037764,
+     "b": 4.005661
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": -4.196025,
+     "b": -3.167972
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 6.881781,
+     "b": 6.953013
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": -4.609726,
+     "b": -4.867074
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": -0.214362,
+     "b": -0.268987
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": -4.196025,
+     "b": -3.167972
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": -5.44998,
+     "b": -6.489046
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": -4.658112,
+     "b": -4.733394
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": -12.504158,
+     "b": -12.674374
+    }
+   ],
+   "orig_total": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 222.616725,
+     "b": 222.499086
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 231.629817,
+     "b": 231.567728
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 219.939782,
+     "b": 220.083715
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 225.667307,
+     "b": 225.460578
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 221.288444,
+     "b": 221.798421
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 220.486708,
+     "b": 220.391712
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 224.578219,
+     "b": 224.42677
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 230.558293,
+     "b": 230.516507
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 224.091125,
+     "b": 224.045726
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 219.450841,
+     "b": 219.305014
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 237.205163,
+     "b": 237.119161
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 228.449533,
+     "b": 228.553845
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 223.209541,
+     "b": 223.724273
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 230.242668,
+     "b": 231.010947
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 227.850704,
+     "b": 227.69022
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 235.42577,
+     "b": 235.029323
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 227.899823,
+     "b": 227.795777
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 220.486708,
+     "b": 220.391712
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 227.850704,
+     "b": 227.69022
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 224.295353,
+     "b": 225.499129
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 228.344923,
+     "b": 228.531957
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 223.062284,
+     "b": 223.386608
+    }
+   ],
+   "proj_home_pts": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 113.423448,
+     "b": 113.434669
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 113.699522,
+     "b": 113.694618
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 112.886002,
+     "b": 113.032245
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 107.58202,
+     "b": 107.529633
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 113.540075,
+     "b": 114.060238
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 110.350535,
+     "b": 110.330349
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 108.603871,
+     "b": 108.601178
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 112.546391,
+     "b": 112.516431
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 108.364808,
+     "b": 108.382891
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 114.405905,
+     "b": 114.407669
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 122.935423,
+     "b": 122.513927
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 111.526357,
+     "b": 111.3893
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 110.836836,
+     "b": 110.851971
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 112.602452,
+     "b": 113.502643
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 116.023365,
+     "b": 115.429096
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 114.271995,
+     "b": 114.038155
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 116.254775,
+     "b": 116.331425
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 110.350535,
+     "b": 110.330349
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 116.023365,
+     "b": 115.429096
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 114.872667,
+     "b": 115.994087
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 116.501517,
+     "b": 116.632676
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 117.783221,
+     "b": 118.030491
+    }
+   ],
+   "proj_away_pts": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 109.193277,
+     "b": 109.064417
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 117.930295,
+     "b": 117.87311
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 107.05378,
+     "b": 107.05147
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 118.085286,
+     "b": 117.930945
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 107.748369,
+     "b": 107.738183
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 110.136173,
+     "b": 110.061362
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 115.974348,
+     "b": 115.825592
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 118.011902,
+     "b": 118.000076
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 115.726317,
+     "b": 115.662835
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 105.044936,
+     "b": 104.897345
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 114.26974,
+     "b": 114.605234
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 116.923176,
+     "b": 117.164546
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 112.372705,
+     "b": 112.872302
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 117.640216,
+     "b": 117.508304
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 111.827339,
+     "b": 112.261124
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 121.153776,
+     "b": 120.991168
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 111.645048,
+     "b": 111.464351
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 110.136173,
+     "b": 110.061362
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 111.827339,
+     "b": 112.261124
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 109.422687,
+     "b": 109.505042
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 111.843406,
+     "b": 111.899281
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 105.279063,
+     "b": 105.356117
+    }
+   ],
+   "margin_lo": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": -27.092218,
+     "b": -27.009696
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": -35.553162,
+     "b": -35.558439
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": -25.490166,
+     "b": -25.399174
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": -41.825655,
+     "b": -41.781261
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": -25.530682,
+     "b": -25.057893
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": -31.108027,
+     "b": -31.110962
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": -38.692865,
+     "b": -38.604362
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": -36.7879,
+     "b": -36.863593
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": -38.683898,
+     "b": -38.659892
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": -21.961419,
+     "b": -21.869624
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": -22.656706,
+     "b": -23.471256
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": -36.719208,
+     "b": -37.155195
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": -32.858258,
+     "b": -33.400279
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": -36.360153,
+     "b": -35.385609
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": -27.126363,
+     "b": -28.211976
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": -38.20417,
+     "b": -38.332961
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": -26.712662,
+     "b": -26.512874
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": -31.108027,
+     "b": -31.110962
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": -27.126363,
+     "b": -28.211976
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": -25.872409,
+     "b": -24.890903
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": -26.664277,
+     "b": -26.646554
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": -18.818231,
+     "b": -18.705574
+    }
+   ],
+   "margin_hi": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 35.55256,
+     "b": 35.7502
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 27.091615,
+     "b": 27.201457
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 37.154611,
+     "b": 37.360722
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 20.819123,
+     "b": 20.978636
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 37.114095,
+     "b": 37.702003
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 31.53675,
+     "b": 31.648935
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 23.951912,
+     "b": 24.155534
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 25.856878,
+     "b": 25.896303
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 23.960879,
+     "b": 24.100004
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 40.683358,
+     "b": 40.890272
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 39.988071,
+     "b": 39.288641
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 25.92557,
+     "b": 25.604702
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 29.786519,
+     "b": 29.359617
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 26.284624,
+     "b": 27.374287
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 35.518414,
+     "b": 34.54792
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 24.440607,
+     "b": 24.426935
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 35.932115,
+     "b": 36.247022
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 31.53675,
+     "b": 31.648935
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 35.518414,
+     "b": 34.54792
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 36.772369,
+     "b": 37.868994
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 35.9805,
+     "b": 36.113343
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 43.826547,
+     "b": 44.054322
+    }
+   ],
+   "total_lo": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 184.477819,
+     "b": 184.597828
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 193.490911,
+     "b": 193.66647
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 181.800876,
+     "b": 182.182457
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 187.528401,
+     "b": 187.55932
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 183.149538,
+     "b": 183.897163
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 182.347803,
+     "b": 182.490454
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 186.439313,
+     "b": 186.525512
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 192.419387,
+     "b": 192.615249
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 185.952219,
+     "b": 186.144468
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 181.311935,
+     "b": 181.403757
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 199.066257,
+     "b": 199.217903
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 190.310627,
+     "b": 190.652588
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 185.070635,
+     "b": 185.823016
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 192.103763,
+     "b": 193.109689
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 189.711798,
+     "b": 189.788962
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 197.286864,
+     "b": 197.128065
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 189.760917,
+     "b": 189.894519
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 182.347803,
+     "b": 182.490454
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 189.711798,
+     "b": 189.788962
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 186.156447,
+     "b": 187.597871
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 190.206017,
+     "b": 190.630699
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 184.923379,
+     "b": 185.48535
+    }
+   ],
+   "total_hi": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 260.755631,
+     "b": 260.400344
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 269.768723,
+     "b": 269.468986
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 258.078688,
+     "b": 257.984973
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 263.806213,
+     "b": 263.361836
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 259.42735,
+     "b": 259.699679
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 258.625614,
+     "b": 258.292969
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 262.717125,
+     "b": 262.328028
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 268.697199,
+     "b": 268.417765
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 262.230031,
+     "b": 261.946984
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 257.589747,
+     "b": 257.206272
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 275.344069,
+     "b": 275.020419
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 266.588438,
+     "b": 266.455103
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 261.348447,
+     "b": 261.625531
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 268.381574,
+     "b": 268.912205
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 265.98961,
+     "b": 265.591478
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 273.564676,
+     "b": 272.930581
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 266.038729,
+     "b": 265.697035
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 258.625614,
+     "b": 258.292969
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 265.98961,
+     "b": 265.591478
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 262.434259,
+     "b": 263.400387
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 266.483829,
+     "b": 266.433215
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 261.20119,
+     "b": 261.287866
+    }
+   ],
+   "p_home_win": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 0.604379,
+     "b": 0.607559
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 0.395606,
+     "b": 0.397052
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 0.642424,
+     "b": 0.645632
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 0.255516,
+     "b": 0.257957
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 0.641477,
+     "b": 0.653531
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 0.505351,
+     "b": 0.506702
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 0.322328,
+     "b": 0.325912
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 0.366176,
+     "b": 0.365986
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 0.322529,
+     "b": 0.324663
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 0.720979,
+     "b": 0.723746
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 0.706175,
+     "b": 0.689336
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 0.367795,
+     "b": 0.359156
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 0.461718,
+     "b": 0.449792
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 0.376293,
+     "b": 0.40122
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 0.603556,
+     "b": 0.578426
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 0.333372,
+     "b": 0.332043
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 0.613498,
+     "b": 0.619433
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 0.505351,
+     "b": 0.506702
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 0.603556,
+     "b": 0.578426
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 0.633458,
+     "b": 0.657372
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 0.614656,
+     "b": 0.616249
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 0.78302,
+     "b": 0.785712
+    }
+   ],
+   "fair_ml_home": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": -153,
+     "b": -155
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 153,
+     "b": 152
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": -180,
+     "b": -182
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 291,
+     "b": 288
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": -179,
+     "b": -189
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": -102,
+     "b": -103
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 210,
+     "b": 207
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 210,
+     "b": 208
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": -258,
+     "b": -262
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": -240,
+     "b": -222
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 172,
+     "b": 178
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 117,
+     "b": 122
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 166,
+     "b": 149
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": -152,
+     "b": -137
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 200,
+     "b": 201
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": -159,
+     "b": -163
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": -102,
+     "b": -103
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": -152,
+     "b": -137
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": -173,
+     "b": -192
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": -160,
+     "b": -161
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": -361,
+     "b": -367
+    }
+   ],
+   "fair_ml_away": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 153,
+     "b": 155
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": -153,
+     "b": -152
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 180,
+     "b": 182
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": -291,
+     "b": -288
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 179,
+     "b": 189
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 102,
+     "b": 103
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": -210,
+     "b": -207
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": -210,
+     "b": -208
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 258,
+     "b": 262
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 240,
+     "b": 222
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": -172,
+     "b": -178
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": -117,
+     "b": -122
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": -166,
+     "b": -149
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 152,
+     "b": 137
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": -200,
+     "b": -201
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 159,
+     "b": 163
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 102,
+     "b": 103
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 152,
+     "b": 137
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 173,
+     "b": 192
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 160,
+     "b": 161
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 361,
+     "b": 367
+    }
+   ],
+   "p_ot": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 0.054645,
+     "b": 0.053191
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 0.054645,
+     "b": 0.053191
+    }
+   ],
+   "p_blowout_15": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 0.364613,
+     "b": 0.366538
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 0.364618,
+     "b": 0.365035
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 0.379291,
+     "b": 0.381627
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 0.444473,
+     "b": 0.443276
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 0.378867,
+     "b": 0.385374
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 0.347975,
+     "b": 0.348885
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 0.397321,
+     "b": 0.396156
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": 0.37555,
+     "b": 0.376508
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 0.397205,
+     "b": 0.39686
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 0.425807,
+     "b": 0.428742
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 0.415241,
+     "b": 0.405149
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 0.374874,
+     "b": 0.379462
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 0.350154,
+     "b": 0.352643
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 0.371469,
+     "b": 0.363736
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 0.364348,
+     "b": 0.358187
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 0.391195,
+     "b": 0.392782
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 0.367695,
+     "b": 0.370727
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 0.347975,
+     "b": 0.348885
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 0.364348,
+     "b": 0.358187
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 0.375396,
+     "b": 0.387274
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 0.368106,
+     "b": 0.369558
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 0.480569,
+     "b": 0.484202
+    }
+   ],
+   "pace": [
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 98.735,
+     "b": 98.69
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 98.56,
+     "b": 98.58
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 100.25,
+     "b": 100.045
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 99.935,
+     "b": 99.755
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 99.93,
+     "b": 99.955
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 100.875,
+     "b": 100.97
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 100.87,
+     "b": 100.745
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 98.015,
+     "b": 98.06
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 100.875,
+     "b": 100.97
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 99.055,
+     "b": 99.21
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 98.71,
+     "b": 98.665
+    }
+   ]
+  },
+  "availability_fields_that_changed": {
+   "out_count_home": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": null,
+     "b": 4
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": null,
+     "b": 1
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": null,
+     "b": 4
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": null,
+     "b": 7
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": null,
+     "b": 0
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": null,
+     "b": 4
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": null,
+     "b": 4
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": null,
+     "b": 5
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": null,
+     "b": 4
+    }
+   ],
+   "out_count_away": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": null,
+     "b": 3
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": null,
+     "b": 2
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": null,
+     "b": 5
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": null,
+     "b": 4
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": null,
+     "b": 5
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": null,
+     "b": 6
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": null,
+     "b": 5
+    }
+   ],
+   "out_players_home": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": [],
+     "b": [
+      "Barlow, Dominick",
+      "Bona, Adem",
+      "Embid, Joel",
+      "Hukporti, Ariel"
+     ]
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": [],
+     "b": [
+      "Williams, Mark"
+     ]
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": [],
+     "b": [
+      "Beal, Bradley",
+      "Ingram, Brandon",
+      "Miller, Jordan",
+      "Niederhauser, Yanic Konan"
+     ]
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": [],
+     "b": [
+      "Alexander, Trey",
+      "Bufkin, Kobe",
+      "Hayes, Jaxson",
+      "Ingram, Harrison",
+      "Jackson Jr., Jaren",
+      "Markkanen, Lauri",
+      "Nurkic, Jusuf"
+     ]
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": [],
+     "b": [
+      "Bittle, Nate",
+      "Leonard, Kawhi",
+      "McCullar Jr., Kevin",
+      "Smith, Malachi"
+     ]
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": [],
+     "b": [
+      "Beekman, Reece",
+      "Champagne, Justin",
+      "Vukcevic, Tristan",
+      "Watkins, Jamir"
+     ]
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": [],
+     "b": [
+      "Dieng, Ousmane",
+      "Jones, Kam",
+      "Markovic, Bogoljub",
+      "Nance, Pete",
+      "Ryan, Cormac"
+     ]
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": [],
+     "b": [
+      "Mogbo, Jonathan",
+      "Pedulla, Sean",
+      "Raynaud, Maxime",
+      "Simmons, Ben"
+     ]
+    }
+   ],
+   "out_players_away": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": [],
+     "b": [
+      "Furphy, Johnny",
+      "Haliburton, Tyrese",
+      "Sheppard, Ben"
+     ]
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": [],
+     "b": [
+      "Carr, Cameron",
+      "Reaves, Austin"
+     ]
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": [],
+     "b": [
+      "Ajayi, Michael",
+      "Boswell, Kylan",
+      "Knueppel, Kon",
+      "Schroder, Dennis",
+      "Steinbach, Hannes"
+     ]
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": [],
+     "b": [
+      "Brown, Maliq",
+      "Gillespie, Ja'Kobi",
+      "Harris, Tobias",
+      "Quaintance, Jayden"
+     ]
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": [],
+     "b": [
+      "Capela, Clint",
+      "Copeland, Quadir",
+      "Phillips, Julian",
+      "Smart, Marcus",
+      "VanVleet, Fred"
+     ]
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": [],
+     "b": [
+      "Flemings, Kingston",
+      "Gilbert, Keshon",
+      "Gueye, Mouhamed",
+      "Newell, Asa",
+      "Veesaar, Henri",
+      "Wilson, Jalen"
+     ]
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": [],
+     "b": [
+      "Holmgren, Chet",
+      "Sorber, Thomas",
+      "Wallace, Cason",
+      "Williams, Jalen",
+      "Williams, Jaylin"
+     ]
+    }
+   ],
+   "questionable_home": [
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": [],
+     "b": [
+      "Carter, Devin",
+      "Cenac Jr., Christopher",
+      "Mitchell, Dillon",
+      "Williams, Amari"
+     ]
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": [],
+     "b": [
+      "Barnes, Scottie"
+     ]
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": [],
+     "b": [
+      "Carrington, Bub",
+      "Johnson, Tre",
+      "Okpara, Felix",
+      "Sarr, Alex"
+     ]
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": [],
+     "b": [
+      "Achiuwa, Precious",
+      "Murray, Keegan"
+     ]
+    }
+   ],
+   "questionable_away": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": [],
+     "b": [
+      "Nembhard, Andrew",
+      "Nesmith, Aaron"
+     ]
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": [],
+     "b": [
+      "James, Bronny",
+      "Sexton, Collin",
+      "Thiero, Adou"
+     ]
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": [],
+     "b": [
+      "Mitchell, Ajay"
+     ]
+    }
+   ],
+   "home_reported": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": false,
+     "b": true
+    }
+   ],
+   "away_reported": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": false,
+     "b": true
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": false,
+     "b": true
+    }
+   ],
+   "availability_state_home": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    }
+   ],
+   "availability_state_away": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": "NOT_YET_DUE",
+     "b": "TEAM_NOT_LISTED_ON_A_COVERED_DATE"
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": "NOT_YET_DUE",
+     "b": "FILED"
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": "NO_OFFICIAL_REPORT_COVERS_THIS_DATE",
+     "b": "NOT_YET_DUE"
+    }
+   ],
+   "availability_basis": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "one side only: the other team is not on the newest official report"
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "one side only: the other team is not on the newest official report"
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": "no usable official availability for this date; priced on ratings and rest alone",
+     "b": "both teams listed on the newest official report"
+    }
+   ]
+  },
+  "picks_compared": 22,
+  "pick_fields_that_changed": {
+   "side_lean": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": "PHI -4.2",
+     "b": "PHI -4.4"
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": "LAC -5.8",
+     "b": "LAC -6.0"
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": "SAS +10.5",
+     "b": "SAS +10.4"
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": "BOS -5.8",
+     "b": "BOS -6.3"
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": "TOR -0.2",
+     "b": "TOR -0.3"
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": "HOU +7.4",
+     "b": "HOU +7.2"
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": "OKC +7.4",
+     "b": "OKC +7.3"
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": "BOS -9.4",
+     "b": "BOS -9.5"
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": "CLE -8.7",
+     "b": "CLE -7.9"
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": "MEM +5.4",
+     "b": "MEM +5.8"
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": "PHI +1.5",
+     "b": "PHI +2.0"
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": "HOU +5.0",
+     "b": "HOU +4.0"
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": "MIN -4.2",
+     "b": "MIN -3.2"
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": "GSW +6.9",
+     "b": "GSW +7.0"
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": "DEN -4.6",
+     "b": "DEN -4.9"
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": "TOR -0.2",
+     "b": "TOR -0.3"
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": "MIN -4.2",
+     "b": "MIN -3.2"
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": "SAS -5.4",
+     "b": "SAS -6.5"
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": "LAL -12.5",
+     "b": "LAL -12.7"
+    }
+   ],
+   "totals_lean": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": "Under 222.6",
+     "b": "Under 222.5"
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": "Under 219.9",
+     "b": "Under 220.1"
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": "Under 225.7",
+     "b": "Under 225.5"
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": "Under 221.3",
+     "b": "Under 221.8"
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": "Under 220.5",
+     "b": "Under 220.4"
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": "Under 224.6",
+     "b": "Under 224.4"
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": "Over 230.6",
+     "b": "Over 230.5"
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": "Under 224.1",
+     "b": "Under 224.0"
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": "Under 219.5",
+     "b": "Under 219.3"
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": "Over 237.2",
+     "b": "Over 237.1"
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": "Over 228.4",
+     "b": "Over 228.6"
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": "Under 223.2",
+     "b": "Under 223.7"
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": "Over 230.2",
+     "b": "Over 231.0"
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": "Over 227.9",
+     "b": "Over 227.7"
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": "Over 235.4",
+     "b": "Over 235.0"
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": "Over 227.9",
+     "b": "Over 227.8"
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": "Under 220.5",
+     "b": "Under 220.4"
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": "Over 227.9",
+     "b": "Over 227.7"
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": "Under 224.3",
+     "b": "Under 225.5"
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": "Over 228.3",
+     "b": "Over 228.5"
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": "Under 223.1",
+     "b": "Under 223.4"
+    }
+   ],
+   "fair_ml_home": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": -153,
+     "b": -155
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": 153,
+     "b": 152
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": -180,
+     "b": -182
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": 291,
+     "b": 288
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": -179,
+     "b": -189
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": -102,
+     "b": -103
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": 210,
+     "b": 207
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": 210,
+     "b": 208
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": -258,
+     "b": -262
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": -240,
+     "b": -222
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": 172,
+     "b": 178
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": 117,
+     "b": 122
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": 166,
+     "b": 149
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": -152,
+     "b": -137
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": 200,
+     "b": 201
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": -159,
+     "b": -163
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": -102,
+     "b": -103
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": -152,
+     "b": -137
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": -173,
+     "b": -192
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": -160,
+     "b": -161
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": -361,
+     "b": -367
+    }
+   ],
+   "fair_ml_away": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": 153,
+     "b": 155
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": -153,
+     "b": -152
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": 180,
+     "b": 182
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": -291,
+     "b": -288
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": 179,
+     "b": 189
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": 102,
+     "b": 103
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": -210,
+     "b": -207
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": -210,
+     "b": -208
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": 258,
+     "b": 262
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": 240,
+     "b": 222
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": -172,
+     "b": -178
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": -117,
+     "b": -122
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": -166,
+     "b": -149
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": 152,
+     "b": 137
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": -200,
+     "b": -201
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": 159,
+     "b": 163
+    },
+    {
+     "game_id": "0022600253",
+     "matchup": "NYK@TOR",
+     "a": 102,
+     "b": 103
+    },
+    {
+     "game_id": "0022600254",
+     "matchup": "POR@MIN",
+     "a": 152,
+     "b": 137
+    },
+    {
+     "game_id": "0022600255",
+     "matchup": "DET@SAS",
+     "a": 173,
+     "b": 192
+    },
+    {
+     "game_id": "0022600257",
+     "matchup": "UTA@LAC",
+     "a": 160,
+     "b": 161
+    },
+    {
+     "game_id": "0022600256",
+     "matchup": "CHA@LAL",
+     "a": 361,
+     "b": 367
+    }
+   ],
+   "availability_flag": [
+    {
+     "game_id": "0022600236",
+     "matchup": "IND@PHI",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600237",
+     "matchup": "LAL@PHX",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600238",
+     "matchup": "CHA@LAC",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600239",
+     "matchup": "SAS@UTA",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600240",
+     "matchup": "DAL@BOS",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "PARTIAL_REPORT_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600241",
+     "matchup": "NYK@TOR",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "PARTIAL_REPORT_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600242",
+     "matchup": "HOU@WAS",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600243",
+     "matchup": "ATL@MIL",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600244",
+     "matchup": "OKC@SAC",
+     "a": "AVAILABILITY_NOT_DUE_YET",
+     "b": "REPORTED"
+    },
+    {
+     "game_id": "0022600245",
+     "matchup": "ORL@BOS",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600246",
+     "matchup": "CHI@CLE",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600247",
+     "matchup": "MEM@WAS",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600248",
+     "matchup": "PHI@BKN",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600249",
+     "matchup": "HOU@MIA",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600250",
+     "matchup": "POR@MIN",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600251",
+     "matchup": "GSW@NOP",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    },
+    {
+     "game_id": "0022600252",
+     "matchup": "PHX@DEN",
+     "a": "NO_INJURY_REPORT_FOR_DATE",
+     "b": "AVAILABILITY_NOT_DUE_YET"
+    }
+   ]
+  },
+  "lines_only_in_seeded": [
+   "DEN@NOP 0022600231",
+   "DAL@CLE 0022600232",
+   "DET@MIA 0022600233",
+   "BKN@MEM 0022600234",
+   "CHI@MIN 0022600235"
+  ],
+  "lines_only_in_refreshed": [
+   "MEM@CLE 0022600258",
+   "HOU@IND 0022600259",
+   "MIL@MIA 0022600260",
+   "PHI@ORL 0022600261",
+   "CHI@BKN 0022600262",
+   "WAS@TOR 0022600263",
+   "DET@NOP 0022600264",
+   "ATL@OKC 0022600265",
+   "GSW@DAL 0022600267",
+   "BOS@DEN 0022600266",
+   "UTA@LAL 0022600268",
+   "PHX@SAC 0022600269"
+  ],
+  "note": "Leg C differs from leg B by the input refresh: the window rolled (5 finals left, 12 games on 11/18 entered), every team's official advanced ratings moved after the 11/14 finals, and the newest report replaced the day-old one. Every price-field move on a shared game traces to those documented input deltas."
+ },
+ "verdict": "invariance holds where it must: the seeded artifact reproduces byte for byte with the published engine, the refreshed engine is deterministic, and the name-join fix moves no price field. Lines are still injury-blind by design (F-1823b910-03 / S-1823b910-03 owner decision open); the refresh moves prices only through ratings and rest.",
+ "source_engine": "scripts/strategy_lab.py",
+ "source_published_artefact": "data/app/lab.json"
+}

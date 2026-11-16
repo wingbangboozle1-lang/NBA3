@@ -1,0 +1,48 @@
+{
+ "session": "arena/94e6d41b-nba3",
+ "built_on": "2026-11-15",
+ "intro": "Suggestions raised by this session. Nothing here has been implemented beyond this session's own files. Each lists the paths that were considered and a recommendation, so the choice can be made before any code changes. Items marked 'owner decision' touch a file another session owns; they are logged as change requests rather than executed.",
+ "suggestions": [
+  {
+   "id": "S-94E6D41B-01",
+   "title": "Move the engine's hard-coded window constants onto the manifest",
+   "problem": "scripts/strategy_lab.py hard-codes the live window (originate cutoff '2026-11-14', rest cutoff, SRC_SCHEDULE ?date=2026-11-14). The manifest now names the window (from/to), so the engine could read it and a rolling refresh would stop needing an engine edit every day.",
+   "paths_considered": [
+    "scripts/strategy_lab.py (owner: original author sessions)",
+    "data/app/snapshot_manifest.json"
+   ],
+   "recommendation": "owner decision: read window.from/window.to in _apply_manifest and derive the cutoffs; until then each refresh logs the hard-coded window as a known limitation (this session's leg C shows the manifest-driven slate already works because the cutoffs happen to match the window start)."
+  },
+  {
+   "id": "S-94E6D41B-02",
+   "title": "Add a fifth availability state for 'covered date, team absent'",
+   "problem": "NYK's zero rows publish as NO_OFFICIAL_REPORT_COVERS_THIS_DATE (F-94E6D41B-04) - the treatment is right, the label is wrong.",
+   "paths_considered": [
+    "scripts/report_availability.py",
+    "scripts/build_app.py rendering"
+   ],
+   "recommendation": "owner decision: add TEAM_ABSENT_ON_COVERED_DATE; keep the no-inference semantics identical."
+  },
+  {
+   "id": "S-94E6D41B-03",
+   "title": "Extend the per-player minutes capture to all 465 rows",
+   "problem": "Only the top 31 players carry official minutes, so most listed absences contribute 0 to the vacated-minutes floor (F-94E6D41B-07, carried from F-1823b910-04). The official page paginates 9 chunks; a full capture is one extra session task.",
+   "paths_considered": [
+    "nba.com/stats/players/traditional (9 chunks, PerPage=100)"
+   ],
+   "recommendation": "capture rows 1-100+ with a stable naming (players_full_*.csv) and keep the top-31 file for the engine's index, or switch the engine to the full file after an owner review."
+  },
+  {
+   "id": "S-94E6D41B-04",
+   "title": "Automate the quarter-score re-probe",
+   "problem": "Each refresh re-probes the same dead endpoints by hand (F-94E6D41B-02).",
+   "paths_considered": [
+    "cdn.nba.com liveData",
+    "data.nba.com",
+    "stats.nba.com",
+    "box-score page"
+   ],
+   "recommendation": "add the probe list to the capture script's checks so the negative result is recorded mechanically each refresh."
+  }
+ ]
+}

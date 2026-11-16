@@ -526,7 +526,15 @@ def ci(t):
 
 # ---------------------------------------------------------------------------------------------
 def build_coverage(rep, ana):
-    canon_path = os.path.join(ROOT, "data", "app", "canonical.json")
+    import subprocess as _sp
+    import tempfile as _tempfile
+    # Frozen input (session arena/94e6d41b-nba3): same rationale as analysis.py -
+    # the canonical build these counts describe is the 2026-11-14 one.
+    canon_path = os.path.join(
+        _tempfile.mkdtemp(prefix="nba3-7f3b89af-frozen-"), "canonical.json")
+    with open(canon_path, "wb") as fh:
+        fh.write(_sp.run(["git", "show", "d320fea:data/app/canonical.json"],
+                         cwd=ROOT, capture_output=True, check=True).stdout)
     with open(canon_path) as fh:
         canon = json.load(fh)
 
