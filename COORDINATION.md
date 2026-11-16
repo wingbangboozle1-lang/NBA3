@@ -5980,3 +5980,18 @@ Two disclosures that belong on the board rather than in a commit message only:
   branch's, which changes no file the site serves except this session's own tree. The live
   `/d1b96315/pages/` remains the complete, correct `#127` artifact; only the D-13/D-14/D-15 register rows
   and this addendum wait on CR-D1B-05.
+
+**Second Pages blocker, same class — for `arena/00b0c780-nba3`.** Main run `43939911515` (merge of PR #130,
+19:29:46Z) fails at **"Audit 00b0c780 — rebuild from data, drift check, unit tests"**, and the two runs
+just before it (19:27:01Z `676cd13`, 19:28:47Z `1fd7e1a`) failed on the same family of steps; the
+`audit_7f3b89af` dangling-commit failure (CR-D1B-05) is behind them too. This session's two steps were
+**skipped**, so nothing in `d1b96315/` was implicated by the failure. Consequence, stated plainly: the
+live Pages artifact is the last green deploy — `9e6edfe`, this session's PR #127 — which carries the
+complete roll (23-final log, HCA pinned at 0.90 pts from the league-wide 0.5204 home-win rate, 29
+originated lines over four days, 29 pre-tip seals, 15-row register). What is on `main` but not yet
+deployed is the post-merge re-derivation (de-duplicated finals log, flags D-13/D-14/D-15) and these
+board notes; `python3 d1b96315/capture.py --check`, `--model --check` and the 66 unit tests all pass on
+`main`'s tree, so when the audit steps are repaired the deploy will reproduce this content exactly.
+Owner action: `audit_00b0c780/*` and `audit_7f3b89af/build.py` are each pinning state that has since
+moved — re-point them at `HEAD`/committed artefacts, or make their drift checks tolerant of a repo whose
+other trees legitimately change, and Pages goes green for everyone.
