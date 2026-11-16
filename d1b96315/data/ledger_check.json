@@ -5,6 +5,10 @@
   "d1b96315": {
    "file": "d1b96315/ledger/ledger.jsonl",
    "entries": 31,
+   "kinds": {
+    "PUBLISH": 29,
+    "AMEND": 2
+   },
    "recipe": "pair",
    "problems": [],
    "result": "CHAIN INTACT",
@@ -12,27 +16,34 @@
   },
   "ledger_A": {
    "file": "ledger/ledger.jsonl",
-   "entries": 11,
+   "entries": 13,
+   "kinds": {
+    "PUBLISH": 13
+   },
    "recipe": "minus_entry_hash",
    "problems": [],
    "result": "CHAIN INTACT",
-   "head_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401"
+   "head_hash": "e6a3a5383bde577f69d41d98930ec42e6e002efa5b5c861e541e221640367fa1"
   },
   "ledger_B": {
    "file": "data/app/ledger/ledger.jsonl",
-   "entries": 34,
+   "entries": 43,
+   "kinds": {
+    "PUBLISHED_PRE_TIP": 34,
+    "SETTLED": 9
+   },
    "recipe": "chain_hash_pair_body",
    "problems": [],
    "result": "CHAIN INTACT",
-   "head_hash": "502610c8a43b0cd7e74866010f8464faa0ff041309a256774f51aa6f1baf775a"
+   "head_hash": "7affd68aa22acf9e3fbbf407d12c3d4346b3dc365ca9e9034c5b19e6624f6f5a"
   }
  },
  "k17_resolution": {
   "question": "is data/app/ledger/ledger.jsonl verifiable, and what is its entry_hash recipe?",
-  "entries": 34,
-  "recompute_with_chain_hash_prev_and_body": "34/34",
-  "recompute_with_body_alone": "0/34",
-  "finding": "the hash is over the PAIR {prev, body} produced by chain_hash() in scripts/pick_ledger.py, not over the body alone \u2014 which is why hashing the body under four canonicalisations never reproduced it. The recipe is documented in the writer and CI already runs `python3 scripts/pick_ledger.py verify`, which passes.",
+  "entries": 43,
+  "recompute_with_chain_hash_prev_and_body": "43/43",
+  "recompute_with_body_alone": "0/43",
+  "finding": "the hash is over the PAIR {prev, body} produced by chain_hash() in scripts/pick_ledger.py, not over the body alone \u2014 which is why hashing the body under four canonicalisations never reproduced it. The recipe is documented in the writer and CI already runs `python3 scripts/pick_ledger.py verify`, which passes. Note for anyone re-deriving this: a SETTLED entry carries payload_sha256 but no payload of its own \u2014 it copies the hash of the publish entry it grades \u2014 so re-hashing its body is a false alarm, not tampering. This session's first verifier made exactly that mistake and reported 9 problems before the kind check was added.",
   "verifier_in_repo": "scripts/pick_ledger.py verify",
   "conclusion": "K-17 resolved as a documentation gap, not a linkage break. No entry was re-hashed and no file in another session's tree was modified."
  },

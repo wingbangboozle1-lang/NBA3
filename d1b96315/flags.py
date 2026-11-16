@@ -325,6 +325,50 @@ def build() -> dict:
          "blocks_merge": False,
          "sources": ["d1b96315/ledger/ledger.jsonl", "d1b96315/data/ledger_check.json",
                      "d1b96315/data/lines.json"]})
+    feed_1115 = sum(1 for g in json.loads((ROOT / "data/app/results_feed.json").read_text())["games"]
+                    if g["date"] == "2026-11-15" and g.get("settled"))
+    model = load("model.json") if "model" not in dir() else model
+    dup = len([x for x in model["inputs"]["excluded_rows"] if x.startswith("duplicate row")])
+    rows.append(
+        {"id": "D-14", "severity": "high", "surface": "moving base / re-derivation",
+         "title": "main's results feed grew to cover the same 11/15 finals this session read, and the "
+                  "first rebuild on that base double-counted them",
+         "measured": f"the canonical feed now carries {feed_1115} of the nine 11/15 finals (none at "
+                     f"this session's base), so the log briefly held 32 rows for 23 games; with the "
+                     f"duplicates removed it is back to {model['inputs']['settled_finals_used']} "
+                     f"verified finals and {dup} rows are reported as removed rather than silently "
+                     f"merged. The two captures agree score for score on all nine games, which is what "
+                     f"makes the de-duplication safe. The intermediate build's leave-one-game-out rmse "
+                     f"read {6.8913} against the correct {model['estimator_a']['ridge_chosen']['loo_rmse']}"
+                     f" — a training/test leak, not skill, and it was caught by an assertion in this "
+                     f"tree's own test file",
+         "why_it_matters": "a log that contains a game twice flatters every estimator in it; the fix "
+                           "is a provenance preference (keep the row that carries the game book and the "
+                           "quarter vector) and an explicit exclusion list, so a reader can see what "
+                           "was dropped and why",
+         "action": "none needed for this roll — the published numbers are the de-duplicated ones. It "
+                   "is a warning for any other session that unions the feed with its own read of the "
+                   "same day",
+         "blocks_merge": False,
+         "sources": ["data/app/results_feed.json", "d1b96315/data/results_2026-11-15.json",
+                     "d1b96315/data/model.json", "d1b96315/tests/test_roll.py"]})
+    rows.append(
+        {"id": "D-15", "severity": "medium", "surface": "this session's own ledger, disclosed",
+         "title": "28 amendment entries produced by the buggy intermediate build were removed from "
+                  "this session's chain before they were ever published",
+         "measured": "the chain now holds 29 pre-tip seals and the 2 amendments that are on the live "
+                     "site, head a3851ca8b233e6e1 — unchanged from the published artifact. The 28 "
+                     "extra entries were generated minutes earlier by a run whose model was reading a "
+                     "duplicated log (D-14); they were never committed, never merged and never served",
+         "why_it_matters": "truncating one's own chain is exactly the kind of action a tamper-evident "
+                           "ledger is supposed to make loud, so it is recorded here, in the commit "
+                           "message and in COORDINATION.md rather than left for a reader to notice. No "
+                           "sealed entry and no published hash was altered",
+         "action": "verify it yourself: the head hash on this tree's ledger page must equal "
+                   "a3851ca8b233e6e1, the value the live site printed before the rebuild",
+         "blocks_merge": False,
+         "sources": ["d1b96315/ledger/ledger.jsonl", "d1b96315/data/ledger_check.json",
+                     "COORDINATION.md"]})
     return {"schema": "nba3.d1b96315.flags/v1", "stamp": STAMP, "session": "arena/d1b96315-nba3",
             "rule": "nothing on this list blocks the merge; every row carries at least one official "
                     "source link and a value that could not be confirmed is left blank rather than "
