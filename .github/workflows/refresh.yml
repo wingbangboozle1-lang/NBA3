@@ -24,15 +24,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch official sources (injury report, schedule, results, game books, team stats)
-        run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+      - name: Fetch official sources (injury reports, schedule, standings, results, game books, team stats)
+        run: |
+          # pdftotext turns each archived injury PDF into the verbatim text kept in
+          # data/app/injury_reports_archive/ (the runner image does not ship poppler
+          # in every revision, so install it explicitly).
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
       - name: Unit tests (capture, feed, ledger, estimators, gates)
         run: |
           python3 -m unittest discover -s tests -p "test_*1115*.py" -v
           python3 -m unittest discover -s tests -p "test_results_feed.py" -v
+          python3 -m unittest discover -s tests -p "test_results_feed_rows.py" -v
           python3 -m unittest discover -s tests -p "test_pick_ledger.py" -v
           python3 -m unittest discover -s tests -p "test_freshness_gates.py" -v
+          python3 -m unittest discover -s tests -p "test_gamecard_feed.py" -v
+          python3 -m unittest discover -s tests -p "test_standings_feed.py" -v
           python3 -m unittest tests/test_refresh_official.py -v
 
       - name: Commit refreshed captures and rebuilt outputs

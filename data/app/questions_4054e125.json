@@ -1,0 +1,46 @@
+[
+ {
+  "id": "1116-Q-01",
+  "category": "Official-source conflict",
+  "question": "For ATL@MIL 2026-11-15, the official game-book period table and the official game-page LINESCORES disagree on Milwaukee's third-quarter score (37 vs 27). Which one is the league's official reading?",
+  "status": "open — both readings published, conflict flagged",
+  "known": "Final 113-106 is verified by four reads (scoreboard page, game-page header, game-book printed FINAL, AP recap). MIL Q3=27 sums to the final and matches the AP recap's 87-80 after three; MIL Q3=37 sums to 116 and matches nothing else.",
+  "missing": "A statement from the game-book publisher or the league on which period table stands.",
+  "next_step": "Ask the game-book publisher (statsdmz.nba.com contact) or the NBA stats desk with both URLs; record the answer on app/flagged.html (1116-F-01) and the settlement row.",
+  "owner": "site owner",
+  "sources": ["https://www.nba.com/game/atl-vs-mil-0022600243", "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL_book.pdf"]
+ },
+ {
+  "id": "1116-Q-02",
+  "category": "Pricing window",
+  "question": "Should the originated-lines window be re-cut to cover today..today+3 (currently 11/16-11/18) as a new dated round, adding the four 11/19 games?",
+  "status": "open — the pinned round replay is untouched",
+  "known": "The brief allows picks up to three days ahead. The 11/19 games (0022600270-0022600273) are on the official schedule strip and are captured in the rolling slate. The round artefacts (data/rounds/2026-11-16, round/) are a frozen replay whose tests pin their contents.",
+  "missing": "An owner decision to publish a second dated round rather than edit the pinned one.",
+  "next_step": "Run scripts/round_model_2026_11_16.py against a 11/16-11/19 slate capture as data/rounds/2026-11-17 (new directory, new tests), keeping the 11/16 round frozen.",
+  "owner": "site owner",
+  "sources": ["https://www.nba.com/games?date=2026-11-19"]
+ },
+ {
+  "id": "1116-Q-03",
+  "category": "Player game logs",
+  "question": "Should the 2026-11-15 game books be transcribed now to extend the per-player logs (MIN/PTS/REB/AST + opponent) to the 11/15 injury-report names?",
+  "status": "open — one of nine books transcribed so far (11/14 slate: five books)",
+  "known": "Every 11/15 game has an official game-book URL on its game page; scripts/parse_gamebook.py validates each transcription with four arithmetic identities and the minutes-share model consumes its output.",
+  "missing": "Transcriptions of the remaining eight 11/15 books (or a runner-side pdftotext parse of them).",
+  "next_step": "Transcribe with scripts/parse_gamebook.py book by book (each ~25 box rows) and re-cut data/app/minutes_shares.json; sources listed on app/settlement.html per game.",
+  "owner": "site owner",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI_book.pdf"]
+ },
+ {
+  "id": "1116-Q-04",
+  "category": "Market anchor",
+  "question": "A closing-line capture for the 2026-11-15 slate still does not exist in this repository. Which licensed source should the market-anchored prior use, and who supplies the key?",
+  "status": "open (carried from K-08)",
+  "known": "The engine already reads data/app/closing_lines.json and leaves the anchor blank when it is empty; the OOS log-loss weighting rule is implemented and measured on synthetic entries.",
+  "missing": "A licensed odds feed and its credentials, supplied by the owner.",
+  "next_step": "Owner names the provider; then fill data/app/closing_lines.json per game from that feed and the prior computes itself.",
+  "owner": "site owner",
+  "sources": ["https://www.nba.com/games"]
+ }
+]

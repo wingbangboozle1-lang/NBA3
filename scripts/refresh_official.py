@@ -82,6 +82,11 @@ def newest_report(index_html):
     return best
 
 
+def all_report_stamps(index_html):
+    """Every report link on the official index, ordered oldest to newest by real time."""
+    return sorted(set(REPORT_RE.findall(index_html)), key=lambda t: report_time(*t))
+
+
 def et_today(now_utc):
     return now_utc.astimezone(ET).date()
 
@@ -258,6 +263,62 @@ def main():
     # 1b. standings page (required: the brief's refresh set; promotion is best-effort below)
     f.get(STANDINGS_URL, os.path.join(out_dir, "standings.html"), required=True,
           label="standings page")
+
+    # 1b. archive EVERY report the official index lists that is not archived yet (the brief:
+    #     "store every injury PDF with its timestamp"). Each report is stored as its verbatim
+    #     extracted text together with the PDF's URL, its sha256 at retrieval and the retrieval
+    #     stamp (data/app/injury_reports_archive/index.json). The PDF bytes stay on the official
+    #     CDN: the sha256 pins them, the URL serves them, and the repository does not accumulate
+    #     one binary per report per day. Consecutive reports are diffed from these texts.
+    import hashlib
+    import subprocess
+    arc_dir = os.path.join(APP, "injury_reports_archive")
+    os.makedirs(arc_dir, exist_ok=True)
+    arc_index_path = os.path.join(arc_dir, "index.json")
+    if os.path.exists(arc_index_path):
+        with open(arc_index_path, encoding="utf-8") as fh:
+            arc = json.load(fh)
+    else:
+        arc = {"schema": "nba3.app.injury_archive/v1", "storage_rule": (
+            "Every report the official index lists is stored as verbatim extracted text "
+            "(pdftotext -layout of the official PDF) with the PDF URL, its sha256 at retrieval "
+            "and the retrieval stamp. The PDF bytes themselves stay on the official CDN; the "
+            "sha256 pins what was read and the URL serves the bytes for manual re-verification."),
+            "reports": {}}
+    for t in all_report_stamps(idx_bytes.decode("utf-8", "replace")):
+        y, hh, mm, ap = t
+        stamp = f"{y}-{hh}-{mm}{ap}"
+        if stamp in arc["reports"]:
+            continue
+        pdf_name = f"Injury-Report_{y}_{hh}_{mm}{ap}.pdf"
+        pdf_path = os.path.join(out_dir, pdf_name)
+        pdf_bytes = f.get(INJ_CDN + pdf_name, pdf_path, required=False,
+                          label=f"injury report {stamp}")
+        if pdf_bytes is None:
+            continue
+        txt_path = os.path.join(arc_dir, f"{y}-{hh}-{mm}{ap}.txt")
+        r = subprocess.run(["pdftotext", "-layout", pdf_path, txt_path],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            f.errors.append({"url": INJ_CDN + pdf_name,
+                             "label": f"injury report {stamp} text extraction",
+                             "required": False,
+                             "error": f"pdftotext failed: {r.stderr.strip()[:200]}",
+                             "attempts": 1})
+            continue
+        arc["reports"][stamp] = {
+            "report_stamp_et": f"{y}-{hh}:{mm} {ap}M ET",
+            "pdf_url": INJ_CDN + pdf_name,
+            "pdf_sha256": hashlib.sha256(pdf_bytes).hexdigest(),
+            "pdf_bytes": len(pdf_bytes),
+            "text_file": os.path.relpath(txt_path, ROOT),
+            "retrieved_utc": manifest["retrieved_utc"],
+        }
+    with open(arc_index_path, "w", encoding="utf-8") as fh:
+        json.dump(arc, fh, indent=1)
+        fh.write("\n")
+    print(f"injury archive: {len(arc['reports'])} reports indexed "
+          f"-> data/app/injury_reports_archive/")
 
     # 2. schedule/results pages: today..today+3 and the two previous game days (Eastern dates)
     for off in range(-2, 4):
