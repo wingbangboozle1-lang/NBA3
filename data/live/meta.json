@@ -1,7 +1,7 @@
 {
  "schema": "nba3.live.meta/v1",
  "session": "arena/2ebb1e75-nba3",
- "generated_utc": "2026-11-16T00:12Z",
+ "generated_utc": "2026-11-16T00:20Z",
  "network_note": "Raw curl to nba.com is blocked in the build sandbox (egress allowlist). Every official value below was read through the agent fetch tool on 2026-11-15 between 11:30Z and 11:50Z and transcribed by hand. Re-verify before acting; injury and tip values move during a slate.",
  "sources": {
   "injury_index": {
@@ -36,13 +36,15 @@
   },
   "teamstats_traditional": {
    "url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
-   "retrieved_utc": "2026-11-15T11:42Z",
-   "chunks": "0-4 of 5"
+   "retrieved_utc": "2026-11-16T00:20Z",
+   "chunks": "0-4 of 5",
+   "note": "Re-read 2026-11-16T00:20Z by session 4f194ba2 mid-game-day; transcribed into data/app/official_team_stats_2026-11-15.json (previous capture preserved)."
   },
   "teamstats_opponent": {
    "url": "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
-   "retrieved_utc": "2026-11-15T11:47Z",
-   "chunks": "0-1 of 2"
+   "retrieved_utc": "2026-11-16T00:20Z",
+   "chunks": "0-1 of 2",
+   "note": "Re-read 2026-11-16T00:20Z by session 4f194ba2 mid-game-day; transcribed into data/app/official_team_stats_2026-11-15.json (previous capture preserved)."
   },
   "teamstats_advanced": {
    "url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
