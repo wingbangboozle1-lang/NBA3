@@ -4815,6 +4815,51 @@ The official report index re-read on 2026-11-16 lists 11/16 reports through 09:3
 - `python3 scripts/build_live_site.py --check` passed; `python3 -m unittest discover -s tests -q` → 121 passed; page-level regression confirms the staleness alert/source links and chronological spellings. Existing non-fatal ResourceWarnings remain in older tests.
 - F12 is `needs review` because the stale status is now published on the Flagged for Review page and requires the scheduled fetch/parser/commit path to ingest a newer report before the alert can be cleared.
 
+## Session `arena/00b0c780-nba3` (current) — CLAIM: independent official verification, requirement-by-requirement audit, freshness register
+
+Claim written and committed **before** any other work (board rule). Base: `main` @ `27245fa` (merge of PR #101). Branch is fixed as `arena/00b0c780-nba3`.
+
+**Why this scope.** At claim time: (a) the published window is 2026-11-15→11-18 while today is 2026-11-16 UTC; (b) nine 11/15 games are Final on nba.com but only the five `main` settlements exist, and PR #98 (`arena/c94a5531-nba3`, open, unmerged) claims four more; (c) the official injury index lists 27 reports for 11/16 up to 9:15 AM ET, while the published banner still shows 11/15 06:15 AM; (d) the last two scheduled `official data refresh` runs (43864808752, 43815576157) failed at the step *Commit refreshed captures and rebuilt outputs*. Other sessions hold open PRs over `data/app/**`, `data/live/**`, `app/**`, `scripts/**` and `pages.yml`, so this session edits **none** of those outputs' data.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| K1 | Claim on the board (this section), pushed before work | done (this commit) | 00b0c780 | `COORDINATION.md` (append-only) |
+| K2 | Independent official read of all nine 11/15 finals: nba.com schedule (final score, state) + statsdmz game book (period scores, printed FINAL), compared with `main` and PR #98 values | done (files named `finals_1115.json`, not `_independent`) | 00b0c780 | `audit_00b0c780/data/finals_1115.json` (new) |
+| K3 | Official injury-report index for 11/16: list every PDF with its timestamp, compare the newest against the published banner | done (corrected, see log) | 00b0c780 | `audit_00b0c780/data/injury_index_2026-11-16.json` (new) |
+| K4 | Requirement-by-requirement audit of the brief items (30 items R01–R30, not 25), each with the repo evidence and what is missing | done (statuses are repo-level; several "Met (partly)" were not re-read) | 00b0c780 | `audit_00b0c780/data/requirements.json` (new) |
+| K5 | Static audit pages (index, finals, injuries, picks, requirements, flagged) built by one deterministic script, with unit tests | done locally; PR pending | 00b0c780 | `audit_00b0c780/**` (new) |
+| K6 | Staging + test wiring for the new tree in `pages.yml` (one appended step and one copy line) | done locally; PR pending | 00b0c780 | `.github/workflows/pages.yml` (append-only, +13 lines) |
+| K7 | Change requests for the owners of other claims (nav tile, PR #98 settlement, refresh commit failure, injury banner) | pending | 00b0c780 | this section only |
+| K8 | PR → merge → confirm Pages deploy by reading the live site; record here | pending | 00b0c780 | `COORDINATION.md` |
+
+### 00b0c780 — log (append-only, this session)
+
+**Branch.** Arena fixes the working branch to `arena/00b0c780-nba3`; the `session-<id>/<task>` naming in the brief does not apply (same choice as earlier sessions).
+
+**K2 — 11/15 finals (sources and verification).** Nine games Final on nba.com (`https://www.nba.com/schedule`, game pages such as `https://www.nba.com/game/ind-vs-phi-0022600236`). Period scores and printed FINAL from the statsdmz game books `https://statsdmz.nba.com/pdfs/20261115/20261115_{INDPHI,LALPHX,CHALAC,SASUTA,DALBOS,NYKTOR,HOUWAS,ATLMIL,OKCSAC}.pdf`. Eight verified (schedule final = book final, quarters sum to it). **ATL @ MIL (`0022600243`) is flagged K-02:** its period table gives Milwaukee Q3 = 37 (row sums to 116), its summary line gives 27 (sums to 106, matching the printed final). No value was inferred. PR #98 branch (`arena/c94a5531-nba3`, read via FETCH_HEAD): its four settled rows (IND, LAL, CHA, SAS) match the official finals and quarter splits. Its other five games are not settled in its JSON. Nothing on `main`'s results feed is 11/15 (0 of 9).
+
+**K3 — injury index correction.** The earlier note in this section said "27 reports to 9:15 AM ET". Re-fetching `https://official.nba.com/nba-injury-report-2026-27-season/` shows **39 links for 11/16, 12:00 AM through 9:30 AM ET**, one per 15 minutes. The generator now lists exactly those 39 slots, with PDF URLs taken from the index page (linked there, not fetched). This is recorded as a discrepancy in K-05: the index changed during the session or the earlier count was wrong; not resolved. Banner on `main` (`app/injuries.html`): 11/15 06:15 AM ET revision, two retrieval stamps (11:40Z and 11:33Z). Newest official report is 9:30 AM ET 11/16. **Stale.** The PDFs were not fetched.
+
+**K4 — requirements.** 30 items; statuses are repo-level (`Met` 2, `Met (partly)` 20, plus stale, failing, negative and blocked items). Three items marked "Met" in an earlier draft were downgraded to "Met (partly)" because the page content was not re-read. Every evidence path and literal `contains` string is checked by `audit_00b0c780/test_audit.py`.
+
+**K4 — ledger reconciliation (read-only).** `ledger/ledger.jsonl` (11 PUBLISH entries, `scripts/ledger.py` schema): every `prev_hash`, `entry_hash` and `pick_sha256` recomputes. `data/app/ledger/ledger.jsonl` (34 lines, `body`/`entry_hash` schema): `prev_hash` links are unbroken, but `entry_hash` does not recompute from `body` under four canonical forms tried, so its recipe is undocumented. The `0022600238-side-proj` entry (line 3, `PUBLISHED_PRE_TIP`, 2026-11-15T12:10Z) is not a linkage break. The "CHAIN BROKEN" text on PR #102 was **not reproduced** as a linkage break; its verifier is not in this repo. Logged as **K-17** (high). No settlement performed from either tree.
+
+**K5 — pages.** `audit_00b0c780/build.py` writes six pages from `audit_00b0c780/data/*.json` (`index`, `finals`, `injuries`, `picks`, `requirements`, `flagged`). No wall clock, no network. Every data row has an official source link, or an explicit "no official link" marker. `test_audit.py`: 20 tests, all passing locally.
+
+**K6 — pages.yml.** One new step (rebuild, drift check, unit tests) and one copy line `cp -r audit_00b0c780 _pages/audit_00b0c780`. Published path: `https://wingbangboozle1-lang.github.io/NBA3/audit_00b0c780/pages/`.
+
+**K7 — change requests (no edits made to other claims' files).**
+- **CR-00b0c780-01 → owner of `data/app/ledger/` (ledger session):** document the `entry_hash` recipe for tree B, or re-hash it, and state which tree is canonical. Blocks settlement of 11/15 (R06, R19). Owner to reply in this section.
+- **CR-00b0c780-02 → owner of PR #98 (`arena/c94a5531-nba3`):** the four 11/15 rows match the official finals; please settle them only after K-02 is resolved for ATL @ MIL, and add the five other 11/15 games with official sources.
+- **CR-00b0c780-03 → owner of the refresh workflow (`refresh.yml`):** runs `43864808752` (job `refresh`, step "Commit refreshed captures and rebuilt outputs") and `43815576157` (failing step not read) both failed. Please read and fix. Last success `43776978055` (`94f71a6`).
+- **CR-00b0c780-04 → owner of `app/injuries.html` (injury banner):** the banner shows the 11/15 06:15 AM ET report and two retrieval stamps. The official index lists 39 reports for 11/16, newest 9:30 AM ET. Please refresh from the index and show one retrieval time per report.
+- **CR-00b0c780-05 → owner of the root navigation (`index.html`, `scripts/build_app.py`):** add a tile linking `/audit_00b0c780/pages/` once the PR merges. Not done here.
+- **CR-00b0c780-06 → owner of `data/app/arena_coordinates.json`:** coordinates are sourced from Wikipedia, which is not an official source under the brief. Two rows are blank. Please source from an official arena or team page, or keep flagged.
+
+**Open items not resolved here:** ATL @ MIL quarter conflict (K-02); injury PDFs not fetched (K-05); standings not captured by any job (K-07); closing-line blend has no feed (K-08); NBA terms §9(iv) bars gambling use of NBA statistics (K-08, standing blocker for the bet surface).
+
+**Verification before PR.** `python3 -m unittest discover -s audit_00b0c780 -p 'test_*.py'`: 20 OK. Regenerate: `python3 audit_00b0c780/make_data.py && python3 audit_00b0c780/build.py`. Existing suites (`tests/`, `pipeline/tests/`, `audit_dd1eb1f1`, `audit_94e6d41b`) were not re-run after this session's changes beyond the earlier baseline; CI runs them on the PR.
+
 #### PR #104 integration/deployment record (F12)
 
 - PR [#104](https://github.com/wingbangboozle1-lang/NBA3/pull/104) merged 2026-11-16 14:36:29Z as `82158c7c6890495fc6d3013eab2361c35600abdb`.

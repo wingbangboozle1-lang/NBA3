@@ -1,0 +1,203 @@
+{
+ "schema": "audit_00b0c780/flags/v1",
+ "retrieved": "2026-11-16T14:30Z",
+ "note": "Irregularities found by this session. None is fixed in place; each has an owner.",
+ "items": [
+  {
+   "id": "K-01",
+   "severity": "high",
+   "title": "Scheduled refresh failing at the commit step",
+   "detail": "Recent scheduled `official data refresh` runs failed. Run 43864808752 (about 2 h before this audit, 19 s) failed at the step 'Commit refreshed captures and rebuilt outputs', read from the GitHub API. Run 43815576157 (about 8 h, 18 s) also failed; its failing step was not read. The run log could not be fetched with the tools in this session, so the cause is not established. The run before them, 43776978055, succeeded.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
+   ],
+   "owner": "refresh-job owner; PR #102 (arena/07f22dad-nba3) touches the same area",
+   "blocks": "publishing a fresh window"
+  },
+  {
+   "id": "K-02",
+   "severity": "medium",
+   "title": "ATL @ MIL game book contradicts itself on Milwaukee Q3",
+   "detail": "The period table prints 37 for Milwaukee in Q3; the summary line prints 27. Only 27 reproduces the printed FINAL of 106. The final is confirmed by the schedule, the summary line and the sum of the Bucks' player points in the same book. The Q3 split is therefore unresolved and must not be settled as a quarter-level result until a third read settles it.",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+    "https://www.nba.com/schedule"
+   ],
+   "owner": "results-feed owner; a third official read of the game page LINESCORE",
+   "blocks": "quarter-level settlement of ATL @ MIL"
+  },
+  {
+   "id": "K-03",
+   "severity": "high",
+   "title": "Five 11/15 finals are unsettled on main; PR #98 settles four",
+   "detail": "All nine 2026-11-15 games are Final on the official schedule. Main's result feed has no 11/15 rows and the ledger has zero settlements. Open PR #98 (arena/c94a5531-nba3) settles IND@PHI, LAL@PHX, CHA@LAC and SAS@UTA; its values match this audit's independent reads exactly. DAL@BOS, NYK@TOR, HOU@WAS, ATL@MIL and OKC@SAC are settled nowhere. The two published 11/15 moneyline picks (PHI, HOU) would both settle as wins.",
+   "sources": [
+    "https://www.nba.com/schedule",
+    "https://github.com/wingbangboozle1-lang/NBA3/pull/98"
+   ],
+   "owner": "PR #98 owner (c94a5531) or the next refresh",
+   "blocks": "R19 settlement stamp"
+  },
+  {
+   "id": "K-04",
+   "severity": "high",
+   "title": "Published window starts on a day already played",
+   "detail": "The published window is 2026-11-15 → 2026-11-18 (snapshot manifest and landing page). Today is 2026-11-16 UTC and all nine 11/15 games are Final. The window should roll to 11/16 → 11/19.",
+   "sources": [
+    "https://wingbangboozle1-lang.github.io/NBA3/",
+    "https://www.nba.com/schedule"
+   ],
+   "owner": "manifest / integration owner",
+   "blocks": "R23 window"
+  },
+  {
+   "id": "K-05",
+   "severity": "high",
+   "title": "Injuries banner is a day behind and prints two retrieval stamps",
+   "detail": "The banner shows revision 2026-11-15 06:15 AM ET. The official index lists 39 reports for 2026-11-16, the newest at 9:30 AM ET. An earlier read of the same index in this session recorded 27 reports to 9:15 AM; the page as fetched for this audit lists 39, so the index changed during the session or the earlier count was wrong (recorded, not resolved). The banner prints retrieval 2026-11-15T11:40Z in one place and 11:33Z in another.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "https://wingbangboozle1-lang.github.io/NBA3/app/injuries.html"
+   ],
+   "owner": "injury-page owner",
+   "blocks": "R18"
+  },
+  {
+   "id": "K-06",
+   "severity": "medium",
+   "title": "Arena coordinates are sourced from Wikipedia, not an official source",
+   "detail": "data/app/arena_coordinates.json states its source as Wikipedia article coordinates and says the NBA does not publish coordinates. The brief requires official sources. Two arenas have no coordinates and are blank. Every travel distance inherits this gap.",
+   "sources": [
+    "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&format=json"
+   ],
+   "owner": "rest/travel owner",
+   "blocks": "R11 travel distance as verified"
+  },
+  {
+   "id": "K-07",
+   "severity": "high",
+   "title": "Standings are not captured by the scheduled job",
+   "detail": "scripts/refresh_official.py fetches the injury index, schedule and results pages, game books and the three team-stat pages. It has no standings URL (zero matches for 'standings'). The brief requires standings.",
+   "sources": [
+    "https://www.nba.com/standings",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py"
+   ],
+   "owner": "refresh-job owner",
+   "blocks": "R01, R02 completeness"
+  },
+  {
+   "id": "K-08",
+   "severity": "high",
+   "title": "No closing line or odds feed; market-anchored prior cannot be built",
+   "detail": "pipeline/v2/strategies.py states there is no closing line in the repository and no licensed odds feed. The NBA terms restrict gambling use of NBA statistics (flagged on the site as NF-12).",
+   "sources": [
+    "https://www.nba.com/termsofuse"
+   ],
+   "owner": "owner decision on a licensed feed; counsel",
+   "blocks": "R16"
+  },
+  {
+   "id": "K-09",
+   "severity": "medium",
+   "title": "Top-8 minute shares measured from a single day",
+   "detail": "scripts/minutes_model.py prefers top-8 shares measured from the 2026-11-14 game books (five games) and falls back to a season snapshot where a team is missing. The measured shares rest on one slate.",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+   ],
+   "owner": "minutes-model owner",
+   "blocks": "R12 as a rate"
+  },
+  {
+   "id": "K-10",
+   "severity": "high",
+   "title": "Per-player logs cover one day, not every injury-report player",
+   "detail": "data/app/player_game_logs.json has 173 rows, all from 2026-11-14 (five games, ten teams). The coverage note says players on teams that did not play that day are absent, which is 20 of 30 teams. Props and rho cannot be measured for those teams from this capture.",
+   "sources": [
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+   ],
+   "owner": "game-log owner",
+   "blocks": "R14, R21, prop pricing"
+  },
+  {
+   "id": "K-11",
+   "severity": "medium",
+   "title": "Possession × PPP totals model does not beat the baseline",
+   "detail": "pipeline/v2/build.py flags FV2-08: the total RMSE does not beat the naive baseline of about 18.0. The model is published as a negative result.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/build.py"
+   ],
+   "owner": "models owner",
+   "blocks": "R17 as a usable signal"
+  },
+  {
+   "id": "K-12",
+   "severity": "high",
+   "title": "Not every injury PDF is stored",
+   "detail": "The official index lists 39 reports for 11/16 alone. The repository stores a selection of 11/13–11/15 reports. The brief requires every PDF stored with its timestamp.",
+   "sources": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ],
+   "owner": "injury-archive owner",
+   "blocks": "R04"
+  },
+  {
+   "id": "K-13",
+   "severity": "medium",
+   "title": "Two results feeds and two ledgers exist",
+   "detail": "data/live/results/ and data/app/results_feed.json are separate feeds; ledger/ and data/app/ledger/ are separate chains. Two sources of truth invite disagreement.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/tree/main/data"
+   ],
+   "owner": "integration owner",
+   "blocks": "single settlement record"
+  },
+  {
+   "id": "K-14",
+   "severity": "medium",
+   "title": "Two pre-registration sets exist",
+   "detail": "prereg/ holds three strategy files and data/app/prereg/ holds fifteen. The binding set is not named.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/tree/main/prereg"
+   ],
+   "owner": "pre-registration owner",
+   "blocks": "R05 authority"
+  },
+  {
+   "id": "K-15",
+   "severity": "medium",
+   "title": "Five open PRs touch shared outputs",
+   "detail": "Open PRs #94, #95, #96, #98 and #102 change shared files (data/app, app/, pages.yml, COORDINATION.md). Merging them in any order risks conflicts.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/pulls"
+   ],
+   "owner": "integration owner",
+   "blocks": "clean integration"
+  },
+  {
+   "id": "K-16",
+   "severity": "low",
+   "title": "Landing page leads with counts, not the disagreement headline",
+   "detail": "The landing page opens with the origination sentence and tile counts. The ledger headline is the disagreement, but the page does not show it first (see R13).",
+   "sources": [
+    "https://wingbangboozle1-lang.github.io/NBA3/"
+   ],
+   "owner": "site owner",
+   "blocks": "R13"
+  },
+  {
+   "id": "K-17",
+   "severity": "high",
+   "title": "Two ledger trees with different schemas; the second cannot be hash-verified",
+   "detail": "ledger/ledger.jsonl (11 PUBLISH entries) verifies: every prev_hash, entry_hash and pick_sha256 recomputes. data/app/ledger/ledger.jsonl (34 lines, body/entry_hash schema) keeps an unbroken prev_hash link on every line, but its entry_hash does not recompute from its body under four canonical forms tried in this audit, so the hash recipe is undocumented. The 0022600238-side-proj entry (line 3) is PUBLISHED_PRE_TIP and is not a linkage break. The 'CHAIN BROKEN' note on PR #102 was not reproduced as a linkage break; its verifier is not in the repo. Do not settle from tree B until its recipe is documented and it is re-verified.",
+   "sources": [
+    "https://github.com/wingbangboozle1-lang/NBA3/pull/102",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/ledger/ledger.jsonl"
+   ],
+   "owner": "ledger owner (session that wrote data/app/ledger)",
+   "blocks": "R06, R19"
+  }
+ ]
+}

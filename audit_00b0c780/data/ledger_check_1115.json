@@ -1,0 +1,57 @@
+{
+ "schema": "audit_00b0c780/ledger_check_1115/v1",
+ "retrieved": "2026-11-16T14:30Z",
+ "note": "Read-only. The sealed ledger (ledger/ledger.jsonl) has 0 settlement entries on main; these outcomes are shown for the owner to confirm, not written to the chain.",
+ "picks": [
+  {
+   "seq": 1,
+   "pick_id": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600236",
+   "matchup": "IND @ PHI",
+   "pick": "PHI moneyline",
+   "published_utc": "2026-11-15T12:10Z",
+   "tip_et_iso": "2026-11-15T18:00Z",
+   "official_final": "IND 124 - PHI 131",
+   "outcome_if_settled": "WIN (official final)",
+   "entry_hash": "b6840253828749f856a7e0a01c5363aa53b690c213dfcfb2625ff1fac29754bb",
+   "published_before_tip": true,
+   "sources": [
+    {
+     "label": "nba.com schedule",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "statsdmz game book",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "seq": 2,
+   "pick_id": "S2_ESTIMATOR_DISAGREEMENT",
+   "game_id": "0022600242",
+   "matchup": "HOU @ WAS",
+   "pick": "HOU moneyline",
+   "published_utc": "2026-11-15T12:10Z",
+   "tip_et_iso": "2026-11-16T00:00Z",
+   "official_final": "HOU 147 - WAS 119",
+   "outcome_if_settled": "WIN (official final)",
+   "entry_hash": "6cd5fc40ab7ee96a0a9ef3cee514d43f5ba67ffdd8d6b378c3d416cc36917b2d",
+   "published_before_tip": true,
+   "sources": [
+    {
+     "label": "nba.com schedule",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "statsdmz game book",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  }
+ ]
+}
