@@ -4656,8 +4656,19 @@ existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review pa
 | # | Task | Status | Owner | File scope |
 |---|------|--------|-------|------------|
 | A1 | Claim (this section) | done | ca7b8b4d | `COORDINATION.md` |
-| A2 | Read each of the 30 official NBA team pages (arena name, city) and record the official link per row | in progress | ca7b8b4d | `data/arena/nba_arenas_official_2026-11-16.json` (new) |
-| A3 | Cross-check against `data/app/arena_coordinates.json` (arena name + city); list mismatches and missing rows as flags | pending | ca7b8b4d | `data/arena/ARENA_CROSSCHECK_2026-11-16.md` (new) |
-| A4 | Coordinates: NOT computed or published here. Recorded as "no official coordinate source" unless one is found | pending | ca7b8b4d | — |
+| A2 | Read official team pages for arena name, record the link per row | partial: 6 of 30 checked (ATL, BKN, CLE, IND, MIL confirmed; PHI mismatch) | ca7b8b4d | `data/arena/nba_arenas_official_2026-11-16.json` (new) |
+| A3 | Cross-check against `data/app/arena_coordinates.json`; list mismatches and unchecked rows as flags | done for 6 rows; 23 still unverified | ca7b8b4d | `data/arena/ARENA_CROSSCHECK_2026-11-16.md` (new) |
+| A4 | Coordinates: NOT computed or published here. Recorded as "no official coordinate source" unless one is found | not done (no official coordinate source identified) | ca7b8b4d | — |
 
 **Non-overlap.** Creates only `data/arena/**` and this board section. Does not edit `data/app/*`, `scripts/estimators.py`, the site builders, or any open PR's files (#94–#98).
+
+### ca7b8b4d — results (2026-11-16)
+
+- **Checked against official pages (6):** ATL State Farm Arena (https://www.nba.com/hawks/), BKN Barclays Center (https://www.nba.com/nets), CLE Rocket Arena (https://www.nba.com/cavaliers/ slug + repo game book), IND Gainbridge Fieldhouse (https://www.nba.com/pacers/), MIL Fiserv Forum (https://www.nba.com/bucks/arena).
+- **Mismatch (flagged):** PHI listed as "Wells Fargo Center". Sixers arena page unavailable at check time; news reports (Delaware Online 2025-08-14) say it is now Xfinity Mobile Arena. Not changed in any published file.
+- **Not checked (23):** BOS, CHA, CHI, DAL, DEN, DET, GSW, HOU, LAC, LAL, MEM, MIA, MIN, NOP, NYK, OKC, ORL, PHX, POR, SAC, SAS, TOR, UTA, WAS. Still unverified.
+- **Irregularity:** `data/app/arena_coordinates.json` marks all rows `verified: true` on Wikipedia-only evidence. Flagged.
+- **Coordinates:** none added. Travel distance remains blank (no official coordinate source identified).
+- **Not done:** the rest of the 30-team check, and the site/flags pages (not in this session's file scope; owned by other sessions). Recommend a follow-up session with the same approach.
+- Files created: `data/arena/nba_arenas_official_2026-11-16.json`, `data/arena/ARENA_CROSSCHECK_2026-11-16.md`. No other file changed.
+- Status: **partial** (A1 done; A2/A3 partial; A4 not done).

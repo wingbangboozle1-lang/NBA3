@@ -1,0 +1,86 @@
+{
+  "task": "A2/A3 arena identity check (session arena/ca7b8b4d-nba3, 2026-11-16)",
+  "scope_note": "Checks only the arena NAME of each team's home venue against official NBA or team pages, or against the official game book stored in this repo. Coordinates are NOT checked or published here: the NBA does not publish coordinates.",
+  "checked_at_utc": "2026-11-16",
+  "rows": [
+    {
+      "team": "ATL",
+      "table_arena": "State Farm Arena",
+      "official_name_seen": "State Farm Arena",
+      "status": "confirmed",
+      "source": "https://www.nba.com/hawks/",
+      "evidence": "Official team site navigation links 'State Farm Arena' to statefarmarena.com"
+    },
+    {
+      "team": "BKN",
+      "table_arena": "Barclays Center",
+      "official_name_seen": "Barclays Center",
+      "status": "confirmed",
+      "source": "https://www.nba.com/nets",
+      "evidence": "Official team site navigation links 'Barclays Center' to barclayscenter.com"
+    },
+    {
+      "team": "CLE",
+      "table_arena": "Rocket Arena",
+      "official_name_seen": "Rocket Arena",
+      "status": "confirmed",
+      "source": "https://www.nba.com/cavaliers/",
+      "evidence": "Official team schedule ticket links use the slug 'cleveland-ohio-rocket-arena'. The repo's official game book for 11/14 DAL@CLE (data/app/gamebooks/20261114_DALCLE.md) prints 'Rocket Arena, Cleveland, OH'. Weaker than a direct page; a reviewer should confirm."
+    },
+    {
+      "team": "IND",
+      "table_arena": "Gainbridge Fieldhouse",
+      "official_name_seen": "Gainbridge Fieldhouse, Indianapolis, IN",
+      "status": "confirmed",
+      "source": "https://www.nba.com/pacers/",
+      "evidence": "Official team page lists the 11/18 home game venue as 'Gainbridge Fieldhouse, Indianapolis, IN'"
+    },
+    {
+      "team": "MIL",
+      "table_arena": "Fiserv Forum",
+      "official_name_seen": "Fiserv Forum",
+      "status": "confirmed",
+      "source": "https://www.nba.com/bucks/arena",
+      "evidence": "Official team arena page: 'Fiserv Forum' ('Home of the Milwaukee Bucks')"
+    },
+    {
+      "team": "PHI",
+      "table_arena": "Wells Fargo Center",
+      "official_name_seen": "not retrieved (https://www.nba.com/sixers/arena returned 'Content Unavailable')",
+      "status": "MISMATCH - flagged",
+      "source": "https://www.delawareonline.com/story/sports/nba/76ers/2025/08/14/wells-fargo-center-xfinity-mobile-arena-south-philadelphia-sixers-flyers/85659394007/",
+      "evidence": "News reports (not official) say the arena became 'Xfinity Mobile Arena' on 2025-08-14 (Delaware Online) and the naming change was announced by Comcast; the table still says 'Wells Fargo Center'. An official Sixers or Comcast source must be found before any correction is published. Coordinates for PHI are already blank."
+    }
+  ],
+  "not_checked": [
+    "BOS",
+    "CHA",
+    "CHI",
+    "DAL",
+    "DEN",
+    "DET",
+    "GSW",
+    "HOU",
+    "LAC",
+    "LAL",
+    "MEM",
+    "MIA",
+    "MIN",
+    "NOP",
+    "NYK",
+    "OKC",
+    "ORL",
+    "PHX",
+    "POR",
+    "SAC",
+    "SAS",
+    "TOR",
+    "UTA",
+    "WAS"
+  ],
+  "irregularities": [
+    "PHI arena name likely outdated (see PHI row).",
+    "data/app/arena_coordinates.json marks every row 'verified: true', but the verification is against Wikipedia (its own notes say coordinates are NOT NBA-published). The label is misleading and should be read as 'Wikipedia-sourced'.",
+    "Coordinates are not checked by this file. The travel-distance table stays blank until an official or accepted coordinate source is chosen."
+  ]
+}
