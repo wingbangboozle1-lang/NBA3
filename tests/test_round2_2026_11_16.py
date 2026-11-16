@@ -235,17 +235,34 @@ class Gates(unittest.TestCase):
     def setUpClass(cls):
         cls.g = load("gates.json")
 
-    def test_every_gate_passes_and_rebuild_is_allowed(self):
+    def test_no_blocking_gate_fails_and_rebuild_is_allowed(self):
         self.assertEqual(self.g["blocking_failures"], [])
         self.assertTrue(self.g["rebuild_allowed"])
-        self.assertEqual(self.g["pass_count"], self.g["gate_count"])
 
     def test_every_gate_declares_a_scope(self):
         for x in self.g["gates"]:
-            self.assertIn(x["scope"], ("build", "row"))
+            self.assertIn(x["scope"], ("build", "row", "advisory"))
 
     def test_the_gate_count_is_pinned(self):
-        self.assertEqual(self.g["gate_count"], 16)
+        self.assertEqual(self.g["gate_count"], 17)
+
+    def test_the_superseded_filing_is_disclosed_not_hidden(self):
+        """The index listed a 1:15 PM filing after this round was built. A capture is only ever
+        newest at its own read time; the page must say so and must not claim otherwise."""
+        adv = {a["id"]: a for a in self.g["advisories"]}
+        self.assertIn("F5_newer_filing_listed_since_capture", adv)
+        self.assertFalse(adv["F5_newer_filing_listed_since_capture"]["pass"])
+        self.assertIn("01:15 PM ET", adv["F5_newer_filing_listed_since_capture"]["detail"])
+        # and it must not block
+        self.assertNotIn("F5_newer_filing_listed_since_capture", self.g["blocking_failures"])
+
+    def test_every_page_carries_the_superseded_banner(self):
+        out = os.path.join(ROOT, "round2")
+        for f in os.listdir(out):
+            if not f.endswith(".html"):
+                continue
+            text = open(os.path.join(out, f), encoding="utf-8").read()
+            self.assertIn("F13-15", text, f"{f} hides that a newer filing exists")
 
 
 class Artefacts(unittest.TestCase):

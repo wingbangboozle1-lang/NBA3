@@ -1,10 +1,17 @@
 {
- "gate_count": 16,
+ "gate_count": 17,
  "pass_count": 16,
  "blocking_failures": [],
  "row_level_failures": [],
+ "advisories": [
+  {
+   "id": "F5_newer_filing_listed_since_capture",
+   "pass": false,
+   "detail": "captured 2026-11-16 01:00 PM ET; the index re-read at 2026-11-16T15:12Z listed 2026-11-16 01:15 PM ET (53 slots). The captured filing was the newest at ITS read time; it has since been superseded by one filing."
+  }
+ ],
  "rebuild_allowed": true,
- "rule": "Freshness and provenance gates (F*, P*, and the integrity gates on the documents themselves) block the whole rebuild. A row-scoped failure withholds its own row and is published with the reason; it does not block the rest.",
+ "rule": "Freshness and provenance gates (F*, P*, and the integrity gates on the documents themselves) block the whole rebuild. A row-scoped failure withholds its own row and is published with the reason; it does not block the rest. An advisory gate never blocks and is always published: it records what a later official read showed, so the page can never imply it holds the newest filing when it does not.",
  "gates": [
   {
    "id": "F1_report_is_newest_listed",
@@ -77,6 +84,19 @@
    "detail": "0 rows with no club; 0 unresolved",
    "measured": {
     "unattributed": 0
+   }
+  },
+  {
+   "id": "F5_newer_filing_listed_since_capture",
+   "name": "no newer official filing was listed when the index was re-read after the build",
+   "pass": false,
+   "scope": "advisory",
+   "detail": "captured 2026-11-16 01:00 PM ET; the index re-read at 2026-11-16T15:12Z listed 2026-11-16 01:15 PM ET (53 slots). The captured filing was the newest at ITS read time; it has since been superseded by one filing.",
+   "measured": {
+    "captured": "2026-11-16 01:00 PM ET",
+    "reread_newest": "2026-11-16 01:15 PM ET",
+    "reread_at": "2026-11-16T15:12Z",
+    "reread_slots": 53
    }
   },
   {

@@ -2702,7 +2702,12 @@ def build_index(d):
             '<p class="small">Later round: <a href="round/index.html"><b>2026-11-16 dashboard '
             '(session arena/8f4fac33)</b></a> — the 11/16 official refresh, a 14-gate report with '
             'build/row scope, two independent estimators with their disagreement as the headline, '
-            'and an injury diff taken between two filings for the <i>same</i> game day.</p>')
+            'and an injury diff taken between two filings for the <i>same</i> game day.</p>'
+            '<p class="small">Newest round: <a href="round2/index.html"><b>1:00 PM ET filing '
+            '(session arena/fbd2484b)</b></a> — the official 11/16 1:00 p.m. ET injury filing, '
+            'captured and diffed against the 09:15 a.m. filing this site previously published: '
+            'four rows moved, three clubs filed for the first time, twelve had still not '
+            'submitted. Sixteen blocking gates plus one advisory, two centred estimators, and the two surfaces kept apart.</p>')
     res = _res(d)
     luck = _luck(d)
     strategies = d["strategies"]

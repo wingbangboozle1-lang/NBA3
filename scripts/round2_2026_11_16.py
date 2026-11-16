@@ -71,7 +71,13 @@ RETRIEVED_0915 = "2026-11-16T14:35Z"   # recorded when session 8f4fac33 captured
 REPORT_STAMP_1300 = "2026-11-16 01:00 PM ET"
 REPORT_STAMP_0915 = "2026-11-16 09:15 AM ET"
 INDEX_NEWEST_AT_READ = "2026-11-16 01:00 PM ET"
-INDEX_SLOT_COUNT_1116 = 52
+INDEX_SLOT_COUNT_1116 = 52          # slots listed when the 1:00 PM PDF was captured
+# The index was re-read once more, after the artefacts were built, and had advanced. Recorded
+# here because a capture is only ever "newest at its read time"; claiming otherwise would be the
+# one thing this project must never do.
+INDEX_REREAD_NEWEST = "2026-11-16 01:15 PM ET"
+INDEX_REREAD_SLOT_COUNT = 53
+INDEX_REREAD_AT = "2026-11-16T15:12Z"
 
 STATUSES = ("Out", "Questionable", "Doubtful", "Available", "Probable")
 
@@ -1132,6 +1138,19 @@ def evaluate_gates(a: dict, b: dict, delta: dict, schedule: dict, standings: dic
                f"{sum(1 for r in a['rows'] if r.get('attribution')=='unresolved')} unresolved",
       {"unattributed": a["rows_with_unattributed_team"]})
 
+    # --- advisory: never blocks, always published -----------------------------------------
+    newer = _stamp_key(INDEX_REREAD_NEWEST) > _stamp_key(REPORT_STAMP_1300)
+    g("F5_newer_filing_listed_since_capture",
+      "no newer official filing was listed when the index was re-read after the build",
+      not newer, "advisory",
+      (f"captured {REPORT_STAMP_1300}; the index re-read at {INDEX_REREAD_AT} listed "
+       f"{INDEX_REREAD_NEWEST} ({INDEX_REREAD_SLOT_COUNT} slots). The captured filing was the "
+       f"newest at ITS read time; it has since been superseded by one filing."
+       if newer else
+       f"captured {REPORT_STAMP_1300}; the index re-read listed nothing newer"),
+      {"captured": REPORT_STAMP_1300, "reread_newest": INDEX_REREAD_NEWEST,
+       "reread_at": INDEX_REREAD_AT, "reread_slots": INDEX_REREAD_SLOT_COUNT})
+
     # --- integrity: these withhold a row, not the build -----------------------------------
     season_ok = all(t["abbr"] for t in standings["teams"]) and standings["team_count"] == 30
     g("I1_standings_complete", "the standings table parsed to 30 clubs, all with an abbreviation",
@@ -1207,15 +1226,21 @@ def evaluate_gates(a: dict, b: dict, delta: dict, schedule: dict, standings: dic
 
     blocking = [x for x in gates if not x["pass"] and x["scope"] == "build"]
     rowlevel = [x for x in gates if not x["pass"] and x["scope"] == "row"]
+    advisory = [x for x in gates if x["scope"] == "advisory"]
     return {
         "gate_count": len(gates),
         "pass_count": sum(1 for x in gates if x["pass"]),
         "blocking_failures": [x["id"] for x in blocking],
         "row_level_failures": [x["id"] for x in rowlevel],
+        "advisories": [{"id": x["id"], "pass": x["pass"], "detail": x["detail"]}
+                       for x in advisory],
         "rebuild_allowed": not blocking,
         "rule": ("Freshness and provenance gates (F*, P*, and the integrity gates on the "
                  "documents themselves) block the whole rebuild. A row-scoped failure withholds "
-                 "its own row and is published with the reason; it does not block the rest."),
+                 "its own row and is published with the reason; it does not block the rest. An "
+                 "advisory gate never blocks and is always published: it records what a later "
+                 "official read showed, so the page can never imply it holds the newest filing "
+                 "when it does not."),
         "gates": gates,
     }
 

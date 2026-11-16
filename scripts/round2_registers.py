@@ -23,7 +23,7 @@ REQUIREMENTS = [
      ".github/workflows/refresh.yml", "refresh_official.py",
      "https://official.nba.com/nba-injury-report-2026-27-season/"),
     ("R02", "Rebuild only after freshness and provenance gates pass",
-     "met", "16 gates with explicit build/row scope; rebuild_allowed is False if any build gate fails",
+     "met", "17 gates with explicit build / row / advisory scope; rebuild_allowed is False if any build-scope gate fails",
      "data/rounds/2026-11-16-1300PM/gates.json", '"rebuild_allowed": true',
      "https://www.nba.com/schedule?date=2026-11-16"),
     ("R03", "Official per-game result feed: one row per game with date, teams, final score, quarter scores",
@@ -147,7 +147,7 @@ REQUIREMENTS = [
      "COORDINATION.md", "fbd2484b",
      "https://github.com/wingbangboozle1-lang/NBA3/pulls"),
     ("R33", "No hallucinations: verify line by line against official sources and provide links",
-     "met", "every published value names its official document; 16 gates check the arithmetic; values the documents do not print are null and flagged",
+     "met", "every published value names its official document; 17 gates check the arithmetic; values the documents do not print are null and flagged",
      "data/rounds/2026-11-16-1300PM/refresh.json", '"sha256"',
      "https://www.nba.com/stats/teams/traditional"),
 ]
@@ -375,6 +375,13 @@ FLAGS = [
      "stamp is recorded per document.",
      "provenance records the retrieval method and time for every document",
      "https://official.nba.com/nba-injury-report-2026-27-season/", "recorded"),
+    ("F13-15", "A newer filing was listed after this round was built",
+     "Re-reading the official index after the build showed a 1:15 PM ET filing (53 slots for the "
+     "day, against 52 at capture time). The captured 1:00 PM filing was the newest at its own read "
+     "time; it is not the newest now, and no page claims it is.",
+     "published as an advisory gate and a banner; transcribing the 1:15 PM filing is the next round's job, "
+     "and the delta mechanism is what makes it cheap",
+     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf", "open"),
     ("F13-14", "An earlier parser draft mis-filed five Brooklyn Nets rows",
      "The 09:15 AM transcript's page break put the Nets block under HOU@MIA. A parser that "
      "inherits the previous matchup assigned them to the wrong game, which made the diff show "

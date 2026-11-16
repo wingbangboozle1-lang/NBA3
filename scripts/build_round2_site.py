@@ -213,6 +213,17 @@ footer .in{max-width:1180px;margin:0 auto}
 def page(name, title, body, *, here):
     nav = "".join(
         f'<a href="{f}" class="{"on" if f == here else ""}">{esc(t)}</a>' for f, t in NAV)
+    adv = ""
+    try:
+        g = load("gates.json")
+        for a in g.get("advisories", []):
+            if not a["pass"]:
+                adv = (f'<div class="callout warn" style="margin:.9rem 0 0">'
+                       f'<h4>Superseded by a later official filing</h4>{esc(a["detail"])} '
+                       f'<strong>This page is a record of the 1:00 PM ET filing, not a live '
+                       f'feed.</strong> <a href="flagged.html">See F13-15</a>.</div>')
+    except Exception:
+        pass
     doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -230,6 +241,7 @@ def page(name, title, body, *, here):
   <nav class="pages">{nav}</nav>
 </header>
 <main>
+{adv}
 {body}
 </main>
 <footer><div class="in">
@@ -937,7 +949,9 @@ def page_verification(D):
                 f'<p style="margin:0">{esc(g["rule"])}</p></div>')
     rows = []
     for x in g["gates"]:
-        cls = "chip-ok" if x["pass"] else ("chip-bad" if x["scope"] == "build" else "chip-warn")
+        cls = ("chip-ok" if x["pass"] else
+               "chip-bad" if x["scope"] == "build"
+               else "chip-info" if x["scope"] == "advisory" else "chip-warn")
         rows.append([f'<code>{esc(x["id"])}</code>', esc(x["name"]),
                      f'<span class="chip {cls}">{"pass" if x["pass"] else "fail"}</span>',
                      f'<span class="chip">{esc(x["scope"])}</span>', esc(x["detail"]),
