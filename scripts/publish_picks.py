@@ -35,7 +35,9 @@ OUT_GATES = ROOT / "data" / "live" / "gates.json"
 
 # An explicitly declared "now" so the build is reproducible. CI passes the real clock.
 # 2026-11-15T12:10Z was the first sealing pass (session 2ebb1e75). Session 4f194ba2 re-priced
-# from the 6:45 PM ET report + the 190-game sample; picks sealed on that pass carry this stamp.
+# from the 6:45 PM ET report and the growing game-day sample (192 games when seq13 sealed);
+# this pass declared 2026-11-16T00:20Z as its publication instant - every entry it wrote
+# (seq13 UTA@LAC LAC ML, tip 2026-11-18T03:30Z) is sealed well before tip.
 NOW = "2026-11-16T00:20Z"
 # The settlement stamp is the moment the official finals were last re-read and verified
 # (2026-11-15 session 4f194ba2: scoreboard + game summary pages + gamebook PDFs), not the

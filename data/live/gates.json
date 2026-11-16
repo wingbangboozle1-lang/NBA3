@@ -1,6 +1,6 @@
 {
  "schema": "nba3.live.gates/v1",
- "generated_utc": "2026-11-15T23:59Z",
+ "generated_utc": "2026-11-16T00:20Z",
  "gate_order": [
   "G1_preregistered",
   "G2_before_tip",
@@ -9,9 +9,9 @@
   "G5_settlement_final_verified"
  ],
  "counts": {
-  "rows": 227,
-  "passed": 150,
-  "failed": 77
+  "rows": 229,
+  "passed": 133,
+  "failed": 96
  },
  "rows": [
   {
@@ -43,24 +43,24 @@
    "game_id": "0022600236",
    "game": "IND @ PHI",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T18:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T18:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600236",
    "game": "IND @ PHI",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T18:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T18:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600236",
    "game": "IND @ PHI",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T18:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T18:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -76,7 +76,7 @@
    "game": "IND @ PHI",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=12.896 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=13.953 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -123,24 +123,24 @@
    "game_id": "0022600237",
    "game": "LAL @ PHX",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T21:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600237",
    "game": "LAL @ PHX",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T21:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600237",
    "game": "LAL @ PHX",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T21:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -156,7 +156,7 @@
    "game": "LAL @ PHX",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=1.267 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=3.616 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -203,24 +203,24 @@
    "game_id": "0022600238",
    "game": "CHA @ LAC",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:30Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T21:30Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600238",
    "game": "CHA @ LAC",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:30Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T21:30Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600238",
    "game": "CHA @ LAC",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T21:30Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T21:30Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -235,8 +235,8 @@
    "game_id": "0022600238",
    "game": "CHA @ LAC",
    "gate": "G3_signal_present",
-   "passed": false,
-   "detail": "direction_agrees=True, disagreement=24.309 pp (band 5-20)"
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=18.299 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -283,24 +283,24 @@
    "game_id": "0022600239",
    "game": "SAS @ UTA",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T22:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T22:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600239",
    "game": "SAS @ UTA",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T22:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T22:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600239",
    "game": "SAS @ UTA",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T22:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T22:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -316,7 +316,7 @@
    "game": "SAS @ UTA",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=1.158 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=1.025 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -363,24 +363,24 @@
    "game_id": "0022600240",
    "game": "DAL @ BOS",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T23:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600240",
    "game": "DAL @ BOS",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T23:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600240",
    "game": "DAL @ BOS",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T23:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -396,7 +396,7 @@
    "game": "DAL @ BOS",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=3.545 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=3.216 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -443,24 +443,24 @@
    "game_id": "0022600241",
    "game": "NYK @ TOR",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T23:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600241",
    "game": "NYK @ TOR",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T23:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600241",
    "game": "NYK @ TOR",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-15T23:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-15T23:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -476,7 +476,7 @@
    "game": "NYK @ TOR",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=0.346 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=0.026 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -523,24 +523,24 @@
    "game_id": "0022600242",
    "game": "HOU @ WAS",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T00:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T00:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
    "game_id": "0022600242",
    "game": "HOU @ WAS",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T00:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T00:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
    "game_id": "0022600242",
    "game": "HOU @ WAS",
    "gate": "G2_before_tip",
-   "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T00:00Z (ET+5h)"
+   "passed": false,
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T00:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -556,7 +556,7 @@
    "game": "HOU @ WAS",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=7.685 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=7.634 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -604,7 +604,7 @@
    "game": "ATL @ MIL",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T01:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -612,7 +612,7 @@
    "game": "ATL @ MIL",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T01:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -620,7 +620,7 @@
    "game": "ATL @ MIL",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T01:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -636,7 +636,7 @@
    "game": "ATL @ MIL",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=1.5 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=1.161 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -684,7 +684,7 @@
    "game": "OKC @ SAC",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T02:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T02:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -692,7 +692,7 @@
    "game": "OKC @ SAC",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T02:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T02:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -700,7 +700,7 @@
    "game": "OKC @ SAC",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-16T02:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-16T02:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -716,7 +716,7 @@
    "game": "OKC @ SAC",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=1.707 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=1.998 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -764,7 +764,7 @@
    "game": "ORL @ BOS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -772,7 +772,7 @@
    "game": "ORL @ BOS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -780,7 +780,7 @@
    "game": "ORL @ BOS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -796,7 +796,7 @@
    "game": "ORL @ BOS",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=2.198 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=2.347 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -844,7 +844,7 @@
    "game": "CHI @ CLE",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -852,7 +852,7 @@
    "game": "CHI @ CLE",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -860,7 +860,7 @@
    "game": "CHI @ CLE",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -876,7 +876,7 @@
    "game": "CHI @ CLE",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=9.817 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=10.183 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -924,7 +924,7 @@
    "game": "MEM @ WAS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -932,7 +932,7 @@
    "game": "MEM @ WAS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -940,7 +940,7 @@
    "game": "MEM @ WAS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -956,7 +956,7 @@
    "game": "MEM @ WAS",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=10.248 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=10.305 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1004,7 +1004,7 @@
    "game": "PHI @ BKN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:30Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1012,7 +1012,7 @@
    "game": "PHI @ BKN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:30Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1020,7 +1020,7 @@
    "game": "PHI @ BKN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:30Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1036,7 +1036,7 @@
    "game": "PHI @ BKN",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=13.163 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=13.782 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1084,7 +1084,7 @@
    "game": "HOU @ MIA",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:30Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1092,7 +1092,7 @@
    "game": "HOU @ MIA",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:30Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1100,7 +1100,7 @@
    "game": "HOU @ MIA",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T00:30Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1116,7 +1116,7 @@
    "game": "HOU @ MIA",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=8.537 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=8.671 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1164,7 +1164,7 @@
    "game": "POR @ MIN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T01:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1172,7 +1172,7 @@
    "game": "POR @ MIN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T01:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1180,7 +1180,7 @@
    "game": "POR @ MIN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T01:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1196,7 +1196,7 @@
    "game": "POR @ MIN",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=False, disagreement=9.305 pp (band 5-20)"
+   "detail": "direction_agrees=False, disagreement=9.335 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1244,7 +1244,7 @@
    "game": "GSW @ NOP",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T01:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1252,7 +1252,7 @@
    "game": "GSW @ NOP",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T01:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1260,7 +1260,7 @@
    "game": "GSW @ NOP",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T01:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1276,7 +1276,7 @@
    "game": "GSW @ NOP",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=7.389 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=7.248 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1324,7 +1324,7 @@
    "game": "PHX @ DEN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T02:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T02:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1332,7 +1332,7 @@
    "game": "PHX @ DEN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T02:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T02:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1340,7 +1340,7 @@
    "game": "PHX @ DEN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-17T02:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-17T02:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1356,7 +1356,7 @@
    "game": "PHX @ DEN",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=1.784 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=0.699 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1404,7 +1404,7 @@
    "game": "NYK @ TOR",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T00:30Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1412,7 +1412,7 @@
    "game": "NYK @ TOR",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T00:30Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1420,7 +1420,7 @@
    "game": "NYK @ TOR",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T00:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T00:30Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1436,7 +1436,7 @@
    "game": "NYK @ TOR",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=True, disagreement=0.346 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=0.026 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1484,7 +1484,7 @@
    "game": "POR @ MIN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T01:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1492,7 +1492,7 @@
    "game": "POR @ MIN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T01:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1500,7 +1500,7 @@
    "game": "POR @ MIN",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T01:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1516,7 +1516,7 @@
    "game": "POR @ MIN",
    "gate": "G3_signal_present",
    "passed": false,
-   "detail": "direction_agrees=False, disagreement=9.305 pp (band 5-20)"
+   "detail": "direction_agrees=False, disagreement=9.335 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1564,7 +1564,7 @@
    "game": "DET @ SAS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T01:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1572,7 +1572,7 @@
    "game": "DET @ SAS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T01:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1580,7 +1580,7 @@
    "game": "DET @ SAS",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T01:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T01:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1596,7 +1596,7 @@
    "game": "DET @ SAS",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=14.181 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=12.185 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1644,7 +1644,7 @@
    "game": "UTA @ LAC",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T03:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T03:30Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1652,7 +1652,7 @@
    "game": "UTA @ LAC",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T03:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T03:30Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1660,7 +1660,7 @@
    "game": "UTA @ LAC",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T03:30Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T03:30Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1675,8 +1675,8 @@
    "game_id": "0022600257",
    "game": "UTA @ LAC",
    "gate": "G3_signal_present",
-   "passed": false,
-   "detail": "direction_agrees=True, disagreement=2.46 pp (band 5-20)"
+   "passed": true,
+   "detail": "direction_agrees=True, disagreement=7.554 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1724,7 +1724,7 @@
    "game": "CHA @ LAL",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T04:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T04:00Z (ET+5h)"
   },
   {
    "strategy": "S2_ESTIMATOR_DISAGREEMENT",
@@ -1732,7 +1732,7 @@
    "game": "CHA @ LAL",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T04:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T04:00Z (ET+5h)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1740,7 +1740,7 @@
    "game": "CHA @ LAL",
    "gate": "G2_before_tip",
    "passed": true,
-   "detail": "seal 2026-11-15T12:10Z vs tip 2026-11-18T04:00Z (ET+5h)"
+   "detail": "seal 2026-11-16T00:20Z vs tip 2026-11-18T04:00Z (ET+5h)"
   },
   {
    "strategy": "S1_HOME_B2B_FADE",
@@ -1756,7 +1756,7 @@
    "game": "CHA @ LAL",
    "gate": "G3_signal_present",
    "passed": true,
-   "detail": "direction_agrees=True, disagreement=10.522 pp (band 5-20)"
+   "detail": "direction_agrees=True, disagreement=7.802 pp (band 5-20)"
   },
   {
    "strategy": "S3_TOTALS_POSSESSIONS",
@@ -1820,7 +1820,7 @@
    "game": "IND @ PHI",
    "gate": "G5_settlement_final_verified",
    "passed": true,
-   "detail": "settled from https://www.nba.com/game/ind-vs-phi-0022600236 (https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf)"
+   "detail": "already settled; append-only ledger is not rewritten"
   },
   {
    "strategy": "ALL",
@@ -1829,6 +1829,22 @@
    "gate": "G5_settlement_final_verified",
    "passed": true,
    "detail": "no published pick for this game (no published pick for 0022600237)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600238",
+   "game": "CHA @ LAC",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600238)"
+  },
+  {
+   "strategy": "ALL",
+   "game_id": "0022600239",
+   "game": "SAS @ UTA",
+   "gate": "G5_settlement_final_verified",
+   "passed": true,
+   "detail": "no published pick for this game (no published pick for 0022600239)"
   }
  ]
 }

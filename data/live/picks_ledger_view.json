@@ -1,11 +1,11 @@
 {
  "schema": "nba3.live.ledger_view/v1",
- "generated_utc": "2026-11-15T23:59Z",
+ "generated_utc": "2026-11-16T00:20Z",
  "integrity": {
-  "entries": 12,
-  "published": 11,
+  "entries": 13,
+  "published": 12,
   "settled": 1,
-  "head_hash": "6423fb289f7ffbd2fd8808d534d985b62f859190db69fe69909ae1d5bc75e312",
+  "head_hash": "729986b77f0e0097d8e0c2a0998908d0290e87cedc2bd2d5452c2a6f8d470d91",
   "verified": true,
   "problems": []
  },
@@ -319,6 +319,28 @@
    "seq": 12,
    "settled_utc": "2026-11-15T23:59Z",
    "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236"
+  },
+  {
+   "entry_hash": "729986b77f0e0097d8e0c2a0998908d0290e87cedc2bd2d5452c2a6f8d470d91",
+   "kind": "PUBLISH",
+   "pick": {
+    "date": "2026-11-17",
+    "game_id": "0022600257",
+    "headline_signal": "disagreement 7.554 pp",
+    "line": null,
+    "matchup": "UTA @ LAC",
+    "origin": "originated fair price from the two estimators",
+    "pick": "LAC moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": true,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "10:30 PM",
+    "tip_et_iso": "2026-11-18T03:30Z"
+   },
+   "pick_sha256": "6776f420453c690011cf87e1af5a3a5bbb74978b9f6bc5972df6250dd68e4afe",
+   "prev_hash": "6423fb289f7ffbd2fd8808d534d985b62f859190db69fe69909ae1d5bc75e312",
+   "published_utc": "2026-11-16T00:20Z",
+   "seq": 13
   }
  ],
  "note": "Entries are append-only. Every pick carries the sha256 published before tip; every settlement repeats that hash and the official final it was graded against."

@@ -707,6 +707,28 @@ def proj_flagged(ctx) -> str:
     rows = []
     sched = "https://www.nba.com/schedule?date=2026-11-15"
     rows.append([
+        "Lexical filename ordering of injury reports (fixed, was live)",
+        "Defect found and fixed 2026-11-16",
+        ("Every consumer picked the \u201cnewest\u201d injury report by lexical filename sort, which ranks "
+         "<code>12_00AM</code> (midnight) after <code>06_45PM</code> \u2014 so availability, the model\u2019s "
+         "injury snapshot and freshness gate F2 silently read the 24-hour-old midnight report, and F2 "
+         "passed spuriously because it compared the model against the same wrong file. Fixed by "
+         "<code>report_stamp_key()</code> in <code>scripts/injury_archive.py</code> used at every "
+         "ordering site; regression-tested in <code>tests/test_report_order.py</code>. Builds published "
+         "between 2026-11-15T12:10Z and 2026-11-16T00:30Z priced availability from the midnight report."),
+        link("https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf",
+             "newest report PDF")])
+    rows.append([
+        "Team-stat records one game ahead of the results log",
+        "Expected mid-game-day state, not an error",
+        ("The official team-stat pages reflect every game the league has recorded (sum of GP = 382 = "
+         "191 games), while the results log contains only finals verified against two official reads "
+         "(190 games). One 11/15 final landed between the scoreboard read and the stats re-read; its "
+         "game book had not yet been captured. The two views reconcile when that game is settled \u2014 "
+         "records are never back-filled by inference."),
+        link("https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season",
+             "team stats")])
+    rows.append([
         "Travel distance for every team-game",
         "Blank (<span class=\"unv\">— unverified</span>)",
         ("No official NBA page read in this session publishes arena latitude/longitude. The brief "

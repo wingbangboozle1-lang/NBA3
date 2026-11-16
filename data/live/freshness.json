@@ -1,6 +1,6 @@
 {
  "schema": "nba3.live.freshness/v1",
- "reference_utc": "2026-11-15T11:49:00Z",
+ "reference_utc": "2026-11-16T00:20Z",
  "checked_utc_note": "Deliberately no wall-clock stamp: this artefact is compared byte for byte in CI, and a clock reading would make every build differ.",
  "counts": {
   "gates": 10,
@@ -13,7 +13,7 @@
    "name": "Every capture has a retrieval stamp and an https source",
    "passed": true,
    "value": {
-    "captures": 10,
+    "captures": 16,
     "problems": []
    },
    "rule": "zero missing stamps, zero non-https sources",
@@ -24,11 +24,11 @@
    "name": "The model used the newest archived injury report",
    "passed": true,
    "value": {
-    "model_used": "Injury-Report_2026-11-15_12_00AM",
-    "newest_on_disk": "Injury-Report_2026-11-15_12_00AM"
+    "model_used": "Injury-Report_2026-11-15_06_45PM",
+    "newest_on_disk": "Injury-Report_2026-11-15_06_45PM"
    },
    "rule": "the engine must read the newest archived report, not an older one",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf"
   },
   {
    "id": "F3",
@@ -39,18 +39,25 @@
     "slate_start": "2026-11-15"
    },
    "rule": "report date >= first slate date",
-   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
+   "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf"
   },
   {
    "id": "F4",
    "name": "Every settled game is verified against two official reads",
    "passed": true,
    "value": {
-    "games": 5,
+    "days": [
+     "2026-11-14",
+     "2026-11-15"
+    ],
+    "games": 9,
     "unverified": [],
-    "stamp": "2026-11-15T11:52Z"
+    "stamps": {
+     "2026-11-14": "2026-11-15T11:52Z",
+     "2026-11-15": "2026-11-15T23:59Z"
+    }
    },
-   "rule": "game page final == gamebook printed final == sum of printed quarters",
+   "rule": "game page final == gamebook printed final == sum of printed quarters, on every settled day",
    "source": "https://www.nba.com/game/den-vs-nop-0022600231"
   },
   {
@@ -83,6 +90,11 @@
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
      },
      {
+      "file": "Injury-Report_2026-11-15_06_45PM.md",
+      "bytes": 16796,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf"
+     },
+     {
       "file": "Injury-Report_2026-11-15_12_00AM.md",
       "bytes": 11222,
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf"
@@ -109,8 +121,8 @@
    "name": "The ledger chain verifies and every sealed pick is pre-registered",
    "passed": true,
    "value": {
-    "entries": 12,
-    "head": "6423fb289f7ffbd2fd8808d534d985b62f859190db69fe69909ae1d5bc75e312",
+    "entries": 13,
+    "head": "729986b77f0e0097d8e0c2a0998908d0290e87cedc2bd2d5452c2a6f8d470d91",
     "problems": [],
     "unregistered_picks": []
    },
@@ -122,8 +134,12 @@
    "name": "The model sample is not older than the newest settled game",
    "passed": true,
    "value": {
-    "model_sample_end": "2026-11-14",
-    "newest_settled": "2026-11-14"
+    "model_sample_end": "2026-11-15",
+    "newest_settled": "2026-11-15",
+    "settled_days_covered": [
+     "2026-11-14",
+     "2026-11-15"
+    ]
    },
    "rule": "model sample end >= newest settled game date",
    "source": "https://www.nba.com/games"
@@ -133,8 +149,8 @@
    "name": "The capture is at least as new as the newest official read it was built from",
    "passed": true,
    "value": {
-    "generated_utc": "2026-11-15T11:49:00Z",
-    "newest_source_retrieved_utc": "2026-11-15T11:49Z",
+    "generated_utc": "2026-11-16T00:20Z",
+    "newest_source_retrieved_utc": "2026-11-16T00:20Z",
     "build_lag_hours": 0.0,
     "max_report_age_hours": null
    },
