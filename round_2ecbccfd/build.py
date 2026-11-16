@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Build the 2026-11-17 round site (session arena/2ecbccfd-nba3) into round2/.
+"""Build the 2026-11-17 round site (session arena/2ecbccfd-nba3) into round_2ecbccfd/.
 
 Offline and deterministic: every table is generated from the committed artefacts in
 data/rounds/2026-11-17/, and every row carries the https source link that printed it. A value no
 official source printed is left BLANK in the cell and named in the page's own flag line -- the
 builder never fills a gap with an estimate. Re-run with:
 
-    python3 round2/build.py            # rewrite round2/
-    python3 round2/build.py --check     # fail if a committed page differs from what this writes
+    python3 round_2ecbccfd/build.py            # rewrite round_2ecbccfd/
+    python3 round_2ecbccfd/build.py --check     # fail if a committed page differs from what this writes
 
-The site is split in two, per the brief: `round2/projection/` is safe to publish now, and
-`round2/bet/` is gated (nothing is funded, and the NBA's own terms bar using its statistics for
+The site is split in two, per the brief: `round_2ecbccfd/projection/` is safe to publish now, and
+`round_2ecbccfd/bet/` is gated (nothing is funded, and the NBA's own terms bar using its statistics for
 betting, which the page states). A page from one side never carries a number from the other.
 """
 from __future__ import annotations
@@ -148,7 +148,7 @@ def page(title, sub, body, active, rel_prefix=None, extra_flags=None):
 <footer>Built {BUILD_STAMP} by session <span class="mono">{SESSION}</span> from
 <span class="mono">data/rounds/2026-11-17/</span>. Every row links to the page that printed it;
 blanks are blanks because no official source printed a value, and the flag boxes above name each
-one. Deterministic rebuild: <span class="mono">python3 round2/build.py --check</span>.</footer>
+one. Deterministic rebuild: <span class="mono">python3 round_2ecbccfd/build.py --check</span>.</footer>
 </body></html>
 """
 
@@ -239,7 +239,7 @@ bet surface publishes nothing staked.</b></div>
 {cards_html}
 </section>
 <section><h2>Gate board — {npass}/{len(gates)}</h2>
-<div class="note">Recomputed by <span class="mono">python3 round2/build.py --check</span> and by CI;
+<div class="note">Recomputed by <span class="mono">python3 round_2ecbccfd/build.py --check</span> and by CI;
 a failing gate does not block the deploy, it blocks the number.</div>
 {gate_html}</section>
 <section><h2>Lines tonight (projection surface)</h2>

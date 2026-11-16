@@ -126,7 +126,7 @@ jobs:
           set -euo pipefail
           python3 scripts/model_2ecbccfd.py --check
           python3 scripts/ledger_2ecbccfd.py --check
-          python3 round2/build.py --check
+          python3 round_2ecbccfd/build.py --check
 
       - name: Commit refreshed captures and rebuilt outputs
         # The rebuild chain (scripts/refresh_official.py step 6) regenerates files OUTSIDE

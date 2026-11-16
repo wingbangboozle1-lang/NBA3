@@ -288,14 +288,14 @@ class Site(unittest.TestCase):
              "bet/index.html", "flagged.html"]
 
     def test_build_is_deterministic_offline(self):
-        r = subprocess.run([sys.executable, "round2/build.py", "--check"], cwd=ROOT,
+        r = subprocess.run([sys.executable, "round_2ecbccfd/build.py", "--check"], cwd=ROOT,
                            capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn("match the committed build", r.stdout)
 
     def test_all_pages_exist_and_link_the_shared_style(self):
         for p in self.PAGES:
-            path = os.path.join(ROOT, "round2", p)
+            path = os.path.join(ROOT, "round_2ecbccfd", p)
             self.assertTrue(os.path.exists(path), p)
             s = open(path, encoding="utf-8").read()
             self.assertIn('rel="stylesheet"', s)
@@ -306,7 +306,7 @@ class Site(unittest.TestCase):
         # price (american odds), a payout, or a stake column
         odds = re.compile(r"(?<![\d.])[+-]\d{3}(?![\d.])")
         for p in ("index.html", "projection/lines.html", "projection/rotations.html"):
-            s = open(os.path.join(ROOT, "round2", p), encoding="utf-8").read()
+            s = open(os.path.join(ROOT, "round_2ecbccfd", p), encoding="utf-8").read()
             self.assertIsNone(odds.search(s),
                               f"{p} prints what looks like an american price: {odds.search(s)}")
             for b in ("<th>stake", "<th>odds", "<th>price", "payout", "kelly", "bet365",
@@ -314,21 +314,21 @@ class Site(unittest.TestCase):
                 self.assertNotIn(b, s.lower(), f"{b} leaked into the projection page {p}")
 
     def test_the_bet_surface_states_its_gate(self):
-        s = open(os.path.join(ROOT, "round2", "bet", "index.html"), encoding="utf-8").read()
+        s = open(os.path.join(ROOT, "round_2ecbccfd", "bet", "index.html"), encoding="utf-8").read()
         self.assertIn("Gated surface", s)
         self.assertIn("clause 9(iv)", s)
         self.assertIn("no strategy has passed", s.lower().replace("No strategy has passed",
                                                                   "no strategy has passed"))
 
     def test_injuries_banner_shows_revision_and_retrieval_times(self):
-        s = open(os.path.join(ROOT, "round2", "injuries.html"), encoding="utf-8").read()
+        s = open(os.path.join(ROOT, "round_2ecbccfd", "injuries.html"), encoding="utf-8").read()
         self.assertIn("01:15 PM ET", s)
         self.assertIn("2026-11-16T18:30Z", s)
         self.assertIn("Report status", s)
 
     def test_every_table_row_names_an_https_source(self):
         for p in self.PAGES:
-            s = open(os.path.join(ROOT, "round2", p), encoding="utf-8").read()
+            s = open(os.path.join(ROOT, "round_2ecbccfd", p), encoding="utf-8").read()
             for chunk in re.findall(r"<tbody>(.*?)</tbody>", s, re.S):
                 for row in re.findall(r"<tr>.*?</tr>", chunk, re.S):
                     if "https://" in row or "not printed by the source" in row:
@@ -341,7 +341,7 @@ class Site(unittest.TestCase):
                    "cdn.nba.com", "en.wikipedia.org", "github.com")
         seen = set()
         for p in self.PAGES:
-            s = open(os.path.join(ROOT, "round2", p), encoding="utf-8").read()
+            s = open(os.path.join(ROOT, "round_2ecbccfd", p), encoding="utf-8").read()
             seen |= set(re.findall(r'href="https?://([^/"\']+)', s))
         for host in sorted(seen):
             self.assertTrue(any(host == a or host.endswith("." + a) for a in allowed),
@@ -349,7 +349,7 @@ class Site(unittest.TestCase):
         self.assertTrue(seen, "no external link was found at all, which would mean the site cites nothing")
 
     def test_flagged_page_lists_the_known_gaps(self):
-        s = open(os.path.join(ROOT, "round2", "flagged.html"), encoding="utf-8").read()
+        s = open(os.path.join(ROOT, "round_2ecbccfd", "flagged.html"), encoding="utf-8").read()
         for needle in ("closing-line feed", "0022600243", "NOT YET SUBMITTED" if False else
                        "had not filed", "bare jersey number", "arena coordinates",
                        "2026-11-19 cards"):
@@ -360,12 +360,12 @@ class Workflow(unittest.TestCase):
     def test_refresh_workflow_covers_the_new_gates_and_runs_the_tests(self):
         y = open(os.path.join(ROOT, ".github", "workflows", "refresh.yml"), encoding="utf-8").read()
         for needle in ("capture_2ecbccfd.py", "gamebooks_2ecbccfd.py", "slate_extra_2ecbccfd.py",
-                       "model_2ecbccfd.py", "ledger_2ecbccfd.py", "round2/build.py",
+                       "model_2ecbccfd.py", "ledger_2ecbccfd.py", "round_2ecbccfd/build.py",
                        "test_round_2ecbccfd", "--check"):
             self.assertIn(needle, y, f"{needle} is not run by the scheduled job")
         # ordering: capture and gates come before any rebuild
-        self.assertLess(y.index("capture_2ecbccfd.py"), y.index("round2/build.py"))
-        self.assertLess(y.index("freshness"), y.index("round2/build.py"),
+        self.assertLess(y.index("capture_2ecbccfd.py"), y.index("round_2ecbccfd/build.py"))
+        self.assertLess(y.index("freshness"), y.index("round_2ecbccfd/build.py"),
                         "the rebuild must not run before the freshness gate")
 
     def test_the_round_dir_holds_no_unreferenced_oracle(self):

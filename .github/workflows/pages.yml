@@ -526,6 +526,9 @@ jobs:
           cp -r hub _pages/hub
           cp -r round _pages/round
           cp -r round2 _pages/round2
+          # 2026-11-17 round (session 2ecbccfd). round2/ was already taken by fbd2484b's F13
+          # surface, so this round publishes as round_2ecbccfd/; one line, nothing else here moved.
+          cp -r round_2ecbccfd _pages/round_2ecbccfd
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet
