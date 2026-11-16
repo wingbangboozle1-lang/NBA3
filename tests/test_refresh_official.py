@@ -9,7 +9,7 @@ import sys
 import tempfile
 import unittest
 import urllib.error
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -220,13 +220,91 @@ class CommittedCaptureSlateTests(unittest.TestCase):
         self.assertEqual(got, want)
 
     def test_published_slate_matches_the_promotion(self):
+        # Roll-safe (session arena/4c69ab99-nba3): the published slate must equal the
+        # promotion of the NEWEST committed capture, not of any one frozen capture. The
+        # scheduled refresh rolls the window forward every run; pinning the published file
+        # to the 2026-11-16T00-57Z capture made every later run fail this test after its
+        # fetch step had already rolled the window (run 43925193575 failed exactly here).
         path = os.path.join(ROOT, "data", "app", "official_slate_current.json")
         published = json.load(open(path, encoding="utf-8"))
-        rows, _ = ro.promote_slate_rows(self._pages()) if os.path.isdir(self.CAPTURE) else ([], [])
+        refresh_root = os.path.join(ROOT, "data", "app", "refresh")
+        manifests = []
+        if os.path.isdir(refresh_root):
+            for name in os.listdir(refresh_root):
+                mp = os.path.join(refresh_root, name, "manifest.json")
+                if os.path.exists(mp):
+                    manifests.append((json.load(open(mp, encoding="utf-8")), name))
+        rows = []
+        if manifests:
+            man, name = max(manifests, key=lambda t: t[0].get("stamp", ""))
+            base = os.path.join(refresh_root, name)
+            today = datetime.strptime(man["today_et"], "%Y-%m-%d").date()
+            pages = {}
+            for off in range(0, 4):
+                d = (today + timedelta(days=off)).isoformat()
+                page = os.path.join(base, f"games_{d}.html")
+                if os.path.exists(page):
+                    pages[d] = open(page, encoding="utf-8", errors="replace").read()
+            rows, _ = ro.promote_slate_rows(pages)
         if rows:
-            self.assertEqual(published["games"], rows)
+            self.assertEqual(published["games"], rows,
+                             "the published slate is not the promotion of the newest "
+                             "committed capture")
         self.assertEqual(published["count"], len(published["games"]))
         self.assertEqual(len({g["game_id"] for g in published["games"]}), published["count"])
+
+
+class FinalsIngestTests(unittest.TestCase):
+    """Game-card finals ingestion (merged implementation: scripts/gamecard_feed.py).
+
+    The official games page embeds a card-feed JSON with the final score and the
+    per-period scores; results_feed.py ingest --capture-dir parses those cards into the
+    per-game result feed so it stays current with no manual input. Rows failing the
+    period-sum identity are RECORDED and rejected — never repaired (no-inference rule).
+    """
+
+    APP = os.path.join(ROOT, "data", "app")
+    GAMES_1114 = os.path.join(APP, "refresh", "2026-11-16T00-57Z", "games_2026-11-14.html")
+    GAMES_1115 = os.path.join(APP, "refresh", "2026-11-16T00-57Z", "games_2026-11-15.html")
+
+    def test_committed_11_14_page_matches_the_feed_rows(self):
+        import gamecard_feed
+        if not os.path.exists(self.GAMES_1114):
+            self.skipTest("committed capture not present")
+        html = open(self.GAMES_1114, encoding="utf-8", errors="replace").read()
+        rows, rejected = gamecard_feed.finished_rows(gamecard_feed.parse_games_page(html))
+        self.assertEqual(len(rows), 5)
+        self.assertEqual(rejected, [])
+        feed = json.load(open(os.path.join(self.APP, "results_feed.json"), encoding="utf-8"))
+        by_key = {(g["date"], g["away"], g["home"]): g for g in feed["games"]}
+        for r in rows:
+            f = by_key[(r["date"], r["away"], r["home"])]
+            self.assertEqual((r["away_pts"], r["home_pts"]),
+                             (f["away_pts"], f["home_pts"]))
+            self.assertEqual(r["away_q"], [f[f"away_q{i + 1}"] for i in range(len(r["away_q"]))])
+
+    def test_in_progress_game_is_never_returned(self):
+        import gamecard_feed
+        if not os.path.exists(self.GAMES_1115):
+            self.skipTest("committed capture not present")
+        html = open(self.GAMES_1115, encoding="utf-8", errors="replace").read()
+        rows, _ = gamecard_feed.finished_rows(gamecard_feed.parse_games_page(html))
+        # 0022600241 (NYK @ TOR) was Q3 1:27 when this page was captured
+        self.assertNotIn("0022600241", {r["game_id"] for r in rows})
+
+    def test_period_sum_mismatch_is_rejected_never_fixed(self):
+        import gamecard_feed
+        bad = {"gameId": "0022600902", "gameStatusText": "Final",
+               "awayTeam": {"teamTricode": "ATL", "score": 113,
+                            "periods": [{"period": 1, "score": 18}, {"period": 2, "score": 37},
+                                        {"period": 3, "score": 32}, {"period": 4, "score": 26}]},
+               "homeTeam": {"teamTricode": "MIL", "score": 106,
+                            "periods": [{"period": 1, "score": 37}, {"period": 2, "score": 16},
+                                        {"period": 3, "score": 37}, {"period": 4, "score": 26}]}}
+        rows, rejected = gamecard_feed.finished_rows([bad])
+        self.assertEqual(rows, [])
+        self.assertEqual(len(rejected), 1)
+        self.assertIn("do not equal", rejected[0]["reason"])
 
 
 class GateCallTests(unittest.TestCase):

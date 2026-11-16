@@ -1,0 +1,46 @@
+[
+ {
+  "id": "S-4C69-01",
+  "area": "Scheduled refresh / player logs",
+  "suggestion": "Automate game-book text extraction on the scheduled runner so quarter scores and per-player logs land without session transcription.",
+  "why": "The job already downloads every finished game's book PDF; the feed and the minutes model currently wait for an agent to transcribe each book.",
+  "options": "A) pypdf/pdfminer extraction on the runner + the existing arithmetic-identity gates (points sum == team final) before any row is ingested; B) keep agent transcription only; C) licensed data feed.",
+  "recommended_option": "A, with B as the fallback whenever an extraction fails its identity gate (the row stays blank and flagged — never repaired).",
+  "dependency": "runner Python packages; the identity gates already exist in scripts/parse_gamebook.py and scripts/results_feed.py.",
+  "decision": "pending — reviewer picks the path before implementation",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf"]
+ },
+ {
+  "id": "S-4C69-02",
+  "area": "Standings",
+  "suggestion": "Capture the official standings page on the scheduled runner (fetch + parse) instead of deriving records from game-page JSON alone.",
+  "why": "The derived snapshot carries W-L only; the standings page adds division, home/road, streak and GB columns that the model and the pages use.",
+  "options": "A) scheduled fetch of nba.com/standings with an HTML parser; B) derive W-L only (current automation) + periodic session captures (current complement); C) licensed feed.",
+  "recommended_option": "B short-term (already live), A when the runner's HTML fetch can be validated against a stored capture.",
+  "dependency": "the runner fetches raw HTML whose structure could not be inspected from the capture sandbox — validate before trusting (never infer).",
+  "decision": "pending — reviewer picks the path before implementation",
+  "sources": ["https://www.nba.com/standings"]
+ },
+ {
+  "id": "S-4C69-03",
+  "area": "Market-anchored prior",
+  "suggestion": "Capture closing lines (a licensed odds source) to set the closing line's weight by its measured out-of-sample log-loss, as the brief specifies.",
+  "why": "Without closing lines the prior prints the model line alone and the market anchor is shown missing (Q-4C69-03).",
+  "options": "A) licensed odds API with pre-tip and closing snapshots; B) manual pre-tip capture by the session agent; C) leave the anchor empty and flagged (current).",
+  "recommended_option": "A when licensed; C until then — the brief's no-inference rule forbids reconstructing a closing line from model output.",
+  "dependency": "odds data licensing (ties into the NBA terms question Q-4C69-01).",
+  "decision": "pending — reviewer picks the path before implementation",
+  "sources": ["https://www.nba.com/games"]
+ },
+ {
+  "id": "S-4C69-04",
+  "area": "Cross-session verification",
+  "suggestion": "Adopt a jury pass: two independent re-reads of every published final before settlement, recorded as separate votes in the capture file.",
+  "why": "The 11/15 settlement already used two reads per game (game book + scoreboard) and caught the ATL@MIL quarter conflict because of it.",
+  "options": "A) formalise double-read as a settlement gate (cheap, offline); B) keep the practice informal; C) single read with spot checks.",
+  "recommended_option": "A — the gate is a few lines in scripts/results_feed.py settle and turns the practice into an enforced invariant.",
+  "dependency": "none.",
+  "decision": "pending — reviewer picks the path before implementation",
+  "sources": ["https://www.nba.com/games?date=2026-11-15"]
+ }
+]

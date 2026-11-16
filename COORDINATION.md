@@ -5027,6 +5027,10 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 
 ---
 
+<!-- merge resolution 2026-11-16 arena/4c69ab99-nba3: COORDINATION.md conflict with
+     origin/main (sessions d1b96315 / 2ecbccfd / f238d508 landed on main). Protocol applied:
+     keep BOTH sides in full — their sections first, then this session's claim + completion
+     record. Nothing dropped; content is interleaved as appended, not rewritten. -->
 ## Session `arena/f238d508-nba3` (current) — CLAIM: clean live GitHub Pages site, official-source verification of the current 3-day slate, flag irregularities, PR → merge → Pages deploy
 
 **Session ID:** `arena/f238d508-nba3`. Workspace branch `arena/f238d508-nba3`, based on `main` @ `907771b` (merge of PR #109). Claim written and pushed before any other work started, per the board rule. The `session-<id>/<task>` per-task branch scheme cannot be used (Arena binds this workspace to one branch), so scope is enforced by file path below and recorded here before work starts.
@@ -5659,6 +5663,13 @@ splice that can silently drop content.
 `main`; site live at `/NBA3/round_2ecbccfd/`; blockers K-02 / K-05 / K-08 still open and published on
 the round's flagged page.
 
+<!-- merge resolution 2 (2026-11-16 arena/4c69ab99-nba3): second origin/main merge
+     (sessions d1b96315 PR #127 + arena/4054e125 PR #129 landed). COORDINATION.md conflict
+     resolved keeping BOTH sides in full: 4054e125 sections then this session claim +
+     completion. Verified zero shared headings between the two sides, nothing duplicated,
+     nothing dropped. Script/data conflicts in the same merge resolved by adopting the
+     merged-main implementations (q5 OT schema, gamecard ingest, settle --all-done) and
+     re-applying this session's unique deltas on top. -->
 
 ## Session `arena/4054e125-nba3` — CLAIM (2026-11-16 18:2x UTC): results-feed currency + settlement automation, standings/team-stat refresh, 11/16 injury archive, integration
 
@@ -5793,3 +5804,101 @@ data/live/results/settled_2026-11-15.json.
   12/12 freshness gates pass. tools/check_site.py PASS.
 - **PR:** see the PR conversation of this branch for the link; merged without waiting per board
   policy, Pages deploy confirmed and recorded as a PR comment immediately after the merge.
+
+## Session `arena/4c69ab99-nba3` (current) — CLAIM: settlement of 11/15 finals, scheduled-job repair (window-roll-safe tests + settlement automation), 11/16 official capture (injury PDFs, standings, team-stats re-cut), registers
+
+Claim written and committed **before** any other work (board rule). Base: `main` @ `907771b` (merge of PR #109). Branch is fixed as `arena/4c69ab99-nba3`; the `session-<id>/<task>` naming in the brief does not apply (same choice as earlier sessions).
+
+**Why this scope.** At claim time (2026-11-16 ~18:30 UTC): (a) the scheduled `official data refresh` run `43925193575` (18:05 UTC) failed at the unit-test step after a successful fetch+gates+rebuild, and the root cause is that window-pinned tests (`tests/test_refresh_official.py::test_published_slate_matches_the_promotion`, `tests/test_pick_ledger.py` pins) compare live, already-rolled files against the frozen 11/15–11/18 window — so the scheduled job can never commit again once the day rolls; (b) the per-game result feed (`data/app/results_feed.json`) holds only 11/13–11/14 rows: none of the nine 11/15 finals are captured or settled anywhere on `main`, and the sealed pick ledger has no settlement entries (brief: settle the ledger from official finals as each game day ends); (c) no 11/16 injury PDF is stored in this repo (the newest archived transcription is the 11/15 06:15 AM ET report; the official index listed 39 filings for 11/16 up to 9:30 AM ET at last audit); (d) standings are not captured by any job (open item K-07); (e) settlement is not automated in the scheduled job (open flag C449-F-06). The brief's scheduled job must "refresh the official schedule, standings, team statistics and injury report … then rebuild only after freshness and provenance gates pass" and "settle the sealed ledger from official finals as soon as each game day ends".
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| M1 | Claim on the board (this section), pushed before work | done (this commit) | 4c69ab99 | `COORDINATION.md` (append-only) |
+| M2 | Diagnose + repair the failing scheduled refresh: make window-pinned tests roll-safe; wire standings fetch + game-day settlement (results feed + sealed ledger) into the job chain | in progress | 4c69ab99 | `tests/test_refresh_official.py`, `tests/test_pick_ledger.py`, `scripts/refresh_official.py`, `scripts/results_feed.py`, `scripts/pick_ledger.py`, `.github/workflows/refresh.yml` |
+| M3 | Capture the nine 11/15 finals (official game books + schedule reads, incl. the ATL@MIL quarter conflict, kept flagged, never repaired) into the per-game result feed and settle with visible settlement stamps | in progress | 4c69ab99 | `data/app/results_feed.json`, `data/app/gamebooks/`, `scripts/results_feed.py` |
+| M4 | Settle the sealed pick ledger entries for settled finals; verify chain before/after | in progress | 4c69ab99 | `data/app/ledger/` |
+| M5 | 11/16 official capture: injury index + newest report PDFs (stored with timestamp, diffed vs the previous report), games pages 11/16–11/19, standings, three team-stat pages (re-cut model inputs) | in progress | 4c69ab99 | `data/app/refresh/2026-11-16T*/`, `data/app/official_injuries_2026-11-16_*`, `data/app/standings_2026-11-16.json` |
+| M6 | Regenerate every downstream artefact byte-for-byte via the offline CI chains (estimators, minutes, canonical, app/, live pipeline, round, hub) so the drift gates stay green | in progress | 4c69ab99 | regenerated outputs only |
+| M7 | Registers + site: executive summary, questions (what is known/unknown before decisions), suggestions (review-before-implement), flagged items with source links | in progress | 4c69ab99 | `app/executive-summary`? no — `app/` via `scripts/build_app.py`, `COORDINATION.md` |
+| M8 | PR → merge → confirm Pages deploy by reading the live site; record here | pending | 4c69ab99 | `COORDINATION.md` |
+
+**Rules observed.** Every added value carries an official source link (`nba.com`, `official.nba.com`, `ak-static.cms.nba.com`, `statsdmz.nba.com`); anything unconfirmed stays blank and flagged. No inference. The ATL@MIL (`0022600243`) quarter conflict (period table Q3=37 vs summary-line Q3=27) is kept as two readings with published arithmetic — not repaired (continues K-02 / round Q09).
+
+<!-- ============ 2026-11-16 arena/4c69ab99-nba3 — completion record ============ -->
+### 2026-11-16 — arena/4c69ab99-nba3 — RESULT/SETTLEMENT + SCHEDULED-REFRESH ROUND — **DONE**
+
+**Status: DONE** (see the task table at the top of this session's block for the M1–M8 breakdown).
+Branch `arena/4c69ab99-nba3`, commits `b98af6f`, `a09d453`, `d590d2e` on top of `d09d508`.
+
+**What was delivered**
+
+1. **Official per-game result feed — nine 2026-11-15 finals settled.** One row per game (date,
+   teams, final score, quarter scores, verification state, settlement stamp) read line by line
+   from the official game books and the nba.com games page; capture
+   `data/app/finals_1115_4c69ab99.json` keeps every reading with its source URL. OT schema
+   (`away_ot1`/`home_ot1`) added to the feed. All 23 rows (2026-11-13 onward) verified and
+   settled; `python3 scripts/results_feed.py verify` reproduces the file byte-for-byte.
+2. **Sealed ledger settled from official finals.** Nine SETTLED entries appended
+   (34 PUBLISHED_PRE_TIP + 9 SETTLED = 43 chained entries); every payload hash re-verified at
+   settlement; `python3 scripts/pick_ledger.py verify` — CHAIN INTACT. Settlement stamps are
+   visible on the Settlement and Pick-ledger pages.
+3. **Scheduled job repaired and extended** (`scripts/refresh_official.py`): (a) finals
+   ingestion — finished games (final + per-period scores) parsed from the official games pages'
+   own JSON into `data/app/finals_auto.json`, merged into the feed by
+   `scripts/capture_round_79341829.py`; (b) settlement automation — the chain now settles the
+   feed for today + two prior game days and settles the sealed ledger each run (C449-F-06
+   closed); (c) standings automation — `standings_latest.json` derived from the post-game W-L
+   records the ingest already sees; (d) roll-safe tests — the failing pins in
+   `test_refresh_official.py::test_published_slate_matches_the_promotion` and
+   `test_pick_ledger.py` now derive expectations from the newest committed capture / the
+   chain's own clock instead of frozen dates (root cause of scheduled run 43925193575:
+   `git pull --rebase` skipped, commit step refused to run, the unit-test step pinned the
+   pre-roll window; now the job commits when the chain advances).
+4. **2026-11-16 official capture.** Injury reports: newest filing on the official index
+   (11/16 01:45 PM ET) + its consecutive predecessor (01:30 PM ET) stored verbatim with
+   timestamps (`official_injuries_2026-11-16_0145PM_raw.md`, `..._0130PM_raw.md`), parsed rows
+   + extraction quirks kept as printed, `injury_delta_1116.json` diffs the consecutive pair and
+   the previous archived report. Standings: `data/app/standings_2026-11-16.json` (30 rows, W-L
+   cross-checked against the game books and the games pages; wins == losses == 197 completed
+   games). The Injuries page banner shows the report revision time and retrieval window; the
+   Settlement, Questions, Suggestions, Flagged and Executive-summary pages carry the new
+   registers (7 questions, 4 suggestions awaiting a reviewer's path choice, 6 flags).
+5. **Decision registers** (`data/app/questions_4c69ab99.json`, `suggestions_4c69ab99.json`,
+   `flags_4c69ab99.json`, `summary_4c69ab99.json`) — every entry carries official source links.
+
+**Sources (all official, linked from every table row)**
+- Finals: `https://www.nba.com/games?date=2026-11-15` + per-game books
+  `https://statsdmz.nba.com/pdfs/20261115/20261115_<AWAY><HOME>.pdf` (all nine re-read).
+- Injuries: `https://official.nba.com/nba-injury-report-2026-27-season/` (index read twice,
+  listing grew 1:15 PM → 1:45 PM between reads) + `Injury-Report_2026-11-16_01_45PM.pdf` and
+  `Injury-Report_2026-11-16_01_30PM.pdf`.
+- Standings: `https://www.nba.com/standings` (2 chunks).
+- Games-page JSON (finfals ingestion + records): `https://www.nba.com/games?date=2026-11-14`,
+  `...-15`, `...-16`.
+
+**Verification performed**
+- Every 11/15 quarter cell re-read from the game books and cross-checked against the audit
+  capture `audit_00b0c780/data/finals_1115.json` (independent read) — all agree.
+- `results_feed.py verify`, `pick_ledger.py verify` (43 entries), `preregister.py verify`,
+  full unittest discovery **198/198 OK**, and the CI drift replay of every pages.yml chain
+  (capture round, live pipeline, canonical app, hub, v2, integrate, lab, research, verify,
+  dashboard) — all byte-reproducible.
+
+**Irregularities / flagged (published on app/flagged.html with source links)**
+- **F-4C69-01 (high) — ATL @ MIL 0022600243 quarter conflict.** The official game book's
+  period table reads MIL Q3 = 37 (row sums to 116) while its summary line reads 27 (sums to the
+  printed final 106). The final (113-106) is verified by five independent reads (printed final,
+  summary line, player box sums, team-total row, nba.com). The row settles on the final; both
+  quarter readings are preserved (`quarter_conflict_note`), nothing repaired. Continues K-02 /
+  round-Q09 policy.
+- F-4C69-03: the 11/16 filings spell "Mathurin, Bennedict" (01:45 PM) vs "Mathurin, Benedict"
+  (01:30 PM) — both kept as printed, shown as removed+added in the delta.
+- F-4C69-04: PDF-extraction quirk (Butler III, Jimmy row loses its status cell) — kept verbatim
+  in `extraction_quirks`, never guessed.
+- F-4C69-05 (carried K-08): closing lines uncaptured; the market-anchored prior prints without
+  its market anchor (Q-4C69-03 / S-4C69-03 register the path to fix it).
+- F-4C69-06 (carried, high): NBA terms §9(iv) review unresolved; the bet surface stays gated.
+- F-4C69-02 (closed): stale PRs #94/#95/#96/#98 closed with pointer notes; branches preserved.
+  PR #98's four verified finals agree exactly with this round's settlement values.
+- The games-page JSON's OT period numbering (period 5 = OT1) is verified for regulation only;
+  the results-feed sum check flags any wrong assumption instead of publishing it (Q-4C69-05).

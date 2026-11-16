@@ -1,0 +1,79 @@
+[
+ {
+  "id": "Q-4C69-01",
+  "category": "Legal / publication",
+  "question": "Does NBA Properties' terms section 9(iv) block publishing this site's league-derived tables, and under what conditions?",
+  "status": "open (carried from session bb0c83a4)",
+  "known": "The public terms contain a media-access clause (9(iv)); prior sessions could not fetch the terms page from the sandbox and recorded the blocker with the official URL.",
+  "missing": "A legal reading of the clause as applied to derived statistical tables with source links.",
+  "next_step": "Review the terms page text (official URL in the source column) with counsel before any monetisation; the bet surface stays gated meanwhile.",
+  "owner": "repository owner",
+  "sources": ["https://www.nba.com/termsofuse", "https://official.nba.com/"]
+ },
+ {
+  "id": "Q-4C69-02",
+  "category": "Travel / rest model",
+  "question": "What are the verified arena coordinates for the two teams still blank in the sourced arena-coordinate table (CR-00b0c780-06)?",
+  "status": "open (carried)",
+  "known": "28 teams' arenas carry sourced coordinates; 2 are blank and their travel distances are printed unverified (44 travel distances unverified in the rest_travel run).",
+  "missing": "Official coordinates (e.g. the teams' arena pages or a public mapping authority) for the 2 blank rows.",
+  "next_step": "Capture coordinates from each team's official arena page; store with the page URL and leave blank until then — never infer from city centroids.",
+  "owner": "data capture session",
+  "sources": ["https://www.nba.com/teams"]
+ },
+ {
+  "id": "Q-4C69-03",
+  "category": "Market-anchored prior",
+  "question": "What weight should the closing line get versus the model line in the market-anchored prior?",
+  "status": "open (carried as K-08)",
+  "known": "The prior design blends the originated line with the closing line; the closing line's weight is set by its measured out-of-sample log-loss against the model's. No closing lines have been captured (closing_lines.json is empty).",
+  "missing": "Closing lines for settled games (and their outcomes) to measure the OOS log-loss ratio.",
+  "next_step": "Capture closing lines from a licensed odds source before tip for each slate game; until then the prior prints the model line alone and the market anchor is shown as missing — never inferred.",
+  "owner": "strategy layer (needs an odds source)",
+  "sources": ["https://www.nba.com/games"]
+ },
+ {
+  "id": "Q-4C69-04",
+  "category": "Results integrity",
+  "question": "Does the NBA issue a corrected game book for 2026-11-15 ATL @ MIL (0022600243)? The official book contradicts itself on Milwaukee's 3rd period (period table 37 vs summary line 27).",
+  "status": "open (flagged F-4C69-01)",
+  "known": "The final (113-106) is verified by five independent reads; the summary-line quarters sum to the printed final and agree with the player box; the period table's Q3 cell (37) does not. Both readings are preserved.",
+  "missing": "A league correction, or a third official reading of the quarter split (e.g. the official game page's box-score period table).",
+  "next_step": "Re-read https://www.nba.com/game/atl-vs-mil-0022600243/box-score quarter table and watch the statsdmz book URL for a revised PDF (hash comparison).",
+  "owner": "verification session",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf", "https://www.nba.com/game/atl-vs-mil-0022600243"]
+ },
+ {
+  "id": "Q-4C69-05",
+  "category": "Scheduled refresh",
+  "question": "Does the official games-page JSON number overtime periods as period 5 (OT1) and 6 (OT2) in its periods array?",
+  "status": "open — verified for regulation only",
+  "known": "Regulation games verified cell-by-cell against game books (periods 1-4). The ingest maps periods 5/6 to ot1/ot2; no completed OT game has yet been ingested from a captured games page.",
+  "missing": "A captured games page containing a finished OT game (the 2026-11-15 capture was taken while NYK@TOR was still in Q3).",
+  "next_step": "The next scheduled run's capture of a finished OT game settles this: results_feed verify requires the period sum to equal the final, so a wrong assumption is flagged, never published.",
+  "owner": "scheduled job",
+  "sources": ["https://www.nba.com/games?date=2026-11-16"]
+ },
+ {
+  "id": "Q-4C69-06",
+  "category": "Injury capture",
+  "question": "What is the correct participation status for the injury-report rows whose status cell the PDF extraction drops (e.g. Butler III, Jimmy in the 11/16 01:45 PM filing)?",
+  "status": "open (flagged F-4C69-04)",
+  "known": "The row and its reason are printed in the official PDF; the extraction shifts the status cell. The row is kept verbatim as an extraction quirk — never guessed into shape.",
+  "missing": "The status value as printed in the PDF's native layout.",
+  "next_step": "Cross-read the same filing's row on a second extraction path (e.g. the official box-score inactives at tip), then record the value with both reads linked.",
+  "owner": "verification session",
+  "sources": ["https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_45PM.pdf"]
+ },
+ {
+  "id": "Q-4C69-07",
+  "category": "Player logs",
+  "question": "When will per-player game logs (MIN/PTS/REB/AST/opponent) cover every player on the injury reports?",
+  "status": "open (carried: 84 pending in the 11/15 capture)",
+  "known": "The 2026-11-14 game books give complete logs for the ten teams that played; the injury report names 84 players whose teams' books (11/15-11/16) are not yet transcribed. The scheduled job now downloads every finished game's book into its capture dir.",
+  "missing": "Transcriptions of the 2026-11-15 and 2026-11-16 game books (PDF text extraction by the session agent; the parse validates points-sum identities).",
+  "next_step": "Transcribe the downloaded game books game by game with scripts/parse_gamebook.py (arithmetic-identity gate); the scheduler suggestion S-4C69-01 would automate the extraction.",
+  "owner": "capture session",
+  "sources": ["https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf"]
+ }
+]
