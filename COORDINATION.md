@@ -5045,3 +5045,82 @@ Claim written and committed **before** any other work (board rule). Base: `main`
 | M8 | PR → merge → confirm Pages deploy by reading the live site; record here | pending | 4c69ab99 | `COORDINATION.md` |
 
 **Rules observed.** Every added value carries an official source link (`nba.com`, `official.nba.com`, `ak-static.cms.nba.com`, `statsdmz.nba.com`); anything unconfirmed stays blank and flagged. No inference. The ATL@MIL (`0022600243`) quarter conflict (period table Q3=37 vs summary-line Q3=27) is kept as two readings with published arithmetic — not repaired (continues K-02 / round Q09).
+
+<!-- ============ 2026-11-16 arena/4c69ab99-nba3 — completion record ============ -->
+### 2026-11-16 — arena/4c69ab99-nba3 — RESULT/SETTLEMENT + SCHEDULED-REFRESH ROUND — **DONE**
+
+**Status: DONE** (see the task table at the top of this session's block for the M1–M8 breakdown).
+Branch `arena/4c69ab99-nba3`, commits `b98af6f`, `a09d453`, `d590d2e` on top of `d09d508`.
+
+**What was delivered**
+
+1. **Official per-game result feed — nine 2026-11-15 finals settled.** One row per game (date,
+   teams, final score, quarter scores, verification state, settlement stamp) read line by line
+   from the official game books and the nba.com games page; capture
+   `data/app/finals_1115_4c69ab99.json` keeps every reading with its source URL. OT schema
+   (`away_ot1`/`home_ot1`) added to the feed. All 23 rows (2026-11-13 onward) verified and
+   settled; `python3 scripts/results_feed.py verify` reproduces the file byte-for-byte.
+2. **Sealed ledger settled from official finals.** Nine SETTLED entries appended
+   (34 PUBLISHED_PRE_TIP + 9 SETTLED = 43 chained entries); every payload hash re-verified at
+   settlement; `python3 scripts/pick_ledger.py verify` — CHAIN INTACT. Settlement stamps are
+   visible on the Settlement and Pick-ledger pages.
+3. **Scheduled job repaired and extended** (`scripts/refresh_official.py`): (a) finals
+   ingestion — finished games (final + per-period scores) parsed from the official games pages'
+   own JSON into `data/app/finals_auto.json`, merged into the feed by
+   `scripts/capture_round_79341829.py`; (b) settlement automation — the chain now settles the
+   feed for today + two prior game days and settles the sealed ledger each run (C449-F-06
+   closed); (c) standings automation — `standings_latest.json` derived from the post-game W-L
+   records the ingest already sees; (d) roll-safe tests — the failing pins in
+   `test_refresh_official.py::test_published_slate_matches_the_promotion` and
+   `test_pick_ledger.py` now derive expectations from the newest committed capture / the
+   chain's own clock instead of frozen dates (root cause of scheduled run 43925193575:
+   `git pull --rebase` skipped, commit step refused to run, the unit-test step pinned the
+   pre-roll window; now the job commits when the chain advances).
+4. **2026-11-16 official capture.** Injury reports: newest filing on the official index
+   (11/16 01:45 PM ET) + its consecutive predecessor (01:30 PM ET) stored verbatim with
+   timestamps (`official_injuries_2026-11-16_0145PM_raw.md`, `..._0130PM_raw.md`), parsed rows
+   + extraction quirks kept as printed, `injury_delta_1116.json` diffs the consecutive pair and
+   the previous archived report. Standings: `data/app/standings_2026-11-16.json` (30 rows, W-L
+   cross-checked against the game books and the games pages; wins == losses == 197 completed
+   games). The Injuries page banner shows the report revision time and retrieval window; the
+   Settlement, Questions, Suggestions, Flagged and Executive-summary pages carry the new
+   registers (7 questions, 4 suggestions awaiting a reviewer's path choice, 6 flags).
+5. **Decision registers** (`data/app/questions_4c69ab99.json`, `suggestions_4c69ab99.json`,
+   `flags_4c69ab99.json`, `summary_4c69ab99.json`) — every entry carries official source links.
+
+**Sources (all official, linked from every table row)**
+- Finals: `https://www.nba.com/games?date=2026-11-15` + per-game books
+  `https://statsdmz.nba.com/pdfs/20261115/20261115_<AWAY><HOME>.pdf` (all nine re-read).
+- Injuries: `https://official.nba.com/nba-injury-report-2026-27-season/` (index read twice,
+  listing grew 1:15 PM → 1:45 PM between reads) + `Injury-Report_2026-11-16_01_45PM.pdf` and
+  `Injury-Report_2026-11-16_01_30PM.pdf`.
+- Standings: `https://www.nba.com/standings` (2 chunks).
+- Games-page JSON (finfals ingestion + records): `https://www.nba.com/games?date=2026-11-14`,
+  `...-15`, `...-16`.
+
+**Verification performed**
+- Every 11/15 quarter cell re-read from the game books and cross-checked against the audit
+  capture `audit_00b0c780/data/finals_1115.json` (independent read) — all agree.
+- `results_feed.py verify`, `pick_ledger.py verify` (43 entries), `preregister.py verify`,
+  full unittest discovery **198/198 OK**, and the CI drift replay of every pages.yml chain
+  (capture round, live pipeline, canonical app, hub, v2, integrate, lab, research, verify,
+  dashboard) — all byte-reproducible.
+
+**Irregularities / flagged (published on app/flagged.html with source links)**
+- **F-4C69-01 (high) — ATL @ MIL 0022600243 quarter conflict.** The official game book's
+  period table reads MIL Q3 = 37 (row sums to 116) while its summary line reads 27 (sums to the
+  printed final 106). The final (113-106) is verified by five independent reads (printed final,
+  summary line, player box sums, team-total row, nba.com). The row settles on the final; both
+  quarter readings are preserved (`quarter_conflict_note`), nothing repaired. Continues K-02 /
+  round-Q09 policy.
+- F-4C69-03: the 11/16 filings spell "Mathurin, Bennedict" (01:45 PM) vs "Mathurin, Benedict"
+  (01:30 PM) — both kept as printed, shown as removed+added in the delta.
+- F-4C69-04: PDF-extraction quirk (Butler III, Jimmy row loses its status cell) — kept verbatim
+  in `extraction_quirks`, never guessed.
+- F-4C69-05 (carried K-08): closing lines uncaptured; the market-anchored prior prints without
+  its market anchor (Q-4C69-03 / S-4C69-03 register the path to fix it).
+- F-4C69-06 (carried, high): NBA terms §9(iv) review unresolved; the bet surface stays gated.
+- F-4C69-02 (closed): stale PRs #94/#95/#96/#98 closed with pointer notes; branches preserved.
+  PR #98's four verified finals agree exactly with this round's settlement values.
+- The games-page JSON's OT period numbering (period 5 = OT1) is verified for regulation only;
+  the results-feed sum check flags any wrong assumption instead of publishing it (Q-4C69-05).
