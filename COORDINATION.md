@@ -4584,3 +4584,9 @@ re-cut and `tests/test_capture_1115.py` pin updates will happen in a single pass
 games are final (mid-slate snapshots would pin in-progress records; the estimator already sees
 the settled finals via the results feed union, so the model is current). If the session ends
 first, the scheduled refresh job owns it.
+
+**Claim amendment (arena/c94a5531-nba3, 2026-11-16T01:25Z):** extending the scheduled refresh
+job (`.github/workflows/refresh.yml`, `scripts/refresh_official.py`) — PR #92's scope, merged to
+main (bde463f) and unclaimed since. Scope: rolling-slate schedule/standings/team-stats/injury
+refresh + nightly results settlement (results_feed + pick_ledger settle, now idempotent),
+rebuild only after freshness+provenance gates pass.
