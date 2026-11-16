@@ -35,6 +35,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 124,
+    "home": 131
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "76ERS 29 29 39 34 131",
+   "away_final": 124,
+   "home_final": 131,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -70,6 +79,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 131,
+    "home": 123
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "SUNS 24 30 26 43 123",
+   "away_final": 131,
+   "home_final": 123,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -105,6 +123,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 105,
+    "home": 113
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "CLIPPERS 22 29 33 29 113",
+   "away_final": 105,
+   "home_final": 113,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -140,6 +167,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 110,
+    "home": 102
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "JAZZ 33 22 26 21 102",
+   "away_final": 110,
+   "home_final": 102,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -175,6 +211,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 94,
+    "home": 131
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "CELTICS 42 25 37 27 131",
+   "away_final": 94,
+   "home_final": 131,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -212,6 +257,35 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 112,
+    "home": 108
+   },
+   "conflict": {
+    "what": "the game book's recap line is truncated in the PDF extraction",
+    "team": "home",
+    "period_table": [
+     17,
+     26,
+     31,
+     21,
+     13
+    ],
+    "recap_line": [
+     17
+    ],
+    "quarters_differing": [],
+    "values_printed": 2,
+    "values_expected": 6,
+    "arithmetic": {
+     "period_table_sums_to_printed_final": true
+    },
+    "resolution": "no numeric contradiction: the table sums to the printed final and the truncated recap agrees on every value it does print; the row is settled on the period table and the truncation is recorded, with no value taken from the recap"
+   },
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "RAPTORS 17 26",
+   "away_final": 112,
+   "home_final": 108,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -247,6 +321,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 147,
+    "home": 119
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "WIZARDS 31 23 34 31 119",
+   "away_final": 147,
+   "home_final": 119,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true
@@ -282,6 +365,38 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 113,
+    "home": 116
+   },
+   "conflict": {
+    "what": "the game book's own recap line disagrees with its SCORE BY PERIOD table for the same team",
+    "team": "home",
+    "period_table": [
+     37,
+     16,
+     37,
+     26
+    ],
+    "recap_line": [
+     37,
+     16,
+     27,
+     26
+    ],
+    "quarters_differing": [
+     3
+    ],
+    "arithmetic": {
+     "period_table_sums_to_printed_final": false,
+     "recap_sums_to_printed_final": true
+    },
+    "resolution": "unresolved -- published as printed, row flagged"
+   },
+   "settlement_stamp": null,
+   "own_recap_line": "BUCKS 37 16 27 26 106",
+   "away_final": 113,
+   "home_final": 106,
    "final_corroboration": {
     "url": "https://www.nba.com/game/atl-vs-mil-0022600243",
     "retrieved_utc": "2026-11-16T18:52Z",
@@ -323,6 +438,15 @@
     "https://www.nba.com/games?date=2026-11-15"
    ],
    "final_verified": true,
+   "quarter_sums": {
+    "away": 125,
+    "home": 103
+   },
+   "conflict": null,
+   "settlement_stamp": "settled 2026-11-16T14:40Z for game day 2026-11-15",
+   "own_recap_line": "KINGS 24 26 30 23 103",
+   "away_final": 125,
+   "home_final": 103,
    "final_corroboration": null,
    "quarter_status": "verified",
    "used_for_quarter_measures": true

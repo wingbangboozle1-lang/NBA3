@@ -5306,3 +5306,105 @@ below. `index.html` gets exactly one new nav link (C8) and nothing else.
 ### Change requests raised
 
 (append below as needed)
+
+---
+
+## C8 completed — round 2026-11-17 (session `arena/2ecbccfd-nba3`), 2026-11-16T19:45Z
+
+**Task delivered.** Scope honoured: only `.github/workflows/refresh.yml`,
+`scripts/{capture,model,gamebooks,slate_extra,ledger}_2ecbccfd.py`,
+`tests/test_round_2ecbccfd.py`, `data/rounds/2026-11-17/**`, `round2/**`, this file, and one link
+paragraph in `index.html`. No file owned by another session was rewritten.
+
+### What was built (all offline, deterministic, `--check`-able)
+| file | what it does |
+|---|---|
+| `data/rounds/2026-11-17/captures/*.md` | 7 verbatim transcripts of official pages/PDFs, each with its source URL, retrieval stamp and sha256 |
+| `scripts/capture_2ecbccfd.py` | parses standings + both injury-report revisions → `standings.json`, `injuries.json`, `injury_delta.json`, `results_log.json`, `manifest.json`, `gates.json` |
+| `scripts/gamebooks_2ecbccfd.py` | parses 4 official 11/15 box-score PDFs → `player_logs_2026-11-15.json` (106 player rows, 8 club-games) |
+| `scripts/slate_extra_2ecbccfd.py` | the 11/19 slate window extension → `slate_extra_2026-11-19.json` |
+| `scripts/model_2ecbccfd.py` | two independent estimators, pinned HCA, luck z-scores, measured ρ, parlay pricing, 7 strategies, 14 gates → `model.json` |
+| `scripts/ledger_2ecbccfd.py` | 7 frozen pre-registration files + hash-chained ledger (114 picks sealed before tip) |
+| `round2/` | 11 pages: overview, projection lines, projection rotations, injuries, standings, results, strategies, ledger, method, **bet (gated)**, flagged |
+| `tests/test_round_2ecbccfd.py` | 33 tests, all passing, none of them network-dependent |
+| `.github/workflows/refresh.yml` | step order fixed + round steps added (see CR below) |
+
+### Verification performed against official sources
+* **Standings** (all 30 clubs, `https://www.nba.com/standings`, read 18:35Z) reconciled against the
+  verified results log: 30/30 clubs match on W, L and GP; ΣGP = 394 = 2 × 197 games.
+* **Injury report** `Injury-Report_2026-11-16_01_15PM.pdf` fetched in full (both chunks) and stored
+  verbatim; diffed against the committed 09:15 AM revision → 25 differences, **3 status changes**
+  (Tyson Q→D, Stewart Q→Out, Larsson Q→D, all *less available*), 20 added rows, 1 removed.
+* **Home-court advantage pinned**: 102/197 = 51.78 % → 0.756 pts. Independent cross-check from the
+  standings' HOME splits (102/196 = 52.04 %) → 0.869 pts. Agreement 0.11 pts.
+* **Neutral-site discrepancy found and explained, not smoothed**: the standings print one fewer home
+  game than the log (196 vs 197). `neutral_site_reconciliation()` identifies the single game
+  (0022600243? no — **0022600189, 2026-11-07 DEN 114 at IND 102**) where IND's home count and DEN's
+  road count are each one short and both clubs print a matching NEUTRAL record (0-1 / 1-0). With
+  that game excluded the two HCA measures agree **exactly** (0.8686). The log itself is untouched.
+* **Rest effect measured, not assumed**: back-to-back mean margin −1.403 (n=67) vs rested +1.485
+  (n=68) → gap 2.888 pts, SE 2.908, **z = 0.99** → not significant, so ST-21 refuses itself.
+* **Same-night correlation**: ρ(margins) = 0.012, n = 808 pairs, CI95 [−0.057, 0.081] → includes 0.
+  Parlays are priced with it and the naive product is printed beside every price.
+* **Box-score integrity**: every one of the 8 new club-games sums to 240:00 minutes; 5 of 8 also
+  reproduce their printed team totals column-by-column; 3 (DAL, BOS, PHI) lose a cell inside a
+  roster row in the PDF text layer → only minutes are published for those players, the rest are
+  null, and `parse_problems` names each row.
+* **Pre-tip sealing**: all 114 PUBLISH entries carry `tip_utc` > `published_utc`
+  (tonight's 7:00 PM ET games tip 2026-11-17T00:00Z; the build stamp is 19:30Z). Nothing is
+  settled — no game in the window has a final yet, and `settled: 0` is asserted by the tests.
+
+### Irregularities flagged (published on `round2/flagged.html`, none suppressed)
+1. `data/app/closing_lines.json` is `feed_status: "not connected"`, `rows: []` → the market-anchored
+   blend is **blank on all 29 lines**; no closing line was invented and `G9` now asserts the blank.
+2. ATL@MIL (0022600243): game-page banner and game book agree on 113–106, but the MIL quarter table
+   still sums to 116 → row used for margin/total, **excluded from quarter measures**. K-02 stays open.
+3. The 01:15 PM PDF prints **`James, LeBron — Out`** inside the *Philadelphia* block. Cross-checked
+   against the official PHI game book (2026-11-15), which really does list LeBron James on
+   Philadelphia — so this is a roster fact of the 2026-27 season, **not** a report error. Flag kept,
+   diagnosis changed from "mis-attribution" to "corroborated".
+4. GSW@NOP Golden State block prints **no Reason column**; Butler III has **no Status cell** →
+   published as null with `STATUS_NOT_PRINTED` / `REASON_NOT_PRINTED`.
+5. Two injury rows are split across a page break (`GG Jackson … Fracture`; the fetch tool's chunk
+   boundary cut DEN/Strawther's row). Stitched with the join recorded (`REASON_JOINED_ACROSS_PAGE_BREAK`)
+   — and the raw transcripts are kept **unedited**, with the boundary marker inside.
+6. 15 team-sides had **NOT YET SUBMITTED** at 1:15 PM (11/17+ all unfiled) → rotation impact not
+   measurable for those clubs; no fallback to the previous day's filing.
+7. Travel miles come from the Wikipedia-sourced `data/app/arena_coordinates.json` + a haversine
+   computed in-repo → marked `travel_miles_is_derived: true`, never priced into a line.
+8. 11/19 cards print no venue → `venue: null`, `venue_is_official: false`.
+9. 3 GP discrepancy in `data/app/players_top31_2026-11-15.csv` (GP 11 vs standings GP 14) — untouched,
+   reported here for the owner.
+10. Every `NOT MEASURABLE` line keeps its null cells; **no estimator output was ever replaced by a
+    zero.**
+
+### Change requests (CR) — files owned by other sessions
+* **CR-2ecbccfd-01 → `scripts/build_app.py` / `index.html` (integration owner).** `index.html` is
+  generated, so the one "Next round" paragraph added to it by hand **will be lost on the next
+  rebuild**. Please absorb a link to `round2/index.html` into the generator's "Related work" block
+  (same pattern as the `dash/` and `round/` entries).
+* **CR-2ecbccfd-02 → `scripts/refresh_official.py` + `tests/test_refresh_official.py` (owner 81800928).**
+  CI root cause found: `PublishedSlateTests::test_published_slate_matches_the_promotion` reads
+  `data/app/official_slate_current.json` — the file step 3 of the workflow **rewrites from the live
+  feed** — and compares it with rows promoted from committed fixtures. Against CI's live fetch the
+  two can only agree by accident, which explains runs 43925193575 (step 4 red while step 3 was
+  green), 43864808752 and 43815576157 (step 5 red: the aborted test run left the tree dirty) and
+  43742524756. Fix belongs to the test: point it at a fixture (or `--dry-run`) so the live promotion
+  is asserted by an explicit, offline golden file. **Interim mitigation is already in my claim**:
+  `.github/workflows/refresh.yml` now runs the unit tests *before* the fetch, prints a self-diagnosis
+  (runner clock, python, tree state), wraps each suite in `::group::` + a named `::error::`, and
+  keeps the gates-before-rebuild ordering.
+* **CR-2ecbccfd-03 → `data/app/player_game_logs.json` (owner 8f4fac33).** Four rows from the
+  2026-11-14 CHI@MIN book print a bare jersey number in the Player Name cell ("33", "15", "9",
+  "44", all 0:00 minutes). They are excluded in my artefacts, not renamed; the upstream file is
+  theirs to correct.
+
+### Sources used this round
+`https://www.nba.com/standings` · `https://official.nba.com/nba-injury-report-2026-27-season/` ·
+`https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf` ·
+`https://www.nba.com/games?date=2026-11-15/-16` · `https://www.nba.com/schedule?date=2026-11-19` ·
+`https://www.nba.com/game/atl-vs-mil-0022600243` · `https://statsdmz.nba.com/pdfs/20261115/20261115_{DALBOS,HOUWAS,INDPHI,LALPHX}.pdf` ·
+`https://www.nba.com/stats/teams/{traditional,opponent,advanced}` (read 14:20–14:35Z by 8f4fac33,
+reused as the committed TSV rather than re-fetched).
+
+**Status: done.** Marking C8 complete; the round is merged via the PR recorded below.

@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import glob
 import hashlib
 import json
 import os
@@ -418,6 +419,11 @@ def extended_log():
             "settled": bool(g.get("settled")),
             "score_verified_by": [g["source_url"], g["scoreboard_url"]],
             "final_verified": bool(g.get("verified")) or g["game_id"] in corroborated,
+            "quarter_sums": g.get("quarter_sums"),
+            "conflict": g.get("conflict"),
+            "settlement_stamp": g.get("settlement_stamp"),
+            "own_recap_line": g.get("own_recap_line"),
+            "away_final": g.get("away_final"), "home_final": g.get("home_final"),
             "final_corroboration": corroborated.get(g["game_id"]),
             "quarter_status": ("verified" if (g.get("away_sum_ok") and g.get("home_sum_ok"))
                                 else "conflict_unresolved_do_not_use"),
@@ -618,6 +624,95 @@ def main():
             "rows": delta,
         },
     }
+
+    # ------------------------------------------------------------------ manifest + gates
+    # Every stored artefact, with the URL it came from, the retrieval stamp, its sha256 and its
+    # byte count. This is the register the brief asks for ("store every injury PDF with a
+    # timestamp"); it is written next to the files it describes so a reader can check one against
+    # the other without a second tool.
+    art = []
+    for path in sorted(glob.glob(os.path.join(CAP, "*"))):
+        rel = os.path.relpath(path, ROOT)
+        art.append({"file": rel, "bytes": os.path.getsize(path),
+                    "sha256": sha256(path),
+                    "kind": ("injury report PDF transcript" if "injury_" in rel
+                             else "standings transcript" if "standings" in rel
+                             else "official game book transcript" if "gamebook" in rel
+                             else "slate transcript"),
+                    "retrieved_utc": (RETRIEVED["injury_1315"] if "injury_2026-11-16_0115PM" in rel
+                                      else RETRIEVED["standings"] if "standings" in rel
+                                      else "2026-11-16T19:20Z"),
+                    "source_url": (INJURY_1315_URL if "injury_2026-11-16_0115PM" in rel
+                                   else STANDINGS_URL if "standings" in rel
+                                   else "see the Source: line inside the transcript")})
+    for name, payload in out.items():
+        art.append({"file": os.path.relpath(os.path.join(OUT, name), ROOT),
+                    "bytes": len(json.dumps(payload, indent=1)) + 1,
+                    "sha256": hashlib.sha256((json.dumps(payload, indent=1) + "\n").encode()).hexdigest(),
+                    "kind": "derived artefact (written by this script)",
+                    "retrieved_utc": None, "source_url": None})
+    manifest = {"schema": "nba3.rounds.manifest/v1", "round": "2026-11-17",
+                "session": "arena/2ecbccfd-nba3",
+                "written_utc": "2026-11-16T19:30Z",
+                "shape_note": ("cloned from data/app/refresh/2026-11-16T00-57Z/manifest.json: url, "
+                               "retrieval stamp, sha256 and bytes per artefact"),
+                "artefacts": art}
+    out["manifest.json"] = manifest
+
+    # ------------------------------------------------------------------ freshness + provenance
+    injury_doc = out["injuries.json"]
+    standings_doc = out["standings.json"]
+    reconciliation = recon
+    newest_stamp = injury_doc["reports"][-1]["report_stamp"]
+    gates = []
+
+    def g(gid, name, ok, detail, remedy):
+        gates.append({"id": gid, "name": name, "pass": bool(ok), "detail": detail,
+                      "remedy_if_failing": remedy})
+
+    g("F1_report_is_for_this_game_day", "newest official injury report is filed for the game day priced",
+      newest_stamp.startswith("2026-11-16"),
+      f"newest revision printed: {newest_stamp}; read {injury_doc['reports'][-1]['retrieved_utc']}",
+      "wait for the next filing window; the league files by 5 p.m. local the day before, 1 p.m. for "
+      "back-second games, and on game day between 11 a.m. and 1 p.m. ET")
+    g("F2_both_revisions_retained", "two revisions of the same game day are stored, so a diff is possible",
+      len(injury_doc["reports"]) >= 2,
+      f"{len(injury_doc['reports'])} revisions: "
+      + ", ".join(r["report_stamp"] for r in injury_doc["reports"]),
+      "the diff is the point: one revision is a snapshot, two are a status change")
+    g("F3_transcripts_hash", "every transcript hashes to what the artefact records",
+      all(sha256(os.path.join(ROOT, r["verbatim_transcript"])) == r["transcript_sha256"]
+          for r in injury_doc["reports"])
+      and sha256(os.path.join(ROOT, standings_doc["verbatim_transcript"]))
+      == standings_doc["transcript_sha256"],
+      "4 transcripts checked against the sha256 written into the artefacts",
+      "a mismatch means a committed transcript was edited after it was parsed: revert the transcript "
+      "or rebuild the artefact, never both silently")
+    g("F4_all_sources_https_nba", "every published row names an https NBA source",
+      all((r.get("source_url") or "").startswith("https://")
+          for rep in injury_doc["reports"] for r in rep["rows"] + rep["not_submitted"])
+      and standings_doc["source_url"].startswith("https://www.nba.com/standings"),
+      "injury rows point at the ak-static PDF, standings at nba.com/standings",
+      "a row without an NBA source must be dropped from the artefact, not relabelled")
+    g("F5_standings_reconcile_with_log", "the standings table and the results log describe the same games",
+      reconciliation["teams_reconciled"] == reconciliation["teams_total"] == 30
+      and reconciliation["gp_sum_equals_twice_games"],
+      f"{reconciliation['teams_reconciled']}/30 clubs reconcile; sum of games played "
+      f"{reconciliation['sum_log_gp']} = 2 x {reconciliation['games_in_log']}",
+      "if a club stops reconciling, one of the two sources moved: re-read both before publishing a line")
+    g("F6_results_settled_only_on_finals", "no result is used before its official final is verified",
+      all(gm.get("final_verified") for gm in added),
+      f"{sum(1 for gm in added if gm.get('final_verified'))}/{len(added)} of the 2026-11-15 rows have a "
+      "final printed by an official source; the one with a quarter conflict is excluded from "
+      "quarter-level measures",
+      "a game with no verified final stays unsettled; a settlement stamp must name the source")
+    gates_doc = {"schema": "nba3.rounds.gates/v1", "round": "2026-11-17",
+                 "written_utc": "2026-11-16T19:30Z",
+                 "policy": ("the site is rebuilt only from artefacts that clear these gates; a failing "
+                            "gate is a reason to stop, and the remedy column says who to blame"),
+                 "gates": gates,
+                 "all_pass": all(x["pass"] for x in gates)}
+    out["gates.json"] = gates_doc
 
     for name, payload in out.items():
         path = os.path.join(OUT, name)

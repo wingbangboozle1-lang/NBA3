@@ -1,0 +1,18 @@
+{
+ "id": "ST-17-HCA-PINNED",
+ "name": "Home side at the pinned home-court value",
+ "signal": "bet the home club whenever the pinned home-court value, converted from the measured home-win rate, is greater than zero",
+ "thresholds": {
+  "min_pinned_hca_points": 0.0,
+  "min_log_games": 150
+ },
+ "universe": "every game of the official slate for the round window, one pick per game",
+ "settlement_rule": "MONEYLINE: the pick wins if the side named wins the game. The result is read from the official final score of that game's own page; a game with no verified final is void, not a loss",
+ "stake_rule": "1 unit, capped at 5% of the bankroll, no martingale, no re-stake after settlement",
+ "luck_policy": "refused for any club whose luck z-score is outside +/-2, because a home-side pick on a club winning on luck rather than play is not a skill edge",
+ "frozen_utc": "2026-11-16T19:30Z",
+ "author": "arena/2ecbccfd-nba3",
+ "session": "arena/2ecbccfd-nba3",
+ "round": "2026-11-17",
+ "payload_sha256": "068df9d07e85758067d940d1606fe11db7f1f64aeacd5b181a99ae76a6b6b472"
+}
