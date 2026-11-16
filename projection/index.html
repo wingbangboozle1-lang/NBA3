@@ -67,13 +67,13 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
   <h1>Overview</h1>
   <p class="lead">Two independent estimators, their disagreement as the headline, official captures behind every number, and the gates that had to pass before publication.</p>
 <div class="grid">
-<div class="card"><div class="k">Games modelled</div><div class="v">190</div>
+<div class="card"><div class="k">Games modelled</div><div class="v">192</div>
   <div class="s">2026-10-20 → 2026-11-15</div></div>
-<div class="card"><div class="k">E1 out-of-sample log-loss</div><div class="v">0.6179</div>
+<div class="card"><div class="k">E1 out-of-sample log-loss</div><div class="v">0.6118</div>
   <div class="s">coin flip 0.6931</div></div>
-<div class="card"><div class="k">E2 out-of-sample log-loss</div><div class="v">0.6314</div>
-  <div class="s">n = 130 walk-forward games</div></div>
-<div class="card"><div class="k">Home-court advantage</div><div class="v">1.11</div>
+<div class="card"><div class="k">E2 out-of-sample log-loss</div><div class="v">0.6281</div>
+  <div class="s">n = 132 walk-forward games</div></div>
+<div class="card"><div class="k">Home-court advantage</div><div class="v">1.09</div>
   <div class="s">pts, pinned to a measured home-win rate</div></div>
 <div class="card"><div class="k">Teams outside the noise band</div><div class="v">0</div>
   <div class="s">of 30, |luck z| &gt; 1.96</div></div>
@@ -92,10 +92,10 @@ projection. The only cross-reference is the banner at the top of this page.
 <p>The primary signal is not a blend and not a single rating: it is the
 <em>disagreement</em> between two estimators built on different information (E1 uses final margins,
 E2 uses only win/loss). On the walk-forward sample they disagree by a mean of
-<strong>10.68 percentage points</strong> and land on opposite
-sides of the moneyline in <strong>14.6%</strong> of
+<strong>10.71 percentage points</strong> and land on opposite
+sides of the moneyline in <strong>14.4%</strong> of
 games. The 50/50 blend is published underneath, as a blend, and its log-loss
-(0.6126) is shown next to both constituents so the reader can see that it
+(0.6079) is shown next to both constituents so the reader can see that it
 is a small improvement over E1 alone, not a different model.</p>
 <div class="callout warn"><strong>Luck, stated as a z-score.</strong>
 No team is currently outside the ±1.96 noise band (largest |z| = 1.42).
@@ -108,7 +108,7 @@ none does, so none is published.</div>
 <th>Item</th>
 <th>Value</th>
 </tr></thead><tbody>
-<tr><td>Games in sample</td><td>190 (2026-10-20 → 2026-11-15)</td></tr>
+<tr><td>Games in sample</td><td>192 (2026-10-20 → 2026-11-15)</td></tr>
 <tr><td>Sample source</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">nba.com/games (official finals)</a></td></tr>
 <tr><td>Rating source</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">nba.com/stats/teams/advanced</a></td></tr>
 </tbody></table></div><p class="note">Model artefact <code>data/live/model.json</code>, built <code>2026-11-16T00:20Z</code>. Rebuilding it from the committed inputs reproduces it byte for byte; the CI step fails otherwise.</p>
@@ -125,7 +125,7 @@ none does, so none is published.</div>
 <tr><td><code>F1</code></td><td>Every capture has a retrieval stamp and an https source</td><td><span class="chip ok">PASS</span></td><td>{&quot;captures&quot;: 16, &quot;problems&quot;: []}</td><td>zero missing stamps, zero non-https sources</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F2</code></td><td>The model used the newest archived injury report</td><td><span class="chip ok">PASS</span></td><td>{&quot;model_used&quot;: &quot;Injury-Report_2026-11-15_06_45PM&quot;, &quot;newest_on_disk&quot;: &quot;Injury-Report_2026-11-15_06_45PM&quot;}</td><td>the engine must read the newest archived report, not an older one</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F3</code></td><td>The injury report is not older than the slate it prices</td><td><span class="chip ok">PASS</span></td><td>{&quot;report_date&quot;: &quot;2026-11-15&quot;, &quot;slate_start&quot;: &quot;2026-11-15&quot;}</td><td>report date &gt;= first slate date</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_45PM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
-<tr><td><code>F4</code></td><td>Every settled game is verified against two official reads</td><td><span class="chip ok">PASS</span></td><td>{&quot;days&quot;: [&quot;2026-11-14&quot;, &quot;2026-11-15&quot;], &quot;games&quot;: 7, &quot;unverified&quot;: [], &quot;stamps&quot;: {&quot;2026-11-14&quot;: &quot;2026-11-15T11:52Z&quot;, &quot;2026-11-15&quot;: &quot;2026-11-15T23:59Z&quot;}}</td><td>game page final == gamebook printed final == sum of printed quarters, on every settled day</td><td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">source</a></td></tr>
+<tr><td><code>F4</code></td><td>Every settled game is verified against two official reads</td><td><span class="chip ok">PASS</span></td><td>{&quot;days&quot;: [&quot;2026-11-14&quot;, &quot;2026-11-15&quot;], &quot;games&quot;: 9, &quot;unverified&quot;: [], &quot;stamps&quot;: {&quot;2026-11-14&quot;: &quot;2026-11-15T11:52Z&quot;, &quot;2026-11-15&quot;: &quot;2026-11-15T23:59Z&quot;}}</td><td>game page final == gamebook printed final == sum of printed quarters, on every settled day</td><td><a href="https://www.nba.com/game/den-vs-nop-0022600231" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F5</code></td><td>The priced slate is exactly the captured slate</td><td><span class="chip ok">PASS</span></td><td>{&quot;priced&quot;: 22, &quot;captured&quot;: 22, &quot;only_in_model&quot;: [], &quot;only_in_slate&quot;: []}</td><td>set equality on (game_id, date, away, home)</td><td><a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F6</code></td><td>Every archived injury report is on disk with its official source URL</td><td><span class="chip ok">PASS</span></td><td>{&quot;reports&quot;: [{&quot;file&quot;: &quot;Injury-Report_2026-11-15_06_00AM.md&quot;, &quot;bytes&quot;: 11000, &quot;source_url&quot;: &quot;https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf&quot;}, {&quot;file&quot;: &quot;Injury-Report_2026-11-15_06_15AM.</td><td>one file per report, URL inside the file</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf" target="_blank" rel="noopener noreferrer">source</a></td></tr>
 <tr><td><code>F7</code></td><td>Every slate team has an official advanced-stats row</td><td><span class="chip ok">PASS</span></td><td>{&quot;teams_needed&quot;: 30, &quot;missing&quot;: []}</td><td>all 30 team codes present in the official advanced capture</td><td><a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">source</a></td></tr>
