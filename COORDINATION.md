@@ -4646,3 +4646,49 @@ sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
 **Change request CR-81800928-01 (owner decision):** (a) add an F-gate comparing the newest on-disk report with the
 newest official-index report; (b) re-capture the 05:00 PM and 06:15 PM reports into `data/live/injuries/` with the
 existing verbatim-capture pattern; (c) publish F-R6 on the Flagged for Review page.
+
+---
+
+## Session `arena/26dd742c-nba3` (current) — CLAIM: official-feed completion round (11/15 slate, quarter scores, standings, PDF archive, one front door)
+
+**Session ID:** `arena/26dd742c-nba3`. Workspace branch `arena/26dd742c-nba3`, branched from `main` @
+`5fde67eef57178f4c69ad41d18adc15fc6fca1fc` (merge of PR #97). Claim written and pushed **before** any
+code was written (2026-11-16, ~02:40 UTC). Branch is fixed by the workspace; the brief's
+`session-<id>/<task>` naming cannot be used here (same resolution every earlier session recorded).
+
+**Why this round exists.** Reading the brief line by line against the live tree, five requirements are
+still genuinely unfinished, and three are stale in a way the published site does not yet say:
+
+| # | Requirement from the brief | State found on `main` @ `5fde67e` | This round |
+|---|---|---|---|
+| C1 | "Keep an official per-game result feed current … store one row per game: date, teams, final score, **quarter scores**" | `data/app/results_feed.json` holds 14 games and **14/14 have `away_q1 … home_q4` = null**. Quarter scores are never captured, although the official gamebooks already in the repo print a `SCORE BY PERIOD` table. | Capture the official quarter tables from the gamebook PDFs (verbatim, with URL), extend the feed, keep the settle rule "quarters must sum to the printed final". |
+| C2 | "Extend the scheduled job to refresh … **standings**" | `scripts/refresh_official.py` fetches the injury report, schedule/results pages, game books and the three team-stat pages. **No standings fetch anywhere** in the scheduled job. | Add the official standings page to the fetch set + a provenance-gated standings artefact. |
+| C3 | "Store **every** injury PDF with its timestamp and diff consecutive reports" | `scripts/injury_archive.py` archives reports that a human has transcribed. The scheduled job fetches the newest PDF and never archives it, and **cannot read PDFs** (no parser in the dependency set). | Add a dependency-free PDF text extractor + archive-on-refresh so every fetched report is stored, timestamped and diffed by the scheduled job itself. |
+| C4 | "Generate picks for every upcoming slate … up to a maximum of **3 days** in advance" | The published window is `2026-11-15 → 2026-11-18` (three days *after* the capture date). It is now 2026-11-16 UTC / 11/15 ET; 11/15 games are final or in progress and the 11/15→11/18 window is no longer "today + 3". | Do **not** silently move the window: verify what has actually happened and publish the staleness as a flag with the exact rule for the next refresh (C5). |
+| C5 | "Settle the sealed ledger from official finals **as soon as each game day ends**" | The 11/14 finals are in `data/live/results/settled_2026-11-14.json` but `data/app/results_feed.json` (the published feed) still stops at 11/13, and the 11/15 finals (7 games final on the official games page) are not in any feed. | Fold every verified final into the published feed; settlement stays gated on quarter-sum verification. |
+| C6 | "Create a github page live site … a **clean landing page** and subpages organised by category" | The Pages artifact ships **16 top-level dashboards** (`app/`, `v2/`, `projection/`, `bet/`, `hub/`, `dash/`, `edge/`, `origin/`, `lab/`, `dashboard/`, `research/`, `site/`, `docs/`, `verify/`, `d01ae7e2/`, `archive.html`) built by different sessions. The root `index.html` links to several of them; the others are reachable only by URL. | Add one **Front door** page that names every published surface, what it is, which session owns it, and which one is canonical — without deleting or rewriting any existing dashboard (each is another session's file scope). |
+
+**Files in this session's scope (nothing else is edited):**
+
+- `COORDINATION.md` (this claim, and the completion record appended at the end)
+- `scripts/quarters.py`, `scripts/standings_capture.py`, `scripts/injury_pdf.py` *(new)*
+- `scripts/refresh_official.py` (C2, C3 wiring: new fetches + archive + standings, existing steps untouched)
+- `data/app/gamebooks/*.md` (quarter tables appended verbatim to existing transcriptions, never rewritten), `data/app/gamebook_quarters.json` *(new)*, `data/app/official_standings_*.json` *(new)*
+- `scripts/results_feed.py`, `data/app/results_feed.json` (C1, C5)
+- `data/live/injuries/**` (C3: every fetched report, its timestamp and the consecutive diff)
+- `data/app/canonical.json` + `app/**` + `index.html` (only via `scripts/assemble_canonical.py` / `scripts/build_app.py`; C1/C2 sections and one new page)
+- `frontdoor.html` *(new)*, `.github/workflows/pages.yml` (stage `frontdoor.html`; append new test/replay steps only)
+- `tests/test_quarters.py`, `tests/test_standings_capture.py`, `tests/test_injury_pdf.py` *(new)*
+
+**Explicitly not touched:** `pipeline/v2/**`, `v2/**`, `scripts/build_v2.py`, `scripts/strategy_lab.py`,
+`data/app/lab.json`, `scripts/strategy_lab` inputs, every `audit_*/` tree, `final/`, `hub/`, `dash/`,
+`edge/`, `origin/`, `lab/`, `research/`, `site/`, `docs/`, `verify/`, `d01ae7e2/`, `bet/`, `projection/`,
+`scripts/build_live_site.py`, `scripts/refresh.yml` (the scheduled job file stays as-is this round; the
+new fetches live in `refresh_official.py`, which is the one script that job already calls).
+
+**Open PRs at claim time — not merged, not touched, and why:** #98 (CONFLICTING, app/ + workflow),
+#96 (CONFLICTING, app/ + workflow), #95 (CONFLICTING, refresh_official.py + rolling/),
+#94 (MERGEABLE/UNSTABLE, bet/ + data/live/). #95 and #98 both edit files in this round's scope. Per the
+shared-board rule this session works only on its own branch and **will not** force a merge of those pull
+requests; if GitHub cannot merge them cleanly the collision is recorded in the completion record with a
+file-level handoff, never resolved by discarding the other session's work.
