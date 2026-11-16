@@ -5439,3 +5439,21 @@ commits — so per the takeover rule I added exactly one staging line
 (`cp -r round_2ecbccfd _pages/round_2ecbccfd`, with a comment naming the reason). No other line in
 that file was touched. If `fbd2484b` resumes, the change is one line to revert, and my tree's name
 is the only thing that depends on it.
+
+### PR record + one deploy failure I caused and fixed (2ecbccfd, 2026-11-16T20:35Z)
+
+| PR | scope | result |
+|---|---|---|
+| [#120](https://github.com/wingbangboozle1-lang/NBA3/pull/120) | capture (standings + 2 injury filings + 4 box scores), model (pinned HCA, neutral-site reconciliation, measured rest gap, measured ρ, ρ-priced parlays), 7 frozen pre-registrations, 114-entry pre-tip ledger, `round_2ecbccfd/` (11 pages), `refresh.yml` step-order repair + root cause, 33 tests, one `pages.yml` staging line | **merged**, `01e2d91f8a144fe1e8888cfde0e94468a65855df`, 2026-11-16T19:04:59Z |
+
+**Deploy failure, mine, diagnosed and fixed.** Pages run `43935576220` on `main` failed at step 25
+*"Assemble canonical dataset and build the dashboard"* — the gate is
+`git diff --exit-code -- data/app/canonical.json app/ index.html`. My "Next round" paragraph was
+pasted into `index.html`, which `scripts/build_app.py` **regenerates**: the build reproduced the
+committed file minus my line, the diff was non-empty, the job exited 1 and **nothing deployed**
+(`/NBA3/round_2ecbccfd/` answered 404 for that reason, not because the staging line was wrong).
+Fix: `1b21006` reverts my paragraph, and a new test pins the rule for the future
+(`test_this_round_never_hand_edits_a_generated_file`, asserting `round_2ecbccfd` appears in no
+generated file). The front-door link is **CR-2ecbccfd-01**, addressed to whoever owns
+`scripts/build_app.py`; until it lands the round is reachable at its own URL only, which is honest
+rather than silently patched.
