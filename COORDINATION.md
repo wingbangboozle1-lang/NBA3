@@ -4701,3 +4701,53 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 - https://www.nba.com/termsofuse — s.9 bars gambling use of NBA statistics (blocker, published honestly).
 - https://kansspelautoriteit.nl/online-kansspel-aanbieden — Dutch Koa licence required for online sports betting (blocker, published honestly).
 - https://www.itl.nist.gov/div898/handbook/ — statistical method basis for gates (thresholds are proposals, owner-approved pending).
+
+---
+
+## Session `arena/caad4c37-nba3` (current) — CLAIM (pushed before work began)
+
+**Session ID:** `arena/caad4c37-nba3`. Workspace branch `arena/caad4c37-nba3`, branched from `main`
+@ `5fde67e` (merge of PR #97). Branch name is fixed by the workspace, so — following the rule
+established by session `f879620b` and repeated by every session since — **all work stays on this
+branch** and is kept non-overlapping by *file scope*, not by branch name.
+
+**Live sessions observed at claim time (2026-11-16T02:13Z).** Four open PRs, all to `main`:
+[#94](https://github.com/wingbangboozle1-lang/NBA3/pull/94) `arena/42d69dc5-nba3` (MERGEABLE),
+[#95](https://github.com/wingbangboozle1-lang/NBA3/pull/95) `arena/43d54bfe-nba3` (CONFLICTING),
+[#96](https://github.com/wingbangboozle1-lang/NBA3/pull/96) `arena/3d625d23-nba3` (CONFLICTING),
+[#98](https://github.com/wingbangboozle1-lang/NBA3/pull/98) `arena/c94a5531-nba3` (CONFLICTING).
+Their file lists were read before this claim was written. **This session does not touch any file any
+of them lists.** Their scopes are `bet/`, `projection/`, `rolling/`, `slate/`, `data/slate/**`,
+`data/live/**`, `ledger/`, `app/*.html`, `index.html`, `scripts/build_app.py`,
+`scripts/refresh_official.py`, `.github/workflows/**`, `audit_94e6d41b/**`, `data/app/**`.
+
+**What this session therefore does.** It works only in a namespace no other session has claimed, on
+the two brief items that are provably still open on `main` after reading it line by line:
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| C1 | Claim written and pushed before work began | **done** (this entry) | caad4c37 | `COORDINATION.md` |
+| C2 | Official injury reports the repo does not hold: capture 11/15 07:00 PM → 09:00 PM ET verbatim, each with report revision time **and** retrieval time; diff consecutive reports (brief items 3, 17) | in progress | caad4c37 | `data/arena_caad4c37/injuries/**`, `scripts/capture_caad4c37.py` |
+| C3 | Quarter scores for the official per-game result feed — the one field of "one row per game: date, teams, final score, quarter scores" that is blank for **every** row on `main` (brief item 2) | in progress | caad4c37 | `data/arena_caad4c37/quarters/**`, `scripts/quarters_caad4c37.py` |
+| C4 | Requirement coverage matrix for the 20-item brief, re-verified line by line against `main` with a source link on every row | pending | caad4c37 | `arena_caad4c37/pages/requirements.html` |
+| C5 | Site pages (landing, injuries, quarters/result feed, requirements, questions, suggestions, flags, sources) in this session's namespace; self-contained, no shared-output edits | pending | caad4c37 | `arena_caad4c37/**`, `scripts/build_caad4c37.py` |
+| C6 | Integration: rebase on `main`, run the full check suite, PR → merge, confirm Pages deploy, record here | pending | caad4c37 | `COORDINATION.md`, `README.md` |
+
+**Non-overlap pledge.** This session creates only: `arena_caad4c37/**`, `data/arena_caad4c37/**`,
+`scripts/capture_caad4c37.py`, `scripts/quarters_caad4c37.py`, `scripts/build_caad4c37.py`,
+`tests/test_caad4c37.py`, and appends to `COORDINATION.md` / `README.md`. It changes **no** shared
+output (no `index.html`, no `app/*.html`, no `scripts/build_app.py`, no `data/app/**`, no
+`data/live/**`, no `.github/workflows/**`). Wiring this tree into the Pages artifact is a *change
+request* (see below) for the owner, not an edit made here, because `pages.yml` is claimed by three
+live sessions.
+
+**Why these two gaps.** Verified on `main`, not assumed: (a) `data/app/results_feed.json` carries 14
+settled games and every `*_q1..*_q4` field is `null` with the note "quarter scores not captured —
+blank, flagged"; (b) the official injury index lists 11/15 reports through **09:00 PM ET**, while the
+newest report committed anywhere on `main` is 11/15 06:15 AM ET (`data/live/injuries/` holds 12:00 AM,
+06:00 AM and 06:15 AM only). Both are read directly from the repo and the official index.
+
+**Change request CR-CAAD4C37-01 (owner decision, not executed here).** Add
+`cp -r arena_caad4c37 _pages/arena_caad4c37` to the "Stage combined Pages artifact" step of
+`.github/workflows/pages.yml`, and add one nav tile. `pages.yml` is claimed by PRs #95, #96 and #98,
+so this session logs the request instead of editing the file.
