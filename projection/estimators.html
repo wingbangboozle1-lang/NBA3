@@ -58,7 +58,7 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
 <header class="site"><div class="wrap">
   <a class="brand" href="index.html"><span>NBA3</span>Projection surface</a>
   <div class="stamp">Snapshot 2026-11-15T12:20Z · session <code>arena/2ebb1e75-nba3</code> ·
-    capture 2026-11-15T11:49:00Z</div>
+    capture 2026-11-16T00:12Z</div>
 </div></header>
 <div class="banner"><div class="wrap">PROJECTION SURFACE — research output, publishable as-is. Gated picks are kept on a separate surface: <a href="../bet/index.html">Bet surface (gated)</a></div></div>
 <nav class="site"><div class="wrap"><a href="index.html">Overview</a><a href="lines.html">Originated lines</a><a href="results.html">Settled results</a><a href="estimators.html" class="active">Estimators</a><a href="injuries.html">Injuries</a><a href="rest.html">Rest &amp; travel</a><a href="minutes.html">Minutes &amp; rotation</a><a href="gates.html">Gates</a><a href="review.html">Repo review</a><a href="questions.html">Questions</a><a href="suggestions.html">Suggestions</a><a href="flagged.html">Flagged</a></div></nav>
@@ -79,9 +79,9 @@ each forecast uses only games that had already been played.</p>
 <th>OOS margin RMSE</th>
 <th>Source</th>
 </tr></thead><tbody>
-<tr><td>E1 — ridge Massey on margins</td><td>final margins only</td><td>13.220</td><td>0.6207</td><td>0.2109</td><td>16.432</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">finals</a></td></tr>
-<tr><td>E2 — logistic Bradley-Terry on wins</td><td>win/loss only (no margins)</td><td>14.572</td><td>0.6359</td><td>0.2187</td><td>—</td><td><a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">standings</a></td></tr>
-<tr><td>50/50 blend (published underneath)</td><td>both</td><td>—</td><td>0.6160</td><td>—</td><td>—</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">finals</a></td></tr>
+<tr><td>E1 — ridge Massey on margins</td><td>final margins only</td><td>13.152</td><td>0.6179</td><td>0.2097</td><td>16.306</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">finals</a></td></tr>
+<tr><td>E2 — logistic Bradley-Terry on wins</td><td>win/loss only (no margins)</td><td>14.610</td><td>0.6314</td><td>0.2166</td><td>—</td><td><a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">standings</a></td></tr>
+<tr><td>50/50 blend (published underneath)</td><td>both</td><td>—</td><td>0.6126</td><td>—</td><td>—</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">finals</a></td></tr>
 <tr><td>Coin flip (reference)</td><td>nothing</td><td>—</td><td>0.6931</td><td>0.2500</td><td>—</td><td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">finals</a></td></tr>
 </tbody></table></div>
 <div class="callout"><strong>E2's shrink weight is not a free parameter.</strong>
@@ -100,12 +100,12 @@ until it is scored.</div>
 <th>Value</th>
 </tr></thead><tbody>
 <tr><td>Rule</td><td>HCA = Φ⁻¹(measured home-win rate) × sd(margin). Nothing is chosen to improve the fit.</td></tr>
-<tr><td>Games</td><td>188 (99 home wins)</td></tr>
-<tr><td>Measured home-win rate</td><td>0.526596</td></tr>
-<tr><td>sd(margin) in sample</td><td>16.899 pts</td></tr>
-<tr><td>Pinned HCA</td><td><strong>1.127 pts</strong></td></tr>
-<tr><td>Naive fitted HCA (mean home margin)</td><td>1.830 pts</td></tr>
-<tr><td>Gap</td><td>0.702 pts</td></tr>
+<tr><td>Games</td><td>190 (100 home wins)</td></tr>
+<tr><td>Measured home-win rate</td><td>0.526316</td></tr>
+<tr><td>sd(margin) in sample</td><td>16.829 pts</td></tr>
+<tr><td>Pinned HCA</td><td><strong>1.111 pts</strong></td></tr>
+<tr><td>Naive fitted HCA (mean home margin)</td><td>1.805 pts</td></tr>
+<tr><td>Gap</td><td>0.694 pts</td></tr>
 </tbody></table></div>
 <p class="note">Source for every HCA value on this page: <a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">nba.com/games (official finals)</a>. The rule is applied to the whole sample, so the values are one calculation, not one row each.</p>
 <p>The naive fitted HCA (mean home margin) also absorbs any sample imbalance in team strength between home and away schedules. The pinned version uses only the home-win rate, so a schedule artefact cannot inflate it. Both are printed; the model uses the pinned one.</p>
@@ -118,36 +118,36 @@ until it is scored.</div>
 <th>Gap</th>
 <th>Source</th>
 </tr></thead><tbody>
-<tr><td><strong>ATL</strong></td><td>-1.47</td><td>0.36</td><td>-1.82</td><td><a href="https://www.nba.com/stats/team/1610612737/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>BKN</strong></td><td>-7.68</td><td>-10.95</td><td>3.27</td><td><a href="https://www.nba.com/stats/team/1610612751/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>BOS</strong></td><td>6.73</td><td>12.41</td><td>-5.67</td><td><a href="https://www.nba.com/stats/team/1610612738/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>CHA</strong></td><td>-12.87</td><td>-7.16</td><td>-5.71</td><td><a href="https://www.nba.com/stats/team/1610612766/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>CHI</strong></td><td>-9.26</td><td>-8.98</td><td>-0.28</td><td><a href="https://www.nba.com/stats/team/1610612741/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>CLE</strong></td><td>0.66</td><td>-0.00</td><td>0.66</td><td><a href="https://www.nba.com/stats/team/1610612739/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>DAL</strong></td><td>2.55</td><td>2.42</td><td>0.13</td><td><a href="https://www.nba.com/stats/team/1610612742/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>DEN</strong></td><td>2.87</td><td>5.84</td><td>-2.97</td><td><a href="https://www.nba.com/stats/team/1610612743/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>DET</strong></td><td>2.40</td><td>7.44</td><td>-5.04</td><td><a href="https://www.nba.com/stats/team/1610612765/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>GSW</strong></td><td>7.13</td><td>7.55</td><td>-0.43</td><td><a href="https://www.nba.com/stats/team/1610612744/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>HOU</strong></td><td>10.55</td><td>13.09</td><td>-2.55</td><td><a href="https://www.nba.com/stats/team/1610612745/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>IND</strong></td><td>-4.54</td><td>-6.61</td><td>2.08</td><td><a href="https://www.nba.com/stats/team/1610612754/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>LAC</strong></td><td>-2.66</td><td>-7.90</td><td>5.24</td><td><a href="https://www.nba.com/stats/team/1610612746/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>LAL</strong></td><td>7.94</td><td>14.89</td><td>-6.95</td><td><a href="https://www.nba.com/stats/team/1610612747/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>MEM</strong></td><td>6.14</td><td>5.02</td><td>1.12</td><td><a href="https://www.nba.com/stats/team/1610612763/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>MIA</strong></td><td>-1.28</td><td>1.40</td><td>-2.69</td><td><a href="https://www.nba.com/stats/team/1610612748/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>MIL</strong></td><td>-12.43</td><td>-17.99</td><td>5.56</td><td><a href="https://www.nba.com/stats/team/1610612749/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>MIN</strong></td><td>10.31</td><td>7.04</td><td>3.27</td><td><a href="https://www.nba.com/stats/team/1610612750/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>NOP</strong></td><td>-9.15</td><td>-11.35</td><td>2.20</td><td><a href="https://www.nba.com/stats/team/1610612740/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>NYK</strong></td><td>2.59</td><td>-0.98</td><td>3.57</td><td><a href="https://www.nba.com/stats/team/1610612752/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>OKC</strong></td><td>7.09</td><td>7.10</td><td>-0.01</td><td><a href="https://www.nba.com/stats/team/1610612760/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>ORL</strong></td><td>-4.92</td><td>-5.33</td><td>0.41</td><td><a href="https://www.nba.com/stats/team/1610612753/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>PHI</strong></td><td>-0.57</td><td>10.58</td><td>-11.16</td><td><a href="https://www.nba.com/stats/team/1610612755/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>PHX</strong></td><td>-0.51</td><td>1.01</td><td>-1.52</td><td><a href="https://www.nba.com/stats/team/1610612756/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>POR</strong></td><td>9.99</td><td>12.17</td><td>-2.18</td><td><a href="https://www.nba.com/stats/team/1610612757/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>SAC</strong></td><td>-8.37</td><td>-15.89</td><td>7.52</td><td><a href="https://www.nba.com/stats/team/1610612758/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>SAS</strong></td><td>13.56</td><td>14.92</td><td>-1.35</td><td><a href="https://www.nba.com/stats/team/1610612759/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>TOR</strong></td><td>0.78</td><td>-3.43</td><td>4.21</td><td><a href="https://www.nba.com/stats/team/1610612761/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>UTA</strong></td><td>-6.73</td><td>-16.90</td><td>10.17</td><td><a href="https://www.nba.com/stats/team/1610612762/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
-<tr><td><strong>WAS</strong></td><td>-8.85</td><td>-9.75</td><td>0.90</td><td><a href="https://www.nba.com/stats/team/1610612764/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>ATL</strong></td><td>-1.47</td><td>0.36</td><td>-1.83</td><td><a href="https://www.nba.com/stats/team/1610612737/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>BKN</strong></td><td>-7.70</td><td>-10.99</td><td>3.29</td><td><a href="https://www.nba.com/stats/team/1610612751/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>BOS</strong></td><td>6.75</td><td>12.42</td><td>-5.67</td><td><a href="https://www.nba.com/stats/team/1610612738/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>CHA</strong></td><td>-12.86</td><td>-7.14</td><td>-5.72</td><td><a href="https://www.nba.com/stats/team/1610612766/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>CHI</strong></td><td>-9.23</td><td>-8.86</td><td>-0.37</td><td><a href="https://www.nba.com/stats/team/1610612741/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>CLE</strong></td><td>0.68</td><td>0.06</td><td>0.62</td><td><a href="https://www.nba.com/stats/team/1610612739/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>DAL</strong></td><td>2.53</td><td>2.32</td><td>0.21</td><td><a href="https://www.nba.com/stats/team/1610612742/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>DEN</strong></td><td>2.84</td><td>5.70</td><td>-2.86</td><td><a href="https://www.nba.com/stats/team/1610612743/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>DET</strong></td><td>2.43</td><td>7.56</td><td>-5.13</td><td><a href="https://www.nba.com/stats/team/1610612765/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>GSW</strong></td><td>7.12</td><td>7.51</td><td>-0.38</td><td><a href="https://www.nba.com/stats/team/1610612744/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>HOU</strong></td><td>10.54</td><td>12.97</td><td>-2.43</td><td><a href="https://www.nba.com/stats/team/1610612745/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>IND</strong></td><td>-4.66</td><td>-7.36</td><td>2.70</td><td><a href="https://www.nba.com/stats/team/1610612754/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>LAC</strong></td><td>-2.66</td><td>-7.84</td><td>5.19</td><td><a href="https://www.nba.com/stats/team/1610612746/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>LAL</strong></td><td>7.98</td><td>15.94</td><td>-7.96</td><td><a href="https://www.nba.com/stats/team/1610612747/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>MEM</strong></td><td>6.13</td><td>4.95</td><td>1.18</td><td><a href="https://www.nba.com/stats/team/1610612763/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>MIA</strong></td><td>-1.29</td><td>1.42</td><td>-2.71</td><td><a href="https://www.nba.com/stats/team/1610612748/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>MIL</strong></td><td>-12.42</td><td>-17.89</td><td>5.47</td><td><a href="https://www.nba.com/stats/team/1610612749/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>MIN</strong></td><td>10.31</td><td>7.01</td><td>3.31</td><td><a href="https://www.nba.com/stats/team/1610612750/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>NOP</strong></td><td>-9.17</td><td>-11.36</td><td>2.19</td><td><a href="https://www.nba.com/stats/team/1610612740/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>NYK</strong></td><td>2.61</td><td>-0.92</td><td>3.53</td><td><a href="https://www.nba.com/stats/team/1610612752/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>OKC</strong></td><td>7.08</td><td>7.01</td><td>0.07</td><td><a href="https://www.nba.com/stats/team/1610612760/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>ORL</strong></td><td>-4.92</td><td>-5.35</td><td>0.43</td><td><a href="https://www.nba.com/stats/team/1610612753/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>PHI</strong></td><td>-0.44</td><td>11.39</td><td>-11.82</td><td><a href="https://www.nba.com/stats/team/1610612755/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>PHX</strong></td><td>-0.56</td><td>-0.09</td><td>-0.47</td><td><a href="https://www.nba.com/stats/team/1610612756/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>POR</strong></td><td>9.98</td><td>12.11</td><td>-2.13</td><td><a href="https://www.nba.com/stats/team/1610612757/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>SAC</strong></td><td>-8.37</td><td>-15.81</td><td>7.43</td><td><a href="https://www.nba.com/stats/team/1610612758/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>SAS</strong></td><td>13.56</td><td>14.79</td><td>-1.23</td><td><a href="https://www.nba.com/stats/team/1610612759/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>TOR</strong></td><td>0.79</td><td>-3.34</td><td>4.13</td><td><a href="https://www.nba.com/stats/team/1610612761/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>UTA</strong></td><td>-6.74</td><td>-16.82</td><td>10.08</td><td><a href="https://www.nba.com/stats/team/1610612762/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
+<tr><td><strong>WAS</strong></td><td>-8.85</td><td>-9.73</td><td>0.88</td><td><a href="https://www.nba.com/stats/team/1610612764/traditional" target="_blank" rel="noopener noreferrer">official</a></td></tr>
 </tbody></table></div>
 </main>
 <footer class="site"><div class="wrap">
