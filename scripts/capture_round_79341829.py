@@ -521,6 +521,60 @@ def main():
             "settled": False,
             "settlement_stamp": None,
         })
+    # Merge in the finals captured from official sources beyond the .md game books above
+    # (session arena/4c69ab99-nba3). One row per game: date, teams, final score, quarter
+    # scores. Two committed captures feed this loop:
+    #   finals_1115_4c69ab99.json  the nine 2026-11-15 finals, every game book re-read line
+    #                              by line and cross-checked against the nba.com games page;
+    #                              it records both readings of the ATL@MIL quarter conflict;
+    #   finals_auto.json           finished games ingested by scripts/refresh_official.py
+    #                              from the official games pages' own JSON (final score +
+    #                              per-period scores) during the scheduled refresh.
+    # Nothing is inferred; every cell comes from its capture file.
+    extra_sources = []
+    merged_ids = set()
+    for cap_name in ("finals_1115_4c69ab99.json", "finals_auto.json"):
+        cap_path = os.path.join(APP, cap_name)
+        if not os.path.exists(cap_path):
+            continue
+        cap = json.load(open(cap_path, encoding="utf-8"))
+        for g in cap["games"]:
+            if g["game_id"] in merged_ids:
+                continue        # a game captured in both files enters the feed once
+            merged_ids.add(g["game_id"])
+            row = {
+                "date": g["date"],
+                "game_id": g["game_id"],
+                "away": g["away"],
+                "home": g["home"],
+                "away_pts": g["away_final"],
+                "home_pts": g["home_final"],
+            }
+            for i in range(4):
+                row[f"away_q{i + 1}"] = g["away_periods"][i]
+                row[f"home_q{i + 1}"] = g["home_periods"][i]
+            row["away_ot1"] = g["away_ot1"]
+            row["home_ot1"] = g["home_ot1"]
+            row["away_ot2"] = g.get("away_ot2")
+            row["home_ot2"] = g.get("home_ot2")
+            row["state"] = g["state"]
+            row["verified"] = None      # recomputed below and by scripts/results_feed.py verify
+            row["verified_from"] = (g.get("games_page")
+                                    or f"https://www.nba.com/games?date={g['date']}")
+            row["quarter_check"] = None
+            row["gamebook"] = g.get("gamebook")
+            row["game_url"] = g["game_page"]
+            row["raw_file"] = f"data/app/{cap_name}"
+            row["quarter_conflict"] = bool(g.get("quarter_conflict"))
+            if g.get("quarter_conflict_note"):
+                row["quarter_conflict_note"] = g["quarter_conflict_note"]
+            row["settled"] = False
+            row["settlement_stamp"] = None
+            feed_rows.append(row)
+            if g.get("gamebook"):
+                extra_sources.append(g["gamebook"])
+            elif g.get("games_page"):
+                extra_sources.append(g["games_page"])
     feed_rows.sort(key=lambda r: (r["date"], r["away"]))
     # preserve settlement state already stamped by results_feed.py settle (idempotent re-capture)
     if os.path.exists(RESULTS_JSON):
@@ -532,16 +586,28 @@ def main():
                 r["settled"] = True
                 r["settlement_stamp"] = old.get("settlement_stamp")
 
+    # Normalise verified/quarter_check with the canonical feed rules (scripts/results_feed.py),
+    # so this capture's output is already byte-identical to the post-verify file CI compares.
+    import results_feed as _rf
+    _rf.verify({"games": feed_rows})
+
     feed = {
         "source_label": ("Official per-game result feed. 2026-11-14 rows come from the official "
                          "game books (statsdmz.nba.com PDFs linked from each nba.com game page); "
                          "2026-11-13 rows come from the stored official scoreboard capture "
-                         "(data/app/official_results_2026-11-13.json). One row per game: date, "
-                         "teams, final score, quarter scores."),
+                         "(data/app/official_results_2026-11-13.json); 2026-11-15 rows come from "
+                         "the committed official capture data/app/finals_1115_4c69ab99.json "
+                         "(every game book re-read line by line and cross-checked against the "
+                         "nba.com games page). One row per game: date, teams, final score, "
+                         "quarter scores."),
         "retrieved_stamp": RETRIEVED_STAMP,
         "settlement_rule": ("A row is settled only when the game state is Final AND the quarter "
                             "scores sum to the printed final for both teams (checked offline). "
-                            "Rows without captured quarter scores stay unsettled and flagged."),
+                            "Rows without captured quarter scores stay unsettled and flagged. "
+                            "A row whose official book contradicts itself on one period cell "
+                            "(quarter_conflict) settles on the verified FINAL score and keeps "
+                            "both readings of the disputed cell flagged — see "
+                            "quarter_conflict_note."),
         "count": len(feed_rows),
         "settled_count": sum(1 for r in feed_rows if r["settled"]),
         "games": feed_rows,
@@ -550,7 +616,8 @@ def main():
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-                    prior_results.get("source_url")],
+                    prior_results.get("source_url")]
+        + list(dict.fromkeys(extra_sources)),
     }
     with open(RESULTS_JSON, "w", encoding="utf-8") as fh:
         json.dump(feed, fh, indent=1)

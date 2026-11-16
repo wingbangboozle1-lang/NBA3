@@ -28,12 +28,12 @@
   </div>
 
 <p>Every game in the official per-game results feed: date, teams, final score and quarter scores,
-settled only from verified official finals. 14 of
-14 rows are settled. A row settles only when the game state is Final and
+settled only from verified official finals. 23 of
+23 rows are settled. A row settles only when the game state is Final and
 the quarter scores sum to the printed final for both teams (checked offline in
 <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_15.py">capture_official_2026_11_15.py</a>
 and <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py">results_feed.py</a>).
-A row is settled only when the game state is Final AND the quarter scores sum to the printed final for both teams (checked offline). Rows without captured quarter scores stay unsettled and flagged.</p>
+A row is settled only when the game state is Final AND the quarter scores sum to the printed final for both teams (checked offline). Rows without captured quarter scores stay unsettled and flagged. A row whose official book contradicts itself on one period cell (quarter_conflict) settles on the verified FINAL score and keeps both readings of the disputed cell flagged — see quarter_conflict_note.</p>
 
 <div class="table-wrap"><table>
 <caption id="results-feed"></caption>
@@ -156,7 +156,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -167,7 +167,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -178,7 +178,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -189,7 +189,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -200,7 +200,106 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>ATL @ MIL</td>
+<td>113 - 106</td>
+<td>18 / 37 / 32 / 26</td>
+<td>37 / 16 / 27 / 26</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final ATL 113 - MIL 106; quarter sums == finals (game book verified); the official book&#x27;s period table conflicts with its summary line on one period cell (flagged, both readings kept) — the final score itself is verified by the printed final, the summary line and the player box sums <span class="unverified">[quarter conflict — both readings kept, see flag]</span></td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>CHA @ LAC</td>
+<td>105 - 113</td>
+<td>21 / 31 / 31 / 22</td>
+<td>22 / 29 / 33 / 29</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>DAL @ BOS</td>
+<td>94 - 131</td>
+<td>9 / 28 / 34 / 23</td>
+<td>42 / 25 / 37 / 27</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final DAL 94 - BOS 131; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>HOU @ WAS</td>
+<td>147 - 119</td>
+<td>36 / 37 / 46 / 28</td>
+<td>31 / 23 / 34 / 31</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final HOU 147 - WAS 119; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>IND @ PHI</td>
+<td>124 - 131</td>
+<td>35 / 22 / 30 / 37</td>
+<td>29 / 29 / 39 / 34</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>LAL @ PHX</td>
+<td>131 - 123</td>
+<td>33 / 31 / 40 / 27</td>
+<td>24 / 30 / 26 / 43</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>NYK @ TOR</td>
+<td>112 - 108</td>
+<td>23 / 24 / 20 / 28 / OT 17</td>
+<td>17 / 26 / 31 / 21 / OT 13</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final NYK 112 - TOR 108; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>OKC @ SAC</td>
+<td>125 - 103</td>
+<td>32 / 30 / 32 / 31</td>
+<td>24 / 26 / 30 / 23</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final OKC 125 - SAC 103; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-15</td>
+<td>SAS @ UTA</td>
+<td>110 - 102</td>
+<td>31 / 27 / 23 / 29</td>
+<td>33 / 22 / 26 / 21</td>
+<td><span class="chip chip-ok">verified</span></td>
+<td><span class="chip chip-ok">settled</span></td>
+<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final SAS 110 - UTA 102; quarter sums == finals (game book verified)</td>
+<td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf</a></td>
 </tr>
 </tbody></table></div>
 </main>

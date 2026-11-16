@@ -9,7 +9,7 @@ import sys
 import tempfile
 import unittest
 import urllib.error
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -220,13 +220,131 @@ class CommittedCaptureSlateTests(unittest.TestCase):
         self.assertEqual(got, want)
 
     def test_published_slate_matches_the_promotion(self):
+        # Roll-safe (session arena/4c69ab99-nba3): the published slate must equal the
+        # promotion of the NEWEST committed capture, not of any one frozen capture. The
+        # scheduled refresh rolls the window forward every run; pinning the published file
+        # to the 2026-11-16T00-57Z capture made every later run fail this test after its
+        # fetch step had already rolled the window (run 43925193575 failed exactly here).
         path = os.path.join(ROOT, "data", "app", "official_slate_current.json")
         published = json.load(open(path, encoding="utf-8"))
-        rows, _ = ro.promote_slate_rows(self._pages()) if os.path.isdir(self.CAPTURE) else ([], [])
+        refresh_root = os.path.join(ROOT, "data", "app", "refresh")
+        manifests = []
+        if os.path.isdir(refresh_root):
+            for name in os.listdir(refresh_root):
+                mp = os.path.join(refresh_root, name, "manifest.json")
+                if os.path.exists(mp):
+                    manifests.append((json.load(open(mp, encoding="utf-8")), name))
+        rows = []
+        if manifests:
+            man, name = max(manifests, key=lambda t: t[0].get("stamp", ""))
+            base = os.path.join(refresh_root, name)
+            today = datetime.strptime(man["today_et"], "%Y-%m-%d").date()
+            pages = {}
+            for off in range(0, 4):
+                d = (today + timedelta(days=off)).isoformat()
+                page = os.path.join(base, f"games_{d}.html")
+                if os.path.exists(page):
+                    pages[d] = open(page, encoding="utf-8", errors="replace").read()
+            rows, _ = ro.promote_slate_rows(pages)
         if rows:
-            self.assertEqual(published["games"], rows)
+            self.assertEqual(published["games"], rows,
+                             "the published slate is not the promotion of the newest "
+                             "committed capture")
         self.assertEqual(published["count"], len(published["games"]))
         self.assertEqual(len({g["game_id"] for g in published["games"]}), published["count"])
+
+
+class FinalsIngestTests(unittest.TestCase):
+    """The scheduled job's finals ingestion (session arena/4c69ab99-nba3).
+
+    The official games page embeds one JSON object per game with the final score and the
+    per-period scores; the ingest parses those objects into data/app/finals_auto.json so
+    the per-game result feed stays current with no manual input.
+    """
+
+    GAMES_1114 = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z",
+                              "games_2026-11-14.html")
+    GAMES_1115 = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z",
+                              "games_2026-11-15.html")
+
+    @staticmethod
+    def _segment(gid, away_tri, home_tri, away_score, home_score,
+                 away_periods, home_periods, status, date="2026-11-16"):
+        def team_block(tri, score, periods, wins, losses):
+            per = ",".join('{"period":%d,"score":%d}' % (i, s)
+                           for i, s in enumerate(periods, 1))
+            return ('{"teamId":1,"teamName":"T","wins":%d,"losses":%d,"teamSubtitle":"x",'
+                    '"score":%d,"timeoutsRemaining":0,"inBonus":false,"teamTricode":"%s",'
+                    '"teamSlug":"t","specialInfoPrefix":null,"marqueePlayer":"1",'
+                    '"periods":[%s],"teamLeader":{"personId":1,"name":"P","score":99}}'
+                    % (wins, losses, score, tri, per))
+        card = ('<a href="/game/%s-vs-%s-%s" data-content="%s @ %s, %s">card</a>'
+                % (away_tri.lower(), home_tri.lower(), gid, away_tri, home_tri, date))
+        return (card + '"gameId":"%s","leagueId":"00","period":4,'
+                '"homeTeam":%s,"awayTeam":%s,"gameStatusText":"%s"'
+                % (gid, team_block(home_tri, home_score, home_periods, 4, 10),
+                   team_block(away_tri, away_score, away_periods, 7, 4), status))
+
+    def test_committed_11_14_page_matches_the_feed_rows(self):
+        if not os.path.exists(self.GAMES_1114):
+            self.skipTest("committed capture not present")
+        html = open(self.GAMES_1114, encoding="utf-8", errors="replace").read()
+        rows = ro.parse_finals_from_games_html(
+            html, "2026-11-14", "https://www.nba.com/games?date=2026-11-14")
+        self.assertEqual(len(rows), 5)
+        feed = json.load(open(os.path.join(ROOT, "data", "app", "results_feed.json"),
+                              encoding="utf-8"))
+        by_key = {(g["date"], g["away"], g["home"]): g for g in feed["games"]}
+        for r in rows:
+            f = by_key[(r["date"], r["away"], r["home"])]
+            self.assertEqual((r["away_final"], r["home_final"]),
+                             (f["away_pts"], f["home_pts"]))
+            for i in range(4):
+                self.assertEqual(r["away_periods"][i], f[f"away_q{i + 1}"])
+                self.assertEqual(r["home_periods"][i], f[f"home_q{i + 1}"])
+
+    def test_in_progress_game_is_never_returned(self):
+        if not os.path.exists(self.GAMES_1115):
+            self.skipTest("committed capture not present")
+        html = open(self.GAMES_1115, encoding="utf-8", errors="replace").read()
+        rows = ro.parse_finals_from_games_html(
+            html, "2026-11-15", "https://www.nba.com/games?date=2026-11-15")
+        # 0022600241 (NYK @ TOR) was Q3 1:27 when this page was captured
+        self.assertNotIn("0022600241", {r["game_id"] for r in rows})
+
+    def test_final_and_final_ot_states(self):
+        seg = self._segment("0022600900", "ATL", "MIL", 113, 106,
+                            [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
+        rows = ro.parse_finals_from_games_html(seg, "2026-11-16", "https://www.nba.com/games?date=2026-11-16")
+        self.assertEqual(rows[0]["state"], "Final")
+        seg = self._segment("0022600901", "NYK", "TOR", 112, 108,
+                            [23, 24, 20, 28, 17], [17, 26, 31, 21, 13], "FINAL (OT)")
+        rows = ro.parse_finals_from_games_html(seg, "2026-11-16", "https://www.nba.com/games?date=2026-11-16")
+        self.assertEqual(rows[0]["state"], "Final/OT")
+        self.assertEqual(rows[0]["away_ot1"], 17)
+        self.assertEqual(rows[0]["home_ot1"], 13)
+
+    def test_card_json_team_mismatch_is_excluded(self):
+        seg = self._segment("0022600902", "ATL", "MIL", 113, 106,
+                            [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
+        seg = seg.replace('data-content="ATL @ MIL, 2026-11-16"',
+                          'data-content="BOS @ CLE, 2026-11-16"')
+        rows = ro.parse_finals_from_games_html(seg, "2026-11-16", "https://www.nba.com/games?date=2026-11-16")
+        self.assertEqual(rows, [])
+
+    def test_ingest_is_append_only_and_idempotent(self):
+        import tempfile
+        seg = self._segment("0022600903", "ATL", "MIL", 113, 106,
+                            [18, 37, 32, 26], [37, 16, 27, 26], "FINAL")
+        with tempfile.TemporaryDirectory() as td:
+            out = os.path.join(td, "finals_auto.json")
+            pages = {"2026-11-16": seg}
+            n1 = ro.ingest_finals(pages, out_path=out)
+            self.assertEqual(n1, 1)
+            n2 = ro.ingest_finals(pages, out_path=out)
+            self.assertEqual(n2, 0)
+            doc = json.load(open(out, encoding="utf-8"))
+            self.assertEqual(len(doc["games"]), 1)
 
 
 class GateCallTests(unittest.TestCase):

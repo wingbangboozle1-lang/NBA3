@@ -11,9 +11,10 @@ nba.com, so this job is exercised by CI tests against committed fixtures; the li
             stamp and sha256 (manifest.json). Every URL is attempted with retries; a URL
             that still fails is recorded in manifest["errors"] and never aborts the run.
   2. GATES  scripts/freshness_gates.py MUST pass (freshness + provenance).
-  3. REBUILD ONLY AFTER THE GATES PASS: parse new game books into the results feed,
-            settle the previous game day, publish/verify the pick ledger, re-cut estimator
-            inputs, then assemble_canonical.py + build_app.py and the test suite.
+  3. REBUILD ONLY AFTER THE GATES PASS: re-cut the results feed from the committed
+            captures (including the finals just ingested), verify + settle the feed for
+            today and the two previous game days, publish/settle/verify the pick ledger,
+            re-cut estimator inputs, then assemble_canonical.py + build_app.py.
   4. COMMIT  the refreshed captures and rebuilt outputs on success; on any failure the
             run exits non-zero WITHOUT rebuilding (and the site keeps the last good build).
 
@@ -90,6 +91,153 @@ CARD_RE = re.compile(
     r'data-content="([A-Z]{3}) @ ([A-Z]{3}), (\d{4}-\d{2}-\d{2})"')
 SLATE_SOURCE_LABEL = ("official schedule pages for the rolling window, promoted by "
                       "scripts/refresh_official.py from the game cards on each page")
+
+FINALS_AUTO = os.path.join(APP, "finals_auto.json")
+
+# Each official games page embeds one JSON object per game (Next.js page state) carrying the
+# final score and the per-period scores, e.g. "homeTeam":{"teamId":...,"wins":4,"losses":10,
+# "score":108,...,"teamTricode":"NOP",...,"periods":[{"period":1,"score":23},...]}.
+# The object is bounded by the next "gameId": occurrence on the page. Extraction is by
+# brace-matched blocks (periods and teamLeader nest braces, so a lazy regex would cut early).
+GAME_ID_RE = re.compile(r'"gameId":"(\d{10})"')
+TEAM_BLOCK_RE = re.compile(r'"(awayTeam|homeTeam)":\{')
+TRICODE_RE = re.compile(r'"teamTricode":"([A-Z]{3})"')
+SCORE_RE = re.compile(r'"score":(\d+)')
+RECORD_RE = re.compile(r'"wins":(\d+),"losses":(\d+)')
+PERIODS_RE = re.compile(r'\{"period":(\d+),"score":(\d+)\}')
+STATUS_RE = re.compile(r'"gameStatusText":"([^"]*)"')
+
+
+def _brace_block(seg, start):
+    """Return the {...} block beginning at seg[start] == '{' (brace-counted, string-safe)."""
+    depth = 0
+    in_str = False
+    esc = False
+    for i in range(start, len(seg)):
+        c = seg[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif c == "\\":
+                esc = True
+            elif c == '"':
+                in_str = False
+            continue
+        if c == '"':
+            in_str = True
+        elif c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                return seg[start:i + 1]
+    return None
+
+
+def parse_finals_from_games_html(html, page_date, games_url):
+    """Finished games on an official games page, read from the page's own JSON.
+
+    Returns rows shaped like the finals capture files (data/app/finals_*.json) so the
+    feed writer treats them identically. A game is included only when its status text
+    starts with FINAL — an in-progress or scheduled game is never treated as final.
+    """
+    cards = {}
+    for a, h, gid, ca, ch, cd in CARD_RE.findall(html):
+        if cd == page_date:
+            cards[gid] = (ca, ch)
+    rows = []
+    ids = [(m.group(1), m.start()) for m in GAME_ID_RE.finditer(html)]
+    for n, (gid, pos) in enumerate(ids):
+        end = ids[n + 1][1] if n + 1 < len(ids) else len(html)
+        seg = html[pos:end]
+        st = STATUS_RE.search(seg[:4000])
+        status = st.group(1) if st else ""
+        if not status.upper().startswith("FINAL"):
+            continue
+        teams = {}
+        for m in TEAM_BLOCK_RE.finditer(seg):
+            block = _brace_block(seg, m.end() - 1)
+            if not block:
+                continue
+            tri = TRICODE_RE.search(block)
+            sc = SCORE_RE.search(block)
+            rec = RECORD_RE.search(block)
+            if not (tri and sc):
+                continue
+            teams[m.group(1)] = {
+                "tricode": tri.group(1),
+                "score": int(sc.group(1)),
+                "record": (int(rec.group(1)), int(rec.group(2))) if rec else None,
+                "periods": {int(p): int(s) for p, s in PERIODS_RE.findall(block)},
+            }
+        if set(teams) != {"awayTeam", "homeTeam"}:
+            continue
+        away, home = teams["awayTeam"], teams["homeTeam"]
+        if gid in cards and (away["tricode"], home["tricode"]) != cards[gid]:
+            print(f"ingest: skip {gid}: card teams {cards[gid]} differ from the JSON teams "
+                  f"{(away['tricode'], home['tricode'])}", file=sys.stderr)
+            continue
+        if "OT" in status.upper().replace("FINAL", ""):
+            state = "Final/2OT" if "2OT" in status.upper() else "Final/OT"
+        else:
+            state = "Final"
+        rows.append({
+            "date": page_date,
+            "game_id": gid,
+            "away": away["tricode"],
+            "home": home["tricode"],
+            "away_final": away["score"],
+            "home_final": home["score"],
+            "away_periods": [away["periods"].get(i) for i in (1, 2, 3, 4)],
+            "home_periods": [home["periods"].get(i) for i in (1, 2, 3, 4)],
+            "away_ot1": away["periods"].get(5),
+            "home_ot1": home["periods"].get(5),
+            "away_ot2": away["periods"].get(6),
+            "home_ot2": home["periods"].get(6),
+            "state": state,
+            "state_text_raw": status,
+            "quarter_conflict": False,
+            "checks": ("final score and per-period scores read from the official games page's "
+                       "own JSON; period sums vs the printed final checked by "
+                       "scripts/results_feed.py verify"),
+            "gamebook": None,
+            "game_page": f"https://www.nba.com/game/{away['tricode'].lower()}-vs-"
+                         f"{home['tricode'].lower()}-{gid}",
+            "games_page": games_url,
+            "away_record_after": list(away["record"]) if away["record"] else None,
+            "home_record_after": list(home["record"]) if home["record"] else None,
+        })
+    return rows
+
+
+def ingest_finals(pages, out_path=None):
+    """Merge finished games from {iso_date: games_page_html} into data/app/finals_auto.json.
+
+    Idempotent and append-only by game_id: a game already recorded is never edited, so a
+    later capture cannot silently change a row that the feed has already settled on.
+    """
+    out_path = out_path or FINALS_AUTO
+    doc = {"schema": "nba3/finals-auto/v1",
+           "source_label": ("finished games read from the official nba.com games pages' own "
+                            "JSON (final score + per-period scores), ingested by "
+                            "scripts/refresh_official.py"),
+           "games": []}
+    if os.path.exists(out_path):
+        doc = json.load(open(out_path, encoding="utf-8"))
+    by_id = {g["game_id"]: g for g in doc["games"]}
+    added = 0
+    for d in sorted(pages):
+        for r in parse_finals_from_games_html(pages[d], d, GAMES + d):
+            if r["game_id"] in by_id:
+                continue
+            by_id[r["game_id"]] = r
+            added += 1
+    doc["games"] = [by_id[k] for k in sorted(by_id)]
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=1)
+        fh.write("\n")
+    print(f"ingest finals: {added} new game(s); {len(doc['games'])} in {os.path.relpath(out_path, ROOT)}")
+    return added
 
 
 def promote_slate_rows(pages, games_url=GAMES):
@@ -291,6 +439,21 @@ def main():
             if f.get(url, dest, required=False, label=f"game book {a.upper()}{h.upper()}") is not None:
                 gb += 1
     manifest["gamebooks"] = gb
+
+    # 4b. ingest every finished game from the fetched games pages into
+    #     data/app/finals_auto.json (idempotent, append-only by game_id). The feed writer
+    #     (scripts/capture_round_79341829.py) merges this file, so the results feed stays
+    #     current without manual input: date, teams, final score, quarter scores per game.
+    pages_all = {}
+    for off in range(-2, 4):
+        d = (today_et + timedelta(days=off)).isoformat()
+        page = os.path.join(out_dir, f"games_{d}.html")
+        if os.path.exists(page):
+            pages_all[d] = open(page, encoding="utf-8", errors="replace").read()
+    if not args.dry_run:
+        ingest_finals(pages_all)
+    else:
+        print("dry-run: finals not ingested")
     finish(0)
 
     if f.errors and any(e["required"] for e in f.errors):
@@ -311,16 +474,29 @@ def main():
         return 1
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
+    #    Settlement is part of the chain (brief: "Settle the sealed ledger from official
+    #    finals as soon as each game day ends"): the feed's settled rows come from verified
+    #    finals only, and pick_ledger settle appends SETTLED entries for published picks
+    #    whose finals are verified. settle is idempotent — a row already stamped is skipped.
+    settle_days = [today_et.isoformat(),
+                   (today_et - timedelta(days=1)).isoformat(),
+                   (today_et - timedelta(days=2)).isoformat()]
     steps = [
+        ["python3", "scripts/capture_round_79341829.py"],
+        ["python3", "scripts/results_feed.py", "verify"],
+        ["python3", "scripts/results_feed.py", "settle", "--date", settle_days[0]],
+        ["python3", "scripts/results_feed.py", "settle", "--date", settle_days[1]],
+        ["python3", "scripts/results_feed.py", "settle", "--date", settle_days[2]],
         ["python3", "scripts/estimators.py"],
         # the window the pick ledger publishes from (data/app/estimators.json) is written by
         # this script; the line above writes data/live/model.json only. Missing from the chain
         # until session c449d46a, so a scheduled run published from a stale window.
         ["python3", "scripts/estimators_round_79341829.py"],
         ["python3", "scripts/minutes_model.py"],
-        ["python3", "scripts/results_feed.py", "verify"],
         ["python3", "scripts/pick_ledger.py", "publish"],
+        ["python3", "scripts/pick_ledger.py", "settle"],
         ["python3", "scripts/pick_ledger.py", "verify"],
+        ["python3", "scripts/preregister.py", "verify"],
         ["python3", "scripts/assemble_canonical.py"],
         ["python3", "scripts/build_app.py"],
     ]

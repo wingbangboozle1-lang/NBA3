@@ -2313,15 +2313,24 @@ and <a href="{REPO_URL}/blob/main/scripts/results_feed.py">results_feed.py</a>).
     for g in feed.get("games", []):
         def q(v):
             return esc(str(v)) if v is not None else '<span class="unverified">— (not captured)</span>'
+
+        def qline(side):
+            s = " / ".join(q(g[f"{side}_q{i}"]) for i in (1, 2, 3, 4))
+            if g.get(f"{side}_ot1") is not None:
+                s += f" / OT {q(g[f'{side}_ot1'])}"
+            return s
+        conflict = (' <span class="unverified">[quarter conflict — both readings kept, '
+                    'see flag]</span>') if g.get("quarter_conflict") else ""
         rows.append([
             esc(g["date"]), f"{esc(g['away'])} @ {esc(g['home'])}",
             f"{esc(str(g['away_pts']))} - {esc(str(g['home_pts']))}",
-            f"{q(g['away_q1'])} / {q(g['away_q2'])} / {q(g['away_q3'])} / {q(g['away_q4'])}",
-            f"{q(g['home_q1'])} / {q(g['home_q2'])} / {q(g['home_q3'])} / {q(g['home_q4'])}",
+            qline("away"), qline("home"),
             chip("verified", "ok") if g.get("verified") else chip("unverified", "bad"),
             chip("settled", "ok") if g.get("settled") else chip("open", "warn"),
-            esc(g.get("settlement_stamp") or g.get("quarter_check") or ""),
-            src_cell([g.get("verified_from") or "https://www.nba.com/games"], "official"),
+            esc(g.get("settlement_stamp") or g.get("quarter_check") or "") + conflict,
+            src_cell([u for u in (g.get("game_url") or g.get("verified_from")
+                                  or "https://www.nba.com/games", g.get("gamebook")) if u],
+                     "official"),
         ])
     body.append(table(["Date", "Matchup", "Final", "Away quarters", "Home quarters", "Verification",
                        "Settlement", "Stamp / check", "Source"], rows, "results-feed"))
