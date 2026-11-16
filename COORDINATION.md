@@ -4687,3 +4687,21 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 ### Handoff / conflicts log
 - No other session claims are active on this branch. Prior session boards (49064d5a, f879620b, 7c532e8c, 9ed6085f, 1823b910, 3bf92fcc, 8d3d0271, 81800928) are preserved unchanged; this section is appended only.
 - No merge conflicts expected at claim time (branch == main).
+## Session `arena/3e66155e-nba3` — CLAIM: final integration of open PRs (#94, #95, #96, #98) + 2026-11-16 game-day refresh round + PR/merge/Pages
+
+**Session ID:** `arena/3e66155e-nba3`. Branch `arena/3e66155e-nba3`, branched from `main` @ `5fde67e`
+(PR #97). Claim written and pushed before any integration work started (2026-11-16 ~02:20 UTC).
+
+| # | Task | Status | Owner (session) | Files in scope |
+|---|------|--------|-----------------|----------------|
+| I1 | Board claim (this section) | in progress | 3e66155e | `COORDINATION.md` |
+| I2 | Final integration: take over the three stale open PRs (#94 `42d69dc5` last commit 2026-11-16T00:00Z, #96 `3d625d23` 00:44Z, #98 `c94a5531` 01:03Z — all >60 min without commits per the takeover rule), merge their branches, resolve conflicts preserving every session's work, regenerate derived pages, replay CI offline | in progress | 3e66155e | conflicts in `COORDINATION.md`, `README.md`, `.github/workflows/{pages,refresh}.yml`, `scripts/build_app.py`, `scripts/refresh_official.py`, `scripts/freshness_gates_round_79341829.py`, regenerated `app/*.html`, `index.html`, `archive.html`, `data/app/*` derived files |
+| I3 | PR #95 (`43d54bfe`, last commit 01:15Z — inside the 60-minute window at claim time): re-check before merge; merge if green/stale, else leave for its owner and record why | pending | 3e66155e | (same integration scope) |
+| I4 | 2026-11-16 game-day refresh: newest official injury reports (07:45 PM 11/15 PDF already captured by the scheduled refresh at 00:57Z — parse it; probe the official index for anything newer), settle the remaining 11/15 finals from official game pages, extend the rolling slate through 11/19 (max 3 days ahead), re-run freshness+provenance gates | pending | 3e66155e | `data/app/official_*2026-11-16*`, `data/app/refresh/`, `data/live/`, `scripts/capture_official_2026_11_16.py` (new, this session only) |
+| I5 | Rebuild all published surfaces, offline CI replay, PR to `main`, merge without waiting, confirm the Pages deploy, close superseded PRs with takeover notes, final board record | pending | 3e66155e | `COORDINATION.md`, PR |
+
+**Non-overlap notes.** All four PR branches are fetched read-only as `pr/42d69dc5`, `pr/43d54bfe`,
+`pr/3d625d23`, `pr/c94a5531` in this sandbox — no session branch is edited or pushed to. Takeover
+dispositions for each PR will be recorded in the completion block. The scheduled refresh bot's
+commit `94f71a6` (first successful runner-side refresh, 2026-11-16T00:57Z) is kept as-is; this
+session parses its committed artifacts rather than refetching them.
