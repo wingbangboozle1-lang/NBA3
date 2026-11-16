@@ -234,16 +234,15 @@ def layout(title: str, body: str, active: str = "", subtitle: str = "", root: bo
         links = []
         for label, href in items:
             cur = ' aria-current="page"' if href == active else ""
-            target = f"round/{href}" if root else href
+            target = href
             links.append(f'<a href="{esc(target)}"{cur}>{esc(label)}</a>')
         nav_items.append(f'<div class="cat"><b>{esc(cat)}</b>{"".join(links)}</div>')
     # ONE RULE, TWO DEPTHS. A page written into round/ links to its siblings by name and to the
     # stylesheet as assets/...  The landing page is written to the repo root, so every one of its
     # links carries the round/ prefix -- including the stylesheet and the footer link. Anything
     # else produces a page that looks right in the editor and 404s on Pages.
-    css_href = "round/assets/dashboard.css" if root else "assets/dashboard.css"
-    footer_flag = ('<a href="round/flagged.html">Flagged for review</a>' if root
-                   else '<a href="flagged.html">Flagged for review</a>')
+    css_href = "assets/dashboard.css"
+    footer_flag = '<a href="flagged.html">Flagged for review</a>'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -301,7 +300,7 @@ def page_landing(d):
     settled = d["results"]["settled_count"]
     cats = []
     for cat, items in NAV:
-        tiles = "".join(f'<a class="tile" href="round/{esc(h)}">{esc(l)}</a>' for l, h in items)
+        tiles = "".join(f'<a class="tile" href="{esc(h)}">{esc(l)}</a>' for l, h in items)
         cats.append(f'<div class="cat-block"><h3>{esc(cat)}</h3><div class="tiles">{tiles}</div></div>')
     flag_rows = [[esc(f["id"]), esc(f["what"]), esc(f["why"]),
                   src(f.get("source") or "")] for f in d["flags"][:8]]
@@ -352,8 +351,8 @@ the signal. On this slate the two estimators disagree by more than 12 points on 
 <p class="lede">Values that could not be confirmed from an official source, and irregularities found
 while verifying. Nothing here blocks publication; each row links to the document in question.</p>
 {table(["ID", "Item", "Why it is flagged", "Source"], flag_rows)}
-<p class="small"><a href="round/flagged.html">All flagged items →</a></p>
-""", root=True)
+<p class="small"><a href="flagged.html">All flagged items →</a></p>
+""", root=False)
 
 
 def page_overview(d):
@@ -1266,9 +1265,14 @@ def main():
         with open(os.path.join(APP, name), "w", encoding="utf-8") as fh:
             fh.write(doc)
         written.append(f"round/{name}")
-    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as fh:
+    # The landing page is written INTO round/ and nowhere else. `index.html` at the repo root is
+    # owned by scripts/build_app.py and is asserted by the Pages workflow, so this builder must not
+    # touch it: doing so silently replaced the canonical dashboard's front door and would have been
+    # overwritten by CI on the next deploy anyway. The round's front door is round/index.html, and
+    # the workflow stages round/ verbatim.
+    with open(os.path.join(APP, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page_landing(d))
-    written.append("index.html")
+    written.append("round/index.html")
 
     # ---- link + source check
     from html.parser import HTMLParser
@@ -1305,11 +1309,6 @@ def main():
         p = P()
         p.feed(open(full, encoding="utf-8").read())
         base = os.path.dirname(full)
-        if path == "index.html":
-            # The landing page is written to the repo root and every link on it points into
-            # round/, so resolving it against ROOT is correct; its stylesheet href carries the
-            # round/ prefix explicitly.
-            base = ROOT
         for h in p.hrefs:
             if h.startswith("#"):
                 if h[1:] not in p.ids:

@@ -3,72 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard · NBA3</title>
-<link rel="stylesheet" href="round/assets/dashboard.css">
+<title>NBA Edge Lab — canonical dashboard — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="app/assets/app.css">
 </head>
 <body>
-<header class="top"><div class="wrap">
-  <div class="brand">NBA3 <span>· originated lines &amp; verification</span></div>
-  <div class="stamp">official sources read 2026-11-16 14:45 UTC · session arena/8f4fac33</div>
-</div></header>
-<nav class="cats"><div class="wrap"><div class="cat"><b>Overview</b><a href="round/overview.html">What this is</a><a href="round/requirements.html">Brief coverage</a><a href="round/methodology.html">Method &amp; rules</a></div><div class="cat"><b>Projections (safe to publish)</b><a href="round/slate.html">Slate 11/16–18</a><a href="round/projections.html">Two estimators</a><a href="round/lines.html">Originated lines</a><a href="round/totals.html">Totals</a><a href="round/context.html">Game context</a></div><div class="cat"><b>Official data</b><a href="round/injuries.html">Injuries 11/16</a><a href="round/injury-delta.html">Injury diff</a><a href="round/results.html">Results 11/15</a><a href="round/team-stats.html">Team statistics</a></div><div class="cat"><b>Bet surface (gated)</b><a href="round/strategies.html">Strategy board</a><a href="round/pricing.html">Prices &amp; parlays</a></div><div class="cat"><b>Decision support</b><a href="round/questions.html">Open questions</a><a href="round/suggestions.html">Site suggestions</a></div><div class="cat"><b>Verification</b><a href="round/sources.html">Sources</a><a href="round/flagged.html">Flagged for review</a><a href="round/archive.html">Earlier sessions</a></div></div></nav>
-<main><div class="wrap">
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="app/freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="app/summary.html">Executive summary</a> <a href="app/methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="app/projections.html">Two-estimator projections</a> <a href="app/lines.html">Originated lines</a> <a href="app/picks.html">Prices for the window</a> <a href="app/injuries.html">Injuries &amp; rotation</a> <a href="app/freshness.html">Report availability</a> <a href="app/gameflow.html">Game flow</a> <a href="app/refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="app/parlays.html">Parlay &amp; prop combos</a> <a href="app/props.html">Player props</a> <a href="app/leaderboard.html">Strategy leaderboard</a> <a href="app/strategies.html">Validation gates</a> <a href="app/correlations.html">Correlations</a> <a href="app/prereg.html">Pre-registration</a> <a href="app/ledger.html">Pick ledger</a> <a href="app/settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="app/questions.html">Open questions</a> <a href="app/suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="app/verification.html">Verification log</a> <a href="app/sources.html">Source register</a> <a href="app/review.html">Repository review</a> <a href="app/flagged.html">Flagged for review</a> <a href="audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="audit_7f3b89af/pages/index.html">Latest audit</a> <a href="audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="page-head">
+    <div class="crumb">Home</div>
+    <h1>NBA Edge Lab — canonical dashboard</h1>
+    <p class="lead">Official-source research dashboard. Every table row links to its source; anything that could not be confirmed is left blank and flagged.</p>
+  </div>
 
-
-<h1>NBA3 dashboard · 2026-11-16</h1>
-<p class="lede">This site publishes two things and refuses to mix them: a <b>projection surface</b>
-(today's slate, the two estimators and where they disagree, the official injury report, the official
-finals feed) that is safe to publish now, and a <b>bet surface</b> (the strategy board and prices)
-that is gated. The headline is the disagreement between two independent estimators; the blend sits
-underneath it.</p>
-
+<section class="hero">
+  <h2>We originate our own NBA lines, then try to prove they are worth anything.</h2>
+  <p>One dashboard for the whole pipeline: lines originated for today and the next three days,
+  15 strategy rules measured out of sample against nine validation gates and ranked on
+  a leaderboard with an explicit luck threshold, the correlations that were actually measured (and
+  the ones left blank), the official injury report with the rotation minutes it vacates, game-flow
+  factors, an executive summary, the open questions, improvement suggestions awaiting a decision, and
+  a review page for everything still unverified.</p>
+  <p class="hero-meta">Window 2026-11-15 → 2026-11-18 ·
+  34 official games · 34 originated lines ·
+  34 priced games · 101 official injury rows ·
+  91 flagged items · snapshot 2026-11-14</p>
+</section>
 <div class="cards">
-  <div class="card"><div class="k">Official games captured</div><div class="v">25</div>
-    <div class="s">2026-11-16 → 2026-11-18, 8 today.
-    Each row links to its official game page.</div>
-    <div class="src"><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">nba.com/schedule</a></div></div>
-  <div class="card"><div class="k">Originated lines</div><div class="v">25</div>
-    <div class="s">spread, total and fair moneyline for every game in the window</div>
-    <div class="src"><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">nba.com/schedule</a></div></div>
-  <div class="card"><div class="k">Injury rows (11/16 09:15 AM ET)</div><div class="v">72</div>
-    <div class="s">57 player rows, 15
-    team rows still <code>NOT YET SUBMITTED</code></div>
-    <div class="src"><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">official PDF</a></div></div>
-  <div class="card"><div class="k">Finals settled (11/15)</div><div class="v">8/9</div>
-    <div class="s">one row per game with all four quarter scores; 1 row is published
-    unsettled because the official game book contradicts itself</div>
-    <div class="src"><a href="https://www.nba.com/games?date=2026-11-15" rel="noopener">nba.com games</a></div></div>
+  <div class="card"><div class="k">Verified official rows</div><div class="v">165</div>
+    <div class="s">schedule + team stats + injury report, each cross-checked field by field against
+    the values already stored</div>
+    <a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official pages</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></div>
   <div class="card"><div class="k">Strategies funded</div><div class="v">0</div>
-    <div class="s">of 25. No team has four captured games yet, so no team can
-    be shown inside the ±2 luck band. Nothing is funded, by rule.</div>
-    <div class="src"><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">nba.com/schedule</a></div></div>
-  <div class="card"><div class="k">Gates</div><div class="v">13/14</div>
-    <div class="s">freshness + provenance gates: all pass, rebuild allowed. One integrity gate fails
-    and withholds exactly one row.</div>
-    <div class="src"><a href="https://official.nba.com/nba-injury-report-2026-27-season/" rel="noopener">official.nba.com</a></div></div>
+    <div class="s">of 15 scored rules. None clears the luck threshold
+    (28.3 pp); the best edge any rule posted is 11.3 pp.</div>
+    <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
+  <div class="card"><div class="k">Correlation values measured</div>
+    <div class="v">3</div>
+    <div class="s">of 8 pairs — 4 are not measurable and left blank, 1 is an assumption printed as one</div>
+    <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
+  <div class="card"><div class="k">Open questions</div><div class="v">47</div>
+    <div class="s">each with what is known, what is missing and what would settle it —
+    18 still need an owner decision</div>
+    <a href="https://github.com/wingbangboozle1-lang/NBA3" target="_blank" rel="noopener noreferrer">repository</a></div>
 </div>
+<section class="cat">
+  <h3>Start here</h3>
+  <div class="tiles">
+    <a class="tile" href="app/summary.html"><span class="tile-t">Executive summary — the headline result</span></a>
+    <a class="tile" href="app/leaderboard.html"><span class="tile-t">Strategy leaderboard — who is winning, and whether it is luck</span></a>
+    <a class="tile" href="app/lines.html"><span class="tile-t">Originated lines for the window</span></a>
+    <a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review — read before trusting a number</span></a>
+  </div>
+</section>
+<section class="cats"><div class="cat"><h3>Overview</h3><div class="tiles"><a class="tile" href="app/summary.html"><span class="tile-t">Executive summary</span></a><a class="tile" href="app/methodology.html"><span class="tile-t">Method &amp; rules</span></a></div></div><div class="cat"><h3>Projection surface (public)</h3><div class="tiles"><a class="tile" href="app/projections.html"><span class="tile-t">Two-estimator projections</span></a><a class="tile" href="app/lines.html"><span class="tile-t">Originated lines</span></a><a class="tile" href="app/picks.html"><span class="tile-t">Prices for the window</span></a><a class="tile" href="app/injuries.html"><span class="tile-t">Injuries &amp; rotation</span></a><a class="tile" href="app/freshness.html"><span class="tile-t">Report availability</span></a><a class="tile" href="app/gameflow.html"><span class="tile-t">Game flow</span></a><a class="tile" href="app/refresh.html"><span class="tile-t">Refresh &amp; provenance gates</span></a></div></div><div class="cat"><h3>Bet surface (gated)</h3><div class="tiles"><a class="tile" href="app/parlays.html"><span class="tile-t">Parlay &amp; prop combos</span></a><a class="tile" href="app/props.html"><span class="tile-t">Player props</span></a><a class="tile" href="app/leaderboard.html"><span class="tile-t">Strategy leaderboard</span></a><a class="tile" href="app/strategies.html"><span class="tile-t">Validation gates</span></a><a class="tile" href="app/correlations.html"><span class="tile-t">Correlations</span></a><a class="tile" href="app/prereg.html"><span class="tile-t">Pre-registration</span></a><a class="tile" href="app/ledger.html"><span class="tile-t">Pick ledger</span></a><a class="tile" href="app/settlement.html"><span class="tile-t">Settlement</span></a></div></div><div class="cat"><h3>Decision support</h3><div class="tiles"><a class="tile" href="app/questions.html"><span class="tile-t">Open questions</span></a><a class="tile" href="app/suggestions.html"><span class="tile-t">Site suggestions</span></a></div></div><div class="cat"><h3>Verification</h3><div class="tiles"><a class="tile" href="app/verification.html"><span class="tile-t">Verification log</span></a><a class="tile" href="app/sources.html"><span class="tile-t">Source register</span></a><a class="tile" href="app/review.html"><span class="tile-t">Repository review</span></a><a class="tile" href="app/flagged.html"><span class="tile-t">Flagged for review</span></a><a class="tile" href="audit_dd1eb1f1/pages/index.html"><span class="tile-t">Independent audit</span></a><a class="tile" href="audit_7f3b89af/pages/index.html"><span class="tile-t">Latest audit</span></a><a class="tile" href="audit_1823b910/pages/index.html"><span class="tile-t">Injury refresh audit</span></a><a class="tile" href="audit_736efb4b/index.html"><span class="tile-t">Injury freshness audit (1:30 PM ET)</span></a><a class="tile" href="audit_94e6d41b/pages/index.html"><span class="tile-t">Game-day refresh audit</span></a></div></div><div class="cat"><h3>Archive</h3><div class="tiles"><a class="tile" href="archive.html"><span class="tile-t">Earlier sessions</span></a></div></div></section>
+<section class="cat">
+  <h3>Highest-severity flags (full list on the <a href="app/flagged.html">Flagged for review</a> page)</h3>
+  <ul class="flag-list">
+  <li><span class="flag-id">NF-12</span> <strong>NBA content reproduction on a public site</strong> — Counsel review; reduce content or obtain permission (SG-01) <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-13</span> <strong>Publishing picks or recommendations</strong> — Counsel opinion (Q-LEG-01) <a href="https://wetten.overheid.nl/BWBR0002469/2025-02-12/0" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-14</span> <strong>No official odds source identified</strong> — Licensed feed or owner-captured prices under terms (SG-04) <a href="https://www.nba.com/schedule" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-15</span> <strong>Historical NBA stats unreachable from this environment</strong> — Network path or owner export with provenance (SG-03) <a href="https://www.nba.com/stats/players/traditional" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-16</span> <strong>Minimum age for online betting not verified</strong> — Read official age provision and cite it (Q-LEG-03) <a href="https://kansspelautoriteit.nl/belangrijkste-regels-voor-kansspelreclame" target="_blank" rel="noopener noreferrer">source</a></li>
+<li><span class="flag-id">NF-23</span> <strong>NBA Terms effective date not visible</strong> — Record the version when counsel reviews <a href="https://www.nba.com/termsofuse" target="_blank" rel="noopener noreferrer">source</a></li>
+  </ul>
+  <p class="small">Related work: <a href="dash/index.html"><b>Unified dashboard (session e40cd215)</b></a> — a second, independent integration round: 174-game re-verification, 22 originated lines from a separate engine, 9 gates, measured parlay dependence, cross-engine reconciliation and a flagged register.</p><p class="small">Later round: <a href="round/index.html"><b>2026-11-16 dashboard (session arena/8f4fac33)</b></a> — the 11/16 official refresh, a 14-gate report with build/row scope, two independent estimators with their disagreement as the headline, and an injury diff taken between two filings for the <i>same</i> game day.</p>
+</section>
+<section class="cat">
+  <h3>Archive — earlier sessions</h3>
+  <p>14 complete dashboards built by earlier sessions are still reachable, from the
+  first data site at <a href="docs/index.html">docs/index.html</a> onwards; the full dated list is
+  on the <a href="archive.html">archive page</a>. Each uses its own ID namespace, its own injury
+  snapshot and its own model variant, so <strong>the pages above are the current numbers</strong>
+  and the archive is history. They are kept because the audit trail is worth something: a reader
+  can see what an earlier round concluded and what changed.</p>
+</section>
 
-<div class="note"><b>Read the projections this way.</b> Where the two estimators agree closely the
-line is marked <span class="pill ok">high</span> confidence; where they disagree by more than four
-points it is <span class="pill bad">low</span>, and that disagreement — not the blended number — is
-the signal. On this slate the two estimators disagree by more than 12 points on 10 of
-25 games, which is the honest measure of how little a 22-game log supports.</div>
-
-<h2>Browse by category</h2>
-<div class="cat-block"><h3>Overview</h3><div class="tiles"><a class="tile" href="round/overview.html">What this is</a><a class="tile" href="round/requirements.html">Brief coverage</a><a class="tile" href="round/methodology.html">Method &amp; rules</a></div></div><div class="cat-block"><h3>Projections (safe to publish)</h3><div class="tiles"><a class="tile" href="round/slate.html">Slate 11/16–18</a><a class="tile" href="round/projections.html">Two estimators</a><a class="tile" href="round/lines.html">Originated lines</a><a class="tile" href="round/totals.html">Totals</a><a class="tile" href="round/context.html">Game context</a></div></div><div class="cat-block"><h3>Official data</h3><div class="tiles"><a class="tile" href="round/injuries.html">Injuries 11/16</a><a class="tile" href="round/injury-delta.html">Injury diff</a><a class="tile" href="round/results.html">Results 11/15</a><a class="tile" href="round/team-stats.html">Team statistics</a></div></div><div class="cat-block"><h3>Bet surface (gated)</h3><div class="tiles"><a class="tile" href="round/strategies.html">Strategy board</a><a class="tile" href="round/pricing.html">Prices &amp; parlays</a></div></div><div class="cat-block"><h3>Decision support</h3><div class="tiles"><a class="tile" href="round/questions.html">Open questions</a><a class="tile" href="round/suggestions.html">Site suggestions</a></div></div><div class="cat-block"><h3>Verification</h3><div class="tiles"><a class="tile" href="round/sources.html">Sources</a><a class="tile" href="round/flagged.html">Flagged for review</a><a class="tile" href="round/archive.html">Earlier sessions</a></div></div>
-
-<h2>Flagged for review</h2>
-<p class="lede">Values that could not be confirmed from an official source, and irregularities found
-while verifying. Nothing here blocks publication; each row links to the document in question.</p>
-<div class="table-wrap"><table class=""><thead><tr><th class="">ID</th><th class="">Item</th><th class="">Why it is flagged</th><th class="">Source</th></tr></thead><tbody><tr><td class="">F01</td><td class="">ATL @ MIL quarter scores contradict the printed final</td><td class="">The game book SCORE BY PERIOD table prints Milwaukee Q3 as 37 (quarters sum 116), while the printed final is 106 and the same document&#x27;s recap line prints 27 in Q3 (sums to 106).</td><td class=""><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" rel="noopener">statsdmz.nba.com</a></td></tr><tr><td class="">F02</td><td class="">NYK @ TOR recap line is truncated</td><td class="">The recap prints &quot;RAPTORS 17 26&quot; - two values where six are expected. The period table sums to the printed 108 in overtime, so the row is settled on the period table.</td><td class=""><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf" rel="noopener">statsdmz.nba.com</a></td></tr><tr><td class="">F03</td><td class="">Jimmy Butler III (GSW) row has no printed status</td><td class="">The PDF text layer prints no Current Status cell for this row; the Reason text occupies the status position.</td><td class=""><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td class="">F04</td><td class="">15 team rows in the injury report read NOT YET SUBMITTED</td><td class="">Clubs that had not filed when the 09:15 AM ET report was produced are listed with a placeholder, not with players.</td><td class=""><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td class="">F05</td><td class="">7 injury rows arrive with a blank TEAM cell</td><td class="">The table continues across a page break and the extractor loses the team cell for the continuation rows.</td><td class=""><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf" rel="noopener">ak-static.cms.nba.com</a></td></tr><tr><td class="">F06</td><td class="">Two game books contain player rows with dropped cells</td><td class="">DAL@BOS Walter Clayton Jr. has no PTS cell; Morez Johnson Jr. has no BS cell; OKC@SAC Adaya Mara&#x27;s row is misaligned.</td><td class=""><a href="https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf" rel="noopener">statsdmz.nba.com</a></td></tr><tr><td class="">F07</td><td class="">No licensed closing-line feed</td><td class="">The closing-lines artefact records a feed status of &quot;not connected&quot;.</td><td class=""><a href="https://www.nba.com/schedule?date=2026-11-16" rel="noopener">www.nba.com</a></td></tr><tr><td class="">F08</td><td class="">No strategy can be funded at this sample size</td><td class="">No team has four captured games, which is the floor this build sets before it will treat a z-score as meaningful.</td><td class=""><a href="https://www.nba.com/games?date=2026-11-15" rel="noopener">www.nba.com</a></td></tr></tbody></table></div>
-<p class="small"><a href="round/flagged.html">All flagged items →</a></p>
-
-</div></main>
-<footer><div class="wrap">
-  Every published value carries an <code>https</code> link to the official NBA document it came from.
-  Anything that could not be confirmed is printed as <span class="na">—</span> and listed on the
-  <a href="round/flagged.html">Flagged for review</a> page. Built by
-  <code>scripts/build_round_site.py</code>; the CI replay fails if this tree drifts from a rebuild.
-</div></footer>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="app/flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
 </body>
 </html>
