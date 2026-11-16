@@ -1009,7 +1009,7 @@ def page_verification(D):
         rows.append([f'<code>{esc(x["id"])}</code>', esc(x["name"]),
                      f'<span class="chip {cls}">{"pass" if x["pass"] else "fail"}</span>',
                      f'<span class="chip">{esc(x["scope"])}</span>', esc(x["detail"]),
-                     src(D["injuries"]["source_url"])])
+                     src(x.get("document") or D["injuries"]["source_url"])])
     body.append(table(["Gate", "What it checks", "Result", "Scope", "Detail", "Document"], rows))
 
     body.append("<h2>Documents read, with retrieval stamp and hash</h2>")

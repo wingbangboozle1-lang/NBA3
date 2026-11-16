@@ -243,6 +243,23 @@ class Gates(unittest.TestCase):
         for x in self.g["gates"]:
             self.assertIn(x["scope"], ("build", "row", "advisory"))
 
+    def test_each_gate_cites_the_document_it_actually_checks(self):
+        """Every gate once cited the injury PDF, including the standings and team-stat checks.
+        A false citation is worse than none."""
+        by_id = {x["id"]: x for x in self.g["gates"]}
+        self.assertEqual(by_id["I1_standings_complete"]["document"],
+                         "https://www.nba.com/standings")
+        self.assertEqual(by_id["I2_home_road_mirror"]["document"],
+                         "https://www.nba.com/standings")
+        self.assertEqual(by_id["I3_net_rating_reconciles"]["document"],
+                         "https://www.nba.com/stats/teams/advanced")
+        self.assertEqual(by_id["I10_totals_formula_is_consistent"]["document"],
+                         "https://www.nba.com/stats/teams/advanced")
+        self.assertEqual(by_id["F4_slate_covers_today_plus_two"]["document"],
+                         "https://www.nba.com/schedule?date=2026-11-16")
+        for x in self.g["gates"]:
+            self.assertTrue(x["document"].startswith("https://"), x["id"])
+
     def test_the_gate_count_is_pinned(self):
         self.assertEqual(self.g["gate_count"], 18)
 
