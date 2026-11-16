@@ -5024,3 +5024,31 @@ Live: <https://wingbangboozle1-lang.github.io/NBA3/> — this round's tree at `/
 - **No market anchor** until a licensed closing-line feed exists; the field is null, not guessed.
 - **No player-prop price** until per-player logs are captured; no rho, so no number.
 - Ten proposals on `round/suggestions.html` are **awaiting a decision** and none is implemented.
+
+---
+
+## Session `arena/d1b96315-nba3` (current) — CLAIM: 11/16 game-day roll — newest official report, 11/16→11/19 slate, standings feed, ATL@MIL re-read, pre-tip ledger verification
+
+Claim written and pushed **before** any analysis, per the board rule. Base: `main` @ `907771b` (PR #109 merge). Branch is fixed by the workspace as `arena/d1b96315-nba3`; the `session-<id>/<task>` naming in the brief does not apply (same reading as every earlier session on this board).
+
+**Why this scope, at claim time (2026-11-16 ~18:22 UTC / 1:22 PM ET).**
+1. The published injury snapshot on `main` is the **09:15 AM ET** report for 11/16 (`data/rounds/2026-11-16/injuries.json`). The official index now lists **53** reports for 11/16, newest **01:15 PM ET** — the reports after the 11 a.m.–1 p.m. local game-day window are the ones that actually carry the game-day designations. 11 of 30 clubs had player rows at 09:15; the newest snapshot has to be re-read before tonight's tips (7:00 PM ET).
+2. **0 of 9** 11/15 games are settled in the canonical result feed `data/app/results_feed.json`; eight are settled in `data/rounds/2026-11-16/results.json` and **ATL @ MIL (`0022600243`) is blocked** on a quarter-score conflict (K-02, `arena/00b0c780-nba3`). Nobody has re-read the two official documents that would settle it.
+3. **No job captures standings.** `K-07` on this board; the brief lists standings as a required refresh target. Two ad-hoc captures exist (`edge/data/standings.json`, `data/v2/captures/official_standings_2026-11-15.json`) and neither feeds the model. The official standings page also carries each club's **home** record, which is a second, independent measurement of the home-win rate the brief asks to be *pinned*.
+4. The scheduled `official data refresh` job is **still red** (run `43925193575`, 2026-11-16 18:06 UTC, failed at "Unit tests (capture, feed, ledger, estimators, gates)"). `scripts/refresh_official.py` and `.github/workflows/refresh.yml` are inside the scope of open PRs #94/#95/#98, so this session **diagnoses and files a change request; it does not edit those two files.**
+5. The ledger `entry_hash` recipe for `data/app/ledger/` is undocumented and does not recompute (K-17, high). This session **re-derives it read-only** and publishes the recipe or the negative result; it does not re-hash another session's chain.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| D1 | Official injury index (11/16) re-read: every listed report timestamp, newest transcribed verbatim, diffed against the published 09:15 AM ET snapshot to detect status changes | in progress | d1b96315 | `d1b96315/**` (new) |
+| D2 | 11/15 finals re-read from the official scoreboard; 8 settled rows carried, ATL @ MIL quarter conflict re-read from the game book; one row per game (date, teams, final, quarter scores) in this session's feed | in progress | d1b96315 | `d1b96315/data/results_2026-11-15.json` (new) |
+| D3 | Standings capture from the official league-standings page + measured home-win rate from the official home records (second pin, independent of the finals pin) | in progress | d1b96315 | `d1b96315/data/standings.json` (new) |
+| D4 | Rolling 3-day slate (11/16–11/19) verified against the official schedule; rest / back-to-back / 3-in-4 recomputed from it | in progress | d1b96315 | `d1b96315/data/slate.json` (new) |
+| D5 | Pre-tip ledger: verify every already-sealed 11/16–11/18 entry hash recomputes, publish this session's own sealed entries with the retrieval stamp, and record the recipe result for K-17 | in progress | d1b96315 | `d1b96315/data/ledger_check.json`, `d1b96315/ledger/ledger.jsonl` (new) |
+| D6 | Lines + signals for tonight's slate from the two estimators with the disagreement as the headline; parlay rho vs naive product printed together; rotation availability as its own column; gate every strategy | in progress | d1b96315 | `d1b96315/model/*`, `d1b96315/data/lines.json` (new) |
+| D7 | Site tree `d1b96315/` (landing + category pages incl. Flagged for Review, Questions, Suggestions, Executive summary) built offline from the data files, every row with an official link or a blank + flag | in progress | d1b96315 | `d1b96315/**` (new) |
+| D8 | CI wiring: one appended build step and one copy line for `d1b96315/`, plus one nav link on the root landing page; full offline replay of every touched step | in progress | d1b96315 | `.github/workflows/pages.yml` (append-only), `scripts/build_app.py` (one nav line), `index.html` (generated) |
+| D9 | Diagnosis of the red scheduled refresh, filed as a change request to its owners (no edit to `refresh.yml` / `scripts/refresh_official.py`) | in progress | d1b96315 | this section (COORDINATION.md) |
+| D10 | PR → merge → confirm Pages deploy → record here | planned | d1b96315 | `COORDINATION.md`, PR |
+
+**Not touched by this session** (other claims / open PRs): `data/app/**`, `data/live/**`, `data/rounds/**`, `round/**`, `app/*.html` (except via the generated `index.html` nav line), `projection/**`, `bet/**`, `v2/**`, `hub/**`, `dash/**`, `audit_*/**`, `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/build_app.py` beyond the one nav line, `scripts/injury_archive.py`.
