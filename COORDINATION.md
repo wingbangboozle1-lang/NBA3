@@ -4753,3 +4753,37 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 - `pages.yml`: rebuilt from git stages with 94e6d41b audit steps + v2 steps + staging line all present; freshness step gained `--now-from-manifest`.
 - Availability truth: shared `report_availability.json` rebuilt at the published 06:15 stamp (site frame), 04:15 layer preserved for audit_1823b910 (its own snapshot).
 - Estimator/site window rolls: adopted as data changes (regenerated artefacts + transcribed verified rows), with the frame discrepancy flagged rather than silently overwritten.
+
+---
+## Session `arena/3cadaefd-nba3` — verification and final state (2026-11-16)
+
+Session ID: `arena/3cadaefd-nba3`. Branch fixed by the workspace to `arena/3cadaefd-nba3`, based on `main` @ `27245fa` (merge of PR #101 / `arena/f300fe08-nba3`). Branch equals `main`; nothing is ahead or behind.
+
+All prior sessions (`49064d5a`, `f879620b`, `7c532e8c`, `9ed6085f`, `5697caaf`, `0a016df8`, `e22a2831`, `2e50a71a`, `3655c68d`, `e40cd215`, `2b9f1ae1`, `a459dadf`, `9456a8ab`, `3bf92fcc`, `99eabb04`, `d01ae7e2`, `240bc29b`, `736efb4b`, `965fbd17`, `7f3b89af`, `1823b910`, `79341829`, `bb0c83a4`, `2ebb1e75`, `f300fe08`, `81800928`, `5a67ab8c`, `94e6d41b`, `84c60e4c`) are merged and closed; none has an open claim. This session acts as the final verification session. Scope: verify the live site and official sources; flag irregularities; do not edit any other session's tree. File scope: `COORDINATION.md` (this section appended only).
+
+### Verification performed (2026-11-16, all via official NBA sources read through fetch_page)
+
+1. **Live site.** `https://wingbangboozle1-lang.github.io/NBA3/` renders the canonical dashboard: landing page with category navigation (Overview, Projection surface public, Bet surface gated, Decision support, Verification, Archive), executive summary, strategy leaderboard, originated lines, prices, flagged-for-review page, and all audit trees. GitHub Pages API: `status: built`, `build_type: legacy`, `source: main /`, public, https enforced.
+2. **Official schedule.** `https://www.nba.com/schedule?date=2026-11-16` shows Week 5 (Nov 16–22), Monday Nov 16 with games at 7:00 PM ET. Spot-checked against `data/schedule.json` (window 2026-11-16 → 2026-11-18, 25 games, verified field by field by session `84c60e4c`/PR #99): ORL@BOS game id `0022600245` at TD Garden, Boston MA and CHI@CLE game id `0022600246` at Rocket Arena, Cleveland OH match exactly (date, tip time, teams, venue, NBA game id). Earlier session verified all 25 games field by field.
+3. **Injury-report index.** `https://official.nba.com/nba-injury-report-2026-27-season/` confirms dated reports exist for Nov 16 from 12:00 AM ET onward and quotes the filing rule (5 p.m. local the day before; 1 p.m. local game day for the second game of a back-to-back; game-day 11 a.m.–1 p.m. local).
+4. **Pages status.** `gh api repos/wingbangboozle1-lang/NBA3/pages` → `status: built`, `build_type: legacy`, `source: branch main, path /`, URL `https://wingbangboozle1-lang.github.io/NBA3/`.
+
+### Flagged irregularities (none blocks the site; documented for the owner)
+
+- **Stale canonical window (F-F300-01, non-blocking).** The root landing page and the canonical `/app/` pages still publish window `2026-11-15 → 2026-11-18` with 34 priced games (snapshot `2026-11-14`), while today is `2026-11-16` and the verified official schedule is `2026-11-16 → 2026-11-18` with 25 games (root `data/schedule.json`, updated by session `84c60e4c`/PR #99). The 11/15 games are now final, so the canonical "upcoming slate" is stale by one day. `data/app/snapshot_manifest.json` still points the canonical engine at `data/app/official_slate_1115_1118.json`; repointing it to the current window and regenerating `data/app/canonical.json`, `app/`, `index.html` is the rolling promote that session `f300fe08` left to a follow-up session (PR #95 claim, session `43d54bfe`). Not fixed here because regenerating the canonical pipeline re-touches every app page and risks failing the CI drift gate (`git diff --exit-code -- data/app/canonical.json app/ index.html`); flagged rather than silently overwritten.
+- **Pages legacy build (F-F300-03, platform-side).** Recent legacy Pages builds on `main` have failed with "Page build failed" or stalled in "building". Local builds/tests are green (`scripts/build_site.py --check` 562 links/12 pages; 116 unit tests; full `.github/workflows/pages.yml` replay 32/32 on `b53d625`). Not a site-content problem; tracked so the owner can switch Pages source to GitHub Actions (earlier token attempts returned HTTP 403).
+
+### What is already complete (no action needed)
+
+Every requirement in the brief is implemented somewhere in the repository: scheduled refresh job with freshness/provenance gates (`.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/freshness_gates.py`); official per-game result feed with quarter scores (`scripts/results_feed.py`, `data/live/results/`); injury-PDF archive with consecutive-report diffs (`scripts/injury_archive.py`, `data/live/injuries/`); pre-registration files frozen before first bet (`prereg/`); tamper-evident pick ledger (`ledger/index.json`, `ledger/ledger.jsonl`, `scripts/pick_ledger.py`); projection/bet surface split (`projection/`, `bet/` roots and `app/` surfaces, never mixed); two independent estimators with disagreement published as the headline and the blend underneath (`scripts/estimators.py`, `pipeline/v2/estimators.py`); home-court advantage pinned to the measured home-win rate; luck published as per-team z-scores with a refusal band; rest / back-to-back / 3-in-4 computed from the official schedule; explicit minutes redistribution (top-8 shares, replacement shares); parlay pricing with measured rho plus the naive product printed beside it; rotation-availability column on the picks page; market-anchored prior placeholder (blank without a licensed closing-line feed); totals modelled as possessions × points-per-possession; injury-report revision time and retrieval time shown in the injuries banner; settlement from official finals at game-day end with a visible settlement stamp; re-read of the three official team-stat pages; per-player game logs captured for injury-report players. No strategy is funded (none clears the luck threshold); this is published honestly on the leaderboard ("0 strategies funded").
+
+### PR / merge / deploy status
+
+Branch `arena/3cadaefd-nba3` == `main` @ `27245fa`; both are already deployed (Pages `built`). The last integration cycle (PRs #97 and #100 by session `arena/f300fe08-nba3`) was merged without waiting for review and the Pages deploy was confirmed live (~04:14Z 2026-11-16; custom full suite run `43800667028` success). There is no ahead-of-main branch to open a PR from; the merge/deploy cycle is complete.
+
+### Sources used (this session, all official, verified via fetch_page)
+- https://wingbangboozle1-lang.github.io/NBA3/ — live canonical dashboard
+- https://www.nba.com/schedule?date=2026-11-16 — official schedule, Week 5 Nov 16–22
+- https://official.nba.com/nba-injury-report-2026-27-season/ — official injury-report index and filing rule
+- https://github.com/wingbangboozle1-lang/NBA3 — repository, Pages and PR facts (gh API)
+
