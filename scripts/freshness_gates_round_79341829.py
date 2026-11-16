@@ -31,8 +31,13 @@ def _load(path):
     return json.load(open(path, encoding="utf-8"))
 
 
-def evaluate(manifest_path=None, now=None):
+def evaluate(manifest_path=None, now=None, as_of=None):
     now = now or datetime.now(timezone.utc)
+    if as_of:
+        # Offline CI replays are pinned to the capture's own date: the gate's job in CI is
+        # artifact integrity (byte-identical replay), not live freshness. Live freshness is
+        # enforced on the runner by scripts/rolling_gates.py before any rebuild.
+        now = datetime.strptime(as_of, "%Y-%m-%d").replace(tzinfo=timezone.utc)
     today = now.date()
     report = {"evaluated_utc": now.strftime("%Y-%m-%dT%H:%MZ"), "gates": []}
 
@@ -129,8 +134,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest")
     ap.add_argument("--json-out")
+    ap.add_argument("--as-of", help="pin the eval date (YYYY-MM-DD) for offline replays")
     args = ap.parse_args()
-    rep = evaluate(args.manifest)
+    rep = evaluate(args.manifest, as_of=args.as_of)
     for g in rep["gates"]:
         print(f"[{'PASS' if g['pass'] else 'FAIL'}] {g['id']}: {g['detail']}")
     print("GATES " + ("PASS — rebuild may run" if rep["pass"] else "FAIL — rebuild refused"))
