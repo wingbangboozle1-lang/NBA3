@@ -23,7 +23,7 @@ REQUIREMENTS = [
      ".github/workflows/refresh.yml", "refresh_official.py",
      "https://official.nba.com/nba-injury-report-2026-27-season/"),
     ("R02", "Rebuild only after freshness and provenance gates pass",
-     "met", "17 gates with explicit build / row / advisory scope; rebuild_allowed is False if any build-scope gate fails",
+     "met", "18 gates with explicit build / row / advisory scope; rebuild_allowed is False if any build-scope gate fails",
      "data/rounds/2026-11-16-1300PM/gates.json", '"rebuild_allowed": true',
      "https://www.nba.com/schedule?date=2026-11-16"),
     ("R03", "Official per-game result feed: one row per game with date, teams, final score, quarter scores",
@@ -147,7 +147,7 @@ REQUIREMENTS = [
      "COORDINATION.md", "fbd2484b",
      "https://github.com/wingbangboozle1-lang/NBA3/pulls"),
     ("R33", "No hallucinations: verify line by line against official sources and provide links",
-     "met", "every published value names its official document; 17 gates check the arithmetic; values the documents do not print are null and flagged",
+     "met", "every published value names its official document; 18 gates check the arithmetic; values the documents do not print are null and flagged",
      "data/rounds/2026-11-16-1300PM/refresh.json", '"sha256"',
      "https://www.nba.com/stats/teams/traditional"),
 ]
@@ -307,11 +307,13 @@ SUGGESTIONS = [
 # ----------------------------------------------------------------------------------------------
 
 FLAGS = [
-    ("F13-01", "The published 11/16 snapshot was 3h 45m behind the official index",
-     "main published the 09:15 AM ET filing while the official index already listed filings to "
-     "1:00 PM ET. Nothing was wrong with the snapshot; it was simply no longer the newest "
-     "official document.",
-     "fixed this round: the 1:00 PM ET filing is captured, diffed and published",
+    ("F13-01", "The published 11/16 snapshot was behind the official index",
+     "main published the 09:15 AM ET filing while the official index already listed later ones. "
+     "Nothing was wrong with the snapshot; it was simply no longer the newest official document. "
+     "The index then advanced once more while this round was being built, from 52 filings for the "
+     "day to 53.",
+     "fixed this round: the newer filings are captured, chained and published "
+     "(09:15 AM -> 01:00 PM -> 01:15 PM ET), each hop diffed by the same rule",
      "https://official.nba.com/nba-injury-report-2026-27-season/", "resolved"),
     ("F13-02", "The 1:00 PM PDF's page break falls inside a row",
      "Chunk 0 ends mid-row at 'PHX@DEN' and chunk 1 begins 'Denver Nuggets | Whitmore, Cam'. A "
