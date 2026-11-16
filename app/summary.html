@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html" class="active">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Official standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html" class="active">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -26,18 +26,6 @@
     <h1>Executive summary</h1>
     
   </div>
-
-<div class="callout"><p><strong>2026-11-16 settlement &amp; scheduled-refresh round</strong>
-(2026-11-16) — session <code>arena/4c69ab99-nba3</code>:</p>
-<ul><li>All nine 2026-11-15 finals were settled from official sources: the per-game results feed now holds 23 rows (2026-11-13 onward), every row with date, teams, final score, quarter scores, a verification state and a visible settlement stamp.</li>
-<li>The sealed pick ledger settled all nine 2026-11-15 picks (43 chained entries; every payload hash re-verified at settlement; chain intact).</li>
-<li>One flag is high severity: ATL @ MIL&#x27;s official game book contradicts itself on a period cell (Q3 37 vs 27). The final is verified by five independent reads; both quarter readings are kept and the contradiction is published, not repaired.</li>
-<li>The scheduled refresh was repaired and extended: it now ingests finished games (final score + per-period scores) from the official games pages&#x27; own JSON, re-cuts the feed, settles the feed and the ledger each run, derives standings from the post-game records it already sees, and its unit tests no longer break when the slate window rolls.</li>
-<li>The 2026-11-16 injury capture (01:45 PM ET filing, the newest on the official index) is stored with its timestamp and diffed against the consecutive 01:30 PM filing and the previous archived report; the Injuries page banner carries the report revision time and the retrieval window.</li>
-<li>Official standings through 2026-11-15 are captured with source links (W-L cross-checked against the game books and the games pages; win/loss sums equal 197 completed games).</li>
-<li>Decision-support registers were extended: 7 open questions, 4 suggestions awaiting a reviewer&#x27;s path choice before implementation, 6 flagged irregularities — none of them block the site, all of them keep source links.</li></ul>
-<p>Sources: <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></p></div>
-
 
 <div class="callout"><strong>Headline confidence: the two independent estimators disagree by
 6.8 points</strong> on average
@@ -68,8 +56,16 @@ and never mixes them.</div>
       <a href="https://www.nba.com/games?date=" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
 <div class="card"><div class="k">Official injury rows</div>
       <div class="v">101</div>
-      <div class="s">2026-11-15 06:15 AM ET — the table this card reads. A newer report (01:30 PM ET) is listed on the official index: see the injuries page, section 1b</div>
+      <div class="s">2026-11-15 06:15 AM ET — the table this card reads. Newest archived
+      report: Injury Report: 11/16/26 01:15 PM (revision time), retrieved
+      2026-11-16T18:35Z — injuries page, section 1d</div>
       <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></div>
+<div class="card"><div class="k">Settled official results</div>
+      <div class="v">23</div>
+      <div class="s">of 23 feed rows, game days through 2026-11-15 — every final
+      verified from official reads before settlement; settlement stamps stay visible on the
+      settlement page.</div>
+      <a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">nba.com/games</a></div>
 </div>
 
 <h2>1. What this project is, in one paragraph</h2>

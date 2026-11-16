@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Official standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html" class="active">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html" class="active">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -33,7 +33,7 @@ settled only from verified official finals. 23 of
 the quarter scores sum to the printed final for both teams (checked offline in
 <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_official_2026_11_15.py">capture_official_2026_11_15.py</a>
 and <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py">results_feed.py</a>).
-A row is settled only when the game state is Final AND the quarter scores sum to the printed final for both teams (checked offline). Rows without captured quarter scores stay unsettled and flagged. A row whose official book contradicts itself on one period cell (quarter_conflict) settles on the verified FINAL score and keeps both readings of the disputed cell flagged — see quarter_conflict_note.</p>
+A row is settled only after the final score is verified from official reads (at minimum the official scoreboard; 2026-11-15 rows carry a second independent read from the game summary page). When quarter scores are captured they must sum to the printed final for both sides or the row is withheld and flagged; quarter values that conflict between two official documents are published from the game-page LINESCORES with the conflict recorded on the row and flagged for review, never repaired by hand. Rows without captured quarter scores are settled on the verified final alone, with that noted in the settlement stamp.</p>
 
 <div class="table-wrap"><table>
 <caption id="results-feed"></caption>
@@ -156,7 +156,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -167,7 +167,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -178,7 +178,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -189,7 +189,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-14</td>
@@ -200,7 +200,7 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
 <td>settled 2026-11-15T11:33Z from the official game book; quarter sums == finals</td>
-<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf</a></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -210,8 +210,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>37 / 16 / 27 / 26</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final ATL 113 - MIL 106; quarter sums == finals (game book verified); the official book&#x27;s period table conflicts with its summary line on one period cell (flagged, both readings kept) — the final score itself is verified by the printed final, the summary line and the player box sums <span class="unverified">[quarter conflict — both readings kept, see flag]</span></td>
-<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final ATL 113 - MIL 106; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/atl-vs-mil-0022600243" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -221,8 +221,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>22 / 29 / 33 / 29</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/cha-vs-lac-0022600238" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -232,8 +232,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>42 / 25 / 37 / 27</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final DAL 94 - BOS 131; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final DAL 94 - BOS 131; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/dal-vs-bos-0022600240" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -243,8 +243,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>31 / 23 / 34 / 31</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final HOU 147 - WAS 119; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final HOU 147 - WAS 119; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/hou-vs-was-0022600242" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -254,8 +254,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>29 / 29 / 39 / 34</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/ind-vs-phi-0022600236" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -265,19 +265,19 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>24 / 30 / 26 / 43</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/lal-vs-phx-0022600237" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
 <td>NYK @ TOR</td>
 <td>112 - 108</td>
-<td>23 / 24 / 20 / 28 / OT 17</td>
-<td>17 / 26 / 31 / 21 / OT 13</td>
+<td>23 / 24 / 20 / 28</td>
+<td>17 / 26 / 31 / 21</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final NYK 112 - TOR 108; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final NYK 112 - TOR 108; quarter sums == finals (5 periods, verified)</td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600241" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -287,8 +287,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>24 / 26 / 30 / 23</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final OKC 125 - SAC 103; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final OKC 125 - SAC 103; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/okc-vs-sac-0022600244" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 <tr>
 <td>2026-11-15</td>
@@ -298,8 +298,8 @@ A row is settled only when the game state is Final AND the quarter scores sum to
 <td>33 / 22 / 26 / 21</td>
 <td><span class="chip chip-ok">verified</span></td>
 <td><span class="chip chip-ok">settled</span></td>
-<td>settled at 2026-11-16T18:40Z (game day end, 2026-11-15) from the official final SAS 110 - UTA 102; quarter sums == finals (game book verified)</td>
-<td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf</a></td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final SAS 110 - UTA 102; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://www.nba.com/game/sas-vs-uta-0022600239" target="_blank" rel="noopener noreferrer">official</a></td>
 </tr>
 </tbody></table></div>
 </main>

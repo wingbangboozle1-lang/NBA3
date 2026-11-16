@@ -34,7 +34,7 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 GAMES = ROOT / "data" / "origin" / "games.csv"
-RESULTS_1114 = ROOT / "data" / "live" / "results" / "games_2026-11-14.json"
+RESULTS_LIVE = ROOT / "data" / "live" / "results"
 STATS = ROOT / "data" / "live" / "team_stats_advanced.json"
 LOGS = ROOT / "data" / "live" / "player_game_logs.json"
 OUT = ROOT / "data" / "live" / "model.json"
@@ -88,15 +88,19 @@ def load_games() -> list[dict]:
                 "away_pts": int(row["away_pts"]), "home_pts": int(row["home_pts"]),
                 "ot": int(row["ot"]),
             })
-    if RESULTS_1114.exists():
-        payload = json.loads(RESULTS_1114.read_text())
+    if RESULTS_LIVE.exists():
         have = {g["game_id"] for g in games}
-        for g in payload["games"]:
-            if g["game_id"] in have:
-                continue
-            games.append({"date": g["date"], "game_id": g["game_id"], "away": g["away"],
-                          "home": g["home"], "away_pts": g["away_final"],
-                          "home_pts": g["home_final"], "ot": 1 if g["ot"] else 0})
+        # every captured game day in data/live/results/ joins the estimation sample, so a
+        # newly settled day re-cuts the model inputs (gate F9 checks the sample end against
+        # the newest settled game date)
+        for path in sorted(RESULTS_LIVE.glob("games_*.json")):
+            payload = json.loads(path.read_text())
+            for g in payload["games"]:
+                if g["game_id"] in have:
+                    continue
+                games.append({"date": g["date"], "game_id": g["game_id"], "away": g["away"],
+                              "home": g["home"], "away_pts": g["away_final"],
+                              "home_pts": g["home_final"], "ot": 1 if g["ot"] else 0})
     games.sort(key=lambda g: (g["date"], g["game_id"]))
     return games
 

@@ -82,40 +82,31 @@ def game_log():
     """Every final this repository has captured from an official document, newest last.
 
     Two sources, both official and both re-read for this round:
-      data/app/results_feed.json       the per-game results feed (2026-11-13 onward)
+      data/app/results_feed.json       14 finals (2026-11-13 and 2026-11-14)
       data/rounds/.../results.json      9 finals (2026-11-15), of which 8 are settled
-    Session arena/4c69ab99-nba3 moved the nine 2026-11-15 finals into the canonical feed
-    (one row per game: date, teams, final score, quarter scores), so the merge below is
-    now de-duplicated by (date, away, home) and the feed row wins. The closed log is
-    unchanged: the same 22 games, the same margins.
-
-    Two rows are never fed to an estimator:
-      * an UNSETTLED row — a game whose own document contradicts itself;
-      * a row flagged quarter_conflict — same reason: the official game book contradicts
-        itself on one period cell (0022600243 ATL @ MIL). Its FINAL is verified and the
-        row is settled in the feed and in the pick ledger; its quarter split stays flagged
-        and the contradiction is not imported into the ratings.
+    An UNSETTLED row is never fed to an estimator: it is a game whose own document contradicts
+    itself, so using it would import a contradiction into the ratings.
     """
     feed = json.load(open(os.path.join(ROOT, "data/app/results_feed.json"), encoding="utf-8"))
+    results = load("results.json")
+    # This round's own capture (results.json) is the round's frozen reading and it carries
+    # its own settled flags: a game it holds is taken from it, with ITS flag, and its feed row
+    # is skipped. The app feed has since settled 2026-11-15 rows (session arena/4054e125-nba3,
+    # quarters published from the game-page LINESCORES with the ATL@MIL conflict flagged);
+    # without this de-dup the log would count those eight games twice and the replay would
+    # stop reproducing this round's pinned artefacts. A game the round's capture excludes
+    # (0022600243, unsettled there by design) stays excluded here.
+    round_held = {(r["date"], r["away"], r["home"]) for r in results["rows"]}
     games = []
-    seen = set()
     for g in feed["games"]:
-        key = (g["date"], g["away"], g["home"])
-        if key in seen:
+        if not g.get("settled"):
             continue
-        seen.add(key)
-        if not g.get("settled") or g.get("quarter_conflict"):
+        if (g["date"], g["away"], g["home"]) in round_held:
             continue
         games.append({"date": g["date"], "away": g["away"], "home": g["home"],
                       "away_pts": g["away_pts"], "home_pts": g["home_pts"],
-                      "source": g.get("gamebook") or g.get("verified_from"),
-                      "game_id": g.get("game_id")})
-    results = load("results.json")
+                      "source": g.get("verified_from"), "game_id": None})
     for r in results["rows"]:
-        key = (r["date"], r["away"], r["home"])
-        if key in seen:
-            continue
-        seen.add(key)
         if not r.get("settled"):
             continue
         games.append({"date": r["date"], "away": r["away"], "home": r["home"],

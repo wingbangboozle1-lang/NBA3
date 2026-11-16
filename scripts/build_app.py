@@ -47,7 +47,7 @@ NAV = [
         ("Prices for the window", "app/picks.html"),
         ("Injuries & rotation", "app/injuries.html"),
         ("Report availability", "app/freshness.html"),
-        ("Official standings", "app/standings.html"),
+        ("Standings", "app/standings.html"),
         ("Game flow", "app/gameflow.html"),
         ("Refresh & provenance gates", "app/refresh.html"),
     ]),
@@ -106,18 +106,16 @@ def _load_new():
     NEW["delta1115"] = rd("data/app/injury_delta_1115.json", {})
     NEW["gates"] = rd("data/app/gate_report.json", {"gates": []})
     NEW["closing"] = rd("data/app/closing_lines.json", {})
-    NEW["flags_session"] = rd("data/app/flags_79341829.json", [])
-    NEW["questions_session"] = rd("data/app/questions_79341829.json", [])
-    NEW["suggestions_session"] = rd("data/app/suggestions_79341829.json", [])
-    # session arena/4c69ab99-nba3: the 2026-11-16 captures and registers
-    NEW["inj1116"] = rd("data/app/official_injuries_2026-11-16_0145PM.json", {"rows": []})
-    NEW["delta1116"] = rd("data/app/injury_delta_1116.json", {})
-    NEW["standings"] = rd("data/app/standings_2026-11-16.json", {})
-    NEW["standings_latest"] = rd("data/app/standings_latest.json", {})
-    NEW["summary_4c69"] = rd("data/app/summary_4c69ab99.json", {})
-    NEW["flags_session"] = NEW["flags_session"] + rd("data/app/flags_4c69ab99.json", [])
-    NEW["questions_session"] = NEW["questions_session"] + rd("data/app/questions_4c69ab99.json", [])
-    NEW["suggestions_session"] = NEW["suggestions_session"] + rd("data/app/suggestions_4c69ab99.json", [])
+    NEW["flags_session"] = (rd("data/app/flags_79341829.json", [])
+                           + rd("data/app/flags_4054e125.json", []))
+    NEW["questions_session"] = (rd("data/app/questions_79341829.json", [])
+                                + rd("data/app/questions_4054e125.json", []))
+    NEW["suggestions_session"] = (rd("data/app/suggestions_79341829.json", [])
+                                  + rd("data/app/suggestions_4054e125.json", []))
+    NEW["standings"] = rd("data/live/standings.json", {"teams": {}})
+    NEW["inj_deltas"] = rd("data/live/injuries/deltas.json", {"deltas": []})
+    NEW["inj_archive"] = rd("data/live/injuries/archive_index.json",
+                            {"files": [], "totals": {}})
     ledger = []
     p = os.path.join(ROOT, "data", "app", "ledger", "ledger.jsonl")
     if os.path.exists(p):
@@ -406,16 +404,6 @@ def page_summary(d):
     funded = [s for s in strategies if s["tier"] == "T1"]
     provisional = [s for s in strategies if s["tier"] == "T2"]
     body = []
-    # ---- latest round summary (session arena/4c69ab99-nba3), reviewer-facing headline block
-    s4 = NEW.get("summary_4c69") or {}
-    if s4.get("bullets"):
-        items = "\n".join(f"<li>{esc(b)}</li>" for b in s4["bullets"])
-        body.append(f"""
-<div class="callout"><p><strong>{esc(s4.get('title', 'Latest round'))}</strong>
-({esc(str(s4.get('when', '')))}) — session <code>{esc(str(s4.get('id', '')))}</code>:</p>
-<ul>{items}</ul>
-<p>Sources: {" · ".join(f'<a href="{esc(u)}" target="_blank" rel="noopener noreferrer">{esc(u)}</a>' for u in s4.get('sources', []))}</p></div>
-""")
 
     est = NEW.get("est") or {}
     body.append(f"""
@@ -449,8 +437,19 @@ and never mixes them.</div>
       {src_cell([lab['meta']['source_games']], 'nba.com/games')}</div>""")
     body.append(f"""<div class="card"><div class="k">Official injury rows</div>
       <div class="v">{d['injuries']['count']}</div>
-      <div class="s">{d['injuries']['report_stamp']} — the table this card reads. A newer report (01:30 PM ET) is listed on the official index: see the injuries page, section 1b</div>
+      <div class="s">{d['injuries']['report_stamp']} — the table this card reads. Newest archived
+      report: {esc(_inj_latest().get('report_header') or 'n/a')} (revision time), retrieved
+      {esc(str(_inj_latest().get('retrieved_utc') or 'n/a'))} — injuries page, section 1d</div>
       {src_cell([d['injuries']['source_url']], 'official PDF')}</div>""")
+    _feed_rows = (NEW.get('feed') or {}).get('games') or []
+    _settled = [g for g in _feed_rows if g.get('settled')]
+    _last_day = max((g['date'] for g in _settled), default='')
+    body.append(f"""<div class="card"><div class="k">Settled official results</div>
+      <div class="v">{len(_settled)}</div>
+      <div class="s">of {len(_feed_rows)} feed rows, game days through {_last_day} — every final
+      verified from official reads before settlement; settlement stamps stay visible on the
+      settlement page.</div>
+      {src_cell(['https://www.nba.com/games'], 'nba.com/games')}</div>""")
     body.append("</div>")
 
     body.append(f"""
@@ -1395,80 +1394,67 @@ Raw text and the parser are in the repository (<a href="{DELTA_RAW_0130}" target
     return "\n".join(out)
 
 
+def _inj_latest():
+    """The newest archived injury report entry (archive_index.json files are ordered
+    oldest to newest by the report's real clock time)."""
+    files = (NEW.get("inj_archive") or {}).get("files") or []
+    return files[-1] if files else {}
+
+
+def page_standings(d):
+    st = NEW.get("standings") or {}
+    teams = st.get("teams") or {}
+    src = st.get("source_url") or "https://www.nba.com/standings"
+    body = []
+    if not teams:
+        body.append('<div class="callout warn">No standings capture is committed. The table '
+                    'stays blank rather than filled from memory.</div>')
+        return "\n".join(body)
+    checks = st.get("checks") or {}
+    body.append(f"""
+<p>Official 2026-27 regular-season standings as printed on the
+<a href="{esc(src)}" target="_blank" rel="noopener noreferrer">official standings page</a>,
+captured <strong>{esc(str(st.get('retrieved_utc', '')))}</strong> (retrieval time; revision time
+is the page's own "as of" state at that read — the page prints no separate revision stamp, so
+none is invented here). Full verbatim transcription, including the per-team game-card
+cross-check table:
+<a href="{REPO_URL}/blob/main/{esc(st.get('capture_file', 'data/live/raw/standings_2026-11-16.md'))}">capture file</a>.
+Capture checks: {len(teams)} teams, win% and GB arithmetic recomputed for every row,
+HOME+ROAD+Neutral splits sum to W-L, and every team's record equals the record printed on its
+official game cards ({esc(str((st.get('counts') or {}).get('game_card_cross_check_rows', '')))} teams
+cross-checked). The capture script refuses to publish a table that fails any check
+(gate <strong>F11</strong> on the <a href="refresh.html">refresh &amp; provenance gates page</a>).</p>
+""")
+    for conf in ("East", "West"):
+        rows_teams = sorted(((name, row) for name, row in teams.items()
+                             if row.get("conference") == conf),
+                            key=lambda kv: (kv[1].get("rank") or 99))
+        rows = []
+        for name, r in rows_teams:
+            rows.append([
+                esc(str(r.get("rank", ""))), esc(name),
+                esc(str(r.get("w", ""))), esc(str(r.get("l", ""))),
+                esc(str(r.get("win_pct", ""))), esc(str(r.get("gb", ""))),
+                esc(str(r.get("conf_record", ""))), esc(str(r.get("div_record", ""))),
+                esc(str(r.get("home_record", ""))), esc(str(r.get("road_record", ""))),
+                esc(str(r.get("neutral_record", ""))), esc(str(r.get("ot_record", ""))),
+                esc(str(r.get("last10", ""))), esc(str(r.get("streak", ""))),
+                src_cell([src], "official standings page"),
+            ])
+        body.append(table([f"{conf}ern Conference — Rank", "Team", "W", "L", "WIN%", "GB",
+                           "CONF", "DIV", "HOME", "ROAD", "Neutral", "OT", "LAST10", "STREAK",
+                           "Source"], rows, f"standings{conf.lower()}"))
+    body.append("""
+<div class="callout"><p><strong>Blank means blank.</strong> Any cell the official page does not
+print stays empty here; nothing is derived to fill one. GB is the page's own games-behind column
+(recomputed against the conference leader as a capture check, not substituted).</p></div>""")
+    return "\n".join(body)
+
+
 def page_injuries(d):
     inj = d["injuries"]
     lab = d["lab"]
     body = []
-    # ---- banner: the CURRENT newest official report, with revision + retrieval times (brief).
-    nj = NEW.get("inj1116") or {}
-    if nj.get("rows"):
-        body.append(f"""
-<div class="callout"><p><strong>Injury-page banner — current newest official report:
-revision time {esc(nj.get('report_revision_time', ''))}</strong>
-(<a href="{esc(nj.get('source_url', ''))}" target="_blank" rel="noopener noreferrer">PDF</a> ·
-<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/{esc(nj.get('raw_file', ''))}" target="_blank" rel="noopener noreferrer">verbatim transcript</a>),
-<strong>retrieval time {esc(str(nj.get('retrieved_stamp', '')))}</strong>
-({esc(nj.get('retrieval', ''))}). {esc(str(nj.get('player_rows', 0)))} player rows ·
-{esc(str(nj.get('not_submitted_rows', 0)))} sides printed “NOT YET SUBMITTED” ·
-{esc(str(len(nj.get('extraction_quirks', []))))} extraction-quirk line(s) kept verbatim
-(never repaired). The newest listing on the
-<a href="{esc(nj.get('index_url', ''))}" target="_blank" rel="noopener noreferrer">official index</a>
-at read time ran 12:00 AM through 1:45 PM ET for 11/16. Consecutive-report diff
-(01:45 PM vs 01:30 PM, 15 minutes apart) and the diff against the previous archived report are
-below in <a href="#s1d">section 1d</a>; the archived 11/15 table and its own diffs stay in
-sections 1–1c unchanged.</p></div>
-""")
-        rows = []
-        for r in nj.get("rows", []):
-            rows.append([
-                esc(str(r.get("game_date") or "")), esc(str(r.get("matchup") or "")),
-                esc(str(r.get("team") or "")), esc(str(r.get("player") or "")),
-                esc(str(r.get("status") or "")), esc(str(r.get("reason") or "")),
-                src_cell([nj.get("source_url", "https://official.nba.com/nba-injury-report-2026-27-season/")],
-                         "official report"),
-            ])
-        body.append('<h2 id="s1d">1d. 2026-11-16 01:45 PM ET capture (current newest)</h2>')
-        body.append(table(["Game date", "Matchup", "Team", "Player", "Status", "Reason", "Source"],
-                          rows, "injuries-1116"))
-        qrows = [[f"<code>{esc(q)}</code>",
-                  src_cell([nj.get("source_url", "")], "official report")]
-                 for q in nj.get("extraction_quirks", [])]
-        if qrows:
-            body.append("<p>Extraction quirks (verbatim lines whose status cell the PDF "
-                        "extraction dropped — kept as printed, never guessed):</p>")
-            body.append(table(["Verbatim line", "Source"], qrows, "injuries-1116-quirks"))
-        d1 = NEW.get("delta1116") or {}
-        dc = d1.get("diff_consecutive") or {}
-        dp = d1.get("diff_previous_archived") or {}
-        if dc:
-            crows = []
-            for r in dc.get("player_rows_added", []):
-                crows.append(["added", esc(str(r.get("key"))), esc(str(r.get("status"))),
-                              esc(str(r.get("reason"))),
-                              src_cell([dc.get("new_report", "")], "new filing")])
-            for r in dc.get("player_rows_removed", []):
-                crows.append(["removed", esc(str(r.get("key"))), esc(str(r.get("status"))),
-                              esc(str(r.get("reason"))),
-                              src_cell([dc.get("prior_report", "")], "prior filing")])
-            for r in dc.get("status_changes", []):
-                crows.append([f"status {esc(str(r.get('from')))} → {esc(str(r.get('to')))}",
-                              esc(str(r.get("key"))), esc(str(r.get("to"))),
-                              esc(str(r.get("reason"))),
-                              src_cell([dc.get("new_report", "")], "new filing")])
-            body.append(f"""
-<p><strong>Consecutive-report diff</strong> — {esc(dc.get('new_report_stamp', ''))} vs
-{esc(dc.get('prior_report_stamp', ''))} ({esc(dc.get('prior_label', 'prior filing'))}):
-{len(dc.get('player_rows_added', []))} added, {len(dc.get('player_rows_removed', []))} removed,
-{len(dc.get('status_changes', []))} status changes on overlapping rows.
-Previous archived report diff ({esc(dp.get('prior_report_stamp', ''))}):
-{len(dp.get('player_rows_added', []))} added, {len(dp.get('player_rows_removed', []))} removed,
-{len(dp.get('status_changes', []))} status changes (different game-day sections, so keys barely overlap).</p>
-""")
-            if crows:
-                body.append(table(["Change", "Key (game date, team, player)", "Status", "Reason",
-                                   "Source"], crows, "injury-delta-1116"))
-            for n in d1.get("notes", []):
-                body.append(f"<p class=\"small\">{esc(n)}</p>")
     body.append(f"""
 <p>Transcribed from the official NBA injury report
 <strong>{esc(inj['report_stamp'])}</strong> (<a href="{esc(inj['source_url'])}" target="_blank" rel="noopener noreferrer">PDF</a>).
@@ -1478,11 +1464,12 @@ is published as such rather than treated as healthy — “unknown” and “fit
 and every downstream number respects the difference.</p>
 <p><strong>Report revision time (the table below): {esc(inj['report_stamp'])} ·
 retrieval time: {esc(str(inj.get('retrieved_stamp')))}.</strong>
-Newest official report at last refresh: <strong>2026-11-15 06:15 AM ET</strong> (revision time),
-retrieved <strong>2026-11-15T11:33Z</strong> — full table and consecutive-report diff in
-<a href="#s1c">section 1c</a>. The scheduled refresh job re-reads the official index four times a
-day; the freshness and provenance gates that govern every rebuild are on the
-<a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
+Newest archived official report: <strong>{esc(_inj_latest()['report_header'] or 'n/a')}</strong>
+(revision time), retrieved <strong>{esc(str(_inj_latest().get('retrieved_utc') or 'n/a'))}</strong> —
+full table, consecutive-report diff and extraction-artifact notes in
+<a href="#s1d">section 1d</a>. The scheduled refresh job re-reads the official index four times a
+day and archives every report it lists; the freshness and provenance gates that govern every
+rebuild are on the <a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
 <div class="callout warn">
 <p><strong>Freshness check: a newer official report exists.</strong> At 18:45 UTC on 2026-11-14 the
 <a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
@@ -1589,6 +1576,43 @@ Diff file: <a href="{REPO_URL}/blob/main/data/app/injury_delta_1115.json">data/a
                            "Status and reason", "Team cell provenance", "Source"],
                           rows2, "injury-rows-0615"))
 
+    # ---- section 1d: the newest archived report + its consecutive-report diff
+    latest = _inj_latest()
+    deltas = NEW.get("inj_deltas", {}).get("deltas") or []
+    last_delta = deltas[-1] if deltas else {}
+    body.append(f"""
+<h2 id="s1d">1d. The newest archived report — {esc(latest.get('report_header') or latest.get('report_stamp') or '')}</h2>
+<p><strong>Report revision time: {esc(str(latest.get('report_header') or ''))} ·
+retrieval time: {esc(str(latest.get('retrieved_utc') or ''))}.</strong>
+Source: <a href="{esc(latest.get('source_url') or '')}" target="_blank" rel="noopener noreferrer">official PDF</a>
+({esc(latest.get('file') or '')}, archived verbatim;
+<a href="{REPO_URL}/tree/main/data/live/injuries">archive directory</a>).
+{len(latest.get('player_rows') or [])} player rows parsed, {len(latest.get('team_rows') or [])} team rows
+printed “NOT YET SUBMITTED”, {len(latest.get('unparseable_rows') or [])} rows the PDF's page breaks
+damaged beyond parsing (published as raw cells, never guessed — <a href="flagged.html">1116-F-03</a>).</p>
+<div class="callout warn"><strong>Consecutive-report diff vs
+{esc(last_delta.get('from_stamp') or '')}:</strong>
+{esc(str(last_delta.get('counts', {}).get('status_changes', '')))} status changes,
+{esc(str(last_delta.get('counts', {}).get('added', '')))} player rows added,
+{esc(str(last_delta.get('counts', {}).get('removed', '')))} removed
+(each removal is a row the newer report does not print — usually a played game leaving the report,
+not a player becoming available). The two reports are
+<strong>not adjacent</strong>: the official index listed further reports between them that this
+archive did not hold at the time (<a href="flagged.html">1116-F-02</a>), so a status change inside
+that gap cannot be dated from the archive alone.
+Diff file: <a href="{REPO_URL}/blob/main/data/live/injuries/deltas.json">data/live/injuries/deltas.json</a>.</div>
+""")
+    sc = last_delta.get("status_changes") or []
+    if sc:
+        srows = [[esc(c.get("player", "")), esc(c.get("team", "")), esc(c.get("matchup", "")),
+                  esc(c.get("from", "")), esc(c.get("to", "")),
+                  esc(c.get("reason_from", "")), esc(c.get("reason_to", "")),
+                  src_cell([latest.get("source_url") or ""], "official PDF")] for c in sc]
+        body.append(table(["Player", "Team", "Matchup", "Status was", "Status now",
+                           "Reason was", "Reason now", "Source"], srows, "injury-status-changes"))
+    else:
+        body.append('<p>No status changes on overlapping rows between the two archived reports.</p>')
+
     body.append(f"""
 <h2>2. What the absences do to a rotation</h2>
 <p>The table below sums the <strong>official season minutes</strong> — and the official season
@@ -1656,49 +1680,6 @@ the kind of number that gets a bankroll staked on it.</p>
 def _base(path):
     """File name only - the manifest stores repo-relative paths for readers, not for display."""
     return (path or "").split("/")[-1] if path else "\u2014"
-
-
-def page_standings(d):
-    st = NEW.get("standings") or {}
-    body = []
-    body.append(f"""
-<p>Official 2026-27 regular-season standings captured from the
-<a href="{esc(st.get('source_url', 'https://www.nba.com/standings'))}" target="_blank" rel="noopener noreferrer">nba.com standings page</a>
-(Overall, by conference). Records reflect every completed game through 2026-11-15 — including the nine
-2026-11-15 finals settled in the results feed. Retrieval window:
-<strong>{esc(str(st.get('retrieval_window_utc', '')))}</strong>. Every row links its official team page.</p>
-<p>Cross-checks: {esc(" · ".join(st.get('cross_checks', [])))}</p>
-""")
-    gpc = st.get("games_played_check") or {}
-    if gpc:
-        body.append(f'<p>Identity check: sum of wins = sum of losses = '
-                    f'<strong>{esc(str(gpc.get("sum_wins", "")))}</strong> completed games '
-                    f'({esc(str(gpc.get("note", "")))}).</p>')
-    for conf, label in (("east", "Eastern Conference"), ("west", "Western Conference")):
-        rows = []
-        for t in st.get(conf, []):
-            rows.append([
-                esc(str(t.get("rank", ""))), esc(t.get("team", "")),
-                esc(str(t.get("w", ""))) + "-" + esc(str(t.get("l", ""))),
-                esc(str(t.get("win_pct", ""))), esc(str(t.get("gb", ""))),
-                esc(str(t.get("conf", ""))), esc(str(t.get("div", ""))),
-                esc(str(t.get("home", ""))), esc(str(t.get("road", ""))),
-                esc(str(t.get("ot", ""))), esc(str(t.get("last10", ""))),
-                esc(str(t.get("streak", ""))),
-                src_cell([t.get("team_url", st.get("source_url", ""))], "official team page"),
-            ])
-        body.append(f"<h2>{esc(label)}</h2>")
-        body.append(table(["#", "Team", "W-L", "WIN%", "GB", "Conf", "Div", "Home", "Road",
-                           "OT", "Last 10", "Streak", "Source"], rows, f"standings-{conf}"))
-    latest = NEW.get("standings_latest") or {}
-    if latest.get("teams"):
-        body.append(f"""
-<p>The scheduled refresh job keeps a derived standings snapshot as well
-(data/app/standings_latest.json): W-L per team taken from the post-game records printed on the
-official games pages it ingests each run ({esc(str(latest.get('count', 0)))} teams), so standings
-stay current between manual captures of the standings page.</p>
-""")
-    return "\n".join(body)
 
 
 def page_freshness(d):
@@ -2446,24 +2427,15 @@ and <a href="{REPO_URL}/blob/main/scripts/results_feed.py">results_feed.py</a>).
     for g in feed.get("games", []):
         def q(v):
             return esc(str(v)) if v is not None else '<span class="unverified">— (not captured)</span>'
-
-        def qline(side):
-            s = " / ".join(q(g[f"{side}_q{i}"]) for i in (1, 2, 3, 4))
-            if g.get(f"{side}_ot1") is not None:
-                s += f" / OT {q(g[f'{side}_ot1'])}"
-            return s
-        conflict = (' <span class="unverified">[quarter conflict — both readings kept, '
-                    'see flag]</span>') if g.get("quarter_conflict") else ""
         rows.append([
             esc(g["date"]), f"{esc(g['away'])} @ {esc(g['home'])}",
             f"{esc(str(g['away_pts']))} - {esc(str(g['home_pts']))}",
-            qline("away"), qline("home"),
+            f"{q(g['away_q1'])} / {q(g['away_q2'])} / {q(g['away_q3'])} / {q(g['away_q4'])}",
+            f"{q(g['home_q1'])} / {q(g['home_q2'])} / {q(g['home_q3'])} / {q(g['home_q4'])}",
             chip("verified", "ok") if g.get("verified") else chip("unverified", "bad"),
             chip("settled", "ok") if g.get("settled") else chip("open", "warn"),
-            esc(g.get("settlement_stamp") or g.get("quarter_check") or "") + conflict,
-            src_cell([u for u in (g.get("game_url") or g.get("verified_from")
-                                  or "https://www.nba.com/games", g.get("gamebook")) if u],
-                     "official"),
+            esc(g.get("settlement_stamp") or g.get("quarter_check") or ""),
+            src_cell([g.get("verified_from") or "https://www.nba.com/games"], "official"),
         ])
     body.append(table(["Date", "Matchup", "Final", "Away quarters", "Home quarters", "Verification",
                        "Settlement", "Stamp / check", "Source"], rows, "results-feed"))
@@ -3046,7 +3018,7 @@ def main():
         ("app/injuries.html", "Injuries, rotation impact & report status", "Projection surface (public)", page_injuries(d), "app/injuries.html"),
         ("app/freshness.html", "Report availability & freshness", "Projection surface (public)",
          page_freshness(d), "app/freshness.html"),
-        ("app/standings.html", "Official standings", "Projection surface (public)",
+        ("app/standings.html", "Standings", "Projection surface (public)",
          page_standings(d), "app/standings.html"),
         ("app/gameflow.html", "Game flow", "Projection surface (public)", page_gameflow(d), "app/gameflow.html"),
         ("app/refresh.html", "Refresh & provenance gates", "Projection surface (public)",

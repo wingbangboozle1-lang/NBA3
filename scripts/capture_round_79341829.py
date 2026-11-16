@@ -39,6 +39,7 @@ RESULTS_JSON = os.path.join(APP, "results_feed.json")
 LOGS_JSON = os.path.join(APP, "player_game_logs.json")
 SHARES_JSON = os.path.join(APP, "minutes_shares.json")
 RESULTS_1113 = os.path.join(APP, "official_results_2026-11-13.json")
+RESULTS_1115 = os.path.join(APP, "official_results_2026-11-15.json")
 
 TEAM_NAME_TO_ABBR = {
     "Atlanta Hawks": "ATL", "Boston Celtics": "BOS", "Brooklyn Nets": "BKN",
@@ -82,7 +83,6 @@ def parse_injury_raw(path):
     ctx = {"game_date": None, "game_time_et": None, "matchup": None,
            "team_name": None, "team": None}
     for line in text.splitlines():
-        line = line.lstrip()
         if not line.startswith("|"):
             continue
         if set(line.replace("|", "").replace(" ", "")) <= {"-"}:
@@ -522,60 +522,17 @@ def main():
             "settled": False,
             "settlement_stamp": None,
         })
-    # Merge in the finals captured from official sources beyond the .md game books above
-    # (session arena/4c69ab99-nba3). One row per game: date, teams, final score, quarter
-    # scores. Two committed captures feed this loop:
-    #   finals_1115_4c69ab99.json  the nine 2026-11-15 finals, every game book re-read line
-    #                              by line and cross-checked against the nba.com games page;
-    #                              it records both readings of the ATL@MIL quarter conflict;
-    #   finals_auto.json           finished games ingested by scripts/refresh_official.py
-    #                              from the official games pages' own JSON (final score +
-    #                              per-period scores) during the scheduled refresh.
-    # Nothing is inferred; every cell comes from its capture file.
-    extra_sources = []
-    merged_ids = set()
-    for cap_name in ("finals_1115_4c69ab99.json", "finals_auto.json"):
-        cap_path = os.path.join(APP, cap_name)
-        if not os.path.exists(cap_path):
-            continue
-        cap = json.load(open(cap_path, encoding="utf-8"))
-        for g in cap["games"]:
-            if g["game_id"] in merged_ids:
-                continue        # a game captured in both files enters the feed once
-            merged_ids.add(g["game_id"])
-            row = {
-                "date": g["date"],
-                "game_id": g["game_id"],
-                "away": g["away"],
-                "home": g["home"],
-                "away_pts": g["away_final"],
-                "home_pts": g["home_final"],
-            }
-            for i in range(4):
-                row[f"away_q{i + 1}"] = g["away_periods"][i]
-                row[f"home_q{i + 1}"] = g["home_periods"][i]
-            row["away_ot1"] = g["away_ot1"]
-            row["home_ot1"] = g["home_ot1"]
-            row["away_ot2"] = g.get("away_ot2")
-            row["home_ot2"] = g.get("home_ot2")
-            row["state"] = g["state"]
-            row["verified"] = None      # recomputed below and by scripts/results_feed.py verify
-            row["verified_from"] = (g.get("games_page")
-                                    or f"https://www.nba.com/games?date={g['date']}")
-            row["quarter_check"] = None
-            row["gamebook"] = g.get("gamebook")
-            row["game_url"] = g["game_page"]
-            row["raw_file"] = f"data/app/{cap_name}"
-            row["quarter_conflict"] = bool(g.get("quarter_conflict"))
-            if g.get("quarter_conflict_note"):
-                row["quarter_conflict_note"] = g["quarter_conflict_note"]
-            row["settled"] = False
-            row["settlement_stamp"] = None
-            feed_rows.append(row)
-            if g.get("gamebook"):
-                extra_sources.append(g["gamebook"])
-            elif g.get("games_page"):
-                extra_sources.append(g["games_page"])
+    # merge in the 2026-11-15 finals captured from the official scoreboard page and each
+    # game's official summary-page LINESCORES (data/app/official_results_2026-11-15.json:
+    # per-row cross-checks; the ATL@MIL game-book quarter conflict is recorded on its row
+    # and flagged). The merge goes through results_feed.ingest_rows so the scheduled
+    # runner's ingest and this offline replay produce identical row shapes.
+    import results_feed as _rf
+    cap_1115 = json.load(open(RESULTS_1115, encoding="utf-8"))
+    _work = {"games": feed_rows}
+    _rf.ingest_rows(_work, cap_1115["games"], cap_1115["retrieved_stamp"])
+    feed_rows = _work["games"]
+
     feed_rows.sort(key=lambda r: (r["date"], r["away"]))
     # preserve settlement state already stamped by results_feed.py settle (idempotent re-capture)
     if os.path.exists(RESULTS_JSON):
@@ -587,28 +544,26 @@ def main():
                 r["settled"] = True
                 r["settlement_stamp"] = old.get("settlement_stamp")
 
-    # Normalise verified/quarter_check with the canonical feed rules (scripts/results_feed.py),
-    # so this capture's output is already byte-identical to the post-verify file CI compares.
-    import results_feed as _rf
-    _rf.verify({"games": feed_rows})
-
     feed = {
-        "source_label": ("Official per-game result feed. 2026-11-14 rows come from the official "
-                         "game books (statsdmz.nba.com PDFs linked from each nba.com game page); "
-                         "2026-11-13 rows come from the stored official scoreboard capture "
-                         "(data/app/official_results_2026-11-13.json); 2026-11-15 rows come from "
-                         "the committed official capture data/app/finals_1115_4c69ab99.json "
-                         "(every game book re-read line by line and cross-checked against the "
-                         "nba.com games page). One row per game: date, teams, final score, "
-                         "quarter scores."),
-        "retrieved_stamp": RETRIEVED_STAMP,
-        "settlement_rule": ("A row is settled only when the game state is Final AND the quarter "
-                            "scores sum to the printed final for both teams (checked offline). "
-                            "Rows without captured quarter scores stay unsettled and flagged. "
-                            "A row whose official book contradicts itself on one period cell "
-                            "(quarter_conflict) settles on the verified FINAL score and keeps "
-                            "both readings of the disputed cell flagged — see "
-                            "quarter_conflict_note."),
+        "source_label": ("Official per-game result feed. 2026-11-13 rows: official scoreboard "
+                         "capture (data/app/official_results_2026-11-13.json). 2026-11-14 rows: "
+                         "official game books (statsdmz.nba.com PDFs). 2026-11-15 rows: every "
+                         "final and every quarter/OT score read 2026-11-16 from the official "
+                         "scoreboard page and each game's official summary page LINESCORES "
+                         "(data/app/official_results_2026-11-15.json carries per-row cross-checks; "
+                         "the ATL@MIL game-book period-table conflict is recorded on that row and "
+                         "flagged). One row per game: date, teams, final score, quarter scores."),
+        "retrieved_stamp": max(RETRIEVED_STAMP, cap_1115["retrieved_stamp"]),
+        "settlement_rule": ("A row is settled only after the final score is verified from official "
+                            "reads (at minimum the official scoreboard; 2026-11-15 rows carry a "
+                            "second independent read from the game summary page). When quarter "
+                            "scores are captured they must sum to the printed final for both sides "
+                            "or the row is withheld and flagged; quarter values that conflict "
+                            "between two official documents are published from the game-page "
+                            "LINESCORES with the conflict recorded on the row and flagged for "
+                            "review, never repaired by hand. Rows without captured quarter scores "
+                            "are settled on the verified final alone, with that noted in the "
+                            "settlement stamp."),
         "count": len(feed_rows),
         "settled_count": sum(1 for r in feed_rows if r["settled"]),
         "games": feed_rows,
@@ -617,9 +572,11 @@ def main():
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf",
                     "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-                    prior_results.get("source_url")]
-        + list(dict.fromkeys(extra_sources)),
+                    prior_results.get("source_url"),
+                    cap_1115["source_url"]] +
+                   [g["gamebook"] for g in cap_1115["games"]],
     }
+    _rf.verify(feed)   # final row semantics (verified + quarter_check), deterministic
     with open(RESULTS_JSON, "w", encoding="utf-8") as fh:
         json.dump(feed, fh, indent=1)
         fh.write("\n")

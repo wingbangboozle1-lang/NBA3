@@ -53,8 +53,8 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:14px 22px;color:
 probabilities, because the legs share one game. Both numbers are printed for every row, so the
 correlation effect is auditable instead of assumed.</p>
 <div class="cards">
-<div class="card"><div class="k">ρ(margin, total)</div><div class="v">-0.2113</div><div class="n">95% CI [-0.574, 0.22] on n=23 games</div></div>
-<div class="card"><div class="k">ρ across games, same date</div><div class="v">-0.0492</div><div class="n">95% CI [-0.263, 0.17] on 82 pairs</div></div>
+<div class="card"><div class="k">ρ(margin, total)</div><div class="v">-0.2113</div><div class="n">95% CI -0.574 / 0.22 on n=23 games</div></div>
+<div class="card"><div class="k">ρ across games, same date</div><div class="v">-0.0492</div><div class="n">95% CI -0.263 to 0.17 on 82 pairs</div></div>
 <div class="card"><div class="k">model residual sd</div><div class="v">11.953 pts</div><div class="n">leave-one-game-out, so it is out-of-sample</div></div>
 <div class="card"><div class="k">rows priced</div><div class="v">29</div><div class="n">every publishable row in the window</div></div>
 </div>
@@ -92,13 +92,13 @@ correlation effect is auditable instead of assumed.</p>
 <ul>
 <li>The measured ρ between a game's margin and its total is
 <b>-0.2113</b> — negative, and its interval
-[-0.574, 0.22] straddles zero at n=23. So the honest
+-0.574 to 0.22 straddles zero at n=23. So the honest
 statement is "we measured a small negative dependence and we cannot yet separate it from noise". The
 pricing effect is -3.33 to
 -0.77 probability points, which is
 printed rather than hidden, and it is <i>smaller</i> than the residual sd of the model itself.</li>
 <li>Cross-game dependence — the thing that makes a multi-leg slip dangerous — measured
--0.0492 ([-0.263, 0.17]) across
+-0.0492 (-0.263 to 0.17) across
 82 same-date pairs. It is near zero, which is why no same-date
 multi-leg is priced here as if it were safe: near zero with an interval that wide is "unknown", not
 "independent".</li>
@@ -107,9 +107,8 @@ can be scored as skill yet (<a href="gates.html" rel="noopener">gate G8</a>; <a 
 </ul>
 <p class="small mut">Game-flow measurement that feeds the total column: share of all points scored by
 quarter on the 13 games with official quarter scores:
-{"Q1": 0.2476, "Q2": 0.2382, "Q3": 0.2747, "Q4": 0.2395, "sum": 1.0}. Back-to-back clubs'
-4th-minus-3rd-quarter differential: {"n": 6, "mean": -6.0}
-vs rested {"n": 20, "mean": -3.6} — published as a
+Q1 0.2476 · Q2 0.2382 · Q3 0.2747 · Q4 0.2395 · sum 1.0. Back-to-back clubs'
+4th-minus-3rd-quarter differential: on a back-to-back n=6 mean -6.0, rested n=20 mean -3.6 (4th-quarter points minus 3rd) — published as a
 measurement with its sample size, not as a rule.</p>
 
 </main>
