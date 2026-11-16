@@ -125,7 +125,10 @@ def table(headers, rows, cls=""):
     return "".join(out)
 
 
-def page(title, sub, body, active, rel_prefix="", extra_flags=None):
+def page(title, sub, body, active, rel_prefix=None, extra_flags=None):
+    if rel_prefix is None:
+        # "index.html" -> "", "projection/lines.html" -> "../", "bet/index.html" -> "../"
+        rel_prefix = "../" * (active.count("/"))
     nav = "".join(
         f'<a href="{rel_prefix}{href}"{" class=on" if href == active else ""}>{lab}</a>'
         for href, lab in NAV)
@@ -267,7 +270,7 @@ transcribed and reconciled against the results log — <a href="standings.html">
 <li>Every blank, conflict and non-official input — <a href="flagged.html">Flagged for review</a>.</li>
 </ul></div></section>"""
     return page("NBA3 · round 2026-11-17", f"line origination, gated strategy, official sources only · session {SESSION}",
-                body, "index.html", "", flags)
+                body, "index.html", None, flags)
 
 
 def rotation_summary(l):
@@ -340,7 +343,7 @@ headline. The closing-line column is blank for every row because
 </ul></section>"""
     return page("Projection · originated lines",
                 "safe to publish: no prices, no stakes · built from the two estimators and their disagreement",
-                body, "projection/lines.html", "", flags)
+                body, "projection/lines.html", None, flags)
 
 
 def p_rotations(model, injury_doc, flags):
@@ -403,7 +406,7 @@ jersey number in the Player Name column; they are excluded here, not guessed at,
 </section>"""
     return page("Projection · rotations and availability",
                 "measured minutes vacated, from the official report and the official box scores",
-                body, "projection/rotations.html", "", flags)
+                body, "projection/rotations.html", None, flags)
 
 
 def book_coverage_table():
@@ -477,7 +480,7 @@ tonight's slate has fewer measurable rotation numbers than games.</div>
 {''.join(tables)}
 </section>"""
     return page("Injuries · official report", "revision time and retrieval time, both, on every surface",
-                body, "injuries.html", "", flags)
+                body, "injuries.html", None, flags)
 
 
 def p_standings(standings_doc, model, flags):
@@ -518,7 +521,7 @@ for 30 of 30 clubs. The header the NBA prints lists the first column as a lower-
 {json_block(model['hca']['neutral_sites'])}
 </section>"""
     return page("Standings", "30 clubs, every column the NBA prints, reconciled against the results log",
-                body, "standings.html", "", flags)
+                body, "standings.html", None, flags)
 
 
 def json_block(obj):
@@ -577,7 +580,7 @@ Settlement stamp is kept visible on every row because a settlement without a tim
                      f"{results_log['reconciliation']['teams_total']}",
 })}</div></section>"""
     return page("Results log", "verified finals and quarter scores, settlement stamps kept visible",
-                body, "results.html", "", flags)
+                body, "results.html", None, flags)
 
 
 def conflict_block(results_log):
@@ -658,7 +661,7 @@ was lucky" is only useful if you can see the numbers.</div>
         for l in model['luck']['teams']], "mono")}
 </section>"""
     return page("Strategies", "pre-registration, validation gates, rewards, and the luck band",
-                body, "strategies.html", "", flags)
+                body, "strategies.html", None, flags)
 
 
 def load_prereg_summaries():
@@ -719,7 +722,7 @@ git commit that carries this file is the external witness.</li>
 so every row is PUBLISHED_PRE_TIP and the settlement run appends SETTLE entries later.</li>
 </ul></section>"""
     return page("Ledger", "hash-chained, sealed before tip-off, verified after settlement",
-                body, "ledger.html", "", flags)
+                body, "ledger.html", None, flags)
 
 
 def p_method(model, results_log, injury_doc, flags):
@@ -779,7 +782,7 @@ NBA fact, and never priced into a line.</li>
 window rather than inferred; only games whose date the slate printed are priced.</li>
 </ul></section>"""
     return page("Method", "formulas, what is measured, what is pinned, what is blank and why",
-                body, "method.html", "", flags)
+                body, "method.html", None, flags)
 
 
 def p_bet(model, ledger_idx, flags):
@@ -815,7 +818,7 @@ correlation; until then no prop combination is priced at all.</li>
 thresholds — a number the current signals do not reach, which is why the leaderboard is empty.</li>
 </ul></div></section>"""
     return page("Bet · gated", "gated by policy and by the gates; pricing shown for audit only",
-                body, "bet/index.html", "", flags)
+                body, "bet/index.html", None, flags)
 
 
 def p_flagged(model, results_log, standings_doc, injury_doc, ledger_idx, flags):
@@ -915,7 +918,37 @@ load-bearing for travel, which is currently reported but not priced.</li>
 the right threshold, or should it be defined by the captured box score's own first-eight ranking?</li>
 </ol></section>"""
     return page("Flagged for review", "blanks, conflicts and non-official inputs, each with its link",
-                body, "flagged.html", "", flags)
+                body, "flagged.html", None, flags)
+
+
+def check_links():
+    """Every internal href/src in round2/ must resolve to a file that exists in round2/.
+
+    Run on every build, not just --check: a page that links to a page that was never written is a
+    broken site, and the deploy job would still report success.
+    """
+    import re as _re
+    bad = []
+    for dirpath, _dirs, files in os.walk(HERE):
+        for name in files:
+            if not name.endswith(".html"):
+                continue
+            full = os.path.join(dirpath, name)
+            rel = os.path.relpath(full, HERE)
+            text = open(full, encoding="utf-8").read()
+            for href in _re.findall(r'(?:href|src)="([^"#]+)"', text):
+                if href.startswith(("http://", "https://", "mailto:")):
+                    if not href.startswith("https://"):
+                        bad.append(f"{rel}: non-https external link {href}")
+                    continue
+                target = os.path.normpath(os.path.join(dirpath, href))
+                if not os.path.exists(target):
+                    bad.append(f"{rel}: internal link {href} does not resolve")
+            if 'rel="stylesheet"' not in text:
+                bad.append(f"{rel}: no stylesheet link")
+            if "</html>" not in text:
+                bad.append(f"{rel}: truncated document")
+    return bad
 
 
 # -------------------------------------------------------------------------------------------- main
@@ -954,10 +987,14 @@ def main():
     if not check:
         with open(os.path.join(HERE, "style.css"), "w", encoding="utf-8") as fh:
             fh.write(CSS)
+    bad = check_links()
+    for b in bad:
+        print("LINK ERROR:", b, file=sys.stderr)
     print(("DRIFT " if drift else "") + f"{len(pages) - len(drift)}/{len(pages)} pages "
            + ("rebuilt" if not check else "match the committed build")
-           + (f" — drifted: {', '.join(drift)}" if drift else ""))
-    return 1 if drift else 0
+           + (f" — drifted: {', '.join(drift)}" if drift else "")
+           + (f" — {len(bad)} link errors" if bad else " — links OK"))
+    return 1 if (drift or bad) else 0
 
 
 if __name__ == "__main__":

@@ -5339,8 +5339,8 @@ paragraph in `index.html`. No file owned by another session was rewritten.
   standings' HOME splits (102/196 = 52.04 %) → 0.869 pts. Agreement 0.11 pts.
 * **Neutral-site discrepancy found and explained, not smoothed**: the standings print one fewer home
   game than the log (196 vs 197). `neutral_site_reconciliation()` identifies the single game
-  (0022600243? no — **0022600189, 2026-11-07 DEN 114 at IND 102**) where IND's home count and DEN's
-  road count are each one short and both clubs print a matching NEUTRAL record (0-1 / 1-0). With
+  (**0022600189, 2026-11-07, DEN 114 at IND 102**) where IND's home count and DEN's road count are
+  each one short and both clubs print a matching NEUTRAL record (0-1 for IND, 1-0 for DEN). With
   that game excluded the two HCA measures agree **exactly** (0.8686). The log itself is untouched.
 * **Rest effect measured, not assumed**: back-to-back mean margin −1.403 (n=67) vs rested +1.485
   (n=68) → gap 2.888 pts, SE 2.908, **z = 0.99** → not significant, so ST-21 refuses itself.
