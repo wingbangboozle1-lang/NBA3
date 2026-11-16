@@ -4859,3 +4859,9 @@ Claim written and committed **before** any other work (board rule). Base: `main`
 **Open items not resolved here:** ATL @ MIL quarter conflict (K-02); injury PDFs not fetched (K-05); standings not captured by any job (K-07); closing-line blend has no feed (K-08); NBA terms §9(iv) bars gambling use of NBA statistics (K-08, standing blocker for the bet surface).
 
 **Verification before PR.** `python3 -m unittest discover -s audit_00b0c780 -p 'test_*.py'`: 20 OK. Regenerate: `python3 audit_00b0c780/make_data.py && python3 audit_00b0c780/build.py`. Existing suites (`tests/`, `pipeline/tests/`, `audit_dd1eb1f1`, `audit_94e6d41b`) were not re-run after this session's changes beyond the earlier baseline; CI runs them on the PR.
+
+#### PR #104 integration/deployment record (F12)
+
+- PR [#104](https://github.com/wingbangboozle1-lang/NBA3/pull/104) merged 2026-11-16 14:36:29Z as `82158c7c6890495fc6d3013eab2361c35600abdb`.
+- Full pull-request build **43887474998** passed. Main build/deploy run [43887499663](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887499663) passed; Pages run [43887498367](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887498367) passed. The GitHub Pages API reports `built`. Live [Flagged for Review](https://wingbangboozle1-lang.github.io/NBA3/projection/flagged.html) was fetched and confirms the dated stale-report alert and direct links to the official index / listed PDF.
+- The official-index freshness issue is a published warning, not resolved: the 11/16 09:30 AM PDF remains untranscribed in this repo, and the scheduled refresh's commit step remains unverified after earlier failures. No availability or wager recommendation for the 11/16 slate is asserted from that PDF.
