@@ -68,7 +68,7 @@ footer.site{border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;p
   <p class="lead">An append-only sha256 chain over every pick, with the tests that show tampering is detected.</p>
 <div class="callout">
 <strong>Chain status: verified.</strong>
-11 entries, head hash <code>c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401</code>.
+13 entries, head hash <code>e6a3a5383bde577f69d41d98930ec42e6e002efa5b5c861e541e221640367fa1</code>.
 <code>scripts/ledger.py</code> recomputes every entry hash, every pick hash and every link; the build
 fails if any of them does not reproduce.</div>
 <div class="tw"><table id="ledger-chain" class="">
@@ -93,6 +93,8 @@ fails if any of them does not reproduce.</div>
 <tr><td><code>9</code></td><td>PUBLISH</td><td><code>b8094206db3ac9cf…</code></td><td><code>e735d29762f619a2…</code></td><td><code>5ed219f45312c924…</code></td><td>2026-11-15T12:10Z</td><td>GSW @ NOP</td><td><span class="chip ok">PASS</span></td></tr>
 <tr><td><code>10</code></td><td>PUBLISH</td><td><code>804811f9432b0905…</code></td><td><code>5ed219f45312c924…</code></td><td><code>ac622348f6e9eabe…</code></td><td>2026-11-15T12:10Z</td><td>DET @ SAS</td><td><span class="chip ok">PASS</span></td></tr>
 <tr><td><code>11</code></td><td>PUBLISH</td><td><code>c16fddb7b3c685a1…</code></td><td><code>ac622348f6e9eabe…</code></td><td><code>c3f0ce041b5e5ff8…</code></td><td>2026-11-15T12:10Z</td><td>CHA @ LAL</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>12</code></td><td>PUBLISH</td><td><code>814df1a73e0a31b0…</code></td><td><code>c3f0ce041b5e5ff8…</code></td><td><code>b714c7bdaa84c9f5…</code></td><td>2026-11-15T12:10Z</td><td>CHA @ LAC</td><td><span class="chip ok">PASS</span></td></tr>
+<tr><td><code>13</code></td><td>PUBLISH</td><td><code>05c5e2d85f3c3389…</code></td><td><code>b714c7bdaa84c9f5…</code></td><td><code>e6a3a5383bde577f…</code></td><td>2026-11-15T12:10Z</td><td>UTA @ LAC</td><td><span class="chip ok">PASS</span></td></tr>
 </tbody></table></div>
 <h2>What the chain does and does not prove</h2>
 <p>It proves that no stored pick, entry or link has been edited since it was written, to anyone who can

@@ -1,0 +1,462 @@
+{
+ "schema": "nba3.live.results_feed/v1",
+ "feed": "official per-game results, 2026-11-15 (nine games)",
+ "game_date": "2026-11-15",
+ "retrieved_utc": "2026-11-16T18:40Z",
+ "settlement_rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+ "games": [
+  {
+   "game_id": "0022600236",
+   "date": "2026-11-15",
+   "tip_et": "1:00 PM",
+   "away": "IND",
+   "home": "PHI",
+   "away_name": "Indiana Pacers",
+   "home_name": "Philadelphia 76ers",
+   "venue": "Xfinity Mobile Arena",
+   "city": "Philadelphia, PA",
+   "status": "Final",
+   "away_q": [
+    35,
+    22,
+    30,
+    37
+   ],
+   "home_q": [
+    29,
+    29,
+    39,
+    34
+   ],
+   "away_final": 124,
+   "home_final": 131,
+   "away_margin": 7,
+   "total_points": 255,
+   "ot": false,
+   "winner": "PHI",
+   "attendance": 21024,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/ind-vs-phi-0022600236",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": true,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true
+    }
+   },
+   "source_url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "5-9",
+   "home_record": "11-3"
+  },
+  {
+   "game_id": "0022600237",
+   "date": "2026-11-15",
+   "tip_et": "4:00 PM",
+   "away": "LAL",
+   "home": "PHX",
+   "away_name": "Los Angeles Lakers",
+   "home_name": "Phoenix Suns",
+   "venue": "Mortgage Matchup Center",
+   "city": "Phoenix, AZ",
+   "status": "Final",
+   "away_q": [
+    33,
+    31,
+    40,
+    27
+   ],
+   "home_q": [
+    24,
+    30,
+    26,
+    43
+   ],
+   "away_final": 131,
+   "home_final": 123,
+   "away_margin": -8,
+   "total_points": 254,
+   "ot": false,
+   "winner": "LAL",
+   "attendance": 17071,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/lal-vs-phx-0022600237",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": true,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true
+    }
+   },
+   "source_url": "https://www.nba.com/game/lal-vs-phx-0022600237",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "12-2",
+   "home_record": "5-7"
+  },
+  {
+   "game_id": "0022600238",
+   "date": "2026-11-15",
+   "tip_et": "4:30 PM",
+   "away": "CHA",
+   "home": "LAC",
+   "away_name": "Charlotte Hornets",
+   "home_name": "LA Clippers",
+   "venue": "Intuit Dome",
+   "city": "Inglewood, CA",
+   "status": "Final",
+   "away_q": [
+    21,
+    31,
+    31,
+    22
+   ],
+   "home_q": [
+    22,
+    29,
+    33,
+    29
+   ],
+   "away_final": 105,
+   "home_final": 113,
+   "away_margin": 8,
+   "total_points": 218,
+   "ot": false,
+   "winner": "LAC",
+   "attendance": 17487,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/cha-vs-lac-0022600238",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": true,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true
+    }
+   },
+   "source_url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "4-9",
+   "home_record": "4-8"
+  },
+  {
+   "game_id": "0022600239",
+   "date": "2026-11-15",
+   "tip_et": "5:00 PM",
+   "away": "SAS",
+   "home": "UTA",
+   "away_name": "San Antonio Spurs",
+   "home_name": "Utah Jazz",
+   "venue": "Delta Center",
+   "city": "Salt Lake City, UT",
+   "status": "Final",
+   "away_q": [
+    31,
+    27,
+    23,
+    29
+   ],
+   "home_q": [
+    33,
+    22,
+    26,
+    21
+   ],
+   "away_final": 110,
+   "home_final": 102,
+   "away_margin": -8,
+   "total_points": 212,
+   "ot": false,
+   "winner": "SAS",
+   "attendance": 17867,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/sas-vs-uta-0022600239",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": true,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true
+    }
+   },
+   "source_url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "12-2",
+   "home_record": "1-13"
+  },
+  {
+   "game_id": "0022600240",
+   "date": "2026-11-15",
+   "tip_et": "6:00 PM",
+   "away": "DAL",
+   "home": "BOS",
+   "away_name": "Dallas Mavericks",
+   "home_name": "Boston Celtics",
+   "venue": "TD Garden",
+   "city": "Boston, MA",
+   "status": "Final",
+   "away_q": [
+    9,
+    28,
+    34,
+    23
+   ],
+   "home_q": [
+    42,
+    25,
+    37,
+    27
+   ],
+   "away_final": 94,
+   "home_final": 131,
+   "away_margin": 37,
+   "total_points": 225,
+   "ot": false,
+   "winner": "BOS",
+   "attendance": 19156,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/dal-vs-bos-0022600240",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": null,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true,
+     "card_feed_note": "the 2026-11-16T00-57Z capture shows this game live (Q4 3:52), so the card feed cannot cross-check its final; the game page and game book agree"
+    }
+   },
+   "source_url": "https://www.nba.com/game/dal-vs-bos-0022600240",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "7-7",
+   "home_record": "11-2"
+  },
+  {
+   "game_id": "0022600241",
+   "date": "2026-11-15",
+   "tip_et": "6:00 PM",
+   "away": "NYK",
+   "home": "TOR",
+   "away_name": "New York Knicks",
+   "home_name": "Toronto Raptors",
+   "venue": "Scotiabank Arena",
+   "city": "Toronto, ON",
+   "status": "Final/OT",
+   "away_q": [
+    23,
+    24,
+    20,
+    28,
+    17
+   ],
+   "home_q": [
+    17,
+    26,
+    31,
+    21,
+    13
+   ],
+   "away_final": 112,
+   "home_final": 108,
+   "away_margin": -4,
+   "total_points": 220,
+   "ot": true,
+   "winner": "NYK",
+   "attendance": 19800,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/nyk-vs-tor-0022600241",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": null,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true,
+     "card_feed_note": "the 2026-11-16T00-57Z capture shows this game live (Q3 1:27), so the card feed cannot cross-check its final; the game page LINESCORES and the game book agree"
+    }
+   },
+   "source_url": "https://www.nba.com/game/nyk-vs-tor-0022600241",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "7-6",
+   "home_record": "5-8"
+  },
+  {
+   "game_id": "0022600242",
+   "date": "2026-11-15",
+   "tip_et": "7:00 PM",
+   "away": "HOU",
+   "home": "WAS",
+   "away_name": "Houston Rockets",
+   "home_name": "Washington Wizards",
+   "venue": "Capital One Arena",
+   "city": "Washington, DC",
+   "status": "Final",
+   "away_q": [
+    36,
+    37,
+    46,
+    28
+   ],
+   "home_q": [
+    31,
+    23,
+    34,
+    31
+   ],
+   "away_final": 147,
+   "home_final": 119,
+   "away_margin": -28,
+   "total_points": 266,
+   "ot": false,
+   "winner": "HOU",
+   "attendance": 18041,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/hou-vs-was-0022600242",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": null,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true,
+     "card_feed_note": "the 2026-11-16T00-57Z capture shows this game live (Q2 3:53), so the card feed cannot cross-check its final; the game page and game book agree"
+    }
+   },
+   "source_url": "https://www.nba.com/game/hou-vs-was-0022600242",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "11-3",
+   "home_record": "4-10"
+  },
+  {
+   "game_id": "0022600243",
+   "date": "2026-11-15",
+   "tip_et": "8:00 PM",
+   "away": "ATL",
+   "home": "MIL",
+   "away_name": "Atlanta Hawks",
+   "home_name": "Milwaukee Bucks",
+   "venue": "Fiserv Forum",
+   "city": "Milwaukee, WI",
+   "status": "Final",
+   "away_q": [
+    18,
+    37,
+    32,
+    26
+   ],
+   "home_q": [
+    37,
+    16,
+    27,
+    26
+   ],
+   "away_final": 113,
+   "home_final": 106,
+   "away_margin": -7,
+   "total_points": 219,
+   "ot": false,
+   "winner": "ATL",
+   "attendance": 11474,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [
+     "two official documents disagree on one quarter score (game-book period table vs game-page LINESCORES) \u2014 see flag; the published quarters are the game-page LINESCORES values"
+    ],
+    "game_page": "https://www.nba.com/game/atl-vs-mil-0022600243",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": null,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": false,
+     "gamebook_conflict": "game-book period table home Q3=37 vs game-page LINESCORES home Q3=27 (see flag)",
+     "card_feed_note": "the 2026-11-16T00-57Z capture shows this game pre-tip (8:00 pm ET), so the card feed cannot cross-check its final"
+    }
+   },
+   "source_url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "8-6",
+   "home_record": "1-13",
+   "flag": "QUARTER CONFLICT (flagged for review, not repaired): the official statsdmz game-book period table prints MIL Q3=37 (that reading sums to 116, not the printed final 106). The official game-page LINESCORES table gives MIL Q3=27 (sums to 106) and the AP recap on the same page says Milwaukee led 87-80 after three quarters, which requires Q3=27. The published quarter value is the game-page LINESCORES value (27); the game-book reading (37) is recorded here as the conflicting official reading. Final 113-106 is verified by four reads (scoreboard page, game page header, game-book printed FINAL, AP recap)."
+  },
+  {
+   "game_id": "0022600244",
+   "date": "2026-11-15",
+   "tip_et": "9:00 PM",
+   "away": "OKC",
+   "home": "SAC",
+   "away_name": "Oklahoma City Thunder",
+   "home_name": "Sacramento Kings",
+   "venue": "Golden 1 Center",
+   "city": "Sacramento, CA",
+   "status": "Final",
+   "away_q": [
+    32,
+    30,
+    32,
+    31
+   ],
+   "home_q": [
+    24,
+    26,
+    30,
+    23
+   ],
+   "away_final": 125,
+   "home_final": 103,
+   "away_margin": -22,
+   "total_points": 228,
+   "ot": false,
+   "winner": "OKC",
+   "attendance": 13021,
+   "verified": true,
+   "verification": {
+    "rule": "A game is FINAL only when the official NBA scoreboard page shows 'Final' (or 'Final/OT') AND the game's official summary page LINESCORES sums to the printed final for both teams AND (where captured) the official game-book transcription agrees. Any disagreement between two official documents is recorded on the row and flagged for review; it is never repaired by hand.",
+    "failures": [],
+    "game_page": "https://www.nba.com/game/okc-vs-sac-0022600244",
+    "gamebook": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC_book.pdf",
+    "cross_checks": {
+     "scoreboard_final_equals_game_page_final": true,
+     "linescore_sums_equal_final": true,
+     "card_feed_capture_2026-11-16T00-57Z_periods_equal_linescore": null,
+     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true,
+     "card_feed_note": "the 2026-11-16T00-57Z capture shows this game pre-tip (9:00 pm ET), so the card feed cannot cross-check its final; the game page and game book agree"
+    }
+   },
+   "source_url": "https://www.nba.com/game/okc-vs-sac-0022600244",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC_book.pdf",
+   "retrieved_utc": "2026-11-16T18:40Z",
+   "away_record": "9-5",
+   "home_record": "1-12"
+  }
+ ],
+ "notes": "Every final and every quarter/OT score verified 2026-11-16 by reading the official scoreboard page (https://www.nba.com/games?date=2026-11-15) and each game's official summary page LINESCORES; cross-checked against the game-card feed capture at data/app/refresh/2026-11-16T00-57Z/ (four games were final in that capture) and the official game-book transcriptions in audit_00b0c780/data/finals_1115.json. ATL@MIL carries a flagged quarter conflict between two official documents."
+}

@@ -60,6 +60,7 @@ jobs:
           fail=0
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
+                       "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
                        "test_round_2ecbccfd.py"; do
             echo "::group::unittest $suite"
             if [ "$suite" = "test_refresh_official.py" ]; then
@@ -74,8 +75,13 @@ jobs:
             exit 1
           fi
 
-      - name: Fetch official sources (injury report, schedule, results, game books, team stats)
-        run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+      - name: Fetch official sources (injury reports, schedule, standings, results, game books, team stats)
+        run: |
+          # pdftotext turns each archived injury PDF into the verbatim text kept in
+          # data/app/injury_reports_archive/ (the runner image does not ship poppler
+          # in every revision, so install it explicitly).
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
       # ---------------------------------------------------------------------------
       # The 2026-11-17 round's own chain (session arena/2ecbccfd-nba3). These steps are offline

@@ -3,368 +3,368 @@
  "session": "arena/2ebb1e75-nba3",
  "built_utc": "2026-11-15T11:49:00Z",
  "headline_rule": "The headline confidence signal is the DISAGREEMENT between E1 and E2. The blend is published underneath, labelled as a blend.",
- "games_in_sample": 188,
+ "games_in_sample": 197,
  "sample_range": [
   "2026-10-20",
-  "2026-11-14"
+  "2026-11-15"
  ],
  "hca": {
   "rule": "PINNED: hca_margin = Phi^-1(measured home-win rate) * sd(margin). Not fitted.",
-  "games": 188,
-  "home_wins": 99,
-  "home_win_rate": 0.526596,
-  "margin_sd": 16.898969,
-  "z_star": 0.066715,
-  "hca_margin_points": 1.127416,
-  "hca_margin_if_naive_fit": 1.829787,
-  "naive_vs_pinned_gap": 0.702371,
+  "games": 197,
+  "home_wins": 102,
+  "home_win_rate": 0.517766,
+  "margin_sd": 16.972133,
+  "z_star": 0.044549,
+  "hca_margin_points": 0.756087,
+  "hca_margin_if_naive_fit": 1.619289,
+  "naive_vs_pinned_gap": 0.863202,
   "note": "The naive fitted HCA (mean home margin) also absorbs any sample imbalance in team strength between home and away schedules. The pinned version uses only the home-win rate, so a schedule artefact cannot inflate it. Both are printed; the model uses the pinned one."
  },
  "estimator_e1": {
   "name": "Ridge Massey on final margins",
   "uses": "final margins only",
   "ridge": 0.35,
-  "in_sample_rmse": 13.220456,
+  "in_sample_rmse": 13.164023,
   "rating": {
-   "ATL": -1.4662,
-   "BKN": -7.6795,
-   "BOS": 6.7327,
-   "CHA": -12.8691,
-   "CHI": -9.2583,
-   "CLE": 0.662,
-   "DAL": 2.5482,
-   "DEN": 2.8682,
-   "DET": 2.4042,
-   "GSW": 7.1266,
-   "HOU": 10.5468,
-   "IND": -4.5352,
-   "LAC": -2.6582,
-   "LAL": 7.9358,
-   "MEM": 6.142,
-   "MIA": -1.282,
-   "MIL": -12.4324,
-   "MIN": 10.3114,
-   "NOP": -9.1542,
-   "NYK": 2.5889,
-   "OKC": 7.0924,
-   "ORL": -4.9219,
-   "PHI": -0.5736,
-   "PHX": -0.5094,
-   "POR": 9.9908,
-   "SAC": -8.3722,
-   "SAS": 13.5623,
-   "TOR": 0.78,
-   "UTA": -6.7339,
-   "WAS": -8.846
+   "ATL": -1.6574,
+   "BKN": -7.7194,
+   "BOS": 9.2696,
+   "CHA": -12.468,
+   "CHI": -8.8058,
+   "CLE": 0.6829,
+   "DAL": 0.3304,
+   "DEN": 2.745,
+   "DET": 2.6193,
+   "GSW": 7.0453,
+   "HOU": 11.0634,
+   "IND": -4.8959,
+   "LAC": -2.9514,
+   "LAL": 7.8403,
+   "MEM": 6.032,
+   "MIA": -1.5326,
+   "MIL": -11.7532,
+   "MIN": 10.2128,
+   "NOP": -9.1702,
+   "NYK": 3.2619,
+   "OKC": 7.1335,
+   "ORL": -4.7776,
+   "PHI": 0.0041,
+   "PHX": -0.4836,
+   "POR": 9.7058,
+   "SAC": -9.2859,
+   "SAS": 12.4764,
+   "TOR": 0.7974,
+   "UTA": -6.3078,
+   "WAS": -9.4115
   }
  },
  "estimator_e2": {
   "name": "Logistic Bradley-Terry on wins only",
   "uses": "win/loss only (no margins)",
   "iterations": 100,
-  "in_sample_margin_rmse": 14.571604,
+  "in_sample_margin_rmse": 14.751602,
   "rating_points": {
-   "ATL": 0.3562,
-   "BKN": -10.9526,
-   "BOS": 12.4075,
-   "CHA": -7.1617,
-   "CHI": -8.9783,
-   "CLE": -0.0006,
-   "DAL": 2.415,
-   "DEN": 5.8402,
-   "DET": 7.4412,
-   "GSW": 7.5527,
-   "HOU": 13.0934,
-   "IND": -6.6141,
-   "LAC": -7.8982,
-   "LAL": 14.887,
-   "MEM": 5.0183,
-   "MIA": 1.4049,
-   "MIL": -17.9921,
-   "MIN": 7.0385,
-   "NOP": -11.3533,
-   "NYK": -0.9795,
-   "OKC": 7.1015,
-   "ORL": -5.33,
-   "PHI": 10.5821,
-   "PHX": 1.0081,
-   "POR": 12.1663,
-   "SAC": -15.893,
-   "SAS": 14.9159,
-   "TOR": -3.4291,
-   "UTA": -16.9,
-   "WAS": -9.7463
+   "ATL": 1.069,
+   "BKN": -11.2254,
+   "BOS": 13.6617,
+   "CHA": -8.824,
+   "CHI": -8.841,
+   "CLE": 0.119,
+   "DAL": 1.342,
+   "DEN": 5.7257,
+   "DET": 7.5081,
+   "GSW": 7.7216,
+   "HOU": 13.9084,
+   "IND": -7.5017,
+   "LAC": -6.1603,
+   "LAL": 16.1262,
+   "MEM": 4.8819,
+   "MIA": 1.3686,
+   "MIL": -18.9803,
+   "MIN": 7.0495,
+   "NOP": -11.376,
+   "NYK": 0.6557,
+   "OKC": 7.8154,
+   "ORL": -5.5674,
+   "PHI": 11.5565,
+   "PHX": 0.1283,
+   "POR": 12.2657,
+   "SAC": -16.687,
+   "SAS": 15.3868,
+   "TOR": -4.9123,
+   "UTA": -17.4794,
+   "WAS": -10.7353
   },
   "ridge": 2.0,
   "ridge_selection": {
    "selected_by": "log-loss on the most recent 20% of past games",
-   "validation_games": 38,
+   "validation_games": 39,
    "scores": {
-    "0.5": 0.631844,
-    "1.0": 0.621886,
-    "2.0": 0.621827,
-    "5.0": 0.636125,
-    "10.0": 0.652013,
-    "20.0": 0.666121,
-    "50.0": 0.678185,
-    "100.0": 0.683052
+    "0.5": 0.618409,
+    "1.0": 0.605971,
+    "2.0": 0.605187,
+    "5.0": 0.622667,
+    "10.0": 0.643287,
+    "20.0": 0.662157,
+    "50.0": 0.678625,
+    "100.0": 0.685343
    },
    "chosen": 2.0
   },
-  "in_sample_log_loss": 0.515221
+  "in_sample_log_loss": 0.503782
  },
  "out_of_sample": {
-  "n": 128,
-  "e1_log_loss": 0.620681,
-  "e2_log_loss": 0.635941,
-  "e1_brier": 0.210921,
-  "e2_brier": 0.218691,
+  "n": 137,
+  "e1_log_loss": 0.602908,
+  "e2_log_loss": 0.618841,
+  "e1_brier": 0.203272,
+  "e2_brier": 0.211211,
   "coin_flip_log_loss": 0.693147,
   "coin_flip_brier": 0.25,
-  "blend_50_50_log_loss": 0.616047,
-  "e1_margin_rmse_oos": 16.431911,
-  "mean_absolute_disagreement_pp": 10.734,
-  "share_games_estimators_disagree_on_side": 0.1484,
+  "blend_50_50_log_loss": 0.599234,
+  "e1_margin_rmse_oos": 16.181589,
+  "mean_absolute_disagreement_pp": 10.424,
+  "share_games_estimators_disagree_on_side": 0.1387,
   "note": "Walk-forward: each forecast uses only games before it. Pinned HCA is recomputed on the training slice, so the OOS numbers include the cost of that rule."
  },
  "luck": [
   {
-   "team": "SAS",
-   "wins": 11,
-   "expected_wins": 9.235,
-   "luck_z": 1.12,
+   "team": "LAL",
+   "wins": 12,
+   "expected_wins": 10.1,
+   "luck_z": 1.167,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
-   "team": "LAL",
-   "wins": 11,
-   "expected_wins": 9.238,
-   "luck_z": 1.113,
+   "team": "SAS",
+   "wins": 12,
+   "expected_wins": 10.187,
+   "luck_z": 1.134,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "BOS",
-   "wins": 10,
-   "expected_wins": 8.532,
-   "luck_z": 0.973,
+   "wins": 11,
+   "expected_wins": 9.39,
+   "luck_z": 1.036,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "HOU",
-   "wins": 10,
-   "expected_wins": 8.45,
-   "luck_z": 0.925,
+   "wins": 11,
+   "expected_wins": 9.361,
+   "luck_z": 0.959,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "POR",
    "wins": 9,
-   "expected_wins": 7.56,
-   "luck_z": 0.898,
+   "expected_wins": 7.555,
+   "luck_z": 0.906,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "PHI",
-   "wins": 10,
-   "expected_wins": 8.748,
-   "luck_z": 0.757,
+   "wins": 11,
+   "expected_wins": 9.638,
+   "luck_z": 0.805,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "DET",
    "wins": 8,
-   "expected_wins": 7.119,
-   "luck_z": 0.535,
+   "expected_wins": 7.115,
+   "luck_z": 0.541,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "GSW",
    "wins": 8,
-   "expected_wins": 7.106,
-   "luck_z": 0.515,
+   "expected_wins": 7.09,
+   "luck_z": 0.525,
+   "within_noise_band": true,
+   "verdict": "noise"
+  },
+  {
+   "team": "OKC",
+   "wins": 9,
+   "expected_wins": 8.079,
+   "luck_z": 0.516,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "MIN",
    "wins": 9,
-   "expected_wins": 8.167,
-   "luck_z": 0.499,
-   "within_noise_band": true,
-   "verdict": "noise"
-  },
-  {
-   "team": "OKC",
-   "wins": 8,
-   "expected_wins": 7.16,
-   "luck_z": 0.483,
+   "expected_wins": 8.169,
+   "luck_z": 0.498,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "DEN",
    "wins": 7,
-   "expected_wins": 6.309,
-   "luck_z": 0.436,
+   "expected_wins": 6.325,
+   "luck_z": 0.426,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "MEM",
    "wins": 9,
-   "expected_wins": 8.406,
-   "luck_z": 0.36,
-   "within_noise_band": true,
-   "verdict": "noise"
-  },
-  {
-   "team": "DAL",
-   "wins": 7,
-   "expected_wins": 6.714,
-   "luck_z": 0.167,
+   "expected_wins": 8.425,
+   "luck_z": 0.35,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "MIA",
    "wins": 7,
-   "expected_wins": 6.834,
-   "luck_z": 0.095,
+   "expected_wins": 6.839,
+   "luck_z": 0.093,
+   "within_noise_band": true,
+   "verdict": "noise"
+  },
+  {
+   "team": "DAL",
+   "wins": 7,
+   "expected_wins": 6.842,
+   "luck_z": 0.09,
+   "within_noise_band": true,
+   "verdict": "noise"
+  },
+  {
+   "team": "ATL",
+   "wins": 8,
+   "expected_wins": 7.874,
+   "luck_z": 0.071,
+   "within_noise_band": true,
+   "verdict": "noise"
+  },
+  {
+   "team": "NYK",
+   "wins": 7,
+   "expected_wins": 6.923,
+   "luck_z": 0.045,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "PHX",
    "wins": 5,
-   "expected_wins": 4.881,
-   "luck_z": 0.075,
-   "within_noise_band": true,
-   "verdict": "noise"
-  },
-  {
-   "team": "ATL",
-   "wins": 7,
-   "expected_wins": 6.958,
-   "luck_z": 0.024,
+   "expected_wins": 4.985,
+   "luck_z": 0.009,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "CLE",
    "wins": 7,
-   "expected_wins": 7.0,
-   "luck_z": -0.0,
-   "within_noise_band": true,
-   "verdict": "noise"
-  },
-  {
-   "team": "NYK",
-   "wins": 6,
-   "expected_wins": 6.116,
-   "luck_z": -0.07,
+   "expected_wins": 6.986,
+   "luck_z": 0.008,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "TOR",
    "wins": 5,
-   "expected_wins": 5.406,
-   "luck_z": -0.246,
+   "expected_wins": 5.579,
+   "luck_z": -0.338,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "ORL",
    "wins": 5,
-   "expected_wins": 5.631,
-   "luck_z": -0.379,
+   "expected_wins": 5.656,
+   "luck_z": -0.396,
+   "within_noise_band": true,
+   "verdict": "noise"
+  },
+  {
+   "team": "LAC",
+   "wins": 4,
+   "expected_wins": 4.726,
+   "luck_z": -0.448,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "IND",
    "wins": 5,
-   "expected_wins": 5.783,
-   "luck_z": -0.449,
+   "expected_wins": 5.884,
+   "luck_z": -0.495,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "CHA",
    "wins": 4,
-   "expected_wins": 4.848,
-   "luck_z": -0.511,
-   "within_noise_band": true,
-   "verdict": "noise"
-  },
-  {
-   "team": "LAC",
-   "wins": 3,
-   "expected_wins": 3.935,
-   "luck_z": -0.612,
-   "within_noise_band": true,
-   "verdict": "noise"
-  },
-  {
-   "team": "WAS",
-   "wins": 4,
-   "expected_wins": 5.153,
-   "luck_z": -0.669,
+   "expected_wins": 5.04,
+   "luck_z": -0.608,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "CHI",
    "wins": 3,
-   "expected_wins": 4.063,
-   "luck_z": -0.674,
+   "expected_wins": 4.042,
+   "luck_z": -0.665,
+   "within_noise_band": true,
+   "verdict": "noise"
+  },
+  {
+   "team": "WAS",
+   "wins": 4,
+   "expected_wins": 5.265,
+   "luck_z": -0.718,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "NOP",
    "wins": 4,
-   "expected_wins": 5.344,
-   "luck_z": -0.768,
+   "expected_wins": 5.341,
+   "luck_z": -0.767,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "BKN",
    "wins": 3,
-   "expected_wins": 4.296,
-   "luck_z": -0.795,
+   "expected_wins": 4.323,
+   "luck_z": -0.813,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "SAC",
    "wins": 1,
-   "expected_wins": 2.881,
-   "luck_z": -1.303,
+   "expected_wins": 2.966,
+   "luck_z": -1.33,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "UTA",
    "wins": 1,
-   "expected_wins": 3.0,
-   "luck_z": -1.356,
+   "expected_wins": 3.06,
+   "luck_z": -1.372,
    "within_noise_band": true,
    "verdict": "noise"
   },
   {
    "team": "MIL",
    "wins": 1,
-   "expected_wins": 3.129,
-   "luck_z": -1.415,
+   "expected_wins": 3.237,
+   "luck_z": -1.454,
    "within_noise_band": true,
    "verdict": "noise"
   }
@@ -380,10 +380,10 @@
    "venue": "Xfinity Mobile Arena",
    "city": "Philadelphia, PA",
    "game_id": "0022600236",
-   "exp_margin_e1": 5.089,
-   "p_home_e1": 0.618348,
-   "p_home_e2": 0.747308,
-   "disagreement_pp": 12.896,
+   "exp_margin_e1": 5.656,
+   "p_home_e1": 0.630529,
+   "p_home_e2": 0.762685,
+   "disagreement_pp": 13.216,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 100.595,
@@ -420,10 +420,10 @@
    "venue": "Mortgage Matchup Center",
    "city": "Phoenix, AZ",
    "game_id": "0022600237",
-   "exp_margin_e1": -7.3178,
-   "p_home_e1": 0.332495,
-   "p_home_e2": 0.319827,
-   "disagreement_pp": 1.267,
+   "exp_margin_e1": -7.5678,
+   "p_home_e1": 0.327836,
+   "p_home_e2": 0.289452,
+   "disagreement_pp": 3.838,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 99.475,
@@ -460,10 +460,10 @@
    "venue": "Intuit Dome",
    "city": "Inglewood, CA",
    "game_id": "0022600238",
-   "exp_margin_e1": 11.3383,
-   "p_home_e1": 0.748873,
-   "p_home_e2": 0.505782,
-   "disagreement_pp": 24.309,
+   "exp_margin_e1": 10.2727,
+   "p_home_e1": 0.7275,
+   "p_home_e2": 0.550204,
+   "disagreement_pp": 17.73,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 98.69,
@@ -500,10 +500,10 @@
    "venue": "Delta Center",
    "city": "Salt Lake City, UT",
    "game_id": "0022600239",
-   "exp_margin_e1": -19.1688,
-   "p_home_e1": 0.12833,
-   "p_home_e2": 0.139915,
-   "disagreement_pp": 1.158,
+   "exp_margin_e1": -18.0281,
+   "p_home_e1": 0.144068,
+   "p_home_e2": 0.131024,
+   "disagreement_pp": 1.304,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 99.72,
@@ -540,10 +540,10 @@
    "venue": "TD Garden",
    "city": "Boston, MA",
    "game_id": "0022600240",
-   "exp_margin_e1": 5.3119,
-   "p_home_e1": 0.623367,
-   "p_home_e2": 0.658817,
-   "disagreement_pp": 3.545,
+   "exp_margin_e1": 9.6953,
+   "p_home_e1": 0.716085,
+   "p_home_e2": 0.683612,
+   "disagreement_pp": 3.247,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 98.58,
@@ -580,10 +580,10 @@
    "venue": "Scotiabank Arena",
    "city": "Toronto, ON",
    "game_id": "0022600241",
-   "exp_margin_e1": -0.6815,
-   "p_home_e1": 0.483915,
-   "p_home_e2": 0.48045,
-   "disagreement_pp": 0.346,
+   "exp_margin_e1": -1.7085,
+   "p_home_e1": 0.459909,
+   "p_home_e2": 0.429591,
+   "disagreement_pp": 3.032,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 97.755,
@@ -620,10 +620,10 @@
    "venue": "Capital One Arena",
    "city": "Washington, DC",
    "game_id": "0022600242",
-   "exp_margin_e1": -18.2653,
-   "p_home_e1": 0.139881,
-   "p_home_e2": 0.216729,
-   "disagreement_pp": 7.685,
+   "exp_margin_e1": -19.7189,
+   "p_home_e1": 0.122651,
+   "p_home_e2": 0.196635,
+   "disagreement_pp": 7.398,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 98.525,
@@ -660,10 +660,10 @@
    "venue": "Fiserv Forum",
    "city": "Milwaukee, WI",
    "game_id": "0022600243",
-   "exp_margin_e1": -9.8388,
-   "p_home_e1": 0.280212,
-   "p_home_e2": 0.265213,
-   "disagreement_pp": 1.5,
+   "exp_margin_e1": -9.3397,
+   "p_home_e1": 0.291058,
+   "p_home_e2": 0.242917,
+   "disagreement_pp": 4.814,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 101.93,
@@ -700,10 +700,10 @@
    "venue": "Golden 1 Center",
    "city": "Sacramento, CA",
    "game_id": "0022600244",
-   "exp_margin_e1": -14.3372,
-   "p_home_e1": 0.198106,
-   "p_home_e2": 0.215177,
-   "disagreement_pp": 1.707,
+   "exp_margin_e1": -15.6633,
+   "p_home_e1": 0.178034,
+   "p_home_e2": 0.197953,
+   "disagreement_pp": 1.992,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 99.79,
@@ -740,10 +740,10 @@
    "venue": "TD Garden",
    "city": "Boston, MA",
    "game_id": "0022600245",
-   "exp_margin_e1": 12.7821,
-   "p_home_e1": 0.77529,
-   "p_home_e2": 0.753309,
-   "disagreement_pp": 2.198,
+   "exp_margin_e1": 14.8033,
+   "p_home_e1": 0.808453,
+   "p_home_e2": 0.764503,
+   "disagreement_pp": 4.395,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 97.425,
@@ -780,10 +780,10 @@
    "venue": "Rocket Arena",
    "city": "Cleveland, OH",
    "game_id": "0022600246",
-   "exp_margin_e1": 11.0477,
-   "p_home_e1": 0.743364,
-   "p_home_e2": 0.645192,
-   "disagreement_pp": 9.817,
+   "exp_margin_e1": 10.2449,
+   "p_home_e1": 0.726954,
+   "p_home_e2": 0.639334,
+   "disagreement_pp": 8.762,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 101.765,
@@ -820,10 +820,10 @@
    "venue": "Capital One Arena",
    "city": "Washington, DC",
    "game_id": "0022600247",
-   "exp_margin_e1": -13.8605,
-   "p_home_e1": 0.206052,
-   "p_home_e2": 0.308533,
-   "disagreement_pp": 10.248,
+   "exp_margin_e1": -14.6875,
+   "p_home_e1": 0.193413,
+   "p_home_e2": 0.294086,
+   "disagreement_pp": 10.067,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 100.045,
@@ -860,10 +860,10 @@
    "venue": "Barclays Center",
    "city": "Brooklyn, NY",
    "game_id": "0022600248",
-   "exp_margin_e1": -5.9784,
-   "p_home_e1": 0.361754,
-   "p_home_e2": 0.230125,
-   "disagreement_pp": 13.163,
+   "exp_margin_e1": -6.9674,
+   "p_home_e1": 0.340712,
+   "p_home_e2": 0.214542,
+   "disagreement_pp": 12.617,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 99.755,
@@ -900,10 +900,10 @@
    "venue": "Kaseya Center",
    "city": "Miami, FL",
    "game_id": "0022600249",
-   "exp_margin_e1": -10.7014,
-   "p_home_e1": 0.263282,
-   "p_home_e2": 0.348656,
-   "disagreement_pp": 8.537,
+   "exp_margin_e1": -11.8399,
+   "p_home_e1": 0.242711,
+   "p_home_e2": 0.333078,
+   "disagreement_pp": 9.037,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 99.955,
@@ -940,10 +940,10 @@
    "venue": "Target Center",
    "city": "Minneapolis, MN",
    "game_id": "0022600250",
-   "exp_margin_e1": 1.448,
-   "p_home_e1": 0.534143,
-   "p_home_e2": 0.441095,
-   "disagreement_pp": 9.305,
+   "exp_margin_e1": 1.2632,
+   "p_home_e1": 0.529664,
+   "p_home_e2": 0.434678,
+   "disagreement_pp": 9.499,
    "direction_agrees": false,
    "totals": {
     "possessions_per_team": 100.97,
@@ -980,10 +980,10 @@
    "venue": "Smoothie King Center",
    "city": "New Orleans, LA",
    "game_id": "0022600251",
-   "exp_margin_e1": -15.1533,
-   "p_home_e1": 0.184939,
-   "p_home_e2": 0.258831,
-   "disagreement_pp": 7.389,
+   "exp_margin_e1": -15.4595,
+   "p_home_e1": 0.181181,
+   "p_home_e2": 0.253377,
+   "disagreement_pp": 7.22,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 100.745,
@@ -1020,10 +1020,10 @@
    "venue": "Ball Arena",
    "city": "Denver, CO",
    "game_id": "0022600252",
-   "exp_margin_e1": 4.505,
-   "p_home_e1": 0.605105,
-   "p_home_e2": 0.58726,
-   "disagreement_pp": 1.784,
+   "exp_margin_e1": 3.9847,
+   "p_home_e1": 0.592809,
+   "p_home_e2": 0.592508,
+   "disagreement_pp": 0.03,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 98.06,
@@ -1060,10 +1060,10 @@
    "venue": "Scotiabank Arena",
    "city": "Toronto, ON",
    "game_id": "0022600253",
-   "exp_margin_e1": -0.6815,
-   "p_home_e1": 0.483915,
-   "p_home_e2": 0.48045,
-   "disagreement_pp": 0.346,
+   "exp_margin_e1": -1.7085,
+   "p_home_e1": 0.459909,
+   "p_home_e2": 0.429591,
+   "disagreement_pp": 3.032,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 97.755,
@@ -1100,10 +1100,10 @@
    "venue": "Target Center",
    "city": "Minneapolis, MN",
    "game_id": "0022600254",
-   "exp_margin_e1": 1.448,
-   "p_home_e1": 0.534143,
-   "p_home_e2": 0.441095,
-   "disagreement_pp": 9.305,
+   "exp_margin_e1": 1.2632,
+   "p_home_e1": 0.529664,
+   "p_home_e2": 0.434678,
+   "disagreement_pp": 9.499,
    "direction_agrees": false,
    "totals": {
     "possessions_per_team": 100.97,
@@ -1140,10 +1140,10 @@
    "venue": "Frost Bank Center",
    "city": "San Antonio, TX",
    "game_id": "0022600255",
-   "exp_margin_e1": 12.2856,
-   "p_home_e1": 0.766387,
-   "p_home_e2": 0.62458,
-   "disagreement_pp": 14.181,
+   "exp_margin_e1": 10.6132,
+   "p_home_e1": 0.734123,
+   "p_home_e2": 0.624517,
+   "disagreement_pp": 10.961,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 99.21,
@@ -1180,10 +1180,10 @@
    "venue": "Intuit Dome",
    "city": "Inglewood, CA",
    "game_id": "0022600257",
-   "exp_margin_e1": 5.2031,
-   "p_home_e1": 0.620919,
-   "p_home_e2": 0.645518,
-   "disagreement_pp": 2.46,
+   "exp_margin_e1": 4.1125,
+   "p_home_e1": 0.595729,
+   "p_home_e2": 0.670726,
+   "disagreement_pp": 7.5,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 100.525,
@@ -1220,10 +1220,10 @@
    "venue": "Crypto.com Arena",
    "city": "Los Angeles, CA",
    "game_id": "0022600256",
-   "exp_margin_e1": 21.9324,
-   "p_home_e1": 0.902831,
-   "p_home_e2": 0.797615,
-   "disagreement_pp": 10.522,
+   "exp_margin_e1": 21.0643,
+   "p_home_e1": 0.892718,
+   "p_home_e2": 0.819744,
+   "disagreement_pp": 7.297,
    "direction_agrees": true,
    "totals": {
     "possessions_per_team": 98.665,
@@ -1253,20 +1253,328 @@
  ],
  "minutes_redistribution": [
   {
-   "team": "ATL",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "ATL",
-   "team_name": "Atlanta Hawks",
-   "registry_url": "https://www.nba.com/team/1610612737/hawks",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "BKN",
+   "status": "MODELLED",
+   "captured_players": 11,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Noah Clowney",
+     "mean_min": 35.02,
+     "share_of_top8": 0.1739
+    },
+    {
+     "player": "Julius Randle",
+     "mean_min": 31.38,
+     "share_of_top8": 0.1558
+    },
+    {
+     "player": "Day'Ron Sharpe",
+     "mean_min": 27.78,
+     "share_of_top8": 0.1379
+    },
+    {
+     "player": "Danny Wolf",
+     "mean_min": 27.7,
+     "share_of_top8": 0.1375
+    },
+    {
+     "player": "Egor Demin",
+     "mean_min": 27.45,
+     "share_of_top8": 0.1363
+    },
+    {
+     "player": "Mikel Brown Jr.",
+     "mean_min": 19.95,
+     "share_of_top8": 0.099
+    },
+    {
+     "player": "Nolan Traore",
+     "mean_min": 19.8,
+     "share_of_top8": 0.0983
+    },
+    {
+     "player": "Chaney Johnson",
+     "mean_min": 12.35,
+     "share_of_top8": 0.0613
+    }
+   ],
+   "players_out": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Powell, Drake",
+    "Saraf, Ben"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Powell, Drake",
+    "Saraf, Ben"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Noah Clowney": 0.1739,
+    "Julius Randle": 0.1558,
+    "Day'Ron Sharpe": 0.1379,
+    "Danny Wolf": 0.1375,
+    "Egor Demin": 0.1363,
+    "Mikel Brown Jr.": 0.099,
+    "Nolan Traore": 0.0983,
+    "Chaney Johnson": 0.0613
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "BKN",
+   "team_name": "Brooklyn Nets",
+   "registry_url": "https://www.nba.com/team/1610612751/nets",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "CHA",
+   "team": "CHI",
+   "status": "MODELLED",
+   "captured_players": 6,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Isaac Okoro",
+     "mean_min": 31.03,
+     "share_of_top8": 0.1814
+    },
+    {
+     "player": "Norman Powell",
+     "mean_min": 30.1,
+     "share_of_top8": 0.176
+    },
+    {
+     "player": "Matas Buzelis",
+     "mean_min": 29.8,
+     "share_of_top8": 0.1742
+    },
+    {
+     "player": "Zach Collins",
+     "mean_min": 28.18,
+     "share_of_top8": 0.1648
+    },
+    {
+     "player": "Josh Giddey",
+     "mean_min": 26.23,
+     "share_of_top8": 0.1534
+    },
+    {
+     "player": "Patrick Williams",
+     "mean_min": 25.68,
+     "share_of_top8": 0.1502
+    }
+   ],
+   "players_out": [
+    "Awaka, Tobe",
+    "Robinson, Orlando",
+    "Sellers, Jaylin",
+    "Wilson, Caleb"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Awaka, Tobe",
+    "Robinson, Orlando",
+    "Sellers, Jaylin",
+    "Wilson, Caleb"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Isaac Okoro": 0.1814,
+    "Norman Powell": 0.176,
+    "Matas Buzelis": 0.1742,
+    "Zach Collins": 0.1648,
+    "Josh Giddey": 0.1534,
+    "Patrick Williams": 0.1502
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "CHI",
+   "team_name": "Chicago Bulls",
+   "registry_url": "https://www.nba.com/team/1610612741/bulls",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "team": "CLE",
+   "status": "MODELLED",
+   "captured_players": 8,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Tyrese Proctor",
+     "mean_min": 34.08,
+     "share_of_top8": 0.142
+    },
+    {
+     "player": "Mario Hezonja",
+     "mean_min": 34.05,
+     "share_of_top8": 0.1419
+    },
+    {
+     "player": "Jaylon Tyson",
+     "mean_min": 33.62,
+     "share_of_top8": 0.1401
+    },
+    {
+     "player": "Meleek Thomas",
+     "mean_min": 33.55,
+     "share_of_top8": 0.1398
+    },
+    {
+     "player": "Craig Porter Jr.",
+     "mean_min": 28.37,
+     "share_of_top8": 0.1182
+    },
+    {
+     "player": "Thomas Bryant",
+     "mean_min": 27.42,
+     "share_of_top8": 0.1142
+    },
+    {
+     "player": "Norchad Omier",
+     "mean_min": 26.75,
+     "share_of_top8": 0.1115
+    },
+    {
+     "player": "Riley Minix",
+     "mean_min": 22.17,
+     "share_of_top8": 0.0924
+    }
+   ],
+   "players_out": [
+    "Diop, Khalifa",
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Tyson, Jaylon",
+    "Udeh, Jr., Ernest"
+   ],
+   "out_matched_in_top8": [
+    "Jaylon Tyson"
+   ],
+   "out_not_in_top8_or_unknown": [
+    "Diop, Khalifa",
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Udeh, Jr., Ernest"
+   ],
+   "vacated_share_of_top8_minutes": 0.1401,
+   "statuses_used": {
+    "Jaylon Tyson": "Out"
+   },
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Tyrese Proctor": 0.1651,
+    "Mario Hezonja": 0.165,
+    "Meleek Thomas": 0.1626,
+    "Craig Porter Jr.": 0.1375,
+    "Thomas Bryant": 0.1328,
+    "Norchad Omier": 0.1297,
+    "Riley Minix": 0.1074
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "CLE",
+   "team_name": "Cleveland Cavaliers",
+   "registry_url": "https://www.nba.com/team/1610612739/cavaliers",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "team": "DEN",
+   "status": "MODELLED",
+   "captured_players": 10,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Jamal Murray",
+     "mean_min": 37.95,
+     "share_of_top8": 0.1735
+    },
+    {
+     "player": "Nikola Jokic",
+     "mean_min": 37.13,
+     "share_of_top8": 0.1698
+    },
+    {
+     "player": "Aaron Gordon",
+     "mean_min": 32.53,
+     "share_of_top8": 0.1487
+    },
+    {
+     "player": "Cam Johnson",
+     "mean_min": 30.77,
+     "share_of_top8": 0.1407
+    },
+    {
+     "player": "Christian Braun",
+     "mean_min": 27.77,
+     "share_of_top8": 0.127
+    },
+    {
+     "player": "DeMar DeRozan",
+     "mean_min": 23.82,
+     "share_of_top8": 0.1089
+    },
+    {
+     "player": "Trevon Brazile",
+     "mean_min": 15.62,
+     "share_of_top8": 0.0714
+    },
+    {
+     "player": "Marvin Bagley III",
+     "mean_min": 13.1,
+     "share_of_top8": 0.0599
+    }
+   ],
+   "players_out": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Jamal Murray": 0.1735,
+    "Nikola Jokic": 0.1698,
+    "Aaron Gordon": 0.1487,
+    "Cam Johnson": 0.1407,
+    "Christian Braun": 0.127,
+    "DeMar DeRozan": 0.1089,
+    "Trevon Brazile": 0.0714,
+    "Marvin Bagley III": 0.0599
+   },
+   "replacement_share": 0.0001,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "DEN",
+   "team_name": "Denver Nuggets",
+   "registry_url": "https://www.nba.com/team/1610612743/nuggets",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+  },
+  {
+   "team": "GSW",
    "status": "NO_CAPTURED_LOGS",
-   "team_code": "CHA",
-   "team_name": "Charlotte Hornets",
-   "registry_url": "https://www.nba.com/team/1610612766/hornets",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team_code": "GSW",
+   "team_name": "Golden State Warriors",
+   "registry_url": "https://www.nba.com/team/1610612744/warriors",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
    "team": "HOU",
@@ -1274,47 +1582,323 @@
    "team_code": "HOU",
    "team_name": "Houston Rockets",
    "registry_url": "https://www.nba.com/team/1610612745/rockets",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "IND",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "IND",
-   "team_name": "Indiana Pacers",
-   "registry_url": "https://www.nba.com/team/1610612754/pacers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "MEM",
+   "status": "MODELLED",
+   "captured_players": 10,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Cam Spencer",
+     "mean_min": 33.92,
+     "share_of_top8": 0.1664
+    },
+    {
+     "player": "Cedric Coward",
+     "mean_min": 32.82,
+     "share_of_top8": 0.161
+    },
+    {
+     "player": "Taylor Hendricks",
+     "mean_min": 29.02,
+     "share_of_top8": 0.1424
+    },
+    {
+     "player": "Cameron Boozer",
+     "mean_min": 28.78,
+     "share_of_top8": 0.1412
+    },
+    {
+     "player": "Jaylen Wells",
+     "mean_min": 24.58,
+     "share_of_top8": 0.1206
+    },
+    {
+     "player": "Olivier-Maxence Prosper",
+     "mean_min": 20.05,
+     "share_of_top8": 0.0984
+    },
+    {
+     "player": "Kris Murray",
+     "mean_min": 19.48,
+     "share_of_top8": 0.0956
+    },
+    {
+     "player": "Isaiah Stewart",
+     "mean_min": 15.15,
+     "share_of_top8": 0.0743
+    }
+   ],
+   "players_out": [
+    "Jackson, GG"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Jackson, GG"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Cam Spencer": 0.1664,
+    "Cedric Coward": 0.161,
+    "Taylor Hendricks": 0.1424,
+    "Cameron Boozer": 0.1412,
+    "Jaylen Wells": 0.1206,
+    "Olivier-Maxence Prosper": 0.0984,
+    "Kris Murray": 0.0956,
+    "Isaiah Stewart": 0.0743
+   },
+   "replacement_share": 0.0001,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "MEM",
+   "team_name": "Memphis Grizzlies",
+   "registry_url": "https://www.nba.com/team/1610612763/grizzlies",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "LAC",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "LAC",
-   "team_name": "LA Clippers",
-   "registry_url": "https://www.nba.com/team/1610612746/clippers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "MIA",
+   "status": "MODELLED",
+   "captured_players": 12,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Bam Adebayo",
+     "mean_min": 36.1,
+     "share_of_top8": 0.1704
+    },
+    {
+     "player": "Davion Mitchell",
+     "mean_min": 32.3,
+     "share_of_top8": 0.1524
+    },
+    {
+     "player": "Giannis Antetokounmpo",
+     "mean_min": 30.92,
+     "share_of_top8": 0.1459
+    },
+    {
+     "player": "Myron Gardner",
+     "mean_min": 26.03,
+     "share_of_top8": 0.1228
+    },
+    {
+     "player": "Ryan Conwell",
+     "mean_min": 25.8,
+     "share_of_top8": 0.1218
+    },
+    {
+     "player": "Andrew Wiggins",
+     "mean_min": 22.92,
+     "share_of_top8": 0.1082
+    },
+    {
+     "player": "Klay Thompson",
+     "mean_min": 20.22,
+     "share_of_top8": 0.0954
+    },
+    {
+     "player": "Bobby Portis Jr.",
+     "mean_min": 17.6,
+     "share_of_top8": 0.0831
+    }
+   ],
+   "players_out": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Bam Adebayo": 0.1704,
+    "Davion Mitchell": 0.1524,
+    "Giannis Antetokounmpo": 0.1459,
+    "Myron Gardner": 0.1228,
+    "Ryan Conwell": 0.1218,
+    "Andrew Wiggins": 0.1082,
+    "Klay Thompson": 0.0954,
+    "Bobby Portis Jr.": 0.0831
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "MIA",
+   "team_name": "Miami Heat",
+   "registry_url": "https://www.nba.com/team/1610612748/heat",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "LAL",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "LAL",
-   "team_name": "Los Angeles Lakers",
-   "registry_url": "https://www.nba.com/team/1610612747/lakers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "MIN",
+   "status": "MODELLED",
+   "captured_players": 10,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Jaden McDaniels",
+     "mean_min": 37.02,
+     "share_of_top8": 0.1653
+    },
+    {
+     "player": "Jonathan Kuminga",
+     "mean_min": 35.38,
+     "share_of_top8": 0.1579
+    },
+    {
+     "player": "Ayo Dosunmu",
+     "mean_min": 33.07,
+     "share_of_top8": 0.1476
+    },
+    {
+     "player": "LaMelo Ball",
+     "mean_min": 29.85,
+     "share_of_top8": 0.1332
+    },
+    {
+     "player": "Rudy Gobert",
+     "mean_min": 26.88,
+     "share_of_top8": 0.12
+    },
+    {
+     "player": "Terrence Shannon Jr",
+     "mean_min": 21.75,
+     "share_of_top8": 0.0971
+    },
+    {
+     "player": "Bones Hyland",
+     "mean_min": 21.3,
+     "share_of_top8": 0.0951
+    },
+    {
+     "player": "Trey Lyles",
+     "mean_min": 18.77,
+     "share_of_top8": 0.0838
+    }
+   ],
+   "players_out": [
+    "Clark, Jaylen",
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Clark, Jaylen",
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Jaden McDaniels": 0.1653,
+    "Jonathan Kuminga": 0.1579,
+    "Ayo Dosunmu": 0.1476,
+    "LaMelo Ball": 0.1332,
+    "Rudy Gobert": 0.12,
+    "Terrence Shannon Jr": 0.0971,
+    "Bones Hyland": 0.0951,
+    "Trey Lyles": 0.0838
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "MIN",
+   "team_name": "Minnesota Timberwolves",
+   "registry_url": "https://www.nba.com/team/1610612750/timberwolves",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "MIL",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "MIL",
-   "team_name": "Milwaukee Bucks",
-   "registry_url": "https://www.nba.com/team/1610612749/bucks",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team": "NOP",
+   "status": "MODELLED",
+   "captured_players": 9,
+   "games_captured": 1,
+   "top8": [
+    {
+     "player": "Saddiq Bey",
+     "mean_min": 40.55,
+     "share_of_top8": 0.1796
+    },
+    {
+     "player": "Jeremiah Fears",
+     "mean_min": 32.73,
+     "share_of_top8": 0.145
+    },
+    {
+     "player": "Zion Williamson",
+     "mean_min": 30.77,
+     "share_of_top8": 0.1363
+    },
+    {
+     "player": "Herbert Jones",
+     "mean_min": 27.48,
+     "share_of_top8": 0.1217
+    },
+    {
+     "player": "Derik Queen",
+     "mean_min": 24.97,
+     "share_of_top8": 0.1106
+    },
+    {
+     "player": "Jordan Poole",
+     "mean_min": 23.92,
+     "share_of_top8": 0.1059
+    },
+    {
+     "player": "Jaron Pierre Jr.",
+     "mean_min": 23.3,
+     "share_of_top8": 0.1032
+    },
+    {
+     "player": "Yves Missi",
+     "mean_min": 22.05,
+     "share_of_top8": 0.0977
+    }
+   ],
+   "players_out": [
+    "Mathurin, Benedict",
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte"
+   ],
+   "out_matched_in_top8": [],
+   "out_not_in_top8_or_unknown": [
+    "Mathurin, Benedict",
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte"
+   ],
+   "vacated_share_of_top8_minutes": 0,
+   "statuses_used": {},
+   "questionable_handling": "a Questionable player keeps his minutes and is reported as uncertain; no probability is invented for him",
+   "new_shares_if_out": {
+    "Saddiq Bey": 0.1796,
+    "Jeremiah Fears": 0.145,
+    "Zion Williamson": 0.1363,
+    "Herbert Jones": 0.1217,
+    "Derik Queen": 0.1106,
+    "Jordan Poole": 0.1059,
+    "Jaron Pierre Jr.": 0.1032,
+    "Yves Missi": 0.0977
+   },
+   "replacement_share": 0.0,
+   "caveat": "Based on the captured game logs only (2026-11-14 slate). A share model of this kind needs a full season of logs to be stable; with one slate it is a worked demonstration, and it is labelled as such wherever it is shown.",
+   "team_code": "NOP",
+   "team_name": "New Orleans Pelicans",
+   "registry_url": "https://www.nba.com/team/1610612740/pelicans",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "OKC",
+   "team": "ORL",
    "status": "NO_CAPTURED_LOGS",
-   "team_code": "OKC",
-   "team_name": "Oklahoma City Thunder",
-   "registry_url": "https://www.nba.com/team/1610612760/thunder",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team_code": "ORL",
+   "team_name": "Orlando Magic",
+   "registry_url": "https://www.nba.com/team/1610612753/magic",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
    "team": "PHI",
@@ -1322,47 +1906,15 @@
    "team_code": "PHI",
    "team_name": "Philadelphia 76ers",
    "registry_url": "https://www.nba.com/team/1610612755/sixers",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
-   "team": "PHX",
+   "team": "POR",
    "status": "NO_CAPTURED_LOGS",
-   "team_code": "PHX",
-   "team_name": "Phoenix Suns",
-   "registry_url": "https://www.nba.com/team/1610612756/suns",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "SAC",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "SAC",
-   "team_name": "Sacramento Kings",
-   "registry_url": "https://www.nba.com/team/1610612758/kings",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "SAS",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "SAS",
-   "team_name": "San Antonio Spurs",
-   "registry_url": "https://www.nba.com/team/1610612759/spurs",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "TOR",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "TOR",
-   "team_name": "Toronto Raptors",
-   "registry_url": "https://www.nba.com/team/1610612761/raptors",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
-  },
-  {
-   "team": "UTA",
-   "status": "NO_CAPTURED_LOGS",
-   "team_code": "UTA",
-   "team_name": "Utah Jazz",
-   "registry_url": "https://www.nba.com/team/1610612762/jazz",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "team_code": "POR",
+   "team_name": "Portland Trail Blazers",
+   "registry_url": "https://www.nba.com/team/1610612757/blazers",
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   },
   {
    "team": "WAS",
@@ -1370,7 +1922,7 @@
    "team_code": "WAS",
    "team_name": "Washington Wizards",
    "registry_url": "https://www.nba.com/team/1610612764/wizards",
-   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf"
+   "official_status_source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
   }
  ],
  "minutes_sensitivity": [
@@ -2255,23 +2807,31 @@
    "NOP"
   ],
   "teams_with_an_announced_absence": [
-   "Atlanta Hawks",
-   "Charlotte Hornets",
+   "Brooklyn Nets",
+   "Chicago Bulls",
+   "Cleveland Cavaliers",
+   "Denver Nuggets",
+   "Golden State Warriors",
    "Houston Rockets",
-   "Indiana Pacers",
-   "LA Clippers",
-   "Los Angeles Lakers",
-   "Milwaukee Bucks",
-   "Oklahoma City Thunder",
+   "Memphis Grizzlies",
+   "Miami Heat",
+   "Minnesota Timberwolves",
+   "New Orleans Pelicans",
+   "Orlando Magic",
    "Philadelphia 76ers",
-   "Phoenix Suns",
-   "Sacramento Kings",
-   "San Antonio Spurs",
-   "Toronto Raptors",
-   "Utah Jazz",
+   "Portland Trail Blazers",
    "Washington Wizards"
   ],
-  "overlap": [],
+  "overlap": [
+   "BKN",
+   "CHI",
+   "CLE",
+   "DEN",
+   "MEM",
+   "MIA",
+   "MIN",
+   "NOP"
+  ],
   "why": "A redistribution needs both a captured game log and an announced absence for the same club. The logs cover the 11/14 slate and the archived report covers 11/15, so the overlap is what it is; the sensitivity table is illustrative and labelled."
  },
  "market_prior": {
@@ -2279,64 +2839,30 @@
   "rule": "blend the model line with the closing line, weight w chosen by measured out-of-sample log-loss",
   "blocker": "No licensed closing line exists in this repository and the official NBA schedule page does not print prices in the fetched text. w is therefore left BLANK rather than set to a guessed value.",
   "what_is_ready": "the blend and the log-loss scoring are implemented and run on the model's own OOS sample",
-  "oos_log_loss_without_market": 0.620681,
-  "oos_log_loss_blend_50_50": 0.616047
+  "oos_log_loss_without_market": 0.602908,
+  "oos_log_loss_blend_50_50": 0.599234
  },
  "injury_snapshot": {
-  "file": "Injury-Report_2026-11-15_06_15AM",
-  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf",
+  "file": "Injury-Report_2026-11-16_01_15PM",
+  "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf",
   "retrieved_utc": "2026-11-15T11:33Z",
   "out_or_doubtful_by_team": {
-   "Indiana Pacers": [
-    "Furphy, Johnny",
-    "Haliburton, Tyrese",
-    "Sheppard, Ben"
+   "Chicago Bulls": [
+    "Awaka, Tobe",
+    "Robinson, Orlando",
+    "Sellers, Jaylin",
+    "Wilson, Caleb"
    ],
-   "Philadelphia 76ers": [
-    "Barlow, Dominick",
-    "Bona, Adem",
-    "Embid, Joel",
-    "Hukporti, Ariel"
+   "Cleveland Cavaliers": [
+    "Diop, Khalifa",
+    "Merrill, Sam",
+    "Mobley, Evan",
+    "Tomlin, Nae'Qwan",
+    "Tyson, Jaylon",
+    "Udeh, Jr., Ernest"
    ],
-   "Los Angeles Lakers": [
-    "Carr, Cameron",
-    "Reaves, Austin"
-   ],
-   "Phoenix Suns": [
-    "Williams, Mark"
-   ],
-   "Charlotte Hornets": [
-    "Ajayi, Michael",
-    "Boswell, Kylan",
-    "Knueppel, Kon",
-    "Schroder, Dennis",
-    "Steinbach, Hannes"
-   ],
-   "LA Clippers": [
-    "Beal, Bradley",
-    "Ingram, Brandon",
-    "Miller, Jordan",
-    "Niederhauser, Yanic Konan"
-   ],
-   "San Antonio Spurs": [
-    "Brown, Maliq",
-    "Gillespie, Ja'Kobi",
-    "Harris, Tobias",
-    "Quaintance, Jayden"
-   ],
-   "Utah Jazz": [
-    "Alexander, Trey",
-    "Bufkin, Kobe"
-   ],
-   "Toronto Raptors": [
-    "Bittle, Nate",
-    "Leonard, Kawhi",
-    "McCullar Jr., Kevin",
-    "Smith, Malachi"
-   ],
-   "Houston Rockets": [
-    "Capela, Clint",
-    "Copeland, Quadir"
+   "Memphis Grizzlies": [
+    "Jackson, GG"
    ],
    "Washington Wizards": [
     "Beekman, Reece",
@@ -2344,30 +2870,64 @@
     "Vukcevic, Tristan",
     "Watkins, Jamir"
    ],
-   "Atlanta Hawks": [
-    "Flemings, Kingston",
-    "Gilbert, Keshon",
-    "Gueye, Mouhamed",
-    "Newell, Asa"
+   "Orlando Magic": [
+    "Banchero, Paolo",
+    "Isaac, Jonathan",
+    "Nelson, Izaiyah",
+    "Penda, Noah"
    ],
-   "Milwaukee Bucks": [
-    "Dieng, Ousmane",
-    "Jones, Kam",
-    "Markovic, Bogoljub",
-    "Nance, Pete",
-    "Ryan, Cormac"
+   "Houston Rockets": [
+    "Adams, Steven",
+    "Capela, Clint",
+    "Copeland, Quadir",
+    "Phillips, Julian",
+    "Smart, Marcus"
    ],
-   "Oklahoma City Thunder": [
-    "Holmgren, Chet",
-    "Sorber, Thomas",
-    "Wallace, Cason",
-    "Williams, Jalen",
-    "Williams, Jaylin"
+   "Miami Heat": [
+    "Goldin, Vladislav",
+    "Larsson, Pelle"
    ],
-   "Sacramento Kings": [
-    "Mogbo, Jonathan",
-    "Pedulla, Sean",
-    "Raynaud, Maxime"
+   "Philadelphia 76ers": [
+    "Barlow, Dominick",
+    "Bona, Adem",
+    "Hukporti, Ariel",
+    "James, LeBron"
+   ],
+   "Brooklyn Nets": [
+    "Bilodeau, Tyler",
+    "Jefferson, Joshua",
+    "Nelson, Grant",
+    "Powell, Drake",
+    "Saraf, Ben"
+   ],
+   "Golden State Warriors": [
+    "Curry, Stephen",
+    "Moody, Moses",
+    "Porzingis, Kristaps",
+    "Williams, Brandon"
+   ],
+   "New Orleans Pelicans": [
+    "Mathurin, Benedict",
+    "McGowens, Bryce",
+    "Murphy III, Trey",
+    "Murray, Dejounte"
+   ],
+   "Portland Trail Blazers": [
+    "Krejci, Vit",
+    "Morant, Ja",
+    "Sharpe, Shaedon",
+    "Youngblood, Chris"
+   ],
+   "Minnesota Timberwolves": [
+    "Clark, Jaylen",
+    "DiVincenzo, Donte",
+    "Edwards, Anthony"
+   ],
+   "Denver Nuggets": [
+    "Holmes II, DaRon",
+    "Nembhard, Ryan",
+    "Strawther, Julian",
+    "Whitmore, Cam"
    ]
   }
  }

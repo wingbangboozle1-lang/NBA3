@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -582,6 +582,50 @@ questions</a> page.</p>
 <td>Owner decision on timing; the settle command is idempotent (tested).</td>
 <td>open — owner</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/results_feed.py</a></td>
+</tr>
+<tr>
+<td>1116-S-01</td>
+<td>Injury-report archiving</td>
+<td>Archive every report the official index lists (already implemented in scripts/refresh_official.py: verbatim pdftotext text + PDF URL + sha256 + retrieval stamp per report) and diff consecutive archived reports in the scheduled run</td>
+<td>The brief requires every PDF stored with its timestamp and consecutive diffs; one gap of 53 reports on 11/16 shows what a single-newest-fetch policy loses (flag 1116-F-02)</td>
+<td>A: text + sha256 archive on the runner (implemented); B: commit every PDF binary (~5 MB/day); C: keep newest-only</td>
+<td>A — the sha256 pins the bytes, the URL serves them, and the repository does not accumulate one binary per report per day</td>
+<td>poppler-utils on the runner (installed in refresh.yml)</td>
+<td>implemented in scripts/refresh_official.py (session arena/4054e125-nba3); owner can switch to B by moving the pdf_path into the archive dir</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>1116-S-02</td>
+<td>Results ingestion</td>
+<td>Ingest every finished game from the game-card feed embedded in the refreshed games pages (scripts/gamecard_feed.py + results_feed.py ingest --capture-dir), rejecting any card whose period scores do not sum to its printed final</td>
+<td>The score, the quarters and the final state all arrive in one official artifact the job already downloads; the sum check is the same arithmetic identity the settlement rule states</td>
+<td>A: game-card feed ingest with sum check (implemented); B: parse the games-page HTML text; C: manual capture per game day</td>
+<td>A — implemented and tested against the committed 2026-11-16T00-57Z capture (four finals ingested, live/scheduled cards skipped)</td>
+<td>none</td>
+<td>implemented (session arena/4054e125-nba3); a card that fails the sum check is reported and never repaired</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>1116-S-03</td>
+<td>Standings freshness</td>
+<td>Promote the standings page on every scheduled refresh through the strict parser (scripts/standings_feed.py), keeping the verified transcription when the raw page only partially parses</td>
+<td>The standings feed is a model input and a gate (F11); a raw-HTML parse that yields all printed columns refreshes it automatically, while a partial parse must never overwrite verified columns</td>
+<td>A: three-mode strict parser with full-parse-only overwrite (implemented); B: transcribe by hand every day; C: trust whatever parses</td>
+<td>A — implemented; the site always shows which capture the table came from and when it was read</td>
+<td>the raw page&#x27;s structure; if none of the three modes yields 30 full rows, the manifest records a failed promotion and the verified capture stands</td>
+<td>implemented (session arena/4054e125-nba3)</td>
+<td><a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>1116-S-04</td>
+<td>Settlement timing</td>
+<td>Run results-feed settle --all-done and pick-ledger settle at the end of every scheduled run so each finished game day settles the moment its finals are verified (implemented in scripts/refresh_official.py)</td>
+<td>The brief settles from official finals as each game day ends; a manual settle step is exactly how the 11/15 day sat unsettled for 18 hours</td>
+<td>A: end-of-run automatic settlement of every finished day (implemented); B: manual settle per day; C: settle only when a human flags the day done</td>
+<td>A — the settlement stamps stay visible on the settlement page and in the feed rows</td>
+<td>none</td>
+<td>implemented (session arena/4054e125-nba3)</td>
+<td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
 </tr>
 </tbody></table></div>
 </main>

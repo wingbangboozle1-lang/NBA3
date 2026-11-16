@@ -12,6 +12,8 @@ A gate is a hard rule with a measured value attached. Nothing is "assumed fresh"
   F8  the ledger chain verifies and every published pick has a frozen pre-registration
   F9  no stale numbers: the model's `as_of` stamp is not older than the newest settled game date
   F10 the capture is at least as new as the newest official read it was built from
+  F11 the official standings capture exists, covers 30 teams and passed its arithmetic checks
+  F12 every verified final in the results feed is settled and every withheld row carries a flag
 
 F10 measures build lag against the newest retrieved_utc inside meta.json, not against the wall
 clock. That keeps the artefact byte-reproducible, which the CI drift gate requires: a wall-clock
@@ -40,6 +42,9 @@ META = LIVE / "meta.json"
 INJ = LIVE / "injuries"
 MODEL = LIVE / "model.json"
 SETTLED = LIVE / "results" / "settled_2026-11-14.json"
+SETTLED_DIR = LIVE / "results"
+STANDINGS = LIVE / "standings.json"
+RESULTS_FEED = ROOT / "data" / "app" / "results_feed.json"
 SLATE = LIVE / "slate_2026-11-15.json"
 STATS = LIVE / "team_stats_advanced.json"
 
@@ -121,13 +126,17 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         or "https://official.nba.com/nba-injury-report-2026-27-season/")
 
     # F4 -------------------------------------------------------------------------
-    settled = json.loads(SETTLED.read_text())
-    unverified = [g["game_id"] for g in settled["games"] if not g["verified"]]
+    settled_docs = [json.loads(p.read_text())
+                    for p in sorted(SETTLED_DIR.glob("settled_*.json"))]
+    settled_games = [(doc, g) for doc in settled_docs for g in doc["games"]]
+    unverified = [g["game_id"] for _, g in settled_games if not g["verified"]]
+    newest_doc = settled_docs[-1] if settled_docs else {"settled_utc": "", "games": []}
     add("F4", "Every settled game is verified against two official reads", not unverified,
-        {"games": len(settled["games"]), "unverified": unverified,
-         "stamp": settled["settled_utc"]},
+        {"games": len(settled_games), "unverified": unverified,
+         "files": [p.name for p in sorted(SETTLED_DIR.glob("settled_*.json"))],
+         "stamp": max((d["settled_utc"] for d in settled_docs), default="")},
         "game page final == gamebook printed final == sum of printed quarters",
-        settled["games"][0]["source_url"] if settled["games"] else
+        newest_doc["games"][0]["source_url"] if newest_doc["games"] else
         "https://www.nba.com/games")
 
     # F5 -------------------------------------------------------------------------
@@ -177,7 +186,7 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         ledger.load_prereg() and "https://www.nba.com/schedule" or "https://www.nba.com/schedule")
 
     # F9 -------------------------------------------------------------------------
-    newest_final = max(g["date"] for g in settled["games"])
+    newest_final = max((g["date"] for _, g in settled_games), default="1970-01-01")
     sample_end = model["sample_range"][1]
     add("F9", "The model sample is not older than the newest settled game", sample_end >= newest_final,
         {"model_sample_end": sample_end, "newest_settled": newest_final},
@@ -199,6 +208,47 @@ def check(max_age_hours: float | None = None) -> list[dict]:
         "--max-report-age-hours, |build_lag| is bounded instead. Measured against the capture "
         "stamps, never the wall clock, so the artefact reproduces byte for byte.",
         "https://www.nba.com/schedule?date=2026-11-15")
+
+    # F11 -----------------------------------------------------------------------
+    standings_problems = []
+    st = None
+    if not STANDINGS.exists():
+        standings_problems.append("data/live/standings.json is missing")
+    else:
+        st = json.loads(STANDINGS.read_text())
+        if st.get("counts", {}).get("teams") != 30:
+            standings_problems.append(
+                f"standings has {st.get('counts', {}).get('teams')} teams, expected 30")
+        if not str(st.get("source_url", "")).startswith("https://"):
+            standings_problems.append("standings source_url is not https")
+        if not st.get("retrieved_utc"):
+            standings_problems.append("standings has no retrieval stamp")
+    add("F11", "The official standings capture exists, covers 30 teams and passed its checks",
+        not standings_problems,
+        {"teams": (st or {}).get("counts", {}).get("teams"),
+         "retrieved_utc": (st or {}).get("retrieved_utc"),
+         "problems": standings_problems},
+        "30 teams with an https source and a retrieval stamp; the capture script refuses "
+        "to write the file when any arithmetic check fails",
+        (st or {}).get("source_url") or "https://www.nba.com/standings")
+
+    # F12 -----------------------------------------------------------------------
+    feed = json.loads(RESULTS_FEED.read_text())
+    unsettled_finals = [f"{g.get('date')} {g.get('away')}@{g.get('home')}"
+                        for g in feed["games"]
+                        if g.get("verified") and not g.get("settled")]
+    unflagged_unverified = [f"{g.get('date')} {g.get('away')}@{g.get('home')}"
+                            for g in feed["games"]
+                            if not g.get("verified")
+                            and not (g.get("flag") or g.get("quarter_check"))]
+    add("F12", "Every verified final in the results feed is settled and every withheld row "
+               "carries a flag",
+        not unsettled_finals and not unflagged_unverified,
+        {"rows": len(feed["games"]), "settled": feed.get("settled_count"),
+         "unsettled_verified_finals": unsettled_finals,
+         "unflagged_unverified_rows": unflagged_unverified},
+        "settle only after verified finals; nothing is withheld silently",
+        "https://www.nba.com/games")
 
     return gates
 

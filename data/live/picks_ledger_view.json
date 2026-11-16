@@ -2,10 +2,10 @@
  "schema": "nba3.live.ledger_view/v1",
  "generated_utc": "2026-11-15T12:10Z",
  "integrity": {
-  "entries": 11,
-  "published": 11,
+  "entries": 13,
+  "published": 13,
   "settled": 0,
-  "head_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+  "head_hash": "e6a3a5383bde577f69d41d98930ec42e6e002efa5b5c861e541e221640367fa1",
   "verified": true,
   "problems": []
  },
@@ -249,6 +249,50 @@
    "prev_hash": "ac622348f6e9eabe5dc497be2a369af79ffb8fc8b7062274b45f2783f44e1807",
    "published_utc": "2026-11-15T12:10Z",
    "seq": 11
+  },
+  {
+   "entry_hash": "b714c7bdaa84c9f5bc81d581679c576835a7e0d8172b62ff5dc897843cdb911a",
+   "kind": "PUBLISH",
+   "pick": {
+    "date": "2026-11-15",
+    "game_id": "0022600238",
+    "headline_signal": "disagreement 17.73 pp",
+    "line": null,
+    "matchup": "CHA @ LAC",
+    "origin": "originated fair price from the two estimators",
+    "pick": "LAC moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": true,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "4:30 PM",
+    "tip_et_iso": "2026-11-15T21:30Z"
+   },
+   "pick_sha256": "814df1a73e0a31b0dbaa25821f2842391a524b32cce2ea82b71681830798abcf",
+   "prev_hash": "c3f0ce041b5e5ff837b81ef25684274e60a06847a62790916ab9e613cafce401",
+   "published_utc": "2026-11-15T12:10Z",
+   "seq": 12
+  },
+  {
+   "entry_hash": "e6a3a5383bde577f69d41d98930ec42e6e002efa5b5c861e541e221640367fa1",
+   "kind": "PUBLISH",
+   "pick": {
+    "date": "2026-11-17",
+    "game_id": "0022600257",
+    "headline_signal": "disagreement 7.5 pp",
+    "line": null,
+    "matchup": "UTA @ LAC",
+    "origin": "originated fair price from the two estimators",
+    "pick": "LAC moneyline",
+    "settlement_rule_id": "MONEYLINE",
+    "side_home": true,
+    "strategy_id": "S2_ESTIMATOR_DISAGREEMENT",
+    "tip_et": "10:30 PM",
+    "tip_et_iso": "2026-11-18T03:30Z"
+   },
+   "pick_sha256": "05c5e2d85f3c3389a6b28a58cab307297c3b282d5481f5e9e891921515743e5c",
+   "prev_hash": "b714c7bdaa84c9f5bc81d581679c576835a7e0d8172b62ff5dc897843cdb911a",
+   "published_utc": "2026-11-15T12:10Z",
+   "seq": 13
   }
  ],
  "note": "Entries are append-only. Every pick carries the sha256 published before tip; every settlement repeats that hash and the official final it was graded against."
