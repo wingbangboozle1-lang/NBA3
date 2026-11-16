@@ -62,11 +62,11 @@ itself on a quarter score; the league's own standings put home-court a third of 
 been pinning; and the two estimators agree closely on exactly 2 of the
 29 games in the window.</p>
 <div class="cards">
-<div class="card"><div class="k">official revisions read</div><div class="v">3</div><div class="n">09:15 AM (already published) · 11:30 AM · 11/16/26 01:15 PM — <a class='src' href='injuries.html'>diff</a></div></div>
+<div class="card"><div class="k">official revisions read</div><div class="v">4</div><div class="n">09:15 AM (already published) · 11:30 AM · 01:00 PM · 11/16/26 01:15 PM — <a class='src' href='injuries.html'>diff</a></div></div>
 <div class="card"><div class="k">player rows on the report</div><div class="v">76</div><div class="n">was 57 at 09:15; +19</div></div>
-<div class="card"><div class="k">11/15 finals settled</div><div class="v">9/9</div><div class="n">one row per game, quarter sums checked — <a class='src' href='results.html'>table</a></div></div>
+<div class="card"><div class="k">11/15 finals settled</div><div class="v">9/9</div><div class="n">one row per game, quarter vectors printed — <a class='src' href='results.html'>table</a></div></div>
 <div class="card"><div class="k">measured home-win rate</div><div class="v">52.0%</div><div class="n">102-94 of 196 home games — <a class='src' href='standings.html'>source</a></div></div>
-<div class="card"><div class="k">home-court now pinned</div><div class="v">0.9 pts</div><div class="n">was 4.12 in the round capture, [1.62] in the app ledger</div></div>
+<div class="card"><div class="k">home-court now pinned</div><div class="v">0.9 pts</div><div class="n">was 4.12 in the round capture, 1.62 in the app ledger</div></div>
 <div class="card"><div class="k">estimators agreeing</div><div class="v">2/29</div><div class="n">within 2.5 pts of margin; 10 rows inside the 5.0-point cap</div></div>
 <div class="card"><div class="k">strategies funded</div><div class="v">0/5</div><div class="n">blocked by G1_sample_depth, G6_disagreement_cap, G8_price_feed — <a class='src' href='gates.html'>board</a></div></div>
 <div class="card"><div class="k">picks sealed pre-tip</div><div class="v">29</div><div class="n">head a3851ca8b233… — <a class='src' href='ledger.html'>chain</a></div></div>
@@ -90,7 +90,7 @@ home-court pin is now computed from</td><td><span class="tag ok">closed</span></
 <tr><td>4</td><td>three different home-court values pinned in three places</td>
 <td>0.9 (this build, league-wide measured) vs
 4.12 (round capture, 23 finals)
-vs [1.62] (every sealed app-ledger entry)
+vs 1.62 (every sealed app-ledger entry)
 — a 3.22-point swing on every home line</td>
 <td><span class="tag warn">owner decision needed</span></td><td><a href="model.html#hca">Method</a></td><td><a class="src" href="https://www.nba.com/standings" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-16/model.json" rel="noopener">data/rounds/2026-11-16/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" rel="noopener">data/app/ledger/ledger.jsonl</a></td></tr>
 <tr><td>5</td><td>luck refused to clear anyone</td>
@@ -99,7 +99,7 @@ rule did not fire; the clubs nearest the edge are printed instead of hidden</td>
 <td><span class="tag ok">measured</span></td><td><a href="model.html#luck">Method</a></td><td><a class="src" href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" rel="noopener">www.nba.com</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a></td></tr>
 <tr><td>6</td><td>parlays priced with a measured correlation</td>
 <td>ρ(margin, total) = -0.2113 (95% CI
-[-0.574, 0.22]) on 23 games;
+-0.574 to 0.22) on 23 games;
 the naive product sits beside it on every row</td><td><span class="tag warn">projection only, no price to beat</span></td>
 <td><a href="pricing.html">Pricing</a></td><td><a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/model.json" rel="noopener">d1b96315/data/model.json</a> · <a class="src" href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/d1b96315/data/results_2026-11-15.json" rel="noopener">d1b96315/data/results_2026-11-15.json</a></td></tr>
 <tr><td>7</td><td>per-player minutes redistribution is only possible for 9 of 30 clubs</td>
@@ -110,12 +110,12 @@ the naive product sits beside it on every row</td><td><span class="tag warn">pro
 
 <h2>Read it in this order</h2>
 <div class="grid2">
-<div class="q"><h4>The numbers, with their sources</h4><p class="small"><a href="injuries.html">Injuries</a> (three revisions, two diffs, every status change linked) ·
+<div class="q"><h4>The numbers, with their sources</h4><p class="small"><a href="injuries.html">Injuries</a> (4 revisions, 5 named diffs, every status change linked) ·
 <a href="results.html">Results</a> (nine finals, quarter vectors, the disputed one footnoted) ·
 <a href="standings.html">Standings</a> (30 rows, the home-rate measurement) ·
-<a href="lines.html">Originated lines</a> (25 rows, both estimators, availability, rest, travel, luck)</p></div>
+<a href="lines.html">Originated lines</a> (29 rows over four days, both estimators, availability, rest, travel, luck)</p></div>
 <div class="q"><h4>Whether any of it may be bet</h4><p class="small"><a href="gates.html">Gates &amp; leaderboard</a> (8 gates × 5 strategies, all measurements printed) ·
-<a href="ledger.html">Ledger</a> (25 pre-tip seals, three chains verified, board item K-17 resolved) ·
+<a href="ledger.html">Ledger</a> (29 pre-tip seals + 2 appended amendments, three chains verified, board item K-17 resolved) ·
 <a href="pricing.html">Pricing &amp; rho</a> · <a href="model.html">Method</a></p></div>
 <div class="q"><h4>What is missing and what to do</h4><p class="small"><a href="questions.html">Questions</a> (known vs unknown, each with the way to find out) ·
 <a href="suggestions.html">Suggestions</a> (four paths, pick one) ·
