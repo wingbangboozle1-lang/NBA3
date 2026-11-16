@@ -4756,6 +4756,24 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 
 ---
 
+## Session `arena/c449d46a-nba3` (current) — CLAIM: repair the failing scheduled refresh (commit step), slate leak in the official games pages, ledger publish integrity
+
+**Session ID:** `arena/c449d46a-nba3`. Workspace branch `arena/c449d46a-nba3`, branched from `main` @ `27245fa` (merge of PR #101). Claim written and pushed before any other change (2026-11-16 ~14:35 UTC).
+
+**Why this round exists (evidence, read 2026-11-16 UTC):**
+- Scheduled workflow `official data refresh` (`.github/workflows/refresh.yml`) has failed on its last two scheduled runs: run `43815576157` (~06:26 UTC) and run `43864808752` (~12:26 UTC). Both failed at step **"Commit refreshed captures and rebuilt outputs"**; the fetch, gates and unit-test steps passed. The last successful refresh commit on `main` is `94f71a6` (00:57Z). Job logs are not retrievable through the API (EOF), so the cause was reproduced locally instead: in a clean clone of `27245fa` the rebuild chain (`estimators` → `minutes_model` → `results_feed verify` → `pick_ledger publish/verify` → `assemble_canonical` → `build_app`) modifies `app/ledger.html` and `data/app/ledger/ledger.jsonl`. The step only runs `git add data/app`, so `app/ledger.html` stays unstaged and `git pull --rebase origin main` refuses to run. This is the inferred failure mode (not yet proven on the runner).
+- The refresh's slate promotion attaches one non-slate game to every date. `0022600232` (DAL@CLE, played 11/14, verified by the committed 11/14 game book `data/app/gamebooks/20261114_DALCLE.md`) appears on the games pages for 11/13 through 11/18 (the same game link is on every date page). `data/app/official_slate_current.json` therefore lists it four times (11/15, 11/16, 11/17, 11/18), and `pick_ledger.py publish` would add four "PUBLISHED_PRE_TIP" entries for it with `tip_et: null` (a pre-tip claim that cannot be proven).
+
+**Stale-PR note (not modified here).** Open PRs #94, #95, #96, #98 are `DIRTY` (conflicting) with no commit since 00:00–02:28 UTC and all touch `.github/workflows/refresh.yml` and/or `scripts/refresh_official.py`. Under the 60-minute rule the refresh-repair scope is taken over here. Those PRs are left open and unmerged, and are logged as change requests for their owners / the integration session (see the completion record). Nothing of theirs is closed.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| X1 Claim + board note (this section) | done (pushed before work) | c449d46a | `COORDINATION.md` (append-only) |
+| X2 Repair the refresh commit step: stage the whole tree the rebuild writes, commit, retry the rebase, never push a half-rebased tree; add a concurrency group | done (runner confirmation pending: see X6) | c449d46a | `.github/workflows/refresh.yml` |
+| X3 Slate leak: promote only game cards whose date matches their page; record exclusions; regenerate `official_slate_current.json` offline from the committed 2026-11-16T00-57Z capture (34 rows) | done | c449d46a | `scripts/refresh_official.py`, `tests/test_refresh_official.py`, `data/app/official_slate_current.json` |
+| X4 Ledger publish integrity: publish only games dated today or later, a verified tip for today's games, one entry per game id, on-slate check | done (12 ledger tests; committed chain unchanged, 34 entries) | c449d46a | `scripts/pick_ledger.py`, `tests/test_pick_ledger.py` (new) |
+| X5 Replay the CI steps on the integrated tree (45 steps, drift gates, links) and regenerate every drift-gated artefact | done (45/45 steps, 135/135 unit tests, freshness gates 10/10) | c449d46a | records + regenerated `app/`, `data/app/` outputs |
+| X6 PR → `main` → merge → Pages deploy check; dispatch the refresh once if the API allows it | pending | c449d46a | `COORDINATION.md`, PR |
 ## Session `arena/07f22dad-nba3` — claim (2026-11-16 UTC)
 
 | Task | Status | Owner | File scope |
@@ -4815,6 +4833,42 @@ The official report index re-read on 2026-11-16 lists 11/16 reports through 09:3
 - `python3 scripts/build_live_site.py --check` passed; `python3 -m unittest discover -s tests -q` → 121 passed; page-level regression confirms the staleness alert/source links and chronological spellings. Existing non-fatal ResourceWarnings remain in older tests.
 - F12 is `needs review` because the stale status is now published on the Flagged for Review page and requires the scheduled fetch/parser/commit path to ingest a newer report before the alert can be cleared.
 
+### Completion record — session `arena/c449d46a-nba3` (2026-11-16, before PR)
+
+**Done: X1–X5. X6 (PR, merge, Pages, refresh confirmation) recorded below once it has run.**
+
+**Fixes (what changed and why)**
+1. **Refresh commit step** (`.github/workflows/refresh.yml`). Root cause of the last two failed scheduled runs, reproduced in a clean clone: the rebuild chain changes `app/ledger.html` (and other generated files) outside `data/app`, the step staged only `data/app`, and `git pull --rebase` refuses with unstaged changes. Now: `git add -A`, commit, then up to three rebase-and-push attempts with abort on failure; `concurrency: official-data-refresh` so two runs never race. Verified with the exact step script against a scratch bare remote in three cases: (A) generated files outside `data/app` modified → committed and pushed on attempt 1; (B) a dirty README (outside any staged path) in an earlier version → 3/3 attempts failed, which is why the step now stages the whole tree; (C) `main` moved ahead → rebased and pushed on attempt 1. Runner evidence is not yet available (see X6).
+2. **Slate leak** (`scripts/refresh_official.py`). The old promotion matched links that end in a slash, so it picked up a newsletter-embedded link to the finished game `0022600232` on every date page and missed the real game cards (href without trailing slash). Now: only game cards count (`data-content="AWAY @ HOME, YYYY-MM-DD"` on the card's own date page; href and card teams must agree; a game id on two date pages is excluded and listed, never assigned by guess). Result: 34 rows, 0 excluded, identical to the previously verified `data/app/official_slate_1115_1118.json` (same 34 ids, dates and teams). Diff against the old published slate (37 rows): −4 phantom rows `0022600232` (11/15–11/18), +1 real row `0022600243` ATL@MIL 11/15 that the old parser had missed. New offline command: `python3 scripts/refresh_official.py --promote-only data/app/refresh/2026-11-16T00-57Z`.
+3. **Estimator step in the chain** (`refresh_official.py`). The chain ran `scripts/estimators.py` (writes `data/live/model.json`), but the ledger publishes from `data/app/estimators.json`, written by `scripts/estimators_round_79341829.py`. That script is now in the chain before the ledger step.
+4. **Ledger publish** (`scripts/pick_ledger.py`). Gates: a game dated before today (ET) is not published; a game dated today needs a verified tip time still ahead; a game dated later is published; one entry per game id, including within a run (the old `already` set was never updated in the loop, so one id could be appended four times); the (date, game id) pair must be on the official promoted slate. Committed history checked and unchanged: 34 entries, 34 unique pick ids, all published at 12:xx UTC on 2026-11-15 (≈7 AM ET), before the earliest 11/15 tip (1:00 PM ET); `verify` = CHAIN INTACT.
+5. **Estimator window** (`data/app/estimators.json`, regenerated): 37 → 34 rows (9/8/5/12 for 11/15–11/18), matching the NBA games calendar counts on the 11/15 page. Headline mean disagreement moved 6.31 → 7.07 pts (window membership only; flagged C449-F-04).
+
+**Verification performed**
+- Official sources read with the fetch tool on 2026-11-16 (UTC): [NBA game page 0022600232](https://www.nba.com/game/dal-vs-cle-0022600232) (title: "Dallas Mavericks vs Cleveland Cavaliers Nov 14, 2026 Game Summary") and [NBA games, Nov 15 2026](https://www.nba.com/games?date=2026-11-15) (lists `atl-vs-mil-0022600243` as Final, Hawks 113 – Bucks 106; the 11/15 calendar shows 9 games; the calendar also shows 8, 5 and 12 games for 11/16, 11/17 and 11/18). The DAL@CLE game is not on the 11/15 list.
+- Unit tests: `python3 -m unittest discover -s tests` → **135/135 OK** on the merged tree (includes 12 ledger tests, 20 refresh tests incl. the committed-capture cross-check against `official_slate_1115_1118.json`).
+- CI replay: the 45 `run:` steps of `.github/workflows/pages.yml` executed in order in a fresh clone of the merged branch → **45/45 pass** (drift checks, byte reproductions, link checks, unit suites).
+- Chain reproducibility: estimators → minutes → results verify → ledger publish/verify → assemble → build_app run on the merged tree produce **no diff** (chain stable); `freshness_gates.py` → **10/10 gates passed**.
+- Merge with `origin/main` (PR #104, session 07f22dad, injury-freshness ordering fixes): one conflict (COORDINATION.md, append-only), resolved by keeping both sides. Their changes to `freshness_gates.py`, `estimators.py` and `data/live/*` were re-verified by the replay above.
+
+**Flags (on the Flagged for Review page, `app/flagged.html`; source file `data/app/flags_c449d46a.json`)**
+- C449-F-01 (high) scheduled refresh red on the last two runs; repaired here, runner confirmation pending.
+- C449-F-02 (high) published slate had 4 phantom rows and 1 missing game; corrected to the verified 34.
+- C449-F-03 (high) ledger publish gates (committed history not affected; verified).
+- C449-F-04 (medium) headline disagreement moved 6.31 → 7.07 because the window is now the verified 34 games.
+- C449-F-05 (medium) the scheduled chain never refreshed the ledger's estimator window; fixed.
+- C449-F-06 (high, open, owner decision) settlement is not automated in the scheduled job; the brief requires settlement only after verified finals.
+- C449-F-07 (medium, open, owner decision) open conflicting PRs #94, #95, #96, #98 touch the same files; not closed or merged here.
+
+**Not done in this round (honest scope).** This round covered the scheduled-refresh repair and the ledger/slate integrity defects only. The rest of the brief is not completed here: settlement automation (C449-F-06), the strategy leaderboard and validation gates, parlay pricing with measured rho, market-anchored prior (no licensed closing-line feed in the repo), injury-to-minutes modelling beyond the existing minutes model, and the suggestions/questions pages. Those remain in the existing requirement and question registers with their prior flags.
+
+**Remaining risk (not solved here).** If another session pushes a change to a generated file that the rebuild also changes, the step's `pull --rebase` can conflict. The step then aborts and retries, and fails after three attempts. The fix would be to re-run the rebuild on the new `main` instead of rebasing generated output. Logged for the owner, not implemented.
+
+### Sources used (this session, read 2026-11-16 UTC)
+- https://www.nba.com/game/dal-vs-cle-0022600232 (game page title: Nov 14, 2026 game summary)
+- https://www.nba.com/games?date=2026-11-15 (Nov 15 games, finals, calendar counts 9/8/5/12 for 11/15–11/18)
+- Run records on GitHub Actions: https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752 and https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157 (job logs not retrievable through the API; failure step identified from the step list)
+- Committed captures: `data/app/refresh/2026-11-16T00-57Z/` (games pages, manifest with sha256 per artifact), `data/app/official_slate_1115_1118.json` (previously verified 34-game slate)
 ## Session `arena/00b0c780-nba3` (current) — CLAIM: independent official verification, requirement-by-requirement audit, freshness register
 
 Claim written and committed **before** any other work (board rule). Base: `main` @ `27245fa` (merge of PR #101). Branch is fixed as `arena/00b0c780-nba3`.
