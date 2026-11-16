@@ -66,7 +66,9 @@ class Capture1115Test(unittest.TestCase):
             self.assertTrue(r["source"].startswith("https://"))
 
     def test_minutes_shares_top8(self):
-        self.assertEqual(len(self.shares["teams"]), 10)
+        # 10 team-games from the 2026-11-14 slate + 8 from the 2026-11-15 games
+        # promoted by scripts/promote_gamebooks.py (arena/c94a5531-nba3)
+        self.assertEqual(len(self.shares["teams"]), 18)
         for v in self.shares["teams"].values():
             self.assertLessEqual(len(v["top8"]), 8)
             self.assertTrue(v["source"].startswith("https://"))

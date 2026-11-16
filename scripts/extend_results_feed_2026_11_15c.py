@@ -112,12 +112,18 @@ def rows_1115():
 def build_feed_doc(feed_rows, prev_feed=None, base_sources=None):
     """Assemble the full feed document: base rows + the 11/15 evening rows, sorted
     by (date, away, home), metadata applied, settlement stamps preserved from
-    prev_feed (or the pick ledger) — never recomputed."""
+    prev_feed (or the pick ledger) — never recomputed. Rows the capture does not
+    regenerate (e.g. promoted later by the scheduled refresh) are carried through
+    verbatim so the CI replay stays byte-stable as live rows accumulate."""
     rows, retrieved_stamp = rows_1115()
     have = {_key(g) for g in feed_rows}
     for r in rows:
         if _key(r) not in have:
             feed_rows.append(r)
+    if prev_feed:
+        for g in prev_feed.get("games", []):
+            if _key(g) not in have and _key(g) not in {_key(r) for r in rows}:
+                feed_rows.append(g)   # carry-through of live/promoted rows
     feed_rows.sort(key=_key)
 
     prev_stamps = {}

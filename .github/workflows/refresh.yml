@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install game-book text extraction (pypdf)
+        run: python3 -m pip install --quiet pypdf
+
       - name: Fetch official sources (injury report, schedule, results, game books, team stats)
         run: python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 

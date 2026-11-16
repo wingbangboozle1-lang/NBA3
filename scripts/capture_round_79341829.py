@@ -541,6 +541,22 @@ def main():
         json.dump(feed, fh, indent=1)
         fh.write("\n")
 
+    # carry-through (arena/c94a5531-nba3): rows the replay does not regenerate
+    # (e.g. promoted later by the scheduled refresh) are preserved verbatim so the
+    # CI byte-compare stays stable as live rows accumulate.
+    prev_logs = {}
+    if os.path.exists(LOGS_JSON):
+        prev_logs = json.load(open(LOGS_JSON, encoding="utf-8"))
+    have_log = {(r["date"], r["player"], r["team"]) for r in log_rows}
+    carried = [r for r in prev_logs.get("rows", [])
+               if (r["date"], r["player"], r["team"]) not in have_log]
+    carried.sort(key=lambda r: (r["date"], r["team"], r["player"]))
+    log_rows.extend(carried)   # base order untouched; carry-through appended sorted
+    prev_shares = {}
+    if os.path.exists(SHARES_JSON):
+        prev_shares = json.load(open(SHARES_JSON, encoding="utf-8"))
+    for k, v in prev_shares.get("teams", {}).items():
+        shares.setdefault(k, v)
     logs = {
         "source_label": ("Per-player game logs captured from the official game books of the "
                          "2026-11-14 slate: minutes, points, rebounds, assists and the opponent, "

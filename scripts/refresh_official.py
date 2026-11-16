@@ -11,9 +11,12 @@ nba.com, so this job is exercised by CI tests against committed fixtures; the li
             stamp and sha256 (manifest.json). Every URL is attempted with retries; a URL
             that still fails is recorded in manifest["errors"] and never aborts the run.
   2. GATES  scripts/freshness_gates.py MUST pass (freshness + provenance).
-  3. REBUILD ONLY AFTER THE GATES PASS: parse new game books into the results feed,
-            settle the previous game day, publish/verify the pick ledger, re-cut estimator
-            inputs, then assemble_canonical.py + build_app.py and the test suite.
+  3. REBUILD ONLY AFTER THE GATES PASS: promote finished games from the fetched
+            game books into the results feed (flagged-and-skipped on any failed
+            printed check — never guessed), settle the previous and current game
+            days (results_feed + pick_ledger settle, idempotent), publish/verify
+            the pick ledger, re-cut both estimator layers, then
+            assemble_canonical.py + build_app.py and the test suite.
   4. COMMIT  the refreshed captures and rebuilt outputs on success; on any failure the
             run exits non-zero WITHOUT rebuilding (and the site keeps the last good build).
 
@@ -233,13 +236,30 @@ def main():
         print("freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
         return 1
 
-    # 6. rebuild chain (offline scripts on the refreshed captures)
+    # 6. promote finished games from the fetched game books into the results feed
+    #    (arena/c94a5531-nba3).  Best-effort and non-blocking: a book that fails its
+    #    printed checks (or cannot be extracted) is flagged and skipped, never
+    #    guessed, and does not abort the rest of the rebuild.
+    promote = subprocess.run(
+        [sys.executable, os.path.join(ROOT, "scripts", "promote_gamebooks.py"),
+         "--refresh-dir", out_dir], cwd=ROOT)
+    if promote.returncode != 0:
+        print("game-book promotion flagged failures — continuing with the rebuild "
+              "(flagged for review, never guessed)", file=sys.stderr)
+
+    # 7. rebuild chain (offline scripts on the refreshed captures)
+    settle_days = [(today_et - timedelta(days=1)).isoformat(), today_et.isoformat()]
     steps = [
-        ["python3", "scripts/estimators.py"],
-        ["python3", "scripts/minutes_model.py"],
         ["python3", "scripts/results_feed.py", "verify"],
+        ["python3", "scripts/results_feed.py", "settle", "--date", settle_days[0]],
+        ["python3", "scripts/results_feed.py", "settle", "--date", settle_days[1]],
+        ["python3", "scripts/pick_ledger.py", "settle"],
+        ["python3", "scripts/estimators.py"],
+        ["python3", "scripts/estimators_round_79341829.py"],
+        ["python3", "scripts/minutes_model.py"],
         ["python3", "scripts/pick_ledger.py", "publish"],
         ["python3", "scripts/pick_ledger.py", "verify"],
+        ["python3", "scripts/preregister.py", "verify"],
         ["python3", "scripts/assemble_canonical.py"],
         ["python3", "scripts/build_app.py"],
     ]
