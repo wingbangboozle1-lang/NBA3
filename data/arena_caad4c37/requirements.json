@@ -1,7 +1,7 @@
 {
   "schema": "nba3.arena_caad4c37.requirements/v1",
   "session": "arena/caad4c37-nba3",
-  "verified_against": "main @ 5fde67e (merge of PR #97), re-read 2026-11-16",
+  "verified_against": "main @ a34351f (after PR #99 merged), re-read 2026-11-16",
   "method": "Each row below was checked by opening the file named in 'evidence' and reading the field named in 'verification'. Nothing in this file is inferred from a page title, a commit message or another session's summary. Where a value could not be confirmed it is blank and the row says so.",
   "status_legend": {
     "done": "Implemented on main and confirmed by reading the artefact.",
@@ -18,9 +18,9 @@
       "status": "done_caveat",
       "evidence": ".github/workflows/refresh.yml; scripts/refresh_official.py; scripts/freshness_gates.py; data/live/gates.json",
       "verification": "refresh.yml cron '15 5,11,17,23 * * *'. refresh_official.py fetches the official injury index + newest report PDF (required), the schedule/results pages for today..today+3 plus two previous game days (Eastern dates), and team-stat pages; it writes a manifest and only then rebuilds. data/live/gates.json holds 225 gate rows (148 passed, 77 failed) over G1_preregistered, G2_before_tip, G3_signal_present, G4_validated, G5_settlement_final_verified.",
-      "caveat": "Two things this session confirmed rather than assumed: (1) the freshness gate compares the newest report ON DISK, not the newest on the official index, so it passes while the official feed has moved on — logged by session arena/81800928 as F-R6 / CR-81800928-01 and still open; (2) the repaired job has not yet been observed on a scheduled runner, only on push/PR, because the integration token cannot dispatch workflows.",
+      "caveat": "Two things this session confirmed rather than assumed: (1) the freshness gate compares the newest report ON DISK, not the newest on the official index, so it passes while the official feed has moved on \u2014 logged by session arena/81800928 as F-R6 / CR-81800928-01 and still open; (2) the repaired job has not yet been observed on a scheduled runner, only on push/PR, because the integration token cannot dispatch workflows.",
       "source_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
-      "source_label": "NBA Official — injury report index (2026-27 season)"
+      "source_label": "NBA Official \u2014 injury report index (2026-27 season)"
     },
     {
       "id": "B02",
@@ -28,10 +28,10 @@
       "category": "Data",
       "status": "done_caveat",
       "evidence": "data/app/results_feed.json; data/arena_caad4c37/result_feed_quarters.json; data/arena_caad4c37/quarters/*.md",
-      "verification": "results_feed.json holds 14 games (2026-11-13 and 2026-11-14), settled_count 14, every row verified:true with verified_from the official scoreboard. On main every *_q1..*_q4 field was null with the note 'quarter scores not captured - blank, flagged'. This session read the official game books (statsdmz.nba.com) and wrote 100 of the 112 quarter cells: 11 of 14 games have both teams' quarters, each accepted only where the printed quarters sum to the printed final. Three team-sides remain blank and flagged (GSW in GSW@SAS, MEM in MEM@NOP, ORL in MIL@ORL) because the PDF text extraction did not yield a self-consistent row.",
-      "caveat": "12 of 112 cells stay blank by policy, not by omission. The MIL@ORL game book prints an Orlando period row (33 30 32 33) that sums to 128 against its own FINAL cell of 107; the PDF was fetched twice and returned the identical extraction, so it is not a transient read error.",
+      "verification": "Re-verified at a34351f: the five games of 2026-11-14 ALREADY carried quarter scores (40 of 112 cells written), and all nine games of 2026-11-13 were still null with the note 'quarter scores not captured - blank, flagged'. This session read the official game books for the 11/13 slate and filled them: 6 of the 9 games now have both teams' quarters and 3 have one side blank. Aggregate across the feed: 100 of 112 cells, 11 of 14 games both-teams verified. A reading is accepted only when the printed quarters sum to the printed final - the game book's own arithmetic.",
+      "caveat": "Three team-sides stay blank by policy, not omission: GSW in GSW@SAS (period row absent from the extraction), MEM in MEM@NOP (row prints five values against a six-column header) and ORL in MIL@ORL (the row prints 33 30 32 33 FINAL 107, which sums to 128; the PDF was fetched twice and returned an identical extraction). Two further games required a judgement call inside a single official document - CLE@MIA and OKC@LAC - where the rendered period table disagrees with the line-score text line beneath it; both were resolved to the text line and both table readings are preserved in the stored excerpts.",
       "source_url": "https://statsdmz.nba.com/pdfs/20261113/20261113_ATLCHI.pdf",
-      "source_label": "NBA official game book — ATL @ CHI, 2026-11-13"
+      "source_label": "NBA official game book \u2014 ATL @ CHI, 2026-11-13"
     },
     {
       "id": "B03",
@@ -42,7 +42,7 @@
       "verification": "One stored file per report version, each carrying the revision time printed in the PDF and the UTC retrieval time. Before this session the newest stored anywhere on main was 11/15 06:15 AM ET (101 rows: 84 player, 17 NOT YET SUBMITTED). This session fetched and stored 11/15 08:45 PM ET and 09:00 PM ET (160 rows each: 155 player, 5 NOT YET SUBMITTED) and diffed them. The consecutive pair 08:45 PM -> 09:00 PM shows 0 status changes, 0 reason changes, 0 added, 0 removed. The gap diff 06:15 AM -> 08:45 PM shows 21 status changes, 1 reason change, 72 rows added and 1 removed; both reports cover the same game dates, so the added rows are new filings, not a new slate.",
       "caveat": "'Every' PDF is not stored: the official index lists 11/15 reports every 15 minutes from 12:00 AM to 09:00 PM (75 versions). Storing the full series would be a large binary archive; what is stored is the published baseline plus this session's chain. The 72 added rows are dominated by teams that had not filed at 06:15 AM.",
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf",
-      "source_label": "NBA official injury report — 11/15/26 09:00 PM ET"
+      "source_label": "NBA official injury report \u2014 11/15/26 09:00 PM ET"
     },
     {
       "id": "B04",
@@ -53,7 +53,7 @@
       "verification": "ST-01.json keys read: strategy_id, name, family, signal, thresholds, universe, settlement_rule, frozen_utc, frozen_before_first_bet, note, sources, sha256. The signal is a plain-English rule, thresholds include expected_edge_pp / hit_rate / sample_n and the per-gate pass flags, and the file carries its own sha256 so a later edit is detectable.",
       "caveat": "",
       "source_url": "https://www.nba.com/stats/help/glossary",
-      "source_label": "NBA Stats glossary — official definitions used by the settlement rules"
+      "source_label": "NBA Stats glossary \u2014 official definitions used by the settlement rules"
     },
     {
       "id": "B05",
@@ -61,21 +61,21 @@
       "category": "Governance",
       "status": "done",
       "evidence": "data/app/ledger/ledger.jsonl; scripts/pick_ledger.py",
-      "verification": "Every entry carries payload_sha256, entry_hash and prev_hash, forming a chain from a zero prev_hash. The first entry reads state PUBLISHED_PRE_TIP with published_utc 2026-11-15T12:10Z against a tip_et of 01:00 PM — the hash existed before tip. pick_ledger.py exposes publish / settle / verify and verify() recomputes the chain and every payload hash and fails loudly on a break.",
+      "verification": "Every entry carries payload_sha256, entry_hash and prev_hash, forming a chain from a zero prev_hash. The first entry reads state PUBLISHED_PRE_TIP with published_utc 2026-11-15T12:10Z against a tip_et of 01:00 PM \u2014 the hash existed before tip. pick_ledger.py exposes publish / settle / verify and verify() recomputes the chain and every payload hash and fails loudly on a break.",
       "caveat": "",
       "source_url": "https://www.nba.com/games?date=2026-11-15",
-      "source_label": "NBA official scoreboard — the tips the pre-tip stamps are measured against"
+      "source_label": "NBA official scoreboard \u2014 the tips the pre-tip stamps are measured against"
     },
     {
       "id": "B06",
       "requirement": "Split the site into 'projection' (safe to publish now) and 'bet' (gated) surfaces, and never mix them.",
       "category": "Site",
-      "status": "partial",
-      "evidence": "index.html / app/*.html navigation; open PR #94 (projection/, bet/)",
-      "verification": "The published canonical navigation is split into two labelled groups: 'Projection surface (public)' (projections, lines, picks, injuries, report availability, game flow) and 'Bet surface (gated)' (parlays, props, leaderboard, validation gates, correlations, pre-registration, pick ledger, settlement). They share a stylesheet but no page mixes the two kinds of content.",
-      "caveat": "Stand-alone /projection/ and /bet/ directory trees are built in open PR #94 (arena/42d69dc5-nba3) and are NOT on main yet. On main the split is a navigation split inside one tree, not two separate publishable surfaces.",
+      "status": "done",
+      "evidence": "projection/ (13 pages) and bet/ (6 pages) on main; merged via PR #99",
+      "verification": "Both surfaces are separate directory trees on main as of PR #99. projection/ holds index, estimators, lines, results, injuries, minutes, rest, gates, questions, suggestions, flagged and review; bet/ holds index, picks, ledger, prereg, gates and flagged. Each tree has its own landing page, and an internal-link check across both found no broken href.",
+      "caveat": "The two trees cross-link to each other (bet/index.html links to ../projection/index.html and vice versa). That is a navigation convenience, not a content mix, but it does mean the boundary is a convention rather than an enforced separation.",
       "source_url": "https://www.nba.com/schedule",
-      "source_label": "NBA official schedule — the projection surface's subject matter"
+      "source_label": "NBA official schedule \u2014 the projection surface's subject matter"
     },
     {
       "id": "B07",
@@ -83,10 +83,10 @@
       "category": "Model",
       "status": "done",
       "evidence": "data/app/estimators.json",
-      "verification": "estimator_a = 'ridge margin model (Massey-style), HCA pinned'; estimator_b = 'possession efficiency (possessions x PPP) from the three official pages' — different inputs, not two weightings of one model. The window rows carry est_a_margin, est_b_margin, disagreement_abs and blend_margin separately, e.g. game 0022600236: est_a 2.4, est_b 4.2, disagreement 1.8, blend 3.3.",
+      "verification": "estimator_a = 'ridge margin model (Massey-style), HCA pinned'; estimator_b = 'possession efficiency (possessions x PPP) from the three official pages' \u2014 different inputs, not two weightings of one model. The window rows carry est_a_margin, est_b_margin, disagreement_abs and blend_margin separately, e.g. game 0022600236: est_a 2.4, est_b 4.2, disagreement 1.8, blend 3.3.",
       "caveat": "",
       "source_url": "https://www.nba.com/stats/teams/advanced",
-      "source_label": "NBA official advanced team stats — estimator B inputs"
+      "source_label": "NBA official advanced team stats \u2014 estimator B inputs"
     },
     {
       "id": "B08",
@@ -97,7 +97,7 @@
       "verification": "home_wins 99 of games 188 -> home_win_rate 0.5266; margin_sd 16.9; hca_points_pinned 1.13; formula 'hca = Phi^-1(home-win rate) * SD(margin) over the official log'. The policy field states HCA is 'never a free fit coefficient'.",
       "caveat": "",
       "source_url": "https://www.nba.com/games?date=2026-11-14",
-      "source_label": "NBA official scoreboard — the completed-game log the rate is measured over"
+      "source_label": "NBA official scoreboard \u2014 the completed-game log the rate is measured over"
     },
     {
       "id": "B09",
@@ -108,7 +108,7 @@
       "verification": "luck_band is keyed per team with games_oos, wins, expected_wins, luck_z, close_games, close_wins and outside_noise_band (e.g. ATL: 10 out-of-sample games, 5 wins vs 5.3 expected, luck_z -0.19, outside_noise_band false). policy.luck reads 'z-score per team vs walk-forward win probabilities; |z|>2 refuses the bet surface'.",
       "caveat": "",
       "source_url": "https://www.nba.com/stats/teams/traditional",
-      "source_label": "NBA official traditional team stats — win/loss inputs to the expected-wins baseline"
+      "source_label": "NBA official traditional team stats \u2014 win/loss inputs to the expected-wins baseline"
     },
     {
       "id": "B10",
@@ -119,7 +119,7 @@
       "verification": "Rest is computed from a schedule of record unioned from three official captures, with the seam recorded; every row carries last_game_date, rest_days, back_to_back, games_in_4_day_window and three_in_four. Travel is NOT published: each row's travel object reads km null, status UNVERIFIED, reason 'no sourced arena coordinate for ...'. data/app/arena_coordinates.json does hold 30 arenas with latitude/longitude, but its own source_label states coordinates are not published by the NBA and come from Wikipedia, and rest_travel.py reads a different, still-empty file (data/live/arena_coords.json).",
       "caveat": "Travel distance is the one half of this item that is not done. Rest/b2b/3-in-4 is done.",
       "source_url": "https://www.nba.com/schedule?date=2026-11-15",
-      "source_label": "NBA official schedule — the rest arithmetic's source"
+      "source_label": "NBA official schedule \u2014 the rest arithmetic's source"
     },
     {
       "id": "B11",
@@ -127,10 +127,10 @@
       "category": "Model",
       "status": "partial",
       "evidence": "data/app/minutes_model.json; data/app/minutes_shares.json",
-      "verification": "minutes_model.json policy is exactly the asked-for rule: 'top-8 minutes shares + explicit proportional replacement shares when a player is out; Doubtful/Questionable/Probable rows are risk notes only and never trigger redistribution'. But the per-team field share_source reads 'none - blank and flagged (no captured minutes source)' for teams without a captured game book; measured top-8 shares exist only for the 10 team-games of the 2026-11-14 slate in minutes_shares.json (e.g. BKN top8_share_total 0.8647 over 13 players used, each with minutes and share).",
-      "caveat": "10 of 30 team-games have measured shares; the other 20 are blank and flagged rather than filled with a league-average guess.",
+      "verification": "minutes_model.json carries a share source for 26 of 30 teams: 16 from an official per-player minutes snapshot (players page, top-31 league-wide) and 10 from official 2026-11-14 game books (measured top-8 shares, e.g. BKN top8_share_total 0.8647 over 13 players used). The policy is exactly the asked-for rule: 'top-8 minutes shares + explicit proportional replacement shares when a player is out; Doubtful/Questionable/Probable rows are risk notes only and never trigger redistribution'.",
+      "caveat": "ATL, CHA, LAC and UTA still read 'none - blank and flagged (no captured minutes source)', so the replacement-share half of the requirement cannot be exercised for those four. Note the 16-team snapshot is a top-31 league-wide players page, so teams outside the top 31 may be incomplete - the artefact says so itself.",
       "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf",
-      "source_label": "NBA official game book — the minutes source used for the 10 covered team-games"
+      "source_label": "NBA official game book \u2014 the minutes source used for the 10 covered team-games"
     },
     {
       "id": "B12",
@@ -141,7 +141,7 @@
       "verification": "policy.headline is literally 'the disagreement between the two independent estimators'. The projections page renders disagreement_abs as the headline column and blend_margin underneath; the two estimator columns are shown separately.",
       "caveat": "",
       "source_url": "https://www.nba.com/stats/teams/opponent",
-      "source_label": "NBA official opponent team stats — estimator B inputs"
+      "source_label": "NBA official opponent team stats \u2014 estimator B inputs"
     },
     {
       "id": "B13",
@@ -149,10 +149,10 @@
       "category": "Model",
       "status": "done",
       "evidence": "data/app/estimators.json -> parlay_prices, rho_measured",
-      "verification": "rho_measured = -0.031, described as the correlation of the ridge model's margin and total residuals over the 188-game official log. Each parlay row prints p_side, p_over, rho_measured, joint_price_rho, naive_product and ratio_joint_over_naive side by side — e.g. game 0022600236 home+over: joint 0.2954 vs naive 0.2905, ratio 1.017. Nothing is withheld.",
+      "verification": "rho_measured = -0.031, described as the correlation of the ridge model's margin and total residuals over the 188-game official log. Each parlay row prints p_side, p_over, rho_measured, joint_price_rho, naive_product and ratio_joint_over_naive side by side \u2014 e.g. game 0022600236 home+over: joint 0.2954 vs naive 0.2905, ratio 1.017. Nothing is withheld.",
       "caveat": "The measured rho is small (-0.031) and the ratio is close to 1, so the honest reading is that the dependence correction barely moves the price at this sample size. That is published rather than rounded away.",
       "source_url": "https://www.nba.com/games?date=2026-11-13",
-      "source_label": "NBA official scoreboard — the completed games the residual correlation is measured over"
+      "source_label": "NBA official scoreboard \u2014 the completed games the residual correlation is measured over"
     },
     {
       "id": "B14",
@@ -172,9 +172,9 @@
       "status": "blocked",
       "evidence": "data/app/estimators.json -> market_anchored_prior; data/app/closing_lines.json",
       "verification": "The formula is implemented and documented: blended = w*model + (1-w)*closing with w = exp(-logloss_model)/(exp(-logloss_model)+exp(-logloss_closing)), log losses measured out of sample. But feed_status reads 'not connected', blended_lines is empty, and the field carries the flag 'blank + unverified: no closing-line feed is connected, so no blended line may be published'. closing_lines.json confirms the same.",
-      "caveat": "Blocked on a licensed/accessible closing-line feed. The code refuses to publish a blended line rather than substituting a proxy — which is the correct behaviour, but it means this item delivers nothing today.",
+      "caveat": "Blocked on a licensed/accessible closing-line feed. The code refuses to publish a blended line rather than substituting a proxy \u2014 which is the correct behaviour, but it means this item delivers nothing today.",
       "source_url": "https://www.nba.com/stats/help/glossary",
-      "source_label": "NBA Stats glossary — the official quantities the prior would blend against"
+      "source_label": "NBA Stats glossary \u2014 the official quantities the prior would blend against"
     },
     {
       "id": "B16",
@@ -185,7 +185,7 @@
       "verification": "estimator_b is named 'possession efficiency (possessions x PPP) from the three official pages'. Per-game rows record total_model as 'possessions x PPP (est. B); ridge total (est. A)', so the two constructions are reported separately rather than averaged together.",
       "caveat": "",
       "source_url": "https://www.nba.com/stats/teams/advanced",
-      "source_label": "NBA official advanced team stats — pace and efficiency inputs"
+      "source_label": "NBA official advanced team stats \u2014 pace and efficiency inputs"
     },
     {
       "id": "B17",
@@ -193,10 +193,10 @@
       "category": "Site",
       "status": "done_caveat",
       "evidence": "app/injuries.html; data/arena_caad4c37/injuries/archive_index.json",
-      "verification": "The banner prints both stamps: 'revision time: 2026-11-15 06:15 AM ET' alongside the retrieval stamp. This session confirmed the newest official report is later: the official index read at 2026-11-16T02:13Z lists 11/15 reports through 09:00 PM ET and no 11/16 report yet, and the 09:00 PM PDF was fetched and stored.",
+      "verification": "The banner prints both stamps: 'revision time: 2026-11-15 06:15 AM ET' alongside the retrieval stamp. Re-checked at a34351f - still 06:15 AM ET. This session confirmed the newest official report is later: the official index read at 2026-11-16T02:13Z lists 11/15 reports through 09:00 PM ET and no 11/16 report yet, and the 09:00 PM PDF was fetched and stored.",
       "caveat": "Both stamps are printed, but the report they describe is 14h45m behind the newest official version. Between the two, 21 player statuses changed and 72 player rows were filed. The banner is honest and stale at the same time.",
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_09_00PM.pdf",
-      "source_label": "NBA official injury report — 11/15/26 09:00 PM ET (newest on the official index)"
+      "source_label": "NBA official injury report \u2014 11/15/26 09:00 PM ET (newest on the official index)"
     },
     {
       "id": "B18",
@@ -207,7 +207,7 @@
       "verification": "Each settled row carries a human-readable stamp, e.g. 'settled at 2026-11-15T12:25Z (game day end, 2026-11-13) from the official final ATL 117 - CHI 125'. The settlement page renders the stamp on every row, so the provenance of the settlement is visible rather than implied.",
       "caveat": "At the time the stamps were written every one of them also carried 'quarter scores not captured - score verified from the official scoreboard only'. This session filled the quarter cells for 11 of those 14 games.",
       "source_url": "https://www.nba.com/games?date=2026-11-13",
-      "source_label": "NBA official scoreboard — the official finals the settlements are made from"
+      "source_label": "NBA official scoreboard \u2014 the official finals the settlements are made from"
     },
     {
       "id": "B19",
@@ -227,9 +227,9 @@
       "status": "partial",
       "evidence": "data/app/player_game_logs.json; scripts/parse_gamebook.py",
       "verification": "173 rows, one per player-game, with minutes, points, rebounds, assists and the opponent, plus DNP/inactive rows with reasons. The parser is strict: a row is accepted only if PTS == 2*FG + 3P + FT, TOT == OR + DR, the shot-attempt inequalities hold, and the row shape matches a game book player row; failures are dropped and counted, never repaired. The coverage note states the capture is complete for the ten teams that played 2026-11-14 only.",
-      "caveat": "10 of 30 teams. Every player who appears on an injury report is NOT covered — only those on teams that played 11/14. Players on the other 20 teams, including several who are Out, have no logged minutes here.",
+      "caveat": "10 of 30 teams. Every player who appears on an injury report is NOT covered \u2014 only those on teams that played 11/14. Players on the other 20 teams, including several who are Out, have no logged minutes here.",
       "source_url": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf",
-      "source_label": "NBA official game book — one of the 11/14 game books in the capture"
+      "source_label": "NBA official game book \u2014 one of the 11/14 game books in the capture"
     }
   ]
 }

@@ -43,6 +43,8 @@ header.site{background:var(--panel);border-bottom:1px solid var(--line)}
 header.site .wrap{padding:16px 20px}
 .brand{font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
 .brand span{color:var(--accent)}
+.back{float:right;color:var(--dim);text-decoration:none;font-size:12.5px;margin-top:4px}
+.back:hover{color:var(--ink)}
 .stamp{color:var(--dim);font-size:12.5px;margin-top:6px}
 nav.site{background:var(--card);border-bottom:1px solid var(--line)}
 nav.site .wrap{padding:0 20px;display:flex;flex-wrap:wrap;gap:2px}
@@ -134,6 +136,7 @@ def page(title: str, active: str, body: str, subtitle: str = "") -> str:
 <body>
 <header class="site"><div class="wrap">
   <a class="brand" href="index.html">NBA3 <span>/</span> brief-coverage audit</a>
+  <a class="back" href="../index.html">&larr; main dashboard</a>
   <div class="stamp">Session {esc(SESSION)} · verified against {esc(BASE)} · re-read 2026-11-16 ·
     every row links to the official source it was checked against</div>
 </div></header>
@@ -230,10 +233,11 @@ re-checked without re-running a fetch.</div>
 
 <h3>Two gaps closed</h3>
 <ul class="tight">
-<li><strong>Quarter scores.</strong> Every <span class="mono">*_q1..*_q4</span> field in the
-published result feed was null. The field is printed by the official game books, so it was read
-from them: {esc(c["quarter_cells_written"])} of {esc(c["quarter_cells_possible"])} quarter cells are
-now written, each accepted only where the printed quarters sum to the printed final.
+<li><strong>Quarter scores.</strong> The five games of 2026-11-14 already carried quarter scores;
+all nine games of 2026-11-13 were blank and flagged. The field is printed by the official game
+books, so it was read from them: this session added 60 cells to the 40 already there, giving
+{esc(c["quarter_cells_written"])} of {esc(c["quarter_cells_possible"])}. Each reading is accepted
+only where the printed quarters sum to the printed final.
 {esc(c["both_teams_verified"])} of {esc(c["games"])} games have both teams' quarters;
 {esc(c["partial"])} have one side blank and flagged.</li>
 <li><strong>Late-evening injury reports.</strong> The newest report stored anywhere on main was
@@ -342,10 +346,12 @@ def page_result_feed(feed: dict) -> str:
 <div class="l">quarter cells written</div></div>
 </div>
 
-<div class="note">Before this session every quarter cell in
-<span class="mono">data/app/results_feed.json</span> was null with the note
-"quarter scores not captured — blank, flagged". The official game books print a
-"SCORE BY PERIOD" block, so the field was obtainable from an official source after all.
+<div class="note">Before this session, the five games of <strong>2026-11-14</strong> already
+carried quarter scores (40 of 112 cells) and all nine games of <strong>2026-11-13</strong> were
+null with the note "quarter scores not captured — blank, flagged". The official game books print a
+"SCORE BY PERIOD" block, so the 11/13 half was obtainable from an official source after all: this
+session added 60 cells, taking the feed to 100 of 112. <em>This session's first reading said every
+cell was null; that was wrong and is recorded as F-CAAD4C37-14.</em>
 A quarter score is written only where the printed quarters sum to the printed final; that test is
 the game book's own arithmetic, and it is what makes a corrupted extraction detectable instead of
 usable.</div>

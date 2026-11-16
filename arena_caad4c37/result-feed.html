@@ -10,6 +10,7 @@
 <body>
 <header class="site"><div class="wrap">
   <a class="brand" href="index.html">NBA3 <span>/</span> brief-coverage audit</a>
+  <a class="back" href="../index.html">&larr; main dashboard</a>
   <div class="stamp">Session arena/caad4c37-nba3 · verified against main @ 5fde67e · re-read 2026-11-16 ·
     every row links to the official source it was checked against</div>
 </div></header>
@@ -28,10 +29,12 @@
 <div class="l">quarter cells written</div></div>
 </div>
 
-<div class="note">Before this session every quarter cell in
-<span class="mono">data/app/results_feed.json</span> was null with the note
-"quarter scores not captured — blank, flagged". The official game books print a
-"SCORE BY PERIOD" block, so the field was obtainable from an official source after all.
+<div class="note">Before this session, the five games of <strong>2026-11-14</strong> already
+carried quarter scores (40 of 112 cells) and all nine games of <strong>2026-11-13</strong> were
+null with the note "quarter scores not captured — blank, flagged". The official game books print a
+"SCORE BY PERIOD" block, so the 11/13 half was obtainable from an official source after all: this
+session added 60 cells, taking the feed to 100 of 112. <em>This session's first reading said every
+cell was null; that was wrong and is recorded as F-CAAD4C37-14.</em>
 A quarter score is written only where the printed quarters sum to the printed final; that test is
 the game book's own arithmetic, and it is what makes a corrupted extraction detectable instead of
 usable.</div>

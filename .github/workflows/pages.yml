@@ -473,6 +473,7 @@ jobs:
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet
+          cp -r arena_caad4c37 _pages/arena_caad4c37
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
