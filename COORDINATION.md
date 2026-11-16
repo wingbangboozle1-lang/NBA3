@@ -5048,7 +5048,7 @@ files are logged here instead of editing them.
 | D6 | Two estimators, disagreement headline, pinned HCA, luck z-score, totals as poss×PPP, parlay rho, rotation availability, market-anchored prior | done | d68c239f | `scripts/estimators.py`, `scripts/model.py`, `scripts/minutes_model.py`, `scripts/rest_travel.py`, `app/picks.html`, `app/parlays.html`, `app/lines.html` |
 | D7 | Site: clean landing + category subpages, tables with source links, Flagged for Review page | done | d68c239f | `index.html`, `app/*.html`, `scripts/build_app.py`, `.github/workflows/pages.yml` |
 | D8 | Executive summary, suggestions section (awaiting decision), questions/answers list | done | d68c239f | `app/summary.html`, `app/suggestions.html`, `app/questions.html`, `data/suggestions.*`, `data/questions.*` |
-| D9 | Integration: build check, link check, unit tests, PR to `main`, merge, Pages deploy verification | in progress | d68c239f | `COORDINATION.md`, `README.md`, PR |
+| D9 | Integration: build check, link check, unit tests, PR to `main`, merge, Pages deploy verification | done | d68c239f | `COORDINATION.md`, `README.md`, PR |
 
 ### Verification results (this session, checked 2026-11-16)
 
@@ -5075,6 +5075,16 @@ files are logged here instead of editing them.
 - Standings not captured by any scheduled job (D2); stored as blank/flagged.
 - Injury PDFs not fetched as byte artifacts in this environment; rows transcribed from previously captured official PDFs (D4).
 - ATL@MIL `0022600243` quarter-score conflict (Q3 printed 27 vs recap 37): row withheld by the quarter-scores gate; both readings kept, no repair (D3).
+- Scheduled `official data refresh` cron run 43925193575 (2026-11-16T18:05:41Z) concluded `failure` (refresh_official.py needs network to nba.com that this environment blocks); the Pages deploy workflow is unaffected. Logged as a known open item for the owner.
+
+### Integration / deploy record (D9)
+
+- PR: [#110](https://github.com/wingbangboozle1-lang/NBA3/pull/110) `arena/d68c239f-nba3` → `main`, merged with `--merge` (no review waited for).
+- Merge commit: `f0eceb314aa2dbd2f95de775d57d05d7035b5913` on `main`.
+- Pre-merge checks: `scripts/build_app.py` → 26 pages, 0 broken links; `python3 -m unittest discover -s tests -p 'test_*.py'` → 181 tests OK.
+- Pages deploy workflow run 43928648876 → success; pages build+deploy run 43928651569 → success.
+- Pages API: status `built`, latest build 1375538773 `built`.
+- Live site: https://wingbangboozle1-lang.github.io/NBA3/ (root landing page + `/app/` category subpages; Flagged for Review at `/app/flagged.html`).
 
 ### Coordination notes
 
