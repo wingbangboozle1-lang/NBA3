@@ -141,7 +141,7 @@ def check(max_age_hours: float | None = None) -> list[dict]:
 
     # F6 -------------------------------------------------------------------------
     reports, problems = [], []
-    for p in sorted(INJ.glob("Injury-Report_*.md")):
+    for p in sorted(INJ.glob("Injury-Report_*.md"), key=report_datetime):
         text = p.read_text()
         url = re.search(r"https://ak-static\.cms\.nba\.com/referee/injury/Injury-Report_\S+?\.pdf", text)
         if not url:

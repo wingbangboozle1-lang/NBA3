@@ -4760,7 +4760,7 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| F11: Make the scheduled injury freshness gate order report filenames by actual 12-hour clock time, with regression coverage | in progress | `07f22dad` | `scripts/freshness_gates.py`, `tests/test_freshness_gates.py`, `COORDINATION.md` |
+| F11: Make the scheduled injury freshness gate order report filenames by actual 12-hour clock time, align all downstream consumers, and correct verified provenance-note errors | done (all local gates pass; PR pending) | `07f22dad` | `scripts/freshness_gates.py`, `scripts/estimators.py`, `scripts/injury_archive.py`, `scripts/availability.py`, `tests/test_freshness_gates.py`, `tests/test_injury_archive_order.py`, `data/live/`, `projection/`, `COORDINATION.md` |
 
 Branch: `arena/07f22dad-nba3` (Arena-assigned; based on `27245fa3b82499b27569f4754c3c7394a49e09f7`). This is a narrow correctness fix discovered while reviewing the live refresh path. No other active claims were found in the current board. The filename ordering defect is not a claim that any current injury data is verified or current; the scope is only correct selection of the newest dated report already archived on disk.
 
@@ -4778,3 +4778,15 @@ Branch: `arena/07f22dad-nba3` (Arena-assigned; based on `27245fa3b82499b27569f47
 The live gate correctly exposed that its producer (`scripts/estimators.py`) uses the same unsafe lexicographic sort. Extending this claim to include that producer and its deterministic generated output/dependents (`data/live/`, `projection/`, `bet/`, `ledger/`) so the model cannot continue writing the older snapshot name. No other session claims these paths in the current board. This is a necessary integration fix for F11, not a separate feature.
 
 The initial full producer replay also showed `scripts/injury_archive.py` sorted the consecutive-report diff chain lexically (`06:15 AM -> 12:00 AM`). Extending F11 scope to `scripts/injury_archive.py` and a dedicated archive-order regression test so the public diff timeline uses the same chronological ordering as the model and gate.
+
+The same stale lexical selection was also present in `scripts/availability.py` (the public rotation-availability feed) and F6's report listing. F11 scope now includes `scripts/availability.py`; availability, model, gate, and consecutive diff chain all share the one chronology parser.
+
+Official PDF re-reads also found a reversed spelling example in the archived `data/live/injuries/NOTES.md` and 12:00 AM capture note. Extend F11 scope to those two provenance-note files: correct the spelling sequence only after citing the actual official PDFs and add a fixture assertion. The rows themselves are unchanged.
+
+#### F11 closeout and source re-verification
+
+- Final implementation uses `scripts/freshness_gates.report_datetime()` consistently in the freshness gate, estimator input selector, injury archive diff timeline, and rotation availability selector. `F6` also lists archived report files chronologically. This fixed the report order: 2026-11-15 12:00 AM → 06:00 AM → 06:15 AM.
+- Rebuilt only from the already archived report set: `injury_archive.py`, `estimators.py`, `availability.py`, `freshness_gates.py`, `repo_review.py`, and `build_live_site.py`. F2 now reports `model_used == newest_on_disk == Injury-Report_2026-11-15_06_15AM`; F1–F10 all pass. Projection Injuries banner and availability rows now point to the 06:15 AM capture and show its original retrieval stamp. No bet was sealed (the ledger remains verified and the generated pick pass sealed zero picks).
+- Re-read the exact official PDFs directly: [11/15 12:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf), [11/15 06:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf), and [11/15 06:15 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf). The pages confirm the real clock order and the exact Joel Embiid spelling in the first relevant table: `Embiid` at 12:00 AM and 06:00 AM; `Embid` at 06:15 AM. Corrected the two archived explanatory notes; no transcribed injury row was changed.
+- Verification: 119 tests pass; `python3 scripts/build_site.py --check` validates 166 injury rows, 25 games, 11 source entries, and 617 links across 12 pages; `git diff --check` clean. Existing test suite emits non-fatal `ResourceWarning`s for unclosed files in older tests/scripts; these are pre-existing and were not modified.
+- **CR-07F22-01 resolved for the live projection outputs:** the archived chronology/model pointer mismatch is fixed and the rebuilt projection pages now carry the 06:15 AM report. This does not verify which report is newest on the live NBA index on 2026-11-16; the scheduled fetch/index comparison remains separate and must supply that evidence.
