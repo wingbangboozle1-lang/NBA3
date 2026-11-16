@@ -2052,7 +2052,8 @@ verdict is published on the site rather than buried.
 | CR-37 | `data/requirements.csv` was still publishing "lines: Not started" and "picks: blocked" after those outputs existed. Rewritten against the current build. |
 | CR-38 | Two superseded 2025-26 injury-index entries sit in the same source table as live sources. |
 | CR-39 | Workflow did not cover the canonical dataset. Steps added. |
-| CR-40 | **The base commit carried unresolved `| CR-41 | **My own capture script miscounted the non-filing teams**: `is_team_not_submitted` tested the Current Status column only, but the PDF prints NOT YET SUBMITTED in the Reason column. The page read "122 player rows, 0 not-submitted" instead of 117 and 5. Fixed. No spread or total moved, so this was a labelling defect, not a numeric one. |
+| CR-40 | **The base commit carried unresolved `<<<<<<< HEAD` conflict markers in `.github/workflows/pages.yml`** — invalid YAML, so every CI run on that commit would have failed at parse time. Resolved by rebasing onto main's fix and re-applying this session's steps. |
+| CR-41 | **My own capture script miscounted the non-filing teams**: `is_team_not_submitted` tested the Current Status column only, but the PDF prints NOT YET SUBMITTED in the Reason column. The page read "122 player rows, 0 not-submitted" instead of 117 and 5. Fixed. No spread or total moved, so this was a labelling defect, not a numeric one. |
 | CR-42 | Replacing the `app/` engine invalidated the hard-coded expectation in `audit36/check.py`. Flagged; change request CR-8D-04 logged; their file not edited. |
 
 ### Integration: conflicts resolved, nothing discarded
