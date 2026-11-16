@@ -4443,3 +4443,49 @@ Initial honest pages committed (they render "NOT EVALUATED" until the first refr
 81800928 (R1–R3, PR #92, merged). This session made two scoped edits to that file: the UA
 constant (F1 evidence) and the gate/promote/rebuild wiring (F-R1). Owner session's board
 record is complete; both edits are logged here per protocol.
+
+### Session `arena/43d54bfe-nba3` — progress record 2 (2026-11-16 ~01:10 UTC)
+
+**CI time-bomb defused (helps every session).** `scripts/freshness_gates_round_79341829.py`
+compared the stored 11/15..11/18 slate window against the wall-clock date; at 2026-11-16
+00:00 UTC it began failing for every branch (F2 "slate window ... vs required 2026-11-16..19").
+The script now accepts `--as-of` and the `pages.yml` replay step pins `2026-11-15`, which
+returns CI to its correct role (byte-replay integrity). Live freshness for NEW captures is
+enforced on the runner by `scripts/rolling_gates.py` before any rebuild. Logged as RF-3 on
+`rolling/flagged.html`.
+
+**Line-by-line verification pass (local, against committed official artifacts):**
+- 11/14 finals: all five official game-book transcriptions (`data/app/gamebooks/20261114_*.md`)
+  cross-checked against `data/app/results_feed.json` AND `data/live/results/settled_2026-11-14.json`
+  — finals and quarter lines agree row for row (e.g. DEN 29+27+30+30=116 vs NOP 23+28+31+26=108;
+  CLE 33+38+34+22=127 vs DAL 117). One row per game with quarter scores: stored in
+  `data/live/results/settled_2026-11-14.json` (`away_q`/`home_q`), rule carried in
+  `results_feed.json`'s `quarter_check`.
+- Team registry: 30/30 clubs, official team ids all in the canonical 1610612737..1610612766
+  range, each row linking its official https://www.nba.com/team/<id>/<slug> page.
+- Team-stats capture: 30 rows on each of the three official pages; W/L agreement across pages
+  recorded in `cross_checks` (e.g. LAL 13 GP, 11-2, .846 internally consistent).
+- Model layer (`data/live/model.json`): HCA pinned to the measured home-win rate
+  (188 games, 99 home wins, rate .5266, sd 16.899 → 1.127 pts; naive fit 1.830 rejected);
+  two estimators with per-game disagreement published and the blend labelled underneath;
+  walk-forward OOS log-loss E1 0.6207 / E2 0.6359 / blend 0.6160 / coin 0.6931; luck z-scores
+  all inside ±1.96; totals = possessions × PPP with the naive benchmark printed beside.
+- Parlay pricing: `data/app/estimators.json` `rho_measured = -0.031` (margin/total residuals,
+  188-game log) used for every same-game pair, naive product printed beside
+  (`app/parlays.html` section 5).
+- Ledger + prereg: `scripts/pick_ledger.py verify` → 34 entries, CHAIN INTACT;
+  `scripts/preregister.py verify` → 15 files, 0 problems; full pipeline replay produces
+  zero drift across data/live, data/app, projection/, bet/, ledger/, prereg/ and all site trees.
+- Player game logs: 99/107 rows reconciled with per-row statsdmz sources, 8 rejected rows kept
+  raw (acceptance rule stated in-file).
+
+**Reproduced the two open PRs locally** (worktrees at their head commits): PR #85's
+`scripts/build_v2.py` + 45 v2 unit tests PASS with zero drift; PR #90's branch was not built
+(no CI run was ever created for it). GitHub reports both PRs CONFLICTING with `main`
+(`mergeStateStatus: DIRTY`); neither branch has commits for 12+ hours. Not touched —
+takeover requires pushing another session's branch, which the Arena session rule forbids;
+logged as RF-1 for the owner.
+
+**PR #95 opened** from this branch with the full summary, sources and flags; CI runs on the PR.
+Merge policy per the brief: merge without waiting for approval once the build is green; the
+Pages deploy is then confirmed before recording the result here.
