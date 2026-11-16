@@ -4753,3 +4753,13 @@ the calendar slate 2026-11-16 through 2026-11-18 inclusive unless the owner conf
 - `pages.yml`: rebuilt from git stages with 94e6d41b audit steps + v2 steps + staging line all present; freshness step gained `--now-from-manifest`.
 - Availability truth: shared `report_availability.json` rebuilt at the published 06:15 stamp (site frame), 04:15 layer preserved for audit_1823b910 (its own snapshot).
 - Estimator/site window rolls: adopted as data changes (regenerated artefacts + transcribed verified rows), with the frame discrepancy flagged rather than silently overwritten.
+
+---
+
+## Session `arena/07f22dad-nba3` — claim (2026-11-16 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F11: Make the scheduled injury freshness gate order report filenames by actual 12-hour clock time, with regression coverage | in progress | `07f22dad` | `scripts/freshness_gates.py`, `tests/test_freshness_gates.py`, `COORDINATION.md` |
+
+Branch: `arena/07f22dad-nba3` (Arena-assigned; based on `27245fa3b82499b27569f4754c3c7394a49e09f7`). This is a narrow correctness fix discovered while reviewing the live refresh path. No other active claims were found in the current board. The filename ordering defect is not a claim that any current injury data is verified or current; the scope is only correct selection of the newest dated report already archived on disk.
