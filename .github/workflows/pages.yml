@@ -556,7 +556,7 @@ jobs:
           }
           rm -rf d1b96315/__pycache__ d1b96315/tests/__pycache__
 
-      - name: Unit tests (game-day roll: capture, settlement, model, gates, ledger, pages — arena/d1b96315-nba3)
+      - name: Unit tests (game-day roll — capture, settlement, model, gates, ledger, pages — arena/d1b96315-nba3)
         run: python3 -m unittest discover -s d1b96315/tests -p 'test_*.py' 2>&1 | tail -25
 
       - name: Stage combined Pages artifact
