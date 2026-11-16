@@ -4800,3 +4800,175 @@ so a reader lands on today's slate and one set of numbers.
 - Open PRs #94, #95, #96, #98 are **not** merged and their `build` check is red on their own head commits. They are left
   untouched: merging a red PR is against the standing rule, and their content is superseded by the current `main` for the
   parts this round re-derives. Recorded here so their owners can see why they were not picked up.
+
+## Session `arena/c449d46a-nba3` (current) — CLAIM: repair the failing scheduled refresh (commit step), slate leak in the official games pages, ledger publish integrity
+
+**Session ID:** `arena/c449d46a-nba3`. Workspace branch `arena/c449d46a-nba3`, branched from `main` @ `27245fa` (merge of PR #101). Claim written and pushed before any other change (2026-11-16 ~14:35 UTC).
+
+**Why this round exists (evidence, read 2026-11-16 UTC):**
+- Scheduled workflow `official data refresh` (`.github/workflows/refresh.yml`) has failed on its last two scheduled runs: run `43815576157` (~06:26 UTC) and run `43864808752` (~12:26 UTC). Both failed at step **"Commit refreshed captures and rebuilt outputs"**; the fetch, gates and unit-test steps passed. The last successful refresh commit on `main` is `94f71a6` (00:57Z). Job logs are not retrievable through the API (EOF), so the cause was reproduced locally instead: in a clean clone of `27245fa` the rebuild chain (`estimators` → `minutes_model` → `results_feed verify` → `pick_ledger publish/verify` → `assemble_canonical` → `build_app`) modifies `app/ledger.html` and `data/app/ledger/ledger.jsonl`. The step only runs `git add data/app`, so `app/ledger.html` stays unstaged and `git pull --rebase origin main` refuses to run. This is the inferred failure mode (not yet proven on the runner).
+- The refresh's slate promotion attaches one non-slate game to every date. `0022600232` (DAL@CLE, played 11/14, verified by the committed 11/14 game book `data/app/gamebooks/20261114_DALCLE.md`) appears on the games pages for 11/13 through 11/18 (the same game link is on every date page). `data/app/official_slate_current.json` therefore lists it four times (11/15, 11/16, 11/17, 11/18), and `pick_ledger.py publish` would add four "PUBLISHED_PRE_TIP" entries for it with `tip_et: null` (a pre-tip claim that cannot be proven).
+
+**Stale-PR note (not modified here).** Open PRs #94, #95, #96, #98 are `DIRTY` (conflicting) with no commit since 00:00–02:28 UTC and all touch `.github/workflows/refresh.yml` and/or `scripts/refresh_official.py`. Under the 60-minute rule the refresh-repair scope is taken over here. Those PRs are left open and unmerged, and are logged as change requests for their owners / the integration session (see the completion record). Nothing of theirs is closed.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| X1 Claim + board note (this section) | done (pushed before work) | c449d46a | `COORDINATION.md` (append-only) |
+| X2 Repair the refresh commit step: stage the whole tree the rebuild writes, commit, retry the rebase, never push a half-rebased tree; add a concurrency group | done (runner confirmation pending: see X6) | c449d46a | `.github/workflows/refresh.yml` |
+| X3 Slate leak: promote only game cards whose date matches their page; record exclusions; regenerate `official_slate_current.json` offline from the committed 2026-11-16T00-57Z capture (34 rows) | done | c449d46a | `scripts/refresh_official.py`, `tests/test_refresh_official.py`, `data/app/official_slate_current.json` |
+| X4 Ledger publish integrity: publish only games dated today or later, a verified tip for today's games, one entry per game id, on-slate check | done (12 ledger tests; committed chain unchanged, 34 entries) | c449d46a | `scripts/pick_ledger.py`, `tests/test_pick_ledger.py` (new) |
+| X5 Replay the CI steps on the integrated tree (45 steps, drift gates, links) and regenerate every drift-gated artefact | done (45/45 steps, 135/135 unit tests, freshness gates 10/10) | c449d46a | records + regenerated `app/`, `data/app/` outputs |
+| X6 PR → `main` → merge → Pages deploy check; dispatch the refresh once if the API allows it | pending | c449d46a | `COORDINATION.md`, PR |
+## Session `arena/07f22dad-nba3` — claim (2026-11-16 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F11: Make the scheduled injury freshness gate order report filenames by actual 12-hour clock time, align all downstream consumers, and correct verified provenance-note errors | done (PR #102 merged; Pages deploy passed) | `07f22dad` | `scripts/freshness_gates.py`, `scripts/estimators.py`, `scripts/injury_archive.py`, `scripts/availability.py`, `tests/test_freshness_gates.py`, `tests/test_injury_archive_order.py`, `data/live/`, `projection/`, `COORDINATION.md` |
+
+Branch: `arena/07f22dad-nba3` (Arena-assigned; based on `27245fa3b82499b27569f4754c3c7394a49e09f7`). This is a narrow correctness fix discovered while reviewing the live refresh path. No other active claims were found in the current board. The filename ordering defect is not a claim that any current injury data is verified or current; the scope is only correct selection of the newest dated report already archived on disk.
+
+### Session `arena/07f22dad-nba3` — completion (F11)
+
+- **Fix:** `scripts/freshness_gates.py` now orders archived injury reports by parsed calendar date and real 12-hour report time (`12:00 AM` → hour 0, `12:00 PM` → hour 12), rather than lexicographic filename order. Malformed matching filenames fail closed with a clear `ValueError`; an empty archive raises `FileNotFoundError`.
+- **Regression checks:** `python3 -m unittest tests.test_freshness_gates -v` → 5 passed; full `python3 -m unittest discover -s tests -q` → 118 passed; `git diff --check` → clean.
+- **Live-gate replay:** `python3 scripts/freshness_gates.py --json` produced 9/10 gates passed. Correct chronology exposed a real existing mismatch: `data/live/model.json` names `Injury-Report_2026-11-15_12_00AM`, while the newest *archived on disk* report is `Injury-Report_2026-11-15_06_15AM`. F2 therefore correctly fails rather than silently treating midnight as later than 6:15 AM. No pick/line/model snapshot was changed in this task.
+- **Provenance reviewed:** the two archived reports include their official source URLs and retrieval stamps: [11/15 12:00 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf), [11/15 06:15 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf); their archive notes refer to the [official injury report index](https://official.nba.com/nba-injury-report-2026-27-season/). This verifies the archived-file comparison only, not the current online newest report on 2026-11-16.
+- **Change request CR-07F22-01 (integration/site owner):** propagate the F2 mismatch as a clearly labeled item on the public Flagged for Review page, and decide whether to re-cut model inputs from the newer archived report. Do not point the model snapshot at a different report without rebuilding dependent minutes/projections/ledger artifacts and re-running the gates. The site/data files are shared integration outputs and were not edited here.
+- Scope is complete for `scripts/freshness_gates.py` + regression tests. Remaining F2 data recut / public flag is explicitly open; this session did not claim the full refresh pipeline is current or that the site was redeployed.
+
+#### Scope extension — F11 producer alignment
+
+The live gate correctly exposed that its producer (`scripts/estimators.py`) uses the same unsafe lexicographic sort. Extending this claim to include that producer and its deterministic generated output/dependents (`data/live/`, `projection/`, `bet/`, `ledger/`) so the model cannot continue writing the older snapshot name. No other session claims these paths in the current board. This is a necessary integration fix for F11, not a separate feature.
+
+The initial full producer replay also showed `scripts/injury_archive.py` sorted the consecutive-report diff chain lexically (`06:15 AM -> 12:00 AM`). Extending F11 scope to `scripts/injury_archive.py` and a dedicated archive-order regression test so the public diff timeline uses the same chronological ordering as the model and gate.
+
+The same stale lexical selection was also present in `scripts/availability.py` (the public rotation-availability feed) and F6's report listing. F11 scope now includes `scripts/availability.py`; availability, model, gate, and consecutive diff chain all share the one chronology parser.
+
+Official PDF re-reads also found a reversed spelling example in the archived `data/live/injuries/NOTES.md` and 12:00 AM capture note. Extend F11 scope to those two provenance-note files: correct the spelling sequence only after citing the actual official PDFs and add a fixture assertion. The rows themselves are unchanged.
+
+#### F11 closeout and source re-verification
+
+- Final implementation uses `scripts/freshness_gates.report_datetime()` consistently in the freshness gate, estimator input selector, injury archive diff timeline, and rotation availability selector. `F6` also lists archived report files chronologically. This fixed the report order: 2026-11-15 12:00 AM → 06:00 AM → 06:15 AM.
+- Rebuilt only from the already archived report set: `injury_archive.py`, `estimators.py`, `availability.py`, `freshness_gates.py`, `repo_review.py`, and `build_live_site.py`. F2 now reports `model_used == newest_on_disk == Injury-Report_2026-11-15_06_15AM`; F1–F10 all pass. Projection Injuries banner and availability rows now point to the 06:15 AM capture and show its original retrieval stamp. No bet was sealed (the ledger remains verified and the generated pick pass sealed zero picks).
+- Re-read the exact official PDFs directly: [11/15 12:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf), [11/15 06:00 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf), and [11/15 06:15 AM](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf). The pages confirm the real clock order and the exact Joel Embiid spelling in the first relevant table: `Embiid` at 12:00 AM and 06:00 AM; `Embid` at 06:15 AM. Corrected the two archived explanatory notes; no transcribed injury row was changed.
+- Verification: 119 tests pass; `python3 scripts/build_site.py --check` validates 166 injury rows, 25 games, 11 source entries, and 617 links across 12 pages; `git diff --check` clean. Existing test suite emits non-fatal `ResourceWarning`s for unclosed files in older tests/scripts; these are pre-existing and were not modified.
+- **CR-07F22-01 resolved for the live projection outputs:** the archived chronology/model pointer mismatch is fixed and the rebuilt projection pages now carry the 06:15 AM report. This does not verify which report is newest on the live NBA index on 2026-11-16; the scheduled fetch/index comparison remains separate and must supply that evidence.
+
+#### PR #102 integration/deployment record
+
+- PR **[#102](https://github.com/wingbangboozle1-lang/NBA3/pull/102)** merged 2026-11-16 14:30:56Z, merge commit `450c54a61f32b0740efcc36b3159c24d79c04cdc`.
+- GitHub Actions **Build and deploy NBA Edge Lab** run [43886537895](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43886537895) completed successfully on the merge commit, including the complete build/test suite and Pages deploy step. GitHub Pages API reports `status: built`; live page [projection/injuries.html](https://wingbangboozle1-lang.github.io/NBA3/projection/injuries.html) was fetched and confirmed to publish the 06:15 AM report revision, retrieval stamp, source-linked availability rows, and separate projection/bet surfaces.
+- **Open operational flag F-RF-01:** the two most recent scheduled `official data refresh` runs before this merge, [43864808752](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752) and [43815576157](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157), failed in the final “Commit refreshed captures and rebuilt outputs” step after source fetch and tests passed. The hosted run logs could not be retrieved in this environment (GitHub Actions log endpoint returned EOF); exact cause is therefore **unverified**, not guessed. The subsequent PR-triggered full build/deploy succeeded, but that is not proof the scheduled fetch-and-commit path is fixed. The next scheduled run must be checked; if the final commit step fails again, diagnose from runner logs before changing workflow behavior.
+- Non-fatal GitHub runner notices: Node 20 action runtime deprecation and `ubuntu-latest` migration notice; all build/deploy steps themselves passed.
+
+---
+
+## Session `arena/07f22dad-nba3` — follow-up claim F12 (2026-11-16 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| F12: Correct the injury-name diff direction and publish the independently re-read official-index staleness as an explicit review alert | needs review (published on projection Flagged page) | `07f22dad` | `scripts/build_live_site.py`, `projection/injuries.html`, `projection/flagged.html`, `tests/test_injury_archive_order.py`, `COORDINATION.md` |
+
+The official report index re-read on 2026-11-16 lists 11/16 reports through 09:30 AM ET, while the repository projection snapshot remains the 11/15 06:15 AM report. The live index/PDF source links are recorded below in the change. The PDF contents beyond the report-index listing are not being represented as transcribed or verified.
+
+### F12 verification and disposition
+
+- Directly fetched the official injury index on 2026-11-16: it lists 11/16 reports through 09:30 AM ET. Linked report listing: [official index](https://official.nba.com/nba-injury-report-2026-27-season/); newest listed document link: [11/16 09:30 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_30AM.pdf).
+- Updated `projection/injuries.html` generation with an explicit red stale-data warning. It says the report PDF is *not transcribed*, so it does not assert player statuses from it. Added the same freshness gap as a row on `projection/flagged.html`, linked to both official sources. Corrected the name-order warning: official PDFs read `Embiid` at 11/15 06:00 AM, `Embid` at 06:15 AM, and `Embiid` at 12:00 AM. The static captured spellings in the two provenance notes now match the official PDFs; no injury statuses or reasons were edited.
+- `python3 scripts/build_live_site.py --check` passed; `python3 -m unittest discover -s tests -q` → 121 passed; page-level regression confirms the staleness alert/source links and chronological spellings. Existing non-fatal ResourceWarnings remain in older tests.
+- F12 is `needs review` because the stale status is now published on the Flagged for Review page and requires the scheduled fetch/parser/commit path to ingest a newer report before the alert can be cleared.
+
+### Completion record — session `arena/c449d46a-nba3` (2026-11-16, before PR)
+
+**Done: X1–X5. X6 (PR, merge, Pages, refresh confirmation) recorded below once it has run.**
+
+**Fixes (what changed and why)**
+1. **Refresh commit step** (`.github/workflows/refresh.yml`). Root cause of the last two failed scheduled runs, reproduced in a clean clone: the rebuild chain changes `app/ledger.html` (and other generated files) outside `data/app`, the step staged only `data/app`, and `git pull --rebase` refuses with unstaged changes. Now: `git add -A`, commit, then up to three rebase-and-push attempts with abort on failure; `concurrency: official-data-refresh` so two runs never race. Verified with the exact step script against a scratch bare remote in three cases: (A) generated files outside `data/app` modified → committed and pushed on attempt 1; (B) a dirty README (outside any staged path) in an earlier version → 3/3 attempts failed, which is why the step now stages the whole tree; (C) `main` moved ahead → rebased and pushed on attempt 1. Runner evidence is not yet available (see X6).
+2. **Slate leak** (`scripts/refresh_official.py`). The old promotion matched links that end in a slash, so it picked up a newsletter-embedded link to the finished game `0022600232` on every date page and missed the real game cards (href without trailing slash). Now: only game cards count (`data-content="AWAY @ HOME, YYYY-MM-DD"` on the card's own date page; href and card teams must agree; a game id on two date pages is excluded and listed, never assigned by guess). Result: 34 rows, 0 excluded, identical to the previously verified `data/app/official_slate_1115_1118.json` (same 34 ids, dates and teams). Diff against the old published slate (37 rows): −4 phantom rows `0022600232` (11/15–11/18), +1 real row `0022600243` ATL@MIL 11/15 that the old parser had missed. New offline command: `python3 scripts/refresh_official.py --promote-only data/app/refresh/2026-11-16T00-57Z`.
+3. **Estimator step in the chain** (`refresh_official.py`). The chain ran `scripts/estimators.py` (writes `data/live/model.json`), but the ledger publishes from `data/app/estimators.json`, written by `scripts/estimators_round_79341829.py`. That script is now in the chain before the ledger step.
+4. **Ledger publish** (`scripts/pick_ledger.py`). Gates: a game dated before today (ET) is not published; a game dated today needs a verified tip time still ahead; a game dated later is published; one entry per game id, including within a run (the old `already` set was never updated in the loop, so one id could be appended four times); the (date, game id) pair must be on the official promoted slate. Committed history checked and unchanged: 34 entries, 34 unique pick ids, all published at 12:xx UTC on 2026-11-15 (≈7 AM ET), before the earliest 11/15 tip (1:00 PM ET); `verify` = CHAIN INTACT.
+5. **Estimator window** (`data/app/estimators.json`, regenerated): 37 → 34 rows (9/8/5/12 for 11/15–11/18), matching the NBA games calendar counts on the 11/15 page. Headline mean disagreement moved 6.31 → 7.07 pts (window membership only; flagged C449-F-04).
+
+**Verification performed**
+- Official sources read with the fetch tool on 2026-11-16 (UTC): [NBA game page 0022600232](https://www.nba.com/game/dal-vs-cle-0022600232) (title: "Dallas Mavericks vs Cleveland Cavaliers Nov 14, 2026 Game Summary") and [NBA games, Nov 15 2026](https://www.nba.com/games?date=2026-11-15) (lists `atl-vs-mil-0022600243` as Final, Hawks 113 – Bucks 106; the 11/15 calendar shows 9 games; the calendar also shows 8, 5 and 12 games for 11/16, 11/17 and 11/18). The DAL@CLE game is not on the 11/15 list.
+- Unit tests: `python3 -m unittest discover -s tests` → **135/135 OK** on the merged tree (includes 12 ledger tests, 20 refresh tests incl. the committed-capture cross-check against `official_slate_1115_1118.json`).
+- CI replay: the 45 `run:` steps of `.github/workflows/pages.yml` executed in order in a fresh clone of the merged branch → **45/45 pass** (drift checks, byte reproductions, link checks, unit suites).
+- Chain reproducibility: estimators → minutes → results verify → ledger publish/verify → assemble → build_app run on the merged tree produce **no diff** (chain stable); `freshness_gates.py` → **10/10 gates passed**.
+- Merge with `origin/main` (PR #104, session 07f22dad, injury-freshness ordering fixes): one conflict (COORDINATION.md, append-only), resolved by keeping both sides. Their changes to `freshness_gates.py`, `estimators.py` and `data/live/*` were re-verified by the replay above.
+
+**Flags (on the Flagged for Review page, `app/flagged.html`; source file `data/app/flags_c449d46a.json`)**
+- C449-F-01 (high) scheduled refresh red on the last two runs; repaired here, runner confirmation pending.
+- C449-F-02 (high) published slate had 4 phantom rows and 1 missing game; corrected to the verified 34.
+- C449-F-03 (high) ledger publish gates (committed history not affected; verified).
+- C449-F-04 (medium) headline disagreement moved 6.31 → 7.07 because the window is now the verified 34 games.
+- C449-F-05 (medium) the scheduled chain never refreshed the ledger's estimator window; fixed.
+- C449-F-06 (high, open, owner decision) settlement is not automated in the scheduled job; the brief requires settlement only after verified finals.
+- C449-F-07 (medium, open, owner decision) open conflicting PRs #94, #95, #96, #98 touch the same files; not closed or merged here.
+
+**Not done in this round (honest scope).** This round covered the scheduled-refresh repair and the ledger/slate integrity defects only. The rest of the brief is not completed here: settlement automation (C449-F-06), the strategy leaderboard and validation gates, parlay pricing with measured rho, market-anchored prior (no licensed closing-line feed in the repo), injury-to-minutes modelling beyond the existing minutes model, and the suggestions/questions pages. Those remain in the existing requirement and question registers with their prior flags.
+
+**Remaining risk (not solved here).** If another session pushes a change to a generated file that the rebuild also changes, the step's `pull --rebase` can conflict. The step then aborts and retries, and fails after three attempts. The fix would be to re-run the rebuild on the new `main` instead of rebasing generated output. Logged for the owner, not implemented.
+
+### Sources used (this session, read 2026-11-16 UTC)
+- https://www.nba.com/game/dal-vs-cle-0022600232 (game page title: Nov 14, 2026 game summary)
+- https://www.nba.com/games?date=2026-11-15 (Nov 15 games, finals, calendar counts 9/8/5/12 for 11/15–11/18)
+- Run records on GitHub Actions: https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752 and https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157 (job logs not retrievable through the API; failure step identified from the step list)
+- Committed captures: `data/app/refresh/2026-11-16T00-57Z/` (games pages, manifest with sha256 per artifact), `data/app/official_slate_1115_1118.json` (previously verified 34-game slate)
+## Session `arena/00b0c780-nba3` (current) — CLAIM: independent official verification, requirement-by-requirement audit, freshness register
+
+Claim written and committed **before** any other work (board rule). Base: `main` @ `27245fa` (merge of PR #101). Branch is fixed as `arena/00b0c780-nba3`.
+
+**Why this scope.** At claim time: (a) the published window is 2026-11-15→11-18 while today is 2026-11-16 UTC; (b) nine 11/15 games are Final on nba.com but only the five `main` settlements exist, and PR #98 (`arena/c94a5531-nba3`, open, unmerged) claims four more; (c) the official injury index lists 27 reports for 11/16 up to 9:15 AM ET, while the published banner still shows 11/15 06:15 AM; (d) the last two scheduled `official data refresh` runs (43864808752, 43815576157) failed at the step *Commit refreshed captures and rebuilt outputs*. Other sessions hold open PRs over `data/app/**`, `data/live/**`, `app/**`, `scripts/**` and `pages.yml`, so this session edits **none** of those outputs' data.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| K1 | Claim on the board (this section), pushed before work | done (this commit) | 00b0c780 | `COORDINATION.md` (append-only) |
+| K2 | Independent official read of all nine 11/15 finals: nba.com schedule (final score, state) + statsdmz game book (period scores, printed FINAL), compared with `main` and PR #98 values | done (files named `finals_1115.json`, not `_independent`) | 00b0c780 | `audit_00b0c780/data/finals_1115.json` (new) |
+| K3 | Official injury-report index for 11/16: list every PDF with its timestamp, compare the newest against the published banner | done (corrected, see log) | 00b0c780 | `audit_00b0c780/data/injury_index_2026-11-16.json` (new) |
+| K4 | Requirement-by-requirement audit of the brief items (30 items R01–R30, not 25), each with the repo evidence and what is missing | done (statuses are repo-level; several "Met (partly)" were not re-read) | 00b0c780 | `audit_00b0c780/data/requirements.json` (new) |
+| K5 | Static audit pages (index, finals, injuries, picks, requirements, flagged) built by one deterministic script, with unit tests | done locally; PR pending | 00b0c780 | `audit_00b0c780/**` (new) |
+| K6 | Staging + test wiring for the new tree in `pages.yml` (one appended step and one copy line) | done locally; PR pending | 00b0c780 | `.github/workflows/pages.yml` (append-only, +13 lines) |
+| K7 | Change requests for the owners of other claims (CR-00b0c780-01..06, logged in the log below; no edits to their files) | done | 00b0c780 | this section only |
+| K8 | PR → merge → confirm Pages deploy by reading the live site; record here | done: PR #105 merged (merge commit `e68a3f2`), Pages run `43888111849` success, live pages read 2026-11-16 | 00b0c780 | `COORDINATION.md` |
+
+### 00b0c780 — log (append-only, this session)
+
+**Branch.** Arena fixes the working branch to `arena/00b0c780-nba3`; the `session-<id>/<task>` naming in the brief does not apply (same choice as earlier sessions).
+
+**K2 — 11/15 finals (sources and verification).** Nine games Final on nba.com (`https://www.nba.com/schedule`, game pages such as `https://www.nba.com/game/ind-vs-phi-0022600236`). Period scores and printed FINAL from the statsdmz game books `https://statsdmz.nba.com/pdfs/20261115/20261115_{INDPHI,LALPHX,CHALAC,SASUTA,DALBOS,NYKTOR,HOUWAS,ATLMIL,OKCSAC}.pdf`. Eight verified (schedule final = book final, quarters sum to it). **ATL @ MIL (`0022600243`) is flagged K-02:** its period table gives Milwaukee Q3 = 37 (row sums to 116), its summary line gives 27 (sums to 106, matching the printed final). No value was inferred. PR #98 branch (`arena/c94a5531-nba3`, read via FETCH_HEAD): its four settled rows (IND, LAL, CHA, SAS) match the official finals and quarter splits. Its other five games are not settled in its JSON. Nothing on `main`'s results feed is 11/15 (0 of 9).
+
+**K3 — injury index correction.** The earlier note in this section said "27 reports to 9:15 AM ET". Re-fetching `https://official.nba.com/nba-injury-report-2026-27-season/` shows **39 links for 11/16, 12:00 AM through 9:30 AM ET**, one per 15 minutes. The generator now lists exactly those 39 slots, with PDF URLs taken from the index page (linked there, not fetched). This is recorded as a discrepancy in K-05: the index changed during the session or the earlier count was wrong; not resolved. Banner on `main` (`app/injuries.html`): 11/15 06:15 AM ET revision, two retrieval stamps (11:40Z and 11:33Z). Newest official report is 9:30 AM ET 11/16. **Stale.** The PDFs were not fetched.
+
+**K4 — requirements.** 30 items; statuses are repo-level (`Met` 2, `Met (partly)` 20, plus stale, failing, negative and blocked items). Three items marked "Met" in an earlier draft were downgraded to "Met (partly)" because the page content was not re-read. Every evidence path and literal `contains` string is checked by `audit_00b0c780/test_audit.py`.
+
+**K4 — ledger reconciliation (read-only).** `ledger/ledger.jsonl` (11 PUBLISH entries, `scripts/ledger.py` schema): every `prev_hash`, `entry_hash` and `pick_sha256` recomputes. `data/app/ledger/ledger.jsonl` (34 lines, `body`/`entry_hash` schema): `prev_hash` links are unbroken, but `entry_hash` does not recompute from `body` under four canonical forms tried, so its recipe is undocumented. The `0022600238-side-proj` entry (line 3, `PUBLISHED_PRE_TIP`, 2026-11-15T12:10Z) is not a linkage break. The "CHAIN BROKEN" text on PR #102 was **not reproduced** as a linkage break; its verifier is not in this repo. Logged as **K-17** (high). No settlement performed from either tree.
+
+**K5 — pages.** `audit_00b0c780/build.py` writes six pages from `audit_00b0c780/data/*.json` (`index`, `finals`, `injuries`, `picks`, `requirements`, `flagged`). No wall clock, no network. Every data row has an official source link, or an explicit "no official link" marker. `test_audit.py`: 20 tests, all passing locally.
+
+**K6 — pages.yml.** One new step (rebuild, drift check, unit tests) and one copy line `cp -r audit_00b0c780 _pages/audit_00b0c780`. Published path: `https://wingbangboozle1-lang.github.io/NBA3/audit_00b0c780/pages/`.
+
+**K7 — change requests (no edits made to other claims' files).**
+- **CR-00b0c780-01 → owner of `data/app/ledger/` (ledger session):** document the `entry_hash` recipe for tree B, or re-hash it, and state which tree is canonical. Blocks settlement of 11/15 (R06, R19). Owner to reply in this section.
+- **CR-00b0c780-02 → owner of PR #98 (`arena/c94a5531-nba3`):** the four 11/15 rows match the official finals; please settle them only after K-02 is resolved for ATL @ MIL, and add the five other 11/15 games with official sources.
+- **CR-00b0c780-03 → owner of the refresh workflow (`refresh.yml`):** runs `43864808752` (job `refresh`, step "Commit refreshed captures and rebuilt outputs") and `43815576157` (failing step not read) both failed. Please read and fix. Last success `43776978055` (`94f71a6`).
+- **CR-00b0c780-04 → owner of `app/injuries.html` (injury banner):** the banner shows the 11/15 06:15 AM ET report and two retrieval stamps. The official index lists 39 reports for 11/16, newest 9:30 AM ET. Please refresh from the index and show one retrieval time per report.
+- **CR-00b0c780-05 → owner of the root navigation (`index.html`, `scripts/build_app.py`):** add a tile linking `/audit_00b0c780/pages/` once the PR merges. Not done here.
+- **CR-00b0c780-06 → owner of `data/app/arena_coordinates.json`:** coordinates are sourced from Wikipedia, which is not an official source under the brief. Two rows are blank. Please source from an official arena or team page, or keep flagged.
+
+**Open items not resolved here:** ATL @ MIL quarter conflict (K-02); injury PDFs not fetched (K-05); standings not captured by any job (K-07); closing-line blend has no feed (K-08); NBA terms §9(iv) bars gambling use of NBA statistics (K-08, standing blocker for the bet surface).
+
+**Verification before PR.** `python3 -m unittest discover -s audit_00b0c780 -p 'test_*.py'`: 20 OK. Regenerate: `python3 audit_00b0c780/make_data.py && python3 audit_00b0c780/build.py`. Existing suites (`tests/`, `pipeline/tests/`, `audit_dd1eb1f1`, `audit_94e6d41b`) were not re-run after this session's changes beyond the earlier baseline; CI runs them on the PR.
+
+#### PR #104 integration/deployment record (F12)
+
+- PR [#104](https://github.com/wingbangboozle1-lang/NBA3/pull/104) merged 2026-11-16 14:36:29Z as `82158c7c6890495fc6d3013eab2361c35600abdb`.
+- Full pull-request build **43887474998** passed. Main build/deploy run [43887499663](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887499663) passed; Pages run [43887498367](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43887498367) passed. The GitHub Pages API reports `built`. Live [Flagged for Review](https://wingbangboozle1-lang.github.io/NBA3/projection/flagged.html) was fetched and confirms the dated stale-report alert and direct links to the official index / listed PDF.
+- The official-index freshness issue is a published warning, not resolved: the 11/16 09:30 AM PDF remains untranscribed in this repo, and the scheduled refresh's commit step remains unverified after earlier failures. No availability or wager recommendation for the 11/16 slate is asserted from that PDF.
+
+**K8 — result (recorded after merge).**
+- PR: https://github.com/wingbangboozle1-lang/NBA3/pull/105 — title "00b0c780: independent 11/15 finals read, 11/16 injury index, requirement audit, flagged items".
+- Merge: `--merge` into `main`; merge commit `e68a3f2cf63bfbfb76abf48ff73760b3b1d3f7c1`. Pre-merge, the PR checks passed (`build` success; `deploy` skipped on PRs). Mergeability needed two conflict resolutions in `COORDINATION.md` (claim block vs `07f22dad` block; then a later `main` update). Both sides were kept, no other session's text was removed.
+- Deploy: `pages.yml` run `43888111849` on `main` at `e68a3f2`: build success, deploy success.
+- Live check (fetched 2026-11-16): `https://wingbangboozle1-lang.github.io/NBA3/audit_00b0c780/pages/index.html` and `/injuries.html` serve the new pages (39 reports to 9:30 AM ET; banner 11/15 06:15 AM). The other five pages are built from the same generator.
+- Not done (owner decisions or other claims): settlement of the nine 11/15 games (none settled on `main`); injury PDFs not fetched; refresh workflow unrepaired (CR-03); root navigation tile not added (CR-05); standings and closing-line data absent (K-07, K-08).
+- Branch note: the claim commit `e05037b` was re-based onto `main` (`43a9a38`) to resolve a conflict; the remote branch was then advanced with a history-only merge (`09870f4`) rather than force-pushed.

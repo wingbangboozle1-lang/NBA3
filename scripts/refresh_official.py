@@ -21,6 +21,7 @@ Dates are Eastern (the NBA schedule's day), not UTC. Injury reports are ordered 
 real clock time, not by sorting the filename strings.
 
 Usage: python3 scripts/refresh_official.py [--dry-run] [--stamp 2026-11-15T12-00Z]
+       python3 scripts/refresh_official.py --promote-only data/app/refresh/<stamp>   (offline)
 """
 import argparse
 import hashlib
@@ -80,6 +81,96 @@ def et_today(now_utc):
     return now_utc.astimezone(ET).date()
 
 
+# A game CARD on an official games page: the anchor's href and its data-content, which reads
+# "AWAY @ HOME, YYYY-MM-DD" (checked on the committed 2026-11-16T00-57Z captures, see
+# tests/test_refresh_official.py). Links that sit inside editorial modules on the same page
+# (e.g. a newsletter article that links a finished game) are NOT cards and are ignored.
+CARD_RE = re.compile(
+    r'<a href="/game/([a-z]{3})-vs-([a-z]{3})-(\d{10})"[^>]*?'
+    r'data-content="([A-Z]{3}) @ ([A-Z]{3}), (\d{4}-\d{2}-\d{2})"')
+SLATE_SOURCE_LABEL = ("official schedule pages for the rolling window, promoted by "
+                      "scripts/refresh_official.py from the game cards on each page")
+
+
+def promote_slate_rows(pages, games_url=GAMES):
+    """Return (rows, excluded) for {iso_date: games_page_html}.
+
+    A row is a card on its OWN date's page (card date == page date). The teams in the href
+    must equal the teams in the card. A game id that still lands on more than one date is
+    excluded and recorded with its dates; it is never assigned to a date by guess.
+    """
+    found = {}          # game_id -> {"dates": set, "away": str, "home": str}
+    excluded = set()    # (game_id, date, reason, detail) tuples, de-duplicated
+    for d in sorted(pages):
+        for a, h, gid, ca, ch, cd in CARD_RE.findall(pages[d]):
+            if cd != d:
+                continue                       # a card for another date: not this page's slate
+            if (a.upper(), h.upper()) != (ca, ch):
+                excluded.add((gid, d, "href teams differ from card teams",
+                              f"href {a.upper()}-vs-{h.upper()} / card {ca} @ {ch}"))
+                continue
+            entry = found.setdefault(gid, {"dates": set(), "away": ca, "home": ch})
+            if (entry["away"], entry["home"]) != (ca, ch):
+                excluded.add((gid, d, "conflicting teams for one game id",
+                              f"{entry['away']} @ {entry['home']} vs {ca} @ {ch}"))
+                continue
+            entry["dates"].add(d)
+    rows = []
+    for gid, e in found.items():
+        if len(e["dates"]) > 1:
+            excluded.add((gid, ",".join(sorted(e["dates"])), "game id on more than one date page",
+                          f"{e['away']} @ {e['home']}"))
+            continue
+        d = next(iter(e["dates"]))
+        rows.append({"date": d, "time_et": None, "away": e["away"], "home": e["home"],
+                     "game_id": gid, "away_record": None, "home_record": None,
+                     "game_url": f"https://www.nba.com/game/{e['away'].lower()}-vs-"
+                                 f"{e['home'].lower()}-{gid}",
+                     "source": games_url + d})
+    rows.sort(key=lambda r: (r["date"], r["game_id"]))
+    excluded_rows = [{"game_id": g, "date": dt, "reason": why, "detail": det}
+                     for (g, dt, why, det) in sorted(excluded)]
+    return rows, excluded_rows
+
+
+def write_slate(rows, stamp, excluded):
+    slate = {"source_url": GAMES + rows[0]["date"], "source_label": SLATE_SOURCE_LABEL,
+             "retrieved_on": stamp[:10], "retrieved_utc": stamp,
+             "window": {"from": rows[0]["date"], "to": rows[-1]["date"]},
+             "count": len(rows), "games": rows, "excluded": excluded,
+             "notes": ["tip times are blank where the page pattern did not carry them — "
+                       "blank and flagged, never inferred",
+                       "a game id that appears on more than one date page is listed in "
+                       "'excluded' and is not in 'games'"]}
+    with open(os.path.join(APP, "official_slate_current.json"), "w", encoding="utf-8") as fh:
+        json.dump(slate, fh, indent=1)
+        fh.write("\n")
+    return slate
+
+
+def promote_only(refresh_dir):
+    """Offline re-promotion of the slate from a committed capture directory (no network)."""
+    out_dir = os.path.abspath(refresh_dir)
+    with open(os.path.join(out_dir, "manifest.json"), encoding="utf-8") as fh:
+        man = json.load(fh)
+    today = datetime.strptime(man["today_et"], "%Y-%m-%d").date()
+    pages = {}
+    for off in range(0, 4):
+        d = (today + timedelta(days=off)).isoformat()
+        page = os.path.join(out_dir, f"games_{d}.html")
+        if os.path.exists(page):
+            pages[d] = open(page, encoding="utf-8", errors="replace").read()
+    rows, excluded = promote_slate_rows(pages)
+    if not rows:
+        print("promote-only: no game cards found; nothing written", file=sys.stderr)
+        return 1
+    slate = write_slate(rows, man["stamp"], excluded)
+    print(f"promote-only: {len(rows)} games, {len(excluded)} excluded -> "
+          f"data/app/official_slate_current.json (window {slate['window']['from']}"
+          f"..{slate['window']['to']})")
+    return 0
+
+
 class Fetcher:
     """Fetches URLs with retries; records every failure. Never raises."""
 
@@ -118,7 +209,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--stamp")
+    ap.add_argument("--promote-only", metavar="REFRESH_DIR",
+                    help="offline: re-promote data/app/official_slate_current.json from a "
+                         "committed capture directory (no network)")
     args = ap.parse_args()
+    if args.promote_only:
+        return promote_only(args.promote_only)
     now = datetime.now(timezone.utc)
     stamp = args.stamp or now.strftime("%Y-%m-%dT%H-%MZ")
     out_dir = os.path.join(APP, "refresh", stamp)
@@ -168,37 +264,18 @@ def main():
     # 3b. promote the schedule window from the fetched games pages (game links are the
     #     parseable part of the scoreboard HTML; tip times stay blank and flagged when the
     #     page pattern does not carry them — never inferred)
-    rows = []
+    pages = {}
     for off in range(0, 4):
         d = (today_et + timedelta(days=off)).isoformat()
         page = os.path.join(out_dir, f"games_{d}.html")
-        if not os.path.exists(page):
-            continue
-        html = open(page, encoding="utf-8", errors="replace").read()
-        seen = set()
-        for m in re.finditer(r"/game/([a-z]{3})-vs-([a-z]{3})-(\d{10})/", html):
-            a, h, gid = m.group(1).upper(), m.group(2).upper(), m.group(3)
-            if gid in seen:
-                continue
-            seen.add(gid)
-            rows.append({"date": d, "time_et": None, "away": a, "home": h, "game_id": gid,
-                         "away_record": None, "home_record": None,
-                         "game_url": f"https://www.nba.com/game/{a.lower()}-vs-{h.lower()}-{gid}",
-                         "source": f"https://www.nba.com/games?date={d}"})
-    rows.sort(key=lambda r: (r["date"], r["game_id"]))
+        if os.path.exists(page):
+            pages[d] = open(page, encoding="utf-8", errors="replace").read()
+    rows, excluded = promote_slate_rows(pages)
+    manifest["slate_excluded"] = excluded
     if rows:
-        slate = {"source_url": GAMES + rows[0]["date"],
-                 "source_label": ("official schedule pages for the rolling window, promoted by "
-                                  "scripts/refresh_official.py from the fetched game links"),
-                 "retrieved_on": stamp[:10], "retrieved_utc": stamp,
-                 "window": {"from": rows[0]["date"], "to": rows[-1]["date"]},
-                 "count": len(rows), "games": rows,
-                 "notes": ["tip times are blank where the page pattern did not carry them — "
-                           "blank and flagged, never inferred"]}
-        with open(os.path.join(APP, "official_slate_current.json"), "w", encoding="utf-8") as fh:
-            json.dump(slate, fh, indent=1)
-            fh.write("\n")
-        print(f"slate promoted: {len(rows)} games -> data/app/official_slate_current.json")
+        write_slate(rows, stamp, excluded)
+        print(f"slate promoted: {len(rows)} games, {len(excluded)} excluded "
+              f"-> data/app/official_slate_current.json")
 
     # 4. game books for every finished game found on the two previous Eastern game days
     gb = 0
@@ -236,6 +313,10 @@ def main():
     # 6. rebuild chain (offline scripts on the refreshed captures)
     steps = [
         ["python3", "scripts/estimators.py"],
+        # the window the pick ledger publishes from (data/app/estimators.json) is written by
+        # this script; the line above writes data/live/model.json only. Missing from the chain
+        # until session c449d46a, so a scheduled run published from a stale window.
+        ["python3", "scripts/estimators_round_79341829.py"],
         ["python3", "scripts/minutes_model.py"],
         ["python3", "scripts/results_feed.py", "verify"],
         ["python3", "scripts/pick_ledger.py", "publish"],

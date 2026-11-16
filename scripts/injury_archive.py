@@ -17,6 +17,8 @@ import pathlib
 import re
 import unicodedata
 
+from freshness_gates import report_datetime
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DIR = ROOT / "data" / "live" / "injuries"
 OUT_INDEX = DIR / "archive_index.json"
@@ -165,9 +167,10 @@ def diff(a: dict, b: dict) -> dict:
 
 
 def main() -> None:
-    files = sorted(DIR.glob("Injury-Report_*.md"))
+    # Chronological order must use the report's real 12-hour clock time; lexical stamp
+    # sorting puts 12:00 AM after daytime reports from the same date.
+    files = sorted(DIR.glob("Injury-Report_*.md"), key=report_datetime)
     reports = [parse(p) for p in files]
-    reports.sort(key=lambda r: r["report_stamp"])
     status_counts = {}
     for r in reports:
         c: dict[str, int] = {}

@@ -1,25 +1,14 @@
 {
  "source_url": "https://www.nba.com/games?date=2026-11-15",
- "source_label": "official schedule pages for the rolling window, promoted by scripts/refresh_official.py from the fetched game links",
+ "source_label": "official schedule pages for the rolling window, promoted by scripts/refresh_official.py from the game cards on each page",
  "retrieved_on": "2026-11-16",
  "retrieved_utc": "2026-11-16T00-57Z",
  "window": {
   "from": "2026-11-15",
   "to": "2026-11-18"
  },
- "count": 37,
+ "count": 34,
  "games": [
-  {
-   "date": "2026-11-15",
-   "time_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "game_id": "0022600232",
-   "away_record": null,
-   "home_record": null,
-   "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
-   "source": "https://www.nba.com/games?date=2026-11-15"
-  },
   {
    "date": "2026-11-15",
    "time_et": null,
@@ -100,6 +89,17 @@
   {
    "date": "2026-11-15",
    "time_et": null,
+   "away": "ATL",
+   "home": "MIL",
+   "game_id": "0022600243",
+   "away_record": null,
+   "home_record": null,
+   "game_url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+   "source": "https://www.nba.com/games?date=2026-11-15"
+  },
+  {
+   "date": "2026-11-15",
+   "time_et": null,
    "away": "OKC",
    "home": "SAC",
    "game_id": "0022600244",
@@ -107,17 +107,6 @@
    "home_record": null,
    "game_url": "https://www.nba.com/game/okc-vs-sac-0022600244",
    "source": "https://www.nba.com/games?date=2026-11-15"
-  },
-  {
-   "date": "2026-11-16",
-   "time_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "game_id": "0022600232",
-   "away_record": null,
-   "home_record": null,
-   "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
-   "source": "https://www.nba.com/games?date=2026-11-16"
   },
   {
    "date": "2026-11-16",
@@ -210,17 +199,6 @@
   {
    "date": "2026-11-17",
    "time_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "game_id": "0022600232",
-   "away_record": null,
-   "home_record": null,
-   "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
-   "source": "https://www.nba.com/games?date=2026-11-17"
-  },
-  {
-   "date": "2026-11-17",
-   "time_et": null,
    "away": "NYK",
    "home": "TOR",
    "game_id": "0022600253",
@@ -272,17 +250,6 @@
    "home_record": null,
    "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
    "source": "https://www.nba.com/games?date=2026-11-17"
-  },
-  {
-   "date": "2026-11-18",
-   "time_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "game_id": "0022600232",
-   "away_record": null,
-   "home_record": null,
-   "game_url": "https://www.nba.com/game/dal-vs-cle-0022600232",
-   "source": "https://www.nba.com/games?date=2026-11-18"
   },
   {
    "date": "2026-11-18",
@@ -417,7 +384,9 @@
    "source": "https://www.nba.com/games?date=2026-11-18"
   }
  ],
+ "excluded": [],
  "notes": [
-  "tip times are blank where the page pattern did not carry them \u2014 blank and flagged, never inferred"
+  "tip times are blank where the page pattern did not carry them \u2014 blank and flagged, never inferred",
+  "a game id that appears on more than one date page is listed in 'excluded' and is not in 'games'"
  ]
 }

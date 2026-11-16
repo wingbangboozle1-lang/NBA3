@@ -1,0 +1,109 @@
+[
+ {
+  "id": "C449-F-01",
+  "area": "Scheduled job",
+  "severity": "high",
+  "found_on": "2026-11-16",
+  "item": "The scheduled 'official data refresh' failed on its last two scheduled runs (43815576157 and 43864808752). Both failed at the commit step, after the fetch, gates and unit tests had passed. The last refresh commit on main is 94f71a6 (2026-11-16 00:57Z).",
+  "why": "A refresh that fetches but never commits leaves the published site on the last good build, so the 'rolling slate' is not rolling. Job logs were not retrievable through the API (EOF), so the cause was reproduced in a clean clone: the rebuild chain changes app/ledger.html outside the staged data/app path, and git pull --rebase refuses to run with unstaged changes. The fix is in this round; it is not yet proven on the runner.",
+  "action_needed": "Owner: confirm the next scheduled run (or a manual dispatch, if the API allows it) commits. Until then treat the refresh as NOT verified on the runner.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43864808752",
+   "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43815576157",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
+  ],
+  "status": "Repaired in branch arena/c449d46a-nba3; runner confirmation pending",
+  "legacy_ref": ""
+ },
+ {
+  "id": "C449-F-02",
+  "area": "Slate / schedule",
+  "severity": "high",
+  "found_on": "2026-11-16",
+  "item": "The refresh's promoted slate (data/app/official_slate_current.json, 37 rows) listed the finished game DAL@CLE 0022600232 four times (11/15, 11/16, 11/17, 11/18) and omitted ATL@MIL 0022600243 on 11/15. The estimator window inherited the same 37 rows.",
+  "why": "The old parser matched only links that end in a slash. A newsletter embed on each games page linked the 11/14 game, and the real game cards (href without a trailing slash) were missed. The fixed rule reads only game cards whose data-content date equals the page date. It reproduces the previously verified 34-game slate exactly (same ids, dates, teams).",
+  "action_needed": "None for the data (34 rows now). Keep the cross-check test in tests/test_refresh_official.py.",
+  "sources": [
+   "https://www.nba.com/game/dal-vs-cle-0022600232",
+   "https://www.nba.com/games?date=2026-11-15",
+   "https://www.nba.com/game/atl-vs-mil-0022600243"
+  ],
+  "status": "Corrected in branch arena/c449d46a-nba3 (34 rows, 0 excluded)",
+  "legacy_ref": ""
+ },
+ {
+  "id": "C449-F-03",
+  "area": "Pick ledger",
+  "severity": "high",
+  "found_on": "2026-11-16",
+  "item": "pick_ledger.py publish checked duplicates only against the chain at the start of the run, so one game id appended several times in a single run. It also had no tip-time gate: a game already played could be published as PUBLISHED_PRE_TIP.",
+  "why": "The committed chain is not affected: 34 entries, 34 unique pick ids, all published at 12:xx UTC on 2026-11-15 (about 7 AM ET), before the earliest 11/15 tip (1:00 PM ET). The defective rows were never pushed. The fix publishes only games dated today or later, requires a verified tip time for games tipping today, de-duplicates within the run, and requires the (date, game id) pair to be on the official slate.",
+  "action_needed": "None for committed history. Settlement is still not automated in the scheduled job (see C449-F-06).",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl"
+  ],
+  "status": "Corrected in branch arena/c449d46a-nba3; 12 ledger tests pass",
+  "legacy_ref": ""
+ },
+ {
+  "id": "C449-F-04",
+  "area": "Model headline",
+  "severity": "medium",
+  "found_on": "2026-11-16",
+  "item": "Because the window is now the verified 34 games (not 37), the published headline moved: mean two-estimator disagreement 6.31 -> 7.07 points on the window; the window's per-date counts are now 9 / 8 / 5 / 12 for 11/15-11/18, matching the official calendar counts on the NBA games page (15 = 9 games, 16 = 8, 17 = 5, 18 = 12). Out-of-sample log-loss values are unchanged (estimator A 0.6535; estimator B is in-sample only).",
+  "why": "Only the window membership changed; the estimator code and captures did not. The new value is the correct value for the verified window, but readers who saw 6.31 should know why it moved.",
+  "action_needed": "None. Recorded so the change is visible.",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-15"
+  ],
+  "status": "Recorded",
+  "legacy_ref": ""
+ },
+ {
+  "id": "C449-F-05",
+  "area": "Scheduled job",
+  "severity": "medium",
+  "found_on": "2026-11-16",
+  "item": "The scheduled rebuild chain never ran the estimator script that writes the ledger's window (data/app/estimators.json). The chain ran scripts/estimators.py, which writes data/live/model.json. So even a successful scheduled run would have published from a stale window.",
+  "why": "Found while tracing F-02. Fixed by adding scripts/estimators_round_79341829.py to the chain before the ledger step.",
+  "action_needed": "None beyond confirming the next scheduled run.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/refresh_official.py"
+  ],
+  "status": "Corrected in branch arena/c449d46a-nba3",
+  "legacy_ref": ""
+ },
+ {
+  "id": "C449-F-06",
+  "area": "Settlement",
+  "severity": "high",
+  "found_on": "2026-11-16",
+  "item": "The scheduled job verifies the results feed but does not settle the ledger. The brief requires settlement only after final scores are verified, with a visible settlement stamp, as soon as each game day ends.",
+  "why": "Today's chain runs results_feed.py verify and pick_ledger.py verify; pick_ledger.py settle is not in the job. Adding it unattended would be a change to what gets written on each run and needs an owner decision on the rule.",
+  "action_needed": "Owner decision: approve adding 'pick_ledger.py settle' to the scheduled chain after results_feed verifies official finals.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
+  ],
+  "status": "Open - owner decision",
+  "legacy_ref": ""
+ },
+ {
+  "id": "C449-F-07",
+  "area": "Repository coordination",
+  "severity": "medium",
+  "found_on": "2026-11-16",
+  "item": "Open PRs #94, #95, #96 and #98 are conflicting (DIRTY), have had no commit since 00:00-02:28 UTC, and all touch .github/workflows/refresh.yml and/or scripts/refresh_official.py. They were not closed or merged in this round.",
+  "why": "Under the coordination board's 60-minute rule the refresh-repair scope was taken over here. Merging any of them without rebasing onto the repair would reintroduce the commit-step defect or the slate leak.",
+  "action_needed": "Owner or integration session: close them as superseded, or rebase them onto arena/c449d46a-nba3 and take only their non-overlapping content.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/pull/94",
+   "https://github.com/wingbangboozle1-lang/NBA3/pull/95",
+   "https://github.com/wingbangboozle1-lang/NBA3/pull/96",
+   "https://github.com/wingbangboozle1-lang/NBA3/pull/98"
+  ],
+  "status": "Open - owner decision",
+  "legacy_ref": ""
+ }
+]

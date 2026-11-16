@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verification audit — 00b0c780 — 00b0c780 audit</title><style>
+:root{--ink:#14202b;--mut:#5b6b78;--line:#dfe5ea;--bg:#f7f9fb;--ok:#1d7a46;--warn:#9a6b00;--bad:#b3261e;--acc:#1f5fa8}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:14px 24px;position:sticky;top:0;z-index:2}
+header .t{font-weight:700;font-size:17px}header nav a{margin-right:14px;color:var(--acc);text-decoration:none}
+header nav a.on{font-weight:700;text-decoration:underline}
+main{max-width:1180px;margin:0 auto;padding:22px 24px 60px}
+h1{font-size:24px;margin:6px 0 4px}h2{font-size:18px;margin:28px 0 8px}p.lead{color:var(--mut);margin:0 0 14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.tile .n{font-size:26px;font-weight:700}.tile .l{color:var(--mut);font-size:13px}
+.note{background:#fff;border-left:4px solid var(--acc);padding:10px 14px;margin:12px 0;border-radius:6px}
+.note.warn{border-color:var(--warn)}.note.bad{border-color:var(--bad)}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:7px 9px;border-bottom:1px solid var(--line)}
+th{background:#eef3f7;font-weight:600;position:sticky;top:0}tr:nth-child(even) td{background:#fbfcfd}
+td.num,th.num{text-align:right;white-space:nowrap}
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.badge.ok{background:#e4f5ea;color:var(--ok)}.badge.warn{background:#fff3d6;color:var(--warn)}
+.badge.bad{background:#fde5e3;color:var(--bad)}.badge.muted{background:#eceff2;color:var(--mut)}
+.none{color:var(--mut);font-style:italic}code{font-size:12.5px;background:#eef3f7;padding:1px 4px;border-radius:4px}
+.small{color:var(--mut);font-size:12.5px}.scroll{overflow-x:auto}
+footer{color:var(--mut);font-size:12.5px;margin-top:30px}
+</style></head>
+<body>
+<header><div class="t">NBA3 · independent verification audit (arena/00b0c780-nba3)</div>
+<nav><a href="index.html" class=on>Summary</a><a href="finals.html">11/15 finals</a><a href="injuries.html">Injury index</a><a href="picks.html">11/15 picks</a><a href="requirements.html">Requirements</a><a href="flagged.html">Flagged for review</a> <a href="https://wingbangboozle1-lang.github.io/NBA3/">← main dashboard</a></nav></header>
+<main>
+<h1>Verification audit — 00b0c780</h1><p class="lead">Independent official-source checks and a requirement-by-requirement status, for review before anything is changed.</p>
+<p class="lead">A line-by-line check of the 2026-11-15 results and the 2026-11-16 injury index against the official NBA pages, plus a status for each of the 30 brief items. It reads the repo and the official sources; it changes nothing on the published site.</p><div class="tiles"><div class="tile"><div class="n">8/9</div><div class="l">11/15 finals fully verified (1 quarter conflict)</div></div><div class="tile"><div class="n">0/9</div><div class="l">11/15 finals settled on main</div></div><div class="tile"><div class="n">39</div><div class="l">injury reports listed for 11/16 (newest 9:30 AM ET)</div></div><div class="tile"><div class="n">2/30</div><div class="l">brief items fully met · 20 partly · 6 built but stale, failing or negative · 2 not met or blocked</div></div><div class="tile"><div class="n">17</div><div class="l">irregularities flagged (owners named)</div></div></div><h2>What the audit found</h2><ol><li><b>The 11/15 finals are verified, but not settled on main.</b> Nine games are Final on nba.com. Eight are verified from both official reads. ATL @ MIL has a quarter conflict inside its game book. PR #98 settles four and matches this audit exactly. Five are settled nowhere (K-03).</li><li><b>The published window is one day behind.</b> It starts 2026-11-15, a day already played (K-04). The injuries banner shows the 11/15 06:15 AM report; the official index lists reports to 9:30 AM ET on 11/16 (K-05).</li><li><b>The scheduled refresh is failing.</b> Three of the last four scheduled runs failed, one at the commit step, so no fresh data reaches main (K-01).</li><li><b>Two brief items are blocked or missing data.</b> No closing line or licensed odds exist, so the market-anchored prior cannot be built (K-08). Standings are not captured by any job (K-07).</li><li><b>Arena coordinates are from Wikipedia</b>, not an official source, so travel distances are unverified (K-06).</li><li><b>The totals model does not beat its baseline</b> and is published as a negative result (K-11).</li></ol><h2>Pages</h2><ul><li><a href="finals.html">11/15 finals</a> — nine games, the two official reads, and where each one stands</li><li><a href="injuries.html">Injury index</a> — every 11/16 report listed, against the banner on main</li><li><a href="picks.html">11/15 picks</a> — the two published moneyline picks, read against the finals</li><li><a href="requirements.html">Requirements</a> — the 30 brief items with status, evidence and gaps</li><li><a href="flagged.html">Flagged for review</a> — irregularities, owners and sources</li></ul><div class="note"><b>Scope and limits.</b> The sandbox could not reach nba.com directly; values were read with the fetch tool and transcribed by hand. The 11/16 injury PDFs are linked from the official index but were not fetched. Repo evidence links point to <code>main</code>, not to official sites.</div>
+<footer>Data retrieved 2026-11-16T14:30Z from the official pages linked on each row. Generated by
+<code>audit_00b0c780/build.py</code> from <code>audit_00b0c780/data/*.json</code>. Repo links point to
+<code>main</code>. Nothing on this page is written to the ledger, the results feed or the projection surface.</footer>
+</main></body></html>

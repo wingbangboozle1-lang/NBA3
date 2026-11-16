@@ -465,6 +465,18 @@ jobs:
             exit 1
           }
 
+      - name: Audit 00b0c780 — rebuild from data, drift check, unit tests (arena/00b0c780-nba3)
+        run: |
+          python3 audit_00b0c780/make_data.py
+          python3 audit_00b0c780/build.py
+          test -z "$(git status --porcelain -- audit_00b0c780/)" || {
+            echo 'audit_00b0c780/ drifted: committed data or pages do not reproduce'
+            git status --porcelain -- audit_00b0c780/
+            exit 1
+          }
+          python3 -m unittest discover -s audit_00b0c780 -p 'test_*.py'
+          rm -rf audit_00b0c780/__pycache__
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -479,6 +491,7 @@ jobs:
           cp -r audit_94e6d41b _pages/audit_94e6d41b
           cp -r audit_736efb4b _pages/audit_736efb4b
           cp -r audit_7f3b89af _pages/audit_7f3b89af
+          cp -r audit_00b0c780 _pages/audit_00b0c780
           cp executive-summary.html _pages/
           cp -r dashboard _pages/dashboard
           cp -r docs _pages/docs

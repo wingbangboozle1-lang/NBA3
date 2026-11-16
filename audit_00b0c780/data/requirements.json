@@ -1,0 +1,542 @@
+{
+ "schema": "audit_00b0c780/requirements/v1",
+ "retrieved": "2026-11-16T14:30Z",
+ "statuses": [
+  "Met",
+  "Met (partly)",
+  "Built, stale",
+  "Built, failing",
+  "Built, negative result",
+  "Built, one-day input",
+  "Not met",
+  "Blocked (external)"
+ ],
+ "note": "Brief items extracted from the task text, in order. Status is what the repository shows at this commit; evidence paths are checked by test_audit.py.",
+ "items": [
+  {
+   "id": "R01",
+   "item": "Collect, organise and analyse NBA data",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "data/app/official_team_stats_2026-11-15.json",
+     "contains": "\"traditional\""
+    },
+    {
+     "path": "data/app/player_game_logs.json",
+     "contains": "\"coverage_note\""
+    }
+   ],
+   "gap": "Standings are not captured by any job (see K-07). Per-player logs cover 11/14 only (K-10).",
+   "next": "Add a standings fetch to the scheduled job; extend game-book capture to every final.",
+   "official": [
+    "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season"
+   ]
+  },
+  {
+   "id": "R02",
+   "item": "Scheduled job refreshes schedule, standings, team stats and injury report per slate; rebuild only after freshness and provenance gates pass",
+   "status": "Built, failing",
+   "evidence": [
+    {
+     "path": "scripts/refresh_official.py",
+     "contains": "INJ_INDEX"
+    },
+    {
+     "path": ".github/workflows/refresh.yml",
+     "contains": "scripts/refresh_official.py"
+    },
+    {
+     "path": "scripts/freshness_gates.py",
+     "contains": null
+    }
+   ],
+   "gap": "Run 43864808752 failed at the commit step; run 43815576157 also failed (K-01). Standings missing (K-07). Published window is one day behind (K-04).",
+   "next": "Diagnose the commit-step failure from the run log; then rerun the scheduled job.",
+   "official": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "R03",
+   "item": "Keep an official per-game result feed current; settle only after final scores are verified; one row per game (date, teams, final, quarter scores)",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "data/app/results_feed.json",
+     "contains": "\"settled_count\": 14"
+    },
+    {
+     "path": "scripts/build_results_feed.py",
+     "contains": null
+    }
+   ],
+   "gap": "14 settled rows on main, none for 2026-11-15 (K-03). 2026-11-13 rows carry no quarter scores (see the feed's own quarter_check field).",
+   "next": "Settle the nine 11/15 finals after both official reads agree (K-02 quarter conflict to be resolved first).",
+   "official": [
+    "https://www.nba.com/schedule",
+    "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf"
+   ]
+  },
+  {
+   "id": "R04",
+   "item": "Store every injury PDF with its timestamp and diff consecutive reports to detect status changes",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "scripts/injury_archive.py",
+     "contains": null
+    },
+    {
+     "path": "scripts/injury_delta_0415am.py",
+     "contains": null
+    }
+   ],
+   "gap": "Only a selection of reports is stored; the official index lists 39 reports for 11/16 alone (K-12).",
+   "next": "Archive every listed PDF with its revision time and sha256; diff each consecutive pair.",
+   "official": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "R05",
+   "item": "Freeze a pre-registration file per strategy before its first bet (signal, thresholds, universe, exact settlement rule)",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "scripts/ledger.py",
+     "contains": "already frozen; pre-registration is write-once"
+    },
+    {
+     "path": "prereg/S2_ESTIMATOR_DISAGREEMENT.json",
+     "contains": null
+    }
+   ],
+   "gap": "Two pre-registration sets exist (prereg/ with 3 files, data/app/prereg/ with 15). Which one is binding is not stated.",
+   "next": "Name one authoritative prereg directory and point the other at it.",
+   "official": []
+  },
+  {
+   "id": "R06",
+   "item": "Tamper-evident ledger: hash each published pick, publish the hash before tip, verify after settlement",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "ledger/ledger.jsonl",
+     "contains": "\"kind\": \"PUBLISH\""
+    },
+    {
+     "path": "ledger/index.json",
+     "contains": "\"verified\": true"
+    }
+   ],
+   "gap": "Publish side works (2026-11-15 entries stamped 12:10Z, before the 18:00Z tip). Zero settlements on main (K-03).",
+   "next": "Settle through the ledger's own settle() once K-02 is resolved.",
+   "official": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "R07",
+   "item": "Split the site into 'projection' (safe to publish now) and 'bet' (gated) surfaces, never mixed",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "index.html",
+     "contains": "Bet surface (gated)"
+    },
+    {
+     "path": "projection/index.html",
+     "contains": null
+    },
+    {
+     "path": "bet/index.html",
+     "contains": null
+    }
+   ],
+   "gap": "The split is by navigation group. This audit did not verify that a bet-gated number never appears on a projection page.",
+   "next": "Add a build check that scans projection/ for bet-only fields.",
+   "official": []
+  },
+  {
+   "id": "R08",
+   "item": "Keep two independent estimators and publish their disagreement as the primary confidence signal",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "scripts/estimators.py",
+     "contains": "disagreement_pp"
+    },
+    {
+     "path": "data/app/estimators.json",
+     "contains": null
+    }
+   ],
+   "gap": "The disagreement is carried in picks and the ledger headline, not on the landing page (see R13).",
+   "next": "Show the disagreement as the first number on the projection index.",
+   "official": []
+  },
+  {
+   "id": "R09",
+   "item": "Pin home-court advantage to the measured home-win rate instead of fitting it freely",
+   "status": "Met",
+   "evidence": [
+    {
+     "path": "scripts/estimators.py",
+     "contains": "def pinned_hca"
+    }
+   ],
+   "gap": "None found at code level.",
+   "next": "None.",
+   "official": []
+  },
+  {
+   "id": "R10",
+   "item": "Report luck as a z-score per team; refuse to publish a strategy that leans on a team outside the noise band",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "pipeline/v2/stats.py",
+     "contains": "def noise_band"
+    },
+    {
+     "path": "pipeline/v2/build.py",
+     "contains": "noise_band("
+    }
+   ],
+   "gap": "Z-scores and the band are computed and displayed. No strategy-level refusal rule that uses the band was found in the code paths read.",
+   "next": "Add an explicit gate: a strategy with a team outside the band is not published.",
+   "official": []
+  },
+  {
+   "id": "R11",
+   "item": "Compute rest, back-to-back and 3-in-4 from the official schedule; add travel distance from a sourced arena-coordinate table",
+   "status": "Built, stale",
+   "evidence": [
+    {
+     "path": "scripts/rest_travel.py",
+     "contains": null
+    },
+    {
+     "path": "data/app/arena_coordinates.json",
+     "contains": "from Wikipedia"
+    }
+   ],
+   "gap": "Arena coordinates come from Wikipedia, not an official source (K-06). Two arenas are blank.",
+   "next": "Source coordinates from an official or venue-operator page, or mark distances unverified.",
+   "official": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "R12",
+   "item": "Model minutes redistribution: top-8 minutes shares per team and replacement shares when a player is out",
+   "status": "Built, one-day input",
+   "evidence": [
+    {
+     "path": "scripts/minutes_model.py",
+     "contains": "replacement_share_from_out_players"
+    },
+    {
+     "path": "data/app/minutes_shares.json",
+     "contains": null
+    }
+   ],
+   "gap": "Top-8 shares prefer the 2026-11-14 game-book measurement and fall back to a season snapshot where a team is missing (K-09).",
+   "next": "Measure shares over every completed game in the window, not one day.",
+   "official": [
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+   ]
+  },
+  {
+   "id": "R13",
+   "item": "Stop publishing a single blended rating as the headline; headline the estimator disagreement, blend underneath",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "ledger/ledger.jsonl",
+     "contains": "\"headline_signal\": \"disagreement"
+    },
+    {
+     "path": "index.html",
+     "contains": "We originate our own NBA lines"
+    }
+   ],
+   "gap": "The landing page headline is the origination sentence and inventory counts, not the disagreement.",
+   "next": "Make the disagreement the landing page's first figure.",
+   "official": []
+  },
+  {
+   "id": "R14",
+   "item": "Price every parlay with the measured rho and print the naive product next to it",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "pipeline/v2/pricing.py",
+     "contains": "naive"
+    },
+    {
+     "path": "app/parlays.html",
+     "contains": "Naive product"
+    }
+   ],
+   "gap": "The measured rho depends on per-player logs, which exist for 11/14 only (K-10).",
+   "next": "Extend player logs, then re-measure rho.",
+   "official": []
+  },
+  {
+   "id": "R15",
+   "item": "Put rotation availability on the picks page as its own column",
+   "status": "Met",
+   "evidence": [
+    {
+     "path": "app/picks.html",
+     "contains": "Rotation availability"
+    }
+   ],
+   "gap": "None found at page level.",
+   "next": "None.",
+   "official": []
+  },
+  {
+   "id": "R16",
+   "item": "Market-anchored prior: blend the model line with the closing line, weighted by measured out-of-sample log-loss",
+   "status": "Blocked (external)",
+   "evidence": [
+    {
+     "path": "pipeline/v2/strategies.py",
+     "contains": "there is no closing line in this repository"
+    }
+   ],
+   "gap": "No closing line and no licensed odds feed exist in the repository (K-08).",
+   "next": "Obtain a licensed odds feed or owner-captured closing prices under their terms.",
+   "official": []
+  },
+  {
+   "id": "R17",
+   "item": "Model the total as possessions × points-per-possession, not as an average of team scoring averages",
+   "status": "Built, negative result",
+   "evidence": [
+    {
+     "path": "pipeline/v2/build.py",
+     "contains": "possession x PPP total RMSE"
+    }
+   ],
+   "gap": "The possession formulation does not beat the naive baseline (flag FV2-08, K-11).",
+   "next": "Publish as a negative result; improve pace estimation before any total is priced.",
+   "official": []
+  },
+  {
+   "id": "R18",
+   "item": "Show the injury-report revision time and retrieval time in the Injuries page banner",
+   "status": "Built, stale",
+   "evidence": [
+    {
+     "path": "app/injuries.html",
+     "contains": "retrieval time"
+    }
+   ],
+   "gap": "The banner shows the 2026-11-15 06:15 AM report while the official index lists reports to 9:30 AM ET on 11/16 (K-05). It prints two retrieval stamps, 11:40Z and 11:33Z.",
+   "next": "Re-point the banner to the newest listed report; print one retrieval stamp.",
+   "official": [
+    "https://official.nba.com/nba-injury-report-2026-27-season/"
+   ]
+  },
+  {
+   "id": "R19",
+   "item": "Settle the sealed ledger from official finals as soon as each game day ends; keep the settlement stamp visible",
+   "status": "Not met",
+   "evidence": [
+    {
+     "path": "app/settlement.html",
+     "contains": "settled at"
+    },
+    {
+     "path": "ledger/index.json",
+     "contains": "\"settled\": 0"
+    }
+   ],
+   "gap": "Nine 11/15 games are Final; the ledger on main has zero settlements (K-03).",
+   "next": "Settle 11/15 (after K-02) and show the stamp on the settlement page.",
+   "official": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "R20",
+   "item": "Re-read the three official team-stat pages (traditional, opponent, advanced) and re-cut the model inputs",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "data/app/official_team_stats_2026-11-15.json",
+     "contains": "\"advanced\""
+    }
+   ],
+   "gap": "The three pages were captured for 2026-11-15; a re-cut of the published model inputs from them was not confirmed.",
+   "next": "Confirm which model run consumes this capture and record it.",
+   "official": [
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season"
+   ]
+  },
+  {
+   "id": "R21",
+   "item": "Capture per-player game logs (minutes, points, rebounds, assists, opponent) for at least the players on an injury report",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "data/app/player_game_logs.json",
+     "contains": "\"count\": 173"
+    }
+   ],
+   "gap": "173 rows, all from 2026-11-14. Players on teams that did not play 11/14 are absent (K-10).",
+   "next": "Append every completed game's book, as the scheduled job is meant to do.",
+   "official": [
+    "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+   ]
+  },
+  {
+   "id": "R22",
+   "item": "Originate own NBA lines; research strategies; run a leaderboard with rewards; cover single bets, parlays and player-prop combos; validation gates; correlations",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "app/leaderboard.html",
+     "contains": null
+    },
+    {
+     "path": "app/strategies.html",
+     "contains": null
+    },
+    {
+     "path": "app/correlations.html",
+     "contains": null
+    }
+   ],
+   "gap": "Screened board only: no strategy is funded (requirements.csv RQ03/RQ04). Player-prop pricing is absent without per-player logs (see app/parlays.html).",
+   "next": "Owner decision on the reward schedule; capture logs before pricing props.",
+   "official": []
+  },
+  {
+   "id": "R23",
+   "item": "Generate picks for every upcoming slate up to three days in advance using the originated lines",
+   "status": "Built, stale",
+   "evidence": [
+    {
+     "path": "data/app/snapshot_manifest.json",
+     "contains": "\"from\": \"2026-11-15\""
+    }
+   ],
+   "gap": "The window starts 2026-11-15, a day already played, while today is 2026-11-16 (K-04).",
+   "next": "Roll the window to 2026-11-16 → 2026-11-19 through the gated refresh.",
+   "official": [
+    "https://www.nba.com/schedule"
+   ]
+  },
+  {
+   "id": "R24",
+   "item": "Track how injuries could affect rotation minutes and production; provide game-flow analysis",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "scripts/minutes_model.py",
+     "contains": "top8"
+    },
+    {
+     "path": "app/gameflow.html",
+     "contains": null
+    }
+   ],
+   "gap": "Minutes are modelled. Production (points, rebounds, assists) is not modelled from the injury; no code path found.",
+   "next": "Add a production model fitted on the captured logs, or state it as not built.",
+   "official": []
+  },
+  {
+   "id": "R25",
+   "item": "Create an executive summary outlining the important details",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "app/summary.html",
+     "contains": null
+    }
+   ],
+   "gap": "Page present; content not re-read in this audit. The window it summarises is stale (K-04).",
+   "next": "Refresh with the window; re-read the page.",
+   "official": []
+  },
+  {
+   "id": "R26",
+   "item": "Make suggestions on how to improve the site and create a suggestions section to review before implementing",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "app/suggestions.html",
+     "contains": null
+    }
+   ],
+   "gap": "Page present; content not re-read in this audit.",
+   "next": "Owner review.",
+   "official": []
+  },
+  {
+   "id": "R27",
+   "item": "A clear list of questions, information and answers that must be addressed before any decision; suggestions to discover missing information",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "app/questions.html",
+     "contains": null
+    }
+   ],
+   "gap": "Page present; content not re-read in this audit.",
+   "next": "Owner review.",
+   "official": []
+  },
+  {
+   "id": "R28",
+   "item": "Repo review line by line with official links for manual review; flag irregularities",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "app/review.html",
+     "contains": null
+    },
+    {
+     "path": "app/flagged.html",
+     "contains": null
+    }
+   ],
+   "gap": "The existing review was not re-read in full here. This audit adds K-01…K-16.",
+   "next": "Merge this register into the Flagged page at integration.",
+   "official": []
+  },
+  {
+   "id": "R29",
+   "item": "GitHub Pages site: clean landing page and category subpages; every table row links an official source; unverified values blank and flagged",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "index.html",
+     "contains": "Verified official rows"
+    }
+   ],
+   "gap": "The landing page is dense (overview, projection, bet, verification and archive groups). Source-link coverage per page was not re-checked in this audit.",
+   "next": "Keep the landing to one screen; enforce the source-link check on every table.",
+   "official": []
+  },
+  {
+   "id": "R30",
+   "item": "Parallel sessions coordinate on COORDINATION.md; PR, merge and Pages deploy",
+   "status": "Met (partly)",
+   "evidence": [
+    {
+     "path": "COORDINATION.md",
+     "contains": "Session `arena/00b0c780-nba3`"
+    }
+   ],
+   "gap": "Five PRs are open over shared outputs (K-15). Pages deploy is confirmed only after the merge.",
+   "next": "Integration owner to merge in dependency order.",
+   "official": []
+  }
+ ]
+}

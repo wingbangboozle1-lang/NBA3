@@ -26,8 +26,10 @@ that existed.
 
 ## Known extraction artifacts (both files)
 
-1. Player-name spelling differs between consecutive reports, e.g. `Embid, Joel` (06:00) vs
-   `Embiid, Joel` (06:15). The diff treats these as **the same player** only when the normalised
+1. Player-name spelling differs between consecutive reports: the official [06:00 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_00AM.pdf)
+   says `Embiid, Joel`, while the official [06:15 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf)
+   says `Embid, Joel`. The [12:00 AM PDF](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_12_00AM.pdf)
+   says `Embiid, Joel`. The diff treats these as **the same player** only when the normalised
    key (lowercase, punctuation stripped) matches; otherwise it reports an add + a remove and says
    so. The measured diff reports both cases separately.
 2. Team cell dropped on some rows (`Sexton, Collin`, `Thiero, Adou`, `Simmons, Ben`), so those

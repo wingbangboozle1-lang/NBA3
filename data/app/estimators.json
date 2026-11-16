@@ -7,7 +7,7 @@
   "totals": "possessions x points-per-possession (estimator B) beside the ridge total (A)",
   "parlays": "measured rho printed with every correlated price; naive product printed beside it",
   "market_prior": "blank unless a closing-line feed is connected; weight formula printed in data/app/closing_lines.json",
-  "disagreement_headline_mean": 6.3
+  "disagreement_headline_mean": 7.1
  },
  "hca_measurement": {
   "home_wins": 99,
@@ -385,60 +385,6 @@
   }
  },
  "window": [
-  {
-   "game_id": "0022600232",
-   "date": "2026-11-15",
-   "tip_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "est_a_margin": 1.4,
-   "est_b_margin": 2.6,
-   "disagreement_abs": 1.2,
-   "blend_margin": 2.0,
-   "est_a_total": 110.8,
-   "est_b_total": 232.0,
-   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
-   "possessions": 100.1,
-   "blend_total": 171.4,
-   "home_win_prob": 0.55,
-   "hca_points_pinned": 1.13,
-   "rest": {
-    "away": {
-     "days_rest": 1,
-     "b2b": true,
-     "three_in_4": true,
-     "last_game": "2026-11-14"
-    },
-    "home": {
-     "days_rest": 1,
-     "b2b": true,
-     "three_in_4": true,
-     "last_game": "2026-11-14"
-    }
-   },
-   "travel_km": {
-    "away": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    },
-    "home": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    }
-   },
-   "luck_z": {
-    "away": 0.54,
-    "home": -0.38
-   },
-   "luck_band_flag": [],
-   "sources": [
-    "https://www.nba.com/games?date=2026-11-14",
-    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-    "https://www.nba.com/games?date=2026-11-15"
-   ]
-  },
   {
    "game_id": "0022600236",
    "date": "2026-11-15",
@@ -823,6 +769,62 @@
    ]
   },
   {
+   "game_id": "0022600243",
+   "date": "2026-11-15",
+   "tip_et": null,
+   "away": "ATL",
+   "home": "MIL",
+   "est_a_margin": -3.1,
+   "est_b_margin": -14.8,
+   "disagreement_abs": 11.7,
+   "blend_margin": -9.0,
+   "est_a_total": 107.9,
+   "est_b_total": 229.2,
+   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
+   "possessions": 101.9,
+   "blend_total": 168.5,
+   "home_win_prob": 0.289,
+   "hca_points_pinned": 1.13,
+   "rest": {
+    "away": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    },
+    "home": {
+     "days_rest": 2,
+     "b2b": false,
+     "three_in_4": false,
+     "last_game": "2026-11-13"
+    }
+   },
+   "travel_km": {
+    "away": {
+     "km": 131.0,
+     "from_arena": "United Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    },
+    "home": {
+     "km": 1715.9,
+     "from_arena": "Kia Center",
+     "method": "haversine on Wikipedia arena coordinates (reference source)"
+    }
+   },
+   "luck_z": {
+    "away": -0.19,
+    "home": -2.08
+   },
+   "luck_band_flag": [
+    "MIL outside |z|>2 luck noise band"
+   ],
+   "sources": [
+    "https://www.nba.com/games?date=2026-11-14",
+    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+    "https://www.nba.com/games?date=2026-11-15"
+   ]
+  },
+  {
    "game_id": "0022600244",
    "date": "2026-11-15",
    "tip_et": null,
@@ -868,60 +870,6 @@
    "luck_z": {
     "away": 0.01,
     "home": -1.95
-   },
-   "luck_band_flag": [],
-   "sources": [
-    "https://www.nba.com/games?date=2026-11-14",
-    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-    "https://www.nba.com/games?date=2026-11-15"
-   ]
-  },
-  {
-   "game_id": "0022600232",
-   "date": "2026-11-16",
-   "tip_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "est_a_margin": 1.4,
-   "est_b_margin": 2.6,
-   "disagreement_abs": 1.2,
-   "blend_margin": 2.0,
-   "est_a_total": 110.8,
-   "est_b_total": 232.0,
-   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
-   "possessions": 100.1,
-   "blend_total": 171.4,
-   "home_win_prob": 0.55,
-   "hca_points_pinned": 1.13,
-   "rest": {
-    "away": {
-     "days_rest": 2,
-     "b2b": false,
-     "three_in_4": false,
-     "last_game": "2026-11-14"
-    },
-    "home": {
-     "days_rest": 2,
-     "b2b": false,
-     "three_in_4": true,
-     "last_game": "2026-11-14"
-    }
-   },
-   "travel_km": {
-    "away": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    },
-    "home": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    }
-   },
-   "luck_z": {
-    "away": 0.54,
-    "home": -0.38
    },
    "luck_band_flag": [],
    "sources": [
@@ -1365,60 +1313,6 @@
    ]
   },
   {
-   "game_id": "0022600232",
-   "date": "2026-11-17",
-   "tip_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "est_a_margin": 1.4,
-   "est_b_margin": 2.6,
-   "disagreement_abs": 1.2,
-   "blend_margin": 2.0,
-   "est_a_total": 110.8,
-   "est_b_total": 232.0,
-   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
-   "possessions": 100.1,
-   "blend_total": 171.4,
-   "home_win_prob": 0.55,
-   "hca_points_pinned": 1.13,
-   "rest": {
-    "away": {
-     "days_rest": 3,
-     "b2b": false,
-     "three_in_4": false,
-     "last_game": "2026-11-14"
-    },
-    "home": {
-     "days_rest": 3,
-     "b2b": false,
-     "three_in_4": false,
-     "last_game": "2026-11-14"
-    }
-   },
-   "travel_km": {
-    "away": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    },
-    "home": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    }
-   },
-   "luck_z": {
-    "away": 0.54,
-    "home": -0.38
-   },
-   "luck_band_flag": [],
-   "sources": [
-    "https://www.nba.com/games?date=2026-11-14",
-    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-    "https://www.nba.com/games?date=2026-11-15"
-   ]
-  },
-  {
    "game_id": "0022600253",
    "date": "2026-11-17",
    "tip_et": null,
@@ -1686,60 +1580,6 @@
    "luck_band_flag": [
     "UTA outside |z|>2 luck noise band"
    ],
-   "sources": [
-    "https://www.nba.com/games?date=2026-11-14",
-    "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
-    "https://www.nba.com/games?date=2026-11-15"
-   ]
-  },
-  {
-   "game_id": "0022600232",
-   "date": "2026-11-18",
-   "tip_et": null,
-   "away": "DAL",
-   "home": "CLE",
-   "est_a_margin": 1.4,
-   "est_b_margin": 2.6,
-   "disagreement_abs": 1.2,
-   "blend_margin": 2.0,
-   "est_a_total": 110.8,
-   "est_b_total": 232.0,
-   "total_model": "possessions x PPP (est. B); ridge total (est. A)",
-   "possessions": 100.1,
-   "blend_total": 171.4,
-   "home_win_prob": 0.55,
-   "hca_points_pinned": 1.13,
-   "rest": {
-    "away": {
-     "days_rest": 4,
-     "b2b": false,
-     "three_in_4": false,
-     "last_game": "2026-11-14"
-    },
-    "home": {
-     "days_rest": 4,
-     "b2b": false,
-     "three_in_4": false,
-     "last_game": "2026-11-14"
-    }
-   },
-   "travel_km": {
-    "away": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    },
-    "home": {
-     "km": 0.0,
-     "from_arena": "Rocket Arena",
-     "method": "haversine on Wikipedia arena coordinates (reference source)"
-    }
-   },
-   "luck_z": {
-    "away": 0.54,
-    "home": -0.38
-   },
-   "luck_band_flag": [],
    "sources": [
     "https://www.nba.com/games?date=2026-11-14",
     "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
@@ -2403,17 +2243,6 @@
  ],
  "parlay_prices": [
   {
-   "game_id": "0022600232",
-   "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.5494,
-   "p_over": 0.5,
-   "rho_measured": -0.031,
-   "joint_price_rho": 0.2796,
-   "naive_product": 0.2747,
-   "ratio_joint_over_naive": 1.018,
-   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
-  },
-  {
    "game_id": "0022600236",
    "legs": "home side + over (same game, our own lines)",
    "p_side": 0.5811,
@@ -2491,6 +2320,17 @@
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
+   "game_id": "0022600243",
+   "legs": "home side + over (same game, our own lines)",
+   "p_side": 0.2883,
+   "p_over": 0.5,
+   "rho_measured": -0.031,
+   "joint_price_rho": 0.1485,
+   "naive_product": 0.1442,
+   "ratio_joint_over_naive": 1.03,
+   "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
+  },
+  {
    "game_id": "0022600244",
    "legs": "home side + over (same game, our own lines)",
    "p_side": 0.2862,
@@ -2502,14 +2342,14 @@
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   },
   {
-   "game_id": "0022600232",
+   "game_id": "0022600245",
    "legs": "home side + over (same game, our own lines)",
-   "p_side": 0.5494,
+   "p_side": 0.7466,
    "p_over": 0.5,
    "rho_measured": -0.031,
-   "joint_price_rho": 0.2796,
-   "naive_product": 0.2747,
-   "ratio_joint_over_naive": 1.018,
+   "joint_price_rho": 0.3773,
+   "naive_product": 0.3733,
+   "ratio_joint_over_naive": 1.011,
    "method": "bivariate normal with rho = measured correlation of the ridge model's margin and total residuals over the official completed-game log"
   }
  ],

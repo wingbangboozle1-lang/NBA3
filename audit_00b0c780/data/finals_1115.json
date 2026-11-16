@@ -1,0 +1,588 @@
+{
+ "schema": "audit_00b0c780/finals_1115/v1",
+ "retrieved": "2026-11-16T14:30Z",
+ "purpose": "Independent read of the nine 2026-11-15 finals. Not a settlement: nothing here is written to data/live, data/app or ledger/. Settlement stays with the owners of PR #98 and the scheduled refresh.",
+ "counts": {
+  "games": 9,
+  "verified": 8,
+  "final_verified_quarter_conflict": 1,
+  "not_verified": 0,
+  "on_main_results_feed": 0,
+  "on_pr98_branch": 4
+ },
+ "games": [
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600236",
+   "away": "IND",
+   "home": "PHI",
+   "away_name": "Indiana Pacers",
+   "home_name": "Philadelphia 76ers",
+   "state_on_schedule": "Final",
+   "away_final": 124,
+   "home_final": 131,
+   "away_periods_book": [
+    35,
+    22,
+    30,
+    37
+   ],
+   "home_periods_book": [
+    29,
+    29,
+    39,
+    34
+   ],
+   "checks": {
+    "game_id": "0022600236",
+    "matchup": "IND @ PHI",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    },
+    "main_or_pr98": {
+     "pr98_periods_equal_book": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": true,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/ind-vs-phi-0022600236",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_INDPHI.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600237",
+   "away": "LAL",
+   "home": "PHX",
+   "away_name": "Los Angeles Lakers",
+   "home_name": "Phoenix Suns",
+   "state_on_schedule": "Final",
+   "away_final": 131,
+   "home_final": 123,
+   "away_periods_book": [
+    33,
+    31,
+    40,
+    27
+   ],
+   "home_periods_book": [
+    24,
+    30,
+    26,
+    43
+   ],
+   "checks": {
+    "game_id": "0022600237",
+    "matchup": "LAL @ PHX",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    },
+    "main_or_pr98": {
+     "pr98_periods_equal_book": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": true,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/lal-vs-phx-0022600237",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_LALPHX.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600238",
+   "away": "CHA",
+   "home": "LAC",
+   "away_name": "Charlotte Hornets",
+   "home_name": "LA Clippers",
+   "state_on_schedule": "Final",
+   "away_final": 105,
+   "home_final": 113,
+   "away_periods_book": [
+    21,
+    31,
+    31,
+    22
+   ],
+   "home_periods_book": [
+    22,
+    29,
+    33,
+    29
+   ],
+   "checks": {
+    "game_id": "0022600238",
+    "matchup": "CHA @ LAC",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    },
+    "main_or_pr98": {
+     "pr98_periods_equal_book": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": true,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/cha-vs-lac-0022600238",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_CHALAC.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600239",
+   "away": "SAS",
+   "home": "UTA",
+   "away_name": "San Antonio Spurs",
+   "home_name": "Utah Jazz",
+   "state_on_schedule": "Final",
+   "away_final": 110,
+   "home_final": 102,
+   "away_periods_book": [
+    31,
+    27,
+    23,
+    29
+   ],
+   "home_periods_book": [
+    33,
+    22,
+    26,
+    21
+   ],
+   "checks": {
+    "game_id": "0022600239",
+    "matchup": "SAS @ UTA",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    },
+    "main_or_pr98": {
+     "pr98_periods_equal_book": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": true,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/sas-vs-uta-0022600239",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_SASUTA.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600240",
+   "away": "DAL",
+   "home": "BOS",
+   "away_name": "Dallas Mavericks",
+   "home_name": "Boston Celtics",
+   "state_on_schedule": "Final",
+   "away_final": 94,
+   "home_final": 131,
+   "away_periods_book": [
+    9,
+    28,
+    34,
+    23
+   ],
+   "home_periods_book": [
+    42,
+    25,
+    37,
+    27
+   ],
+   "checks": {
+    "game_id": "0022600240",
+    "matchup": "DAL @ BOS",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": false,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/dal-vs-bos-0022600240",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_DALBOS.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600241",
+   "away": "NYK",
+   "home": "TOR",
+   "away_name": "New York Knicks",
+   "home_name": "Toronto Raptors",
+   "state_on_schedule": "Final/OT",
+   "away_final": 112,
+   "home_final": 108,
+   "away_periods_book": [
+    23,
+    24,
+    20,
+    28,
+    17
+   ],
+   "home_periods_book": [
+    17,
+    26,
+    31,
+    21,
+    13
+   ],
+   "checks": {
+    "game_id": "0022600241",
+    "matchup": "NYK @ TOR",
+    "ot": true,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": false,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/nyk-vs-tor-0022600241",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_NYKTOR.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600242",
+   "away": "HOU",
+   "home": "WAS",
+   "away_name": "Houston Rockets",
+   "home_name": "Washington Wizards",
+   "state_on_schedule": "Final",
+   "away_final": 147,
+   "home_final": 119,
+   "away_periods_book": [
+    36,
+    37,
+    46,
+    28
+   ],
+   "home_periods_book": [
+    31,
+    23,
+    34,
+    31
+   ],
+   "checks": {
+    "game_id": "0022600242",
+    "matchup": "HOU @ WAS",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": false,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/hou-vs-was-0022600242",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_HOUWAS.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600243",
+   "away": "ATL",
+   "home": "MIL",
+   "away_name": "Atlanta Hawks",
+   "home_name": "Milwaukee Bucks",
+   "state_on_schedule": "Final",
+   "away_final": 113,
+   "home_final": 106,
+   "away_periods_book": [
+    18,
+    37,
+    32,
+    26
+   ],
+   "home_periods_book": [
+    37,
+    16,
+    37,
+    26
+   ],
+   "checks": {
+    "game_id": "0022600243",
+    "matchup": "ATL @ MIL",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": false
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    },
+    "period_table_vs_summary_conflict": {
+     "table_home_periods": [
+      37,
+      16,
+      37,
+      26
+     ],
+     "summary_home_periods": [
+      37,
+      16,
+      27,
+      26
+     ],
+     "conflicting_periods": [
+      3
+     ],
+     "summary_sum_equals_final": true,
+     "table_sum_equals_final": false
+    }
+   },
+   "status": "FINAL VERIFIED - quarter split CONFLICTING inside the official book (flag K-02)",
+   "on_main_results_feed": false,
+   "on_pr98_branch": false,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/atl-vs-mil-0022600243",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  },
+  {
+   "date": "2026-11-15",
+   "game_id": "0022600244",
+   "away": "OKC",
+   "home": "SAC",
+   "away_name": "Oklahoma City Thunder",
+   "home_name": "Sacramento Kings",
+   "state_on_schedule": "Final",
+   "away_final": 125,
+   "home_final": 103,
+   "away_periods_book": [
+    32,
+    30,
+    32,
+    31
+   ],
+   "home_periods_book": [
+    24,
+    26,
+    30,
+    23
+   ],
+   "checks": {
+    "game_id": "0022600244",
+    "matchup": "OKC @ SAC",
+    "ot": false,
+    "book_sum_equals_printed_final": {
+     "away": true,
+     "home": true
+    },
+    "schedule_equals_book_final": {
+     "away": true,
+     "home": true
+    },
+    "book_final_equals_schedule_final": {
+     "away": true,
+     "home": true
+    }
+   },
+   "status": "VERIFIED - final and quarter scores agree across both official reads",
+   "on_main_results_feed": false,
+   "on_pr98_branch": false,
+   "sources": [
+    {
+     "label": "nba.com schedule (final score, state)",
+     "url": "https://www.nba.com/schedule",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "nba.com game page",
+     "url": "https://www.nba.com/game/okc-vs-sac-0022600244",
+     "retrieved": "2026-11-16T14:30Z"
+    },
+    {
+     "label": "NBA official game book (statsdmz PDF)",
+     "url": "https://statsdmz.nba.com/pdfs/20261115/20261115_OKCSAC.pdf",
+     "retrieved": "2026-11-16T14:30Z"
+    }
+   ]
+  }
+ ]
+}

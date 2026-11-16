@@ -3,6 +3,7 @@
 No network: the fetcher is replaced by a fake that serves fixtures or raises.
 Run: python3 -m unittest tests/test_refresh_official.py
 """
+import json
 import os
 import sys
 import tempfile
@@ -144,6 +145,88 @@ class MainFlowTests(unittest.TestCase):
                 code = ro.main()
             self.assertEqual(code, 2)
             run.assert_not_called()
+
+
+def _card(away, home, gid, day):
+    # the shape of a real game card on an official games page (checked on the committed captures)
+    return (f'<a href="/game/{away.lower()}-vs-{home.lower()}-{gid}" data-track="click" '
+            f'data-type="card" data-content="{away} @ {home}, {day}" class="GameCard">x</a>')
+
+
+class SlatePromotionTests(unittest.TestCase):
+    """Session c449d46a: the slate comes from game CARDS on each date's own page only."""
+
+    def test_editorial_link_is_not_a_game(self):
+        # A newsletter embed on a date page links a game with a trailing slash, no card.
+        pages = {"2026-11-16": _card("ATL", "MIL", "0022600001", "2026-11-16")
+                 + '<a href="https://www.nba.com/game/dal-vs-cle-0022600232/">story</a>'}
+        rows, excluded = ro.promote_slate_rows(pages)
+        self.assertEqual([r["game_id"] for r in rows], ["0022600001"])
+        self.assertEqual(excluded, [])
+
+    def test_card_for_another_date_is_ignored(self):
+        pages = {"2026-11-16": _card("DAL", "CLE", "0022600232", "2026-11-14")}
+        rows, _ = ro.promote_slate_rows(pages)
+        self.assertEqual(rows, [])
+
+    def test_game_card_on_two_date_pages_is_excluded_not_guessed(self):
+        pages = {"2026-11-16": _card("ATL", "MIL", "0022600002", "2026-11-16"),
+                 "2026-11-17": _card("ATL", "MIL", "0022600002", "2026-11-17")}
+        rows, excluded = ro.promote_slate_rows(pages)
+        # each card matches its own page date, so this is the two-date case
+        self.assertEqual(rows, [])
+        self.assertEqual(len(excluded), 1)
+        self.assertEqual(excluded[0]["reason"], "game id on more than one date page")
+
+    def test_href_teams_must_match_card_teams(self):
+        html = ('<a href="/game/atl-vs-mil-0022600003" data-content="ATL @ BOS, 2026-11-16">x</a>')
+        rows, excluded = ro.promote_slate_rows({"2026-11-16": html})
+        self.assertEqual(rows, [])
+        self.assertEqual(excluded[0]["reason"], "href teams differ from card teams")
+
+    def test_rows_are_sorted_and_carry_the_card_urls(self):
+        pages = {"2026-11-16": _card("NYK", "IND", "0022600005", "2026-11-16")
+                 + _card("ATL", "MIL", "0022600004", "2026-11-16")}
+        rows, _ = ro.promote_slate_rows(pages)
+        self.assertEqual([r["game_id"] for r in rows], ["0022600004", "0022600005"])
+        self.assertEqual(rows[0]["game_url"], "https://www.nba.com/game/atl-vs-mil-0022600004")
+        self.assertEqual(rows[0]["source"], "https://www.nba.com/games?date=2026-11-16")
+
+
+class CommittedCaptureSlateTests(unittest.TestCase):
+    """The committed 2026-11-16T00-57Z capture reproduces the verified 34-game slate."""
+
+    CAPTURE = os.path.join(ROOT, "data", "app", "refresh", "2026-11-16T00-57Z")
+
+    def _pages(self):
+        pages = {}
+        for d in ("2026-11-15", "2026-11-16", "2026-11-17", "2026-11-18"):
+            with open(os.path.join(self.CAPTURE, f"games_{d}.html"), encoding="utf-8",
+                      errors="replace") as fh:
+                pages[d] = fh.read()
+        return pages
+
+    def test_capture_gives_the_verified_34_games_and_no_phantom_rows(self):
+        if not os.path.isdir(self.CAPTURE):
+            self.skipTest("committed capture not present")
+        rows, excluded = ro.promote_slate_rows(self._pages())
+        got = {(r["date"], r["game_id"], r["away"], r["home"]) for r in rows}
+        self.assertEqual(len(rows), 34)
+        self.assertEqual(excluded, [])
+        self.assertFalse(any(r["game_id"] == "0022600232" for r in rows))
+        verified = json.load(open(os.path.join(ROOT, "data", "app", "official_slate_1115_1118.json"),
+                                  encoding="utf-8"))["games"]
+        want = {(g["date"], g["game_id"], g["away"], g["home"]) for g in verified}
+        self.assertEqual(got, want)
+
+    def test_published_slate_matches_the_promotion(self):
+        path = os.path.join(ROOT, "data", "app", "official_slate_current.json")
+        published = json.load(open(path, encoding="utf-8"))
+        rows, _ = ro.promote_slate_rows(self._pages()) if os.path.isdir(self.CAPTURE) else ([], [])
+        if rows:
+            self.assertEqual(published["games"], rows)
+        self.assertEqual(published["count"], len(published["games"]))
+        self.assertEqual(len({g["game_id"] for g in published["games"]}), published["count"])
 
 
 class GateCallTests(unittest.TestCase):
