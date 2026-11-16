@@ -4529,3 +4529,58 @@ review RR-10) counts presence in the 1:30 PM audit transcript (3 absent, listed 
 byte-identical, 30/30 tests OK · 6 736efb4b tree clean, 13/13 OK · 7 dd1eb1f1 13/13 OK · 8 7f3b89af tree
 clean, 13/13 OK · dashboard rebuild no drift. **REPLAY FULLY GREEN — tree clean.** Not replayable in the
 sandbox: the capture steps that fetch nba.com (they run on the GitHub runner).
+
+---
+
+### 2026-11-16T01:20Z — arena/c94a5531-nba3 progress: C1 takeover+merge done, C2/C3 done (4 of 9 finals settled)
+
+**PR #90 (arena/94e6d41b-nba3) — takeover + merge COMPLETED (60-min rule).** The claim was stale
+(12:32Z); all 43 conflicted files resolved line-by-line, 94e6d41b's parse preserved as
+`_*_94e6d41b` files + renamed `scripts/capture_official_2026_11_15_94e6d41b.py`; merge `4079551`
+pushed, PR #90 closed with comment 6903505401. Boards union-merged; nothing discarded.
+
+**C2 done.** 06:45 PM ET injury report captured verbatim (`data/app/official_injuries_2026-11-15_0645PM_raw_c94a5531.md`,
+3 chunks) + parsed offline by `scripts/capture_official_2026_11_15c.py` (anchor-based rules R1–R6,
+carried cells recorded per row): 155 rows (149 player + 6 team NOT-YET-SUBMITTED), 27 status
+changes vs the 06:15 AM snapshot → `data/app/injury_delta_0645pm_c94a5531.json`. Game books for
+4 finals captured verbatim to `data/app/gamebooks_20261115/` (IND@PHI, LAL@PHX, CHA@LAC, SAS@UTA).
+103 per-player lines (`player_game_logs_20261115_c94a5531.json`), player PTS sum to every team final.
+
+**C3 done for 4 of 9 finals** (two agreeing reads each: nba.com scoreboard card + statsdmz game
+book; quarter sums == finals, checked): IND 124 @ PHI 131, LAL 131 @ PHX 123, CHA 105 @ LAC 113,
+SAS 110 @ UTA 102. `data/app/results_feed.json` 18 rows / 18 settled; ledger picks
+0022600236–0022600239 graded win/win from sealed pre-tip payloads (payload hashes verified at
+settlement), chain 38 entries intact. The remaining 5 games (NYK@TOR, DAL@BOS, HOU@WAS, ATL@MIL,
+OKC@SAC) settle only after their own two-read verification — the scheduled refresh settles them
+if this session ends first.
+
+**Stale-claim edits (79341829's files, claim stale >12h; logged here per protocol):**
+- `scripts/capture_round_79341829.py` — feed assembly now delegates to
+  `scripts/extend_results_feed_2026_11_15c.py` so the CI offline replay byte-matches the
+  committed feed (settlement stamps preserved from the file or the ledger, never recomputed).
+- `scripts/pick_ledger.py` — `settle` made idempotent (skips picks with an existing SETTLED
+  entry); without this the scheduled nightly settle would append duplicate SETTLED entries.
+- Planned: `tests/test_capture_1115.py` pin updates (188→N, 376→2N, provenance) at the final
+  11/15 log cut, see below.
+
+**Flagged for Review (do not block; carried to the flagged page at C6):**
+1. F-C94-01 `estimators.json` `travel_km.from_arena` systematically misattributed (e.g. DAL@BOS
+   away "Rocket Arena"); only CHA@LAC reads plausibly. Audit at C5.
+2. F-C94-02 arena coordinates missing for PHX Arena and Wells Fargo Center (C4).
+3. F-C94-03 06:15 AM snapshot spells "Embid, Joel" (official reports print "Embiid, Joel");
+   shows as old-only/new-only in `injury_delta_0645pm_c94a5531.json`; the CI-pinned
+   `official_injuries_2026-11-15_0615AM*.json` were NOT edited.
+4. F-C94-04 two game-book rows (Barnes/Bryant, SAS@UTA) print tails contradicting their own
+   points identity; PTS reconciled from their printed shooting columns (= printed team totals)
+   and flagged in `player_game_logs_20261115_c94a5531.json` (cell_provenance recorded).
+5. F-C94-05 `results_feed.json` `settlement_rule` wording contradicted `settle()` behavior on
+   the 11/13 rows — amended (wording change recorded in the field itself).
+6. F-C94-06 one game-book row (Simons, IND@PHI) printed 15 of 16 counting columns; REB/AST
+   reconciled from the printed team TOTALS row (cell_provenance recorded).
+
+**Decision — 11/15 log + stats re-cut deferred to ONE consistent cut at slate completion.** The
+`data/origin/games.csv` extension (188→192+N), `official_team_ratings`/`official_team_stats`
+re-cut and `tests/test_capture_1115.py` pin updates will happen in a single pass once all 9
+games are final (mid-slate snapshots would pin in-progress records; the estimator already sees
+the settled finals via the results feed union, so the model is current). If the session ends
+first, the scheduled refresh job owns it.
