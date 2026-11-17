@@ -6131,3 +6131,66 @@ architecture decision), plus the repo-wide questions/suggestions registers.
   poppler install, surfaces tracebacks from the fetch log, and names which round `--check` failed.
   Next cron **05:15 UTC** will localise both failures from its annotations (flag EVE-F04 has the
   read-off instructions).
+
+---
+
+## Session `arena/c834940f-nba3` — CLAIM (2026-11-17 ~15:05 UTC)
+
+Session ID: `c834940f`. Branch: `arena/c834940f-nba3` (branched from `main` @ `043d444`, the merge
+of PR #138). The branch name is fixed by the Arena workspace, so the `session-<id>/<task>` naming in
+the brief is not used; file scopes are kept non-overlapping inside this one branch.
+Claim pushed before any other work, per the coordination rules.
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| C1 | **Scheduled-refresh repair** — the rolling refresh has failed every runner run for 3+ cycles and therefore has not landed a commit since 2026-11-16 00:57Z; localise and fix the blocker | in progress | c834940f | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `scripts/gamebooks_2ecbccfd.py`, `scripts/capture_2ecbccfd.py`, `scripts/slate_extra_2ecbccfd.py`, `tests/test_refresh_official.py`, `tests/test_freshness_gates.py` |
+| C2 | **Land PR #119's verified official captures by content port** — 11/15 official game books, the official standings capture, per-player game logs (minutes/points/rebounds/assists/opponent), top-8 minutes shares, the ledger's SETTLED entries and the 11/15 results-feed rows. PR #119's branch (`arena/4a59430d-nba3`) is stale (last commit 2026-11-16 19:00Z, >60 min, no commits since) so the 60-minute rule lets this session take it over | in progress | c834940f | `data/app/gamebooks/`, `data/app/official_standings_current.json`, `data/app/player_game_logs.json`, `data/app/minutes_shares.json`, `data/app/ledger/ledger.jsonl`, `data/app/results_feed.json`, `data/flags.csv`, `scripts/injury_pdf_to_md.py`, `app/standings.html` |
+| C3 | **Repo review, line by line, from the merged tree**; irregularity register with an official source for every claim | in progress | c834940f | `data/repo_review.json`, `data/repo_review.csv`, `review.html`, `app/review.html` |
+| C4 | **Site integration + link check** — projection surface and gated bet surface must stay separate; every table row carries an official source link | in progress | c834940f | `scripts/build_app.py`, `scripts/assemble_canonical.py`, `app/*.html`, `index.html` |
+| C5 | **Integration** — full offline test suite, site build with no broken links, PR → `main` → merge → confirm the Pages deploy → record the PR link and merge result here | in progress | c834940f | `COORDINATION.md`, PR |
+
+### Standing state at claim time (verified locally, with the evidence)
+
+- **The scheduled refresh is red and has landed no commit since the 2026-11-16T00:57Z capture.**
+  Runs `43982186917` (2026-11-16 23:46Z), `44028483824` (2026-11-17 06:04Z) and `44078253283`
+  (2026-11-17 11:54Z) all fail. The last green Pages deploy is `43984800481` (PR #138, 2026-11-16).
+- **The blocker is now localised** from the GitHub Actions *annotations* API (the log bodies are
+  unreachable from this sandbox — `results-receiver.actions.githubusercontent.com` and
+  `productionresultssa4.blob.core.windows.net` both fail with EOF, so annotations are the only
+  channel). The `Fetch official sources` step is **green** in all three runs; the failing step is
+  `Round 2026-11-17 - capture integrity`, whose only annotation is
+  `gamebooks_2ecbccfd.py --check failed (capture integrity)`. The two
+  `required source failed [...]` annotations in the same run are **emitted by the unit-test suite
+  itself** (`tests/test_refresh_official.py` exercises the annotation path with fixtures — the
+  literal string `boom` is that fixture, see `tests/test_refresh_official.py:114`), not by a real
+  fetch failure.
+- **Reproduction status of the failing check.** `python3 scripts/gamebooks_2ecbccfd.py --check`
+  exits 0 on this working tree, on a fresh `git clone --depth 1` of `origin/main` @ `043d444`, and
+  after replaying the whole offline rebuild chain. The check's inputs are the four committed
+  transcripts in `data/rounds/2026-11-17/captures/`, `data/live/team_registry.json` and the
+  derived `data/rounds/2026-11-17/player_logs_2026-11-15.json`; none of them is written by any
+  step of the refresh chain, and `scripts/model_2ecbccfd.py --check` (which reads the same derived
+  file) is **green** in the failing runs. So the drift is not explained by the committed tree alone
+  — it is specific to the runner's post-fetch workspace. C1 therefore both (a) makes the step
+  self-diagnosing (annotations that name the differing input and the first differing line) and
+  (b) replaces the brittle "the derived artefact must already be byte-identical" assertion with
+  the check that actually matters: the committed **transcripts** must be unchanged, and the derived
+  artefact must be **re-derivable** from them.
+- **This sandbox cannot reach nba.com.** `curl https://www.nba.com/standings`,
+  `https://ak-static.cms.nba.com/referee/injury/...` and `https://official.nba.com/...` all fail
+  with `SSL_ERROR_SYSCALL` (the egress allowlist is github.com / codeload / api.github.com /
+  registry.npmjs.org / pypi.org / files.pythonhosted.org). The GitHub Actions runner **can** — its
+  fetch step is green — so the runner is the only fetcher available and every new official capture
+  in this session must be produced by the scheduled job itself, not by hand.
+- **`workflow_dispatch` is 403 for this token** (`gh workflow run refresh.yml` →
+  `HTTP 403: Resource not accessible by integration`), so the refresh cannot be triggered early;
+  the next cron slot is the only trigger. The repo's own history records the same limitation
+  (EVE-F08).
+- **The local clone was shallow** (`.git/shallow`, 1 entry), which made `git merge-base` fail and
+  made `git rev-list --max-parents=0 HEAD` report the merge commit as a root commit. Fixed with
+  `git fetch --unshallow origin` (545 commits now reachable). Recorded as irregularity **C83-F01**.
+- **PR #119's branch cannot be merged as a git merge.** Its history is rooted at the original
+  `6c3004d` while `main` was rebuilt, so `git merge-base HEAD origin/arena/4a59430d-nba3` returns
+  nothing and `git merge` refuses with "unrelated histories". C2 therefore ports the **file
+  content** and re-implements the script-level changes against the current tree, and PR #119 will
+  be closed with a note pointing at the port. Recorded as irregularity **C83-F02**.
