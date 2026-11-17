@@ -80,8 +80,22 @@ jobs:
           # pdftotext turns each archived injury PDF into the verbatim text kept in
           # data/app/injury_reports_archive/ (the runner image does not ship poppler
           # in every revision, so install it explicitly).
-          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-          python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils || {
+            echo "::error::poppler-utils install failed (apt) — the archive step cannot run"; exit 1; }
+          # tee keeps the body in the log while refresh_official.py emits ::error::
+          # annotations for the failed source / gate / rebuild step; the grep below
+          # surfaces any traceback as annotations too (the runner log body is not
+          # retrievable through the API from every environment, but annotations are).
+          if python3 scripts/refresh_official.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }} 2>&1 | tee /tmp/refresh_official.log; then
+            rc=0
+          else
+            rc=$?
+          fi
+          if [ "$rc" -ne 0 ]; then
+            grep -E "Traceback|Error|error|FAILED|required" /tmp/refresh_official.log \
+              | tail -25 | sed 's/^/::error::refresh: /' || true
+            exit "$rc"
+          fi
 
       # ---------------------------------------------------------------------------
       # The 2026-11-17 round's own chain (session arena/2ecbccfd-nba3). These steps are offline
@@ -100,9 +114,12 @@ jobs:
           test -f data/rounds/2026-11-17/captures/injury_2026-11-16_0115PM_raw.md || {
             echo "::error::the 01:15 PM injury PDF transcript is missing; without it the report diff"
             echo "          has no second revision and the injury freshness gate would be unverifiable"; exit 1; }
-          python3 scripts/capture_2ecbccfd.py --check
-          python3 scripts/gamebooks_2ecbccfd.py --check
-          python3 scripts/slate_extra_2ecbccfd.py --check
+          python3 scripts/capture_2ecbccfd.py --check || {
+            echo "::error::capture_2ecbccfd.py --check failed (capture integrity)"; exit 1; }
+          python3 scripts/gamebooks_2ecbccfd.py --check || {
+            echo "::error::gamebooks_2ecbccfd.py --check failed (capture integrity)"; exit 1; }
+          python3 scripts/slate_extra_2ecbccfd.py --check || {
+            echo "::error::slate_extra_2ecbccfd.py --check failed (capture integrity)"; exit 1; }
 
       - name: Round 2026-11-17 - freshness and provenance gates (rebuild is blocked from here)
         if: always() && !cancelled()

@@ -6114,3 +6114,20 @@ would duplicate canonical ledger/prereg structures — not ported.
 (blank status cell, name-form change), EVE-F07 (11/16 finals belong to the next capture — first
 tip 23:00 UTC), EVE-F08 (dispatch 403), EVE-F09 (estimator window pinning vs rolling slate —
 architecture decision), plus the repo-wide questions/suggestions registers.
+
+### Post-merge cron validation (23:15 UTC slot) — run 43982186917 (recorded 2026-11-17 ~00:20 UTC)
+
+- Created 23:46:43Z on `21c0d13` (this session's merged main). **Unit tests against the committed
+  tree: SUCCESS** — the original 43925193575 symptom (test coupled to the rolling slate) is gone on
+  the runner; Round 11/17 gates + model/ledger/site: SUCCESS; **Fetch official sources: FAILURE**
+  (exit 1); Round capture-integrity: FAILURE; commit correctly skipped (last good build kept).
+- Runner log bodies remain unreachable from this environment (EOF on the results receiver; the
+  annotations API returned only "exit code 1"), so the fetch failure is **not yet localised**. The
+  round-integrity failure is unexplained by content: its three `--check` scripts and both required
+  transcripts pass on the same commit locally, including with a rolled slate — cascade or
+  runner-only condition.
+- Action taken this round: `refresh_official.py` now emits `::error::` annotations naming the failed
+  required source, the failing gate ids, or the failed rebuild step; `refresh.yml` annotates a failed
+  poppler install, surfaces tracebacks from the fetch log, and names which round `--check` failed.
+  Next cron **05:15 UTC** will localise both failures from its annotations (flag EVE-F04 has the
+  read-off instructions).

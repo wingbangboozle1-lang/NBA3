@@ -36733,7 +36733,7 @@
    "found_on": "2026-11-16",
    "item": "ATL@MIL gamebook SCORE BY PERIOD table is self-inconsistent (MIL Q3=37 sums 116 vs its own FINAL 106)",
    "why": "The round-2026-11-16 capture left 0022600243 blocked (Q09). This session read three official documents: the game page LINESCORE (MIL 37/16/27/26=106), the gamebook summary line (BUCKS 37 16 27 26 106) and the gamebook team totals (106). All three agree on Q3=27; the period-table cell 37 is arithmetically impossible against its own printed final. Q3=27 adopted, both readings preserved in results_2026-11-15.json; day now 9/9 settled.",
-   "action_needed": "Done for this round: resolution published with all readings kept; main's feed carries the same Q3=27. Review the three-read logic before relying on MIL quarters downstream.",
+   "action_needed": "Done for this round: resolution published with all readings kept; main's feed carries the same Q3=27.",
    "sources": [
     "https://www.nba.com/game/atl-vs-mil-0022600243",
     "https://statsdmz.nba.com/pdfs/20261115/20261115_ATLMIL.pdf"
@@ -36762,7 +36762,7 @@
    "found_on": "2026-11-16",
    "item": "Mathurin name printed 'Bennedict' at 09:15 AM and 'Benedict' at 01:30 PM",
    "why": "Delta reports this as delisted + newly_listed (no silent merge; the normaliser only merges case/accents/punctuation). Status is Out in both prints.",
-   "action_needed": "Owner: no action required for correctness (delta reports remove+add); review only if name normalisation should ever merge one-letter spellings.",
+   "action_needed": "Owner: no action required for correctness (delta reports remove+add).",
    "sources": [
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_09_15AM.pdf",
     "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_30PM.pdf"
@@ -36776,13 +36776,13 @@
    "severity": "high",
    "found_on": "2026-11-16",
    "item": "Scheduled official refresh failures (commit step 43815576157/43864808752; unit-test step 43925193575) — repaired; awaiting the 23:15 UTC run",
-   "why": "Root cause reproduced offline in this session (correct-order CI simulation: promote -> gates -> rebuild -> tests): three tests were coupled to the fixed official_slate_current.json window while the fetch legitimately promotes a rolling window (25 not greater than 30; published slate != fixed 00-57Z capture replay). On main the repair landed from several sessions: commit-step staging (c449d46a/8a07a7c), roll-safe tests (4c69ab99, taking the same diagnosis further: expected set derived from window intersect slate, newest-manifest replay), standings/results-ingest chain steps (4054e125, 259cfa6). This session's own fixture-based test edits were superseded and dropped in the merge in favour of main's roll-safe versions. Offline verification on the merged tree: all five refresh CI groups green in the rolling simulation, 293/293 full suite, refresh.yml commit step includes git add -A + rebase retry. Live validation = the next cron run.",
-   "action_needed": "Owner: confirm the 23:15 UTC cron run turns green AND commits; only then is the scheduled job verified end to end on the runner.",
+   "why": "Repaired and verified in stages. Run 43982186917 (23:46:43Z, the 23:15 slot, head 21c0d13 = this session's merged main): **Unit tests against the committed tree: SUCCESS** (the original 43925193575 symptom is gone — the roll-safe tests + tests-before-fetch ordering hold on the runner), Round 11/17 freshness gates: SUCCESS, Round model/ledger/site: SUCCESS. **Fetch official sources: FAILURE** (exit 1, commit correctly skipped, last good build kept) and the Round capture-integrity step also failed — its three --check scripts plus the required transcripts all pass locally on the same commit even with a rolled slate, so its failure is either a cascade of the fetch death or a runner-only condition. The runner log body is not retrievable from this environment (EOF on the results receiver, annotations API returns only 'exit code 1'), so this session instrumented the job: refresh_official.py now emits ::error:: annotations naming the failed required source / gate ids / rebuild step, and refresh.yml surfaces tracebacks and each round --check as annotations. Next cron: 05:15 UTC — its annotations will localise the failure. Offline battery on the same commit: 293/293 tests, all six --check scripts green, shared gates 12/12, round gates 6/6.",
+   "action_needed": "Owner/next session: read the ::error:: annotations on the 05:15 UTC run (refresh.yml instruments the failed source/gate/rebuild step), fix the named cause, and confirm a full green run lands a commit.",
    "sources": [
-    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575",
-    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43982186917",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"
    ],
-   "status": "repaired on main; live cron validation pending (23:15 UTC)",
+   "status": "unit-test step GREEN on the runner (repair verified); fetch step red in run 43982186917 — cause not yet localised (logs unreachable); failure annotations instrumented; next run 05:15 UTC",
    "legacy_ref": ""
   },
   {
@@ -36792,7 +36792,7 @@
    "found_on": "2026-11-16",
    "item": "Canonical injury archive advanced to 11/16 01:15 PM ET and the scheduled job now archives index reports (was: archive stuck at 11/15 06:15 AM)",
    "why": "At claim time data/live/injuries held only the 11/15 06:15 AM report (flags F12/F-R6). Since then main landed 5bf65ed (11/16 01:15 PM stored verbatim, consecutive-report diff, live pipeline regenerated: model reads the newest report) and 798d917 (the scheduled refresh archives every index report with text+sha256+stamp). Verified on the merged tree: newest on disk = Injury-Report_2026-11-16_01_15PM, model_used matches, freshness gates 12/12. Note: this round's official capture read the newer 01:30 PM ET report (data/rounds/2026-11-16-eve/), which the next scheduled archive step should pick up.",
-   "action_needed": "Closed by main (5bf65ed + 798d917); verify the next scheduled run archives the 01:30 PM report this round captured.",
+   "action_needed": "Closed by main (5bf65ed + 798d917); verify the next successful scheduled run archives the 01:30 PM report this round captured.",
    "sources": [
     "https://official.nba.com/nba-injury-report-2026-27-season/",
     "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/live/injuries/archive_index.json"
@@ -36821,7 +36821,7 @@
    "found_on": "2026-11-16",
    "item": "No 11/16 finals existed at capture time (first tip 7:00 PM ET)",
    "why": "All eight 11/16 games tip 7:00-9:00 PM ET (23:00-00:00 UTC). This capture records slate, tips, records and the 01:30 PM injury report only; finals and settlement are left to the next scheduled refresh or a later capture. Nothing about 11/16 outcomes is published here.",
-   "action_needed": "No action: the 23:15 run records 11/16 finals.",
+   "action_needed": "No action: the next successful run records 11/16 finals.",
    "sources": [
     "https://www.nba.com/games?date=2026-11-16"
    ],

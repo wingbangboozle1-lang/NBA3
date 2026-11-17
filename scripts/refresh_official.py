@@ -234,12 +234,25 @@ def main():
     manifest = {"stamp": stamp, "today_et": today_et.isoformat(), "newest_injury_report": None,
                 "artifacts": f.artifacts, "errors": f.errors, "gamebooks": 0}
 
+    def annotate_required():
+        """Surface every failed required source as a GitHub Actions annotation.
+
+        The runner's log body is not retrievable through the API from every
+        environment (EOF on the results receiver), but annotations are — so the
+        next red run names its failed source instead of just 'exit code 1'."""
+        for e in f.errors:
+            if e.get("required"):
+                print(f"::error::required source failed [{e.get('label')}]: "
+                      f"{e.get('error')} ({e.get('url')})")
+
     def finish(code):
         with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as fh:
             json.dump(manifest, fh, indent=1)
             fh.write("\n")
         print(f"refresh fetch: {len(f.artifacts)} artifacts, {len(f.errors)} failed "
               f"-> data/app/refresh/{stamp}/")
+        if code != 0 or any(e.get("required") for e in f.errors):
+            annotate_required()
         return code
 
     # 1. injury index + newest report PDF (required: the rebuild cannot run without it)
@@ -383,6 +396,7 @@ def main():
     if f.errors and any(e["required"] for e in f.errors):
         print("required official sources failed — rebuild refused; last good build kept",
               file=sys.stderr)
+        annotate_required()
         return 1
     if args.dry_run:
         return 0
@@ -395,6 +409,14 @@ def main():
                           cwd=ROOT)
     if gate.returncode != 0:
         print("freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
+        try:
+            rep = json.load(open(os.path.join(ROOT, "data", "live", "freshness.json"),
+                                 encoding="utf-8"))
+            failed = [g.get("id", "?") for g in rep.get("gates", []) if not g.get("passed")]
+            print(f"::error::freshness gates failed: {', '.join(failed) or 'unknown'} "
+                  "(see data/live/freshness.json for each measured value)")
+        except Exception:
+            print("::error::freshness gates failed (freshness.json unreadable)")
         return 1
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
@@ -422,6 +444,7 @@ def main():
         r = subprocess.run(cmd, cwd=ROOT)
         if r.returncode != 0:
             print(f"rebuild step failed: {' '.join(cmd)}", file=sys.stderr)
+            print(f"::error::rebuild step failed (exit {r.returncode}): {' '.join(cmd)}")
             return 1
     print("refresh: gates passed, rebuild complete")
     return 0

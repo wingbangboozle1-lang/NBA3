@@ -47,12 +47,12 @@
   {
    "id": "EVE-F04",
    "severity": "high",
-   "status": "repaired on main; live cron validation pending (23:15 UTC)",
+   "status": "unit-test step GREEN on the runner (repair verified); fetch step red in run 43982186917 — cause not yet localised (logs unreachable); failure annotations instrumented; next run 05:15 UTC",
    "title": "Scheduled official refresh failures (commit step 43815576157/43864808752; unit-test step 43925193575) — repaired; awaiting the 23:15 UTC run",
-   "detail": "Root cause reproduced offline in this session (correct-order CI simulation: promote -> gates -> rebuild -> tests): three tests were coupled to the fixed official_slate_current.json window while the fetch legitimately promotes a rolling window (25 not greater than 30; published slate != fixed 00-57Z capture replay). On main the repair landed from several sessions: commit-step staging (c449d46a/8a07a7c), roll-safe tests (4c69ab99, taking the same diagnosis further: expected set derived from window intersect slate, newest-manifest replay), standings/results-ingest chain steps (4054e125, 259cfa6). This session's own fixture-based test edits were superseded and dropped in the merge in favour of main's roll-safe versions. Offline verification on the merged tree: all five refresh CI groups green in the rolling simulation, 293/293 full suite, refresh.yml commit step includes git add -A + rebase retry. Live validation = the next cron run.",
+   "detail": "Repaired and verified in stages. Run 43982186917 (23:46:43Z, the 23:15 slot, head 21c0d13 = this session's merged main): **Unit tests against the committed tree: SUCCESS** (the original 43925193575 symptom is gone — the roll-safe tests + tests-before-fetch ordering hold on the runner), Round 11/17 freshness gates: SUCCESS, Round model/ledger/site: SUCCESS. **Fetch official sources: FAILURE** (exit 1, commit correctly skipped, last good build kept) and the Round capture-integrity step also failed — its three --check scripts plus the required transcripts all pass locally on the same commit even with a rolled slate, so its failure is either a cascade of the fetch death or a runner-only condition. The runner log body is not retrievable from this environment (EOF on the results receiver, annotations API returns only 'exit code 1'), so this session instrumented the job: refresh_official.py now emits ::error:: annotations naming the failed required source / gate ids / rebuild step, and refresh.yml surfaces tracebacks and each round --check as annotations. Next cron: 05:15 UTC — its annotations will localise the failure. Offline battery on the same commit: 293/293 tests, all six --check scripts green, shared gates 12/12, round gates 6/6.",
    "source_urls": [
-    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43925193575",
-    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml"
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43982186917",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"
    ],
    "files": [
     "tests/test_pick_ledger.py",
