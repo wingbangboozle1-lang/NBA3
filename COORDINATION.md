@@ -6131,3 +6131,15 @@ architecture decision), plus the repo-wide questions/suggestions registers.
   poppler install, surfaces tracebacks from the fetch log, and names which round `--check` failed.
   Next cron **05:15 UTC** will localise both failures from its annotations (flag EVE-F04 has the
   read-off instructions).
+
+---
+
+## Session `arena/5ba4892c-nba3` — claim (2026-11-17)
+
+Session ID: `5ba4892c`; current Arena branch: `arena/5ba4892c-nba3` (fixed by workspace).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Take over EVE-F04: localise the unresolved official-source fetch/capture-integrity failures in the scheduled refresh; repair only evidence-backed causes; preserve freshness/provenance gates and ensure rebuild runs only after all gates pass | in progress | 5ba4892c | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `tests/test_refresh_official.py`, `tests/test_freshness_gates.py`, `COORDINATION.md` (append-only) |
+
+Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) records that the scheduled fetch and round-integrity steps failed and remained unlocalised; this is a continuation of the prior refresh claim, not a claim on another active task. I will not edit data, derived site trees, shared navigation, or files owned by another session; any out-of-scope fix will be requested here instead.
