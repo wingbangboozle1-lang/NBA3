@@ -6131,3 +6131,55 @@ architecture decision), plus the repo-wide questions/suggestions registers.
   poppler install, surfaces tracebacks from the fetch log, and names which round `--check` failed.
   Next cron **05:15 UTC** will localise both failures from its annotations (flag EVE-F04 has the
   read-off instructions).
+
+---
+
+## Session `arena/5ba4892c-nba3` — claim (2026-11-17)
+
+Session ID: `5ba4892c`; current Arena branch: `arena/5ba4892c-nba3` (fixed by workspace).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Take over EVE-F04: localise the unresolved official-source fetch/capture-integrity failures in the scheduled refresh; repair only evidence-backed causes; preserve freshness/provenance gates and ensure rebuild runs only after all gates pass | needs review | 5ba4892c | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `tests/test_refresh_official.py`, `tests/test_freshness_gates.py`, `COORDINATION.md` (append-only) |
+
+Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) records that the scheduled fetch and round-integrity steps failed and remained unlocalised; this is a continuation of the prior refresh claim, not a claim on another active task. I will not edit data, derived site trees, shared navigation, or files owned by another session; any out-of-scope fix will be requested here instead.
+
+### Session 5ba4892c progress / handoff (2026-11-17)
+
+**Scope completed:** refresh safety hardening and injury-report retrieval provenance. **Overall EVE-F04 remains `needs review`** until a hosted run produces the newly-added diagnostic for the still-unexplained player-log capture mismatch. The flag is non-blocking for Pages integration.
+
+**Observed runner evidence (GitHub Actions API, not guessed):**
+- [Run 44028483824](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44028483824) and [run 44078253283](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44078253283), both on `main` @ `043d444`, report unit tests **success**, official-source fetch **success**, 2026-11-17 capture integrity **failure** at `gamebooks_2ecbccfd.py --check`, freshness/model/site checks **success**, and commit **skipped**.
+- The freshness and model/site steps were configured with `if: always() && !cancelled()`. That allowed later steps to run and show green after an earlier capture failure. These steps now use `if: success()` so a fetch/capture failure skips freshness and a failed freshness gate skips all downstream checks/build steps.
+- The corresponding Actions log download fails from this environment with EOF from `results-receiver.actions.githubusercontent.com`. The check annotations include `::error::` lines emitted intentionally by mocked fetch-failure unit tests; the tested CLI now writes ordinary `ERROR:` diagnostics and the workflow converts them to annotations only when the refresh process itself fails.
+- The `gamebooks_2ecbccfd.py --check` failure does **not** reproduce on the committed tree: all three round checks pass locally, and a temporary-copy replay of the committed refresh rebuild command chain passes the gamebooks replay before and after. This is not proof of the hosted cause. The round-check step now fingerprints the team registry/transcripts and emits a generated-vs-committed diff to a short-lived Actions artifact if it fails again.
+- Attempted a read-only refresh dispatch on this branch with `dry_run=true`; GitHub returned HTTP 403 (`Resource not accessible by integration`). No live NBA fetch was performed from this sandbox, and no new NBA values are claimed.
+
+**Code changes on `arena/5ba4892c-nba3`:**
+- `scripts/refresh_official.py` now places an explicit UTC run timestamp in `manifest.json`; per-fetch artifacts get their own second-resolution UTC retrieval stamp. Injury archive rows use the exact PDF fetch timestamp and reuse the required newest-PDF download instead of fetching it twice. This fixes a latent `manifest["retrieved_utc"]` `KeyError` in the first-unarchived-report path; I do **not** assert that it was the cause of run 43982186917.
+- Slate/standings capture stamps now use the UTC ISO timestamp rather than the output-directory label.
+- `.github/workflows/refresh.yml` success-gates all round integrity/freshness/model checks, makes the gamebooks mismatch actionable, and uploads its diagnostic only on a failed run. The commit step remains success-gated by GitHub Actions' default status check.
+- Tests cover newly archived report timestamps, non-annotation failure logging, committed round replay and success-only step conditions.
+
+**Verification performed locally:**
+- `python3 -m unittest discover -s tests` — **297 tests, OK** (pre-existing `ResourceWarning`s for unclosed files remain).
+- `python3 -m unittest tests/test_refresh_official.py -v` — **27 tests, OK**; `python3 -m unittest tests/test_freshness_gates.py -v` — **5 tests, OK**.
+- `python3 scripts/capture_2ecbccfd.py --check`, `python3 scripts/gamebooks_2ecbccfd.py --check`, `python3 scripts/slate_extra_2ecbccfd.py --check` — all pass on committed inputs.
+- `python3 scripts/freshness_gates.py` — **12/12**; `python3 scripts/build_app.py --check` — **27 pages, 0 broken links**; `python3 tools/check_site.py` — PASS; `git diff --check` and Python byte-compilation pass.
+- Parsed `.github/workflows/refresh.yml` with PyYAML; `refresh` job present.
+
+**Official URLs configured in the refresh (checked in code; not re-fetched in this sandbox):**
+- [NBA Official injury-report index](https://official.nba.com/nba-injury-report-2026-27-season/)
+- [NBA games / schedule](https://www.nba.com/games)
+- [NBA standings](https://www.nba.com/standings)
+- [NBA team traditional stats](https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season)
+- [NBA team opponent stats](https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season)
+- [NBA team advanced stats](https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season)
+
+**Out-of-scope integration request CR-5BA-01:** `app/flagged.html` is generated by `scripts/build_app.py`, not edited here. Please update the published EVE-F04 row to include runs 44028483824/44078253283, the confirmed `gamebooks_2ecbccfd.py --check` failure, the missing runner-log access, and the pending diagnostic artifact. Keep the status visibly flagged/unverified; do not mark the player-log mismatch resolved without the diff or an independently passing hosted run.
+
+### PR #139 follow-up (2026-11-17)
+
+- Repaired [PR #139](https://github.com/wingbangboozle1-lang/NBA3/pull/139)'s malformed description using the GitHub REST API with a body loaded from a file; verified the rendered body and links via `gh pr view`.
+- PR validation run [44105992265](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44105992265) completed successfully: the Pages `build` job passed, including the 2026-11-17 round replay and site checks. `deploy` was skipped for this pull-request event (not a failed deployment).
+- The PR description and build explicitly keep EVE-F04 unresolved. No diagnostic artifact or passing scheduled hosted refresh has established the cause of the earlier gamebooks mismatch; the scheduled refresh dispatch remains blocked by HTTP 403. Keep the review flag and CR-5BA-01 request active.

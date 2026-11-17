@@ -91,6 +91,12 @@ def et_today(now_utc):
     return now_utc.astimezone(ET).date()
 
 
+def utc_timestamp(now=None):
+    """Return an explicit, second-resolution UTC timestamp for retrieval provenance."""
+    instant = now or datetime.now(timezone.utc)
+    return instant.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
 # A game CARD on an official games page: the anchor's href and its data-content, which reads
 # "AWAY @ HOME, YYYY-MM-DD" (checked on the committed 2026-11-16T00-57Z captures, see
 # tests/test_refresh_official.py). Links that sit inside editorial modules on the same page
@@ -143,9 +149,9 @@ def promote_slate_rows(pages, games_url=GAMES):
     return rows, excluded_rows
 
 
-def write_slate(rows, stamp, excluded):
+def write_slate(rows, retrieved_utc, excluded):
     slate = {"source_url": GAMES + rows[0]["date"], "source_label": SLATE_SOURCE_LABEL,
-             "retrieved_on": stamp[:10], "retrieved_utc": stamp,
+             "retrieved_on": retrieved_utc[:10], "retrieved_utc": retrieved_utc,
              "window": {"from": rows[0]["date"], "to": rows[-1]["date"]},
              "count": len(rows), "games": rows, "excluded": excluded,
              "notes": ["tip times are blank where the page pattern did not carry them — "
@@ -174,7 +180,7 @@ def promote_only(refresh_dir):
     if not rows:
         print("promote-only: no game cards found; nothing written", file=sys.stderr)
         return 1
-    slate = write_slate(rows, man["stamp"], excluded)
+    slate = write_slate(rows, man.get("retrieved_utc", man["stamp"]), excluded)
     print(f"promote-only: {len(rows)} games, {len(excluded)} excluded -> "
           f"data/app/official_slate_current.json (window {slate['window']['from']}"
           f"..{slate['window']['to']})")
@@ -196,10 +202,11 @@ class Fetcher:
                 req = urllib.request.Request(url, headers=UA)
                 with urllib.request.urlopen(req, timeout=60) as resp:
                     data = resp.read()
+                retrieved_utc = utc_timestamp()
                 with open(dest, "wb") as fh:
                     fh.write(data)
                 self.artifacts.append({
-                    "url": url, "retrieved_utc": self.stamp,
+                    "url": url, "retrieved_utc": retrieved_utc,
                     "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
                     "file": os.path.relpath(dest, ROOT)})
                 return data
@@ -215,76 +222,16 @@ class Fetcher:
         return None
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--stamp")
-    ap.add_argument("--promote-only", metavar="REFRESH_DIR",
-                    help="offline: re-promote data/app/official_slate_current.json from a "
-                         "committed capture directory (no network)")
-    args = ap.parse_args()
-    if args.promote_only:
-        return promote_only(args.promote_only)
-    now = datetime.now(timezone.utc)
-    stamp = args.stamp or now.strftime("%Y-%m-%dT%H-%MZ")
-    out_dir = os.path.join(APP, "refresh", stamp)
-    os.makedirs(out_dir, exist_ok=True)
-    f = Fetcher(stamp)
-    today_et = et_today(now)
-    manifest = {"stamp": stamp, "today_et": today_et.isoformat(), "newest_injury_report": None,
-                "artifacts": f.artifacts, "errors": f.errors, "gamebooks": 0}
+def archive_injury_reports(index_html, out_dir, manifest, fetcher):
+    """Archive every newly listed official injury report and record its retrieval provenance.
 
-    def annotate_required():
-        """Surface every failed required source as a GitHub Actions annotation.
+    The PDF bytes are retained in this refresh capture; the long-lived archive stores the
+    verbatim pdftotext output plus the PDF URL, byte count, SHA-256 and retrieval timestamp.
+    """
+    retrieved_utc = manifest.get("retrieved_utc")
+    if not retrieved_utc:
+        raise ValueError("refresh manifest is missing retrieved_utc; refusing to archive PDFs")
 
-        The runner's log body is not retrievable through the API from every
-        environment (EOF on the results receiver), but annotations are — so the
-        next red run names its failed source instead of just 'exit code 1'."""
-        for e in f.errors:
-            if e.get("required"):
-                print(f"::error::required source failed [{e.get('label')}]: "
-                      f"{e.get('error')} ({e.get('url')})")
-
-    def finish(code):
-        with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as fh:
-            json.dump(manifest, fh, indent=1)
-            fh.write("\n")
-        print(f"refresh fetch: {len(f.artifacts)} artifacts, {len(f.errors)} failed "
-              f"-> data/app/refresh/{stamp}/")
-        if code != 0 or any(e.get("required") for e in f.errors):
-            annotate_required()
-        return code
-
-    # 1. injury index + newest report PDF (required: the rebuild cannot run without it)
-    idx_bytes = f.get(INJ_INDEX, os.path.join(out_dir, "injury_index.html"), required=True,
-                      label="injury index")
-    if idx_bytes is None:
-        return finish(2)
-    newest = newest_report(idx_bytes.decode("utf-8", "replace"))
-    if newest is None:
-        f.errors.append({"url": INJ_INDEX, "label": "injury index", "required": True,
-                         "error": "no injury report links found on the official index",
-                         "attempts": 1})
-        return finish(2)
-    y, hh, mm, ap_ = newest
-    manifest["newest_injury_report"] = f"{y}-{hh}-{mm}{ap_}"
-    pdf_name = f"Injury-Report_{y}_{hh}_{mm}{ap_}.pdf"
-    if f.get(INJ_CDN + pdf_name, os.path.join(out_dir, pdf_name), required=True,
-             label="newest injury report PDF") is None:
-        return finish(2)
-
-    # 1b. standings page (required: the brief's refresh set; promotion is best-effort below)
-    f.get(STANDINGS_URL, os.path.join(out_dir, "standings.html"), required=True,
-          label="standings page")
-
-    # 1b. archive EVERY report the official index lists that is not archived yet (the brief:
-    #     "store every injury PDF with its timestamp"). Each report is stored as its verbatim
-    #     extracted text together with the PDF's URL, its sha256 at retrieval and the retrieval
-    #     stamp (data/app/injury_reports_archive/index.json). The PDF bytes stay on the official
-    #     CDN: the sha256 pins them, the URL serves them, and the repository does not accumulate
-    #     one binary per report per day. Consecutive reports are diffed from these texts.
-    import hashlib
-    import subprocess
     arc_dir = os.path.join(APP, "injury_reports_archive")
     os.makedirs(arc_dir, exist_ok=True)
     arc_index_path = os.path.join(arc_dir, "index.json")
@@ -298,40 +245,124 @@ def main():
             "and the retrieval stamp. The PDF bytes themselves stay on the official CDN; the "
             "sha256 pins what was read and the URL serves the bytes for manual re-verification."),
             "reports": {}}
-    for t in all_report_stamps(idx_bytes.decode("utf-8", "replace")):
-        y, hh, mm, ap = t
-        stamp = f"{y}-{hh}-{mm}{ap}"
-        if stamp in arc["reports"]:
+    reports = arc.setdefault("reports", {})
+    for y, hh, mm, ap in all_report_stamps(index_html):
+        report_stamp = f"{y}-{hh}-{mm}{ap}"
+        if report_stamp in reports:
             continue
         pdf_name = f"Injury-Report_{y}_{hh}_{mm}{ap}.pdf"
         pdf_path = os.path.join(out_dir, pdf_name)
-        pdf_bytes = f.get(INJ_CDN + pdf_name, pdf_path, required=False,
-                          label=f"injury report {stamp}")
+        pdf_url = INJ_CDN + pdf_name
+        artifact = next((item for item in reversed(fetcher.artifacts)
+                         if item.get("url") == pdf_url), None)
+        if artifact is not None and os.path.isfile(pdf_path):
+            with open(pdf_path, "rb") as fh:
+                pdf_bytes = fh.read()
+        else:
+            pdf_bytes = fetcher.get(pdf_url, pdf_path, required=False,
+                                    label=f"injury report {report_stamp}")
+            artifact = next((item for item in reversed(fetcher.artifacts)
+                             if item.get("url") == pdf_url), None)
         if pdf_bytes is None:
             continue
+        report_retrieved_utc = ((artifact or {}).get("retrieved_utc") or retrieved_utc)
         txt_path = os.path.join(arc_dir, f"{y}-{hh}-{mm}{ap}.txt")
-        r = subprocess.run(["pdftotext", "-layout", pdf_path, txt_path],
-                           capture_output=True, text=True)
-        if r.returncode != 0:
-            f.errors.append({"url": INJ_CDN + pdf_name,
-                             "label": f"injury report {stamp} text extraction",
-                             "required": False,
-                             "error": f"pdftotext failed: {r.stderr.strip()[:200]}",
-                             "attempts": 1})
+        result = subprocess.run(["pdftotext", "-layout", pdf_path, txt_path],
+                                capture_output=True, text=True)
+        if result.returncode != 0:
+            fetcher.errors.append({"url": pdf_url,
+                                   "label": f"injury report {report_stamp} text extraction",
+                                   "required": False,
+                                   "error": f"pdftotext failed: {result.stderr.strip()[:200]}",
+                                   "attempts": 1})
             continue
-        arc["reports"][stamp] = {
+        reports[report_stamp] = {
             "report_stamp_et": f"{y}-{hh}:{mm} {ap}M ET",
-            "pdf_url": INJ_CDN + pdf_name,
+            "pdf_url": pdf_url,
             "pdf_sha256": hashlib.sha256(pdf_bytes).hexdigest(),
             "pdf_bytes": len(pdf_bytes),
             "text_file": os.path.relpath(txt_path, ROOT),
-            "retrieved_utc": manifest["retrieved_utc"],
+            "retrieved_utc": report_retrieved_utc,
         }
     with open(arc_index_path, "w", encoding="utf-8") as fh:
         json.dump(arc, fh, indent=1)
         fh.write("\n")
-    print(f"injury archive: {len(arc['reports'])} reports indexed "
+    print(f"injury archive: {len(reports)} reports indexed "
           f"-> data/app/injury_reports_archive/")
+    return arc
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--stamp")
+    ap.add_argument("--promote-only", metavar="REFRESH_DIR",
+                    help="offline: re-promote data/app/official_slate_current.json from a "
+                         "committed capture directory (no network)")
+    args = ap.parse_args()
+    if args.promote_only:
+        return promote_only(args.promote_only)
+    now = datetime.now(timezone.utc)
+    stamp = args.stamp or now.strftime("%Y-%m-%dT%H-%MZ")
+    retrieved_utc = utc_timestamp(now)
+    out_dir = os.path.join(APP, "refresh", stamp)
+    os.makedirs(out_dir, exist_ok=True)
+    f = Fetcher(retrieved_utc)
+    today_et = et_today(now)
+    manifest = {"stamp": stamp, "retrieved_utc": retrieved_utc,
+                "today_et": today_et.isoformat(), "newest_injury_report": None,
+                "artifacts": f.artifacts, "errors": f.errors, "gamebooks": 0}
+
+    def report_required_failures():
+        """Write actionable errors; refresh.yml turns them into annotations on failure.
+
+        These are ordinary stderr messages on purpose. Unit tests exercise the failure
+        branches with mocked sources, and GitHub interprets a printed ``::error::`` there
+        as a real failed-run annotation even when the test itself passes.
+        """
+        for error in f.errors:
+            if error.get("required"):
+                print(f"ERROR: required source failed [{error.get('label')}]: "
+                      f"{error.get('error')} ({error.get('url')})", file=sys.stderr)
+
+    def finish():
+        with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as fh:
+            json.dump(manifest, fh, indent=1)
+            fh.write("\n")
+        print(f"refresh fetch: {len(f.artifacts)} artifacts, {len(f.errors)} failed "
+              f"-> data/app/refresh/{stamp}/")
+
+    def fail_fetch(code, message):
+        finish()
+        print(f"ERROR: {message}", file=sys.stderr)
+        report_required_failures()
+        return code
+
+    # 1. injury index + newest report PDF (required: the rebuild cannot run without it)
+    idx_bytes = f.get(INJ_INDEX, os.path.join(out_dir, "injury_index.html"), required=True,
+                      label="injury index")
+    if idx_bytes is None:
+        return fail_fetch(2, "official injury index could not be fetched")
+    newest = newest_report(idx_bytes.decode("utf-8", "replace"))
+    if newest is None:
+        f.errors.append({"url": INJ_INDEX, "label": "injury index", "required": True,
+                         "error": "no injury report links found on the official index",
+                         "attempts": 1})
+        return fail_fetch(2, "official injury index contains no parseable report links")
+    y, hh, mm, ap_ = newest
+    manifest["newest_injury_report"] = f"{y}-{hh}-{mm}{ap_}"
+    pdf_name = f"Injury-Report_{y}_{hh}_{mm}{ap_}.pdf"
+    if f.get(INJ_CDN + pdf_name, os.path.join(out_dir, pdf_name), required=True,
+             label="newest injury report PDF") is None:
+        return fail_fetch(2, "newest official injury report PDF could not be fetched")
+
+    # 1b. standings page (required: the brief's refresh set; promotion is best-effort below)
+    f.get(STANDINGS_URL, os.path.join(out_dir, "standings.html"), required=True,
+          label="standings page")
+
+    # 1b. archive every newly listed report; the PDF hash and retrieval time are retained
+    # alongside verbatim extracted text for later re-verification and status diffs.
+    archive_injury_reports(idx_bytes.decode("utf-8", "replace"), out_dir, manifest, f)
 
     # 2. schedule/results pages: today..today+3 and the two previous game days (Eastern dates)
     for off in range(-2, 4):
@@ -351,7 +382,7 @@ def main():
     if os.path.exists(st_path):
         r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "standings_feed.py"),
                             "promote", "--html", st_path, "--source", STANDINGS_URL,
-                            "--retrieved", f"{stamp}Z" if not stamp.endswith("Z") else stamp,
+                            "--retrieved", manifest["retrieved_utc"],
                             "--out", os.path.join(ROOT, "data", "live", "standings.json"),
                             "--partial-out", os.path.join(APP, "standings_current.json")],
                            cwd=ROOT, capture_output=True, text=True)
@@ -373,7 +404,7 @@ def main():
     rows, excluded = promote_slate_rows(pages)
     manifest["slate_excluded"] = excluded
     if rows:
-        write_slate(rows, stamp, excluded)
+        write_slate(rows, manifest["retrieved_utc"], excluded)
         print(f"slate promoted: {len(rows)} games, {len(excluded)} excluded "
               f"-> data/app/official_slate_current.json")
 
@@ -391,12 +422,12 @@ def main():
             if f.get(url, dest, required=False, label=f"game book {a.upper()}{h.upper()}") is not None:
                 gb += 1
     manifest["gamebooks"] = gb
-    finish(0)
+    finish()
 
     if f.errors and any(e["required"] for e in f.errors):
-        print("required official sources failed — rebuild refused; last good build kept",
+        print("ERROR: required official sources failed — rebuild refused; last good build kept",
               file=sys.stderr)
-        annotate_required()
+        report_required_failures()
         return 1
     if args.dry_run:
         return 0
@@ -408,15 +439,15 @@ def main():
     gate = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "freshness_gates.py")],
                           cwd=ROOT)
     if gate.returncode != 0:
-        print("freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
+        print("ERROR: freshness/provenance gates FAILED — rebuild refused", file=sys.stderr)
         try:
             rep = json.load(open(os.path.join(ROOT, "data", "live", "freshness.json"),
                                  encoding="utf-8"))
             failed = [g.get("id", "?") for g in rep.get("gates", []) if not g.get("passed")]
-            print(f"::error::freshness gates failed: {', '.join(failed) or 'unknown'} "
-                  "(see data/live/freshness.json for each measured value)")
+            print(f"ERROR: freshness gates failed: {', '.join(failed) or 'unknown'} "
+                  "(see data/live/freshness.json for each measured value)", file=sys.stderr)
         except Exception:
-            print("::error::freshness gates failed (freshness.json unreadable)")
+            print("ERROR: freshness gates failed (freshness.json unreadable)", file=sys.stderr)
         return 1
 
     # 6. rebuild chain (offline scripts on the refreshed captures)
@@ -443,8 +474,8 @@ def main():
     for cmd in steps:
         r = subprocess.run(cmd, cwd=ROOT)
         if r.returncode != 0:
-            print(f"rebuild step failed: {' '.join(cmd)}", file=sys.stderr)
-            print(f"::error::rebuild step failed (exit {r.returncode}): {' '.join(cmd)}")
+            print(f"ERROR: rebuild step failed (exit {r.returncode}): {' '.join(cmd)}",
+                  file=sys.stderr)
             return 1
     print("refresh: gates passed, rebuild complete")
     return 0

@@ -3,6 +3,8 @@
 No network: the fetcher is replaced by a fake that serves fixtures or raises.
 Run: python3 -m unittest tests/test_refresh_official.py
 """
+import contextlib
+import io
 import json
 import os
 import sys
@@ -86,7 +88,9 @@ class FetcherTests(unittest.TestCase):
                 data = f.get("https://x", os.path.join(td, "a.html"))
             self.assertEqual(data, b"hello")
             art = f.artifacts[0]
-            self.assertEqual(art["retrieved_utc"], "2026-11-15T00-00Z")
+            retrieved = datetime.fromisoformat(art["retrieved_utc"].replace("Z", "+00:00"))
+            self.assertIsNotNone(retrieved.tzinfo)
+            self.assertEqual(retrieved.utcoffset().total_seconds(), 0)
             self.assertEqual(len(art["sha256"]), 64)
             self.assertEqual(f.errors, [])
 
@@ -103,26 +107,80 @@ class FetcherTests(unittest.TestCase):
             self.assertEqual(f.errors, [])
 
 
+class InjuryArchiveTests(unittest.TestCase):
+    def test_new_report_archive_uses_manifest_retrieval_time(self):
+        report = "Injury-Report_2026-11-17_12_15AM.pdf"
+        index = index_html(report)
+        pdf = b"%PDF-official-report"
+        retrieved_utc = "2026-11-17T05:16:02Z"
+
+        pdf_retrieved_utc = "2026-11-17T05:16:09Z"
+
+        class FakeFetcher:
+            def __init__(self):
+                self.errors = []
+                self.artifacts = []
+
+            def get(self, url, dest, required=False, label=None):
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                with open(dest, "wb") as fh:
+                    fh.write(pdf)
+                self.artifacts.append({"url": url, "retrieved_utc": pdf_retrieved_utc})
+                return pdf
+
+        def fake_pdftotext(command, **kwargs):
+            with open(command[-1], "w", encoding="utf-8") as fh:
+                fh.write("verbatim injury report text\n")
+            return mock.MagicMock(returncode=0, stdout="", stderr="")
+
+        with tempfile.TemporaryDirectory() as td:
+            app = os.path.join(td, "data", "app")
+            out_dir = os.path.join(td, "refresh")
+            os.makedirs(out_dir)
+            with mock.patch.object(ro, "ROOT", td), mock.patch.object(ro, "APP", app), \
+                    mock.patch.object(ro.subprocess, "run", side_effect=fake_pdftotext):
+                archive = ro.archive_injury_reports(
+                    index, out_dir, {"retrieved_utc": retrieved_utc}, FakeFetcher())
+
+            entry = archive["reports"]["2026-11-17-12-15AM"]
+            self.assertEqual(entry["retrieved_utc"], pdf_retrieved_utc)
+            self.assertEqual(entry["pdf_bytes"], len(pdf))
+            self.assertEqual(entry["pdf_sha256"], ro.hashlib.sha256(pdf).hexdigest())
+            text_path = os.path.join(app, entry["text_file"].split("data/app/")[-1])
+            with open(text_path, encoding="utf-8") as fh:
+                self.assertEqual(fh.read(), "verbatim injury report text\n")
+
+    def test_archive_requires_retrieval_provenance(self):
+        with self.assertRaisesRegex(ValueError, "retrieved_utc"):
+            ro.archive_injury_reports("", tempfile.gettempdir(), {}, mock.Mock())
+
+
 class MainFlowTests(unittest.TestCase):
     """main() with the network replaced: a dead injury index must stop before any rebuild."""
 
     def test_dead_injury_index_returns_2_and_writes_manifest(self):
         with tempfile.TemporaryDirectory() as td:
-            with mock.patch.object(ro, "APP", td), \
-                    mock.patch.object(ro.Fetcher, "get", lambda self, *a, **k: (
-                        self.errors.append({"url": a[0], "label": k.get("label"),
-                                            "required": True, "error": "boom",
-                                            "attempts": 3}) or None)), \
-                    mock.patch.object(ro.subprocess, "run") as run, \
-                    mock.patch.object(ro.sys, "argv", ["refresh_official.py",
-                                                       "--stamp", "T1"]):
-                code = ro.main()
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                with mock.patch.object(ro, "APP", td), \
+                        mock.patch.object(ro.Fetcher, "get", lambda self, *a, **k: (
+                            self.errors.append({"url": a[0], "label": k.get("label"),
+                                                "required": True, "error": "boom",
+                                                "attempts": 3}) or None)), \
+                        mock.patch.object(ro.subprocess, "run") as run, \
+                        mock.patch.object(ro.sys, "argv", ["refresh_official.py",
+                                                           "--stamp", "T1"]):
+                    code = ro.main()
             self.assertEqual(code, 2)
             run.assert_not_called()
-            import json
-            with open(os.path.join(td, "refresh", "T1", "manifest.json")) as fh:
+            with open(os.path.join(td, "refresh", "T1", "manifest.json"), encoding="utf-8") as fh:
                 man = json.load(fh)
             self.assertEqual(man["errors"][0]["label"], "injury index")
+            self.assertEqual(man["stamp"], "T1")
+            parsed = datetime.fromisoformat(man["retrieved_utc"].replace("Z", "+00:00"))
+            self.assertIsNotNone(parsed.tzinfo)
+            self.assertNotIn("::error::", stdout.getvalue() + stderr.getvalue())
+            self.assertIn("required source failed", stderr.getvalue())
 
     def test_required_failure_after_index_refuses_rebuild(self):
         """Index works, newest PDF fails: exit 2, gates and rebuild are never run."""
@@ -137,14 +195,18 @@ class MainFlowTests(unittest.TestCase):
             return None
 
         with tempfile.TemporaryDirectory() as td:
-            with mock.patch.object(ro, "APP", td), \
-                    mock.patch.object(ro.Fetcher, "get", fake_get), \
-                    mock.patch.object(ro.subprocess, "run") as run, \
-                    mock.patch.object(ro.sys, "argv", ["refresh_official.py",
-                                                       "--stamp", "T2"]):
-                code = ro.main()
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                with mock.patch.object(ro, "APP", td):
+                    with mock.patch.object(ro.Fetcher, "get", fake_get):
+                        with mock.patch.object(ro.subprocess, "run") as run:
+                            with mock.patch.object(ro.sys, "argv",
+                                                   ["refresh_official.py", "--stamp", "T2"]):
+                                code = ro.main()
             self.assertEqual(code, 2)
             run.assert_not_called()
+            self.assertNotIn("::error::", stdout.getvalue() + stderr.getvalue())
+            self.assertIn("required source failed", stderr.getvalue())
 
 
 def _card(away, home, gid, day):
@@ -315,6 +377,47 @@ class GateCallTests(unittest.TestCase):
                             "--help"], capture_output=True, text=True, cwd=ROOT)
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertNotIn("--manifest", r.stdout)
+
+
+class WorkflowGateTests(unittest.TestCase):
+    def _step(self, workflow, name):
+        marker = f"- name: {name}"
+        start = workflow.index(marker)
+        end = workflow.find("\n      - name:", start + len(marker))
+        if end < 0:
+            end = len(workflow)
+        return workflow[start:end]
+
+    def test_round_steps_are_success_gated_in_order(self):
+        path = os.path.join(ROOT, ".github", "workflows", "refresh.yml")
+        with open(path, encoding="utf-8") as fh:
+            workflow = fh.read()
+        names = (
+            "Round 2026-11-17 - capture integrity (standings + both injury-report revisions)",
+            "Round 2026-11-17 - freshness and provenance gates (rebuild is blocked from here)",
+            "Round 2026-11-17 - model, ledger, site (only after the gates above)",
+        )
+        blocks = [self._step(workflow, name) for name in names]
+        for name, block in zip(names, blocks):
+            conditions = [line.strip() for line in block.splitlines()
+                          if line.strip().startswith("if:")]
+            self.assertEqual(conditions, ["if: success()"], name)
+            self.assertNotIn("always()", block, name)
+        self.assertLess(workflow.index("capture integrity"),
+                        workflow.index("freshness and provenance gates"))
+        self.assertLess(workflow.index("freshness and provenance gates"),
+                        workflow.index("model, ledger, site"))
+
+    def test_committed_round_captures_replay_before_the_live_fetch(self):
+        import subprocess
+        for script in ("capture_2ecbccfd.py", "gamebooks_2ecbccfd.py", "slate_extra_2ecbccfd.py"):
+            with self.subTest(script=script):
+                result = subprocess.run(
+                    [sys.executable, os.path.join(ROOT, "scripts", script), "--check"],
+                    capture_output=True, text=True, cwd=ROOT)
+                self.assertEqual(result.returncode, 0,
+                                 f"{script} --check failed on committed inputs before fetch:\n"
+                                 f"{result.stdout}\n{result.stderr}")
 
 
 if __name__ == "__main__":

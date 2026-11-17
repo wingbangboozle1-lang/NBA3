@@ -92,7 +92,7 @@ jobs:
             rc=$?
           fi
           if [ "$rc" -ne 0 ]; then
-            grep -E "Traceback|Error|error|FAILED|required" /tmp/refresh_official.log \
+            grep -E "Traceback|ERROR|Error|error|FAILED|required" /tmp/refresh_official.log \
               | tail -25 | sed 's/^/::error::refresh: /' || true
             exit "$rc"
           fi
@@ -100,12 +100,12 @@ jobs:
       # ---------------------------------------------------------------------------
       # The 2026-11-17 round's own chain (session arena/2ecbccfd-nba3). These steps are offline
       # and deterministic by construction: they parse verbatim transcripts committed under
-      # data/rounds/2026-11-17/captures/ instead of reaching the network, so a red here means a
-      # committed transcript moved without the artefacts being rebuilt -- the exact failure the
-      # freshness and provenance gates exist to catch. `--check` on each script is the gate.
+      # data/rounds/2026-11-17/captures/ instead of reaching the network. They are consecutive
+      # hard gates: do not use `always()` here. A failed fetch or capture must skip the freshness
+      # gate, and a failed freshness gate must skip every model/site step.
       # ---------------------------------------------------------------------------
       - name: Round 2026-11-17 - capture integrity (standings + both injury-report revisions)
-        if: always() && !cancelled()
+        if: success()
         run: |
           set -uo pipefail
           test -f data/rounds/2026-11-17/captures/standings_2026-11-16_raw.md || {
@@ -116,13 +116,36 @@ jobs:
             echo "          has no second revision and the injury freshness gate would be unverifiable"; exit 1; }
           python3 scripts/capture_2ecbccfd.py --check || {
             echo "::error::capture_2ecbccfd.py --check failed (capture integrity)"; exit 1; }
-          python3 scripts/gamebooks_2ecbccfd.py --check || {
-            echo "::error::gamebooks_2ecbccfd.py --check failed (capture integrity)"; exit 1; }
+          if ! python3 scripts/gamebooks_2ecbccfd.py --check; then
+            echo "::error::gamebooks_2ecbccfd.py --check failed (capture integrity)"
+            diag="$RUNNER_TEMP/nba3-gamebooks-mismatch.txt"
+            {
+              echo "source fingerprints (team registry and verbatim game-book transcripts):"
+              sha256sum data/live/team_registry.json data/rounds/2026-11-17/captures/gamebook_*.md
+            } | tee "$diag"
+            out=data/rounds/2026-11-17/player_logs_2026-11-15.json
+            tmp=$(mktemp)
+            had_output=0
+            if [ -f "$out" ]; then cp "$out" "$tmp"; had_output=1; fi
+            python3 scripts/gamebooks_2ecbccfd.py || true
+            if [ "$had_output" -eq 1 ] && [ -f "$out" ]; then
+              {
+                echo "generated-versus-committed player-log diff (first 120 lines):"
+                diff -u "$tmp" "$out" | head -n 120 || true
+              } | tee -a "$diag"
+              cp "$tmp" "$out"
+            else
+              echo "expected player-log artefact was missing before regeneration" | tee -a "$diag"
+              rm -f "$out"
+            fi
+            rm -f "$tmp"
+            exit 1
+          fi
           python3 scripts/slate_extra_2ecbccfd.py --check || {
             echo "::error::slate_extra_2ecbccfd.py --check failed (capture integrity)"; exit 1; }
 
       - name: Round 2026-11-17 - freshness and provenance gates (rebuild is blocked from here)
-        if: always() && !cancelled()
+        if: success()
         run: |
           set -uo pipefail
           # The gate script runs first and its exit code is the only thing the rebuild obeys.
@@ -144,12 +167,21 @@ jobs:
           PY
 
       - name: Round 2026-11-17 - model, ledger, site (only after the gates above)
-        if: always() && !cancelled()
+        if: success()
         run: |
           set -euo pipefail
           python3 scripts/model_2ecbccfd.py --check
           python3 scripts/ledger_2ecbccfd.py --check
           python3 round_2ecbccfd/build.py --check
+
+      - name: Upload refresh diagnostics from a failed gate
+        if: failure() && !cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refresh-diagnostics-${{ github.run_id }}
+          path: ${{ runner.temp }}/nba3-gamebooks-mismatch.txt
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Commit refreshed captures and rebuilt outputs
         # The rebuild chain (scripts/refresh_official.py step 6) regenerates files OUTSIDE
