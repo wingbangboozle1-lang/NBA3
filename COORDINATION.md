@@ -6356,3 +6356,14 @@ F2 includes the generated site renderer and its generated pages because the curr
 **Live-data limitation:** a read-only Actions run-list inspection at 2026-11-19T06:05:57Z found no scheduled run after [44424736929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929), which failed before official fetch. The separate main Pages run [44468540389](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44468540389) at 05:56Z succeeded for `main`; it does not validate this branch's changes. No NBA source was fetched by this integration pass. Existing 11/19 source records were preserved from merged main; they are separate captures, not current canonical model inputs. No present-day projection, injury status, or new settlement is claimed.
 
 **PR and Pages integration remain pending** until the final diff is reviewed, committed and pushed on this branch.
+
+## Session `dd3edd74` (`arena/dd3edd74-nba3`) — CLAIM (2026-11-19 ~07:00 UTC)
+
+Session ID: `dd3edd74`. Branch fixed by the workspace: `arena/dd3edd74-nba3`, base `454a7ee` = `main` (PR #142). Pushed before work began. No other claim on the board is `in progress` for the files below; the stale `in progress` rows from earlier sessions are not touched.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| D1 — Scheduled refresh red since 11/16: take the hosted evidence (run `44469939831`, job annotations), reproduce the failing check on the failing commit `5ad832a` and on the current tree, and make the failing `--check` **say why** (no gate change, no test weakened). Annotate the failing assertion text in the unit step. | in progress | dd3edd74 | `scripts/gamebooks_2ecbccfd.py` (`--check` branch: print reason only), `.github/workflows/refresh.yml` (unit-step annotation lines only), `tests/test_dd3edd74.py` (new) |
+| D2 — Official per-game finals for **11/16, 11/17, 11/18** (25 games) from the official nba.com date pages, one row per game; quarter scores left blank and flagged where not read from an official page; cross-checked against the 11/18 capture already on the board | in progress | dd3edd74 | `data/rounds/2026-11-19-dd3edd74/**` (new tree only), `scripts/capture_dd3edd74.py` (new) |
+
+Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`, `docs/`, `audit*/`, `data/app/**`, `data/results_feed*`, `scripts/build_app.py`, `pages.yml`, or any model/ledger/picks file. Shared outputs (canonical results feed, Flagged page, nav) are not edited; the new rows are requests for the integration owner (CR-DD3-01).
