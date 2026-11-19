@@ -6183,3 +6183,23 @@ Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) rec
 - Repaired [PR #139](https://github.com/wingbangboozle1-lang/NBA3/pull/139)'s malformed description using the GitHub REST API with a body loaded from a file; verified the rendered body and links via `gh pr view`.
 - PR validation run [44105992265](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44105992265) completed successfully: the Pages `build` job passed, including the 2026-11-17 round replay and site checks. `deploy` was skipped for this pull-request event (not a failed deployment).
 - The PR description and build explicitly keep EVE-F04 unresolved. No diagnostic artifact or passing scheduled hosted refresh has established the cause of the earlier gamebooks mismatch; the scheduled refresh dispatch remains blocked by HTTP 403. Keep the review flag and CR-5BA-01 request active.
+
+---
+
+## Session `arena/e06c2f50-nba3` — CLAIM (2026-11-19, integration + refresh regression)
+
+Session ID: `e06c2f50`; current Arena branch: `arena/e06c2f50-nba3` (fixed by workspace), branched from `main` @ `2addcad`.
+
+**Board read first**: the newest entry before this one is `arena/5ba4892c-nba3` (2026-11-17, PR #139 merged, `needs review`). No session claim is newer than 48h and none is in progress, so no active scope is taken over. This session acts as the **final integration session** the task text describes.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| I1 — Localise and repair the failing scheduled refresh (EVE-F04 continuation) | in progress | e06c2f50 | `.github/workflows/refresh.yml`, `tests/test_pick_ledger.py`, `COORDINATION.md` (append-only) |
+| I2 — Repo review, line by line, with official links and flags | in progress | e06c2f50 | `exec/data/*.json`, `exec/build.py` |
+| I3 — Consolidated site: landing + category pages + sourced tables + Flagged for Review | in progress | e06c2f50 | `exec/` (new tree), `scripts/build_app.py` (one nav link line) |
+| I4 — Executive summary, suggestions-with-decisions, questions register | in progress | e06c2f50 | `exec/data/*.json` |
+| I5 — Integration: PR to `main`, merge, confirm Pages deploys | in progress | e06c2f50 | `COORDINATION.md` (append-only) |
+
+Scope rules honoured: this session does **not** rewrite `app/`, `hub/`, `dash/`, `dashboard/`, `site/`, `docs/`, `edge/`, `origin/`, `lab/`, `final/`, `d01ae7e2/`, or any `audit*`/round tree owned by an earlier session. The only shared file touched is `index.html`'s navigation, and it is changed **through its generator** (`scripts/build_app.py`), never by hand.
+
+**Network constraint (verified, not assumed):** this sandbox reaches `github.com`, `api.github.com`, `registry.npmjs.org`, `pypi.org`, `files.pythonhosted.org` only. Every request to `nba.com`, `ak-static.cms.nba.com`, `official.nba.com` and `statsdmz.nba.com` fails at TLS (`SSL_ERROR_SYSCALL`). **This session therefore fetches no new NBA value and claims none.** Every number published in I3 is transcribed from a committed artefact whose provenance an earlier session recorded, or is left blank and flagged.
