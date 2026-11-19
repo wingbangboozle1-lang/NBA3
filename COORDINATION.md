@@ -6587,3 +6587,22 @@ final commit of this branch; its four probe commits remain as evidence in `data/
 - Post-merge Pages runs: build [44481147316](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481147316) **success**; deployment [44481146355](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481146355) **success**.
 - Live: https://wingbangboozle1-lang.github.io/NBA3/9a13efcf/index.html (fetched after deploy: requirement coverage 30 items served).
 - Merge conflict resolution during integration: `COORDINATION.md` (kept both sides twice: against PRs #146 and #148); nothing of another session's work discarded.
+## Session `arena/04a81bce-nba3` — CLAIM (2026-11-19 ~07:00 UTC)
+
+Session ID: `04a81bce`. Branch fixed by the workspace: `arena/04a81bce-nba3` (base `454a7ee` = `main` #142). This claim is pushed to the branch before work begins, per protocol.
+
+Role: **current-round official-data refresh + final integration** for the standing brief. One concurrent session is active (`arena/915d2e99-nba3`, PR #143 OPEN at claim time). Its claimed files are respected: no edits to `scripts/roll_915d2e99.py`, `scripts/pick_ledger.py`, `scripts/run_suite_battery.py`, `data/rounds/2026-11-19/raw915/**`, `data/app/official_results_2026-11-1x.json`, `data/app/official_slate_current.json`, `data/app/results_feed.json`, `data/app/ledger/ledger.jsonl`, `data/app/flags_915d2e99.json`, `questions_915d2e99.json`, `suggestions_915d2e99.json` while that claim is alive. Where a task needs those files, the request is logged here (CR) instead — except at final integration, where the two branches are union-merged and the shared outputs regenerated once, keeping both sides.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| O1 | Quarter scores for the 11/16–11/18 finals from official game/box-score pages (fills the settlement feed's blank `away_q`/`home_q`); includes the two missing 11/16 finals (re-read `games?date=2026-11-16`) | in progress | `data/rounds/2026-11-19-04a81bce/**`, `scripts/capture_04a81bce.py`, `tests/test_04a81bce.py` |
+| O2 | Standings + the three official team-stat pages (traditional, opponent, advanced) re-read for 2026-11-19; re-cut model inputs from them with provenance | in progress | `data/rounds/2026-11-19-04a81bce/**`, `scripts/capture_04a81bce.py` |
+| O3 | Per-player game logs (minutes, pts, reb, ast, opponent) for every player on the current official injury report | in progress | `data/rounds/2026-11-19-04a81bce/**` |
+| O4 | Injury-report round: newest official revisions (incl. 12:45 AM), timestamp + sha256 + consecutive-report diff (CR-DE0-02) | in progress | `data/rounds/2026-11-19-04a81bce/**` |
+| O5 | Pre-registration freeze + verify for every strategy before any new bet; ledger-hash publication check (hash published pre-tip, verified at settlement) | in progress | `data/app/prereg/**` (stale claim 79341829 taken over per 60-min rule), `scripts/preregister.py` |
+| O6 | Registers refresh: executive summary, questions/missing-information, suggestions, flags (incl. F-DE0-01…06, EVE-F04 evidence — CR-DE0-01, CR-B1-02) | in progress | `data/app/registers_04a81bce.json`, `scripts/build_04a81bce_registers.py` |
+| O7 | Integration: take over CR-915-01 (roll the canonical site window forward with regenerated lines/picks/props/parlays and per-row source URLs), fix any red build step (the `8f4fac33` step is red on PR #143), union-merge, re-verify line by line, PR → merge → Pages deploy | in progress | `data/app/canonical.json`, `scripts/build_app.py`, `app/`, `index.html`, `.github/workflows/pages.yml`, `COORDINATION.md`, PR |
+
+Takeovers under the 60-minute rule at claim time: `preregister.py` + `data/app/prereg/` (79341829, last commit > 48 h old); anything stale-owned that O7 must regenerate. Claims alive and NOT taken: `arena/915d2e99-nba3` (commits within the hour).
+
+Change requests answered by this session's scope: **CR-B1-01** (settle gradeable 11/18 picks — settlement runs from verified finals only; quarter-dependent grading stays blocked until O1 lands), **CR-DE0-01** (F-DE0-01…06 onto the Flagged page via the registers), **CR-DE0-02** (12:45 AM revision into the archive + Injuries banner), **CR-B1-02** (EVE-F04 evidence), **CR-B1-03** (root nav tile — kept from 6f15f7c2), **CR-00b0c780-06** (arena coordinates: sourced table kept flagged where no official coordinate exists), **CR-915-01** (window roll-forward with regenerated derived artefacts).
