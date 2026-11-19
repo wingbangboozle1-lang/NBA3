@@ -6423,12 +6423,12 @@ create or push another branch. Claim pushed before work began.
 | Task | Status | Owner | File scope |
 |---|---|---|---|
 | E1 Root-cause the red scheduled refresh and make the committed tree reproducible on the runner interpreter | done (cause found + reproduced; regression test wired into the refresh preflight) | e9295737 | `.github/workflows/refresh.yml`, `scripts/floatsum.py`, `scripts/gamebooks_2ecbccfd.py`, `d1b96315/model.py`, `pipeline/v2/stats.py`, `pipeline/v2/estimators.py`, `tests/test_float_sum_determinism.py` |
-| E2 Injury PDF archive + consecutive-report status diff for the current slate | in progress | e9295737 | `data/rounds/2026-11-19-e9295737/**`, `scripts/capture_e9295737.py`, `tests/test_e9295737.py` |
-| E3 Official per-game results feed (date, teams, final, quarter scores) settled only on verified finals | unclaimed | — | — |
-| E4 Rolling slate up to 3 days ahead, gate-passed rebuild | unclaimed | — | — |
-| E5 Projection vs bet surface separation with a provenance gate | unclaimed | — | — |
-| E6 Executive summary, questions, suggestions integration | unclaimed | — | — |
-| E7 Final integration: full verification, PR to `main`, merge, Pages deploy confirmation | unclaimed | — | — |
+| E2 Injury PDF archive + consecutive-report status diff for the current slate | done | e9295737 | `data/rounds/2026-11-19-e9295737/**`, `scripts/capture_e9295737.py`, `tests/test_e9295737.py` |
+| E3 Official per-game results feed (date, teams, final, quarter scores) settled only on verified finals | done | e9295737 | `data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json`, `scripts/capture_e9295737.py` |
+| E4 Rolling slate up to 3 days ahead (schedule captured; gate-passed rebuild blocked) | done for schedule, rebuild blocked | e9295737 | `data/rounds/2026-11-19-e9295737/slate_2026-11-19_21.json` |
+| E5 Projection vs bet surface separation with a provenance gate | reviewed, not changed | e9295737 | reads `scripts/build_app.py` NAV only |
+| E6 Executive summary, questions, suggestions integration | done | e9295737 | `data/app/{flags,questions,suggestions}_e9295737.json`, `scripts/build_app.py` |
+| E7 Final integration: full verification, PR to `main`, merge, Pages deploy confirmation | in progress | e9295737 | branch `arena/e9295737-nba3` |
 
 **E1 completion record (2026-11-19 ~07:10 UTC).**
 
@@ -6461,3 +6461,42 @@ create or push another branch. Claim pushed before work began.
 - **Not claimed:** this does not prove the *next* hosted run succeeds end to end. The unit-test
   preflight is what was failing and it is fixed and now diagnosable; the fetch/gate/rebuild steps were
   skipped in every recorded failure and have not been exercised live from this sandbox.
+
+**E2/E3/E4 completion record (2026-11-19 ~09:00 UTC).**
+
+- **E2 injury archive.** Four revisions of the 2026-11-19 official injury report (12:30, 12:45,
+  01:30, 01:45 AM ET) stored verbatim with printed revision clock, retrieval stamp (07:20Z), source
+  URL, transcript sha256, parsed rows, and a diff against the immediately preceding revision.
+  **Verified: 23 player rows in every revision; 0 status changes, 0 added, 0 removed across the
+  whole chain.** The 12:30 AM text layer merges three teams (BKN/TOR/DET) into one cell and is
+  recorded as a structure note, not repaired; the 12:45 AM revision drops the merge, the only
+  structural change in the chain. **Independent cross-check:** session `b1ce1334` parsed the same
+  12:30 AM PDF separately (`data/rounds/2026-11-19/injury_parsed.json`); all 23
+  player/status/reason triples and all team/matchup attributions agree exactly, and a test pins it.
+- **E3 results feed.** 25 games for 2026-11-16 (8), -17 (5), -18 (12), each with date, teams, final,
+  quarter/OT periods, plus the source game page and games-list page. **25/25 settled, 0 withheld** on
+  a four-part mechanical test (away sum, home sum, equal period counts, not a tie); every row's
+  periods sum to the printed final on both sides AND the final equals the score printed on the
+  official games page. CHA@LAL 2026-11-17 is the one overtime game and carries five periods.
+- **Decision: the canonical `data/app/results_feed.json` was NOT extended.** It is hash-chained and
+  consumed by the audit trees, the settled-round scripts and the build; appending 25 rows would move
+  its head hash and invalidate recorded settlement evidence for 2026-11-13..15. The new window is
+  published as a separate round-scoped feed with its own printed settlement rule (flag E929-F05).
+- **E4 slate.** 19 games over 2026-11-19..11-21 (4 / 9 / 6, matching the calendar counts printed on
+  the official games page) with game ids, ET tips, printed records and NBA Cup group labels where
+  the page prints one. **Cross-checked field by field against the independent `b1ce1334` capture
+  already on main: 19/19 agree on game id, away, home and tip time** (pinned by a test).
+- **Gate-passed rebuild: NOT done.** Pick generation for this slate needs the live refresh, which is
+  still blocked (E929-F01/Q02). The slate is schedule only; no price on the site is a pick.
+- **Site.** New `app/round-2026-11-19.html` (banner with both clocks, revision diffs, 23 player rows,
+  25 finals by date, 19-game slate) and `app/traceability.html` (all 30 brief requirements mapped to
+  their implementation and to the check actually run: 10 verified, 18 partial, 2 blocked). Build
+  **29 pages, 0 broken links**, byte-identical on re-run. Tests: **349 discovered + 45 pipeline/v2**.
+- **Reproducibility gate.** `python3 scripts/capture_e9295737.py --check` re-derives all three
+  artefacts in memory and byte-compares them to the committed files; it exits 0 and is now in the
+  refresh preflight suite list alongside `test_e9295737.py` (26 tests). The exact preflight loop was
+  simulated locally: all 12 suites pass.
+- **Irregularities published:** E929-F01 (preflight fixed in code, no green hosted run observed),
+  F02 (12:30 AM layout defect), F03 (null diff reported as a finding), F04 (global header window
+  label vs per-page coverage), F05 (feed separation decision). Six open questions (E929-Q01..Q06) and
+  six suggestions (E929-S01..S06); **none of the suggestions is implemented.**
