@@ -65,6 +65,17 @@ MIN_GAMES_FOR_Z = 4      # fewer captured games than this cannot support a z tha
 RIDGE = 0.35          # shrinkage on the margin fit; chosen by leave-one-game-out below, not picked
 MIN_GAMES_FOR_B = 8   # a team must have played this many games before page-B inputs are used
 
+# The frozen learning window. This round priced 2026-11-16..18, so the only games it is allowed
+# to learn from are those played BEFORE that window: 2026-11-13..2026-11-15. The cutoff is a
+# constant, not "whatever the feed holds at replay time": data/app/results_feed.json is a LIVE
+# artefact that later rounds keep growing (it went 23 -> 46 rows on 2026-11-19), and the CI step
+# that rebuilds this round demands byte-identical output. Reading the feed without a cutoff made
+# the replay depend on later game days -- it republished different lines (hca 4.12 -> -1.35 pts)
+# and failed the drift check on every run after 2026-11-17. Filtering on the round's own end date
+# is also the correctness fix: a game played after 2026-11-15 could not have informed a line that
+# was originated on 2026-11-16.
+LOG_END = "2026-11-15"
+
 
 def load(name):
     with open(os.path.join(ROUND, name), encoding="utf-8") as fh:
@@ -89,6 +100,10 @@ def game_log():
     """
     feed = json.load(open(os.path.join(ROOT, "data/app/results_feed.json"), encoding="utf-8"))
     results = load("results.json")
+    # Frozen window: see LOG_END. A row dated after it is a later game day, not an input to a
+    # line originated for 2026-11-16..18.
+    feed_rows = [g for g in feed["games"] if g["date"] <= LOG_END]
+    results = dict(results, rows=[r for r in results["rows"] if r["date"] <= LOG_END])
     # This round's own capture (results.json) is the round's frozen reading and it carries
     # its own settled flags: a game it holds is taken from it, with ITS flag, and its feed row
     # is skipped. The app feed has since settled 2026-11-15 rows (session arena/4054e125-nba3,
@@ -98,7 +113,7 @@ def game_log():
     # (0022600243, unsettled there by design) stays excluded here.
     round_held = {(r["date"], r["away"], r["home"]) for r in results["rows"]}
     games = []
-    for g in feed["games"]:
+    for g in feed_rows:
         if not g.get("settled"):
             continue
         if (g["date"], g["away"], g["home"]) in round_held:
@@ -151,8 +166,9 @@ def home_court(games):
         "caveat": (f"n = {n} finals. The 95% Wilson interval for the home-win rate is printed on "
                    "the page; at this n it is wide and the pin should be revisited as the log "
                    "grows."),
-        "source": "data/app/results_feed.json + data/rounds/2026-11-16/results.json, both "
-                  "transcribed from official game books / the official scoreboard",
+        "source": ("data/app/results_feed.json (rows dated <= " + LOG_END + ") + "
+                   "data/rounds/2026-11-16/results.json, both transcribed from official "
+                   "game books / the official scoreboard"),
     }
 
 
