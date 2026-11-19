@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import glob
 import json
+import math
 import os
 import re
 import sys
@@ -210,7 +211,14 @@ def reconcile(teams):
         complete = len(full) == len(rows)
         sums = {k: (sum((r[k] or 0) for r in full) if complete else None) for k in cols}
         pts_only = sum((r.get("pts") or 0) for r in rows)
-        mins = round(sum(r["min"] or 0 for r in rows), 2)
+        # Minutes are floats, so the aggregate must not depend on which interpreter runs the
+        # replay: CPython 3.12 switched builtin sum() for floats to compensated (Neumaier)
+        # summation (gh-100425), which changed the last bit of these totals versus the 3.11 build
+        # that generated the committed artefact and made the committed-tree --check red on the
+        # hosted runner while every 3.11 sandbox stayed green (scheduled run 44469939831's
+        # annotations name exactly this replay). math.fsum is correctly rounded on every CPython,
+        # so the published bytes stop depending on the runner's minor version.
+        mins = round(math.fsum(r["min"] or 0 for r in rows), 2)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
         checks["min_total_240"] = abs(mins - 240.0) < 0.35
@@ -277,7 +285,11 @@ def main():
                     "source_url": d["source_url"],
                 })
             ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
-            tot = sum(r["min"] or 0 for r in played) or None
+            # Same interpreter-stability rule as reconcile(): the share denominator must be the
+            # same number on 3.11 and 3.12, or a top-8 share rounds to a different 4th decimal
+            # (this is the exact byte that failed the hosted replay check: a Wizards 0.1088 vs
+            # 0.1087 under the two summations).
+            tot = math.fsum(r["min"] or 0 for r in played) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],
@@ -307,7 +319,19 @@ def main():
     }
     blob = json.dumps(payload, indent=1) + "\n"
     if "--check" in args:
-        return 0 if open(OUT, encoding="utf-8").read() == blob else 1
+        committed = open(OUT, encoding="utf-8").read()
+        if committed == blob:
+            return 0
+        # Diagnostic only (arena/dd3edd74-nba3, D1): the gate's result is unchanged. Name the first
+        # line where the committed artefact and the regenerated output part ways, so a red CI run
+        # says why without needing the runner log body.
+        cl, bl = committed.splitlines(), blob.splitlines()
+        first = next((i for i, (a, b) in enumerate(zip(cl, bl)) if a != b), min(len(cl), len(bl)))
+        print(f"gamebooks --check: {os.path.relpath(OUT, ROOT)} differs from the regenerated output; "
+              f"first differing line {first + 1} (committed {len(cl)} lines, regenerated {len(bl)})")
+        print("  committed  :", (cl[first] if first < len(cl) else "<end of file>")[:240])
+        print("  regenerated:", (bl[first] if first < len(bl) else "<end of file>")[:240])
+        return 1
     open(OUT, "w", encoding="utf-8").write(blob)
     print(f"wrote {os.path.relpath(OUT, ROOT)}: {len(per_player)} player rows, "
           f"{payload['reconciled_clubs']}/{payload['club_count']} club-games reconcile, "
