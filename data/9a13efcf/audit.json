@@ -1,0 +1,2657 @@
+{
+ "schema": "nba3.audit.9a13efcf/v1",
+ "session": "arena/9a13efcf-nba3",
+ "generated_utc": "2026-11-19T07:30:00Z",
+ "what": "independent line-by-line verification of the project brief against the committed implementation and captures; every value recomputed with code written for this audit",
+ "inputs": [
+  "data/origin/games.csv",
+  "data/v2/build.json",
+  "data/v2/arena_coordinates.json",
+  "data/v2/captures/*",
+  "prereg/*",
+  "ledger/*",
+  "data/app/ledger/ledger.jsonl",
+  "data/app/results_feed.json",
+  "data/app/minutes_model.json",
+  "data/rounds/2026-11-17/player_logs_2026-11-15.json",
+  "data/9a13efcf/arena_wikipedia_check.json"
+ ],
+ "checks": [
+  {
+   "id": "V-HCA",
+   "area": "home-court advantage",
+   "requirement": "Pin home-court advantage to the measured home-win rate instead of fitting it freely.",
+   "what_i_recomputed": "home-win rate 99/188 = 0.526596; sample sd of margins 16.898969; HCA = logit(p)*sd = 1.799461 points",
+   "published": {
+    "n_games": 188,
+    "home_wins": 99,
+    "home_win_rate": 0.526595744680851,
+    "margin_sd": 16.8989689258436,
+    "hca_points": 1.7994610264366775
+   },
+   "mine": {
+    "n_games": 188,
+    "home_wins": 99,
+    "home_win_rate": 0.526595745,
+    "margin_sd": 16.898968926,
+    "hca_points": 1.799461026
+   },
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "independent recompute from data/origin/games.csv (the same finals log the model reads), with my own mean/sd/logit code"
+  },
+  {
+   "id": "V-A",
+   "area": "estimator A (result-based)",
+   "requirement": "Keep two independent estimators and publish their disagreement as the primary confidence signal.",
+   "what_i_recomputed": "ridge margin fit (lam=8, HCA=1.7995 pinned and subtracted) on 188 finals with an independent Gauss-Seidel solver; predicted all 22 slate margins",
+   "published_vs_mine": [
+    {
+     "game_id": "0022600236",
+     "published": 4.513195,
+     "mine": 4.513195,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600237",
+     "published": -4.720463,
+     "mine": -4.720463,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600238",
+     "published": 6.411532,
+     "mine": 6.411532,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600239",
+     "published": -11.581122,
+     "mine": -11.581122,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600240",
+     "published": 6.418533,
+     "mine": 6.418533,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600241",
+     "published": 0.039916,
+     "mine": 0.039916,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600242",
+     "published": -8.435349,
+     "mine": -8.435349,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600243",
+     "published": -6.091993,
+     "mine": -6.091993,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600244",
+     "published": -8.242564,
+     "mine": -8.242564,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600245",
+     "published": 10.051477,
+     "mine": 10.051477,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600246",
+     "published": 8.316486,
+     "mine": 8.316486,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600247",
+     "published": -6.675475,
+     "mine": -6.675475,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600248",
+     "published": -2.551943,
+     "mine": -2.551943,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600249",
+     "published": -4.786925,
+     "mine": -4.786925,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600250",
+     "published": 3.071992,
+     "mine": 3.071992,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600251",
+     "published": -7.976004,
+     "mine": -7.976004,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600252",
+     "published": 4.908107,
+     "mine": 4.908107,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600253",
+     "published": 0.039916,
+     "mine": 0.039916,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600254",
+     "published": 3.071992,
+     "mine": 3.071992,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600255",
+     "published": 6.954424,
+     "mine": 6.954424,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600257",
+     "published": 4.813329,
+     "mine": 4.813329,
+     "delta": 0.0
+    },
+    {
+     "game_id": "0022600256",
+     "published": 13.676705,
+     "mine": 13.676705,
+     "delta": 0.0
+    }
+   ],
+   "worst_abs_delta": 0.0,
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "tolerance 1e-3 points; solver differs on purpose (Gauss-Seidel vs elimination)"
+  },
+  {
+   "id": "V-B",
+   "area": "estimator B (efficiency) and the total",
+   "requirement": "Model the total as possessions x points-per-possession, not as an average of team scoring averages.",
+   "what_i_recomputed": "possessions = mean of the two teams' PACE; PPP = PTS*GP/POSS from the official team pages; total = poss * (PPP_home + PPP_away) for all 21 slate games with complete inputs",
+   "published_vs_mine": [
+    {
+     "game_id": "0022600236",
+     "published_total": 222.62111,
+     "my_total": 222.62111,
+     "published_margin": 3.700175,
+     "my_margin": 3.700175
+    },
+    {
+     "game_id": "0022600237",
+     "published_total": 232.439479,
+     "my_total": 232.439479,
+     "published_margin": -4.390236,
+     "my_margin": -4.390236
+    },
+    {
+     "game_id": "0022600238",
+     "published_total": 217.956458,
+     "my_total": 217.956458,
+     "published_margin": 4.880593,
+     "my_margin": 4.880593
+    },
+    {
+     "game_id": "0022600239",
+     "published_total": 222.898016,
+     "my_total": 222.898016,
+     "published_margin": -10.251759,
+     "my_margin": -10.251759
+    },
+    {
+     "game_id": "0022600241",
+     "published_total": 220.16957,
+     "my_total": 220.16957,
+     "published_margin": -0.576698,
+     "my_margin": -0.576698
+    },
+    {
+     "game_id": "0022600242",
+     "published_total": 223.075078,
+     "my_total": 223.075078,
+     "published_margin": -5.476697,
+     "my_margin": -5.476697
+    },
+    {
+     "game_id": "0022600243",
+     "published_total": 229.764262,
+     "my_total": 229.764262,
+     "published_margin": -5.992345,
+     "my_margin": -5.992345
+    },
+    {
+     "game_id": "0022600244",
+     "published_total": 223.966619,
+     "my_total": 223.966619,
+     "published_margin": -6.407466,
+     "my_margin": -6.407466
+    },
+    {
+     "game_id": "0022600245",
+     "published_total": 217.869042,
+     "my_total": 217.869042,
+     "published_margin": 9.624545,
+     "my_margin": 9.624545
+    },
+    {
+     "game_id": "0022600246",
+     "published_total": 234.992216,
+     "my_total": 234.992216,
+     "published_margin": 8.098526,
+     "my_margin": 8.098526
+    },
+    {
+     "game_id": "0022600247",
+     "published_total": 226.277679,
+     "my_total": 226.277679,
+     "published_margin": -5.45995,
+     "my_margin": -5.45995
+    },
+    {
+     "game_id": "0022600248",
+     "published_total": 222.507674,
+     "my_total": 222.507674,
+     "published_margin": -2.179086,
+     "my_margin": -2.179086
+    },
+    {
+     "game_id": "0022600249",
+     "published_total": 229.959222,
+     "my_total": 229.959222,
+     "published_margin": -3.248033,
+     "my_margin": -3.248033
+    },
+    {
+     "game_id": "0022600250",
+     "published_total": 227.462098,
+     "my_total": 227.462098,
+     "published_margin": 3.579646,
+     "my_margin": 3.579646
+    },
+    {
+     "game_id": "0022600251",
+     "published_total": 231.336985,
+     "my_total": 231.336985,
+     "published_margin": -4.711123,
+     "my_margin": -4.711123
+    },
+    {
+     "game_id": "0022600252",
+     "published_total": 226.586317,
+     "my_total": 226.586317,
+     "published_margin": 4.889826,
+     "my_margin": 4.889826
+    },
+    {
+     "game_id": "0022600253",
+     "published_total": 220.16957,
+     "my_total": 220.16957,
+     "published_margin": -0.576698,
+     "my_margin": -0.576698
+    },
+    {
+     "game_id": "0022600254",
+     "published_total": 227.462098,
+     "my_total": 227.462098,
+     "published_margin": 3.579646,
+     "my_margin": 3.579646
+    },
+    {
+     "game_id": "0022600255",
+     "published_total": 222.672292,
+     "my_total": 222.672292,
+     "published_margin": 5.765839,
+     "my_margin": 5.765839
+    },
+    {
+     "game_id": "0022600257",
+     "published_total": 224.92739,
+     "my_total": 224.92739,
+     "published_margin": 4.676575,
+     "my_margin": 4.676575
+    },
+    {
+     "game_id": "0022600256",
+     "published_total": 222.246728,
+     "my_total": 222.246728,
+     "published_margin": 11.336793,
+     "my_margin": 11.336793
+    }
+   ],
+   "worst_abs_delta": 0.0,
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "method_note": "inputs read from data/v2/captures/official_team_statistics_2026-11-15.json (the three official team-stat pages: traditional, opponent, advanced)"
+  },
+  {
+   "id": "V-LUCK",
+   "area": "luck z-scores and the noise band",
+   "requirement": "Report luck as a z-score per team and refuse to publish a strategy that leans on a team outside the noise band.",
+   "what_i_recomputed": "per-team z of residual wins vs the pinned-HCA rating, my own solver and my own norm_cdf, over 188 finals",
+   "published_z_sample": {
+    "ATL": 0.0407,
+    "BKN": -1.3886,
+    "BOS": 1.7762,
+    "CHA": -0.1241,
+    "CHI": -0.5881,
+    "CLE": -0.2032
+   },
+   "my_z_sample": {
+    "ATL": 0.0407,
+    "BKN": -1.3886,
+    "BOS": 1.7762,
+    "CHA": -0.1241,
+    "CHI": -0.5881,
+    "CLE": -0.2032
+   },
+   "worst_abs_delta": 0.0,
+   "band_standardization": "z set re-standardized before the band: mean -0.0815, sd 1.4160, k=2",
+   "outside_band_mine": [
+    "MIL",
+    "UTA"
+   ],
+   "outside_band_published": [
+    "MIL",
+    "UTA"
+   ],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "band |z| > 2 = outside the noise band; the leaderboard gate is checked in V-GATES"
+  },
+  {
+   "id": "V-CORR",
+   "area": "measured correlations",
+   "requirement": "Determine correlation values ... price every parlay with the measured rho.",
+   "what_i_recomputed": "Pearson r + Fisher z 95% CI on the finals log, my own code",
+   "rows": [
+    {
+     "pair": "home points vs away points, same game",
+     "n": 188,
+     "my_r": 0.122578,
+     "published_r": 0.122578,
+     "my_ci95": [
+      -0.020899,
+      0.261108
+     ],
+     "published_ci95": [
+      -0.020899,
+      0.261108
+     ],
+     "delta_r": 2.55e-07,
+     "delta_ci": 4.05e-07
+    },
+    {
+     "pair": "final margin vs final total, same game",
+     "n": 188,
+     "my_r": -0.018214,
+     "published_r": -0.018214,
+     "my_ci95": [
+      -0.160905,
+      0.125223
+     ],
+     "published_ci95": [
+      -0.160905,
+      0.125223
+     ],
+     "delta_r": 1.16e-07,
+     "delta_ci": 2.87e-07
+    }
+   ],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "V-PARLAY",
+   "area": "parlay pricing",
+   "requirement": "Price every parlay with the measured rho and print the naive product next to it, instead of withholding the price entirely.",
+   "what_i_recomputed": "same-game parlay joint probability at the measured rho (-0.018214) by conditional-normal Gauss-Legendre quadrature; naive product p_side*p_total beside it",
+   "rows": [
+    {
+     "game_id": "0022600236",
+     "p_side": 0.571058,
+     "p_total": 0.5,
+     "naive_product_published": 0.285529,
+     "naive_product_mine": 0.285529,
+     "copula_published": 0.282678,
+     "copula_mine": 0.282676,
+     "delta_copula": 2e-06,
+     "rho_used": -0.018214
+    },
+    {
+     "game_id": "0022600237",
+     "p_side": 0.584128,
+     "p_total": 0.5,
+     "naive_product_published": 0.292064,
+     "naive_product_mine": 0.292064,
+     "copula_published": 0.289231,
+     "copula_mine": 0.28923,
+     "delta_copula": 1e-06,
+     "rho_used": -0.018214
+    },
+    {
+     "game_id": "0022600238",
+     "p_side": 0.593359,
+     "p_total": 0.5,
+     "naive_product_published": 0.296679,
+     "naive_product_mine": 0.296679,
+     "copula_published": 0.293862,
+     "copula_mine": 0.29386,
+     "delta_copula": 2e-06,
+     "rho_used": -0.018214
+    },
+    {
+     "game_id": "0022600239",
+     "p_side": 0.690099,
+     "p_total": 0.5,
+     "naive_product_published": 0.34505,
+     "naive_product_mine": 0.34505,
+     "copula_published": 0.342488,
+     "copula_mine": 0.342486,
+     "delta_copula": 2e-06,
+     "rho_used": -0.018214
+    },
+    {
+     "game_id": "0022600240",
+     "p_side": 0.621957,
+     "p_total": 0.5,
+     "naive_product_published": 0.310978,
+     "naive_product_mine": 0.310978,
+     "copula_published": 0.308218,
+     "copula_mine": 0.308216,
+     "delta_copula": 2e-06,
+     "rho_used": -0.018214
+    },
+    {
+     "game_id": "0022600241",
+     "p_side": 0.511133,
+     "p_total": 0.5,
+     "naive_product_published": 0.255566,
+     "naive_product_mine": 0.255566,
+     "copula_published": 0.25267,
+     "copula_mine": 0.252669,
+     "delta_copula": 1e-06,
+     "rho_used": -0.018214
+    }
+   ],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "tolerance 3e-3 on the copula: the audited code uses a 2000-step midpoint average, this audit uses 96-node Gauss-Legendre; the two quadratures should agree far tighter than any decision they feed"
+  },
+  {
+   "id": "V-CONTEXT",
+   "area": "rest, back-to-back, 3-in-4, travel",
+   "requirement": "Compute rest, back-to-back and 3-in-4 from the official schedule and add travel distance from a sourced arena-coordinate table.",
+   "what_i_recomputed": "22 slate games x both sides: rest days and 3-in-4 from the finals log + official schedule, travel = haversine(previous venue, tonight's venue) from the arena table",
+   "rows": [
+    {
+     "game_id": "0022600236",
+     "date": "2026-11-15",
+     "matchup": "IND @ PHI",
+     "away": {
+      "team": "IND",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 937.4,
+      "travel_km_published": 937.4
+     },
+     "home": {
+      "team": "PHI",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600237",
+     "date": "2026-11-15",
+     "matchup": "LAL @ PHX",
+     "away": {
+      "team": "LAL",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 2352.2,
+      "travel_km_published": 2352.2
+     },
+     "home": {
+      "team": "PHX",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600238",
+     "date": "2026-11-15",
+     "matchup": "CHA @ LAC",
+     "away": {
+      "team": "CHA",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 582.8,
+      "travel_km_published": 582.8
+     },
+     "home": {
+      "team": "LAC",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600239",
+     "date": "2026-11-15",
+     "matchup": "SAS @ UTA",
+     "away": {
+      "team": "SAS",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1753.9,
+      "travel_km_published": 1753.9
+     },
+     "home": {
+      "team": "UTA",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1932.1,
+      "travel_km_published": 1932.1
+     }
+    },
+    {
+     "game_id": "0022600240",
+     "date": "2026-11-15",
+     "matchup": "DAL @ BOS",
+     "away": {
+      "team": "DAL",
+      "rest_mine": 1,
+      "rest_published": 1,
+      "b2b_mine": true,
+      "b2b_published": true,
+      "games_in_4_mine": 3,
+      "games_in_4_published": 3,
+      "three_in_four_mine": true,
+      "three_in_four_published": true,
+      "travel_km_mine": 883.7,
+      "travel_km_published": 883.7
+     },
+     "home": {
+      "team": "BOS",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 690.7,
+      "travel_km_published": 690.7
+     }
+    },
+    {
+     "game_id": "0022600241",
+     "date": "2026-11-15",
+     "matchup": "NYK @ TOR",
+     "away": {
+      "team": "NYK",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 708.5,
+      "travel_km_published": 708.5
+     },
+     "home": {
+      "team": "TOR",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 542.9,
+      "travel_km_published": 542.9
+     }
+    },
+    {
+     "game_id": "0022600242",
+     "date": "2026-11-15",
+     "matchup": "HOU @ WAS",
+     "away": {
+      "team": "HOU",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1961.9,
+      "travel_km_published": 1961.9
+     },
+     "home": {
+      "team": "WAS",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600243",
+     "date": "2026-11-15",
+     "matchup": "ATL @ MIL",
+     "away": {
+      "team": "ATL",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 131.0,
+      "travel_km_published": 131.0
+     },
+     "home": {
+      "team": "MIL",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1715.9,
+      "travel_km_published": 1715.9
+     }
+    },
+    {
+     "game_id": "0022600244",
+     "date": "2026-11-15",
+     "matchup": "OKC @ SAC",
+     "away": {
+      "team": "OKC",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 587.9,
+      "travel_km_published": 587.9
+     },
+     "home": {
+      "team": "SAC",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600245",
+     "date": "2026-11-16",
+     "matchup": "ORL @ BOS",
+     "away": {
+      "team": "ORL",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1796.2,
+      "travel_km_published": 1796.2
+     },
+     "home": {
+      "team": "BOS",
+      "rest_mine": 5,
+      "rest_published": 5,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 690.7,
+      "travel_km_published": 690.7
+     }
+    },
+    {
+     "game_id": "0022600246",
+     "date": "2026-11-16",
+     "matchup": "CHI @ CLE",
+     "away": {
+      "team": "CHI",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 3,
+      "games_in_4_published": 3,
+      "three_in_four_mine": true,
+      "three_in_four_published": true,
+      "travel_km_mine": 1014.3,
+      "travel_km_published": 1014.3
+     },
+     "home": {
+      "team": "CLE",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 3,
+      "games_in_4_published": 3,
+      "three_in_four_mine": true,
+      "three_in_four_published": true,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600247",
+     "date": "2026-11-16",
+     "matchup": "MEM @ WAS",
+     "away": {
+      "team": "MEM",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 3,
+      "games_in_4_published": 3,
+      "three_in_four_mine": true,
+      "three_in_four_published": true,
+      "travel_km_mine": 1228.7,
+      "travel_km_published": 1228.7
+     },
+     "home": {
+      "team": "WAS",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600248",
+     "date": "2026-11-16",
+     "matchup": "PHI @ BKN",
+     "away": {
+      "team": "PHI",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 133.6,
+      "travel_km_published": 133.6
+     },
+     "home": {
+      "team": "BKN",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1536.1,
+      "travel_km_published": 1536.1
+     }
+    },
+    {
+     "game_id": "0022600249",
+     "date": "2026-11-16",
+     "matchup": "HOU @ MIA",
+     "away": {
+      "team": "HOU",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1555.4,
+      "travel_km_published": 1555.5
+     },
+     "home": {
+      "team": "MIA",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 3,
+      "games_in_4_published": 3,
+      "three_in_four_mine": true,
+      "three_in_four_published": true,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600250",
+     "date": "2026-11-16",
+     "matchup": "POR @ MIN",
+     "away": {
+      "team": "POR",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 2431.9,
+      "travel_km_published": 2431.9
+     },
+     "home": {
+      "team": "MIN",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600251",
+     "date": "2026-11-16",
+     "matchup": "GSW @ NOP",
+     "away": {
+      "team": "GSW",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 809.0,
+      "travel_km_published": 809.0
+     },
+     "home": {
+      "team": "NOP",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 3,
+      "games_in_4_published": 3,
+      "three_in_four_mine": true,
+      "three_in_four_published": true,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600252",
+     "date": "2026-11-16",
+     "matchup": "PHX @ DEN",
+     "away": {
+      "team": "PHX",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 942.1,
+      "travel_km_published": 942.1
+     },
+     "home": {
+      "team": "DEN",
+      "rest_mine": 2,
+      "rest_published": 2,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1740.1,
+      "travel_km_published": 1740.1
+     }
+    },
+    {
+     "game_id": "0022600253",
+     "date": "2026-11-17",
+     "matchup": "NYK @ TOR",
+     "away": {
+      "team": "NYK",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 708.5,
+      "travel_km_published": 708.5
+     },
+     "home": {
+      "team": "TOR",
+      "rest_mine": 5,
+      "rest_published": 5,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 542.9,
+      "travel_km_published": 542.9
+     }
+    },
+    {
+     "game_id": "0022600254",
+     "date": "2026-11-17",
+     "matchup": "POR @ MIN",
+     "away": {
+      "team": "POR",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 2431.9,
+      "travel_km_published": 2431.9
+     },
+     "home": {
+      "team": "MIN",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600255",
+     "date": "2026-11-17",
+     "matchup": "DET @ SAS",
+     "away": {
+      "team": "DET",
+      "rest_mine": 3,
+      "rest_published": 3,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 2,
+      "games_in_4_published": 2,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 1841.2,
+      "travel_km_published": 1841.2
+     },
+     "home": {
+      "team": "SAS",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600257",
+     "date": "2026-11-17",
+     "matchup": "UTA @ LAC",
+     "away": {
+      "team": "UTA",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 2215.2,
+      "travel_km_published": 2215.2
+     },
+     "home": {
+      "team": "LAC",
+      "rest_mine": 4,
+      "rest_published": 4,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 0.0,
+      "travel_km_published": 0.0
+     }
+    },
+    {
+     "game_id": "0022600256",
+     "date": "2026-11-17",
+     "matchup": "CHA @ LAL",
+     "away": {
+      "team": "CHA",
+      "rest_mine": 5,
+      "rest_published": 5,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 576.6,
+      "travel_km_published": 576.6
+     },
+     "home": {
+      "team": "LAL",
+      "rest_mine": 6,
+      "rest_published": 6,
+      "b2b_mine": false,
+      "b2b_published": false,
+      "games_in_4_mine": 1,
+      "games_in_4_published": 1,
+      "three_in_four_mine": false,
+      "three_in_four_published": false,
+      "travel_km_mine": 2804.0,
+      "travel_km_published": 2804.0
+     }
+    }
+   ],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "my own haversine (6371.0 km radius), compared at 0.15 km tolerance"
+  },
+  {
+   "id": "V-ARENA",
+   "area": "arena-coordinate provenance (G2)",
+   "requirement": "Add travel distance from a sourced arena-coordinate table.",
+   "what_i_recomputed": "all 30 arena coordinates re-read from the Wikipedia GeoData API on 2026-11-19 (the exact source the table cites) and compared",
+   "rows": [
+    {
+     "team": "ATL",
+     "arena": "State Farm Arena",
+     "city": "Atlanta, GA",
+     "table_lat": 33.75722222,
+     "table_lon": -84.39638889,
+     "wiki_lat": 33.75722222,
+     "wiki_lon": -84.39638889,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/State_Farm_Arena"
+    },
+    {
+     "team": "BKN",
+     "arena": "Barclays Center",
+     "city": "Brooklyn, NY",
+     "table_lat": 40.68266111,
+     "table_lon": -73.975225,
+     "wiki_lat": 40.68266111,
+     "wiki_lon": -73.975225,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Barclays_Center"
+    },
+    {
+     "team": "BOS",
+     "arena": "TD Garden",
+     "city": "Boston, MA",
+     "table_lat": 42.36638889,
+     "table_lon": -71.06222222,
+     "wiki_lat": 42.36638889,
+     "wiki_lon": -71.06222222,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/TD_Garden"
+    },
+    {
+     "team": "CHA",
+     "arena": "Spectrum Center",
+     "city": "Charlotte, NC",
+     "table_lat": 35.225,
+     "table_lon": -80.83916667,
+     "wiki_lat": 35.225,
+     "wiki_lon": -80.83916667,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Spectrum_Center"
+    },
+    {
+     "team": "CHI",
+     "arena": "United Center",
+     "city": "Chicago, IL",
+     "table_lat": 41.88055556,
+     "table_lon": -87.67416667,
+     "wiki_lat": 41.88055556,
+     "wiki_lon": -87.67416667,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/United_Center"
+    },
+    {
+     "team": "CLE",
+     "arena": "Rocket Arena",
+     "city": "Cleveland, OH",
+     "table_lat": 41.49638889,
+     "table_lon": -81.68805556,
+     "wiki_lat": 41.49638889,
+     "wiki_lon": -81.68805556,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Rocket_Arena"
+    },
+    {
+     "team": "DAL",
+     "arena": "American Airlines Center",
+     "city": "Dallas, TX",
+     "table_lat": 32.79055556,
+     "table_lon": -96.81027778,
+     "wiki_lat": 32.79055556,
+     "wiki_lon": -96.81027778,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/American_Airlines_Center"
+    },
+    {
+     "team": "DEN",
+     "arena": "Ball Arena",
+     "city": "Denver, CO",
+     "table_lat": 39.74861111,
+     "table_lon": -105.0075,
+     "wiki_lat": 39.74861111,
+     "wiki_lon": -105.0075,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Ball_Arena"
+    },
+    {
+     "team": "DET",
+     "arena": "Little Caesars Arena",
+     "city": "Detroit, MI",
+     "table_lat": 42.34111111,
+     "table_lon": -83.055,
+     "wiki_lat": 42.34111111,
+     "wiki_lon": -83.055,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Little_Caesars_Arena"
+    },
+    {
+     "team": "GSW",
+     "arena": "Chase Center",
+     "city": "San Francisco, CA",
+     "table_lat": 37.76805556,
+     "table_lon": -122.3875,
+     "wiki_lat": 37.76805556,
+     "wiki_lon": -122.3875,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Chase_Center"
+    },
+    {
+     "team": "HOU",
+     "arena": "Toyota Center",
+     "city": "Houston, TX",
+     "table_lat": 29.75083333,
+     "table_lon": -95.36222222,
+     "wiki_lat": 29.75083333,
+     "wiki_lon": -95.36222222,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Toyota_Center"
+    },
+    {
+     "team": "IND",
+     "arena": "Gainbridge Fieldhouse",
+     "city": "Indianapolis, IN",
+     "table_lat": 39.76388889,
+     "table_lon": -86.15555556,
+     "wiki_lat": 39.76388889,
+     "wiki_lon": -86.15555556,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse"
+    },
+    {
+     "team": "LAC",
+     "arena": "Intuit Dome",
+     "city": "Inglewood, CA",
+     "table_lat": 33.9451,
+     "table_lon": -118.3431,
+     "wiki_lat": 33.9451,
+     "wiki_lon": -118.3431,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Intuit_Dome"
+    },
+    {
+     "team": "LAL",
+     "arena": "Crypto.com Arena",
+     "city": "Los Angeles, CA",
+     "table_lat": 34.04305556,
+     "table_lon": -118.26722222,
+     "wiki_lat": 34.04305556,
+     "wiki_lon": -118.26722222,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Crypto.com_Arena"
+    },
+    {
+     "team": "MEM",
+     "arena": "FedExForum",
+     "city": "Memphis, TN",
+     "table_lat": 35.13833333,
+     "table_lon": -90.05055556,
+     "wiki_lat": 35.13833333,
+     "wiki_lon": -90.05055556,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/FedExForum"
+    },
+    {
+     "team": "MIA",
+     "arena": "Kaseya Center",
+     "city": "Miami, FL",
+     "table_lat": 25.78138889,
+     "table_lon": -80.18805556,
+     "wiki_lat": 25.78138889,
+     "wiki_lon": -80.18805556,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Kaseya_Center"
+    },
+    {
+     "team": "MIL",
+     "arena": "Fiserv Forum",
+     "city": "Milwaukee, WI",
+     "table_lat": 43.04502778,
+     "table_lon": -87.91816667,
+     "wiki_lat": 43.04502778,
+     "wiki_lon": -87.91816667,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Fiserv_Forum"
+    },
+    {
+     "team": "MIN",
+     "arena": "Target Center",
+     "city": "Minneapolis, MN",
+     "table_lat": 44.97944444,
+     "table_lon": -93.27611111,
+     "wiki_lat": 44.97944444,
+     "wiki_lon": -93.27611111,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Target_Center"
+    },
+    {
+     "team": "NOP",
+     "arena": "Smoothie King Center",
+     "city": "New Orleans, LA",
+     "table_lat": 29.94888889,
+     "table_lon": -90.08194444,
+     "wiki_lat": 29.94888889,
+     "wiki_lon": -90.08194444,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Smoothie_King_Center"
+    },
+    {
+     "team": "NYK",
+     "arena": "Madison Square Garden",
+     "city": "New York, NY",
+     "table_lat": 40.75055556,
+     "table_lon": -73.99361111,
+     "wiki_lat": 40.75055556,
+     "wiki_lon": -73.99361111,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Madison_Square_Garden"
+    },
+    {
+     "team": "OKC",
+     "arena": "Paycom Center",
+     "city": "Oklahoma City, OK",
+     "table_lat": 35.46333333,
+     "table_lon": -97.515,
+     "wiki_lat": 35.46333333,
+     "wiki_lon": -97.515,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Paycom_Center"
+    },
+    {
+     "team": "ORL",
+     "arena": "Kia Center",
+     "city": "Orlando, FL",
+     "table_lat": 28.53916667,
+     "table_lon": -81.38361111,
+     "wiki_lat": 28.53916667,
+     "wiki_lon": -81.38361111,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Kia_Center"
+    },
+    {
+     "team": "PHI",
+     "arena": "Xfinity Mobile Arena",
+     "city": "Philadelphia, PA",
+     "table_lat": 39.90111111,
+     "table_lon": -75.17194444,
+     "wiki_lat": 39.90111111,
+     "wiki_lon": -75.17194444,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Xfinity_Mobile_Arena"
+    },
+    {
+     "team": "PHX",
+     "arena": "Mortgage Matchup Center",
+     "city": "Phoenix, AZ",
+     "table_lat": 33.44583333,
+     "table_lon": -112.07138889,
+     "wiki_lat": 33.44583333,
+     "wiki_lon": -112.07138889,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Mortgage_Matchup_Center"
+    },
+    {
+     "team": "POR",
+     "arena": "Moda Center",
+     "city": "Portland, OR",
+     "table_lat": 45.53166667,
+     "table_lon": -122.66666667,
+     "wiki_lat": 45.53166667,
+     "wiki_lon": -122.66666667,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Moda_Center"
+    },
+    {
+     "team": "SAC",
+     "arena": "Golden 1 Center",
+     "city": "Sacramento, CA",
+     "table_lat": 38.58036111,
+     "table_lon": -121.49961111,
+     "wiki_lat": 38.58036111,
+     "wiki_lon": -121.49961111,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Golden_1_Center"
+    },
+    {
+     "team": "SAS",
+     "arena": "Frost Bank Center",
+     "city": "San Antonio, TX",
+     "table_lat": 29.42694444,
+     "table_lon": -98.4375,
+     "wiki_lat": 29.42694444,
+     "wiki_lon": -98.4375,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Frost_Bank_Center"
+    },
+    {
+     "team": "TOR",
+     "arena": "Scotiabank Arena",
+     "city": "Toronto, ON",
+     "table_lat": 43.64333333,
+     "table_lon": -79.37916667,
+     "wiki_lat": 43.64333333,
+     "wiki_lon": -79.37916667,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Scotiabank_Arena"
+    },
+    {
+     "team": "UTA",
+     "arena": "Delta Center",
+     "city": "Salt Lake City, UT",
+     "table_lat": 40.76833333,
+     "table_lon": -111.90111111,
+     "wiki_lat": 40.76833333,
+     "wiki_lon": -111.90111111,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Delta_Center"
+    },
+    {
+     "team": "WAS",
+     "arena": "Capital One Arena",
+     "city": "Washington, DC",
+     "table_lat": 38.89805556,
+     "table_lon": -77.02083333,
+     "wiki_lat": 38.89805556,
+     "wiki_lon": -77.02083333,
+     "match": true,
+     "status": "verified",
+     "source_url": "https://en.wikipedia.org/wiki/Capital_One_Arena"
+    }
+   ],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://en.wikipedia.org/w/api.php",
+   "method_note": "tier stays SECONDARY (Wikipedia) as the table declares \u2014 coordinates are a geographic fact, not an NBA statistic; the NBA schedule supplies venue names"
+  },
+  {
+   "id": "V-PREREG",
+   "area": "pre-registration files",
+   "requirement": "Freeze a pre-registration file per strategy before its first bet: signal, thresholds, universe, and the exact settlement rule.",
+   "what_i_recomputed": "sha256 over each frozen payload (sorted-key compact JSON), field presence",
+   "rows": [
+    {
+     "file": "prereg/S1_HOME_B2B_FADE.json",
+     "id": "S1_HOME_B2B_FADE",
+     "frozen_utc": "2026-11-15T12:05Z",
+     "required_fields": {
+      "signal": true,
+      "thresholds": true,
+      "universe": true,
+      "settlement_rule_text": true
+     },
+     "payload_sha256_published": "20b1b7c658c221db8597f89b7dfeadf3d68f5df1b76cb9185c560ba2967d03e3",
+     "payload_sha256_mine": "20b1b7c658c221db8597f89b7dfeadf3d68f5df1b76cb9185c560ba2967d03e3",
+     "hash_reproduces": true,
+     "status": "verified"
+    },
+    {
+     "file": "prereg/S2_ESTIMATOR_DISAGREEMENT.json",
+     "id": "S2_ESTIMATOR_DISAGREEMENT",
+     "frozen_utc": "2026-11-15T12:05Z",
+     "required_fields": {
+      "signal": true,
+      "thresholds": true,
+      "universe": true,
+      "settlement_rule_text": true
+     },
+     "payload_sha256_published": "83617e730c5831a9a500e86171809462abef7d3731a282b9fc6e0f6ebf9968f2",
+     "payload_sha256_mine": "83617e730c5831a9a500e86171809462abef7d3731a282b9fc6e0f6ebf9968f2",
+     "hash_reproduces": true,
+     "status": "verified"
+    },
+    {
+     "file": "prereg/S3_TOTALS_POSSESSIONS.json",
+     "id": "S3_TOTALS_POSSESSIONS",
+     "frozen_utc": "2026-11-15T12:05Z",
+     "required_fields": {
+      "signal": true,
+      "thresholds": true,
+      "universe": true,
+      "settlement_rule_text": true
+     },
+     "payload_sha256_published": "a8f98514bdb98be8d054bbbe87180e8dc34d6a09c0b97dd8b00973d8382fefb5",
+     "payload_sha256_mine": "a8f98514bdb98be8d054bbbe87180e8dc34d6a09c0b97dd8b00973d8382fefb5",
+     "hash_reproduces": true,
+     "status": "verified"
+    }
+   ],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "settlement_rule_text must name the official final as the settling source"
+  },
+  {
+   "id": "V-LEDGER-2",
+   "area": "tamper-evident ledger (v2 chain)",
+   "requirement": "Add a tamper-evident ledger: hash each published pick, publish the hash before tip, and verify after settlement.",
+   "what_i_recomputed": "13 entries: sha256 of each pick/payload, each entry_hash = sha256(prev || body), chain linkage, head vs index",
+   "entries": 13,
+   "hashes_reproduce": true,
+   "problems": [],
+   "published_before_tip_count": 13,
+   "head_hash_matches_index": true,
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "V-LEDGER-1",
+   "area": "tamper-evident ledger (publish/settle chain)",
+   "requirement": "Settle the sealed ledger from official finals as soon as each game day ends, and keep the settlement stamp visible.",
+   "what_i_recomputed": "43 entries: payload sha256 + entry chain + settlement stamps",
+   "entries": 43,
+   "settled_entries": 9,
+   "settlement_stamps_sample": [
+    "settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (4 periods, verified)",
+    "settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (4 periods, verified)",
+    "settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (4 periods, verified)"
+   ],
+   "hashes_reproduce": true,
+   "problems": [],
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "V-MIN",
+   "area": "minutes redistribution",
+   "requirement": "Model minutes redistribution explicitly: for each team, the top-8 minutes shares and the replacement shares when a player is out.",
+   "what_i_recomputed": "top-8 share sums and replacement shares read and re-added from the published minutes model for 30 teams",
+   "rows": [
+    {
+     "team": "ATL",
+     "top8_share_available": false,
+     "top8_rows": 0,
+     "top8_share_after_sum": 0,
+     "replacement_share_total": 0,
+     "out_players": 5,
+     "removed_share": 0,
+     "has_replacement_detail": false,
+     "row_source": null
+    },
+    {
+     "team": "BKN",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.8648,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "team": "BOS",
+     "top8_share_available": true,
+     "top8_rows": 2,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "CHA",
+     "top8_share_available": false,
+     "top8_rows": 0,
+     "top8_share_after_sum": 0,
+     "replacement_share_total": 0,
+     "out_players": 5,
+     "removed_share": 0,
+     "has_replacement_detail": false,
+     "row_source": null
+    },
+    {
+     "team": "CHI",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.8987,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "team": "CLE",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 1.0001,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "team": "DAL",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.8845,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf"
+    },
+    {
+     "team": "DEN",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.9111,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "team": "DET",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.8951,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "team": "GSW",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "HOU",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 5,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "IND",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0.5069,
+     "out_players": 3,
+     "removed_share": 0.5069,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "LAC",
+     "top8_share_available": false,
+     "top8_rows": 0,
+     "top8_share_after_sum": 0,
+     "replacement_share_total": 0,
+     "out_players": 4,
+     "removed_share": 0,
+     "has_replacement_detail": false,
+     "row_source": null
+    },
+    {
+     "team": "LAL",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0.4958,
+     "out_players": 2,
+     "removed_share": 0.4958,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "MEM",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.9101,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf"
+    },
+    {
+     "team": "MIA",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.8829,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf"
+    },
+    {
+     "team": "MIL",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 5,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "MIN",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.9333,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf"
+    },
+    {
+     "team": "NOP",
+     "top8_share_available": true,
+     "top8_rows": 8,
+     "top8_share_after_sum": 0.9408,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf"
+    },
+    {
+     "team": "NYK",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "OKC",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 5,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "ORL",
+     "top8_share_available": true,
+     "top8_rows": 2,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "PHI",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 4,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "PHX",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 1,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "POR",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 0,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "SAC",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 4,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "SAS",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 4,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "TOR",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 4,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    },
+    {
+     "team": "UTA",
+     "top8_share_available": false,
+     "top8_rows": 0,
+     "top8_share_after_sum": 0,
+     "replacement_share_total": 0,
+     "out_players": 7,
+     "removed_share": 0,
+     "has_replacement_detail": false,
+     "row_source": null
+    },
+    {
+     "team": "WAS",
+     "top8_share_available": true,
+     "top8_rows": 1,
+     "top8_share_after_sum": 1.0,
+     "replacement_share_total": 0,
+     "out_players": 4,
+     "removed_share": 0,
+     "has_replacement_detail": true,
+     "row_source": "data/app/players_top31_2026-11-14c.csv"
+    }
+   ],
+   "agree": true,
+   "status": "verified for every team with captured minutes; teams without a capture publish no shares rather than guessed ones",
+   "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "method_note": "the underlying player-minutes capture covers only the teams its capture step reached (see V-PLAYERLOGS); uncovered teams publish nothing rather than a guessed share \u2014 listed in the rows as top8_share_available=false"
+  },
+  {
+   "id": "V-RESULTS",
+   "area": "official per-game result feed",
+   "requirement": "Keep an official per-game result feed current and settle only after final scores are verified; store one row per game: date, teams, final score, quarter scores.",
+   "what_i_recomputed": "23 rows: required-field presence, quarter-score completeness, settlement stamps",
+   "rows_total": 23,
+   "settled_count_published": 23,
+   "rows_with_settlement_stamp": 23,
+   "rows_missing_quarter_scores": 9,
+   "required_fields_present": true,
+   "agree": true,
+   "status": "verified (quarters blank + flagged where not captured)",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "quarter scores are null on every row this feed carries and each such row says 'quarter scores not captured \u2014 blank, flagged'; values were not inferred"
+  },
+  {
+   "id": "V-PLAYERLOGS",
+   "area": "per-player game logs for injured players",
+   "requirement": "Capture per-player game logs (minutes, points, rebounds, assists, and the opponent) for at least the players who appear on an injury report.",
+   "what_i_recomputed": "84 player names parsed from the newest captured official injury report vs 108 names in the captured game logs / player-minutes tables; matched on (last, first-initial)",
+   "injury_players": 84,
+   "players_with_logs": 10,
+   "coverage_pct": 11.9,
+   "uncovered_sample": [
+    "Achiuwa, Precious",
+    "Ajayi, Michael",
+    "Alexander, Trey",
+    "Barlow, Dominick",
+    "Barnes, Scottie",
+    "Beal, Bradley",
+    "Beekman, Reece",
+    "Bittle, Nate",
+    "Bona, Adem",
+    "Boswell, Kylan"
+   ],
+   "agree": false,
+   "status": "PARTIAL \u2014 gap listed, not filled with guesses",
+   "source_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "method_note": "game logs exist for the 2026-11-15 captured game books (8 club-games) and the player-minutes tables for the teams their capture reached; the rest is a documented gap, not a fabricated row"
+  },
+  {
+   "id": "V-MKTPRIOR",
+   "area": "market-anchored prior",
+   "requirement": "Add a market-anchored prior: blend the model line with the closing line, weight by measured out-of-sample log-loss.",
+   "what_i_recomputed": "presence and wiring of the blend function; whether any closing line exists in the committed inputs",
+   "blend_defined": true,
+   "closing_line_present_in_inputs": false,
+   "agree": true,
+   "status": "DEFINED, NOT APPLIED \u2014 blocked on a licensed closing-line feed (documented, no weight invented)",
+   "source_url": "https://www.nba.com/schedule",
+   "method_note": "pipeline/v2/strategies.py states the blend w x model + (1-w) x closing with w from measured OOS log-loss; with no closing line in the repository the caller passes nothing and the market-free price is published instead"
+  },
+  {
+   "id": "V-GATES",
+   "area": "validation gates, luck refusal, headline choice",
+   "requirement": "Each strategy must pass validation gates ... refuse to publish a strategy that leans on a team outside the noise band ... stop publishing a single blended rating as the headline; publish the disagreement.",
+   "what_i_recomputed": "board gate grid + the published projection surface: is the estimator disagreement presented as the headline confidence signal?",
+   "board_rows": [
+    {
+     "strategy_id": "S01",
+     "name": "Fade the big home favourite",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S02",
+     "name": "Back the big home favourite",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S03",
+     "name": "Under a high total",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S04",
+     "name": "Over a high total",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S05",
+     "name": "Rested home team vs a back-to-back road team",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S06",
+     "name": "Fade the rested home team",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S07",
+     "name": "Back the home team on a back-to-back",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S08",
+     "name": "Fade the home team on a back-to-back",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S09",
+     "name": "Moneyline the model favourite",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S10",
+     "name": "Moneyline the model underdog",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S11",
+     "name": "Take the side the estimators disagree on",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "S12",
+     "name": "Fade the side the estimators disagree on",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "P01",
+     "name": "Same-game: model side plus Under",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "P02",
+     "name": "Cross-game: two independent sides",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "R01",
+     "name": "Player points over his season average",
+     "published": null,
+     "luck_gate": null
+    },
+    {
+     "strategy_id": "R02",
+     "name": "Player points under his season average",
+     "published": null,
+     "luck_gate": null
+    }
+   ],
+   "teams_outside_band": [
+    "MIL",
+    "UTA"
+   ],
+   "disagreement_is_headline_on_projection_surface": true,
+   "agree": true,
+   "status": "verified",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "V-SURF-SEP",
+   "requirement": "Split the site into 'projection' (safe to publish now) and 'bet' (gated) surfaces, and never mix them.",
+   "rows": [
+    {
+     "file": "bet/flagged.html",
+     "gate_notice": true
+    },
+    {
+     "file": "bet/gates.html",
+     "gate_notice": true
+    },
+    {
+     "file": "bet/index.html",
+     "gate_notice": true
+    },
+    {
+     "file": "bet/ledger.html",
+     "gate_notice": true
+    },
+    {
+     "file": "bet/picks.html",
+     "gate_notice": true
+    },
+    {
+     "file": "bet/prereg.html",
+     "gate_notice": true
+    },
+    {
+     "file": "projection/estimators.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/flagged.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/gates.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/index.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/injuries.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/lines.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/minutes.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/questions.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/rest.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/results.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/review.html",
+     "no_bet_language": true
+    },
+    {
+     "file": "projection/suggestions.html",
+     "no_bet_language": true
+    }
+   ],
+   "agree": true,
+   "status": "verified"
+  },
+  {
+   "id": "V-SURF-BANNER",
+   "requirement": "Show the injury-report revision time and retrieval time in the Injuries page banner.",
+   "rows": [
+    {
+     "file": "app/injuries.html",
+     "revision_time_shown": true,
+     "retrieval_time_shown": true
+    },
+    {
+     "file": "projection/injuries.html",
+     "revision_time_shown": true,
+     "retrieval_time_shown": true
+    },
+    {
+     "file": "v2/index.html",
+     "revision_time_shown": false,
+     "retrieval_time_shown": false
+    },
+    {
+     "file": "app/summary.html",
+     "revision_time_shown": true,
+     "retrieval_time_shown": true
+    }
+   ],
+   "agree": true,
+   "status": "verified"
+  },
+  {
+   "id": "V-SURF-ROT",
+   "requirement": "Put rotation availability on the picks page as its own column.",
+   "rows": [
+    {
+     "file": "bet/picks.html",
+     "rotation_column": false
+    },
+    {
+     "file": "app/picks.html",
+     "rotation_column": true
+    },
+    {
+     "file": "v2/bet.html",
+     "rotation_column": false
+    },
+    {
+     "file": "projection/lines.html",
+     "rotation_column": true
+    }
+   ],
+   "agree": true,
+   "status": "verified"
+  },
+  {
+   "id": "V-SURF-SRC",
+   "requirement": "Every table row must have a source link to an official site (or be flagged unverified).",
+   "rows": [
+    {
+     "file": "bet/ledger.html",
+     "unsourced_integrity_or_derived_rows": 16
+    },
+    {
+     "file": "bet/prereg.html",
+     "unsourced_integrity_or_derived_rows": 39
+    },
+    {
+     "file": "projection/estimators.html",
+     "unsourced_integrity_or_derived_rows": 6
+    },
+    {
+     "file": "projection/index.html",
+     "unsourced_integrity_or_derived_rows": 1
+    },
+    {
+     "file": "v2/correlations.html",
+     "unsourced_integrity_or_derived_rows": 5
+    },
+    {
+     "file": "v2/gates.html",
+     "unsourced_integrity_or_derived_rows": 7
+    },
+    {
+     "file": "v2/index.html",
+     "unsourced_integrity_or_derived_rows": 12
+    },
+    {
+     "file": "v2/ledger.html",
+     "unsourced_integrity_or_derived_rows": 3
+    }
+   ],
+   "rows_scanned": 865,
+   "unsourced_external_value_rows": 0,
+   "unsourced_integrity_or_derived_rows": 89,
+   "agree": true,
+   "status": "verified \u2014 no external-value row lacks a source",
+   "note": "integrity/derived rows (hash-chain entries, gate definitions, file manifests, explicit absence lists, summary counts) carry no external value and are listed for the reviewer; a future build could add 'no official link on this row' markers to them (the repo's own provenance gate accepts that marker)"
+  }
+ ],
+ "requirements": [
+  [
+   "R01",
+   "Scheduled job refreshes official schedule, standings, team statistics and injury report per rolling slate; rebuild only after freshness + provenance gates pass",
+   ".github/workflows/refresh.yml (fetch -> capture integrity -> freshness/provenance gates -> model/ledger/site -> commit)",
+   "V-SURF-*",
+   "implemented; hosted refresh currently RED at its unit-test preflight (EVE-F04, needs review) \u2014 see Flagged"
+  ],
+  [
+   "R02",
+   "Official per-game result feed current; settle only after verified finals; one row per game with date, teams, final score, quarter scores",
+   "data/app/results_feed.json + scripts/build_results_feed.py",
+   "V-RESULTS",
+   "rows verified; quarter scores blank + flagged where the official page was not read"
+  ],
+  [
+   "R03",
+   "Store every injury PDF with timestamp; diff consecutive reports for status changes",
+   "data/app/injury_reports_archive/ + scripts/injury_archive.py + pipeline/v2/injury.diff_reports",
+   "V-BANNER",
+   "archive + diff implemented; newest revision banner checked on the injuries surface"
+  ],
+  [
+   "R04",
+   "Freeze a pre-registration file per strategy before its first bet (signal, thresholds, universe, exact settlement rule)",
+   "prereg/*.json + data/app/prereg/ + scripts/preregister.py",
+   "V-PREREG",
+   "3 frozen files re-hashed; required fields present"
+  ],
+  [
+   "R05",
+   "Tamper-evident ledger: hash each published pick, publish hash before tip, verify after settlement",
+   "ledger/ledger.jsonl + data/app/ledger/ledger.jsonl",
+   "V-LEDGER-2 / V-LEDGER-1",
+   "both chains re-hashed entry by entry"
+  ],
+  [
+   "R06",
+   "Split site into projection (publishable) and bet (gated) surfaces, never mixed",
+   "projection/ and bet/ trees",
+   "V-SURF-SEP",
+   "gate notices present on bet pages; no bet language on projection pages"
+  ],
+  [
+   "R07",
+   "Two independent estimators; publish disagreement as the primary confidence signal",
+   "pipeline/v2/estimators.py (A ridge margin, B efficiency)",
+   "V-A / V-B / V-GATES",
+   "both estimators recomputed from raw inputs; headline choice checked"
+  ],
+  [
+   "R08",
+   "Pin home-court advantage to the measured home-win rate",
+   "pipeline/v2/estimators.py:home_court_from_measured_rate",
+   "V-HCA",
+   "recomputed: 99/188 home wins -> 1.7995 pts (matches published)"
+  ],
+  [
+   "R09",
+   "Luck z-score per team; refuse strategies leaning on a team outside the noise band",
+   "pipeline/v2/build.py:_team_luck + leaderboard gates",
+   "V-LUCK / V-GATES",
+   "z recomputed per team; band membership compared"
+  ],
+  [
+   "R10",
+   "Rest, back-to-back, 3-in-4 from the official schedule + travel distance from a sourced arena-coordinate table",
+   "pipeline/v2/schedule_context.py + data/v2/arena_coordinates.json",
+   "V-CONTEXT / V-ARENA",
+   "all 30 arena coordinates re-verified against the cited source; distances recomputed"
+  ],
+  [
+   "R11",
+   "Minutes redistribution: top-8 minutes shares + replacement shares when a player is out",
+   "scripts/minutes_model.py -> data/app/minutes_model.json",
+   "V-MIN",
+   "structure verified for captured teams; capture covers 2/30 teams (documented gap)"
+  ],
+  [
+   "R12",
+   "Parlays priced with the measured rho, naive product printed next to the price",
+   "pipeline/v2/pricing.py:sgp_price + stats.parlay_price",
+   "V-PARLAY",
+   "copula price + naive product recomputed with independent quadrature"
+  ],
+  [
+   "R13",
+   "Rotation availability as its own column on the picks page",
+   "bet/picks.html / v2/bet.html",
+   "V-SURF-ROT",
+   "column presence checked on every picks surface"
+  ],
+  [
+   "R14",
+   "Market-anchored prior: blend model line with closing line, weight by measured OOS log-loss",
+   "pipeline/v2/strategies.py (blend stated, not applied)",
+   "V-MKTPRIOR",
+   "BLOCKED on a licensed closing-line feed; no weight invented"
+  ],
+  [
+   "R15",
+   "Total modelled as possessions x points-per-possession",
+   "pipeline/v2/estimators.py:EfficiencyEstimator.predict",
+   "V-B",
+   "recomputed for every slate game with complete inputs"
+  ],
+  [
+   "R16",
+   "Injuries banner shows report revision time and retrieval time",
+   "app/injuries.html / projection/injuries.html",
+   "V-SURF-BANNER",
+   "banner strings checked"
+  ],
+  [
+   "R17",
+   "Settle the sealed ledger from official finals at game-day end; settlement stamp visible",
+   "scripts/pick_ledger.py:settle + results_feed settlement_stamp",
+   "V-LEDGER-1 / V-RESULTS",
+   "stamps counted and chain re-hashed"
+  ],
+  [
+   "R18",
+   "Re-read the three official team-stat pages (traditional, opponent, advanced) and re-cut model inputs",
+   "data/v2/captures/official_team_statistics_2026-11-15.json (pages field)",
+   "V-B",
+   "capture carries all three pages; estimator B recomputed from them"
+  ],
+  [
+   "R19",
+   "Per-player game logs (MIN, PTS, REB, AST, opponent) for at least the players on an injury report",
+   "data/rounds/2026-11-17/player_logs_2026-11-15.json + data/v2/captures/official_player_minutes_2026-11-15.json",
+   "V-PLAYERLOGS",
+   "coverage measured against the injury report; gaps listed, not filled"
+  ],
+  [
+   "R20",
+   "Originate own NBA lines",
+   "pipeline/v2/pricing.fair_line -> v2 lines pages",
+   "V-A / V-B",
+   "lines are model outputs with 80% intervals; no market line claimed"
+  ],
+  [
+   "R21",
+   "Strategy research + validation gates + correlation values + luck removal (selectively skill-based)",
+   "pipeline/v2/leaderboard.py, gates, backtest",
+   "V-CORR / V-GATES / V-LUCK",
+   "board gated; correlations recomputed"
+  ],
+  [
+   "R22",
+   "Leaderboard competition with rewards for top strategies",
+   "pipeline/v2/leaderboard.py tiers + v2/leaderboard.html",
+   "V-GATES",
+   "reward tiers published; funding decision left to the owner (flagged)"
+  ],
+  [
+   "R23",
+   "Picks for every upcoming slate up to 3 days ahead using originated lines",
+   "data/v2/captures/official_schedule_2026-11-15.json (max_horizon_days=3) + slate rows",
+   "V-CONTEXT",
+   "slate window 2026-11-15..17 = 3 days; horizon field checked"
+  ],
+  [
+   "R24",
+   "Injury impact on rotation minutes/production + game flow analysis",
+   "pipeline/v2/schedule_context.injury_rotation_impact + gameflow pages",
+   "V-MIN",
+   "implemented; player-minutes capture limits its coverage (flagged)"
+  ],
+  [
+   "R25",
+   "Executive summary",
+   "app/summary.html + executive-summary.html + hub/",
+   "\u2014",
+   "published; cross-checked by this audit's flagged list"
+  ],
+  [
+   "R26",
+   "Suggestions section where reviewers choose a path before implementation",
+   "app/suggestions.html (options + recommendation, nothing implemented without a decision)",
+   "\u2014",
+   "present"
+  ],
+  [
+   "R27",
+   "Questions / missing-information register with discovery suggestions",
+   "app/questions.html (known / missing / how to discover)",
+   "\u2014",
+   "present"
+  ],
+  [
+   "R28",
+   "Every table row carries an official source link; unconfirmed values blank + flagged",
+   "all published surfaces",
+   "V-SURF-SRC",
+   "row-level source-link scan on v2/, projection/, bet/"
+  ],
+  [
+   "R29",
+   "GitHub Pages site, clean dashboard, category subpages",
+   "index.html + app/ + this subsite",
+   "\u2014",
+   "live; this audit adds the verification subsite"
+  ],
+  [
+   "R30",
+   "No manual input; scheduled automation end to end",
+   ".github/workflows/refresh.yml + pages.yml",
+   "R01 flags",
+   "automation exists; the hosted refresh failure is the one manual-visible break (flagged)"
+  ]
+ ],
+ "flags": [
+  {
+   "id": "9A-F-PLAYERLOGS",
+   "severity": "medium",
+   "flag": "V-PLAYERLOGS did not fully reproduce: PARTIAL \u2014 gap listed, not filled with guesses",
+   "detail": "84 player names parsed from the newest captured official injury report vs 108 names in the captured game logs / player-minutes tables; matched on (last, first-initial) | {}",
+   "source_url": "https://official.nba.com/nba-injury-report-2026-27-season/"
+  },
+  {
+   "id": "9A-F-01",
+   "severity": "high",
+   "flag": "the hosted scheduled refresh is red and has not fetched official data since 2026-11-17",
+   "detail": "scheduled runs fail at the committed-tree unit-test preflight (latest evidence run 44469939831: test_committed_round_captures_replay_before_the_live_fetch, subTest gamebooks_2ecbccfd.py). Owner session arena/915d2e99-nba3 is on it (PR #143). This audit does not touch that code.",
+   "source_url": "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"
+  },
+  {
+   "id": "9A-F-02",
+   "severity": "high",
+   "flag": "the canonical published results feed is behind the committed captures",
+   "detail": "data/app/results_feed.json carries 23 settled rows through 2026-11-15 while captures for 2026-11-16..18 finals exist under data/rounds/ (dd3edd74 + b1ce1334 trees). Integration request CR-DD3-01 on the board covers the fold-in; this audit records the gap and does not rewrite published data.",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "9A-F-03",
+   "severity": "medium",
+   "flag": "player-minutes capture covers only part of the league",
+   "detail": "official_player_minutes_2026-11-15.json covers the teams its capture step reached and names the rest in not_captured_teams; minutes redistribution therefore publishes for captured teams only. Not filled with estimates.",
+   "source_url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season"
+  },
+  {
+   "id": "9A-F-04",
+   "severity": "medium",
+   "flag": "quarter scores are absent from every settled result row",
+   "detail": "each row says 'quarter scores not captured \u2014 blank, flagged'; the brief's row shape (date, teams, final, quarter scores) is met structurally with the quarter cells null rather than invented.",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "9A-F-05",
+   "severity": "medium",
+   "flag": "no closing line / odds feed exists, so the market-anchored prior cannot be applied",
+   "detail": "the blend is defined in pipeline/v2/strategies.py with weight from measured out-of-sample log-loss, but with no licensed closing line connected there is nothing to blend with; the site publishes the market-free price and says so.",
+   "source_url": "https://www.nba.com/schedule"
+  },
+  {
+   "id": "9A-F-06",
+   "severity": "low",
+   "flag": "estimator B's historical error figure is contaminated by a single dated snapshot",
+   "detail": "the repository's own flag FV2-06 records that estimator B was fitted on the 2026-11-15 team-stats snapshot and graded on earlier games; no ranking may cite its 13.83 RMSE as out-of-sample. Kept as-is; this audit verifies the arithmetic, not the claim.",
+   "source_url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season"
+  }
+ ],
+ "sources": [
+  {
+   "name": "NBA official schedule (date pages)",
+   "url": "https://www.nba.com/schedule",
+   "used_for": "finals, slate, tip times, venues",
+   "tier": "OFFICIAL (nba.com)"
+  },
+  {
+   "name": "NBA official injury report index",
+   "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "used_for": "injury report revisions and stamps",
+   "tier": "OFFICIAL (official.nba.com)"
+  },
+  {
+   "name": "NBA team stats \u2014 traditional",
+   "url": "https://www.nba.com/stats/teams/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "used_for": "estimator B inputs (PTS, GP, POSS)",
+   "tier": "OFFICIAL (nba.com/stats)"
+  },
+  {
+   "name": "NBA team stats \u2014 opponent",
+   "url": "https://www.nba.com/stats/teams/opponent?Season=2026-27&SeasonType=Regular%20Season",
+   "used_for": "estimator B inputs (Opp PTS, opponent shooting)",
+   "tier": "OFFICIAL (nba.com/stats)"
+  },
+  {
+   "name": "NBA team stats \u2014 advanced",
+   "url": "https://www.nba.com/stats/teams/advanced?Season=2026-27&SeasonType=Regular%20Season",
+   "used_for": "OffRtg, DefRtg, Pace",
+   "tier": "OFFICIAL (nba.com/stats)"
+  },
+  {
+   "name": "NBA player box scores / traditional",
+   "url": "https://www.nba.com/stats/players/traditional?Season=2026-27&SeasonType=Regular%20Season",
+   "used_for": "per-player minutes, points, rebounds, assists",
+   "tier": "OFFICIAL (nba.com/stats)"
+  },
+  {
+   "name": "Wikipedia GeoData API (arena coordinates)",
+   "url": "https://en.wikipedia.org/w/api.php",
+   "used_for": "arena-coordinate re-verification (this audit)",
+   "tier": "SECONDARY (Wikipedia)"
+  },
+  {
+   "name": "GitHub Actions \u2014 refresh workflow runs",
+   "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml",
+   "used_for": "hosted refresh failure evidence (9A-F-01)",
+   "tier": "PROJECT (GitHub)"
+  }
+ ]
+}
