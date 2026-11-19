@@ -29,9 +29,9 @@
   {
     "id": "89E-S-03",
     "area": "Decision support / site",
-    "suggestion": "Make data currency a first-class, visible number on the landing page and the projection pages: last successful refresh commit, its UTC stamp, the next scheduled slot, and how many gate steps passed \u2014 instead of prose that a reader has to interpret.",
-    "why": "The outage was invisible from the site: pages still described the 2026-11-16 capture as the current window until session 6f15f7c2 added a dated pause notice, and the only way to see that no fetch had run since 11/17 was to read GitHub Actions. A decision-maker who cannot tell 'stale' from 'fresh' at a glance will treat stale projections as live ones. The refresh job already writes a manifest per run, so the number exists; it is only not surfaced.",
-    "options": "A: refresh_official.py writes data/app/pipeline_status.json (last green run, commit, gates, next slot) and build_app.py renders one strip on the landing page and the projections page. B: keep the dated prose notice only. C: pull the status from the Actions API at page-build time (adds a network dependency to the build).",
+    "suggestion": "Make data currency a first-class, visible number on the landing page and the projection pages: last successful refresh commit, its UTC stamp, the next scheduled slot, and how many gate steps passed \u2014 instead of prose that a reader has to interpret. Include the last observed refresh attempt (run id, created_at, conclusion) in the same generated file, so the banner cannot go stale.",
+    "why": "The outage was invisible from the site: pages still described the 2026-11-16 capture as the current window until session 6f15f7c2 added a dated pause notice, and the only way to see that no fetch had run since 11/17 was to read GitHub Actions. A decision-maker who cannot tell 'stale' from 'fresh' at a glance will treat stale projections as live ones. The refresh job already writes a manifest per run, so the number exists; it is only not surfaced. Why this matters now: the notice in data/app/canonical.json hard-names run 44424736929 (2026-11-18T23:55:01Z) as 'the latest observed scheduled attempt' while the newest is 44469939831 (2026-11-19T06:07:59Z) \u2014 a stored string drifts by construction, and it drives the sentence a reader uses to decide whether to trust a number. Flag 89E-F-09.",
+    "options": "A: refresh_official.py writes data/app/pipeline_status.json (last green run, commit, gates, next slot) and build_app.py renders one strip on the landing page and the projections page. B: keep the dated prose notice only. C: pull the status from the Actions API at page-build time (adds a network dependency to the build). C: a separate ~2-hourly status workflow writes the same JSON from the Actions API, which is the only variant that survives a refresh that dies at its own preflight.",
     "recommended_option": "A \u2014 it is derived from files already committed, so it degrades to 'unknown' offline rather than failing the build, and it never contradicts the tree it was built from.",
     "dependency": "scripts/refresh_official.py and scripts/build_app.py are owned by other claims (PR #143 holds build_app.py at the time of writing), so this is a request, not a change made here.",
     "decision": "awaiting your choice",
@@ -70,11 +70,7 @@
     "area": "site publication",
     "suggestion": "Publish session registers by glob instead of by name: in scripts/assemble_canonical.py and scripts/build_app.py, read every data/app/{flags,questions,suggestions}_*.json, de-duplicate by id (first wins, files sorted), and keep the schema check in one place.",
     "why": "The per-session hard-coding is why 12 flag ids on disk never reached the Flagged page, including this session's. It also creates merge friction: PR #147 adds an rd() line for its own file, which will collide with any other session doing the same in the same three lines. The register JSON schema is already uniform across the 9 session files, so a glob needs no per-file knowledge.",
-    "options": [
-      "glob + de-dup by id, tolerant of unknown extra keys (what this suggests)",
-      "one explicit list file, data/app/registers.json, that each session appends to",
-      "status quo: each session patches two generators and regenerates the site in the same commit"
-    ],
+    "options": "A: glob + de-dup by id, tolerant of unknown extra keys (what this suggests). B: one explicit list file, data/app/registers.json, that each session appends to. C: status quo \u2014 each session patches two generators and regenerates the site in the same commit, which is what sessions 44e0c051, 8e199e09, 965fbd17, c449d46a and ef6e2e6c each did.",
     "recommended_option": "glob + de-dup by id, with a test that every data/app/flags_*.json id appears in the built page",
     "dependency": "needs the app/** + data/app/canonical.json regeneration in the same commit (pages.yml:253-257 requires a clean git diff)",
     "decision": "pending \u2014 integration owner",
