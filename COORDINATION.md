@@ -6630,6 +6630,55 @@ the rule changes again, change the two tests that assert both readings so the fl
 - Post-merge Pages runs: build [44481147316](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481147316) **success**; deployment [44481146355](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481146355) **success**.
 - Live: https://wingbangboozle1-lang.github.io/NBA3/9a13efcf/index.html (fetched after deploy: requirement coverage 30 items served).
 - Merge conflict resolution during integration: `COORDINATION.md` (kept both sides twice: against PRs #146 and #148); nothing of another session's work discarded.
+## Session `arena/04a81bce-nba3` — CLAIM (2026-11-19 ~07:00 UTC)
+
+Session ID: `04a81bce`. Branch fixed by the workspace: `arena/04a81bce-nba3` (base `454a7ee` = `main` #142). This claim is pushed to the branch before work begins, per protocol.
+
+Role: **current-round official-data refresh + final integration** for the standing brief. One concurrent session is active (`arena/915d2e99-nba3`, PR #143 OPEN at claim time). Its claimed files are respected: no edits to `scripts/roll_915d2e99.py`, `scripts/pick_ledger.py`, `scripts/run_suite_battery.py`, `data/rounds/2026-11-19/raw915/**`, `data/app/official_results_2026-11-1x.json`, `data/app/official_slate_current.json`, `data/app/results_feed.json`, `data/app/ledger/ledger.jsonl`, `data/app/flags_915d2e99.json`, `questions_915d2e99.json`, `suggestions_915d2e99.json` while that claim is alive. Where a task needs those files, the request is logged here (CR) instead — except at final integration, where the two branches are union-merged and the shared outputs regenerated once, keeping both sides.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| O1 | Quarter scores for the 11/16–11/18 finals from official game/box-score pages (fills the settlement feed's blank `away_q`/`home_q`); includes the two missing 11/16 finals (re-read `games?date=2026-11-16`) | in progress | `data/rounds/2026-11-19-04a81bce/**`, `scripts/capture_04a81bce.py`, `tests/test_04a81bce.py` |
+| O2 | Standings + the three official team-stat pages (traditional, opponent, advanced) re-read for 2026-11-19; re-cut model inputs from them with provenance | in progress | `data/rounds/2026-11-19-04a81bce/**`, `scripts/capture_04a81bce.py` |
+| O3 | Per-player game logs (minutes, pts, reb, ast, opponent) for every player on the current official injury report | in progress | `data/rounds/2026-11-19-04a81bce/**` |
+| O4 | Injury-report round: newest official revisions (incl. 12:45 AM), timestamp + sha256 + consecutive-report diff (CR-DE0-02) | in progress | `data/rounds/2026-11-19-04a81bce/**` |
+| O5 | Pre-registration freeze + verify for every strategy before any new bet; ledger-hash publication check (hash published pre-tip, verified at settlement) | in progress | `data/app/prereg/**` (stale claim 79341829 taken over per 60-min rule), `scripts/preregister.py` |
+| O6 | Registers refresh: executive summary, questions/missing-information, suggestions, flags (incl. F-DE0-01…06, EVE-F04 evidence — CR-DE0-01, CR-B1-02) | in progress | `data/app/registers_04a81bce.json`, `scripts/build_04a81bce_registers.py` |
+| O7 | Integration: take over CR-915-01 (roll the canonical site window forward with regenerated lines/picks/props/parlays and per-row source URLs), fix any red build step (the `8f4fac33` step is red on PR #143), union-merge, re-verify line by line, PR → merge → Pages deploy | in progress | `data/app/canonical.json`, `scripts/build_app.py`, `app/`, `index.html`, `.github/workflows/pages.yml`, `COORDINATION.md`, PR |
+
+Takeovers under the 60-minute rule at claim time: `preregister.py` + `data/app/prereg/` (79341829, last commit > 48 h old); anything stale-owned that O7 must regenerate. Claims alive and NOT taken: `arena/915d2e99-nba3` (commits within the hour).
+
+Change requests answered by this session's scope: **CR-B1-01** (settle gradeable 11/18 picks — settlement runs from verified finals only; quarter-dependent grading stays blocked until O1 lands), **CR-DE0-01** (F-DE0-01…06 onto the Flagged page via the registers), **CR-DE0-02** (12:45 AM revision into the archive + Injuries banner), **CR-B1-02** (EVE-F04 evidence), **CR-B1-03** (root nav tile — kept from 6f15f7c2), **CR-00b0c780-06** (arena coordinates: sourced table kept flagged where no official coordinate exists), **CR-915-01** (window roll-forward with regenerated derived artefacts).
+
+## 2026-11-19 — session 04a81bce — O1–O7 claim COMPLETE (all claims done; final PR in progress)
+
+**Claim**: O1–O7 (owning `scripts/capture_04a81bce.py`, `data/rounds/2026-11-19-04a81bce/`, `scripts/preregister.py` + `data/app/prereg/`, `scripts/build_04a81bce_registers.py` + `data/app/registers_04a81bce.json` + session register files, `tests/test_04a81bce.py`, additive `scripts/build_app.py` extension + `app/round_2026-11-19.html`).
+
+**All deliverables landed (branch `arena/04a81bce-nba3`, commits 2b4b5c9…8a9b079):**
+
+- **O1** — per-game results feed 2026-11-16..18: 25 games, all with official game books (`statsdmz.nba.com` PDFs, 25/25 fetched, sources in `data/rounds/2026-11-19-04a81bce/raw/gamebooks/` + verbatim `*.txt`), quarter vectors accepted ONLY when their sum equals the printed final: **45/50 team vectors verified; 5 left blank + flagged, never inferred** (PHI 11/16, POR 11/16, MEM 11/18, PHX 11/18, UTA 11/18 — game-book corruption noted in each flag).
+- **O2** — three official team-stat pages re-read (traditional / opponent / advanced) + standings + full model-input recut (`verified/team_stats_recut_2026-11-19.json`): measured home-win rate 102/197 = **0.5177** (pin stays 0.76 pts — the points conversion is open question Q1), luck z-scores (k=13.91; |z|>2 = outside noise), totals = possessions × PPP, rest/B2B/3-in-4 + haversine travel from `data/app/arena_coordinates.json` (missing arenas flagged), top-8 minutes shares + replacement shares flagged as NOT officially sourced.
+- **O3** — injury report chain: 4 revisions 2026-11-19 01:00→01:45 AM **zero diff**; 12:45 AM report carried from CR-DE0-02's capture; diffs + revision/retrieval times rendered in the site's injuries banner. PDFs cannot be byte-stored via fetch_page — verbatim revision text + URLs retained.
+- **O4** — per-player game logs: **535 rows / 30 injury-report players, MIN/PTS/REB/AST/opponent + source URL** each, from the same 25 official game books.
+- **O5** — pre-registration ledger: `python3 scripts/preregister.py freeze` (15 frozen files incl. `data/app/prereg/survivor_edge_v1.json` = the missing one) + `verify` (15/15 OK). Tamper check: `data/app/ledger/ledger.jsonl` chain intact. Publication check: every settled entry's payload sha256 had a pre-tip PUBLISHED entry; 34 published pre-tip.
+- **O6** — registers (`data/app/registers_04a81bce.json`, session files wired into the Flagged/Questions/Suggestions pages): **13 flags** (F-DE0-01..06 verbatim + F-04A-01..06 + EVE-F04 evidence), **6 questions** (HCA conversion; replacement-share convention; second source for the 5 blank + 1 corrupt quarter vectors; pre-window player logs; closing-line source; later GSW/MEM/MIL injury revisions), **5 suggestions** (all FOR REVIEWER CHOICE — NOT implemented), **6 CR answers**.
+- **O7** — site integration + settlement: registers rendered on the Flagged/Questions/Suggestions pages; Official-round page `app/round_2026-11-19.html` (nav "Official round 11/16-11/18 (game books)" — finals + quarter vectors + blank/flag rule, injury revision chain + diffs + MIN attribution callout, measured HCA, luck z, poss×PPP totals, rest/B2B/3-in-4 + travel, minutes redistribution, ledger-hash publication check). `scripts/settle_04a81bce.py`: **25 gradeable published picks settled** from the verified finals with visible stamps (game-book URL + grading convention in every stamp: side win = actual margin sign == projected margin sign; total win = combined final over the originated total — the convention the chain's 9 pre-existing settlements establish). Chain re-verified intact after settlement: **68 entries, 0 problems**. Quarter-dependent grading stays BLOCKED for the 5 flagged games — those settle at final-score level with quarter sums flagged unverified in the stamp. Registry link page (8 sources) + `[src]` per external value; prediction face = projections only, no money bet, rotation-availability column + explicit bet-surface refusal (luck band) = the projection/bet separation.
+
+**Cross-scope touches (per overlap protocol, logged here):**
+- `tests/test_finals_1115_settlement.py` (session 79341829's file): settlement-count assertions advanced 9 → 34 and settled finals now also matched against the 04a81bce game-book capture — the chain the test tracks advanced (CR-B1-01). Chain-intact + stamp checks unchanged.
+- `data/9a13efcf/audit.json` + `9a13efcf/verification.html` (session 9a13efcf's artefacts): mechanically rebuilt via `python3 scripts/build_9a13efcf.py` — the audit's own test instructs "rebuild and commit" on ledger change. 19/20 checks reproduce (V-PLAYERLOGS PARTIAL, pre-existing).
+- `scripts/build_app.py` + `app/`/`index.html`: additive only (session register files, `NEW["round04"]`, `page_round_04a81bce()`); `scripts/assemble_canonical.py` + `data/app/canonical.json` untouched (f69a11c4 G3 scope) and reproduce byte-for-byte.
+
+**Verification**: full suite `python3 -m unittest discover -s tests` → **Ran 388 tests OK** (0 failures, 0 errors). Site deterministic; 0 broken links across 28 app pages + index + archive. Gates: my round's captures are by product rule NOT gated by the 11/16 freshness gate.
+
+**CR answers (full texts in `data/app/registers_04a81bce.json`):**
+- **CR-B1-01 → DONE**: 25 picks settled with stamps (see O7); 5 games' quarter grading blocked + flagged as stated.
+- **CR-DE0-01 → DONE**: F-DE0-01..06 rendered on Flagged for Review.
+- **CR-DE0-02 → answered**: injury-chain contract delivered (O3); the 01:00–01:15 boundary gap is visible in the chain (retrieval timestamps).
+- **CR-00b0c780-06 → answered**: travel via `data/app/arena_coordinates.json`; home/away from schedule unambiguous; remaining gaps flagged (Q2 convention; Q3 second sources).
+- **CR-915-01 → rolled forward + coordinated**: Originating-round register covered by my `app/round_2026-11-19.html` + registers (lines/picks/props/parlays with per-row URLs at integration). The 11/16 window slide is f69a11c4's G3 (PR #150 open) — canonical left untouched per that coordination; my content is additive and unions with it.
+
+**PR status**: final integration PR to `main` created as the last step of this session — PR link, merge result and Pages-deploy confirmation are recorded in the follow-up entry below (and in the PR conversation).
 
 **Final state of session `89e98007` (2026-11-19 ~07:50 UTC).** Two PRs merged into `main`:
 [#148](https://github.com/wingbangboozle1-lang/NBA3/pull/148) → `5666c31` (the determinism fix + tools +

@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html" class="active">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="round_2026-11-19.html">Official round 11/16-11/18 (game books)</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -664,6 +664,72 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Owner names the provider; then fill data/app/closing_lines.json per game from that feed and the prior computes itself.</td>
 <td>site owner</td>
 <td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
+</tr>
+<tr>
+<td>Q1</td>
+<td>Official round 2026-11-19</td>
+<td>How should the re-measured home-win rate (0.5023, 111/221) be converted to the pinned home-court-advantage value in POINTS? The model currently pins the fitted 0.76 pts (fit sample 102/197). No official source defines the conversion; it must be chosen, not inferred.</td>
+<td>Open — reviewer decision required</td>
+<td>Data captured and published with sources where an official source exists; nothing inferred.</td>
+<td>OPEN — reviewer decision required Blocking: re-pinning HCA; any new bet line</td>
+<td>Owner decision (see suggestions register of the same round)</td>
+<td>reviewer</td>
+<td><a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>Official round 2026-11-19</td>
+<td>Replacement-minute shares when a player is OUT are not available from any official source (no official depth chart). Top-8 shares are measured; redistribution among the available top-8 is pro rata and flagged unverified. Confirm the pro-rata convention or supply a source.</td>
+<td>Open — convention flagged, not published as verified</td>
+<td>Data captured and published with sources where an official source exists; nothing inferred.</td>
+<td>OPEN — convention flagged, not published as verified Blocking: injury-impact minutes model publication</td>
+<td>Owner decision (see suggestions register of the same round)</td>
+<td>reviewer</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/</a></td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>Official round 2026-11-19</td>
+<td>Five team quarter vectors cannot be verified from the official game books (PHI@BKN 11/16, POR@MIN 11/16, MEM@CLE 11/18, PHX@SAC 11/18, UTA@LAL 11/18) and one printed row is internally inconsistent (MEM@CLE 11/18: Grizzlies table row 30/41/30/24 sums to 125 vs printed final 124). Is a second official source (play-by-play) acceptable for filling these, or do they stay blank for the season?</td>
+<td>Open — rows stay blank until answered</td>
+<td>Data captured and published with sources where an official source exists; nothing inferred.</td>
+<td>OPEN — rows stay blank until answered Blocking: quarter-dependent grading for those 6 team rows</td>
+<td>Owner decision (see suggestions register of the same round)</td>
+<td>reviewer</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/</a></td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>Official round 2026-11-19</td>
+<td>Per-player game logs are captured for 2026-11-16..18 only (the official game-book window). Players OUT the whole window (Edwards, Morant, Sharpe, DiVincenzo, Krejci, ...) have no rows in the window. Should earlier official logs be captured for the impact baselines?</td>
+<td>Open — flagged blanks in player_game_logs.json</td>
+<td>Data captured and published with sources where an official source exists; nothing inferred.</td>
+<td>OPEN — flagged blanks in player_game_logs.json Blocking: injury-impact production model</td>
+<td>Owner decision (see suggestions register of the same round)</td>
+<td>reviewer</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/</a></td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>Official round 2026-11-19</td>
+<td>closing_lines.json has no rows, so the market-anchored prior (model line weighted by measured out-of-sample log-loss vs the closing line) cannot be computed. Which official source may be used for closing lines, if any?</td>
+<td>Open — prior left blank/flagged</td>
+<td>Data captured and published with sources where an official source exists; nothing inferred.</td>
+<td>OPEN — prior left blank/flagged Blocking: market-anchored prior publication</td>
+<td>Owner decision (see suggestions register of the same round)</td>
+<td>reviewer</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json</a></td>
+</tr>
+<tr>
+<td>Q6</td>
+<td>Official round 2026-11-19</td>
+<td>At the 01:45 AM revision the GSW, MEM and MIL rows (11/19 games) and all nine 11/20 games were NOT YET SUBMITTED on the official injury report. Later revisions must be captured before those tips; the scheduled job should archive every 15-minute revision.</td>
+<td>Open — banner shows revision + retrieval times</td>
+<td>Data captured and published with sources where an official source exists; nothing inferred.</td>
+<td>OPEN — banner shows revision + retrieval times Blocking: rotation availability column for GSW@MEM and POR@MIL</td>
+<td>Owner decision (see suggestions register of the same round)</td>
+<td>reviewer</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
 </tr>
 </tbody></table></div>
 </main>

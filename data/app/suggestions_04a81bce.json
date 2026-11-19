@@ -1,0 +1,67 @@
+[
+ {
+  "id": "S1",
+  "area": "Official round 2026-11-19",
+  "suggestion": "HCA points conversion",
+  "why": "Choose one: (a) keep 0.76 pts until the fit sample is refreshed; (b) adopt a probit conversion using the league average margin sigma; (c) refit the 102/197 mapping on the expanded home/road log. Implement the chosen option before any new bet is published.",
+  "options": "Choose one: (a) keep 0.76 pts until the fit sample is refreshed; (b) adopt a probit conversion using the league average margin sigma; (c) refit the 102/197 mapping on the expanded home/road log. Implement the chosen option before any new bet is published.",
+  "recommended_option": "reviewer chooses before implementation",
+  "dependency": "owner decision",
+  "decision": "for reviewer choice \u2014 NOT implemented",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json"
+  ]
+ },
+ {
+  "id": "S2",
+  "area": "Official round 2026-11-19",
+  "suggestion": "Injury-revision archiving",
+  "why": "Extend the scheduled refresh to archive every 15-minute official revision (filling F-DE0-03) and compute consecutive diffs in the job itself.",
+  "options": "Extend the scheduled refresh to archive every 15-minute official revision (filling F-DE0-03) and compute consecutive diffs in the job itself.",
+  "recommended_option": "reviewer chooses before implementation",
+  "dependency": "owner decision",
+  "decision": "for reviewer choice \u2014 NOT implemented",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json"
+  ]
+ },
+ {
+  "id": "S3",
+  "area": "Official round 2026-11-19",
+  "suggestion": "Quarter-vector completion",
+  "why": "Fetch official play-by-play quarter scores for the 6 flagged team rows when a reviewer confirms Q3; until then keep them blank and keep quarter-dependent grading blocked for those rows.",
+  "options": "Fetch official play-by-play quarter scores for the 6 flagged team rows when a reviewer confirms Q3; until then keep them blank and keep quarter-dependent grading blocked for those rows.",
+  "recommended_option": "reviewer chooses before implementation",
+  "dependency": "owner decision",
+  "decision": "for reviewer choice \u2014 NOT implemented",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json"
+  ]
+ },
+ {
+  "id": "S4",
+  "area": "Official round 2026-11-19",
+  "suggestion": "Player log depth",
+  "why": "Capture at least 3 prior official game logs per injury-report player for the production-impact baselines (answers Q4).",
+  "options": "Capture at least 3 prior official game logs per injury-report player for the production-impact baselines (answers Q4).",
+  "recommended_option": "reviewer chooses before implementation",
+  "dependency": "owner decision",
+  "decision": "for reviewer choice \u2014 NOT implemented",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json"
+  ]
+ },
+ {
+  "id": "S5",
+  "area": "Official round 2026-11-19",
+  "suggestion": "Correlation model for parlays",
+  "why": "When the measured-rho parlay pricer lands, extend the prereg files with the rho method and always print the naive product next to the rho-adjusted price (already required by the brief; keep the prereg freeze before the first bet).",
+  "options": "When the measured-rho parlay pricer lands, extend the prereg files with the rho method and always print the naive product next to the rho-adjusted price (already required by the brief; keep the prereg freeze before the first bet).",
+  "recommended_option": "reviewer chooses before implementation",
+  "dependency": "owner decision",
+  "decision": "for reviewer choice \u2014 NOT implemented",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json"
+  ]
+ }
+]
