@@ -97,6 +97,10 @@ def build():
               f"{'no status changes' if p['consecutive_diff']['identical'] else 'changes — see Injuries'}"
               f"</div>")
 
+    # short revision labels for prose (never hardcode a revision time)
+    cur_lbl = p["report_revision"].replace("11/19/26 ", "").replace(" AM", " AM").strip()
+    prev_lbl = p["previous_revision"].replace("11/19/26 ", "").strip()
+
     # ---------------- index
     cards = "".join(
         f"<div class=\"card\"><b>{v}</b><span>{k}</span></div>"
@@ -141,7 +145,7 @@ team minutes sum to the printed 240:00 in all six team-games (240.0 / 240.0 / 23
 <li>Printed period totals equal the printed team totals for all three games
 (105-106, 105-93, 132-107) and match the merged official finals capture
 (data/rounds/2026-11-19-dd3edd74, PR #144) 3 of 3.</li>
-<li>Consecutive report diff (02:00 AM → 02:15 AM ET): no added, removed or changed rows.</li>
+<li>Consecutive report diff ({esc(prev_lbl)} → {esc(cur_lbl)} ET): no added, removed or changed rows.</li>
 <li>21 of 23 report rows print their team; 2 do not (page-break layout) and are flagged
 F-93-01 with team taken only from the official game book line carrying the identical
 printed reason.</li>
@@ -228,11 +232,11 @@ problems {len(p['problems'])}.</p>"""
 <b>Consecutive diff:</b> {esc(delta_txt)}</div>
 <p class="note">Sources:
 <a href="{esc(p['report_index_url'])}">official injury-report index</a> ·
-<a href="{esc(p['report_url'])}">02:15 AM ET PDF</a> ·
-<a href="{esc(p['previous_report_url'])}">02:00 AM ET PDF</a>.
+<a href="{esc(p['report_url'])}">{esc(cur_lbl)} ET PDF</a> ·
+<a href="{esc(p['previous_report_url'])}">{esc(prev_lbl)} ET PDF</a>.
 Transcripts are stored verbatim under data/rounds/2026-11-19-93becd26/captures/ with
 sha256 in manifest.json.</p>
-<h2>02:15 AM ET player rows ({len(inj['current']['players'])})</h2>
+<h2>{esc(cur_lbl)} ET player rows ({len(inj['current']['players'])})</h2>
 <table><tr><th>Game date</th><th>Matchup</th><th>Team</th><th>Player</th>
 <th>Status</th><th>Reason</th><th>Source</th></tr>{cur_rows}</table>
 <h2>Team rows with no player entry ({len(inj['current']['team_rows'])})</h2>
@@ -241,7 +245,7 @@ sha256 in manifest.json.</p>
 <p class="note">Recorded exactly as printed; columns are shifted on the page and are never
 re-aligned (F-93-07).</p>
 <table><tr><th>Cells as printed</th></tr>{shifted}</table>
-<h2>Consecutive diff 02:00 AM → 02:15 AM</h2>
+<h2>Consecutive diff {esc(prev_lbl)} → {esc(cur_lbl)}</h2>
 <p class="note">{esc(delta_txt)}.</p>"""
 
     # ---------------- flagged
