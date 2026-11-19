@@ -218,7 +218,8 @@ problems {len(p['problems'])}.</p>"""
                  f"added {len(d['added'])}, removed {len(d['removed'])}, "
                  f"changed {len(d['changed'])}")
     shifted = "".join(
-        f"<tr><td>{esc(r['c0'])}</td><td>{esc(r['c1'])}</td><td>{esc(r['c2'])}</td></tr>"
+        "<tr><td>" + " &middot; ".join(esc(c) for c in r.get("cells", [r["c0"], r["c1"], r["c2"]]))
+        + "</td></tr>"
         for r in inj["current"]["shifted_rows"])
     injuries = f"""
 <div class="banner"><b>Revision time:</b> {esc(p['report_revision'])} ET &middot;
@@ -239,7 +240,7 @@ sha256 in manifest.json.</p>
 <h2>Layout-shifted section-3 rows ({len(inj['current']['shifted_rows'])})</h2>
 <p class="note">Recorded exactly as printed; columns are shifted on the page and are never
 re-aligned (F-93-07).</p>
-<table><tr><th>Cell 1</th><th>Cell 2</th><th>Cell 3</th></tr>{shifted}</table>
+<table><tr><th>Cells as printed</th></tr>{shifted}</table>
 <h2>Consecutive diff 02:00 AM → 02:15 AM</h2>
 <p class="note">{esc(delta_txt)}.</p>"""
 

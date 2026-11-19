@@ -44,7 +44,7 @@ class ManifestTests(unittest.TestCase):
     def test_every_capture_hash_matches(self):
         man = load("manifest.json")
         self.assertEqual(man["round"], "2026-11-19-93becd26")
-        self.assertEqual(len(man["files"]), 6)
+        self.assertEqual(len(man["files"]), 9)
         for name, meta in man["files"].items():
             with open(os.path.join(CAP, name), "rb") as fh:
                 data = fh.read()
@@ -54,8 +54,8 @@ class ManifestTests(unittest.TestCase):
 
     def test_report_and_index_sources(self):
         man = load("manifest.json")
-        self.assertIn("Injury-Report_2026-11-19_02_15AM.pdf", man["files"][cap93.INJ_0215]["source_url"])
-        self.assertIn("Injury-Report_2026-11-19_02_00AM.pdf", man["files"][cap93.INJ_0200]["source_url"])
+        self.assertIn("Injury-Report_2026-11-19_03_00AM.pdf", man["files"][cap93.INJ_CURRENT]["source_url"])
+        self.assertIn("Injury-Report_2026-11-19_02_45AM.pdf", man["files"][cap93.INJ_PREVIOUS]["source_url"])
 
 
 class InjuryParseTests(unittest.TestCase):
@@ -64,13 +64,15 @@ class InjuryParseTests(unittest.TestCase):
 
     def test_revisions_and_counts(self):
         cur, prev = self.parsed["current"], self.parsed["previous"]
-        self.assertEqual(cur["revision"], "11/19/26 02:15 AM")
-        self.assertEqual(prev["revision"], "11/19/26 02:00 AM")
+        self.assertEqual(cur["revision"], "11/19/26 03:00 AM")
+        self.assertEqual(prev["revision"], "11/19/26 02:45 AM")
         self.assertEqual(len(cur["players"]), 23)
         self.assertEqual(len(prev["players"]), 23)
 
     def test_consecutive_diff_identical(self):
         d = self.parsed["delta"]
+        self.assertEqual(d["from_revision"], "11/19/26 02:45 AM")
+        self.assertEqual(d["to_revision"], "11/19/26 03:00 AM")
         self.assertTrue(d["identical"])
         self.assertEqual(d["added"], [])
         self.assertEqual(d["removed"], [])
@@ -202,8 +204,8 @@ class GamesAndScheduleTests(unittest.TestCase):
 
     def test_delta_and_report_urls(self):
         self.assertTrue(self.p["consecutive_diff"]["identical"])
-        self.assertIn("02_15AM", self.p["report_url"])
-        self.assertIn("02_00AM", self.p["previous_report_url"])
+        self.assertIn("03_00AM", self.p["report_url"])
+        self.assertIn("02_45AM", self.p["previous_report_url"])
 
 
 if __name__ == "__main__":

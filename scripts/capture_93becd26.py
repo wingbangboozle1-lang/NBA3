@@ -45,14 +45,16 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ROUND = os.path.join(ROOT, "data", "rounds", "2026-11-19-93becd26")
 CAP = os.path.join(ROUND, "captures")
 
-INJ_0215 = "injury_report_2026-11-19_0215AM.md"
-INJ_0200 = "injury_report_2026-11-19_0200AM.md"
+# current = newest revision at the pre-PR freshness gate; previous = its immediate
+# predecessor. The earlier 02:00/02:15 pair stays in captures/ as round history.
+INJ_CURRENT = "injury_report_2026-11-19_0300AM.md"
+INJ_PREVIOUS = "injury_report_2026-11-19_0245AM.md"
 SCHED = "schedule_2026-11-18_finals.json"
 
-REPORT_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
-REPORT_PREV_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00AM.pdf"
+REPORT_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_03_00AM.pdf"
+REPORT_PREV_URL = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_45AM.pdf"
 INDEX_URL = "https://official.nba.com/nba-injury-report-2026-27-season/"
-RETRIEVAL_WINDOW = "2026-11-19T07:22Z-07:42Z"
+RETRIEVAL_WINDOW = "2026-11-19T07:22Z-08:20Z"
 
 # One game book per game played by the four teams that have attributed report players.
 # game_id / game_page come from data/rounds/2026-11-19-dd3edd74/results_2026-11-16_18.json
@@ -153,11 +155,13 @@ def parse_injury(text: str):
                 team_rows.append({"game_date": game_date, "game_time": game_time,
                                   "matchup": matchup, "team_printed": team,
                                   "printed": reason or status})
-        elif len(cells) == 3:
-            # page-3 layout: columns shifted; recorded as printed, never re-aligned
-            shifted.append({"c0": cells[0], "c1": cells[1], "c2": cells[2]})
-        elif len(cells) == 7 or len(cells) == 6:
-            players.append({"parse_error": "unexpected cell count", "cells": cells})
+        elif len(cells) < 7:
+            # page-3 layout: columns shifted (3 or 4 cells in different revisions);
+            # recorded as printed, never re-aligned
+            shifted.append({"c0": cells[0] if cells else "",
+                            "c1": cells[1] if len(cells) > 1 else "",
+                            "c2": cells[2] if len(cells) > 2 else "",
+                            "cells": cells})
     return {"revision": revision, "players": players, "team_rows": team_rows,
             "shifted_rows": shifted}
 
@@ -358,8 +362,8 @@ def split_report_name(player: str):
 
 
 def build_payload():
-    inj_cur = parse_injury(open(os.path.join(CAP, INJ_0215), encoding="utf-8").read())
-    inj_prev = parse_injury(open(os.path.join(CAP, INJ_0200), encoding="utf-8").read())
+    inj_cur = parse_injury(open(os.path.join(CAP, INJ_CURRENT), encoding="utf-8").read())
+    inj_prev = parse_injury(open(os.path.join(CAP, INJ_PREVIOUS), encoding="utf-8").read())
     delta = injury_delta(inj_prev, inj_cur)
 
     schedule = json.load(open(os.path.join(CAP, SCHED), encoding="utf-8"))
@@ -600,8 +604,14 @@ def build_payload():
 def manifest_files():
     out = {}
     sources = {
-        INJ_0215: REPORT_URL,
-        INJ_0200: REPORT_PREV_URL,
+        INJ_CURRENT: REPORT_URL,
+        INJ_PREVIOUS: REPORT_PREV_URL,
+        "injury_report_2026-11-19_0230AM.md":
+            "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_30AM.pdf",
+        "injury_report_2026-11-19_0215AM.md":
+            "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf",
+        "injury_report_2026-11-19_0200AM.md":
+            "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00AM.pdf",
         SCHED: "https://www.nba.com/schedule?date=2026-11-18",
     }
     for g in GAMES:
