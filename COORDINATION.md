@@ -6587,3 +6587,13 @@ final commit of this branch; its four probe commits remain as evidence in `data/
 - Post-merge Pages runs: build [44481147316](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481147316) **success**; deployment [44481146355](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481146355) **success**.
 - Live: https://wingbangboozle1-lang.github.io/NBA3/9a13efcf/index.html (fetched after deploy: requirement coverage 30 items served).
 - Merge conflict resolution during integration: `COORDINATION.md` (kept both sides twice: against PRs #146 and #148); nothing of another session's work discarded.
+
+---
+
+## Session `arena/9a13efcf-nba3` — CLAIM 2 (2026-11-19 ~07:55 UTC)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| R19b — Close the audit's biggest measured gap (9A-F-PLAYERLOGS, 10/84): capture per-player game logs (MIN, PTS, REB, AST, opponent) from official box scores for the 2026-11-18 finals (12 games, 24 teams — the most recent completed game day), verbatim transcripts + parser + identity checks (minutes sum, PTS = 2FG+3P+FT, row sums vs printed team totals), coverage re-measured against the newest archived injury reports | in progress | 9a13efcf | `data/9a13efcf/playerlogs/**`, `scripts/build_9a13efcf.py` (coverage check + playerlogs page only), `9a13efcf/playerlogs.html`, `tests/test_9a13efcf.py` (new tests only) |
+
+Non-overlap: `arena/e9295737-nba3` (PR #147) is on quarter scores / injury diffs / slate for the same game days at the team level; this claim is player-level rows in a separate subtree and touches no file of theirs or of `arena/f69a11c4-nba3` (PR #150, integration/fold-in). Canonical results feed, ledgers and app/ pages remain integration-owned. Scope ends at the 11/18 game day; earlier days stay a documented gap.
