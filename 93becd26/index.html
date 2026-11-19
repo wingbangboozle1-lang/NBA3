@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Player game logs — injury report 11/19/2026</title><style>
+:root { --ink:#14213d; --mut:#5c677d; --line:#d9dee7; --bg:#f6f8fb; --acc:#1d4ed8; }
+* { box-sizing:border-box; }
+body { margin:0; font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+       color:var(--ink); background:var(--bg); }
+header { background:#fff; border-bottom:1px solid var(--line); padding:14px 22px; }
+header h1 { margin:0 0 2px; font-size:19px; }
+header .sub { color:var(--mut); font-size:13px; }
+nav a { margin-right:14px; color:var(--acc); text-decoration:none; font-size:14px; }
+nav a:hover { text-decoration:underline; }
+main { max-width:1180px; margin:18px auto; padding:0 18px 40px; }
+.banner { background:#eef4ff; border:1px solid #c9d8fb; border-radius:8px;
+          padding:10px 14px; font-size:14px; margin-bottom:16px; }
+table { border-collapse:collapse; width:100%; background:#fff; font-size:13.5px; }
+th,td { border:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+th { background:#eef1f6; position:sticky; top:0; }
+tr:nth-child(even) td { background:#fafbfd; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+.flag { color:#b45309; font-weight:600; }
+.mut { color:var(--mut); }
+.null { color:#9aa3b2; }
+a { color:var(--acc); }
+.cards { display:flex; gap:12px; flex-wrap:wrap; margin:14px 0; }
+.card { background:#fff; border:1px solid var(--line); border-radius:8px;
+        padding:10px 16px; min-width:130px; }
+.card b { display:block; font-size:22px; }
+.card span { color:var(--mut); font-size:12.5px; }
+h2 { font-size:16px; margin:26px 0 8px; }
+.note { font-size:13px; color:var(--mut); margin:6px 0 14px; }
+ul.tight li { margin:4px 0; }
+</style></head><body><header><h1>NBA player game logs for the injury report</h1><div class="sub">Round 2026-11-19-93becd26 &middot; session arena/93becd26-nba3 &middot; official sources only, every row linked</div><nav><a href="index.html" style="font-weight:700">Home</a><a href="player-logs.html">Player logs</a><a href="injuries.html">Injuries</a><a href="flagged.html">Flagged for Review</a></nav></header><main><div class="banner"><b>Injury report revision:</b> 11/19/26 02:15 AM ET (newest on the official index at capture) &middot; <b>retrieval:</b> 2026-11-19T07:22Z-07:42Z (window, not a per-call stamp) &middot; <b>previous revision:</b> 11/19/26 02:00 AM ET &middot; consecutive diff: no status changes</div>
+<div class="cards"><div class="card"><b>23</b><span>report player rows</span></div><div class="card"><b>21</b><span>team printed on row</span></div><div class="card"><b>2</b><span>team blank (flagged)</span></div><div class="card"><b>6</b><span>played logs</span></div><div class="card"><b>2</b><span>DND logs</span></div><div class="card"><b>15</b><span>inactive logs</span></div><div class="card"><b>0</b><span>unmatched</span></div></div>
+<p class="note">One row for every player listed on the newest official NBA injury report at
+capture time (revision 11/19/26 02:15 AM ET), each paired with that player's
+most recent completed game log — minutes, points, rebounds, assists and the opponent, or the
+DND/inactive reason exactly as the official box-score game book prints it. Values that cannot
+be read from an official source stay blank and are flagged; nothing is inferred.</p>
+<h2>Games used (each team's most recent completed game)</h2>
+<p class="note">None of LAC, SAS, MIN or POR appears among the twelve finals printed on the
+<a href="https://www.nba.com/schedule?date=2026-11-18">official 2026-11-18 schedule page</a>
+(absence check: PASS),
+and each game book header itself prints Tuesday, November 17, 2026.</p>
+<table><tr><th>Date</th><th>Matchup</th><th>Game id</th><th>Header prints</th><th>Sources</th></tr>
+<tr><td>2026-11-17</td><td>POR @ MIN</td><td>0022600254</td><td>Tuesday, November 17, 2026</td><td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf">game book (PDF)</a> · <a href="https://www.nba.com/game/por-vs-min-0022600254">game page</a></td></tr><tr><td>2026-11-17</td><td>DET @ SAS</td><td>0022600255</td><td>Tuesday, November 17, 2026</td><td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf">game book (PDF)</a> · <a href="https://www.nba.com/game/det-vs-sas-0022600255">game page</a></td></tr><tr><td>2026-11-17</td><td>UTA @ LAC</td><td>0022600257</td><td>Tuesday, November 17, 2026</td><td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf">game book (PDF)</a> · <a href="https://www.nba.com/game/uta-vs-lac-0022600257">game page</a></td></tr></table>
+<h2>Verification</h2>
+<ul class="tight">
+<li>Every played row satisfies PTS = 2·FG + 3P + FT and TOT = OR + DR as printed;
+team minutes sum to the printed 240:00 in all six team-games (240.0 / 240.0 / 239.999 /
+240.0 / 239.999 / 240.003).</li>
+<li>Printed period totals equal the printed team totals for all three games
+(105-106, 105-93, 132-107) and match the merged official finals capture
+(data/rounds/2026-11-19-dd3edd74, PR #144) 3 of 3.</li>
+<li>Consecutive report diff (02:00 AM → 02:15 AM ET): no added, removed or changed rows.</li>
+<li>21 of 23 report rows print their team; 2 do not (page-break layout) and are flagged
+F-93-01 with team taken only from the official game book line carrying the identical
+printed reason.</li>
+<li>Manifest: sha256 + byte size recorded for all 6 capture files.</li>
+</ul>
+<h2>Captures in this round</h2>
+<table><tr><th>File</th><th>Bytes</th><th>sha256 (first 16)</th><th>Official source</th></tr>
+<tr><td>gamebook_2026-11-17_DETSAS.md</td><td class="num">5964</td><td class="mut">708ce9d1d4a0c38e</td><td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf">https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf</a></td></tr><tr><td>gamebook_2026-11-17_PORMIN.md</td><td class="num">5962</td><td class="mut">ffd86d8b9f46582c</td><td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf">https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf</a></td></tr><tr><td>gamebook_2026-11-17_UTALAC.md</td><td class="num">5609</td><td class="mut">86d96b8baa646f9f</td><td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf">https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf</a></td></tr><tr><td>injury_report_2026-11-19_0200AM.md</td><td class="num">4583</td><td class="mut">7a193ac09f377dca</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00AM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00AM.pdf</a></td></tr><tr><td>injury_report_2026-11-19_0215AM.md</td><td class="num">4546</td><td class="mut">4f906497ff2cd624</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf</a></td></tr><tr><td>schedule_2026-11-18_finals.json</td><td class="num">3002</td><td class="mut">aa75c0918469e5a9</td><td><a href="https://www.nba.com/schedule?date=2026-11-18">https://www.nba.com/schedule?date=2026-11-18</a></td></tr>
+</table></main></body></html>

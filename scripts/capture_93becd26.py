@@ -198,8 +198,10 @@ def parse_gamebook(text: str, meta: dict):
     cur = None
     header_date = None
     for i, line in enumerate(lines):
-        if header_date is None and re.match(r"^[A-Z][a-z]+day, [A-Z][a-z]+ \d{1,2}, \d{4}", line):
-            header_date = line.strip()
+        if header_date is None:
+            _hd = re.match(r"^[A-Z][a-z]+day, [A-Z][a-z]+ \d{1,2}, \d{4}", line)
+            if _hd:
+                header_date = _hd.group(0)
         mh = re.search(r"(VISITOR|HOME):\s*([A-Za-z0-9 .''-]+?)\s*\(\d+-\d+\)", line)
         if mh and "|" in line:
             code = code_for(mh.group(2))
