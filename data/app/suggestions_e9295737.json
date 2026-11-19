@@ -1,0 +1,80 @@
+[
+ {
+  "id": "E929-S01",
+  "area": "Provenance",
+  "suggestion": "Make the header coverage label per page instead of global.",
+  "why": "Pages now publish artefacts with different end dates, so one global window label makes a page covering 2026-11-21 look like it stops at 2026-11-18.",
+  "options": "(a) per-page label from each page's own coverage; (b) keep global and add a per-page subtitle; (c) do nothing.",
+  "recommended_option": "(a) per-page label - small, contained to the layout helper.",
+  "dependency": "None.",
+  "decision": "Awaiting decision",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py"
+  ]
+ },
+ {
+  "id": "E929-S02",
+  "area": "Results feed",
+  "suggestion": "Publish a signed index of every results chain head, with its entry count.",
+  "why": "The canonical and round feeds are deliberately separate so earlier settlement evidence stays valid. An index of chain heads would let a reader confirm at a glance that both verify, instead of taking a paragraph of explanation on trust.",
+  "options": "(a) a small index page listing each chain, head hash and count; (b) fold both into one chain; (c) do nothing.",
+  "recommended_option": "(a) - additive and touches no existing chain.",
+  "dependency": "None.",
+  "decision": "Awaiting decision",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json"
+  ]
+ },
+ {
+  "id": "E929-S03",
+  "area": "Injuries",
+  "suggestion": "Store a layout signature per injury revision and alert when it changes.",
+  "why": "The 12:30 AM revision merged three teams into one cell while reporting identical statuses. A signature of cell counts per row would flag that automatically and separate 'the roster changed' from 'the PDF was re-rendered' for every future revision.",
+  "options": "(a) store the signature and diff it; (b) keep manual review of structure notes; (c) do nothing.",
+  "recommended_option": "(a) - additive metadata, no change to the parsed rows.",
+  "dependency": "None.",
+  "decision": "Awaiting decision",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf"
+  ]
+ },
+ {
+  "id": "E929-S04",
+  "area": "Injuries",
+  "suggestion": "Publish a revision-count-versus-change-count chart across the season.",
+  "why": "This round produced four revisions with zero status changes. Over a season that ratio measures how much information a new revision actually carries, which is what determines how often the pipeline needs to poll.",
+  "options": "(a) add the chart to the injuries page; (b) report it only at round level; (c) do nothing.",
+  "recommended_option": "(a) - derived entirely from archives already stored.",
+  "dependency": "Needs several rounds of archives.",
+  "decision": "Awaiting decision",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ]
+ },
+ {
+  "id": "E929-S05",
+  "area": "Settlement",
+  "suggestion": "Run a settlement pass over open ledger entries now that the 2026-11-16..18 finals are verified.",
+  "why": "The 25 new finals are verified and every quarter sum ties. Entries dated inside that window could be settled against them with a visible stamp, closing a gap rather than opening one. This session did not run that pass, so it is proposed rather than done.",
+  "options": "(a) dry run, diff the stamps, then apply; (b) apply directly; (c) wait for the refresh.",
+  "recommended_option": "(a) - a settlement stamp is a write onto existing records and should be diffed first.",
+  "dependency": "Verified finals (done).",
+  "decision": "Awaiting decision",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json"
+  ]
+ },
+ {
+  "id": "E929-S06",
+  "area": "Player logs",
+  "suggestion": "Backfill the three club-games whose per-player rows publish minutes only.",
+  "why": "Five of eight 2026-11-15 club-games fully reconcile; the other three contribute 35 minutes-only rows. Backfilling would let minutes redistribution run on complete box scores and would show whether the gap was the source or the parser.",
+  "options": "(a) parse the official game books on the runner; (b) leave as minutes-only and label; (c) drop the day.",
+  "recommended_option": "(a) - resolves the question at source.",
+  "dependency": "Needs a runner that can fetch the game book PDFs.",
+  "decision": "Awaiting decision",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-15"
+  ]
+ }
+]

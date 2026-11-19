@@ -1,0 +1,80 @@
+[
+ {
+  "id": "E929-Q01",
+  "category": "Data access",
+  "question": "Is there a licensed closing-line feed available to this project, and under what terms?",
+  "status": "Open",
+  "owner": "Project owner",
+  "known": "The market-anchored prior is specified: blend the model line with the closing line, weighted by measured out-of-sample log-loss.",
+  "missing": "Any reachable closing-line source. None exists in this environment, so the prior cannot be fitted on real closing lines.",
+  "next_step": "Check whether an existing subscription includes historical closing snapshots rather than live odds only; ask the vendor for the history and record the licence terms before ingesting.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json"
+  ]
+ },
+ {
+  "id": "E929-Q02",
+  "category": "Scheduled job",
+  "question": "Did the scheduled refresh pass its preflight after commit 6fd2e3e, and did the fetch/gate/rebuild steps then run?",
+  "status": "Open",
+  "owner": "Project owner",
+  "known": "The float-sum mismatch that failed six consecutive hosted runs is fixed and pinned to Python 3.11; all local suites pass.",
+  "missing": "One observed green hosted run. Until then, current-slate picks, lines, prices, pre-registration and ledger entries are absent, not merely stale.",
+  "next_step": "Trigger the workflow once and read the run page. If the preflight passes, confirm each later step's own summary line; if it fails, download the failure artifact now attached.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/actions"
+  ]
+ },
+ {
+  "id": "E929-Q03",
+  "category": "Provenance",
+  "question": "Should the site header show coverage per page rather than a single global snapshot window?",
+  "status": "Open",
+  "owner": "Project owner",
+  "known": "Every page currently inherits one window label from the canonical snapshot.",
+  "missing": "A decision. Pages publishing later, separately verified data are labelled with a window that does not describe them.",
+  "next_step": "Compare the header on three pages with different coverage; the change is confined to the layout helper.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py"
+  ]
+ },
+ {
+  "id": "E929-Q04",
+  "category": "Injuries",
+  "question": "Which club does an unattributed injury row belong to when the PDF leaves the team and matchup cells blank?",
+  "status": "Open",
+  "owner": "Project owner",
+  "known": "Kuminga and Pullin appear in the 2026-11-19 revisions with both the team cell and the matchup blank.",
+  "missing": "A confirmed club for those two players, without which rotation attribution cannot include them.",
+  "next_step": "Cross-reference an official roster page for the player's current club and cite that page. Do not infer it from the neighbouring rows of the same PDF.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ]
+ },
+ {
+  "id": "E929-Q05",
+  "category": "Player logs",
+  "question": "Can per-player game logs be sourced for every club-game, so minutes redistribution does not rest on a partial set?",
+  "status": "Open",
+  "owner": "Project owner",
+  "known": "The captured 2026-11-15 logs reconcile to printed team totals for 5 of 8 club-games; the other 35 rows publish minutes only and say so.",
+  "missing": "Complete box scores for the three unreconciled club-games.",
+  "next_step": "Check whether the official game book PDFs are fetchable from the hosted runner (they were not from this sandbox); if so, parse the missing club-games and reconcile again.",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-15"
+  ]
+ },
+ {
+  "id": "E929-Q06",
+  "category": "Pre-registration",
+  "question": "Should a new pre-registration be frozen for the 2026-11-19 slate, or does the project wait for a green refresh?",
+  "status": "Open",
+  "owner": "Project owner",
+  "known": "Pre-registration must be frozen before the first bet on a strategy and must describe the data the model actually used.",
+  "missing": "A decision, plus current data if the answer is to freeze now.",
+  "next_step": "If the refresh is green, rebuild on current data, freeze one pre-registration per strategy and record its hash before publishing any pick. Otherwise leave the window closed rather than pre-register on stale inputs.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/prereg/"
+  ]
+ }
+]

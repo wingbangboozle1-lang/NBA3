@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requirement traceability — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The last recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped.</p>
+  <p><strong>That fault is now fixed in code but not yet observed working on a hosted run.</strong>
+  The preflight failure was a Python-version-dependent float sum; commit 6fd2e3e adds a byte-exact
+  reproduction of the builtin, pins the runner to Python 3.11, and adds eight determinism tests to the
+  preflight suite list. No scheduled run has been observed since, so refresh success is not claimed
+  and publishing stays paused. See <a href="flagged.html">E929-F01</a> and the
+  <a href="questions.html">question that would clear it</a>.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. Separately, the
+  <a href="round-2026-11-19.html">2026-11-19 round page</a> publishes later, independently verified official
+  data (injury reports and finals through 2026-11-18, schedule through 2026-11-21); that page states
+  its own coverage, and none of it is a price or a pick. The public projection surface is read-only;
+  the separate bet surface remains gated.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
+  <div class="page-head">
+    <div class="crumb">Overview</div>
+    <h1>Requirement traceability</h1>
+    
+  </div>
+
+<p class="lead">Thirty requirements from the operating brief, in the order the brief states them,
+each mapped to the code or data that implements it and to the check that was actually run. This
+page exists because &ldquo;done&rdquo; is the easiest thing in a project like this to overstate:
+10 requirements are backed end to end, 18 have the
+mechanism in place but have only been exercised on a dated window, and
+2 cannot be cleared from this environment at all. Every row links to an
+https source.</p>
+<div class="kpi-row">
+<div class="kpi"><span class="kpi-value">10</span><span class="kpi-label">Verified</span></div>
+<div class="kpi"><span class="kpi-value">18</span><span class="kpi-label">Partial</span></div>
+<div class="kpi"><span class="kpi-value">2</span><span class="kpi-label">Blocked</span></div>
+<div class="kpi"><span class="kpi-value">30</span><span class="kpi-label">Requirements</span></div>
+</div>
+
+<div class="callout warn"><strong>How to read the status column.</strong>
+<em>Verified</em> — implemented and checked against an official source or a reproducing build.
+<em>Partial</em> — the mechanism exists and is tested, but has only run on the 2026-11-15 to
+2026-11-18 window, so it does not yet describe the current slate.
+<em>Blocked</em> — cannot be done from this sandbox; the blocker is named in the row, and the
+question that would unblock it is on the <a href="questions.html">Open questions</a> page.
+A requirement is never marked verified because it was implemented, only because it was checked.</div>
+<h2>Verified end to end <span class="count">(10)</span></h2>
+<p class="note">Nothing on this page is marked verified on the strength of the code existing; the verification column says what was checked, and by what.</p>
+<div class="table-wrap"><table>
+<caption id="req-verified"></caption>
+<thead><tr>
+<th>Requirement (as briefed)</th>
+<th>Implemented by</th>
+<th>Evidence</th>
+<th>Verification actually performed</th>
+<th>Status</th>
+<th>Blocker</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Keep an official per-game result feed current and settle only after final scores are verified; store one row per game: date, teams, final score, quarter scores.</td>
+<td>data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json, scripts/capture_e9295737.py, data/app/results_feed.json (2026-11-13..11-15)</td>
+<td>25 rows for 2026-11-16, -17 and -18: date, teams, final and quarter/OT scores. The existing feed carries the 23 earlier rows.</td>
+<td>For all 25 new rows the quarter/OT scores sum to the printed final on BOTH sides, and the final equals the score printed on the official games page for that date. 25/25 settled, 0 withheld; the settlement rule is printed with the feed.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>Store every injury PDF with its timestamp and diff consecutive reports to detect status changes.</td>
+<td>data/rounds/2026-11-19-e9295737/injury_reports.json, scripts/capture_e9295737.py</td>
+<td>Four revisions of the 2026-11-19 report (12:30, 12:45, 01:30, 01:45 AM ET), each stored verbatim with printed revision time, retrieval stamp, URL and transcript sha256, each diffed against its predecessor.</td>
+<td>23 player rows in every revision; the diffs report 0 status changes, 0 added, 0 removed across the whole chain. The 12:30 AM text layer merging three teams into one cell is recorded as a structure problem and is resolved by the 12:45 AM revision. Session b1ce1334&#x27;s independent parse of the 12:30 AM PDF agrees on all 23 rows.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>Show the injury-report revision time and retrieval time in the Injuries page banner.</td>
+<td>app/injuries.html banner, data/rounds/2026-11-19-e9295737/injury_reports.json banner</td>
+<td>The banner object carries revision_time_et and retrieval_time_utc separately.</td>
+<td>Both fields are present and distinct (01:45 AM ET printed, 2026-11-19T07:20Z retrieved) and a test pins them.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>Create an executive summary outlining important details.</td>
+<td>app/summary.html, executive-summary.html</td>
+<td>An executive summary page is generated with the current status and the dated window.</td>
+<td>Rendered and link-checked; it carries the pause notice and does not present the dated window as current.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/summary.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/summary.html</a></td>
+</tr>
+<tr>
+<td>Create a section dedicated to suggestions so someone can review suggestions and choose the best path before implementing changes.</td>
+<td>app/suggestions.html (46 suggestions, each with a status)</td>
+<td>A dedicated suggestions page with each suggestion awaiting a decision.</td>
+<td>46 suggestions are printed with their status, plus 47 open questions; none is implemented without a decision.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/suggestions.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/suggestions.html</a></td>
+</tr>
+<tr>
+<td>Give a clear list of questions, information and answers needed before any decision, and suggest how to discover the missing information.</td>
+<td>app/questions.html (47 questions)</td>
+<td>An open-questions page naming each blocker.</td>
+<td>Rendered and link-checked.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/questions.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/questions.html</a></td>
+</tr>
+<tr>
+<td>Review the repo line by line from official sources and flag irregularities.</td>
+<td>app/review.html, app/flagged.html, data/app/flags*.json</td>
+<td>116 flags in total: 107 canonical plus 9 from session 79341829, on top of 15 review findings and 43 repository-review entries; each printed flag carries a source link.</td>
+<td>Every flag printed on the Flagged for review page carries an https source; this session adds its own findings to that page.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/flagged.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/flagged.html</a></td>
+</tr>
+<tr>
+<td>Parse the injury PDFs and re-read the newest revisions.</td>
+<td>data/rounds/2026-11-19-e9295737/injury_reports.json</td>
+<td>Four revisions parsed and diffed (see the injury-diff row above).</td>
+<td>23 player rows per revision, cross-checked against an independent parse.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>Keep the site itself building with no broken links and deploy it.</td>
+<td>scripts/build_app.py, .github/workflows/pages.yml</td>
+<td>The generator link-checks every page it writes.</td>
+<td>As of the last build before this session: 27 pages, 0 broken links. This session adds pages and re-runs the same check.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/pages.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/pages.yml</a></td>
+</tr>
+<tr>
+<td>Verify every table row against an official source and never infer or fill in a value.</td>
+<td>scripts/build_app.py table() (refuses an unsourced row), tools/check_site.py, this page</td>
+<td>The table helper fails the build if a row carries no https source link.</td>
+<td>Every row on this page carries an https source; values that could not be confirmed are left blank and listed on the Flagged for review page.</td>
+<td><span class="chip chip-good">Verified</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></td>
+</tr>
+</tbody></table></div>
+<h2>Mechanism in place, current window blocked <span class="count">(18)</span></h2>
+<p class="note">Nothing on this page is marked verified on the strength of the code existing; the verification column says what was checked, and by what.</p>
+<div class="table-wrap"><table>
+<caption id="req-partial"></caption>
+<thead><tr>
+<th>Requirement (as briefed)</th>
+<th>Implemented by</th>
+<th>Evidence</th>
+<th>Verification actually performed</th>
+<th>Status</th>
+<th>Blocker</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Extend the scheduled job to refresh the official schedule, standings, team statistics and injury report for each rolling slate, then rebuild only after freshness and provenance gates pass.</td>
+<td>scripts/refresh_official.py, .github/workflows/refresh.yml (steps 1-4), scripts/freshness_gates.py</td>
+<td>The workflow fetches, then gates, then rebuilds; every later step is success-gated on the gate step. The committed-tree preflight that failed every run from 2026-11-17 is fixed (see the float-summation row).</td>
+<td>All 23 --check-guarded artefacts reproduce under a byte-exact transcription of the Python 3.12 builtin sum(); tests/test_float_sum_determinism.py pins it and is now in the refresh preflight suite list. The next hosted run has not been observed, so end-to-end refresh success is not claimed.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">The fetch/gate/rebuild steps were skipped in every recorded failure and have never been exercised live from this sandbox.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831</a></td>
+</tr>
+<tr>
+<td>Freeze a pre-registration file per strategy before its first bet: signal, thresholds, universe, and the exact settlement rule.</td>
+<td>scripts/preregister.py, data/app/prereg/, app/prereg.html</td>
+<td>Pre-registration files are written per strategy and hash-chained; each pick row carries its preregistration_sha256.</td>
+<td>The pre-registration hashes are recomputed and matched in the build and in the v2 drift check. Coverage is for the 2026-11-15..11-18 window only; no new strategy has been pre-registered for the 2026-11-19 slate.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">A new slate needs a new frozen pre-registration, which needs the model rebuilt on current data; that rebuild is blocked on the live refresh above.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/app/prereg" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/app/prereg</a></td>
+</tr>
+<tr>
+<td>Add a tamper-evident ledger: hash each published pick, publish the hash before tip, and verify after settlement.</td>
+<td>scripts/pick_ledger.py, scripts/ledger.py, data/app/ledger/, app/ledger.html</td>
+<td>Each entry stores pick_sha256 and the sha256 of the previous entry; verification recomputes both chains.</td>
+<td>Chain verification recomputes 43 entries (data/app/ledger), 114 (2026-11-17 round), 31 (d1b96315) and 13 (ledger_A); in all four the only discontinuity is the all-zeros genesis prev_hash, and the committed check reports CHAIN INTACT. Entries are for the dated window; no 2026-11-19 pick has been sealed because no current line has been rebuilt.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">Sealing a pick before tip for the 2026-11-19 slate needs the live rebuild, which is blocked.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/app/ledger" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/app/ledger</a></td>
+</tr>
+<tr>
+<td>Split the site into &#x27;projection&#x27; (safe to publish now) and &#x27;bet&#x27; (gated) surfaces, and never mix them.</td>
+<td>scripts/build_app.py NAV (two separate nav groups), projection/, bet/</td>
+<td>The navigation is split into &#x27;Projection surface (public)&#x27; and &#x27;Bet surface (gated)&#x27;; the two directories publish separately.</td>
+<td>The build&#x27;s link and provenance checks pass over both surfaces. The separation is presentational and navigational; there is no automated check that a projection page cannot link a bet value.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">No gate currently forbids a projection page from rendering a bet-surface value.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></td>
+</tr>
+<tr>
+<td>Keep two independent estimators and publish their disagreement as the primary confidence signal, rather than a single blended rating.</td>
+<td>pipeline/v2/estimators.py, pipeline/v2/pricing.py, app/projections.html</td>
+<td>Estimator A (ridge on final margins) and estimator B (efficiency) are fitted separately; the published headline is their disagreement z-score, with the blend underneath.</td>
+<td>Unit-tested in pipeline/v2/tests; the disagreement z is the headline field on the projections page. Measured on the 2026-11-15..18 window only.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">Current-window projection needs the rebuild, which is blocked.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/estimators.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/estimators.py</a></td>
+</tr>
+<tr>
+<td>Pin home-court advantage to the measured home-win rate instead of fitting it freely.</td>
+<td>pipeline/v2/estimators.py home_court_from_win_rate()</td>
+<td>HCA = logit(measured home-win rate) x sd(margin), used as a fixed offset by both estimators.</td>
+<td>The formula and its inputs are printed on the methodology page; the value is recomputed in the build. It is measured on the dated game log, not on the current season.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/estimators.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/estimators.py</a></td>
+</tr>
+<tr>
+<td>Report luck as a z-score per team and refuse to publish a strategy that leans on a team outside the noise band.</td>
+<td>pipeline/v2/stats.py zscore_per_team()/noise_band(), d1b96315/model.py luck gate</td>
+<td>Per-team luck z is computed from residuals and the noise band is +/- 2 z.</td>
+<td>The band and the refusal rule are implemented and unit-tested; strategies that lean on an outside-band team are marked not publishable in the gate board.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/stats.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/stats.py</a></td>
+</tr>
+<tr>
+<td>Compute rest, back-to-back and 3-in-4 from the official schedule and add travel distance from a sourced arena-coordinate table.</td>
+<td>scripts/rest_travel.py, d1b96315/model.py, data/app/arena_coordinates.json</td>
+<td>Rest, B2B and 3-in-4 are computed from the official schedule; travel distance uses the arena-coordinate table.</td>
+<td>Rest/B2B/3-in-4 are recomputed and tested against the schedule. The arena-coordinate table is in the repo but its own provenance is not established as official in this session.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">The arena-coordinate table&#x27;s source is not an official NBA document; flagged for review.</span></td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>Model minutes redistribution explicitly: for each team, the top-8 minutes shares and the replacement shares when a player is out.</td>
+<td>scripts/minutes_model.py, data/app/minutes_shares.json, /b1ce1334 pages</td>
+<td>Top-8 shares and the replacement rule are computed per team from player logs.</td>
+<td>106 player rows for the 2026-11-15 games, all row-verified, with 5 of 8 club-games fully reconciled and 35 rows publishing minutes only and saying so.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">Current-slate redistribution needs current player logs, which the live refresh must fetch.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/minutes_model.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/minutes_model.py</a></td>
+</tr>
+<tr>
+<td>Stop publishing a single blended rating as the headline; publish the disagreement between the two estimators as the headline and the blend underneath.</td>
+<td>app/projections.html, app/lines.html</td>
+<td>The projections page leads with the disagreement and prints the blend below it.</td>
+<td>Verified in the rendered page and in the generator source.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">The dated window is the only one rendered.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/projections.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/projections.html</a></td>
+</tr>
+<tr>
+<td>Price every parlay with the measured rho and print the naive product next to it.</td>
+<td>pipeline/v2/pricing.py sgp_price(), app/parlays.html</td>
+<td>The Gaussian-copula price at the measured rho is printed next to the naive product on every parlay row.</td>
+<td>Unit-tested against the equicorrelated-copula construction; both numbers are printed on every row and neither is withheld.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">Rho is measured on the dated residuals; a current parlay needs the rebuild.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/pricing.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/pricing.py</a></td>
+</tr>
+<tr>
+<td>Put rotation availability on the picks page as its own column.</td>
+<td>app/picks.html rotation_cell()</td>
+<td>The picks table carries a rotation-availability column derived from the injury report.</td>
+<td>Confirmed in the generator and the rendered page.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/picks.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/picks.html</a></td>
+</tr>
+<tr>
+<td>Model the total as possessions x points-per-possession, not as an average of team scoring averages.</td>
+<td>pipeline/v2/estimators.py total model</td>
+<td>The total is built from pace (possessions) and points per possession.</td>
+<td>Implemented and unit-tested; applied to the dated window.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/estimators.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/estimators.py</a></td>
+</tr>
+<tr>
+<td>Settle the sealed ledger from official finals as soon as each game day ends, and keep the settlement stamp visible.</td>
+<td>scripts/pick_ledger.py, d1b96315/ledger.py, app/settlement.html</td>
+<td>Settlement stamps are written per settled row from the verified final.</td>
+<td>Stamps are visible on the settlement page for the dated window; the 2026-11-16..18 finals are now verified and could settle existing open entries, but this session did not run a settlement pass.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">Settling existing entries from the new verified finals is a separate job that was not run.</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/settlement.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/settlement.html</a></td>
+</tr>
+<tr>
+<td>Capture per-player game logs (minutes, points, rebounds, assists, and the opponent) for at least the players who appear on an injury report.</td>
+<td>data/rounds/2026-11-17/player_logs_2026-11-15.json, data/app/player_game_logs.json</td>
+<td>Per-player logs with minutes, points, rebounds, assists and opponent exist for the 2026-11-15 games.</td>
+<td>106 player rows for the 2026-11-15 game books, all row-verified, reconciled against the printed team totals: 5 of 8 club-games fully reconcile and the other 35 rows publish minutes only and say so.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">Logs cover one game day, not the current slate.</span></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_ORLBOS_book.pdf" target="_blank" rel="noopener noreferrer">https://statsdmz.nba.com/pdfs/20261116/20261116_ORLBOS_book.pdf</a></td>
+</tr>
+<tr>
+<td>Research and develop strategies for generating useful signals, as a leaderboard competition with rewards for top performers; look at single bets, parlays and player prop combos; each strategy must pass validation gates; determine correlation values; remove luck; build selectively skill-based strategies.</td>
+<td>scripts/strategy_lab.py, pipeline/v2/gates.py, pipeline/v2/leaderboard.py, app/leaderboard.html</td>
+<td>15 strategy rules measured out of sample across the 27 validation gates, with 4 blocked prop combinations and 38 parlay rows, under an explicit luck threshold; measured correlations and parlay dependence are on the correlations page.</td>
+<td>The gates and the luck threshold are implemented and unit-tested. Out-of-sample n is small and the leaderboard is for the dated window; no rule is shown to be skill-based on the current slate.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/gates.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/gates.py</a></td>
+</tr>
+<tr>
+<td>Generate picks for every upcoming slate of games up to a maximum of 3 days in advance using our originated lines.</td>
+<td>data/rounds/2026-11-19-e9295737/slate_2026-11-19_21.json (slate), pipeline/v2/build.py (picks)</td>
+<td>The 3-day slate is captured (19 games); pick generation exists for the dated window.</td>
+<td>The slate is verified (19/19 games agree with an independent capture). Picks for 2026-11-19..21 are NOT generated: that needs the live rebuild, which is blocked.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">No current-window picks were produced; the slate exists, the model run does not.</span></td>
+<td><a href="https://www.nba.com/games?date=2026-11-20" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-20</a></td>
+</tr>
+<tr>
+<td>Track how injuries could affect rotation minutes and production and provide game flow analysis.</td>
+<td>app/injuries.html, app/gameflow.html, data/app/injury_impact</td>
+<td>Injury-to-rotation impact and game-flow factors are computed and published.</td>
+<td>Both pages render from committed data and are link-checked; they are dated to the 2026-11-15..18 window.</td>
+<td><span class="chip chip-warn">Partial</span></td>
+<td><span class="muted">&mdash;</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/injuries.html" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/app/injuries.html</a></td>
+</tr>
+</tbody></table></div>
+<h2>Blocked from this environment <span class="count">(2)</span></h2>
+<p class="note">Nothing on this page is marked verified on the strength of the code existing; the verification column says what was checked, and by what.</p>
+<div class="table-wrap"><table>
+<caption id="req-blocked"></caption>
+<thead><tr>
+<th>Requirement (as briefed)</th>
+<th>Implemented by</th>
+<th>Evidence</th>
+<th>Verification actually performed</th>
+<th>Status</th>
+<th>Blocker</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Add a market-anchored prior: blend the model line with the closing line, weight by measured out-of-sample log-loss.</td>
+<td>pipeline/v2/pricing.py, data/app/closing_lines.json</td>
+<td>The blend weight is the measured out-of-sample log-loss of each source.</td>
+<td>The weighting rule is implemented, but there is no reachable closing-line source in this environment, so the prior cannot be fitted on real closing lines here.</td>
+<td><span class="chip chip-bad">Blocked</span></td>
+<td><span class="muted">No licensed/reachable closing-line feed (see the Open questions page).</span></td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/pricing.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/pipeline/v2/pricing.py</a></td>
+</tr>
+<tr>
+<td>Re-read the three official team-stat pages (traditional, opponent, advanced) and re-cut the model inputs.</td>
+<td>scripts/refresh_official.py TEAM_PAGES</td>
+<td>The refresh fetches all three official team-stat pages.</td>
+<td>The URLs and the fetch step are committed, but the live fetch has not run since 2026-11-16, so no current team-stat page has been re-read and the model inputs have not been re-cut.</td>
+<td><span class="chip chip-bad">Blocked</span></td>
+<td><span class="muted">Requires the live fetch to run on the hosted runner.</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

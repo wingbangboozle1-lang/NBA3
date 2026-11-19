@@ -28,6 +28,8 @@ import re
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from floatsum import total as float_total  # noqa: E402  (deterministic across CPython 3.12+)
 CAP = os.path.join(ROOT, "data", "rounds", "2026-11-17", "captures")
 OUT = os.path.join(ROOT, "data", "rounds", "2026-11-17", "player_logs_2026-11-15.json")
 
@@ -210,7 +212,7 @@ def reconcile(teams):
         complete = len(full) == len(rows)
         sums = {k: (sum((r[k] or 0) for r in full) if complete else None) for k in cols}
         pts_only = sum((r.get("pts") or 0) for r in rows)
-        mins = round(sum(r["min"] or 0 for r in rows), 2)
+        mins = round(float_total(r["min"] or 0 for r in rows), 2)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
         checks["min_total_240"] = abs(mins - 240.0) < 0.35
@@ -277,7 +279,7 @@ def main():
                     "source_url": d["source_url"],
                 })
             ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
-            tot = sum(r["min"] or 0 for r in played) or None
+            tot = float_total(r["min"] or 0 for r in played) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Round 2026-11-19: injuries, results, slate — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The last recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped.</p>
+  <p><strong>That fault is now fixed in code but not yet observed working on a hosted run.</strong>
+  The preflight failure was a Python-version-dependent float sum; commit 6fd2e3e adds a byte-exact
+  reproduction of the builtin, pins the runner to Python 3.11, and adds eight determinism tests to the
+  preflight suite list. No scheduled run has been observed since, so refresh success is not claimed
+  and publishing stays paused. See <a href="flagged.html">E929-F01</a> and the
+  <a href="questions.html">question that would clear it</a>.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. Separately, the
+  <a href="round-2026-11-19.html">2026-11-19 round page</a> publishes later, independently verified official
+  data (injury reports and finals through 2026-11-18, schedule through 2026-11-21); that page states
+  its own coverage, and none of it is a price or a pick. The public projection surface is read-only;
+  the separate bet surface remains gated.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
+  <div class="page-head">
+    <div class="crumb">Verification</div>
+    <h1>Round 2026-11-19: injuries, results, slate</h1>
+    
+  </div>
+
+<div class="callout good"><strong>This round is complete and internally consistent.</strong>
+25 of 25 finished games settled with every quarter sum tying to the
+printed final, 4 consecutive injury reports archived and diffed, and
+19 scheduled games captured across three dates. Nothing on this page is
+inferred: rows that could not be confirmed are absent and listed as flag text, not filled in.</div>
+<h2 id="banner">Injury report in force</h2>
+
+<div class="callout"><strong>Revision printed by the league: 2026-11-19 01:45 AM ET</strong>
+&nbsp;·&nbsp; <strong>Retrieved by us: 2026-11-19T07:20Z</strong>
+<p class="note" style="margin:.5rem 0 0">The revision time is the clock the PDF prints at the top of every page; the retrieval time is when this session fetched it. They are different values and the banner shows both, because a report can be hours old when it is read.</p></div>
+<p class="note">The revision clock and the retrieval stamp are different facts. The league's clock says when the report was issued; ours says when we read it. Publishing only one of them is what lets a stale row look fresh.</p>
+<div class="table-wrap"><table>
+<caption id="round-banner"></caption>
+<thead><tr>
+<th>Item</th>
+<th>Value</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Report revision (as printed by the league)</td>
+<td>2026-11-19 01:45 AM ET</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Our retrieval stamp (when we read it)</td>
+<td>2026-11-19T07:20Z</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Revisions archived in this round</td>
+<td>4</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Report index (list of all published revisions)</td>
+<td>official injury-report index</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="revisions">Every revision, and the diff against the one before it</h2>
+<p class="note">A structure note means the PDF's text layer did not present the row in the expected column shape. Notes are recorded, never silently repaired.</p>
+<div class="table-wrap"><table>
+<caption id="round-revisions"></caption>
+<thead><tr>
+<th>Revision (as printed)</th>
+<th>Player rows</th>
+<th>Structure notes</th>
+<th>Diff vs previous revision</th>
+<th>Transcript sha256</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-19 12:30 AM</td>
+<td>23</td>
+<td>20</td>
+<td><span class="muted">first revision in the archive &mdash; no predecessor</span></td>
+<td><code>65616e1ce4eebe0c…</code></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-19 12:45 AM</td>
+<td>23</td>
+<td>22</td>
+<td>0 changed · 0 added · 0 removed · 23 unchanged</td>
+<td><code>416f65de4c99cedf…</code></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-19 01:30 AM</td>
+<td>23</td>
+<td>22</td>
+<td>0 changed · 0 added · 0 removed · 23 unchanged</td>
+<td><code>416f65de4c99cedf…</code></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf</a></td>
+</tr>
+<tr>
+<td>2026-11-19 01:45 AM</td>
+<td>23</td>
+<td>22</td>
+<td>0 changed · 0 added · 0 removed · 23 unchanged</td>
+<td><code>416f65de4c99cedf…</code></td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+</tbody></table></div>
+
+<div class="callout warn"><strong>Finding: zero status changes across the whole chain.</strong>
+Four revisions span 12:30 AM to 01:45 AM ET and no player changed status, no player was added
+and no player was removed. That is a real result, not a missing comparison: the diff is computed
+row by row on the player cell, and 23 rows pair up in every consecutive pair. The one thing that
+<em>did</em> change is the layout &mdash; the 12:30 AM revision's text layer merges three teams
+into a single cell, and the 12:45 AM revision drops that merge. A pipeline that keyed on column
+position would have reported a phantom roster change here; keying on the player cell reports the
+layout change for what it is.</div>
+<h2 id="rows">Player rows in the 2026-11-19 01:45 AM revision</h2>
+<p class="note">Team blank means the source PDF left the team cell empty; it is shown blank rather than guessed from the matchup.</p>
+<div class="table-wrap"><table>
+<caption id="round-injury-rows"></caption>
+<thead><tr>
+<th>Player</th>
+<th>Team</th>
+<th>Match</th>
+<th>Status</th>
+<th>Reason as printed</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>Beal, Bradley</td>
+<td>LA Clippers</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Knee Injury Management</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Ingram, Brandon</td>
+<td>LA Clippers</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Heel Surgery</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Martinelli, Nick</td>
+<td>LA Clippers</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Miller, Jordan</td>
+<td>LA Clippers</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Left Rotator Cuff Surgery</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Brown, Maliq</td>
+<td>San Antonio Spurs</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Gillespie, Ja&#x27;Kobi</td>
+<td>San Antonio Spurs</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>G League - Two-Way</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Harper, Dylan</td>
+<td>San Antonio Spurs</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Left Hip Soreness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Harris, Tobias</td>
+<td>San Antonio Spurs</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Left Calf Strain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Quaintance, Jayden</td>
+<td>San Antonio Spurs</td>
+<td>LAC@SAS</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Knee Surgery</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Beringer, Joan</td>
+<td>Minnesota Timberwolves</td>
+<td>NYK@MIN</td>
+<td><span class="chip chip-good">Available</span></td>
+<td>Injury/Illness - Face Mask</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Clark, Jaylen</td>
+<td>Minnesota Timberwolves</td>
+<td>NYK@MIN</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Hamstring Strain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>DiVincenzo, Donte</td>
+<td>Minnesota Timberwolves</td>
+<td>NYK@MIN</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Achilles Tendon Repair / Surgery</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Edwards, Anthony</td>
+<td>Minnesota Timberwolves</td>
+<td>NYK@MIN</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Knee Arthroscopy</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Kuminga, Jonathan</td>
+<td>&lt;span class=&quot;muted&quot;&gt;blank team cell in source&lt;/span&gt;</td>
+<td>&lt;span class=&quot;muted&quot;&gt;&amp;mdash;&lt;/span&gt;</td>
+<td><span class="chip chip-warn">Questionable</span></td>
+<td>Injury/Illness - Right Shoulder Contusion</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Pullin, Zyon</td>
+<td>&lt;span class=&quot;muted&quot;&gt;blank team cell in source&lt;/span&gt;</td>
+<td>&lt;span class=&quot;muted&quot;&gt;&amp;mdash;&lt;/span&gt;</td>
+<td><span class="chip chip-warn">Questionable</span></td>
+<td>Injury/Illness - Right Quadriceps Contusion</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Avdija, Deni</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-warn">Questionable</span></td>
+<td>Injury/Illness - Left Foot Inflammation / Soreness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Camara, Toumani</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-warn">Questionable</span></td>
+<td>Injury/Illness - Abdominal Soreness</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Carlson, Branden</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-good">Available</span></td>
+<td>Injury/Illness - Face Mask</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Krejci, Vit</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Left Ankle Fracture</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Morant, Ja</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Left Hamstring Strain</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Sharpe, Shaedon</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Meniscus Surgery</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Williams III, Robert</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Rest</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>Youngblood, Chris</td>
+<td>Portland Trail Blazers</td>
+<td>POR@MIL</td>
+<td><span class="chip chip-bad">Out</span></td>
+<td>Injury/Illness - Right Heel Contusion / Bone Bruise</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="results">Verified finals, 2026-11-16 to 2026-11-18</h2>
+
+<p>One row per finished game, with quarter and overtime scores. The settlement test is mechanical
+and printed with the feed: <em>A row is published settled only when the quarter/OT scores the official summary page prints sum to the final score that the same page prints for BOTH teams, and that final also equals the score shown on the official games page for that date. A row that fails either check is withheld, listed under `withheld`, and flagged; no value is ever adjusted to make it tie out.</em></p>
+<h3>2026-11-16 <span class="count">(8 games)</span></h3>
+<div class="table-wrap"><table>
+<caption id="round-res-2026-11-16"></caption>
+<thead><tr>
+<th>Match</th>
+<th>Final</th>
+<th>Away by period</th>
+<th>Home by period</th>
+<th>State</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>ORL @ BOS</td>
+<td><strong>115&ndash;105</strong></td>
+<td><span class="mono">20 · 30 · 25 · 40</span></td>
+<td><span class="mono">17 · 24 · 36 · 28</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/orl-vs-bos-0022600245" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bos-0022600245</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>CHI @ CLE</td>
+<td><strong>115&ndash;126</strong></td>
+<td><span class="mono">31 · 17 · 31 · 36</span></td>
+<td><span class="mono">25 · 32 · 31 · 38</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/chi-vs-cle-0022600246" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-cle-0022600246</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>MEM @ WAS</td>
+<td><strong>136&ndash;120</strong></td>
+<td><span class="mono">33 · 26 · 42 · 35</span></td>
+<td><span class="mono">35 · 34 · 18 · 33</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/mem-vs-was-0022600247" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-was-0022600247</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>PHI @ BKN</td>
+<td><strong>135&ndash;123</strong></td>
+<td><span class="mono">33 · 45 · 27 · 30</span></td>
+<td><span class="mono">26 · 33 · 36 · 28</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/phi-vs-bkn-0022600248" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-bkn-0022600248</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>HOU @ MIA</td>
+<td><strong>110&ndash;128</strong></td>
+<td><span class="mono">15 · 31 · 35 · 29</span></td>
+<td><span class="mono">29 · 33 · 39 · 27</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/hou-vs-mia-0022600249" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-mia-0022600249</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>POR @ MIN</td>
+<td><strong>98&ndash;106</strong></td>
+<td><span class="mono">26 · 25 · 22 · 25</span></td>
+<td><span class="mono">26 · 33 · 28 · 19</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600250" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600250</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>GSW @ NOP</td>
+<td><strong>94&ndash;115</strong></td>
+<td><span class="mono">11 · 25 · 29 · 29</span></td>
+<td><span class="mono">35 · 26 · 32 · 22</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>PHX @ DEN</td>
+<td><strong>117&ndash;105</strong></td>
+<td><span class="mono">20 · 36 · 34 · 27</span></td>
+<td><span class="mono">24 · 29 · 29 · 23</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/phx-vs-den-0022600252" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-den-0022600252</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+</tbody></table></div>
+<h3>2026-11-17 <span class="count">(5 games)</span></h3>
+<div class="table-wrap"><table>
+<caption id="round-res-2026-11-17"></caption>
+<thead><tr>
+<th>Match</th>
+<th>Final</th>
+<th>Away by period</th>
+<th>Home by period</th>
+<th>State</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>NYK @ TOR</td>
+<td><strong>111&ndash;102</strong></td>
+<td><span class="mono">23 · 31 · 26 · 31</span></td>
+<td><span class="mono">29 · 21 · 33 · 19</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/nyk-vs-tor-0022600253" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-tor-0022600253</a> · <a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+<tr>
+<td>POR @ MIN</td>
+<td><strong>105&ndash;106</strong></td>
+<td><span class="mono">17 · 31 · 31 · 26</span></td>
+<td><span class="mono">29 · 20 · 30 · 27</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/por-vs-min-0022600254" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-min-0022600254</a> · <a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+<tr>
+<td>DET @ SAS</td>
+<td><strong>105&ndash;93</strong></td>
+<td><span class="mono">26 · 29 · 23 · 27</span></td>
+<td><span class="mono">33 · 21 · 18 · 21</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/det-vs-sas-0022600255" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-sas-0022600255</a> · <a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+<tr>
+<td>CHA @ LAL <span class="chip warn">OT</span></td>
+<td><strong>114&ndash;118</strong></td>
+<td><span class="mono">34 · 32 · 28 · 17 · 3</span></td>
+<td><span class="mono">30 · 29 · 22 · 30 · 7</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/cha-vs-lal-0022600256" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-lal-0022600256</a> · <a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+<tr>
+<td>UTA @ LAC</td>
+<td><strong>132&ndash;107</strong></td>
+<td><span class="mono">35 · 23 · 30 · 44</span></td>
+<td><span class="mono">29 · 33 · 24 · 21</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/uta-vs-lac-0022600257" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lac-0022600257</a> · <a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+</tbody></table></div>
+<h3>2026-11-18 <span class="count">(12 games)</span></h3>
+<div class="table-wrap"><table>
+<caption id="round-res-2026-11-18"></caption>
+<thead><tr>
+<th>Match</th>
+<th>Final</th>
+<th>Away by period</th>
+<th>Home by period</th>
+<th>State</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>MEM @ CLE</td>
+<td><strong>124&ndash;121</strong></td>
+<td><span class="mono">30 · 41 · 29 · 24</span></td>
+<td><span class="mono">37 · 35 · 27 · 22</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/mem-vs-cle-0022600258" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-cle-0022600258</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>HOU @ IND</td>
+<td><strong>119&ndash;104</strong></td>
+<td><span class="mono">39 · 23 · 31 · 26</span></td>
+<td><span class="mono">28 · 18 · 30 · 28</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/hou-vs-ind-0022600259" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-ind-0022600259</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>MIL @ MIA</td>
+<td><strong>130&ndash;137</strong></td>
+<td><span class="mono">23 · 25 · 38 · 44</span></td>
+<td><span class="mono">34 · 40 · 38 · 25</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/mil-vs-mia-0022600260" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mil-vs-mia-0022600260</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>PHI @ ORL</td>
+<td><strong>121&ndash;116</strong></td>
+<td><span class="mono">27 · 37 · 28 · 29</span></td>
+<td><span class="mono">40 · 29 · 28 · 19</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/phi-vs-orl-0022600261" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phi-vs-orl-0022600261</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>CHI @ BKN</td>
+<td><strong>137&ndash;107</strong></td>
+<td><span class="mono">37 · 39 · 35 · 26</span></td>
+<td><span class="mono">21 · 30 · 26 · 30</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/chi-vs-bkn-0022600262" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/chi-vs-bkn-0022600262</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>WAS @ TOR</td>
+<td><strong>103&ndash;99</strong></td>
+<td><span class="mono">29 · 20 · 29 · 25</span></td>
+<td><span class="mono">23 · 24 · 32 · 20</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/was-vs-tor-0022600263" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/was-vs-tor-0022600263</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>DET @ NOP</td>
+<td><strong>122&ndash;109</strong></td>
+<td><span class="mono">31 · 36 · 25 · 30</span></td>
+<td><span class="mono">31 · 29 · 26 · 23</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/det-vs-nop-0022600264" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/det-vs-nop-0022600264</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>ATL @ OKC</td>
+<td><strong>117&ndash;112</strong></td>
+<td><span class="mono">31 · 33 · 19 · 34</span></td>
+<td><span class="mono">29 · 22 · 32 · 29</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/atl-vs-okc-0022600265" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/atl-vs-okc-0022600265</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>BOS @ DEN</td>
+<td><strong>101&ndash;105</strong></td>
+<td><span class="mono">30 · 31 · 19 · 21</span></td>
+<td><span class="mono">24 · 25 · 31 · 25</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/bos-vs-den-0022600266" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bos-vs-den-0022600266</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>GSW @ DAL</td>
+<td><strong>94&ndash;116</strong></td>
+<td><span class="mono">25 · 24 · 23 · 22</span></td>
+<td><span class="mono">35 · 27 · 30 · 24</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/gsw-vs-dal-0022600267" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-dal-0022600267</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>UTA @ LAL</td>
+<td><strong>109&ndash;97</strong></td>
+<td><span class="mono">29 · 27 · 22 · 31</span></td>
+<td><span class="mono">34 · 20 · 22 · 21</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/uta-vs-lal-0022600268" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/uta-vs-lal-0022600268</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>PHX @ SAC</td>
+<td><strong>128&ndash;107</strong></td>
+<td><span class="mono">36 · 29 · 34 · 29</span></td>
+<td><span class="mono">31 · 29 · 24 · 23</span></td>
+<td><span class="chip chip-good">Settled</span></td>
+<td><a href="https://www.nba.com/game/phx-vs-sac-0022600269" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-sac-0022600269</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+</tbody></table></div>
+
+<div class="callout"><strong>What this adds that the merged feed does not have: the period scores.</strong>
+The 25-game finals feed already on main (<code>data/rounds/2026-11-19-dd3edd74/</code>) carries
+every final and agrees with this one on all 25, but its quarter field is empty on every row and
+flagged <em>UNVERIFIED &mdash; not read from an official page</em>, because the date page it used
+prints no period table. The period columns above come from each game's own page and are complete
+for all 25; every one is checked to sum to the printed final on both sides, so the two feeds
+together are stronger than either alone.</div>
+
+<div class="callout good"><strong>25 of 25 settled, 0 withheld.</strong> A game is published here only if four checks pass:
+the away quarters sum to the away final, the home quarters sum to the home final, the two sides
+have the same number of periods, and the game is not a tie. A game failing any check goes to the
+withheld list with its failing check named &mdash; it is never repaired by adjusting a period.</div>
+<h2 id="slate">Scheduled games, 2026-11-19 to 2026-11-21</h2>
+
+<p>19 games over three dates (2026-11-19 4 · 2026-11-20 9 · 2026-11-21 6), captured from the
+official games page. One row per scheduled game: date, game id, teams, ET tip time and the records the official page printed next to each club at retrieval time.</p>
+<p class="note">Records are the W-L printed on the official page at capture time, including the NBA Cup group record where the page prints one. This slate is schedule only: no price on this page is a pick.</p>
+<div class="table-wrap"><table>
+<caption id="round-slate"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Match</th>
+<th>Tip (ET)</th>
+<th>Away W-L as printed</th>
+<th>Home W-L as printed</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-19</td>
+<td>GSW @ MEM</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">8-7</span></td>
+<td><span class="mono">11-4</span></td>
+<td><a href="https://www.nba.com/game/gsw-vs-mem-0022600270" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-mem-0022600270</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>POR @ MIL</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">9-5</span></td>
+<td><span class="mono">1-14</span></td>
+<td><a href="https://www.nba.com/game/por-vs-mil-0022600271" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-mil-0022600271</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>NYK @ MIN</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">8-6</span></td>
+<td><span class="mono">11-4</span></td>
+<td><a href="https://www.nba.com/game/nyk-vs-min-0022600272" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nyk-vs-min-0022600272</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>LAC @ SAS</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">4-9</span></td>
+<td><span class="mono">12-3</span></td>
+<td><a href="https://www.nba.com/game/lac-vs-sas-0022600273" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lac-vs-sas-0022600273</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>CHA @ ATL <span class="chip neutral">East Group C</span></td>
+<td>7:00 PM ET</td>
+<td><span class="mono">4-10 (0-2)</span></td>
+<td><span class="mono">9-6 (1-1)</span></td>
+<td><a href="https://www.nba.com/game/cha-vs-atl-0022600043" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/cha-vs-atl-0022600043</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>TOR @ DET <span class="chip neutral">East Group A</span></td>
+<td>7:30 PM ET</td>
+<td><span class="mono">5-10 (1-1)</span></td>
+<td><span class="mono">10-4 (1-0)</span></td>
+<td><a href="https://www.nba.com/game/tor-vs-det-0022600046" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/tor-vs-det-0022600046</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>IND @ CLE <span class="chip neutral">East Group B</span></td>
+<td>7:30 PM ET</td>
+<td><span class="mono">5-10 (1-1)</span></td>
+<td><span class="mono">8-8 (1-1)</span></td>
+<td><a href="https://www.nba.com/game/ind-vs-cle-0022600045" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/ind-vs-cle-0022600045</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>ORL @ BKN <span class="chip neutral">East Group A</span></td>
+<td>7:30 PM ET</td>
+<td><span class="mono">6-8 (2-0)</span></td>
+<td><span class="mono">3-11 (0-1)</span></td>
+<td><a href="https://www.nba.com/game/orl-vs-bkn-0022600044" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/orl-vs-bkn-0022600044</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>NOP @ OKC <span class="chip neutral">West Group B</span></td>
+<td>8:00 PM ET</td>
+<td><span class="mono">5-11 (0-2)</span></td>
+<td><span class="mono">9-6 (1-1)</span></td>
+<td><a href="https://www.nba.com/game/nop-vs-okc-0022600048" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nop-vs-okc-0022600048</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>WAS @ CHI <span class="chip neutral">East Group C</span></td>
+<td>8:00 PM ET</td>
+<td><span class="mono">5-11 (1-1)</span></td>
+<td><span class="mono">4-10 (1-1)</span></td>
+<td><a href="https://www.nba.com/game/was-vs-chi-0022600047" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/was-vs-chi-0022600047</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>PHX @ UTA <span class="chip neutral">West Group A</span></td>
+<td>9:30 PM ET</td>
+<td><span class="mono">7-7 (0-1)</span></td>
+<td><span class="mono">3-13 (0-2)</span></td>
+<td><a href="https://www.nba.com/game/phx-vs-uta-0022600049" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/phx-vs-uta-0022600049</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>HOU @ DEN <span class="chip neutral">West Group A</span></td>
+<td>10:00 PM ET</td>
+<td><span class="mono">12-4 (1-1)</span></td>
+<td><span class="mono">8-5 (1-0)</span></td>
+<td><a href="https://www.nba.com/game/hou-vs-den-0022600050" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/hou-vs-den-0022600050</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>SAC @ LAL <span class="chip neutral">West Group C</span></td>
+<td>10:00 PM ET</td>
+<td><span class="mono">1-13 (0-2)</span></td>
+<td><span class="mono">13-3 (1-1)</span></td>
+<td><a href="https://www.nba.com/game/sac-vs-lal-0022600051" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/sac-vs-lal-0022600051</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>MIL @ PHI</td>
+<td>1:00 PM ET</td>
+<td><span class="mono">1-14</span></td>
+<td><span class="mono">13-3</span></td>
+<td><a href="https://www.nba.com/game/mil-vs-phi-0022600274" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mil-vs-phi-0022600274</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>POR @ NYK</td>
+<td>7:30 PM ET</td>
+<td><span class="mono">9-5</span></td>
+<td><span class="mono">8-6</span></td>
+<td><a href="https://www.nba.com/game/por-vs-nyk-0022600275" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/por-vs-nyk-0022600275</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>LAC @ DAL</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">4-9</span></td>
+<td><span class="mono">8-7</span></td>
+<td><a href="https://www.nba.com/game/lac-vs-dal-0022600276" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/lac-vs-dal-0022600276</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>MEM @ MIN</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">11-4</span></td>
+<td><span class="mono">11-4</span></td>
+<td><a href="https://www.nba.com/game/mem-vs-min-0022600277" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-min-0022600277</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>NOP @ SAS</td>
+<td>8:00 PM ET</td>
+<td><span class="mono">5-11</span></td>
+<td><span class="mono">12-3</span></td>
+<td><a href="https://www.nba.com/game/nop-vs-sas-0022600278" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/nop-vs-sas-0022600278</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>BOS @ SAC</td>
+<td>10:00 PM ET</td>
+<td><span class="mono">11-4</span></td>
+<td><span class="mono">1-13</span></td>
+<td><a href="https://www.nba.com/game/bos-vs-sac-0022600279" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/bos-vs-sac-0022600279</a></td>
+</tr>
+</tbody></table></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>

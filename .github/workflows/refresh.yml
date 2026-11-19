@@ -24,6 +24,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # arena/e9295737: pin the interpreter. The refresh failed from 2026-11-17 because the
+      # runner's default moved to Python 3.12, whose builtin sum() is compensated for floats
+      # (gh-100425); two committed artefacts round a quotient of a float sum, so their last
+      # digit moved and the committed-tree replay no longer matched. The pipeline no longer
+      # depends on the summation mode (scripts/floatsum.py, pipeline/v2/stats.dsum), and this
+      # pin keeps the runtime from moving again without a deliberate review.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       # ---------------------------------------------------------------------------
       # STEP ORDER IS A GATE, NOT A CONVENIENCE.
       #
@@ -66,7 +76,8 @@ jobs:
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py"; do
+                       "test_round_2ecbccfd.py" "test_float_sum_determinism.py" \
+                       "test_e9295737.py"; do
             echo "::group::unittest $suite"
             log="$logdir/$(printf '%s' "$suite" | tr -c 'A-Za-z0-9._-' '_').log"
             if [ "$suite" = "test_refresh_official.py" ]; then

@@ -247,7 +247,9 @@ def _ridge_solve(X, y, lam):
             b[r] -= f * b[col]
     x = [0.0] * n
     for r in range(n - 1, -1, -1):
-        s = b[r] - sum(A[r][c] * x[c] for c in range(r + 1, n))
+        # left-to-right sum (stats.dsum): the builtin sum() reorders floats on CPython 3.12
+        # and moved the published line by one ulp, which moved every pick hash under it.
+        s = b[r] - S.dsum(A[r][c] * x[c] for c in range(r + 1, n))
         x[r] = s / A[r][r]
     return x
 

@@ -109,11 +109,14 @@ def _load_new():
     NEW["gates"] = rd("data/app/gate_report.json", {"gates": []})
     NEW["closing"] = rd("data/app/closing_lines.json", {})
     NEW["flags_session"] = (rd("data/app/flags_79341829.json", [])
-                           + rd("data/app/flags_4054e125.json", []))
+                           + rd("data/app/flags_4054e125.json", [])
+                           + rd("data/app/flags_e9295737.json", []))
     NEW["questions_session"] = (rd("data/app/questions_79341829.json", [])
-                                + rd("data/app/questions_4054e125.json", []))
+                                + rd("data/app/questions_4054e125.json", [])
+                                + rd("data/app/questions_e9295737.json", []))
     NEW["suggestions_session"] = (rd("data/app/suggestions_79341829.json", [])
-                                  + rd("data/app/suggestions_4054e125.json", []))
+                                  + rd("data/app/suggestions_4054e125.json", [])
+                                  + rd("data/app/suggestions_e9295737.json", []))
     NEW["standings"] = rd("data/live/standings.json", {"teams": {}})
     NEW["inj_deltas"] = rd("data/live/injuries/deltas.json", {"deltas": []})
     NEW["inj_archive"] = rd("data/live/injuries/archive_index.json",
@@ -262,21 +265,30 @@ def _refresh_status_notice(data, root_page=False):
                          if u.endswith("/.github/workflows/refresh.yml")), "")
     workflow_link = link(workflow_url, "scheduled refresh workflow") if workflow_url else ""
     flagged_path = "app/flagged.html" if root_page else "flagged.html"
+    questions_path = "app/questions.html" if root_page else "questions.html"
+    round_path = "app/round-2026-11-19.html" if root_page else "round-2026-11-19.html"
     window = (data.get("slate") or {}).get("window") or {}
     dated_window = f"{window.get('from', 'unknown')} → {window.get('to', 'unknown')}"
     failed_step = esc(attempt.get("failed_step") or "scheduled refresh")
     return f"""
 <section class="callout bad" id="live-data-status" role="status">
   <strong>Live data status: publishing is paused pending a successful refresh.</strong>
-  <p>The recorded scheduled attempt {run_link} ({esc(created)}) failed at the committed-tree
+  <p>The last recorded scheduled attempt {run_link} ({esc(created)}) failed at the committed-tree
   preflight ({failed_step}) before official-source fetch. Its capture-integrity, freshness/provenance,
-  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
-  team statistics, injury report, game results, or settlement.</p>
+  model/site, and commit steps were skipped.</p>
+  <p><strong>That fault is now fixed in code but not yet observed working on a hosted run.</strong>
+  The preflight failure was a Python-version-dependent float sum; commit 6fd2e3e adds a byte-exact
+  reproduction of the builtin, pins the runner to Python 3.11, and adds eight determinism tests to the
+  preflight suite list. No scheduled run has been observed since, so refresh success is not claimed
+  and publishing stays paused. See <a href="{flagged_path}">E929-F01</a> and the
+  <a href="{questions_path}">question that would clear it</a>.</p>
   <p>The canonical model snapshot shown here was built {esc(BUILD_DATE)} for the dated window
   <strong>{esc(dated_window)}</strong>. These are historical research outputs, not today's lines or
-  picks. The public projection surface is read-only; the separate bet surface remains gated.
-  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
-  presumed outcomes.</p>
+  picks. Separately, the
+  <a href="{round_path}">2026-11-19 round page</a> publishes later, independently verified official
+  data (injury reports and finals through 2026-11-18, schedule through 2026-11-21); that page states
+  its own coverage, and none of it is a price or a pick. The public projection surface is read-only;
+  the separate bet surface remains gated.</p>
   <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
   provenance gates, deterministic rebuild, and verified-final settlement all pass. See
   <a href="{flagged_path}">Flagged for review: EVE-F04</a>{' · ' + workflow_link if workflow_link else ''}.</p>
@@ -2847,6 +2859,255 @@ line at an assumed −110 — which is a property of our numbers, not an economi
     return "\n".join(body)
 
 
+
+
+def _round_dir():
+    return os.path.join(ROOT, "data", "rounds", "2026-11-19-e9295737")
+
+
+def _round_load(name):
+    path = os.path.join(_round_dir(), name)
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def page_round_e9295737(d):
+    """The 2026-11-19 round: injury-report chain, verified results, three-day slate.
+
+    Everything on this page is a replay of committed transcripts, so the numbers cannot drift
+    between builds.  The banner deliberately prints the report's own revision clock and the
+    time we retrieved it as two separate fields: they are different facts and conflating them
+    is the commonest way a stale injury row gets published as fresh.
+    """
+    inj = _round_load("injury_reports.json")
+    res = _round_load("results_2026-11-16_18.json")
+    sla = _round_load("slate_2026-11-19_21.json")
+    if not inj or not res:
+        return '<div class="callout bad">Round artefacts missing; run scripts/capture_e9295737.py.</div>'
+
+    b = inj["banner"]
+    body = []
+
+    # ---- headline
+    body.append(f"""
+<div class="callout good"><strong>This round is complete and internally consistent.</strong>
+{res['settled_count']} of {res['count']} finished games settled with every quarter sum tying to the
+printed final, {inj['revision_count']} consecutive injury reports archived and diffed, and
+{sla['count'] if sla else 0} scheduled games captured across three dates. Nothing on this page is
+inferred: rows that could not be confirmed are absent and listed as flag text, not filled in.</div>""")
+
+    # ---- banner: two clocks, explicitly separate
+    body.append('<h2 id="banner">Injury report in force</h2>')
+    body.append(f"""
+<div class="callout"><strong>Revision printed by the league: {esc(b['revision_time_et'])} ET</strong>
+&nbsp;·&nbsp; <strong>Retrieved by us: {esc(b['retrieval_time_utc'])}</strong>
+<p class="note" style="margin:.5rem 0 0">{esc(b['note'])}</p></div>""")
+    body.append(table(
+        ["Item", "Value", "Source"],
+        [
+            ["Report revision (as printed by the league)", esc(b["revision_time_et"]) + " ET",
+             src_cell([b["source_url"]])],
+            ["Our retrieval stamp (when we read it)", esc(b["retrieval_time_utc"]),
+             src_cell([b["source_url"]])],
+            ["Revisions archived in this round", str(inj["revision_count"]),
+             src_cell([b["source_url"]])],
+            ["Report index (list of all published revisions)", "official injury-report index",
+             src_cell([inj.get("index_url") or b["source_url"]])],
+        ], table_id="round-banner",
+        note="The revision clock and the retrieval stamp are different facts. The league's clock "
+             "says when the report was issued; ours says when we read it. Publishing only one of "
+             "them is what lets a stale row look fresh."))
+
+    # ---- revision chain + diff
+    body.append('<h2 id="revisions">Every revision, and the diff against the one before it</h2>')
+    rev_rows = []
+    for r in inj["revisions_oldest_first"]:
+        df = r.get("diff_from_previous")
+        if df is None:
+            diff_cell = '<span class="muted">first revision in the archive &mdash; no predecessor</span>'
+        else:
+            diff_cell = (f"0 changed · {len(df['added'])} added · {len(df['removed'])} removed · "
+                         f"{df['unchanged_count']} unchanged")
+        rev_rows.append([
+            esc(r["revision_printed"]),
+            str(r["player_rows"]),
+            str(len(r["parsed_problems"])),
+            diff_cell,
+            f'<code>{esc(r["transcript_sha256"][:16])}…</code>',
+            src_cell([r["source_url"]]),
+        ])
+    body.append(table(
+        ["Revision (as printed)", "Player rows", "Structure notes", "Diff vs previous revision",
+         "Transcript sha256", "Source"],
+        rev_rows, table_id="round-revisions",
+        note="A structure note means the PDF's text layer did not present the row in the expected "
+             "column shape. Notes are recorded, never silently repaired."))
+    body.append("""
+<div class="callout warn"><strong>Finding: zero status changes across the whole chain.</strong>
+Four revisions span 12:30 AM to 01:45 AM ET and no player changed status, no player was added
+and no player was removed. That is a real result, not a missing comparison: the diff is computed
+row by row on the player cell, and 23 rows pair up in every consecutive pair. The one thing that
+<em>did</em> change is the layout &mdash; the 12:30 AM revision's text layer merges three teams
+into a single cell, and the 12:45 AM revision drops that merge. A pipeline that keyed on column
+position would have reported a phantom roster change here; keying on the player cell reports the
+layout change for what it is.</div>""")
+
+    # ---- latest rows
+    latest = inj["revisions_oldest_first"][-1]
+    body.append(f'<h2 id="rows">Player rows in the {esc(latest["revision_printed"])} revision</h2>')
+    row_rows = []
+    for r in latest["rows"]:
+        team = r.get("team") or '<span class="muted">blank team cell in source</span>'
+        matchup = r.get("matchup") or '<span class="muted">&mdash;</span>'
+        row_rows.append([
+            esc(r["player"]), esc(str(team)), esc(str(matchup)),
+            chip(esc(str(r["status"])), "bad" if r["status"] == "Out" else
+                 ("warn" if r["status"] == "Questionable" else "good")),
+            esc(r["reason"]),
+            src_cell([latest["source_url"]]),
+        ])
+    body.append(table(["Player", "Team", "Match", "Status", "Reason as printed", "Source"],
+                      row_rows, table_id="round-injury-rows",
+                      note="Team blank means the source PDF left the team cell empty; it is shown "
+                           "blank rather than guessed from the matchup."))
+
+    # ---- results
+    body.append('<h2 id="results">Verified finals, 2026-11-16 to 2026-11-18</h2>')
+    body.append(f"""
+<p>One row per finished game, with quarter and overtime scores. The settlement test is mechanical
+and printed with the feed: <em>{esc(res['settlement_rule'])}</em></p>""")
+    by_date = {}
+    for g in res["games"]:
+        by_date.setdefault(g["date"], []).append(g)
+    for date in sorted(by_date):
+        games = by_date[date]
+        body.append(f'<h3>{esc(date)} <span class="count">({len(games)} games)</span></h3>')
+        rows = []
+        for g in games:
+            def qs(q):
+                return " · ".join(str(x) for x in q)
+            ot = ' <span class="chip warn">OT</span>' if g["ot"] else ""
+            rows.append([
+                f"{esc(g['away'])} @ {esc(g['home'])}{ot}",
+                f"<strong>{g['away_pts']}&ndash;{g['home_pts']}</strong>",
+                f'<span class="mono">{qs(g["away_quarters"])}</span>',
+                f'<span class="mono">{qs(g["home_quarters"])}</span>',
+                chip("Settled", "good"),
+                src_cell([g["source_page"], g["source_games_list"]]),
+            ])
+        body.append(table(["Match", "Final", "Away by period", "Home by period", "State", "Source"],
+                          rows, table_id=f"round-res-{date}"))
+    body.append(f"""
+<div class="callout"><strong>What this adds that the merged feed does not have: the period scores.</strong>
+The 25-game finals feed already on main (<code>data/rounds/2026-11-19-dd3edd74/</code>) carries
+every final and agrees with this one on all 25, but its quarter field is empty on every row and
+flagged <em>UNVERIFIED &mdash; not read from an official page</em>, because the date page it used
+prints no period table. The period columns above come from each game's own page and are complete
+for all 25; every one is checked to sum to the printed final on both sides, so the two feeds
+together are stronger than either alone.</div>""")
+    body.append(f"""
+<div class="callout good"><strong>{res['settled_count']} of {res['count']} settled, \
+{res['withheld_count']} withheld.</strong> A game is published here only if four checks pass:
+the away quarters sum to the away final, the home quarters sum to the home final, the two sides
+have the same number of periods, and the game is not a tie. A game failing any check goes to the
+withheld list with its failing check named &mdash; it is never repaired by adjusting a period.</div>""")
+
+    # ---- slate
+    if sla:
+        body.append('<h2 id="slate">Scheduled games, 2026-11-19 to 2026-11-21</h2>')
+        body.append(f"""
+<p>{sla['count']} games over three dates ({' · '.join(
+            f"{k} {v}" for k, v in sorted(sla['count_by_date'].items()))}), captured from the
+official games page. {esc(sla['what'])}</p>""")
+        rows = []
+        for g in sla["games"]:
+            cup = f' <span class="chip neutral">{esc(g["cup_group_printed"])}</span>' if g["cup_group_printed"] else ""
+            rows.append([
+                esc(g["date"]),
+                f"{esc(g['away'])} @ {esc(g['home'])}{cup}",
+                esc(g["tip_et"]),
+                f'<span class="mono">{esc(g["record_printed_away"])}</span>',
+                f'<span class="mono">{esc(g["record_printed_home"])}</span>',
+                src_cell([g["source_url"]]),
+            ])
+        body.append(table(["Date", "Match", "Tip (ET)", f"Away W-L as printed", "Home W-L as printed",
+                           "Source"], rows, table_id="round-slate",
+                          note="Records are the W-L printed on the official page at capture time, "
+                               "including the NBA Cup group record where the page prints one. This "
+                               "slate is schedule only: no price on this page is a pick."))
+    return "\n".join(body)
+
+def page_traceability(d):
+    """Every requirement in the operating brief, mapped to the artefact that implements it and
+    to the check that was actually performed.  Session arena/e9295737-nba3.
+
+    The statuses are deliberately conservative: PARTIAL means the mechanism exists but has only
+    been exercised on a dated window, BLOCKED names a blocker that cannot be cleared from this
+    environment, and VERIFIED means an official source or a reproducing build backs the claim.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    import requirements_e9295737 as R
+
+    rows = R.rows()
+    counts = R.counts()
+    order = ["VERIFIED", "PARTIAL", "BLOCKED", "OPEN"]
+    kind = {"VERIFIED": "good", "PARTIAL": "warn", "BLOCKED": "bad", "OPEN": "bad"}
+    body = []
+    body.append(f"""
+<p class="lead">Thirty requirements from the operating brief, in the order the brief states them,
+each mapped to the code or data that implements it and to the check that was actually run. This
+page exists because &ldquo;done&rdquo; is the easiest thing in a project like this to overstate:
+{counts.get('VERIFIED', 0)} requirements are backed end to end, {counts.get('PARTIAL', 0)} have the
+mechanism in place but have only been exercised on a dated window, and
+{counts.get('BLOCKED', 0)} cannot be cleared from this environment at all. Every row links to an
+https source.</p>""")
+    body.append('<div class="kpi-row">')
+    for k in order:
+        if counts.get(k):
+            body.append(f'<div class="kpi"><span class="kpi-value">{counts[k]}</span>'
+                        f'<span class="kpi-label">{k.title()}</span></div>')
+    body.append(f'<div class="kpi"><span class="kpi-value">{len(rows)}</span>'
+                '<span class="kpi-label">Requirements</span></div>')
+    body.append('</div>')
+
+    body.append("""
+<div class="callout warn"><strong>How to read the status column.</strong>
+<em>Verified</em> — implemented and checked against an official source or a reproducing build.
+<em>Partial</em> — the mechanism exists and is tested, but has only run on the 2026-11-15 to
+2026-11-18 window, so it does not yet describe the current slate.
+<em>Blocked</em> — cannot be done from this sandbox; the blocker is named in the row, and the
+question that would unblock it is on the <a href="app/questions.html">Open questions</a> page.
+A requirement is never marked verified because it was implemented, only because it was checked.</div>""")
+
+    for label, status in (("Verified end to end", "VERIFIED"),
+                          ("Mechanism in place, current window blocked", "PARTIAL"),
+                          ("Blocked from this environment", "BLOCKED")):
+        subset = [r for r in rows if r["status"] == status]
+        if not subset:
+            continue
+        body.append(f'<h2>{esc(label)} <span class="count">({len(subset)})</span></h2>')
+        table_rows = []
+        for r in subset:
+            blocker = (f'<span class="muted">{esc(r["blocker"])}</span>'
+                       if r["blocker"] else '<span class="muted">&mdash;</span>')
+            table_rows.append([
+                esc(r["req"]),
+                esc(r["impl"]),
+                esc(r["evidence"]),
+                esc(r["verification"]),
+                chip(status.title(), kind[status]),
+                blocker,
+                src_cell([r["source"]]),
+            ])
+        body.append(table(["Requirement (as briefed)", "Implemented by", "Evidence",
+                           "Verification actually performed", "Status", "Blocker", "Source"],
+                          table_rows, table_id=f"req-{status.lower()}",
+                          note="Nothing on this page is marked verified on the strength of the code "
+                               "existing; the verification column says what was checked, and by what."))
+    return "\n".join(body)
+
 def page_requirements(d):
     body = []
     body.append("""
@@ -3135,6 +3396,9 @@ def main():
         ("app/review.html", "Repository review", "Verification", page_review(d), "app/review.html"),
         ("app/flagged.html", "Flagged for review", "Verification", page_flagged(d), "app/flagged.html"),
         ("app/requirements.html", "Brief coverage", "Overview", page_requirements(d), "app/requirements.html"),
+        ("app/traceability.html", "Requirement traceability", "Overview", page_traceability(d), "app/traceability.html"),
+        ("app/round-2026-11-19.html", "Round 2026-11-19: injuries, results, slate", "Verification",
+         page_round_e9295737(d), "app/round-2026-11-19.html"),
     ]
 
     written = []

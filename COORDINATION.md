@@ -6411,3 +6411,119 @@ Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`,
 - **Pages on `main` (`846a6fa`)**: run [44476581193](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44476581193) — `build` success, `deploy` success. Site root `https://wingbangboozle1-lang.github.io/NBA3/` serves, and its status banner still reads "publishing is paused pending a successful refresh", which is correct: this round did not change canonical data.
 - The round data (`data/rounds/2026-11-19-dd3edd74/`) is in the repository but not in the Pages artefact (the Pages build copies selected directories only). Link to it from the repo (CR-DD3-01 (c)).
 - **Open after merge:** the hosted refresh root cause (EVE-F04) and the scheduled-run status (next run ~11:15 UTC); CR-DD3-01 (a)–(c) for the integration owner.
+
+---
+
+## Session `arena/e9295737-nba3` — CLAIM (2026-11-19 ~07:10 UTC)
+
+Session ID: `e9295737`. Branch fixed by the workspace: `arena/e9295737-nba3` (base `454a7ee` = `main`
+after PR #142). This session is the final integration/re-verification pass on this branch. It will not
+create or push another branch. Claim pushed before work began.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| E1 Root-cause the red scheduled refresh and make the committed tree reproducible on the runner interpreter | done (cause found + reproduced; regression test wired into the refresh preflight) | e9295737 | `.github/workflows/refresh.yml`, `scripts/floatsum.py`, `scripts/gamebooks_2ecbccfd.py`, `d1b96315/model.py`, `pipeline/v2/stats.py`, `pipeline/v2/estimators.py`, `tests/test_float_sum_determinism.py` |
+| E2 Injury PDF archive + consecutive-report status diff for the current slate | done | e9295737 | `data/rounds/2026-11-19-e9295737/**`, `scripts/capture_e9295737.py`, `tests/test_e9295737.py` |
+| E3 Official per-game results feed (date, teams, final, quarter scores) settled only on verified finals | done | e9295737 | `data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json`, `scripts/capture_e9295737.py` |
+| E4 Rolling slate up to 3 days ahead (schedule captured; gate-passed rebuild blocked) | done for schedule, rebuild blocked | e9295737 | `data/rounds/2026-11-19-e9295737/slate_2026-11-19_21.json` |
+| E5 Projection vs bet surface separation with a provenance gate | reviewed, not changed | e9295737 | reads `scripts/build_app.py` NAV only |
+| E6 Executive summary, questions, suggestions integration | done | e9295737 | `data/app/{flags,questions,suggestions}_e9295737.json`, `scripts/build_app.py` |
+| E7 Final integration: full verification, PR to `main`, merge, Pages deploy confirmation | in progress | e9295737 | branch `arena/e9295737-nba3` |
+
+**E1 completion record (2026-11-19 ~07:10 UTC).**
+
+- **Cause.** Not the data. CPython 3.12 changed the builtin `sum()` to Neumaier compensated summation
+  for floats ([gh-100425](https://github.com/python/cpython/issues/100425), documented in the
+  [3.12 release notes](https://docs.python.org/3/whatsnew/3.12.html#built-in-functions)). The runner's
+  default interpreter had moved to 3.12; the committed artefacts were produced on 3.11.
+- **Evidence.** Run [44469939831](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831)
+  (2026-11-19T06:07:59Z, head `5ad832a`) failed at step 4 and its artifact `unit-test-logs-44469939831`
+  / check annotations name the failing test:
+  `tests.test_refresh_official.WorkflowGateTests.test_committed_round_captures_replay_before_the_live_fetch`
+  with `script='gamebooks_2ecbccfd.py'`. Runs 44143781953, 44203349676, 44249179843, 44300142112,
+  44364543697 and 44424736929 fail at the same step. The six earlier sessions could not read the log
+  body (artifact/log blobs are on `*.blob.core.windows.net`, unreachable here); this session read the
+  **check-run annotations**, which are served by `api.github.com`, and obtained the failing test name.
+- **Reproduced.** `scripts/gamebooks_2ecbccfd.py --check` returns 0 on Python 3.11 and 1 under an exact
+  transcription of the 3.12 `sum()`. The WIZARDS minutes sum to `239.99999999999997` (3.11) vs `240.0`
+  (3.12), so Trae Young's top-8 minutes share is `0.1088` vs `0.1087`.
+- **Second, worse instance.** `pipeline/v2/stats.py` `mean()/sd()` did the same thing to the v2 build:
+  under 3.12 a published spread line moved `7.210020179238307` -> `7.210020179238308`, and every
+  `pick_sha256` committed over that price changed with it. `data/v2/build.json` did not reproduce.
+- **Fix.** `scripts/floatsum.py` (`total`, `share`, `mean_total`) and `pipeline/v2/stats.dsum`
+  reproduce the 3.11 left-to-right float sum on every interpreter; applied to the four call sites.
+  No committed number changes.
+- **Verification.** All 23 `--check`-guarded artefacts reproduce under the 3.12 sum() transcription;
+  `tests/test_float_sum_determinism.py` (8 tests) pins it and is now part of the refresh preflight
+  suite list; `python3 -m unittest discover -s tests` 323 OK; `pipeline/v2/tests` 45 OK; every
+  generated site rebuild is byte-identical under both summation modes. The refresh workflow also pins
+  `python-version: "3.11"` until the remaining 3.12-sensitive modules are converted.
+- **Not claimed:** this does not prove the *next* hosted run succeeds end to end. The unit-test
+  preflight is what was failing and it is fixed and now diagnosable; the fetch/gate/rebuild steps were
+  skipped in every recorded failure and have not been exercised live from this sandbox.
+
+**E2/E3/E4 completion record (2026-11-19 ~09:00 UTC).**
+
+- **E2 injury archive.** Four revisions of the 2026-11-19 official injury report (12:30, 12:45,
+  01:30, 01:45 AM ET) stored verbatim with printed revision clock, retrieval stamp (07:20Z), source
+  URL, transcript sha256, parsed rows, and a diff against the immediately preceding revision.
+  **Verified: 23 player rows in every revision; 0 status changes, 0 added, 0 removed across the
+  whole chain.** The 12:30 AM text layer merges three teams (BKN/TOR/DET) into one cell and is
+  recorded as a structure note, not repaired; the 12:45 AM revision drops the merge, the only
+  structural change in the chain. **Independent cross-check:** session `b1ce1334` parsed the same
+  12:30 AM PDF separately (`data/rounds/2026-11-19/injury_parsed.json`); all 23
+  player/status/reason triples and all team/matchup attributions agree exactly, and a test pins it.
+- **E3 results feed.** 25 games for 2026-11-16 (8), -17 (5), -18 (12), each with date, teams, final,
+  quarter/OT periods, plus the source game page and games-list page. **25/25 settled, 0 withheld** on
+  a four-part mechanical test (away sum, home sum, equal period counts, not a tie); every row's
+  periods sum to the printed final on both sides AND the final equals the score printed on the
+  official games page. CHA@LAL 2026-11-17 is the one overtime game and carries five periods.
+- **Decision: the canonical `data/app/results_feed.json` was NOT extended.** It is hash-chained and
+  consumed by the audit trees, the settled-round scripts and the build; appending 25 rows would move
+  its head hash and invalidate recorded settlement evidence for 2026-11-13..15. The new window is
+  published as a separate round-scoped feed with its own printed settlement rule (flag E929-F05).
+- **E4 slate.** 19 games over 2026-11-19..11-21 (4 / 9 / 6, matching the calendar counts printed on
+  the official games page) with game ids, ET tips, printed records and NBA Cup group labels where
+  the page prints one. **Cross-checked field by field against the independent `b1ce1334` capture
+  already on main: 19/19 agree on game id, away, home and tip time** (pinned by a test).
+- **Gate-passed rebuild: NOT done.** Pick generation for this slate needs the live refresh, which is
+  still blocked (E929-F01/Q02). The slate is schedule only; no price on the site is a pick.
+- **Site.** New `app/round-2026-11-19.html` (banner with both clocks, revision diffs, 23 player rows,
+  25 finals by date, 19-game slate) and `app/traceability.html` (all 30 brief requirements mapped to
+  their implementation and to the check actually run: 10 verified, 18 partial, 2 blocked). Build
+  **29 pages, 0 broken links**, byte-identical on re-run. Tests: **349 discovered + 45 pipeline/v2**.
+- **Reproducibility gate.** `python3 scripts/capture_e9295737.py --check` re-derives all three
+  artefacts in memory and byte-compares them to the committed files; it exits 0 and is now in the
+  refresh preflight suite list alongside `test_e9295737.py` (26 tests). The exact preflight loop was
+  simulated locally: all 12 suites pass.
+- **Irregularities published:** E929-F01 (preflight fixed in code, no green hosted run observed),
+  F02 (12:30 AM layout defect), F03 (null diff reported as a finding), F04 (global header window
+  label vs per-page coverage), F05 (feed separation decision). Six open questions (E929-Q01..Q06) and
+  six suggestions (E929-S01..S06); **none of the suggestions is implemented.**
+
+**Cross-session verification against merged main (2026-11-19 ~10:30 UTC).**
+
+The branch was rebased onto `main` at `bc1f113` (after PR #144 / `dd3edd74` and PR #145 merged).
+Two other sessions had independently captured the same 2026-11-16..18 window, and both were
+compared field by field before integration:
+
+| Comparison | Result |
+|---|---|
+| `dd3edd74`'s `results_2026-11-16_18.json` (25 games, now on main) vs this feed | **Finals agree 25/25, zero mismatches.** Quarter scores: theirs are `None` on all 25 rows, each flagged `UNVERIFIED: not read from an official page for this game (no period table on the date page)`; this feed supplies the **complete quarter set for all 25**, every one summing to the printed final on both sides. |
+| `915d2e99`'s `official_results_2026-11-1{6,7,8}.json` (open PR #143) vs this feed | **Agree on all 23 games they captured, zero mismatches.** They captured 6 of 8 games for 11/16 and self-documented the two missing ids as `0022600250` and `0022600252`; this feed has both (POR 98 @ MIN 106, PHX 117 @ DEN 105). |
+| The two missing ids, against the sealed pick ledger on main | The ledger carries exactly `0022600245`..`0022600252` for 2026-11-16, so the missing pair is confirmed by a third, independent record. |
+| `b1ce1334`'s 12:30 AM injury parse vs this archive | **23/23** player/status/reason triples and all team/matchup attributions agree. |
+| `b1ce1334`'s slate capture vs this slate | **19/19** games agree on id, away, home and tip time. |
+
+So this round's distinct contribution over what main already had is the **quarter-and-overtime
+scores for all 25 games** — the field main's feed explicitly leaves blank and flagged — plus the
+four-revision injury diff, the three-day slate and the traceability page. Where another session
+had already captured a field correctly, the values agree; nothing was re-derived differently.
+
+**Build/test state on the rebased tree.** `scripts/build_app.py` — 29 pages, 0 broken links,
+byte-identical on re-run. `capture_e9295737.py --check` — all three artefacts reproduce.
+`unittest discover -s tests` — **364 OK**; `pipeline/v2/tests` — **45 OK**; all **13**
+refresh-preflight suites OK. One regression was found and fixed during the rebase:
+`tests/test_dd3edd74.py` copies `gamebooks_2ecbccfd.py` into a scratch tree, and after the E1 fix
+that script imports `floatsum`, so `--check` died at import and looked like a data mismatch. The
+test's `INPUTS` list now copies `floatsum.py`, with three new guard tests.

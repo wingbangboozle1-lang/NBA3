@@ -1,0 +1,76 @@
+[
+ {
+  "id": "E929-F01",
+  "area": "Scheduled job",
+  "severity": "high",
+  "found_on": "2026-11-19",
+  "item": "EVE-F04's fix is committed but no successful hosted refresh run has been observed.",
+  "why": "Six consecutive scheduled runs (2026-11-17 18:03Z to 2026-11-18 23:55Z) failed at the committed-tree preflight, so fetch, gates, rebuild and commit never executed. The cause was a Python-version-dependent float sum: the artefacts were produced under CPython 3.12's compensated builtin sum(), while the workflow pinned 3.11 where the same expression gives a different float. Commit 6fd2e3e adds scripts/floatsum.py, which reproduces that behaviour byte-exactly, routes the 23 --check-guarded artefacts through it, pins the workflow to 3.11 and adds 8 determinism tests to the preflight suite list. Locally: 323 discovered tests, 45 pipeline/v2 tests and 8 float tests pass.",
+  "action_needed": "Trigger the scheduled workflow once; confirm the preflight passes AND that the fetch/gate/rebuild steps then actually run. Until that is observed, the site keeps its pause notice and no current-slate output exists.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/floatsum.py",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_float_sum_determinism.py"
+  ],
+  "status": "Open - fix committed, hosted run not yet observed",
+  "legacy_ref": "EVE-F04"
+ },
+ {
+  "id": "E929-F02",
+  "area": "Injuries",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "item": "The 12:30 AM revision of the 2026-11-19 injury report has a broken PDF text layer: three teams are merged into one table cell.",
+  "why": "Brooklyn Nets, Toronto Raptors and Detroit Pistons appear in a single cell, and their three 'NOT YET SUBMITTED' markers in another. Recorded verbatim as a structure note, not repaired. A parser reading by column position would attribute those teams' rows to the wrong club or invent roster changes. The 12:45 AM revision drops the merge; it is the only structural change in the four-revision chain, and no player changed status across it.",
+  "action_needed": "Keep anchoring injury parsing on the player cell, never on column position, and treat a change in the structure-note count as a layout event to review.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf"
+  ],
+  "status": "Open - source defect, handled by parser design",
+  "legacy_ref": null
+ },
+ {
+  "id": "E929-F03",
+  "area": "Injuries",
+  "severity": "low",
+  "found_on": "2026-11-19",
+  "item": "Four consecutive injury-report revisions (12:30 to 01:45 AM ET) are byte-different PDFs with 23 identical player rows: zero status changes.",
+  "why": "A real null result, verified row by row, not a missing comparison. It matters twice: the league re-issues the report on a schedule even when nothing has changed, so 'a newer revision exists' is not evidence that anything changed; and it is the control case for the diff, since a diff that reported changes here would be broken.",
+  "action_needed": "Publish the null diff next to the reports and never treat a new revision as new information without a row-level diff behind it.",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ],
+  "status": "Open - reported as a finding",
+  "legacy_ref": null
+ },
+ {
+  "id": "E929-F04",
+  "area": "Provenance",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "item": "The header window label is global, so a page publishing 2026-11-16..21 verified data sits under a label ending 2026-11-18.",
+  "why": "The stamp renders the canonical snapshot window, while the round page publishes a separate, later-verified feed. Keeping the artefacts separate is correct for hash integrity, but the reader sees one window label above both. The round page states its own coverage in its heading and subtitle to remove the ambiguity; the header itself is unchanged.",
+  "action_needed": "Decide whether the header should show per-page coverage. Proposed as E929-S01; not implemented.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py"
+  ],
+  "status": "Open - surfaced for a decision",
+  "legacy_ref": null
+ },
+ {
+  "id": "E929-F05",
+  "area": "Results feed",
+  "severity": "low",
+  "found_on": "2026-11-19",
+  "item": "The canonical results feed was deliberately not extended with the 25 newly verified 2026-11-16..18 finals.",
+  "why": "data/app/results_feed.json is hash-chained and consumed by the audit trees, the settled-round scripts and the build. Appending 25 rows would change its head hash and invalidate recorded settlement evidence for earlier rounds. The new finals were therefore published as a separate round-scoped feed with its own printed settlement rule, so both chains stay verifiable.",
+  "action_needed": "If one continuous feed is wanted later, start a new chain citing both head hashes rather than mutating the existing file.",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json"
+  ],
+  "status": "Open - design decision recorded",
+  "legacy_ref": null
+ }
+]

@@ -24,15 +24,22 @@
 
 <section class="callout bad" id="live-data-status" role="status">
   <strong>Live data status: publishing is paused pending a successful refresh.</strong>
-  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  <p>The last recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
   preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
-  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
-  team statistics, injury report, game results, or settlement.</p>
+  model/site, and commit steps were skipped.</p>
+  <p><strong>That fault is now fixed in code but not yet observed working on a hosted run.</strong>
+  The preflight failure was a Python-version-dependent float sum; commit 6fd2e3e adds a byte-exact
+  reproduction of the builtin, pins the runner to Python 3.11, and adds eight determinism tests to the
+  preflight suite list. No scheduled run has been observed since, so refresh success is not claimed
+  and publishing stays paused. See <a href="flagged.html">E929-F01</a> and the
+  <a href="questions.html">question that would clear it</a>.</p>
   <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
   <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
-  picks. The public projection surface is read-only; the separate bet surface remains gated.
-  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
-  presumed outcomes.</p>
+  picks. Separately, the
+  <a href="round-2026-11-19.html">2026-11-19 round page</a> publishes later, independently verified official
+  data (injury reports and finals through 2026-11-18, schedule through 2026-11-21); that page states
+  its own coverage, and none of it is a price or a pick. The public projection surface is read-only;
+  the separate bet surface remains gated.</p>
   <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
   provenance gates, deterministic rebuild, and verified-final settlement all pass. See
   <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
@@ -45,7 +52,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 122 items: 32 high, 67 medium, 22 low severity.
+<em>decisions</em>. 127 items: 33 high, 69 medium, 24 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -1402,6 +1409,61 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>open</td>
 <td>app/lines.html</td>
 <td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>E929-F01</td>
+<td>Scheduled job</td>
+<td>EVE-F04&#x27;s fix is committed but no successful hosted refresh run has been observed.</td>
+<td>Six consecutive scheduled runs (2026-11-17 18:03Z to 2026-11-18 23:55Z) failed at the committed-tree preflight, so fetch, gates, rebuild and commit never executed. The cause was a Python-version-dependent float sum: the artefacts were produced under CPython 3.12&#x27;s compensated builtin sum(), while the workflow pinned 3.11 where the same expression gives a different float. Commit 6fd2e3e adds scripts/floatsum.py, which reproduces that behaviour byte-exactly, routes the 23 --check-guarded artefacts through it, pins the workflow to 3.11 and adds 8 determinism tests to the preflight suite list. Locally: 323 discovered tests, 45 pipeline/v2 tests and 8 float tests pass.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Trigger the scheduled workflow once; confirm the preflight passes AND that the fetch/gate/rebuild steps then actually run. Until that is observed, the site keeps its pause notice and no current-slate output exists.</td>
+<td>Open - fix committed, hosted run not yet observed</td>
+<td>2026-11-19</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/floatsum.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/floatsum.py</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_float_sum_determinism.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_float_sum_determinism.py</a></td>
+</tr>
+<tr>
+<td>E929-F02</td>
+<td>Injuries</td>
+<td>The 12:30 AM revision of the 2026-11-19 injury report has a broken PDF text layer: three teams are merged into one table cell.</td>
+<td>Brooklyn Nets, Toronto Raptors and Detroit Pistons appear in a single cell, and their three &#x27;NOT YET SUBMITTED&#x27; markers in another. Recorded verbatim as a structure note, not repaired. A parser reading by column position would attribute those teams&#x27; rows to the wrong club or invent roster changes. The 12:45 AM revision drops the merge; it is the only structural change in the four-revision chain, and no player changed status across it.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Keep anchoring injury parsing on the player cell, never on column position, and treat a change in the structure-note count as a layout event to review.</td>
+<td>Open - source defect, handled by parser design</td>
+<td>2026-11-19</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf</a></td>
+</tr>
+<tr>
+<td>E929-F03</td>
+<td>Injuries</td>
+<td>Four consecutive injury-report revisions (12:30 to 01:45 AM ET) are byte-different PDFs with 23 identical player rows: zero status changes.</td>
+<td>A real null result, verified row by row, not a missing comparison. It matters twice: the league re-issues the report on a schedule even when nothing has changed, so &#x27;a newer revision exists&#x27; is not evidence that anything changed; and it is the control case for the diff, since a diff that reported changes here would be broken.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Publish the null diff next to the reports and never treat a new revision as new information without a row-level diff behind it.</td>
+<td>Open - reported as a finding</td>
+<td>2026-11-19</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>E929-F04</td>
+<td>Provenance</td>
+<td>The header window label is global, so a page publishing 2026-11-16..21 verified data sits under a label ending 2026-11-18.</td>
+<td>The stamp renders the canonical snapshot window, while the round page publishes a separate, later-verified feed. Keeping the artefacts separate is correct for hash integrity, but the reader sees one window label above both. The round page states its own coverage in its heading and subtitle to remove the ambiguity; the header itself is unchanged.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Decide whether the header should show per-page coverage. Proposed as E929-S01; not implemented.</td>
+<td>Open - surfaced for a decision</td>
+<td>2026-11-19</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></td>
+</tr>
+<tr>
+<td>E929-F05</td>
+<td>Results feed</td>
+<td>The canonical results feed was deliberately not extended with the 25 newly verified 2026-11-16..18 finals.</td>
+<td>data/app/results_feed.json is hash-chained and consumed by the audit trees, the settled-round scripts and the build. Appending 25 rows would change its head hash and invalidate recorded settlement evidence for earlier rounds. The new finals were therefore published as a separate round-scoped feed with its own printed settlement rule, so both chains stay verifiable.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>If one continuous feed is wanted later, start a new chain citing both head hashes rather than mutating the existing file.</td>
+<td>Open - design decision recorded</td>
+<td>2026-11-19</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json</a></td>
 </tr>
 </tbody></table></div>
 

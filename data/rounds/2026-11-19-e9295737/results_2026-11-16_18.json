@@ -1,0 +1,869 @@
+{
+ "schema": "nba3.e9295737.results/v1",
+ "session": "arena/e9295737-nba3",
+ "retrieved_utc": "2026-11-19T07:20Z",
+ "window": [
+  "2026-11-16",
+  "2026-11-18"
+ ],
+ "settlement_rule": "A row is published settled only when the quarter/OT scores the official summary page prints sum to the final score that the same page prints for BOTH teams, and that final also equals the score shown on the official games page for that date. A row that fails either check is withheld, listed under `withheld`, and flagged; no value is ever adjusted to make it tie out.",
+ "what": "One row per finished game: date, teams, final score, quarter (and OT) scores. Each row cites the official summary page whose LINESCORES table it was read from and the official games page for its date as a second read of the final.",
+ "count": 25,
+ "settled_count": 25,
+ "withheld_count": 0,
+ "games": [
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600245",
+   "away": "ORL",
+   "home": "BOS",
+   "away_pts": 115,
+   "home_pts": 105,
+   "away_quarters": [
+    20,
+    30,
+    25,
+    40
+   ],
+   "home_quarters": [
+    17,
+    24,
+    36,
+    28
+   ],
+   "ot": false,
+   "winner": "ORL",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/orl-vs-bos-0022600245",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600246",
+   "away": "CHI",
+   "home": "CLE",
+   "away_pts": 115,
+   "home_pts": 126,
+   "away_quarters": [
+    31,
+    17,
+    31,
+    36
+   ],
+   "home_quarters": [
+    25,
+    32,
+    31,
+    38
+   ],
+   "ot": false,
+   "winner": "CLE",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/chi-vs-cle-0022600246",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600247",
+   "away": "MEM",
+   "home": "WAS",
+   "away_pts": 136,
+   "home_pts": 120,
+   "away_quarters": [
+    33,
+    26,
+    42,
+    35
+   ],
+   "home_quarters": [
+    35,
+    34,
+    18,
+    33
+   ],
+   "ot": false,
+   "winner": "MEM",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/mem-vs-was-0022600247",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600248",
+   "away": "PHI",
+   "home": "BKN",
+   "away_pts": 135,
+   "home_pts": 123,
+   "away_quarters": [
+    33,
+    45,
+    27,
+    30
+   ],
+   "home_quarters": [
+    26,
+    33,
+    36,
+    28
+   ],
+   "ot": false,
+   "winner": "PHI",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/phi-vs-bkn-0022600248",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600249",
+   "away": "HOU",
+   "home": "MIA",
+   "away_pts": 110,
+   "home_pts": 128,
+   "away_quarters": [
+    15,
+    31,
+    35,
+    29
+   ],
+   "home_quarters": [
+    29,
+    33,
+    39,
+    27
+   ],
+   "ot": false,
+   "winner": "MIA",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/hou-vs-mia-0022600249",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600250",
+   "away": "POR",
+   "home": "MIN",
+   "away_pts": 98,
+   "home_pts": 106,
+   "away_quarters": [
+    26,
+    25,
+    22,
+    25
+   ],
+   "home_quarters": [
+    26,
+    33,
+    28,
+    19
+   ],
+   "ot": false,
+   "winner": "MIN",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/por-vs-min-0022600250",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600251",
+   "away": "GSW",
+   "home": "NOP",
+   "away_pts": 94,
+   "home_pts": 115,
+   "away_quarters": [
+    11,
+    25,
+    29,
+    29
+   ],
+   "home_quarters": [
+    35,
+    26,
+    32,
+    22
+   ],
+   "ot": false,
+   "winner": "NOP",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/gsw-vs-nop-0022600251",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600252",
+   "away": "PHX",
+   "home": "DEN",
+   "away_pts": 117,
+   "home_pts": 105,
+   "away_quarters": [
+    20,
+    36,
+    34,
+    27
+   ],
+   "home_quarters": [
+    24,
+    29,
+    29,
+    23
+   ],
+   "ot": false,
+   "winner": "PHX",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/phx-vs-den-0022600252",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-16",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600253",
+   "away": "NYK",
+   "home": "TOR",
+   "away_pts": 111,
+   "home_pts": 102,
+   "away_quarters": [
+    23,
+    31,
+    26,
+    31
+   ],
+   "home_quarters": [
+    29,
+    21,
+    33,
+    19
+   ],
+   "ot": false,
+   "winner": "NYK",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/nyk-vs-tor-0022600253",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-17",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600254",
+   "away": "POR",
+   "home": "MIN",
+   "away_pts": 105,
+   "home_pts": 106,
+   "away_quarters": [
+    17,
+    31,
+    31,
+    26
+   ],
+   "home_quarters": [
+    29,
+    20,
+    30,
+    27
+   ],
+   "ot": false,
+   "winner": "MIN",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/por-vs-min-0022600254",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-17",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600255",
+   "away": "DET",
+   "home": "SAS",
+   "away_pts": 105,
+   "home_pts": 93,
+   "away_quarters": [
+    26,
+    29,
+    23,
+    27
+   ],
+   "home_quarters": [
+    33,
+    21,
+    18,
+    21
+   ],
+   "ot": false,
+   "winner": "DET",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/det-vs-sas-0022600255",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-17",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600256",
+   "away": "CHA",
+   "home": "LAL",
+   "away_pts": 114,
+   "home_pts": 118,
+   "away_quarters": [
+    34,
+    32,
+    28,
+    17,
+    3
+   ],
+   "home_quarters": [
+    30,
+    29,
+    22,
+    30,
+    7
+   ],
+   "ot": true,
+   "winner": "LAL",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/cha-vs-lal-0022600256",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-17",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (5 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600257",
+   "away": "UTA",
+   "home": "LAC",
+   "away_pts": 132,
+   "home_pts": 107,
+   "away_quarters": [
+    35,
+    23,
+    30,
+    44
+   ],
+   "home_quarters": [
+    29,
+    33,
+    24,
+    21
+   ],
+   "ot": false,
+   "winner": "UTA",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/uta-vs-lac-0022600257",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-17",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600258",
+   "away": "MEM",
+   "home": "CLE",
+   "away_pts": 124,
+   "home_pts": 121,
+   "away_quarters": [
+    30,
+    41,
+    29,
+    24
+   ],
+   "home_quarters": [
+    37,
+    35,
+    27,
+    22
+   ],
+   "ot": false,
+   "winner": "MEM",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/mem-vs-cle-0022600258",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600259",
+   "away": "HOU",
+   "home": "IND",
+   "away_pts": 119,
+   "home_pts": 104,
+   "away_quarters": [
+    39,
+    23,
+    31,
+    26
+   ],
+   "home_quarters": [
+    28,
+    18,
+    30,
+    28
+   ],
+   "ot": false,
+   "winner": "HOU",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/hou-vs-ind-0022600259",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600260",
+   "away": "MIL",
+   "home": "MIA",
+   "away_pts": 130,
+   "home_pts": 137,
+   "away_quarters": [
+    23,
+    25,
+    38,
+    44
+   ],
+   "home_quarters": [
+    34,
+    40,
+    38,
+    25
+   ],
+   "ot": false,
+   "winner": "MIA",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/mil-vs-mia-0022600260",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600261",
+   "away": "PHI",
+   "home": "ORL",
+   "away_pts": 121,
+   "home_pts": 116,
+   "away_quarters": [
+    27,
+    37,
+    28,
+    29
+   ],
+   "home_quarters": [
+    40,
+    29,
+    28,
+    19
+   ],
+   "ot": false,
+   "winner": "PHI",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/phi-vs-orl-0022600261",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600262",
+   "away": "CHI",
+   "home": "BKN",
+   "away_pts": 137,
+   "home_pts": 107,
+   "away_quarters": [
+    37,
+    39,
+    35,
+    26
+   ],
+   "home_quarters": [
+    21,
+    30,
+    26,
+    30
+   ],
+   "ot": false,
+   "winner": "CHI",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/chi-vs-bkn-0022600262",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600263",
+   "away": "WAS",
+   "home": "TOR",
+   "away_pts": 103,
+   "home_pts": 99,
+   "away_quarters": [
+    29,
+    20,
+    29,
+    25
+   ],
+   "home_quarters": [
+    23,
+    24,
+    32,
+    20
+   ],
+   "ot": false,
+   "winner": "WAS",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/was-vs-tor-0022600263",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600264",
+   "away": "DET",
+   "home": "NOP",
+   "away_pts": 122,
+   "home_pts": 109,
+   "away_quarters": [
+    31,
+    36,
+    25,
+    30
+   ],
+   "home_quarters": [
+    31,
+    29,
+    26,
+    23
+   ],
+   "ot": false,
+   "winner": "DET",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/det-vs-nop-0022600264",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600265",
+   "away": "ATL",
+   "home": "OKC",
+   "away_pts": 117,
+   "home_pts": 112,
+   "away_quarters": [
+    31,
+    33,
+    19,
+    34
+   ],
+   "home_quarters": [
+    29,
+    22,
+    32,
+    29
+   ],
+   "ot": false,
+   "winner": "ATL",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/atl-vs-okc-0022600265",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600266",
+   "away": "BOS",
+   "home": "DEN",
+   "away_pts": 101,
+   "home_pts": 105,
+   "away_quarters": [
+    30,
+    31,
+    19,
+    21
+   ],
+   "home_quarters": [
+    24,
+    25,
+    31,
+    25
+   ],
+   "ot": false,
+   "winner": "DEN",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/bos-vs-den-0022600266",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600267",
+   "away": "GSW",
+   "home": "DAL",
+   "away_pts": 94,
+   "home_pts": 116,
+   "away_quarters": [
+    25,
+    24,
+    23,
+    22
+   ],
+   "home_quarters": [
+    35,
+    27,
+    30,
+    24
+   ],
+   "ot": false,
+   "winner": "DAL",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/gsw-vs-dal-0022600267",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600268",
+   "away": "UTA",
+   "home": "LAL",
+   "away_pts": 109,
+   "home_pts": 97,
+   "away_quarters": [
+    29,
+    27,
+    22,
+    31
+   ],
+   "home_quarters": [
+    34,
+    20,
+    22,
+    21
+   ],
+   "ot": false,
+   "winner": "UTA",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/uta-vs-lal-0022600268",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600269",
+   "away": "PHX",
+   "home": "SAC",
+   "away_pts": 128,
+   "home_pts": 107,
+   "away_quarters": [
+    36,
+    29,
+    34,
+    29
+   ],
+   "home_quarters": [
+    31,
+    29,
+    24,
+    23
+   ],
+   "ot": false,
+   "winner": "PHX",
+   "state": "Final",
+   "source_page": "https://www.nba.com/game/phx-vs-sac-0022600269",
+   "source_games_list": "https://www.nba.com/games?date=2026-11-18",
+   "retrieved_utc": "2026-11-19T07:20Z",
+   "checks": {
+    "away_quarters_sum_equals_final": true,
+    "home_quarters_sum_equals_final": true,
+    "regulation_plus_ot_periods": true,
+    "no_tie": true
+   },
+   "settled": true,
+   "settlement_note": "quarter sums equal the printed final on both sides (4 periods); final cross-read from the official games page for the date"
+  }
+ ],
+ "withheld": []
+}
