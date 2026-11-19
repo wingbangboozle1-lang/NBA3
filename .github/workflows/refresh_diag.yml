@@ -20,63 +20,51 @@ jobs:
           set -uo pipefail
           echo "::notice::diag python3 = $(python3 -VV 2>&1 | head -1)"
 
-      - name: Battery under the runner default interpreter (compact failure report)
+      - name: Regenerate the round artefacts and diff them against the committed files
         run: |
           set -uo pipefail
-          : > /tmp/diag_report.txt
-          for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
-                       "test_freshness_gates.py" "test_refresh_official.py" \
-                       "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py"; do
-            if [ "$suite" = "test_refresh_official.py" ]; then
-              out=$(python3 -m unittest tests/test_refresh_official.py 2>&1) && rc=0 || rc=$?
-            else
-              out=$(python3 -m unittest discover -s tests -p "$suite" 2>&1) && rc=0 || rc=$?
-            fi
-            if [ "$rc" -ne 0 ]; then
-              {
-                echo "=== SUITE $suite exit=$rc py=$(python3 -V 2>&1)"
-                echo "$out" | grep -vE "ResourceWarning|tracemalloc" | \
-                  awk '/^(FAIL|ERROR):/{f=1} f' | head -45
-              } >> /tmp/diag_report.txt
-            fi
+          for script in capture_2ecbccfd gamebooks_2ecbccfd slate_extra_2ecbccfd; do
+            echo "--- $script --check (python $(python3 -V 2>&1))"
+            python3 scripts/$script.py --check; echo "   check exit=$?"
           done
-          if [ -s /tmp/diag_report.txt ]; then
-            echo "::error::FAILING SUITES (runner default python):"
-            sed 's/^/::error::/' /tmp/diag_report.txt
-          else
-            echo "::notice::all suites passed under the runner default interpreter"
-          fi
+          cp data/rounds/2026-11-17/player_logs_2026-11-15.json /tmp/committed_logs.json
+          python3 scripts/gamebooks_2ecbccfd.py > /tmp/gb.log 2>&1; echo "regen exit=$?"
+          echo "== first differing JSON paths (committed vs regenerated) =="
+          python3 - <<'PY' > /tmp/diff.txt 2>&1
+          import json
+          a = json.load(open("/tmp/committed_logs.json"))
+          b = json.load(open("data/rounds/2026-11-17/player_logs_2026-11-15.json"))
+          def walk(x, y, path=""):
+              if type(x) is not type(y):
+                  print(f"TYPE  {path}: {type(x).__name__} != {type(y).__name__}"); return
+              if isinstance(x, dict):
+                  for k in sorted(set(x) | set(y)):
+                      if k not in x: print(f"ONLY-B {path}.{k} = {y[k]!r}")
+                      elif k not in y: print(f"ONLY-A {path}.{k} = {x[k]!r}")
+                      else: walk(x[k], y[k], f"{path}.{k}")
+              elif isinstance(x, list):
+                  if len(x) != len(y):
+                      print(f"LEN   {path}: {len(x)} != {len(y)}")
+                  for i in range(min(len(x), len(y))):
+                      walk(x[i], y[i], f"{path}[{i}]")
+              else:
+                  if x != y:
+                      print(f"VALUE {path}: {x!r} != {y!r}")
+          walk(a, b)
+          PY
+          head -40 /tmp/diff.txt
+          echo "== raw diff (first 60 lines) =="
+          diff -u /tmp/committed_logs.json data/rounds/2026-11-17/player_logs_2026-11-15.json | head -60 || true
+          cp /tmp/committed_logs.json data/rounds/2026-11-17/player_logs_2026-11-15.json
 
-      - name: Same battery under Python 3.11 (the Pages job's pinned version)
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Battery on 3.11
+      - name: Report
         run: |
           set -uo pipefail
-          : > /tmp/diag_report311.txt
-          for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
-                       "test_freshness_gates.py" "test_refresh_official.py" \
-                       "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py"; do
-            if [ "$suite" = "test_refresh_official.py" ]; then
-              out=$(python3 -m unittest tests/test_refresh_official.py 2>&1) && rc=0 || rc=$?
-            else
-              out=$(python3 -m unittest discover -s tests -p "$suite" 2>&1) && rc=0 || rc=$?
-            fi
-            if [ "$rc" -ne 0 ]; then
-              {
-                echo "=== SUITE $suite exit=$rc py=$(python3 -V 2>&1)"
-                echo "$out" | grep -vE "ResourceWarning|tracemalloc" | \
-                  awk '/^(FAIL|ERROR):/{f=1} f' | head -45
-              } >> /tmp/diag_report311.txt
-            fi
-          done
-          if [ -s /tmp/diag_report311.txt ]; then
-            echo "::error::FAILING SUITES (Python 3.11):"
-            sed 's/^/::error::/' /tmp/diag_report311.txt
-          else
-            echo "::notice::all suites passed under Python 3.11"
-          fi
+          {
+            echo "PY=$(python3 -VV 2>&1 | head -1)"
+            echo "--- json diff ---"
+            head -40 /tmp/diff.txt
+            echo "--- raw diff ---"
+            diff -u /tmp/committed_logs.json data/rounds/2026-11-17/player_logs_2026-11-15.json | head -50 || true
+          } > /tmp/report.txt
+          sed 's/^/::error::/' /tmp/report.txt
