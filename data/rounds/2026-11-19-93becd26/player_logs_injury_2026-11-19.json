@@ -1,0 +1,1341 @@
+{
+ "schema": "nba3.rounds.player_logs_injury/v1",
+ "what": "One row for every player listed on the newest official NBA injury report at capture time (11/19/26 02:15 AM ET): the report's own fields plus that player's most-recent completed game log (minutes, points, rebounds, assists or the printed DND/inactive reason) and the opponent, read from the official box-score game book of the team's last completed game.",
+ "report_revision": "11/19/26 02:15 AM",
+ "report_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf",
+ "report_index_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+ "previous_revision": "11/19/26 02:00 AM",
+ "previous_report_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_00AM.pdf",
+ "retrieval_window_utc": "2026-11-19T07:22Z-07:42Z",
+ "retrieval_note": "window of the capture round, not a per-call stamp (flagged F-93-05)",
+ "consecutive_diff": {
+  "from_revision": "11/19/26 02:00 AM",
+  "to_revision": "11/19/26 02:15 AM",
+  "added": [],
+  "removed": [],
+  "changed": [],
+  "identical": true
+ },
+ "recent_game_selection": {
+  "rule": "a team's most recent completed game before the report; none of the four teams with attributed report players appears among the twelve finals printed on the official 2026-11-18 schedule page, and each game book header itself prints Tuesday, November 17, 2026",
+  "schedule_url": "https://www.nba.com/schedule?date=2026-11-18",
+  "schedule_absent_check_ok": true,
+  "games": [
+   {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "header_date_printed": "Tuesday, November 17, 2026 Target Center, Minneapolis, MN",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf"
+   },
+   {
+    "date": "2026-11-17",
+    "away": "DET",
+    "home": "SAS",
+    "header_date_printed": "Tuesday, November 17, 2026 Frost Bank Center, San Antonio, TX",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf"
+   },
+   {
+    "date": "2026-11-17",
+    "away": "UTA",
+    "home": "LAC",
+    "header_date_printed": "Tuesday, November 17, 2026 Intuit Dome, Inglewood, CA",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf"
+   }
+  ]
+ },
+ "games": [
+  {
+   "date": "2026-11-17",
+   "away": "POR",
+   "home": "MIN",
+   "game_id": "0022600254",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+   "header_date_printed": "Tuesday, November 17, 2026 Target Center, Minneapolis, MN",
+   "teams": {
+    "POR": {
+     "club_printed": "Portland Trail Blazers",
+     "total_pts": 105,
+     "minutes_sum": 240.0,
+     "minutes_ok": true,
+     "played_rows": 10,
+     "inactive": [
+      {
+       "surname_printed": "Krej\u010d\u00ed",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Ankle Fracture"
+      },
+      {
+       "surname_printed": "Morant",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Hamstring Strain"
+      },
+      {
+       "surname_printed": "Sharpe",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Meniscus Surgery"
+      },
+      {
+       "surname_printed": "Youngblood",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Heel Contusion / Bone Bruise"
+      }
+     ],
+     "row_notes": []
+    },
+    "MIN": {
+     "club_printed": "MINNESOTA TIMBERWOLVES",
+     "total_pts": 106,
+     "minutes_sum": 240.0,
+     "minutes_ok": true,
+     "played_rows": 9,
+     "inactive": [
+      {
+       "surname_printed": "Broome",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Clark",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Hamstring Strain"
+      },
+      {
+       "surname_printed": "DiVincenzo",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery"
+      },
+      {
+       "surname_printed": "Edwards",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Knee Arthroscopy"
+      },
+      {
+       "surname_printed": "Pullin",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Quadriceps Contusion"
+      }
+     ],
+     "row_notes": []
+    }
+   },
+   "periods": {
+    "POR": {
+     "label_printed": "Trail Blazers",
+     "quarters": [
+      17,
+      31,
+      31,
+      26
+     ],
+     "final": 105
+    },
+    "MIN": {
+     "label_printed": "TIMBERWOLVES",
+     "quarters": [
+      29,
+      20,
+      30,
+      27
+     ],
+     "final": 106
+    }
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "away": "DET",
+   "home": "SAS",
+   "game_id": "0022600255",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+   "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+   "header_date_printed": "Tuesday, November 17, 2026 Frost Bank Center, San Antonio, TX",
+   "teams": {
+    "DET": {
+     "club_printed": "Detroit Pistons",
+     "total_pts": 105,
+     "minutes_sum": 239.999,
+     "minutes_ok": true,
+     "played_rows": 9,
+     "inactive": [
+      {
+       "surname_printed": "Duren",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Hamstring Strain"
+      },
+      {
+       "surname_printed": "Holland II",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Knee Contusion / Bone Bruise"
+      },
+      {
+       "surname_printed": "Joe",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Hip Contusion"
+      },
+      {
+       "surname_printed": "Okorie",
+       "kind": "inactive",
+       "printed_reason": "G League - On Assignment"
+      },
+      {
+       "surname_printed": "Onyenso",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Prince",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Knee Soreness"
+      },
+      {
+       "surname_printed": "Robinson",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Quadriceps Strain"
+      }
+     ],
+     "row_notes": [
+      "Elijah Harkless: printed row fails PTS=2*FG+3P+FT or TOT=OR+DR (fg=0,3p=0,ft=0,pts=0,oreb=0,dreb=0,treb=1)"
+     ]
+    },
+    "SAS": {
+     "club_printed": "SAN ANTONIO SPURS",
+     "total_pts": 93,
+     "minutes_sum": 240.0,
+     "minutes_ok": true,
+     "played_rows": 10,
+     "inactive": [
+      {
+       "surname_printed": "Brown",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Gillespie",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Harris",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Calf Strain"
+      },
+      {
+       "surname_printed": "Jones Garcia",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Quaintance",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Knee Surgery"
+      }
+     ],
+     "row_notes": []
+    }
+   },
+   "periods": {
+    "DET": {
+     "label_printed": "Pistons",
+     "quarters": [
+      26,
+      29,
+      23,
+      27
+     ],
+     "final": 105
+    },
+    "SAS": {
+     "label_printed": "SPURS",
+     "quarters": [
+      33,
+      21,
+      18,
+      21
+     ],
+     "final": 93
+    }
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "away": "UTA",
+   "home": "LAC",
+   "game_id": "0022600257",
+   "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf",
+   "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
+   "header_date_printed": "Tuesday, November 17, 2026 Intuit Dome, Inglewood, CA",
+   "teams": {
+    "UTA": {
+     "club_printed": "Utah Jazz",
+     "total_pts": 132,
+     "minutes_sum": 239.999,
+     "minutes_ok": true,
+     "played_rows": 9,
+     "inactive": [
+      {
+       "surname_printed": "Bufkin",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Hayes",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Knee Strain"
+      },
+      {
+       "surname_printed": "Ingram",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      },
+      {
+       "surname_printed": "Jackson Jr.",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right MCL Tear"
+      },
+      {
+       "surname_printed": "Markkanen",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Hand Fracture"
+      },
+      {
+       "surname_printed": "Nurki\u0107",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Foot; 2nd Plantar Plate Tear"
+      }
+     ],
+     "row_notes": []
+    },
+    "LAC": {
+     "club_printed": "LA CLIPPERS",
+     "total_pts": 107,
+     "minutes_sum": 240.003,
+     "minutes_ok": true,
+     "played_rows": 13,
+     "inactive": [
+      {
+       "surname_printed": "Beal",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Knee Injury Management"
+      },
+      {
+       "surname_printed": "Ingram",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Heel Surgery"
+      },
+      {
+       "surname_printed": "Miller",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Left Rotator Cuff Surgery"
+      },
+      {
+       "surname_printed": "Niederh\u00e4user",
+       "kind": "inactive",
+       "printed_reason": "Injury/Illness - Right Lisfranc Surgery"
+      },
+      {
+       "surname_printed": "Pickett",
+       "kind": "inactive",
+       "printed_reason": "G League - Two-Way"
+      }
+     ],
+     "row_notes": []
+    }
+   },
+   "periods": {
+    "UTA": {
+     "label_printed": "Jazz",
+     "quarters": [
+      35,
+      23,
+      30,
+      44
+     ],
+     "final": 132
+    },
+    "LAC": {
+     "label_printed": "CLIPPERS",
+     "quarters": [
+      29,
+      33,
+      24,
+      21
+     ],
+     "final": 107
+    }
+   }
+  }
+ ],
+ "finals_crosscheck_vs_merged_capture": [
+  {
+   "game_id": "0022600254",
+   "printed": {
+    "POR": 105,
+    "MIN": 106
+   },
+   "merged_final": {
+    "away_pts": 105,
+    "home_pts": 106
+   },
+   "match": true
+  },
+  {
+   "game_id": "0022600255",
+   "printed": {
+    "DET": 105,
+    "SAS": 93
+   },
+   "merged_final": {
+    "away_pts": 105,
+    "home_pts": 93
+   },
+   "match": true
+  },
+  {
+   "game_id": "0022600257",
+   "printed": {
+    "UTA": 132,
+    "LAC": 107
+   },
+   "merged_final": {
+    "away_pts": 132,
+    "home_pts": 107
+   },
+   "match": true
+  }
+ ],
+ "rows": [
+  {
+   "player": "Beal, Bradley",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "LA Clippers",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Knee Injury Management"
+   },
+   "team": "LAC",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "UTA",
+    "home": "LAC",
+    "opponent": "UTA",
+    "game_id": "0022600257",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf",
+    "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Knee Injury Management"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Ingram, Brandon",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "LA Clippers",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Heel Surgery"
+   },
+   "team": "LAC",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "UTA",
+    "home": "LAC",
+    "opponent": "UTA",
+    "game_id": "0022600257",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf",
+    "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Heel Surgery"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Martinelli, Nick",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "LA Clippers",
+    "status": "Out",
+    "reason": "G League - Two-Way"
+   },
+   "team": "LAC",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "UTA",
+    "home": "LAC",
+    "opponent": "UTA",
+    "game_id": "0022600257",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf",
+    "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
+    "kind": "played",
+    "min_mmss": "04:22",
+    "min_decimal": 4.367,
+    "pts": 0,
+    "reb": 1,
+    "ast": 0,
+    "printed_reason": null,
+    "scoring_identity_ok": true,
+    "reb_identity_ok": true
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": false
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Miller, Jordan",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "LA Clippers",
+    "status": "Out",
+    "reason": "Injury/Illness - Left Rotator Cuff Surgery"
+   },
+   "team": "LAC",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "UTA",
+    "home": "LAC",
+    "opponent": "UTA",
+    "game_id": "0022600257",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf",
+    "game_url": "https://www.nba.com/game/uta-vs-lac-0022600257",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Left Rotator Cuff Surgery"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Brown, Maliq",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "San Antonio Spurs",
+    "status": "Out",
+    "reason": "G League - Two-Way"
+   },
+   "team": "SAS",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "DET",
+    "home": "SAS",
+    "opponent": "DET",
+    "game_id": "0022600255",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+    "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "G League - Two-Way"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Gillespie, Ja'Kobi",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "San Antonio Spurs",
+    "status": "Out",
+    "reason": "G League - Two-Way"
+   },
+   "team": "SAS",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "DET",
+    "home": "SAS",
+    "opponent": "DET",
+    "game_id": "0022600255",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+    "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "G League - Two-Way"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Harper, Dylan",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "San Antonio Spurs",
+    "status": "Out",
+    "reason": "Injury/Illness - Left Hip Soreness"
+   },
+   "team": "SAS",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "DET",
+    "home": "SAS",
+    "opponent": "DET",
+    "game_id": "0022600255",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+    "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+    "kind": "played",
+    "min_mmss": "34:32",
+    "min_decimal": 34.533,
+    "pts": 20,
+    "reb": 4,
+    "ast": 2,
+    "printed_reason": null,
+    "scoring_identity_ok": true,
+    "reb_identity_ok": true
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": false
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Harris, Tobias",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "San Antonio Spurs",
+    "status": "Out",
+    "reason": "Injury/Illness - Left Calf Strain"
+   },
+   "team": "SAS",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "DET",
+    "home": "SAS",
+    "opponent": "DET",
+    "game_id": "0022600255",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+    "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Left Calf Strain"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Quaintance, Jayden",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "LAC@SAS",
+    "team_printed": "San Antonio Spurs",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Knee Surgery"
+   },
+   "team": "SAS",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "DET",
+    "home": "SAS",
+    "opponent": "DET",
+    "game_id": "0022600255",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+    "game_url": "https://www.nba.com/game/det-vs-sas-0022600255",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Knee Surgery"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Beringer, Joan",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "NYK@MIN",
+    "team_printed": "Minnesota Timberwolves",
+    "status": "Available",
+    "reason": "Injury/Illness - Face Mask"
+   },
+   "team": "MIN",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "POR",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "played",
+    "min_mmss": "25:30",
+    "min_decimal": 25.5,
+    "pts": 3,
+    "reb": 13,
+    "ast": 0,
+    "printed_reason": null,
+    "scoring_identity_ok": true,
+    "reb_identity_ok": true
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": false
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Clark, Jaylen",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "NYK@MIN",
+    "team_printed": "Minnesota Timberwolves",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Hamstring Strain"
+   },
+   "team": "MIN",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "POR",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Hamstring Strain"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "DiVincenzo, Donte",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "NYK@MIN",
+    "team_printed": "Minnesota Timberwolves",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery"
+   },
+   "team": "MIN",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "POR",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Achilles Tendon Repair / Surgery"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Edwards, Anthony",
+   "report": {
+    "game_date": "11/19/2026",
+    "game_time": "08:00 (ET)",
+    "matchup": "NYK@MIN",
+    "team_printed": "Minnesota Timberwolves",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Knee Arthroscopy"
+   },
+   "team": "MIN",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "POR",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Knee Arthroscopy"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Kuminga, Jonathan",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "",
+    "team_printed": "",
+    "status": "Questionable",
+    "reason": "Injury/Illness - Right Shoulder Contusion"
+   },
+   "team": "MIN",
+   "team_source": "gamebook",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "POR",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "dnd",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Shoulder Contusion"
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-01: the report row prints no Team/Matchup (page-break layout); team and game below come only from the official game book line that prints this player name with the identical printed reason"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Pullin, Zyon",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "",
+    "team_printed": "",
+    "status": "Questionable",
+    "reason": "Injury/Illness - Right Quadriceps Contusion"
+   },
+   "team": "MIN",
+   "team_source": "gamebook",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "POR",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Quadriceps Contusion"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-01: the report row prints no Team/Matchup (page-break layout); team and game below come only from the official game book line that prints this player name with the identical printed reason",
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Avdija, Deni",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Questionable",
+    "reason": "Injury/Illness - Left Foot Inflammation / Soreness"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "dnd",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Left Foot Inflammation / Soreness"
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": true
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Camara, Toumani",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Questionable",
+    "reason": "Injury/Illness - Abdominal Soreness"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "played",
+    "min_mmss": "32:53",
+    "min_decimal": 32.883,
+    "pts": 10,
+    "reb": 8,
+    "ast": 1,
+    "printed_reason": null,
+    "scoring_identity_ok": true,
+    "reb_identity_ok": true
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": false
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Carlson, Branden",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Available",
+    "reason": "Injury/Illness - Face Mask"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "played",
+    "min_mmss": "14:24",
+    "min_decimal": 14.4,
+    "pts": 6,
+    "reb": 1,
+    "ast": 0,
+    "printed_reason": null,
+    "scoring_identity_ok": true,
+    "reb_identity_ok": true
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": false
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Krejci, Vit",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Out",
+    "reason": "Injury/Illness - Left Ankle Fracture"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Left Ankle Fracture"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)",
+    "F-93-06: the game book prints the surname as 'Krej\u010d\u00ed' (diacritic) while the report prints 'Krejci'; matched on identical printed reason (Left Ankle Fracture)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Morant, Ja",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Out",
+    "reason": "Injury/Illness - Left Hamstring Strain"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Left Hamstring Strain"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Sharpe, Shaedon",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Meniscus Surgery"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Meniscus Surgery"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Williams III, Robert",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Out",
+    "reason": "Rest"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "played",
+    "min_mmss": "15:34",
+    "min_decimal": 15.567,
+    "pts": 6,
+    "reb": 8,
+    "ast": 4,
+    "printed_reason": null,
+    "scoring_identity_ok": true,
+    "reb_identity_ok": true
+   },
+   "match": {
+    "method": "roster_full_name",
+    "surname_only": false,
+    "reason_checked": false
+   },
+   "flags": [],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  },
+  {
+   "player": "Youngblood, Chris",
+   "report": {
+    "game_date": "",
+    "game_time": "",
+    "matchup": "POR@MIL",
+    "team_printed": "Portland Trail Blazers",
+    "status": "Out",
+    "reason": "Injury/Illness - Right Heel Contusion / Bone Bruise"
+   },
+   "team": "POR",
+   "team_source": "report",
+   "game_log": {
+    "date": "2026-11-17",
+    "away": "POR",
+    "home": "MIN",
+    "opponent": "MIN",
+    "game_id": "0022600254",
+    "gamebook_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+    "game_url": "https://www.nba.com/game/por-vs-min-0022600254",
+    "kind": "inactive",
+    "min_mmss": null,
+    "min_decimal": null,
+    "pts": null,
+    "reb": null,
+    "ast": null,
+    "printed_reason": "Injury/Illness - Right Heel Contusion / Bone Bruise"
+   },
+   "match": {
+    "method": "inactive_surname",
+    "surname_only": true,
+    "reason_checked": true
+   },
+   "flags": [
+    "F-93-02: matched on surname + identical printed reason (the game book's inactive line prints the surname only)"
+   ],
+   "sources": {
+    "injury_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_02_15AM.pdf"
+   }
+  }
+ ],
+ "counts": {
+  "report_player_rows": 23,
+  "team_printed": 21,
+  "team_blank_on_report": 2,
+  "log_played": 6,
+  "log_dnd": 2,
+  "log_inactive": 15,
+  "unmatched": 0
+ },
+ "problems": [],
+ "row_count": 23
+}
