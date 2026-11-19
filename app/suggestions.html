@@ -644,6 +644,61 @@ questions</a> page.</p>
 <td>implemented (session arena/4054e125-nba3)</td>
 <td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
 </tr>
+<tr>
+<td>915D-S-01</td>
+<td>Deploy safety</td>
+<td>Take offline replays out of the deploy job: pages.yml should not run any script that writes into data/ (the 11/16 replay used to overwrite the published results feed on every build).</td>
+<td>That one step is why the live results page sat three days behind the repository: the replay rebuilt its own 11/12-15 window and replaced the file, deleting every day promoted afterwards (915D-F-03). It now merges and honours NBA3_FEED_OUT, but a build that can mutate published data is the wrong shape even when it behaves.</td>
+<td>A: keep the replay in pages.yml read-only (today&#x27;s state); B: move it to refresh.yml/CI as a check and let pages.yml only build; C: delete it, since the round artefacts it reproduces are committed</td>
+<td>B — reproducibility checks belong in CI, where a failure blocks a merge rather than a deploy</td>
+<td>tests/test_finals_1115_settlement.py already pins the read-only behaviour via NBA3_FEED_OUT</td>
+<td>open — owner decision on where the replay lives</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/pages.yml</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_round_79341829.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/capture_round_79341829.py</a></td>
+</tr>
+<tr>
+<td>915D-S-02</td>
+<td>Promoter design</td>
+<td>Standardise a promoter contract across rounds: --summary prints the parse, --check re-parses the committed transcripts and byte-compares every artefact, and every transcript&#x27;s sha256 is re-verified against the round manifest.</td>
+<td>It is what made this round self-checking: scripts/roll_915d2e99.py --check catches a lost card, a re-typed transcript and a hand-edited artefact with one command, and it lets tests/test_refresh_official.py verify a round-promoted slate with that round&#x27;s own tooling instead of comparing it to an unrelated CI capture.</td>
+<td>A: copy the roll_915d2e99 pattern into the other promoters; B: factor it into a shared scripts/promoter.py base with the transcript-hash and byte-compare helpers</td>
+<td>B — one shared helper means the guarantee cannot drift between rounds</td>
+<td>none; each promoter keeps its own parser</td>
+<td>open — suggestion for the next round that writes a promoter</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/roll_915d2e99.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/roll_915d2e99.py</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/915d2e99_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/915d2e99_manifest.json</a></td>
+</tr>
+<tr>
+<td>915D-S-03</td>
+<td>Results table</td>
+<td>Print the official-read count on every results row (&#x27;2 official reads&#x27; / &#x27;1 read — single source&#x27;), so the difference between a corroborated final and a lone one is visible in the table rather than only in cross_checks inside the JSON.</td>
+<td>This round produced 22 two-read games and one one-read game (GSW@NOP 2026-11-16, whose corroboration fell past the chunk boundary). The data already says so — read_count and read_note are on the row — but a reader of the page cannot see it, and the site&#x27;s rule is that each row shows its own provenance.</td>
+<td>A: a narrow &#x27;reads&#x27; column; B: a chip inside the existing source cell; C: leave it in JSON only</td>
+<td>A — a column sorts and filters, a chip does not</td>
+<td>scripts/build_app.py results table; data is already in data/app/results_feed.json rows</td>
+<td>open</td>
+<td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_results_2026-11-16.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_results_2026-11-16.json</a></td>
+</tr>
+<tr>
+<td>915D-S-04</td>
+<td>Capture integrity</td>
+<td>Move the count assertion into the capture step: every transcript must record the game count the official page prints on its own month strip, and the promoter must fail if the parsed card count disagrees — before any artefact is written.</td>
+<td>It is the rule that caught this round&#x27;s dropped value: a hand-transcribed card loses a field silently, but &#x27;page says 12, I parsed 11&#x27; cannot pass. roll_915d2e99.py already does this against STRIP_COUNT; making the transcript carry the strip line as data (not as a comment) lets any promoter and CI reuse it.</td>
+<td>A: keep the strip line in the header comment (today); B: parse it as a field and assert in the fetch step, so CI names the day that is short</td>
+<td>B — a short capture should fail where it happens, not two steps later</td>
+<td>scripts/refresh_official.py&#x27;s fetch step writes the transcripts</td>
+<td>open</td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/raw915/games_2026-11-18.md" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/raw915/games_2026-11-18.md</a></td>
+</tr>
+<tr>
+<td>915D-S-05</td>
+<td>Ledger ergonomics</td>
+<td>Add `pick_ledger.py open`, printing every unsettled pick with the reason it is blocked (no settled feed row / no verified final / game day incomplete), instead of requiring a JSON read.</td>
+<td>Finding this round&#x27;s two unsettled 2026-11-16 picks meant diffing published pick_ids against settled ones in a one-off script. The answer — &#x27;the feed has no row for 0022600250/0022600252 because that chunk was never retrieved&#x27; — is already known to the repository; it should be printed, not derived.</td>
+<td>A: a read-only subcommand on pick_ledger.py; B: a section on the settlement page generated from the same query</td>
+<td>A first (it is a debugging tool before it is a page), then B once the wording is stable</td>
+<td>reads only committed artefacts; no new data</td>
+<td>open</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">
