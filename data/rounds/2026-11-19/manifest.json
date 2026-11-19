@@ -1,0 +1,70 @@
+{
+ "schema": "b1ce1334.manifest.v1",
+ "session": "arena/b1ce1334-nba3",
+ "captured_for": "2026-11-19 (America/New_York local date of capture: 2026-11-19 00:44 ET)",
+ "how_captured": "fetch_page tool against the official URLs below. The tool returns parsed text, not PDF bytes, so the stored artefacts are verbatim transcripts of the parsed text, not the PDF binaries. The bash sandbox cannot reach ak-static.cms.nba.com or www.nba.com, so no byte-level hash of the PDF exists.",
+ "retrieval_window_utc": {
+  "start": "2026-11-19T05:44:01Z",
+  "end": "2026-11-19T05:50Z",
+  "note": "fetch_page does not return a per-call timestamp. The start is the bash clock reading taken before the first fetch; the end is the claim commit time."
+ },
+ "sources": [
+  {
+   "id": "S1",
+   "name": "NBA Official injury-report index (2026-27)",
+   "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+   "lists": [
+    "Injury-Report_2026-11-19_12_00AM.pdf",
+    "Injury-Report_2026-11-19_12_15AM.pdf",
+    "Injury-Report_2026-11-19_12_30AM.pdf"
+   ]
+  },
+  {
+   "id": "S2",
+   "name": "Injury report 11/19/26 12:00 AM ET",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_00AM.pdf",
+   "revision_time_printed": "12:00 AM ET (11/19/26)"
+  },
+  {
+   "id": "S3",
+   "name": "Injury report 11/19/26 12:15 AM ET",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_15AM.pdf",
+   "revision_time_printed": "12:15 AM ET (11/19/26)"
+  },
+  {
+   "id": "S4",
+   "name": "Injury report 11/19/26 12:30 AM ET",
+   "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf",
+   "revision_time_printed": "12:30 AM ET (11/19/26)"
+  },
+  {
+   "id": "S5",
+   "name": "NBA.com schedule, Week 5 (Nov 16-22), Wed Nov 18 finals",
+   "url": "https://www.nba.com/schedule?date=2026-11-19"
+  },
+  {
+   "id": "S6",
+   "name": "NBA.com game page: Grizzlies vs Cavaliers, Nov 18 2026 (header shows MEM 124 Final 121 CLE)",
+   "url": "https://www.nba.com/game/mem-vs-cle-0022600258"
+  },
+  {
+   "id": "S7",
+   "name": "NBA.com game box-score page: Grizzlies vs Cavaliers, Nov 18 2026",
+   "url": "https://www.nba.com/game/mem-vs-cle-0022600258/box-score"
+  }
+ ],
+ "sha256": {
+  "data/rounds/2026-11-19/raw/injury_2026-11-19_1200AM_raw.md": "464703002fb7d0ad1fc84cc669d780c5be41f4ca4f268bc4b68580d4d3d51f59",
+  "data/rounds/2026-11-19/raw/injury_2026-11-19_1215AM_raw.md": "8e837066b234f86c25eff36b9ac0af927076c764473c66b43c81e4d78efd107e",
+  "data/rounds/2026-11-19/raw/injury_2026-11-19_1230AM_raw.md": "0d88c9100c131cda8135a2d3735a6c794b56de1621a6044789718d81d8ccfa96",
+  "data/rounds/2026-11-19/results_2026-11-18.json": "d0b80610fc4ab07ef34d39c46e8a1bab45f07feb5513b2cdd17c181c70eab632",
+  "data/rounds/2026-11-19/slate_2026-11-19_22.json": "f6377116acdb5b4197fbbaf71ef86c7cf7e1e757a1481c4d2887d22527bec077"
+ },
+ "not_fetched": [
+  "Quarter-by-quarter line scores for the 12 Nov 18 games",
+  "Player game logs",
+  "Team stat pages (traditional, opponent, advanced)",
+  "Standings",
+  "CDN schedule JSON (cdn.nba.com/static/json/staticData/scheduleLeagueV2.json returned HTTP 500 to the fetch tool)"
+ ]
+}

@@ -6183,3 +6183,67 @@ Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) rec
 - Repaired [PR #139](https://github.com/wingbangboozle1-lang/NBA3/pull/139)'s malformed description using the GitHub REST API with a body loaded from a file; verified the rendered body and links via `gh pr view`.
 - PR validation run [44105992265](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44105992265) completed successfully: the Pages `build` job passed, including the 2026-11-17 round replay and site checks. `deploy` was skipped for this pull-request event (not a failed deployment).
 - The PR description and build explicitly keep EVE-F04 unresolved. No diagnostic artifact or passing scheduled hosted refresh has established the cause of the earlier gamebooks mismatch; the scheduled refresh dispatch remains blocked by HTTP 403. Keep the review flag and CR-5BA-01 request active.
+
+---
+
+## Session `arena/b1ce1334-nba3` — CLAIM (2026-11-19 ~05:50 UTC)
+
+Session ID: `b1ce1334`. Branch fixed by the workspace: `arena/b1ce1334-nba3` (base `2addcad` = `main` #139). Pushed before work began.
+
+Scope is deliberately bounded to what this session can verify from official sources in one pass. Every other item in the brief stays **unclaimed** below for a later session (no silent overlap with the 60+ prior claims).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| B1-1 Diagnose the red scheduled refresh (unit-test step fails on the hosted runner; logs unreachable). Take over stale EVE-F04 (`5ba4892c`, `needs review`, no commits since 2026-11-17). Add an artifact upload of the unit-test output so the next red run is diagnosable. No change to the gates. | needs review | b1ce1334 | `.github/workflows/refresh.yml` (one step + one upload) |
+| B1-2 Official 11/19 injury reports 12:00 / 12:15 / 12:30 AM ET: verbatim transcripts, retrieval UTC stamps, sha256, consecutive-report diff of status changes | done | b1ce1334 | `data/rounds/2026-11-19/**`, `scripts/capture_b1ce1334.py`, `tests/test_b1ce1334.py` |
+| B1-3 Per-game result feed for 11/18 (12 games, final scores from the official schedule page). Quarter scores **not captured** → left blank, flagged | done | b1ce1334 | `data/rounds/2026-11-19/results_2026-11-18.json` |
+| B1-4 Rolling slate 11/19–11/22 from the official schedule (game list + ET tip times) | done | b1ce1334 | `data/rounds/2026-11-19/slate_2026-11-19_22.json` |
+| B1-5 Subsite `/b1ce1334/`: landing, Injuries (banner = revision time + retrieval time), Results, Slate, Flagged for Review; every row has an official link | done | b1ce1334 | `b1ce1334/**`, `scripts/build_b1ce1334.py` |
+| B1-6 CI wiring: one build/check step + one `cp -r` line in the Pages workflow | done | b1ce1334 | `.github/workflows/pages.yml` (append-only) |
+| B1-7 PR → `main` → merge → confirm GitHub Pages deploy; record here | in progress | b1ce1334 | `COORDINATION.md`, PR |
+
+Not claimed by this session (open, unclaimed for later sessions): pre-registration per strategy, sealed ledger publication for 11/19+ slates, two-estimator model + HCA pin + luck z, minutes redistribution, parlay rho pricing, market prior, player game logs, travel table, executive summary / questions / suggestions refresh. These depend on pieces not reachable from this sandbox in one pass (see flags below).
+
+### Session b1ce1334 — completion record (2026-11-19, written before PR/merge)
+
+**Scope done.** B1-2 to B1-6 are done. B1-1 is `needs review`: a diagnostic was added, but the root cause of the red scheduled run is not established. B1-7 (PR, merge, Pages deploy) is recorded below after the merge.
+
+**B1-1 — refresh diagnosis (evidence, not guesses).**
+- Scheduled runs on `main` that failed: [44424736929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929) (2026-11-18 23:55 UTC, the newest), plus 44364543697, 44300142112, 44249179843, 44203349676, 44143781953 (GitHub API, job `refresh`).
+- Step conclusions for 44424736929 (API): Self-diagnosis success; **Unit tests against the committed tree = failure**; fetch, capture integrity, freshness gates, model/ledger/site and commit all **skipped**. The job therefore never fetched or rebuilt anything.
+- Run logs cannot be downloaded from this sandbox (`results-receiver.actions.githubusercontent.com` returns EOF; reproduced with `gh run view --log-failed`). Manual dispatch is still refused (HTTP 403, as recorded by 5ba4892c).
+- Local reproduction: all nine suites from the workflow pass on the current tree (`test_*1115*`: 33 tests; `test_refresh_official`: 27; `test_round_2ecbccfd`: 37; others OK). The same nine suites also pass on a **fresh clone of `origin/main` @ 2addcad**. Under a shifted clock (`FAKE_NOW` = 2026-11-18T23:55Z and 23:15Z, via a `sitecustomize` shim) they also pass. The hosted runner uses Python 3.12 (`ubuntu-latest`); this sandbox has 3.11, and a 3.12 interpreter could not be fetched (python-build-standalone download blocked). **The 3.11 vs 3.12 difference is one candidate cause that could not be excluded here; it is not confirmed.**
+- Change made (`.github/workflows/refresh.yml`, unit-test step only): each suite's full output is saved under `$RUNNER_TEMP/unit-logs` and tee'd to the console; each failing test name is repeated as a `::error::` annotation; the logs are uploaded as artifact `unit-test-logs-<run_id>` on failure. The gate is unchanged (any failing suite still fails the step). The step was run locally with `RUNNER_TEMP` set: rc=0, nine logs written. **Next scheduled run will show the failing test names if the failure recurs.**
+- Takeover note: EVE-F04 (session `5ba4892c`, `needs review`) had no commits after 2026-11-17; this session took over the diagnosis under its own B1-1 claim.
+
+**B1-2 — official 11/19 injury reports (12:00, 12:15, 12:30 AM ET).** Sources: [official index](https://official.nba.com/nba-injury-report-2026-27-season/) (lists the three 11/19 reports), [12:00](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_00AM.pdf), [12:15](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_15AM.pdf), [12:30](https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf).
+- Stored: verbatim transcripts `data/rounds/2026-11-19/raw/*.md` with sha256 in `manifest.json`. Parsed rows, unread lines and the consecutive-report diff: `injury_parsed.json`, `injury_delta.json`.
+- Result: 23 player rows per revision (13 at LAC@SAS and NYK@MIN; 8 at POR@MIL; 2 unattributed). **Zero cleanly parsed status changes** between 12:00→12:15 and 12:15→12:30. Verbatim line diff: 5 and 17 lines differ, all of them titles, separators and the layout-broken block.
+- Limits: the fetch tool returns parsed text, not PDF bytes, so no PDF binary exists in the repo. 11 to 13 lines per revision (the Brooklyn–Lakers block) are layout-broken and received no status.
+
+**B1-3 — 11/18 finals (12 games).** Source: [official schedule page](https://www.nba.com/schedule?date=2026-11-19) (all 12 printed Final with scores). Game 0022600258 is also checked on its [game page](https://www.nba.com/game/mem-vs-cle-0022600258) and [box-score page](https://www.nba.com/game/mem-vs-cle-0022600258/box-score) (MEM 124 Final 121 CLE). Quarter scores **not captured** (UNVERIFIED, blank).
+
+**B1-4 — slate 11/19–11/22.** 26 games: 4 (11/19; the page prints "4 Games", matching), 9 (11/20), 6 (11/21), 7 (11/22). Source: [schedule](https://www.nba.com/schedule?date=2026-11-19) and the game-page listing [mem-vs-cle-0022600258](https://www.nba.com/game/mem-vs-cle-0022600258). Cross-check: the 7 matchups read from the parsed 12:00 AM rows all appear in the slate with the same away@home order. The 6 matchups that sit only in the unreadable block (TOR@DET, NOP@OKC, WAS@CHI, PHX@UTA, HOU@DEN, SAC@LAL) were **not** cross-checked.
+
+**B1-5 — subsite `b1ce1334/`** (built by `scripts/build_b1ce1334.py` from the JSON above): landing, Injuries (banner = revision time 12:30 AM ET and retrieval window), Results, Slate, Flagged for Review (11 items, each with a source link). The check confirms every table row has an https link and no broken internal link (70 + 12 + 26 + 11 rows).
+
+**B1-6 — CI.** `.github/workflows/pages.yml`: one step (`capture_b1ce1334.py --check`, `build_b1ce1334.py --check`, `tests/test_b1ce1334.py`) placed before staging, plus one `cp -r b1ce1334 _pages/b1ce1334` line. Both files parse (PyYAML). The full local suite (`python3 -m unittest discover -s tests`) returns rc=0, and the working tree contains only this session's changes.
+
+**Verification performed.** 16 unit tests (`tests/test_b1ce1334.py`); the capture check (checksums, counts, 12 finals, 26 slate rows, printed counts); the site check (link targets, source link per row, committed pages equal the build).
+
+**Irregularities (also on the subsite's Flagged page).**
+1. Quarter scores missing for 12 of 12 finals (UNVERIFIED).
+2. Only 1 of 12 finals is on a second official page.
+3. Kuminga, Jonathan and Pullin, Zyon: no team printed on the page-break rows, so they are UNATTRIBUTED. Not inferred.
+4. The PDF game-time column prints `08:00 (ET)` etc. where nba.com prints `8:00 PM ET`. Matchups agree.
+5. Game IDs 0022600043–0022600051 (11/20) are out of sequence; nba.com labels them NBA Cup group games.
+6. The CDN schedule JSON (`cdn.nba.com/static/json/staticData/scheduleLeagueV2.json`) returned HTTP 500 to the fetch tool.
+7. Venues printed for 2 of 26 slate games.
+8. Retrieval times are windows (05:44:01Z–05:50Z), not per-call stamps.
+
+**Change requests (log only; these files are owned by other sessions, so they were not edited).**
+- **CR-B1-01 (to the owners of `data/app/ledger` and `d1b96315/ledger`).** The chains hold **sealed 11/18 picks that are now gradeable** from the official finals above: 24 entries dated 2026-11-18 in `data/app/ledger/ledger.jsonl` and 25 in `d1b96315/ledger/ledger.jsonl`. Settlement was **not** run from this session, because it would append to chains this session does not own. Input for the settle step: `data/rounds/2026-11-19/results_2026-11-18.json` (finals verified; quarter scores UNVERIFIED, so any quarter-dependent grading must wait).
+- **CR-B1-02 (to `app/flagged.html` / `scripts/build_app.py` owners).** Add the B1-1 evidence above to EVE-F04: runs 44424736929 and the 5 earlier ones, the unit-test step as the failing step, and the new artifact. Keep EVE-F04 open until a hosted run shows the failing test names.
+- **CR-B1-03 (integration session).** Add a link to `/b1ce1334/` from the root landing page. This session did not touch shared navigation.
+
+**Open items for later sessions (unclaimed).** Quarter scores for 11/18 (3+ game-page chunks per game). Settlement of the 11/18 chains (CR-B1-01). Standings, team-stat pages, player game logs, travel, minutes, estimators, pre-registrations, parlays, market prior, and the executive summary / questions / suggestions refresh.
