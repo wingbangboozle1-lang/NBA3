@@ -68,7 +68,7 @@ jobs:
             done
             echo "SUITE_LOOP_FAIL=$fail"
             echo "--- this session's determinism suite ---"
-            res=$(python3 -m unittest tests/test_determinism_89e98007 -v 2>&1)
+            res=$(python3 -m unittest tests/test_determinism_89e98007.py -v 2>&1)
             echo "DETERMINISM rc=$? $(echo "$res" | grep -E '^(OK|FAILED|Ran )' | tr '\n' ' ')"
             echo "$res" | grep -E '^(FAIL|ERROR): ' | head -8
             echo "--- nothing in the tree may change by replaying the build ---"
