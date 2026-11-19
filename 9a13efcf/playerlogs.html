@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Player-log coverage — NBA3 verification audit</title><style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;
+background:#f6f7f9;color:#1a2233;line-height:1.5}
+header{background:#10263f;color:#fff;padding:22px 28px}
+header h1{margin:0 0 4px;font-size:22px}
+header p{margin:2px 0;opacity:.85;font-size:13px}
+nav{background:#fff;border-bottom:1px solid #d9dee6;padding:10px 28px;font-size:14px}
+nav a{margin-right:16px;color:#14508c;text-decoration:none}
+nav a:hover{text-decoration:underline}
+main{padding:22px 28px;max-width:1280px}
+h2{font-size:18px;margin:26px 0 10px}
+h3{font-size:15px;margin:18px 0 8px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13px;margin:10px 0}
+th{background:#eef2f7;text-align:left;padding:7px 9px;border:1px solid #d9dee6;position:sticky;top:0}
+td{padding:6px 9px;border:1px solid #e3e8ef;vertical-align:top}
+tr:nth-child(even){background:#fafbfd}
+.ok{color:#0a7a3d;font-weight:600}
+.bad{color:#b3261e;font-weight:600}
+.warn{color:#9a6700;font-weight:600}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:12px}
+.card{background:#fff;border:1px solid #d9dee6;border-radius:10px;padding:14px 18px;margin:12px 0}
+.muted{color:#5a6b82;font-size:12px}
+.flag{background:#fff8e6;border-left:4px solid #e0a800}
+ul{margin:6px 0 6px 20px}
+</style></head>
+<body><header><h1>Player-log coverage</h1>
+<p>Independent verification audit — session arena/9a13efcf-nba3 — 2026-11-19T07:30:00Z</p>
+<p>Every value on these pages was recomputed from committed captures by
+<code>scripts/build_9a13efcf.py</code> with its own maths. Values that cannot be confirmed
+against an official source are blank and flagged. Nothing is inferred.</p></header>
+<nav><a href='index.html'>Requirement coverage</a><a href='verification.html'>Recomputations</a><a href='travel.html'>Arena &amp; travel</a><a href='playerlogs.html'>Player-log coverage</a><a href='flagged.html'>Flagged for review</a><a href='sources.html'>Sources</a></nav><main>
+<div class="card"><b>Capture per-player game logs (minutes, points, rebounds, assists, and the opponent) for at least the players who appear on an injury report.</b></div>
+<div class="card">
+<p>84 player names parsed from the newest captured official injury report vs 108 names in the captured game logs / player-minutes tables; matched on (last, first-initial)</p>
+<table><tr><th>Injury-report players</th><th>Players with a captured log</th><th>Coverage</th></tr>
+<tr><td>84</td><td>10</td><td>11.9%</td></tr></table>
+<p><b>Status:</b> <span class="warn">PARTIAL — gap listed, not filled with guesses</span></p>
+<p class="muted">game logs exist for the 2026-11-15 captured game books (8 club-games) and the player-minutes tables for the teams their capture reached; the rest is a documented gap, not a fabricated row</p>
+<p class="muted">Source: <a href="https://official.nba.com/nba-injury-report-2026-27-season/">https://official.nba.com/nba-injury-report-2026-27-season/</a></p>
+</div></main></body></html>

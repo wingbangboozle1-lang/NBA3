@@ -6441,3 +6441,67 @@ Session ID: `9a13efcf`. Branch fixed by the workspace: `arena/9a13efcf-nba3` (ba
 **Not claimed here (respecting active owners):** the red scheduled-refresh diagnosis/fix (EVE-F04 / B1-1 / F1 family) is actively owned by `arena/915d2e99-nba3` (PR #143 open, its "Refresh-job parity battery" step is live work) — I will not edit `.github/workflows/refresh.yml` or `scripts/refresh_official.py`; any finding will be logged here as a change request. The 2026-11-19 data round, results feed, pick-ledger sealing, and questions/suggestions/flags registers are `arena/915d2e99-nba3`'s per PR #143. Shared generated trees (`index.html`, `app/`, `data/app/canonical.json`, `hub/`, `v2/`, `docs/`, `site/`, `pipeline/`) are not edited here — integration only. `arena/64d8f868-nba3`'s "refresh diagnosis (temporary)" claim has no commits since 05:48Z and is noted as stale-but-owned-by-915d2e99's current work; no takeover performed.
 
 Evidence I contribute (GitHub API annotations, read-only): scheduled run [44469939831](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831) (2026-11-19 06:08 UTC) failed at `test_committed_round_captures_replay_before_the_live_fetch` with subTest `(script='gamebooks_2ecbccfd.py')` — and PR #143's run 44471618213 annotations show that suite is green under another interpreter and red under the runner's **Python 3.14.4**. So the hosted failure is an interpreter-dependent `gamebooks_2ecbccfd.py --check` output difference (or crash), not a load/invocation problem: the suite loads, runs, and that subtest fails. Worth bisecting `parse_book/_name_from` and `json` output under 3.14 before assuming the runner is wrong. (Recorded for the refresh owner; not worked here.)
+
+### Completion record — session `9a13efcf` (2026-11-19, G1 + G2)
+
+| Task | Status | Evidence |
+|---|---|---|
+| G1 — line-by-line verification audit of every brief requirement | **done** (19 of 20 checks reproduce exactly; 1 documented gap) | `data/9a13efcf/audit.json`, `9a13efcf/` (6 pages), `scripts/build_9a13efcf.py`, `tests/test_9a13efcf.py` (20 tests) |
+| G2 — arena-coordinate provenance + travel recomputation | **done** (30/30 arenas match the cited source; distances reproduce) | `data/9a13efcf/arena_wikipedia_check.json`, `9a13efcf/travel.html` |
+
+**What was independently recomputed (own maths, different solvers on purpose — Gauss-Seidel vs
+the repo's elimination, 96-node Gauss-Legendre vs the repo's 2000-step midpoint copula):**
+home-court pin (99/188 = 0.526596 → 1.799461 pts, exact match); estimator A slate margins
+(all slate games, worst delta < 1e-3); estimator B totals = possessions x PPP (worst delta
+< 1e-6); per-team luck z (worst delta 0.0) and the standardized noise band (outside: MIL, UTA
+— matches); Pearson r + Fisher CI for both measured pairs (deltas < 4e-7); parlay naive
+product + copula price at the measured rho (deltas < 2e-6); rest/B2B/3-in-4/travel for every
+slate game and both sides (all agree at 0.15 km / exact-count tolerances); 3 prereg payload
+sha256s and their required fields (signal, thresholds, universe, settlement rule); both
+ledger chains entry-by-entry (v2 chain 13 entries incl. pre-tip publication; publish/settle
+chain 43 entries incl. settlement stamps); minutes top-8 + replacement shares for every team
+with a captured minutes table; results-feed row shape and settlement stamps; projection/bet
+surface separation; injuries banner (revision + retrieval time); rotation column; row-level
+source-link scan (865 rows: 0 external-value rows unsourced; 83 integrity/derived rows listed
+for review).
+
+**G2 — arena provenance (sources):** all 30 coordinates re-read 2026-11-19 from the Wikipedia
+GeoData API (`en.wikipedia.org/w/api.php?action=query&prop=coordinates&...`, the exact source
+`data/v2/arena_coordinates.json` cites): https://en.wikipedia.org/w/api.php — 30/30 match to
+1e-7. Tier stays SECONDARY (Wikipedia) as the table itself labels it; the NBA schedule supplies
+the venue names (https://www.nba.com/schedule). The PHX redirect (Footprint Center → Mortgage
+Matchup Center) is confirmed by the API resolving the new title.
+
+**Official sources read or cited by this audit:** NBA schedule https://www.nba.com/schedule ·
+injury index https://official.nba.com/nba-injury-report-2026-27-season/ · team stats
+(traditional/opponent/advanced) https://www.nba.com/stats/teams/... · player traditional
+https://www.nba.com/stats/players/traditional · Wikipedia GeoData (above) · Actions runs
+https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml (read-only evidence).
+No NBA value was copied from memory; every number on the audit pages is recomputed from
+committed captures or re-read from the linked page.
+
+**Irregularities published on `9a13efcf/flagged.html` (none blocks merge):**
+- 9A-F-01 (high) hosted scheduled refresh red since 11/17 — owned by `arena/915d2e99-nba3`
+  (PR #143); this session did not touch that code. Latest evidence kept on the board above.
+- 9A-F-02 (high) canonical results feed (23 rows) behind the committed 11/16–18 captures —
+  same fold-in request as CR-DD3-01; not rewritten here (shared output).
+- 9A-F-PLAYERLOGS (medium) per-player game-log coverage of injury-report players is
+  **10 of 84 (11.9%)** on the captured reports/logs — the brief's "at least the players who
+  appear on an injury report" is NOT met; the gap is measured and published, not filled.
+- 9A-F-03 (medium) player-minutes capture covers part of the league; minutes redistribution
+  publishes only for captured teams (correctly silent elsewhere).
+- 9A-F-04 (medium) quarter scores absent from settled result rows (blank + flagged).
+- 9A-F-05 (medium) market-anchored prior defined but not applied — no licensed closing line.
+- 9A-F-06 (low) estimator B's historical RMSE is snapshot-contaminated (repo's own FV2-06).
+
+**Verification performed on the audit itself:** 20 unit tests (`tests/test_9a13efcf.py`) check
+the auditor's maths against closed forms (Sheppard's Φ2(0,0;ρ) identity, Fisher CI, haversine
+NYC–BOS, ridge vs direct solve) and assert the committed artefact + pages reproduce byte for
+byte; `python3 -m unittest discover -s tests` = 347 OK; `pipeline/v2` suite = 45 OK;
+`scripts/build_9a13efcf.py --check` = OK; the pages step was added to `pages.yml` (append-only,
+one check step + two staging lines) and the workflow parses (PyYAML).
+
+**Recommendation logged (not implemented — shared surfaces):** integrity/derived rows on
+`bet/ledger.html`, `bet/prereg.html`, `v2/ledger.html`, `v2/gates.html` and the summary tables
+could carry the repo's accepted "no official link on this row" marker so a future strict scan
+can distinguish them mechanically (this audit classifies them explicitly instead).
