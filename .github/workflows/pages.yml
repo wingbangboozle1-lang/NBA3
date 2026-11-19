@@ -79,6 +79,17 @@ jobs:
             exit 1
           fi
           echo "No unresolved conflict markers."
+      - name: Refresh-job parity battery (runner system interpreter, report-only)
+        # The scheduled refresh job runs its unit-test step on the runner image's own python3,
+        # while this workflow pins 3.11 through setup-python. That difference is the one known
+        # environmental gap between a green pages build and the red refresh runs 43982186917 ->
+        # 44424736929, and no session could read it off because the log body is not retrievable
+        # from every environment. This step runs the same battery on /usr/bin/python3 and reports
+        # per-suite results (failures arrive as check annotations, which are retrievable), and it
+        # is deliberately report-only so an open interpreter-parity question cannot block Pages.
+        # Flip `continue-on-error` away once the parity battery is green there too, making it a gate.
+        continue-on-error: true
+        run: /usr/bin/python3 scripts/run_suite_battery.py --python /usr/bin/python3 --report-only
       - name: Unit tests (statistics module, f879620b)
         run: python3 -m unittest tests/test_validate_gates.py
       - name: Unit tests (injury-delta and capture-c cross-check rules, 8e199e09)
