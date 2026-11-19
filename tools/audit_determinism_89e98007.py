@@ -157,6 +157,18 @@ def main():
         "| `scripts/assemble_canonical.py` | `data/app/canonical.json` | none |",
         "| `scripts/injury_archive.py` | `data/app/injury_reports_archive/` | none |",
         "| `scripts/freshness_gates.py` | `data/live/freshness.json` | none (12/12 gates) |",
+        "| `scripts/round2_2026_11_16.py` | `data/rounds/2026-11-16-1300PM/model.json` | 6 fields, all "
+        "unrounded league aggregates: `.league.poss_per_game` 100.47153000000002 -> 100.47153, "
+        "`.league.off_rtg` 113.22000000000001 -> 113.22, `.league.pts` / `.league.efg_pct` / "
+        "`.league.tov_pct` / `.league.ts_pct` last-bit |",
+        "",
+        "The round2 row matters for a specific reason: it is the only one where the generator "
+        "publishes aggregates at full float precision, so the last bit is visible in the JSON. It is "
+        "covered by `tests/test_round2_2026_11_16.py::Artefacts::test_artifacts_are_byte_identical_to_"
+        "a_fresh_build`, which `pages.yml:298` runs — green there because pages.yml pins 3.11 — and it "
+        "is NOT in refresh.yml's nine-suite loop, so today it fails only if something replays that "
+        "round on a newer interpreter. Rounding at publish (det.dq) would make it interpreter-independent "
+        "as well as shorter; that is a republish and belongs to the round's owner, not here.",
         "",
         "Before this session's fix the same emulation moved `data/rounds/2026-11-17/"
         "player_logs_2026-11-15.json` (`.top8_minutes_shares.2026-11-15:WAS.top8[4].share`,"

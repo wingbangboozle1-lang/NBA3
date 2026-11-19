@@ -75,5 +75,23 @@
     ],
     "status": "open",
     "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-06",
+    "area": "determinism",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "round2's model.json publishes six league aggregates at full float precision, so an interpreter change moves them and its byte-identity test is interpreter-dependent: 100.47153000000002 (3.11, committed) vs 100.47153 (>=3.12).",
+    "why": "Measured by running scripts/round2_2026_11_16.py in a scratch tree under the emulated CPython >= 3.12 compensated sum: six fields in data/rounds/2026-11-16-1300PM/model.json move (.league.poss_per_game, off_rtg, pts, efg_pct, tov_pct, ts_pct), all last-bit. tests/test_round2_2026_11_16.py asserts byte identity and pages.yml:298 runs it \u2014 green today only because pages.yml pins python-version 3.11 (lines 72-74). The round2 replay is NOT in refresh.yml's nine-suite loop, so this is a latent hazard for whoever moves the pin or replays that round, not a current failure. Every rounded field in the same file is already immune, which is the evidence for rounding at publish.",
+    "action_needed": "Owner of round 2026-11-16-1300PM: either route scripts/round2_2026_11_16.py's float aggregates through scripts/determinism.py (det.sum_ + det.dq) and republish the six fields in one reviewed commit, or leave it and keep the 3.11 pin. Not touched here: the file is unclaimed but the round belongs to another session, and this session's scope was the six gated generators.",
+    "sources": [
+      "data/rounds/2026-11-16-1300PM/model.json",
+      "scripts/round2_2026_11_16.py",
+      "tests/test_round2_2026_11_16.py",
+      ".github/workflows/pages.yml",
+      "verify/determinism_89e98007.md"
+    ],
+    "status": "open",
+    "legacy_ref": "89E-F-06"
   }
 ]
