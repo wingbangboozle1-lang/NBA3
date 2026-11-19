@@ -24,15 +24,22 @@
 
 <section class="callout bad" id="live-data-status" role="status">
   <strong>Live data status: publishing is paused pending a successful refresh.</strong>
-  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  <p>The last recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
   preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
-  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
-  team statistics, injury report, game results, or settlement.</p>
+  model/site, and commit steps were skipped.</p>
+  <p><strong>That fault is now fixed in code but not yet observed working on a hosted run.</strong>
+  The preflight failure was a Python-version-dependent float sum; commit 6fd2e3e adds a byte-exact
+  reproduction of the builtin, pins the runner to Python 3.11, and adds eight determinism tests to the
+  preflight suite list. No scheduled run has been observed since, so refresh success is not claimed
+  and publishing stays paused. See <a href="flagged.html">E929-F01</a> and the
+  <a href="questions.html">question that would clear it</a>.</p>
   <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
   <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
-  picks. The public projection surface is read-only; the separate bet surface remains gated.
-  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
-  presumed outcomes.</p>
+  picks. Separately, the
+  <a href="round-2026-11-19.html">2026-11-19 round page</a> publishes later, independently verified official
+  data (injury reports and finals through 2026-11-18, schedule through 2026-11-21); that page states
+  its own coverage, and none of it is a price or a pick. The public projection surface is read-only;
+  the separate bet surface remains gated.</p>
   <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
   provenance gates, deterministic rebuild, and verified-final settlement all pass. See
   <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
@@ -664,6 +671,72 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>Owner names the provider; then fill data/app/closing_lines.json per game from that feed and the prior computes itself.</td>
 <td>site owner</td>
 <td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
+</tr>
+<tr>
+<td>E929-Q01</td>
+<td>Data access</td>
+<td>Is there a licensed closing-line feed available to this project, and under what terms?</td>
+<td>Open</td>
+<td>The market-anchored prior is specified: blend the model line with the closing line, weighted by measured out-of-sample log-loss.</td>
+<td>Any reachable closing-line source. None exists in this environment, so the prior cannot be fitted on real closing lines.</td>
+<td>Check whether an existing subscription includes historical closing snapshots rather than live odds only; ask the vendor for the history and record the licence terms before ingesting.</td>
+<td>Project owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json</a></td>
+</tr>
+<tr>
+<td>E929-Q02</td>
+<td>Scheduled job</td>
+<td>Did the scheduled refresh pass its preflight after commit 6fd2e3e, and did the fetch/gate/rebuild steps then run?</td>
+<td>Open</td>
+<td>The float-sum mismatch that failed six consecutive hosted runs is fixed and pinned to Python 3.11; all local suites pass.</td>
+<td>One observed green hosted run. Until then, current-slate picks, lines, prices, pre-registration and ledger entries are absent, not merely stale.</td>
+<td>Trigger the workflow once and read the run page. If the preflight passes, confirm each later step&#x27;s own summary line; if it fails, download the failure artifact now attached.</td>
+<td>Project owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions</a></td>
+</tr>
+<tr>
+<td>E929-Q03</td>
+<td>Provenance</td>
+<td>Should the site header show coverage per page rather than a single global snapshot window?</td>
+<td>Open</td>
+<td>Every page currently inherits one window label from the canonical snapshot.</td>
+<td>A decision. Pages publishing later, separately verified data are labelled with a window that does not describe them.</td>
+<td>Compare the header on three pages with different coverage; the change is confined to the layout helper.</td>
+<td>Project owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></td>
+</tr>
+<tr>
+<td>E929-Q04</td>
+<td>Injuries</td>
+<td>Which club does an unattributed injury row belong to when the PDF leaves the team and matchup cells blank?</td>
+<td>Open</td>
+<td>Kuminga and Pullin appear in the 2026-11-19 revisions with both the team cell and the matchup blank.</td>
+<td>A confirmed club for those two players, without which rotation attribution cannot include them.</td>
+<td>Cross-reference an official roster page for the player&#x27;s current club and cite that page. Do not infer it from the neighbouring rows of the same PDF.</td>
+<td>Project owner</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>E929-Q05</td>
+<td>Player logs</td>
+<td>Can per-player game logs be sourced for every club-game, so minutes redistribution does not rest on a partial set?</td>
+<td>Open</td>
+<td>The captured 2026-11-15 logs reconcile to printed team totals for 5 of 8 club-games; the other 35 rows publish minutes only and say so.</td>
+<td>Complete box scores for the three unreconciled club-games.</td>
+<td>Check whether the official game book PDFs are fetchable from the hosted runner (they were not from this sandbox); if so, parse the missing club-games and reconcile again.</td>
+<td>Project owner</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>E929-Q06</td>
+<td>Pre-registration</td>
+<td>Should a new pre-registration be frozen for the 2026-11-19 slate, or does the project wait for a green refresh?</td>
+<td>Open</td>
+<td>Pre-registration must be frozen before the first bet on a strategy and must describe the data the model actually used.</td>
+<td>A decision, plus current data if the answer is to freeze now.</td>
+<td>If the refresh is green, rebuild on current data, freeze one pre-registration per strategy and record its hash before publishing any pick. Otherwise leave the window closed rather than pre-register on stale inputs.</td>
+<td>Project owner</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/prereg/" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/prereg/</a></td>
 </tr>
 </tbody></table></div>
 </main>

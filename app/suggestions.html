@@ -24,15 +24,22 @@
 
 <section class="callout bad" id="live-data-status" role="status">
   <strong>Live data status: publishing is paused pending a successful refresh.</strong>
-  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  <p>The last recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
   preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
-  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
-  team statistics, injury report, game results, or settlement.</p>
+  model/site, and commit steps were skipped.</p>
+  <p><strong>That fault is now fixed in code but not yet observed working on a hosted run.</strong>
+  The preflight failure was a Python-version-dependent float sum; commit 6fd2e3e adds a byte-exact
+  reproduction of the builtin, pins the runner to Python 3.11, and adds eight determinism tests to the
+  preflight suite list. No scheduled run has been observed since, so refresh success is not claimed
+  and publishing stays paused. See <a href="flagged.html">E929-F01</a> and the
+  <a href="questions.html">question that would clear it</a>.</p>
   <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
   <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
-  picks. The public projection surface is read-only; the separate bet surface remains gated.
-  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
-  presumed outcomes.</p>
+  picks. Separately, the
+  <a href="round-2026-11-19.html">2026-11-19 round page</a> publishes later, independently verified official
+  data (injury reports and finals through 2026-11-18, schedule through 2026-11-21); that page states
+  its own coverage, and none of it is a price or a pick. The public projection surface is read-only;
+  the separate bet surface remains gated.</p>
   <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
   provenance gates, deterministic rebuild, and verified-final settlement all pass. See
   <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
@@ -643,6 +650,72 @@ questions</a> page.</p>
 <td>none</td>
 <td>implemented (session arena/4054e125-nba3)</td>
 <td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
+</tr>
+<tr>
+<td>E929-S01</td>
+<td>Provenance</td>
+<td>Make the header coverage label per page instead of global.</td>
+<td>Pages now publish artefacts with different end dates, so one global window label makes a page covering 2026-11-21 look like it stops at 2026-11-18.</td>
+<td>(a) per-page label from each page&#x27;s own coverage; (b) keep global and add a per-page subtitle; (c) do nothing.</td>
+<td>(a) per-page label - small, contained to the layout helper.</td>
+<td>None.</td>
+<td>Awaiting decision</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/build_app.py</a></td>
+</tr>
+<tr>
+<td>E929-S02</td>
+<td>Results feed</td>
+<td>Publish a signed index of every results chain head, with its entry count.</td>
+<td>The canonical and round feeds are deliberately separate so earlier settlement evidence stays valid. An index of chain heads would let a reader confirm at a glance that both verify, instead of taking a paragraph of explanation on trust.</td>
+<td>(a) a small index page listing each chain, head hash and count; (b) fold both into one chain; (c) do nothing.</td>
+<td>(a) - additive and touches no existing chain.</td>
+<td>None.</td>
+<td>Awaiting decision</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/results_feed.json</a></td>
+</tr>
+<tr>
+<td>E929-S03</td>
+<td>Injuries</td>
+<td>Store a layout signature per injury revision and alert when it changes.</td>
+<td>The 12:30 AM revision merged three teams into one cell while reporting identical statuses. A signature of cell counts per row would flag that automatically and separate &#x27;the roster changed&#x27; from &#x27;the PDF was re-rendered&#x27; for every future revision.</td>
+<td>(a) store the signature and diff it; (b) keep manual review of structure notes; (c) do nothing.</td>
+<td>(a) - additive metadata, no change to the parsed rows.</td>
+<td>None.</td>
+<td>Awaiting decision</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf</a></td>
+</tr>
+<tr>
+<td>E929-S04</td>
+<td>Injuries</td>
+<td>Publish a revision-count-versus-change-count chart across the season.</td>
+<td>This round produced four revisions with zero status changes. Over a season that ratio measures how much information a new revision actually carries, which is what determines how often the pipeline needs to poll.</td>
+<td>(a) add the chart to the injuries page; (b) report it only at round level; (c) do nothing.</td>
+<td>(a) - derived entirely from archives already stored.</td>
+<td>Needs several rounds of archives.</td>
+<td>Awaiting decision</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>E929-S05</td>
+<td>Settlement</td>
+<td>Run a settlement pass over open ledger entries now that the 2026-11-16..18 finals are verified.</td>
+<td>The 25 new finals are verified and every quarter sum ties. Entries dated inside that window could be settled against them with a visible stamp, closing a gap rather than opening one. This session did not run that pass, so it is proposed rather than done.</td>
+<td>(a) dry run, diff the stamps, then apply; (b) apply directly; (c) wait for the refresh.</td>
+<td>(a) - a settlement stamp is a write onto existing records and should be diffed first.</td>
+<td>Verified finals (done).</td>
+<td>Awaiting decision</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-e9295737/results_2026-11-16_18.json</a></td>
+</tr>
+<tr>
+<td>E929-S06</td>
+<td>Player logs</td>
+<td>Backfill the three club-games whose per-player rows publish minutes only.</td>
+<td>Five of eight 2026-11-15 club-games fully reconcile; the other three contribute 35 minutes-only rows. Backfilling would let minutes redistribution run on complete box scores and would show whether the gap was the source or the parser.</td>
+<td>(a) parse the official game books on the runner; (b) leave as minutes-only and label; (c) drop the day.</td>
+<td>(a) - resolves the question at source.</td>
+<td>Needs a runner that can fetch the game book PDFs.</td>
+<td>Awaiting decision</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
 </tr>
 </tbody></table></div>
 </main>
