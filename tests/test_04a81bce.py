@@ -249,6 +249,34 @@ class Capture04a81bce(unittest.TestCase):
                 self.assertTrue(r["hash_verified_at_settlement"], r)
                 self.assertTrue(r["settlement_stamp"])
 
+    # ---- O6 registers ----------------------------------------------------
+    def test_registers_generated_with_sources(self):
+        import importlib.util as iu
+        spec2 = iu.spec_from_file_location(
+            "reg04", ROOT / "scripts" / "build_04a81bce_registers.py")
+        reg = iu.module_from_spec(spec2)
+        spec2.loader.exec_module(reg)
+        reg.main()
+        doc = json.loads((ROOT / "data" / "app" / "registers_04a81bce.json")
+                         .read_text(encoding="utf-8"))
+        self.assertTrue(doc["executive_summary"]["bullets"])
+        for b in doc["executive_summary"]["bullets"]:
+            self.assertTrue(b["source_url"].startswith("https://"))
+        flag_ids = {f["id"] for f in doc["flags"]}
+        for i in ("F-DE0-01", "F-DE0-02", "F-DE0-03", "F-DE0-04", "F-DE0-05",
+                  "F-DE0-06", "EVE-F04"):
+            self.assertIn(i, flag_ids)
+        for f in doc["flags"]:
+            self.assertTrue(f["source_url"].startswith("https://"))
+        for q in doc["questions"]:
+            self.assertIn("answer_status", q)
+            self.assertTrue(q["source_url"].startswith("https://"))
+        for s in doc["suggestions"]:
+            self.assertIn("NOT implemented", s["status"])
+        crs = {c["cr"] for c in doc["cr_answers"]}
+        self.assertLessEqual({"CR-B1-01", "CR-DE0-01", "CR-DE0-02", "CR-B1-02",
+                              "CR-00b0c780-06", "CR-915-01"}, crs)
+
 
 if __name__ == "__main__":
     unittest.main()
