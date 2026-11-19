@@ -3000,6 +3000,14 @@ and printed with the feed: <em>{esc(res['settlement_rule'])}</em></p>""")
         body.append(table(["Match", "Final", "Away by period", "Home by period", "State", "Source"],
                           rows, table_id=f"round-res-{date}"))
     body.append(f"""
+<div class="callout"><strong>What this adds that the merged feed does not have: the period scores.</strong>
+The 25-game finals feed already on main (<code>data/rounds/2026-11-19-dd3edd74/</code>) carries
+every final and agrees with this one on all 25, but its quarter field is empty on every row and
+flagged <em>UNVERIFIED &mdash; not read from an official page</em>, because the date page it used
+prints no period table. The period columns above come from each game's own page and are complete
+for all 25; every one is checked to sum to the printed final on both sides, so the two feeds
+together are stronger than either alone.</div>""")
+    body.append(f"""
 <div class="callout good"><strong>{res['settled_count']} of {res['count']} settled, \
 {res['withheld_count']} withheld.</strong> A game is published here only if four checks pass:
 the away quarters sum to the away final, the home quarters sum to the home final, the two sides
