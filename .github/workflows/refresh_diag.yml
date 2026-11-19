@@ -1,10 +1,6 @@
 name: refresh diagnosis (temporary)
 
 # TEMPORARY diagnostic for session arena/64d8f868-nba3.
-# The scheduled "official data refresh" job is red on its own committed tree and the
-# runner log body cannot be retrieved from the sandbox (results-receiver EOF), so this
-# workflow re-runs the exact same suites and reports the failure through
-# `::error::` annotations, which ARE retrievable through the Checks API.
 on:
   push:
     branches: ["arena/64d8f868-nba3"]
@@ -20,41 +16,39 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Environment
-        id: env
         run: |
           set -uo pipefail
-          echo "runner date: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "python3: $(python3 -VV)"
-          echo "default python3 path: $(command -v python3)"
           echo "::notice::diag python3 = $(python3 -VV 2>&1 | head -1)"
 
-      - name: Re-run the scheduled job's unit-test battery (runner default interpreter)
+      - name: Battery under the runner default interpreter (compact failure report)
         run: |
           set -uo pipefail
-          fail=0
+          : > /tmp/diag_report.txt
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
                        "test_round_2ecbccfd.py"; do
             if [ "$suite" = "test_refresh_official.py" ]; then
-              out=$(python3 -m unittest tests/test_refresh_official.py -v 2>&1) && rc=0 || rc=$?
+              out=$(python3 -m unittest tests/test_refresh_official.py 2>&1) && rc=0 || rc=$?
             else
-              out=$(python3 -m unittest discover -s tests -p "$suite" -v 2>&1) && rc=0 || rc=$?
+              out=$(python3 -m unittest discover -s tests -p "$suite" 2>&1) && rc=0 || rc=$?
             fi
             if [ "$rc" -ne 0 ]; then
-              fail=1
-              echo "::error::SUITE $suite FAILED (exit $rc) under $(python3 -V 2>&1)"
-              echo "$out" | grep -vE "ResourceWarning|tracemalloc" | tail -35 \
-                | sed 's/^/::error::/'
+              {
+                echo "=== SUITE $suite exit=$rc py=$(python3 -V 2>&1)"
+                echo "$out" | grep -vE "ResourceWarning|tracemalloc" | \
+                  awk '/^(FAIL|ERROR):/{f=1} f' | head -45
+              } >> /tmp/diag_report.txt
             fi
           done
-          if [ "$fail" -ne 0 ]; then
-            echo "::error::at least one unittest suite failed on the committed tree"
-            exit 1
+          if [ -s /tmp/diag_report.txt ]; then
+            echo "::error::FAILING SUITES (runner default python):"
+            sed 's/^/::error::/' /tmp/diag_report.txt
+          else
+            echo "::notice::all suites passed under the runner default interpreter"
           fi
-          echo "all suites passed under the runner default interpreter"
 
-      - name: Re-run the same battery under Python 3.11 (the Pages job's pinned version)
+      - name: Same battery under Python 3.11 (the Pages job's pinned version)
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -62,25 +56,27 @@ jobs:
       - name: Battery on 3.11
         run: |
           set -uo pipefail
-          fail=0
+          : > /tmp/diag_report311.txt
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
                        "test_round_2ecbccfd.py"; do
             if [ "$suite" = "test_refresh_official.py" ]; then
-              out=$(python3 -m unittest tests/test_refresh_official.py -v 2>&1) && rc=0 || rc=$?
+              out=$(python3 -m unittest tests/test_refresh_official.py 2>&1) && rc=0 || rc=$?
             else
-              out=$(python3 -m unittest discover -s tests -p "$suite" -v 2>&1) && rc=0 || rc=$?
+              out=$(python3 -m unittest discover -s tests -p "$suite" 2>&1) && rc=0 || rc=$?
             fi
             if [ "$rc" -ne 0 ]; then
-              fail=1
-              echo "::error::SUITE $suite FAILED (exit $rc) under $(python3 -V 2>&1)"
-              echo "$out" | grep -vE "ResourceWarning|tracemalloc" | tail -35 \
-                | sed 's/^/::error::/'
+              {
+                echo "=== SUITE $suite exit=$rc py=$(python3 -V 2>&1)"
+                echo "$out" | grep -vE "ResourceWarning|tracemalloc" | \
+                  awk '/^(FAIL|ERROR):/{f=1} f' | head -45
+              } >> /tmp/diag_report311.txt
             fi
           done
-          if [ "$fail" -ne 0 ]; then
-            echo "::error::at least one unittest suite failed under Python 3.11"
-            exit 1
+          if [ -s /tmp/diag_report311.txt ]; then
+            echo "::error::FAILING SUITES (Python 3.11):"
+            sed 's/^/::error::/' /tmp/diag_report311.txt
+          else
+            echo "::notice::all suites passed under Python 3.11"
           fi
-          echo "all suites passed under Python 3.11"
