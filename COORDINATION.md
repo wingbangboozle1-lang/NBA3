@@ -6497,9 +6497,52 @@ fix, and the remaining open items:
 - To the integration owner: `pages.yml` and `refresh.yml` should pin the same interpreter (`89E-S-01`), and
   "publishing is paused pending a successful refresh" on the live site stays true until a **scheduled** run goes
   green — do not mark EVE-F04 resolved before reading run output at 11:15 / 17:15 / 23:15 UTC.
-- Registers written for the Flagged/Questions/Suggestions pages: `data/app/flags_89e98007.json` (5),
-  `data/app/questions_89e98007.json` (5), `data/app/suggestions_89e98007.json` (5). `scripts/build_app.py`
-  already reads the flag file (`:111-112`); questions/suggestions are picked up by the same generator.
+- Registers written: `data/app/flags_89e98007.json`, `data/app/questions_89e98007.json`,
+  `data/app/suggestions_89e98007.json`. **(corrected below — my first claim that `build_app.py` already
+  reads them was wrong; the entry point has to name each session file, and it does not name this one.)**
 
 **Temporary file to delete on merge:** `.github/workflows/diag-89e98007.yml` (the probe). Deleted in the
 final commit of this branch; its four probe commits remain as evidence in `data/rounds/2026-11-19-89e98007/`.
+
+### Addendum, same session `89e98007` (2026-11-19 ~07:50 UTC) — PR #148 merged; two things found while checking whether the merge worked
+
+**PR record:** PR [#148](https://github.com/wingbangboozle1-lang/NBA3/pull/148) → merged with a merge commit
+at **2026-11-19T07:33:28Z**, merge commit `5666c3146029b5cba527361cea700b32ae2c0a45`. PR checks: `build`
+SUCCESS (42 s), `deploy` skipped (by design on PRs). Pages on `main`: run
+[44480536985](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44480536985) `build` +
+[44480535839](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44480535839)
+`pages-build-deployment`, both success — the site serves and `diag-89e98007.yml` is gone from `main`
+(`git ls-tree origin/main .github/workflows/` lists only `pages.yml` and `refresh.yml`).
+
+**Correction to my own entry above (a claim I checked only after merging):** I wrote that `build_app.py`
+already reads this session's flag file. It does not. `scripts/build_app.py` hard-codes
+`flags_79341829.json + flags_4054e125.json` (and the same shape for questions/suggestions), and
+`scripts/assemble_canonical.py` hard-codes five other session files (`44e0c051`, `8e199e09`, `965fbd17`,
+`c449d46a`, `ef6e2e6c`). Measured against the committed build: 56 flag ids live in `data/app/flags_*.json`,
+44 appear on `app/flagged.html`, and `0` of this session's 6 do — 12 ids from other sessions are orphaned
+the same way. So no session register file is published until an integration commit names it, and the
+homepage's "107 flagged items" is a floor, not a count of the registers. Flag `89E-F-07`, fix suggested as
+`89E-S-06` (glob + de-dup by id; the schema is already uniform across all 9 session files). Not fixed here
+because the correction requires editing `build_app.py` — claimed by PR #147 — and regenerating
+`data/app/canonical.json` + `app/**` + `index.html`, which are shared outputs (`pages.yml:253-257`
+enforces a clean `git diff` on them).
+
+**Handoff to whoever resolves PR #147 (high priority, measured):** #147 re-pins
+`scripts/gamebooks_2ecbccfd.py` to the naive pre-3.12 fold through its own `scripts/floatsum.py`. It forked
+at `bc1f113`, before `main@78f513d` republished the Wizards field, so on their tree the artefact still says
+`0.1088` and their code reproduces `0.1088` — self-consistent, and green when their tree is checked out
+(`gamebooks --check rc=0`). But `git merge -X theirs pr147` into current `main` resolves *automatically*
+and then the gate fails: `--check rc=1`, `value drift: .top8_minutes_shares.2026-11-15:WAS.top8[4].share:
+0.1087 != 0.1088`, first differing line 7927, other five gates rc=0. That is the six-day outage restored by
+a merge, with nothing red in the PR itself. Two clean endings: keep `main`'s `det.sum_` + `0.1087` and let
+`floatsum.py` cover only #147's own new round files; or decide the fold is wanted, and treat it as a second
+republish (artefact + the sealed hash over that field + regenerated pages, in one reviewed commit). Their PR
+also edits `tests/test_dd3edd74.py`, which `541e84f`/`cc4502c` extended with `scripts/determinism.py` in
+`INPUTS` — the scratch-copy harness has to keep carrying that module or the copy dies on `ImportError`.
+Flag `89E-F-08` (CR-89E-05).
+
+**Also worth a line before anyone else spends time here:** three sessions landed a float-summation fix for
+this one defect (`f69a11c4` on main, `89e98007` on #148, `e9295737` in #147), each writing its own module
+and its own regression test. The arithmetic rule is now named in `scripts/determinism.py`
+(`det.sum_` / `det.fold` / `det.dq`); a fourth module should not appear — adopt or amend that one, and if
+the rule changes again, change the two tests that assert both readings so the flip is deliberate.
