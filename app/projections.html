@@ -45,7 +45,7 @@
   </div>
 
 <div class="callout"><strong>Headline: the two estimators disagree by
-6.8 points on average across the
+7.2 points on average across the
 window.</strong> That disagreement <em>is</em> the confidence statement — a small disagreement means
 both independent methods land in the same place, a large one means the game is genuinely hard to
 price. The equal-weight blend of the two is published underneath as a secondary line only; it is
@@ -55,8 +55,8 @@ never the headline and never the only number shown.</div>
 completed-game log. Estimator B is a possession-efficiency model from the three official team-stat
 pages captured 2026-11-15: expected points are <strong>possessions x points-per-possession</strong>.
 Home-court advantage is <strong>pinned to the measured home-win rate</strong>
-(0.5178 over 197 official games →
-0.76 points) and is never a free fit coefficient.</p>
+(0.5 over 220 official games →
+0.0 points) and is never a free fit coefficient.</p>
 
 <div class="table-wrap"><table>
 <caption id="est-meta"></caption>
@@ -70,28 +70,28 @@ Home-court advantage is <strong>pinned to the measured home-win rate</strong>
 <tr>
 <td>Estimator A — ridge margin, HCA pinned</td>
 <td>ridge margin model (Massey-style), HCA pinned</td>
-<td>OOS log-loss 0.648, accuracy 0.697 on 152 walk-forward games</td>
+<td>OOS log-loss 0.6555, accuracy 0.674 on 175 walk-forward games</td>
 <td>expanding walk-forward over the official completed-game log (games 1-45 warm-up; each later game predicted from games before it)</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
 </tr>
 <tr>
 <td>Estimator B — possessions x PPP</td>
 <td>possession efficiency (possessions x PPP) from the three official pages</td>
-<td>log-loss 0.5004 (IN-SAMPLE, labelled), accuracy 0.802</td>
+<td>log-loss 0.5374 (IN-SAMPLE, labelled), accuracy 0.755</td>
 <td>IN-SAMPLE against the 2026-11-15 stat snapshot (no historical snapshots are stored) — flagged, not presented as out-of-sample</td>
 <td><a href="https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">team stats pages</a> · <a href="https://www.nba.com/stats/teams/opponent?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a></td>
 </tr>
 <tr>
 <td>Home-court advantage (pinned)</td>
-<td>0.76 pts</td>
-<td>home-win rate 0.5178, margin SD 16.97</td>
+<td>0.0 pts</td>
+<td>home-win rate 0.5, margin SD 16.76</td>
 <td>hca = Phi^-1(home-win rate) * SD(margin) over the official log</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official log</a> · <a href="https://www.nba.com/games?date=2026-11-13" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-13</a></td>
 </tr>
 <tr>
 <td>Parlay rho (measured)</td>
-<td>-0.052</td>
-<td>correlation of the ridge model&#x27;s margin and total residuals over the 197-game official log; used for every same-game parlay price</td>
+<td>-0.07</td>
+<td>correlation of the ridge model&#x27;s margin and total residuals over the 220-game official log; used for every same-game parlay price</td>
 <td>used for every same-game parlay price</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
 </tr>
@@ -115,513 +115,288 @@ Home-court advantage is <strong>pinned to the measured home-win rate</strong>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
-<td>2026-11-15</td>
-<td></td>
-<td>IND @ PHI</td>
-<td>2.3</td>
-<td>3.8</td>
-<td><span class="chip chip-neutral">1.5 pts</span></td>
-<td>3.0</td>
-<td>217.6 (poss 100.6)</td>
-<td>0.57</td>
-<td>IND: 0d<br>PHI: 0d</td>
-<td>IND: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>PHI: — (arena coordinates missing for one endpoint (see arena_coordinates.json))</td>
-<td>A -1.41 / H 1.77<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>LAL @ PHX</td>
-<td>-2.8</td>
-<td>-11.3</td>
-<td><span class="chip chip-warn">8.5 pts</span></td>
-<td>-7.1</td>
-<td>239.5 (poss 99.5)</td>
-<td>0.33</td>
-<td>LAL: 0d<br>PHX: 0d</td>
-<td>LAL: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>PHX: — (arena coordinates missing for one endpoint (see arena_coordinates.json))</td>
-<td>A 1.91 / H -0.43<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>CHA @ LAC</td>
-<td>2.9</td>
-<td>7.0</td>
-<td><span class="chip chip-neutral">4.1 pts</span></td>
-<td>5.0</td>
-<td>212.3 (poss 98.7)</td>
-<td>0.62</td>
-<td>CHA: 0d<br>LAC: 0d</td>
-<td>CHA: 0.0 km<br>LAC: 0.0 km</td>
-<td>A -2.01 / H -0.91<br>CHA outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>SAS @ UTA</td>
-<td>-6.2</td>
-<td>-23.3</td>
-<td><span class="chip chip-warn">17.1 pts</span></td>
-<td>-14.7</td>
-<td>221.5 (poss 99.7)</td>
-<td>0.18</td>
-<td>SAS: 0d<br>UTA: 0d</td>
-<td>SAS: 0.0 km<br>UTA: 0.0 km</td>
-<td>A 2.95 / H -2.89<br>SAS outside |z|&gt;2 luck noise band; UTA outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>DAL @ BOS</td>
-<td>4.9</td>
-<td>12.4</td>
-<td><span class="chip chip-neutral">7.4 pts</span></td>
-<td>8.7</td>
-<td>219.3 (poss 98.6)</td>
-<td>0.70</td>
-<td>DAL: 0d 3-in-4<br>BOS: 0d</td>
-<td>DAL: 0.0 km<br>BOS: 0.0 km</td>
-<td>A 0.27 / H 2.37<br>BOS outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>NYK @ TOR</td>
-<td>-0.5</td>
-<td>-3.4</td>
-<td><span class="chip chip-neutral">2.9 pts</span></td>
-<td>-2.0</td>
-<td>219.2 (poss 97.8)</td>
-<td>0.45</td>
-<td>NYK: 0d<br>TOR: 0d</td>
-<td>NYK: 0.0 km<br>TOR: 0.0 km</td>
-<td>A 1.07 / H -1.42<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>HOU @ WAS</td>
-<td>-5.0</td>
-<td>-13.7</td>
-<td><span class="chip chip-warn">8.7 pts</span></td>
-<td>-9.3</td>
-<td>223.2 (poss 98.5)</td>
-<td>0.28</td>
-<td>HOU: 0d<br>WAS: 0d</td>
-<td>HOU: 0.0 km<br>WAS: 0.0 km</td>
-<td>A 1.15 / H -1.68<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>ATL @ MIL</td>
-<td>-3.6</td>
-<td>-15.2</td>
-<td><span class="chip chip-warn">11.6 pts</span></td>
-<td>-9.4</td>
-<td>229.2 (poss 101.9)</td>
-<td>0.28</td>
-<td>ATL: 0d<br>MIL: 0d</td>
-<td>ATL: 0.0 km<br>MIL: 0.0 km</td>
-<td>A 0.07 / H -2.22<br>MIL outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-15</td>
-<td></td>
-<td>OKC @ SAC</td>
-<td>-4.8</td>
-<td>-14.9</td>
-<td><span class="chip chip-warn">10.1 pts</span></td>
-<td>-9.9</td>
-<td>222.1 (poss 99.8)</td>
-<td>0.27</td>
-<td>OKC: 0d<br>SAC: 0d</td>
-<td>OKC: 0.0 km<br>SAC: 0.0 km</td>
-<td>A 0.23 / H -2.1<br>SAC outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>ORL @ BOS</td>
-<td>5.7</td>
-<td>15.7</td>
-<td><span class="chip chip-warn">9.9 pts</span></td>
-<td>10.7</td>
-<td>214.5 (poss 97.4)</td>
-<td>0.75</td>
-<td>ORL: 3d<br>BOS: 1d B2B</td>
-<td>ORL: 1796.2 km<br>BOS: 0.0 km</td>
-<td>A -0.2 / H 2.37<br>BOS outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>CHI @ CLE</td>
-<td>4.1</td>
-<td>13.7</td>
-<td><span class="chip chip-warn">9.6 pts</span></td>
-<td>8.9</td>
-<td>240.2 (poss 101.8)</td>
-<td>0.71</td>
-<td>CHI: 2d 3-in-4<br>CLE: 2d 3-in-4</td>
-<td>CHI: 1014.3 km<br>CLE: 0.0 km</td>
-<td>A -1.12 / H -0.39<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>MEM @ WAS</td>
-<td>-4.0</td>
-<td>-13.4</td>
-<td><span class="chip chip-warn">9.4 pts</span></td>
-<td>-8.7</td>
-<td>226.5 (poss 100.0)</td>
-<td>0.29</td>
-<td>MEM: 2d 3-in-4<br>WAS: 1d B2B</td>
-<td>MEM: 1228.7 km<br>WAS: 0.0 km</td>
-<td>A 0.29 / H -1.68<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>PHI @ BKN</td>
-<td>-1.6</td>
-<td>-6.8</td>
-<td><span class="chip chip-neutral">5.2 pts</span></td>
-<td>-4.2</td>
-<td>219.7 (poss 99.8)</td>
-<td>0.40</td>
-<td>PHI: 1d B2B<br>BKN: 2d</td>
-<td>PHI: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>BKN: 1536.1 km</td>
-<td>A 1.77 / H -0.72<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>HOU @ MIA</td>
-<td>-2.9</td>
-<td>-10.1</td>
-<td><span class="chip chip-neutral">7.2 pts</span></td>
-<td>-6.5</td>
-<td>234.3 (poss 100.0)</td>
-<td>0.34</td>
-<td>HOU: 1d B2B,3-in-4<br>MIA: 2d 3-in-4</td>
-<td>HOU: 1488.3 km<br>MIA: 0.0 km</td>
-<td>A 1.15 / H 1.44<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>POR @ MIN</td>
-<td>1.8</td>
-<td>5.0</td>
-<td><span class="chip chip-neutral">3.2 pts</span></td>
-<td>3.4</td>
-<td>225.9 (poss 101.0)</td>
-<td>0.58</td>
-<td>POR: 3d<br>MIN: 2d</td>
-<td>POR: 2431.9 km<br>MIN: 0.0 km</td>
-<td>A 1.09 / H 0.55<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>GSW @ NOP</td>
-<td>-3.8</td>
-<td>-12.3</td>
-<td><span class="chip chip-warn">8.5 pts</span></td>
-<td>-8.0</td>
-<td>235.2 (poss 100.7)</td>
-<td>0.31</td>
-<td>GSW: 3d<br>NOP: 2d 3-in-4</td>
-<td>GSW: 809.0 km<br>NOP: 0.0 km</td>
-<td>A 1.82 / H -0.84<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-16</td>
-<td></td>
-<td>PHX @ DEN</td>
-<td>2.4</td>
-<td>5.9</td>
-<td><span class="chip chip-neutral">3.4 pts</span></td>
-<td>4.1</td>
-<td>231.5 (poss 98.1)</td>
-<td>0.60</td>
-<td>PHX: 1d B2B<br>DEN: 2d</td>
-<td>PHX: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>DEN: 1740.1 km</td>
-<td>A -0.43 / H 1.06<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-17</td>
-<td></td>
-<td>NYK @ TOR</td>
-<td>-0.5</td>
-<td>-3.4</td>
-<td><span class="chip chip-neutral">2.9 pts</span></td>
-<td>-2.0</td>
-<td>219.2 (poss 97.8)</td>
-<td>0.45</td>
-<td>NYK: 2d<br>TOR: 2d</td>
-<td>NYK: 0.0 km<br>TOR: 0.0 km</td>
-<td>A 1.07 / H -1.42<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-17</td>
-<td></td>
-<td>POR @ MIN</td>
-<td>1.8</td>
-<td>5.0</td>
-<td><span class="chip chip-neutral">3.2 pts</span></td>
-<td>3.4</td>
-<td>225.9 (poss 101.0)</td>
-<td>0.58</td>
-<td>POR: 4d<br>MIN: 3d</td>
-<td>POR: 2431.9 km<br>MIN: 0.0 km</td>
-<td>A 1.09 / H 0.55<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-17</td>
-<td></td>
-<td>DET @ SAS</td>
-<td>3.2</td>
-<td>8.6</td>
-<td><span class="chip chip-neutral">5.5 pts</span></td>
-<td>5.9</td>
-<td>221.3 (poss 99.2)</td>
-<td>0.64</td>
-<td>DET: 3d<br>SAS: 2d</td>
-<td>DET: 1841.2 km<br>SAS: 1753.9 km</td>
-<td>A 0.03 / H 2.95<br>SAS outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-17</td>
-<td></td>
-<td>CHA @ LAL</td>
-<td>6.5</td>
-<td>19.8</td>
-<td><span class="chip chip-warn">13.2 pts</span></td>
-<td>13.1</td>
-<td>221.0 (poss 98.7)</td>
-<td>0.79</td>
-<td>CHA: 2d<br>LAL: 2d</td>
-<td>CHA: 12.9 km<br>LAL: — (arena coordinates missing for one endpoint (see arena_coordinates.json))</td>
-<td>A -2.01 / H 1.91<br>CHA outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-17</td>
-<td></td>
-<td>UTA @ LAC</td>
-<td>2.7</td>
-<td>7.2</td>
-<td><span class="chip chip-neutral">4.6 pts</span></td>
-<td>4.9</td>
-<td>222.7 (poss 100.5)</td>
-<td>0.62</td>
-<td>UTA: 2d<br>LAC: 2d</td>
-<td>UTA: 948.0 km<br>LAC: 0.0 km</td>
-<td>A -2.89 / H -0.91<br>UTA outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>MEM @ CLE</td>
-<td>-1.1</td>
-<td>-6.6</td>
-<td><span class="chip chip-neutral">5.5 pts</span></td>
-<td>-3.8</td>
-<td>235.8 (poss 100.1)</td>
-<td>0.41</td>
-<td>MEM: 4d<br>CLE: 4d</td>
-<td>MEM: 1015.0 km<br>CLE: 0.0 km</td>
-<td>A 0.29 / H -0.39<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>HOU @ IND</td>
-<td>-3.5</td>
-<td>-9.7</td>
-<td><span class="chip chip-neutral">6.2 pts</span></td>
-<td>-6.6</td>
-<td>223.5 (poss 99.3)</td>
-<td>0.34</td>
-<td>HOU: 3d<br>IND: 3d</td>
-<td>HOU: 791.2 km<br>IND: — (arena coordinates missing for one endpoint (see arena_coordinates.json))</td>
-<td>A 1.15 / H -1.41<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>MIL @ MIA</td>
+<td>2026-11-19</td>
+<td>8:00 PM ET</td>
+<td>GSW @ MEM</td>
+<td>2.1</td>
 <td>4.5</td>
-<td>14.0</td>
-<td><span class="chip chip-warn">9.6 pts</span></td>
-<td>9.3</td>
-<td>233.6 (poss 101.4)</td>
-<td>0.72</td>
-<td>MIL: 3d<br>MIA: 4d</td>
-<td>MIL: 2044.1 km<br>MIA: 0.0 km</td>
-<td>A -2.22 / H 1.44<br>MIL outside |z|&gt;2 luck noise band</td>
+<td><span class="chip chip-neutral">2.4 pts</span></td>
+<td>3.3</td>
+<td>231.4 (poss 100.1)</td>
+<td>0.58</td>
+<td>GSW: 1d B2B,3-in-4<br>MEM: 1d B2B,3-in-4</td>
+<td>GSW: 675.7 km<br>MEM: 1015.0 km</td>
+<td>A 1.02 / H 0.77<br>—</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
 </tr>
 <tr>
-<td>2026-11-18</td>
-<td></td>
-<td>PHI @ ORL</td>
-<td>-1.1</td>
-<td>-4.3</td>
-<td><span class="chip chip-neutral">3.2 pts</span></td>
-<td>-2.7</td>
-<td>215.7 (poss 99.1)</td>
-<td>0.43</td>
-<td>PHI: 3d<br>ORL: 5d</td>
-<td>PHI: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>ORL: 0.0 km</td>
-<td>A 1.77 / H -0.2<br>—</td>
+<td>2026-11-19</td>
+<td>8:00 PM ET</td>
+<td>POR @ MIL</td>
+<td>-6.4</td>
+<td>-22.3</td>
+<td><span class="chip chip-warn">15.9 pts</span></td>
+<td>-14.4</td>
+<td>231.1 (poss 100.5)</td>
+<td>0.18</td>
+<td>POR: 2d<br>MIL: 1d B2B</td>
+<td>POR: 479.3 km<br>MIL: 2044.1 km</td>
+<td>A 0.74 / H -2.33<br>MIL outside |z|&gt;2 luck noise band</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
 </tr>
 <tr>
-<td>2026-11-18</td>
-<td></td>
-<td>CHI @ BKN</td>
-<td>1.9</td>
-<td>5.4</td>
-<td><span class="chip chip-neutral">3.5 pts</span></td>
-<td>3.6</td>
-<td>232.8 (poss 101.6)</td>
+<td>2026-11-19</td>
+<td>8:00 PM ET</td>
+<td>NYK @ MIN</td>
+<td>1.5</td>
+<td>5.5</td>
+<td><span class="chip chip-neutral">4.0 pts</span></td>
+<td>3.5</td>
+<td>213.9 (poss 98.4)</td>
 <td>0.59</td>
-<td>CHI: 4d<br>BKN: 4d</td>
-<td>CHI: 1640.3 km<br>BKN: 1536.1 km</td>
-<td>A -1.12 / H -0.72<br>—</td>
+<td>NYK: 2d<br>MIN: 2d</td>
+<td>NYK: 1114.3 km<br>MIN: 0.0 km</td>
+<td>A 1.29 / H 0.86<br>—</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
 </tr>
 <tr>
-<td>2026-11-18</td>
-<td></td>
-<td>WAS @ TOR</td>
-<td>3.6</td>
-<td>8.0</td>
-<td><span class="chip chip-neutral">4.5 pts</span></td>
-<td>5.8</td>
-<td>223.6 (poss 99.8)</td>
-<td>0.64</td>
-<td>WAS: 3d<br>TOR: 3d</td>
-<td>WAS: 563.2 km<br>TOR: 0.0 km</td>
-<td>A -1.68 / H -1.42<br>—</td>
+<td>2026-11-19</td>
+<td>8:00 PM ET</td>
+<td>LAC @ SAS</td>
+<td>5.4</td>
+<td>18.1</td>
+<td><span class="chip chip-warn">12.7 pts</span></td>
+<td>11.7</td>
+<td>226.3 (poss 99.7)</td>
+<td>0.77</td>
+<td>LAC: 2d<br>SAS: 2d</td>
+<td>LAC: 1945.8 km<br>SAS: 0.0 km</td>
+<td>A -1.17 / H 2.49<br>SAS outside |z|&gt;2 luck noise band</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
 </tr>
 <tr>
-<td>2026-11-18</td>
-<td></td>
-<td>DET @ NOP</td>
-<td>-3.7</td>
-<td>-12.9</td>
-<td><span class="chip chip-warn">9.2 pts</span></td>
-<td>-8.3</td>
-<td>230.1 (poss 100.7)</td>
-<td>0.30</td>
-<td>DET: 4d<br>NOP: 4d</td>
-<td>DET: 1076.8 km<br>NOP: 0.0 km</td>
-<td>A 0.03 / H -0.84<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>ATL @ OKC</td>
-<td>2.3</td>
-<td>3.1</td>
-<td><span class="chip chip-neutral">0.8 pts</span></td>
-<td>2.7</td>
-<td>223.1 (poss 101.1)</td>
-<td>0.57</td>
-<td>ATL: 3d<br>OKC: 3d</td>
-<td>ATL: 1178.9 km<br>OKC: 2151.0 km</td>
-<td>A 0.07 / H 0.23<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>BOS @ DEN</td>
+<td>2026-11-20</td>
+<td>10:00 PM ET</td>
+<td>HOU @ DEN</td>
 <td>-2.4</td>
-<td>-9.7</td>
-<td><span class="chip chip-neutral">7.3 pts</span></td>
-<td>-6.0</td>
-<td>220.9 (poss 97.1)</td>
-<td>0.35</td>
-<td>BOS: 3d<br>DEN: 4d</td>
-<td>BOS: 2842.0 km<br>DEN: 1740.1 km</td>
-<td>A 2.37 / H 1.06<br>BOS outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>GSW @ DAL</td>
-<td>-1.3</td>
-<td>-3.3</td>
-<td><span class="chip chip-neutral">2.1 pts</span></td>
-<td>-2.3</td>
-<td>227.8 (poss 100.1)</td>
-<td>0.44</td>
-<td>GSW: 5d<br>DAL: 3d</td>
-<td>GSW: 404.8 km<br>DAL: 2493.3 km</td>
-<td>A 1.82 / H 0.27<br>—</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>UTA @ LAL</td>
-<td>6.3</td>
-<td>20.5</td>
-<td><span class="chip chip-warn">14.3 pts</span></td>
-<td>13.4</td>
-<td>231.8 (poss 100.5)</td>
-<td>0.80</td>
-<td>UTA: 3d<br>LAL: 3d</td>
-<td>UTA: 935.0 km<br>LAL: — (arena coordinates missing for one endpoint (see arena_coordinates.json))</td>
-<td>A -2.89 / H 1.91<br>UTA outside |z|&gt;2 luck noise band</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
-</tr>
-<tr>
-<td>2026-11-18</td>
-<td></td>
-<td>PHX @ SAC</td>
-<td>-1.9</td>
-<td>-7.9</td>
-<td><span class="chip chip-neutral">6.0 pts</span></td>
-<td>-4.9</td>
-<td>231.2 (poss 99.7)</td>
+<td>-7.8</td>
+<td><span class="chip chip-neutral">5.3 pts</span></td>
+<td>-5.1</td>
+<td>228.3 (poss 97.5)</td>
 <td>0.38</td>
-<td>PHX: 3d<br>SAC: 3d</td>
-<td>PHX: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>SAC: 0.0 km</td>
-<td>A -0.43 / H -2.1<br>SAC outside |z|&gt;2 luck noise band</td>
+<td>HOU: 2d<br>DEN: 2d</td>
+<td>HOU: 1608.5 km<br>DEN: 0.0 km</td>
+<td>A 0.99 / H 1.33<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>10:00 PM ET</td>
+<td>SAC @ LAL</td>
+<td>6.1</td>
+<td>20.9</td>
+<td><span class="chip chip-warn">14.8 pts</span></td>
+<td>13.5</td>
+<td>238.1 (poss 100.8)</td>
+<td>0.80</td>
+<td>SAC: 2d<br>LAL: 2d 3-in-4</td>
+<td>SAC: 581.6 km<br>LAL: 0.0 km</td>
+<td>A -2.24 / H 1.59<br>SAC outside |z|&gt;2 luck noise band</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>7:00 PM ET</td>
+<td>CHA @ ATL</td>
+<td>3.7</td>
+<td>12.5</td>
+<td><span class="chip chip-warn">8.8 pts</span></td>
+<td>8.1</td>
+<td>214.6 (poss 100.2)</td>
+<td>0.69</td>
+<td>CHA: 3d<br>ATL: 2d</td>
+<td>CHA: 3111.7 km<br>ATL: 1214.5 km</td>
+<td>A -2.16 / H 0.37<br>CHA outside |z|&gt;2 luck noise band</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>7:30 PM ET</td>
+<td>ORL @ BKN</td>
+<td>-1.6</td>
+<td>-2.4</td>
+<td><span class="chip chip-neutral">0.8 pts</span></td>
+<td>-2.0</td>
+<td>220.1 (poss 98.8)</td>
+<td>0.45</td>
+<td>ORL: 2d<br>BKN: 2d</td>
+<td>ORL: 1509.5 km<br>BKN: 0.0 km</td>
+<td>A -0.11 / H -1.29<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>7:30 PM ET</td>
+<td>IND @ CLE</td>
+<td>1.9</td>
+<td>3.1</td>
+<td><span class="chip chip-neutral">1.3 pts</span></td>
+<td>2.5</td>
+<td>228.8 (poss 100.4)</td>
+<td>0.56</td>
+<td>IND: 2d<br>CLE: 2d</td>
+<td>IND: 423.3 km<br>CLE: 0.0 km</td>
+<td>A -1.57 / H -0.39<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>7:30 PM ET</td>
+<td>TOR @ DET</td>
+<td>1.9</td>
+<td>3.2</td>
+<td><span class="chip chip-neutral">1.3 pts</span></td>
+<td>2.6</td>
+<td>223.7 (poss 99.7)</td>
+<td>0.56</td>
+<td>TOR: 2d 3-in-4<br>DET: 2d 3-in-4</td>
+<td>TOR: 332.1 km<br>DET: 1514.2 km</td>
+<td>A -1.9 / H 0.6<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>8:00 PM ET</td>
+<td>WAS @ CHI</td>
+<td>0.1</td>
+<td>-5.1</td>
+<td><span class="chip chip-neutral">5.3 pts</span></td>
+<td>-2.5</td>
+<td>230.1 (poss 101.7)</td>
+<td>0.44</td>
+<td>WAS: 2d<br>CHI: 2d</td>
+<td>WAS: 704.6 km<br>CHI: 1151.2 km</td>
+<td>A -1.45 / H -0.94<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>8:00 PM ET</td>
+<td>NOP @ OKC</td>
+<td>4.2</td>
+<td>12.3</td>
+<td><span class="chip chip-warn">8.2 pts</span></td>
+<td>8.3</td>
+<td>227.4 (poss 100.2)</td>
+<td>0.70</td>
+<td>NOP: 2d<br>OKC: 2d</td>
+<td>NOP: 926.6 km<br>OKC: 0.0 km</td>
+<td>A -0.61 / H -0.15<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-20</td>
+<td>9:30 PM ET</td>
+<td>PHX @ UTA</td>
+<td>-1.4</td>
+<td>-7.9</td>
+<td><span class="chip chip-neutral">6.5 pts</span></td>
+<td>-4.7</td>
+<td>225.2 (poss 99.5)</td>
+<td>0.39</td>
+<td>PHX: 2d<br>UTA: 2d 3-in-4</td>
+<td>PHX: 856.2 km<br>UTA: 935.0 km</td>
+<td>A -0.08 / H -2.0<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>10:00 PM ET</td>
+<td>BOS @ SAC</td>
+<td>-7.3</td>
+<td>-23.6</td>
+<td><span class="chip chip-warn">16.3 pts</span></td>
+<td>-15.5</td>
+<td>221.6 (poss 98.8)</td>
+<td>0.17</td>
+<td>BOS: 3d<br>SAC: 3d</td>
+<td>BOS: 1425.7 km<br>SAC: 0.0 km</td>
+<td>A 1.5 / H -2.24<br>SAC outside |z|&gt;2 luck noise band</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>1:00 PM ET</td>
+<td>MIL @ PHI</td>
+<td>5.0</td>
+<td>15.5</td>
+<td><span class="chip chip-warn">10.5 pts</span></td>
+<td>10.2</td>
+<td>220.5 (poss 100.2)</td>
+<td>0.74</td>
+<td>MIL: 3d<br>PHI: 3d</td>
+<td>MIL: — (arena coordinates missing for one endpoint (see arena_coordinates.json))<br>PHI: — (arena coordinates missing for one endpoint (see arena_coordinates.json))</td>
+<td>A -2.33 / H 2.13<br>MIL outside |z|&gt;2 luck noise band; PHI outside |z|&gt;2 luck noise band</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>7:30 PM ET</td>
+<td>POR @ NYK</td>
+<td>-0.4</td>
+<td>-1.6</td>
+<td><span class="chip chip-neutral">1.1 pts</span></td>
+<td>-1.0</td>
+<td>222.4 (poss 98.2)</td>
+<td>0.47</td>
+<td>POR: 4d<br>NYK: 4d</td>
+<td>POR: 1635.9 km<br>NYK: 547.8 km</td>
+<td>A 0.74 / H 1.29<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>8:00 PM ET</td>
+<td>LAC @ DAL</td>
+<td>1.8</td>
+<td>5.1</td>
+<td><span class="chip chip-neutral">3.4 pts</span></td>
+<td>3.4</td>
+<td>227.2 (poss 100.5)</td>
+<td>0.58</td>
+<td>LAC: 4d<br>DAL: 3d</td>
+<td>LAC: 2000.1 km<br>DAL: 0.0 km</td>
+<td>A -1.17 / H 0.58<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>8:00 PM ET</td>
+<td>MEM @ MIN</td>
+<td>0.8</td>
+<td>3.3</td>
+<td><span class="chip chip-neutral">2.6 pts</span></td>
+<td>2.0</td>
+<td>225.2 (poss 100.9)</td>
+<td>0.55</td>
+<td>MEM: 3d<br>MIN: 4d</td>
+<td>MEM: 1014.3 km<br>MIN: 0.0 km</td>
+<td>A 0.77 / H 0.86<br>—</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
+</tr>
+<tr>
+<td>2026-11-21</td>
+<td>8:00 PM ET</td>
+<td>NOP @ SAS</td>
+<td>6.2</td>
+<td>22.1</td>
+<td><span class="chip chip-warn">15.9 pts</span></td>
+<td>14.1</td>
+<td>232.7 (poss 100.4)</td>
+<td>0.81</td>
+<td>NOP: 3d<br>SAS: 4d</td>
+<td>NOP: 809.0 km<br>SAS: 0.0 km</td>
+<td>A -0.61 / H 2.49<br>SAS outside |z|&gt;2 luck noise band</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-15</a></td>
 </tr>
 </tbody></table></div>
@@ -642,122 +417,122 @@ Home-court advantage is <strong>pinned to the measured home-win rate</strong>
 <th>Source</th>
 </tr></thead><tbody>
 <tr>
-<td>0022600236</td>
+<td>0022600270</td>
 <td>home side + over (same game, our own lines)</td>
-<td>0.574</td>
+<td>0.582</td>
 <td>0.500</td>
-<td>-0.052</td>
-<td>0.295</td>
-<td>0.287</td>
-<td>1.03</td>
-<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
-</tr>
-<tr>
-<td>0022600237</td>
-<td>home side + over (same game, our own lines)</td>
-<td>0.330</td>
-<td>0.500</td>
-<td>-0.052</td>
-<td>0.172</td>
-<td>0.165</td>
-<td>1.05</td>
-<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
-</tr>
-<tr>
-<td>0022600238</td>
-<td>home side + over (same game, our own lines)</td>
-<td>0.622</td>
-<td>0.500</td>
-<td>-0.052</td>
-<td>0.319</td>
-<td>0.311</td>
-<td>1.03</td>
-<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
-</tr>
-<tr>
-<td>0022600239</td>
-<td>home side + over (same game, our own lines)</td>
-<td>0.181</td>
-<td>0.500</td>
-<td>-0.052</td>
-<td>0.096</td>
-<td>0.090</td>
-<td>1.06</td>
-<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
-</tr>
-<tr>
-<td>0022600240</td>
-<td>home side + over (same game, our own lines)</td>
-<td>0.705</td>
-<td>0.500</td>
-<td>-0.052</td>
-<td>0.360</td>
-<td>0.353</td>
-<td>1.02</td>
-<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
-</tr>
-<tr>
-<td>0022600241</td>
-<td>home side + over (same game, our own lines)</td>
-<td>0.451</td>
-<td>0.500</td>
-<td>-0.052</td>
-<td>0.234</td>
-<td>0.225</td>
+<td>-0.070</td>
+<td>0.302</td>
+<td>0.291</td>
 <td>1.04</td>
 <td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
 </tr>
 <tr>
-<td>0022600242</td>
+<td>0022600271</td>
 <td>home side + over (same game, our own lines)</td>
-<td>0.282</td>
+<td>0.185</td>
 <td>0.500</td>
-<td>-0.052</td>
-<td>0.148</td>
-<td>0.141</td>
-<td>1.05</td>
+<td>-0.070</td>
+<td>0.100</td>
+<td>0.092</td>
+<td>1.08</td>
 <td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
 </tr>
 <tr>
-<td>0022600243</td>
+<td>0022600272</td>
 <td>home side + over (same game, our own lines)</td>
-<td>0.280</td>
+<td>0.586</td>
 <td>0.500</td>
-<td>-0.052</td>
-<td>0.147</td>
-<td>0.140</td>
-<td>1.05</td>
+<td>-0.070</td>
+<td>0.304</td>
+<td>0.293</td>
+<td>1.04</td>
 <td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
 </tr>
 <tr>
-<td>0022600244</td>
+<td>0022600273</td>
 <td>home side + over (same game, our own lines)</td>
-<td>0.270</td>
+<td>0.767</td>
 <td>0.500</td>
-<td>-0.052</td>
-<td>0.142</td>
-<td>0.135</td>
-<td>1.05</td>
-<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
-<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
-</tr>
-<tr>
-<td>0022600245</td>
-<td>home side + over (same game, our own lines)</td>
-<td>0.747</td>
-<td>0.500</td>
-<td>-0.052</td>
-<td>0.380</td>
-<td>0.373</td>
+<td>-0.070</td>
+<td>0.392</td>
+<td>0.384</td>
 <td>1.02</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600050</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.375</td>
+<td>0.500</td>
+<td>-0.070</td>
+<td>0.198</td>
+<td>0.188</td>
+<td>1.06</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600051</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.800</td>
+<td>0.500</td>
+<td>-0.070</td>
+<td>0.408</td>
+<td>0.400</td>
+<td>1.02</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600043</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.693</td>
+<td>0.500</td>
+<td>-0.070</td>
+<td>0.356</td>
+<td>0.347</td>
+<td>1.03</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600044</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.450</td>
+<td>0.500</td>
+<td>-0.070</td>
+<td>0.236</td>
+<td>0.225</td>
+<td>1.05</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600045</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.562</td>
+<td>0.500</td>
+<td>-0.070</td>
+<td>0.292</td>
+<td>0.281</td>
+<td>1.04</td>
+<td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
+<td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
+</tr>
+<tr>
+<td>0022600046</td>
+<td>home side + over (same game, our own lines)</td>
+<td>0.564</td>
+<td>0.500</td>
+<td>-0.070</td>
+<td>0.293</td>
+<td>0.282</td>
+<td>1.04</td>
 <td>bivariate normal with rho = measured correlation of the ridge model&#x27;s margin and total residuals over the official completed-game log</td>
 <td><a href="https://www.nba.com/games?date=2026-11-14" target="_blank" rel="noopener noreferrer">official finals</a></td>
 </tr>

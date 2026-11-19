@@ -65,7 +65,13 @@ class InvocationTests(unittest.TestCase):
         proc = subprocess.run(battery.suite_command(sys.executable, "test_refresh_official.py",
                                                     "module"),
                               cwd=ROOT, capture_output=True, text=True)
-        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        combined = (proc.stdout or "") + (proc.stderr or "")
+        # This test is about the argv SHAPE, not about whether the suite is currently green: a data
+        # failure inside the suite must fail its own test, not turn into a second, misleading
+        # "the invocation is broken" report.
+        self.assertNotIn("unittest.loader._FailedTest", combined,
+                         "the interpreter could not load the suite by this name: "
+                         + combined[-400:])
         self.assertGreaterEqual(battery_ran(proc), 20,
                                 "the dotted module form loaded almost no tests; it is not equivalent")
 

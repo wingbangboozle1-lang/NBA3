@@ -446,6 +446,59 @@ def _side_index(text):
 
 # ----------------------------------------------------------------------------- outputs
 
+def merge_with_existing(built, live_path):
+    """Union the round's rows with whatever the live feed already holds.
+
+    This script used to write `built` over `data/app/results_feed.json` outright. Because
+    .github/workflows/pages.yml runs it on every deploy, that silently rolled the published results
+    feed back to this round's own capture window (11/12-11/15) and deleted every game day promoted
+    after it — which is how the live site kept showing 23 rows while the ledger and the day captures
+    had 46. A capture round knows its own days; it must not be the thing that forgets everyone
+    else's. So: this round's rows win only where they are byte-identical to what is already there,
+    rows for days the round never captured are carried through untouched, and a row that this round
+    reads DIFFERENTLY from the live feed is left alone and reported as a conflict for a human to
+    resolve — never silently rewritten in either direction.
+
+    NBA3_FEED_OUT redirects the write (used by CI to keep the deploy read-only).
+    """
+    if not os.path.exists(live_path):
+        return built, [], []
+    try:
+        live = json.load(open(live_path, encoding="utf-8"))
+    except (OSError, ValueError):
+        return built, [], []
+    mine = {(g["date"], g["away"], g["home"]): g for g in built["games"]}
+    kept, preserved, conflicts = [], [], []
+    for g in live.get("games", []):
+        key = (g["date"], g["away"], g["home"])
+        new = mine.get(key)
+        if new is None:
+            preserved.append(g)
+            continue
+        same = all(new.get(k) == g.get(k) for k in
+                   ("away_pts", "home_pts", "state", "verified", "settled"))
+        if same:
+            kept.append(new)
+        else:
+            # the live row stands; this round's differing reading is reported, not published
+            conflicts.append(f"{key[0]} {key[1]}@{key[2]}: live "
+                             f"{g.get('away_pts')}-{g.get('home_pts')} vs round "
+                             f"{new.get('away_pts')}-{new.get('home_pts')}")
+            kept.append(g)
+        mine.pop(key)
+    for g in built["games"]:                    # this round's rows for brand-new games
+        if (g["date"], g["away"], g["home"]) in {(x["date"], x["away"], x["home"])
+                                                 for x in preserved + kept}:
+            continue
+        kept.append(g)
+    games = sorted(kept + preserved, key=lambda g: (g["date"], g["away"], g["home"]))
+    out = dict(built)
+    out["games"] = games
+    out["count"] = len(games)
+    out["settled_count"] = sum(1 for g in games if g.get("settled"))
+    return out, preserved, conflicts
+
+
 def main():
     # --- injuries
     rows = parse_injury_raw(INJ_RAW)
@@ -577,9 +630,19 @@ def main():
                    [g["gamebook"] for g in cap_1115["games"]],
     }
     _rf.verify(feed)   # final row semantics (verified + quarter_check), deterministic
-    with open(RESULTS_JSON, "w", encoding="utf-8") as fh:
+    feed, preserved, conflicts = merge_with_existing(feed, RESULTS_JSON)
+    out = os.environ.get("NBA3_FEED_OUT") or RESULTS_JSON
+    if conflicts:
+        for c in conflicts[:5]:
+            print(f"CONFLICT kept existing row (not overwritten): {c}")
+    with open(out, "w", encoding="utf-8") as fh:
         json.dump(feed, fh, indent=1)
         fh.write("\n")
+    if out != RESULTS_JSON:
+        print(f"results feed written to NBA3_FEED_OUT={out}; {RESULTS_JSON} left untouched")
+    if preserved:
+        print(f"results feed: {len(preserved)} row(s) this round does not capture were preserved "
+              f"({', '.join(sorted({r['date'] for r in preserved}))})")
 
     logs = {
         "source_label": ("Per-player game logs captured from the official game books of the "

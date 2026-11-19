@@ -154,6 +154,34 @@ class PublishGateTests(unittest.TestCase):
         self._publish(now)
         self.assertEqual(self._ids(), ["G3-side-proj"])
 
+    def test_tips_printed_with_a_zone_token_are_verified(self):
+        """Regression (session arena/915d2e99-nba3): the official card prints "8:00 PM ET".
+
+        `_tip_as_et` accepted only "%I:%M %p", so a tip that WAS printed on the official page read as
+        "tip time not verified", and publish() refused every game tipping today while sealing the
+        later ones: on 2026-11-19 it published 15 rows and skipped all four of the day's games. The
+        entry still carries the page's own string — only the parse learned to ignore the zone suffix,
+        and an unreadable tip must still refuse (never publish without a provable pre-tip instant).
+        """
+        now = datetime(2026, 11, 19, 6, 0, tzinfo=timezone.utc)     # 01:00 AM ET on 11/19
+        self._write([_row("G6", "2026-11-19", "8:00 PM ET"),        # tips 20:00 ET: still ahead
+                     _row("G7", "2026-11-19", "12:30 AM ET")],      # already tipped at 01:00 ET
+                    [("2026-11-19", "G6"), ("2026-11-19", "G7")])
+        self._publish(now)
+        self.assertEqual(self._ids(), ["G6-side-proj"])
+
+    def test_unreadable_tip_refuses_and_zone_variants_resolve(self):
+        self.assertIsNone(pick_ledger._tip_as_et("TBD", date(2026, 11, 19)))
+        self.assertIsNone(pick_ledger._tip_as_et("", date(2026, 11, 19)))
+        self.assertIsNone(pick_ledger._tip_as_et(None, date(2026, 11, 19)))
+        # the zone token is dropped and the day is interpreted in ET either way, so the same wall
+        # clock resolves across the DST boundary without a hard-coded offset
+        for tip, day in (("8:00 PM EDT", date(2026, 3, 9)), ("8:00 PM EST", date(2026, 11, 19))):
+            with self.subTest(tip=tip):
+                got = pick_ledger._tip_as_et(tip, day)
+                self.assertEqual((got.hour, got.minute), (20, 0))
+                self.assertEqual(got.date(), day)
+
     def test_future_day_is_published_without_a_tip_time(self):
         now = datetime(2026, 11, 16, 15, 0, tzinfo=timezone.utc)
         self._write([_row("G5", "2026-11-17", None)], [("2026-11-17", "G5")])
@@ -182,6 +210,44 @@ class PublishGateTests(unittest.TestCase):
         now = datetime.strptime(max(stamps), "%Y-%m-%dT%H:%MZ").replace(tzinfo=timezone.utc)
         pick_ledger.publish(now_utc=now)
         self.assertEqual(len(pick_ledger.read_entries()), before)
+
+
+class SettleIdempotencyTests(unittest.TestCase):
+    """settle() must append one settlement per pick, ever (session arena/915d2e99-nba3)."""
+
+    def test_rerunning_settle_adds_nothing_for_a_pick_already_settled(self):
+        self.tmp = tempfile.mkdtemp()
+        saved = (pick_ledger.LEDGER_DIR, pick_ledger.LEDGER, pick_ledger.FEED)
+        try:
+            pick_ledger.LEDGER_DIR = self.tmp
+            pick_ledger.LEDGER = os.path.join(self.tmp, "ledger.jsonl")
+            feed = os.path.join(self.tmp, "feed.json")
+            with open(feed, "w", encoding="utf-8") as fh:
+                json.dump({"games": [{"game_id": "X1", "date": "2026-11-15", "away": "DAL",
+                                      "home": "CLE", "away_pts": 113, "home_pts": 106,
+                                      "verified": True, "settled": True}]}, fh)
+            pick_ledger.FEED = feed
+            # the pre-existing publication has to be a real chained entry: settle() reads the head
+            # hash off the last row, so a hand-written body without entry_hash is not a fixture
+            payload = {"away": "DAL", "home": "CLE", "blend_margin": 3.0, "blend_total": 219.0}
+            body = {"pick_id": "X1-side-proj", "state": "PUBLISHED_PRE_TIP", "date": "2026-11-15",
+                    "payload": payload, "payload_sha256": pick_ledger.sha(payload)}
+            entry = {"prev_hash": pick_ledger.GENESIS, "body": body}
+            entry["entry_hash"] = pick_ledger.chain_hash(pick_ledger.GENESIS, body)
+            with open(pick_ledger.LEDGER, "w", encoding="utf-8") as fh:
+                fh.write(json.dumps(entry) + "\n")
+            # settle() takes no arguments: the settled day comes from the feed, so re-running the
+            # command is exactly what CI does, and it must be a no-op after the first stamp.
+            for _ in range(3):
+                self.assertEqual(pick_ledger.settle(), 0)
+            entries = pick_ledger.read_entries()
+            self.assertEqual([e["body"]["state"] for e in entries],
+                             ["PUBLISHED_PRE_TIP", "SETTLED"],
+                             "one publication, exactly one settlement")
+            self.assertEqual(pick_ledger.verify(), 0)
+        finally:
+            (pick_ledger.LEDGER_DIR, pick_ledger.LEDGER, pick_ledger.FEED) = saved
+            shutil.rmtree(self.tmp)
 
 
 if __name__ == "__main__":

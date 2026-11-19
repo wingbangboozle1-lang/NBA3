@@ -1,0 +1,109 @@
+{
+ "schema": "nba3.rounds.manifest/v1",
+ "round": "2026-11-19",
+ "session": "arena/915d2e99-nba3",
+ "written_utc": "2026-11-19T06:04Z",
+ "written_note": "stamped from the read window rather than a wall clock so a re-run of this script is byte-stable; each transcript header carries its own retrieval line",
+ "shape_note": "transcript manifest in the shape data/rounds/2026-11-17/manifest.json uses: url, retrieval stamp, sha256 and bytes per artefact",
+ "artefacts": [
+  {
+   "file": "data/app/official_results_2026-11-16.json",
+   "kind": "derived official results capture for 2026-11-16 (written by scripts/roll_915d2e99.py)",
+   "bytes": 6050,
+   "sha256": "b75dfe6b5b9985b1ce5ce1d292f68c3d6a0d25a3a7c1e886bf246b1f6f57a16c",
+   "retrieved_utc": null,
+   "source_url": "https://www.nba.com/games?date=2026-11-16",
+   "games": 6,
+   "window": null
+  },
+  {
+   "file": "data/app/official_results_2026-11-17.json",
+   "kind": "derived official results capture for 2026-11-17 (written by scripts/roll_915d2e99.py)",
+   "bytes": 4758,
+   "sha256": "342ce476585bbb4e7da0e55b426bee52db42a273b039adb34c45677ba5e17713",
+   "retrieved_utc": null,
+   "source_url": "https://www.nba.com/games?date=2026-11-17",
+   "games": 5,
+   "window": null
+  },
+  {
+   "file": "data/app/official_results_2026-11-18.json",
+   "kind": "derived official results capture for 2026-11-18 (written by scripts/roll_915d2e99.py)",
+   "bytes": 9949,
+   "sha256": "3b49ee48d813ac2f75817ee17298bc8eca7d022b5014931c510bc0089154c6ad",
+   "retrieved_utc": null,
+   "source_url": "https://www.nba.com/games?date=2026-11-18",
+   "games": 12,
+   "window": null
+  },
+  {
+   "file": "data/app/official_slate_current.json",
+   "kind": "derived artefact (written by scripts/roll_915d2e99.py)",
+   "bytes": 9023,
+   "sha256": "37da9bfb2b540cde4b8d860588985e17a145575d5732cc78b22ce84a1219d63b",
+   "retrieved_utc": "2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-19",
+   "games": 19,
+   "window": {
+    "from": "2026-11-19",
+    "to": "2026-11-21"
+   }
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/crossread_2026-11-18_gamelist.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 2886,
+   "sha256": "e078702b8b3beb98f7ceefeff26af488c311aa735c1ec100917bd3f3f08b1150",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/game/mem-vs-cle-0022600258"
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/games_2026-11-16.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 2892,
+   "sha256": "23e84360aafff714c46b859f2f30818a90e149683370bca3f29b5dbfc7ab79ac",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-16"
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/games_2026-11-17.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 4154,
+   "sha256": "42a686903d55ebcf376940c56c31dfaa57af66555301ea5c7f5fe6be0999abb4",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-17"
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/games_2026-11-18.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 3517,
+   "sha256": "e8e9273602cd7de542ef47f6e50415845dd6cbf766c3caac530c0a38aa5c168a",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-18"
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/games_2026-11-19.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 1255,
+   "sha256": "866a2232b452979b05e1055617e7a3e771a8c5d8611600069cac2694259b4b24",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-19"
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/games_2026-11-20.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 3097,
+   "sha256": "acca45d23c0e02647d3512142f431fcfcdfed7b781c29a40600b2cecc5bf3d00",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-20"
+  },
+  {
+   "file": "data/rounds/2026-11-19/raw915/games_2026-11-21.md",
+   "kind": "official-page transcript (verbatim excerpt)",
+   "bytes": 1739,
+   "sha256": "bbfacf9340de29326a9f4efcca3ea59a282549d883c999a49237ae254a7e1e70",
+   "retrieved_utc": "2026-11-19T05:57Z..2026-11-19T06:04Z",
+   "source_url": "https://www.nba.com/games?date=2026-11-21"
+  }
+ ]
+}
