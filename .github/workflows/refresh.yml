@@ -55,18 +55,29 @@ jobs:
           echo "                   in a sandbox. Diff the two lines above before believing a red."
 
       - name: Unit tests against the committed tree (capture, feed, ledger, estimators, gates)
+        # arena/b1ce1334 (B1-1): every suite's full output is kept under $RUNNER_TEMP/unit-logs and
+        # uploaded when the run fails, and each failing test name is repeated as an annotation.
+        # The gate itself is unchanged: any failing suite still fails this step.
         run: |
           set -uo pipefail
           fail=0
+          logdir="$RUNNER_TEMP/unit-logs"
+          mkdir -p "$logdir"
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
                        "test_round_2ecbccfd.py"; do
             echo "::group::unittest $suite"
+            log="$logdir/$(printf '%s' "$suite" | tr -c 'A-Za-z0-9._-' '_').log"
             if [ "$suite" = "test_refresh_official.py" ]; then
-              python3 -m unittest tests/test_refresh_official.py -v || fail=1
+              cmd=(python3 -m unittest tests/test_refresh_official.py -v)
             else
-              python3 -m unittest discover -s tests -p "$suite" -v || fail=1
+              cmd=(python3 -m unittest discover -s tests -p "$suite" -v)
+            fi
+            if ! "${cmd[@]}" 2>&1 | tee "$log"; then
+              fail=1
+              echo "::error::unit suite $suite failed; failing tests follow"
+              grep -E "^(FAIL|ERROR): " "$log" | head -n 20 | sed 's/^/::error::  /' || true
             fi
             echo "::endgroup::"
           done
@@ -74,6 +85,15 @@ jobs:
             echo "::error::at least one unittest suite failed on the committed tree (see the group above for which)"
             exit 1
           fi
+
+      - name: Upload unit-test logs from a failed run
+        if: failure() && !cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-logs-${{ github.run_id }}
+          path: ${{ runner.temp }}/unit-logs
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Fetch official sources (injury reports, schedule, standings, results, game books, team stats)
         run: |
