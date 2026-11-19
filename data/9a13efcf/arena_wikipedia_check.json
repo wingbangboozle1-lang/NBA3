@@ -1,0 +1,55 @@
+{
+ "kind": "arena_coordinate_reverification",
+ "what": "Every arena coordinate in data/v2/arena_coordinates.json re-read from the SAME source the table cites: Wikipedia's GeoData API (the coordinate stored on each arena article). Session 9a13efcf, 2026-11-19. Three batch calls, 30 arenas, one per NBA team.",
+ "retrieved_utc": "2026-11-19T07:15Z",
+ "retrieval_note": "read with the session's page-fetch tool; the response body is JSON from en.wikipedia.org's api.php",
+ "method": "action=query&prop=coordinates&colimit=max&format=json&redirects=1&titles=<10 arena titles per call>; the 'coordinates' field of each returned page is the article's primary coordinate",
+ "source_tier": "SECONDARY (Wikipedia GeoData) - same tier the arena table itself declares. Not an NBA-operated source; coordinates are a geographic fact, not an NBA statistic.",
+ "batches": [
+  {
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&colimit=max&format=json&redirects=1&titles=State%20Farm%20Arena|TD%20Garden|Barclays%20Center|Spectrum%20Center|United%20Center|Rocket%20Arena|American%20Airlines%20Center|Ball%20Arena|Little%20Caesars%20Arena|Chase%20Center",
+   "rows": {
+    "State Farm Arena": {"lat": 33.75722222, "lon": -84.39638889, "pageid": 753713},
+    "TD Garden": {"lat": 42.36638889, "lon": -71.06222222, "pageid": 498890},
+    "Barclays Center": {"lat": 40.68266111, "lon": -73.975225, "pageid": 1658814},
+    "Spectrum Center": {"lat": 35.225, "lon": -80.83916667, "pageid": 417260},
+    "United Center": {"lat": 41.88055556, "lon": -87.67416667, "pageid": 547184},
+    "Rocket Arena": {"lat": 41.49638889, "lon": -81.68805556, "pageid": 745240},
+    "American Airlines Center": {"lat": 32.79055556, "lon": -96.81027778, "pageid": 277398},
+    "Ball Arena": {"lat": 39.74861111, "lon": -105.0075, "pageid": 328099},
+    "Little Caesars Arena": {"lat": 42.34111111, "lon": -83.055, "pageid": 43907729},
+    "Chase Center": {"lat": 37.76805556, "lon": -122.3875, "pageid": 40062288}
+   }
+  },
+  {
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&colimit=max&format=json&redirects=1&titles=Toyota%20Center|Gainbridge%20Fieldhouse|FedExForum|Kaseya%20Center|Fiserv%20Forum|Target%20Center|Madison%20Square%20Garden|Paycom%20Center|Kia%20Center|Xfinity%20Mobile%20Arena",
+   "rows": {
+    "Toyota Center": {"lat": 29.75083333, "lon": -95.36222222, "pageid": 316397},
+    "Gainbridge Fieldhouse": {"lat": 39.76388889, "lon": -86.15555556, "pageid": 624938},
+    "FedExForum": {"lat": 35.13833333, "lon": -90.05055556, "pageid": 636734},
+    "Kaseya Center": {"lat": 25.78138889, "lon": -80.18805556, "pageid": 327817},
+    "Fiserv Forum": {"lat": 43.04502778, "lon": -87.91816667, "pageid": 46354257},
+    "Target Center": {"lat": 44.97944444, "lon": -93.27611111, "pageid": 237003},
+    "Madison Square Garden": {"lat": 40.75055556, "lon": -73.99361111, "pageid": 75129},
+    "Paycom Center": {"lat": 35.46333333, "lon": -97.515, "pageid": 1698323},
+    "Kia Center": {"lat": 28.53916667, "lon": -81.38361111, "pageid": 7221822},
+    "Xfinity Mobile Arena": {"lat": 39.90111111, "lon": -75.17194444, "pageid": 753781}
+   }
+  },
+  {
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&colimit=max&format=json&redirects=1&titles=Mortgage%20Matchup%20Center|Moda%20Center|Golden%201%20Center|Frost%20Bank%20Center|Scotiabank%20Arena|Delta%20Center|Capital%20One%20Arena|Crypto.com%20Arena|Intuit%20Dome|Smoothie%20King%20Center",
+   "rows": {
+    "Mortgage Matchup Center": {"lat": 33.44583333, "lon": -112.07138889, "pageid": 66144639, "note": "queried under the current name; the table's redirect note (Footprint Center -> Mortgage Matchup Center) is confirmed by the API resolving this title to the Phoenix article"},
+    "Moda Center": {"lat": 45.53166667, "lon": -122.66666667, "pageid": 263703},
+    "Golden 1 Center": {"lat": 38.58036111, "lon": -121.49961111, "pageid": 35080638},
+    "Frost Bank Center": {"lat": 29.42694444, "lon": -98.4375, "pageid": 753598},
+    "Scotiabank Arena": {"lat": 43.64333333, "lon": -79.37916667, "pageid": 436436},
+    "Delta Center": {"lat": 40.76833333, "lon": -111.90111111, "pageid": 8054629},
+    "Capital One Arena": {"lat": 38.89805556, "lon": -77.02083333, "pageid": 575052},
+    "Crypto.com Arena": {"lat": 34.04305556, "lon": -118.26722222, "pageid": 516154},
+    "Intuit Dome": {"lat": 33.9451, "lon": -118.3431, "pageid": 56652338},
+    "Smoothie King Center": {"lat": 29.94888889, "lon": -90.08194444, "pageid": 753673}
+   }
+  }
+ ]
+}
