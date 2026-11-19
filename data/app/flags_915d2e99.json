@@ -80,5 +80,19 @@
   "sources": [
    "https://www.nba.com/games?date=2026-11-19"
   ]
+ },
+ {
+  "id": "915D-F-07",
+  "area": "Site window / publish gating",
+  "item": "The dashboard's canonical window was NOT rolled forward to 2026-11-19..21, although the slate, results feed, estimator window and ledger all are.",
+  "why": "A one-line re-point of data/app/snapshot_manifest.json (its stated purpose is 'a later refresh is a data change') moved the site window to 2026-11-19..21 and 34 tests in tests/test_lines_attribution.py failed: the lines/picks blocks carry a per-row schedule source URL, and pointing the block at the new slate would have labelled 2026-11-15..18 games with a https://www.nba.com/games?date=2026-11-19 source — a wrong source link on a row, which is the one thing the table rule never allows. The priced blocks cannot be rolled independently of the window they describe.",
+  "severity": "medium",
+  "action_needed": "Integration session: re-point snapshot_manifest.json (window + slate.path) AND regenerate closing_lines/picks/props/parlays from the 19-game window in the same change, then re-run tests/test_lines_attribution.py. Do not re-point the manifest alone — that is the state that fails, and it fails because the row-level source links would lie. The slate itself is current and correct at data/app/official_slate_current.json; only the site's window label lags.",
+  "status": "Open — change request filed in COORDINATION.md",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-19",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"
+  ]
  }
 ]
