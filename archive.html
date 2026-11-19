@@ -21,12 +21,29 @@
   </div>
 </nav>
 <main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="app/flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
   <div class="page-head">
     <div class="crumb">Archive</div>
     <h1>Archive — earlier sessions</h1>
     <p class="lead">Every dashboard built by an earlier session, dated and linked. None of these is current.</p>
   </div>
-<p class="lead">Every dashboard built by an earlier session of this project, in the order it was published. None of these is current: they use different ID namespaces, different injury snapshots and different model variants. <strong>The canonical pages linked in the navigation are the current numbers.</strong></p>
+<p class="lead">Every dashboard built by an earlier session of this project, in the order it was published. None of these is current: they use different ID namespaces, different injury snapshots and different model variants. <strong>The canonical pages linked in the navigation are the last successful snapshot, not live numbers; see the live-data status notice before treating them as current.</strong></p>
 <p>They are kept, not deleted, because being able to read what an earlier round concluded - and what a later round changed - is the audit trail. Each row links to the tree itself and to the official pages it was built from; the exact snapshot inside each tree is recorded inside that tree.</p>
 <div class="table-wrap"><table>
 <caption id="archive"></caption>

@@ -21,6 +21,23 @@
   </div>
 </nav>
 <main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
   <div class="page-head">
     <div class="crumb">Projection surface (public)</div>
     <h1>Injuries, rotation impact &amp; report status</h1>
@@ -35,14 +52,26 @@ is published as such rather than treated as healthy — “unknown” and “fit
 and every downstream number respects the difference.</p>
 <p><strong>Report revision time (the table below): 2026-11-15 06:15 AM ET ·
 retrieval time: 2026-11-15T11:40Z.</strong>
-Newest archived official report: <strong>Injury Report: 11/16/26 01:15 PM</strong>
+The latest entry in the <em>consolidated</em> archive index is
+<strong>Injury Report: 11/16/26 01:15 PM</strong>
 (revision time), retrieved <strong>2026-11-16T18:35Z</strong> —
 full table, consecutive-report diff and extraction-artifact notes in
-<a href="#s1d">section 1d</a>. The scheduled refresh job re-reads the official index four times a
-day and archives every report it lists; the freshness and provenance gates that govern every
-rebuild are on the <a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
+<a href="#s1d">section 1d</a>. Later 2026-11-19 captures are stored separately and are not integrated
+into these canonical injury rows or model outputs. The scheduled refresh is designed to re-read the
+official index four times a day, but the latest observed run failed before fetch; see
+<a href="flagged.html">EVE-F04</a> and the <a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
 <div class="callout warn">
-<p><strong>Freshness check: a newer official report exists.</strong> At 18:45 UTC on 2026-11-14 the
+<p><strong>Separate 2026-11-19 report captures (not current availability claims):</strong>
+<a href="../b1ce1334/index.html">B1 capture dashboard</a> and its
+<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf" target="_blank" rel="noopener noreferrer">12:30 AM ET official report</a>;
+and a separately archived
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-de0caf5d/injury_2026-11-19_0045AM.json" target="_blank" rel="noopener noreferrer">12:45 AM ET report and comparison record</a>
+with its <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a>.
+These records remain outside the canonical model inputs on this page; their capture/parser flags
+must be read before interpreting any row. No current player status is asserted here.</p>
+</div>
+<div class="callout warn">
+<p><strong>Historical freshness check for the 2026-11-14 capture.</strong> At 18:45 UTC on 2026-11-14 the
 <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">official index</a>
 lists 11/14 reports through <strong>01:30 PM ET</strong>. Section 1 below is the
 <strong>2026-11-15 06:15 AM ET</strong> capture and is not replaced in this round. Section
@@ -56,16 +85,16 @@ are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
 </div>
 
 <div class="callout warn">
-<p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
-2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> On the 04:15 AM ET
-snapshot, five of the ten teams playing on 11/14 had not filed. On the 01:30 PM ET report, four of
-them (New Orleans, Cleveland, Chicago, Miami) have printed players; Memphis has not
-(<a href="../audit_736efb4b/index.html">audit_736efb4b</a>, flag F736-11). The back-to-back explanation
-written against the 04:15 AM snapshot has not been re-verified against the schedule in this round.
-Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
-is <a href="flagged.html">NF-53</a> and the corrected reading is
-<a href="flagged.html">NF-56</a>.</p>
+<p><strong>Scope limit of the 2026-11-14 04:15 AM ET snapshot.</strong> That capture covered 2026-11-14 games (with player detail) and
+2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED). At that capture time, no
+official report had yet been found for game dates 2026-11-16 or 2026-11-17; that dated observation
+is not a claim about reports published later. On the 04:15 AM ET snapshot, five of the ten teams
+playing on 11/14 had not filed. On the 01:30 PM ET report, four of them (New Orleans, Cleveland,
+Chicago, Miami) had printed players; Memphis had not (<a href="../audit_736efb4b/index.html">audit_736efb4b</a>,
+flag F736-11). The back-to-back explanation written against the 04:15 AM snapshot has not been
+re-verified against the schedule in this round. Full per-game timeline on the
+<a href="freshness.html">Report-availability page</a>; the older flag is
+<a href="flagged.html">NF-53</a> and the corrected reading is <a href="flagged.html">NF-56</a>.</p>
 </div>
 
 <h2>1. The report, row by row</h2>
@@ -1717,7 +1746,7 @@ Raw text and the parser are in the repository (<a href="https://github.com/wingb
 </tr>
 </tbody></table></div>
 
-<h2 id="s1c">1c. The newest official report — 2026-11-15 06:15 AM ET</h2>
+<h2 id="s1c">1c. Canonical model input — 2026-11-15 06:15 AM ET</h2>
 <p><strong>Report revision time: 2026-11-15 06:15 AM ET ·
 retrieval time: 2026-11-15T11:33Z</strong>
 (<a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">PDF</a>,
@@ -2759,10 +2788,11 @@ Diff file: <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/
 </tr>
 </tbody></table></div>
 
-<h2 id="s1d">1d. The newest archived report — Injury Report: 11/16/26 01:15 PM</h2>
+<h2 id="s1d">1d. Consolidated archive entry — Injury Report: 11/16/26 01:15 PM</h2>
 <p><strong>Report revision time: Injury Report: 11/16/26 01:15 PM ·
 retrieval time: 2026-11-16T18:35Z.</strong>
-Source: <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a>
+This is the latest item in the consolidated archive index, not the latest report known anywhere in
+this repository. Source: <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a>
 (Injury-Report_2026-11-16_01_15PM.md, archived verbatim;
 <a href="https://github.com/wingbangboozle1-lang/NBA3/tree/main/data/live/injuries">archive directory</a>).
 0 player rows parsed, 0 team rows

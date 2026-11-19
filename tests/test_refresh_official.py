@@ -380,6 +380,13 @@ class GateCallTests(unittest.TestCase):
 
 
 class WorkflowGateTests(unittest.TestCase):
+    def test_tests_package_resolves_to_this_repository(self):
+        import tests
+        self.assertEqual(os.path.realpath(tests.__file__),
+                         os.path.join(ROOT, "tests", "__init__.py"),
+                         "the scheduled module-style unittest invocation must not resolve a "
+                         "third-party top-level tests package")
+
     def _step(self, workflow, name):
         marker = f"- name: {name}"
         start = workflow.index(marker)
