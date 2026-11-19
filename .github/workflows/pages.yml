@@ -586,6 +586,13 @@ jobs:
           python3 round_2ecbccfd/build.py --check
           python3 -m unittest discover -s tests -p "test_round_2ecbccfd.py" -v
 
+      - name: 2026-11-19 official capture and subsite (arena/b1ce1334) - checksums, diff, finals, slate, page checks, tests
+        run: |
+          set -euo pipefail
+          python3 scripts/capture_b1ce1334.py --check
+          python3 scripts/build_b1ce1334.py --check
+          python3 -m unittest tests/test_b1ce1334.py -v
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -605,6 +612,7 @@ jobs:
           cp -r audit_ef6e2e6c _pages/audit_ef6e2e6c
           rm -rf d1b96315/__pycache__ d1b96315/tests/__pycache__
           cp -r d1b96315 _pages/d1b96315
+          cp -r b1ce1334 _pages/b1ce1334
           cp executive-summary.html _pages/
           cp -r dashboard _pages/dashboard
           cp -r docs _pages/docs
