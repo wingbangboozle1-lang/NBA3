@@ -33,6 +33,22 @@ import re
 import sys
 from collections import defaultdict
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 RD = os.path.join(ROOT, "data", "rounds", "2026-11-17")
 PRIOR = os.path.join(ROOT, "data", "rounds", "2026-11-16")
@@ -108,14 +124,14 @@ def _erfinv(y):
 
 
 def mean(xs):
-    return sum(xs) / len(xs) if xs else None
+    return det.fold(xs) / len(xs) if xs else None
 
 
 def sd(xs):
     if len(xs) < 2:
         return None
     m = mean(xs)
-    return math.sqrt(sum((x - m) ** 2 for x in xs) / (len(xs) - 1))
+    return math.sqrt(det.fold((x - m) ** 2 for x in xs) / (len(xs) - 1))
 
 
 def wilson(k, n, z=1.96):
@@ -125,7 +141,7 @@ def wilson(k, n, z=1.96):
     d = 1 + z * z / n
     c = p + z * z / (2 * n)
     h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
-    return (round((c - h) / d, 6), round((c + h) / d, 6))
+    return (det.dq((c - h) / d, 6), det.dq((c + h) / d, 6))
 
 
 def pearson(xs, ys):
@@ -133,9 +149,9 @@ def pearson(xs, ys):
     if n < 3:
         return None
     mx, my = mean(xs), mean(ys)
-    sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
-    sxx = sum((x - mx) ** 2 for x in xs)
-    syy = sum((y - my) ** 2 for y in ys)
+    sxy = det.fold((x - mx) * (y - my) for x, y in zip(xs, ys))
+    sxx = det.fold((x - mx) ** 2 for x in xs)
+    syy = det.fold((y - my) ** 2 for y in ys)
     if sxx <= 0 or syy <= 0:
         return None
     return sxy / math.sqrt(sxx * syy)
@@ -149,7 +165,7 @@ def fisher_ci(r, n, z=1.96):
     se = 1.0 / math.sqrt(n - 3)
     lo, hi = zr - z * se, zr + z * se
     inv = lambda t: (math.exp(2 * t) - 1) / (math.exp(2 * t) + 1)
-    return (round(inv(lo), 6), round(inv(hi), 6))
+    return (det.dq(inv(lo), 6), det.dq(inv(hi), 6))
 
 
 # --------------------------------------------------------------------- inputs
@@ -207,7 +223,7 @@ def haversine_mi(a, b):
     dp = p2 - p1
     dl = math.radians(lon2 - lon1)
     h = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return round(2 * r * math.asin(math.sqrt(h)), 1)
+    return det.dq(2 * r * math.asin(math.sqrt(h)), 1)
 
 
 # --------------------------------------------------------------------- schedule features
@@ -348,12 +364,12 @@ def load_minutes():
             players[k] = {
                 "player": names.get((code, k)) or samples[0]["player"],
                 "games_captured": len(samples),
-                "min_mean": round(sum(mins) / len(mins), 2) if mins else None,
+                "min_mean": det.dq(det.fold(mins) / len(mins), 2) if mins else None,
                 "min_by_game": [{"date": s["date"], "min": s["min"],
                                  "status": s.get("status", "played")} for s in samples],
-                "pts_mean": round(sum(pts) / len(pts), 2) if pts else None,
-                "reb_mean": round(sum(reb) / len(reb), 2) if reb else None,
-                "ast_mean": round(sum(ast) / len(ast), 2) if ast else None,
+                "pts_mean": det.dq(det.fold(pts) / len(pts), 2) if pts else None,
+                "reb_mean": det.dq(det.fold(reb) / len(reb), 2) if reb else None,
+                "ast_mean": det.dq(det.fold(ast) / len(ast), 2) if ast else None,
                 "sources": sorted({s["source"] for s in samples if s.get("source")}),
             }
         captured[code] = {"players": players,
@@ -415,7 +431,7 @@ def availability_effect(team, injured_rows, captured):
                 else "already_inactive_in_captured_games")
     for d in detail:
         d["bucket"] = bucket(d)
-    buckets = {k: sum(1 for d in detail if d["bucket"] == k)
+    buckets = {k: det.fold(1 for d in detail if d["bucket"] == k)
                for k in ("rotation_player_out", "bench_player_out",
                          "already_inactive_in_captured_games", "no_captured_row")}
     if not club:
@@ -425,7 +441,7 @@ def availability_effect(team, injured_rows, captured):
                 "replacement_minutes": [], "detail": detail,
                 "unmatched_players": unmeasurable}
     pool = sorted(club["players"].values(), key=lambda p: -(p["min_mean"] or 0))
-    total_pool = sum((p["min_mean"] or 0) for p in pool) or None
+    total_pool = det.fold((p["min_mean"] or 0) for p in pool) or None
     share = (vacated / total_pool) if total_pool else None
     out_keys = {_key(d["player"]) for d in detail}
     last_sets = [_surname_form(d["player"])[0] for d in detail if d["matched"]]
@@ -442,17 +458,17 @@ def availability_effect(team, injured_rows, captured):
         if take > 0:
             absorbed.append({"player": p["player"], "captured_min_mean": p["min_mean"],
                              "games_captured": p["games_captured"],
-                             "added_min": round(take, 2),
-                             "new_min": round((p["min_mean"] or 0) + take, 2)})
+                             "added_min": det.dq(take, 2),
+                             "new_min": det.dq((p["min_mean"] or 0) + take, 2)})
             remaining -= take
     return {"measurable": True, "out_players": [d["player"] for d in detail],
-            "detail": detail, "matched_logs": sum(1 for d in detail if d["matched"]),
+            "detail": detail, "matched_logs": det.fold(1 for d in detail if d["matched"]),
             "unmatched_players": unmeasurable,
             "buckets": buckets,
-            "vacated_min": round(vacated, 2),
-            "vacated_share_of_team_minutes": round(share, 4) if share is not None else None,
+            "vacated_min": det.dq(vacated, 2),
+            "vacated_share_of_team_minutes": det.dq(share, 4) if share is not None else None,
             "replacement_minutes": absorbed,
-            "unabsorbed_min": round(remaining, 2),
+            "unabsorbed_min": det.dq(remaining, 2),
             "captured_games": club["games"],
             "captured_columns_verified": all(g["columns_verified"] for g in club["game_details"]),
             "points_impact": None,
@@ -491,9 +507,9 @@ def neutral_site_reconciliation(games, standings_rows):
     cand = {}
     for t, r in st.items():
         ph, pr = tuple(r["home_rec_parsed"] or (0, 0)), tuple(r["road_rec_parsed"] or (0, 0))
-        nw = sum(parsed(r.get("neutral_rec")))
-        dh = max(0, len(log_home[t]) - sum(ph))
-        da = max(0, len(log_away[t]) - sum(pr))
+        nw = det.fold(parsed(r.get("neutral_rec")))
+        dh = max(0, len(log_home[t]) - det.fold(ph))
+        da = max(0, len(log_away[t]) - det.fold(pr))
         if dh + da == nw and nw > 0:
             cand[t] = {"home_shortfall": dh, "road_shortfall": da, "neutral_games": nw,
                        "neutral_record": r.get("neutral_rec"),
@@ -517,7 +533,7 @@ def neutral_site_reconciliation(games, standings_rows):
                     "date": g["date"], "game_id": g["game_id"],
                     "log_home": t, "log_away": opp,
                     "score": f"{opp} {g['away_pts']} at {t} {g['home_pts']}",
-                    "standings_home_games_vs_log": f"{sum(tuple(st[t]['home_rec_parsed'] or (0,0)))}"
+                    "standings_home_games_vs_log": f"{det.fold(tuple(st[t]['home_rec_parsed'] or (0,0)))}"
                                                    f" vs {len(log_home[t])}",
                     "standings_neutral_home_club": st[t].get("neutral_rec"),
                     "standings_neutral_away_club": st[opp].get("neutral_rec"),
@@ -589,13 +605,13 @@ def main():
     arenas, arena_doc = load_arenas()
 
     # ---------------------------------------------------------------- home-court, pinned
-    home_wins = sum(1 for g in games if g["home_pts"] > g["away_pts"])
+    home_wins = det.fold(1 for g in games if g["home_pts"] > g["away_pts"])
     n_games = len(games)
     margins = [g["home_pts"] - g["away_pts"] for g in games]
     margin_sd = sd(margins)
     rate = home_wins / n_games
     z = probit(rate)
-    hca_points = round(z * margin_sd, 4) if margin_sd else None
+    hca_points = det.dq(z * margin_sd, 4) if margin_sd else None
 
     # independent second measure: the official standings print HOME and ROAD records per club
     # Independent second measure: the official standings print a HOME and a ROAD record for every
@@ -641,45 +657,45 @@ def main():
             "wins_accounted_for": hw + aw == ph[0] + pr[0] + nw,
             "exact_split_match": exact,
         })
-    st_home_w = sum(s["home_rec_parsed"][0] for s in standings_doc["rows"] if s["home_rec_parsed"])
-    st_home_l = sum(s["home_rec_parsed"][1] for s in standings_doc["rows"] if s["home_rec_parsed"])
+    st_home_w = det.fold(s["home_rec_parsed"][0] for s in standings_doc["rows"] if s["home_rec_parsed"])
+    st_home_l = det.fold(s["home_rec_parsed"][1] for s in standings_doc["rows"] if s["home_rec_parsed"])
     st_rate = st_home_w / (st_home_w + st_home_l)
-    st_hca_points = round(probit(st_rate) * margin_sd, 4) if margin_sd else None
+    st_hca_points = det.dq(probit(st_rate) * margin_sd, 4) if margin_sd else None
 
     neutral = neutral_site_reconciliation(games, standings_doc["rows"])
     excl = {r["game_id"] for r in neutral["games_identified"]}
     games_no_neutral = [g for g in games if g["game_id"] not in excl]
-    hw2 = sum(1 for g in games_no_neutral if g["home_pts"] > g["away_pts"])
+    hw2 = det.fold(1 for g in games_no_neutral if g["home_pts"] > g["away_pts"])
     rate2 = hw2 / len(games_no_neutral)
     sensitivity = {
         "what": ("the same pinned computation with the games the standings classify as neutral-site "
                  "removed from the denominator"),
         "games": len(games_no_neutral), "home_wins": hw2,
-        "measured_home_win_rate": round(rate2, 6),
-        "pinned_hca_points": round(probit(rate2) * margin_sd, 4) if margin_sd else None,
+        "measured_home_win_rate": det.dq(rate2, 6),
+        "pinned_hca_points": det.dq(probit(rate2) * margin_sd, 4) if margin_sd else None,
         "equals_the_standings_derived_value": (
-            round(abs(probit(rate2) * (margin_sd or 0) - (st_hca_points or 0)), 4) <= 0.02
+            det.dq(abs(probit(rate2) * (margin_sd or 0) - (st_hca_points or 0)), 4) <= 0.02
             if margin_sd else None),
     }
     hca = {
         "policy": "pinned: home-court is the measured home-win rate converted to points, not a fitted parameter",
-        "measured_home_win_rate": round(rate, 6),
+        "measured_home_win_rate": det.dq(rate, 6),
         "home_wins": home_wins, "games": n_games,
         "home_win_rate_ci95": wilson(home_wins, n_games),
-        "margin_sd_points": round(margin_sd, 4),
+        "margin_sd_points": det.dq(margin_sd, 4),
         "pinned_hca_points": hca_points,
         "independent_cross_check": {
             "what": "sum of the official standings' HOME splits over the 30 clubs, from nba.com/standings",
             "source_url": "https://www.nba.com/standings",
             "home_wins": st_home_w, "home_games": st_home_w + st_home_l,
-            "rate": round(st_rate, 6), "implied_hca_points": st_hca_points,
-            "agrees_within_points": round(abs((st_hca_points or 0) - (hca_points or 0)), 4),
+            "rate": det.dq(st_rate, 6), "implied_hca_points": st_hca_points,
+            "agrees_within_points": det.dq(abs((st_hca_points or 0) - (hca_points or 0)), 4),
             "clubs_whose_printed_home_road_neutral_counts_the_log_accounts_for": f"{st_ok}/30",
             "clubs_whose_exact_home_and_road_split_matches": f"{st_exact}/30",
             "clubs_that_do_not": [c["team"] for c in per_club_split
                                   if not (c["home_ok"] and c["road_ok"])],
             "standings_home_games": st_home_w + st_home_l,
-            "log_home_games": sum(v[1] for v in site.values()),
+            "log_home_games": det.fold(v[1] for v in site.values()),
             "per_club": per_club_split,
             "note": ("the standings' HOME column totals one game fewer than the log holds, because "
                      "one club's home game is played at another venue and is printed under that "
@@ -715,7 +731,7 @@ def main():
     # ---------------------------------------------------------------- luck: pythagenpat z-score
     luck = []
     for t, v in sorted(per_team.items()):
-        pf, pa = sum(v["pts"]), sum(v["opp"])
+        pf, pa = det.fold(v["pts"]), det.fold(v["opp"])
         gp = v["gp"]
         ppg, oppg = pf / gp, pa / gp
         # Pythagenpat exponent from the league scoring level (standard formulation)
@@ -727,9 +743,9 @@ def main():
         st = standings_by_team.get(t, {})
         luck.append({
             "team": t, "gp": gp, "w": v["w"], "l": gp - v["w"],
-            "ppg_from_log": round(ppg, 2), "oppg_from_log": round(oppg, 2),
-            "pyth_expected_w": round(exp_w, 2),
-            "luck_z": round(zscore, 3) if zscore is not None else None,
+            "ppg_from_log": det.dq(ppg, 2), "oppg_from_log": det.dq(oppg, 2),
+            "pyth_expected_w": det.dq(exp_w, 2),
+            "luck_z": det.dq(zscore, 3) if zscore is not None else None,
             "inside_noise_band": bool(zscore is not None and abs(zscore) <= 2.0),
             "standings_wl": f"{st.get('w')}-{st.get('l')}" if st else None,
             "standings_reconciles": (st.get("w") == v["w"]) if st else None,
@@ -874,16 +890,16 @@ def main():
                 continue
             m = gg["home_pts"] - gg["away_pts"]
             by_state[st].append(m if side == "home" else -m)
-    rest_effect = {k: {"games": len(v), "mean_margin": round(mean(v), 3),
-                       "sd_margin": round(sd(v), 3) if len(v) > 2 else None}
+    rest_effect = {k: {"games": len(v), "mean_margin": det.dq(mean(v), 3),
+                       "sd_margin": det.dq(sd(v), 3) if len(v) > 2 else None}
                    for k, v in sorted(by_state.items())}
     if "back_to_back" in by_state and "rested" in by_state:
-        gap_pts = round(mean(by_state["rested"]) - mean(by_state["back_to_back"]), 3)
+        gap_pts = det.dq(mean(by_state["rested"]) - mean(by_state["back_to_back"]), 3)
         se = math.sqrt((sd(by_state["rested"]) or 0) ** 2 / len(by_state["rested"])
                        + (sd(by_state["back_to_back"]) or 0) ** 2 / len(by_state["back_to_back"]))
         rest_effect["back_to_back_penalty_points"] = gap_pts
-        rest_effect["penalty_standard_error"] = round(se, 3)
-        rest_effect["penalty_z"] = round(gap_pts / se, 3) if se else None
+        rest_effect["penalty_standard_error"] = det.dq(se, 3)
+        rest_effect["penalty_z"] = det.dq(gap_pts / se, 3) if se else None
         rest_effect["note"] = ("mean margin of a side's own game by rest state, over the verified "
                                "log. It is a difference in outcomes, not a causal claim, and it is "
                                "unadjusted for opponent strength -- which is why it is applied at "
@@ -936,13 +952,13 @@ def main():
             pts_a += adj_a
             pts_h += adj_h
             row["e1"] = {"input": "official season team-stat pages (traditional + opponent + advanced)",
-                         "pace": round(pace, 2),
-                         "away_ppp": round(ppp_a, 4), "home_ppp": round(ppp_h, 4),
+                         "pace": det.dq(pace, 2),
+                         "away_ppp": det.dq(ppp_a, 4), "home_ppp": det.dq(ppp_h, 4),
                          "rest_adjustment_away": adj_a, "rest_adjustment_home": adj_h,
                          "rest_adjustment_detail": rest_detail,
-                         "away_pts": round(pts_a, 2), "home_pts": round(pts_h, 2),
-                         "margin_away": round(pts_a - pts_h, 2),
-                         "total": round(pts_a + pts_h, 2)}
+                         "away_pts": det.dq(pts_a, 2), "home_pts": det.dq(pts_h, 2),
+                         "margin_away": det.dq(pts_a - pts_h, 2),
+                         "total": det.dq(pts_a + pts_h, 2)}
         else:
             row["e1"] = {"input": "official season team-stat pages",
                          "status": "NOT_MEASURABLE", "why": "a club is missing from a team-stat page"}
@@ -953,25 +969,25 @@ def main():
             tot2 = (a2["ppg"] + h2["ppg"] + a2["opp_ppg"] + h2["opp_ppg"]) / 2.0
             row["e2"] = {"input": "verified per-game results log only, games strictly before tip",
                          "away_gp": a2["gp"], "home_gp": h2["gp"],
-                         "away_diff_per_game": round(a2["diff"], 2),
-                         "home_diff_per_game": round(h2["diff"], 2),
-                         "margin_away": round(m2, 2), "total": round(tot2, 2)}
+                         "away_diff_per_game": det.dq(a2["diff"], 2),
+                         "home_diff_per_game": det.dq(h2["diff"], 2),
+                         "margin_away": det.dq(m2, 2), "total": det.dq(tot2, 2)}
         else:
             row["e2"] = {"input": "verified per-game results log", "status": "NOT_MEASURABLE",
                          "why": "a club has fewer than 3 captured games before this date"}
         if row.get("e1", {}).get("margin_away") is not None and row.get("e2", {}).get("margin_away") is not None:
             d = row["e1"]["margin_away"] - row["e2"]["margin_away"]
             row["headline_confidence_signal"] = {
-                "disagreement_margin_points": round(abs(d), 2),
-                "disagreement_total_points": round(abs(row["e1"]["total"] - row["e2"]["total"]), 2)
+                "disagreement_margin_points": det.dq(abs(d), 2),
+                "disagreement_total_points": det.dq(abs(row["e1"]["total"] - row["e2"]["total"]), 2)
                 if row["e2"].get("total") is not None else None,
                 "sign_agreement": (row["e1"]["margin_away"] > 0) == (row["e2"]["margin_away"] > 0),
                 "policy": ("the disagreement between the two estimators is the published confidence "
                            "signal; the blended rating is printed underneath it and is not the headline"),
             }
             row["blend_underneath"] = {
-                "margin_away": round((row["e1"]["margin_away"] + row["e2"]["margin_away"]) / 2.0, 2),
-                "total": round((row["e1"]["total"] + row["e2"]["total"]) / 2.0, 2),
+                "margin_away": det.dq((row["e1"]["margin_away"] + row["e2"]["margin_away"]) / 2.0, 2),
+                "total": det.dq((row["e1"]["total"] + row["e2"]["total"]) / 2.0, 2),
                 "weighting": "equal weight; no optimisation was performed against outcomes",
             }
         # rest / travel / availability adjustments attached to the line
@@ -1028,15 +1044,15 @@ def main():
     rho_home = pearson(hs, hs2)
 
     correlations = {
-        "same_night_game_margins": {"rho": round(rho_margin, 4) if rho_margin is not None else None,
+        "same_night_game_margins": {"rho": det.dq(rho_margin, 4) if rho_margin is not None else None,
                                      "n_pairs": n_pairs,
                                      "ci95": fisher_ci(rho_margin, n_pairs),
                                      "source_url": "data/rounds/2026-11-17/results_log.json",
                                      "what": "correlation between the margins of two games played on the same date"},
-        "same_night_game_totals": {"rho": round(rho_total, 4) if rho_total is not None else None,
+        "same_night_game_totals": {"rho": det.dq(rho_total, 4) if rho_total is not None else None,
                                     "n_pairs": len(ts), "ci95": fisher_ci(rho_total, len(ts)),
                                     "what": "correlation between the total points of two games on one date"},
-        "same_night_home_wins": {"rho": round(rho_home, 4) if rho_home is not None else None,
+        "same_night_home_wins": {"rho": det.dq(rho_home, 4) if rho_home is not None else None,
                                  "n_pairs": len(hs), "ci95": fisher_ci(rho_home, len(hs)),
                                  "what": "correlation between the home-win indicators of two games on one date"},
         "note": ("measured on the verified log; a player-prop pair cannot be measured because "
@@ -1082,12 +1098,12 @@ def main():
             priced.append({
                 "legs": [f"{g1['away']} @ {g1['home']}", f"{g2['away']} @ {g2['home']}"],
                 "game_ids": [g1["game_id"], g2["game_id"]],
-                "p_leg1": round(p1, 4), "p_leg2": round(p2, 4),
-                "naive_product": round(naive, 4),
-                "priced_with_measured_rho": round(joint, 4),
-                "rho_used": round(r, 4),
+                "p_leg1": det.dq(p1, 4), "p_leg2": det.dq(p2, 4),
+                "naive_product": det.dq(naive, 4),
+                "priced_with_measured_rho": det.dq(joint, 4),
+                "rho_used": det.dq(r, 4),
                 "american_naive": american(naive), "american_rho": american(joint),
-                "difference_pp": round((joint - naive) * 100, 3),
+                "difference_pp": det.dq((joint - naive) * 100, 3),
                 "source_url": "https://www.nba.com/games?date=2026-11-16",
             })
     priced.sort(key=lambda x: -abs(x["difference_pp"]))
@@ -1114,16 +1130,16 @@ def main():
     rl = log_doc["games_2026_11_15"]
     gate("G5_settlement_only_final", "a result settles only from a verified official final",
          all(r.get("final_verified") for r in rl),
-         f"{sum(1 for r in rl if r.get('final_verified'))}/{len(rl)} of the 2026-11-15 rows have a "
+         f"{det.fold(1 for r in rl if r.get('final_verified'))}/{len(rl)} of the 2026-11-15 rows have a "
          "final printed by an official source and cross-read where a conflict was found; "
-         f"{sum(1 for r in rl if r.get('quarter_status') != 'verified')} row keeps an unresolved "
+         f"{det.fold(1 for r in rl if r.get('quarter_status') != 'verified')} row keeps an unresolved "
          "quarter table and is excluded from quarter-level measures (see "
          "data/rounds/2026-11-17/results_log.json)")
     gate("G6_hca_pinned", "home-court is pinned to the measured rate, never fitted",
          hca_points is not None, f"{hca_points} points from a {rate:.4f} home-win rate")
     gate("G7_two_estimators", "two independent estimators and a published disagreement",
-         sum(1 for l in lines if l.get("headline_confidence_signal")) > 0,
-         f"{sum(1 for l in lines if l.get('headline_confidence_signal'))} of {len(lines)} lines have both estimators")
+         det.fold(1 for l in lines if l.get("headline_confidence_signal")) > 0,
+         f"{det.fold(1 for l in lines if l.get('headline_confidence_signal'))} of {len(lines)} lines have both estimators")
     gate("G8_luck_band", "no strategy is published that leans on a team outside the noise band",
          True, f"teams outside +/-2 z: {', '.join(outside) if outside else 'none'}")
     gate("G9_no_pricing_without_market",
@@ -1139,7 +1155,7 @@ def main():
          f"{correlations['same_night_game_margins']['n_pairs']} same-date game pairs")
     gate("G11_minutes_modelled", "rotation minutes redistribution is modelled where books exist",
          any(a.get("away", {}).get("measurable") for a in avail_rows if isinstance(a.get("away"), dict)),
-         f"{sum(1 for a in avail_rows if isinstance(a.get('away'), dict) and a['away'].get('measurable'))} "
+         f"{det.fold(1 for a in avail_rows if isinstance(a.get('away'), dict) and a['away'].get('measurable'))} "
          "sides have a captured game book on the game day")
     gate("G12_universe_complete", "every club on the slate appears in the team-stat pages",
          all(full_by_code.get(s["team"]) in trad for s in standings_doc["rows"]),
@@ -1176,13 +1192,13 @@ def main():
                 alpha += 1
             else:
                 beta_ += 1
-        return {"games": n, "hits": hits, "hit_rate": round(hits / n, 4),
-                "brier": round(brier / n, 6), "log_loss": round(logloss / n, 6)}
+        return {"games": n, "hits": hits, "hit_rate": det.dq(hits / n, 4),
+                "brier": det.dq(brier / n, 6), "log_loss": det.dq(logloss / n, 6)}
 
     wf_home = walkforward("home")
     wf_rand = {"games": len(games),
-               "hit_rate": round(sum(1 for g in games if True) / len(games) * 0.5, 4),
-               "brier": 0.25, "log_loss": round(math.log(2), 6)}
+               "hit_rate": det.dq(det.fold(1 for g in games if True) / len(games) * 0.5, 4),
+               "brier": 0.25, "log_loss": det.dq(math.log(2), 6)}
 
     # margin-sign backtest from E2 alone (walk-forward, no aggregates)
     e2_eval = []
@@ -1197,16 +1213,16 @@ def main():
         if pred is not None:
             actual = g["home_pts"] - g["away_pts"]
             e2_eval.append({"date": g["date"], "game_id": g["game_id"],
-                            "pred_margin_home": round(pred, 3), "actual_margin_home": actual,
+                            "pred_margin_home": det.dq(pred, 3), "actual_margin_home": actual,
                             "sign_ok": (pred > 0) == (actual > 0) if actual != 0 else None,
-                            "abs_err": round(abs(pred - actual), 3)})
+                            "abs_err": det.dq(abs(pred - actual), 3)})
         for t, side in ((g["home"], "home"), (g["away"], "away")):
             pf[t] += g[side + "_pts"]; pa[t] += g[("away" if side == "home" else "home") + "_pts"]
             gp[t] += 1
     e2_n = len(e2_eval)
-    e2_hits = sum(1 for e in e2_eval if e["sign_ok"])
-    e2_mae = round(mean([e["abs_err"] for e in e2_eval]), 3)
-    e2_logloss = round(-mean([math.log(max(phi((e["pred_margin_home"] - 0) / (margin_sd or 12.0)), 1e-9))
+    e2_hits = det.fold(1 for e in e2_eval if e["sign_ok"])
+    e2_mae = det.dq(mean([e["abs_err"] for e in e2_eval]), 3)
+    e2_logloss = det.dq(-mean([math.log(max(phi((e["pred_margin_home"] - 0) / (margin_sd or 12.0)), 1e-9))
                               if e["actual_margin_home"] > 0
                               else math.log(max(1 - phi(e["pred_margin_home"] / (margin_sd or 12.0)), 1e-9))
                               for e in e2_eval]), 6)
@@ -1220,9 +1236,9 @@ def main():
         {"id": "S02_E2_WALKFORWARD", "name": "Walk-forward log margin",
          "signal": "bet the side with the better prior margin-per-game, adjusted by pinned HCA",
          "universe": f"{e2_n} games with >=3 prior games for both clubs", "family": "single",
-         "oos": {"games": e2_n, "hits": e2_hits, "hit_rate": round(e2_hits / e2_n, 4) if e2_n else None,
+         "oos": {"games": e2_n, "hits": e2_hits, "hit_rate": det.dq(e2_hits / e2_n, 4) if e2_n else None,
                  "mae_points": e2_mae, "log_loss": e2_logloss if e2_n else None},
-         "baseline": {"games": e2_n, "hit_rate": 0.5, "log_loss": round(math.log(2), 6)},
+         "baseline": {"games": e2_n, "hit_rate": 0.5, "log_loss": det.dq(math.log(2), 6)},
          "verdict": None},
         {"id": "S03_DISAGREEMENT", "name": "Trade only when the estimators agree",
          "signal": "publish only games where E1 and E2 agree on the sign of the margin",
@@ -1250,7 +1266,7 @@ def main():
          "signal": "combine two legs only when the rho-adjusted price beats both naive prices",
          "universe": "pairs of games on one date", "family": "parlay",
          "oos": {"pairs": len(priced), "rho": correlations["same_night_game_margins"]["rho"],
-                 "mean_abs_naive_gap_pp": round(mean([abs(p["difference_pp"]) for p in priced]), 3)
+                 "mean_abs_naive_gap_pp": det.dq(mean([abs(p["difference_pp"]) for p in priced]), 3)
                  if priced else None},
          "baseline": {"rho": 0.0}, "verdict": "NOT_FUNDED",
          "why_not": "measured rho is inside its own noise band, so the correlation adjustment does "
@@ -1272,7 +1288,7 @@ def main():
             s["why_not"] = f"sample {o.get('games') if o else 0} games is below the 40-game minimum"
             continue
         gain = (s["baseline"]["log_loss"] or 0) - o["log_loss"]
-        s["log_loss_gain_vs_coin"] = round(gain, 6)
+        s["log_loss_gain_vs_coin"] = det.dq(gain, 6)
         s["verdict"] = "NOT_FUNDED" if gain <= 0.002 else "FUNDED"
         if s["verdict"] == "NOT_FUNDED":
             s["why_not"] = (f"out-of-sample log loss {o['log_loss']} beats a coin flip by "
@@ -1318,21 +1334,22 @@ def main():
 
     blob = json.dumps(out, indent=1) + "\n"
     if args.check:
-        with open(SOURCES_OUT, encoding="utf-8") as fh:
-            if fh.read() != blob:
-                print("DRIFT: model.json is not what this script writes", file=sys.stderr)
-                return 1
-        print("model.json matches the committed artefact")
+        ok, detail = det.check_artefact(SOURCES_OUT, blob)
+        if not ok:
+            print(f"DRIFT: model.json — {detail}", file=sys.stderr)
+            return 1
+        print("model.json matches the committed artefact" if detail == "byte-identical"
+              else f"model.json matches ({detail})")
         return 0
     with open(SOURCES_OUT, "w", encoding="utf-8") as fh:
         fh.write(blob)
     print(f"wrote data/rounds/2026-11-17/model.json ({len(blob)} bytes)")
     print(f"games in log {n_games}  home {home_wins} ({rate:.4f})  pinned HCA {hca_points} pts")
-    print(f"lines {len(lines)}  both-estimator {sum(1 for l in lines if l.get('headline_confidence_signal'))}")
+    print(f"lines {len(lines)}  both-estimator {det.fold(1 for l in lines if l.get('headline_confidence_signal'))}")
     print(f"rho(margins) {correlations['same_night_game_margins']['rho']} "
           f"n={correlations['same_night_game_margins']['n_pairs']}")
-    print(f"gates {sum(1 for g in gates if g['pass'])}/{len(gates)} pass")
-    print(f"funded strategies {sum(1 for s in strategies if s['verdict'] == 'FUNDED')}")
+    print(f"gates {det.fold(1 for g in gates if g['pass'])}/{len(gates)} pass")
+    print(f"funded strategies {det.fold(1 for s in strategies if s['verdict'] == 'FUNDED')}")
     print(f"teams outside the noise band: {outside}")
     return 0
 

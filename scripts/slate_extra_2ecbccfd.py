@@ -13,6 +13,22 @@ import os
 import re
 import sys
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 TXT = os.path.join(ROOT, "data", "rounds", "2026-11-17", "captures", "slate_2026-11-19_raw.md")
 OUT = os.path.join(ROOT, "data", "rounds", "2026-11-17", "slate_extra_2026-11-19.json")
@@ -62,7 +78,11 @@ def main():
                        "verbatim_transcript": os.path.relpath(TXT, ROOT),
                        "problems": problems, "games": games}, indent=1) + "\n"
     if "--check" in sys.argv:
-        return 0 if open(OUT, encoding="utf-8").read() == blob else 1
+        ok, detail = det.check_artefact(OUT, blob)
+        if not ok:
+            print(f"DRIFT: {os.path.basename(OUT)} — {detail}", file=sys.stderr)
+            return 1
+        return 0
     open(OUT, "w", encoding="utf-8").write(blob)
     print(f"wrote {os.path.relpath(OUT, ROOT)}: {len(games)} games, {len(problems)} problems")
     return 0

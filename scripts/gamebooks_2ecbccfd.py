@@ -27,6 +27,22 @@ import os
 import re
 import sys
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CAP = os.path.join(ROOT, "data", "rounds", "2026-11-17", "captures")
 OUT = os.path.join(ROOT, "data", "rounds", "2026-11-17", "player_logs_2026-11-15.json")
@@ -208,9 +224,9 @@ def reconcile(teams):
         full = [r for r in rows if r.get("columns_published") and r.get("verified")]
         cols = ("fg", "fga", "3p", "3pa", "ft", "fta", "oreb", "dreb", "treb", "ast", "pts")
         complete = len(full) == len(rows)
-        sums = {k: (sum((r[k] or 0) for r in full) if complete else None) for k in cols}
-        pts_only = sum((r.get("pts") or 0) for r in rows)
-        mins = round(sum(r["min"] or 0 for r in rows), 2)
+        sums = {k: (det.fold((r[k] or 0) for r in full) if complete else None) for k in cols}
+        pts_only = det.fold((r.get("pts") or 0) for r in rows)
+        mins = det.dq(det.fold(r["min"] or 0 for r in rows), 2)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
         checks["min_total_240"] = abs(mins - 240.0) < 0.35
@@ -277,13 +293,13 @@ def main():
                     "source_url": d["source_url"],
                 })
             ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
-            tot = sum(r["min"] or 0 for r in played) or None
+            tot = det.fold(r["min"] or 0 for r in played) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],
-                "total_min_played": round(tot, 2) if tot else None,
+                "total_min_played": det.dq(tot, 2) if tot else None,
                 "top8": [{"player": r["player"], "min": r["min"],
-                          "share": round((r["min"] or 0) / tot, 4) if tot else None}
+                          "share": det.dq((r["min"] or 0) / tot, 4) if tot else None}
                          for r in ranked],
             }
     payload = {
@@ -301,13 +317,18 @@ def main():
         "top8_minutes_shares": top8,
         "problems": all_problems,
         "row_count": len(per_player),
-        "reconciled_clubs": sum(1 for book, d in books.items() for v in d["clubs"].values()
+        "reconciled_clubs": det.fold(1 for book, d in books.items() for v in d["clubs"].values()
                                 if v["reconciles"]),
-        "club_count": sum(len(d["clubs"]) for d in books.values()),
+        "club_count": det.fold(len(d["clubs"]) for d in books.values()),
     }
     blob = json.dumps(payload, indent=1) + "\n"
     if "--check" in args:
-        return 0 if open(OUT, encoding="utf-8").read() == blob else 1
+        # A silent 1/0 used to be the whole diagnosis; name the field that moved instead.
+        ok, detail = det.check_artefact(OUT, blob)
+        if not ok:
+            print(f"DRIFT: player_logs_2026-11-15.json — {detail}", file=sys.stderr)
+            return 1
+        return 0
     open(OUT, "w", encoding="utf-8").write(blob)
     print(f"wrote {os.path.relpath(OUT, ROOT)}: {len(per_player)} player rows, "
           f"{payload['reconciled_clubs']}/{payload['club_count']} club-games reconcile, "

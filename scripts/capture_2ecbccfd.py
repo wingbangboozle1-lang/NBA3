@@ -41,6 +41,22 @@ import re
 import sys
 from collections import defaultdict
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ROUND_DIR = os.path.join(ROOT, "data", "rounds", "2026-11-17")
 CAP = os.path.join(ROUND_DIR, "captures")
@@ -443,7 +459,7 @@ def reconcile(log, standings):
         gp[g["home"]] += 1
         winner = g["home"] if g["home_pts"] > g["away_pts"] else g["away"]
         w[winner] += 1
-    total_gp = sum(gp.values())
+    total_gp = det.fold(gp.values())
     checks = []
     for s in standings:
         t = s["team"]
@@ -459,19 +475,19 @@ def reconcile(log, standings):
         "sum_log_gp": total_gp,
         "gp_sum_equals_twice_games": total_gp == 2 * len(log),
         "teams": checks,
-        "teams_reconciled": sum(1 for c in checks if c["gp_ok"] and c["w_ok"]),
+        "teams_reconciled": det.fold(1 for c in checks if c["gp_ok"] and c["w_ok"]),
         "teams_total": len(checks),
     }
 
 
 def home_measures(log):
-    home_games = sum(1 for g in log)
-    home_wins = sum(1 for g in log if g["home_pts"] > g["away_pts"])
-    ot = sum(1 for g in log if g.get("ot"))
+    home_games = det.fold(1 for g in log)
+    home_wins = det.fold(1 for g in log if g["home_pts"] > g["away_pts"])
+    ot = det.fold(1 for g in log if g.get("ot"))
     return {
         "games": home_games,
         "home_wins": home_wins,
-        "home_win_rate": round(home_wins / home_games, 6) if home_games else None,
+        "home_win_rate": det.dq(home_wins / home_games, 6) if home_games else None,
         "ot_games": ot,
         "note": ("measured over the verified results log only; the log is the 188 games through "
                  "2026-11-14 plus the 2026-11-15 finals read from the official game books"),
@@ -702,7 +718,7 @@ def main():
       "if a club stops reconciling, one of the two sources moved: re-read both before publishing a line")
     g("F6_results_settled_only_on_finals", "no result is used before its official final is verified",
       all(gm.get("final_verified") for gm in added),
-      f"{sum(1 for gm in added if gm.get('final_verified'))}/{len(added)} of the 2026-11-15 rows have a "
+      f"{det.fold(1 for gm in added if gm.get('final_verified'))}/{len(added)} of the 2026-11-15 rows have a "
       "final printed by an official source; the one with a quarter conflict is excluded from "
       "quarter-level measures",
       "a game with no verified final stays unsettled; a settlement stamp must name the source")
@@ -718,10 +734,10 @@ def main():
         path = os.path.join(OUT, name)
         blob = json.dumps(payload, indent=1, sort_keys=False) + "\n"
         if args.check:
-            with open(path, encoding="utf-8") as fh:
-                if fh.read() != blob:
-                    print(f"DRIFT: {name} is not what this script writes", file=sys.stderr)
-                    return 1
+            ok, detail = det.check_artefact(path, blob)
+            if not ok:
+                print(f"DRIFT: {name} — {detail}", file=sys.stderr)
+                return 1
             continue
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as fh:
