@@ -6319,3 +6319,13 @@ Not claimed by this session (open, unclaimed for later sessions): pre-registrati
 - X1: superseded by B1-1 (`refresh.yml` on `main`). **Root cause still not found.** Evidence unchanged.
 - X2: 12:45 AM revision is the newest ever read here (CDN 05:47Z); it is *not* in `b1ce1334`'s archive (which ends at 12:30 AM). The 12:45 AM transcript is in `data/rounds/2026-11-19-de0caf5d/captures/`. Request **CR-DE0-02** to `b1ce1334`/integration: fold the 12:45 AM revision into the archive and the Injuries banner (revision 12:45 AM ET, retrieval 2026-11-19T05:47Z).
 - X3: duplicate removed; independent comparison above.
+
+### PR and merge record — session `de0caf5d` (2026-11-19)
+
+- **PR:** https://github.com/wingbangboozle1-lang/NBA3/pull/141 (`arena/de0caf5d-nba3` → `main`).
+- **First attempt:** conflict with `main` (`f3d04bd`, PR #140, session `b1ce1334`). Resolved by the overlap rule above (merge `6c95a0c`). Nothing discarded.
+- **Pre-merge checks on `6c95a0c`:** Pages build job `44468395133` success; full unit suite 313 tests OK; `git diff --check` clean; no conflict markers.
+- **Merge:** `gh pr merge 141 --merge` at 2026-11-19T05:55:58Z → merge commit `5ad832afc8a3bff5505a214e00ec55acad1d41f8`.
+- **Post-merge Pages on `main`:** build job `44468540291` **success**; deploy job `44468540389` **success**. Site: https://wingbangboozle1-lang.github.io/NBA3/ (status `built`).
+- **Not verified:** the scheduled refresh's root cause (X1). The first scheduled run that includes `b1ce1334`'s log artifact is still the check.
+- **Open for the integration session:** CR-DE0-01 (flags on the Flagged page) and CR-DE0-02 (12:45 AM revision into the injury archive and banner), both listed above.
