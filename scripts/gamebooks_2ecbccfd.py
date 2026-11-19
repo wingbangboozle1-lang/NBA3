@@ -307,7 +307,19 @@ def main():
     }
     blob = json.dumps(payload, indent=1) + "\n"
     if "--check" in args:
-        return 0 if open(OUT, encoding="utf-8").read() == blob else 1
+        committed = open(OUT, encoding="utf-8").read()
+        if committed == blob:
+            return 0
+        # Diagnostic only (arena/dd3edd74-nba3, D1): the gate's result is unchanged. Name the first
+        # line where the committed artefact and the regenerated output part ways, so a red CI run
+        # says why without needing the runner log body.
+        cl, bl = committed.splitlines(), blob.splitlines()
+        first = next((i for i, (a, b) in enumerate(zip(cl, bl)) if a != b), min(len(cl), len(bl)))
+        print(f"gamebooks --check: {os.path.relpath(OUT, ROOT)} differs from the regenerated output; "
+              f"first differing line {first + 1} (committed {len(cl)} lines, regenerated {len(bl)})")
+        print("  committed  :", (cl[first] if first < len(cl) else "<end of file>")[:240])
+        print("  regenerated:", (bl[first] if first < len(bl) else "<end of file>")[:240])
+        return 1
     open(OUT, "w", encoding="utf-8").write(blob)
     print(f"wrote {os.path.relpath(OUT, ROOT)}: {len(per_player)} player rows, "
           f"{payload['reconciled_clubs']}/{payload['club_count']} club-games reconcile, "

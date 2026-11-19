@@ -6363,7 +6363,44 @@ Session ID: `dd3edd74`. Branch fixed by the workspace: `arena/dd3edd74-nba3`, ba
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| D1 — Scheduled refresh red since 11/16: take the hosted evidence (run `44469939831`, job annotations), reproduce the failing check on the failing commit `5ad832a` and on the current tree, and make the failing `--check` **say why** (no gate change, no test weakened). Annotate the failing assertion text in the unit step. | in progress | dd3edd74 | `scripts/gamebooks_2ecbccfd.py` (`--check` branch: print reason only), `.github/workflows/refresh.yml` (unit-step annotation lines only), `tests/test_dd3edd74.py` (new) |
-| D2 — Official per-game finals for **11/16, 11/17, 11/18** (25 games) from the official nba.com date pages, one row per game; quarter scores left blank and flagged where not read from an official page; cross-checked against the 11/18 capture already on the board | in progress | dd3edd74 | `data/rounds/2026-11-19-dd3edd74/**` (new tree only), `scripts/capture_dd3edd74.py` (new) |
+| D1 — Scheduled refresh red since 11/16: take the hosted evidence (run `44469939831`, job annotations), reproduce the failing check on the failing commit `5ad832a` and on the current tree, and make the failing `--check` **say why** (no gate change, no test weakened). Annotate the failing assertion text in the unit step. | needs review (see completion record) | dd3edd74 | `scripts/gamebooks_2ecbccfd.py` (`--check` branch: print reason only), `.github/workflows/refresh.yml` (unit-step annotation lines only), `tests/test_dd3edd74.py` (new) |
+| D2 — Official per-game finals for **11/16, 11/17, 11/18** (25 games) from the official nba.com date pages, one row per game; quarter scores left blank and flagged where not read from an official page; cross-checked against the 11/18 capture already on the board | done, with flags (see completion record) | dd3edd74 | `data/rounds/2026-11-19-dd3edd74/**` (new tree only), `scripts/capture_dd3edd74.py` (new) |
 
 Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`, `docs/`, `audit*/`, `data/app/**`, `data/results_feed*`, `scripts/build_app.py`, `pages.yml`, or any model/ledger/picks file. Shared outputs (canonical results feed, Flagged page, nav) are not edited; the new rows are requests for the integration owner (CR-DD3-01).
+
+### Completion record — session `dd3edd74` (2026-11-19, ~06:55–07:45 UTC)
+
+| Task | Status | Evidence |
+|---|---|---|
+| D1 — scheduled refresh: evidence, reproduction, diagnosable failure | **needs review** (hosted root cause NOT found; diagnosability landed) | `scripts/gamebooks_2ecbccfd.py` (`--check` names first differing line; exit codes unchanged), `.github/workflows/refresh.yml` (unit step: `why:` annotations only), `tests/test_dd3edd74.py` (D1 tests), `data/rounds/2026-11-19-dd3edd74/README.md` (evidence table) |
+| D2 — official finals 11/16, 11/17, 11/18 (25 games), one row per game | **done, with flags** (quarter scores not captured → null, flagged) | `data/rounds/2026-11-19-dd3edd74/results_2026-11-16_18.json`, `scripts/capture_dd3edd74.py`, `tests/test_dd3edd74.py` (12 tests incl. planted-error cases) |
+
+**D1 — hosted evidence (read via the GitHub Actions API):**
+- Run `44469939831` (scheduled, 2026-11-19T06:07:59Z, head `5ad832a`): job `refresh` failed at *Unit tests against the committed tree*; all later steps skipped.
+- Its annotations name the only failing test: `test_committed_round_captures_replay_before_the_live_fetch` (script `gamebooks_2ecbccfd.py --check`). The log artefact `unit-test-logs-44469939831` exists but its download fails from this sandbox (blob storage `EOF`), as earlier sessions recorded.
+- Reproduction, all rc 0: local tree `454a7ee` (Python 3.11.2, full suite 315 OK and the nine-suite loop); worktree at the failing commit `5ad832a` (`test_refresh_official.py` 27 OK); fresh depth-1 clone of `main`; `LANG=C`/`-X utf8=0`; `gamebooks --check` under 40 `PYTHONHASHSEED` values (40/40). **Not reproduced on the runner's Python 3.12** — no 3.12 interpreter could be installed here (TLS interception on the GitHub release download).
+- Checked and ruled out as causes: git-ignored inputs (none), git calls in the three check scripts (none), clock-dependent logic in their check path (none), non-ASCII inputs (none), set-order nondeterminism (none across 40 seeds).
+- **Next step for an owner:** read the annotation `why:` lines on the next red run (the diagnosis is now in the API annotations, not only in the blob). If the failure moves to another suite, its annotations show that too. EVE-F04 stays `needs review`.
+
+**D2 — sources (all official, read 2026-11-19 UTC by the session):**
+- https://www.nba.com/games?date=2026-11-16 — 8 finals (chunks 0–1); calendar cell 8 games.
+- https://www.nba.com/games?date=2026-11-17 — 5 finals (chunk 0 complete); calendar cell 5 games.
+- https://www.nba.com/games?date=2026-11-18 — 12 finals (chunks 0–1); calendar cell 12 games.
+- Per-row recap-video links (`nba.com/watch/video/game-recap-…`): 24 of 25 printed; the recap slug repeats the two scores in 24/24.
+- Game ids and team pairs checked against `data/app/official_slate_current.json` (25/25).
+- 11/18 scores checked against `b1ce1334`'s independent capture (12/12 identical).
+
+**Verification performed:** `python3 -m unittest tests/test_dd3edd74.py` 12 OK; `python3 -m unittest discover -s tests` 327 OK (was 315; +12 new); `python3 tools/check_site.py` PASS (10 pages, no broken internal links); `pipeline/tests` 29 OK; `verify.tests.test_verification` 16 OK; `yaml` parse of `refresh.yml` and `bash -n` of its unit step OK; the unit step executed on a full-tree copy: clean rc 0, injected difference rc 1 with the `why:` annotation.
+
+**Flags (for the Flagged for Review page; none blocks merge):**
+- F-DD3-01 Quarter scores not captured for all 25 games (null; the date pages print no period table; a game page costs about three fetch chunks).
+- F-DD3-02 CHA @ LAL 11/17 is `Final/OT` (114–118); OT not itemised.
+- F-DD3-03 UTA @ LAL 11/18 (109–97): recap line not printed in the read; score table plus the independent 11/18 capture only.
+- F-DD3-04 POR and MIN meet on 11/16 (`0022600250`, 98–106) and 11/17 (`0022600254`, 105–106): both printed on the official pages, both recaps agree; flagged as unusual.
+- F-DD3-05 The fetch tool returns no per-call timestamp; the retrieval window is the session clock and is labelled approximate.
+- F-DD3-06 This round does not settle the sealed pick ledger (no pick in scope).
+- F-DD3-07 The canonical site is still stale: slate window 11/15–11/18, canonical injury snapshot 11/16, canonical results feed through 11/15. Not refreshed here.
+
+**CR-DD3-01 (integration request; not edited by this session):** (a) fold `results_2026-11-16_18.json` into the canonical results feed once quarter scores are captured or the integration owner accepts the null-quarter rule, and settle the 25 rows then; (b) add F-DD3-01…07 to the Flagged for Review page through its generator; (c) link `data/rounds/2026-11-19-dd3edd74/` from the Injuries/refresh pages next to the existing 11/19 captures.
+
+**Not done in this session (honest scope):** the rest of the brief is unclaimed — two-estimator and headline changes, minutes redistribution, parlay pricing with measured rho, market prior (no closing-line source reachable), pre-registrations, the sealed-ledger settlement, the Injuries banner update, the requirement-coverage page, and per-player game logs beyond the 11/15 books already on the board. No model, line, pick, or price was produced or changed.
