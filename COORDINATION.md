@@ -6630,3 +6630,21 @@ the rule changes again, change the two tests that assert both readings so the fl
 - Post-merge Pages runs: build [44481147316](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481147316) **success**; deployment [44481146355](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481146355) **success**.
 - Live: https://wingbangboozle1-lang.github.io/NBA3/9a13efcf/index.html (fetched after deploy: requirement coverage 30 items served).
 - Merge conflict resolution during integration: `COORDINATION.md` (kept both sides twice: against PRs #146 and #148); nothing of another session's work discarded.
+
+**Final state of session `89e98007` (2026-11-19 ~07:50 UTC).** Two PRs merged into `main`:
+[#148](https://github.com/wingbangboozle1-lang/NBA3/pull/148) → `5666c31` (the determinism fix + tools +
+17 tests + registers), [#152](https://github.com/wingbangboozle1-lang/NBA3/pull/152) → `87704a1` (the three
+findings above). Pages: build [44482466479](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44482466479)
+success, deployment [44482466428](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44482466428) success;
+the live site serves. The temporary probe workflow is gone from `main` (`git ls-tree origin/main
+.github/workflows/` → `pages.yml`, `refresh.yml` only).
+
+**Not claimed by this session, deliberately:** the pipeline is *not* declared healthy. `refresh.yml:6` reads
+`cron: "15 5,11,17,23 * * *"`, so the first scheduled attempt after these merges is the **11:15 UTC** slot,
+and the last three scheduled runs (44469939831, 44424736929, 44364543697) all failed at the preflight. The
+site's "publishing is paused pending a successful refresh" banner, EVE-F04, and `89E-F-01` stay open until a
+green *scheduled* run is read on `main` — that is the only evidence the brief accepts for currency. No new
+official data was fetched by this session, so the newest verified official values remain the 11/19 captures
+already on the board (slate 11/19–11/22; injury report 11/19 12:45 AM, 44 rows: 23 player / 15 NOT YET
+SUBMITTED / 6 unreadable; 29/29 keyed rows unchanged from the prior report; the 11/16 01:30 PM → 11/19
+12:45 AM gap in official reports is genuine and must not be bridged).
