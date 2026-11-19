@@ -446,6 +446,11 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_pick_ledger.py' -v
           python3 -m unittest discover -s tests -p 'test_estimators.py' -v
           python3 -m unittest discover -s tests -p 'test_freshness_gates.py' -v
+          # The committed round artefacts must not depend on the interpreter's float
+          # summation rule: CPython 3.12 changed sum() for floats to compensated
+          # summation, which moved one published minutes share and turned the scheduled
+          # refresh job red for two days (see COORDINATION.md, session 64d8f868).
+          python3 -m unittest tests/test_interpreter_stability.py -v
       - name: Live pipeline - freshness gates, model, availability, sealed ledger, two surfaces (arena/2ebb1e75)
         run: |
           python3 scripts/injury_archive.py

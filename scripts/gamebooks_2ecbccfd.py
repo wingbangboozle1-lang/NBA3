@@ -18,11 +18,20 @@ A row that fails a check is not repaired: its fields are dropped and the row is 
 whose totals do not reconcile has the whole team-game marked unverified, and the artefact says so.
 
 Run: python3 scripts/gamebooks_2ecbccfd.py [--check]
+
+INTERPRETER NOTE (session arena/64d8f868-nba3). The minutes totals are accumulated with
+``math.fsum`` and never with the builtin ``sum``. CPython 3.12 changed ``sum()`` for floats to
+compensated (Neumaier) summation, so the same committed transcripts produce a team-minutes total
+one ULP apart on 3.11 and on 3.12+, and the published 4-decimal minutes share of one player moves
+with it (Washington's Trae Young: 0.1088 on 3.11, 0.1087 on 3.14). ``math.fsum`` is the correctly
+rounded total and is identical on every supported interpreter, so ``--check`` -- which compares this
+artefact byte for byte -- now means the same thing everywhere.
 """
 from __future__ import annotations
 
 import glob
 import json
+import math
 import os
 import re
 import sys
@@ -210,7 +219,7 @@ def reconcile(teams):
         complete = len(full) == len(rows)
         sums = {k: (sum((r[k] or 0) for r in full) if complete else None) for k in cols}
         pts_only = sum((r.get("pts") or 0) for r in rows)
-        mins = round(sum(r["min"] or 0 for r in rows), 2)
+        mins = round(math.fsum(r["min"] or 0 for r in rows), 2)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
         checks["min_total_240"] = abs(mins - 240.0) < 0.35
@@ -277,7 +286,7 @@ def main():
                     "source_url": d["source_url"],
                 })
             ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
-            tot = sum(r["min"] or 0 for r in played) or None
+            tot = math.fsum(r["min"] or 0 for r in played) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],

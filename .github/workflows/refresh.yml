@@ -25,6 +25,25 @@ jobs:
       - uses: actions/checkout@v4
 
       # ---------------------------------------------------------------------------
+      # THE INTERPRETER IS PINNED ON PURPOSE.
+      #
+      # This job rebuilds the site and the committed artefacts, and the Pages job
+      # (pages.yml) re-runs the same scripts and diffs the result byte for byte. If the two
+      # jobs run different interpreters, a rebuild here can differ from the artifact the Pages
+      # build expects, and the drift gate fires for a reason that has nothing to do with the
+      # data. That is not hypothetical: from 2026-11-18 to 2026-11-19 this job ran the runner's
+      # default interpreter (Python 3.14.4) while the artefacts had been produced under 3.11,
+      # and CPython 3.12's change of sum() for floats (compensated summation) moved one
+      # published minutes share by 0.0001. Seven scheduled runs failed at the unit-test step and
+      # no official source was refreshed for two days. The producer now uses math.fsum (see
+      # tests/test_interpreter_stability.py), and this pin keeps the refresh job and the Pages
+      # job on one interpreter so a rebuild here is byte-identical to the Pages build.
+      # ---------------------------------------------------------------------------
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ---------------------------------------------------------------------------
       # STEP ORDER IS A GATE, NOT A CONVENIENCE.
       #
       # The unit tests run BEFORE the live fetch on purpose. One of them,
@@ -58,22 +77,36 @@ jobs:
         run: |
           set -uo pipefail
           fail=0
+          : > /tmp/refresh_suite_failures.txt
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py"; do
+                       "test_round_2ecbccfd.py" "test_interpreter_stability.py"; do
             echo "::group::unittest $suite"
             if [ "$suite" = "test_refresh_official.py" ]; then
-              python3 -m unittest tests/test_refresh_official.py -v || fail=1
+              out=$(python3 -m unittest tests/test_refresh_official.py -v 2>&1) && rc=0 || rc=$?
             else
-              python3 -m unittest discover -s tests -p "$suite" -v || fail=1
+              out=$(python3 -m unittest discover -s tests -p "$suite" -v 2>&1) && rc=0 || rc=$?
+            fi
+            if [ "$rc" -ne 0 ]; then
+              fail=1
+              # The runner log body cannot be retrieved through the API from every
+              # environment (the results receiver returns EOF), so the failure is written
+              # into the check annotations: that is the only channel that stays readable.
+              {
+                echo "=== SUITE $suite exit=$rc python=$(python3 -V 2>&1)"
+                echo "$out" | grep -vE "ResourceWarning|tracemalloc" | \
+                  awk '/^(FAIL|ERROR):/{f=1} f' | head -40
+              } >> /tmp/refresh_suite_failures.txt
             fi
             echo "::endgroup::"
           done
           if [ "$fail" -ne 0 ]; then
-            echo "::error::at least one unittest suite failed on the committed tree (see the group above for which)"
+            echo "::error::at least one unittest suite failed on the committed tree"
+            sed 's/^/::error::/' /tmp/refresh_suite_failures.txt
             exit 1
           fi
+          echo "all committed-tree suites passed on $(python3 -V 2>&1)"
 
       - name: Fetch official sources (injury reports, schedule, standings, results, game books, team stats)
         run: |
