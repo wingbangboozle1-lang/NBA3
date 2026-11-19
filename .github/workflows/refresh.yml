@@ -86,12 +86,20 @@ jobs:
           # --log-dir keeps b1ce1334's per-suite transcript (B1-1): the step below uploads it, and
           # because the log body is not retrievable from every environment, the files are written
           # per suite rather than only echoed.
+          logdir="$RUNNER_TEMP/unit-logs"
+          mkdir -p "$logdir"
+          log="$logdir/battery.txt"
           python3 scripts/run_suite_battery.py \
-            --log-dir "$RUNNER_TEMP/unit-logs" \
-            --json-out "$RUNNER_TEMP/nba3-battery.json" --annotate || {
-            echo "::error::a unit suite failed on the committed tree; see the annotation naming it"
+            --log-dir "$logdir" \
+            --json-out "$RUNNER_TEMP/nba3-battery.json" --annotate 2>&1 | tee "$log"
+          rc=${PIPESTATUS[0]}
+          # The log body is not retrievable from every environment, so each failing test name is
+          # repeated as an annotation (b1ce1334's B1-1 shape, kept while the executor changed).
+          grep -E "^(FAIL|ERROR): " "$log" | sed 's/^/::error::unit: /' | head -40 || true
+          if [ "$rc" -ne 0 ]; then
+            echo "::error::a unit suite failed on the committed tree; the annotations name the tests"
             exit 1
-          }
+          fi
 
       - name: Upload unit-test logs from a failed run
         if: failure() && !cancelled()

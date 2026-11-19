@@ -110,7 +110,13 @@ class SuiteListTests(unittest.TestCase):
             text = fh.read()
         step = text[text.index("- name: Unit tests against the committed tree"):]
         step = step[:step.index("\n      - name:", 1)]
-        self.assertIn('--log-dir "$RUNNER_TEMP/unit-logs"', step,
+        # 915d2e99 rebase reconciliation: tests/test_round_2ecbccfd.py pins the log directory
+        # through a `logdir="$RUNNER_TEMP/unit-logs"` variable (its own per-suite loop used it), so the
+        # battery is now handed "$logdir". Same property, two spellings — the step must name the
+        # variable it sets, and the directory must still be the one the artifact uploads.
+        self.assertIn('logdir="$RUNNER_TEMP/unit-logs"', step,
+                      "the step must define the log dir it uploads")
+        self.assertIn('--log-dir "$logdir"', step,
                       "the battery must still write the per-suite logs the artifact uploads")
         self.assertIn("unit-test-logs-${{ github.run_id }}", text,
                       "b1ce1334's unit-test-logs artifact step was dropped")
