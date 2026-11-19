@@ -6411,3 +6411,53 @@ Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`,
 - **Pages on `main` (`846a6fa`)**: run [44476581193](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44476581193) — `build` success, `deploy` success. Site root `https://wingbangboozle1-lang.github.io/NBA3/` serves, and its status banner still reads "publishing is paused pending a successful refresh", which is correct: this round did not change canonical data.
 - The round data (`data/rounds/2026-11-19-dd3edd74/`) is in the repository but not in the Pages artefact (the Pages build copies selected directories only). Link to it from the repo (CR-DD3-01 (c)).
 - **Open after merge:** the hosted refresh root cause (EVE-F04) and the scheduled-run status (next run ~11:15 UTC); CR-DD3-01 (a)–(c) for the integration owner.
+
+---
+
+## Session `arena/e9295737-nba3` — CLAIM (2026-11-19 ~07:10 UTC)
+
+Session ID: `e9295737`. Branch fixed by the workspace: `arena/e9295737-nba3` (base `454a7ee` = `main`
+after PR #142). This session is the final integration/re-verification pass on this branch. It will not
+create or push another branch. Claim pushed before work began.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| E1 Root-cause the red scheduled refresh and make the committed tree reproducible on the runner interpreter | done (cause found + reproduced; regression test wired into the refresh preflight) | e9295737 | `.github/workflows/refresh.yml`, `scripts/floatsum.py`, `scripts/gamebooks_2ecbccfd.py`, `d1b96315/model.py`, `pipeline/v2/stats.py`, `pipeline/v2/estimators.py`, `tests/test_float_sum_determinism.py` |
+| E2 Injury PDF archive + consecutive-report status diff for the current slate | in progress | e9295737 | `data/rounds/2026-11-19-e9295737/**`, `scripts/capture_e9295737.py`, `tests/test_e9295737.py` |
+| E3 Official per-game results feed (date, teams, final, quarter scores) settled only on verified finals | unclaimed | — | — |
+| E4 Rolling slate up to 3 days ahead, gate-passed rebuild | unclaimed | — | — |
+| E5 Projection vs bet surface separation with a provenance gate | unclaimed | — | — |
+| E6 Executive summary, questions, suggestions integration | unclaimed | — | — |
+| E7 Final integration: full verification, PR to `main`, merge, Pages deploy confirmation | unclaimed | — | — |
+
+**E1 completion record (2026-11-19 ~07:10 UTC).**
+
+- **Cause.** Not the data. CPython 3.12 changed the builtin `sum()` to Neumaier compensated summation
+  for floats ([gh-100425](https://github.com/python/cpython/issues/100425), documented in the
+  [3.12 release notes](https://docs.python.org/3/whatsnew/3.12.html#built-in-functions)). The runner's
+  default interpreter had moved to 3.12; the committed artefacts were produced on 3.11.
+- **Evidence.** Run [44469939831](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831)
+  (2026-11-19T06:07:59Z, head `5ad832a`) failed at step 4 and its artifact `unit-test-logs-44469939831`
+  / check annotations name the failing test:
+  `tests.test_refresh_official.WorkflowGateTests.test_committed_round_captures_replay_before_the_live_fetch`
+  with `script='gamebooks_2ecbccfd.py'`. Runs 44143781953, 44203349676, 44249179843, 44300142112,
+  44364543697 and 44424736929 fail at the same step. The six earlier sessions could not read the log
+  body (artifact/log blobs are on `*.blob.core.windows.net`, unreachable here); this session read the
+  **check-run annotations**, which are served by `api.github.com`, and obtained the failing test name.
+- **Reproduced.** `scripts/gamebooks_2ecbccfd.py --check` returns 0 on Python 3.11 and 1 under an exact
+  transcription of the 3.12 `sum()`. The WIZARDS minutes sum to `239.99999999999997` (3.11) vs `240.0`
+  (3.12), so Trae Young's top-8 minutes share is `0.1088` vs `0.1087`.
+- **Second, worse instance.** `pipeline/v2/stats.py` `mean()/sd()` did the same thing to the v2 build:
+  under 3.12 a published spread line moved `7.210020179238307` -> `7.210020179238308`, and every
+  `pick_sha256` committed over that price changed with it. `data/v2/build.json` did not reproduce.
+- **Fix.** `scripts/floatsum.py` (`total`, `share`, `mean_total`) and `pipeline/v2/stats.dsum`
+  reproduce the 3.11 left-to-right float sum on every interpreter; applied to the four call sites.
+  No committed number changes.
+- **Verification.** All 23 `--check`-guarded artefacts reproduce under the 3.12 sum() transcription;
+  `tests/test_float_sum_determinism.py` (8 tests) pins it and is now part of the refresh preflight
+  suite list; `python3 -m unittest discover -s tests` 323 OK; `pipeline/v2/tests` 45 OK; every
+  generated site rebuild is byte-identical under both summation modes. The refresh workflow also pins
+  `python-version: "3.11"` until the remaining 3.12-sensitive modules are converted.
+- **Not claimed:** this does not prove the *next* hosted run succeeds end to end. The unit-test
+  preflight is what was failing and it is fixed and now diagnosable; the fetch/gate/rebuild steps were
+  skipped in every recorded failure and have not been exercised live from this sandbox.
