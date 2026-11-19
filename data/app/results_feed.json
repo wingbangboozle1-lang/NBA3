@@ -2,8 +2,8 @@
  "source_label": "Official per-game result feed. 2026-11-13 rows: official scoreboard capture (data/app/official_results_2026-11-13.json). 2026-11-14 rows: official game books (statsdmz.nba.com PDFs). 2026-11-15 rows: every final and every quarter/OT score read 2026-11-16 from the official scoreboard page and each game's official summary page LINESCORES (data/app/official_results_2026-11-15.json carries per-row cross-checks; the ATL@MIL game-book period-table conflict is recorded on that row and flagged). One row per game: date, teams, final score, quarter scores.",
  "retrieved_stamp": "2026-11-16T18:40Z",
  "settlement_rule": "A row is settled only after the final score is verified from official reads (at minimum the official scoreboard; 2026-11-15 rows carry a second independent read from the game summary page). When quarter scores are captured they must sum to the printed final for both sides or the row is withheld and flagged; quarter values that conflict between two official documents are published from the game-page LINESCORES with the conflict recorded on the row and flagged for review, never repaired by hand. Rows without captured quarter scores are settled on the verified final alone, with that noted in the settlement stamp.",
- "count": 23,
- "settled_count": 23,
+ "count": 46,
+ "settled_count": 46,
  "games": [
   {
    "date": "2026-11-13",
@@ -615,6 +615,719 @@
     "gamebook_transcription_audit_00b0c780_periods_equal_linescore": true
    },
    "venue": "Delta Center"
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600246",
+   "away": "CHI",
+   "home": "CLE",
+   "away_pts": 115,
+   "home_pts": 126,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/chi-vs-cle-0022600246",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-16) from the official final CHI 115 - CLE 126; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16",
+     "recap link printed on the same page names both scores: game-recap-cavaliers-126-bulls-115-nov-16"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600251",
+   "away": "GSW",
+   "home": "NOP",
+   "away_pts": 94,
+   "home_pts": 115,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/gsw-vs-nop-0022600251",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-16) from the official final GSW 94 - NOP 115; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16"
+    ],
+    "read_count": 1
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600249",
+   "away": "HOU",
+   "home": "MIA",
+   "away_pts": 110,
+   "home_pts": 128,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/hou-vs-mia-0022600249",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-16) from the official final HOU 110 - MIA 128; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16",
+     "recap link printed on the same page names both scores: game-recap-heat-128-rockets-110-nov-16"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600247",
+   "away": "MEM",
+   "home": "WAS",
+   "away_pts": 136,
+   "home_pts": 120,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/mem-vs-was-0022600247",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-16) from the official final MEM 136 - WAS 120; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16",
+     "recap link printed on the same page names both scores: game-recap-grizzlies-136-wizards-120-nov-16"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600245",
+   "away": "ORL",
+   "home": "BOS",
+   "away_pts": 115,
+   "home_pts": 105,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/orl-vs-bos-0022600245",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-16) from the official final ORL 115 - BOS 105; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16",
+     "recap link printed on the same page names both scores: game-recap-magic-115-celtics-105-nov-16"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600248",
+   "away": "PHI",
+   "home": "BKN",
+   "away_pts": 135,
+   "home_pts": 123,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/phi-vs-bkn-0022600248",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-16) from the official final PHI 135 - BKN 123; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16",
+     "recap link printed on the same page names both scores: game-recap-76ers-135-nets-123-nov-16"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600256",
+   "away": "CHA",
+   "home": "LAL",
+   "away_pts": 114,
+   "home_pts": 118,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final/OT",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/cha-vs-lal-0022600256",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-17) from the official final CHA 114 - LAL 118; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "ot": 1,
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-17",
+     "recap link printed on the same page names both scores: game-recap-lakers-118-hornets-114-nov-17"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600255",
+   "away": "DET",
+   "home": "SAS",
+   "away_pts": 105,
+   "home_pts": 93,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/det-vs-sas-0022600255",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-17) from the official final DET 105 - SAS 93; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-17",
+     "recap link printed on the same page names both scores: game-recap-pistons-105-spurs-93-nov-17"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600253",
+   "away": "NYK",
+   "home": "TOR",
+   "away_pts": 111,
+   "home_pts": 102,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/nyk-vs-tor-0022600253",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-17) from the official final NYK 111 - TOR 102; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-17",
+     "recap link printed on the same page names both scores: game-recap-knicks-111-raptors-102-nov-17"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600254",
+   "away": "POR",
+   "home": "MIN",
+   "away_pts": 105,
+   "home_pts": 106,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/por-vs-min-0022600254",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-17) from the official final POR 105 - MIN 106; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-17",
+     "recap link printed on the same page names both scores: game-recap-timberwolves-106-trail-blazers-105-nov-17"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "game_id": "0022600257",
+   "away": "UTA",
+   "home": "LAC",
+   "away_pts": 132,
+   "home_pts": 107,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/uta-vs-lac-0022600257",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-17) from the official final UTA 132 - LAC 107; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-17",
+     "recap link printed on the same page names both scores: game-recap-jazz-132-clippers-107-nov-17"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600265",
+   "away": "ATL",
+   "home": "OKC",
+   "away_pts": 117,
+   "home_pts": 112,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/atl-vs-okc-0022600265",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final ATL 117 - OKC 112; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600266",
+   "away": "BOS",
+   "home": "DEN",
+   "away_pts": 101,
+   "home_pts": 105,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/bos-vs-den-0022600266",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final BOS 101 - DEN 105; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600262",
+   "away": "CHI",
+   "home": "BKN",
+   "away_pts": 137,
+   "home_pts": 107,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/chi-vs-bkn-0022600262",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final CHI 137 - BKN 107; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600264",
+   "away": "DET",
+   "home": "NOP",
+   "away_pts": 122,
+   "home_pts": 109,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/det-vs-nop-0022600264",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final DET 122 - NOP 109; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600267",
+   "away": "GSW",
+   "home": "DAL",
+   "away_pts": 94,
+   "home_pts": 116,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/gsw-vs-dal-0022600267",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final GSW 94 - DAL 116; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600259",
+   "away": "HOU",
+   "home": "IND",
+   "away_pts": 119,
+   "home_pts": 104,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/hou-vs-ind-0022600259",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final HOU 119 - IND 104; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600258",
+   "away": "MEM",
+   "home": "CLE",
+   "away_pts": 124,
+   "home_pts": 121,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/mem-vs-cle-0022600258",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final MEM 124 - CLE 121; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600260",
+   "away": "MIL",
+   "home": "MIA",
+   "away_pts": 130,
+   "home_pts": 137,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/mil-vs-mia-0022600260",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final MIL 130 - MIA 137; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600261",
+   "away": "PHI",
+   "home": "ORL",
+   "away_pts": 121,
+   "home_pts": 116,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/phi-vs-orl-0022600261",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final PHI 121 - ORL 116; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600269",
+   "away": "PHX",
+   "home": "SAC",
+   "away_pts": 128,
+   "home_pts": 107,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/phx-vs-sac-0022600269",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final PHX 128 - SAC 107; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600268",
+   "away": "UTA",
+   "home": "LAL",
+   "away_pts": 109,
+   "home_pts": 97,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/uta-vs-lal-0022600268",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final UTA 109 - LAL 97; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "game_id": "0022600263",
+   "away": "WAS",
+   "home": "TOR",
+   "away_pts": 103,
+   "home_pts": 99,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "Final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/was-vs-tor-0022600263",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T06:11Z (game day end, 2026-11-18) from the official final WAS 103 - TOR 99; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-18",
+     "day list on the game's own official page (https://www.nba.com/game/mem-vs-cle-0022600258)"
+    ],
+    "read_count": 2
+   }
   }
  ],
  "sources": [

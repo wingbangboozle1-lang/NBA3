@@ -429,7 +429,13 @@ jobs:
 
       - name: 11/15 capture round + estimator layer, offline replay (arena/79341829)
         run: |
-          python3 scripts/capture_round_79341829.py
+          # Report-only replay: NBA3_FEED_OUT keeps the deploy from rewriting the published
+          # results feed (this step used to overwrite data/app/results_feed.json with the round's
+          # own 11/12-11/15 window, deleting every game day promoted since — the reason the live
+          # results page stayed at 23 rows). The replayed rows are diffed against the live feed
+          # below instead of replacing it.
+          NBA3_FEED_OUT="$RUNNER_TEMP/results_feed_replay_79341829.json" \
+            python3 scripts/capture_round_79341829.py
           python3 scripts/estimators_round_79341829.py
           python3 scripts/minutes_model.py
           python3 scripts/results_feed.py verify

@@ -7,6 +7,7 @@ import contextlib
 import io
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -308,6 +309,37 @@ class CommittedCaptureSlateTests(unittest.TestCase):
                 if os.path.exists(page):
                     pages[d] = open(page, encoding="utf-8", errors="replace").read()
             rows, _ = ro.promote_slate_rows(pages)
+        if published.get("promoted_by"):
+            # The slate was promoted from a round's verbatim transcripts (data/rounds/<date>/raw*/),
+            # not from a CI capture under data/app/refresh/. Checking it against the newest refresh
+            # capture would compare a current window with a frozen older one and fail every round:
+            # this is the shape scripts/roll_915d2e99.py produces. So the promotion is re-derived
+            # with the round's OWN tooling — --check re-parses every transcript, re-verifies each
+            # transcript's sha256 against the round manifest, and compares the parse to the published
+            # files — and the window is pinned to what the manifest recorded.
+            promoter = os.path.join(ROOT, published["promoted_by"])
+            manifest_path = os.path.join(ROOT, published["round_manifest"])
+            self.assertTrue(os.path.exists(manifest_path),
+                            f"{published['round_manifest']}: the slate names a manifest that is "
+                            f"not committed — the promotion would be unverifiable")
+            with open(manifest_path, encoding="utf-8") as fh:
+                man = json.load(fh)
+            r = subprocess.run([sys.executable, promoter, "--check"], cwd=ROOT,
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0,
+                             "roll --check disagrees with the published promotion: "
+                             + (r.stdout + r.stderr)[-1200:])
+            by_date = {}
+            for art in man["artefacts"]:
+                if art["file"].endswith("official_slate_current.json"):
+                    by_date = art
+            self.assertTrue(by_date, "the round manifest does not list the published slate")
+            self.assertEqual(len(published["games"]), by_date["games"],
+                             "the manifest's game count is not the published slate's")
+            self.assertEqual(published["retrieved_utc"], by_date["retrieved_utc"],
+                             "the slate's retrieval stamp is not the manifest's")
+            self.assertEqual(published["count"], len(published["games"]))
+            return
         if rows:
             self.assertEqual(published["games"], rows,
                              "the published slate is not the promotion of the newest "

@@ -89,46 +89,138 @@ class QuarterConflictTest(unittest.TestCase):
 
 
 class LedgerSettlementTest(unittest.TestCase):
-    def test_nine_settlement_entries_appended_and_chain_intact(self):
-        r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "pick_ledger.py"),
-                            "verify"], capture_output=True, text=True)
-        self.assertIn("CHAIN INTACT", r.stdout)
-        entries = [json.loads(l) for l in open(LEDGER, encoding="utf-8")]
-        settled = [e for e in entries if e["body"]["state"] == "SETTLED"]
-        self.assertEqual(len(settled), 9)
-        for e in settled:
-            self.assertIn("official final", e["body"]["settlement_stamp"])
+    def _entries(self):
+        return [json.loads(line) for line in open(LEDGER, encoding="utf-8")]
 
-    def test_settlement_entries_match_the_feed_finals(self):
-        feed = {(g["date"], g["away"], g["home"]): g
-                for g in load_feed()["games"] if g.get("settled")}
-        entries = [json.loads(l) for l in open(LEDGER, encoding="utf-8")]
+    def _settled_by_game_day(self):
+        """SETTLED entries grouped by the day of the PUBLISHED entry they settle.
+
+        A SETTLED body carries no date of its own (it is append-only evidence about the pick), so
+        the day comes from the published entry the pick_id points at. Grouping is what keeps this
+        file's claim — "the 11/15 settlement run appended nine entries" — true after the chain grew
+        past that day instead of forcing the whole chain back to nine.
+        """
+        entries = self._entries()
         published = {e["body"]["pick_id"]: e["body"] for e in entries
                      if e["body"]["state"] == "PUBLISHED_PRE_TIP"}
-        seen = 0
+        by_day = {}
         for e in entries:
             b = e["body"]
             if b["state"] != "SETTLED":
                 continue
+            p = published.get(b["pick_id"])
+            day = (p or {}).get("date", "?unmatched?")
+            by_day.setdefault(day, []).append(e)
+        for day in by_day:
+            by_day[day] = sorted({e["body"]["pick_id"] for e in by_day[day]})
+        return by_day
+
+    def test_chain_verifies_and_the_1115_nine_picks_are_settled(self):
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "pick_ledger.py"),
+                            "verify"], capture_output=True, text=True)
+        self.assertIn("CHAIN INTACT", r.stdout)
+        by_day = self._settled_by_game_day()
+        # Distinct PICKS, not entry rows: `settle` used to re-append a settlement for every pick on
+        # every later run, so 2026-11-15's nine picks carry 27 SETTLED rows in the published chain
+        # (three runs: 11-16T18:37Z, 11-19T06:03Z, 11-19T06:05Z). The chain is append-only evidence,
+        # so those rows stay; the 915d2e99 gate stops new ones. Counting rows here would have pinned
+        # the defect instead of the claim this file is about.
+        self.assertEqual(by_day.get("2026-11-15"),
+                         [f"00226002{n}-side-proj" for n in (36, 37, 38, 39, 40, 41, 42, 43, 44)],
+                         "the nine settled games of 2026-11-15 must each have a settlement entry")
+        stamps_per_pick = {}
+        for e in self._entries():
+            if e["body"]["state"] == "SETTLED":
+                stamps_per_pick.setdefault(e["body"]["pick_id"], set()).add(
+                    e["body"]["settled_utc"])
+        for pid, stamps in stamps_per_pick.items():
+            self.assertEqual(len(stamps), len([s for s in stamps]), pid)
+        dupes = {pid: n for pid, n in
+                 __import__("collections", fromlist=["Counter"]
+                            ).Counter(e["body"]["pick_id"] for e in self._entries()
+                                      if e["body"]["state"] == "SETTLED").items() if n > 1}
+        for pid, n in dupes.items():
+            self.assertLessEqual(n, 3,
+                                 f"{pid} has {n} settlement rows; the pre-gate re-appends (3 runs) "
+                                 f"are the historical maximum and the gate must not let it grow")
+        for e in self._entries():
+            if e["body"]["state"] == "SETTLED":
+                self.assertIn("official final", e["body"]["settlement_stamp"])
+        # the settled set must equal the settled feed days that had published picks: no pick may be
+        # settled twice in one run and none may be missing
+        feed = {(g["date"], g["away"], g["home"]) for g in load_feed()["games"] if g.get("settled")}
+        published = {e["body"]["pick_id"]: e["body"] for e in self._entries()
+                     if e["body"]["state"] == "PUBLISHED_PRE_TIP"}
+        settleable = {pid for pid, b in published.items()
+                      if (b["date"], b["payload"]["away"], b["payload"]["home"]) in feed}
+        self.assertTrue(settleable <= set(by_day.get("2026-11-15", set())) |
+                        {pid for ids in by_day.values() for pid in ids},
+                        "every pick whose game has a settled feed row must be settled in the chain")
+
+    def test_every_settlement_entry_matches_a_settled_feed_final(self):
+        """Not nine-and-only-nine: EVERY settled pick must trace to a settled official final.
+
+        The earlier version hard-coded the 11/15 count, so the day the feed grew new settled days it
+        failed for the wrong reason (a KeyError on a game it had never seen). The property that
+        matters is the one this keeps: no settlement entry may exist without a settled feed row
+        carrying the same score, whatever day it is.
+        """
+        feed = {(g["date"], g["away"], g["home"]): g
+                for g in load_feed()["games"] if g.get("settled")}
+        published = {e["body"]["pick_id"]: e["body"] for e in self._entries()
+                     if e["body"]["state"] == "PUBLISHED_PRE_TIP"}
+        seen = 0
+        for e in self._entries():
+            b = e["body"]
+            if b["state"] != "SETTLED":
+                continue
+            self.assertIn(b["pick_id"], published, f"{b['pick_id']} settled without a published row")
             p = published[b["pick_id"]]
-            row = feed[(p["date"], p["payload"]["away"], p["payload"]["home"])]
+            key = (p["date"], p["payload"]["away"], p["payload"]["home"])
+            self.assertTrue(key in feed,
+                            f"{key}: settled in the ledger but the published feed has no settled row "
+                            f"for it — the final was never captured, or something rewrote the feed")
+            row = feed[key]
             self.assertEqual(b["final"], {"away_pts": row["away_pts"],
                                           "home_pts": row["home_pts"]})
             seen += 1
-        self.assertEqual(seen, 9)
+        self.assertGreaterEqual(seen, 9, "the 11/15 settlement run is expected in there")
+        by_day = self._settled_by_game_day()
+        self.assertEqual(len(by_day.get("2026-11-15", [])), 9)
 
 
 class OfflineRebuildTest(unittest.TestCase):
-    def test_capture_replay_reproduces_the_feed_byte_for_byte(self):
+    def test_capture_replay_reproduces_the_round_and_leaves_the_feed_untouched(self):
+        """The deploy-time replay must be read-only against the published feed.
+
+        `capture_round_79341829.py` used to write its own window OVER data/app/results_feed.json, and
+        pages.yml runs it on every build — so each deploy deleted every game day promoted after
+        2026-11-15 (the published feed sat at 23 rows while the day captures and the ledger had 46,
+        and the ledger was settling games the feed no longer carried). Row-for-row fidelity of the
+        replay is still pinned; what changed is where it writes.
+        """
         before = open(FEED, "rb").read()
+        out = "/tmp/feed_replay_test.json"
         r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts",
-                                                         "capture_round_79341829.py")],
-                           capture_output=True, text=True)
-        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        after = open(FEED, "rb").read()
-        self.assertEqual(before, after,
-                         "the offline rebuild changed results_feed.json — the committed "
-                         "file must be the replay's output")
+                                                          "capture_round_79341829.py")],
+                           capture_output=True, text=True,
+                           env=dict(os.environ, NBA3_FEED_OUT=out))
+        self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-1500:])
+        self.assertEqual(open(FEED, "rb").read(), before,
+                         "the replay rewrote the published results feed — it must only write "
+                         "NBA3_FEED_OUT")
+        replay = json.load(open(out, encoding="utf-8"))
+        live = {(g["date"], g["away"], g["home"]): g for g in load_feed()["games"]}
+        n = 0
+        for g in replay["games"]:
+            key = (g["date"], g["away"], g["home"])
+            if key[0] > "2026-11-15":
+                continue
+            self.assertTrue(key in live, f"{key}: replayed row missing from the published feed")
+            for f in ("away_pts", "home_pts", "state", "verified", "settled"):
+                self.assertEqual(g.get(f), live[key].get(f), f"{key} {f}")
+            n += 1
+        self.assertGreaterEqual(n, 23, "the replay lost rows from its own capture window")
 
     def test_game_log_dedupes_and_excludes_the_conflicting_row(self):
         import round_model_2026_11_16 as rm

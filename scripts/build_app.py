@@ -109,7 +109,12 @@ def _load_new():
     NEW["gates"] = rd("data/app/gate_report.json", {"gates": []})
     NEW["closing"] = rd("data/app/closing_lines.json", {})
     NEW["flags_session"] = (rd("data/app/flags_79341829.json", [])
-                           + rd("data/app/flags_4054e125.json", []))
+                           + rd("data/app/flags_4054e125.json", [])
+                           # session arena/915d2e99-nba3: the 2026-11-19 promotion round's flags
+                           # (partial 11/16 day, missing quarter reads, the deploy-time feed reset
+                           # and the duplicate-settlement history). Each session appends its own
+                           # data/app/flags_<session>.json; the generator never hand-writes output.
+                           + rd("data/app/flags_915d2e99.json", []))
     NEW["questions_session"] = (rd("data/app/questions_79341829.json", [])
                                 + rd("data/app/questions_4054e125.json", []))
     NEW["suggestions_session"] = (rd("data/app/suggestions_79341829.json", [])
