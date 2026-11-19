@@ -6404,3 +6404,10 @@ Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`,
 **CR-DD3-01 (integration request; not edited by this session):** (a) fold `results_2026-11-16_18.json` into the canonical results feed once quarter scores are captured or the integration owner accepts the null-quarter rule, and settle the 25 rows then; (b) add F-DD3-01…07 to the Flagged for Review page through its generator; (c) link `data/rounds/2026-11-19-dd3edd74/` from the Injuries/refresh pages next to the existing 11/19 captures.
 
 **Not done in this session (honest scope):** the rest of the brief is unclaimed — two-estimator and headline changes, minutes redistribution, parlay pricing with measured rho, market prior (no closing-line source reachable), pre-registrations, the sealed-ledger settlement, the Injuries banner update, the requirement-coverage page, and per-player game logs beyond the 11/15 books already on the board. No model, line, pick, or price was produced or changed.
+
+### PR and deploy record — session `dd3edd74`
+
+- **PR [#144](https://github.com/wingbangboozle1-lang/NBA3/pull/144)** (`arena/dd3edd74-nba3` → `main`): merged with a merge commit at **2026-11-19T07:02:37Z**, merge commit `846a6fa09f5e3a8d5030ff3e604bfd282598a20a`. Build check on the PR: SUCCESS (deploy skipped on PRs by design).
+- **Pages on `main` (`846a6fa`)**: run [44476581193](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44476581193) — `build` success, `deploy` success. Site root `https://wingbangboozle1-lang.github.io/NBA3/` serves, and its status banner still reads "publishing is paused pending a successful refresh", which is correct: this round did not change canonical data.
+- The round data (`data/rounds/2026-11-19-dd3edd74/`) is in the repository but not in the Pages artefact (the Pages build copies selected directories only). Link to it from the repo (CR-DD3-01 (c)).
+- **Open after merge:** the hosted refresh root cause (EVE-F04) and the scheduled-run status (next run ~11:15 UTC); CR-DD3-01 (a)–(c) for the integration owner.
