@@ -1,0 +1,42 @@
+{
+ "schema": "nba3.rounds.manifest/v1",
+ "session": "arena/9c30f2ae-nba3",
+ "retrieved_utc": "2026-11-19T07:05Z..07:20Z (window: the fetch tool returns no per-call stamp)",
+ "inputs": [
+  {
+   "path": "data/rounds/2026-11-19-9c30f2ae/raw/injury_index_2026-11-19_raw.md",
+   "bytes": 2659,
+   "sha256": "93d904261b5a253ea18a816159ab14b32dc0fb6820aeb39ff9fda496dcb98447"
+  },
+  {
+   "path": "data/rounds/2026-11-19-9c30f2ae/raw/injury_2026-11-19_0130AM_raw.md",
+   "bytes": 4929,
+   "sha256": "760787cfb9b24891419861ed907cc24959d07aa301f9e8531d3863deff52c5f4"
+  },
+  {
+   "path": "data/rounds/2026-11-19-9c30f2ae/raw/team_stats_advanced_raw.md",
+   "bytes": 6755,
+   "sha256": "adc5d56948a2e5d6d131ea9c3061e278e78f693be24274aa9c10fbc7dbed023f"
+  },
+  {
+   "path": "data/rounds/2026-11-19-9c30f2ae/results_2026-11-18.json",
+   "bytes": 14138,
+   "sha256": "5a515d40d04d9cdf9f54a8320daf5a82ab85fe1a483ff096187edb206ac7c1af"
+  },
+  {
+   "path": "data/rounds/2026-11-19-de0caf5d/captures/injury_2026-11-19_0045AM_raw.md",
+   "bytes": 4782,
+   "sha256": "bc6acd0e2777a310de815fa4baad850183aaaa8bd5c7c8e40f3119b561f0c337"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "data/rounds/2026-11-19-9c30f2ae/injuries_2026-11-19_0130AM.json"
+  },
+  {
+   "path": "data/rounds/2026-11-19-9c30f2ae/team_stats_advanced_2026-11-19.json"
+  }
+ ],
+ "games_with_quarter_scores": 12,
+ "games_whose_quarters_sum_to_the_final": 12
+}
