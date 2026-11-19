@@ -6697,3 +6697,11 @@ official data was fetched by this session, so the newest verified official value
 already on the board (slate 11/19–11/22; injury report 11/19 12:45 AM, 44 rows: 23 player / 15 NOT YET
 SUBMITTED / 6 unreadable; 29/29 keyed rows unchanged from the prior report; the 11/16 01:30 PM → 11/19
 12:45 AM gap in official reports is genuine and must not be bridged).
+
+## 2026-11-19 — session 04a81bce — INTEGRATION RESULTS (PR record)
+
+- **PR #155** https://github.com/wingbangboozle1-lang/NBA3/pull/155 — "feat(04a81bce): O1–O7 …" — **MERGED to main** (merge commit "Merge pull request #155 from wingbangboozle1-lang/arena/04a81bce-nba3", run 44485852110). Pre-merge gate: full suite **Ran 388 OK** on the merged tree.
+- **GitHub Pages deploy**: run 44485851329 ("pages build and deployment") — **SUCCESS**; site live at https://wingbangboozle1-lang.github.io/NBA3/.
+- **pages.yml run 44485852110 for the merge push FAILED** in step "Independent audit tree (session 7f3b89af)" — diagnosed and fixed (fix in this record's PR): `audit_7f3b89af/build.py` `build_coverage` counted the LIVE `app/` directory (os.listdir) into a page whose own contract is byte-reproduction of the frozen 2026-11-14 state ("the canonical build these counts describe is the 2026-11-14 one"). PR #155 added `app/round_2026-11-19.html` → count 25→26 → drift gate red. The previous committed value (25) was itself a live-count that no longer reproduced. **Fix**: count `app/*.html` at the same frozen commit the rest of the page uses (`git ls-tree -r d320fea app` → 20 pages), so the audit page now reproduces byte-for-byte regardless of site growth. Regenerated `audit_7f3b89af/pages/coverage.html` committed.
+- **NOTE for all sessions adding `app/` pages**: the 7f3b89af audit is now growth-proof (frozen count), and `data/9a13efcf/audit.json` + `9a13efcf/` still need `python3 scripts/build_9a13efcf.py` + commit when `data/app/ledger/ledger.jsonl` changes (its test says "rebuild and commit").
+- This record lands via its own PR (the fix + this entry are its content); that PR is merged only after its pages.yml run is green, and its merge + deploy status are recorded in the PR conversation (a file on main cannot record its own landing commit).
