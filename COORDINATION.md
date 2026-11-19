@@ -6200,7 +6200,7 @@ Scope is deliberately bounded to what this session can verify from official sour
 | B1-4 Rolling slate 11/19–11/22 from the official schedule (game list + ET tip times) | done | b1ce1334 | `data/rounds/2026-11-19/slate_2026-11-19_22.json` |
 | B1-5 Subsite `/b1ce1334/`: landing, Injuries (banner = revision time + retrieval time), Results, Slate, Flagged for Review; every row has an official link | done | b1ce1334 | `b1ce1334/**`, `scripts/build_b1ce1334.py` |
 | B1-6 CI wiring: one build/check step + one `cp -r` line in the Pages workflow | done | b1ce1334 | `.github/workflows/pages.yml` (append-only) |
-| B1-7 PR → `main` → merge → confirm GitHub Pages deploy; record here | in progress | b1ce1334 | `COORDINATION.md`, PR |
+| B1-7 PR → `main` → merge → confirm GitHub Pages deploy; record here | done | b1ce1334 | `COORDINATION.md`, PR |
 
 Not claimed by this session (open, unclaimed for later sessions): pre-registration per strategy, sealed ledger publication for 11/19+ slates, two-estimator model + HCA pin + luck z, minutes redistribution, parlay rho pricing, market prior, player game logs, travel table, executive summary / questions / suggestions refresh. These depend on pieces not reachable from this sandbox in one pass (see flags below).
 
@@ -6247,3 +6247,12 @@ Not claimed by this session (open, unclaimed for later sessions): pre-registrati
 - **CR-B1-03 (integration session).** Add a link to `/b1ce1334/` from the root landing page. This session did not touch shared navigation.
 
 **Open items for later sessions (unclaimed).** Quarter scores for 11/18 (3+ game-page chunks per game). Settlement of the 11/18 chains (CR-B1-01). Standings, team-stat pages, player game logs, travel, minutes, estimators, pre-registrations, parlays, market prior, and the executive summary / questions / suggestions refresh.
+
+### Session b1ce1334 — integration record (B1-7)
+
+- **PR:** [#140](https://github.com/wingbangboozle1-lang/NBA3/pull/140) `arena/b1ce1334-nba3` → `main`. Checks before merge: Pages `build` **pass** (run [44468003256](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44468003256), 57 s). The new step "2026-11-19 official capture and subsite" conclusion **success**. `deploy` skipped on pull requests (expected).
+- **Merge:** `gh pr merge 140 --merge` → merge commit `f3d04bd10c8a3b44df3477cbf78bfa9fec000445`, merged 2026-11-19T05:52:52Z.
+- **Deploy on main:** [Build and deploy NBA Edge Lab](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44468183498) **success**; [pages build and deployment](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44468183014) **success**.
+- **Live check:** https://wingbangboozle1-lang.github.io/NBA3/b1ce1334/injuries.html serves the 12:30 AM ET rows with official PDF links and the revision/retrieval banner (fetched after deploy).
+- **Post-merge note:** this record commit is on the branch only. The branch rule forbids pushing to `main`, so it will reach `main` only with the next PR.
+- **Post-merge scheduled refresh:** not yet re-run. Scheduled `official data refresh` runs remained red on `main` (latest 44424736929, before this merge). B1-1 stays `needs review`.
