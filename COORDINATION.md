@@ -6183,3 +6183,23 @@ Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) rec
 - Repaired [PR #139](https://github.com/wingbangboozle1-lang/NBA3/pull/139)'s malformed description using the GitHub REST API with a body loaded from a file; verified the rendered body and links via `gh pr view`.
 - PR validation run [44105992265](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44105992265) completed successfully: the Pages `build` job passed, including the 2026-11-17 round replay and site checks. `deploy` was skipped for this pull-request event (not a failed deployment).
 - The PR description and build explicitly keep EVE-F04 unresolved. No diagnostic artifact or passing scheduled hosted refresh has established the cause of the earlier gamebooks mismatch; the scheduled refresh dispatch remains blocked by HTTP 403. Keep the review flag and CR-5BA-01 request active.
+
+---
+
+## Session `arena/b1ce1334-nba3` — CLAIM (2026-11-19 ~05:50 UTC)
+
+Session ID: `b1ce1334`. Branch fixed by the workspace: `arena/b1ce1334-nba3` (base `2addcad` = `main` #139). Pushed before work began.
+
+Scope is deliberately bounded to what this session can verify from official sources in one pass. Every other item in the brief stays **unclaimed** below for a later session (no silent overlap with the 60+ prior claims).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| B1-1 Diagnose the red scheduled refresh (unit-test step fails on the hosted runner; logs unreachable). Take over stale EVE-F04 (`5ba4892c`, `needs review`, no commits since 2026-11-17). Add an artifact upload of the unit-test output so the next red run is diagnosable. No change to the gates. | in progress | b1ce1334 | `.github/workflows/refresh.yml` (one step + one upload) |
+| B1-2 Official 11/19 injury reports 12:00 / 12:15 / 12:30 AM ET: verbatim transcripts, retrieval UTC stamps, sha256, consecutive-report diff of status changes | in progress | b1ce1334 | `data/rounds/2026-11-19/**`, `scripts/capture_b1ce1334.py`, `tests/test_b1ce1334.py` |
+| B1-3 Per-game result feed for 11/18 (12 games, final scores from the official schedule page). Quarter scores **not captured** → left blank, flagged | in progress | b1ce1334 | `data/rounds/2026-11-19/results_2026-11-18.json` |
+| B1-4 Rolling slate 11/19–11/22 from the official schedule (game list + ET tip times) | in progress | b1ce1334 | `data/rounds/2026-11-19/slate_2026-11-19_22.json` |
+| B1-5 Subsite `/b1ce1334/`: landing, Injuries (banner = revision time + retrieval time), Results, Slate, Flagged for Review; every row has an official link | in progress | b1ce1334 | `b1ce1334/**`, `scripts/build_b1ce1334.py` |
+| B1-6 CI wiring: one build/check step + one `cp -r` line in the Pages workflow | in progress | b1ce1334 | `.github/workflows/pages.yml` (append-only) |
+| B1-7 PR → `main` → merge → confirm GitHub Pages deploy; record here | in progress | b1ce1334 | `COORDINATION.md`, PR |
+
+Not claimed by this session (open, unclaimed for later sessions): pre-registration per strategy, sealed ledger publication for 11/19+ slates, two-estimator model + HCA pin + luck z, minutes redistribution, parlay rho pricing, market prior, player game logs, travel table, executive summary / questions / suggestions refresh. These depend on pieces not reachable from this sandbox in one pass (see flags below).
