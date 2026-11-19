@@ -839,19 +839,32 @@ def estimator_b(team: dict, lg: dict) -> float:
 
 
 def league_averages(rows: list) -> dict:
+    """League means over the 30 team rows, reduced with math.fsum.
+
+    math.fsum is exactly rounded, so it returns the same float on every CPython version.
+    Builtin sum() is NOT: CPython 3.12 changed float summation to Neumaier compensation
+    (https://docs.python.org/3/whatsnew/3.12.html), so a plain sum() of floats is an
+    interpreter-dependent value. model.json is byte-pinned by --check and by
+    tests/test_round2_2026_11_16.py, and the hosted scheduled refresh went red on exactly this
+    (2026-11-19, run 44469939831). fsum is the fix: same numbers, one rounding, every interpreter.
+    """
     n = len(rows)
+
+    def mean(key):
+        return math.fsum(r[key] for r in rows) / n
+
     return {
         "n": n,
-        "poss_per_game": sum(r["poss_per_game"] for r in rows) / n,
-        "ppp": sum(r["ppp"] for r in rows) / n,
-        "pace": sum(r["pace"] for r in rows) / n,
-        "off_rtg": sum(r["off_rtg"] for r in rows) / n,
-        "def_rtg": sum(r["def_rtg"] for r in rows) / n,
-        "efg_pct": sum(r["efg_pct"] for r in rows) / n,
-        "tov_pct": sum(r["tov_pct"] for r in rows) / n,
-        "oreb_pct": sum(r["oreb_pct"] for r in rows) / n,
-        "ts_pct": sum(r["ts_pct"] for r in rows) / n,
-        "pts": sum(r["pts"] for r in rows) / n,
+        "poss_per_game": mean("poss_per_game"),
+        "ppp": mean("ppp"),
+        "pace": mean("pace"),
+        "off_rtg": mean("off_rtg"),
+        "def_rtg": mean("def_rtg"),
+        "efg_pct": mean("efg_pct"),
+        "tov_pct": mean("tov_pct"),
+        "oreb_pct": mean("oreb_pct"),
+        "ts_pct": mean("ts_pct"),
+        "pts": mean("pts"),
     }
 
 

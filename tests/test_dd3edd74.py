@@ -125,11 +125,18 @@ class GamebookCheckDiagnosticTests(unittest.TestCase):
         p = os.path.join(tmp, "data", "rounds", "2026-11-17", "player_logs_2026-11-15.json")
         with open(p, encoding="utf-8") as fh:
             s = fh.read()
+        # session arena/9c30f2ae-nba3: the expected line is computed, not hard-coded. The first
+        # published `"pts"` key sits on line 27 of the artefact as dd3edd74 committed it, but that is
+        # a property of the JSON layout, not of the diagnostic under test: publishing `min_seconds`
+        # beside `min` (the interpreter-determinism fix) moved it to line 28 while the behaviour under
+        # test — "name the first differing line, with both readings" — is unchanged. The assertion
+        # keeps its strength: the number the script prints must be the line the mutation is on.
+        first = s.splitlines().index(next(l for l in s.splitlines() if '"pts"' in l)) + 1
         with open(p, "w", encoding="utf-8") as fh:
             fh.write(s.replace('"pts"', '"pts "', 1))
         res = self._check(tmp)
         self.assertEqual(res.returncode, 1)
-        self.assertIn("first differing line 27", res.stdout)
+        self.assertIn(f"first differing line {first}", res.stdout)
         self.assertIn('"pts "', res.stdout)
         self.assertIn("committed  :", res.stdout)
         self.assertIn("regenerated:", res.stdout)

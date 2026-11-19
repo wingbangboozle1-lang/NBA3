@@ -17,6 +17,10 @@ FG..PTS, and then REQUIRES the row to satisfy the two identities the PDF itself 
 A row that fails a check is not repaired: its fields are dropped and the row is reported. A team
 whose totals do not reconcile has the whole team-game marked unverified, and the artefact says so.
 
+Every published aggregate is computed from integer seconds, never from floats. f69a11c4 fixed the two
+float summations with math.fsum (kept); this takes the same rule to the values themselves, so the bytes
+are a function of the document alone and not of the interpreter running the replay.
+
 Run: python3 scripts/gamebooks_2ecbccfd.py [--check]
 """
 from __future__ import annotations
@@ -46,11 +50,28 @@ def cells_of(line):
     return [c.strip() for c in s.strip("|").split("|")]
 
 
-def minutes_of(v):
+def minutes_seconds_of(v):
+    """mm:ss -> whole seconds. Exact: no float is created until the value is divided by 60."""
     m = MIN_RE.match(v or "")
     if not m:
         return None
-    return int(m.group(1)) + int(m.group(2)) / 60.0
+    return int(m.group(1)) * 60 + int(m.group(2))
+
+
+def minutes_of(v):
+    """mm:ss -> minutes, as one correctly-rounded division of the exact second count.
+
+    Interpreter-dependent summation is what turned this repository's committed artefacts red on the
+    hosted runner while they stayed green in a 3.11 sandbox: CPython 3.12 changed builtin sum() for
+    floats to Neumaier compensated summation
+    (https://docs.python.org/3/whatsnew/3.12.html#other-language-changes). f69a11c4 fixed the two
+    summations with math.fsum (correctly rounded, version-independent) — that fix is kept in place
+    below. This function goes one step further for the VALUE ITSELF: every published minute is a
+    function of integer inputs only, so no rounding mode can move it, and every aggregate can be taken
+    over integers instead of over floats. `min` keeps the float the artefacts have always published.
+    """
+    sec = minutes_seconds_of(v)
+    return None if sec is None else sec / 60.0
 
 
 def parse_book(text, source_url):
@@ -113,7 +134,8 @@ def parse_book(text, source_url):
             pass
         vals = cells[j + 1:]
         player = _name_from(cells[:j])
-        rec = {"player": player, "min": minutes_of(cells[j]), "status": "played"}
+        rec = {"player": player, "min": minutes_of(cells[j]),
+               "min_seconds": minutes_seconds_of(cells[j]), "status": "played"}
         filled = [v for v in vals if v != ""]
         aligned = len(vals) >= 16 and all(v != "" for v in vals[:16])
         if aligned:
@@ -181,6 +203,9 @@ def parse_book(text, source_url):
     return teams, problems
 
 
+# the 0.35-minute window this artefact has always used for "sums to 240:00", in whole seconds
+MIN_TOLERANCE_SECONDS = 21
+
 POS_TOKENS = {"G", "F", "C", "F-C", "G-F", "C-F", "G-C", "F-G", "C-G"}
 
 
@@ -219,9 +244,15 @@ def reconcile(teams):
         # annotations name exactly this replay). math.fsum is correctly rounded on every CPython,
         # so the published bytes stop depending on the runner's minor version.
         mins = round(math.fsum(r["min"] or 0 for r in rows), 2)
+        # f69a11c4's fsum (kept above) already makes this total version-independent. The exact integer
+        # total is published beside it so the 240:00 question can be asked on integers: it is the
+        # difference between "within the 21-second tolerance this artefact has always used" and
+        # "exactly the 240:00 the same PDF prints", and two club-games (LAL, PHX) fail the second.
+        secs = sum((int(r["min_seconds"]) for r in rows if r.get("min_seconds") is not None), 0)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
-        checks["min_total_240"] = abs(mins - 240.0) < 0.35
+        checks["min_total_240"] = abs(secs - 240 * 60) <= MIN_TOLERANCE_SECONDS
+        checks["min_total_exactly_240"] = secs == 240 * 60
         ok = (t is not None and all(v is not False for v in checks.values())
               and complete and abs(mins - 240.0) < 0.35)
         blk["columns_complete"] = complete
@@ -233,6 +264,8 @@ def reconcile(teams):
                                 "The minutes are accepted because they sum to the 240:00 this same PDF "
                                 "prints for the team.")
         out[club] = {"printed_total": t, "column_sums": sums, "sum_min": mins,
+                     "sum_min_seconds": secs,
+                     "sum_min_exactly_240": secs == 240 * 60,
                      "columns_complete": blk.get("columns_complete"),
                      "minutes_verified": blk.get("minutes_verified"),
                      "partial_note": blk.get("partial_note"),
@@ -274,7 +307,8 @@ def main():
                 per_player.append({
                     "date": "2026-11-15", "team": code, "club": club,
                     "opponent": opp_code, "player": r["player"],
-                    "min": r.get("min"), "pts": r.get("pts"), "reb": r.get("treb"),
+                    "min": r.get("min"), "min_seconds": r.get("min_seconds"),
+                    "pts": r.get("pts"), "reb": r.get("treb"),
                     "ast": r.get("ast"), "plus_minus": r.get("plus_minus"),
                     "columns_published": r.get("columns_published"),
                     "row_verified": r.get("verified"),
@@ -284,18 +318,24 @@ def main():
                     "club_label_source": blk.get("club_label_source"),
                     "source_url": d["source_url"],
                 })
-            ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
+            ranked = sorted(played, key=lambda r: -(r["min_seconds"] or 0))[:8]
             # Same interpreter-stability rule as reconcile(): the share denominator must be the
             # same number on 3.11 and 3.12, or a top-8 share rounds to a different 4th decimal
             # (this is the exact byte that failed the hosted replay check: a Wizards 0.1088 vs
             # 0.1087 under the two summations).
-            tot = math.fsum(r["min"] or 0 for r in played) or None
+            tot_fsum = math.fsum(r["min"] or 0 for r in played) or None
+            # exact integer denominator: a share is then one correctly-rounded division of two
+            # integers and cannot move with the interpreter at all (f69a11c4's fsum above is kept for
+            # the float total this artefact has always published).
+            tot = sum((int(r["min_seconds"] or 0) for r in played), 0) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],
-                "total_min_played": round(tot, 2) if tot else None,
+                "total_min_played": round(tot_fsum, 2) if tot_fsum else None,
+                "total_min_seconds": tot,
                 "top8": [{"player": r["player"], "min": r["min"],
-                          "share": round((r["min"] or 0) / tot, 4) if tot else None}
+                          "min_seconds": r["min_seconds"],
+                          "share": round((r["min_seconds"] or 0) / tot, 4) if tot else None}
                          for r in ranked],
             }
     payload = {
