@@ -6183,3 +6183,55 @@ Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) rec
 - Repaired [PR #139](https://github.com/wingbangboozle1-lang/NBA3/pull/139)'s malformed description using the GitHub REST API with a body loaded from a file; verified the rendered body and links via `gh pr view`.
 - PR validation run [44105992265](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44105992265) completed successfully: the Pages `build` job passed, including the 2026-11-17 round replay and site checks. `deploy` was skipped for this pull-request event (not a failed deployment).
 - The PR description and build explicitly keep EVE-F04 unresolved. No diagnostic artifact or passing scheduled hosted refresh has established the cause of the earlier gamebooks mismatch; the scheduled refresh dispatch remains blocked by HTTP 403. Keep the review flag and CR-5BA-01 request active.
+
+---
+
+## Session `arena/64d8f868-nba3` — CLAIM (2026-11-19 ~05:50 UTC)
+
+Session ID: `64d8f868`. Branch: `arena/64d8f868-nba3` (branched from `main` @ `2addcad`, i.e. after
+PR #139). The workspace fixes the branch name, so this session works on that one branch and keeps
+its file scopes non-overlapping with the sessions recorded above.
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| I0 | Claim + board push (this section) | done | 64d8f868 | `COORDINATION.md` (this section only) |
+| I1 | Diagnose and repair the red scheduled official-refresh job (7 consecutive failures, runs 44203349676 → 44424736929) and make every failure localisable from the Actions annotations | in progress | 64d8f868 | `.github/workflows/refresh.yml`, `scripts/refresh_official.py`, `tests/test_refresh_official.py` |
+| I2 | Official capture for the current rolling window (2026-11-19 → 2026-11-22): newest injury report PDFs + revisions, slate, standings, the three official team-stat pages, results-feed settlement through 2026-11-18 | in progress | 64d8f868 | `data/rounds/2026-11-19/**` (new tree), `data/app/injury_reports_archive/**` (new reports only) |
+| I3 | Line-by-line repository review + verification register + flagged rows for this session | in progress | 64d8f868 | `data/app/flags_64d8f868.json`, `data/app/questions_64d8f868.json`, `data/app/suggestions_64d8f868.json` (new files) |
+| I4 | Integration: rebuild the canonical site, run every check, PR → `main` → merge → confirm the Pages deploy, record the result here | in progress | 64d8f868 | `COORDINATION.md` (this section), `scripts/build_app.py` output, PR |
+
+### Standing state at claim time (verified in this session, not copied from an earlier note)
+
+- `main` @ `2addcad` ("Harden scheduled refresh gates and injury provenance (#139)").
+- The scheduled job is **red on its own committed tree**: runs
+  [44424736929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929) (2026-11-18T23:55Z),
+  [44364543697](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44364543697),
+  [44300142112](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44300142112),
+  [44249179843](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44249179843),
+  [44203349676](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44203349676),
+  [44143781953](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44143781953) all fail at
+  step 4, "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)";
+  the fetch, gate and rebuild steps are then **skipped**, so no official data has been refreshed
+  since PR #139 landed on 2026-11-17.
+- Localised from the Actions API in this session (job id `135226523353`): step 4 `failure`, steps
+  5–8 and 10 `skipped`, step 9 `success`; the only annotations are
+  `failure: Process completed with exit code 1.` and
+  `failure: at least one unittest suite failed on the committed tree (see the group above for which)`.
+  The runner log body is **not** retrievable from this environment
+  (`results-receiver.actions.githubusercontent.com` → EOF), which is exactly the gap EVE-F04 recorded.
+- The same suites pass on this sandbox (Python 3.11.2): 33 + 3 + 12 + 5 + 27 + 7 + 5 + 5 + 37 = 134
+  tests, all OK, including with the clock forced to the runner's `2026-11-18T23:55Z`. The Pages
+  workflow pins `python-version: "3.11"` (`actions/setup-python@v5`); the **refresh** workflow pins
+  nothing and therefore runs the runner's default interpreter, so the two jobs do not share an
+  environment. That difference is the leading hypothesis and is being tested on the runner.
+- No new NBA value is claimed in this session until it is read from an official source and linked.
+
+### No-overlap statement
+
+- I1 touches the scheduled-job files that session `5ba4892c` owned and released (its board entry
+  ends with the PR #139 follow-up and no open claim).
+- I2 writes a **new** round tree (`data/rounds/2026-11-19/`) and **new** injury-report archive
+  entries. It does not edit `data/rounds/2026-11-17/**`, `data/app/results_feed.json`,
+  `data/live/**` or `scripts/build_app.py`.
+- I4 is the integration session for this round: it rebuilds the canonical site from the committed
+  inputs and publishes. No other session has an open claim on the board.
