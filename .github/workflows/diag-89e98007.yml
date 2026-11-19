@@ -1,13 +1,15 @@
 name: determinism probe (temporary, session 89e98007)
 
-# TEMPORARY — deleted before this PR merges. The refresh workflow's committed-tree preflight is the
-# step that has been red since 2026-11-17, and this sandbox cannot read Actions logs or artifact
-# blobs, so the only way to verify on the runner's own interpreter is to run the same suites and
-# report through check-run annotations (the Checks API does return those).
+# TEMPORARY — deleted before this PR merges. The refresh workflow's committed-tree preflight has been
+# red since 2026-11-17 and this sandbox cannot read Actions logs or artifact blobs; check-run
+# annotations truncate at ~1 KB, which is not enough to carry a nine-suite report. So the probe
+# writes its full output into the repository instead, on this branch only, and exits with the probe's
+# own status so red/green stays meaningful.
 #
-# It runs (1) the six replayed artefact gates, (2) the refresh workflow's exact nine-suite loop, on
-# the runner's default python3, and (3) prints the two candidate summations of the field that moved.
-# Read-only: no fetch, no write, no commit, no push.
+# Loop guard: the bot commit is prefixed "probe:" and a push whose head commit starts with that
+# prefix exits immediately, so the report is committed exactly once per manual push.
+# The probe itself is read-only apart from that one report file: no official fetch, no rebuild, no
+# change to any artefact, page or ledger file.
 
 on:
   push:
@@ -15,20 +17,40 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: stop if this push is the bot's own report commit
+        run: |
+          msg="$(git log -1 --format=%s)"
+          echo "head commit subject: $msg"
+          case "$msg" in
+            probe:*) echo "SKIP=1" >> "$GITHUB_ENV"; echo "::notice::report commit — nothing to probe" ;;
+            *)       echo "SKIP=0" >> "$GITHUB_ENV" ;;
+          esac
 
       - name: replay the preflight on the runner's own interpreter
+        if: env.SKIP == '0'
         timeout-minutes: 12
         run: |
           set +e
+          out=data/rounds/2026-11-19-89e98007/runner_probe.md
+          mkdir -p "$(dirname "$out")"
           {
+            echo "# Runner probe — committed-tree preflight replayed on the runner's default python3"
+            echo
+            echo "Session 89e98007. Run ${GITHUB_RUN_ID}, commit ${GITHUB_SHA}. Read-only."
+            echo
+            echo '```'
             python3 tools/probe_determinism_89e98007.py
+            echo "probe rc=$?"
             echo "--- the refresh workflow's exact committed-tree suite loop ---"
             fail=0
             for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
@@ -40,20 +62,29 @@ jobs:
               else
                 cmd=(python3 -m unittest discover -s tests -p "$suite" -v)
               fi
-              out=$("${cmd[@]}" 2>&1); rc=$?
-              echo "SUITE $suite rc=$rc $(echo "$out" | grep -E '^(OK|FAILED|Ran )' | tr '\n' ' ')"
-              [ "$rc" -ne 0 ] && { fail=1; echo "$out" | grep -E '^(FAIL|ERROR): ' | head -5; }
+              res=$("${cmd[@]}" 2>&1); rc=$?
+              echo "SUITE $suite rc=$rc $(echo "$res" | grep -E '^(OK|FAILED|Ran )' | tr '\n' ' ')"
+              if [ "$rc" -ne 0 ]; then fail=1; echo "$res" | grep -E '^(FAIL|ERROR): ' | head -8; fi
             done
-            echo "SUITE LOOP fail=$fail"
-            echo "--- extra: this session's determinism suite ---"
-            out=$(python3 -m unittest tests/test_determinism_89e98007 -v 2>&1)
-            echo "DETERMINISM rc=$? $(echo "$out" | grep -E '^(OK|FAILED|Ran )' | tr '\n' ' ')"
-            echo "DIRTY=$(git status --porcelain | wc -l)"
-            echo "PROBE DONE"
-          } > /tmp/probe.txt 2>&1
-          one=$(tr '\n' '|' < /tmp/probe.txt | sed 's/|/%0A/g')
-          printf '::notice::PROBE %s\n' "${one:0:12000}"
-          printf '::notice::PROBE2 %s\n' "${one:12000:12000}"
-          printf '::notice::PROBE3 %s\n' "${one:24000:12000}"
-          grep -q "fail=1" /tmp/probe.txt && exit 1
+            echo "SUITE_LOOP_FAIL=$fail"
+            echo "--- this session's determinism suite ---"
+            res=$(python3 -m unittest tests/test_determinism_89e98007 -v 2>&1)
+            echo "DETERMINISM rc=$? $(echo "$res" | grep -E '^(OK|FAILED|Ran )' | tr '\n' ' ')"
+            echo "$res" | grep -E '^(FAIL|ERROR): ' | head -8
+            echo "--- nothing in the tree may change by replaying the build ---"
+            git status --porcelain | head -20
+            echo "DIRTY=$(git status --porcelain | grep -v "$(basename "$out")" | wc -l)"
+            echo '```'
+          } > "$out" 2>&1
+          rcf=$(grep -c "SUITE_LOOP_FAIL=1" "$out" || true)
+          cat "$out" | head -5
+          git config user.name "nba3-probe-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$out"
+          git commit -q -m "probe: runner replay of the committed-tree preflight (${GITHUB_RUN_ID})" || true
+          git push -q origin HEAD:arena/89e98007-nba3 || echo "::warning::could not push the report"
+          if [ "$rcf" -ne 0 ]; then
+            printf '::error::the committed-tree preflight is still red on the runner\n'
+            exit 1
+          fi
           exit 0

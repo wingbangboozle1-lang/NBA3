@@ -39,6 +39,13 @@ for _det_p in (_os.path.join(_det_os.path.dirname(_det_os.path.abspath(__file__)
 import determinism as det  # noqa: E402,F401
 '''
 
+# ONLY the files the refresh workflow byte-compares. Do not extend this list casually: a pin is
+# value-identical to CPython <= 3.11 builtins, so it is correct exactly where the committed artefact
+# was produced by that older rule. Files whose committed output was produced by the runner's 3.14
+# (scripts/estimators.py, results_feed.py, minutes_model.py, assemble_canonical.py, build_app.py,
+# model.py …) are regenerated-and-committed by CI on that interpreter; switching them to the naive
+# fold would move published numbers and read as a data change. The systemic fix for those is to pin
+# the interpreter version in the workflows (CR-89E-02 in COORDINATION.md), not to re-round the data.
 DEFAULT = ["scripts/gamebooks_2ecbccfd.py", "scripts/capture_2ecbccfd.py",
            "scripts/slate_extra_2ecbccfd.py", "scripts/model_2ecbccfd.py",
            "scripts/ledger_2ecbccfd.py", "round_2ecbccfd/build.py"]
