@@ -1,0 +1,64 @@
+# Verbatim transcription of the official NBA injury report PDF
+
+- Source PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf
+- Index that lists it: https://official.nba.com/nba-injury-report-2026-27-season/
+- Report stamp printed on the PDF: 11/19/26 12:30 AM
+- Retrieved (UTC): 2026-11-19T07:41Z
+- Retrieved by: session arena/b27118c3-nba3, Arena fetch tool (PDF text extraction, markdown render)
+- Transcription rule: cells are reproduced exactly as the extraction printed them. The PDF's
+  header row is repeated on each page; page-break cells the extraction left blank are shown blank
+  and are NOT filled from the previous line or the previous page. A cell printed as
+  `NOT YET SUBMITTED` on a team row with no player name is a team-level placeholder, not a player.
+- Known irregularity: the extraction of this revision's third page prints the page break as
+  `Brooklyn Nets TOR@DET | Brooklyn Nets Toronto Raptors Detroit Pistons | NOT YET SUBMITTED ...`
+  i.e. three rows collapsed into one line. That collapse is recorded on the Flagged for Review
+  page and the affected teams are treated as NOT YET SUBMITTED, which is what the line says.
+- Reminder: the PDF prints game times as `08:00 (ET)` / `07:00 (ET)` with no AM/PM. nba.com prints
+  `8:00 PM ET`. The matchup and date agree; the time column is printed as-is and not corrected.
+
+| Game Date | Game Time | Matchup | Team | Player Name | Current Status | Reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| 11/19/2026 | 08:00 (ET) | GSW@MEM | Golden State Warriors |  |  | NOT YET SUBMITTED |
+| 11/19/2026 | 08:00 (ET) | GSW@MEM | Memphis Grizzlies |  |  | NOT YET SUBMITTED |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | LA Clippers | Beal, Bradley | Out | Injury/Illness - Right Knee Injury Management |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | LA Clippers | Ingram, Brandon | Out | Injury/Illness - Right Heel Surgery |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | LA Clippers | Martinelli, Nick | Out | G League - Two-Way |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | LA Clippers | Miller, Jordan | Out | Injury/Illness - Left Rotator Cuff Surgery |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | San Antonio Spurs | Brown, Maliq | Out | G League - Two-Way |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | San Antonio Spurs | Gillespie, Ja'Kobi | Out | G League - Two-Way |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | San Antonio Spurs | Harper, Dylan | Out | Injury/Illness - Left Hip Soreness |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | San Antonio Spurs | Harris, Tobias | Out | Injury/Illness - Left Calf Strain |
+| 11/19/2026 | 08:00 (ET) | LAC@SAS | San Antonio Spurs | Quaintance, Jayden | Out | Injury/Illness - Right Knee Surgery |
+| 11/19/2026 | 08:00 (ET) | NYK@MIN | Minnesota Timberwolves | Beringer, Joan | Available | Injury/Illness - Face Mask |
+| 11/19/2026 | 08:00 (ET) | NYK@MIN | Minnesota Timberwolves | Clark, Jaylen | Out | Injury/Illness - Right Hamstring Strain |
+| 11/19/2026 | 08:00 (ET) | NYK@MIN | Minnesota Timberwolves | DiVincenzo, Donte | Out | Injury/Illness - Right Achilles Tendon Repair / Surgery |
+| 11/19/2026 | 08:00 (ET) | NYK@MIN | Minnesota Timberwolves | Edwards, Anthony | Out | Injury/Illness - Right Knee Arthroscopy |
+| 11/19/2026 | 08:00 (ET) | GSW@MEM | Golden State Warriors | Kuminga, Jonathan | Questionable | Injury/Illness - Right Shoulder Contusion |
+| 11/19/2026 | 08:00 (ET) | GSW@MEM | Golden State Warriors | Pullin, Zyon | Questionable | Injury/Illness - Right Quadriceps Contusion |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Avdija, Deni | Questionable | Injury/Illness - Left Foot Inflammation / Soreness |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Camara, Toumani | Questionable | Injury/Illness - Abdominal Soreness |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Carlson, Branden | Available | Injury/Illness - Face Mask |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Krejci, Vit | Out | Injury/Illness - Left Ankle Fracture |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Morant, Ja | Out | Injury/Illness - Left Hamstring Strain |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Sharpe, Shaedon | Out | Injury/Illness - Right Meniscus Surgery |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Williams III, Robert | Out | Rest |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Portland Trail Blazers | Youngblood, Chris | Out | Injury/Illness - Right Heel Contusion / Bone Bruise |
+| 11/19/2026 | 08:00 (ET) | POR@MIL | Milwaukee Bucks |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:00 (ET) | CHA@ATL | Charlotte Hornets |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:00 (ET) | CHA@ATL | Atlanta Hawks |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:30 (ET) | IND@CLE | Indiana Pacers |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:30 (ET) | IND@CLE | Cleveland Cavaliers |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:30 (ET) | ORL@BKN | Orlando Magic |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:30 (ET) | ORL@BKN | Brooklyn Nets |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:30 (ET) | TOR@DET | Toronto Raptors |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 07:30 (ET) | TOR@DET | Detroit Pistons |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 08:00 (ET) | NOP@OKC | New Orleans Pelicans |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 08:00 (ET) | NOP@OKC | Oklahoma City Thunder |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 08:00 (ET) | WAS@CHI | Washington Wizards |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 08:00 (ET) | WAS@CHI | Chicago Bulls |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 09:30 (ET) | PHX@UTA | Phoenix Suns |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 09:30 (ET) | PHX@UTA | Utah Jazz |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 10:00 (ET) | HOU@DEN | Houston Rockets |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 10:00 (ET) | HOU@DEN | Denver Nuggets |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 10:00 (ET) | SAC@LAL | Sacramento Kings |  |  | NOT YET SUBMITTED |
+| 11/20/2026 | 10:00 (ET) | SAC@LAL | Los Angeles Lakers |  |  | NOT YET SUBMITTED |

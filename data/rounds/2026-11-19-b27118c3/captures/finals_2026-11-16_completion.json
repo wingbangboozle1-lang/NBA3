@@ -1,0 +1,96 @@
+{
+ "schema": "nba3.official_results/v1",
+ "source_url": "https://www.nba.com/games?date=2026-11-16",
+ "source_label": "official scoreboard date page for 2026-11-16 (chunk 1) plus each game's own page, read 2026-11-19T07:0xZ..07:50Z by session arena/b27118c3-nba3",
+ "retrieved_on": "2026-11-19",
+ "retrieved_stamp": "2026-11-19T07:50Z",
+ "retrieval": {
+  "tool": "Arena fetch tool (markdown render of the official page)",
+  "window_utc": "2026-11-19T07:02Z..2026-11-19T07:50Z"
+ },
+ "count": 2,
+ "why_this_file_exists": "data/app/official_results_2026-11-16.json (session 915d2e99) published 6 of the day's 8 finals and named the other two as unread because its chunk-1 retrieval failed. This session retrieved chunk 1 and both game pages, so the two missing finals are captured here, in this session's own file, rather than editing another session's generated artefact (its roll script re-parses its transcripts and would report drift).",
+ "cross_check_rule": "Each row carries three official reads: the date page's game card, the recap link printed on the same page (whose slug prints both scores), and the game page's own header/LINESCORES.",
+ "games": [
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600250",
+   "away": "POR",
+   "home": "MIN",
+   "away_name": "Trail Blazers",
+   "home_name": "Timberwolves",
+   "away_pts": 98,
+   "home_pts": 106,
+   "ot": 0,
+   "state": "Final",
+   "tip_et": "8:00 PM",
+   "venue": "Target Center",
+   "city": "Minneapolis, MN",
+   "game_url": "https://www.nba.com/game/por-vs-min-0022600250",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261116/20261116_PORMIN.pdf",
+   "source": "https://www.nba.com/games?date=2026-11-16",
+   "quarters_captured": true,
+   "away_q": [
+    26,
+    25,
+    22,
+    25
+   ],
+   "home_q": [
+    26,
+    33,
+    28,
+    19
+   ],
+   "read_note": "3 official reads agreeing",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16 (chunk 1)",
+     "recap link on the same page: game-recap-timberwolves-106-trail-blazers-98-nov-16",
+     "game page https://www.nba.com/game/por-vs-min-0022600250 GAME INFO + LINESCORES"
+    ],
+    "read_count": 3
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600252",
+   "away": "PHX",
+   "home": "DEN",
+   "away_name": "Suns",
+   "home_name": "Nuggets",
+   "away_pts": 117,
+   "home_pts": 105,
+   "ot": 0,
+   "state": "Final",
+   "tip_et": "9:00 PM",
+   "venue": "Ball Arena",
+   "city": "Denver, CO",
+   "game_url": "https://www.nba.com/game/phx-vs-den-0022600252",
+   "gamebook": "https://statsdmz.nba.com/pdfs/20261116/20261116_PHXDEN.pdf",
+   "source": "https://www.nba.com/games?date=2026-11-16",
+   "quarters_captured": true,
+   "away_q": [
+    20,
+    36,
+    34,
+    27
+   ],
+   "home_q": [
+    24,
+    29,
+    29,
+    23
+   ],
+   "read_note": "3 official reads agreeing",
+   "cross_checks": {
+    "reads": [
+     "card on https://www.nba.com/games?date=2026-11-16 (chunk 1)",
+     "recap link on the same page: game-recap-suns-117-nuggets-105-nov-16",
+     "game page https://www.nba.com/game/phx-vs-den-0022600252 GAME INFO + LINESCORES"
+    ],
+    "read_count": 3
+   }
+  }
+ ]
+}

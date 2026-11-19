@@ -4,8 +4,8 @@
  "checked_utc_note": "Deliberately no wall-clock stamp: this artefact is compared byte for byte in CI, and a clock reading would make every build differ.",
  "counts": {
   "gates": 12,
-  "passed": 12,
-  "failed": 0
+  "passed": 11,
+  "failed": 1
  },
  "gates": [
   {
@@ -22,10 +22,10 @@
   {
    "id": "F2",
    "name": "The model used the newest archived injury report",
-   "passed": true,
+   "passed": false,
    "value": {
     "model_used": "Injury-Report_2026-11-16_01_15PM",
-    "newest_on_disk": "Injury-Report_2026-11-16_01_15PM"
+    "newest_on_disk": "Injury-Report_2026-11-19_01_30AM"
    },
    "rule": "the engine must read the newest archived report, not an older one",
    "source": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
@@ -35,7 +35,7 @@
    "name": "The injury report is not older than the slate it prices",
    "passed": true,
    "value": {
-    "report_date": "2026-11-16",
+    "report_date": "2026-11-19",
     "slate_start": "2026-11-15"
    },
    "rule": "report date >= first slate date",
@@ -95,6 +95,16 @@
       "file": "Injury-Report_2026-11-16_01_15PM.md",
       "bytes": 10347,
       "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-16_01_15PM.pdf"
+     },
+     {
+      "file": "Injury-Report_2026-11-19_12_30AM.md",
+      "bytes": 6083,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf"
+     },
+     {
+      "file": "Injury-Report_2026-11-19_01_30AM.md",
+      "bytes": 6153,
+      "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf"
      }
     ],
     "problems": []
@@ -167,8 +177,8 @@
    "name": "Every verified final in the results feed is settled and every withheld row carries a flag",
    "passed": true,
    "value": {
-    "rows": 46,
-    "settled": 46,
+    "rows": 48,
+    "settled": 48,
     "unsettled_verified_finals": [],
     "unflagged_unverified_rows": []
    },
