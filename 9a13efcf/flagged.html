@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review — NBA3 verification audit</title><style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;
+background:#f6f7f9;color:#1a2233;line-height:1.5}
+header{background:#10263f;color:#fff;padding:22px 28px}
+header h1{margin:0 0 4px;font-size:22px}
+header p{margin:2px 0;opacity:.85;font-size:13px}
+nav{background:#fff;border-bottom:1px solid #d9dee6;padding:10px 28px;font-size:14px}
+nav a{margin-right:16px;color:#14508c;text-decoration:none}
+nav a:hover{text-decoration:underline}
+main{padding:22px 28px;max-width:1280px}
+h2{font-size:18px;margin:26px 0 10px}
+h3{font-size:15px;margin:18px 0 8px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13px;margin:10px 0}
+th{background:#eef2f7;text-align:left;padding:7px 9px;border:1px solid #d9dee6;position:sticky;top:0}
+td{padding:6px 9px;border:1px solid #e3e8ef;vertical-align:top}
+tr:nth-child(even){background:#fafbfd}
+.ok{color:#0a7a3d;font-weight:600}
+.bad{color:#b3261e;font-weight:600}
+.warn{color:#9a6700;font-weight:600}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:12px}
+.card{background:#fff;border:1px solid #d9dee6;border-radius:10px;padding:14px 18px;margin:12px 0}
+.muted{color:#5a6b82;font-size:12px}
+.flag{background:#fff8e6;border-left:4px solid #e0a800}
+ul{margin:6px 0 6px 20px}
+</style></head>
+<body><header><h1>Flagged for review</h1>
+<p>Independent verification audit — session arena/9a13efcf-nba3 — 2026-11-19T07:30:00Z</p>
+<p>Every value on these pages was recomputed from committed captures by
+<code>scripts/build_9a13efcf.py</code> with its own maths. Values that cannot be confirmed
+against an official source are blank and flagged. Nothing is inferred.</p></header>
+<nav><a href='index.html'>Requirement coverage</a><a href='verification.html'>Recomputations</a><a href='travel.html'>Arena &amp; travel</a><a href='playerlogs.html'>Player-log coverage</a><a href='flagged.html'>Flagged for review</a><a href='sources.html'>Sources</a></nav><main>
+<div class="card flag"><b>Nothing on this page blocks anything.</b> These are the irregularities
+this audit found while re-verifying the repository. Each is published with its source link so a
+human can review and request changes.</div>
+<table><tr><th>Id</th><th>Severity</th><th>Flag</th><th>Detail</th><th>Source</th></tr><tr><td>9A-F-PLAYERLOGS</td><td>medium</td><td>V-PLAYERLOGS did not fully reproduce: PARTIAL — gap listed, not filled with guesses</td><td>84 player names parsed from the newest captured official injury report vs 108 names in the captured game logs / player-minutes tables; matched on (last, first-initial) | {}</td><td><a href='https://official.nba.com/nba-injury-report-2026-27-season/'>source</a></td></tr><tr><td>9A-F-01</td><td>high</td><td>the hosted scheduled refresh is red and has not fetched official data since 2026-11-17</td><td>scheduled runs fail at the committed-tree unit-test preflight (latest evidence run 44469939831: test_committed_round_captures_replay_before_the_live_fetch, subTest gamebooks_2ecbccfd.py). Owner session arena/915d2e99-nba3 is on it (PR #143). This audit does not touch that code.</td><td><a href='https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml'>source</a></td></tr><tr><td>9A-F-02</td><td>high</td><td>the canonical published results feed is behind the committed captures</td><td>data/app/results_feed.json carries 23 settled rows through 2026-11-15 while captures for 2026-11-16..18 finals exist under data/rounds/ (dd3edd74 + b1ce1334 trees). Integration request CR-DD3-01 on the board covers the fold-in; this audit records the gap and does not rewrite published data.</td><td><a href='https://www.nba.com/schedule'>source</a></td></tr><tr><td>9A-F-03</td><td>medium</td><td>player-minutes capture covers only part of the league</td><td>official_player_minutes_2026-11-15.json covers the teams its capture step reached and names the rest in not_captured_teams; minutes redistribution therefore publishes for captured teams only. Not filled with estimates.</td><td><a href='https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season'>source</a></td></tr><tr><td>9A-F-04</td><td>medium</td><td>quarter scores are absent from every settled result row</td><td>each row says 'quarter scores not captured — blank, flagged'; the brief's row shape (date, teams, final, quarter scores) is met structurally with the quarter cells null rather than invented.</td><td><a href='https://www.nba.com/schedule'>source</a></td></tr><tr><td>9A-F-05</td><td>medium</td><td>no closing line / odds feed exists, so the market-anchored prior cannot be applied</td><td>the blend is defined in pipeline/v2/strategies.py with weight from measured out-of-sample log-loss, but with no licensed closing line connected there is nothing to blend with; the site publishes the market-free price and says so.</td><td><a href='https://www.nba.com/schedule'>source</a></td></tr><tr><td>9A-F-06</td><td>low</td><td>estimator B's historical error figure is contaminated by a single dated snapshot</td><td>the repository's own flag FV2-06 records that estimator B was fitted on the 2026-11-15 team-stats snapshot and graded on earlier games; no ranking may cite its 13.83 RMSE as out-of-sample. Kept as-is; this audit verifies the arithmetic, not the claim.</td><td><a href='https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season'>source</a></td></tr></table></main></body></html>
