@@ -6,7 +6,7 @@
     "found_on": "2026-11-19",
     "item": "EVE-F04 root cause found and closed: the six-day refresh outage was CPython's float summation rule, not NBA data. The committed-tree preflight compares regenerated artefacts byte-for-byte, so an interpreter upgrade froze the pipeline. Fixed twice, independently, an hour apart: main@78f513d (session f69a11c4) pinned this artefact's minutes to math.fsum and republished one field; this branch names the rule once in scripts/determinism.py and applies it to all six byte-compared generators.",
     "why": "Failing test (run 44469939831 annotation): WorkflowGateTests.test_committed_round_captures_replay_before_the_live_fetch (script='gamebooks_2ecbccfd.py'). Earlier diagnostic run 44467720829 printed the single drifting field: .top8_minutes_shares.2026-11-15:WAS.top8[4].share 0.1088 (committed) vs 0.1087 (runner). Cause: CPython >= 3.12 sums floats with Neumaier compensation (docs.python.org/3/whatsnew/3.12.html; docs.python.org/3/library/functions.html#sum 'Changed in version 3.12'; cpython gh-100425). The 12 Washington rotation minutes sum to 239.99999999999997 left-to-right and to exactly 240.0 compensated, so 26.1/min_total crosses the 0.10875 midpoint and the 4th decimal flips. The runner moved to Python 3.14.4; every artefact in the repo was built by a <= 3.11 fold. Inputs were byte-identical on both machines (sha256 of the four game-book transcripts and the team registry match between this sandbox and the runner, printed in data/rounds/2026-11-19-89e98007/runner_probe.md). Verified on the machine that disagreed: probe runs 44478152590 and 44478784862 replayed the refresh workflow's exact nine-suite loop and all six artefact gates on the runner's own Python 3.14.4 \u2014 suites 9/9 rc=0 and gates 6/6 rc=0 with the artefact gate (gamebooks --check) green, which had been red since run 44143781953. Full reports: data/rounds/2026-11-19-89e98007/runner_probe.md. Two things the same reports exposed, both handled: this session's own emulator test asserted a pre-3.12 builtin value and so failed on 3.14 (rewritten to compare the pinned rules only, green under both), and the suite left data/app/minutes_shares.json modified \u2014 flag 89E-F-04. Note for the board: session f69a11c4's claim says the runner ran 3.12.3; the runner's own banner printed PY=3.14.4 in two independent runs here, so 3.14.4 is the verified reading.",
-    "action_needed": "Owner: confirm the fix by reading the next scheduled run (05:15 / 11:15 / 17:15 / 23:15 UTC) on main after this merges, then mark EVE-F04 resolved in data/app/flags_ef6e2e6c.json (not this session's file). Nothing further is required from the data side.",
+    "action_needed": "Owner: confirm the fix by reading the next scheduled run on main after this merges \u2014 the 11:15 UTC slot, which historically arrives 40-52 minutes late (check at ~12:10 UTC), then mark EVE-F04 resolved in data/app/flags_ef6e2e6c.json (not this session's file). Nothing further is required from the data side.",
     "sources": [
       "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
       "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829",
@@ -129,5 +129,23 @@
     ],
     "status": "open",
     "legacy_ref": "CR-89E-05"
+  },
+  {
+    "id": "89E-F-09",
+    "area": "site publication",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "The site's data-currency banner is a frozen string, not a measurement: it still names run 44424736929 (2026-11-18T23:55:01Z) as 'the latest observed scheduled attempt' while the newest is 44469939831 (2026-11-19T06:07:59Z), and it will keep naming 44424736929 even after a green run, because nothing regenerates it.",
+    "why": "Verified: `grep -rn 44424736929` matches only data/app/canonical.json \u2014 the run id, timestamp and the pause sentence are stored in the canonical register (authored by session ef6e2e6c) and rendered by build_app.py; scripts/determinism aside, no generator in the refresh chain writes them. data/live/ contains availability/freshness/gates/meta/model/picks_ledger_view/player_game_logs \u2014 there is no pipeline_status.json. So the one field the reader most needs ('how stale is this?') is maintained by hand, and a hand-maintained field goes wrong in exactly the direction that flatters the site: after a green run it would still say publishing is paused, and after a newer red run it would cite the older one.",
+    "action_needed": "Integration owner (this needs build_app.py + canonical.json, which this session does not hold): record the last refresh attempt in a generated file and have the banner read it. See 89E-S-03 for the mechanism, including why the refresh job cannot report its own failure \u2014 the run dies at its preflight, before any write step.",
+    "sources": [
+      "data/app/canonical.json",
+      "app/index.html",
+      "scripts/build_app.py",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929"
+    ],
+    "status": "open",
+    "legacy_ref": "CR-89E-06"
   }
 ]
