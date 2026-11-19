@@ -6356,3 +6356,89 @@ F2 includes the generated site renderer and its generated pages because the curr
 **Live-data limitation:** a read-only Actions run-list inspection at 2026-11-19T06:05:57Z found no scheduled run after [44424736929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929), which failed before official fetch. The separate main Pages run [44468540389](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44468540389) at 05:56Z succeeded for `main`; it does not validate this branch's changes. No NBA source was fetched by this integration pass. Existing 11/19 source records were preserved from merged main; they are separate captures, not current canonical model inputs. No present-day projection, injury status, or new settlement is claimed.
 
 **PR and Pages integration remain pending** until the final diff is reviewed, committed and pushed on this branch.
+
+---
+
+## Session `arena/5c0fffdc-nba3` — CLAIM (2026-11-19 ~07:00 UTC): scheduled-refresh repair, fresh official capture, strategy round, site
+
+Session ID: `5c0fffdc`. Branch fixed by the workspace to `arena/5c0fffdc-nba3`
+(base `454a7ee` = PR #142 merge). The brief's `session-<id>/<task>` branch naming cannot be used
+here; scope is enforced by the file list below, inside this one branch.
+
+### T1 — the scheduled refresh (DONE, committed `d74192e`)
+
+**Claim basis.** The board's last entry on this (`6f15f7c2`, EVE-F04) recorded six scheduled runs
+failing at the committed-tree unit-test step with no diagnosis. The GitHub Actions API confirmed
+the same on the newest run, `44469939831` (2026-11-19T06:07:59Z), and its **annotations** named
+the failing test:
+
+    FAIL: test_committed_round_captures_replay_before_the_live_fetch
+          (tests.test_refresh_official.WorkflowGateTests...) (script='gamebooks_2ecbccfd.py')
+
+**Root cause, established by reproduction.** `refresh.yml` ran its unit-test gate on the runner's
+default interpreter (3.14.4) while `pages.yml` pinned 3.11. Since CPython 3.12 `sum()` over floats
+uses Neumaier compensated summation (gh-100425). Three committed artefacts therefore regenerate
+with different bytes on the newer interpreter:
+
+| generator | artefact | 3.11 | 3.12+ |
+|---|---|---|---|
+| `scripts/gamebooks_2ecbccfd.py` | `data/rounds/2026-11-17/player_logs_2026-11-15.json` | `share 0.1088` | `share 0.1087` |
+| `d1b96315/model.py` | `d1b96315/data/model.json` | `mean_abs_shift 0.13` | `0.12` |
+| `scripts/round2_2026_11_16.py` | `data/rounds/2026-11-16-1300PM/model.json` | `poss_per_game 100.47153000000002` | `100.47153` |
+
+Their byte-identity drift gates failed, so the job aborted **at the unit-test step, before the
+fetch** — which is why no official data has been committed since 2026-11-17.
+
+**Reproduced, then fixed at the cause.** CPython 3.12.8 and 3.14.0 were built from source in this
+sandbox (codeload.github.com is reachable) and reproduce the hosted failure exactly, including the
+assertion text. `scripts/numeric.py` now supplies exactly-rounded sums (`math.fsum`, identical on
+every CPython since 3.6) and an explicitly stated rounding mode (`decimal` `ROUND_HALF_EVEN`); the
+three generators use it and all six artefacts now regenerate **byte-identically on 3.11, 3.12 and
+3.14** (sha256 of all six compared across the three interpreters). `tests/test_numeric.py` pins
+the property (each artefact must reproduce with the interpreter's `sum()` forced back to the
+pre-3.12 naive algorithm; a static guard rejects a bare `sum()` over minutes/possessions/errors).
+`refresh.yml` now pins the same interpreter as `pages.yml` so the two workflows cannot drift apart
+again. **The gate is not weakened** — every suite must still pass before the fetch runs.
+
+**The tamper-evident ledger was used, not bypassed.** The four sealed `d1b96315` picks whose lines
+moved (by at most 0.02 points) were amended in the hash chain. The amendment reason is registered
+in `d1b96315/data/amend_reasons.json` *before* it is written, so a chain entry can never carry a
+reason composed after the fact (the previous implementation hardcoded one reason string). All three
+chains verify **CHAIN INTACT** (35 / 13 / 43 entries).
+
+**Cross-session repairs, logged as required.** `d1b96315/` and `scripts/round2_2026_11_16.py` are
+owned by closed sessions (`d1b96315`, `fbd2484b`); their claims are >60 minutes stale and their
+sessions have ended, so the takeover rule applies. Every touched file is listed in
+`d1b96315/data/tree_repairs.json` with the session, the reason and the evidence. The
+`d1b96315` scope test was retargeted: it compared the branch against `main` and therefore passed
+only on a clean `main`, so it would have failed *any* later pull request; it now asserts the durable
+invariant (the published tree may differ from its reference commit only by recorded repairs).
+
+**Verification:** 325 tests OK (`tests/`), 29 OK (`pipeline/tests`), 66 OK (`d1b96315/tests`), 16 OK
+(`verify/`), `tools/check_site.py` PASS, `scripts/build_app.py --check` 27 pages / 0 broken links,
+all six artefacts byte-identical on 3.11/3.12/3.14.
+
+### T2 — fresh official capture for the live window (in progress)
+
+Scope: `data/rounds/2026-11-19-5c0fffdc/**`, `scripts/capture_5c0fffdc.py`,
+`tests/test_capture_5c0fffdc.py`.
+
+### T3 — strategy round: two estimators, pinned HCA, luck z, travel, minutes redistribution, rho-priced parlays, possessions×PPP, market anchor (in progress)
+
+Scope: `scripts/model_5c0fffdc.py`, `data/rounds/2026-11-19-5c0fffdc/model.json`,
+`data/rounds/2026-11-19-5c0fffdc/prereg/**`, `data/rounds/2026-11-19-5c0fffdc/ledger.jsonl`.
+
+### T4 — site for this round: projection surface and gated bet surface, kept separate (in progress)
+
+Scope: `round_5c0fffdc/**`, `scripts/build_round_5c0fffdc.py`.
+
+### T5 — integration: CI wiring, nav, PR to `main`, merge, Pages deploy verification (planned)
+
+Scope: `.github/workflows/pages.yml` (append-only), `scripts/build_app.py` (one nav line),
+`index.html` (generated), `README.md`, `COORDINATION.md`.
+
+**Not touched by this session:** `app/**`, `data/app/**` (except as CI regenerates them),
+`data/live/**`, `data/rounds/2026-11-16*/**`, `round/**`, `round2/**`, `scripts/build_app.py`
+beyond one nav line, `docs/`, `site/`, `hub/`, `dash/`, `lab/`, `research/`, `edge/`, `origin/`,
+`audit_*/**`, `scripts/refresh_official.py`, `scripts/estimators.py`, `scripts/minutes_model.py`.
+
