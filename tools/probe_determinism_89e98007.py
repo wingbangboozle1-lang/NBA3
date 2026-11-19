@@ -81,9 +81,18 @@ def main():
     for label, tot in (("fold (CPython <= 3.11 sum)", det.fold(mins)),
                        ("fsum (CPython >= 3.12 sum)", math.fsum(mins))):
         line("SUM " + label, f"{Decimal(tot)} -> share {det.dq(x / tot, 4)!r}")
-    line("VERDICT", "the committed artefact is the pre-3.12 fold; a compensated sum would repaint it "
-                    f"{published!r} -> {det.dq(x / math.fsum(mins), 4)!r}; det.fold pins the "
-                    "published rule so any interpreter reproduces the bytes")
+    # Derived, not asserted. The first version of this line stated which rule the artefact was
+    # built with; after main@78f513d republished the field it became a confidently wrong
+    # sentence ("would repaint it 0.1087 -> 0.1087"), which is exactly how a stale diagnostic
+    # misleads the next session. So the verdict names the rule the COMMITTED bytes match and says
+    # whether the generator's pinned rule agrees with it.
+    shares = {"fold (pre-3.12)": det.dq(x / det.fold(mins), 4),
+              "exact sum (fsum)": det.dq(x / math.fsum(mins), 4)}
+    agree = [k for k, v in shares.items() if v == published]
+    line("VERDICT", f"committed share {published!r} is the {', '.join(agree) or 'NEITHER'} rule's "
+                    f"answer; both rules on offer: " + ", ".join(f"{k}={v!r}" for k, v in shares.items())
+                    + "; det.sum_ (the repository's ratified rule) pins the arithmetic so any "
+                      "interpreter reproduces the bytes")
 
     print("--- every committed-tree gate the refresh replays ---")
     rc_all = 0
