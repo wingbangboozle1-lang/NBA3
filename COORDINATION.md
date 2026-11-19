@@ -6500,3 +6500,30 @@ create or push another branch. Claim pushed before work began.
   F02 (12:30 AM layout defect), F03 (null diff reported as a finding), F04 (global header window
   label vs per-page coverage), F05 (feed separation decision). Six open questions (E929-Q01..Q06) and
   six suggestions (E929-S01..S06); **none of the suggestions is implemented.**
+
+**Cross-session verification against merged main (2026-11-19 ~10:30 UTC).**
+
+The branch was rebased onto `main` at `bc1f113` (after PR #144 / `dd3edd74` and PR #145 merged).
+Two other sessions had independently captured the same 2026-11-16..18 window, and both were
+compared field by field before integration:
+
+| Comparison | Result |
+|---|---|
+| `dd3edd74`'s `results_2026-11-16_18.json` (25 games, now on main) vs this feed | **Finals agree 25/25, zero mismatches.** Quarter scores: theirs are `None` on all 25 rows, each flagged `UNVERIFIED: not read from an official page for this game (no period table on the date page)`; this feed supplies the **complete quarter set for all 25**, every one summing to the printed final on both sides. |
+| `915d2e99`'s `official_results_2026-11-1{6,7,8}.json` (open PR #143) vs this feed | **Agree on all 23 games they captured, zero mismatches.** They captured 6 of 8 games for 11/16 and self-documented the two missing ids as `0022600250` and `0022600252`; this feed has both (POR 98 @ MIN 106, PHX 117 @ DEN 105). |
+| The two missing ids, against the sealed pick ledger on main | The ledger carries exactly `0022600245`..`0022600252` for 2026-11-16, so the missing pair is confirmed by a third, independent record. |
+| `b1ce1334`'s 12:30 AM injury parse vs this archive | **23/23** player/status/reason triples and all team/matchup attributions agree. |
+| `b1ce1334`'s slate capture vs this slate | **19/19** games agree on id, away, home and tip time. |
+
+So this round's distinct contribution over what main already had is the **quarter-and-overtime
+scores for all 25 games** — the field main's feed explicitly leaves blank and flagged — plus the
+four-revision injury diff, the three-day slate and the traceability page. Where another session
+had already captured a field correctly, the values agree; nothing was re-derived differently.
+
+**Build/test state on the rebased tree.** `scripts/build_app.py` — 29 pages, 0 broken links,
+byte-identical on re-run. `capture_e9295737.py --check` — all three artefacts reproduce.
+`unittest discover -s tests` — **364 OK**; `pipeline/v2/tests` — **45 OK**; all **13**
+refresh-preflight suites OK. One regression was found and fixed during the rebase:
+`tests/test_dd3edd74.py` copies `gamebooks_2ecbccfd.py` into a scratch tree, and after the E1 fix
+that script imports `floatsum`, so `--check` died at import and looked like a data mismatch. The
+test's `INPUTS` list now copies `floatsum.py`, with three new guard tests.
