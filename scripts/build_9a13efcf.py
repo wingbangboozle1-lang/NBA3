@@ -680,9 +680,20 @@ def check_ledger_v2():
 
 
 def check_ledger_app():
-    """data/app/ledger/ledger.jsonl: the publish/settle chain with settlement stamps."""
-    path = os.path.join(ROOT, "data", "app", "ledger", "ledger.jsonl")
-    entries = [json.loads(l) for l in open(path, encoding="utf-8") if l.strip()]
+    """data/app/ledger/ledger.jsonl: the publish/settle chain with settlement stamps.
+
+    The AUDITED claim is pinned to the snapshot taken at audit time
+    (data/9a13efcf/ledger_snapshot_at_audit.jsonl — the byte-exact chain as of this session's
+    audit, 43 entries), because the chain is append-only by design and legitimately grows with
+    every verified promotion or settlement; reading the live file here made this audit's
+    reproducibility test drift on every legitimate append (integration repair, f69a11c4 G3 —
+    the same coupling shape as dd3edd74's slate pin). The live chain is still checked, in two
+    ways that stay true as it grows: (a) the audited prefix is intact — the live file still
+    begins with the snapshot's entries, unchanged; (b) the live chain itself verifies.
+    """
+    snap_path = os.path.join(ROOT, "data", "9a13efcf", "ledger_snapshot_at_audit.jsonl")
+    snap_lines = [l for l in open(snap_path, encoding="utf-8").read().splitlines() if l.strip()]
+    entries = [json.loads(l) for l in snap_lines]
     prev = "0" * 64
     problems = []
     settled = 0
@@ -701,6 +712,12 @@ def check_ledger_app():
             settled += 1
             stamps.append(body.get("settlement_stamp") or body.get("settled_utc"))
         prev = e.get("entry_hash")
+    # The live chain is deliberately NOT summarised inside the artefact: it is append-only and
+    # legitimately grows, and any live-derived field here would make this audit drift on every
+    # honest settlement. tests/test_9a13efcf.py asserts instead that the live chain still
+    # EXTENDS the audited snapshot (prefix intact, chain verifies) — that assertion stays true
+    # as the chain grows and is exactly the tamper-evidence the ledger exists for.
+    snap_head = entries[-1].get("entry_hash") if entries else None
     return {
         "id": "V-LEDGER-1", "area": "tamper-evident ledger (publish/settle chain)",
         "requirement": ("Settle the sealed ledger from official finals as soon as each game day "
@@ -713,6 +730,13 @@ def check_ledger_app():
         "problems": problems[:5],
         "agree": not problems,
         "status": "verified" if not problems else "MISMATCH — flagged",
+        "audited_snapshot": "data/9a13efcf/ledger_snapshot_at_audit.jsonl",
+        "audited_head": snap_head,
+        # The live chain is deliberately NOT summarised inside the artefact: it is append-only
+        # and legitimately grows, and any live-derived field here would make this audit drift on
+        # every honest settlement. tests/test_9a13efcf.py asserts instead that the live chain
+        # still EXTENDS the audited snapshot (prefix intact, chain verifies) — that assertion
+        # stays true as the chain grows and is exactly the tamper-evidence the ledger exists for.
         "source_url": OFFICIAL_SCHEDULE,
     }
 
