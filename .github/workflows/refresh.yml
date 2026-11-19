@@ -76,7 +76,8 @@ jobs:
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py" "test_float_sum_determinism.py"; do
+                       "test_round_2ecbccfd.py" "test_float_sum_determinism.py" \
+                       "test_e9295737.py"; do
             echo "::group::unittest $suite"
             log="$logdir/$(printf '%s' "$suite" | tr -c 'A-Za-z0-9._-' '_').log"
             if [ "$suite" = "test_refresh_official.py" ]; then
