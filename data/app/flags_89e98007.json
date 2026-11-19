@@ -1,0 +1,79 @@
+[
+  {
+    "id": "89E-F-01",
+    "area": "Scheduled refresh / pipeline determinism",
+    "severity": "high",
+    "found_on": "2026-11-19",
+    "item": "EVE-F04 root cause found: the six-day refresh outage was CPython's float summation rule, not NBA data. The committed-tree preflight compares regenerated artefacts byte-for-byte, so an interpreter upgrade froze the pipeline.",
+    "why": "Failing test (run 44469939831 annotation): WorkflowGateTests.test_committed_round_captures_replay_before_the_live_fetch (script='gamebooks_2ecbccfd.py'). Earlier diagnostic run 44467720829 printed the single drifting field: .top8_minutes_shares.2026-11-15:WAS.top8[4].share 0.1088 (committed) vs 0.1087 (runner). Cause: CPython >= 3.12 sums floats with Neumaier compensation (docs.python.org/3/whatsnew/3.12.html; docs.python.org/3/library/functions.html#sum 'Changed in version 3.12'; cpython gh-100425). The 12 Washington rotation minutes sum to 239.99999999999997 left-to-right and to exactly 240.0 compensated, so 26.1/min_total crosses the 0.10875 midpoint and the 4th decimal flips. The runner moved to Python 3.14.4; every artefact in the repo was built by a <= 3.11 fold. Inputs were byte-identical on both machines (sha256 of the four game-book transcripts and the team registry match between this sandbox and the runner, printed in data/rounds/2026-11-19-89e98007/runner_probe.md).",
+    "action_needed": "Owner: confirm the fix by watching the next scheduled run (11:15 UTC) on main after this merges; then mark EVE-F04 resolved in data/app/flags_ef6e2e6c.json (that file is not in this session's scope). Nothing further is required from the data side.",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829",
+      "https://docs.python.org/3/whatsnew/3.12.html",
+      "https://docs.python.org/3/library/functions.html#sum",
+      "https://github.com/python/cpython/issues/100425"
+    ],
+    "status": "fix-merged-awaiting-hosted-green",
+    "legacy_ref": "EVE-F04"
+  },
+  {
+    "id": "89E-F-02",
+    "area": "Live data drift / rebuild chain",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "One live published artefact still changes value with the interpreter: scripts/capture_round_79341829.py regenerates data/app/minutes_shares.json with teams.2026-11-14:MIA.top8[6].share (Klay Thompson) as 0.0842 instead of the committed 0.0843 on CPython >= 3.12.",
+    "why": "Reproduced deterministically in this sandbox: PYTHONPATH=<dir with a sitecustomize that installs Neumaier summation> python3 scripts/capture_round_79341829.py leaves exactly one line dirty (git diff: -\"share\": 0.0843 / +\"share\": 0.0842); the same run without the shim leaves the tree clean, so the committed file is the pre-3.12 answer. The same divergence was observed from the other side on the runner during probe run 44478152590: after replaying the committed-tree suites, git status showed ' M data/app/minutes_shares.json'. Consequence: the scheduled refresh would commit a silent value change into a file the model and the site read, and no gate would call it out.",
+    "action_needed": "Owner of scripts/capture_round_79341829.py (arena/915d2e99-nba3, PR #143) or the next integration session: route the two float sums in that script through det.fold/det.dq (scripts/determinism.py). The change is byte-neutral against the committed file because the pin reproduces the pre-3.12 builtins exactly. Alternative: pin the interpreter version in the workflow (see 89E-S-01). Not done in this session: the file is inside another session's claim.",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
+      "https://docs.python.org/3/library/functions.html#sum"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-03",
+    "area": "Published-numbers policy",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "The repo's published numbers embed the LESS accurate summation on purpose. Moving to the accurate one is a republish, not a bug fix, and it changes values the pick ledger has already hashed.",
+    "why": "det.fold is pinned to the plain left-to-right addition that generated every committed artefact. The compensated sum is closer to the true value (the game book prints 240:00 team minutes, and the compensated total is exactly 240.0 while the fold is 239.99999999999997). Adopting it changes .top8_minutes_shares.2026-11-15:WAS.top8[4].share 0.1088 -> 0.1087 and teams.2026-11-14:MIA.top8[6].share 0.0843 -> 0.0842, i.e. it moves numbers that appear on the projections pages and feed the minute-share inputs to the model. The ledger seals a hash of each published pick before tip, so a re-round must open a new epoch rather than rewrite history.",
+    "action_needed": "Owner decision: (A) keep the pinned fold and treat the ~1e-4 share differences as immaterial (current state, nothing to do); or (B) adopt exact summation (math.fsum) as a single reviewed republish, with a new ledger epoch and a dated note on the picks pages. Do not let it happen silently through an interpreter upgrade.",
+    "sources": [
+      "https://docs.python.org/3/library/math.html#math.fsum",
+      "https://docs.python.org/3/library/functions.html#sum"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-04",
+    "area": "Test hygiene",
+    "severity": "low",
+    "found_on": "2026-11-19",
+    "item": "A CI test runs a generator in write mode against the repository, so 'the test suite passed' can mean 'the test suite rewrote a committed artefact'.",
+    "why": "tests/test_finals_1115_settlement.py line 125 invokes scripts/capture_round_79341829.py without --check, which writes data/app/minutes_shares.json in place. On Python 3.11 the write is a no-op byte-for-byte, so the tree stays clean and nobody noticed; on the runner's 3.14 the same test leaves the tree modified (probe run 44478152590 reported ' M data/app/minutes_shares.json'). Because the refresh workflow ends with 'git add -A', a test-induced edit can be swept into a data commit.",
+    "action_needed": "Owner of tests/test_finals_1115_settlement.py and scripts/capture_round_79341829.py: run the generator into a temp directory (or add --check to the test path) so tests never mutate committed artefacts; optionally have the refresh's commit step refuse to stage paths outside an allowlist. Not done here: both files are inside another session's claim (PR #143).",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-05",
+    "area": "CI configuration",
+    "severity": "low",
+    "found_on": "2026-11-19",
+    "item": "Neither refresh.yml nor pages.yml pins a Python version; both use the runner image's default python3, which is what turned a silent numeric rule change into a six-day data outage.",
+    "why": "This sandbox cannot edit .github/workflows/refresh.yml or pages.yml: both are inside the one active claim (arena/915d2e99-nba3, PR #143, which is red on this same defect). The in-repo pin in scripts/determinism.py removes the dependence for the six byte-compared gates; the remaining generators listed in verify/determinism_89e98007.md are still interpreter-dependent, and the only cheap blanket protection for those is a pinned interpreter.",
+    "action_needed": "Next integration session: add actions/setup-python@v5 with an explicit version to the build/preflight jobs of both workflows, and keep the in-repo pin so a future bump is a reviewed change rather than an outage. Logged as CR-89E-02.",
+    "sources": [
+      "https://docs.python.org/3/whatsnew/3.12.html",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  }
+]

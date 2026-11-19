@@ -1,0 +1,71 @@
+[
+  {
+    "id": "89E-Q-01",
+    "category": "Pipeline / data currency",
+    "question": "Until a scheduled run on main goes green end-to-end, may the site describe any projection, injury status or slate as current?",
+    "status": "open - answered conservatively by this session (no claim of currency), needs the owner's policy",
+    "known": "The refresh job has not fetched an official source since 2026-11-17 because its committed-tree preflight failed (runs 44143781953 through 44469939831). The gate is fixed on this branch and every one of the nine suites plus the six artefact gates pass on the runner's own interpreter (probe run 44478152590, report committed at data/rounds/2026-11-19-89e98007/runner_probe.md). The next chance to fetch is the schedule slot 11:15 UTC, then 17:15 and 23:15.",
+    "missing": "A green scheduled run on main (fetch + gates + rebuild + commit), which only the merge can enable.",
+    "next_step": "After this merges, read the next scheduled run; if it is green and pushed a refresh commit, the owner can allow the projections and picks pages to state a data timestamp. Until then the pages keep the dated pause notice.",
+    "owner": "site owner",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590"
+    ]
+  },
+  {
+    "id": "89E-Q-02",
+    "category": "Numerical policy",
+    "question": "Which summation rule is canonical for published numbers - the pinned left-to-right fold (what the ledger already hashed) or the compensated sum CPython 3.12+ uses (closer to the printed 240:00)?",
+    "status": "open - pinned to the fold by default; a switch is a republish, not a fix",
+    "known": "Both are defensible. The fold gives 239.99999999999997 for the twelve Washington rotation minutes; the compensated sum gives exactly 240.0, which is what the official game book prints. Measured: .top8_minutes_shares.2026-11-15:WAS.top8[4].share (Trae Young) reads 0.1088 under the fold and 0.1087 under compensation in data/rounds/2026-11-17/player_logs_2026-11-15.json, and teams.2026-11-14:MIA.top8[6].share (Klay Thompson) reads 0.0843 vs 0.0842 in data/app/minutes_shares.json - one line each, no other field moved in either file. No model decision in the committed tree flips on a 1e-4 minute share, but the pick ledger hashes published values, so a silent change would be a re-seal.",
+    "missing": "The owner's policy statement, and if the answer is 'compensated', an agreed epoch boundary in the ledger plus a dated note on the pages that carry the affected numbers.",
+    "next_step": "Decide A (keep the pin, close 89E-F-03) or B (schedule one reviewed republish with math.fsum and a new ledger epoch). Either way, do not let an interpreter upgrade decide it.",
+    "owner": "site owner",
+    "sources": [
+      "https://docs.python.org/3/library/functions.html#sum",
+      "https://docs.python.org/3/library/math.html#math.fsum"
+    ]
+  },
+  {
+    "id": "89E-Q-03",
+    "category": "Gate design",
+    "question": "Should the replay gates stay byte-exact, or is 'parsed values equal, formatting free' the right contract?",
+    "status": "open - this session chose: bytes first, parsed-value equality as the accepted fallback, value change always fatal",
+    "known": "det.check_artefact compares bytes; if they differ it re-parses both sides. Identical values with different bytes pass with a 'formatting only' note (a re-format should not freeze the pipeline); any different number fails and the message lists the JSON path and both values, which is what six sessions of this board lacked.",
+    "missing": "Confirmation that tolerating whitespace/key-order drift is acceptable for these files, given that the ledger hashes entry payloads rather than whole files (it does - scripts/ledger_2ecbccfd.py canonicalises with sort_keys and separators).",
+    "next_step": "Owner confirms; if byte-exact is required, revert to a strict compare in scripts/determinism.py and keep the diff report - the two are independent.",
+    "owner": "site owner",
+    "sources": [
+      "https://docs.python.org/3/library/json.html#json.dumps"
+    ]
+  },
+  {
+    "id": "89E-Q-04",
+    "category": "CI configuration",
+    "question": "Pin the CI interpreter, or require every generator to be interpreter-independent (and test it)?",
+    "status": "open - recommendation: both; only the second is in this merge",
+    "known": "The runners moved to Python 3.14.4 without any change in this repository (verified on the machine itself: probe run 44478152590 printed PY=3.14.4, and the same tree is green under 3.11 in the sandbox). A pinned interpreter would have prevented the outage; an in-repo pin of the arithmetic also prevents it, and survives the pin being moved later. The four gated generators are pinned now; the audit lists the 40 files that still call builtins sum()/round().",
+    "missing": "Permission to edit .github/workflows/refresh.yml and pages.yml - both are inside the concurrent claim (PR #143) at the time of writing, so this session could not add setup-python.",
+    "next_step": "Next integration session adds actions/setup-python@v5 with an explicit version to both workflows, or records why it declined.",
+    "owner": "integration session",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
+      "https://docs.python.org/3/whatsnew/3.12.html"
+    ]
+  },
+  {
+    "id": "89E-Q-05",
+    "category": "Evidence retention",
+    "question": "Where should runner-side evidence live, given that Actions logs and artifact blobs are unreachable from a sandbox session and check-run annotations truncate near 1 KB?",
+    "status": "open - this session used a branch workflow that commits its own report; needs a standing convention",
+    "known": "Three channels were tried: the artifact blob (blocked, 'productionresultssa*.blob.core.windows.net' unreachable), the job log (blocked, same host), and annotations (readable, but silently truncated, which is why the 2026-11-19 diagnostic run 44467720829 lost everything after its first five lines). The fourth channel works: a workflow on the session branch writes data/rounds/<date>-<session>/runner_probe.md, commits it, and exits with the probe's status - red/green stays meaningful and the full report is reviewable in the PR diff.",
+    "missing": "A board rule saying whether such runner-evidence commits are allowed in general (they touched only this session's own directory) and whether the temporary workflow must always be deleted before merge (this session deletes it).",
+    "next_step": "Adopt or reject the pattern in COORDINATION.md so the next session does not rediscover the three dead ends.",
+    "owner": "site owner",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829"
+    ]
+  }
+]

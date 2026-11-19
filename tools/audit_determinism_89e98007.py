@@ -140,6 +140,30 @@ def main():
         "   They are listed so nobody re-runs one on a newer interpreter and mistakes the diff for",
         "   moved data.",
         "",
+        "## Measured: what an interpreter change actually moves today",
+        "",
+        "Re-ran every generator the refresh rebuild chain calls, twice, in a scratch tree: once plain,",
+        "once with a `sitecustomize` that installs the CPython >= 3.12 compensated float summation",
+        "(the runner's behaviour, emulated). Only one published file moved:",
+        "",
+        "| generator | committed artefact | bytes changed under compensation |",
+        "|---|---|---|",
+        "| `scripts/capture_round_79341829.py` | `data/app/minutes_shares.json` | 1 line: `teams.2026-11-14:MIA.top8[6].share` 0.0843 -> 0.0842 |",
+        "| `scripts/estimators.py` | `data/app/estimators.json` | none |",
+        "| `scripts/minutes_model.py` | `data/app/rotation_impact.json` | none |",
+        "| `scripts/assemble_canonical.py` | `data/app/canonical.json` | none |",
+        "| `scripts/injury_archive.py` | `data/app/injury_reports_archive/` | none |",
+        "| `scripts/freshness_gates.py` | `data/live/freshness.json` | none (12/12 gates) |",
+        "",
+        "Before this session's fix the same emulation moved `data/rounds/2026-11-17/"
+        "player_logs_2026-11-15.json` (`.top8_minutes_shares.2026-11-15:WAS.top8[4].share`,"
+        " 0.1088 -> 0.1087) — the field that has failed the preflight since 2026-11-17. After it, the"
+        " five replayed generators and the site build reproduce their committed bytes exactly.",
+        "",
+        "Reproduce: `PYTHONPATH=<dir containing a sitecustomize that sets builtins.sum to Neumaier>"
+        " python3 <generator>`, then `git status`. The emulator used by the test suite is in"
+        " `tests/test_determinism_89e98007.py`.",
+        "",
         "## Decision this audit surfaces for the owner",
         "",
         "The pinned rule is the *less accurate* summation on purpose: it is the one that generated the",
