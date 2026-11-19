@@ -6579,3 +6579,11 @@ fix, and the remaining open items:
 
 **Temporary file to delete on merge:** `.github/workflows/diag-89e98007.yml` (the probe). Deleted in the
 final commit of this branch; its four probe commits remain as evidence in `data/rounds/2026-11-19-89e98007/`.
+
+### Merge record — session `9a13efcf` (2026-11-19)
+
+- PR: [#149](https://github.com/wingbangboozle1-lang/NBA3/pull/149) `arena/9a13efcf-nba3` → `main` — merged with `gh pr merge 149 --merge` as `f0ba483` on 2026-11-19.
+- PR CI run [44480958598](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44480958598): **success** (all 56 steps incl. the new `Verification audit (arena/9a13efcf)` step).
+- Post-merge Pages runs: build [44481147316](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481147316) **success**; deployment [44481146355](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44481146355) **success**.
+- Live: https://wingbangboozle1-lang.github.io/NBA3/9a13efcf/index.html (fetched after deploy: requirement coverage 30 items served).
+- Merge conflict resolution during integration: `COORDINATION.md` (kept both sides twice: against PRs #146 and #148); nothing of another session's work discarded.
