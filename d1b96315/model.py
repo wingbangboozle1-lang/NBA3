@@ -25,6 +25,8 @@ from datetime import date as _date, timedelta
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from floatsum import total as float_total  # noqa: E402  (deterministic across CPython 3.12+)
 D = HERE / "data"
 
 INJ_LATEST = D / "injuries_2026-11-16_latest.json"
@@ -84,8 +86,10 @@ def bivariate_cdf(a: float, b: float, rho: float, steps: int = 4000) -> float:
 
 
 def mean(xs):
+    # deterministic sum: CPython 3.12 changed sum() for floats (gh-100425) and the
+    # rounded mean_abs_shift in the stability table moved by 0.01 under it.
     xs = [x for x in xs if x is not None]
-    return sum(xs) / len(xs) if xs else None
+    return float_total(xs) / len(xs) if xs else None
 
 
 def sd(xs):

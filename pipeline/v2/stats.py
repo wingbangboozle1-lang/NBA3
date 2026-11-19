@@ -17,8 +17,24 @@ from typing import Iterable, Sequence
 # ---------------------------------------------------------------------------
 # descriptive
 # ---------------------------------------------------------------------------
+def dsum(xs: Iterable[float]) -> float:
+    """Left-to-right float sum: identical on CPython 3.8 through 3.13+.
+
+    CPython 3.12 switched the builtin ``sum()`` to Neumaier compensated summation for
+    floats (gh-100425). A mean taken with the builtin therefore moves in its last bits
+    between interpreters, and every price derived from that mean (and the pick hash that
+    commits to the price) moves with it. ``data/v2/build.json`` reproduced on 3.11 and did
+    not on 3.12 for exactly this reason. This sum is the 3.11 algorithm, applied on every
+    version, so a rebuild on the runner matches the committed artefact.
+    """
+    acc = 0.0
+    for x in xs:
+        acc += x
+    return acc
+
+
 def mean(xs: Sequence[float]) -> float:
-    return sum(xs) / len(xs) if xs else 0.0
+    return dsum(xs) / len(xs) if xs else 0.0
 
 
 def sd(xs: Sequence[float]) -> float:
@@ -27,15 +43,17 @@ def sd(xs: Sequence[float]) -> float:
     if n < 2:
         return 0.0
     m = mean(xs)
-    return math.sqrt(sum((x - m) ** 2 for x in xs) / (n - 1))
+    # dsum, not the builtin: on 3.12 the compensated sum lands on the other side of the
+    # half-ulp boundary and sqrt() then moves the published line and its pick hash.
+    return math.sqrt(dsum((x - m) ** 2 for x in xs) / (n - 1))
 
 
 def rmse(xs: Sequence[float]) -> float:
-    return math.sqrt(sum(x * x for x in xs) / len(xs)) if xs else 0.0
+    return math.sqrt(dsum(x * x for x in xs) / len(xs)) if xs else 0.0
 
 
 def mae(xs: Sequence[float]) -> float:
-    return sum(abs(x) for x in xs) / len(xs) if xs else 0.0
+    return dsum(abs(x) for x in xs) / len(xs) if xs else 0.0
 
 
 def zscore_per_team(values: dict, larger_is_better: bool = True) -> dict:
